@@ -1,5 +1,64 @@
 # CODE-QUALITY-80 — game Dev Panel 换队生命周期
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+Dev Panel换队生命周期：真实复现战斗中点Role1离队后party=[0]而battlePlayers仍[0,1]、寿葫芦仍装备但毒表为空——战中队伍编辑没有重建战斗状态。用户2026-10-13裁决：战斗中B面板仍可打开查看和调试状态，但头像入队/离队控件不可用；探索模式继续允许队伍编辑。
+
+## 范围
+
+第一阶段game网页Dev Panel「队伍」页（非Reforge编辑器）；只核队伍头像入队/离队handler与装备刷新；不接管任何GLM实现文件。探索切队沿正式SDLPal 0x75顺序先清rgPoisonStatus再updateAllEquipments。
+
+## 前提与证据
+
+primary：script.c:2164-2197正式0x75换队先清毒再PAL_UpdateEquipments；SDLPal无本项目DOM Dev Panel，不能以SDL源码自动决定战中按钮策略。反证勘误：applyFixture→startBattle:285→updateAllEquipments已重算装备（此前CODE53'fixture未重算装备'猜测被反证，不要增加重复刷新）。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 验收
+
+实现：dev-panel.ts队伍卡按mode禁止战斗中非队首角色入队/离队+标题'战斗中不可编辑队伍'+点击handler仍做mode guard防面板打开后mode变化绕过；新增dev-panel-party-lifecycle.test.ts走真实applyFixture→startBattle和DOM队伍卡（战斗禁编、面板打开后再进战斗的旧卡guard、探索离队/入队后寿葫芦563/564伪毒按新队伍槽重建）。行为反例：未实现候选战斗用例disabled断言失败、探索生命周期用例rgPoisonStatus['0_0']断言失败→实现后8tests；两个post-implementation mutation control及源/测试hash在implementation-controls.json。批次收口：4文件45tests、全仓check exit0（lint全0）、官方coverage:ratchet exit0（game 88.05%/79.31%/89.63%，基线只升不降）、protected fast以origin/main为基线exit0。为全仓硬性零诊断修两测试宿主边界（reforge location seam/editor preventDefault策略）不改生产。
+
+## 状态与交接
+
+Status保持done（2026-10-20原卡合同正式收口）：用户裁决、行为修复和本批门禁完成；剩余picker生命周期（IntersectionObserver/异步缩略图/全局listener disposer）由CODE81单独承接、Dev大文件整体组织归CODE58及通用逐文件复审。当前没有宿主卸载caller，不强造新的公共disposer。
+
+## 历史范围
+
+2026-10-13账本3268/338closed/10review/2920pending；CODE80从build进入review。2026-10-20收口：F1嵌套字面量补强（浅克隆旧绿新单红）、fake-mode重复例由真实四例承接、五份Dev测试43项绿、最新集中门零诊断；产品及测试源码相对ea9c3cc02无变化。
+
+## 原始结论
+
+原卡结论：B调试面板战斗换队禁用与探索换队装备重建两项合同核验成立；两项精确反控适用。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-80/（typed临时诊断源/implementation-controls/gate-*）与QUALITY-PRE94-RETROSPECTIVE-1/completion.json。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+历史任务卡（done有限范围）；picker生命周期与Dev大文件组织不在本卡。
+
+## 继任文档
+
+CODE-QUALITY-81-dev-panel-picker-lifecycle（picker生命周期）与CODE58（大文件组织）承接。原存活入口逐字保留：
+
+关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9626B / SHA-256 91c85730e8d58adbf64f5ca38e99ef84b31a4889a48138945697e62fc7a53ac4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-80 — game Dev Panel 换队生命周期
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -77,3 +136,5 @@ B调试面板的战斗换队禁用与探索换队装备重建。用户已经裁�
 保留范围：picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

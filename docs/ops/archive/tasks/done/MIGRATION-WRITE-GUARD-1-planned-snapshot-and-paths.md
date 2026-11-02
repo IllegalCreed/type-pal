@@ -1,55 +1,65 @@
 # MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: A7
+Coding Owner: Codex
+Reviewer: both
+Branch: codex/migration-write-guard-1
+Revision: r1
+Production Baseline: `14257da7`
+Implementation Candidate: `57dda7ed`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是迁移写盘保护历史功能卡（CLOSED DONE at 456feb12）：规划快照与二进制路径保护——双 manifest 排序门+退役 baseline 幻影 delete 防护；36/36 测试、mutants 1+5、两遍发布幂等、A-08/A-09 关闭；实现 57dda7ed 三席签（GLM 6ca25cf6/Kimi afb05943）；其 57dda7ed 冻结基线被后续多卡引用。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+迁移写盘的计划快照/路径保护与两遍发布幂等。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：双 manifest 排序门+幻影 delete 防护+回归。
+- 范围外：改迁移语义。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+57dda7ed 成为多卡 Production Freeze 常用基线。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-21）：三席同候选 accept、零 diff、远端 #286 成功、不重跑收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+其保护门为后续所有迁移写盘前置。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+基线 14257da7/候选 57dda7ed、2026-09-21 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：写盘保护经三席+远端 CI 收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+36/36+mutants、双跑幂等、CI #286。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。保护门现行形态以当前迁移器为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+引用 57dda7ed 冻结基线的各卡。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `7822f59a425c970daf3409abbfa8762997ea239464d79dded62a4d9b2222f6f8`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # MIGRATION-WRITE-GUARD-1 - 迁移规划快照与二进制路径保护
 >

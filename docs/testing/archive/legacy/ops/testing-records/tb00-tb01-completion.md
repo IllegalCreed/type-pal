@@ -1,40 +1,61 @@
 # TB00/TB01 窄返工接手与集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TB00/TB01 窄返工接手与集成回执（2026-09-21 用户明确「那就修好呀」后 Codex 接替 GLM 实施；Owner 交接 952a45bd、当前生产基线 0cb5010e；统一候选 `44b9b763`，**两卡均 done**——三席 accept 同候选齐（Codex 430fba79/GLM f38c23dc/Kimi 2c042bf5），用户授权后 Codex 收口归档；候选后产品/测试/脚本/原工具零 diff，只运行文档门不重跑产品测试）。
+
+## Scope
+
+- 原 GLM 分支/worktree 不动，独立 codex/tb00-tb01-finish 工作树接入；GLM 原测试贡献者、Codex 补正/集成实现者；frame 在途 invalidate 回填政策仍待证不把当前测试行为当产品裁决。
+
+## Execution and assertions
+
+- **TB00 补正**：D6 真实 sequence 取消收敛为同文件 sequenceAbort（:225 正常与故意失败共用实际读取/播放；:267 finally 在进入见证或主断言失败时也 abort 释放同一 readGate 并消费原 pendingSlow；:298 失败路径自证故意 AssertionError 检查原错误身份+真实轨迹）；自证先红：原顺序清理 9 过/1 失败（缺 read-completed/playback-consumed），finally 补正后 10/10 连 B7 15/15；B7 只适配已 done 的 451cbbb7 合同（私有 tag __author-item-private-runtime/owner priv），不复活旧 item:priv:use；原 55 项+1 自证=56 项；原 8 针 8 对照绿 detected+四 fixture accepted+原工具 6 对照+16 针 22 跑 exit0
+- **TB01 补正**：validate-refs.data-refs:127 消费实际合法 bundle 前深快照消费后立即比较（ghost/合法悬空 shops/三种非空 levelUp 各自前后比较，不再把空表当非空路径）；:31 工厂真实 ContentBundle 类型不再 as unknown+内置守卫及零引用 issue 基线；asset.residual:38 比较真正送入扫描器的命令及嵌套 cue、缺肖像正控补合法 speaker；接手未修前原五针 3 detected/2 MISSED（合法 world money、非空 levelUp level），修后 5 对照绿 5 针 detected+七 fixture accepted；失败记录：新增 guard 揭示原 noPortrait 无 speaker 守卫正确拒绝（补合法 speaker 非放宽产品）；仍是 5 文件 23 项（3/5/3/8/4）不凑 24
+- **统一验证**：两包定向 79/79（content 7 文件 33+reforge 9 文件 46，不能把 33 归给某一包）；typecheck exit0+23 新增文件 Biome 零问题；完整 check 7,988/7,988 exit0（含原并行 axis；content 62 文件 709、reforge 140 文件 1,329）；ratchet exit0+受保护单次 strict 7,497/7,497 exit0 与新基线完全相等；fast 7,418→7,497 恰 +79、632 生产文件/分母/排除不变、另五包基线逐对象相等；净增 86 行/121 语句/7 函数/139 臂
+- **同树覆盖对照**：官方 testSelection fast 口径输出只在 /tmp（五次 exit0；before 只排对应本批新文件为最终树边际贡献不重叠相加）；TB00/content 局部行 79→91/93 分支 83→101/106；TB00/reforge 498→534/564、394→446/533；TB01/content 1288→1324/1419、1044→1110/1308；局部与全包增量不同（结构自证执行目标外守卫）；GLM 旧冻结树覆盖表留作历史不倒填
+
+## Results
+
+- 复跑入口四个工具命令与并行终审提示词（Kimi 独立终审/GLM 原贡献者复核，均已完成）全文在 quote；见证工具 exit0 不自动等于接收须核每个 candidate verdict。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账 tb00-tb01-completion-evidence.json。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 窄返工+集成 | 2026-09-21 | 56+23 项+三门 | 两卡 done（44b9b763） | 九批统一接收 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 TB00/TB01 集成回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TB00/TB01 窄返工接手与集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：Codex 接替窄返工（真实 finally+失败自证/实际 bundle 快照/guard 正控）；56+23 项；三门 exit0（check 7,988/strict 7,497）；三席 accept 齐用户授权收口。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+分包裁决、统一验证、覆盖对照表与复跑入口在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；frame invalidate 待证边界保持。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归两卡完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `b23e53c827ae0b2b54d0f7ac25b0bf443da7019eefbe2f13943f78ac5d86f38e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `b23e53c827ae0b2b54d0f7ac25b0bf443da7019eefbe2f13943f78ac5d86f38e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TB00/TB01 窄返工接手与集成
 >

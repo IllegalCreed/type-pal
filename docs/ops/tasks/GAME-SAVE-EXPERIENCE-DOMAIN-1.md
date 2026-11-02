@@ -1,6 +1,59 @@
 # GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+解决V1导入接受极大有限经验余数后正式胜利结算不能终止的跨边界问题。已证事实：当前V1的wExp只有finite-number守卫，真实parseImportedSave→内存Save接受Number.MAX_VALUE；bootstrap正式load直接Object.assign未归一；开战后仍保留该余数。正常WORD65535在真实DATA阈值32000下两对照均小于1ms得余数1535，而极大数两例ready后运行1s仍无结果须父进程终止——同一数值满足MAX_VALUE-32000===MAX_VALUE使99级循环阈值/级别不变、递减不能推进。用户2026-10-22裁决“按 WORD 范围拒绝异常余数（推荐）”。
+
+## 范围
+
+仅core/save/v1.ts八组经验余数输入守卫与tools/save-io.test.ts直接导入反例：输入必须0..65535整数，坏输入写槽前报错且原槽位/metadata保持；V1格式/DB版本、迁移、其它数值政策、结算RNG、奖励、属性持续增长与第二阶段保持。
+
+## 前提与证据
+
+固定源全文核读。正式两例先旧守卫红：28绿1指定业务红（八组坏数被接受并覆盖原槽）；私有experienceRemainder接既有八池行后六文件66定向/相邻、game typecheck、四文件局部Biome零诊断；整数端点0/65535原样保留、属性65536未受限。SDLPal global.h:475–493的EXPERIENCE.wExp是WORD但本项目V1是JSON接口，原导入卡明确不借原版名义补政策，故数值域须用户明确。完整check20434、当前game刷新3724、单次official20040/758与strict/protected源门零诊断；四个子进程旧观察含两对照完成与两非终止，outer exit0不是通过的质量门。锚点:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done为有限代码/质量门收口：CODE59/v1按已批准合同恢复接受；正常原盘剧情自然产生Number.MAX_VALUE未证明，未新跑完整SDLPal/浏览器FileReader/实际IDB/演出；3w Extra未知不由此解除，不主动迁移已损坏旧槽位。守卫提交0016e1a15、纯成长整理e0b1e0439。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，继续pre94剩余24partial。
+
+## 历史范围
+
+原卡属固定main时点；范围为V1八池经验余数输入域子切片，不改本场经验奖励与属性政策。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：用户WORD范围裁决落实，check20434/official20040零诊断收口。
+
+## 当时证据
+
+当时回执属原时点证据：28绿1红→66定向零诊断、四子进程对照/非终止观察、check20434与official20040零诊断；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；MAX_VALUE-32000===MAX_VALUE浮点不可推进是既证事实；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+父卡QUALITY-PRE94-RETROSPECTIVE-1继续3x/pre94；导入合同上游为GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md) [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5693B / SHA-256 594532060c1265b5f2e750c2fe204e4a8870b14dffbb96497a54236f7e84be08；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: save input / battle progression liveness
@@ -62,3 +115,5 @@ SDLPal global.h:475–493的EXPERIENCE.wExp是WORD；当前合法历史样本均
 无下一位Agent，Codex单Owner。按本卡明确批准的八池经验余数合同完成先红后绿；不扩展其它数值政策，不把旧观察的outer exit0计成通过门。
 
 2026-10-22最终源交接：守卫/两例提交0016e1a15；纯成长整理e0b1e0439，获批物品上下文a52b7dc3a另提交。源门完整零诊断及当前计数见同目录gates.json；最终文档静态/推送/main/远端CI由实际回执补记，无下一位Agent，继续pre94剩余24partial。
+```
+<!-- incremental-original-source:end -->

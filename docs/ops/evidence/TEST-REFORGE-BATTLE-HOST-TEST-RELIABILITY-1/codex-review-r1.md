@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 2026-10-07 对 TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 的独立验收：候选 `b28ba0d81`、测试提交 `9e902846d`；Codex 只读固定候选并在独占副本复跑，贡献者树未写。
 
-## 证据身份
+## 审计问题
 
-- 战斗宿主终局测试独立验收 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78。
+- 代码与 R1–R8 合同的接受裁定；BF-09 拆分与四条关闭路径真实性；CI 红根因归因边界（U-1 调度放大机制）。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 4/4 产品冻结 hash 一致；白名单外零改动；独立重跑回执 hash 6d18cea7…7b61、原候选回执 hash 7b49b63c…d73c（不同时间/隔离路径真实运行不混称）；定向 instrumentation 三文件 31/31；Reforge typecheck 0。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- BF-08/10 旧业务 oracle 保留，BF-09 两输入拆开；默认期限 vi.waitFor 替代轮数预算合理，CI 红已位于准备期，调度放大机制仍是 U-1 不把本地对照推成每个替代根因已穷尽。
+- 独立重跑 formal：22 判据自测、3 真实污染探针、N1-N5 单目标红与恢复/重放通过；N6 四条 harness 恢复合同家族红不计恰一业务针；N3 跨层四红仅级联披露。
+- 探针六个相对路径漏 counterproof 前缀，Codex 集成时仅修路径及 runner 生成规则，不重写业务原件。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 代码与 R1–R8 合同接受，本地串行集成门全部通过（全仓 check 退出 0 七包全过 Reforge8786/Editor4906、根 lint 3607 文件 0/0/0、官方 ratchet 与保护 fast 退出 0 指标完全相同、并集分支 50113/60209=83.23%），本卡 done；不是 GitHub CI 通过声明。仅 A/C 合入、B counter 不夹带。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 暂存区全量 diff 检查补发现五份非反控日志表格尾随空格/EOF 空行，只移除排版空白前后 SHA 逐份登记；另修 identity 八个缺后缀/缺失路径（基点单文件 3/3 无独立原件改为相邻 26/26 内三条旧身份，不虚构原件）；均为 Codex 证据整理不替换业务复跑。
+- 新 CI 与主树小修：0a9cb833 CI 文档/typecheck/lint 过、A 终局 8/8，整门因旧 main.frame-animation-owner.test.ts:216 一例红失败——Codex 维护仅该旧测试三个 20 轮 IO 等待改 vi.waitFor+真实精确首帧条件（未改产品/扩 timeout/增例/降 oracle），正常旧 8/8、隔离真读 IO 延迟 80ms 旧 7/8（恰同 []→[17,29] 红）、修后 8/8、主树相邻 31/31。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-07 Codex 独立验收记录；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- 战斗宿主终局测试独立验收：原始正文完整保留于下方 quote。
+- R1-R8 合同接受本卡 done；N6 家族红/N3 级联披露/U-1 边界如实分列。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 复跑细节、hash 与集成门在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。验收按候选时点；CI 另核。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡完成记录。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `eaf86522e6bfaac793398167e82079ac0e53fce28438595dd7db114c3bd29b78`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 战斗宿主终局测试独立验收
 >

@@ -1,81 +1,58 @@
 # Opcode Status · type-pal
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段 opcode/事件解释器状态表的归档重写。164 opcode 全集、逐 opcode 审计修正表与 A–S 类收口表在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: Opcode Status · type-pal; full source read for template classification.
-- 时间/版本范围：2026-05-28；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：脚本 opcode 逐指令实现状态——「标注清楚所有 opcode，最后不漏任何一个」，事件/opcode 的单一真值源（冻结快照时点）。
+- 时间范围：全集口径 2026-06-07 复核确定——`0x00..0xA7` 排除 `0x32/0x48/0x72/0x9D` 共 164 个 opcode，另有 `0xFFFF` 对话文本；类别 A=控制流/数据 · B=移动/NPC · C=palette · D=audio/FBP/视觉 · E=战斗 · S=系统/UI。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- 2026-05-31 逐 opcode 审计：25 处真问题全部已修/复核收口 ✅；5 处审计假阳性（agent 误判）复核维持 ✅；5 处非 bug/低风险残项 by design 已记残。
+- 2026-06-07 收口更新：无 runtime ⬜ todo 剩余；2026-06-16 增量修正 7 项（0x91 判定改 objectId `1a5c2c4`、0x28/0x29 施毒入口 `a363d55`、0x8A 事件侧 applyRawOpcode `0f71695`、0x9C 散开 `ca9a193`、0x9E 占位槽 `66e9e2b`、0x06 全局 ip fallback `5d256f8`、0x22 复活毒 `61e50cd`）。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：A/B/C/D/E/S 类逐条 ✅；唯一 ⚠️ 为 0xA5 effectSprite 参数未 plumb（真实数据 0 调用，DOS-only 结局路径）。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 6:> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A
-- 正文信号 8:> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。
-- 正文信号 39:>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)
-- 正文信号 49:> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
-- 正文信号 73:| **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |
-- 正文信号 138:>   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,
-- 正文信号 189:> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 runtime ⬜(todo)剩余**(2026-06-07 对抗复核更新;0xA5 effectSprite 为 0 调用参数残项)。
-- 正文信号 198:| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;大世界 item/magic 用 gate 消耗,战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
-- 正文信号 310:| 0xA5 | show FBP with sprite effects | D | ⚠️ 主 FBP 路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传给 showFbp。真实数据 0 调用(DOS-only 结局路径),fbp-player 已支持 effectSpriteFrames 但该 opcode 参数尚未 plumb |
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- 0x38 teleport-out 仅剩 scene 41 全链时序实机确认；音频听验与 fade 时长属 cosmetic 待细化（非数据/逻辑缺口）。
+- sdlpal 真值出处：`reference/sdlpal/script.c`（PAL_InterpretInstruction 587-3115 / PAL_RunTriggerScript 3140+ / PAL_RunAutoScript 3482+）。
 
 ## 下一步
-- 下一项可执行工作：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 历史时点仅剩 0 调用/演出时序确认项；当前 opcode 行为以现行事件系统实现与测试为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-05-28；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b`。
+- phase1 status 快照；口径冻结 2026-06-07、增量至 2026-06-16；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Opcode Status · type-pal：这是 plan-status，当前文档状态为 historical。全文 316 行、12 个标题；摘要/首段为「> 脚本 opcode / 事件解释器逐指令实现状态 —— **标注清楚所有 opcode,最后不漏任何一个**。**事件 / opcode 的单一真值源**(164 全集)。」。属于历史/归档材料，不能单独证明当前实现。
+- 164 全集、25 真问题收口、无 runtime ⬜、0xA5 参数残项为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：🔬 2026-05-31 逐 opcode 审计修正表(权威 — 覆盖正文 ✅)；审计真问题 25 处 → **已修/复核收口 ✅**；审计假阳性 5 处(复核维持 ✅ — 审计 agent 误判)；非 bug / 低风险残项 5 处(by design / 已记残)；控制流(0x00-0x0A)；数据/动作 0x0B-0xA7 — 状态总览；数据/动作 0x0B-0xA7 — 收口状态(2026-06-07)；A 控制流/数据 / 系统 S — **全部 ✅(2026-06-07 0xA7 纳入)**；原始正文、状态词、表格和链接在 quote 保全。
+- 逐 opcode 审计修正表（权威，覆盖正文 ✅）、控制流与 A–S 类收口总览表、历史补齐记录在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 6:> **图例**:✅ done · ⚠️ partial(主路径可用,低频分支/参数残) · ⬜ todo · N/A
-- 正文信号 8:> **⚠️ 2026-06-07 逐 opcode 审计修正**:按 sdlpal `script.c` 复核真实范围为 `0x00..0xA7`(排除 0x32/0x48/0x72/0x9D)共 **164 个** opcode,另有 `0xFFFF` 对话文本。2026-05-31 审计发现的 **25 处真问题**已在下方归档并复核；当前无 runtime ⬜ todo,仅保留若干 0 调用 / 演出时序确认项。
-- 正文信号 39:>   大世界 item/magic 用 g_fScriptSuccess gate 消耗;战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate。此前本表误标 ⬜,2026-05-30 订正)
-- 正文信号 49:> 图例:🐞 bug(逻辑错,需修) · ⬜ missing-branch(分支/实现缺) · ⚠️ 简版(主干对、子分支缺)
-- 正文信号 73:| **0x8E** | ✅ 本就忠实 | — | 复核订正:sdlpal 备份在画完 title/portrait 后取(text.c:1734)→ RestoreScreen 留 title/portrait 清 body = ts partialClear 净视觉等价,非残 |
-- 正文信号 138:>   ts state-driven 的 `partialClear`(保 titleText+portraitIcon 清 body,event-system.ts:1481)**净视觉等价**,
-- 正文信号 189:> **全 opcode 收口**:A/B/C/D/E/S 类逐条 ✅。**无 runtime ⬜(todo)剩余**(2026-06-07 对抗复核更新;0xA5 effectSprite 为 0 调用参数残项)。
-- 正文信号 198:| 0x41 | mark script failed | ✅A | OP_MARK_SCRIPT_FAILED case(event-system.ts:3355)→ gs.fScriptSuccess=false;大世界 item/magic 用 gate 消耗,战斗 magic 只 gate 动画/success 脚本,战斗 UseItem 不看 gate(script.c:1623-1627)。此前误标 ⬜,2026-05-30 订正 |
-- 正文信号 310:| 0xA5 | show FBP with sprite effects | D | ⚠️ 主 FBP 路径已复用 showFbp;op1 effectSprite 未经 opcode handler 传给 showFbp。真实数据 0 调用(DOS-only 结局路径),fbp-player 已支持 effectSpriteFrames 但该 opcode 参数尚未 plumb |
+- historical。逐条状态按冻结时点解释；phase2（Reforge）迁移后的语义真值以现行迁移文档与代码为准，phase1 快照不外推。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- pre-E2E 审计、修复任务卡与 phase2 语义审计（[历史审计回执](../../ops/archive/audits/README.md)）；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Opcode Status · type-pal
 >

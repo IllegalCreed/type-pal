@@ -3,65 +3,73 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 PRE-E2E-AUDIT-1 B 批（世界、脚本与异步收尾）只读审计报告：基线 `84434b8a`，确认 9 条观察分属 8 个问题家族（B-06/B-07 同族两分支）。四探针与 21 文件/556 条测试记录在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- B 批范围：两阶段切场景/读档、canonical 状态、异步取消与收尾、状态所有权、快照 barrier、entry 预检。
+- 要回答的具体问题：可复现条件下的问题家族清单及其触发/反证；一阶段问题单独排期，不直接宣布第二阶段 R4 全部阻断。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-06；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-06；基线 `84434b8a`（产品代码仍与 A 批 `09ee6e3c` 相同）。
+- 一手来源与命令：probe-phase1-world-lifecycle / probe-reforge-restore / probe-canonical-async / probe-scene-preflight 四探针（主 Agent 已运行最终落盘版，B-01..09 均按范围复现，正向控制通过）。
+- 既有测试复跑：一阶段 5 文件/420＋canonical 4/45＋恢复 6/46＋主 Agent 6/45，共 21 文件/556 条通过（分组有重叠不相加）。
+- 排除项：未运行完整战斗/剧情 E2E、真实资源断网或磁盘故障；未穷举全部 world 字段或 U-02。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
+| ID | 阶段 | 级别 | 确认观察 | 状态（源内时点） |
 |---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**
+| B-01 | 一阶段 | P1 条件性 | 旧切场景请求迟到失败，清掉读档后的新事件游标 | 一阶段专项 |
+| B-02 | 一阶段 | P1 | 正常早期存档继承当前局精灵别名，可能变隐身（sprite 232 实测 1×1 全透明） | 一阶段专项 |
+| B-03 | 一阶段 | P1 条件性 | 读档资源失败后黑屏/加载锁未收口（可再次成功读档恢复） | 一阶段专项 |
+| B-04 | 二阶段 | P1 坏输入条件 | 坏金额/朝向越过预检污染活动状态；party 空值错误未收口 | 已修：SAVE-PREFLIGHT-1（候选 `2c39b1af`）done |
+| B-05 | 二阶段 | P1 条件性 | 换图预载失败，canonical 覆写已提交并可保存 | 归 B-05/08/09 修复组 |
+| B-06 | 二阶段 | P2 | 确认框请求保存→开战，lineage key 不一致等待自己（超时释放后继续） | 已修：SAVE-BARRIER-LINEAGE-1（`dff3442d`）done |
+| B-07 | 二阶段 | P2 | 确认框请求保存→内联场景出口，持久 lease 等待自己（同族另一分支） | 已修：同上 done |
+| B-08 | 二阶段 | P2 条件性 | 切场景预检签名漏 canonical hook 选择，放过过期 entry 契约 | 归 B-05/08/09 修复组 |
+| B-09 | 二阶段 | P1 取消交错 | 取消的 selector 叶命令在 await 之后仍写 canonical | 已修：WORLD-ASYNC-COMMIT-1（`e13216e7`）done |
+- 未确证：U-02（detached finally 权威释放）本轮未取得可达反例，仍待证不计确认数；B-04 的 position=null 世界污染被排除。
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：9 条观察的真实函数链复现、触发条件与反证（无新读档时不触发、资源成功正常、再 F9 可恢复等）由 quote 与探针可追溯。
+- 当前不能证明：用户存档已损坏、全部异步回调查明；修复状态以各卡为准（B-04/B-06/07/B-09 已收口）。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 修复 Owner：二阶段优先恢复失败隔离与异步提交边界；一阶段 B-01/02/03 单独排期；U-02 后续生命周期修复时补真实调度用例。
+- 复核条件：探针转正确行为回归；B-01/B-03 修复不能互用对方 catch 作兜底证明。
+- 继任/supersedes：C 批战斗审计承接 B-06 活动边界但不重复计数。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-06；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-06；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- B批 · 世界、脚本与异步收尾：这是 audit-report，当前文档状态为 current。全文 183 行、12 个标题；摘要/首段为「后续更新（2026-09-06）：[B-04 当前存档预检已修复](save-preflight-remediation.md)，三席通过并按用户授权收口。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- B 批原文（9 项逐项直接证据/触发/反证/修复方向、未确证与已排除、复现记录与测试表）完整保留于下方 quote；修复链接为原文后续追加时点。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- AST 摘取保留原函数体，资产/Canvas/宿主交互边界可注入；phase1 旧请求 reject 的预期 console error 不当真实用户运行故障。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**
+historical。不将 B-04 修复外推为本批其余问题已解决。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- [save preflight 修复](save-preflight-remediation.md)、[save barrier 前提](save-barrier-lineage-premise.md) 与 [summary](summary.md)；一阶段项另行排期。
 
 ## 原文保全
 
-固定源 SHA `bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `bc568e2fc629aa68f1064b6f31aa60984c9f99cb36b4f3138be7e511b7a8436a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # B批 · 世界、脚本与异步收尾
 >

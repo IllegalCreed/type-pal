@@ -1,40 +1,63 @@
 # TB-01～03：Codex设计收口与并行交接
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是覆盖率队列 TB-01～03 设计收口与并行交接记录（2026-09-19，生产对照点 `e58834f6`，接手 main `e22041a0`）：**当前状态（2026-09-21）TB00/TB01 候选 44b9b763 已三席 accept 齐并按用户授权 done 归档（见[收口记录](../../ops/testing-records/tb00-tb01-completion.md)），TB02/03 此前已收口**；旧 counter 与提示词保留原始设计证据不重新授权。
+
+## Scope
+
+- 三卡：TB-01 内容合同残项（当前结构守卫不反向依赖运行时 loader）、TB-02 读取缓存与音效准备（HTTP/FSA 分开、音频 adapter 复制与标记门分层）、TB-03 导入编码与工作线程（真实 handler 零产品导出、真实 transfer）。
+
+## Execution and assertions
+
+- **复核方式**：Codex 本人读三卡三工作包及关键生产/旧测试；内部两路只读取证补充线索不作为 GLM/Kimi 席位；TB-01 既有 10 文件/148 项绿（命令列表含一个无同名文件的 actor-reference 过滤项，实际 10 文件不能报 11）；TB-02 六文件/39 项（sfx 实际 12/file-source 实际 8 去重事实）；TB-03 四文件/6 项；可重建只读前提探针 coverage-queue-premise.mjs（不写项目/资产/基线/存档；PNG 借 pal-extract 已声明 pngjs）
+- **TB-01 收敛**：asset.ts:387-423 入口名 commandAssetTaggedReferencesAtNode、actor-reference.ts:244 collectDialoguePortraitReferences 刻意不扫 unbound；A2 :282-287 是 palBattleSpriteAssetId（caller 在 migrate/pal-battle-sprites.ts:53/63/116、pal-assets.ts:926）；表情 rename 已有 boundaries.test.ts:149 强证据；content tsconfig ES2022/rootDir 不允许反向引 reforge/project-loader（r2 改现行结构 guard）；open-local.ts:77 scriptChunks={}、TPFS parse:255-278 外部字节先 UTF-8 再 JSON（探针用 Unicode 扩展键值证多字节 decode 可达）
+- **TB-02 收敛**：file-source.ts:27-47 只透传 AbortSignal 给 fetch 无 FSA 式逐 await 门；fsa-source.ts:18-50 才有主动取消门（两套正反控分开）；sfx.ts:75 复制发生在产品 browserAdapter（新测试走实际 adapter 替 AudioContext 宿主，不能注入假 adapter）；assertWave:90-94 只查长度/RIFF/WAVE；main.ts:774-789 传 canonicalScene 无 additionalRoots、sfx-readiness.ts:168 固定 pages[0].animation（玩具 SceneDef 不能证 canonical initialPage 合同，本包移出「当前页选择正确」绿测主张）；Registry 模块级缓存与 ProjectImageCache 实例级缓存分开设计、禁跨例成功预热
+- **TB-03 收敛**：TPFS 是工程格式、BMFF 属 ISO 标准容器体系（video-metadata.ts:49-52 只是窄音轨探测）；worker.ts:27-35 已把真实 handler 挂 self.onmessage 零产品导出；真实 encode 输出经正式 TPFS 解析像素 [4,5,6,255]/quantize [0,0,0,255] 非 mock codec；worker-client.ts:39-49/76-77 postMessage 前复制、structuredClone transfer 使传输副本 detach 调用者原四字节保持、terminate=1；官方 include 含 worker 0/13 不是被排除（解码入口 FrameAnimationEditor:506、MP4 入口 CutsceneTab:232）
+- **新发现独立归属**：PNG 编码失败后位图未释放（image-import.ts 原 130-142 缺 finally，成功 close=1/toBlob=2、null 时 close=0/toBlob=1）→2026-09-20 用户授权 Codex 补统一 finally+18 项回归（check 7,766/strict 7,277）；canonical 场景页声音选择待证（collector 固定 pages[0] 而 main 传 canonicalScene，不把首页等同活动页）；ProjectImageCache 在途 dispose 回填政策未定保留待证；新增缺陷没有直接变成第三阶段功能、不借补测卡授权产品修改
+
+## Results
+
+- 推进规则：三卡 r2 原模块边界不变（三签 Codex f5cd23c0/GLM efe6b932/Kimi 61b79f1b）；未接收实施包最多两批；每卡独立 worktree、正式质量门 Codex 串行。
+- GLM/Kimi 并行提示词（历史）全文在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp 探针日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 设计收口+交接 | 2026-09-19 | 三卡 r2 收敛+探针+归属表 | TB01-03 全部后续收口 done | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的队列设计收口记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TB-01～03：Codex设计收口与并行交接：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+TB-01～03 r2 设计三签+直接证据收敛+三项新发现独立归属；九批统一接收另见 glm-nine-intake-review。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+三卡收敛证据表、新发现归属表与两席提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。设计与交接按当时点；各卡后续收口见各自完成卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TB-01/02/03 完成卡与 tb00-tb01-completion。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `6c6d6ab8ead7fba4c7a78a93cf645d097333cfcd6ca147035b51c1be13486822`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `6c6d6ab8ead7fba4c7a78a93cf645d097333cfcd6ca147035b51c1be13486822`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TB-01～03：Codex设计收口与并行交接
 >

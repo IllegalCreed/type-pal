@@ -166,6 +166,8 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
   for (const path of [
     'scripts/docs/check.mjs',
     'scripts/docs/config.mjs',
+    'scripts/docs/document-integrity.mjs',
+    'scripts/docs/git-inventory.mjs',
     'scripts/docs/markdown.mjs',
     'scripts/docs/terminal-codec.mjs',
     'scripts/docs/terminal-json.mjs',

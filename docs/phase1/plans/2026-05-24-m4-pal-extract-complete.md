@@ -1,85 +1,56 @@
 # M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M4 补全实施计划的归档重写。约 52 节（P1–P4 phase + 逐 MKF chunk inventory + 后续 M6/M7 挂钩）在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M4 implementation plan: path-layer refactor; chunk inventory and 14-MKF extraction; DATA/STUFF/SAVE/RNG/RGM/BALL/FIRE/SOUNDS/misc; 295 scene dump; font/BDF rendering; verify chains and cleanup of M3.5 leftovers.
-- 日期：2026-05-24；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22`。
+- 目标：落实 [M4 设计稿](2026-05-24-m4-pal-extract-complete-design.md)——提取补全、资产分层、全 295 scene、字体真渲染（2026-05-24）。
 
 ## 里程碑
 
-- 原始章节：全局不变量；任务并行关系图；File Structure(M4 末态)；Phase 1:资产分层重构；Task P1.T1: pal-extract cli.ts 全部 writeJson/writeBinary path 改新结构；Task P1.T2: game runtime loader.ts + bootstrap.ts URL 改新结构；Task P1.T3: render-tilemap.ts baseline 工具 + tilemap baseline test 路径改；Task P1.T4: P1 全套 verify(pnpm extract + L1 + L2)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- P1 路径迁移四件套（cli writeJson/writeBinary 新结构、runtime loader/bootstrap URL、baseline 工具路径、全套 verify）→ P2 chunk inventory MD 生成（DATA/SSS/STUFF/SAVE/RNG·RGM·BALL·FIRE/SOUNDS 逐 MKF）→ P3/P4 后续 phase（quote 全列）。
+- 尾部为 M6/M7 留挂钩：M6 体验补全（BGM+音效+AVI 过场+调色板循环，可用 SOUNDS metadata/RNG·RGM raw/splash 素材）；M7 通关验证（Layer 3 完整流程 E2E + 全 295 scene baseline 已存 P3 T7）。
 
 ## 当前状态
 
-- historical；M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3296 行、66 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks tagged **Parallel with:** can be dispatched concurrently via `superpowers:dispatching-parallel-agents`.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M4 完工；提取真实状况由 [m4-extract-audit](2026-05-27-m4-extract-audit.md) 对账修正。
 
 ## 阻塞与决策
 
-- 正文信号 7:**Architecture:** 沿 02 四层 + M1-M3.5 既有架构。**P1 路径重构** 锁目录契约;**P2 全 chunk** 走 D26/D28 渐进具名 + schema B(已知 typed / 未知 raw + TODO);**P3 全 295 scene** 扩 SceneAssets (eventCommands+labelM
-- 正文信号 25:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 552:⚠️ scene.mapNum 字段 P3 T5 才加;P1 时 scene-N.json 可能没 mapNum。**P1 T3 临时方案**:沿用 tilesetFiles[] 数组(数组内已是新路径,直接消费即可)。读 tilemap-{sliceId}.json 拿 tilesetFiles[],每条 `world/tileset/map-N/tile
-- 正文信号 657:**目标**:14 个 MKF 全 chunk 抽完,按 schema B(已知 typed + 未知 raw + TODO)。
-- 正文信号 730:> 14 个 MKF 全 chunk 覆盖率明细。M1-M3.5 已抽部分 ✅,M4 P2 待抽部分 🔲,留 M5/M6 部分 ⏸。
-- 正文信号 742:| 7 | `global.c` chunk 7 | (待 spelunking) | 🔲 P2.T2 | raw + TODO |
-- 正文信号 747:| 15 | `global.c` chunk 15 | (待 spelunking) | 🔲 P2.T2 | raw + TODO |
-- 正文信号 754:| 3 / 5+ | ? | (raw dump 看看) | 🔲 P2.T4 | raw + TODO |
-- 正文信号 891:/** 未知含义 chunk 的 raw dump。 */
-- 正文信号 897:todo: string
-- 正文信号 904:todo: string,
-- 正文信号 911:todo,
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 全局不变量与任务并行关系图为全程纪律（quote 保全）。
 
 ## 下一步
 
-- 后继入口：M；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；c；o；d；e；;； ；d；o； ；n；o；t； ；i；n；f；e；r； ；c；o；m；p；l；e；t；i；o；n； ；f；r；o；m； ；t；a；s；k； ；c；h；e；c；k；b；o；x；e；s；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由 M5/M6/M7 承接；当前管线以现行实现为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-24；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22`。
+- phase1 plans M4 实施计划；时点 2026-05-24；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3296 行、66 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks tagged **Parallel with:** can be dispatched concurrently via `superpowers:dispatching-parallel-agents`.」。属于历史/归档材料，不能单独证明当前实现。
+- P1–P4 结构、逐 MKF inventory 与 M6/M7 挂钩为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan; 17:全局不变量; 31:任务并行关系图; 67:File Structure(M4 末态); 140:Phase 1:资产分层重构; 150:Task P1.T1: pal-extract cli.ts 全部 writeJson/writeBinary path 改新结构; 349:Task P1.T2: game runtime loader.ts + bootstrap.ts URL 改新结构; 517:Task P1.T3: render-tilemap.ts baseline 工具 + tilemap baseline test 路径改；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M4 末态）、任务并行关系图与逐 Task 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 7:**Architecture:** 沿 02 四层 + M1-M3.5 既有架构。**P1 路径重构** 锁目录契约;**P2 全 chunk** 走 D26/D28 渐进具名 + schema B(已知 typed / 未知 raw + TODO);**P3 全 295 scene** 扩 SceneAssets (eventCommands+labelM
-- 正文信号 25:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 552:⚠️ scene.mapNum 字段 P3 T5 才加;P1 时 scene-N.json 可能没 mapNum。**P1 T3 临时方案**:沿用 tilesetFiles[] 数组(数组内已是新路径,直接消费即可)。读 tilemap-{sliceId}.json 拿 tilesetFiles[],每条 `world/tileset/map-N/tile
-- 正文信号 657:**目标**:14 个 MKF 全 chunk 抽完,按 schema B(已知 typed + 未知 raw + TODO)。
-- 正文信号 730:> 14 个 MKF 全 chunk 覆盖率明细。M1-M3.5 已抽部分 ✅,M4 P2 待抽部分 🔲,留 M5/M6 部分 ⏸。
-- 正文信号 742:| 7 | `global.c` chunk 7 | (待 spelunking) | 🔲 P2.T2 | raw + TODO |
-- 正文信号 747:| 15 | `global.c` chunk 15 | (待 spelunking) | 🔲 P2.T2 | raw + TODO |
-- 正文信号 754:| 3 / 5+ | ? | (raw dump 看看) | 🔲 P2.T4 | raw + TODO |
-- 正文信号 891:/** 未知含义 chunk 的 raw dump。 */
-- 正文信号 897:todo: string
-- 正文信号 904:todo: string,
-- 正文信号 911:todo,
+- historical。
 
 ## 继任文档
 
-- M；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；c；o；d；e；;； ；d；o； ；n；o；t； ；i；n；f；e；r； ；c；o；m；p；l；e；t；i；o；n； ；f；r；o；m； ；t；a；s；k； ；c；h；e；c；k；b；o；x；e；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M4 设计稿](2026-05-24-m4-pal-extract-complete-design.md)、[m4-extract-audit](2026-05-27-m4-extract-audit.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan
 >

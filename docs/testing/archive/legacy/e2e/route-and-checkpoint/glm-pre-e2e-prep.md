@@ -1,40 +1,62 @@
 # GLM 并行工作包：撤销与后续编辑器审计准备
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM 并行工作包（r1，2026-09-13；分配/接收复核 Codex、执行 GLM；产品冻结 10c84238、取证分支固定起点 59e03bdb）：四组共 44 项只读取证/测试设计（G-H 撤销事务 16、G-R 场景引用删除 10、G-I 图片上传异步边界 8、G-C 预览缓存身份与重试 10），不是 44 个 bug 也不是修复授权；产出归整批报告。接收状态（2026-09-13）：收尾候选 11fb8148 经 Codex 独立复核 accept，前提守卫及机械对账闭环；报告与四诊断脚本接入 main。
+
+## Scope
+
+两个交付节点：先回 D-01 签字（premise verified/design agree 或 counter 提交 main）；再从 59e03bdb 建 codex/glm-pre-e2e-prep 独立 worktree 连续完成 G-R/G-I/G-C 后整批交 Codex。每项唯一分类 reproduced/covered/risk/blocked/N/A，同根归并到 D-01/D-02/D-03/E-03/E-04 不膨胀缺陷数；每行至少冻结 commit、真实 caller file:line、合法正控、实测或具名证据、缺口/可证伪条件、归属。环境陷阱如实：原 history 探针内存 source 抛通用 assertion（Codex 复核三历史反例仍成立）、诊断只调真实产品函数（AST 抽取或 Vite 无 HTTP SSR）、引用输入先过正式 loader 正控、GLM 不操作浏览器不做像素判断。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 白名单交付 | 第二节点仅允许 prep-report.md+probe-glm-{history,reference,upload,cache}-prep.mjs 四探针+可选共用 config；packages/scripts/projects/data/reference/锁文件/既有探针零 diff | GLM→Codex accept（11fb8148） | 44 项分类数相加等于 44 机械对账；不恢复旧 stash、报告只对冻结树成立接收时 Codex 适配最新树 | 若后续采用本包探针/测试设计必须披露 GLM 贡献，不以同一贡献者自测代替独立终审 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+只读取证接收闭环：非产品修复/正式测试/覆盖率增加；回归随 D-01/D-02/D-03/E-03/E-04 实施分批转正。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；整批产出见 glm-pre-e2e-prep-report.md。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM prep 工作包 | 2026-09-13 | 44 项四组取证+D-01 签字 | accept（11fb8148，报告/四脚本入 main） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy e2e/route-and-checkpoint 的 GLM 并行工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 并行工作包：撤销与后续编辑器审计准备：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+只读取证接收闭环：非产品修复/正式测试/覆盖率增加；回归随 D-01/D-02/D-03/E-03/E-04 实施分批转正。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四组 44 项清单、环境陷阱、证据/完成合同、白名单与 r1 提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证时点材料。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 glm-pre-e2e-prep-report.md 与 D-01 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `dc85896d29b008c08c46dda70234930ad55178d300290aab32535e2809cb87a0`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `dc85896d29b008c08c46dda70234930ad55178d300290aab32535e2809cb87a0`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 并行工作包：撤销与后续编辑器审计准备
 >

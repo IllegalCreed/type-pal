@@ -1,6 +1,41 @@
 # QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核修事件切片两项控制流真值：(1)人读元数据不制造BFS边——slice.ts两份BFS扫描所有字符串字段，可能把对白text/注释_item中的L_N当控制流（四个更名探针使scene/global两域各2条切片变3条而原始opcode/operand及recompile字节完全相同）；(2)非零frameDelay goto保留计数耗尽后的i+1（SDLPal script.c:3239-3258的0x0003兼具跳转与计数续行）。后追加P3：raw7战败/逃跑双接回边收集缺失。
+
+## 范围
+
+真实raw 43503指令/295场景/5077对象、694全局入口/6767标签入口、严格字节roundtrip一致；当前词表/sidecar去元数据后投影相同（当前raw未被元数据伪边污染）。生产默认读全局all.json（bootstrap:1172-1186），per-scene仍在bootstrap:594/loader:165被加载——不能从局部切片差异直接宣布现行游戏故障，也不能据默认全局擅删切片出口。
+
+## 前提与证据
+
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md)。
+
+## 验收
+
+获批修复链（用户2026-10-22'同意修复（推荐）'）：先6业务AssertionError/19绿，2ad4c36e9行为修复+e016c27a3纯BFS去重+976c0ce5c主测完整身份等式；收集union 38464→38765（+301/-0）、12scene+shared内存结果不同、16/17计数goto可达且续行全入union；全包首跑451绿/1 FIRE像素oracle超5000ms原件保留、maxWorkers=2复跑76文件452绿stderr0。P3（用户2026-10-24批准'补齐两条分支'）：b285b5a5b先14绿2业务红再7行修复，9相邻83绿/TC0；非零op1/op2收集与胜利续行、零地址、敌队号不当脚本目标逐项核，union 38765→38780（+15/0）、610条非零接回边目的均入union。
+
+## 状态与交接
+
+Status保持review：获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。2026-10-22集中门（CLI IO统一窗口）check20430、ratchet/protected同报告20032全0诊断已过，卡内其它余项与P3后续保持。原版实际游戏未运行——不能把静态17站点写成17个游玩缺陷。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12221B / SHA-256 ba0ae280e26434343356f4ef11a278691bc6dee430dbed3f5f216b1b83e5d7e3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
+
+Status: review
 Owner: Codex
 Reviewer: Codex（事实核验，不冒充第三方）
 Phase: phase1 asset/event pipeline
@@ -77,3 +112,5 @@ Visual Verification Timing: N/A（提取器纯收集；无游戏/E2E或原版运
 b285b5a5b先正式scene/global反例14绿2业务红，再7行产品修复；9相邻文件83绿、extract TC0。非零op1/op2收集与胜利续行、零地址、敌队号不当脚本目标、shared goto及输入不变逐项核；disasm保号raw7和原始bytes/all.json不改。原盘只读union38765→38780，新增15/删除0、610条非零接回边目的均入union，三输入SHA稳定；不是完整游戏/E2E通过。
 
 [两文件八维／完整原件与真实输入边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md)。Status review：本卡获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。上方初始draft/P3未批准语句均保留当时状态，不作为当前执行指令。
+```
+<!-- incremental-original-source:end -->

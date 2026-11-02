@@ -1,5 +1,38 @@
 # CODE3d：PNG 输入合同与注释复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是CODE3d窗口（原卡done后partial复审，基点65c375e06、唯一worktree、main=f98d0ddd8）的证据索引页，原件为下方逐字节保全的固定main源（4804B，SHA 9404d77d3179）。窗口语义：PNG是本项目运输格式，不把它说成SDLPal的PNG编码；生产只做注释校正，测试补输入合同，0新增关闭、整卡仅partial。2026-10-21后继增量见[多卡窗口八维与必要返工](closeout/README.md)，本页保留原切片时点。
+
+## 来源与输入
+
+真值与职责：shared负责解码、extract encoder写RGB=下标/A=mask、game decodePngToIndices读R/A并finally关闭bitmap；RLE高位literal真值归[冻结前提卡](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)。旧头引用不存在的sprite.c::PAL_LoadSprite已更正（read-boundaries的missingPrimaryReference：fileExists=false、匹配0）；'磁盘必为四倍'的不实说法删除。RNG PNG wrapper当前只供历史/测试，CLI改存gzip，不冒充生产输出；extractCharacterSprites在[caller搜索](read-boundaries.json)中只有定义与测试，保留review不擅删出口。真实现caller：CLI的DATA9 UI帧、320×200 FBP背景、BALL/RGM/FIRE wrapper（cli.ts仅[353–391/603–631/835–864]局部读取，不伪称整文件已审）。
+
+## 断言与业务 oracle
+
+两项测试盲点直接反证：[旧三轮](before-proof.json)删height整数/正数guard均9例全绿（旧boundary两例轴混合且不测height）；[新三轮](after-proof.json)同变异各12绿+1指定AssertionError（'height 必须为整数'/'height 必须为正数'），正常恢复13通过0诊断；9→13来自boundary 2→6独立合同，无重复堆数、无退役、无baseline手改。两阶段生产从encodeIndexedPng声明到文件末尾逐字节一致、GLM imports后字节一致、主测试全字节一致，由只读核验另进程重建（[verification.json](verification.json)）——证明的是测试缺口，不冒充修了PNG实现bug。四文件逐项结论（sprite.ts注释更正撤回整文件关闭、boundaries 2→6、glm测试头校正、sprite.test生成物sanity只读不证提取）见保全块原表。
+
+## 结果
+
+[原始回执](regressions.json)：初次相邻命令两个路径写错，按实际六文件47例记账不称八文件；完整包72文件432例含真正BALL/RGM glm测试；game PNG三文件8例与extract typecheck通过，0失败/跳过/stderr/act/环境诊断。静态门见[gates.md](gates.md)；只读重建见[verify.py](verify.py)。时点账本：83卡11partial/72pending/0整卡accept；统一check/official/protected未执行、editor诊断未清、不合main。历史done按[原3d卡](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)保留，归属[94前全部83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 限制与复核
+
+未重跑任何命令；'两变异杀灭'与'六文件记账'为原时点事实；后续closeout对三测试文件的接受与sprite.ts整文件review状态以closeout为准。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4804B / SHA-256 9404d77d31799fae1c7e26443f78f9b162425bbc09d2ea884fc2c0169db4d4c6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3d：PNG 输入合同与注释复审
+
 2026-10-21当前增量见[多卡窗口八维与必要返工](closeout/README.md)；本页保留原切片时点，旧主测未变宣称不覆盖后继整改。
 
 归属[94前全部83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3d历史卡](../../../archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md)保持历史done。当前基点65c375e06、唯一codex/code-quality-3y、main=f98d0ddd8；本轮整卡仅partial，0新增关闭。
@@ -35,3 +68,5 @@ RLE高位literal真值仍归[冻结前提卡](../../../tasks/QUALITY-RLE-COMMAND
 [原始回执](regressions.json)：初次相邻命令两个路径写错，原生JSON实际只有六文件47例，按实际六文件记账，不称八文件。完整包原生72文件432例已包含真正的ball/rgm.glm-runtime-resource.test.ts，两文件存在与执行由核验器确认；命令原件不改写。game实际PNG consumer三文件8例、extract typecheck均通过，无stderr/act/环境诊断。
 
 docs/lint-zero/ledger与diff-check见[gates.md](gates.md)。完整全仓check、official ratchet、protected fast继续等待稳定窗口；editor当前仍有已登记诊断，不合main。机器账本以当前重跑为准；全83卡当前11partial/72pending/0整卡accept，下一片3g CLI IO，94–102/editor原目标与其余卡保持。
+```
+<!-- incremental-original-source:end -->

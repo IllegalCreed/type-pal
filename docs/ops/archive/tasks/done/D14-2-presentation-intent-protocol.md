@@ -1,55 +1,63 @@
 # D14-2 - 演出意图协议 + CutsceneController（议题 5/12/14 剩余②）
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: 议题 5 演出/cutscene 建模 + 议题 12 统一控制器 + 议题 14 剩余②（P0 演出建模）
+Coding Owner: Codex
+Reviewer: Kimi（架构/演出建模主审）+ GLM（覆盖/协议词汇矩阵）
+Visual Verification Owner: Kimi
+Branch: TBD
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是演出意图协议历史功能卡：main.ts 散落的演出能力（fade/camera pan/RNG 帧动画/视频/对话）收进统一演出意图协议——core 只产出 effect（"播 cutscene X"），呈现层由 CutsceneController 统一执行（独占画面、抢键、注入时钟、AbortSignal 统一取消）；触发器与演出分离留口（触发器只管"何时"，内容 schema 只做协议层留口不重排现网数据）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+分镜从命令式 glue 变成协议化编排；effect 词汇表（playCutscene/fade/camera/frameAnimation/video/dialog/wait/组合）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：词汇表+协议边界（core 不碰呈现）+CutsceneController 抽象收编现有五驱动。
+- 范围外：重排现网数据；触发器内容建模（留口）。
 
 ## 前提与证据
-- primary source：固定 source revision `b2f67b288697614614d3e75d2470128bfa47d337` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+GLM 2026-08-07 曾额度耗尽由 Kimi+Codex 临时代班后补审（历史记录）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+CutsceneController 为现行演出执行基础。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `b2f67b288697614614d3e75d2470128bfa47d337`；本轮为 2026-10-17 R50。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方窗口与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：演出意图协议+统一控制器经三方收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+词汇表、控制器抽象、代班/补审记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。演出协议现行形态以当前 reforge 为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+cutscene-controller 与 D14-1/14-3 姊妹卡。
 
 ## 原文保全
-固定源 revision `b2f67b288697614614d3e75d2470128bfa47d337`，source SHA `7f2fd2e03580ba1b99b0afe257c4e4f70a9077622f0a498eea214614d8e34835`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `b2f67b288697614614d3e75d2470128bfa47d337`，source SHA `7f2fd2e03580ba1b99b0afe257c4e4f70a9077622f0a498eea214614d8e34835`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # D14-2 - 演出意图协议 + CutsceneController（议题 5/12/14 剩余②）
 >

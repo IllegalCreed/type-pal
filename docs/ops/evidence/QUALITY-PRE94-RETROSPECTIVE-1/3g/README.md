@@ -1,5 +1,38 @@
 # CODE3g：CLI IO、输出所有权与测试证据复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是CODE3g窗口（原卡done保留历史，基点c2fee5a9e、main=f98d0ddd8）的证据索引页，原件为下方逐字节保全的固定main源（6066B，SHA a560f9ca447e）。窗口语义：复审CLI IO与输出所有权，0新关闭、仅partial；2026-10-21多卡窗口增量见[八维复核与保留项](closeout/README.md)，历史原件保持原版本边界。
+
+## 来源与输入
+
+读取口径见[读取边界](read-boundaries.json)：CLI 901行、五CLI测试、两输入fixture、BDF parser与asset-manifest等十二份全文；extract-videos/root package.json/docs renderer仅局部。生产链为解析/roundtrip/注记/切分→各表与资源写盘→manifest；writeFileSync非原子提交、失败可留部分输出——只记录事实，不擅自引入事务设计。四目标逐文件表（cli.ts撤回rework、kimi-r1七例、glm-q六例、font-lookup两例）见保全块原表。
+
+## 断言与业务 oracle
+
+直接反证：字符串suffix guard不能证明输出所有权。[four-run原件](output-boundary.json)在自建TemporaryDirectory实跑CLI——自有OUT清marker保videos后缺SSS退出1；OUT本身是目录链接时guard通过并删除链接目标树marker；data父目录链接同样删除另一树extracted的marker；OUT内子项链接只unlink该子项、目标保留。因此旧CLI整文件关闭撤回rework，开[输出边界高风险卡](../../../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)draft，产品修复等用户裁决。首个探针在macOS /var与/private/var别名的自有路径校验处失败、CLI未启动，[失败回执](probe-setup-failure.json)保留为工具失败非产品反控。字形注释唯一更正：19970是丂/U+4E02（中是20013），[精确delta](font-comment-delta.json)无业务body变化。
+
+## 结果
+
+[本候选实际回执](regressions.json)：五CLI+三BDF文件共41通过，0失败/跳过/stderr/act/环境诊断，extract typecheck通过；旧完整extract 72/432沿用[同源3d检查点](../3d/gates.md)不冒充新跑。零诊断范围是Vitest外层——CLI子进程输出仍多处仅局部contain断言，未逐条核清，保持review。时点账本83卡12partial/71pending/0整卡accept；统一三门等待稳定窗口、editor诊断未清、不合main；原件由只读核验[verify.py](verify.py)另进程重建。
+
+## 限制与复核
+
+未重跑任何命令；四次IO观察是高风险前提反证，不冒充测试判别力针；资产输出修复只等裁决。历史done按[原3g卡](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md)保留，归属[94前全部83卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)；门限见[gates.md](gates.md)。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6066B / SHA-256 a560f9ca447efe3d1c6249c7e4d75ebf2971682bfadf0a9ad9667e4e2d2a1d5a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3g：CLI IO、输出所有权与测试证据复审
+
 归属[94前全部83卡](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3g卡](../../../archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md)的done保留为历史。基点c2fee5a9e、唯一codex/code-quality-3y、main=f98d0ddd8；本轮3g仅partial，0新关闭。
 
 ## 已实际读取与职责
@@ -45,3 +78,5 @@
 资产输出修复只等该裁决，其他83卡与94–102/editor范围可继续。当前83卡12partial/71pending/0整卡accept；下一片3h assets/shell，或用户批准后先修输出guard。完整check/official ratchet/protected fast等待稳定窗口，editor运行时诊断未清，不合main。
 
 2026-10-21 多卡窗口增量见[八维复核与保留项](closeout/README.md)；历史原件保持原版本边界。
+```
+<!-- incremental-original-source:end -->

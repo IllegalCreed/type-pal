@@ -1,0 +1,198 @@
+// Exact twelve source admissions; source fields are Git-derived, not execution approvals.
+export const historicalHtmlExpansionAdmissions = Object.freeze([
+  {
+    path: 'docs/phase2/archive/mockups/actor-mode-v1.html',
+    family: 'mockup',
+    carrierSha256: '0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f',
+    carrierGitObject: '120a0d32a0074992d28878f6acba730d57712589',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r33-phase2-lore.json',
+    reviewIndex: 3,
+    historicalSourceRevision: '0d5311075b4f5e67362d1953a138d678c0a4aa42',
+    historicalSourceSha256: '0f1ecdeaa85d9d49eeba091859d1eb07d50d5ca562cbcdaa937b777747646e3f',
+    historicalSourceGitObject: '120a0d32a0074992d28878f6acba730d57712589',
+    expectedMissingReferences: [],
+    archivedBuildSource: null,
+  },
+  {
+    path: 'docs/phase2/archive/mockups/place-mode.html',
+    family: 'mockup',
+    carrierSha256: 'aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d',
+    carrierGitObject: 'f176cc3fdfe30b8eb3d01d929262f3ced186b4ee',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r33-phase2-lore.json',
+    reviewIndex: 5,
+    historicalSourceRevision: '0d5311075b4f5e67362d1953a138d678c0a4aa42',
+    historicalSourceSha256: 'aacdffba3f76e92554ddf29e1317062b47e83ae4a3d184a2c495cfb8a05b136d',
+    historicalSourceGitObject: 'f176cc3fdfe30b8eb3d01d929262f3ced186b4ee',
+    expectedMissingReferences: [],
+    archivedBuildSource: null,
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html',
+    family: 'host',
+    carrierSha256: '14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24',
+    carrierGitObject: '7e940d2a410c923714218c89c3c4d6c55553c8b8',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 0,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '14a0ef33dbd49b33e1da6d1bf084a8b5996ca48c738a203b7a5a6f7354840d24',
+    historicalSourceGitObject: '7e940d2a410c923714218c89c3c4d6c55553c8b8',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host-b.tsx',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html',
+    family: 'host',
+    carrierSha256: 'e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251',
+    carrierGitObject: 'ad44e3e59f225c010d6fb25f4ae8da4776466659',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 1,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: 'e150b6904af08a0d7d0f8026d655180245b48543333314a3c65103b4f2ae1251',
+    historicalSourceGitObject: 'ad44e3e59f225c010d6fb25f4ae8da4776466659',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host-c.tsx',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html',
+    family: 'host',
+    carrierSha256: 'fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be',
+    carrierGitObject: 'e3edf39fa9c7daabfc5615a6171c963aea98638c',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 2,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: 'fc375aad165ca04178ed228f1499b810e5fe8d98bbadf44a94468de1106b37be',
+    historicalSourceGitObject: 'e3edf39fa9c7daabfc5615a6171c963aea98638c',
+    expectedMissingReferences: [],
+    archivedBuildSource: 'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/host.tsx',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html',
+    family: 'host',
+    carrierSha256: '46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf',
+    carrierGitObject: '3dfa7a3797b99705a301b5898377780a2a1a0a15',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 3,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '46f9fce160c6558f00d9090c51e8436f4b1ac1118f056c7b685ac0fd57300cdf',
+    historicalSourceGitObject: '3dfa7a3797b99705a301b5898377780a2a1a0a15',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/host.tsx',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html',
+    family: 'host',
+    carrierSha256: '6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336',
+    carrierGitObject: '6d359473a03b7dccfa654618b91ab3c2df31daa5',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 4,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '6a1dffb50fc666bd48c4a3ff895b26e868f8d7b7b8803df8237208d6c60b1336',
+    historicalSourceGitObject: '6d359473a03b7dccfa654618b91ab3c2df31daa5',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/host.tsx',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html',
+    family: 'host',
+    carrierSha256: '1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6',
+    carrierGitObject: 'd1b3ff0a28c76bfc789e5db21c5a7ccafa149722',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 6,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '1eb4206a7cf051e3e9196a0f34808650b9b0163a42488556262f4247be0a5be6',
+    historicalSourceGitObject: 'd1b3ff0a28c76bfc789e5db21c5a7ccafa149722',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/main.ts',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html',
+    family: 'host',
+    carrierSha256: '9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9',
+    carrierGitObject: 'fca739044b0aae0f06a4ab7a321e13c00ff52108',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 7,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '9648b1bde3102a72c30f5ab51229e9290db749d5be5d070dc14ac7f7ca522ce9',
+    historicalSourceGitObject: 'fca739044b0aae0f06a4ab7a321e13c00ff52108',
+    expectedMissingReferences: ['/docs/testing/glm-phase1-leaves/browser-host/main.mjs'],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/main.mjs',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html',
+    family: 'host',
+    carrierSha256: '7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d',
+    carrierGitObject: 'cb1de06d56840dc98f6ebe82e6c04d849a9eacdc',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 8,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '7f5808de4e2301ca9bd2cba9872fcc53f32ee155e0e74b5db4d5657d804d440d',
+    historicalSourceGitObject: 'cb1de06d56840dc98f6ebe82e6c04d849a9eacdc',
+    expectedMissingReferences: [],
+    archivedBuildSource: null,
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html',
+    family: 'host',
+    carrierSha256: '946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8',
+    carrierGitObject: '0712997efb874370a5de2ffe287ca8c9e4ce600e',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 10,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '946bfc424dcb960f944041363bf2478af709e9355d9eb060b8298291323a4cc8',
+    historicalSourceGitObject: '0712997efb874370a5de2ffe287ca8c9e4ce600e',
+    expectedMissingReferences: ['./main.js'],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/entry.ts',
+  },
+  {
+    path: 'docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html',
+    family: 'host',
+    carrierSha256: '73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7',
+    carrierGitObject: 'a2dcb0696284c594251d17dafb5087ed02458e4d',
+    reviewRecord: 'docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json',
+    reviewIndex: 11,
+    historicalSourceRevision: 'bfd78102163886d32f54e7d99d6b076d57f318d6',
+    historicalSourceSha256: '73716698ea23c63add96aa121692460e2df6cd69343fae89842aca6437e9fcc7',
+    historicalSourceGitObject: 'a2dcb0696284c594251d17dafb5087ed02458e4d',
+    expectedMissingReferences: [],
+    archivedBuildSource:
+      'docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/main.tsx',
+  },
+])
+export const historicalHtmlExpansionContentAcceptance = Object.freeze({
+  reviewer: 'Codex',
+  task: 'DOCS-FULL-TEMPLATE-1/S61',
+  reportSha256: 'b9026d4ec81e2897761e3e483e4a28a67c9d5923749616c6c397b50a63ed90ac',
+  contentByPath: {
+    'docs/phase2/archive/mockups/actor-mode-v1.html':
+      'f2d17fce6cdf8e8c19b60e1e36c311b1a4a6a0146e6802676903d09a3f7b2e17',
+    'docs/phase2/archive/mockups/place-mode.html':
+      '1cb6705e22098aa420b0b7d0703fc5e0137e2f381736353eef21d6834759b9a3',
+    'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html':
+      '57eaf8ed42742fa08410aecaa0990ee8defb41f3a3659f1ddf76466ea5bd87f0',
+    'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html':
+      'c186b93fa89e3056ea62a972de061e7a3576cb6dc11fcaa31ab2dc8525216c0f',
+    'docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html':
+      '7a15685f2f2edc356430715316c440cb74e7f975c5755da07930e232afc49afe',
+    'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html':
+      '498e3b34ea5c6224fba0dd545de3212f13e46eac4173d1b1757fbf4d96b9335c',
+    'docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html':
+      'f0c0f74ab4007b99221a8813cd89685ef75170c3bcb666d89c63061afff5b4f5',
+    'docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html':
+      '5ea45bb27475455de1b09f3fe9b2968469a4cc1f876527ee78c0071d7e36d565',
+    'docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html':
+      '3ba015962de589d0a213b6e5d3c6ba72c46f8198381376877b1e65f9b63bbbb5',
+    'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html':
+      'bb37d49a44b8f4a3ebf1e04686f0e1adf6bc5aa90350edb2f0ae2280ed3e32fc',
+    'docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html':
+      'dcbb22df82ed96e6c438f1ed8219f6711cd1ba038f5d39785bc4ca4e8bcdf62f',
+    'docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html':
+      '56b1e309b74b71fc9f192f4c2f3b0aad83dade58a25be82cdb01b0417f4a310e',
+  },
+})

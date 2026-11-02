@@ -1,40 +1,74 @@
 # 内容深审记录
 
-Status: historical
+Status: current
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Last reviewed: 2026-10-21
+Template: governance-index-v1 / 1.0.0
 
-本页把 phase-governance artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页导航当前与历史 review 记录。当前文档绑定以[文档 registry](../document-registry.json)聚合后的唯一条目及其 reviewRecord 指向为准，并核对对应候选、source/after SHA 和限定验收范围；目录中还保留已撤信、partial、draft 与历史记录。旧文件或旧 content-reviewed 字样不恢复信用。2026-10-16 的原索引与定义保留于 quote；本页不授产品或执行通过。
+
+## 目的
+
+- 职责导航：由当前 registry 的 reviewRecord 找到有效条目，再核其实际范围；catalog 与 registry 各守其职责，目录收录或旧状态词不证明当前完成。
+- 当前阅读、证据及信用边界遵守[文档质量与验收](../../ops/document-quality.md)；旧索引两层深度定义仅按历史时点保留，不恢复旧独立/全文/深审或产品执行信用。
+
+## 范围
+
+- 原索引快照列出 2026-10-04 至 2026-10-16 的约 26 条深审/结构化/接入记录（lore+phase3、guijie、phase1 根文档、当前入口语义、ops/phase1/phase2 结构化批次、agent-first 路由、协议与 E2E pilot、历史与域 pilot、合同与门 pilot、catalog pilot、域对与归档卡、testing 索引设计/接入、E2E 002–005 设计/接入、binding baseline 设计/合同、lore reference 设计/接入、phase2 导航设计/接入、guides-q 设计/接入、terminal-a8 设计/接入、lore L4 设计、静态 HTML 设计等，完整清单见 quote 原索引）。
+- 当前目录同时保存历史、撤信、partial、draft 与新接收记录；本页不复制机器 inventory 或临时 raw，不维护第二份完成清单。
+
+## 当前状态
+
+- 本页为 current 导航；目录内各记录的结论各自保时点（设计 pending、接入已接收、counter 保留等），不因收录而升格。
+- 目录后续新增记录（如 2026-10-18 存储设计）由其自身文件承担结论；本页不维护第二份结论清单。
+
+## 入口与责任
+
+- [治理回执原件存储提案](20261018-governance-receipt-storage-design.md)：版本、限定接收与未决由设计、任务卡和当前 registry 绑定承担。
+- [registry storage v2 设计](20261018-document-registry-storage-v2-design.md)：存储设计与实施范围见对应任务卡和实际回执，本目录不续授历史信用。
+- 26 条原记录链接按 2026-10-16 源保 quote；各记录的 Git/blob/SHA 身份以其自身文件为准。
+- [S19 接收记录分片一](20261021-s19-accepted-01.json)、[分片二](20261021-s19-accepted-02.json)：61篇正文的限定接收记录；两份账本自身的治理状态另看 registry。
+- 责任：目录维护归文档治理 Owner（Codex）；记录内容责任归各记录作者/接收方。
+
+## 证据与下一步
+
+三份仅剩空entries的旧载体按[S22退役裁定](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s22-三份空账本退役与固定清单处置2026-10-21)退出工作树；原12条文档的当前绑定仍分别由下列接替记录持有。完整处置与原件Git提交/blob/SHA只维护在[registry](../document-registry.json)的documentRetirements，不把退役算成正文迁移或恢复旧审查信用。
+
+| 退役的历史载体 | 当前接替记录 | 最近非空历史提交 |
+|---|---|---|
+| 20261004-lore-guijie-batch2.json | [r33：2篇guijie材料](20261017-r33-phase2-lore.json) | `0fceb7dbc1f4da3aee5f775c4a55a85ac71203f3` |
+| 20261004-phase1-root-batch2.json | [r30：9篇phase1根文档](20261017-r30-phase1-foundation.json) | `d62602284cbfe2d9306f4acb006d15d944d1f6e2` |
+| 20261004-structured-content-new-01.json | [r56：1份历史机器证据](20261017-r56-ops-machine-evidence.json) | `c8854234deb63c16669413e29335929e6fff5232` |
+
+恢复原件使用`git show <source.revision>:<退役路径>`；最近非空前身使用predecessor.revision。下方保全区的三条旧链接按登记的完整quote SHA与Git原件验证，保留原文字节；它们是历史引用，现行操作使用上表入口。
+
+- 证据：固定 source revision `bff13f74…`（R92 时点），source SHA `26211ddd…`；quote 可逆回原始字节。
+- 下一步：新记录继续按本目录命名落盘并保持 content-reviewed 语义；机器投影变更走 catalog/registry 各自治理，不在本页改。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R92。此文件属于 phase-governance artifact 历史层，不能单独授权当前测试或发布。
+- phase-governance reviews 目录索引（R92 归档层）；日期：2026-10-16（源索引时点）；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- 内容深审记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原索引（2026-10-16）：26 条记录逐条链接与一句话边界（含 20261016 各设计/接入记录的固定作者候选与停止线），完整保留于下方 quote；`deep-semantic`/`structured-content` 两层定义原样。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 原索引当时的 catalog/content-reviewed 声明与各记录时点状态由 quote 保全；现行信用须经当前 registry 指向与限定回执核实，不采用旧状态字样恢复信用。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+current（导航）；历史记录层 historical。各记录结论以记录自身为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 目录内各记录及其指向的 catalog/registry/routing；2026-10-18 两设计见上方链接。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # 内容深审记录
 >

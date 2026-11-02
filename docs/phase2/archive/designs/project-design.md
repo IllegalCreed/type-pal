@@ -1,84 +1,55 @@
 # 工程化架构设计(engine project / 「一工程一游戏」)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是工程化架构设计（engine project/一工程一游戏）的归档重写。决策记录（含复审纠正）、包拓扑与目标架构在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：一工程一游戏；content 零依赖叶子、reforge/editor 依赖拓扑；manifest、content JSON、迁移清单；dev project 选择；编辑器与内容/资产边界；A7-2 静态图更新。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 第二阶段 Reforge 工程化架构（2026-06-30 设计（用户+助手）→ Claude 复审纠正（包拓扑/地基决策/范围））。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7`；原文 248 行、20316 bytes。
-- 一手来源/正文锚点：packages/reforge/src/main.ts:1-1; packages/reforge/src/assets.ts:1-1; packages/reforge/src/save/types.ts:1-1; packages/editor/README.md:1-1; packages/content/src/character.ts:1-1; packages/reforge/src/engine-chrome/registry.ts:1-1；标题锚点：1:工程化架构设计(engine project / 「一工程一游戏」), 15:0. 为什么要做(现状痛点), 27:1. 决策记录(已拍板 + 复审纠正), 40:2. 目标架构, 42:# 2.1 包拓扑(复审的核心纠正), 62:# 2.2 目录, 93:3. manifest.json(工程清单), 127:4. content JSON 结构(数据形态)。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- v1 manifest/examples、旧路径和历史版本轴与 current project lifecycle/content22 不同；appendix 不能覆盖当前 loader/validator。
-- “打包选单留后”、工程发现和资产所有权是范围边界，不是已完成用户能力。
+- 决策记录分「已拍板+复审纠正」两层；包拓扑纠正是复审核心。
 
 ## 方案
 
-- 原始方案语义：一工程一游戏；content 零依赖叶子、reforge/editor 依赖拓扑；manifest、content JSON、迁移清单；dev project 选择；编辑器与内容/资产边界；A7-2 静态图更新。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- docs/phase2/specs/project-lifecycle.md
-- docs/phase2/specs/content-schema.md
-- 当前 packages/editor/content/reforge project loader
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 目标架构：包拓扑（2.1 复审核心纠正）→ 目录（2.2）及后续节（quote 全列）。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- v1 manifest/examples、旧路径和历史版本轴与 current project lifecycle/content22 不同；appendix 不能覆盖当前 loader/validator。
-- “打包选单留后”、工程发现和资产所有权是范围边界，不是已完成用户能力。
-- 停止线：不得按旧 manifest 例子生成项目或恢复旧兼容入口；以 current project lifecycle/content specs 与源码常量为准。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- 「一工程一游戏」自包含边界由后续 project-lifecycle 设计细化。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收以复审为准；实现以现行 workspace 结构为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-06-30；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 工程化架构设计(engine project / 「一工程一游戏」)：这是 design-spec，当前文档状态为 historical。全文 249 行、18 个标题；摘要/首段为「> 第二阶段 Reforge。2026-06-30 设计(用户 + 助手)→ Claude 复审纠正(包拓扑 / 地基决策 / 范围)。」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 包拓扑复审纠正与一工程一游戏模型为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7`；全文 248 行 / 20316 bytes。
-- 原文标题/章节锚点：1:工程化架构设计(engine project / 「一工程一游戏」), 15:0. 为什么要做(现状痛点), 27:1. 决策记录(已拍板 + 复审纠正), 40:2. 目标架构, 42:# 2.1 包拓扑(复审的核心纠正), 62:# 2.2 目录, 93:3. manifest.json(工程清单), 127:4. content JSON 结构(数据形态)。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 决策记录与目标架构各节在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得按旧 manifest 例子生成项目或恢复旧兼容入口；以 current project lifecycle/content specs 与源码常量为准。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：docs/phase2/specs/project-lifecycle.md, docs/phase2/specs/content-schema.md, 当前 packages/editor/content/reforge project loader。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- [project-lifecycle-design](project-lifecycle-design.md) 与现行 workspace；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `8eea1d70b120012013f84b52b4c19718ec911fe9d05da5e213774a8510e671e7`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 工程化架构设计(engine project / 「一工程一游戏」)
 >

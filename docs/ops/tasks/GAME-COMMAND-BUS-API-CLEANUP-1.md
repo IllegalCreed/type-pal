@@ -1,6 +1,59 @@
 # GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+清理一阶段CommandBus无用回执：编译器callsite事实为30个生产emit都独立表达式、零complete调用、cmdId无生产命名读取；编号/complete只有旧测试消费，四种命令clearDialogBox/flashEnemy/flashPlayer/showBattleUI从未生产发送。追加消费端核验发现showDialogBox/playMagicAnim虽有生产emit但无音画消费（实际对白走gs.dialogBox、法术走动画帧链），攻击/阵亡三种通知仍有实际SFX消费不能混删。用户2026-10-26批准删除complete/cmdId/返回编号、四无发送类型及两个空通知，保留攻击/阵亡SFX与cmd信封和FIFO。
+
+## 范围
+
+command-bus及必须的类型/caller/test适配；纯重构独立提交；第一阶段业务/音效/提示/动画/存档不变，第二阶段N/A。
+
+## 前提与证据
+
+固定源全文核读。实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus保留依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过0stderr；原bus6例中4条专属协议退役、两队列例加强并补实例隔离，其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。2026-10-26本地统一门：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+
+## 验收
+
+done为代码与本地门：未推送/PR/合并，发布以真实GitHub状态另核；旧'4无emit'不能误判攻击/阵亡音效（playPlayerAttack等有真实caller必须保留）。
+
+## 状态与交接
+
+done保持原语义；治理不重开。父52其余范围继续。
+
+## 历史范围
+
+原卡属固定main时点；范围为CommandBus死回执/空通知清理子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-26本地统一门52/52收口。
+
+## 当时证据
+
+当时回执属原时点证据：30处清单、中间失败原件、795例0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+
+## 当前有效性
+
+仅历史任务归属有效；未知外部反射调用不冒称不存在；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；空通知断言迁移实际dialog/帧链。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4426B / SHA-256 e3dfd20f48ab12223119196edcdd1a07c4754d952d471a8b242bd2cdaae01300；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理
+
+Status: done
 Phase: phase1
 Capability: core to shell command contract
 Coding Owner: Codex（单一实现写入者）
@@ -37,3 +90,5 @@ Branch: codex/code-quality-94-102
 2026-10-26 实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus，保留其依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过、0stderr。原bus6例中4条专属协议退役，两队列例加强并补实例隔离；其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。未放宽规则，统一门/发布仍待。
 
 - 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。
+```
+<!-- incremental-original-source:end -->

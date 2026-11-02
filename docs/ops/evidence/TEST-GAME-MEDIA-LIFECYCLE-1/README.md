@@ -2,56 +2,58 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GAME-MEDIA-LIFECYCLE-1（视频/RNG 媒体生命周期 M1–M8）的交付证据：Owner GLM、分支 `codex/glm-game-media-lifecycle-r1`、冻结产品基点 `2f0fe6d2f`、派发提交 `a2447b5c9`；卡状态 done（已集成 main）。candidate/receiptHead 40 位 SHA 见 identity.json 与任务卡交付块。
 
 ## 证据身份
 
-- TEST-GAME-MEDIA-LIFECYCLE-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11。
+- 逐轴结论：M1 已 ended 后迟到 play() reject 被守卫（avi-player.ts:140）；M2 重试迟到 resolve 自行退休重试层（:98,136）；M3 product-counter——真实红复现的产品缺陷（首次拒绝→用户点击重试仍被拒后 catch 因 clickOverlay 非空早退，{once:true} 已消费，后续真实 click 无可用重试入口，仅跳过键可逃离，见 repro-m3.json real-red-confirmed）；M4 跳过 500ms 窗口幂等守卫；M5 迟到 reject 不抢下段所有权；M6 跨 chunk 缓存隔离（get(chunkIdx)===p 守卫）；M7 成功帧乱序+中间帧失败保序跳失败帧+finally 归还 keydown；M8 warm-up 迟到 resolve 只清理自己的临时 video。
+- 新增测试 7 合同零产品改动：avi-player.async-lifecycle.test.ts（M1/M2/M4/M5/M8）、rng-player.io-lifecycle.test.ts（M6/M7）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 真实 avi/rng 播放器公开入口与真实 DOM 事件（M7 探针事件须 cancelable:true）；M6 用跨 chunk 并发去重与失败重试旧证对照（rng-player.test.ts 等，不重复计新）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 三态反控 r3 重放（run-counterproof.mjs）：判据先 20 合成反例自证拒收（双红/错名/缺 marker/非 AssertionError/exit0/执行集漂移/pending/unhandled+一审打穿的 signal 与零断言 failed collection+二审打穿的非空 suite.message，另 spawnError/计数漂移/重复 suite/空执行集），再 3 例真实 Vitest 探针实证（afterAll 同步抛/异步 uncaught 拒、纯业务红受）；四态=基线绿 7/7→7 针逐一（恰一指定业务 AssertionError）→还原→定向绿→末次重放；每针 source/mutant/restored sha256 与双 reporter raw+JSON 双 sha256。
+- Codex 二审 A-R2-01 闭合（r3）：每次子进程双 reporter（native JSON+同进程 default stdout 揭示 Unhandled/Uncaught 段）；新增拒收非空 suite.message 与增强全局异常模式；绿态与纯红相位 suite.message 实测恒空不误杀。
+- Codex 一审 A-R1-01～04 闭合（r2）：rng 测试改真实 canvas.getContext+typed spyOn 记录转发真实绘制、删原型伪装与强转；avi play/pause 改 typed spyOn(HTMLMediaElement.prototype)（quote 详）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- M3 隔离复现（run-repro-m3.mjs）：mkdtemp 树生成 repro 测试，真实调用冻结产品+真实 DOM click，断言期望行为→恰一红 real-red-confirmed；不修产品、不写坏行为绿测，交 Codex 裁决修复。
+- （历史记忆补充：r3 已推 da4a33431，M3 真实红死重试入口缺陷交付，七针四态全 VALID、全量 3519、lint 0/0/0——以中央记录为准。）
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 重放入口：node run-counterproof.mjs / node run-repro-m3.mjs；故意红输出独立命名 repro-* 不进默认 test；合同账（轴×源码条件×输入×旧证×oracle×处置）逐行见 contract-ledger.tsv。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GAME-MEDIA-LIFECYCLE-1 r3 交付证据（M1–M8+M3 真实红缺陷）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- TEST-GAME-MEDIA-LIFECYCLE-1 交付证据：原始正文完整保留于下方 quote。
+- 7 new-contract+1 product-counter（M3）；两轮 Codex counter 闭合（A-R1/A-R2）；卡 done。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴表、三态反控链、双 reporter 判据与 M3 复现描述在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。done 时点结论；M3 缺陷修复归属产品卡。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡完成记录与后续修复卡。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `77051e828fc9b77b69b33c32f303c081562f67ad0a001421442ad7daaec61a11`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GAME-MEDIA-LIFECYCLE-1 交付证据
 >

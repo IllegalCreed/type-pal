@@ -1,55 +1,60 @@
 # E2E-001-CLOSE-1 — 开场完整对白与演出角色验证
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: ops
+Visual Verification Timing: e2e-consolidated（正常新局与真实检查点）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 E2E 001（开场）verify 缺口收口的历史卡（2026-09-28，基点 90d977d5）：全对白实际显示、开场角色/道具显隐/动作/提交位移、菜单控制权、两引擎真实结束档与新上下文正式读回、清晰差异报告；过程中先红后绿修掉两项一阶段实际缺陷。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+关闭 001 的 verify：候选 0a8c998f 两独立引擎均正常新局、3.mp4 自然结束、55 正文/24 对白块及说话人、5 参与角色/对象、两段站定对白/离场偏序、真实导出/新页正式恢复通过。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：game 事件游标窄修与 dialog-box 注释更正、对应回归、scripts/e2e 工具/合同/只读隔离插桩、任务/看板/说明/基线。
+- 范围外：提取数据、PAL 工程、存档格式；跳视频/剧情、造档；capture/音轨/宣传素材（“验证后另跑录制”，不冒充已验）；002 与前十段归母卡 E2E-R4-1。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+缺陷一（翻页跳行）：events/all.json 3571-3576 含 message1327-1332 而 001 一阶段实际显示缺 1331/1338；sdlpal text.c:1649-1658 四行后等键清页仍显示当前文本、script.c:3463-3464 只推进一次——一阶段 event-system.ts:2054 未消费 showDialog 就挂起、:1773 确认后无条件按非 preOp 推进，是 TS 异步化自造跳行；修法=保留未消费 showDialog、样式切换/显式清框完成的 opcode 仍推进、隐式 pre-op 重入。缺陷二（像素回验追加）：形状/非黑像素 53003 相同但全部颜色×60/64——present.ts:211-217 无人等待的 fade 到时只清状态未调 finalize（palette-fade.ts:263-280/305-317 循环最高 60/64、补满归 finalize；sdlpal palette.c:257-259 FadeIn 后 SetPalette）；修法=补 presentFrame 唯一收尾调用。目视工具重复图近黑误判已按 PNG 散列撤回。二阶段同引擎 RGBA 一致、无此游标问题。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：新增 16 游戏回归、工具 31 项；一阶段两项缺陷先红后绿；各自结束/恢复的持久域及 Canvas RGBA SHA256 严格相同；10 幅节点/终点/读回截图核查通过；七包完整 check10207、官方 ratchet 与保护 90d977d5 单次严格 fast 9746/730 生产文件串行通过、全包 TC 及 lint 2398 文件 0/0/0；B47678/63398=75.20%；失败回执 both-001-2026-09-28T04-06-55-249Z 保留，禁止放宽像素门。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位 Agent 提示词；母卡继续 002/前十段，capture/音轨/全 Q1-Q2 未随本卡关闭。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-28 准入与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：001 verify 缺口按两引擎对照收口；两项一阶段缺陷（翻页跳行、fade 终值）先红后绿修复。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+events/all.json 3571-3576、sdlpal text.c:1649-1658/script.c:3463-3464/palette.c:257-259、event-system.ts:2054/:1773、present.ts:211-217；[执行回执](../../../../testing/e2e/stages/001-opening/report.md)与 build/e2e/001-close-20260928/。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。001 对白/角色结论为当时两引擎对照；capture/音轨未验证维持；后续剧情推进以 E2E 母卡与阶段报告为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+母卡 E2E-R4-1（前十段）；[001 阶段报告](../../../../testing/e2e/stages/001-opening/report.md)。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `79bc9b7f63cacac59155cd4380302349744c5b963d7c383fb6d227f20b0e1eb9`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `79bc9b7f63cacac59155cd4380302349744c5b963d7c383fb6d227f20b0e1eb9`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-001-CLOSE-1 — 开场完整对白与演出角色验证
 >

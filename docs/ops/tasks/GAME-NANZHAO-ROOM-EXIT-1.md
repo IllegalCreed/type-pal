@@ -1,6 +1,65 @@
 # GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复issue #27：第一阶段scene287/map204中间房间可进入且能离开；核清与此前D10脚本修复的关系，同时核第二阶段对应内容避免单边修复。
+
+## 范围
+
+英文补丁原件（英文SSS把一基event4842由敌人改为(880,840) mode5出口、43503-43506返回scene286）、D10版本化纠错、原始事件与触发模式、当前持久化状态、两阶段出口及往返回归。不直接编辑生成物替代上游修复、不把手动调用传送脚本当触点可达、无证据不加新口。
+
+## 前提与证据
+
+旧档完整事件表覆盖新版出口已稳定复现（未取得issue作者本人存档，记为与报告一致的强推断）。用户2026-10-27追加方向：从复用原遇敌作出口改为保留原遇敌+新增独立出口。原8个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+
+## 验收
+
+方案：纠错计划声明独立supplemental对象（原始SSS实体数组不变、全局导出尾部追加稳定ID 5077、原生范围仍以原数组长度切片）、第一阶段装载按明确新增标记补缺（不覆盖已有实体/状态）、canonical二阶段s286恢复原敌+独立zone。反例：断开补缺完整文件4业务红/1pass、改错原敌1业务红/5413pass均精确恢复；候选1e00fd113→本地集成4088bcd21（21文件差异逐文件A–H定向独立核验）、真实party夹具e4a78b9d→f150c4922（PAL5绿、extract49、Reforge5421绿）。发布：本地官方20,203例/812源、七包TC/lint/完整文档门零诊断；PR #28 documentation/fast-coverage在候选c42e33338通过后合并为bde596695；从合并树新构建部署阿里云应用和资源（源站/CDN逐字节、浏览器设置/刷新回退验证）；两issue回复关闭；v1.1.0固定该部署提交。
+
+## 状态与交接
+
+Status保持done：两阶段实现及用户体验已接收（用户2026-10-27'可以了'）、保护CI合并部署与v1.1.0发布完成；实现分支按可恢复备份清理。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。
+
+## 历史范围
+
+初始normal档核对时进入原生遇敌未当出口通过；已战胜夹具只使用原共享胜利尾状态-2/800；旧replacement候选及其定向结果保留为探索历史不计最终方案信用。
+
+## 原始结论
+
+原卡结论：真实玩家沿门进房、走回门能退出；浏览器普通UI导入合法已战胜旧档、原菜单读slot5、真实方向输入实跑map204/#287(928,816)→map203/#286(1392,616)→原房间→再次出门，队伍保持1,0,4、warn/error为空。
+
+## 当时证据
+
+docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/（review.json/integration-gates/release-preparation/release-gates/release.json）。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+done发布按其时点有效；issue作者存档未核、自然剧情未跑。
+
+## 继任文档
+
+GAME-INPUT-ROTATION-1（同分支姊妹卡，随本卡发布）与GAME-SCRIPT-CORRECTIONS-1（D10前置）关联。原存活入口逐字保留：
+
+关联:[CLAUDE.md](../../../CLAUDE.md) [READ-FIRST.md](../../phase2/READ-FIRST.md) [contract.md](../../testing/e2e/contract.md) [code-quality.md](../code-quality.md) [integration-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/integration-gates.json) [release-gates.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json) [release-preparation.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9623B / SHA-256 5c372c4a3d8130de03f3a1c6b68b2bed4870d37e8733802eb29a32e67f1cdd04；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归
+
+Status: done
 Phase: phase1 / phase2
 Capability: 地图传送与脚本纠错
 Coding Owner: map204_investigation（隔离实现）；Codex（集成）
@@ -101,3 +160,5 @@ yes（用户2026-10-27追加方向）：从复用原遇敌作出口，改为保�
 用户本地验收已确认。PR [#28](https://github.com/IllegalCreed/type-pal/pull/28) 的 documentation / fast-coverage（Actions App15368）在最新base、精确候选`c42e333385fe464805de88a51b95ab092abb9f6a`上通过；按保护规则合并为`bde596695d9c4d90a8031443ddd1ea033edd5245`。本地官方20,203例/812源、七包类型检查、lint与完整文档门零诊断见[本地门](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release-gates.json)。
 
 实际从合并树新构建并部署阿里云应用和资源；源站/CDN逐字节及完整资源清单、浏览器设置/刷新回退验证通过，两个issue已回复并关闭；第一阶段[v1.1.0](https://github.com/IllegalCreed/type-pal/releases/tag/v1.1.0)固定该部署提交。实现分支已按可恢复备份清理；一份临时worktree已归档，当前聊天主工作树按工具保护规则保留并同步最新main。完整命令、原件、CDN任务、备份与限制见[发布回执](../evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。未宣称实物手柄、issue原存档、离线激活或自然全剧情E2E。无下一位Agent；收尾文档继续走受保护PR。
+```
+<!-- incremental-original-source:end -->

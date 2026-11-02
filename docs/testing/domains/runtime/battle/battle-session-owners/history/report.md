@@ -2,36 +2,39 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「C1 BattleSession 状态所有权候选」的分项验证快照：Owner Codex，基点 `099a615b`，实现 `aab78c82`/`450df20d`/`f68d4e89`/`afef3cd3`；候选不合 main、待原接收对话统一集成并执行 check/ratchet/strict。四 owner 边界、35 新增回归、11 针反控与隔离功能核验在 quote 中保全；统一门与集成状态以统一回执为准。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- C1 BattleSession 状态所有权候选：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 所有权边界：`BattleTurnReadinessGate`（prepare token/阶段/错误分类/迟到失效，快照冻结 actions 并深拷毒进度）、`BattleSettlementPresentation`（终态/结算屏 300ms/防连按/逃跑同拍）、`BattleCommandSelection`（菜单 phase/五类游标/LIFO 提交，不接收 BattleState/BattleSession）、`BattleActionPresentationScheduler`（240ms 行动节拍/AnimPlayer/scripted 清理语义）；battle-session.ts 3022→2593 行，四 owner 分别 129/80/468/54 行。
+- 回归与反控：四 owner 新增 35 项；C1 定向/相邻 11 文件 124 项、Reforge 182 文件 1682 项、typecheck、候选 Biome 与 production build 通过；[十一针反控] 同步进入/迟到失效/fatal 分类/300ms/terminated 同拍/LIFO/跨轮快捷键/重复动作修复/240ms/首帧采样/script 清理——control 35/35、11 个坏实现均由指定候选测试单一 AssertionError 检出。
+- 功能核验：Codex 在 6057 隔离编辑器（VITE_PROJECT_ID=pal）「三人成型」独立试打：真实战场/三人/三敌、空格/回车命令与目标指示同步变化；不读写正常存档、未改方案字段。
+- 保持项：content20/SAVE8、战斗公式、奖励/写回、UI 文案、终态协议零改；无兼容 fallback；本批是所有权重构没有夹带 bug 修复。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 最终临时机账 `/var/folders/.../type-pal-battle-session-owners-mutants-TTmPVg/summary.json`；工具要求精确 absolute test/fullName、唯一 loader marker、exit1、无 timeout/环境异常且产品 hash 不变（判据 1 正/9 反自测）。
+- 控制台仅见 in-app browser 的 Electron sandbox bootstrap 错误，页面无应用错误。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical（分项候选时点）。「不合 main/未跑统一门」不代表后续集成状态；完整胜败/逃跑、资源故障与剧情观感归现行回归、反控与集中 E2E。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 统一回执（architecture-continuation-integration）与所属连续治理卡；C1 须原接收对话完成统一门并合 main 后才正式标完成。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `0fd6b29eec0783fdf4238862712392b162004d2b1b9faffb331efbb29dccc01e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # C1 BattleSession 状态所有权候选
 >

@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-MIGRATE-ASSET-SUPPLY-1 的交付证据：基线 origin/main `f4dbd0e3d`、分支 `codex/glm-migrate-asset-supply-r1`；产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试、反控脚本、证据与卡面）；7 文件逐轴排重后 15 条净新合同，唯一新增测试文件 pal-migrate-asset-supply.glm-r1.test.ts。
 
 ## 证据身份
 
-- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 e39b9790ff00e489d3e89ad77c102050c5e18f1e0d69c6d4c9e3a62ee1dff9dd。
+- 文件：dedup-ledger.md（7 文件逐轴排重账+unreachable/product-counter 账+13 针表）；counterproof.json（13 针四态回执：runner 自测 11 例全过、每针原始绿/指定业务红/字节恢复绿/rebuilt hash、7 源文件逐针四 sha、mkdtemp 残留扫描前后均 0）；counterproof-raw/（TSV identity artifact 字节流即 identitySha256+红相位默认 reporter 原文）；gates/（定向 15/15、相邻 30 文件 294/294、migrate 全量 738/738、repo typecheck、lint 3449 文件 0/0/0、diff --check 零输出）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 核心修正：kimi-r1 ledger 判 loadPalEffectSprites「合成不可达」——本卡一手修正：YJ2（shared/src/yj2.ts）无 magic、初始树为 :74-81 文档化固定平衡树，单字面量位流可由 parent(n)=0x141+(n>>1) 确定构造（decompressYj2 实解码验证）；真实语料 happy path 属 .pal/full profile。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 15 合同摘要：effectSprites 合法位流两合同（EFFECT-CENSUS/EFFECT-GZIP-MAGIC）+其余 13 合同逐轴（quote 详）；红相位硬门：exit≠0、signal/spawnError null、numFailedTests=1、pending/todo=0、无空断言集失败 suite、唯一失败 fullName 精确相等、failureMessages 含指定 AssertionError；绿相位：全 passed 且 identitySha256 集合级一致。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 门禁全绿；docs 门主树 2 红项均来自并行卡在途目录（非本卡文件），本卡分支干净 worktree 复跑全绿；lint 同理（并行卡未跟踪文件引入的红项非本卡）。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 复现：node packages/migrate/scripts/mas1-mutation-counterproof.mjs（约 7 分钟；并行卡同树在途文件按前缀豁免并逐相位披露 concurrentForeignWork）。memory 补充：r1 已推 ad752bd94（15 合同/13 针四态反控）待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 r1 交付（15 净新合同+13 针）；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据：原始正文完整保留于下方 quote。
+- YJ2 合法位流一手修正 kimi 不可达判断；toThrow 子串语义/failureMessages 截断判例。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 文件清单、修正叙述与门禁在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `e39b9790ff00e489d3e89ad77c102050c5e18f1e0d69c6d4c9e3a62ee1dff9dd`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `e39b9790ff00e489d3e89ad77c102050c5e18f1e0d69c6d4c9e3a62ee1dff9dd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-MIGRATE-ASSET-SUPPLY-1 交付证据
 >

@@ -1,86 +1,63 @@
 # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 
 Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由 ARCH-CURRENT-ONLY-1 删除，不在 current-only 中重建）
+Phase: ops
+Capability: test infrastructure / migration proof
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Branch: codex/ops-tst-perf-current-baseline
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是集中 P2/P3/P4 determinism proof 以减少 release shared 重复冷建的历史卡：三方设计 agree（附 PC1-PC3 钉）后未及实施，2026-08-22 因 ARCH-CURRENT-ONLY-1（f1466374）删除 experimental/script-v5/**、shadow 测试与 release proof 路由而失去全部实施对象，按 current-only 终局处置取消。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+（历史目标）在保留 source-backed producer 独立证明前提下集中 P2/P3/P4 的 determinism proof，减少 release shared 重复冷建；先机械生成 build-start 全量标题/断言 coverage map，再 consolidated probe，三方 accept 前不改默认 route。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内（历史设计）：build-start 完整 release-pal-shared 清单（2026-08-17 现场 24 files/138 tests，历史基线 3 files/20 tests/755.07s）的 successor coverage map、每阶段独立 fresh default/reversed 双建、source/baseline/route/schema/IR/ledger/seal 全量现场比较。
+- 范围外（处置后维持）：不转 rework、不生成 coverage map、不恢复旧 proof 链、不重建 experimental/script-v5；pinned/synthetic replay 不替代 source-backed live proof。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+2026-08-22 终局处置：f1466374 已删除全部实施对象；HEAD census 对 buildDeterministicP[234]、live-double-build、release-pal-shared、verificationMode、independentBuilds 均为 0；当前只有 40 files/340 tests 的 unit+PAL 路由（一次性 10.03s 与 46.91s）。保留原则：source-backed 证明不能由 pinned/self-digest 替代；当前 pal-sprite-action-census.pal.test.ts:152-159 的单一 buildPalMigration 双建是 current determinism proof，缺少性能证据时不得删除。旧三方签字因实施对象删除而失效。
+- 当前状态：cancelled（历史终态）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡验收（coverage map duplicate/orphan/missing fail-closed、独立双建、三方 accept 前不改默认 route）全部未执行。本页治理验收：quote 字节保全、逆回读按记录规则相等、模板与 overlay 章节齐全。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 3:Status: cancelled
-- 正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由
-- 正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有
-- 正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试
-- 正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。
-- 正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。
-- 正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。
-- 正文信号 195:- done 准入结论: blocked
-- 正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成
-- 正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+处置明确：取消不补做旧实现验收；完整现状证据见 docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md。本页治理不恢复旧 proof 链。
 
 ## 历史范围
 
-- ops archive；日期：2026-08-10；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165`。
+2026-08-10 建卡；2026-08-17 三方 premise/design agree（PC1 由 N3-1 755.07s 记录闭合、PC2 机械清单 24/138、PC3 routeSha256 守恒）；2026-08-22 取消。固定源 dce008a777bb45658e9d7a146624db9b57469f63。2026-10-17 R32 泛化封套，2026-10-18 S15 纠正。
 
 ## 原始结论
 
-- OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof：这是 task-card，当前文档状态为 cancelled。全文 248 行、15 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`（2026-08-22）：实施对象已被 current-only 收编删除，取消且不重建；source-backed 双建原则由当前测试继续保护。原卡全文与三方签字在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：2026-08-22 current-only 终局处置；目标；范围；上下文锚点；前提真值矩阵；验收条件；推进签字；进入 build 前：设计签字；原始正文、表格、状态词和链接在 quote 保全。
+vitest list --project release-pal-shared --json 现场 24/138；N3-1:4998-5004 的 3/20/755.07s 正式记录；shadow-harness.ts:351-386,677-712,1036-1071；test-manifest-v1.json 113/781。本页治理未重跑。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 3:Status: cancelled
-- 正文信号 4:Execution: cancelled（2026-08-22；P2/P3/P4 shadow producer 与 release proof 路由已由
-- 正文信号 29:处置：**取消，不转 rework，不生成 coverage map，不恢复旧 proof 链。** 当前仍有
-- 正文信号 36:使用独立输入；发布 zero-diff replay、冲突/TOCTOU、原子事务与 closure fail-closed 继续由当前测试
-- 正文信号 37:保护。旧三方签字因实施对象删除而失效，只保留为历史事实；`cancelled` 不补做旧实现验收。
-- 正文信号 103:或 control 表明没有稳定收益；任一出现即 `rework/blocked`，不得删除现有 live-double-build。
-- 正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。
-- 正文信号 195:- done 准入结论: blocked
-- 正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成
-- 正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从
+historical。当前测试拓扑以现行 vitest 配置与 40/340 基线文档为准；755.07s/24/138 等数字不外推为当前事实；本卡不授权恢复 release epoch 或任何旧 proof 链。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+current-only 基线证据 docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md；同窗口取消卡见[OPS-TST-PERF-parallel-gates](OPS-TST-PERF-parallel-gates.md)；母卡 OPS-TST-PERF-release-wallclock。
 
 ## 原文保全
 
-固定源 SHA `685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof
 >

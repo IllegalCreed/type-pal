@@ -3,67 +3,73 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 PRE-E2E-AUDIT-1 C 批（战斗调用链）只读审计报告：基线 `35aa1dc5`，确认 7 项新问题（二阶段 5、一阶段 2）。反例、探针与 19 文件/753 条测试记录在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- C 批范围：战斗建态、指令/快捷键、主要伤害/目标/状态/毒/AI 分派、敌钩子、回合末、战果写回，以及 BattleSession→动画/音效就绪→完成/取消接线。
+- 要回答的具体问题：现有 19 个测试文件/753 条测试通过却未拦截的反例是什么；二阶段按当前 canonical 合同、一阶段按原始数据+SDL 参考分轴判断。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-20；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-20；基线 `35aa1dc5`（产品代码与 A/B 批一致）。
+- 一手来源与命令：三探针 probe-battle-core / probe-battle-session / probe-phase1-battle（主 Agent 独立复跑，断言未修复输出）；真实 current PAL JSON 与 `data/extracted`。
+- 既有测试复跑：reforge 4 文件/162 + 6 文件/65、content 3/40、game 6/486，共 19 文件/753 条通过。
+- 排除项：不穷举全部技能组合、敌队、随机种子或绘制帧；Canvas/SFX 只提供内存资产与桩。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
+| ID | 阶段 | 级别 | 确认问题 | 状态（源内时点） |
 |---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。
-- 正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。
+| C-01 | 二阶段 | P1 | 战中新获得物品种类漏掉战后背包写回（飞龙探云手偷取/养蛊产物同缺口） | 归战果持久化修复与 Q2 |
+| C-02 | 二阶段 | P2 | 敌物攻附带物品只执行下毒，睡眠/封技等效果静默跳过（忘魂花/黑狗血） | 归 Q2 敌方附带 |
+| C-03 | 二阶段 | P2 | 合法作者「全队＋复活」技能过滤死者，扣 MP 不复活（编辑器组合缺陷，非 PAL 单体还魂咒失效） | 归 Q2 技能组合 |
+| C-04 | 二阶段 | P2 | 毒杀最后敌人后多等一轮玩家提交才判胜计奖（非永久卡死/丢奖） | 归 Q2 回合末终态 |
+| C-05 | 二阶段 | P2 | 只有可投掷物品时「道具」菜单入口被误禁用（W 快捷键可绕行） | 归 Q2 菜单 |
+| C-06 | 一阶段 | P2 | 三尸咒挂毒缺毒脚本上下文，毒不发作（法术 entry0 vs 投掷 entry40890 对照） | 一阶段战斗回归 |
+| C-07 | 一阶段 | P2 | 阵亡反应脚本的吉运（行 21）增益被静默吞掉（身法行正确） | 一阶段战斗回归 |
+- 新增线索（不计入 7 项）：装备 maxPool 有类型/描述，未找到正式运行时消费者，归 Q2 装备矩阵先核真值。
+- 撤回 X-C01：SDL `fight.c:3760-3764` 显示 attackMate 也有 fThisTurnCoop 门，旧 harvest 摘要不足以定「合击混乱行动被跳过」缺陷。
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：7 项确认问题的直接链路、真实内容复现与反证均由 quote 与探针可追溯；正向对照组（敌 403 挂毒、单体复活、普通攻击死亡计奖）排除入口整体失效类解释。
+- 当前不能证明：产品已修复、全部技能组合/敌队/种子覆盖、真实音画或 Q2 完整战斗 E2E 通过。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 修复 Owner：二阶段 5 项归 Q2 专项（偷取写回/附带状态/全队复活/毒杀收尾/投掷菜单），一阶段 2 项单独排期；本报告不是修复任务卡。
+- 复核条件：修复时把探针转为正确行为正式回归并退役旧假设；Q1 速胜不能替代偷取/毒杀类路径。
+- 继任/supersedes：v11 dense enemies 旧调用面清理归 E 批（E-05）；当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-20；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-20；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- C批 · 战斗调用链审计：这是 audit-report，当前文档状态为 current。全文 194 行、12 个标题；摘要/首段为「基线：`35aa1dc5`，产品代码与A/B批基线一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- C 批原文（7 项逐项直接链/真实内容/边界/修复方向/回归入口、已知项与撤回、验证记录）完整保留于下方 quote；「未修复」为 2026-09-20 时点陈述。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- 三探针均主 Agent 独立执行，断言本基线尚未修复的输出；core/session 读当前 PAL JSON，phase1 读可重生成 extracted 数据。
+- 19 文件/753 条既有测试通过；覆盖说明（附带测试止于 applyPoison、养蛊/偷取止于战内库存）按原文保留。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。
-- 正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。
+historical。不据旧快照宣判当前代码缺陷；修复状态以对应任务卡/回执为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- Q2 专项修复与一阶段战斗回归卡（quote 内归属）；当前战斗事实由现行回归与 fresh review 决定。
 
 ## 原文保全
 
-固定源 SHA `ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `ad4188be0c30f9e6f2c893f787b2d17ef3efc2f6acac29ba2575cc2b03ec7ba2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # C批 · 战斗调用链审计
 >

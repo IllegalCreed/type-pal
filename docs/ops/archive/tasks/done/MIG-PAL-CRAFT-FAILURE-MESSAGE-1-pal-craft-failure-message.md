@@ -1,55 +1,64 @@
 # MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: PAL item migration / current publication（不改变 capability-map）
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Visual Verification Timing: mixed（editor dev-functional；gameplay E2E deferred）
+Branch: `main`
+Blocks: `ED-ITEM-ALCHEMY-SURFACE-1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是炼蛊失败文案迁移历史卡：translateCraftRecipeScript 丢失最终失败分支文案的上游缺陷——修复后 PAL item268 重发布 craftRecipe.unavailableMessage 精确为"炼蛊的材料不足"，编辑器自动预填原文、运行时材料全不足不退化为通用"材料不足"；只修 migration/current publication 不手改 projects/pal、不新增 schema/upgrader/UI fallback；识别 0x20 有序配方链终端失败地址、严格翻译 setDialogStyleNarration→showDialog(nonblank)→end 为 unavailableMessage。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+失败文案精确迁移；blocks ED-ITEM-ALCHEMY-SURFACE-1。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：翻译器修复+item268 重发布+编辑器预填链。
+- 范围外：手改产物；UI fallback。
 
 ## 前提与证据
-- primary source：固定 source revision `f499196f7941d957d5985a8c0efa408008c0d0b3` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+上游修复+重迁（铁律）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+ED-ITEM-ALCHEMY-SURFACE-1 被本卡 blocks（依赖关系登记）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f499196f7941d957d5985a8c0efa408008c0d0b3`；本轮为 2026-10-17 R49。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方窗口与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：炼蛊失败文案经上游翻译器修复重发布收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+0x20 终端失败地址识别、item268 重发布、预填链。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。文案现行形态以当前迁移产物为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+ED-ITEM-ALCHEMY-SURFACE-1（被 blocks）。
 
 ## 原文保全
-固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `dd9979b4f02f5c3bf4d657ec701c8a5b938ac56901444e58eb2f1bc14e50ffcb`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `dd9979b4f02f5c3bf4d657ec701c8a5b938ac56901444e58eb2f1bc14e50ffcb`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # MIG-PAL-CRAFT-FAILURE-MESSAGE-1 - PAL 炼蛊失败原文迁移闭环
 >

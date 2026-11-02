@@ -723,7 +723,7 @@ test.each([
   picker.mockResolvedValue(target.dir)
   await mount()
   await menu('另存为')
-  await entered.promise
+  await act(async () => entered.promise)
   if (axis !== 'unchanged') await edit(axis)
   await act(async () => held.resolve())
   if (axis === 'unchanged') await until(() => expect(onOpened).toHaveBeenCalledTimes(1))

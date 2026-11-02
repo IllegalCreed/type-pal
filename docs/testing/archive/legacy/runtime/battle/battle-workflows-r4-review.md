@@ -1,40 +1,61 @@
 # TEST-BATTLE-WORKFLOWS-1 r4 独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-BATTLE-WORKFLOWS-1 r4 独立接收（2026-09-24 Codex；候选 d9fb606e…b745 设计 r1 不重签）：**counter，仅剩 N3「合击消费队友行动」一个业务断言缺口**；N1/N2/N4 业务反证已闭 N3 其余新增合同及去重层级更正接受；另两处回执数字须更正不说成运行时缺陷；不集成不跑统计并集不代签不标 done 不转 Kimi。
+
+## Scope
+
+- 已关闭不重开：N1 writeback 两次预期独立 structuredClone 非自比较+非空库存哨兵+两人胜利 [0,100]/[1,100]（删幂等门/清库存/HP 钳制各 44 绿 1 自身红）；N2 script-flows 公开准备回调真实提交+等待窗恢复后新按键才有动作+pump 旁路变异候选自身红；N3 部分有效合击真实执行/一次日志/[91,91]/victory+无效合击/W 空投掷/enemyFled/terminated 零结算+放宽单人准入/强开空投掷/全终态结算各业务红；N4 judge AST 复算混错 exit2/null 均 invalid+6 正控 10 针通过；原勘误 44 纠正+session-driver:96 validateBattleSprites 透明旁路守卫 48 会话/10 演员通过。
+
+## Execution and assertions
+
+- **唯一业务阻断**：selection-flows:139 敌 HP=20 合击一击致胜——合击后没有活敌让队友多余行动暴露；:128/:142 发起者 p1 而 :158 只检查 p1 无普通攻击并注释成「队友普攻被消费」——要核的是 p2 的行动不能只核施法者本就不执行的普攻；回执 :47 与机账 N3 把这条列作完整队友消费证据；独立单点变异只关 battle-core.ts:1888 消费门（false && 原条件）：候选六文件 45/45 仍全绿；另用相同合法 factory/真实 BattleSession/公开按键敌 HP=5000 等本轮回 menu（无私有反射无 mock core 无视觉）：正常产品无 p2 额外普攻、坏实现多出「p2 会心一击 攻击 survivor 造成 108」——正常 oracle 1/1 绿坏实现 oracle 自身 AssertionError 红
+- **最小返工**：保留 [91,91] 一击胜利成本正控；增加/扩展敌仍存活、队友本有行动机会的同轮场景观察真实非施法队友不再普攻：正常绿同一消费门变异业务红；不靠超时私有状态或只改日志前缀凑绿；除这个子合同外已闭项不重开不要求新增固定数量
+- **两处非产品勘误**：回执称自测 12 类 AST 逐项数真实 assert.equal(judge(...)) 为 11（行号 228/229/239/249/254/274/301/303/330/331/336 每项确走真实 judge）改实际 11 即可不为凑 12 发明额外要求；回执称 src/battle/ 19 文件/278 本人在同候选直接运行无尾斜杠命令是 23 文件/332 全包仍 158/1,459——若原来使用更窄显式子集记录完整命令与真实范围否则更正目录计数不据此虚构环境故障
+- **独立验证与复建**：定向 6/45；整个 battle 目录无尾斜杠 23/332；全 Reforge 158/1,459；TC 0；Biome 12 文件/0；GLM 工具 6 正控+10 针 detected exit0；冻结 r3 工具 N1 三针/N2 泵旁路现全部候选业务红+双人/等待 oracle 正反通过；本轮补充 3 正常对照绿候选关消费门仍 45 绿+独立消费 oracle 红+无效合击/W/非胜利结算分别候选业务红；四目标相对 57dda7ed 零 diff；两见证复建命令在 quote；工具 0 退出表示取证完成不表示 accept 独立 oracle 不计候选 45 项
+
+## Results
+
+- GLM 提示词全文在 quote（只修 N3 队友消费+自测 12 改 11+计数写精确命令；N1/N2/N4 与 N3 其余不重开不改冻结工具）。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；机账与 r3/r4 见证链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r4 接收 | 2026-09-24 | N1/N2/N4 闭+消费门 oracle 反证 | counter（仅 N3） | r3 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/battle 的 r4 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-BATTLE-WORKFLOWS-1 r4 独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 仅 N3：一击致胜掩蔽队友行动（敌 5000 活敌 oracle 证变异后多 p2 普攻 108 而候选 45/45 绿）；自测 11 非 12、相邻 19/278 vs 23/332 范围差异两勘误。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+消费门 oracle 表、最小返工与两勘误在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r5 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-BATTLE-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `685cf39e8a22439e81d3f25b0364cd5efa3b8ee6436ea88443fec88c28d91716`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `685cf39e8a22439e81d3f25b0364cd5efa3b8ee6436ea88443fec88c28d91716`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-BATTLE-WORKFLOWS-1 r4 独立接收
 >

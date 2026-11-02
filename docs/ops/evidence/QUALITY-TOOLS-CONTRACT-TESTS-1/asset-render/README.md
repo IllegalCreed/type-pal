@@ -1,5 +1,38 @@
 # 资产与渲染专测：百文件窗口末30主体
 
+Status: recorded
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+Owner：Codex，单Agent。[任务](../../../tasks/QUALITY-GAME-ASSET-RENDER-TESTS-1.md)从32个implicit pending候选全文核验出30个存续主体，两PNG重复文件退役不计新增接受；窗口累计100主体，依赖补读、P04-shop及loader/tileset既有关闭不重复计数。基点72db417255d8ca4227522420e9185ef468462aa7、同一codex/code-quality-94-102，记录时点为未提交工作树候选。Status=recorded按内容实况：原件和verify证明原冻结候选，2026-10-28后的夹具移动、共享构造及获批产品修复由[两百文件抽核](../../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)承接，旧raw不回填、当前源码复验改用该入口。
+
+## 来源与输入
+
+30个存续主体的A–H逐项在[共同文件索引](../review.json)（窗口级，含receiptAudit20261028）；[本片索引](review.json)给每个原/当前文件指纹、caller/依赖、118旧身份到当前合同的逐项映射、原生结果与失效边界；完整raw/native见[native归档](native.json.gz)，每成员hash在本片索引。产品实现、资源产物、schema/save和游戏行为未修改；英文、E2E、editor性能任务不占用。
+
+## 断言与业务 oracle
+
+PNG两短专测及G02-A01合并到完整3×2平面，保留R/G/B区分、42/200高位、alpha0/非零及palette0合同；RNG改为直接逐字节核gzip解压结果、删除同codec双跑的伪独立像素oracle；快照host原4B空YJ2只有长度无EOS，换成7B有效流并沿用前片有界SDLPal原生EOS证据，等长padding损坏旧测试2绿、新测试1绿1指定AssertionError（不是产品修复红例）；UI正常fixture真气99/上限40矛盾修正为99/100并按生产hydrate初始化runtime；像素查询越界不再默认为黑，wave全局afterEach恢复；P08四种结算拆为四原子用例且旧断言全部保留。量化初筛只有两个>10 callback（17的synthetic FS模式表、11的子进程结果判别），均全文核过，保留同生命周期输入/进程Owner，未为指标抽万能helper，初筛不是验收标准。
+
+## 结果
+
+基线24实际文件118绿；当前25文件137绿/0 skip，之后P03及battle fixture增量4文件12绿、身份已全部在137内，不能相加。game typecheck无输出、30文件Biome 0、正常轮default+JSON且stderr空。首次ledger探针在两个PNG删除尚未暂存时因Git索引枚举报ENOENT，未作为通过；只暂存两退役路径后按机器结果记数。窗口100主体、3465tracked／694closed／0review／2771pending；本片并入100主体统一门，最终pnpm check/七TC/whole lint0、唯一official及精确protected重放通过，[完整集中原件](../uniform/README.md)；发布在本次提交时仍待受保护PR，原定向137和增量12的范围不变。2026-10-28回执质量定向复核：用户质疑推进速度后核实两窗200个不重复主体共19,264行、64文件不超过50行，文件构成与集中重门只能解释部分提速；发现本片15份渲染专测C–H过于模板化并核实7份局部事实错误（P02冒称目标移动、P06把静态MP10写成99、P07冒称毒键覆盖、P08/P09/P15把生产上层caller写成实际执行链、P13冒称时钟spy/afterEach恢复），旧文本可由基点b8b6989b952968ab60108ae45842ae5689822925回读、[共同索引](../review.json)的receiptAudit20261028保留逐字段before/after；已针对该问题全文重读15测试与7共享夹具，30主体/47依赖均与原片指纹匹配，本次未发现新的直接实现/测试缺陷，没有重新认证全部200文件，也不能用指纹或绿门证明当时全文阅读发生，原始raw不改、新增治理数为0。
+
+## 限制与复核
+
+`node docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/verify.mjs` 默认只读，核30指纹/A–H、附件字节/原生身份与映射；不运行被测代码、不证明语义设计；真实运行由原生JSON推导，不能只信作者pass字段。软件帧缓冲断言不授真人视觉/E2E信用；原盘输入只读，抽样范围不夸成完整解码算法认证。输入、caller、renderer或fixture漂移仅重核受影响claim，不把哈希相同当调用环境未变；本次复核只修证据与交接，不重跑产品测试、全仓check或coverage，后续进度同时披露文件构成、首次审查/证据复用、实质整改、保留与未决项。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5675B / SHA-256 7339b3668651a921dcff1f2f4efb408630db4d2710f4f175a95ab9ae70dfbf43；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 资产与渲染专测：百文件窗口末30主体
+
 Owner：Codex，单Agent。[任务](../../../tasks/QUALITY-GAME-ASSET-RENDER-TESTS-1.md)从32个implicit pending候选全文核验；30个存续主体的A–H逐项在[共同文件索引](../review.json)，两PNG重复文件退役不计新增接受。窗口累计100主体，依赖补读、P04-shop及loader/tileset既有关闭不重复计数。
 
 ## 候选与范围
@@ -41,3 +74,5 @@ Owner：Codex，单Agent。[任务](../../../tasks/QUALITY-GAME-ASSET-RENDER-TES
 ## 2026-10-28 后续核验边界
 
 原件和verify证明原冻结候选。后续夹具移动、共享构造及获批产品修复由[两百文件抽核](../../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)承接，旧raw不回填；当前源码复验改用该入口。
+```
+<!-- incremental-original-source:end -->

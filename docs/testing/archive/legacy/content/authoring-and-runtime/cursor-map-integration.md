@@ -1,40 +1,61 @@
 # Cursor地图六组独立接收与集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-MAP-LOGIC-2 独立接收与集成回执（2026-09-27，候选 be9a8636…2b2e、集成基点 70d0ae91）：**accept / done：全部 counter 闭合，统一门禁首次串行通过**；Cursor 是测试贡献者，作者自验不充当独立第三方证明。
+
+## Scope
+
+- 最后残项已核：M4 双组 move/delete、M5 放置、M6 移动入口均先独立克隆实际 plan，构造 Command 后及 dispatch 后立即比较原 plan；薄 fixture 的 applyPlanPatch 保护实际 patch 及 requiredWritableLayerIds（M3 两链与 M5 三通道均消费该助手）；未把返回新 map/EditSession 推进误判为污染。
+
+## Execution and assertions
+
+- **反控复算**：group-command-plan-mutation 候选 2 绿/2 AssertionError、placement-command 3 绿/1 AssertionError、原实现各 4/4 绿；独立 oracle 对照 5/5、变异分别 3 红/2 红（含候选与 oracle）、源/测试/fixture hash 不变；原三针继续候选业务红；实际 judge 拒无缩进/空格/tab 混错；真实 blank/painted/group map 与正式 loader manifest 通过；定向/相邻 19 文件 117/117（29 新+88 既有）；editor TC 0；15 文件 Biome 0/0/0/0 截断；作者六正控/六针+17 项同判据自测复跑通过；docs/diff 过；不重开 CM2-CM4
+- **集成边界**：保留主线最新看板/任务索引/QUALITY-ZERO 后的 Codex 见证；卡内历史 counter 与 Cursor 交付块并集保留（解决四处文档/审查工具上下文冲突不改候选测试语义）；七新测试/fixture 与候选逐字一致；新增 6 测试+1 专属 fixture 29 项；生产/旧测试/官方配置/锁文件/资产无变化；官方 baseline 仅由 ratchet 更新；Gitignored 资源只在隔离检出复制供本地 check；主树两份帧编辑 WIP 与临时审查工具保持；GLM 返工包不合入；Codex +5pp 扩展仍暂停；纯逻辑视觉 N/A
+- **统一门**：完整 check 首次通过七包 9,741 项/978 文件（editor 3,048）+docs37/coverage30/quality27 工具回归另列；TC 与严格 lint 零诊断；ratchet 与保护 70d0ae91 单次 strict 均 9,249 项/728 生产文件通过指标精确相等；净增 21 分支/19 行/27 语句/5 函数；生产清单/分母/其它六包基线不变；editor 行 83.14%/分支 72.90%；全仓行 81.45%/分支 72.80%（46,067/63,283）；新增身份恰 29 项不含 GLM 返工或帧编辑 WIP
+- **清理边界**：初次清理保留 Cursor 后台 worker cwd 指向的贡献者目录不强杀用户进程；2026-09-27 用户确认已退出：Codex 复核 PID82449 为 PPID1 孤立 worker 无子进程、工作树干净、be9a8636 已为 main 祖先远端分支不存在——TERM 结束残留 worker 后 Git 原生 worktree 移除+branch -d；忽略项仅依赖缓存/DSpeare/生成资产链接；主仓库资产未删；已合代码可从 main 恢复
+
+## Results
+
+- 无下一位提示词；本包不再返工，Codex 已核 done 并统一推送归档；远端 CI/full/E2E/Q1/Q2 不在本地通过声明内；日志与四组临时目录清单在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；接收机账 cursor-map-integration-evidence.json 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 接收+集成 | 2026-09-27 | CM1 闭合+统一门首次串行 | accept→done（be9a8636 集成） | r2 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 Cursor 地图集成回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor地图六组独立接收与集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：plan/patch 输入保真最后残项闭合；三门首次串行通过（check 9,741/strict 9,249）；净增 21 分支；Cursor worktree/分支在用户确认退出后安全清理。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+残项核验、集成边界、三门数字与清理边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-MAP-LOGIC-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `5223e979b8b055d90d6beacb60be58942dff40230bcc01a977cda192ff8a817c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `5223e979b8b055d90d6beacb60be58942dff40230bcc01a977cda192ff8a817c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor地图六组独立接收与集成
 >

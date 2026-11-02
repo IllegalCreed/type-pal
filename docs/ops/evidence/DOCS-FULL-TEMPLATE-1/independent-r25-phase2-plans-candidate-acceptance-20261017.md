@@ -1,40 +1,44 @@
 # R25 phase2 archive plans candidate independent acceptance
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R25 轮候选接收回执：verdict accept（candidate documentation reception only），对象为 24/24 篇 historical phase2 archive plan；candidate HEAD 6f375439、固定 source revision 45d890e4。本页按 archive-record 接入，原文全文在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R25 轮接收回执；固定源 revision 2dd1768c675d…。
+- 声称的门：check-document-model PASS（327 contracts）、content-review 733、check:docs 1238 Markdown/8114 links（写回执后 README 索引链接 1 issue 属授权外）、lint 4140 文件 0/0/0、diff PASS。
 
 ## 原始结论
 
-- R25 phase2 archive plans candidate independent acceptance：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：24/24 plan-status 五章+overlay 非空、quote inverse/source SHA/after live SHA/registry/review/routing/catalog/boundary 全 PASS、旧 20261004 review duplicate=0；blocking counters 4 类各 24（历史/无计划执行信用/冲突停止线/无迁移账本写入）。
+- 24 篇证据表（actor-c0/cash-box/editor-b0/b1/equip-menu/…各带 source/after SHA 前缀）；只读回执字节检查 e3418cd8 vs b44a13c2 为 JSON 格式化差异（parsedContentEqual=true 非阻塞）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全 24 行表与门数字。
+- 已撤回（目标 review 深审信用）：docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json 的 expandedAudit20261018.originalClaimRows 覆盖本批（R25）24 个目标的旧深审 claim（如 actor-c0-plan.md、cash-box-plan.md 等 24 个目标；完整清单见该 canonical 文件）。该扩展审计共 152 个旧 claim 跨 13 批、151 个旧 binding 降档；真实 S01 后继 docs/phase2/READ-FIRST.md 保留不降档。
+- 三分边界：目标 review 深审信用撤回不等于本篇旧只读/接收提案每句话都假——本页 quote 保真的字节事实仍成立；本篇自己的「独立/全文/门数字」声称仍属未认证；合格后继（READ-FIRST S01）不在撤回范围。
+- 尚未认证：「Codex 独立非作者验收」「24/24」为原文声称；未认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-10-17 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json；plans 现行真值归 successor specs/code/roadmap。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `e58864da7078d40b574cef302858dd541f4cce516709f1c3a368fcac6b650d10`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `e58864da7078d40b574cef302858dd541f4cce516709f1c3a368fcac6b650d10`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R25 phase2 archive plans candidate independent acceptance
 >

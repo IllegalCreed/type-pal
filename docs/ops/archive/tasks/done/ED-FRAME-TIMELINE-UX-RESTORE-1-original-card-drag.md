@@ -1,55 +1,65 @@
 # ED-FRAME-TIMELINE-UX-RESTORE-1 - 帧动画原始卡片拖拽形态恢复
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: Editor frame-animation authoring UX（不改变内容schema/capability-map）
+Coding Owner: Codex
+Reviewer: User（Kimi + GLM由用户明确豁免）
+Risk: 高（撤回一项正式reorder adoption并新增有界native-drag例外；用户明确豁免本卡外部签字）
+Supersedes: `ED-ACTION-GROUP-ADOPTION-2`
+Co-closes: `ED-FRAME-TIMELINE-VIRTUALIZATION-1`
+Target Design-System Version: `2.22.0`（用户批准的有界例外，不提升为公共可复用合同）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是帧动画时间线恢复原始形态的历史功能卡（2026-09-01 用户"改回原来的，现在太丑了"）：以 c799cb35^ 一手代码为准恢复 72×76 帧卡/78px 步距/86px track/仅挂载可见帧/整卡 native drag（无 grip 无移动按钮），同时保留稳定 frame.id/多选/anchor/draft history/唯一保存命令；supersede ADOPTION-2 并 co-close VIRTUALIZATION-1 债。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+恢复用户认可的旧视觉与交互而不丢当前改进：不得只隐藏新控件留 102×122 空壳，不改资源格式/播放/导入/选择/保存流程。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：FrameThumbnail 恢复单一 DsPressable.fa-frame（draggable/选择/可见帧 canvas/帧号）；移除该面 DsReorderCollection/useDsReorderKeys；显式 allowlist 记录用户批准的 native card reorder 例外。
+- 范围外：设计系统公共合同变更；资源 codec/schema；410 帧全挂 DOM 债的另案处理。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+四向矩阵以 git show c799cb35^ 为旧形态一手证据；"只删按钮即可"替代解释不成立（卡尺寸/步距/track/全量 DOM 正是为公共 rail 扩大，只删按钮既非原始形态也不关 410 帧债）。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按用户裁决收口（实现与验收细节见卡内与设计系统 registry 的例外登记）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+该例外不提升为公共可复用合同（Target Design-System Version 限定）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-01 用户裁决、实现与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：原始卡片拖拽形态恢复经用户裁决收口，native-drag 有界例外登记于 2.22.0。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+c799cb35^ 旧形态代码、editor.css:8244-8287、真实 route 矩形记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。时间线现行形态以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+被替代卡 cancelled/ED-ACTION-GROUP-ADOPTION-2 与 cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `a621a4a3f6137615d6c5d41f081604e0204e1e44f1cec6c7365f28eab8cd9c02`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `a621a4a3f6137615d6c5d41f081604e0204e1e44f1cec6c7365f28eab8cd9c02`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-FRAME-TIMELINE-UX-RESTORE-1 - 帧动画原始卡片拖拽形态恢复
 >

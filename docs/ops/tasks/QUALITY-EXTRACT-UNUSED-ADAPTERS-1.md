@@ -1,6 +1,39 @@
 # QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+登记[百文件窗口](QUALITY-PENDING-100-1.md)核到的零生产caller旧出口；用户裁决前只读，不为减少pending强化无生产路径的旧测试。
+
+## 范围
+
+resources/battle-sprite.ts的extractBattleSprites/BattleSpriteOut；resources/parsers/rng-frames.ts的decodeRngAnim/RngAnimResult、该模块私有同名RngFrame及仅旧测试的rngBlitDelta重导出；同源FIRE补充：parseFirSprite/FireSpriteOut及无生产caller的encodeIndexedPng重导出。shared/rng.ts真正生产RngFrame和解码器不删。
+
+## 前提与证据
+
+四文件全文已读、packages/scripts全部引用已检索：旧入口仅各自旧测试调用，真实CLI分别经动画资源阶段/原始gzip管线输出，runtime使用shared RNG解码；旧RNG专测重复shared操作码合同，原盘PNG只验魔数/大小且缺盘skip，战斗专测用两个相同空chunk无法判别复合键错接。接口退役须先核授权，见[接口停止线](../../../AGENTS.md)；质量合同按[八维合同](../code-quality.md)；基点123595ac3a651957b36061eacced329369c495e5。
+
+## 验收
+
+用户2026-10-27明确“允许退役并迁移有效测试”。三旧入口及仅私用类型/重导出删除，旧测试身份逐一映射现用writer/shared合同；FIRE原盘golden和空/短/raw/压缩轴迁移至现用管线；真实writer、shared解码规则、资源编号/格式和产物内容不改。FIRE专测从parsers/fire.glm-runtime-resource.test.ts迁到resources/animation-assets.fire.test.ts，仅路径与三个等价相对导入变化、三case身份不变，0额外主体信用。retired5路径不计新增接受、源三旧closed从live表移除；14相邻52例、shared RNG22例、extract typecheck及局部Biome零诊断。
+
+## 状态与交接
+
+2026-10-28本地统一门：20536包测试＋732工具测试、七包typecheck与whole lint全零；唯一official 20,188fast/809src，有限计数调整后原报告ratchet/protected0；PR30 CI返工后当前official 20188/809 ratchet0/protected0，远端PR30复验与合并当时仍待。done指本地审查/整改/验收，远端发布不是预先完成声明。原件见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)与[CI增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5391B / SHA-256 93cc900f4103923e557fdb10d5d23bd3103eb054cf61ead4a2b9ffd28cdcee35；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent）
 Phase: ops
@@ -59,3 +92,5 @@ FIRE专测从parsers/fire.glm-runtime-resource.test.ts迁到与当前producer相
 Codex build allowed：只修animation-assets.rng两测试的fast/full原盘路由与对应证据/精确source pin。远端40529517328唯一ENOENT；原盘合同逐字节迁.pal，fast使用自足真实writer夹具，配置/规则/机制不改。无data红→绿、五定向、extract413/TC0与一个有效业务反控已完成；新官方采集与远端复验仍待。见[CI增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
 
 CI返工本地收口：原盘源码逐字节保留，当前extract413/TC0、无data单绿、原生EOS与单点反控成立；当前official20188/809 ratchet0/protected0。实际七包逐文件覆盖计数等于首候选；共两次不同候选采集，因真实CI失败而重采，不伪称一次。全仓20536/732仅作未变包的原件复用。远端PR30复验与合并当前仍待。
+```
+<!-- incremental-original-source:end -->

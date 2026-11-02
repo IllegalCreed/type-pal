@@ -1,5 +1,38 @@
 # pre94毒/升级：源码注释与测试判别力返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原报告「pre94毒/升级:源码注释与测试判别力返工」(Date: 2026-10-18,Base: `27358f9d9e3ab65d777b7864fcc936638ed9373a`,Branch: `codex/code-quality-3y`,原文Status: recorded)处理的真实问题:player-poison-state.ts与battle-progression.ts的事实注释错误(CureByKind/CureByLevel真实行界、Wear压缩语义、MAX_LEVELS/STAT_LIMIT源锚)与两直接测试的夹具合法性(as any as PlayerRole缺必填字段、H02七值RNG回退掩盖真实8抽)。
+
+## 范围与证据
+
+准入与交接见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md),机制停止线见[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)。全文核两源/两直接测试、dependency-ownership、H工厂、rng与Vitest配置,逐文件行界见[read-boundaries.json](read-boundaries.json);原C实际核PAL_BattleWon、PAL_PlayerLevelUp/STAT_LIMIT、AddMagic、玩家毒增删查与Wear分支,非完整SDLPal实跑。注释修正:CureByKind真实global.c1520-1564、AddPoison1459-1517、Wear的TS不压缩/全16槽vs C首空槽前移、CureByLevel不许伪称无条件跳过level99、MAX_LEVELS源palcommon.h82、STAT_LIMIT2393-2401、LevelUp到EOF2409、BattleWon余数与LevelUp清零分开;两生产实现removeComments JS字节与基点相同。
+
+## 发现
+
+测试判别力:levelup投影例改用现有完整typed makeHRole(保持数值oracle);H02五例分别核越界等级防御、隐藏无999钳、Health→Magic两池、无主升级不回满、主升级隐藏涨点后回满;最后一例实为主6+隐藏2共8次RNG抽(旧7值recordingRng回退1遮住次数),现断言完整序列并与回满合同配对;多池dwExp应为100非200。额外一抽变异:旧5例全绿→新5例4绿1指定业务AssertionError(rangeInclusive(0,7)序列8vs7),无过滤/skip/collection替身红。恢复后27定向(改动16+11条所有权回归)+16相邻(结算/装备/opcode三文件仅回归)零诊断;一标题勘误见[test-title-mapping.json](test-title-mapping.json)。毒去重TS全槽扫描与C首空槽前缀不是同一合同、CureKind可留孔洞,只记录并回写draft卡,不改压缩/去重策略。
+
+## 结论
+
+升级源与两直接测试旧整文件关闭信用转review,poison保持review,0新增closed;账本275closed/66review/2974pending,83卡50partial/33pending/0accept;旧3x『无弱断言/夹具全合法』撤回,旧207绿不推广。两生产实现执行不变,无产品行为/界面/资源/schema/save/公共接口改动;未合main。
+
+## 整改与复核
+
+docs门完整时序:首次pnpm check:docs 125工具测试全过但text consumer因父目录漏导航1 issue退出(exit1)→补链接后首次consumer回放exit1(2 issue:poison sourceRef注释SHA漂移一对绑定)→按单entry维护catalog/evidence的sourceRef/history后docs-final全部消费者exit0/0 issue;两次exit1原件保留不改写为0。read-boundaries producer首次预检拒绝equipment-state请求尾395(实际EOF391/392域),现记370-391并单列requestedRanges,无EOF外信用。全仓lint5178文件0/0/0;typecheck过;全仓check/coverage ratchet/protected fast未运行。未重跑原命令;历史结论保持原时点;候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6222B / SHA-256 d86de914666925777340cfc6b31add22f0f672b0ee29d6545f3a4137102d41c3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94毒/升级：源码注释与测试判别力返工
+
 Status: recorded
 Owner: Codex（单Agent；作者修复/反控，不冒充第三方）
 Date: 2026-10-18
@@ -41,3 +74,5 @@ H02五例分别核越界等级防御、隐藏无999 cap、Health→Magic两池�
 文档第二次consumer回放docs-current因poison源码注释SHA产生2个配对绑定诊断；只维护phase1-dependency-ownership这一entry和report/evidence的sourceRef/history，保留其它17对象、status/lastVerified/reviewBy、历史candidate/versions/runtimeExecution。generated九视图无diff，原D1 SCC/token/三针/浏览器均未复跑；当前11例仅有限回归。最后docs-final全部text/model/testing/phase-lore/content消费者exit0、0issue，与首次已绿125工具测试组合满足文档门；未把两次exit1改写为0。metadata verifier核原件/源SHA/实际范围、测试集、catalog窄diff与历史ledger字节均一致。
 
 当前全仓lint5178文件为0error/0warning/0info；账本工具实测3315 /275closed /66review /2974pending；metadata核验不把机器PASS当语义验收。完整统一check/ratchet/protected尚未执行，保持review、不合main。
+```
+<!-- incremental-original-source:end -->

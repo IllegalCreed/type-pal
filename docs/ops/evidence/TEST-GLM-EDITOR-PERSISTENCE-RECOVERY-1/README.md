@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 的 r1 饱和档案：Owner GLM、Base origin/main=`53bf97e01`、分支 `codex/glm-editor-persistence-recovery-r1`。卡面五族经 fullName×caller×input×oracle 逐条排重+三口径覆盖率核验+疑似缺口逐个解剖，全部已有真实证明；按 Draft「若一族已饱和只写 existing-proof」与测试少而精纪律，本轮零新增测试、零产品改动，不标 done。
 
 ## 证据身份
 
-- TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · r1 饱和档案 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 五族：admission/serialization、receipt/prefix/recovery/lock、partial write/foreign drift、history paired atomicity/redo branch、copy/export zero-write/zero-download（19 个范围源文件）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- dedup-ledger.md：五族×卡面轴 existing-proof 矩阵（read/open admission 29 例拒绝族、序列化 round-trip 9 例、save receipt 79 例、plan/prefix 纯核 49+18 例、journal 恢复三中断用例、外部漂移 37 例、权限失败、锁 S4/C4a/C4b、history 原子性/redo/observer/markSaved-hydrate、copy traversal/别名/源漂移、export 资源校验/空目录/取消、零写/零下载惯例）。
+- 四个代表场景（断电 prefix 恢复、stale writer 拒、redo 分支清理、导出零写）各有具名证明；两个候选缺口（首存 0 字节 save-state 占位恢复、世界精灵资源 ZIP 导出）解剖为已有证明。
+
+## 来源与输入
+
+- directed-fresh.json：定向+相邻 52 文件 823 测试 fresh 执行集全绿；coverage-family.json：仅家族测试（46 文件）对 19 源文件 v8 分支覆盖 69–100%（最低 edit-session.ts 69.2%，缺口主要靠 UI 侧 harness 触达，全仓口径回升 87%+）；branch-inventory.json：家族口径全部 0 计数臂；coverage-fullsuite.json：全仓口径同清单。
+- run-evidence.mjs 复现（约 13 分钟）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 零新增断言故无反控注入点；饱和结论的证据=排重账+三口径覆盖率+候选解剖。
+- 未闭合风险移交：branch-inventory 未逐臂具名分类的 0 计数臂（抽查代表项为跨文件已证/v8 子表达式伪影/防御层）；产品观察（非缺陷登记）——export-zip 的 validateProjectZipEntries 对 kind:sprite 只做通用校验而保存侧 preflightProjectWriteSet 整体解码，导出=忠实快照/保存=写入门深度不对称，如需统一请 Codex/用户裁决；lint/docs 门 main 既有 drift 不在本卡范围。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 清理证明：worktree 仅新增本证据目录与卡面回执改动；产品/旧测试/共享配置/baseline/真实 projects/pal 零改动（data 软链本地不入库）。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 r1 饱和档案（五族全 existing-proof）；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · r1 饱和档案：原始正文完整保留于下方 quote。
+- 零新增测试零产品改动的饱和结论：823/823 定向全绿+三口径覆盖+两候选缺口解剖。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 文件清单表、方法链与移交风险在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点；后续接收见中央记录（memory：r1 已推 e131c537e 待 Codex 验收）。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归 dedup-ledger.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `6b401c227e710c704e8773ba4cf411775c66aae017f498b36f30d3fa47bb17b9`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EDITOR-PERSISTENCE-RECOVERY-1 · r1 饱和档案
 >

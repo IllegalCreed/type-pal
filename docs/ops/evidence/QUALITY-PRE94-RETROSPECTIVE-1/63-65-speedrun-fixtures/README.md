@@ -1,5 +1,38 @@
 # CODE63/65 speedrun 测试夹具与解绑判别力勘误
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE63/65 的测试夹具与解绑判别力勘误卡:基点 a2ee3650c、唯一分支 codex/code-quality-3y、Codex 单一 Owner,build allowed 仅 snapshot 主测试、index 主/leaves 三文件及治理证据;生产源/工具行为/公共接口/存档/资产/静态规则/baseline 未改。63/65 仍 partial,全 83 卡仍 47 partial/36 pending/0 accept。原件逐字节保全于下方保全块。
+
+## 来源与输入
+
+精确撤回旧测试声明:63 旧片称'合法GameState片段'不成立——旧主夹具双重强转隐藏 facing:0、残缺 battleState 及空 paletteFadeState:{};65 旧片对主夹具/解绑的验收也不足——同样非法 Facing 被强转掩盖,leaves 声称解绑后不重置实际只观察 toast,断言失败时不保证解绑,main toast 真实 timeout 未清。旧类型门/测试绿不能使这些输入合法。被替代旧片:[README.md](../63-speedrun-snapshot/README.md) 与 [README.md](../65-speedrun-index/README.md)。完整三测试/生产 snapshot/index 读取及 caller/type/构造器范围见 [read-boundaries.json](read-boundaries.json);原 20 例职责/合法输入/固定 oracle/排重/隔离人工核定见 [contracts.json](contracts.json)。Primary 为当前公开 GameState/初始化/战斗/淡入构造器、真实 main-loop 与计时编排/配置合同;历史 speedrun 计划的 unsafe 示例不能覆盖当前合法输入规则。
+
+## 断言与业务 oracle
+
+snapshot:从完整 createInitialGameState 调整目标字段,合法 Facing 为 down;战斗经 loadDefaultGame 初始化角色 runtime/Exp 和 attachBattleState 正式构造,再将一敌置 0HP/defeated,验证 ID 完整保留和总血 30;淡入门用 buildFadeIn 完整状态,删除全部核心双重强转。index 主测试:改完整状态工厂;disabled 补实际 elapsed0;默认 PB 由仅>0 改当前配置 2:37:32 的精确 9452000ms;fake timers、afterEach 解绑/清 timer、DOM/偏好/单例保证失败后也回收。index leaves:合法状态实际计时 1000、F4 重置;再起表 500 后解绑,F4 须保持 500/running 且无新增 toast;afterEach 负责失败路径解绑。用例仍 20,不堆数量/覆盖率,无核心 mock/新强转/产品 API。[before-proof.json](before-proof.json) 与 [after-proof.json](after-proof.json) 保存 command/cwd、exit/signal/spawn、完整 file×fullName、source/test/mutant hash、恢复与临时副本清理:只在隔离 index 副本模拟'解绑后静默重置,toast 已关闭'——旧 20 全绿(盲区),新 19 绿+1 指定解绑用例 AssertionError,正式恢复 20 绿;未把 collection/runtime 错误算作有效针;正式生产源字节保持。
+
+## 结果
+
+[test-gates.json](test-gates.json):speedrun/tools-panel 与真实 palette/battle 构造器相邻 23 files/144 tests passed,game typecheck 退出 0 无诊断;随后仅修正 F8 fake performance.now 与上一帧 1000ms 对齐,最新定向 20 绿/反控单红及 typecheck 再验通过,相邻不重复运行。[static-gates.json](static-gates.json) 13 项(docs/lint/ledger/diff 及 final-* 复验)全过。账本保持 3312 tracked/286 closed/44 review/2982 pending,三行只纠正证据不重复新增 closed。
+
+## 限制与复核
+
+新全仓 check、official coverage ratchet、protected fast 本小批未运行;旧 53 波次不能认证本候选,昂贵门留大模块收尾窗口;无视觉、E2E 或剧情实跑;当前默认 PB 配置不等于节点坐标实跑已认证。下一批续 70 与剩余 36 张 pre-94 卡。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3752B / SHA-256 6fdf0a8a207fdfd9a5ba6d1deb0d582577c3aadf40361bdf5bbef59fe8b01969；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE63/65 speedrun 测试夹具与解绑判别力勘误
+
 基点 `a2ee3650c`，唯一 `codex/code-quality-3y`；Codex单一Owner，build allowed仅snapshot主测试、index主/leaves三文件及治理证据。生产源、工具行为、公共接口、存档/资产、静态规则、baseline未改。63/65仍partial，全83卡仍47partial/36pending/0accept。
 
 ## 精确撤回旧测试声明
@@ -23,3 +56,5 @@
 [test-gates](test-gates.json)记录speedrun/tools-panel与真实palette/battle构造器相邻 **23 files / 144 tests passed**，game typecheck退出0无诊断；随后仅修正F8 fake performance.now与上一帧1000ms对齐，最新定向20绿/反控单红及typecheck再验通过，相邻不重复运行。最终[static-gates](static-gates.json)记录docs/lint/ledger/diff。新全仓check、official coverage ratchet、protected fast本小批未运行；旧53波次不能认证本候选，昂贵门留大模块收尾窗口。无视觉、E2E或剧情实跑。
 
 账本保持3312 tracked / 286 closed / 44 review / 2982 pending，三行只纠正证据，不重复新增closed。下一批续70与剩余36张pre-94卡；59/60的save/quick-save边界按原卡处理，94–102/editor优先顺序保持。
+```
+<!-- incremental-original-source:end -->

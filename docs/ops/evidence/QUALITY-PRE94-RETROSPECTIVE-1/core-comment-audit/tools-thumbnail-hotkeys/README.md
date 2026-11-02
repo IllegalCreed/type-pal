@@ -1,6 +1,39 @@
 # pre94 工具缩略图、快捷键与L18真实像素测试返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 工具缩略图、快捷键与L18真实像素测试返工」的治理候选页;证据原件即下方逐字节保全的固定main源(5507B,SHA 9386c1fe46d1)。本批语义:base 5d55e2c上对同模块切片五文件(minimap/tools-panel/bootstrap三实现+L18像素测试+主测)做注释纠错与测试判别力返工;三实现仅注释(emit-identity三行双identical=true),两测试改判到真实oracle且数量不变(L18 6例、主测14例)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原8个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [geometry-transfer.json](geometry-transfer.json) [read-boundaries.json](read-boundaries.json) [test-title-mappings.json](test-title-mappings.json) [transfer-controls.json](transfer-controls.json)。三源原487/1106/1944行、L18原189行、主测原140行全文核读,见read-boundaries(14全读+8部分读)。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本批真实oracle事实:(1)四枚源变异——L18三枚(玩家颜色改magenta时白点断言[255,0,255,255]与[255,255,255,255]不等变红、底图crop被忽略时[16,32,48,255]与[18,58,188,255]不等变红、NPC toggle被忽略时变红)各旧6绿→新5绿1指定AssertionError;第四枚y=0横向移动失效打主测,旧14绿→新13绿1指定失败(x320>x0谓词4.923…greater than 4.923…变红),全部源/spec逐字节恢复。(2)旧L18用手算worldToThumb与被测DOT_COLORS自证、缺NPC反证,现6例用独立手算坐标(156,156)/(233,79)/(79,233)与固定精确RGBA。(3)旧主测核心强转换正式GameState工厂,旧L18三几何谓词逐项迁入主测并加X320精确值。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:最终module-final 9文件56绿(20直接+36相邻)、typecheck-final零诊断、lint-final 5294文件0error/0warning/0info、ledger-final 3315/261/82/2972、5文档消费者PASS、fetch后0behind/250ahead;早期docs125工具保留原时点不重复计。newClosed=0;四旧关闭转review,bootstrap原未列pending转review;卡57 pending→partial(51partial/32pending/0accept,scopeConfirmed=false);notRun列整仓check/official ratchet/protected fast/完整boot/thumbnail运行/visual/E2E;不合main。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:SDLPal无对应minimap/tool-panel UI,其C只锚map尺寸/splash常量;未做真实tileset像素/原EXE/视觉/E2E;CODE57仍review;npcs缓存不观察原地label;分类是有界启发式;主测cast虽换GS工厂,分类/原物品目录语义仍review;坏zoom未验证,旧头注信用撤回;DOM/640复用只是候选。下一优先minimap分类/缩放及剩余模块;94–102后置。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5507B / SHA-256 9386c1fe46d11cbb401df7e9ecd11ab1d3b80af84b47cf6c82f4adca643f91c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 工具缩略图、快捷键与L18真实像素测试返工
+
+Status: recorded
 Owner: Codex（单Agent，自身源码核证，不冒充第三方）
 Date: 2026-10-18
 Base: `5d55e2c49a1eb517d4bd51b2814df840dd49052a`
@@ -35,3 +68,5 @@ main的互斥启动分支→bootstrap→setupToolsPanel→唯一setupMinimap；�
 同一模块三个comments-only与两个测试改动先同3y提交推送，fetch确认0behind，不合main。已列十组坏注已分批纠正，但整个专项未完成；法术数值/毒列表/两UI风险继续。下一优先minimap分类/缩放及剩余模块，再继续83卡其余范围；94–102/editor后置。DOM helper/640常量复用候选先核owner与生命周期，不借提取扩大接口。无下一位Agent提示词。
 
 最终实测回执：lint-final为5294文件、0error/0warning/0info；五文档消费者均PASS，ledger-final为3315/261/82/2972。fetch-final成功，提交前origin/main...HEAD为0behind/250ahead；未合main。完整原始字节及命令/时间/状态见gates，不把旧全仓诊断写成已清零。
+```
+<!-- incremental-original-source:end -->

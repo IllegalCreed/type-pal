@@ -1,55 +1,60 @@
 # TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: ops
+Visual Verification Timing: N/A（本卡是测试队列，不以数字替代视觉或E2E）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 +5pp 覆盖率队列母卡：冻结起点 68.72%，+4.03pp 至 72.756%（官方 46046/63288）后 2026-09-27 两度用户裁决（先暂停主动扩展转 E2E 讨论、后恢复并要求 Codex 再 +2pp 至 74.97% 目标=净增 1267 分支）；队列含 Codex 命令表单/调试面板、Cursor 纯函数/命令边界/地图逻辑、GLM 物品逻辑等批；分母变化分别披露不改 testSelection/exclude。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+连续分批闭合并存未覆盖分支；每批独立业务合同非数字配额。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：编辑器/迁移/游戏各域分批队列与统一集成门。
+- 范围外：删生产代码凑比例；E2E 开工门槛（72.97% 不作门槛）。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+001 观测实施 49 分支/32 分母单列不计补测贡献；QUALITY-ZERO 5B 分母退役单列；"持续推进/不等待"历史节奏不能覆盖用户暂停要求。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按各子批收口与最终裁决推进（详细账目见卡内）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+本卡是 +5pp/+2pp 队列事实源；后续 +2pp 目标以本卡最新裁决段为准。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 立项至 2026-09-27 两度裁决；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：+5pp 队列（+4.03pp 达成）经多批与裁决收口；+2pp 续目标以最新段为准。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+各批集成回执、46046/63288 官方数、两度裁决原文。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。覆盖现行数字以官方账为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+coverage-plus5/README 进度账与各子批卡。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `a086846332799ac6c151787f4a25d95928f161792529e3d0353c430d8fba8259`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `a086846332799ac6c151787f4a25d95928f161792529e3d0353c430d8fba8259`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-COVERAGE-PLUS5-1 — 全仓分支覆盖率连续提升五个百分点
 >

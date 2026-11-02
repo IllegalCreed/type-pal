@@ -1,6 +1,39 @@
 # GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核清第一阶段法术数值与SDLPal的已复现分叉并按用户裁决做有限修复。具体分叉是：SDLPal的RandomFloat含端点、灵力先乘后写回WORD再整数除10（32位float中间赋值），而基线TS用连续JS浮点最后Math.trunc。已证反例：灵力240、敌人原始防御2/等级1（有效防御30）、基础伤害50、无元素、初始HP9000、seedableRng(244049)首抽0.2499999317806212时，TS倍率1.025扣160/剩8840，原C用对应整数样本536870765扣161；只删*10/10不能修复（仍得245），C样本INT_MAX返回11也否定了“原C半开区间”的反写。
+
+## 范围
+
+只改可表示的C转换域（FLOAT中间赋值/WORD写回），保留PRNG、抽样次数（每次伤害仅一次抽样）、公开接口、存档与资源；二阶段N/A。用户2026-10-24批准窄修，2026-10-25裁决call_400efa7c97674487ba183635ba343d7f第0项保留TS极值速度并登记偏离、第1项保留有效正防御先红后修。旧3m“1:1/未发现直接缺陷”与公式关闭信用撤回保持，不恢复全数值域1:1。
+
+## 前提与证据
+
+固定源全文核读：前提真值门（common.h类型、util.c:250-277、fight.c:173-250）、两轮实施回执与用户裁决段。2026-10-24两批各2条真实caller业务红后修：最终精确5例对仅旧formulas源4业务红/1既有增长绿，恢复后5绿；原C有限36向量和5151抗性输入O0/O2一致、UBSan零诊断，修后TS差异0；23实际相邻文件897例及game TC通过。2026-10-25实施正防御SHORT误读修复（敌灵力远小于def×0.6时基础伤害为0、只留50法术基伤 vs TS把32768转负再钳0多扣18）：0..65535整数防御去有符号解释，域外65536及RNG序保留，131相关例/game TC通过。原件入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md) [numeric-counter.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/numeric-counter.json)。
+
+## 验收
+
+代码已按“先真实caller业务红→最小修复→定向/相邻/typecheck→静态零诊断”执行；但全仓check、官方coverage ratchet、protected fast与集成按父卡CODE3m节奏留到全部pre94收尾，本叶函数反例不能代替模块收口。越界WORD域、其余float系数、极端输入与完整资产域仍pending；未定义转换域不新增回绕/兼容upgrader。
+
+## 状态与交接
+
+review保持原语义：速度极值按用户选择不改算法、正防御修复仅代码接受；统一门/视觉/整文件剩余域未收口，done未准入。继任关系：本卡属父卡QUALITY-PRE94-RETROSPECTIVE-1的pre94系列，无下一位Agent提示词，Codex单Agent继续父任务。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8714B / SHA-256 990db0ee3fa5ca99cb2157c8d2d1ac620139fb066a948918dc8361f6572895b1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3m / battle damage numerical fidelity
 Coding Owner: Codex
@@ -93,3 +126,5 @@ call_400efa7c97674487ba183635ba343d7f 第0项批准保留TS极值速度并记录
 已请求仅对0..65535整数防御去掉错误有符号解释，扩展域处理保持原状、正式红例后修；用户尚未答复，未改实现。该范围独立于前面的速度回绕取舍，magic-damage及其直接专测继续review。当前原件将与本轮RNG判别力/八维版本桥同存battle-core-closeout，不新建编号任务。
 
 2026-10-25实施：正防御正式旧源红后修，域外65536结果及RNG序保留；速度按用户选择不改算法。131相关例／game TC通过，见[当前八维和完整原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md)。仅代码接受，统一门未跑。
+```
+<!-- incremental-original-source:end -->

@@ -1,72 +1,57 @@
 # GLM P7-R13 源指令语义闭包独立审计报告
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 GLM 双盲 P7-R13 源指令语义闭包独立审计报告的归档回执。审计方法、全域矩阵与折叠/损失计数在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：43,503 source commands 的独立方法与普通/敌人/技能/物品/palette 全域矩阵
+- 以 `data/extracted/events/all.json` 全部 43,503 条源命令为母集自建总账，独立统计每个 opcode 的源数量、可达性、迁移去向和最终产物状态；不依据 Codex/Kimi 清单，保持双盲。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff`，全文 327 行 / 19750 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 2026-07-26 GLM 独立审计；覆盖普通脚本、敌人、技能、物品 use/throw/equip、setPalette 六域；全域矩阵在 quote 保全。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | 43,503 source commands 的独立方法与普通/敌人/技能/物品/palette 全域矩阵 | dated historical only |
-| 2 | setPalette、lossySkills、敌人 opcode、pendingSkills 的确认缺失 | dated historical only |
-| 3 | C8/overlay 补回项与 0x08、pendingThrow、0x76 风险 | dated historical only |
-| 4 | no-op/approved-lossy、Codex 差集反证、573 段转移池 | dated historical only |
-| 5 | 门禁建议、复跑命令及附录修正（14 pendingSkills、47/48 pendingThrow、schema item-only） | dated historical only |
+- 普通脚本：8,102 reachable bodies 全部显式生成（7,035 owner fragments + 598 flow + 433 cycle + 21 local + 6 item-private）；3,345 folded（863 sprite + 2,482 hostile）；4 lossySkills。
+- 敌人：153 enemies → 153 EnemyDef，0 pendingScripts；物品 use 100/100 显式生成；throw 相克链上游标记但最终 PAL 正确；equip 全覆盖。
+- setPalette：14 处全部 `note(known-deferred)`，0x53/0x54 → setAmbience 17 sites。
 
 ## 结论
 
-GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正
+- 母集总账口径下 unresolved=0；显式登记的损失为 4 lossySkills 与 14 setPalette deferred。
 
 ## 整改与复核
 
-- 下一步：保留 GLM 独立反证；当前采用前先重跑完整 buildPalMigration、最终产物与相应 canary，并记录差集。
-- 未决与停止线：- 正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正
-- 静态审计和内存 report 不提供当前 runtime/E2E/visual/coverage 证明
-- setPalette/0x08/0x76/no-op 与敌人语义需要后继 source disposition 和动态验收
-- 必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 本报告是[三方合并裁决](codex-p7-r13-three-way-adjudication.md)的输入之一；其中未经 CFG、最终产物或运行时核验的初判不直接成为 build 事实。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-07-26 双盲审计；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 全域矩阵与 8,102/3,345/153/4/14 计数组为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 母集口径、折叠明细与 setAmbience 定向在 quote 保全。
 
 ## 当前有效性
 
-historical。正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正
+- historical。报告按双盲时点解释；后续裁决与修复可能修正其中初判，当前行为以现行实现与测试为准。
 
 ## 继任文档
 
-保留 GLM 独立反证；当前采用前先重跑完整 buildPalMigration、最终产物与相应 canary，并记录差集。
+- [三方合并裁决](codex-p7-r13-three-way-adjudication.md)与后续 R13 系列任务卡；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # GLM P7-R13 源指令语义闭包独立审计报告
 >

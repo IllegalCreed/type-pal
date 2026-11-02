@@ -1,5 +1,38 @@
 # CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本件回答:save-slot-menu 三文件及其 Save 域 caller 在当前治理分支上的逐文件状态,以及 2026-10-18 勘误后哪些旧判断不再成立。2026-10-18 勘误:2daed1bb7 的"完全重复/等价迁移"判断不成立——Save 域旧 roundtrip 缺五类字段,读侧克隆也不能由存侧替代;现已在 api.test 补回六字段及独立读侧克隆,明确内存环境/清理;生产实现未变,文件保持 review;当前补审原件与反控见 [README.md](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md),不以旧 PASS 描述声称当前全仓零诊断。
+
+## 范围与证据
+
+在 `codex/code-quality-3y` 隔离 worktree、基点 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869` 复核 save-slot-menu 三文件及其 menu-driver（save/load/opening ownership caller）、draw-menu（SlotMeta 每帧渲染 oracle）、save/api、indexed-db、primitives、menu-save-chain.glm-msio、menu-driver.cov85、api.test、indexed-db.test 共 12 文件。Primary:`uigame.c:169-242` PAL_SaveSlotMenu、`:225` 1-based default slot→cursor、`:589-597` savedTimes 跨槽计数。
+
+## 发现
+
+`save-slot-menu.ts` 职责收敛为同步选择状态、slot id 读取和 `Save.listSlots()` 只读元数据填充;Save.saveSlot/loadSlot 写/读 ownership 留在 dispatcher 和 bootstrap/Save API 域。测试侧:`save-slot-menu.test.ts` 原有三条纯 Save API roundtrip 与 api.test 重复,已移除（勘误后该"完全重复"判断部分被推翻,缺字段问题在 api.test 补回）;原标"边界 wrap"只测中间项,改为准确语义并补首项→末项反例;新增 listSlots reject 后 warning、已有 Map 不被污染测试并在 afterEach 恢复 spies——此前一次定向运行确实捕获到 spy 泄漏污染后续 savedTimes 用例,修复后隔离验证通过。
+
+## 结论
+
+未发现 save-slot-menu 直接产品缺陷;但任务卡保持 review——全仓硬门未清:editor 运行时诊断、game 全包 stderr、shared/pal-extract official coverage ratchet/protected fast baseline 回退仍在全局治理卡中,不把整卡标 done。
+
+## 整改与复核
+
+定向 4 files/58 tests PASS、0 stderr、--maxWorkers=1;game typecheck PASS;当前树完整 `pnpm check` PASS（game 321/3613 等,lint 4962 零诊断）;check:docs PASS;ledger PASS（3307/231/12/3064）。按用户授权刷新 `scripts/coverage/baseline.fast.json` game 包窗口:3536→3585 tests,game statements 13869/15836→14152/15914 等四项上行,shared 与 pal-extract 原值未改——属测试身份同步而非降低门槛。`TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 完整运行 736-file 后仍因既有 shared/pal-extract 及 total coverage 回退 exit1;`pnpm coverage:ratchet` 完整运行 736 files/19918 tests 后 exit1,失败项精确为 shared/pal-extract 各项及 total 四项比例回退;未用 --allow-scope-removal、ignore 或降阈值掩盖失败。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4889B / SHA-256 f08b186e0d6f51da29160acea0929ada6dab6d1aa82257ad65ff24f8ab2f24dd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-100 Codex 当前独立复核（2026-10-17）
+
 2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆，明确内存环境/清理；生产实现未变，文件保持review。原候选结果按历史保留；[当前补审原件与反控](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)才是本次范围，不以旧PASS描述声称当前全仓零诊断。
 
 ## 范围与实际读取
@@ -67,3 +100,5 @@ save-slot Confirm/Cancel 分支；`draw-menu.ts` 每帧从同一 `slotMetas` Map
   全局治理卡中；因此任务卡保持 `review`，不把整卡标成 `done`。
 - 本批不触碰 schema/save 格式、公共接口、产品 UI 形态或生成物。
 
+```
+<!-- incremental-original-source:end -->

@@ -1,0 +1,3685 @@
+{
+  "schemaVersion": 1,
+  "kind": "fixed-fifteen-receipt-candidate-mechanical-observations",
+  "sourceHead": "a781c0552b93cab7477fab946f72696a5af0301e",
+  "observedAt": "2026-10-17T20:06:19.772248+00:00",
+  "sourceScreen": {
+    "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json",
+    "sha256": "457463cd936a87ed3226510952de761e05add228fe10e24da1c1ff1100df779f"
+  },
+  "owner": "Codex root / author forensic maintenance; not independent acceptance",
+  "policy": "Raw copies preserve original bytes, including JSON/TSV content, as indexed execution artifacts. Missing proof and mismatched byte metadata are findings, never automatic acceptance.",
+  "cases": [
+    {
+      "id": "C01",
+      "commit": "d8ec18185a058fd1f1142163f2246512802ecce8",
+      "sourcePath": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "commitTime": "2026-10-16T08:22:48+09:00",
+      "beforeGitObject": "b0898112885a1bd8d56375d85d436de1005cf7b2",
+      "afterGitObject": "9f8023b8a720e2bbe0af49b5022954e2f913b650",
+      "beforeSha256": "9e951b1685342eb4ba81b2717500430cf96b8cab974085754cfef06a9303880e",
+      "afterSha256": "9fe374ef834a6c1536f8e550fd49d2202f2c095df8a1a59784ad7faf683b6d91",
+      "changedObservations": [
+        {
+          "pointer": "/actualPhaseProjections/execution/proof/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/actualPhaseProjections/execution/path",
+          "declaredPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.json",
+          "expectedSha256": "ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.json",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35.log",
+              "sha256": "ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35",
+              "bytes": 405,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792105948304488641,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/actualPhaseProjections/execution/proof/log",
+          "declaredPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.log",
+          "expectedSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc.log",
+              "sha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+              "bytes": 64,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792105948303899173,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootC1Repair/actualProjectionRegeneration/log",
+          "declaredPath": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+          "expectedSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc.log",
+              "sha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+              "bytes": 64,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792104595639315011,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootPSWritebackRepair/actualConsumers/producer/path",
+          "declaredPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.json",
+          "expectedSha256": "ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.json",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35.log",
+              "sha256": "ed0b7f257f69128e7c466005fb05a03f0778f89812546a0b628de5022b05df35",
+              "bytes": 405,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792105948304488641,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootPSWritebackRepair/actualConsumers/producer/proof/log",
+          "declaredPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.log",
+          "expectedSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p-signoff-sync-phase-producer-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc.log",
+              "sha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+              "bytes": 64,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792105948303899173,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        }
+      ],
+      "comparisons": {
+        "oldProducerPreservedAtRootC1Repair": true,
+        "beforeCatalogShaMatches": true,
+        "afterCatalogShaMatches": true
+      },
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c01",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C02",
+      "commit": "c562676bf570469f609121f349022599d7810fd0",
+      "sourcePath": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "commitTime": "2026-10-16T07:53:34+09:00",
+      "beforeGitObject": "d4ee7108c6bb7c43b1c12363be7ee991cbf4fb08",
+      "afterGitObject": "e667f771e22133d681ad3e6b83459318cbd88295",
+      "beforeSha256": "c898578cf6176434b9ac7450a58f598ab0c977a017ae1015f63a2bdd6b3673b2",
+      "afterSha256": "d8f0ee22062ba06848d273697f26b79484614447d9c31de75a5dcab582c43266",
+      "changedObservations": [
+        {
+          "pointer": "/rootC1Repair/actualProjectionRegeneration/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/rootC1Repair/actualProjectionRegeneration/log",
+          "declaredPath": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+          "expectedSha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-p11-root-c1-repair-phase-producer-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc.log",
+              "sha256": "5a98c54e76dba8bad9043bbe0805d1eddccf4f77e078a4bc18714f423af95dfc",
+              "bytes": 64,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792104595639315011,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c02",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C03",
+      "commit": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+      "sourcePath": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+      "commitTime": "2026-10-16T07:15:42+09:00",
+      "beforeGitObject": "711d82543fc7e7e918a7cd26cc3ea94830313043",
+      "afterGitObject": "0e97f11e9cad1d61640a48a071786cbd2ecc4301",
+      "beforeSha256": "80e637183701a997d22a7572bb2ba371c3399b8aecd4ea64a55a5e9a27abc224",
+      "afterSha256": "bf2e28afb45e3ae1d4a9248d77ecc853febbe4c1f9204f5be5627867d75de003",
+      "changedObservations": [
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/1/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/0/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/2/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/4/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/3/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/0/path",
+          "declaredPath": "/tmp/type-pal-n3-root-repair-gate-0-20261016.log",
+          "expectedSha256": "0b21cdb241d193814c20869229befd7d2e36a2473857c92fb477ccbb30970598",
+          "expectedBytes": 21586,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-n3-root-repair-gate-0-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-0b21cdb241d193814c20869229befd7d2e36a2473857c92fb477ccbb30970598.log",
+              "sha256": "0b21cdb241d193814c20869229befd7d2e36a2473857c92fb477ccbb30970598",
+              "bytes": 21586,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792102233451581716,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/1/path",
+          "declaredPath": "/tmp/type-pal-n3-root-repair-gate-1-20261016.log",
+          "expectedSha256": "f90a6b1cbebf834449bf5996a0f2e84fb7a6b3835af6c5b87db134c328409944",
+          "expectedBytes": 201,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-n3-root-repair-gate-1-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-f90a6b1cbebf834449bf5996a0f2e84fb7a6b3835af6c5b87db134c328409944.log",
+              "sha256": "f90a6b1cbebf834449bf5996a0f2e84fb7a6b3835af6c5b87db134c328409944",
+              "bytes": 201,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792102235535366039,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/2/path",
+          "declaredPath": "/tmp/type-pal-n3-root-repair-gate-2-20261016.log",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-n3-root-repair-gate-2-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792102235540841793,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/3/path",
+          "declaredPath": "/tmp/type-pal-n3-root-repair-gate-3-20261016.log",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-n3-root-repair-gate-3-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792102235564287487,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/4/path",
+          "declaredPath": "/tmp/type-pal-n3-root-repair-gate-4-20261016.log",
+          "expectedSha256": "c0f5ab371738764470a0e5ad3327fcea58c23ea2ae93f4eca75bee9347e95a28",
+          "expectedBytes": 71775,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-n3-root-repair-gate-4-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-c0f5ab371738764470a0e5ad3327fcea58c23ea2ae93f4eca75bee9347e95a28.log",
+              "sha256": "c0f5ab371738764470a0e5ad3327fcea58c23ea2ae93f4eca75bee9347e95a28",
+              "bytes": 71775,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792102236649742657,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c03",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C04",
+      "commit": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+      "sourcePath": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+      "commitTime": "2026-10-16T06:54:37+09:00",
+      "beforeGitObject": "f01529f8706525e61165588ecb375e92e1b05e25",
+      "afterGitObject": "ca0e199b8bd5b650fc8aaf4c684441372a22c2de",
+      "beforeSha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+      "afterSha256": "ed097cb1a5aa03d9421f5cb717c40b639b2b61101f2d42a429dfec19a8d02942",
+      "changedObservations": [
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/3/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/1/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/0/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/2/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/0/path",
+          "declaredPath": "/tmp/type-pal-f1-central-repair-gate-0-20261016.log",
+          "expectedSha256": "bf2642cae2bd1a0f148d498f2644201f0ff531f53258d9e29835ccd33aecd778",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-f1-central-repair-gate-0-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-bf2642cae2bd1a0f148d498f2644201f0ff531f53258d9e29835ccd33aecd778.log",
+              "sha256": "bf2642cae2bd1a0f148d498f2644201f0ff531f53258d9e29835ccd33aecd778",
+              "bytes": 21579,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792100705910212009,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/1/path",
+          "declaredPath": "/tmp/type-pal-f1-central-repair-gate-1-20261016.log",
+          "expectedSha256": "de5b1515bd1c8e5937d0aaeedbe667a7b394fb157f1960a8110498dc1ec23eef",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-f1-central-repair-gate-1-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-de5b1515bd1c8e5937d0aaeedbe667a7b394fb157f1960a8110498dc1ec23eef.log",
+              "sha256": "de5b1515bd1c8e5937d0aaeedbe667a7b394fb157f1960a8110498dc1ec23eef",
+              "bytes": 201,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792100708049006646,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/2/path",
+          "declaredPath": "/tmp/type-pal-f1-central-repair-gate-2-20261016.log",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-f1-central-repair-gate-2-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.log",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792100708069863826,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/3/path",
+          "declaredPath": "/tmp/type-pal-f1-central-repair-gate-3-20261016.log",
+          "expectedSha256": "47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-f1-central-repair-gate-3-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6.log",
+              "sha256": "47be02fad1be5a1afd0803c2ee8ee4f630ba3f8b27f9d182c8928905472425d6",
+              "bytes": 70945,
+              "hashMatches": true,
+              "mtimeNsObservedNow": 1792100709140639650,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c04",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C05",
+      "commit": "e1366cd135ddcd79263d6ece928a62e96fa04ad1",
+      "sourcePath": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "commitTime": "2026-10-16T06:03:06+09:00",
+      "beforeGitObject": "a62fa6f379c39bb4e046626593e23a40c939aed9",
+      "afterGitObject": "4949a6c773114c457f83e96893d967ecb9a539d9",
+      "beforeSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+      "afterSha256": "5298e5dc4ac1ca7995092b0cf28aa586648dae438630639f40b7dc9a7c80feb2",
+      "changedObservations": [
+        {
+          "pointer": "/entries/13/evidence/actualInventoryConsumer/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c05",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C06",
+      "commit": "9cf1fd09f1f7d09a490136567b8ee4df1a370722",
+      "sourcePath": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "commitTime": "2026-10-16T02:21:13+09:00",
+      "beforeGitObject": "231b56a31f56ce457df4be06a32dae313604a2dd",
+      "afterGitObject": "3611777c8430c1814cf87e9f51e5e9cbaea5bf05",
+      "beforeSha256": "61fe787e250c2e8bc71b4737237002244802c6e23e81fd9a659ca65d6ec17a67",
+      "afterSha256": "0b198981a49704d8d9df2ac988d767c3bd4de0dfa668edc3bcf51f832c1c9682",
+      "changedObservations": [
+        {
+          "pointer": "/integration/additionalQualityLedgerFailure/originalRecordedFailure/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": { "oldFailurePreserved": true },
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c06",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C07",
+      "commit": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "sourcePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+      "commitTime": "2026-10-16T01:24:59+09:00",
+      "beforeGitObject": "2e298969de0fedf7a03dcf57c078ab40e22ec847",
+      "afterGitObject": "398b5e603f36472a6f37adc6ad90b042e40cda30",
+      "beforeSha256": "7bb281a783dc610c76f4754277bbb1df470dcd75563ff274110b5ac6a8027532",
+      "afterSha256": "bf2aa737c5e8897f7b4f30b93e2eb7ae4f4411cc594d7e55e83d724e637f2aa3",
+      "changedObservations": [
+        {
+          "pointer": "/rootPairedIntegrationGates/lint/rerun/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/rootPairedIntegrationGates/checkDocs/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/rootPairedIntegrationGates/checkDocs/log",
+          "declaredPath": "/tmp/type-pal-c-006-final-docs-20261016.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-c-006-final-docs-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-38b60c9a00d1d6f15b8f3032dd095bda10499ad32c159b7a5545addb476ebf93.log",
+              "sha256": "38b60c9a00d1d6f15b8f3032dd095bda10499ad32c159b7a5545addb476ebf93",
+              "bytes": 16659,
+              "hashMatches": null,
+              "mtimeNsObservedNow": 1792081269684160912,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        },
+        {
+          "pointer": "/rootPairedIntegrationGates/lint/rerun/log",
+          "declaredPath": "/tmp/type-pal-c-006-lint-repaired-20261016.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "retained-local-original-bytes",
+              "originalPath": "/tmp/type-pal-c-006-lint-repaired-20261016.log",
+              "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/retained-ad2513d56d48e104a5779c5fe646c617548958b965ff72bc33279865d0eadc66.log",
+              "sha256": "ad2513d56d48e104a5779c5fe646c617548958b965ff72bc33279865d0eadc66",
+              "bytes": 201,
+              "hashMatches": null,
+              "mtimeNsObservedNow": 1792081278132284326,
+              "mtimeCaveat": "Observed local mtime is not authenticated historical execution time; empty diff logs prove no exit code by themselves."
+            }
+          ]
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c07",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C08",
+      "commit": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "sourcePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+      "commitTime": "2026-10-16T00:06:37+09:00",
+      "beforeGitObject": "5f57d60ff71f2e79718e5e21ac29a4094edad8e3",
+      "afterGitObject": "92ecf6915d3b5b4c86ce27532099bb796d33042c",
+      "beforeSha256": "3cec98b595428d9b1d453dbe4476b1eeb60a20efec82c30a2fcd2945a7420b4b",
+      "afterSha256": "df62e47c6844b58d5e06d3a07c3d3a1035b79769107eab16e403e8460f9e6b9e",
+      "changedObservations": [
+        {
+          "pointer": "/acceptedContributorCardsB/integratedGates/diff/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/acceptedContributorCardsB/integratedGates/lint/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/acceptedContributorCardsB/integratedGates/docs/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c08",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C09",
+      "commit": "c1c4ba289b44ad060cb4c5f3ab881a5412f229cd",
+      "sourcePath": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+      "commitTime": "2026-10-15T23:59:33+09:00",
+      "beforeGitObject": "3038720d01ec5cde7926704548c1ac7b882ba032",
+      "afterGitObject": "5f57d60ff71f2e79718e5e21ac29a4094edad8e3",
+      "beforeSha256": "27ab046dc4e0e5dcd738c408d227d85fcabb3297642f695a112a59afd9547a9b",
+      "afterSha256": "3cec98b595428d9b1d453dbe4476b1eeb60a20efec82c30a2fcd2945a7420b4b",
+      "changedObservations": [
+        {
+          "pointer": "/followupMachineAudits/staticGates/lint/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/followupMachineAudits/staticGates/docs/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/followupMachineAudits/staticGates/diff/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c09",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C10",
+      "commit": "517dc85717bbbb45538f8387a9a6c85a5b75fe94",
+      "sourcePath": "docs/ops/evidence/game-rix-music-1/release-verification.json",
+      "commitTime": "2026-10-15T10:24:20+09:00",
+      "beforeGitObject": "37c66d36a842d1dfeb6de6e1aca51b9280c5086d",
+      "afterGitObject": "307cb90a67d926410bf1d5bce60db450fd4677ac",
+      "beforeSha256": "99054c5308a806ab51d77d9ce300b8a3f28b8cd36f4f79c649da7c7ed72a960e",
+      "afterSha256": "48d88fdad173462ae2d8bc8ff0ad63c93250d5d01c64010344e302a3e6cc6dcb",
+      "changedObservations": [
+        {
+          "pointer": "/coverage/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/coverage/log",
+          "declaredPath": "release-coverage.raw.gz",
+          "expectedSha256": "55d7f2b5ed24da6a5e610aadd7075c25292ba608e20e88c0cddad794b7c934b8",
+          "expectedBytes": null,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/game-rix-music-1/release-coverage.raw.gz",
+              "revision": "517dc85717bbbb45538f8387a9a6c85a5b75fe94",
+              "gitObject": "0e9f1d7fa147f68fa8250d42cdd418b2cf309cde",
+              "sha256": "55d7f2b5ed24da6a5e610aadd7075c25292ba608e20e88c0cddad794b7c934b8",
+              "bytes": 4455,
+              "hashMatches": true,
+              "declaredBytesMatch": null,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c10",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C11",
+      "commit": "53eb295a0fff5679b65646091cfead48eafd38d4",
+      "sourcePath": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "commitTime": "2026-10-05T23:01:47+09:00",
+      "beforeGitObject": "d69a50ed7f675c5f73867e3c8b12f45d857586c1",
+      "afterGitObject": "9a5987743ad2e8f7efcbbd3192c61b97885c7aa7",
+      "beforeSha256": "14a09413fecc1db8f83572234b5d2c6793efa62a605e57bb8131d92812ab7cec",
+      "afterSha256": "3d18df42c0fcbd1b17f7b8856d98107e3f2cea00487b42b085c6a9848706d285",
+      "changedObservations": [
+        {
+          "pointer": "/injections/2/mutant/consolePhase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/injections/0/restored/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/0/restored/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/injections/0/mutant/consolePhase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/injections/2/restored/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/injections/0/original/baseline/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/original/baseline/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/mutant/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/restored/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/original/baseline/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/restored/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/mutant/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/injections/0/restored/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/mutant/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/injections/1/original/baseline/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/restored/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/injections/0/original/baseline/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/0/mutant/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/baseline/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/mutant/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/0/mutant/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/original/baseline/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/finalReplay/phase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/injections/1/restored/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/2/restored/summary",
+          "before": { "present": true, "value": "      Tests  8767 passed (8767)" },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/injections/1/mutant/consolePhase/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/baseline/identity/artifact/path",
+          "declaredPath": "counterproof-raw/baseline.identity.tsv",
+          "expectedSha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "76c3304711d55dbb369f2c90e258245ef5941139",
+              "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/0/mutant/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv",
+          "expectedSha256": "74e5fd1bf5a48f5774fca0df5d2d04cabacf1bb7a14f9f7ef5d108b0942287ae",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "2db163ad7cc31dfae60a9c1740f72ad45053a4c6",
+              "sha256": "74e5fd1bf5a48f5774fca0df5d2d04cabacf1bb7a14f9f7ef5d108b0942287ae",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/0/mutant/consolePhase/artifacts/console/path",
+          "declaredPath": "counterproof-raw/MT-CADENCE-CLAMP.mutant.console",
+          "expectedSha256": "f14c7363dd9c3821a1068fd4bf3af72429fab0725605c85359ba65ea7836285e",
+          "expectedBytes": 114045,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.console",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "a8334dbfe4133ea59ec3bff73597286e7c0d59b8",
+              "sha256": "f14c7363dd9c3821a1068fd4bf3af72429fab0725605c85359ba65ea7836285e",
+              "bytes": 114045,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/0/restored/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
+          "expectedSha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "76c3304711d55dbb369f2c90e258245ef5941139",
+              "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/1/mutant/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv",
+          "expectedSha256": "d83410443c2c868f427ba8125fdc890351c904234dd24404d3310ef1c643b42b",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "343ff67059f7a54348d9c33387948f04ceb51a0c",
+              "sha256": "d83410443c2c868f427ba8125fdc890351c904234dd24404d3310ef1c643b42b",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/1/mutant/consolePhase/artifacts/console/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.console",
+          "expectedSha256": "d570a72584b144d746e81a52621515862f2d0e0ba9755f4876cba960fd24bd9b",
+          "expectedBytes": 114154,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.console",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "ebc77e5782248f4a3d081435692f469c878603d5",
+              "sha256": "d570a72584b144d746e81a52621515862f2d0e0ba9755f4876cba960fd24bd9b",
+              "bytes": 114154,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/1/restored/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
+          "expectedSha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "76c3304711d55dbb369f2c90e258245ef5941139",
+              "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/2/mutant/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv",
+          "expectedSha256": "4f53d18439b7860b6bc22b8ebdecd85691986543712afd5a151c29b248e90d47",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "1cd51b4df745886e195936cb73b929cd665d1121",
+              "sha256": "4f53d18439b7860b6bc22b8ebdecd85691986543712afd5a151c29b248e90d47",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/2/mutant/consolePhase/artifacts/console/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.console",
+          "expectedSha256": "2fadc0c01521c0793f66e9343e094ae2fcd03e83d4ffe99b91a6ded9d67d5422",
+          "expectedBytes": 114042,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.console",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "fbdf2e707ed0698542fcb557d0678cb8d3ed7912",
+              "sha256": "2fadc0c01521c0793f66e9343e094ae2fcd03e83d4ffe99b91a6ded9d67d5422",
+              "bytes": 114042,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/injections/2/restored/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
+          "expectedSha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "76c3304711d55dbb369f2c90e258245ef5941139",
+              "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/finalReplay/phase/identity/artifact/path",
+          "declaredPath": "counterproof-raw/final-replay.identity.tsv",
+          "expectedSha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+          "expectedBytes": 1696096,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/final-replay.identity.tsv",
+              "revision": "53eb295a0fff5679b65646091cfead48eafd38d4",
+              "gitObject": "76c3304711d55dbb369f2c90e258245ef5941139",
+              "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+              "bytes": 1696096,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": null,
+              "reporter": null
+            }
+          ]
+        }
+      ],
+      "comparisons": {
+        "identityArtifacts": [
+          {
+            "label": "baseline",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [],
+            "passed": 8767,
+            "failed": 0,
+            "otherStatuses": []
+          },
+          {
+            "label": "final-replay",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/final-replay.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [],
+            "passed": 8767,
+            "failed": 0,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-CADENCE-CLAMP.mutant",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [
+              "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts\tTEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-CADENCE-CLAMP-1 真积压被钳掉：一帧至多一拍，丢弃的余数不得结转成下一帧的提前拍\tfailed"
+            ],
+            "passed": 8766,
+            "failed": 1,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-CADENCE-CLAMP.restored",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [],
+            "passed": 8767,
+            "failed": 0,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-PARTY-COMPLETE-STALE.mutant",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [
+              "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts\tTEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-COMPLETE-STALE-1 被替换的旧槽迟到完成不得唤醒新等待者；当前槽完成照常兑现\tfailed"
+            ],
+            "passed": 8766,
+            "failed": 1,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-PARTY-COMPLETE-STALE.restored",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [],
+            "passed": 8767,
+            "failed": 0,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-PARTY-RESOLVE-RELEASE.mutant",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [
+              "/private/tmp/type-pal-motion-transition/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts\tTEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-RESOLVE-RELEASE-1 强停收口以 fulfilled 兑现当前在途走位并清槽；结算后迟到 abort 不再改变结果\tfailed"
+            ],
+            "passed": 8766,
+            "failed": 1,
+            "otherStatuses": []
+          },
+          {
+            "label": "MT-PARTY-RESOLVE-RELEASE.restored",
+            "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
+            "hashMatches": true,
+            "declaredBytesMatch": true,
+            "rows": 8767,
+            "declaredRows": 8767,
+            "failedRows": [],
+            "passed": 8767,
+            "failed": 0,
+            "otherStatuses": []
+          }
+        ]
+      },
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c11",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C12",
+      "commit": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+      "sourcePath": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-results.json",
+      "commitTime": "2026-10-04T17:02:36+09:00",
+      "beforeGitObject": "e87349ef4288611576ef1fd4b10dcad72e124426",
+      "afterGitObject": "75e45c62a2435abb89d17507cd34a472f0295157",
+      "beforeSha256": "9d768482ee8eebec17cbcf7e2d36e7f19cb0abc2b98572bc1fe9287ff660b08e",
+      "afterSha256": "fbdbb49faa7e3735b9dcb1fcbc20f8cff8b25467324ad7537741c8ab33acfc3e",
+      "changedObservations": [
+        {
+          "pointer": "/results/10/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/11/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/8/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/6/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/7/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/9/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/11/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/6/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/6/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/9/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/11/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/8/execution/greenBefore/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/10/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/results/10/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/8/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/7/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/9/execution/red/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/results/7/execution/greenAfter/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/results/0/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stdout.txt",
+          "expectedSha256": "c87ba8affad06ae39b54c9f7d02a4b25408d89badc46df4313ff141abb7ba407",
+          "expectedBytes": 18535,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "53b76f3952818d0922b8fb63db5acee4bac6b3e2",
+              "sha256": "c87ba8affad06ae39b54c9f7d02a4b25408d89badc46df4313ff141abb7ba407",
+              "bytes": 21657,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 18535,
+              "reporter": {
+                "startTime": 1791092048795,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/0/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/0/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stdout.txt",
+          "expectedSha256": "90d35c34ec0f0560d66860ac7fbe09079ef911fc239597827e3a11cf8e540c88",
+          "expectedBytes": 23350,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "c7e86c40c6af448989022780ee67e0c834ee6c4a",
+              "sha256": "90d35c34ec0f0560d66860ac7fbe09079ef911fc239597827e3a11cf8e540c88",
+              "bytes": 27795,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 23350,
+              "reporter": {
+                "startTime": 1791092049738,
+                "success": false,
+                "numTotalTests": 56,
+                "numPassedTests": 55,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/0/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stderr.txt",
+          "expectedSha256": "7af24d0870521aa0a851e0e53c60f60f87ce47f4d1e1630db3a14dc961f4e265",
+          "expectedBytes": 743,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "3b328c0b1e56c9b9645cab8486bf3347bfe732d8",
+              "sha256": "7af24d0870521aa0a851e0e53c60f60f87ce47f4d1e1630db3a14dc961f4e265",
+              "bytes": 869,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 743,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/0/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stdout.txt",
+          "expectedSha256": "64eeef42947c6e0c9c0eb3fdb24dacce37e9cad8c7f454152f19744a2f1e19e9",
+          "expectedBytes": 18546,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "475b2820bccb8736694e7818edd010de1e3634db",
+              "sha256": "64eeef42947c6e0c9c0eb3fdb24dacce37e9cad8c7f454152f19744a2f1e19e9",
+              "bytes": 21668,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 18546,
+              "reporter": {
+                "startTime": 1791092050496,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/0/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-01.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stdout.txt",
+          "expectedSha256": "529c0b8610ee0461dfb879b8448a2c883cc8f44af05e8ba4ebda2bd3f3ed833a",
+          "expectedBytes": 6673,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "4ae88353f7df49ff80b755cb48b233441e6901f8",
+              "sha256": "529c0b8610ee0461dfb879b8448a2c883cc8f44af05e8ba4ebda2bd3f3ed833a",
+              "bytes": 7851,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 6673,
+              "reporter": {
+                "startTime": 1791092051269,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stdout.txt",
+          "expectedSha256": "501c8ad3fbc42d08b5c8440fad8d95e4252970ecedd3cafcf2d70c400a70d5c1",
+          "expectedBytes": 9281,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e560146f1fcabd6b6c563637eb7b49c263f1e425",
+              "sha256": "501c8ad3fbc42d08b5c8440fad8d95e4252970ecedd3cafcf2d70c400a70d5c1",
+              "bytes": 10944,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 9281,
+              "reporter": {
+                "startTime": 1791092052300,
+                "success": false,
+                "numTotalTests": 18,
+                "numPassedTests": 17,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stderr.txt",
+          "expectedSha256": "9dcb731e6b07471d4fc3ccd586baba21743c57286191311377ab26d68502442b",
+          "expectedBytes": 669,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "171c440f124b10d4890b28405238917966124e39",
+              "sha256": "9dcb731e6b07471d4fc3ccd586baba21743c57286191311377ab26d68502442b",
+              "bytes": 789,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 669,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stdout.txt",
+          "expectedSha256": "5c6bc7aa8ee592547e1a3369ee88adfc9f82842c04cabd733058208fa5c6b624",
+          "expectedBytes": 6678,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "75f761ba59e3ccc85ca449402ce4279eba5624b6",
+              "sha256": "5c6bc7aa8ee592547e1a3369ee88adfc9f82842c04cabd733058208fa5c6b624",
+              "bytes": 7856,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 6678,
+              "reporter": {
+                "startTime": 1791092053363,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/1/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-02.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stdout.txt",
+          "expectedSha256": "3df2b9a71524d80d8129c30edcfd029ee7a036bbfdef96a565b2b693052b20dc",
+          "expectedBytes": 12398,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e11558f640d85e9a0a4aabbedfba8a01156964b3",
+              "sha256": "3df2b9a71524d80d8129c30edcfd029ee7a036bbfdef96a565b2b693052b20dc",
+              "bytes": 15352,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 12398,
+              "reporter": {
+                "startTime": 1791092054312,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stdout.txt",
+          "expectedSha256": "915bc5ee59a1bceba648d35bb65db3ad3ab79f843617564784eacc81c7e4f91e",
+          "expectedBytes": 15902,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "b3e5d5938abbe50f8453712f7ad06946117e473a",
+              "sha256": "915bc5ee59a1bceba648d35bb65db3ad3ab79f843617564784eacc81c7e4f91e",
+              "bytes": 20047,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 15902,
+              "reporter": {
+                "startTime": 1791092055024,
+                "success": false,
+                "numTotalTests": 41,
+                "numPassedTests": 40,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stderr.txt",
+          "expectedSha256": "bff5726c685e84081682e1368b1da489db72eecd60246167a2b6c1d1d84a864e",
+          "expectedBytes": 658,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "1dc9a30eb4a0042d4e3e9bdd2a105271df541c08",
+              "sha256": "bff5726c685e84081682e1368b1da489db72eecd60246167a2b6c1d1d84a864e",
+              "bytes": 786,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 658,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stdout.txt",
+          "expectedSha256": "306c3866ee2c716f56d8603d4c93b765a57022e030999200398eeaded1596a7c",
+          "expectedBytes": 12398,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "c77c42758f0be2251e381a29e76f7daa9e9320fc",
+              "sha256": "306c3866ee2c716f56d8603d4c93b765a57022e030999200398eeaded1596a7c",
+              "bytes": 15352,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 12398,
+              "reporter": {
+                "startTime": 1791092055753,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/2/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-03.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stdout.txt",
+          "expectedSha256": "3f4c0db4801de4469a25373ced97f0df7d128dc33384a8af41f13c32e48dc8ee",
+          "expectedBytes": 11372,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "b507a64fbaaa26e013e38b57021ab33596064a77",
+              "sha256": "3f4c0db4801de4469a25373ced97f0df7d128dc33384a8af41f13c32e48dc8ee",
+              "bytes": 13898,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 11372,
+              "reporter": {
+                "startTime": 1791092056470,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stdout.txt",
+          "expectedSha256": "f1678ee36a8515c6f32604cd8d837001b3e4b275084b1876e45bfffbd76d2c9d",
+          "expectedBytes": 15071,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "385e86b0c5f7b5cb1c35cd702298a6f8a91f220c",
+              "sha256": "f1678ee36a8515c6f32604cd8d837001b3e4b275084b1876e45bfffbd76d2c9d",
+              "bytes": 18496,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 15071,
+              "reporter": {
+                "startTime": 1791092057365,
+                "success": false,
+                "numTotalTests": 35,
+                "numPassedTests": 34,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stderr.txt",
+          "expectedSha256": "372673a24aa34844697e37fd64aaf6db0fd352a4020255efb8713b7382cf4529",
+          "expectedBytes": 624,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "a837e4425da157c176eb53b82041946849637029",
+              "sha256": "372673a24aa34844697e37fd64aaf6db0fd352a4020255efb8713b7382cf4529",
+              "bytes": 736,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 624,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stdout.txt",
+          "expectedSha256": "b7039680ade7f179206192dabb2903145aaf452a094697ce4ca1bae6519c4e89",
+          "expectedBytes": 11357,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "9338fbbce38d70d6956fc13807ba6b60447041fc",
+              "sha256": "b7039680ade7f179206192dabb2903145aaf452a094697ce4ca1bae6519c4e89",
+              "bytes": 13883,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 11357,
+              "reporter": {
+                "startTime": 1791092058259,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/3/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-04.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stdout.txt",
+          "expectedSha256": "fdbfa3a5df45cfd141f047414c3c565d825ccae8bcbbd0e7d665767d13fc327a",
+          "expectedBytes": 13573,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "5cee46654c82b78e95d252a1428dede31cc844f1",
+              "sha256": "fdbfa3a5df45cfd141f047414c3c565d825ccae8bcbbd0e7d665767d13fc327a",
+              "bytes": 15455,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13573,
+              "reporter": {
+                "startTime": 1791092059165,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stdout.txt",
+          "expectedSha256": "e10c27872bba30e9baf814861449d17d8067f03134295c45aa22a956f13a0d59",
+          "expectedBytes": 17553,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "94b18b119956f6eac8549697a2fe9614b11904c3",
+              "sha256": "e10c27872bba30e9baf814861449d17d8067f03134295c45aa22a956f13a0d59",
+              "bytes": 20296,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 17553,
+              "reporter": {
+                "startTime": 1791092060033,
+                "success": false,
+                "numTotalTests": 36,
+                "numPassedTests": 35,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stderr.txt",
+          "expectedSha256": "defea912393e884d7e770615a43aa134a95e50cc7c53244d919f6cc0a36c3981",
+          "expectedBytes": 608,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "58bb382dcc45e52eaa785f9a8cbce3bb388ce6ce",
+              "sha256": "defea912393e884d7e770615a43aa134a95e50cc7c53244d919f6cc0a36c3981",
+              "bytes": 732,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 608,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stdout.txt",
+          "expectedSha256": "cf1c1fdd1d3ec3a16d488abe63a195ee2c21bd281f94c4f34516147310026544",
+          "expectedBytes": 13564,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "881e1c2d51ce894805405621daeef8f63cbb47a1",
+              "sha256": "cf1c1fdd1d3ec3a16d488abe63a195ee2c21bd281f94c4f34516147310026544",
+              "bytes": 15446,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13564,
+              "reporter": {
+                "startTime": 1791092060880,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/4/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-05.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stdout.txt",
+          "expectedSha256": "a87fd885d8c62723c4a1a65722dc7ee566dd6e8f6e1120e5bfb36112a2d209e8",
+          "expectedBytes": 8461,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "6a339f5d827dbe9513a068c8fafb66b983df0473",
+              "sha256": "a87fd885d8c62723c4a1a65722dc7ee566dd6e8f6e1120e5bfb36112a2d209e8",
+              "bytes": 9231,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 8461,
+              "reporter": {
+                "startTime": 1791092061725,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stdout.txt",
+          "expectedSha256": "37dbfbeecc2e9ffea9144329fdd5684c57f41e5c2b4bb145c80db7595f8ef81e",
+          "expectedBytes": 11355,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "5edd92ebb39044e460c22c44bed268688b5497a8",
+              "sha256": "37dbfbeecc2e9ffea9144329fdd5684c57f41e5c2b4bb145c80db7595f8ef81e",
+              "bytes": 12410,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 11355,
+              "reporter": {
+                "startTime": 1791092062577,
+                "success": false,
+                "numTotalTests": 21,
+                "numPassedTests": 20,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stderr.txt",
+          "expectedSha256": "6495a22af4cb8ea2a41c32ab4b3b93c93f50c5883c64e750feb6055c17288150",
+          "expectedBytes": 586,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "6d3d5ae44eed7a0fe54ce0849c7db0f2821021a8",
+              "sha256": "6495a22af4cb8ea2a41c32ab4b3b93c93f50c5883c64e750feb6055c17288150",
+              "bytes": 680,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 586,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stdout.txt",
+          "expectedSha256": "86d03db9629583b72e2f922e9395783ba5d1896f5838d51b53e310c4ac54f9cd",
+          "expectedBytes": 8465,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "92e344302f6e4287862d9cb42886e4f8a898e365",
+              "sha256": "86d03db9629583b72e2f922e9395783ba5d1896f5838d51b53e310c4ac54f9cd",
+              "bytes": 9235,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 8465,
+              "reporter": {
+                "startTime": 1791092063404,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/5/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-06.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stdout.txt",
+          "expectedSha256": "4bcf3c225cb4e64204b4f5bc59551fe64ac65bc3384450eb716329cdae6c7361",
+          "expectedBytes": 13574,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "b1c9f42908dd753d03ae1b94f31fb7293d35391e",
+              "sha256": "4bcf3c225cb4e64204b4f5bc59551fe64ac65bc3384450eb716329cdae6c7361",
+              "bytes": 15456,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13574,
+              "reporter": {
+                "startTime": 1791092064282,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stdout.txt",
+          "expectedSha256": "9053be82b8b3ff796b95c8adc3a7276054c42e545d504957c3e73b42903625f4",
+          "expectedBytes": 17555,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "c710bb05f095c3e362e7ea7e125c4c3d9c073eba",
+              "sha256": "9053be82b8b3ff796b95c8adc3a7276054c42e545d504957c3e73b42903625f4",
+              "bytes": 20298,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 17555,
+              "reporter": {
+                "startTime": 1791092065134,
+                "success": false,
+                "numTotalTests": 36,
+                "numPassedTests": 35,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stderr.txt",
+          "expectedSha256": "44154b669aeee8cf80d7ee2e70545d14b48f5966153947f0e3a21f6cfff6c5d2",
+          "expectedBytes": 625,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "02bb21eb0e02660b4f5fa84d5dd6e24c304ed758",
+              "sha256": "44154b669aeee8cf80d7ee2e70545d14b48f5966153947f0e3a21f6cfff6c5d2",
+              "bytes": 739,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 625,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stdout.txt",
+          "expectedSha256": "197facb617695d294bb71870702dcc73f957ddb697c5ae15b886d0637e605a0f",
+          "expectedBytes": 13570,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "20c53a4a64c0faa0485f99f2c82571e9572059ff",
+              "sha256": "197facb617695d294bb71870702dcc73f957ddb697c5ae15b886d0637e605a0f",
+              "bytes": 15452,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13570,
+              "reporter": {
+                "startTime": 1791092066000,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/6/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-07.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stdout.txt",
+          "expectedSha256": "ef952c182c3261bedac33a8b072afa00638560b7eb4701789d8b1212e18873d9",
+          "expectedBytes": 13572,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "775d6e8371b158e0d45c06da1807bc33508330e6",
+              "sha256": "ef952c182c3261bedac33a8b072afa00638560b7eb4701789d8b1212e18873d9",
+              "bytes": 15454,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13572,
+              "reporter": {
+                "startTime": 1791092067043,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stdout.txt",
+          "expectedSha256": "07109f3a099e7dd81416a37f1a698b1c25526e82204a41c53a463154e11c2582",
+          "expectedBytes": 17554,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "4b2366014c31264ed18325f6f8b532bcd32416fa",
+              "sha256": "07109f3a099e7dd81416a37f1a698b1c25526e82204a41c53a463154e11c2582",
+              "bytes": 20297,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 17554,
+              "reporter": {
+                "startTime": 1791092068008,
+                "success": false,
+                "numTotalTests": 36,
+                "numPassedTests": 35,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stderr.txt",
+          "expectedSha256": "1e7b050c96c9b72bd7cfe2a254b9c9bee9b1f9666bffcc07447946899f3acba2",
+          "expectedBytes": 753,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "fe7bb258ce5764b256671b2b3f262232dd30303d",
+              "sha256": "1e7b050c96c9b72bd7cfe2a254b9c9bee9b1f9666bffcc07447946899f3acba2",
+              "bytes": 853,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 753,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stdout.txt",
+          "expectedSha256": "70bd021124e6369243163a485abe6665bce329b7d56ebf303c3e80dd3664aa1d",
+          "expectedBytes": 13572,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "612e1fab68ce0a200f2fa9d147479e25c438af04",
+              "sha256": "70bd021124e6369243163a485abe6665bce329b7d56ebf303c3e80dd3664aa1d",
+              "bytes": 15454,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13572,
+              "reporter": {
+                "startTime": 1791092068921,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/7/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-08.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
+          "expectedSha256": "ab8a0eff0b3e8d79d05efa9d0543d5df34d5c6823a4f7f994843bd6bc186325a",
+          "expectedBytes": 13568,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "ef2d448cf8195d859446ba740e6870fa4df3ac63",
+              "sha256": "ab8a0eff0b3e8d79d05efa9d0543d5df34d5c6823a4f7f994843bd6bc186325a",
+              "bytes": 15450,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13568,
+              "reporter": {
+                "startTime": 1791092069848,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
+          "expectedSha256": "7437ea184e6e2a9ea37846d2925698be8b173ceb27be76409436f4e8677c1216",
+          "expectedBytes": 17543,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "6d5031cbbf816960e69ea535b23df7fd07521b3f",
+              "sha256": "7437ea184e6e2a9ea37846d2925698be8b173ceb27be76409436f4e8677c1216",
+              "bytes": 20286,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 17543,
+              "reporter": {
+                "startTime": 1791092070797,
+                "success": false,
+                "numTotalTests": 36,
+                "numPassedTests": 35,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stderr.txt",
+          "expectedSha256": "d690d3c27118bc4c6a8100df6896d5304e2ef391bb72c80bd2fd027e271bb8fb",
+          "expectedBytes": 656,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "4dc36d1336e33936bbd1cca8a56a648acf04c571",
+              "sha256": "d690d3c27118bc4c6a8100df6896d5304e2ef391bb72c80bd2fd027e271bb8fb",
+              "bytes": 754,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 656,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
+          "expectedSha256": "32f7096c6f415608e9afa647962a9b302a190876e20903cd880a0ca5db9f12d8",
+          "expectedBytes": 13570,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "a18c62b2df3369a0160e9e5ddbb67d86e1751abb",
+              "sha256": "32f7096c6f415608e9afa647962a9b302a190876e20903cd880a0ca5db9f12d8",
+              "bytes": 15452,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 13570,
+              "reporter": {
+                "startTime": 1791092071711,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/8/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stdout.txt",
+          "expectedSha256": "60b8cca8915ade9d409572090806f9d686884153706e54bf2db70c6f4e6baeed",
+          "expectedBytes": 11369,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "0254df83db71b3ab17d7a4e0225db70383e7761d",
+              "sha256": "60b8cca8915ade9d409572090806f9d686884153706e54bf2db70c6f4e6baeed",
+              "bytes": 13895,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 11369,
+              "reporter": {
+                "startTime": 1791092072634,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stdout.txt",
+          "expectedSha256": "0644e84cbac1e21f427375363b55872c8a6361f8f9d8ab9c5571ecedb35bfd2d",
+          "expectedBytes": 15087,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "7f569920f838a2dc5970ed86828589330c85765a",
+              "sha256": "0644e84cbac1e21f427375363b55872c8a6361f8f9d8ab9c5571ecedb35bfd2d",
+              "bytes": 18512,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 15087,
+              "reporter": {
+                "startTime": 1791092073648,
+                "success": false,
+                "numTotalTests": 35,
+                "numPassedTests": 34,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stderr.txt",
+          "expectedSha256": "ad5a92067cd36c038a1dee15dff0f5a12fd854f3cee934a09177b7eaab7c7978",
+          "expectedBytes": 669,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "9d2a21bd67111d43cb7520cbeb4dc5f1b7a5be30",
+              "sha256": "ad5a92067cd36c038a1dee15dff0f5a12fd854f3cee934a09177b7eaab7c7978",
+              "bytes": 811,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 669,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stdout.txt",
+          "expectedSha256": "c0e2af21a2997129c96ea0c0d03415c15879079140794187687b00f3b3cffca0",
+          "expectedBytes": 11375,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "8351f12a19b82c9141145769d902f2357fa2aee0",
+              "sha256": "c0e2af21a2997129c96ea0c0d03415c15879079140794187687b00f3b3cffca0",
+              "bytes": 13901,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 11375,
+              "reporter": {
+                "startTime": 1791092074635,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/9/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-10.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stdout.txt",
+          "expectedSha256": "d5ec2e81f75566e6adf91589d593c74eac6f8aa980363c60679c86c86a3f3b8d",
+          "expectedBytes": 6676,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "060934adf6450d59ce7fc372e3ff3ca3ad497942",
+              "sha256": "d5ec2e81f75566e6adf91589d593c74eac6f8aa980363c60679c86c86a3f3b8d",
+              "bytes": 7854,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 6676,
+              "reporter": {
+                "startTime": 1791092075623,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stdout.txt",
+          "expectedSha256": "8c408844e0502d43bb7beaea1ecfc76ce19c4dc954efeb7bcf9ed066e71520d2",
+          "expectedBytes": 9274,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "ac580d2b323ac1668041335766e8a05f29e2731d",
+              "sha256": "8c408844e0502d43bb7beaea1ecfc76ce19c4dc954efeb7bcf9ed066e71520d2",
+              "bytes": 10937,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 9274,
+              "reporter": {
+                "startTime": 1791092076755,
+                "success": false,
+                "numTotalTests": 18,
+                "numPassedTests": 17,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stderr.txt",
+          "expectedSha256": "074d1fe826aa1c820f5269e9c01dabbf5a27e3203c1ff3046ffbb635ae67b6af",
+          "expectedBytes": 573,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "d71cc7eba0971bb5e0bb00c9fe3936ee973ef053",
+              "sha256": "074d1fe826aa1c820f5269e9c01dabbf5a27e3203c1ff3046ffbb635ae67b6af",
+              "bytes": 721,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 573,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stdout.txt",
+          "expectedSha256": "2a993ffeae77e4331fcfadb508d5537cdd6e837bdfd6ac8aece474fdc2024185",
+          "expectedBytes": 6675,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "f8c8f4648b27301e02ddb36e89786474d910ca45",
+              "sha256": "2a993ffeae77e4331fcfadb508d5537cdd6e837bdfd6ac8aece474fdc2024185",
+              "bytes": 7853,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 6675,
+              "reporter": {
+                "startTime": 1791092077741,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/10/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-11.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/greenBefore/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stdout.txt",
+          "expectedSha256": "e7546c92a6f692ee9bb1cde3e29246d7fbd79a88a8fa5ad9a463969239f4579c",
+          "expectedBytes": 12391,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e2ab594f0a347eccf325fef150efb2f3c7feecc7",
+              "sha256": "e7546c92a6f692ee9bb1cde3e29246d7fbd79a88a8fa5ad9a463969239f4579c",
+              "bytes": 15345,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 12391,
+              "reporter": {
+                "startTime": 1791092078692,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/greenBefore/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-original.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/red/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stdout.txt",
+          "expectedSha256": "24ea46a584fb8b8468c810180e057a7c10c79a3db6730bc08a0fa5cf3fc37549",
+          "expectedBytes": 15955,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "2c05850d8b1b330801d3d024f5761a1c7dc3858c",
+              "sha256": "24ea46a584fb8b8468c810180e057a7c10c79a3db6730bc08a0fa5cf3fc37549",
+              "bytes": 20104,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 15955,
+              "reporter": {
+                "startTime": 1791092079418,
+                "success": false,
+                "numTotalTests": 41,
+                "numPassedTests": 40,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/red/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stderr.txt",
+          "expectedSha256": "127287b196dd8a64be204058f69cdc34b2537e1f7a65b4ebcb6d6cb1e725b1d4",
+          "expectedBytes": 815,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.red-mutated.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "8550e8dbfa73a746490e2eede44ee7a6626fc45f",
+              "sha256": "127287b196dd8a64be204058f69cdc34b2537e1f7a65b4ebcb6d6cb1e725b1d4",
+              "bytes": 943,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 815,
+              "reporter": null
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/greenAfter/stdout/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stdout.txt",
+          "expectedSha256": "d72d3064c178e18c7e3a57ee70e2959f632ec53863039c30a026aa27565b260a",
+          "expectedBytes": 12398,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stdout.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "79e9e8d201f005a1d92d5bb9de375add3873ee41",
+              "sha256": "d72d3064c178e18c7e3a57ee70e2959f632ec53863039c30a026aa27565b260a",
+              "bytes": 15352,
+              "hashMatches": true,
+              "declaredBytesMatch": false,
+              "utf16CodeUnits": 12398,
+              "reporter": {
+                "startTime": 1791092080136,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          ]
+        },
+        {
+          "pointer": "/results/11/execution/greenAfter/stderr/file",
+          "declaredPath": "/Users/zhangxu/illegal/type-pal-cov85-game/docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stderr.txt",
+          "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "expectedBytes": 0,
+          "locations": [
+            {
+              "kind": "fixed-git-blob",
+              "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-12.green-restored.stderr.txt",
+              "revision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+              "gitObject": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "bytes": 0,
+              "hashMatches": true,
+              "declaredBytesMatch": true,
+              "utf16CodeUnits": 0,
+              "reporter": null
+            }
+          ]
+        }
+      ],
+      "comparisons": {
+        "beforeResultCount": 6,
+        "afterResultCount": 12,
+        "existingPhaseRunIdentities": [
+          {
+            "id": "MUT-01",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087169135,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092048795,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-01",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087170206,
+                "success": false,
+                "numTotalTests": 56,
+                "numPassedTests": 55,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092049738,
+                "success": false,
+                "numTotalTests": 56,
+                "numPassedTests": 55,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-01",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087171121,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092050496,
+                "success": true,
+                "numTotalTests": 56,
+                "numPassedTests": 56,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-02",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087172058,
+                "success": true,
+                "numTotalTests": 12,
+                "numPassedTests": 12,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092051269,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-02",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087173223,
+                "success": false,
+                "numTotalTests": 12,
+                "numPassedTests": 11,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092052300,
+                "success": false,
+                "numTotalTests": 18,
+                "numPassedTests": 17,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-02",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087174407,
+                "success": true,
+                "numTotalTests": 12,
+                "numPassedTests": 12,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092053363,
+                "success": true,
+                "numTotalTests": 18,
+                "numPassedTests": 18,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-03",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087175701,
+                "success": true,
+                "numTotalTests": 30,
+                "numPassedTests": 30,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092054312,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-03",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087176563,
+                "success": false,
+                "numTotalTests": 30,
+                "numPassedTests": 29,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092055024,
+                "success": false,
+                "numTotalTests": 41,
+                "numPassedTests": 40,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-03",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087177389,
+                "success": true,
+                "numTotalTests": 30,
+                "numPassedTests": 30,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092055753,
+                "success": true,
+                "numTotalTests": 41,
+                "numPassedTests": 41,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-04",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087178225,
+                "success": true,
+                "numTotalTests": 29,
+                "numPassedTests": 29,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092056470,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-04",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087179346,
+                "success": false,
+                "numTotalTests": 29,
+                "numPassedTests": 28,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092057365,
+                "success": false,
+                "numTotalTests": 35,
+                "numPassedTests": 34,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-04",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087180350,
+                "success": true,
+                "numTotalTests": 29,
+                "numPassedTests": 29,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092058259,
+                "success": true,
+                "numTotalTests": 35,
+                "numPassedTests": 35,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-05",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087181408,
+                "success": true,
+                "numTotalTests": 19,
+                "numPassedTests": 19,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092059165,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-05",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087182544,
+                "success": false,
+                "numTotalTests": 19,
+                "numPassedTests": 18,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092060033,
+                "success": false,
+                "numTotalTests": 36,
+                "numPassedTests": 35,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-05",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087183571,
+                "success": true,
+                "numTotalTests": 19,
+                "numPassedTests": 19,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092060880,
+                "success": true,
+                "numTotalTests": 36,
+                "numPassedTests": 36,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-06",
+            "phase": "greenBefore",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087184597,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092061725,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-06",
+            "phase": "red",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087185524,
+                "success": false,
+                "numTotalTests": 21,
+                "numPassedTests": 20,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092062577,
+                "success": false,
+                "numTotalTests": 21,
+                "numPassedTests": 20,
+                "numFailedTests": 1,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          },
+          {
+            "id": "MUT-06",
+            "phase": "greenAfter",
+            "before": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791087186427,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            },
+            "after": {
+              "rawHashMatches": true,
+              "reporter": {
+                "startTime": 1791092063404,
+                "success": true,
+                "numTotalTests": 21,
+                "numPassedTests": 21,
+                "numFailedTests": 0,
+                "numPendingTests": 0,
+                "numTodoTests": 0
+              }
+            }
+          }
+        ]
+      },
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c12",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C13",
+      "commit": "d03cba2c23c858526bc514a5389347177794861c",
+      "sourcePath": "docs/testing/medium-triple-20261002/grok/receipt.json",
+      "commitTime": "2026-10-02T18:07:42+09:00",
+      "beforeGitObject": "f91e22d0985147f0a4e2c0e6c515ac5811aec95b",
+      "afterGitObject": "913e49b4b45d263a6168275a33644b94dc0ad6d7",
+      "beforeSha256": "c31795e8aef7187e3311b5213323d6ccb4baf089cf5848cbdf6cb5e4fbd84664",
+      "afterSha256": "913d66469e610a0d2610c667d15efc8de9a5e0ca01e658c708b20457540e892b",
+      "changedObservations": [
+        {
+          "pointer": "/gates/directedAdjacent/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/gates/packageTest/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/gates/lint/summary",
+          "before": {
+            "present": true,
+            "value": "PASS — 2787 files; 0 errors / 0 warnings / 0 infos; complete report"
+          },
+          "after": {
+            "present": true,
+            "value": "PASS — 2791 files; 0 errors / 0 warnings / 0 infos; complete report"
+          }
+        },
+        {
+          "pointer": "/gates/packageTest/summary",
+          "before": { "present": false },
+          "after": {
+            "present": true,
+            "value": "Test Files  1 failed | 241 passed | 4 skipped (246); Tests  2764 passed | 13 skipped (2777)"
+          }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c13",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C14",
+      "commit": "d056af0e65f8e02324709fe79eac6e3643b8bdb7",
+      "sourcePath": "docs/testing/kimi-editor-workflows/evidence.json",
+      "commitTime": "2026-09-29T00:19:40+09:00",
+      "beforeGitObject": "178e70515236246ff5e24190bd900eb3c1795a35",
+      "afterGitObject": "4b0246722c1d474d936d3e6048ee5097db4b73f7",
+      "beforeSha256": "ab49111a29f5f23a30b64090e4cf7c2da64af308013dc9e7e95d78702ad0cd8e",
+      "afterSha256": "2111f0bf2e8860683e65ed60f47772e073c5c5762fc21d6fb403e3218e3f5b55",
+      "changedObservations": [
+        {
+          "pointer": "/batches/A/counterControl/records/7/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/18/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/19/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": false }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/8/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/14/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/batches/A/counterControl/records/1/exitCode",
+          "before": { "present": true, "value": 1 },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/17/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/batches/C/counterControl/records/9/exitCode",
+          "before": { "present": true, "value": 0 },
+          "after": { "present": true, "value": 1 }
+        }
+      ],
+      "artifacts": [],
+      "comparisons": {
+        "generatedBefore": "2026-09-28T14:20:11.424Z",
+        "generatedAfter": "2026-09-28T15:11:42.060Z",
+        "stableLabels": [
+          {
+            "batch": "A",
+            "oldCount": 17,
+            "newCount": 17,
+            "changedSharedLabels": [],
+            "removed": [],
+            "added": []
+          },
+          {
+            "batch": "B",
+            "oldCount": 12,
+            "newCount": 12,
+            "changedSharedLabels": [],
+            "removed": [],
+            "added": []
+          },
+          {
+            "batch": "C",
+            "oldCount": 20,
+            "newCount": 18,
+            "changedSharedLabels": [],
+            "removed": ["k09-noop-drop-committed", "k12-stage-alive-guard"],
+            "added": []
+          }
+        ]
+      },
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c14",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    },
+    {
+      "id": "C15",
+      "commit": "525c40cd086fa743cf0f16d39f078a8a40eeb5e7",
+      "sourcePath": "docs/testing/coverage-initializer-evidence.json",
+      "commitTime": "2026-09-23T21:56:37+09:00",
+      "beforeGitObject": "d6a37638541ec9c929d413ac732c9f17fdcaef7d",
+      "afterGitObject": "b96deb4175065b7c09f2abd310268a9c6820e402",
+      "beforeSha256": "ceacd0d80558ebe479143542ef6b0f586898dd5fdc1bed948afccb8421297d76",
+      "afterSha256": "c1e884ca47d7993a9890f23008c73844a034427773f1c9309315a28f04ab52d6",
+      "changedObservations": [
+        {
+          "pointer": "/implementation/gates/2/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/implementation/gates/0/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/implementation/coldInstall/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/implementation/unpatchedControl/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 1 }
+        },
+        {
+          "pointer": "/implementation/hostNegativeControls/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        },
+        {
+          "pointer": "/implementation/gates/1/exitCode",
+          "before": { "present": false },
+          "after": { "present": true, "value": 0 }
+        }
+      ],
+      "artifacts": [
+        {
+          "pointer": "/implementation/prePatch/log",
+          "declaredPath": "/tmp/type-pal-merge-prepatch.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/regressions/log",
+          "declaredPath": "/tmp/type-pal-merge-final10.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/unpatchedControl/log",
+          "declaredPath": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-unpatched-control-sa3jSe/negative.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/unpatchedControl/frozenReplay/log",
+          "declaredPath": "/tmp/type-pal-truth-unpatched-frozen-negative.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/coldInstall/log",
+          "declaredPath": "/tmp/type-pal-truth-cold-install.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/coldInstall/smokeLog",
+          "declaredPath": "/tmp/type-pal-truth-cold-smoke.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/hostNegativeControls/log",
+          "declaredPath": "/tmp/type-pal-truth-host-mutants.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/gates/0/log",
+          "declaredPath": "/tmp/type-pal-truth-check.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/gates/1/log",
+          "declaredPath": "/tmp/type-pal-truth-ratchet.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        },
+        {
+          "pointer": "/implementation/gates/2/log",
+          "declaredPath": "/tmp/type-pal-truth-strict.log",
+          "expectedSha256": null,
+          "expectedBytes": null,
+          "locations": []
+        }
+      ],
+      "comparisons": {},
+      "manualAdjudication": "receipt-candidate-adjudication-20261018.md#c15",
+      "scope": "Specified changed receipt fields and referenced artifacts only; not a full semantic review of each source document or a product rerun."
+    }
+  ],
+  "semanticAcceptanceGranted": false,
+  "historicalExecutionReplayed": false
+}

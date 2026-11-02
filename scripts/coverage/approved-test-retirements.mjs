@@ -7,6 +7,15 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-11-02: exact boat auto retirement; dedicated ride proof stays active.
+    {
+      file: 'packages/reforge/src/pal-unified-steps-content.test.ts',
+      previous: 5414,
+      current: 5410,
+      previousIdentityDigest: '1952a3f8f7cb645ee161bbae45050334a83094c44796bd2d9072faba4e55855b',
+      currentIdentityDigest: '00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450',
+      fileSha256: '6dc2404d5fac5ea54fd62ec4101d830405842a352395ce9f32b47f8707ca1523',
+    },
     // User2026-11-01: split message resolution from playback/wrap/steal consumers.
     // All13 old identities preserved; proof.json maps54 across the whole module.
     {

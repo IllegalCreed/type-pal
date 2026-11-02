@@ -1,40 +1,61 @@
 # GLM内容合同残项工作包（TB-01）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CONTENT-RESIDUAL-1 工作包与 GLM 实施复合回执（r2/done，统一候选 44b9b763 设计不重签；原生产对照 e58834f6、接入基点 952a45bd 产品零改；GLM 原测试贡献者、Codex 补正/集成、Kimi 终审、GLM 复核新候选）。**当前独立接收结论（2026-09-21）**：Codex 补正 CR-R1 后 23 项（3/5/3/8/4）、5 对照/5 见证全 detected、七 fixture accepted、原 15 跑与统一 check 7,988/strict 7,497 通过；三席 accept 齐用户授权 Codex 核零漂移收口（旧 counter 已消除留历史；A3 已有/rows 无上限/owner warn 不重开，下方 GLM 原始回执不作为当前数字）。
+
+## Scope
+
+- r2 收口依据：content tsconfig lib:ES2022/rootDir:src 不得反向 import reforge loadCurrentProjectFrom；合法载荷直接过 content 现行 validateAuthorScenes/Items/Enemies/SharedScripts 与目录守卫；引用测试先证结构合法+validateReferences 零 issue 再只坏目标引用核完整 issue 多重集合；上层 loader 不直接被测不把结构守卫称 loader/保存/重开验证。
+
+## Execution and assertions
+
+- **跨包去重表**：actor-reference 表情重命名 :293-340——editor actor-dialogue-commands.ts:76 直接调用 content rename、boundaries.test:149+ 已钉全域/非目标/深快照/invert → A3 已有（跨包间接）默认不新增文件；frame-sequence 多字节 encode 臂 :103-112——上包已分类合法编码元数据经 prepare/finish 后为 ASCII → 防御/不可达不造域外输入；上包已交付 118 项逐项对账不重做
+- **目标模块 A1-A12**：asset.ts（A1 unbound 直连肖像臂 :409-421 先 checkAuthorDialogueCue——collectDialoguePortraitReferences 刻意不扫 unbound 原稿函数名有误；A2 :281-292 实为 palBattleSpriteAssetId 非收集器只核现行 caller 合法参数轴）；frame-sequence（A4 外部 UTF-8 解码错误轴与不可达 encode 臂分开；A5 index JSON 解析失败轴）；author-dialogue（A6-A10 rows/speed/autoAdvance/slot/cursorFrame 各守卫轴）；map-index（A11 剩余拒绝边界）；validate-refs（A12 优先 world appearance.battleSprite/商店货单→item/levelUp 属主与 optional 缺席——scriptChunks/scriptIndex 仅 API 字段无当前消费者证据不得新增旧分片正例）
+- **GLM 实施回执（候选自验原文）**：基点 4473c367；最终树 5 新测试文件 24 项（3/5/3/8/5）——A3 按 r2 裁决登记已有不新增；定向 24/24+content 全包 60 文件 698 项+tc rc0+7 新文件 Biome rc0；12 族逐项账：A1 精确边+非目标不误收+输入不变；A2 player 0/enemy 1/零填充/负/非整数精确消息；A4 四轴（起始/截断/延续/码点）+Unicode 键可达性；A5 非法 JSON 包装与 validate 层类型拒绝分离；A6 勘误（现行守卫无长度上限原「超长>4 拒绝」是发明改「多行合法」）；A7-A10 合法枚举+非法拒绝各轴；A11 七轴+根非对象；A12 levelUp 属主悬空→warn（现行 companion 政策非 error）不吞并列；负控 rc=0：判据 AST 自测+1 对照+13 变异针全钉名 AssertionError 业务红产品 hash 不变；覆盖对照六模块（asset L+8/B+19、frame-sequence L+16/B+24 等）全 content L4458→4491/B3798→3863；actor-reference 不变（A3 已有）；未发现新产品缺陷；全仓门留 Codex
+- **已知边界**：不补 TextEncoder 降级（不存在）；不复制 editor rename（跨包已有）；D-06/D-07、B4 authoring 放置轴留各自归属；enemy-team-reference/script-library 无 caller 不保活；唯一新增白名单 11 条（6 测试上限非必须+fixture+2 工具+机账）在 quote
+
+## Results
+
+- TB-01 done（44b9b763 三席 accept）：A1-A12 十二族落账（A3 跨包已有/A6 勘误/A12 warn 政策）；24 项+13 针；统一 check 7,988/strict 7,497。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；补正与收口见 tb00-tb01-completion.md；旧 counter content-residual-review.md 留历史。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-01 工作包+实施 | 2026-09-19/21 | 24 项+13 针+跨包去重 | done（44b9b763 三席 accept 收口） | r2 counter CR-R1 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 TB-01 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM内容合同残项工作包（TB-01）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：A1-A12 十二族落账（A3 跨包已有/A6 勘误无上限/A12 warn 政策）；24 项+13 针；统一 check 7,988/strict 7,497；三席 accept 收口。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+跨包去重表、A1-A12 表、12 族逐项账与负控覆盖数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CONTENT-RESIDUAL-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `2c44dbdeb1dfad76e4d7f31b7059b6799914dec63c9b489592e0c77719c2520f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `2c44dbdeb1dfad76e4d7f31b7059b6799914dec63c9b489592e0c77719c2520f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM内容合同残项工作包（TB-01）
 >

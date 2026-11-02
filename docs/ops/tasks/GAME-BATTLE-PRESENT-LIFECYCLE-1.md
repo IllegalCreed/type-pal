@@ -1,6 +1,59 @@
 # GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+战斗画面宿主生命周期两修复：入场渐变保存进入前画面（SDLPal battle.c:685–735先备份gpScreen、新战清消息与数字），以及每场战斗独立拥有提示/飘字/入场/召唤缓存、退出释放。基线wrapper先clear装配器才捕获、长期实例未接入退出清理。用户2026-10-23裁决call_4cdcfa14fc0b4101ad44d4f0370bdf12“批准两项修复（推荐）”。
+
+## 范围
+
+只改present-battle.ts、present.ts的宿主接线和对应专测；动作规则纯提取由父卡单独记录；不改战斗机制、存档、资源或第二阶段。直接draw的P14测试绕过wrapper不能证明宿主已保留入场图；同一战斗开状态页（mode=menu、battleState仍在）不是退出不能丢缓存。
+
+## 前提与证据
+
+固定源全文核读。正式三红（lifecycle-red-hydrated，敌队五槽hydrate runtime、无mock）：入场应19实0、消息应20实15、飘字应20实183；五项正式业务红→绿。浏览器已渲染世界帧经实际opcode7/bootstrap开战，首帧64000像素原样保留且随后渐变，0warning/0error。2026-10-24 CODE3l收口：12项读域8项整文件接受（7新关闭、1刷新），3个广域源与P13专测仅增量；3410tracked/418closed/100review/2892pending；定向255、相邻1148、完整check 20572包例+700工具、七包typecheck、官方20143例/777源及同报告ratchet/strict protected通过，运行与硬静态0/0/0。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done为有限范围收口：跨战残留由真实core/宿主像素反例覆盖，快速换战的普通剧情可达性未知；CLI并发上限2保留5秒与全部用例；远端CI/合并另核，不以本地done代替发布状态。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，Codex继续本窗口，不扩94–102。
+
+## 历史范围
+
+原卡属固定main时点；范围为present宿主接线与专测子切片，规则提取分提交。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-24 CODE3l生命周期收口，官方20143/777与protected零诊断。
+
+## 当时证据
+
+当时回执属原时点证据：三红（19/0、20/15、20/183）、五红→绿、首帧64000像素保留、check 20572/官方20143零诊断；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；像素单测不外推完整剧情视觉验收；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+CODE3l其余读域由父卡QUALITY-PRE94-RETROSPECTIVE-1继续。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5270B / SHA-256 33a4200df6d46f4afe297536f572655fc2f6345db374421aae285be39ba252db；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期
+
+Status: done
 Phase: phase1
 Capability: CODE3l / battle presentation
 Coding Owner: Codex
@@ -63,3 +116,5 @@ Codex有限范围accept/done allowed。2026-10-24 CODE3l规则/生命周期收�
 ## 下一位 Agent 提示词
 
 无，Codex继续本窗口，不扩94–102。
+```
+<!-- incremental-original-source:end -->

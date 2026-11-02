@@ -1,7 +1,7 @@
 # type-pal 文档模型
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-18
 Owner: Codex
 Template: guide-runbook-v1 / 1.0.0
 
@@ -38,7 +38,8 @@ Template: guide-runbook-v1 / 1.0.0
 | 要写的内容 | 写到哪里 | 模板/规则 |
 |---|---|---|
 | 非小改的目标、设计、实施、交接 | 当前任务卡原路径 | [完整/轻量任务卡](../templates/README.md)，同一 task-card 类型 |
-| 可重复执行的工程操作 | ops/guides | guide-runbook |
+| 跨任务长期协作与质量合同 | ops顶层，如[文档质量与验收](../document-quality.md) | guide-runbook，单一规范来源 |
+| 可重复执行的工程操作与组织指南 | ops/guides | guide-runbook |
 | 持续生效的 Reforge 合同 | phase2/specs | design-spec，保留阶段真值边界 |
 | 世界观来源、设定或创意 | lore 现有职责目录 | reference-canon / narrative-idea，候选不得升格 canon |
 | 测试合同、域报告、E2E、机器 evidence | testing 的 canonical 路径 | [统一模板注册表](../../phase-governance/templates/README.md)与[测试治理](../../testing/governance.md) |
@@ -71,6 +72,10 @@ Template: guide-runbook-v1 / 1.0.0
 
 JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统一移到 `payload` 下就宣布兼容。envelope 优先作为不覆盖业务字段的元数据；原对象不能扩展时使用配对 sidecar，并验证真正 consumer。HTML 保留交互/脚本/资源引用，在可见说明与元数据层记录治理范围，不能转为 Markdown 摘要。
 
+同一文档类型有多种格式时，按已选变体的format及自有templateVersion校验；未声明自有值的旧变体继承父合同。新增原生格式不要求无关Markdown滚动版本，也不能通过换标绕过固定来源和历史限制。原生pilot结构符合与内容接受分别入账，作者通过不自动增加已迁移数。
+
+不可改写的原生工具输出使用已冻结的json-native变体：原字节保全，来源/合法输入、oracle、具体结果和限制复用当前唯一review条目；不为每份再造envelope、sidecar或来源副本。按已准入路径由真实model/progress核固定Git源、相位与当前说明；这不同于旧artifactOnly跳过正文，也不自动恢复语义或完成信用。新增种类/路径先设计并pilot，不能仅以SHA登记替代内容判断。
+
 每个附件记录路径/SHA、产生者、Owner、caller、关联任务/报告、时间/版本范围、保留原因和退出条件。无法确认的归属标 pending，不根据文件名猜测。immutable raw 不因当前判定变化而改写，新判断另存并链接旧记录。
 
 治理记录自身不自嵌自己的内容 hash；通过 Git blob/提交和独立回执定位。正文的 after SHA 放在 review record 中，review/control JSON 的机器字段适用其自身 schema，不能造成无限递归的“给 review 再造 review”。
@@ -79,9 +84,15 @@ JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统�
 
 用户批准的 1838 份是固定必审 cohort；新增/删除/路径变更单列增量，不静默改变分母。自动枚举、结构分类与旧 ledger 继承都是排期信息。只有读过正文并写出可反证的结论，才能转 content-reviewed。
 
+用户2026-10-21批准三份空账本的显式退役。处置源复用document-registry manifest的documentRetirements；empty-review-ledger-retirement/1.0.0只处理有固定Git原件、空entries、完整前身与接替映射的载体。1838原始绑定保持，进度分别列migrated、retired、pending，退役不授正文迁移或语义信用。历史保全区中的原链接须匹配登记quote SHA并能读取退役原件；新增现行引用仍要求检出目标。缺来源/接替、重复处置、quote变化或检出残留均拒绝，不能用排除、artifactOnly或缩分母代替处置。
+
 pilot 必须在真实模板章节中表达该文档的具体语义，并检查入链、出链、状态/历史、机器字段和实际 consumer。只把原文拼进 wrapper、比较 substring、JSON deep-equal，均不足以验收模板。每类至少一篇通过前，同类批量迁移不得开始。
 
 全量完成须清除未经批准的 governed-legacy，正文符合模板且逐篇 review 完整；无孤儿、断链、未解释冲突或 SHA 漂移。静态通过不能转换为 runtime/E2E/视觉/coverage 通过。
+
+### 文档交付与证据验收协议
+
+长期合同已迁至ops顶层的[文档质量与验收规范](../document-quality.md#文档交付与证据验收协议)，版本仍为 `document-delivery-acceptance / 1.0.0`。本节保留旧链接的转接入口；质量条款只维护在该规范，本文负责组织、路由与写回。
 
 ## 失败处理
 
@@ -108,4 +119,4 @@ pilot 必须在真实模板章节中表达该文档的具体语义，并检查�
 
 全量交付另运行 `node scripts/docs/report-governance-progress.mjs --require-complete`；它要求全部 1838 基线、当前新增候选和模板 pilot 都已闭合，局部 registry 绿色不算完成。
 
-提交前运行 `pnpm check:docs`、`pnpm lint`、`git diff --check`；所有 error/warning/info 必须为零。发布另核对应产品与部署回执，不新增“文档全绿即批准发布”的捷径。
+集成/封板前按[文档质量与验收规范](../document-quality.md)确认 `pnpm check:docs`、`pnpm lint`、`git diff --check` 的有效结果；同候选及相关输入的可靠结果可复用，所有 error/warning/info 必须为零。隔离候选的未通过项保持 review/rework，不能冒称统一门或全量完成。发布另核对应产品与部署回执。

@@ -1,6 +1,59 @@
 # GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+删除零生产调用的旧菜单接口：CODE-QUALITY-107的caller census证实primitives.ts的pageUp/pageDown（内部findNextSelectable仅由它们调用）与item-select.ts的createItemSelectMenu/ItemDisplayMode/rightText建表均无生产caller，消费只在测试；真实inventory/shop/sell路径使用各自菜单builder。用户2026-10-25批准删除并删去或迁移相应测试，同类不被实现读取的内部菜单参数与全部仓库调用点一并清理；matchesFilter、真实库存网格和角色导航行为保留。
+
+## 范围
+
+删除范围另含同文件Confirm/Triple/Switch八个helper及三类型（也仅测试调用）——现用确认/开关由具体菜单状态机持有；上一份current-review的G“其它出口实际消费”过宽已撤回，以实际全仓import/caller清单代替。
+
+## 前提与证据
+
+固定源全文核读。纯死代码清理以生产caller清单、删除影响、真实相邻回归及最终集中门验收，不伪造“失败例证明零caller”（旧准入第3条该表述保留为历史）。SDLPal ui.c:510-572为逐项光标、无PgUp/PgDn产品路径。2026-10-25本地统一门收口：用户两项裁决落实，原范围54路径中20个新关闭、34既有关闭按版本桥接保留、12相邻路径只验实际delta；全仓20605产品+714工具、七包TC、lint6111文件0/0/0；唯一official20168例/807源完成、原四条比率拒绝保留、仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0、五项精确退役全部匹配。锚点:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 验收
+
+done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录。
+
+## 状态与交接
+
+done保持原语义；不扩103+或重开pre94。无下一位Agent提示词。
+
+## 历史范围
+
+原卡属固定main时点；范围为menu helper死出口清理，与GAME-SAVE-INPUT-DOMAIN-1共用94-102统一门收口。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：用户删除裁决落实，统一门零诊断收口。
+
+## 当时证据
+
+当时回执属原时点证据：caller census、20新关闭/34桥接保留、20605+714/official20168零诊断；本页不重跑、不复授。关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；未知外部反射调用不冒称不存在，删除依据为用户明确裁决；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+E-4/E-5原始登记见CODE-QUALITY-107；94–102返工以approved-closeout承接。 关联:[codex-current-review.md](../evidence/CODE-QUALITY-107/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4582B / SHA-256 d6e1047c2cf21b880107767ac94bc448ccabf7f29670f2a5a83a69bf85ca82c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入
+
+Status: done
 Phase: phase1
 Capability: menu helper public API ownership
 Coding Owner: Codex
@@ -59,3 +112,5 @@ CODE-QUALITY-107 对 menu helper 实现、测试、真实 caller 和 SDLPal prim
 4. 不用 `as`、ignore、exclude、导出重命名或空壳包装绕过接口变化。
 
 在准入前，CODE-QUALITY-107 的 E-4/E-5 保持 review，相关文件不标已验证。
+```
+<!-- incremental-original-source:end -->

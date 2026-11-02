@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
 import { renderPhaseGovernanceIndexes } from './build-phase-lore-governance.mjs'
+import { checkMigratedDocument } from './document-model.mjs'
 import { loadPhaseLoreCatalog } from './phase-lore-catalog.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
@@ -73,6 +74,19 @@ for (const [name, expectedText] of Object.entries(renderPhaseGovernanceIndexes(c
   const path = resolve(docsRoot, 'phase-governance', name)
   if (!existsSync(path) || readFileSync(path, 'utf8') !== expectedText)
     issues.push(`phase/lore generated index drift: ${name}`)
+  // Generated views belong to this producer's exact inventory. Validate their
+  // actual bodies with the shared template contract as well as byte projection.
+  const relativePath = `docs/phase-governance/${name}`
+  const templates = JSON.parse(
+    readFileSync(resolve(docsRoot, 'phase-governance/templates/registry.json'), 'utf8'),
+  )
+  for (const issue of checkMigratedDocument(
+    { path: relativePath, templateId: 'governance-index-v1', historyOverlay: false },
+    templates,
+    (p) =>
+      existsSync(resolve(repoRoot, p)) ? readFileSync(resolve(repoRoot, p), 'utf8') : undefined,
+  ))
+    issues.push(`${relativePath}: ${issue}`)
 }
 console.log(
   `phase/lore governance: ${issues.length ? 'FAIL' : 'PASS'} (${expected.length} documents)`,

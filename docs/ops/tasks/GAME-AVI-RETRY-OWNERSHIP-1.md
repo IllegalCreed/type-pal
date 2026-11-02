@@ -1,6 +1,59 @@
 # GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+裁定并修复视频自动播放失败、第一次点击重试也失败后的重试入口：基线tryPlay首次拒绝创建overlay并注册once click，点击触发第二次play但拒绝后因clickOverlay已有值直接return，没有恢复已消费的监听——提示仍显示但后续点击不再发起play。用户2026-10-22批准“修复重复重试（推荐）”。
+
+## 范围
+
+仅playAvi重试提示的监听ownership及对应测试；键盘/抽象跳过消费、500ms缓冲、视频源、音量、自动播放策略、Save、资源管线及二阶段不变。
+
+## 前提与证据
+
+固定源全文核读。隔离副本真实playAvi/DOM运行（仅媒体play端口返回合法Promise结果）：单次拒绝→重试成功对照1绿；两次拒绝→再点击、第三次原可成功的场景恰1条业务AssertionError（提示仍存在，非超时/收集错误）。正式两条新增合同未修先红：重试成功后仍残留可见提示的DOM AssertionError、结束后旧节点仍调用媒体端口的ownership AssertionError。窄修为稳定回调：once消费一次手势，拒绝后重新注册，成功/结束显式解除；最终5例suite对冻结旧源3绿2红，修后8文件61例通过stderr0。首6例草案与初跑过滤参数不存在路径的4文件41绿原件保留；迟到用例与既有M1/M2排重后不加入最终suite。2026-10-22收口：61相邻/全check20432/official fast及同报告strict/protected零诊断，CODE78与AVI实现恢复接受。锚点:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done为用户授权内收口；不表示实体手机权限/编解码/完整剧情或用户真机体验已验收；旧once失效/旧节点监听反例永久保留。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，Codex单Agent维护。
+
+## 历史范围
+
+原卡属固定main时点；范围为playAvi重试监听ownership子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-22收口，check20432/official fast与strict/protected零诊断。
+
+## 当时证据
+
+当时回执属原时点证据：两次拒绝恰1业务AssertionError、5例对冻结旧源3绿2红、8文件61例stderr0；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；这是既有缺口而非移动端新增算法导致；不宣称真实手机权限下复现。
+
+## 继任文档
+
+移动端单次拒绝/skip生命周期证据归原CODE78与移动端任务。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md) [avi-repeat.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4880B / SHA-256 ca543efb085a91b4b3f66284c19bcb2fefd73d7496f636fd24ba9c2bb65c72ec；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: shell / AVI error recovery
@@ -67,3 +120,5 @@ build allowed：Codex唯一Owner，同一3y，仅上述重试监听ownership与�
 ## 2026-10-22 Codex收口
 
 用户授权内两正式红例先行，窄修与61相邻/全check20432/official fast及同报告strict/protected零诊断成立，CODE78与AVI实现恢复接受。旧once失效/旧节点监听反例永久保留；当前只读源与原件快检见[统一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md)。done不表示实体手机权限/编解码/完整剧情或用户真机体验已验收。提交推送合并状态按实际Git记录。
+```
+<!-- incremental-original-source:end -->

@@ -2,56 +2,58 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: plan-status-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 2026-10-08 的有限测试合同派发协议：三个独立对话分别检查当前脚本编辑器、物品炼化机制页、工程加载边界；产品冻结 `797a46a09`。2026-10-11 集成以 Codex 独立验收（codex-review.md）、固定针配置（codex-needles.json）与重放入口（codex-replay.mjs）为准；下文派发冻结与贡献原件保留历史身份。
 
-## 证据身份
+## 目标与时间范围
 
-- 有限测试合同派发 2026年10月8日 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939。
+- 2026-10-08 派发、2026-10-11 集成收口；产品冻结 `797a46a097640206a12b8f61dc014c8db277e457`；路由、源 hash 及互斥白名单见 targets.json；模型选择由用户手工完成（建议 GLM-5.3 文本模型）。
 
-## 来源与输入
+## 里程碑
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- [当前脚本编辑器交互与草稿生命周期]：当前 canonical 正文、定位帧和被拒提交，不为旧 ScriptTree 视图补死分支。
+- [炼蛊与灵葫机制编辑边界]：合法 owner、深链、引用及真实会话草稿，不改玩法公式。
+- [当前工程加载与跨表引用边界]：真实组装接线、FileSource 错误与地图入口，不伪造 typed manifest。
+- 完成标准：每清单轴裁定 existing-proof/new-contract/unreachable/blocked/product-counter 且有可复核锚点；零新增允许；例数/针数/覆盖率不是任务卡指标。
 
-## 断言与业务 oracle
+## 当前状态
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- historical（派发协议时点）；集成结论以同目录 codex-review.md 为准（炼蛊 9e9fab94/脚本 21ea24361/加载 b0a458809 三候选于 2026-10-11 验收集成）。
 
-## 结果
+## 阻塞与决策
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 基点托管状态：Documentation 通过；Coverage run 37744699839 失败于第一阶段 Game 旧测 `p12-overlays.test.ts:21` 的 5000ms 超时（白名单外，贡献者不处理，Codex 集成门另核）；失败日志本机存档 SHA256 `2c16d226…ec4e`。
+- 硬边界：禁双桥/as never/Partial 伪装/假枚举/ignore/skip/扩 timeout/业务核心 mock/私有 state/新后门；DOM 测试调真实 React 组件与设计系统，act 包住异步，捕获恢复 global/descriptor/spy/RAF/root/DOM。
 
-## 限制与复核
+## 下一步
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- （历史时点）每卡在 `docs/ops/evidence/<task-id>/` 交付 README/contract-ledger/directed+raw/counters/gates/receipt；提交前先 stage 全部新增代码文件再跑 tracked 质量台账核验；交付 review 后停止，不合 main、不 done。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-08 有限测试合同派发协议（三包+反控判据+交付结构+收口责任）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- 有限测试合同派发 2026年10月8日：原始正文完整保留于下方 quote。
+- 三包互斥准入+完成标准（五类裁定+锚点）+编码隔离边界+反控判据（四相位+唯一判据+多重集合）+Codex 派发与收口责任。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- targets.json 路由、基点失败日志 SHA、CI run 链接与判据库引用在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。派发协议按 2026-10-08 冻结时点；集成后以 codex-review.md 裁决为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 codex-review.md 与三张任务卡。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `2c12ea667fb260d0baaeabefa4de054f6b2b35d88f20a856b7ea817f711d0939`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 有限测试合同派发 2026年10月8日
 >

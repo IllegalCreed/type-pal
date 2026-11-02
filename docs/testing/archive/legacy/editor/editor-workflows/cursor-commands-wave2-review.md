@@ -1,40 +1,62 @@
 # ARCH-F2-CURSOR-BATCH-2 r1 独立复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-CURSOR-BATCH-2 r1 独立复核（2026-09-26，Codex；候选 `b2e8d712…de80`，开工 `ef19ae7e`，生产对照 `51048353`，主线接收点 `be5218bb`）的回执：**九组产品搬移核验通过；整包 counter，仅 R1–R3 收尾**。
+
+## Scope
+
+- 对象=commands.ts 3163→179 行、13 个新模块、14 个产品文件恰落白名单；任务卡 ARCH-F2-CURSOR-BATCH-2。
+
+## Execution and assertions
+
+- **搬移核验**：90 个声明唯一新归属（正文/类型相同，只忽略 export 修饰/注释/排版/尾逗号）；119 旧出口集合相同；62 运行期 import 绑定逐项核；本席审计 commands-wave2-audit.mjs；擦除 type-only 后 274 个 editor 生产模块静态图无 SCC、新模块不回引 barrel；首次探针因 withEntities 尾逗号误报，本席修正审计归一化（非候选缺陷）；不把静态图当作所有动态加载已证
+- **已核**：11 份新增测试共 16 项（旧 barrel/新模块同一构造器身份）；本席独立 editor check 324 文件/2829 项 TC 与测试 exit0；五针复跑+严格条件读取原始 JSON（每针一正控、恰一目标 AssertionError 红、精确绝对 file/fullName、唯一 MUTANT_HIT、源 hash 未变）；作者 runner 默认回写仓库文件，本席只在 /tmp 复制并改 root/输出目录，针与判据代码不改；R1 是判据仍会接受坏证据的能力漏洞，不撤回真实复跑结果
+- **R1**：module-mutants.mjs:101–107/:132–148 isExactAssertionFailure 只核首行和单词 timeout；judgeRed 只看筛选目标；本席直接抽取实际函数执行：四种不合格失败全被误收（同 failureMessage 后另有 TypeError/`Test timed out in 5000ms`/目标与另用例 TypeError 并存/目标失败夹杂套件错误）；修同一实际 judge：钉全范围执行数与目标、拒额外失败/错误、逐 message 拒混错与超时（保留 Vitest 堆栈 runWithTimeout 等函数名不误判）；:475–500 每次运行回写已跟踪 JSON 与「工具输出写 /tmp」不符，改默认唯一临时目录
+- **R2/R3**：commands-wave2.composite.test.ts:29 `{} as EditorState` 空强转 fixture；回执在白名单外 docs/testing/cursor-commands-wave2.md 且 check.mjs exit1（README 未链接）；实际核；两 child 只记 log 返回原对象，测试确实验证执行顺序、无 CompositeCommand 行为错误；R2 换真实合法 EditorState（参考 scene-reference-fixture.ts）+独立快照；R3 移回专属目录 receipt.md 并校准内部相对链接
+
+## Results
+
+- 任务转 rework 仅修工具/一个 fixture/回执；产品九组、90 正文/119 出口/62 绑定/无环事实已接收不重做。
+- 未合候选、未改官方基线 8232/688、不标 done；最小 UI 与全仓 check/ratchet/strict 待整包通过后统一完成。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；[机账](cursor-commands-wave2-review-evidence.json)；/tmp 审计/日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 复核 | 2026-09-26 | 九组搬移核验+R1–R3 | 九组通过；整包 counter（仅收尾） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 cursor-commands-wave2 r1 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-CURSOR-BATCH-2 r1 独立复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+九组产品搬移核验通过（90 声明/119 出口/62 绑定/无 SCC）；counter 仅 R1 判据误收四反例+回写仓库、R2 空强转 fixture、R3 回执归位。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+审计归一化勘误、四反例表与机账路径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 指当时候选；后续见任务卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-F2-CURSOR-BATCH-2 任务卡与现行测试。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `3ce6f5a05b79e648f2e1de2a896cb3e000c4649ad0f0922a5dadf1129fde1578`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `3ce6f5a05b79e648f2e1de2a896cb3e000c4649ad0f0922a5dadf1129fde1578`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-CURSOR-BATCH-2 r1 独立复核
 >

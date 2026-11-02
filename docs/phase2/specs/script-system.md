@@ -1,71 +1,95 @@
 # 作者脚本与运行时合同
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Owner: Codex（规格维护；本轮仅文档与静态核读）
+Last reviewed: 2026-10-24
 Template: design-spec-v1 / 1.0.0
-
-本页把历史材料接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计记录 design-spec historical document full-text review: 作者脚本与运行时合同.，不能单独证明当前实现。
-- 目标结果：保全设计目标、约束、方案和历史验收意图。
+本页规定canonical作者脚本的身份、步骤、命令根和运行态所有权。方案区分剧情时期，步骤区分首次/再次激活与复读，一次走路、转向、对白、选择和等待留在同一步。恢复原稿的现行合同用途，不因旧R33历史封套重新开放机器状态编辑或旧转换器。
 
 ## 真值与约束
 
-- 原版/primary source：`docs/phase2/specs/script-system.md` 原始全文及其中的一手引用。
-- 当前阶段证据：固定历史 source revision；本次只做静态治理。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。
-- 未知与冲突：- （无新增；历史边界保持开放）
+当前内容contentVersion 22 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
+
+实体地址必须是EntityAddress{scene,entity}；实例label、人物名和精灵名只显示，不替代稳定id或合并同名实体。PageId选择外观/触发/具名BehaviorId，不内嵌匿名脚本；onEnter/onTeleport各有HookId registry及initial选择，切换走显式selectSceneHooks。跨处复用只进AuthorScriptLibrary共享库，callScript只存稳定script和可选复合self，不带chunk提示。物品私有脚本归单件物品，复杂NPC剧情回其具名方案，不复制到物品或等玩家再移动触发。
 
 ## 方案
 
-- 原设计的流程、数据、接口和取舍在 quote 中完整保全。
-- 选择理由：design-spec 保留规范性决策。
-- 明确不做：不修改产品实现、不改写原始 quote。
+### 步骤与命令根
+
+| 构造 | 正常语义 | 拒绝/边界 |
+|---|---|---|
+| flow.kind=stages、initial、stages[] | 稳定StageId和作者label分开；每步body、可选next | initial/next须命中稳定ID；不能按数组下标持久化身份 |
+| 省略next / StageId / complete | 分别下次仍本步、下次指定步、方案完成 | next不是本次立即执行下一步 |
+| finishStep{next:stay/stage/complete} | 原子结束本次步骤并指定下次去向 | 只在flow步骤正文/结构子树；无self不等于非flow；共享/私有/prepare不允许 |
+| returnScript | 返回当前独立共享/私有命令根，调用方步骤不变 | 不能代替finishStep，也不跨根break/continue |
+| confirm | yes/no臂结束后继续下方正文 | 结束整步必须显式finishStep，不造commandOutcome状态映射 |
+| repeat / while / until / forever | 正安全整数次数 / 前测 / 后测 / 明确长期循环 | break最近循环；continue可按同根词法祖先loop id，非祖先/同级/跨根拒绝 |
+
+有名循环仅在内层需指向外层时使用，复制重映射内部引用，移动后非法祖先引用不能静默保存。步骤列表单步/多步均完整显示；label不写入执行树身份，选择方案卡只选编辑/预览对象，不改变游戏运行态。
+
+选择真正变更才推进owner epoch；同有效方案保留游标，换方案从initial重新开始。completed保留绑定但不再获取执行权；取消、过期epoch、settlement gate失败或未返回子调用不能制造完成。编译器只产内存/可删缓存执行树，compilerVersion/content digest不是作者机器状态；SAVE12续跑绑定同一digest，执行序号不能变为内容对象ID。
+
+### 显式交互与场景呈现
+
+runEntityTrigger{target:{scene,entity}}等待目标当前trigger/当前步骤结束，不切方案/重置游标，也不模拟自然距离、按键或触碰。只允许interactive链；auto经共享调用也不行，prepare禁止。子self是目标，父self返回不变，共用同signal/host与真实活动lineage；busy/递归、缺目标、永久removed或异场景明确失败，无绑定/禁用/completed才是no-op，隐藏不等于removed。
+
+子链在同场景session内，直接/间接loadScene、loadLastSave、quitToTitle、gameOver、teleportOut、startBattle都须在副作用前拒绝；需要这些效果时放在调用返回后。session替换取消旧父/子尾，最终派发和游标提交仍核signal/session，不新增存档调用栈或parallel/join。
+
+onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面、再呈现、再正文。其他步、行为、共享与物品私有不能声明entry。guard按allowSceneEntry及初始StageId判断，不用“self存在”代替根作用域；编辑方法见[场景入场指南](../guides/scene-entry-authoring.md)。
+
+### 姿态、condition与时间
+
+- takeEntity暂停目标自身整条auto执行链，包括剩余等待、结构判断及由该链驱动的跨实体动作；release接原进度而非重启。已加载资源可完成，但暂停时不能提交效果；其他实体链不被全局冻结，对目标移动/姿态仍受其权威控制。原2026-10-07醉道士对白确认仅属该合同来源，不是本轮E2E。
+- faceEntityToParty是显式执行时实时坐标转向，同点保方向、异场景无现场副作用；不移动、不停步、不定帧、不接管。对白不隐式接管或朝向修正，需要时作者编排take→face→setFrame→dialog→release，恢复工作朝向也显式写。
+- applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
+- 指令只有明确等待/真实异步动作消耗游戏时间；节拍由正文repeat/loop/wait表达，不给每条auto加100ms、循环强塞世界拍或步后40ms。零时间循环用工作量保护，不限制正常巡逻累计寿命；公平yield/已兑现Promise/wait0不算真实进展，技术计数不暴露成作者状态。
+
+### 作者编辑与持久现场
+
+CanonicalScriptBodyEditor统一AuthorCommand[]，外层FlowEditor维护步骤/默认去向，各owner只保留identity/选择/元数据壳；修改进同一ScriptEditSession，共用schema/reference/cursor与undo/redo/save。场景入口仍是有真实地图的工作台与可调抽屉；共享库/物品需要空间语境时回真实场景调用点，不复制owner-less地图播放器。scratch预览不写canonical，跨场景只读定义不等视觉切场，动态轨迹未知不得画假连接。
+
+WorldScriptState按场景保存entityState/entityPos/entityLayer及Page/Behavior/Hook选择和业务cursor。SAVE12另保存自动flow的内部帧/分类等待/动作/追逐现场；位置唯一在entityPos，与sceneRuntime同步捕获，返回现场后仍跑当前onEnter，读档不重跑。它不变成作者状态方案或交互/战斗调用栈。
+
+playEntityAction的wait与loop分轴；wait:false安装动作和该叶cursor推进对保存barrier是一笔提交，被等待动作的中途/已兑现待确认收据不得恢复时重发cue。后台动作可跨行为完成但稳定owner仍负责取消，不保存Promise/AbortSignal或运行epoch。活动身份只在同runtime、exact signal和真实live lease间共享；owner epoch失效与lease关闭不同。内联子调用未自然结束仍被barrier计数，同owner不重入；独立根等gate后复验场景/session。详见[存档合同](save-system.md)。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。
-- 可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本。
+本次恢复规范表达，不替所有runner、保存门、UI与实际数据进行全路径代码审计。rootScope/loop祖先/initial entry和runEntityTrigger关键守卫按实际源码切片核；暂停时序、动作保存及UI表现保留原已定合同，实施是否全满足仍待各自新证据。
+
+作者正文直接维护；供应核仅负责已批准资源/地图窄分区，不恢复旧完整脚本转换、脚本分片/transition/sidecar或旧开发档fallback。新玩法、状态模型、时序或可见交互取舍须另卡，不从本文current获得build许可。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。
-- 业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核后接收。
+静态oracle：阶段/命令根/entry守卫与公开runtime调用域匹配、原quote逆回、源/after和链接有效。运行oracle：合法同场景interactive子链及坏根/坏祖先/session过期拒绝，保存/恢复不重发副作用，真实预览不污染作者内容；本轮未运行这些例子，不写全绿。正文独立验收由未参与者据证完成，父卡和全量门保持未完成。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-10-07；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666。
+R33登记2026-10-07，原稿含更早作者模型与后续SAVE12/实体交互补充；固定0d5311075b4f5e67362d1953a138d678c0a4aa42。旧源日期和真实用户裁决保持，不把整篇降成过时设计。
 
 ## 原始结论
 
-- 2026-10-04 原复核：作者脚本与运行时合同：这是 design-spec，当前文档状态为 current。全文 193 行、10 个标题；摘要/首段为「类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE11；格式与实现以源码常量和校验器为准。」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：take/release 暂停并接续所属自动链，faceEntityToParty 显式转向，SAVE12 现场不成为作者状态；非等待动作安装与叶 cursor 推进原子提交。
+原文以稳定身份、方案→步骤→指令、显式根权限和运行态分层作为current合同；R33标题/行数型语义接受已撤回。本文不继承该旧review或其SAVE11摘要残句，也不恢复旧机器编辑器。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原take/release确认、源链接和历史“已验收”完整保留在quote；只说明当时裁决或执行声明，不伪造本轮runtime/E2E。
 
 ## 当前有效性
 
-- 当前合同声明（仅供 current contract checker）：contentVersion 22 / SAVE12；原文 quote 中的旧版本只属于历史证据。
+适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
+规范current，原文history overlay用于回读；设计合同、实现合规、独立语义接受和运行信用分别成立，不用静态通过相互替代。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+[内容格式](content-schema.md)约束载体，[工程生命周期](project-lifecycle.md)约束编辑持久化，[场景入场](../guides/scene-entry-authoring.md)给作者操作；[原设计快照](../archive/designs/script-system-design.md)只供查历史。
 
 ## 原文保全
 
-固定源 SHA `28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666`；下方 quote 可逆回原始 UTF-8 字节。
+固定原源revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`及source SHA见唯一review记录。marker至EOF对本批基点逐字节保持；逆回只剥每行 `> ` / 空行裸 `>`，精确排除end marker前恰一个未引用分隔LF后等固定原源，不trim或全局替换。原稿中的current说明原合同，旧执行仍只按其日期读取。
 <!-- original-source-quote:start -->
 > # 作者脚本与运行时合同
 >

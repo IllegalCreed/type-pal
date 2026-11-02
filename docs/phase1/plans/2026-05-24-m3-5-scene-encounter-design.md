@@ -1,75 +1,56 @@
 # M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M3.5 场景切换+明雷怪设计的归档重写。范围简化决策与 L2 视觉端到端补齐在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M3.5 design: dev shortcut to a real scene, scene loading, trigger modes, scene assets/cache, NPC/enemy encounter, battle entry and menu input; one-shot L2 visual cases; test layers, invariants, risks and explicit M5/M6 non-scope.
-- 日期：2026-05-24；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc`。
+- 目标：M3.5 设计文档（brainstorming 产出）；配套实施计划在 [m3-5-scene-encounter](2026-05-24-m3-5-scene-encounter.md)。
+- 时间范围：2026-05-24。
 
 ## 里程碑
 
-- 原始章节：与全局文档的关系；1. 范围；1.1 关键简化:dev shortcut 跳 scene,不走真剧情(D34)；1.2 M3.5 主体 6 项功能(缩范围 B')；1.3 M3.5 L2 视觉端到端 23 case 一次性补齐(用户关注核心)；1.4 不在 M3.5 范围(推 M5 / M6 / M7)；1.5 完成定义；2. 关键不变量。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 关键简化（1.1）：dev shortcut 跳 scene 不走真剧情（D34）；主体 6 项功能（缩范围 B'）；L2 视觉端到端 23 case 一次性补齐（用户关注核心）；不在 M3.5 范围的推 M5/M6/M7 清单；完成定义与关键不变量独立成节。
 
 ## 当前状态
 
-- historical；M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design：这是 design-spec，当前文档状态为 historical。全文 549 行、52 个标题；摘要/首段为「> 这是 M3.5 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M3.5 完工（目录索引 ✅）。
 
 ## 阻塞与决策
 
-- 正文信号 157:M3.5 选 **B 路线简单方案**:dev panel 直接调 `loadScene()` 函数;events.json 里 `loadScene` opcode 仍 raw skip(D26)。M5 真做剧情链时升级到 EventSystem 通过可等待命令 emit + Shell 处理(A 路线)。
-- 正文信号 186:// - Confirm: 推进 uiState 或填 pendingActions[playerIdx]
-- 正文信号 258:→ 按 Confirm 选 "攻击" → uiState='targetSelect' + pendingActionDraft={type:'attack'}
-- 正文信号 260:→ 按 Confirm → pendingActions[0] = { type:'attack', target } + advanceSelectingPlayer
-- 正文信号 360:### 5.6 未来 L2 大类(M5 / M6,M3.5 不做但 design 标)
-- 正文信号 373:- 两者各自工作流;CI 跑 e2e 是未来 milestone 的事(本 milestone 主要本地用)
-- 正文信号 536:| baseline PNG 本机生成不入 git → 不同 dev / CI 看不到对方截图 | 接受 — 个人项目,本机为主;若未来要协作,改成截图入 git(版权由项目转 fair-use 范围处理) |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：以 dev 跳 scene 换取切片速度，真剧情链路后置——该债由后续里程碑偿还。
 
 ## 下一步
 
-- 后继入口：M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇承接；当前场景/遭遇行为以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-24；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc`。
+- phase1 plans M3.5 设计；时点 2026-05-24；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design：这是 design-spec，当前文档状态为 historical。全文 549 行、52 个标题；摘要/首段为「> 这是 M3.5 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- 6 项功能范围、L2 23 case 与 D34 简化决策为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design; 6:与全局文档的关系; 24:1. 范围; 26:1.1 关键简化:dev shortcut 跳 scene,不走真剧情(D34); 30:1.2 M3.5 主体 6 项功能(缩范围 B'); 41:1.3 M3.5 L2 视觉端到端 23 case 一次性补齐(用户关注核心); 47:1.4 不在 M3.5 范围(推 M5 / M6 / M7); 59:1.5 完成定义；原始正文、代码、表格、状态词在 quote 保全。
+- 范围、完成定义与关键不变量在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 157:M3.5 选 **B 路线简单方案**:dev panel 直接调 `loadScene()` 函数;events.json 里 `loadScene` opcode 仍 raw skip(D26)。M5 真做剧情链时升级到 EventSystem 通过可等待命令 emit + Shell 处理(A 路线)。
-- 正文信号 186:// - Confirm: 推进 uiState 或填 pendingActions[playerIdx]
-- 正文信号 258:→ 按 Confirm 选 "攻击" → uiState='targetSelect' + pendingActionDraft={type:'attack'}
-- 正文信号 260:→ 按 Confirm → pendingActions[0] = { type:'attack', target } + advanceSelectingPlayer
-- 正文信号 360:### 5.6 未来 L2 大类(M5 / M6,M3.5 不做但 design 标)
-- 正文信号 373:- 两者各自工作流;CI 跑 e2e 是未来 milestone 的事(本 milestone 主要本地用)
-- 正文信号 536:| baseline PNG 本机生成不入 git → 不同 dev / CI 看不到对方截图 | 接受 — 个人项目,本机为主;若未来要协作,改成截图入 git(版权由项目转 fair-use 范围处理) |
+- historical。
 
 ## 继任文档
 
-- M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m3-5-scene-encounter](2026-05-24-m3-5-scene-encounter.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc`；下方 quote 逆回读规则：终端编码声明：quote 内 4 处 U+2420(e290a0) 逐处解码为 ASCII 空格(20) 后与原源逐字节相等；无 U+2460。
 <!-- original-source-quote:start -->
 > # M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design
 >

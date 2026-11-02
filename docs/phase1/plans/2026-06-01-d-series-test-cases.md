@@ -1,85 +1,56 @@
 # D 系列真机手测用例表(2026-06-01)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 D 系列真机手测用例表的归档重写。114 节用例（D1 启动/D3 物理公式/D…各域）与真机设施纠正段在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：D1-D21 real-device cases with fixtures, assertions, RNG boundaries and prerequisites.
-- 日期：2026-06-01；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b`。
+- 目标：D 系列完工后的真机手测用例表（user 要求「最后给我用例挨个测一遍」的交付物）；23 项/90 条量级（目录索引 🧪 标记），2026-06-01。
 
 ## 里程碑
 
-- 原始章节：真机设施纠正(critic 揪出,用例里凡冲突以此段为准)；D1 — 战斗启动 StartBattle (opcode 0x07 / battle picker)；D1-1 B 键 picker 进战斗:mode 切 battle、battleState 被创建、phase 起于 preBattle、turn=0；D1-2 enemies 数组按所选战队槽位填充,每敌 .e.health 起手等于 maxHealth；D1-3 players 由 partyMembers 映射,roleId 对齐入队角色;超 3 人 startBattle 抛错；D1-4 战斗局部计数器初始化:iHidingTime 与 iBlow 起手为 0；D3 — 物理伤害公式(单体 jitter/crit/李逍遥×2/群攻 division/DualAttack 双击)；D3-1 单体物理攻击落实伤害且永远 >=1(jitter + 钳位)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 用例域覆盖：D1 战斗启动（B 键 picker/enemies 槽位填充/players 映射/局部计数器初值）、D3 物理伤害公式（单体 jitter+钳位 ≥1/暴击 ×3 概率 1/6/李逍遥 roleId===0 ×2/群攻 division/DualAttack 双击）及后续各域（114 节全列于 quote）。
+- 每条用例带肉眼验证与数据级验证双轨（例：战斗用物——动画期间 window.__game.gs.inventory count 与目标 HP 不变、动画结束 count-1、战末经 writeBackBattleRolesToRuntime 回写）。
 
 ## 当前状态
 
-- historical；D 系列真机手测用例表(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 864 行、115 个标题；摘要/首段为「> 来源:24-agent workflow 逐 D 项生成(读 ts 实现 + sdlpal 真值 + 确认 gs 字段)+ 完整性 critic 审查。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：用例按 2026-06-01 实现快照编写；页首「真机设施纠正（critic 揪出，用例里凡冲突以此段为准）」为最高优先级口径。
 
 ## 阻塞与决策
 
-- 正文信号 8:## 真机设施纠正(critic 揪出,用例里凡冲突以此段为准)
-- 正文信号 31:- **D14** 装备:console 调不到 runEquipScript 等(未挂 window)→ partially,须走装备菜单 UI
-- 正文信号 42:无 stub/简版子部分需排除 —— startBattle 本体(找队/展开槽位/建态/切 mode/缓存资源)是完整实现。一处简化注明:enemyTeam 槽位"直接当 enemies.json id 索引"(battle-system.ts:18-22,T23 baseline 待校),若选某队后敌人数/种类与原版对不上属此映射、非启动流程 bug,D
-- 正文信号 53:- **预期**: startBattle 遍历 team.enemies 槽位(battle-system.ts:269-284):跳 0/0xFFFF,其余每槽 input.enemies.find(en=>en.id===slot) 解引用压入 enemyList;找不到的槽位 console.warn '[battle] startBattle: e
-- 正文信号 73:**已知边界/排除**: 无未做子部分:单体 jitter(RandomLong(1,2))、暴击 ×3(1/6 或 bravery)、李逍遥额外 ×2(roleId===0 && 1/12)、末尾 RandomFloat(1,1.125)、<=0→1 钳位、群攻命中序 [2,1,0,4,3] + division 逐敌翻倍、DualAttack 双击,at
-- 正文信号 74:注意两点边界,非「未做」但用户测时要知道:(1) 暴击/李逍遥/双击都是 RNG 概率事件(1/6、1/12、装备授),真机单次攻击不一定触发 —— 验证靠多次重复看伤害分布 / 区间,而非一击定值,故用例验证点用「范围 + 重复观察」。(2) 群攻和 DualAttack 需要装备授(attackAll 武器 / 0x2D DualAttack 状态),d
-- 正文信号 97:- **预期**: sdlpal fight.c:3625 `for (t = 0; t < (rgPlayerStatus[role][kStatusDualAttack] ? 2 : 1); t++)`(ts attack.ts:195 `for (let t=0; t<hits; t++)`):整套伤害结算(jitter/crit/李逍遥/Random
-- 正文信号 101:- **前置**: ?skip-intro=1 → devpanel → B 选**多体**敌队(至少 3 只敌人同屏,且各 health 高扛得住)。默认单人李逍遥。进 selectAction 后 console 注入群攻能力:`window.__game.gs.battleState.players[0].status.attackAll = 1` 不
-- 正文信号 143:5) 玩家 base dex 简化:battle-system.ts:552-554 用 role.dexterity+(role.level+6)*4,未含装备 dex 加成(注释明示 M3 不实现),与真 PAL_GetPlayerDexterity 有差;手算玩家 dex 按此简化式。
-- 正文信号 156:- **预期**: sdlpal fight.c:356-359 PAL_CLASSIC:rgPlayerStatus[role][kStatusHaste]!=0 → wDexterity *= 3;fight.c:382-386 cap 999。formulas.ts:207-214 getPlayerActualDexterity 同款(dex*=3,
-- 正文信号 178:1) dualMove 进队的「随机 jitter + 取小者标 fIsSecond」语义未真做到位（简版）。sdlpal fight.c:1480-1489 真值：dualMove 敌的两条 entry 各自独立 RandomFloat(0.9,1.1) 摇 dex，再比两个 dex 取小者标 fIsSecond=TRUE（即两动谁先谁后由随机决定，第二动
-- 正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 数据级断言走 window.__game 暴露的 gs/battleState 真实状态，不靠截图。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；h；a；r；n；e；s；s； ；p；l；u；s； ；u；s；e；r；-；r；u；n； ；e；v；i；d；e；n；c；e；;； ；m；a；n；u；a；l； ；c；a；s；e；s； ；a；r；e； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点用例执行完毕；当前回归以现行自动化测试与 E2E 为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b`。
+- phase1 plans 真机用例表；时点 2026-06-01；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- D 系列真机手测用例表(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 864 行、115 个标题；摘要/首段为「> 来源:24-agent workflow 逐 D 项生成(读 ts 实现 + sdlpal 真值 + 确认 gs 字段)+ 完整性 critic 审查。」。属于历史/归档材料，不能单独证明当前实现。
+- 用例域结构、双轨验证方法与真机设施纠正段为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:D 系列真机手测用例表(2026-06-01); 8:真机设施纠正(critic 揪出,用例里凡冲突以此段为准); 35:D1 — 战斗启动 StartBattle (opcode 0x07 / battle picker); 44:D1-1 B 键 picker 进战斗:mode 切 battle、battleState 被创建、phase 起于 preBattle、turn=0; 50:D1-2 enemies 数组按所选战队槽位填充,每敌 .e.health 起手等于 maxHealth; 56:D1-3 players 由 partyMembers 映射,roleId 对齐入队角色;超 3 人 startBattle 抛错; 62:D1-4 战斗局部计数器初始化:iHidingTime 与 iBlow 起手为 0; 70:D3 — 物理伤害公式(单体 jitter/crit/李逍遥×2/群攻 division/DualAttack 双击)；原始正文、代码、表格、状态词在 quote 保全。
+- 逐条用例（肉眼+数据级断言）在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 8:## 真机设施纠正(critic 揪出,用例里凡冲突以此段为准)
-- 正文信号 31:- **D14** 装备:console 调不到 runEquipScript 等(未挂 window)→ partially,须走装备菜单 UI
-- 正文信号 42:无 stub/简版子部分需排除 —— startBattle 本体(找队/展开槽位/建态/切 mode/缓存资源)是完整实现。一处简化注明:enemyTeam 槽位"直接当 enemies.json id 索引"(battle-system.ts:18-22,T23 baseline 待校),若选某队后敌人数/种类与原版对不上属此映射、非启动流程 bug,D
-- 正文信号 53:- **预期**: startBattle 遍历 team.enemies 槽位(battle-system.ts:269-284):跳 0/0xFFFF,其余每槽 input.enemies.find(en=>en.id===slot) 解引用压入 enemyList;找不到的槽位 console.warn '[battle] startBattle: e
-- 正文信号 73:**已知边界/排除**: 无未做子部分:单体 jitter(RandomLong(1,2))、暴击 ×3(1/6 或 bravery)、李逍遥额外 ×2(roleId===0 && 1/12)、末尾 RandomFloat(1,1.125)、<=0→1 钳位、群攻命中序 [2,1,0,4,3] + division 逐敌翻倍、DualAttack 双击,at
-- 正文信号 74:注意两点边界,非「未做」但用户测时要知道:(1) 暴击/李逍遥/双击都是 RNG 概率事件(1/6、1/12、装备授),真机单次攻击不一定触发 —— 验证靠多次重复看伤害分布 / 区间,而非一击定值,故用例验证点用「范围 + 重复观察」。(2) 群攻和 DualAttack 需要装备授(attackAll 武器 / 0x2D DualAttack 状态),d
-- 正文信号 97:- **预期**: sdlpal fight.c:3625 `for (t = 0; t < (rgPlayerStatus[role][kStatusDualAttack] ? 2 : 1); t++)`(ts attack.ts:195 `for (let t=0; t<hits; t++)`):整套伤害结算(jitter/crit/李逍遥/Random
-- 正文信号 101:- **前置**: ?skip-intro=1 → devpanel → B 选**多体**敌队(至少 3 只敌人同屏,且各 health 高扛得住)。默认单人李逍遥。进 selectAction 后 console 注入群攻能力:`window.__game.gs.battleState.players[0].status.attackAll = 1` 不
-- 正文信号 143:5) 玩家 base dex 简化:battle-system.ts:552-554 用 role.dexterity+(role.level+6)*4,未含装备 dex 加成(注释明示 M3 不实现),与真 PAL_GetPlayerDexterity 有差;手算玩家 dex 按此简化式。
-- 正文信号 156:- **预期**: sdlpal fight.c:356-359 PAL_CLASSIC:rgPlayerStatus[role][kStatusHaste]!=0 → wDexterity *= 3;fight.c:382-386 cap 999。formulas.ts:207-214 getPlayerActualDexterity 同款(dex*=3,
-- 正文信号 178:1) dualMove 进队的「随机 jitter + 取小者标 fIsSecond」语义未真做到位（简版）。sdlpal fight.c:1480-1489 真值：dualMove 敌的两条 entry 各自独立 RandomFloat(0.9,1.1) 摇 dex，再比两个 dex 取小者标 fIsSecond=TRUE（即两动谁先谁后由随机决定，第二动
-- 正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进
+- historical。用例针对当时实现；当前行为以现行测试为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；h；a；r；n；e；s；s； ；p；l；u；s； ；u；s；e；r；-；r；u；n； ；e；v；i；d；e；n；c；e；;； ；m；a；n；u；a；l； ；c；a；s；e；s； ；a；r；e； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [D 系列 roadmap](2026-05-31-d-series-completion-roadmap.md)、现行 game 包回归与 E2E 阶段报告；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # D 系列真机手测用例表(2026-06-01)
 >

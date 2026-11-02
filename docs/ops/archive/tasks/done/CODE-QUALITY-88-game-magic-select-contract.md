@@ -1,6 +1,59 @@
 # CODE-QUALITY-88 — game magic-select state / catalog contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:证明大世界/战斗共用的纯数据法术选择建表按 SDLPal 法术对象号排序——`role.magic` 与 `spells.json` 的有效法术键是 SDLPal OBJECT 全局 `wObjectID`（295,296…397）,菜单按该键升序;`Spell.magicNumber` 只用于索引 Magic stats 表连接成本,MP 不足仅置 disabled（光标可停灰项,确认不返回）;缺失 spell/magic/name 关联剔除、空槽降级 fail-closed。确认/脚本/扣 MP 留 caller。本治理页只承载历史任务语义。
+
+## 范围
+
+四个白名单文件:`magic-select.ts`、`magic-select.boundaries.test.ts`、`magic-select.glm-phase1-leaves.test.ts`、`item-magic-select.test.ts` 中 MagicSelectionMenu 相关合同。范围外:in-game-magic-menu、battle-system、draw-magic 整文件收口及 `packages/shared/src/tables.ts` 旧 id 注释治理。不改法术 id/schema、MP 扣除、导航/UI、公共 API 或生成物。
+
+## 前提与证据
+
+primary source:`magicmenu.c:301-410`（`PAL_MagicSelectionMenuInit` 收集槽位、按 wMagic 升序冒泡、MP 不足 fEnabled=FALSE）;提取器 `parseSpells` 输出 `id=296..397` 并追加 295。最强替代解释"`Spell.id` 仍是局部数组索引"被 parser 实际 `id=wObjectID`、player-role raw slot 与 caller 过滤反证。已知坑:shared `tables.ts:106-112` 的 Spell.id 旧注释与 parser 真值冲突,留相邻 pending 另卡。本批按 [AGENTS.md](../../../../../AGENTS.md) Codex 独立验收模式执行。
+
+## 验收
+
+仅测试 fixture 改动:补强 boundaries 完整 typed fixture,组合 MagicSelectionMenu fixture 改为合法 OBJECT id 300/301;早期定向回归暴露并修正一处旧 id 断言。定向/相邻 10 files / 261 tests、game typecheck、Biome 通过;3 个隔离单点 mutation（排序、MP 等值、id 错配）均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit0,coverage baseline 未变。账本 3,270:closed 364、review 9、pending 2,897。Evidence 见 [README.md](../../../evidence/CODE-QUALITY-88/README.md)。
+
+## 状态与交接
+
+done 保持原语义:四条记录已关闭;shared `Spell.id` 旧注释风险另卡 pending。无下一位 Agent 提示词,等待下一批从最新 ledger 选择互斥 pending 文件。
+
+## 历史范围
+
+原卡属固定 main 时点(2026-10-14);原始真值矩阵与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:四个白名单文件完整读取,SDLPal object-id 排序、Magic 成本连接、MP 边界、缺失关联和 disabled cursor 均有 caller/primary-source oracle,未发现直接生产缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执(定向/相邻、mutation、全量门)属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-89（in-game-magic 菜单四段生命周期）为相邻已收口卡;shared Spell.id 注释治理留独立卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9133B / SHA-256 f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-88 — game magic-select state / catalog contract
+
+Status: done
 Phase: phase1
 Capability: Q3 phase1 game core/menu magic selection
 Coding Owner: Codex
@@ -134,3 +187,5 @@ Branch: codex/code-quality-3y
 ## 下一位 Agent 提示词
 
 无，等待下一批从最新 ledger 选择互斥 pending 文件。
+```
+<!-- incremental-original-source:end -->

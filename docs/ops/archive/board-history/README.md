@@ -1,63 +1,41 @@
 # 历史协作看板
 
-Status: historical
-Validity: historical
+Status: current（仅指导航）
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Last reviewed: 2026-10-19
+Template: governance-index-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `archive-record-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是历史看板快照目录的当前导航：唯一入口为 2026-10-04 收口前快照（board-20261004.md）；快照内任务状态按 2026-10-04 时点解释，当前责任以现行看板与任务卡为准。
 
-## 历史范围
+## 目的
 
-- 原始日期、版本、阶段：固定于 source revision 和原始文档日期；属于 ops 历史 acceptance/board snapshot。
-- 归档原因：保留历史验收与 board 状态，避免把过去结论误读为当前状态。
+- 提供历史看板快照入口，避免把 2026-10-04 快照中的任务状态当作当前状态。
 
-## 原始结论
+## 范围
 
-- 保留原文语义，不改写为当前事实；原始结论在 quote 中逐行保全。
+- 当前包含：[2026-10-04 收口前快照](board-20261004.md) 一个条目。
+- 明确不包含：当前看板职责——现行看板在 docs/ops/board.md；快照任务状态不自动授权。
 
-## 当时证据
+## 当前状态
 
-- 当时的来源、命令、SHA：`docs/ops/archive/board-history/README.md`、source revision `140d11b23201715bc93763f9e07b075de63ba34c`、source SHA `59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1`。
+- `status`: current（导航索引）；被索引快照为 2026-10-04 历史材料。
+- `lastReviewed`: 2026-10-19
 
-## 当前有效性
+## 入口与责任
 
-- current | historical | superseded | unknown：historical。
-- 当前不得外推的部分：历史验收、board 状态和旧任务完成度不能证明当前实现。
+- canonical 入口：本页与 [board-20261004.md](board-20261004.md)；上级为[运维历史归档](../README.md)；当前看板入口为 [现行看板](../../board.md)。
+- Owner：Codex（文档治理）。
+- 下游使用者：看板历史追溯。
 
-## 继任文档
+## 证据与下一步
 
-- 当前 canonical 文档：C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- supersedes / superseded-by：本归档记录不替代当前 task/evidence。
-- 若重新启用的复核条件：新的 task card、当前 source/oracle、独立验收和相应执行证据齐全。
-
-## 历史范围
-
-- ops archive；日期：2026-10-04；固定来源 `140d11b23201715bc93763f9e07b075de63ba34c`；source SHA `59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1`。
-
-## 原始结论
-
-- 历史协作看板：这是 archive-record，当前文档状态为 historical。全文 6 行、1 个标题；摘要/首段为「- [2026-10-04 收口前快照](board-20261004.md)」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 标题锚点：原文标题与章节；原始正文、表格、状态词和链接在 quote 保全。
-
-## 当前有效性
-
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。
-
-## 继任文档
-
-- C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 关键来源：目录原卡（源身份与逆回规则见下方程序生成的保全节，不在正文手写哈希）。
+- 未决/阻塞：quote 内「当前责任以 board.md 为准」句的链接目标写作 board-20261004.md（原卡即如此）；按原字节保留，不作当前链接语义解释。
+- 下一步：无扩充计划。
 
 ## 原文保全
 
-固定源 SHA `59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `140d11b23201715bc93763f9e07b075de63ba34c`，source SHA `59cad841e9e29dfefea759e2f199875e931448c08153380636b07aec96abe2f1`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 历史协作看板
 >

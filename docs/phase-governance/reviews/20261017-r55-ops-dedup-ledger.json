@@ -1,308 +1,461 @@
 {
   "schemaVersion": 1,
   "id": "r55-ops-dedup-ledger-20261017",
-  "reviewer": "Codex root full-text semantic migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R55: historical test dedup ledgers use evidence-receipt-v1 with archive-record-v1 overlay; preserve source/caller/legal-input/oracle/fullName and original quote. Migration grants no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTRACTS-1 合同排重账：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
-      "truthAnchors": [
-        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:1",
-        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:13",
-        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:92"
-      ],
-      "unresolved": [
-        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse."
-      ],
-      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
-      "phase": "ops",
-      "module": "evidence/test-dedup",
-      "capability": "test-glm-game-event-contracts-1",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-semantic-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r55_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
-        }
-      ],
-      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
-      "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
-      "publicCallers": [
-        "event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）",
-        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md → dedup-ledger.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
-        "corresponding task card and evidence consumers"
-      ],
-      "businessOracle": {
-        "type": "historical-test-dedup-ledger",
-        "assertions": [
-          "source:line/caller/input/oracle mapping remains traceable",
-          "NEW/REG and not-new classifications remain explicit",
-          "historical counts and mutation summaries are not current execution credit",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
-          "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/README.md",
-          "docs/ops/archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md"
-        ]
-      },
-      "revision": {
-        "currentSha": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
-        "implementationSha": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
-        "history": [
-          {
-            "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R55 test dedup ledger template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r55-ops-dedup-ledger-20261017.json",
-        "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
-        "candidateSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
-        "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
-        "lineCount": 159,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 6382,
-          "sourceLines": 89,
-          "sourceFinalNewline": true,
-          "inverseSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R55 template migration",
-          "reviewer": "r55_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        }
-      ],
-      "supersedes": [
-        "governed-legacy presentation; historical test ledger remains source-preserved"
-      ],
-      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
-      "reviewedLines": "1-159",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
-      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-      "candidateSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - 毒入口 8 合同全新+runScript 防御/raw call 等 NEW；auto 族与 palette 族 REG 锚点登记。",
+      "truthAnchors": [
+        "SHA 7ea529ab5a3f2be583ae02909066824913eee66a",
+        "file event-system.test.ts",
+        "file event-system.ts",
+        "file README.md",
+        "file README.md"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
           "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
           "sha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence/test-dedup",
-        "currentBoundary": "current task card, machine consumer and fresh receipt own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）; corresponding task card and fresh evidence receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "sha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "Historical documentary statement: - 毒入口 8 合同全新+runScript 防御/raw call 等 NEW；auto 族与 palette 族 REG 锚点登记。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r55-ops-dedup-ledger.json", "DOCS-FULL-TEMPLATE-1 prior S18 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R55-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
         }
-      ]
+      ],
+      "revision": {
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+            "afterSha256": "883c29f6329f381e152b2a8e5f2d39b50cee253568b7e9cf32081e90bc29a839"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "883c29f6329f381e152b2a8e5f2d39b50cee253568b7e9cf32081e90bc29a839",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r55-ops-dedup-ledger.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+          "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
+      "afterSha256": "883c29f6329f381e152b2a8e5f2d39b50cee253568b7e9cf32081e90bc29a839",
+      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
+        "afterSha256": "883c29f6329f381e152b2a8e5f2d39b50cee253568b7e9cf32081e90bc29a839",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 6382,
+        "inverseBytes": 6383,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 7ea529ab5a3f:docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md 全文（6382B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 7ea529ab5a3f2be583ae02909066824913eee66a",
+          "file event-system.test.ts",
+          "file event-system.ts",
+          "file README.md",
+          "file README.md"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账（GLM r1）：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
-      "truthAnchors": [
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:1",
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:10",
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:49"
-      ],
-      "unresolved": [
-        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse.",
-        "Current task remains rework; original raw mutation evidence and reachability gaps are not closed by this migration."
-      ],
-      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
-      "phase": "ops",
-      "module": "evidence/test-dedup",
-      "capability": "test-glm-game-turn-boundaries-1",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-semantic-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r55_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
-        }
-      ],
-      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
-      "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
-      "publicCallers": [
-        "turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）",
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md → dedup-ledger.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
-        "corresponding task card and evidence consumers"
-      ],
-      "businessOracle": {
-        "type": "historical-test-dedup-ledger",
-        "assertions": [
-          "source:line/caller/input/oracle mapping remains traceable",
-          "NEW/REG and not-new classifications remain explicit",
-          "historical counts and mutation summaries are not current execution credit",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
-          "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
-          "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md"
-        ]
-      },
-      "revision": {
-        "currentSha": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
-        "implementationSha": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
-        "history": [
-          {
-            "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R55 test dedup ledger template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r55-ops-dedup-ledger-20261017.json",
-        "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
-        "candidateSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
-        "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
-        "lineCount": 131,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 6728,
-          "sourceLines": 61,
-          "sourceFinalNewline": true,
-          "inverseSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R55 template migration",
-          "reviewer": "r55_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        }
-      ],
-      "supersedes": [
-        "governed-legacy presentation; historical test ledger remains source-preserved"
-      ],
-      "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
-      "reviewedLines": "1-131",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
-      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-      "candidateSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM fixed-source full-read claims and specific body conclusions retained; defective author metadata-core fields superseded without altering original evidence. Codex verified73 fixed identities/preservation, focused historical and role risks, plus6 narrow Owner derivative repairs. No full73 Owner reread or second nonauthor review of Owner edits.",
+      "coreConclusion": "Historical documentary statement: - C1-C15 十五未证回合边界轴；同函数未测臂登记不新增。",
+      "truthAnchors": [
+        "SHA 7ea529ab5a3f2be583ae02909066824913eee66a",
+        "file battle-finalization.ts",
+        "file battle-system.ts",
+        "file README.md",
+        "file README.md",
+        "line ~620",
+        "line ~617",
+        "line ~757",
+        "line ~2505"
+      ],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "ops",
+      "owner": "GLM S18 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate 5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
           "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
           "sha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
-          "scope": "full UTF-8 source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "revision": "7c60dbd8b7554af459e031d4b6dbee5c31d6bdfb",
+          "sha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "evidence/test-dedup",
-        "currentBoundary": "current task card, machine consumer and fresh receipt own truth"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）; corresponding task card and fresh evidence receipt.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
         "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
-        "date": "2026-10-17",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "revision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+          "sha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+          "inverseRule": "sep-lf-1",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "Historical documentary statement: - C1-C15 十五未证回合边界轴；同函数未测臂登记不新增。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r55-ops-dedup-ledger.json", "DOCS-FULL-TEMPLATE-1 prior S18 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R55-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "status": "closed-fixed-document-only",
+          "statement": "S18 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "Historical-only product statements."
         }
-      ]
+      ],
+      "revision": {
+        "currentSha": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S18 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+            "beforeSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+            "afterSha256": "2543947705a635da032bf60e10a3430b3b014cde84ec5a032e0634f79698284a"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S18-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+          "encoding": "gzip",
+          "payloadSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+          "payloadBytes": 253109,
+          "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+          "storedBytes": 26236,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S18-manual-delivery",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "73 fixed individual S18 body/template decisions, including6 explicitly recorded Owner minor repairs; previousS18all365 unchanged; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S18 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+        "storedSha256": "604c23d68e67275058d3bf153927c1f3362df353b1b1ed0c0e44c5ba1507a8a0",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S18-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "2543947705a635da032bf60e10a3430b3b014cde84ec5a032e0634f79698284a",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S18 corrected body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r55-ops-dedup-ledger.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+          "reviewRecord": "20261017-r55-ops-dedup-ledger.json",
+          "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
+      "afterSha256": "2543947705a635da032bf60e10a3430b3b014cde84ec5a032e0634f79698284a",
+      "sourceGitRevision": "7ea529ab5a3f2be583ae02909066824913eee66a",
+      "reviewedLines": "Contributor fixed-source full-read claim retained; Owner scoped evidence/diff/risk checks, not a full73 reread.",
+      "beforeAfter": {
+        "beforeSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
+        "afterSha256": "2543947705a635da032bf60e10a3430b3b014cde84ec5a032e0634f79698284a",
+        "summary": "Specific S18 historical body, or current navigation, accepted with explicitly recorded minor Owner changes; quote tail byte-equal to fixed execution base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "evidence-receipt-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "sep-lf-1",
+        "sourceBytes": 6728,
+        "inverseBytes": 6729,
+        "scope": "Only fixed per-document rule accepted. Direct and sep-lf-1 are not interchangeable; no trim/codec."
+      },
+      "directInverseEqual": false,
+      "ownerActualReadScope": "All73 scope/pins/template mappings and67sep-lf1/6direct byte proofs mechanically verified; S17all365 whole-file readonly proved. All73 visible original-conclusion sections read to diagnose metadata mis-extraction. Focused complete head checks: overlay performance, dispatch batch, batch Codex review, coverage85, gates receipt, event ledger, turn ledger+README, battle-core ledger, save-precision r3, rng-restore. Six ledger source slices additionally read for registration-versus-execution distinction. No Owner full73 source reread. Owner6 narrow derivative edits and73 current metadata mappings are self-verified maintenance, not a second nonauthor review.",
+      "authorActualReadRecord": {
+        "readDomain": "固定真源 git show 7ea529ab5a3f:docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md 全文（6728B）逐段核读；正文按模板重写为分项说明",
+        "anchors": [
+          "SHA 7ea529ab5a3f2be583ae02909066824913eee66a",
+          "file battle-finalization.ts",
+          "file battle-system.ts",
+          "file README.md",
+          "file README.md",
+          "line ~620",
+          "line ~617",
+          "line ~757",
+          "line ~2505"
+        ],
+        "authorReportedTimestamp": "2026-10-20T07:16:58Z",
+        "timestampAuthenticated": false,
+        "reportedCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+        "coreConclusionCorrection": "Exact visible original-conclusion section used as contributor documentary claim; whole73 defective metadata field not credited as semantic conclusion. No fresh full-source reading generated by extraction."
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20",
+      "ownerMinorRepairs": [],
+      "authorOriginalTimestampAuthenticated": false,
+      "authorOriginalCoreConclusionSuperseded": "Status: historical\nOwner: Codex（文档治理；原任务 Owner/贡献者保留于原文）\nLast reviewed: 2026-10-20\nTemplate: evidence-receipt-v1 / 1.0.0",
+      "coreConclusionProvenance": "Exact visible original-conclusion body section, kept as historical documentary claim; Owner corrected73 metadata mappings without a full-source reread."
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+        "selectorPath": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+        "wholeFileSha256": "52c86c67b0362bef1c86c38530267f2a6dd0729c3d971ac649f423f5d6449e3c",
+        "entryCanonicalJSONSha256": "b8e5e1d7c283c01d14346b1aa2a86c2547510192dfe392125fd349611cf70a8e",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+      "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+      "reason": "Fresh S18 evidence-led historical task-document acceptance; previous withdrawn/partial binding preserved in full by exact Git reference. Old execution/nonauthor credit not restored.",
+      "originalEntryRef": {
+        "revision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+        "path": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+        "selectorPath": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
+        "wholeFileSha256": "52c86c67b0362bef1c86c38530267f2a6dd0729c3d971ac649f423f5d6449e3c",
+        "entryCanonicalJSONSha256": "8ca38c8d44c2db1d6feaa7c66ca299cf23f9a882d56f57135196d25e590fe9ae",
+        "retention": "Exact prior full entry remains in this Git parent/source revision; no old credit restored."
+      }
+    }
+  ],
+  "currentIntake": {
+    "date": "2026-10-20",
+    "candidateCommit": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+    "sourceHead": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+    "reportSha256": "1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089",
+    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz",
+    "acceptedDocuments": [
+      "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
+      "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md"
+    ],
+    "blockedDocuments": [],
+    "scope": "Fresh per-entry S18 current intake; inherited top-level policy/date/receipts are historical, not whole-batch acceptance."
+  }
 }

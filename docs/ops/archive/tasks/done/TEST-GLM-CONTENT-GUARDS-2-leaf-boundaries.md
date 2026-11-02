@@ -1,55 +1,64 @@
 # TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（同步数据守卫，无UI与浏览器）
+Production Base: `51048353fc3bde5a3e6bf50653786b905fd2857d`
+Branch: `codex/glm-content-guards-wave2`
+Worktree: `/Users/zhangxu/illegal/type-pal-glm-content-guards-wave2`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 content 校验叶边界历史测试卡（守卫波 2）：enemy-validation-shapes/enemy-ai-condition-guard/battle-choreography 三目标（E2 拆出的同步校验器）错误路径/百分比边界/空非空组合/选中 dialogue validator；只写测试不改产品与规则，错误路径由当前生产实现定义不发明"更严格"政策。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+六组同步校验器真实未覆盖边界；已证写精确 title/file 不再添一份。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：三目标+旧测排重+新测试。
+- 范围外：产品/规则；若当前 guard 放过违反类型/loader 合同的输入写最小诊断交裁决不锁定为绿预期。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+实际起点=含本卡最新 main SHA；51048353 冻结 content 目标面，Codex 同期 Reforge 改动属授权主线不归 GLM 增量不回退。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Codex 验收集成收口（回执见 guards wave2 证据）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位实现 Agent。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+守卫波 2 窗口实施与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组叶边界经独立验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+六组合同表、E2 回执（content-validation-refactor.md）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。校验叶合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+守卫波 1/3 卡与 E2 拆分回执。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `0bb87e6b203fc5b2677d80bb7f686cbc372c2c331570b38b30e96f44d383ec43`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `0bb87e6b203fc5b2677d80bb7f686cbc372c2c331570b38b30e96f44d383ec43`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-CONTENT-GUARDS-2 — 六组校验叶边界补测
 >

@@ -1,6 +1,39 @@
 # GA失败安装资源回滚（用户A裁决）
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 GA 失败安装资源回滚主文档的治理候选页；证据原件即下方逐字节保全的固定 main 源（4695B）。Status: recorded；Owner：Codex 单 Agent 实施/核证（不冒充第三方）；Date 2026-10-18；Base 31a6769e7d6cd0e3c02669e3827beb38e818ed4e；Branch codex/code-quality-3y。
+
+## 来源与输入
+
+授权：用户在 [任务卡](../../tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) 明确选 A——"失败即撤销本次监听和隐私控件，刷新页面后重试"。这是原 pre94 3z 发现的真实失败安装 ownership 修复；3w 只读核验已暂停，无结算改动混入。Google SDK 命令合同与项目自身错误/重试策略分开；本功能无 SDLPal 机制或二阶段对应。真实 main 启动 catch、installer→consent/UI→GA 两源和专测/共享 host 均全文核读，见 [当前边界](read-boundaries.json)（11 文件含 main.ts 84 行全读）与 [基点字节](before.json)。旧 OPS-GA4 历史 wrapper 只提供可选能力不阻塞启动/consent 意图，不授新产品范围。其余原件入口：[red-before-fix.json](red-before-fix.json) [controls.json](controls.json) [browser.json](browser.json) [gates.json](gates.json) [test-contracts.json](test-contracts.json)。
+
+## 断言与业务 oracle
+
+问题与窄修：旧 startGoogleAnalytics 先取得 consent/page 释放函数再 apply 初始授权；js/config 或 readPage 异常导致没有 stop 句柄却留下订阅，安装器也没有撤销已装 UI。现 GA 创建者在 page 订阅与初次 apply 阶段捕获错误、释放已取得的两个订阅再抛回；installer 只撤自己创建的 UI，原错误交 main 既有可选扩展隔离。正常授权、URL 清洗、pathname 去重、SDK 脚本 error 重试及公共签名不改；只有两个实现与一个新正式测试，无纯重构混批、无规则/ignore 新增、无 baseline/退役/schema/save/资产变化。回滚范围限于尚未返回 controller 的安装：已有 SDK 命令不可撤销、不清共享 gtag/dataLayer/既有脚本；任意 unsubscribe 回调自身抛错、订阅源先注册后抛不交句柄、安装已返回后事件回调异常不认证为已解决；无 B 方案同页自动重装。先红后绿：产品修改前原正式 4 文件 15 绿/5 指定业务 AssertionError（五条失败全名见 red-before-fix.json，覆盖 js/config 两层命令、page 订阅、初次 readPage、installer UI 组合）；第一版消息比较红件与错误对象 identity 强化的 red-final 均保留；最终 7 文件 30 绿（5 新直接/25 相邻）+ game typecheck 零诊断；[controls.json](controls.json) 的旧源回放 5 红、两个单失败变异（page 订阅移出事务、删 installer UI 回滚）与恢复绿证明判别力非筛红。
+
+## 结果
+
+实际功能验证（browser.json，本地 6005 诊断宿主页 + 显式抛错/记录型 SDK 端口，无真实 Google 网络）：失败页 errorIdentity=true、无 controller、privacyRoots=0，恢复 SDK 后 deny/grant 仍 0 命令；隔离进入按钮仍可点击；实际 reload 后返回 controller、1 root、js/config/page_view 各一次；隐私按钮打开真实面板（目视复核另记 browser-privacy-visual-review.json）；console 错误/告警为 0；自有 cleanup 撤 root、恢复 consent key 与 probe session keys。此入口不是完整游戏启动或真实 GA 采集验收。账本与剩余：两个原源继续 review、新测试仅 review、0 新增 closed；3317 tracked/253 closed/99 review/2965 pending；pre94 仍 55partial/28pending/0accept。全仓 check、official coverage ratchet、protected fast 按用户成本要求留大任务窗口，不为这三文件重跑；docs125 工具源码不变复用 37e 原件，本片仅实跑五消费者（docs-consumers.json）。未合 main；本卡 review 等待统一门，不是专项完成。
+
+## 限制与复核
+
+治理轮未重跑任何测试/浏览器/门；回滚边界三条未解决项与"AX savedChoice/hasController 是旧快照值非清理后实时值"的限定按原文保留；历史结论按 2026-10-18 时点。候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4695B / SHA-256 d73d4ee4257bdd290b0293655d161c363269a894699f1ac9f4cb77bc054f2477；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GA失败安装资源回滚（用户A裁决）
+
+Status: recorded
 Owner: Codex（单Agent实施/核证，不冒充第三方）
 Date: 2026-10-18
 Base: `31a6769e7d6cd0e3c02669e3827beb38e818ed4e`
@@ -31,3 +64,5 @@ Branch: `codex/code-quality-3y`
 ## 账本与剩余
 
 两个原源继续review，新测试仅review；0新增closed，3317 tracked /253 closed /99 review /2965 pending。pre94仍55partial/28pending/0accept，83对象与原历史卡SHA不改。本卡review等待统一门；不是专项完成。全仓check、official coverage ratchet、protected fast按用户成本要求留大任务窗口，不为这三文件重跑；docs125工具源码不变复用37e原件，本片仅实跑五消费者。未合main；下一步回3w结算实现/专测，随后94前其余卡，94–102/editor后置。无下一位Agent提示词。
+```
+<!-- incremental-original-source:end -->

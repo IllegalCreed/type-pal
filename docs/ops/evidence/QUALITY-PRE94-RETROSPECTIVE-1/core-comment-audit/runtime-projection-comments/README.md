@@ -1,5 +1,38 @@
 # pre94 runtime投影与战斗宿主事实注释
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原报告「pre94 runtime投影与战斗宿主事实注释」(Date: 2026-10-18,Base: `bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a`,Branch: `codex/code-quality-3y`,原文Status: recorded)处理的真实问题:attack/battle-system/game-state/battle-state四源的事实注释错误(失效行号锚、自动法术参数语义、投影边界、状态seed构成等)与两个未经证实的缺陷假设。
+
+## 范围与证据
+
+只改四源注释,无测试/行为/API/schema/save/生成物修改;准入见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。四源全文(614/3130/2105/916行)与caller/primary区间SHA见[read-boundaries.json](read-boundaries.json)。真实ownership链:bootstrap注入projectRuntimeToBattleRoles(runtime,static,effect),menuRoles只传前两参;equipment getter/row writer、event-system 0x19/0x1A resync、battle-opcodes 0x30 Extra刷新、outside-battle 0x2D、createBattleState seed与finalizeBattleCleanup清<=999状态。参考SDLPal global.c属性getter/覆盖、fight.c自动选靶/终态、uibattle.c自动选法术评分、battle.c入场与战末cleanup、video.c换屏——仅源证据,不冒充原版EXE运行。
+
+## 发现
+
+逐文件修正:attack.ts纠正失效game-state:1279锚,避免把等级敌方项重复加给队员;battle-system.ts纠正过时1282锚、0槽保留、资源stash owner、自动法术参数实为0..range随机评分非MP阈值、Confirm记忆非hover、动作完成先推进游标/fade暂停下一动作,入场仅PAL_StartBattle→PAL_BattleMain→VIDEO_SwitchScreen(5)换屏360ms一段(不含此前200ms delay),音效sweep有动作收尾与毒后两个caller不固定称回合初/末;game-state.ts明确runtime武术是裸基础值(装备与Extra另存)、投影是含回退/钳制/覆盖的对象快照且HP/MP边界回写不是完整逆函数、无第三参的menuRoles不合装备;battle-state.ts状态seed同时带普通和装备状态、fade字段纠正顶层driver和游标归属。两个假设被否定:全HP0+Puppet仍判负(C该分支仅清fOnlyPuppet未清fEnded);runtime-context仍存隐藏字段,不能伪称已迁WeakMap。
+
+## 结论
+
+四源TS parser/printer去注释输出与removeComments JS字节双一致(emit-identity);定向2文件75例(GameState61、BattleState14)+相邻3文件199例(宿主186、attack2、ownership11)零失败/零诊断;typecheck/docs125/lint(5197文件)零诊断。0新增closed;三旧源码closure撤回review,GameState原pending只提升review;账本3315/272closed/70review/2973pending;83卡50partial/33pending/0accept;未合main,统一门仍rework。现有GameState投影测试有as any as PlayerRole与旧注释,不能凭61绿接受其整文件。
+
+## 整改与复核
+
+两次非业务失败如实保留:裸scanner首版emit-preflight未按parser上下文重扫模板,把带注释正文误当模板token而exit1(见verifier-limitation.json,换parser+JS双对照,未改runner/规则);附件初核发现两README快照仅用basename互相覆盖致metadata首次exit1,源SHA/阅读范围不变,改命名3s/3v并保留原错boundary与覆盖附件(见snapshot-collision-repair.json),metadata-final/closeout复验全过。末尾回执文字新增后只回放consumer,不重跑未变的125工具测试。未重跑原命令;历史结论保持原时点;候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5301B / SHA-256 bafc648e6f3718a77225787de7499904f64664688b7ce6840c3ba92049638324；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 runtime投影与战斗宿主事实注释
+
 Status: recorded
 Owner: Codex（单Agent，自身核证，不冒充独立第三方）
 Date: 2026-10-18
@@ -38,3 +71,5 @@ id: QUALITY-PRE94-RETROSPECTIVE-1 / runtime-projection-comments；schemaVersion:
 附件初核另发现两份README快照仅用basename造成覆盖，metadata首次退出1；源SHA/阅读范围不变，现分别命名3s/3v，原错boundary与覆盖附件均保留，见snapshot-collision-repair.json。此为证据producer缺陷，不计业务反控；修后metadata-final复验全部附件。
 
 全仓lint本次5197文件0error/0warning/0info，metadata-final核全部当前边界/原件/TS与JS一致、旧账本fence和catalog字节不变；之后新增回执单独格式/静态核验。完整pnpm check:docs首次125/125工具测试和所有消费者零issue；末尾回执文字新增后只回放consumer，不重跑未变的125测试或覆盖率。
+```
+<!-- incremental-original-source:end -->

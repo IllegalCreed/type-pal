@@ -1,40 +1,61 @@
 # TEST-BATTLE-WORKFLOWS-1 r3：Codex独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-BATTLE-WORKFLOWS-1 r3 独立接收（2026-09-23 取证 09-24 收口，候选 7a2f1608）：**counter，保持 rework**；不改候选语义不集成不跑统计并集不转 Kimi；设计 r1 保持 r2 已关闭的原五反证/结构/路径/Biome 不重开。
+
+## Scope
+
+- 已核通过不再返工：四生产目标零 diff 白名单内；定向 39/39（10/6/6/8/4/5）+相邻 272/272+全 Reforge 1,453/1,453+TC+Biome 12 文件零；r2 四个坏实现现在全部被候选自身断言抓住（成长漏 magicAttack/限次技能不移除/ready 后丢敌行动/HP 硬写 1 各 39 中 1 AssertionError）；finally 失败注入观察三 true（已消费实际返回同一 pending 保留原错误 cancel 比较日志/队员快照）关闭；新投掷/回退重选/hook wait/敌召唤/变身五用例存在计数吻合；去重表 12 标题逐字一致 12 行号准确；C4 fullName/绝对路径/marker/套件 message/后行 timeout/单针控制已修。
+
+## Execution and assertions
+
+- **N1 C1 三残项**：幂等断言退成同对象自比较：writeback:200 p1After=world.party[0] 是引用非快照 :225-228 比较同一对象——删生产唯一 persistentEffectsWritten 幂等门整包 39/39 仍绿固定成长会再次叠加（修法：首次完整预期与奖励后预期各取独立深快照再比较整个 world 不能用会被被测代码一起改动的别名）；非空库存保真仍是空输入：session-driver:153 固定 inventory: [] 用例没再播种——临时在 writeBackPersistentEffects 入口清空 world.inventory 整包仍绿（p2、money=77 是真正非空正控保留；库存须补合法非空哨兵再深比较并更正回执）；HP≥1 钳制公开可达：battle-core:1182-1186 全队无可战斗成员才判负、battle-player-input:23-31 映射整支队伍不剔 HP0、character.ts:330-333 允许 seedStats.hp=0 且 validateStartWorld 接受——本席两人队伍 p1 HP0 p2 HP100 p2 真实击败敌人 done=victory writeBackHp 写 [1,100]；仅把非 lost 钳制 1 改 0 候选 39/39 仍绿同输入 oracle 立即 [0,100]≠[1,100] 业务红——裁定撤回「不可达」补合法多队员胜利（或逃跑）含阵亡成员回归不改 HP 政策
+- **N2 C2 hook wait**：script-flows:87-126 400ms 等待窗内仅看尾音未播和攻击日志为空——单点忽略 selectAction 分支的 pumpScriptExecution 返回值（保留 performAction 泵保护）该用例仍 1/1 绿：动作可以提前提交执行被后层屏障挡住故日志为空（只证「未执行」未证「未提交」）；额外公开 readiness 观察器正反对照（不替换 core 不反射）：正常实现累计 144ms 已交给 prepareTurnSounds 的动作无、坏实现 [[0,{kind:attack,targetEnemyIdx:0}]] 而攻击日志都空 phase menu→acting；用公开准备回调/动作快照钉零提交；恢复后也应钉原先吞掉的按键没有留下多余动作
+- **N3 C3 去重映射**：已接受：enemyFled/terminated 真实终态、playerFled/defeat 零结算、合击选择准备快照、core/动画/runtime 各层已有断言、召唤/变身会话接线；仍需补/收窄：battle-session:690-722 合击例 prepareTurnSounds 永久挂起只证选择/冻结不证会话继续执行与只付一次代价（core :2728/:2745/:2790 有代价/队友消费/无效降级但手动写 core.pendingActions 不能说成 BattleSession 无效选择）；battle-core:1048-1108 非法投掷直接塞 pendingActions 证明扣库存前拒绝不证 W1 菜单无效选择；terminated 例 :1284-1314 无 buildSettlement 观察器无零奖励断言不能因标题算已证；enemy-hook-runtime:51-83 不计时可抵扣 runtime 推进不能替代 N2 会话等待输入所有权；不是重写旧专项不扩战斗公式只是不能把层内断言换名成另一层完整合同
+- **N4 C4 judge**：mutants:171-174 只检查 messages[0] 首行其余消息只查 timeout——同一 failed 测试的 [AssertionError:…, Error: fixture setup failed] 仍判 detected；:165-184 仅排 runStatus=0 不要求 exit1——exit2 或被杀 null 退出码下也判 detected；直接 AST 提取实际 judge 构造输入复算非平行谓词；修法：每一条 failureMessage 都检查业务异常首行 timeout 继续全行扫描；变异成功必须 exit1 signal/异常退出不算 detected；同一真实 judge 增补反例；回执两小勘误一并闭：净增分支机账写 43 实表 session43+core1 应为 44（仅核算术不重测覆盖率）；驱动器头部写每次精灵也过 guard 实际入口只有 enemies/skills/items actors 在 FromWorld（BattleSprite 仍由默认 catalog 检查）不重开 R1 别声称不存在的逐实参 guard
+
+## Results
+
+- 验证与复建：r3 见证只通过 Vite load 替换候选 11 相关文件前后 hash 一致；工具 0 退出表示取证完成不代表 accept 两公共 oracle 是 Codex 独立用例不计候选 39 项；wait oracle 初稿少一闭合括号产生 0 测试解析错误已修后正控绿/反控 AssertionError 确认不将草稿错误归咎候选；本次未重跑官方门主线 7,826/633 不变。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；机账/日志根/单针 unknown 复现命令在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r3 接收 | 2026-09-23/24 | r2 四反证闭+N1-N4 新反证 | counter（保持 rework） | r2 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/battle 的 r3 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-BATTLE-WORKFLOWS-1 r3：Codex独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter N1 三残项（引用自比较/空库存/HP0 合法胜利 [0,100]≠[1,100] oracle）+N2 未提交≠未执行（readiness 观察器正反）+N3 层内断言换名（合击永久挂起/塞 pendingActions/无结算观察器）+N4 judge messages[0]+exit1 缺失；两小勘误（44 算术/精灵 guard 入口）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+N1-N4 反证表、readiness 对照表与复建命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r4/r5 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-BATTLE-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `521732ee9bdce953a51985c98abb5771da987a40b80ea8055ae2f725ebd23b9e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `521732ee9bdce953a51985c98abb5771da987a40b80ea8055ae2f725ebd23b9e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-BATTLE-WORKFLOWS-1 r3：Codex独立接收
 >

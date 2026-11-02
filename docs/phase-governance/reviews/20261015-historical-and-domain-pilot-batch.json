@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "f609117103a32bbbf11567cf8caf53b8315f65eb335c02fbb4096bdd1a15173c",
+      "afterSha256": "41bb5023575083b34dd8af9c576cf65582da919ea847e4efae5908d328394bf2",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6764,7 +6764,179 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewedSourceGitObject": "3f13cd3768f2d0741da8e322748c8f68c14b2abd"
+      "reviewedSourceGitObject": "3f13cd3768f2d0741da8e322748c8f68c14b2abd",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a4dc5930c4ec8e9abb649bd149a2ce0630ca2e39b590e731f2d7b8b837aa045e",
+        "afterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
+          "afterSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
+          "method": "S03 readable projection of new guarded matrix row.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
+          "afterSha256": "8bb97d8c33ca796f9ece3c4cd482731437eff4bd613b6a05419fce8dcd43c657",
+          "method": "S04 readable projection of new guarded matrix row.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "8bb97d8c33ca796f9ece3c4cd482731437eff4bd613b6a05419fce8dcd43c657",
+          "afterSha256": "2ce0de8a3d7f4467a26523951ba7506286fa090f1d9b916638df0f12f912e8ba",
+          "method": "Root acknowledges exact frozen65 non-author central receipt only, with no extra semantic regrant; S05/S06 and later changes remain separate, 3/1893 and quarantines preserved.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+          "previousAfterSha256": "2ce0de8a3d7f4467a26523951ba7506286fa090f1d9b916638df0f12f912e8ba",
+          "afterSha256": "8d9dcd3107c07b8f9bb92a9a04eaaf69cc3ba5bda6b72eaaa3e8a0a0d72c84d5",
+          "method": "One readable S05 guarded relationship appended.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "d90c8a15436e8babf9f2687dde94737c020acef7",
+          "previousAfterSha256": "8d9dcd3107c07b8f9bb92a9a04eaaf69cc3ba5bda6b72eaaa3e8a0a0d72c84d5",
+          "afterSha256": "81a0c0226c5a31aab07985ded81deab34f6bb5885ed7077efe4461f835b06c3a",
+          "method": "S05 exact frozen4ddd central closure; future changes remain separate.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "previousAfterSha256": "81a0c0226c5a31aab07985ded81deab34f6bb5885ed7077efe4461f835b06c3a",
+          "afterSha256": "1d2df7ecce34447c491762630610ce77b87f367c1f73b577e6493e482ea85822",
+          "method": "Readable projection of two new guarded relationships.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "previousAfterSha256": "1d2df7ecce34447c491762630610ce77b87f367c1f73b577e6493e482ea85822",
+          "afterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
+          "method": "Readable proposal date-counter and pending template completion only.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
+          "afterSha256": "6e83f0e85800ce9da2b74d14f26936fa95a098578c0216bb5303ac1fdeae28a1",
+          "method": "Readable S06 data-scoped independent acceptance and pending next composition.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
+          "previousAfterSha256": "6e83f0e85800ce9da2b74d14f26936fa95a098578c0216bb5303ac1fdeae28a1",
+          "afterSha256": "653be7848435776d2c688c34283d36b96fb5ef15e8b203988386d6b252beef2c",
+          "method": "Readable source-specific S06 counter correction/date design and S07 sole central pilot boundary.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "653be7848435776d2c688c34283d36b96fb5ef15e8b203988386d6b252beef2c",
+          "afterSha256": "389c9136da6f43007dde5d744917239c221d4354602d4d934285fe74d510f8f5",
+          "method": "Readable fixed157 and distinct affected/nonwithdrawn provenance, no global/runtime grant.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "389c9136da6f43007dde5d744917239c221d4354602d4d934285fe74d510f8f5",
+          "afterSha256": "d80dade2e3354a25cf463c8af164cf7eabe0d44089c3c5e44754f5503b673ecc",
+          "method": "Explicit S16 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 explicit partial acceptance/124 counters and new correction admission controls only",
+          "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
+          "previousAfterSha256": "d80dade2e3354a25cf463c8af164cf7eabe0d44089c3c5e44754f5503b673ecc",
+          "afterSha256": "36770309294161b53cdbd43a636d1428aaa7c717df4917d6faa7ef4118cd24b6",
+          "method": "Owner actual241/124 decision, risk/counter facts and targeted rework admission; no further document credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "36770309294161b53cdbd43a636d1428aaa7c717df4917d6faa7ef4118cd24b6",
+          "afterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
+          "method": "Explicit S17 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S18 accepted73 individual bodies and11 explicit route/type corrections",
+          "sourceRevision": "5521fd94b2695ffcdd2d271f7c8ffedf25ddf083",
+          "previousAfterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
+          "afterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
+          "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S19 fixed039 targeted counter/admission control writeback only, zero new semantic grants",
+          "sourceRevision": "b60e0b681e7c1b399b4810d831cd42cdd9215cd7",
+          "previousAfterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
+          "afterSha256": "b055a7553be6d282741bf22cccbd2987ffcfaf82a29d262199f434a731feef84",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 actuala13 independent targeted correction verdict and final13 admission; zero new native grants",
+          "sourceRevision": "08377f084daa414b76ae1259766606c06c687343",
+          "previousAfterSha256": "b055a7553be6d282741bf22cccbd2987ffcfaf82a29d262199f434a731feef84",
+          "afterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
+          "method": "Actual2026-10-21 Owner counter/admission and matrix controls, zero source body adoption or new semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S19 final61 accepted and structural review routing; S20 historical27 admission controls only",
+          "sourceRevision": "475a4204e66ca0c7c386399ba8a012151ac7c222",
+          "previousAfterSha256": "c7f45c353531de3aeef014474a0e41c3558bce0f5967eb7367effdc1b9628b7c",
+          "afterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-21",
+          "task": "S20 accepted27 central controls and S21 read-only JSON contract intake",
+          "sourceRevision": "635ea874ba478b5da5c9c6e60593a90d258bd65b",
+          "previousAfterSha256": "ae1b9d4044cdbc074b06d9ac6f0c3f181c1d45fceeb6941993e284d03c9240f6",
+          "afterSha256": "41bb5023575083b34dd8af9c576cf65582da919ea847e4efae5908d328394bf2",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ]
 }

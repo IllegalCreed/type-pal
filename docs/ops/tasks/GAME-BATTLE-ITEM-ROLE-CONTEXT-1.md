@@ -1,6 +1,59 @@
 # GAME-BATTLE-ITEM-ROLE-CONTEXT-1 — 战斗使用物品的脚本角色上下文
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+补齐战斗使用物品的目标角色传递：原盘大蒜84的39536脚本设置目标Extra毒抗30，基线performItem只给battleCtx的target，runScript无opts.eventObjectId时PlayerOpcode 0x17无上下文就warn并返回——物品仍扣除（count1→0、毒抗0、Extra仍0、stderr 49字节），独立解释器提供eventObjectId4对照得到Extra30。用户2026-10-22裁决“批准修复目标角色传递（推荐）”。
+
+## 范围
+
+actions/item.ts的目标角色传递、event-system.ts必要8D投影刷新及item-poison-boundary直接真实反例；法术/投掷、Extra全角色清理、script pointer、扣物品政策、升级算法/随机、schema/save、二阶段与生成物不在本修复范围。
+
+## 前提与证据
+
+固定源全文核读。SDLPal fight.c:4378–4392 UseItem向PAL_RunTriggerScript传选中party slot对应role，all为0xFFFF；script.c:752–767以该role写Extra。正式旧实现四旧绿/四新增红（两个毒抗业务红、一个all参数运输红、一个真实runtime升级红）；只补目标后七绿/一个战斗投影等级业务红——金蚕王150的39561为0x8D[1,0,0]，runtime已升至2但战斗投影仍1，SDLPal script.c:2591–2597调global.c:2347–2409同一SoA直接更新等级/属性不回满HP/MP，故必要白名单加event-system.ts现有battle raw刷新谓词的0x8D。最终289相邻、3724当前game TC/整包、单次official20040/758与同报告strict/protected零诊断；HP/MP仍是战斗live值不因8D基础数值刷新回满。原盘全43503指令计数及两条与现行all.json一致。锚点:[game-item-role-context-review.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) [game-item-role-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json) [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)。
+
+## 验收
+
+done为功能窄卡技术收口：四旧合同及fixture/data守恒、四新身份唯一；未新跑浏览器、完整fight或视觉；item.ts与event-system整文件仍review，C返回script pointer等广域生命周期不附带接受；Extra全角色清理仍unknown不借本卡改变。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，Codex单Owner，提交a52b7dc3a未包含其它产品取舍。
+
+## 历史范围
+
+原卡属固定main时点；范围为战斗物品目标角色传递+0x8D投影刷新子切片，解释器/动画广域不在本卡。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：逐文件A–H收口，官方20040/758与strict/protected零诊断。
+
+## 当时证据
+
+当时回执属原时点证据：四旧绿/四新增红→七绿+1投影红→补0x8D刷新后收敛，289相邻/3724 TC零诊断；本页不重跑、不复授。关联:[game-item-role-context-review.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) [game-item-role-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json) [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；该观察是3w写入链核读的新caller缺陷，不证明非队员Extra残留可达；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+原Extra卡[GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)仍unknown；父卡QUALITY-PRE94-RETROSPECTIVE-1继续3w模块。 关联:[game-item-role-context-review.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json) [game-item-role-context.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context.json) [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5960B / SHA-256 72ed47fe02b30e2cb0427845496176a7cde62d39430ce612590a83877f146091；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-BATTLE-ITEM-ROLE-CONTEXT-1 — 战斗使用物品的脚本角色上下文
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: battle item / event interpreter role context
@@ -68,3 +121,5 @@ Template: task-card-v1 / 1.0.0
 [逐文件A–H/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-item-role-context-review.json)含完整四阶段与缺import失败。四旧合同及其fixture/data守恒，四新身份唯一；289相邻、3724当前game TC/整包、单次official20040/758与同报告strict/protected零诊断。HP/MP仍是战斗live值，不因8D基础数值刷新回满。全check20434绑定本修复前，受影响game完整刷新；其余六包未改据证复用，不冒称第二次完整check。
 
 功能窄卡技术done；item.ts与event-system整文件仍review，C返回script pointer等广域生命周期不附带接受。未新跑浏览器、完整fight或视觉。Coding Owner Codex，无下一位Agent，提交a52b7dc3a未包含其它产品取舍；完整主线同步/最终静态以集中回执为准。
+```
+<!-- incremental-original-source:end -->

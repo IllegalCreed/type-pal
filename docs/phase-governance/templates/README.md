@@ -45,6 +45,10 @@ Owner 为当前 Coding Owner；注册表的 requiredSections、statuses、eviden
 
 机器父版本1.5增加三种固定历史集成格式：historical-continuation-integration-v1（15原生键）、historical-intake-completion-v1（10键）、historical-command-integration-v1（22键）。三份批准33cc源、全部键和值与治理 historical/本轮 false 分轴；旧 default 与三个变体保持。15份既有机器文档只对齐治理版本，0新增迁移。三份固定源格式已分别通过真实 consumer/来源反例和 canonical 单篇非作者独立 pilot；三配对历史 MD 已在固定候选 `79dce016` 获逐篇非作者内容接收；根中央记录、路由及矩阵接入须另依当前 [J 分批 review](../reviews/20261016-architecture-integration-history.json) 与实际受审快照核验。其它未读 JSON 仍须逐篇治理，不能由登记格式外推。版本与边界见设计提案 C1/C2/I/J。
 
+2026-10-21 evidence-receipt新增两个原生JSON pilot变体：historical-document-relocation-v1、historical-document-preservation-v1，各自1.0.0；默认Markdown合同/版本不滚动，17类总数不变。三件DOC-IA-2使用固定33cc原件，原字段不搬payload；治理五项内容、历史轴/未重跑声明与两项unverified来源由严格JSON及model/progress共同检查。变体format/version优先，无自有声明的旧变体仍继承默认。三篇pilot证据已获GLM非作者accept，canonical仍needs-migration，本次不授迁移完成；见[设计S23](registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)。
+
+S25新增test-machine-evidence的historical-vitest-native-v1原生输出变体，自有1.0.0、父1.5.0与原六变体不变。三份固定33cc reporter的原始字节保持，治理内容复用唯一当前review条目，禁止追加_governance、payload、sidecar或新source pin。真实model/progress检查固定三路径、字节/来源、五项治理内容、相位与双false；红相位不强制改绿，suite计数不当文件数，success不证明零诊断。[三篇pilot证据](registry-proposal-20261011.md#2026-10-21-s25原生vitest历史输出合同)已获GLM非作者accept，可作同类准入基础；三篇partial/needs-migration不变，不自动接入其余候选或授完成。
+
 catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项治理合同与原消费者责任；generatedBy值/null不加新门。
 新增 frozen-document-binding-baseline-v1 仅固定33cc捕获索引八键，专用JSON root/view验证原1838项和19键治理声明，
 不要求自身membership、不刷新原15类summary/unread/候选绑定、不发执行信用。默认catalog与示例只滚治理版本，0新增迁移；
@@ -58,3 +62,7 @@ catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项�
 - 新文档从对应模板开始；历史文档保留原结论/日期/SHA，使用 archive wrapper 说明当前有效性与继任者。
 - governed-legacy 仅是旧 ledger 状态，不是迁移完成；全量完成前除用户批准保留项外必须消除。
 - 每类至少一篇实际迁移、逐篇审查与 consumer 验证通过后，才能推进同类批次。静态门不证明 runtime/E2E/视觉/coverage。
+
+2026-10-27 S59新增HTML-native设计变体：design-spec的historical-ui-mockup-native-v1与evidence-receipt的historical-browser-host-native-v1，各自1.0.0、元数据复用唯一现有review，原HTML/资源/脚本字节保全。当前仅三个owned pilot，合同/内容接受分轴且迁移接受表为空；root-only宿主合法，缺构建main.js明确记录而不认证运行。当前控制JSON仍draft，不沿历史immutable合同放行。见[提案S59](registry-proposal-20261011.md#2026-10-27-s59原生html合同冻结与当前控制json设计边界)。
+
+2026-10-28 S61沿用上述两HTML变体1.0.0，扩展剩12个固定载体，15全量HTML接入按[父卡S61](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28)实际质量门和接受记录判定。三原pilot的partial文字为来源阶段说明，不覆盖当前精确接受；缺构建产物/归档根路径不因文档迁移变成已运行。当前控制JSON合同仍draft。

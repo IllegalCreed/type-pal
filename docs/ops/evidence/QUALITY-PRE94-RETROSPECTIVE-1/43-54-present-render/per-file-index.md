@@ -1,5 +1,38 @@
 # C1 逐文件 A–H 索引 — 43-54 present 渲染(10 条 fullReads)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+承载「C1 逐文件 A–H 索引 — 43-54 present 渲染」的逐文件结论索引:draw-sprite/font/follower-render/draw-tilemap 四生产文件与六测试文件的 A/E 维判定、C 行号锚与返工补读标注。
+
+## 范围
+
+原文含章节[C1 逐文件 A–H 索引、生产文件(4)、测试文件(6,E 为主)、Codex接收边界(2026-10-20)]。生产文件要点:draw-sprite.ts(scene.c:224/291/358 逐帧 PAL_RLEGet*、M3.5 fix RLE-skip 与 palette-0 分离)、font.ts(tofu 确定性像素、三影 text.c:1144-1155、blitGlyph 位序、measureText/palCharWidth 分工)、follower-render.ts(follower k→trail[3+k] scene.c:737-740、步序 [0,2,0,1] 654-674、0x98 operand res.c:335-348)、draw-tilemap.ts(map.c:382-417 公式、±1 fence 412/-1、L32 缺图回落仅 layer0、coverage 判漏黑+逐趟扩散、PAL_CalcCoverTiles 五 case scene.c:77-178、L31 负坐标 trunc 113-117)。测试要点:六份逐例(anchor 剖面 31..73/底边对齐恒 cy-1/opaque 真值三态、palCharWidth ASCII/CJK、tofu 框精确像素、trail 深度与四步序、fence 分 layer、G03-A01-11);draw-tilemap-pixels 为【返工补读】(原审查仅头部 60 行+标题全列)。
+
+## 当前状态
+
+historical(治理候选);原时点状态与日期在保全块。Codex 接收边界原文保留:测试条目多为 E 维,不能读成 69 文件全部八维已验收;未单列论据的维度保持 review-unknown,文件不关闭。
+
+## 入口与责任
+
+当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md) [codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [read-boundaries.json](read-boundaries.json)。 指纹勘误以 read-boundaries.json 为准。
+
+## 证据与下一步
+
+固定main源SHA 详见 read-boundaries.json;定向 51 绿原件在同目录 directed-final.json;下一步=Owner非作者接收,后续只补具体缺口维度,不重复已成立的 E/primary。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4061B / SHA-256 927f09a8d0e723145e381cf42382426b7600219da62f80d6f3d74e8e34eb82ef；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 逐文件 A–H 索引 — 43-54 present 渲染(10 条 fullReads)
+
 读域标注同 [73-78 索引](../73-78-shell-lifecycle/per-file-index.md)。指纹勘误见 [`read-boundaries.json`](read-boundaries.json)。共享论据引用本目录 README。
 
 ## 生产文件(4)
@@ -21,3 +54,5 @@
 ## Codex接收边界（2026-10-20）
 
 本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
+```
+<!-- incremental-original-source:end -->

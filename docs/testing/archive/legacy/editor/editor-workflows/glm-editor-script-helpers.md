@@ -1,40 +1,62 @@
 # GLM脚本与内容编辑辅助补测工作包（TB-07）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-SCRIPT-HELPERS-1 TB-07 工作包合同与 GLM r1/r2/r3 回执：**当前 Codex 接收结论（2026-09-20）accept**——候选 `10cc9d4d`、统一候选 `256116ee`，check 7,709/ratchet/受保护单次严格 fast 7,220 通过，三席齐+用户授权，done 归档（详见[当前独立接收](../testing-records/glm-nine-final-review.md)）；旧 counter 仅留历史。
+
+## Scope
+
+- 对象=S01–S07 七族（author-command-edit/script-editor/script-editor-projection/script-reference-catalog/item-authoring/item-alchemy/enemy-defeated-events）补测合同+冻结目标 7 文件+新增文件白名单。
+
+## Execution and assertions
+
+- **合同族与去重**：每族列真实调用/旧证据/允许新增候选（S01 then/else/body 等当前路径+边界 move 引用不变；S03 hostile 三 callback 不同 canonical/shell 值取舍；S04 显式空数组不得退 library；S06 mutator 原地改克隆再抛错 session/history 不变）；Copy/Rename/SetSceneHookInitial 等仅定义/测试无真实 UI caller 只分类不补旧面；D-06/D-07 留 Codex 修复不承诺默认红转绿；每个保真断言比较实际传入对象，不另 clone 未消费对象自证
+- **r1 回执**：2026-09-19 基点 41cc7cd9：6 新测试文件 17 项（S02 会话级族未落——显式留待补批不伪装去重减项）；定向 17、全包 247 文件/2,535 项（2 项预存 ENOENT 与基线同）、fast 2,359→2,376 双 exit0、7 文件 Biome rc=0；负控 3 对照+7 变异针全钉名（子键 then/else 串读/initial 动画 shell 覆盖丢失/hostile.onLose canonical 丢失/authorScripts 空数组退 library/copy 序号 -3 起/alchemy kind 门/奖励区间不含对白）；覆盖对照逐族（author-command-edit B83→89/109 等；全包 L22,346→22,348、B19,264→19,286）
+- **r2 返工**：C0 判据改 failureMessages 首行正则+四向自测；C1 10 文件 Biome rc=0；R07-1 三 fixture 过正式 guard（dialogue→wait、validateAuthorScenes、validateItems）；R07-2 撤回空 rewards fallback 与 authorScripts 缺席退 library 两条已排除轴；R07-3 S02 三轴补齐（新增 hooks-session.test.ts 3 项：default 隔离/缺 target 拒绝后保真/最后未引用 hook 逐层清理）；复跑定向全绿、fast 2,359→2,380
+- **r3 收窄返工**：C0 pinned 判据精确唯一目标+AST 抽取块共用+后缀冒名反例；R07-3 非空 redo（两笔合法编辑+undo 建立非空 redo 后再触发拒绝，单点「失败 dispatch 清空 future」即红）；归因更正撤回 audit-performance「Codex 已裁决」表述；复跑定向 21/21、3 对照+7 针绿、rejected-session-clears-redo 针 detected
+
+## Results
+
+- 首轮接收（历史）counter：定向 17 项/原 3+7 跑/tc 通过但有公共 C0 与业务返工、Biome 9 文件 2 errors；「生产零改」只指已列新增之外（勘误在原文）。
+- GLM 不跑全仓门；机器账 glm-editor-script-helpers-evidence.json（S02 未落与余量归属见 knownBoundaries）。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；[统一复核 TB-07](../../ops/testing-records/glm-nine-intake-review.md#tb-07)。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1/r2/r3 回执 | 2026-09-19 | 17→21 项+7 针+两轮返工 | 2026-09-20 Codex accept（256116ee，done） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 TB-07 工作包+回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM脚本与内容编辑辅助补测工作包（TB-07）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：S01–S07 合同（S02 r2 补齐）+21 项+7 针两轮返工后 accept；覆盖对照逐族在账。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+合同族表、冻结目标/白名单、r1–r3 三轮回执与覆盖对照在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；当前测试状态以官方套件为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-EDITOR-SCRIPT-HELPERS-1 完成卡与 glm-nine-final-review。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `192ac16e4f0d4c2dc65e32e9e84145795e0c0488270fb2f802b69eb489664a90`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `192ac16e4f0d4c2dc65e32e9e84145795e0c0488270fb2f802b69eb489664a90`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM脚本与内容编辑辅助补测工作包（TB-07）
 >

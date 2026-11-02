@@ -1,55 +1,61 @@
 # DOC-IA-2 - 全仓文档信息架构整理
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: ops
+Capability: ops（文档职责与引用，不改变能力状态）
+Visual Verification Timing: N/A
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是全仓文档信息架构物理归类与现行/历史拆分的历史治理卡（2026-09-06 用户授权）：登记 419 文件去向、保留重定位 261 份、九张退役图片退出工作树；现行规范单一化、历史快照不担执行授权。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+完成 DOC-GOV-1 有意未做的物理归类：第二阶段顶层收敛为方针/进度入口+specs/guides/reference/archive 四类、ops/tasks 活动与终态分离、第一阶段沿用编号结构、按显式 old→new 映射统一重定位链接/图片/入口/代码路径。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：全仓文档映射登记与重定位、混合合同提取为五份独立现行规范（编辑器设计系统入 specs）、文档检查器加路径重写/归档/布局回归检查、九张无引用退役图片清理（pal0/pal2-dialog/NPC 碰撞截图×2/samples 组×5，历史由 Git 保存可恢复）。
+- 范围外：产品行为/版本/机制；重裁决原版机制；把历史缺口变成新产品需求；Git 历史 commit:path 改写。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+24 个源码/配置消费文件均验证仅文档路径替换、无业务实现变化；场景入场指南“每段都可设置”按 author-script-core.ts initial 节点校验修正、原说法保留历史快照；首轮远端 CI 发现生成索引误收 .DS_Store，已收紧链接目标校验为“磁盘存在+Git 可检出范围”并补反例。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：check:docs 与工具反例 20/20、boundary/adoption 83/83、七包 typecheck、coverage:fast 608 文件/5675 项四项精确计数与原基线相同；最终候选 e550c4e5 的 Documentation/Coverage CI 双 success。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡用户追加两次清理（四张调试留图、samples 组五张）均独立核实无当前引用后退出；历史任务和审查不重开。无下一位 Agent 提示词。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-06 授权、整理、追加清理与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：419 登记/261 重定位/九图退役的全仓 IA 整理经双 CI 收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+preservation-report.json 与 relocation.json（只作本轮历史记录，不作为未来自动任务）；CI runs 33988223981/33988223958。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。现行目录规则以文档模型与当前树为准；本卡映射清单不复用为自动任务。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+现行职责见[文档模型](../../../guides/documentation-model.md)；后续治理总卡 DOCS-FULL-TEMPLATE-1。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `8eb56ac13c90f204dd5f2d285c62dfd459453237b52a811681e1d52d26519ff7`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `8eb56ac13c90f204dd5f2d285c62dfd459453237b52a811681e1d52d26519ff7`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-IA-2 - 全仓文档信息架构整理
 >

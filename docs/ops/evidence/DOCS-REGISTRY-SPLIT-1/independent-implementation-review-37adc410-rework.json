@@ -1,0 +1,1438 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-registry-storage-implementation-rework-review",
+  "taskId": "DOCS-REGISTRY-SPLIT-1",
+  "createdAt": "2026-10-17T21:34:04.800850+00:00",
+  "reviewDate": "2026-10-18",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root/registry_storage_author",
+  "coordinatorTask": "/root",
+  "nonAuthorReviewer": true,
+  "nonAuthorBasis": "This task did not author storage code, schema fixtures, original registry, author delivery, or coordinator administrative changes. It independently read fixed code/deltas/data, executed real gates and owned I/O/recovery probes, and found a new public-loader counter. Same Codex team/model membership is not claimed as organizational independence.",
+  "candidate": {
+    "commit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+    "base": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+    "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "moduleSha256": "8eb43ac3f9b4174e664f69a76a89255d7136152ef73fb35ea0385572425bb365",
+    "cliSha256": "34ae1218733b05da04c4c97f416df4dd0ae90797da8a2246f58169bfff60ea0b",
+    "actualModuleLines": 447,
+    "worktreeClean": true,
+    "mainCommit": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "changedFileCount": 20
+  },
+  "design": {
+    "commit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+    "version": "2.0.2",
+    "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+    "designOnlyAcceptanceReportSha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870",
+    "interpretation": "Design acceptance was separate from this implementation verdict and did not pre-approve the code."
+  },
+  "scopedStorageVerdict": "rework-REGISTRY-NATIVE-DOCUMENT-PATH",
+  "implementationAccepted": false,
+  "scopedCorrectiveVerdict": "Native migration, concurrency/snapshot/recovery and output-preflight observations below are supported on37, but new native document path acceptance counter prevents storage acceptance. No blanket pass from161 tests.",
+  "openCounters": [
+    {
+      "id": "REGISTRY-NATIVE-DOCUMENT-PATH",
+      "source": "scripts/docs/document-registry.mjs:96-100",
+      "priority": "P2; blocks this scoped acceptance",
+      "recordPath": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/counter-37adc410-native-document-path.json",
+      "recordSha256": "c46cf8be9c6fcdefa5c0dbce9c0bc962f082aa826bc4d805fbea9f62db4cc9bb",
+      "finding": "The actual public loader accepts native entry path docs/../AGENTS.md outside governed docs and simultaneously accepts docs/ops/one.md plus docs/./ops/one.md, which resolve to one canonical file. The negative lookahead is positioned after docs/ but its ^ still anchors the complete string, so the first dot or dot-dot segment is missed; duplicate checking uses raw path strings.",
+      "rawPath": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/document-path-probe.stdout",
+      "rawSha256": "b86e0743f72b288461a986bb3950f3b5d718a89a761b5d0ad342b0ef14d60494",
+      "effect": "actual public loader returns3 entries, including docs/../AGENTS.md and two canonical aliases; original2374 actual data remains unchanged",
+      "requiredResolution": [
+        "Check every native document path segment explicitly; reject . and .. including first segment after docs/, and reject empty segments/canonical aliases rather than normalize them into source identity",
+        "Add actual loader and both real-consumer rejection controls for leading dot/dot-dot and duplicate canonical aliases, plus a valid baseline/restoration",
+        "Keep original2374 native entries/key order/optional absence/phase/metadata unchanged and rerun meaningful affected gates on a new fixed commit"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "native2374-and-physical-bytes",
+      "verdict": "supported-on37",
+      "sources": [
+        "raw/data-migration-probe.stdout",
+        "sources/author/final-migration-mapping.json",
+        "work/migration/mapping.json"
+      ],
+      "finding": "Independently decoded fixed3fae source and loaded canonical v2. Entire entry JSON serialization matches, preserving array order, each entry key order/value, optionalabsence, phase and flags. All eight native metadata values independently serialize equal: id/generatedBy/policy/roots/extensions/structuralRoots/summary/scopeNote. New producer/provenance is separate. Version absent1632 and variant absent2351 preserved. Seven shard files plus manifest are <1MiB; manifest4745 and largest590511bytes.",
+      "strongestAlternative": "Matching logical JSON could still hide phase regrouping, optional defaults, lost producer history or reclassification by directory.",
+      "decision": "Rejected by whole-entry serialization, all2374 sourceIndex/object SHA/targetIndex/positions checks, actual phase exceptions and8metadata comparisons. This remains mechanical migration acceptance evidence, not2374body semantic review."
+    },
+    {
+      "id": "mapping-targets-and-TOCTOU",
+      "verdict": "supported-on37",
+      "sources": [
+        "document-registry.mjs:183-195,376-447",
+        "document-registry.test.mjs:530-581",
+        "raw/author-root-evidence-audit-v2.stdout",
+        "raw/data-migration-probe.stdout"
+      ],
+      "finding": "Migration mapping builds locations from the private published Buffer snapshot, not mutable live files after release. Current real second writer test reverses live order after release; mapping remains first publication. Independently reconstructed author adapted clean/test from frozen37 bytes matches recorded hashes; exactly one snapshot-to-live-read mutation reproduces author33names green/red/green with only the mapping assertion failing1279!=0. Own complete161 suite independently passed the final code.",
+      "strongestAlternative": "A valid mapping can be fabricated by repointing author targets to canonical files or by reading current live shards after another writer.",
+      "decision": "Rejected: old85c9 mapping unchanged; final40399f mapping really names author/tmp replicas, whose8actualbytes equal canonical. Own fresh CLI reproduction generated its own target paths and identical source/entry/metadata mapping, with8canonical byte equality. No old mapping was edited."
+    },
+    {
+      "id": "private-loadedSource-capability",
+      "verdict": "supported-on37",
+      "sources": [
+        "document-registry.mjs:42,183-203,242-265,370-374",
+        "document-registry.test.mjs:280-310"
+      ],
+      "finding": "WeakMap key identity must originate in same module process; exposed token/files/items are frozen strings/hash metadata, with actual Buffer map and cloned original registry private. Caller edits to returned logical data do not alter source bytes or by-path snapshot. Forged cloned token, exposed metadata mutation, externally edited source and stale token reuse are rejected in actual executed tests.",
+      "strongestAlternative": "Caller can change public loadedSource.files SHA to bless edited files, or pass an identical object to forge authorization.",
+      "decision": "Rejected by identity-only WeakMap and frozen public structures. This is cooperative storage source identity, not semantic authorization to mark a document reviewed."
+    },
+    {
+      "id": "cooperative-writer-serialization",
+      "verdict": "supported-on37",
+      "sources": ["document-registry.mjs:288-369", "document-registry.test.mjs:280-310,322-393"],
+      "finding": "Atomic mkdir lock shared by writer/migrator precedes full input revalidation; second recheck follows formatting immediately before renames. One real competing process is busy before publication; separately loaded stale snapshot cannot overwrite a successful prior commit. Manifest is last. PID/time never steals lock; Owner token gates normal release.",
+      "strongestAlternative": "One SHA check outside a lock or a successful reload could prevent all lost writes.",
+      "decision": "Rejected by prior design counter and actual concurrent/stale tests. Current protocol addresses cooperating writers only; arbitrary filesystem bypass is outside guarantee."
+    },
+    {
+      "id": "mid-publication-retention-and-owner-recovery",
+      "verdict": "supported-on37",
+      "sources": [
+        "document-registry.mjs:323-367",
+        "document-registry.test.mjs:395-431",
+        "raw/manual-recovery-probe.stdout"
+      ],
+      "finding": "Executed SIGKILL test changes a legal optional version in first shard while preserving partial/needs; old manifest plus changed shard is a true mixed package. Both real consumers reject retained-lock and independent no-lock/hash-mismatch copies. All previous bytes/hashes remain. Own additional real-kill fixture checked previous bytes/token, manually restored every old public byte under owned lock, verified hashes, then explicitly removed its own lock and loaded the original logical package.",
+      "strongestAlternative": "Only scopeNote changed, so lock rejection alone could hide ineffective half-package assertions, or recovery hashes may reference unrecoverable data.",
+      "decision": "Rejected by first-shard inequality, unchanged old manifest, no-lock SHA refusal and actual manual recovery. No automatic recovery CLI or atomic multi-file transaction is claimed."
+    },
+    {
+      "id": "mapping-output-preflight",
+      "verdict": "specific-root-counter-satisfied-on37; overall-rework-remains",
+      "sources": [
+        "migrate-document-registry.mjs:1-34",
+        "document-registry.test.mjs:434-528",
+        "raw/data-migration-probe.stdout",
+        "sources/root-output-counter.json"
+      ],
+      "finding": "CLI resolves/limits existing mapping parent to/tmp, opens new output exclusively/no-follow with writable FD before migration. Own existing-artifact and missing-parent controls both exit1 with fixed source unchanged and0shards; valid output then migrates2374 and produces full mapping.",
+      "strongestAlternative": "Nonzero CLI still means source may already be published without its mapping, as original root counter proved.",
+      "decision": "Known preflight failure cases now reject before publication. Later FD/disk I/O failure can still leave a complete registry and incomplete reserved mapping; code/report explicitly state no cross-output transaction. Original root observation captured CLI SHA/effects but not a frozen whole module snapshot; that historical limit is preserved, not retroactively repaired."
+    },
+    {
+      "id": "loader-byte-and-structure-refusal",
+      "verdict": "partially-supported; native-document-path-counter-open",
+      "sources": [
+        "document-registry.mjs:59-178",
+        "terminal-json.mjs UTF8/duplicate parser",
+        "document-registry.test.mjs:137-278",
+        "raw/document-path-probe.stdout"
+      ],
+      "finding": "Actual tests exercise missing/tampered/hash/count/summary, invalid positions and phase, duplicate raw paths/descriptors, unsafe descriptor paths/symlink, v1, decoded duplicate key and badUTF8 through loader and two real consumers. Live v1 has no fallback. However native document path regex misses leading . and .. segments, allowing escape/aliases; the current test set did not cover it.",
+      "strongestAlternative": "All161green or secure shard descriptors prove every path field safe.",
+      "decision": "Rejected by new actual public-loader counter. Need explicit segment/canonical-form refusal including empty segments and real-consumer controls on a new frozen candidate before any storage acceptance."
+    },
+    {
+      "id": "three-adapters-and-retired-writers",
+      "verdict": "supported-on37 within scope",
+      "sources": [
+        "complete three adapter delta and sync source",
+        "three retired entrypoint full source",
+        "document-registry.test.mjs:583-616",
+        "raw/freeze-sources.stdout"
+      ],
+      "finding": "Active content/progress/sync use one public loader; content/progress credit/SHA/withdrawal logic otherwise unchanged. Three old heuristic/fake-review/enrichment generators now contain no filesystem imports/reads/writes and always exit1 regardless of flags, with verified historical911 blob anchors. Their real fixture tests preserve all bytes. No product/old product tests/coverage/config-ignore/rule changes.",
+      "strongestAlternative": "Port old generators to v2 to keep convenient bulk review credit, or use an adapter bypass.",
+      "decision": "Rejected by explicit retirement and actual source search/delta. Storage does not grant semantic review or execution credit."
+    },
+    {
+      "id": "original-two-fixture-quality",
+      "verdict": "supported-on37 for schema adaptation only",
+      "sources": [
+        "sources/fixture-complete-diff.txt",
+        "raw/data-migration-probe.stdout /fixtureAssertions",
+        "own complete checkdocs"
+      ],
+      "finding": "Read both entire diffs: minimal v1 fixture publications become valid v2 helper inputs with true required fields; two registry reads use loader. Original business routes/negative guards are not removed. Independent TypeScript AST extraction proves every original ordered assert-call text unchanged:108/108historical and60/60frozen. Own complete suite passes them.",
+      "strongestAlternative": "Counts alone could hide swapped or weakened assertions.",
+      "decision": "Rejected by exact ordered call-text identity plus actual diff read; not merely counts. No new product business-test acceptance or historical runtime credit is granted."
+    },
+    {
+      "id": "actual-sync-consumer-IO-control",
+      "verdict": "supported-v2-probe; first-harness-failure-retained",
+      "sources": [
+        "raw/sync-consumer-probe.*",
+        "raw/sync-consumer-probe-v2.*",
+        "sync_consumer_probe.mjs",
+        "sync_consumer_probe_v2.mjs"
+      ],
+      "finding": "Owned fixture copies actual unmodified sync/module/parser plus original project config and original.gitignore/Git setup. Stale reviewed/compliant registry + actual current full partial/needs review synchronizes down. Remove that review: actual sync exits1 on missing native reviewRecord, entire package stays exact and prepublish lock releases. Restore legal review: actual sync0 again, package equals last legal result.",
+      "strongestAlternative": "Review sync may silently retain old completion, publish null reviewRecord, or be a mocked writer.",
+      "decision": "Rejected by actual CLI/payload results. First probe lacked fixture ignore/Git prerequisites and exited1 in formatter; retained as reviewer setup failure. v2 adds original prerequisites, no source/config rule relaxation. This is publication/storage IO control only."
+    }
+  ],
+  "administrativeDelta": {
+    "verdict": "existing-ledger-body-inherited; only current administrative delta accepted",
+    "actualSourceRange": "3fae68aec8f448bf83d1d85e61da35c94d5200ae..37adc410db6c5151e8ce52c09e429505e8b552bf",
+    "rootComparisonCommit": "29ad7d7f1ffc63a9f674ca1581c2673b659e7a60",
+    "files": [
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "3a1d55c5df9da820c098a2dc2082d94fc0233182d36aacf567e585daa578b6f2",
+        "bytes": 3938,
+        "equalsRoot29adAndCurrentRootBytes": true,
+        "sourceSha256": "38be765d96a0cb688bfab92965cf59791d42634a267075983ebfd6751304a651",
+        "actualDelta": "diff --git a/docs/ops/board.md b/docs/ops/board.md\nindex b3146dccb..80fe5835c 100644\n--- a/docs/ops/board.md\n+++ b/docs/ops/board.md\n@@ -30,6 +30,7 @@ Template: governance-index-v1 / 1.0.0\n |---|---|---|---|---|\n | DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | review | Codex / 非作者限定接收纠错；五项隔离，进入逐篇重审 | 机械保真不授语义信用；原回执保全 |\n | DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / 按勘误清单逐篇重审 | 原 done 和 R39 后过度信用已撤回 |\n+| DOCS-REGISTRY-SPLIT-1 | [文档 registry 存储拆分](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | registry_storage_author / 隔离实现；root独立验收 | 2.0.2设计非作者限定接受；新增登记缺口显式保留 |\n | DOCS-CATALOG-SPLIT-1 | [phase/lore catalog 分片](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | Codex / 非作者复核待补 | 实现保留；自验冒称独立与过早done撤回 |\n | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |\n | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |\n"
+      },
+      {
+        "path": "docs/ops/tasks/index.md",
+        "sha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496",
+        "bytes": 72477,
+        "equalsRoot29adAndCurrentRootBytes": true,
+        "sourceSha256": "b72083dfb2dedf727d7d7d63a1326ce8b9fb2527848f5dbff12dc3595b62e083",
+        "actualDelta": "diff --git a/docs/ops/tasks/index.md b/docs/ops/tasks/index.md\nindex a7f91fc7f..bd1ebbe77 100644\n--- a/docs/ops/tasks/index.md\n+++ b/docs/ops/tasks/index.md\n@@ -35,6 +35,7 @@ Template: governance-index-v1 / 1.0.0\n | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | rework | 以任务卡当前准入与看板分工为准。 |\n | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |\n | [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |\n+| [DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分](DOCS-REGISTRY-SPLIT-1.md) | build | 以任务卡当前准入与看板分工为准。 |\n | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |\n | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |\n | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |\n"
+      }
+    ],
+    "printTaskIndexExact": true,
+    "printTaskIndexStdoutSha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496",
+    "interpretation": "Each file only adds one registry-task row. build/Owner/range/design acceptance agree with actual card and fixed admission. Bytes equal root29ad and observed root files. Root may preserve source/history and update pins only for these read administrative deltas after required candidate gate; this is not fresh review of entire board/index or364cards."
+  },
+  "qualityCommandCount": 18,
+  "qualityCommands": [
+    {
+      "name": "admin-delta-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/admin_delta_audit.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:28:30.770936+00:00",
+      "endedAt": "2026-10-17T21:28:30.884963+00:00",
+      "durationSeconds": 0.113939292,
+      "pid": 72482,
+      "ownProcessGroup": 72482,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/admin-delta-audit.stdout",
+        "bytes": 4541,
+        "sha256": "dd0547283d3457eba7a714c8c997b10ebf3c9fff444aff117a237a0f6307cae8"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/admin-delta-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "author-root-evidence-audit-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/author_and_root_evidence_audit_v2.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:30:26.319941+00:00",
+      "endedAt": "2026-10-17T21:30:26.534494+00:00",
+      "durationSeconds": 0.214477958,
+      "pid": 77743,
+      "ownProcessGroup": 77743,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/author-root-evidence-audit-v2.stdout",
+        "bytes": 41194,
+        "sha256": "f909704269e4582d701aa1a04eb479c7c365df1a6b7f98ebfc176e18d66225a7"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/author-root-evidence-audit-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "author-root-evidence-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/author_and_root_evidence_audit.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:30:09.444847+00:00",
+      "endedAt": "2026-10-17T21:30:09.552824+00:00",
+      "durationSeconds": 0.107890666,
+      "pid": 76613,
+      "ownProcessGroup": 76613,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/author-root-evidence-audit.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/author-root-evidence-audit.stderr",
+        "bytes": 298,
+        "sha256": "f68547977a5973cb3e2a19c2147743188e75320009a73cb62532169847163791"
+      }
+    },
+    {
+      "name": "check-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:25:53.549108+00:00",
+      "endedAt": "2026-10-17T21:26:33.969226+00:00",
+      "durationSeconds": 40.420014375,
+      "pid": 17141,
+      "ownProcessGroup": 17141,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/check-docs.stdout",
+        "bytes": 39610,
+        "sha256": "7b239a10bae0296d39f85f2e12b567280f944b0965211631601323a0467470a2"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/check-docs.stderr",
+        "bytes": 479762,
+        "sha256": "089d441bd1221514bfe64a6bea60864b49a3f3b9d376a91bf705498337c7865e"
+      }
+    },
+    {
+      "name": "data-migration-probe",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/data_migration_probe.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:27:46.121816+00:00",
+      "endedAt": "2026-10-17T21:27:48.275481+00:00",
+      "durationSeconds": 2.153537459,
+      "pid": 69427,
+      "ownProcessGroup": 69427,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/data-migration-probe.stdout",
+        "bytes": 7591,
+        "sha256": "631cec322354e9df8e23a09ad6f14e11cf544f65341f7cae3ea642cca315717b"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/data-migration-probe.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "detach",
+      "argv": ["git", "switch", "--detach", "37adc410db6c5151e8ce52c09e429505e8b552bf"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T21:25:23.490468+00:00",
+      "endedAt": "2026-10-17T21:25:23.560065+00:00",
+      "exitCode": 0,
+      "signal": null,
+      "beforeCommit": "c8715c2c4ac1771a77127917812c87b53a30d676",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "beforeClean": true,
+      "afterClean": true,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/detach.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/detach.stderr",
+        "bytes": 169,
+        "sha256": "27d89b363ad94f7407cb379bb35b5067cc9c4302ef8dfc774d081bdd8632b7e9"
+      }
+    },
+    {
+      "name": "document-path-probe",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/document_path_probe.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:30:53.448593+00:00",
+      "endedAt": "2026-10-17T21:30:53.522492+00:00",
+      "durationSeconds": 0.073815333,
+      "pid": 79211,
+      "ownProcessGroup": 79211,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/document-path-probe.stdout",
+        "bytes": 1024,
+        "sha256": "b86e0743f72b288461a986bb3950f3b5d718a89a761b5d0ad342b0ef14d60494"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/document-path-probe.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "freeze-sources",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/freeze_sources.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:32:17.072822+00:00",
+      "endedAt": "2026-10-17T21:32:17.848410+00:00",
+      "durationSeconds": 0.775499625,
+      "pid": 84076,
+      "ownProcessGroup": 84076,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/freeze-sources.stdout",
+        "bytes": 9542,
+        "sha256": "fa349b2d33960123e64fa22e7e6b0aaad7d33f763564c3ebd345a41c747abe62"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/freeze-sources.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "full-author-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "911ac4dcbb3ea2288ae215769ae9acd6e333d763..37adc410db6c5151e8ce52c09e429505e8b552bf"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.490114+00:00",
+      "endedAt": "2026-10-17T21:26:27.546665+00:00",
+      "durationSeconds": 0.056387375,
+      "pid": 63735,
+      "ownProcessGroup": 63735,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/full-author-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/full-author-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "full-main-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "28fd9013e09e8792decbff2fa117aae14c36b196..37adc410db6c5151e8ce52c09e429505e8b552bf"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.494237+00:00",
+      "endedAt": "2026-10-17T21:26:27.862437+00:00",
+      "durationSeconds": 0.36808695900000005,
+      "pid": 63736,
+      "ownProcessGroup": 63736,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/full-main-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/full-main-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.495294+00:00",
+      "endedAt": "2026-10-17T21:26:30.255654+00:00",
+      "durationSeconds": 2.7600707499999997,
+      "pid": 63738,
+      "ownProcessGroup": 63738,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/lint.stdout",
+        "bytes": 197,
+        "sha256": "8ac6694dfd973037122810df6b1ed5e3095c444bd23fdfdbb393eae944c64154"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "manual-recovery-probe",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/recovery_probe.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:29:20.524115+00:00",
+      "endedAt": "2026-10-17T21:29:20.791420+00:00",
+      "durationSeconds": 0.267234458,
+      "pid": 74987,
+      "ownProcessGroup": 74987,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/manual-recovery-probe.stdout",
+        "bytes": 2099,
+        "sha256": "af6d48185d8a93200fe4c3b05ee9408b9b51c8ee7a004ae005281fd0b6c0559b"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/manual-recovery-probe.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "printed-task-index",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": ["node", "scripts/docs/check.mjs", "--print-task-index"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:28:29.586118+00:00",
+      "endedAt": "2026-10-17T21:28:30.281322+00:00",
+      "durationSeconds": 0.695120167,
+      "pid": 71980,
+      "ownProcessGroup": 71980,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/printed-task-index.stdout",
+        "bytes": 72477,
+        "sha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/printed-task-index.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--json",
+        "--require-complete"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.495051+00:00",
+      "endedAt": "2026-10-17T21:26:30.824665+00:00",
+      "durationSeconds": 3.32950375,
+      "pid": 63737,
+      "ownProcessGroup": 63737,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/progress.stdout",
+        "bytes": 137467,
+        "sha256": "98971cff5d99f35c4852cf387ccdd6ab0196081e1c70d3f747f5ad2ff025b6f4"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.496938+00:00",
+      "endedAt": "2026-10-17T21:26:27.555280+00:00",
+      "durationSeconds": 0.058254457999999995,
+      "pid": 63739,
+      "ownProcessGroup": 63739,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:26:27.488382+00:00",
+      "endedAt": "2026-10-17T21:26:28.239571+00:00",
+      "durationSeconds": 0.751023417,
+      "pid": 63726,
+      "ownProcessGroup": 63726,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/strict.stdout",
+        "bytes": 94,
+        "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/strict.stderr",
+        "bytes": 479762,
+        "sha256": "089d441bd1221514bfe64a6bea60864b49a3f3b9d376a91bf705498337c7865e"
+      }
+    },
+    {
+      "name": "sync-consumer-probe-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/sync_consumer_probe_v2.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:28:08.836420+00:00",
+      "endedAt": "2026-10-17T21:28:09.187764+00:00",
+      "durationSeconds": 0.35125029199999996,
+      "pid": 70931,
+      "ownProcessGroup": 70931,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/sync-consumer-probe-v2.stdout",
+        "bytes": 4917,
+        "sha256": "1a33e8d62133caf50cc1be0c8e23e5dae1bc86447bac3445a68bd37350221209"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/sync-consumer-probe-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "sync-consumer-probe",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/sync_consumer_probe.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:27:46.121819+00:00",
+      "endedAt": "2026-10-17T21:27:46.298138+00:00",
+      "durationSeconds": 0.176220917,
+      "pid": 69426,
+      "ownProcessGroup": 69426,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/sync-consumer-probe.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/raw/sync-consumer-probe.stderr",
+        "bytes": 2568,
+        "sha256": "da37d7fb9e7d4725f527fb91dcfd5d1c2e226656deeb7bc3346a22d2e1b33dc0"
+      }
+    }
+  ],
+  "qualitySummary": {
+    "ownCheckDocsExit": 1,
+    "ownCheckDocsDurationSeconds": 40.420014375,
+    "ownFullToolTests": 161,
+    "pass": 161,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "docsIssues": 0,
+    "modelIssues": 0,
+    "testingDocsIssues": 0,
+    "phaseLoreDocuments": 184,
+    "strictExit": 1,
+    "progressExit": 1,
+    "lintExit": 0,
+    "lintFiles": 4461,
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "lintInfos": 0,
+    "complete911To37DiffExit": 0,
+    "complete28fdTo37DiffExit": 0,
+    "stagedDiffExit": 0,
+    "allOwnCapturedGroupsEmptyAfterWait": true,
+    "ownTimeouts": 0,
+    "pnpmMissingLocalNodeModulesWarningRetained": true,
+    "meaning": "161toolsgreen is not implementation acceptance: a new concrete invalid-path acceptance counter is open. Global semantic gates remain true FAIL."
+  },
+  "globalProjection": {
+    "schemaVersion": 1,
+    "kind": "derived-migration-progress",
+    "approvedCohort": 1838,
+    "cohortMigrated": 436,
+    "cohortPending": 1402,
+    "currentCandidates": 2383,
+    "currentPending": 1942,
+    "incrementalMigrated": 5,
+    "exercisedTemplates": [
+      "archive-record-v1",
+      "audit-report-v1",
+      "design-spec-v1",
+      "evidence-receipt-v1",
+      "governance-index-v1",
+      "guide-runbook-v1",
+      "narrative-idea-v1",
+      "plan-status-v1",
+      "quality-gate-v1",
+      "reference-canon-v1",
+      "task-card-v1",
+      "test-catalog-v1",
+      "test-contract-v1",
+      "test-domain-report-v1",
+      "test-e2e-stage-v1",
+      "test-machine-evidence-v1",
+      "test-run-report-v1"
+    ],
+    "pendingTemplates": [],
+    "issues": [
+      "docs/ops/board.md: completed review SHA drift",
+      "docs/ops/tasks/index.md: completed review SHA drift"
+    ]
+  },
+  "pendingInventory": {
+    "source2374Unchanged": true,
+    "currentCandidates": 2383,
+    "explicitUnregisteredCandidateCount": 9,
+    "items": [
+      "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "docs/phase-governance/document-registry.lore.json",
+      "docs/phase-governance/document-registry.ops.json",
+      "docs/phase-governance/document-registry.phase-governance.json",
+      "docs/phase-governance/document-registry.phase1.json",
+      "docs/phase-governance/document-registry.phase2.json",
+      "docs/phase-governance/document-registry.phase3.json",
+      "docs/phase-governance/document-registry.testing.json",
+      "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md"
+    ],
+    "rootLaterIncrementSeparate": "Root29ad dedicated evidence/README/control files are later pending increments, outside37 candidate inventory; no silently merged denominator or zero-orphan claim."
+  },
+  "rawEvidenceAndHistoricalLimits": {
+    "authorTask": "/root/registry_storage_author",
+    "authorNonAuthorReviewerRemains": false,
+    "authorDeliverySha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+    "finalAuthorMappingSha256": "40399f4dd454c7edc01714d4ae0c6109c68db176d2426482f55249cd047b9b7f",
+    "initialAuthorMappingSha256": "85c9bba92951fea2f7a30fec4cea1d0162c5f228773418e8127406e3dfbac948",
+    "selectedAuthorRawRecordsRetained": 21,
+    "authorRawAudit": "raw/author-root-evidence-audit-v2.stdout",
+    "authorMappingControl": {
+      "adaptedCleanAndTestReconstructedFromActual37Sources": true,
+      "cleanSha256": "93314e9282fc44a63700aa65cf8710a4dc607ec9f381897085c1a8c85b11f9a1",
+      "testSha256": "957912383c85bca438f97df9fb1c70b7b0276d2066d0d6bcc046b979f08047bb",
+      "oneNeedleMutantSha256": "2a060283bf9a64116666afc26803c9e301353daeeb77f2b05f1b27060e0d85fa",
+      "same33Names": true,
+      "greenRedGreen": [0, 1, 0],
+      "onlyFailedTest": "not ok 32 - migration mapping stays bound to its published snapshot when a second real writer publishes after release",
+      "oneAssertionError": true,
+      "controlTreeGone": true,
+      "limit": "This verifies author original raw and adaptation identity; independent current candidate161 suite is a separate actual execution, not a replay of old source."
+    },
+    "rootOriginalCounter": {
+      "commit": "29ad7d7f1ffc63a9f674ca1581c2673b659e7a60",
+      "sha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044",
+      "originalId": "REGISTRY-MIGRATION-OUTPUT-PREFLIGHT",
+      "sourceLimitRetained": "Unfrozen implementation observation; probe captured CLI start SHA and real streams/effects, not a complete Git-frozen module snapshot. A later source read found the CLI changed, and that limitation is retained. Final acceptance must use a frozen full input snapshot.",
+      "validatedGzipPayloads": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/command.stderr.gz",
+          "storedSha256": "cf34a311a6526411a8d92eef9dfa9ec51bb84816e123446372edc75c0728a643",
+          "payloadSha256": "637a74c8a2a5fd371cb46766d52fa167eaa781aed9e932db763083dea4c3b840",
+          "payloadBytes": 787
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/command.stdout.gz",
+          "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+          "payloadSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "payloadBytes": 0
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.json.gz",
+          "storedSha256": "b11f5dd761a22058f9095552fd729dc61f31bb74e53d450ee094844a99956d8b",
+          "payloadSha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+          "payloadBytes": 4745
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.lore.json.gz",
+          "storedSha256": "74c3f11c89f25ef7b47b15beea3e575172dd4473a2b63502c57bff087d91660e",
+          "payloadSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+          "payloadBytes": 4980
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.ops.json.gz",
+          "storedSha256": "ea03f789b7757313a99293c36e58a868ae944a58f838400e58b4ac3abd0d6e58",
+          "payloadSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+          "payloadBytes": 590511
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase-governance.json.gz",
+          "storedSha256": "f01b4acdb6304b715a76e43706906af92e5c3d386aa4a5dc07917fd8b96ba1f6",
+          "payloadSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+          "payloadBytes": 70224
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase1.json.gz",
+          "storedSha256": "7b12e288b5fd80642b3a4dbbc005a35a285804c10d01806a5e10c17d779c7ec1",
+          "payloadSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+          "payloadBytes": 23584
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase2.json.gz",
+          "storedSha256": "04712e6a2b9c7e81649a1a8cfc66c38a25a9ce55b18b4e422fbd6659c83c4369",
+          "payloadSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+          "payloadBytes": 42462
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase3.json.gz",
+          "storedSha256": "c47b8ca3028d0df8179f426a7f874fbc42946cc1979ebcb598f7bed1f6448e21",
+          "payloadSha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+          "payloadBytes": 1860
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.testing.json.gz",
+          "storedSha256": "a0519cb881ff79c798845eee2d57777cf003f7074409e6a3555a72ce5d9f21ee",
+          "payloadSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "payloadBytes": 325266
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/observation.json.gz",
+          "storedSha256": "4316cde17f610d835100937fa7c94728d878f713b97068e6c87399f3f16b5fbe",
+          "payloadSha256": "6a73ac83413974f68382e121cdccec655dcfe856b8bb2dfd7ddb9dbe9440e491",
+          "payloadBytes": 1176
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/source-retention-note.json.gz",
+          "storedSha256": "bcb184aec8696eb6229f429e80cb5dc28bc942b4ddeaad12a011f666829423f4",
+          "payloadSha256": "cabab113b7e6fabbac1bd9ab59a02c674e247a3ba05ab47311461fc70982bae6",
+          "payloadBytes": 407
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/observation.json.gz",
+          "storedSha256": "6649a962f9716d8505e76beb8bd072f508f9398bd2fa5858f253ce9bf315c87f",
+          "payloadSha256": "71039ce99e681bc778901e8a013937e6bc95bc7072f4c6724599b91023115372",
+          "payloadBytes": 1230
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/command.stdout.gz",
+          "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+          "payloadSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "payloadBytes": 0
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/command.stderr.gz",
+          "storedSha256": "56f2006acc42a98c4b3e70b523497e3869b92cf6345899038b7271a25b96319f",
+          "payloadSha256": "66836411a0a8c31dc74d36ed4b81e5766ea26049f56feb4b0e720056bf43ba6d",
+          "payloadBytes": 680
+        }
+      ]
+    },
+    "historicalHangLimits": [
+      {
+        "run": 87,
+        "exit": 1,
+        "durationSeconds": 166.7,
+        "facts": "Historical docs fixture stalled in git hash-object --stdin. Verified child86461 then fixture83830 SIGTERM only; raw1005/1006. This run is failed/interrupted, not acceptance. Exact remaining fixture cleanup outside repo was not established."
+      },
+      {
+        "run": 1010,
+        "exit": 1,
+        "durationSeconds": 114.5,
+        "facts": "Mapping race formatter stdin stalled; verified own native Biome child29083 SIGTERM at1019. 32pass/1fail retained. No root-cause claim for OS/Node pipe behavior.",
+        "subsequentChange": "Formatter uses locked ordinary input files as read-only stdin FD, preserves original --stdin-file-path and enforces 30s failure boundary; final1022/1026 succeeded."
+      }
+    ],
+    "note": "Author raw/date/exit values are preserved; they do not replace own actual161 exit1/check streams. Old Git hash-object and formatter pipe stalls are not reclassified as successes or proven OS causes. Formatter input now uses its own ordinary read-only FD and strict30s failure boundary, not a rule relaxation."
+  },
+  "reviewerHarnessFailures": [
+    {
+      "command": "sync-consumer-probe",
+      "actualExit": 1,
+      "reason": "Reviewer copied real Biome VCS config without fixture.gitignore/Git prerequisite; formatter correctly failed before publish. Original fixture/script/raw kept. Separate v2 supplies original prerequisites and passes real downsync→reject→restore."
+    },
+    {
+      "command": "author-root-evidence-audit",
+      "actualExit": 1,
+      "reason": "Reviewer used nonexistent JSON key pairedExistingOutputControl; actual original key is existingOutputControl. Original KeyError/script/raw kept; separatev2 completed all artifact/mutation/gzip checks. No candidate source or old command numbers changed."
+    }
+  ],
+  "actualReadScope": {
+    "fullOrCompleteDelta": [
+      "Fixed447-line document-registry.mjs",
+      "Full34-line migration CLI",
+      "Full32-line docs-only fixture helper",
+      "Full616-line new storage test source",
+      "Fullsync adapter and all3retired stubs",
+      "All current-vs911 changes in content/progress adapters and both existing fixture files",
+      "Full frozen2.0.2 design reused by exactSHA830e; current card top/admission/range read",
+      "Board/index exact3fae→37delta and corresponding original/current/29ad row facts",
+      "Author delivery scope/limitations/pins/control/gates and selected21raw commands; complete131-record index retained by bytes"
+    ],
+    "completeMechanicalData": [
+      "All2374native entries/key order/optional absence/phase/order and8top-levelmetadata/summary",
+      "Every2374mapping source/hash/shard/localIndex/globalposition equality",
+      "All8canonical vs own fresh CLI reproduction and author/tmp final replicas byte equality",
+      "Everyoriginal168 ordered fixture assert-call text compared byAST",
+      "All20changed paths/source pins and exact frozen Git correspondence",
+      "Original root output-counter gzip stored/payload SHA pins verified"
+    ],
+    "reusedUnchangedFullReads": [
+      "AGENTS.md",
+      "documentation-model.md",
+      "agent-workflow.md",
+      "Prior full content/progress adapter body reads with only current complete I/O delta reviewed"
+    ],
+    "notReadOrGranted": [
+      "2374document bodies or every business field of original large review ledgers",
+      "Fresh whole-board/index/all364card semantic review",
+      "Product code/old product tests/coverage quality or runtime/E2E/visual/capture/preview execution",
+      "Future rootcentral combined bytes or subsequent corrected candidate",
+      "Retrospective full frozen module proof for the original root unfrozenCLI observation"
+    ]
+  },
+  "sourceFilePins": [
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+      "bytes": 4745,
+      "lines": 133,
+      "gitBlob": "e8201d70dac78503736debbb8895bbd2d393a3c9"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.lore.json",
+      "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "bytes": 4980,
+      "lines": 150,
+      "gitBlob": "d85b77ac514342c904ed0e6b876997c9c7263ee6"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops.json",
+      "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+      "bytes": 590511,
+      "lines": 15327,
+      "gitBlob": "8a2fa587139240ed687978a02e9dfd4f531684c6"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+      "bytes": 70224,
+      "lines": 1845,
+      "gitBlob": "434c9527380349d88828879cb4ba0228ca4e6afb"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase1.json",
+      "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "bytes": 23584,
+      "lines": 672,
+      "gitBlob": "ac0831dab5689417ef1a9ab7177944f7f3ff99e2"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase2.json",
+      "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "bytes": 42462,
+      "lines": 1203,
+      "gitBlob": "ffca29a502448e01557dbce9e426a45a87fc769b"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase3.json",
+      "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "bytes": 1860,
+      "lines": 58,
+      "gitBlob": "0cc9b90fc5bed5dc0e0f1ec62e5b7281498389fb"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "bytes": 325266,
+      "lines": 8400,
+      "gitBlob": "f8757f6de9e16132024a3e43cba5cdcf3eadec77"
+    },
+    {
+      "path": "scripts/docs/check-content-review.mjs",
+      "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3",
+      "bytes": 7429,
+      "lines": 167,
+      "gitBlob": "14058a4d1a5eb19986cefd6429bd3bceabf6d855"
+    },
+    {
+      "path": "scripts/docs/classify-governed-documents.mjs",
+      "sha256": "f4deb0575de65b315792559a48b8c0989e408d33b98c5b5b443ec1d005fbb219",
+      "bytes": 440,
+      "lines": 7,
+      "gitBlob": "2f1911f60f24bcf8a74f8e27b10932e5db7001a5"
+    },
+    {
+      "path": "scripts/docs/document-registry.mjs",
+      "sha256": "8eb43ac3f9b4174e664f69a76a89255d7136152ef73fb35ea0385572425bb365",
+      "bytes": 16965,
+      "lines": 447,
+      "gitBlob": "9cf1e57b1e22dc549af78b6a89f14ac71518ffda"
+    },
+    {
+      "path": "scripts/docs/document-registry.test-support.mjs",
+      "sha256": "b4095b5de7b4875142e43e1fac74e54974113acaee5d814b088cfe9674f60665",
+      "bytes": 1365,
+      "lines": 32,
+      "gitBlob": "ffb682a20c74c1bfbdecb4293612e7ce3c5a3332"
+    },
+    {
+      "path": "scripts/docs/document-registry.test.mjs",
+      "sha256": "7350b72307b137006af8ab22d8ffe464db4e9b1f69ab7b895aaf63d2ca283320",
+      "bytes": 22632,
+      "lines": 616,
+      "gitBlob": "71052411f1a0c65e9c592fd9b18729ce1d365174"
+    },
+    {
+      "path": "scripts/docs/enrich-review-metadata.mjs",
+      "sha256": "ba5d3bc621693b6712a14c276ba6a0725969d2fae84d5aaa1da5a4d8316ee9ff",
+      "bytes": 435,
+      "lines": 7,
+      "gitBlob": "797c872742619804360eb1274df671e32cc5f780"
+    },
+    {
+      "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+      "sha256": "1767ea0e103d589d25faee41b2d219921a97ddca777a353f8c92dca37993763b",
+      "bytes": 22027,
+      "lines": 686,
+      "gitBlob": "df5a8056783d0ed1320401f9349928036f2da46f"
+    },
+    {
+      "path": "scripts/docs/generate-structured-content-reviews.mjs",
+      "sha256": "f0202aa119aa4b82f099f79ea5e6b9eaf1f0591a85ee26d5ee46e338fba869fc",
+      "bytes": 448,
+      "lines": 7,
+      "gitBlob": "16e23bf90b8576e77d2bab4925d1e13f54e41516"
+    },
+    {
+      "path": "scripts/docs/historical-execution-source.test.mjs",
+      "sha256": "95c4c43039df1b16406eee7443d5cc06db7179fe76908de85f460cf84074c964",
+      "bytes": 28280,
+      "lines": 703,
+      "gitBlob": "a9c3a2c7ae962418fc4167d3366b9d716df3f1a3"
+    },
+    {
+      "path": "scripts/docs/migrate-document-registry.mjs",
+      "sha256": "34ae1218733b05da04c4c97f416df4dd0ae90797da8a2246f58169bfff60ea0b",
+      "bytes": 1437,
+      "lines": 34,
+      "gitBlob": "830f89387b4c95f216fd276759cac9bff1dca52a"
+    },
+    {
+      "path": "scripts/docs/report-governance-progress.mjs",
+      "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98",
+      "bytes": 6671,
+      "lines": 155,
+      "gitBlob": "1f254529b1eca351ffeb4d4b1ee34f5be189ce6c"
+    },
+    {
+      "path": "scripts/docs/sync-governed-document-registry.mjs",
+      "sha256": "354888190c019ec5dfff68102c3d6bf11cc02927ded28af136d50ab70afadd35",
+      "bytes": 1884,
+      "lines": 48,
+      "gitBlob": "ad56ec21601bccbdae4f6c15db11ef771f43d316"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+      "bytes": 9012,
+      "lines": 73,
+      "gitBlob": "9d46b9d8a98ac17a42159e5e9109e3e8e88ad93e"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "sha256": "3a2ae01fb683de7bd58a97566808071819612db2567f9b1c0b2be29f7d260c39",
+      "bytes": 5074,
+      "lines": 60,
+      "gitBlob": "2f82e3a69515e26b781436a90616e90fe45fb530"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "3a1d55c5df9da820c098a2dc2082d94fc0233182d36aacf567e585daa578b6f2",
+      "bytes": 3938,
+      "lines": 48,
+      "gitBlob": "80fe5835cadf253c9b65b430cd0c570769f27e56"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "sha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496",
+      "bytes": 72477,
+      "lines": 408,
+      "gitBlob": "bd1ebbe77f920355a29e0e1035e085d9b2984bb1"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+      "bytes": 6028,
+      "lines": 45,
+      "gitBlob": "e8e196ab3b5dafa1ffa23a4e736b9c51171c23cb"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+      "bytes": 9468,
+      "lines": 111,
+      "gitBlob": "ec57bf5c6fdb134590c325fa1d7ac6cc2cb3fc08"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+      "bytes": 9567,
+      "lines": 101,
+      "gitBlob": "81a7a3d5bd3e3ca0366a4a6a40c96a55e7338ede"
+    },
+    {
+      "path": "biome.json",
+      "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+      "bytes": 2515,
+      "lines": 117,
+      "gitBlob": "347f429933764c8ae9b581bd9abcd774fdb60ca4"
+    },
+    {
+      "path": "scripts/docs/terminal-json.mjs",
+      "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+      "bytes": 9817,
+      "lines": 257,
+      "gitBlob": "1eab6304c6dec0afd8c99fc22ef6a3825254f552"
+    }
+  ],
+  "independentDataSummary": {
+    "kind": "independent-native-migration-and-cli-preflight",
+    "sourceSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+    "sourceBytes": 1047444,
+    "total": 2374,
+    "entrySerializedIncludingKeysEqual": true,
+    "nativeMetadata": [
+      "id",
+      "generatedBy",
+      "policy",
+      "roots",
+      "extensions",
+      "structuralRoots",
+      "summary",
+      "scopeNote"
+    ],
+    "metadataEachSerializedEqual": true,
+    "optionalVersionAbsent": 1632,
+    "optionalVariantAbsent": 2351,
+    "maxBytes": 590511,
+    "mappingPath": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/migration/mapping.json",
+    "mappingSha256": "d2fc3f9dc240d9f860e675004af8aeefba028b986739d1b6361a6cd3c74634f0",
+    "all2374SourceObjectLocationAndPositionMappingsVerified": true,
+    "reproductionCanonicalEightExact": true,
+    "authorFinalMappingTargetsAreReplicaPathsNotCanonical": true,
+    "authorFinalReplicaBytesEqualCanonical": true,
+    "authorInitialMappingPreserved": true,
+    "fixtureAssertions": [
+      {
+        "path": "scripts/docs/historical-execution-source.test.mjs",
+        "before": 108,
+        "after": 108,
+        "orderedAssertionCallTextsIdentical": true,
+        "sha256": "465aee05fd2bb3ccb4895d0000e4d3829f02adedc5d2e4d04fb566fce8e3970b"
+      },
+      {
+        "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+        "before": 60,
+        "after": 60,
+        "orderedAssertionCallTextsIdentical": true,
+        "sha256": "2f57ebfa204a5106e3f240bf077b94dbcff46c4b14c778273c43cc829548606b"
+      }
+    ],
+    "scope": "Full native preservation and true CLI I/O; does not grant document semantics, author independence or global gate success."
+  },
+  "manualRecoverySummary": {
+    "kind": "owned-manual-owner-recovery-after-real-mid-publication-kill",
+    "workerPid": 74988,
+    "workerExit": {
+      "code": null,
+      "signal": "SIGKILL",
+      "stdout": "",
+      "stderr": ""
+    },
+    "changedFirstShard": true,
+    "oldManifestUnchanged": true,
+    "publicationOrder": [
+      "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.ops.json",
+      "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.phase2.json",
+      "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.json"
+    ],
+    "retainedOldBytes": [
+      {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.json",
+        "retained": "previous/document-registry.json",
+        "sha256": "9d7167d75bafdaf4909f0fbb2bf01fcf11356e4ea6a0ad4578a52e796285857c",
+        "bytes": 761
+      },
+      {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.ops.json",
+        "retained": "previous/document-registry.ops.json",
+        "sha256": "1867a59783dcb4f148d56150dd2df8c91412b64e834e769a9e6707d6828a6b51",
+        "bytes": 364
+      },
+      {
+        "path": "/tmp/type-pal-registry-implementation-independent-20261018-37adc410/work/recovery/docs/phase-governance/document-registry.phase2.json",
+        "retained": "previous/document-registry.phase2.json",
+        "sha256": "6f381c4ca8f908a640c3944c6c3518e6b37bd71bf9158276eb706b016809c187",
+        "bytes": 373
+      }
+    ],
+    "oldHashesMatchedBeforeRelease": true,
+    "lockWasNotAutomaticallyStolen": true,
+    "manualOwnerRecoveryAllOriginalPackageBytesEqual": true,
+    "afterExplicitOwnedLockRemovalLoaderAccepts": true,
+    "creditFlagsRemainPartialNeeds": true,
+    "scope": "Only this owned fixture manually restored after checking token and retained old bytes. No general automatic recovery API or filesystem transaction is claimed."
+  },
+  "administrativePinDeltaAcceptedOnly": true,
+  "centralIntakeAccepted": false,
+  "semanticAcceptanceGranted": false,
+  "templateAcceptanceGranted": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "allowedNext": [
+    "Root coordinates sole author to fix native document path segment/canonical alias validation and add real-consumer I/O controls on a new frozen commit",
+    "Re-review that actual code/test delta and its meaningful checks, preserve37counter as rework history, and reverify2374data/metadata pins remain unchanged",
+    "Other supported37observations may be inherited only where new source delta does not affect them",
+    "Administrative pin update must retain original source/history and this limited row review; future root evidence/shard/card registration is separate partial/needs increment after accepted storage"
+  ],
+  "stopLines": [
+    "Do not accept or integrate37 storage/main while native-path counter remains open",
+    "Do not replace actual failed gates/harness/historical hangs or original mapping target paths",
+    "No global/schema/body completion credit from JSON equality,161tests,byte SHA or storage validity",
+    "No product/oldtests/coverage/rule/maxSize/ignore changes",
+    "No wholeR60/1896restore or full1838semantic acceptance",
+    "No author self-check promoted to independent acceptance"
+  ],
+  "packaging": "This rework report and counter are project-Biome formatted then fixed. Raw commands retain actual argv/cwd/time/exit/signal and untruncated streams. Owned failed/success fixtures and fresh migration outputs remain under this/tmp package, with no other task process cleanup. Artifact manifest excludes only itself and carries every report/script/source/raw/fixture file byte pin."
+}

@@ -1,5 +1,38 @@
 # Extract原盘执行检查点静态门
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是extract原盘执行检查点的静态门回执页：记录该检查点实际执行的docs/lint/coverage-tools/ledger/diff-check五项静态命令与两波"最终"重跑的原始exit/耗时/输出SHA。运行时门（完整extract零诊断、统一check、official ratchet、protected fast）不在本页通过范围，本页不授任何合并信用。
+
+## 来源与输入
+
+五项静态命令全部exit0：pnpm check:docs 1.384秒（raw SHA ee3875950f10…）、pnpm lint 2.385秒（6c5bd7dc3068…）、pnpm test:coverage-tools 3.386秒（a8fba98c3c8b…）、node scripts/quality/code-quality-ledger.mjs 1.1秒（bd9d3b01d726…）、git diff --check 0.023秒（输出为空，SHA为空串哈希e3b0c442…）；同名raw.gz保留原始回执。归档后又分两波重跑：initial-final波的check:docs 1.342秒（fae3f383147a…）与lint 2.348秒（91f1373527fc…）；空块0/7转移与原件最终归档后的check:docs 1.446秒（7c60f4f63ca5…）、lint 2.229秒（9f103e54a305…）、ledger 1.128秒（bd9d3b01d726…，与首跑SHA相同）。
+
+## 断言与业务 oracle
+
+check:docs实测docs域1358 Markdown/7324 local links/443 cards，48工具测试与testing/phase184/content570均0 issues；lint实测4445文件0 errors/0 warnings/0 infos；coverage-tools 70通过；ledger实测3288 inventory/209 closed/220 review/2859 pending，四测试与helper列review、0关闭。这些是静态面事实；同检查点运行时面完整extract 432原生绿仍带4 stderr块/46行，zeroRuntimeDiagnostics=false。
+
+## 结果
+
+静态门全绿但本检查点不通过统一零诊断验收：定向36/shared126/typecheck通过，包级extract 432绿+4 stderr块，fullCheck/officialRatchet/protectedFast三门未新跑，mergeAllowed=false、不合main。后续C1片把RGM/BALL零尺寸stderr转为显式IO合同（extract 431仍2块）、C2片清tables/enemy-teams两块（431零stderr），以各子目录gates回执为准。
+
+## 限制与复核
+
+本页为历史时点回执，未重跑任何命令；initial-final两份回执早于空块0/7转移补证，源码其后又变，不能把任一旧波回执当作当前版本统一通过。exit0不外推为零诊断或产品通过；候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2413B / SHA-256 933f1ea392bdb9fafb7971991c4f69ded684ed0afd0d3e1beac0f84a73430251；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Extract原盘执行检查点静态门
+
 cwd: /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal
 
 定向36/shared126/typecheck通过；完整extract432原生绿仍4stderr块，不通过统一零诊断验收。完整check/official ratchet/protected fast未新跑，不合main。实际静态回执待原命令完成后追加。
@@ -25,3 +58,5 @@ cwd: /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal
 0/7转移与原件最终归档后 `pnpm lint`：exit0、2.229秒；raw SHA256 9f103e54a305d552d69cca30c9e32ebfb21275d662607177cec71a4e9e48f0c1，见final-lint-zero.raw.gz。
 
 0/7转移与原件最终归档后 `node scripts/quality/code-quality-ledger.mjs`：exit0、1.128秒；raw SHA256 bd9d3b01d7269988344484dca8315d350c8b28d4e97e3b9ada3237f44b2036b6，见final-ledger.raw.gz。
+```
+<!-- incremental-original-source:end -->

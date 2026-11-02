@@ -1,6 +1,59 @@
 # GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+统一Save槽位输入域与双路径一致性：基线Save.saveSlot只做slot<1||slot>5检查，NaN和小数通过范围守卫后内存fallback写入Map、IndexedDB路径key编码时可能抛DataError，同一公开API两运行时路径不同结果。当前生产caller均传1..5整数但不能替代公共输入合同。用户2026-10-25批准保存/读取/删除统一只接受整数1–5、非法槽号报错。
+
+## 范围
+
+build allowed限api.ts私有守卫和独立memory/fake-IDB专测；listSlots、存档JSON、DB_VERSION、store/schema、迁移和清档不变。
+
+## 前提与证据
+
+固定源全文核读。实现为统一私有整数边界守卫，三个入口在存储前验证、共同错误明确1–5整数合同；新专测8例覆盖两backend×三非法操作与合法1/5往返；正式基线2绿/6指定AssertionError后，Save/IDB相邻3文件25例全绿、stderr0。首版Promise matcher在原生JSON中被Vitest包装为Error，原件保留不用包装结果冒充指定AssertionError。NaN、正负Infinity、小数、0、6在两路径逐项验证；已有事务complete/abort合同保留。2026-10-25本地统一门收口：全仓20605产品+714工具、七包TC、lint6111文件0/0/0；唯一official20168例/807源完成，原四条比率拒绝保留、仅三文件结构删除精确重计，同报告原ratchet/protected判据exit0、五项精确退役全部匹配。原件:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 验收
+
+done仅指本卡有限代码/质量门收口；本地冻结时尚未推送/PR/合并，实际远端发布由关联Git/PR与main CI记录。原范围54路径中20个新关闭、34既有关闭按版本桥接保留，12相邻路径只验实际delta。
+
+## 状态与交接
+
+done保持原语义；不扩103+或重开pre94。无下一位Agent提示词。
+
+## 历史范围
+
+原卡属固定main时点；范围为api.ts输入域守卫与专测，事务提交语义归GAME-SAVE-IDB-COMMIT-1。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：两项用户裁决落实，统一门零诊断收口。
+
+## 当时证据
+
+当时回执属原时点证据：2绿/6指定红→25例全绿、20605+714/official20168零诊断；本页不重跑、不复授。关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；公共API 1–5整数合同自2026-10-25生效；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+94–102返工系列与approved-closeout承接；事务合同见GAME-SAVE-IDB-COMMIT-1。 关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5208B / SHA-256 81f17de435162b8abf62b7d1af0204ac45beda034fcc7532cdb7a6b2d7fdff5d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性
+
+Status: done
 Phase: phase1
 Capability: save input-domain correctness
 Coding Owner: Codex
@@ -66,3 +119,5 @@ schema、DB 版本、清档策略或 caller；本卡没有 `build allowed`。不
 - `GAME-SAVE-IDB-COMMIT-1` 的事务提交/失败传播是独立问题，已实现并仍由其卡
   记录；本卡不重写其历史结论。
 - 下一步：等待输入域裁决；裁决前可继续不重叠、非公共 save 边界的逐文件复核。
+```
+<!-- incremental-original-source:end -->

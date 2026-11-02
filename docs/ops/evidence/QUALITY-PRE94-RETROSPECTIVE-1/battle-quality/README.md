@@ -1,5 +1,43 @@
 # 状态／结算／成长相关窗口验收
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 治理树内 CODE3u 状态／结算／成长相关窗口（含后续 cb67a6a0e 远端CI返工与 WORD 裁决）的验收页。Codex 单Agent，同一 codex/code-quality-3y，基点9a5f80e7c；实现／测试冻结于d05fdc82c，官方派生baseline提交7ea761572。本窗关闭10个明确文件，CODE3u按原状态／资源／位置合同接受；固定83卡57accept/26partial/0pending，机器账本3355库存、371closed/114review/2870pending。3w/3x仍partial，94–102未扩展；远端集成按实际Git/CI另核，不能从本页推定已合main。
+
+## 来源与输入
+
+[review.json](review.json) 列15文件逐项A–H、当前SHA、真实caller、复用证据与10个关闭路径：8项accept（battle-state.ts、battle-runtime-context.ts、battle-settlement-data.ts与五个测试文件含glm-next-wave两测）；battle-finalization.ts、battle-progression.ts、battle-settlement.ts三个产品源保持review（Extra角色域动态可达性、C逐脚本阻塞vs TS排队时序、已证WORD分歧三项deferredProducts）；battle-positions.ts与data-misc.ts为既有关闭的有限B维刷新，不增加关闭数。状态／资源／位置按原CODE3u合同验收，scope不含整个战斗演出；19个既有单红的原件字节/失败身份/当前测试SHA已实际校验，79份附件沿原路径复用。清毒／装备数值直接依赖真实状态Owner；三个type声明移到无执行逻辑的数据模块后settlement执行JS完全相同；修正空敌槽全无消费、positions缺人数layout返回值、满级阈值零占位三处错注（Win95原盘DATA99项实际32000）。H02夹具返工：原两池case补为七池属性/显示数据/经验余数/RNG顺序仍5例仅一标题迁移；Defense/Dex对调变异旧5绿→新4绿1指定属性AssertionError→恢复5绿；后两例实际0级而注释1级,原夹具信用撤回后用真实初始化修复，产品数值未改。
+
+## 断言与业务 oracle
+
+- 定向／相邻40、state/runtime20、最终H02/主升级16及game typecheck通过，运行有重叠不相加；完整pnpm check在150650c59实跑20430例零诊断，260个stdout块逐类核对仅耗时不同；其后仅H02测试文件变化，受影响5例／相邻11与TC重验，其余20425未变结果复用，未冒称第二次全check。
+- 官方fast实际20032例／758源联合ratchet与固定main保护通过（同报告canonical投影、严格metrics/scope及protected复核），未再采集；所有包和总计metrics逐计数不变。
+- cb67a6a0e已推3y并FF远端main：Docs成功，main Coverage39681495390在M05（editor4781例中1失败）失败；M05隔离真实reader闸门旧1绿1指定AssertionError→新2绿→恢复2绿（40ms→80ms真实等待、两处复制公式改独立字面值3）；修正后首轮official虽exit0但K06出现5条act/2个stderr块，拒绝作干净统一门，按公开data-reorder-settling等待后旧5条/新0/恢复0；最终ci-two-tests-final-ratchet再次完整采集20032/758零诊断。两轮新增采集（第一轮拒绝、第二轮干净门）如实记录。
+- word-boundary-counter：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；2026-10-22用户裁决保留TS持续增长，原数值实现/save不改，3x仍partial。完整命令、exit/signal、双流、原生JSON与实际SHA见[native.json.gz](native.json.gz)。
+
+## 结果
+
+CODE3u原合同10文件关闭、57accept/26partial保持；M05/K06两测试窄返工本地接受（两editor文件仍隐式pending、0新增关闭）；385主线CI后继见[README.md](meal-ci/README.md)（Reforge normal landing默认5s超时，仅优化每case内部RLE重复压缩，该文件仍pending）。当前文档消费者、严格进度consumer、lint-zero、ledger和diff按最终原件记录；退出码0且带诊断不作为通过。
+
+## 限制与复核
+
+- [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md](../../../tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md)：原盘43503指令中Extra 0x17仅大蒜84入口、14处0x30均无显式role override；只是缩小范围，完整动态写入→无重建→清理→消费链仍未知，C逐脚本阻塞与TS先排队时序亦未授全等价。
+- [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)：分歧已证但未运行完整SDLPal／浏览器导入，也未证明普通原盘剧情自然触发；原件与历史pending字段保留，不据裁决自动接受3x。
+- 三个相关产品源保持review不因统一门全绿升格；一、二阶段不混用；schema/save/资源、公共字段和UI形态未改变。量化初筛逐函数／闭包按JS决策点统计，>10仅作阅读线索（状态seed的19主要为九组可选／默认读取）；选中8源的80-token原样块未发现重复窗口，不能推定不存在其它尺度语义重复。低成本复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/verify.mjs` 默认只读，核当前源／caller指纹、79份复用附件、全部原件完整性和指定原生失败／恢复身份；MATCH仅表示机械检查匹配，语义取舍见逐文件八维。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9702B / SHA-256 3be595178b3815613a8ace8d3b3968bee9091ac1140f24dae256de46114a8b5d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 状态／结算／成长相关窗口验收
+
 Status: accepted within specified scope; original window merged, CI repair locally accepted
 Owner: Codex（单Agent）
 
@@ -66,3 +104,5 @@ M05等待真实asset/SHA解码证明后再断言应用可用，默认等待1000/
 385已FF main，Docs成功，Coverage实际在Reforge normal landing默认5s超时；本笔远端门未通过。后继只优化每case内部相同RLE输入的重复压缩，原九身份/业务断言/timeout和真实产品链不变；新包包含完整旧/新输入、所有原件、八维与只读快检，见[meal窄返工](meal-ci/README.md)。本地仅fresh Reforge8965/158官方collector，六包据证复用；组合20032/758严格保护和计数不变，不伪造第二次全仓采集。该Reforge文件仍pending、0新增关闭。新提交发布后实际CI另核。
 
 WORD选择已由用户明确回答：保留TS持续增长、记录第一阶段偏离；原数值实现/save不改，3x仍partial。旧review/native中pending字段保留为历史时间点，不覆盖当前WORD卡与机制文档中的裁决。
+```
+<!-- incremental-original-source:end -->

@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-ASSET-RESOLVER-1 的排重账（GLM r1）：排重域=asset-resolver.ts 与 project-image-cache.ts 的全部旧测（含 io-boundaries D4-D6、lifecycle B5/B7）、公开 caller 侧旧证据（project-loader.test/current-boundaries D1-D3、battle-trial-assets N05 快照、opening-menu 消费测、engine-chrome/registry B10、assets.battle-bg.residual）与全仓 fullName grep；归档卡=TEST-REFORGE-RUNTIME-CONTRACTS-1（D4-D6）、TEST-REFORGE-ASSET-IO-1（B5/B7，r2 明确把在途 dispose 回填政策隔离待证）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-ASSET-RESOLVER-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 4ec92c9c08fce1f8eb1ed527aebe9b4b2e569206252c9265bcd629fa79397e5c。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- asset-resolver.ts 失败原因包装/dispose 可选；project-image-cache.ts 解码生命周期/在途 dispose；project-loader.ts 图像缓存绑定。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新增 8 合同（源锚/caller/合法输入/oracle 逐行）：C1 非 Error 原因仍包装上下文+同实例恢复（asset-resolver.ts:96；旧失败注入全为 Error 实例，String 分支从未驱动）；C2 source 无 dispose 时 no-op（:84；旧 dispose 测试的 source 带 dispose）；C3 解码失败消息上下文+不缓存+重试（project-image-cache.ts:56-60；B6 只证 readBytes 失败）；C4 解码输入 Blob mediaType+字节保真（:55；旧测零断言）；C5 四 image kind 正面枚举（:4-9；旧测只用 portrait/face，item-icon 与 battle-background 正门未开）；C6 在途 dispose 不取消+窗口内真重解码（:41-45）；C7 在途 dispose 窗口外行为（quote 详）；C8 project-loader 图像缓存绑定（loader 侧）。
+
+## 来源与输入
+
+- 裸字符串失败注入（unknown 边界）、捕获式 createImageBitmap 替身、deferred 解码门。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 登记未测项与现行政策登记（在途 dispose 泄漏形政策待裁决）；判例：unknown 边界裸对象注入。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（7/7 针 VALID+执行集 43 测试全绿）。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-ASSET-RESOLVER-1 r1 排重账（8 新增合同）；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-ASSET-RESOLVER-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- C1-C8 逐行锚点；旧测盲区（String 分支/可选 dispose/解码器失败/Blob 形态/正门枚举）对应新增合同逐条登记；实际执行归配对回执。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `4ec92c9c08fce1f8eb1ed527aebe9b4b2e569206252c9265bcd629fa79397e5c`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `4ec92c9c08fce1f8eb1ed527aebe9b4b2e569206252c9265bcd629fa79397e5c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-ASSET-RESOLVER-1 排重账（GLM r1）
 >

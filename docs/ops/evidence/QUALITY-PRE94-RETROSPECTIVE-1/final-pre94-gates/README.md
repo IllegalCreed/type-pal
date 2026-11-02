@@ -1,5 +1,38 @@
 # pre94唯一最终集中门禁窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94唯一最终集中门禁窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(8861B,SHA 025c97c1f912)。本页语义:2026-10-25唯一集中门禁窗口,固定83张pre94卡原代码范围全部accept(0partial/0pending)——不等于全仓3452文件完成;机器账本511closed/63review/2878pending;本地门接受,远端CI/单PR/merge待。历史验收时点,不重开任务。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原12个链接处置见作者review的linkDisposition。当前存活入口:[act-ci-receipts.json.gz](act-ci-receipts.json.gz) [bootstrap-receipts.json.gz](bootstrap-receipts.json.gz) [bootstrap.json](bootstrap.json) [config-contract-receipts.json.gz](config-contract-receipts.json.gz) [final-receipts.json.gz](final-receipts.json.gz) [initial-receipts.json.gz](initial-receipts.json.gz) [recount.json](recount.json) [review.json](review.json) [serial-ci-receipts.json.gz](serial-ci-receipts.json.gz) [verify.mjs](verify.mjs) [worker-budget.json](worker-budget.json) [worker-receipts.json.gz](worker-receipts.json.gz)。最终代码冻结257c0b8;5879个输入逐SHA固定,当前5878原字节+1精确worker配置桥;本窗口只合并门禁信用,不重新全文审所有文件。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)pnpm check实际exit0:20617包测试+708工具测试、七包typecheck+editor author-scripts、lint 6100文件0/0/0、完整stderr0;首跑exit1为G02旧入口断言,保留并精确修正,13身份数与像素/错误合同保留。(2)唯一pnpm coverage:ratchet采集20180测试/807源完成、诊断0,但原命令exit1拒绝CLI拆分后结构比率,失败明确保留;授权重计仅按结构增减(S-18/+34、F0/+29、L-18/+22),旧门槛与事件修复增量不下调;同报告ratchet与protected对origin/main均exit0;未改比较器/scope/门槛/保护逻辑。(3)CODE42两个无生产调用矩形占位合同按精确身份退役(chrome 13→12、box 69→68),status/跨模块旧摘要误用JSON空格fullName更正为官方list;八项计数减少全过严格判据。(4)远端CI五阶段各自如实:首次PR安装WARN(pnpm Action 11.25.0→self-update 10.29.2旧布局提示,改RUNNER_TEMP直装);Coverage 40158750359送菜宿主超时8990绿/1基础设施红(maxWorkers2→1,51例回归,profile定位resizeWrites=0、主成本boot+render);40161643493配置期望漏改2→1(116绿1红,同步后117工具绿);40162268435非通过(game两缩略图5秒超时+editor 30分钟取消,game单worker+删可选editor并行+预算45分钟);a76881ec Coverage七包20180例+protected通过但1 stderr区段+4条React act告警被拒(video导入act窄修2文件9例)。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:83卡代码范围全accept,本地门接受;当前待一份PR的实际远端Documentation/Coverage检查与普通merge,干净必检才合并,不直推main;此前main b3d35be两CI成功在freeze原件中,不代替新候选;原全仓与覆盖率失败、工具产生者失败均不覆盖;正常stdout进度日志不冒称为空。默认只读复验node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/verify.mjs,MATCH仅对已冻结输入与门禁,变化返回STALE/缺输入返回UNAVAILABLE。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:63review/2878pending的仓外范围不清零;TS极端dex/haste保留为显式偏差;后续只做发布与相应证据维护,不扩其它治理范围;94–102未扩;主工作树未改。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8861B / SHA-256 025c97c1f91247d16399b6effadb4fedd9867977e4f16f701e8ac4f130e86270；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94唯一最终集中门禁窗口
+
 Status: local gates accepted; remote CI / single PR / merge pending
 Owner: Codex（单Agent）
 
@@ -46,3 +79,5 @@ Owner: Codex（单Agent）
 a76881ec的Documentation40164761305完整日志0诊断；Coverage40164761191七包20180例／807源及protected比较通过，但完整日志有1个stderr区段、4条React act告警（Harness1、CutsceneTab3），因此集成验收拒绝，尚未合并。初始聊天摘要误记两条，当前以未裁剪原件逐条计数为准；不把exit0说成零诊断。完整远端日志／API／注解、本次局部原件与冻结测试正文见[act原件](act-ci-receipts.json.gz)，八维与精确文件变换见`review.actCI`。
 
 真实视频导入需等待WebCrypto；旧文件输入helper的act只覆盖事件，随后真实hash完成时session和选择状态在act之外提交。当前只把原事件调用和原session提交等待包进同一异步act；三个身份、全部fixture与业务断言、真实hash、产品实现及超时设置不变。2文件9例通过、stderr0，editor typecheck0。无需调整baseline或再次本地全仓／覆盖率；旧完整check按精确单文件变换增量复用，新的实际远端CI必须零诊断才合并。0新增关闭，83卡范围及511／63／2878账本保持不变。
+```
+<!-- incremental-original-source:end -->

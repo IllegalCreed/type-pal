@@ -1,40 +1,60 @@
 # TEST-GLM-NEW-F-1 · Codex 独立审核 r1
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-F-1 首轮审核（2026-09-29，HEAD 9b015064…034、内容提交 38d849a1…bb8）：**rework，未合 main，未运行官方 ratchet/受保护 fast**。
+
+## Scope
+
+- 已独立验证：产品/旧测/配置基线未改、工作树干净、Editor typecheck 零诊断；四张截图 SHA 一致并实际看图（取消后仍 17ms、48×16 上传预览恢复三帧）——只证明隔离宿主；派发版 verify-targets 误判交付后路径占用是 Codex 脚本缺陷已在 main 10a5d601 修复不归责 GLM。
+
+## Execution and assertions
+
+- **返工 1**：新增测试不全绿：glm-next-wave 文件集 9 文件 passed 1 文件 failed（21 过）；App.glm-next-wave.test.tsx:19-21 hoisted vi.mock factory 引用未初始化静态导入 memoryAuthorSaveStore（ReferenceError Cannot access __vi_import_2__）——S15 hoist-safe 判例；改真实现/测试端口装配不降组件验证范围；重新生成新鲜 10 文件 file/fullName/status 不沿用旧 22/22 JSON
+- **返工 2-3**：完整 lint 失败 1 error（wave-F/evidence/vitest-final.json 格式）按原规则格式化复跑 0/0/0；battle-trial-launch（.ts 源）新测命名 .test.tsx 不符冻结表同源扩展名规则——改 .test.ts（必要时 createElement 类型化去 JSX）
+- **返工 4-5**：needle-judge.mjs:30-34/116-162 注入 try 内 process.exit 宣告 INVALID 跳过 finally 遗留 .needle-tmp.test.*；失败文件与 fullName 仅 basename/子串匹配未核 failed 恰 1 或绝对路径——修为所有路径清理+精确核验+同一判据自测+重跑四枚代表针；wave-F/receipt.md 是唯一 Markdown 缺 README 索引（docs check 报）——GLM 白名单内可修（回执整理为本目录 README）；父目录导航归 Codex
+
+## Results
+
+- 返工边界：只改 Wave F 原白名单；新候选复跑定向+相邻+typecheck+完整 lint 0/0/0+docs/diff+严格四针，推送固定 SHA。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 审核 | 2026-09-29 | hoist-safe+格式+后缀+判据清理+README | rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave F r1 审核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-F-1 · Codex 独立审核 r1：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 五项：hoisted vi.mock 引用未初始化（S15 判例）+JSON 格式+扩展名+判据 exit 跳 finally 遗留+缺 README。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五项返工与已验证项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。rework 由 r2 accept 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 Wave F r2 验收回执。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `674a24a8031c1fb9f8609edefb9b9a4b6e2fabb9a3654ff473dda4f029052727`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `674a24a8031c1fb9f8609edefb9b9a4b6e2fabb9a3654ff473dda4f029052727`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-F-1 · Codex 独立审核 r1
 >

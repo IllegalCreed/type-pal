@@ -1,67 +1,63 @@
 # TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts
 
 Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: GLM
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: reforge / battle public flow
+Branch: `codex/glm-reforge-battle-flow-r1`
+Visual Verification Timing: mixed
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM 承接的 Reforge 公开战斗流程补测历史卡（2026-10-05）：家族对账发现卡面 battle-finalization.ts 不存在（真源=battle-world-result.ts 全仓零直接测试），五文件旧测饱和；交付 12 合同/3 测试文件+U-1 零活敌 target 死区产品发现。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+补公开战斗流程合同：终局写回（world-result 7 条：胜利奖励链/零经验门/升级顺序/胜负恢复组合/偷得金钱逃跑/收妖值）、host 终局分配 3 条（战败无结算/胜利曲经验门+boss 旗/逃跑）、session 组合流 2 条（敌毒回合末致死/逃跑失败续战）。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：packages/reforge/src/battle/ 本卡测试、合法 typed fixture、证据；battle-command-selection/turn-readiness/action-presentation-scheduler/settlement-presentation/result 五文件不新增（饱和）。
+- 范围外：产品/旧测/配置/baseline/真实 PAL 数据；battle-session private state/visual 反射；表现层无公开业务 oracle 的伪合同。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+U-1：零活敌 target 相位输入死区（battle-command-selection.ts:353 零活敌在 Escape 之前整体 no-op）——毒杀全灭后玩家确认攻击即软锁，BF-11 以防御直提绕开；修复需 before→after 裁决并连带 G02 既有断言，本卡未改产品。升级回满在 writeBackHp 之后的顺序 oracle 是 BF-03 关键断言。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：定向 12/12、相邻 56 文件 510/510、reforge 全量 343 文件 8760/8760、typecheck 0、全仓 lint 0/0/0（3365 文件）；反控 12/12 VALID（每针恰一指定业务 AssertionError、四态 hash+clean-tree）。Codex 独立复跑反控 12/12 VALID、Reforge typecheck、lint 3379 文件 0/0/0、docs 0 issues，U-1 保持产品发现未夹带修复，合入 main。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+原卡家族对账（battle-finalization=battle-world-result 家族）与不设针登记见 dedup-ledger。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+2026-10-05 r1 交付与同日 Codex 独立验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：12 合同+家族排重账经独立验收合入。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+evidence/TEST-GLM-REFORGE-BATTLE-FLOW-1/{dedup-ledger.md,counterproof.json}。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。战斗现行行为以当前代码为准；U-1 死区裁决以中央账本为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+已归档 Reforge host/runtime 卡为相邻域；产品死区若修另开卡。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `f6472ae55a85329a4690188f529eae54a8b6bee9f70107b55171c3b0cb956734`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `f6472ae55a85329a4690188f529eae54a8b6bee9f70107b55171c3b0cb956734`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-BATTLE-FLOW-1 — public battle flow contracts
 >

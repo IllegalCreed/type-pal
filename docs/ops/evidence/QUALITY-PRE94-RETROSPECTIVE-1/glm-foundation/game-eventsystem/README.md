@@ -1,5 +1,38 @@
 # game core event-system.ts 大文件补维（glm-foundation 模块 5 批 7）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本卡审计对象是 core/event-system.ts(5117 行全文读毕)的 B–G 补维:A 维引用 Codex 3r 深切片(5973 行主测试全文对照 script.c/play.c/scene.c/text.c/global.h)及后续 DM16-26/DL13-26/搜索注释批/runtime-projection 批的分层证据链,本批核其余维度并修正注释与实现漂移。原文时点 Codex 裁定(2026-10-19):保留作者阶段证据,未获整包/全维收口验收。
+
+## 范围与证据
+
+范围仅 core/event-system.ts 一个生产文件,基点 53db76bbb 线(body 基准=批6提交后 HEAD)。机器证据:[body-invariance.json](body-invariance.json) 记录 event-system.ts 去注释打印 AST 双侧 119892 字节、printedSha256 一致(base=固定 SHA 28b3d95c…),allEqual=true,证明本批零实现变化;[directed.json](directed.json) 记录 67 套件 326/326 全绿(2026-10-18T15:43:18Z,event-system.test.ts 单文件全量)。后继核验入口:[codex-final29.json](../codex-final29.json) 与 [codex-stage2-rework.json](../codex-stage2-rework.json)。
+
+## 发现
+
+改动 6 处,全部为常量级过时实现描述的注释修正:①OP_ADD_CASH『简版不跳 goto』→2026-05-31 已补全负数不足即跳;②OP_REMOVE_ITEM『简版只从 inventory remove』→已完整实现装备槽消耗+失败跳转;③OP_BUY_MENU『M-w3.a 简版 stub』→2026-05-29 已真接商店菜单;④OP_REDRAW_SCREEN『M5 简版 delay/gesture 不实现』→两者均已实现(2026-06-06 补 delay 修张四上船瞬移);⑤OP_CURE_PLAYER_POISON_LEVEL『fallback 全清等 M5.5』→已走 curePlayerPoisonByLevel 真 level(核 event-opcode-player.ts:256-260);⑥OP_SET_PLAYER_STATUS『log skip 等 M6』→已写持久 gs.rgPlayerStatus(核 event-opcode-player.ts:262-283,CODE53/80 治理后现状)。其余 5100 行注释为仓内最重真值文档(bug 档案+真值锚+取舍注),零冗余。验证:body-invariance 恒等+定向 326/326、0 failed-suites+game 全包 typecheck 0+scoped biome 0/0/0;按准入未跑 game 全包测试/全仓门。
+
+## 结论
+
+作者结论:B 维六处修正全部有 handler 内新实现注佐证;C 维 interpreter 层无 menu/shell 反向依赖(11 个 handler setter 注入);ScriptCursor 统一抽象消除 trigger/auto 双解释器分叉;OP_CENTER_CAMERA_ON_PARTY 与 OP_SET_CAMERA 同值双名为有注语义别名保留。Codex 2026-10-20 返工纠正『仅注释批』定性:已提取 0x73/0x9B 相同 dither 起点为私有 startDitherFade(speed/墙钟/清理/IP 协议不变),先 329 基线带 2 stderr,窄修两例 fixture/oracle 后 329 零 stderr 再重构,重构后仍 329 零 stderr;首条新断言把 undefined 误认 [] 的作者失败保留,不冒称产品 red。本节不接收原文整包/模块收口宣称。
+
+## 整改与复核
+
+继任关系:返工逐文件八维、原件与限制见 [codex-final29.json](../codex-final29.json),返工范围见 [codex-stage2-rework.json](../codex-stage2-rework.json)。失效条件:实现变化→重测;六处对应 handler 语义再变→常量注复核;3r 证据链依赖变化→重估。本页治理只重述文档语义,不重开任务、不重跑命令、不改历史裁定终态。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3787B / SHA-256 6e85c32715f0a7f1e0544461b58ada7d09bd736b61ffaf1acda82cd62e064830；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# game core event-system.ts 大文件补维（glm-foundation 模块 5 批 7）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -38,3 +71,5 @@ grep -n '已真实现\|已按真值实现\|已完整实现' "$WT/packages/game/s
 已提取0x73/0x9B相同dither起点为私有startDitherFade，speed/墙钟/清理/IP协议不变；不是仅注释批。先329基线带2stderr，再窄修两例fixture/oracle，329零stderr后重构，重构后329零stderr。首条新断言把undefined误认[]的作者失败保留，不冒称产品red。
 
 逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+````
+<!-- incremental-original-source:end -->

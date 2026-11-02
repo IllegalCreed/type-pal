@@ -1,80 +1,63 @@
 # ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界
 
-Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）
+Phase: phase2
+Capability: Editor design-system adoption（不改变 capability-map）
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Risk: 常规迭代（用户可见时间线高度变化；开卡，走完整三签）
+Target Design-System Version: `2.22.0`（采用既有 ActionGroup，不新增公共 API）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是把帧动画每帧左右移动迁移到 compact DsActionGroup 并同卡修复时间线纵向裁切的历史卡：真实页面测得 timeline clientHeight 95/88px < 132px track、动作按钮仅露约 6px；设计三签未齐即被用户 2026-09-01 以“太丑”否决整卡形态，未修改任何实现。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+把“资源/过场素材/帧动画”的每帧移动动作迁移到 compact DsActionGroup，同时把时间线可用高度修复到 ≥132px（设计 shell 186px），完成条件锁结果不锁裸高度。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内：FrameAnimationEditor.tsx、editor.css 的 .fa-* 规则、action-group-adoption.json 与 DS-C.2a census、真实过场素材页与经典横滚条压力 fixture 的几何/a11y 验证。
+- 范围外：410 帧真正 DOM virtualization（ED-FRAME-TIMELINE-VIRTUALIZATION-1 另卡）、帧资源 codec/schema、保存格式、预览行为、其余 action-group candidates。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+Codex 2026-09-01 premise verified：独立直读生产 DOM/CSS，真实 64 帧页面核 access tree；.fa-timeline rect top=599/bottom=694、clientHeight=95、scrollHeight=132、track 132px、按钮 top=688/bottom=718 仅露约 6px；<=980px 的 88px 档会完全裁掉动作行；“滚动位置/浏览器 overlay”替代解释已排除。设计：shell 126/118→186px、帧卡 102×122、ActionGroup 68px/32×32、11 groups/46 moves/22 adopted/24 raw/12 candidates 基线。用户裁决 counter/cancelled：当前 102×122 帧卡+独立手柄+左右移动按钮“太丑”，要求恢复 c799cb35 之前的 72×76 整卡拖拽形态。
+- 当前状态：cancelled（历史终态；用户裁决改变目标）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡验收含语义（frame.id/reorder key 不变、一次有效移动只增一条 draft history、EditSession dispatch/historyVersion 保持 0、保存仍是唯一 UpsertAssetCommand 入口）、DOM/a11y（32×32 按钮、具体左右 aria-label）、几何（1/3/64/410 帧、overlay+17px 横滚条、clientHeight≥132）与门禁（11/46/22/24/12 精确、旧 126/118 规则回流必红）。以上均未实施；本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）
-- 正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复
-- 正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。
-- 正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**
-- 正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**
-- 正文信号 132:- done 准入: blocked
-- 正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+原卡明确无下一位 Agent 提示词；后续只审 ED-FRAME-TIMELINE-UX-RESTORE-1。Codex 旧 premise/design 签字仅保留为历史草案，不再授权 build。本页治理不恢复本卡方案。
 
 ## 历史范围
 
-- ops archive；日期：2026-09-01；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b`。
+2026-09-01 Codex 三路只读审计收窄为帧动画独立几何 slice、premise verified/design agree；同日用户裁决取消。固定源 dce008a777bb45658e9d7a146624db9b57469f63。2026-10-17 R32 泛化封套误标 phase1，2026-10-18 S15 纠正。
 
 ## 原始结论
 
-- ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界：这是 task-card，当前文档状态为 cancelled。全文 144 行、16 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`（2026-09-01）：用户不接受本卡形态，要求恢复原始时间线；替代任务 ED-FRAME-TIMELINE-UX-RESTORE-1。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：目标；范围；前提真值门；一句话前提；四向真值矩阵；直接证据与替代解释；用户可见偏离；上下文锚点；原始正文、表格、状态词和链接在 quote 保全。
+editor.css:7886-8081,8158-8167；FrameAnimationEditor.tsx:138-159,875-950；真实页面 rect 实测；ED-ACTION-GROUP-SPEC-1/ADOPTION-1、editor-design-system.md DS-C.2a/DS-C.4d 锚点。本页治理未重跑任何浏览器验证。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 3:Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）
-- 正文信号 11:> **取消说明**：用户明确指出当前102×122帧卡 + 独立手柄 + 左右移动按钮“太丑”，要求恢复
-- 正文信号 70:- 用户裁决：**counter / cancelled（2026-09-01）**——用户要求恢复原始时间线，不接受本卡形态。
-- 正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**
-- 正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**
-- 正文信号 132:- done 准入: blocked
-- 正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。
+historical。纵向裁切事实与 186px 设计属取消时点；现行时间线形态以 RESTORE-1 及当前代码为准；本卡签字不得复用。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+替代卡 ED-FRAME-TIMELINE-UX-RESTORE-1；债务追踪见[ED-FRAME-TIMELINE-VIRTUALIZATION-1](ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md)；设计系统现行合同以 editor-design-system.md 为准。
 
 ## 原文保全
 
-固定源 SHA `30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界
 >

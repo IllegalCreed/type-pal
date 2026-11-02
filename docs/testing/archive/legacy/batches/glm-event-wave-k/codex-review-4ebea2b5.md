@@ -1,40 +1,62 @@
 # TEST-GLM-EVENT-WAVE-K-1 · Codex 独立首轮审核（4ebea2b5）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EVENT-WAVE-K-1 的 Codex 首轮独立审核（候选 4ebea2b5 基于 e8757f50）：结论 rework，不合 main、不跑官方 ratchet/protected fast、不记正式收益；四项返工要求（后续由 r2 闭合并 accept）。
+
+## Scope
+
+四项：K04「无 mapReloader」对照第二次执行仍注入 reloader（gsNoReloader 名不副实）；三枚反控变异期望值而非合法业务输入单轴变异（K02 1→0/K05 1440→720/K03 sell→buy 只证断言会红；应变异 idleFrames:3→4、fade speed、opcode 同族；judge 未拒 timeout/collect、未核绝对路径、FAIL 时仍 exit0）；K03 把卖出 operand[0] 当产品合同（sdlpal script.c:1168-1173 PAL_SellMenu 不读 operand、bootstrap sell 分支忽略 storeNum）；K06 自造 players:[] 的 BattleState 却设 caster idx 0（应用 createBattleState 保证 caster 指向真实玩家）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 独立复跑 | verify-targets、Game 全包 2772/2772、typecheck、全仓 lint 2760 文件 0/0/0、docs 789 Markdown/4133 链接、diff 均过；三枚反控复跑各一个指定 AssertionError exit1、临时副本已删（窄补丁恢复候选字节） | Codex | 源码 hash 1/1 冻结一致；19 新增用例交付 JSON 均 passed | 四项闭合后交新完整候选 SHA 再审，通过才选择性集成+串行 check→ratchet→protected fast |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+rework 四项（假对照/期望值变异/卖出 operand 误合同/非法战斗夹具）；候选只改六冻结新测与本目录证据。
+
+## Evidence
+
+- 证据路径：本审核正文（quote 保全）；r2 闭合见 codex-accept-r2 文档。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 首轮审核 | 原文时点 | 复跑+四项反证 | rework（r2 闭合后 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-event-wave-k 的首轮审核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-EVENT-WAVE-K-1 · Codex 独立首轮审核（4ebea2b5）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 四项（假对照/期望值变异/卖出 operand 误合同/非法战斗夹具）；候选只改六冻结新测与本目录证据。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+复跑数字与四项逐锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。r2 已闭合（1f26d421 accept）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 codex-accept-r2-1f26d421.md。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `477bd84961ff51ed10a0c8a4f466a7c3da7707a7fe251f96406d670e138bfc79`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `477bd84961ff51ed10a0c8a4f466a7c3da7707a7fe251f96406d670e138bfc79`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EVENT-WAVE-K-1 · Codex 独立首轮审核（4ebea2b5）
 >

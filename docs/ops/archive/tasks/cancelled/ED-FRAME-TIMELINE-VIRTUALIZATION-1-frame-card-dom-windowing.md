@@ -1,70 +1,63 @@
 # ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing
 
-Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）
+Phase: phase2
+Capability: Editor frame-animation performance
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Risk: 高（虚拟化与横向reorder/选择/滚动/焦点语义耦合）
+Merged Into: `ED-FRAME-TIMELINE-UX-RESTORE-1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是为 410 帧场景追踪“真正 DOM virtualization”债务的历史卡：发现于 FrameAnimationEditor 只按 visible 集合延迟 canvas 解码、仍对全部帧挂载 card/handle/移动按钮；2026-09-01 用户否决整套 handle 形态后取消，仍有效的有界可见窗口债务由 ED-FRAME-TIMELINE-UX-RESTORE-1 接管。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+消除长帧时间线的 DOM 挂载债务：410 帧时间线违反既有 12–15 可见项约束与 50 项列表 virtualize 建议，要求真实 DOM 只保留可视窗口。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内：FrameAnimationEditor.tsx:616-626,901-950 的全帧挂载问题追踪、公共 handle/Home/End/移动按钮下的 DOM windowing 设计。
+- 范围外：用户随后否决的 handle/move 交互形态本身；RESTORE-1 接管的实现（旧精确可视窗口+overscan、总轨宽、稳定 frame.id、selection/history、唯一 save command）。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+原卡锚点 FrameAnimationEditor.tsx:616-626,901-950 与 A7-3-cutscene-asset-workbench.md:72,367,418-420 的可见项约束。用户裁决恢复 c799cb35^ 的 pointer-only 整卡 native drag，原目标不再适用；恢复任务不得只删按钮而漏掉原先有界可见帧挂载。
+- 当前状态：cancelled（历史终态；合并入 RESTORE-1）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡验收为取消裁决与替代关系：本卡保留历史并标 cancelled/superseded；RESTORE-1 通过 visible DOM 验收后关闭 board 开放债。本页治理验收：quote 字节保全、逆回读按记录规则相等、模板与 overlay 章节齐全。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）
-- 正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+原卡明确无下一位 Agent 提示词；本债由 RESTORE-1 按原始 visible window 形态共同关闭。本页治理不恢复本卡、不重授 build。
 
 ## 历史范围
 
-- ops archive；日期：2026-09-01；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926`。
+2026-09-01 取消裁决与替代关系；固定源 dce008a777bb45658e9d7a146624db9b57469f63（S15 批次源快照）。2026-10-17 R32 误标 phase1 的泛化封套，2026-10-18 S15 逐篇纠正为本 phase2 历史卡正文。
 
 ## 原始结论
 
-- ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing：这是 task-card，当前文档状态为 cancelled。全文 33 行、5 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`（2026-09-01）：用户恢复原始 visible/native-drag 形态，债务并入 ED-FRAME-TIMELINE-UX-RESTORE-1。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：追踪原因；原目标与替代关系；当前门禁；下一位 Agent 提示词；原始正文、表格、状态词和链接在 quote 保全。
+FrameAnimationEditor.tsx:616-626,901-950；A7-3 约束行；取消裁决/追踪原因/替代关系/门禁各节。本页治理未重跑任何浏览器验证。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）
-- 正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。
+historical。时间线 DOM 形态的当前事实以现行代码与 RESTORE-1 后继记录为准；本卡不构成恢复 handle 形态或跳过可见窗口债务的授权。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+承接卡为 done/ED-FRAME-TIMELINE-UX-RESTORE-1（若在册）与现行帧动画编辑器代码；同窗口取消卡见[ED-ACTION-GROUP-ADOPTION-2](ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md)。
 
 ## 原文保全
 
-固定源 SHA `1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing
 >

@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-unicode-scalar-path-correction-addendum",
+  "task": "DOCS-REGISTRY-SPLIT-1",
+  "counter": "REGISTRY-PATH-UNICODE-SCALAR",
+  "nonAuthorReviewer": false,
+  "independentAcceptance": false,
+  "producedAt": "2026-10-17T21:41:50.276327+00:00",
+  "candidate": {
+    "revision": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+    "parent": "db814e3cfecc51b8226453f6930b8ec4c22a0743",
+    "branch": "codex/docs-registry-storage-v2",
+    "worktree": "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal",
+    "clean": true,
+    "changedFiles": [
+      "scripts/docs/document-registry-path.test.mjs",
+      "scripts/docs/document-registry.mjs"
+    ]
+  },
+  "finding": {
+    "provenance": "Non-author observed two distinct escaped lone high surrogates accepted by frozen db814e public loader; both encode to the same UTF8 replacement path.",
+    "independentProbe": "inputs/independent-escaped-surrogate-probe.stdout",
+    "independentProbeSha256": "8bba8d83344765581e42aad55ff7d850147c757f62c755f5791c01cd3f460c9f",
+    "scope": "Unknown I/O JSON strings only; no document body was read/written by the probe."
+  },
+  "fix": {
+    "sourceBeforeSha256": "5d50872b3a02853661a42412a5bb307a8e7b083a4661e66600eff0a4e153d0d8",
+    "sourceAfterSha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
+    "testSha256": "dc48bbc3e5629091f5e97cc3131b28cb366dcdf605ff0c2183df6dcfb14249ad",
+    "behavior": "Reject code points D800..DFFF in the existing Array.from segment traversal. Valid UTF16 surrogate pairs produce supplementary code points and stay accepted.",
+    "normalizationPerformed": false,
+    "asciiOrFullwidthSimplification": false,
+    "versionOrSchemaChange": false,
+    "positiveControls": [
+      "Existing Chinese/interior-space names preserved",
+      "Emoji U+1F600 accepted unchanged",
+      "Supplementary ideograph U+20000 accepted unchanged",
+      "Every positive path has exact UTF8 roundtrip"
+    ]
+  },
+  "regression": {
+    "beforeRun": 1075,
+    "beforeExit": 1,
+    "beforeTests": 17,
+    "beforePass": 15,
+    "beforeAssertionFailures": 2,
+    "beforeSkipped": 0,
+    "afterRun": 1078,
+    "afterExit": 0,
+    "afterTests": 50,
+    "afterPass": 50,
+    "afterSkipped": 0,
+    "samePathTestBytesBeforeAfter": true,
+    "samePathTestNamesBeforeAfter": true,
+    "failedBeforeNames": [
+      "native document path IO rejects unpaired high surrogate through loader and both real consumers",
+      "native document path IO rejects unpaired low surrogate through loader and both real consumers"
+    ],
+    "actualConsumers": ["check-content-review.mjs", "report-governance-progress.mjs"],
+    "oracle": "Each invalid high/low surrogate requires exact original JS public loader error, plus actual CLI exit1 with the same error rendered as real UTF8 stderr. UTF8 rendering applies only to expected diagnostics, never stored path identity."
+  },
+  "gates": {
+    "checkDocs": {
+      "run": 1080,
+      "exit": 1,
+      "docsToolTests": 178,
+      "passed": 178,
+      "skipped": 0,
+      "todo": 0,
+      "strictStderrLines": 3861,
+      "summary": [
+        "# tests 178",
+        "# pass 178",
+        "# fail 0",
+        "# skipped 0",
+        "# todo 0",
+        "docs: PASS (0 issues)",
+        "document model: PASS (7 routes; 1263 body contracts; 0 issues; structure only)",
+        "testing docs: PASS (0 issues)",
+        "phase/lore governance: PASS (184 documents)",
+        "content review: FAIL (2374 documents; {\"partial-review-unknown\":1925,\"content-reviewed\":449})"
+      ]
+    },
+    "lint": {
+      "run": 1079,
+      "exit": 0,
+      "files": 4462,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "requireComplete": {
+      "run": 1081,
+      "exit": 1,
+      "issues": [
+        "docs/ops/board.md: completed review SHA drift",
+        "docs/ops/tasks/index.md: completed review SHA drift"
+      ]
+    },
+    "diffChecks": {
+      "staged": 1086,
+      "beforeCommitWholeParent": 1087,
+      "parentToCandidate": 1090,
+      "admissionToCandidate": 1091,
+      "allExit": 0
+    },
+    "commitOutput": "raw/1088.stderr retains Git automatic background packing notice; it is not suppressed or presented as a static diagnostic."
+  },
+  "nativePreservation": {
+    "publicLoaderOracleRun": 1082,
+    "entryCount": 2374,
+    "entryObjectsKeysValuesOrderEqual": true,
+    "metadataFields": [
+      "id",
+      "generatedBy",
+      "policy",
+      "roots",
+      "extensions",
+      "structuralRoots",
+      "summary",
+      "scopeNote"
+    ],
+    "metadataEachEqual": true,
+    "templateVersionAbsent": 1632,
+    "allEightDataFileBytesUnchangedFromDbAnd37": true,
+    "dataFileSha256": {
+      "docs/phase-governance/document-registry.json": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+      "docs/phase-governance/document-registry.ops.json": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+      "docs/phase-governance/document-registry.lore.json": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "docs/phase-governance/document-registry.phase1.json": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "docs/phase-governance/document-registry.phase2.json": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "docs/phase-governance/document-registry.phase3.json": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "docs/phase-governance/document-registry.phase-governance.json": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+      "docs/phase-governance/document-registry.testing.json": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+    },
+    "entriesAdded": 0,
+    "statusOrCreditChanges": 0,
+    "oldProductAndDocsFixturesUntouched": true
+  },
+  "priorArtifactsPreserved": {
+    "author-delivery.json": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+    "migration-mapping.json": "85c9bba92951fea2f7a30fec4cea1d0162c5f228773418e8127406e3dfbac948",
+    "final-migration-mapping.json": "40399f4dd454c7edc01714d4ae0c6109c68db176d2426482f55249cd047b9b7f",
+    "native-path-addendum-37adc410/addendum.json": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993",
+    "native-path-addendum-37adc410/manifest.json": "0163d37af3b242a6c303fbc3840d4bf4617fa1a965aab64c7b997cb5749b73a7"
+  },
+  "evidenceIndex": {
+    "ongoingIndex": "/tmp/docs-registry-storage-v2-author-h8epcwph/commands.jsonl",
+    "policy": "Ongoing append-only index across all rounds; not a fixed input artifact of the original37 or db report.",
+    "globalSnapshot": "global-append-only-index-snapshot.jsonl",
+    "globalSnapshotSha256": "2129ad2433b8903209479d8e8dd10841a6cb943e6e4c412a7c93633d208afd9b",
+    "globalSnapshotBytes": 69450,
+    "globalSnapshotRecordCount": 180,
+    "maxCompletedRunAtSnapshot": 1091,
+    "roundSnapshot": "commands-1069-1091.snapshot.jsonl",
+    "roundRunNumbers": [
+      1069, 1070, 1071, 1072, 1073, 1074, 1075, 1076, 1077, 1078, 1079, 1080, 1081, 1082, 1083,
+      1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091
+    ],
+    "roundRecordCount": 23,
+    "assemblyScope": "Includes completed probe/regression/gates/commit commands1069..1091. This assembly command is appended later only to the ongoing global index, outside this fixed snapshot."
+  },
+  "limits": [
+    "Author fix/self-validation only; independent counter closure for this new candidate belongs to root/non-author.",
+    "No normalization, rewriting, product behavior or business contract expansion; source data and native fields unchanged.",
+    "Strict and require-complete still fail; no main merge, done, batch credit or runtime/E2E/visual/coverage claim."
+  ]
+}

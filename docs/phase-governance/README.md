@@ -15,6 +15,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
+2026-10-18：[记录可信度返工](../ops/tasks/DOCS-RECORD-INTEGRITY-1.md)已撤回R39–R94受影响绑定的语义、模板与独立接受信用；全量卡处于rework。仅保真/结构通过不能恢复完成状态，逐篇清单见[纠错证据入口](../ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md)。
+
 全量治理进行中。旧 [document registry](document-registry.json)覆盖部分历史范围；其中 content-reviewed 和 governed-legacy 不代表全量模板迁移完成。[按阶段索引](by-phase.md)、[按状态索引](by-status.md)及[阶段 catalog](catalog.json)仍只表达其已登记范围。
 
 ## 入口与责任

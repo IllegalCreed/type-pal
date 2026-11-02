@@ -45,7 +45,7 @@ catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和
 | e2e-003 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-10-02 |
 | e2e-004 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-10-02 |
 | e2e-005 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 8 | 2026-10-02 |
-| e2e-006 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 3 | 2026-10-03 |
+| e2e-006 | c68d369869dce63cb884e2203dab2b9e53f65e2f | 22 | 12 | 7 | 2026-10-03 |
 
 只读对比：在仓库根运行 `node scripts/docs/testing-revisions.mjs`。HEAD不同不单独判过时；matching/changed/unknown按[版本适用性](../governance.md#版本适用性)解释，不授新的E2E信用。
 

@@ -1,55 +1,61 @@
 # EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: pre005_sprite_preview（实现）；Codex Root（独立验收）
+Phase: phase2
+Capability: editor-authoring / world-sprite-preview
+Visual Verification Timing: dev-functional（实施时最小核预览文案）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是深链自动脚本预览伪报帧的窄修历史卡（2026-10-02，PRE-005-DEBT-1 准入）：world-sprite-behavior.ts:602 的 depth>16 确定性扫描回退令 17 层链显示脚本不存在的「检测到 #0」；修复为披露预算截断、不声称可证帧序。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+不把安全预算生成的默认采样帧声称为“检测到”的脚本帧：17 层 callScript 链显示无法推断或部分帧序，不说“安全预算/采样/截断”。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：describeSpriteReferenceBehavior 的预算截断披露（47d40c5a 逻辑+真实引用行、b3c5d5bb 直白文案，Root 直接审读接收）；WorldSpriteLibrary:254 过滤 auto 引用、:1243/:1271 两类引用行文案。
+- 范围外：预览预算本身（不改）、运行时语义、资源模型、官方覆盖基线；点击定位旧入口缺陷分到 EDITOR-AUTO-LOCATOR-1。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+发现链：GLM 隔离候选 e2b3f437 的 wave-L defect-report 完整复现夹具（15/16 层显示真实帧 #1→#2、17 层伪报 #0）；Codex 临时 Vitest 探针复现后删除未入库；冻结产品源 hash 与候选一致，非候选改出行为。最强替代解释（#0 为预算耗尽预览占位设计）即使成立，现行文案仍把占位误报为已检测脚本结果。Root 复核 main 实况：PAL 共享库为空、294 场景无 callScript——17 层是合成边界回归非剧情缺陷；早期测试工程 map 字符串二次 JSON 编码/directional 误用是 Root 夹具错误，修正后才取有效画面。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：Root 独立 core/Library 66 项通过、预算不变；正常 15/16、真实 0 帧与六 chance 既有案例保持；实际 6014 两实体（17 层无帧/带前缀）分别显示无法推断与部分帧序，截图 build/pre005/sprite-bounded-reference-final.png；源帧浏览器仍可显示真实源帧 0（界面 0 帧源选择与脚本帧序解释是不同用途）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+点击定位可达性缺陷归[EDITOR-AUTO-LOCATOR-1](EDITOR-AUTO-LOCATOR-1-current-script-target.md)；统一质量归母卡。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 用户清边角窗口，Root premise verified/design agree/build allowed 后实施接收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：预算截断披露化、伪报帧消除，经 Root 独立实测接收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+world-sprite-behavior.ts:602/:778,887/:966-974/:1024-1030 锚点、wave-L defect-report、Root 截图。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。预览文案现行形态以当前代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗边角修见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)与[EDITOR-AUTO-LOCATOR-1](EDITOR-AUTO-LOCATOR-1-current-script-target.md)。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `e5e87cda50053db003c96962ccf8f260c286c4bee45cff7da143584c0a73606c`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `e5e87cda50053db003c96962ccf8f260c286c4bee45cff7da143584c0a73606c`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # EDITOR-SPRITE-DEEP-PREVIEW-1 — 深链自动脚本预览伪报帧 #0
 >

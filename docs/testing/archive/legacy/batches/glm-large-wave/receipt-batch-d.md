@@ -1,40 +1,60 @@
 # TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 D 批回执（迁移纯映射与诊断；r1 本批 623aa49c、R2 031b3e47、R3 本次推送）：新增 sound-reference-audit 4 项+pal-migration-io 5 项+白名单 fixture；9/9 passed；migrate tsc 0 诊断+新文件 Biome 全零+check.mjs PASS+diff 干净；未运行真实迁移/提取/烘焙/发布。
+
+## Scope
+
+- 每组处置：D01 translate-events（7 专项套件绑定/分支/折叠/位移/注册表/状态）+translate-enemy-hook-flow（6 专项 cfg/对白/特效/错误/成长/媒体）existing-proof；D02 pal-sprite-action-census（12 例+真实数据门）existing-proof、**sound-reference-audit 新增 4**（此前零覆盖 542 行+冻结基线门：源位点与目标引用边分离记账角色 7 声道/敌 5 声道/技能动画/召唤/播放音位点+目标 8 通道分类+目录 2 音效全引用、负 magicSound 干净语义破坏按稳定敌 id 违例、soundEdges=通道和一致性、纯读取深快照不变；assertPalSoundReferenceBaseline 是真实提取数据门禁合成样本不冒充原版实测）；D03 script-library-audit（3 套件 7 例 294 场景三重 10x/ref 完整/enemy v10 分流/作者单列/缺 chunk 精确报告/嵌套失败臂 orphan）+script-graph（5 例 0x07 双臂/0x6D/0xA2/0x08 恢复点/auto 自环、Tarjan SCC、delayed goto、四类入口根去重）existing-proof；D04 migration-merge（22+8 三方真值表/稳定 id/poses/add-add/delete-modify/identityMaps 失效）+migration-plan（15+8 精确 target/writes/deletes/冲突零写盘/深快照）existing-proof；D05 pal-authored-overlays+scene-entry-normalize（4 例坐标收敛/稳定命名/id 域/前缀散列碰撞 fail-loud）existing-proof；D06 migration-transaction existing-proof、**pal-migration-io 新增 5**（此前零覆盖：mkdtemp 合成树四道 fail-loud 守卫逐轴——场景 295 计数/s294 精确空 stub/s000-s293 非正 mapNum/地图 223 计数+守卫先于资产装载顺序；不读真实 PAL 工程）。
+
+## Execution and assertions
+
+- **业务反控 2 枚全 VALID：目标通道计数断言改错（源位点与目标引用边分离记账）与场景计数守卫消息改错（295 偏离精确计数）——恰 exit1、AssertionError、唯一失败、产品 hash 不变；R2 重跑（judge 解析带**：unit；项目标签的 FAIL 行）R3 完整失败名精确相等重跑。
+
+## Results
+
+- 原时点 D 批新增 sound-reference-audit 4 项与 pal-migration-io 5 项，9/9 passed；migrate typecheck 与改动文件 Biome 零诊断。两枚反控有效；真实数据门禁和资产装载成功路径仍未证。本页未复跑。
+
+## Evidence
+
+- 未证项：assertPalSoundReferenceBaseline（真实数据冻结门禁）不在合成输入上测试其数字随 data/extracted 漂移由生产迁移入口触发属 Codex 管辖真实数据门；loadPalMigrationSources 的 loadPalAssets 资产装载段（合成树不构造完整资产文件）守卫后资产装载错误仅证「非四类守卫消息」未证成功路径。
+- 证据路径：本回执正文（quote 保全）；batch-d-directed.json 逐条 file/fullName/status 在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| D 批回执 | 2026-09-29 | 9 项新增+11 组处置+2 反控 | 交 Codex（后续 accept） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-large-wave 的 D 批回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+D 批 9 项新增（sound-audit 4 此前零覆盖+io 守卫 5 零覆盖）+11 组 existing-proof 依据；2 反控三轮判据演进；两条未证如实（真实数据门禁/资产装载成功路径）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+处置表、反控与未证项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。回执按候选时点；整包由 R3 accept 集成。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-LARGE-WAVE-4 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `4fd417be6291c4156fbc037bed2069269edcca1a1b4ee7bff29780e8fde1ff7c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `4fd417be6291c4156fbc037bed2069269edcca1a1b4ee7bff29780e8fde1ff7c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · D 批回执（迁移纯映射与诊断）
 >

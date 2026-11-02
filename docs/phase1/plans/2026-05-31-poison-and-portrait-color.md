@@ -1,65 +1,57 @@
 # 中毒机制 + 战斗头像颜色 实现规划(2026-05-31)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是中毒机制与战斗头像颜色实现规划的归档重写。sdlpal 真值出处、ts 现状缺口与三批次实现方案在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Poison application/resistance/damage and battle portrait poison/death colors, TDD batches.
-- 日期：2026-05-31；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b`。
+- 目标（user 指令原文）：实现中毒机制（投掷毒/法术中毒/4 基础+7 高级毒/抗性）+ 战斗头像颜色（中毒染色+死亡黑白）。
+- 时间范围：2026-05-31 规划，先完成 opcode 审计与文档修正（55d52cc）再实施。
 
 ## 里程碑
 
-- 原始章节：sdlpal 真值出处(已预读)；毒 OBJECT 结构(global.h:209-217 poison union)；数据已 plumb(无需重新提取)；头像色(uibattle.c:114-162 PAL_PlayerInfoBox face)；应用毒(script.c:1185-1230,0x28)；cure(script.c:1071/1091 CurePoisonByLevel(role,3))；ts 现状缺口；理解 workflow(wnt5uzmt7)关键修正(2026-05-31)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 真值预读完成：毒 OBJECT 结构（global.h:209-217 poison union）、应用毒（script.c:1185-1230 0x28）、cure（script.c:1071/1091 CurePoisonByLevel(role,3)）、头像色（uibattle.c:114-162 PAL_PlayerInfoBox face）；数据已 plumb 无需重新提取。
+- 三批次方案：①核心毒 runtime（setObjectPoisons 注入、0x29 加抗性、存真 scriptEntry、玩家毒 tick）②战斗状态/毒 opcode（0x2A/0x2E/0x2D/0x2F/0x61 fix）③头像色（drawPlayerInfoBoxes 读 rgPoisonStatus → bPoisonColor → blitSpriteMonoColor 重染）。
 
 ## 当前状态
 
-- historical；中毒机制 + 战斗头像颜色 实现规划(2026-05-31)：这是 plan-status，当前文档状态为 historical。全文 75 行、12 个标题；摘要/首段为「> user 指令:审计完更新文档后,实现中毒机制(投掷毒/法术中毒/4 基础+7 高级毒/抗性)+ 战斗头像颜色(中毒染色 + 死亡黑白,我之前漏的)。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：执行顺序由 user 确定（审计→实现），poison/status opcode bug 随批次 1-2 修；实现进度按当时主线推进。
 
 ## 阻塞与决策
 
-- 正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。
-- 正文信号 39:| 处 | 现状 | 待做 |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 理解 workflow（wnt5uzmt7）关键修正记入 quote（2026-05-31），防止按错误假设实现。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点规划；当前毒机制与头像行为以现行代码、[magic-status](../status/magic-status.md)/[item-status](../status/item-status.md) 与 game-mechanics 真值为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-31；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b`。
+- phase1 plans 实现规划；时点 2026-05-31；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 中毒机制 + 战斗头像颜色 实现规划(2026-05-31)：这是 plan-status，当前文档状态为 historical。全文 75 行、12 个标题；摘要/首段为「> user 指令:审计完更新文档后,实现中毒机制(投掷毒/法术中毒/4 基础+7 高级毒/抗性)+ 战斗头像颜色(中毒染色 + 死亡黑白,我之前漏的)。」。属于历史/归档材料，不能单独证明当前实现。
+- 三批次方案与真值出处清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:中毒机制 + 战斗头像颜色 实现规划(2026-05-31); 5:sdlpal 真值出处(已预读); 7:毒 OBJECT 结构(global.h:209-217 poison union); 14:数据已 plumb(无需重新提取); 18:头像色(uibattle.c:114-162 PAL_PlayerInfoBox face); 31:应用毒(script.c:1185-1230,0x28); 35:cure(script.c:1071/1091 CurePoisonByLevel(role,3)); 38:ts 现状缺口；原始正文、代码、表格、状态词在 quote 保全。
+- sdlpal 行号引用、数据 plumb 声明与 workflow 修正在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。
-- 正文信号 39:| 处 | 现状 | 待做 |
+- historical。规划按当时缺口写成；当前毒公式条目按状态表规则作专题真值。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [magic-status](../status/magic-status.md)、game-mechanics 与现行毒相关测试；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 中毒机制 + 战斗头像颜色 实现规划(2026-05-31)
 >

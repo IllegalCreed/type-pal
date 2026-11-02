@@ -1,5 +1,38 @@
 # 提取器共享输出边界 C1 反控
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 的 C1 反控目录页。范围为 packages/pal-extract/src/cli.ts 清理入口与 cli-error-exits.kimi-r1.test.ts 临时树反例;真实caller是根 pnpm extract 调用包内 tsx src/cli.ts,输出固定为仓库 data/extracted,原盘 data/raw 只读。用户已批准方案A:共享 data 或 data/extracted 节点为 symlink 时,创建/清理前拒绝;普通自有输出、只读 raw 链接和OUT内部子项链接保持原行为。
+
+## 来源与输入
+
+先红后修三角原件:red.json(旧实现sourceSha 38e58012上新测试9例:原7例通过、两条新增共享输出场景各恰一条AssertionError——OUT根symlink与data父symlink,0 pending/0 stderr;两个临时树均观察到共享目标marker被旧实现清除,证明字符串suffix guard没有验证输出所有权)→green.json(guard实现后sourceSha 830424d2,9/0/0,原7例合同保持)→counter.json(删除guard变异mutantSha 57e3d6ad回到7绿/2指定红,正式源finally逐字节恢复)。测试输入来自公开CLI子进程入口,使用真实临时目录、真实symlink、marker字节与缺失SSS的fail-after-clean路径;未触碰工作树data/extracted,无生成物修改或主流程mock。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):绿回执同时保持既有普通清理/videos保留、OUT内部子项symlink只unlink其身、共享根/父链接marker保留,错误在输入读取前出现;pal-extract package typecheck与72 files/434 tests通过。本批质量门:全仓 pnpm check 通过(editor 631 files/4943 tests、migrate 96 files/739 tests,末尾lint 4959 files 0/0/0);check:docs通过(1467 Markdown/8696 local links,phase/lore 184,content review 2340/2340);ledger通过(3307 tracked,226 closed/10 review/3071 pending);coverage:ratchet 与 TYPE_PAL_COVERAGE_BASE_REF=origin/main coverage:fast 均按真实基线门失败、未修改baseline(shared statements 447/466、branches 203/218;pal-extract statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367)。exit0与包绿不外推为全仓完成或coverage通过。
+
+## 结果
+
+治理结果=C1证据保全完整、先红后修反控三角可独立复验;不产生新执行结果。当前只收口本卡白名单;CLI旧关闭保持rework,coverage baseline回退、game stderr与editor runtime diagnostics仍是统一收口风险,不因本包绿关闭整文件。
+
+## 限制与复核
+
+未重跑任何命令;本批实际读取为cli.ts、cli-error-exits.kimi-r1.test.ts、其真实pnpm extract caller、相邻pal-extract测试与输出/原盘边界;未触碰schema/save、公共接口、生成物或主工作树。下一候选是game 17块stderr与editor剩余运行时诊断的逐文件归因;共享覆盖率基线回退保持未决。历史结论保持原时点;候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2924B / SHA-256 eefe243899e51add084a57a4cf7c5b64138d9294c46bc3e6c44789ca9c78dd00；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 提取器共享输出边界 C1 反控
+
 范围为 `packages/pal-extract/src/cli.ts` 清理入口与 `cli-error-exits.kimi-r1.test.ts` 临时树反例。真实 caller 是根 `pnpm extract` 调用包内 `tsx src/cli.ts`；输出固定为仓库 `data/extracted`，原盘 `data/raw` 只读。用户已批准方案 A：共享 `data` 或 `data/extracted` 节点为 symlink 时，创建/清理前拒绝；普通自有输出、只读 raw 链接和 OUT 内部子项链接保持原行为。
 
 ## 旧实现红回执
@@ -19,3 +52,5 @@ guard 实现后的 `green.json` 为9/0/0，pal-extract package typecheck+72 file
 - `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：均按真实基线门失败，未修改 baseline。shared 为 statements 447/466、branches 203/218；pal-extract 为 statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367。
 
 本批实际读取与核验文件为 `packages/pal-extract/src/cli.ts`、`packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts`、其真实 `pnpm extract` caller、相邻 pal-extract 测试与输出/原盘边界；未触碰 schema/save、公共接口、生成物或主工作树。下一候选是 game 17 块 stderr 与 editor 剩余运行时诊断的逐文件归因，以及其余83张94前卡的有限切片；共享覆盖率基线回退仍保持未决。
+```
+<!-- incremental-original-source:end -->

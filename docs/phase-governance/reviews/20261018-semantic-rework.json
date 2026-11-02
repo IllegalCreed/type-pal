@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 1,
+  "id": "semantic-rework-20261018",
+  "reviewer": "Per-entry non-author receipt determines acceptance; root authors intake and unresolved candidates",
+  "reviewDate": "2026-10-18",
+  "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+  "policy": "One actually read document at a time. No bulk restoration; global hard gate remains unpassed. Ledger root has no self-hash or semantic completion credit.",
+  "rollforwardPublication": {
+    "kind": "accepted-rollforward-publication/1.0.0",
+    "acceptedBase": "f17181f96d97301a3fdabfb94d1d860963d379bc",
+    "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+    "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+    "originalReviewContentSha256": "d0dcd6d8ec5fe5de4aecc2f011b17cef23edb605ad221e0e11df3febbec15a73",
+    "changes": 205,
+    "additions": 179,
+    "amendments": 26,
+    "reused": 2,
+    "registeredIdentities": 4530,
+    "activeDocuments": 4524,
+    "runtimeCredit": false,
+    "childSemanticCredit": false
+  },
+  "mainSuccessorPublication": {
+    "kind": "current-review-successor/1.0.0",
+    "generationId": "main-c88-20261101",
+    "predecessorRevision": "38a6fa16d49641951233dee60b3d77d651e0805d",
+    "mainRevision": "c88be9b3b5b9dc38c77d8c440085e35b8d15fc43",
+    "carrierRevision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
+    "semanticOwner": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+    "owners": 114,
+    "predecessorRows": 4530,
+    "registeredRows": 4542,
+    "predecessorOwnerRows": 2123,
+    "successorOwnerRows": 2135,
+    "changes": 16,
+    "additions": 12,
+    "amendments": 4,
+    "predecessorContentSha256": "3c9571f55dcb4a661415672c69051b975b96f11711cff21e1c578e9de1c46159",
+    "changesSha256": "65f5797d6c86af5d5e818550154595f463f9ff640a68612af45692864c886f55"
+  },
+  "_reviewStorage": {
+    "schemaVersion": 1,
+    "producer": "review-record-storage/1.0.0",
+    "logicalPath": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+    "logicalKeys": [
+      "schemaVersion",
+      "id",
+      "reviewer",
+      "reviewDate",
+      "sourceRevision",
+      "policy",
+      "entries",
+      "rollforwardPublication",
+      "mainSuccessorPublication"
+    ],
+    "source": {
+      "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "revision": "6995a8ec10598695e62df67e6f1d38da72bba38f",
+      "gitObject": "28dbc0a4bb92807730e6604eaa6d73adc9ede5c4",
+      "sha256": "3df2a747a127f455600366db7a257c06114bc04df8e2f8b58e87482ac63f0c74"
+    },
+    "logicalSha256": "b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891",
+    "totalEntries": 2135,
+    "entryOrderSha256": "58d3e081e86579ad0d5631b21efaa11f1024a94c90ba93a1886bb074ebf04e93",
+    "orderedEntriesSha256": "72c21bb3163150642280f01716316917eaf8cee21073d181c0398963d87cb1d9",
+    "shards": [
+      {
+        "key": "part-001",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-001.json",
+        "total": 14,
+        "sha256": "6fc81214bbbc846899114c7b9ea9047307e83d4197330968d3914915f986a60c"
+      },
+      {
+        "key": "part-002",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-002.json",
+        "total": 41,
+        "sha256": "06e123aef15346daba70f1fc3c4aff44d35f077418680250f1c528159221f5ba"
+      },
+      {
+        "key": "part-003",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-003.json",
+        "total": 41,
+        "sha256": "fe2e971390887399562ad2b2584867b855a15829dcef4bcaa0d8ed00c5331299"
+      },
+      {
+        "key": "part-004",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-004.json",
+        "total": 39,
+        "sha256": "26e6e4883049d8780e255cfd97955bc24f310968111f6da66289d7a581f92f8f"
+      },
+      {
+        "key": "part-005",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-005.json",
+        "total": 43,
+        "sha256": "08b7807bd743cb5fc26136c54d999a71b01b122282cd4caaac55731bcaeb07bc"
+      },
+      {
+        "key": "part-006",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-006.json",
+        "total": 36,
+        "sha256": "d48deda0ba4a442cde867eaab75b220f262280cbffa8077f2ae42a17e0f850d8"
+      },
+      {
+        "key": "part-007",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-007.json",
+        "total": 42,
+        "sha256": "a50d02acb68fac65bdf13305f251ccf3f0313ff4b07c692eed2419febaddb459"
+      },
+      {
+        "key": "part-008",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-008.json",
+        "total": 41,
+        "sha256": "dfef4fbbd2f6d35e0a8d3348c7ce7cea154d4ebe339c0c88ba4a4d852afaddc3"
+      },
+      {
+        "key": "part-009",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-009.json",
+        "total": 30,
+        "sha256": "d85536c5d8b5d6a251ab237dede59c485505ef294fb1e53f2e5ce2a93e6cdfc8"
+      },
+      {
+        "key": "part-010",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-010.json",
+        "total": 29,
+        "sha256": "9da6bce63a722ef8c05816e2cee690e7d57084dacadf686b9eaeaebebe936f2b"
+      },
+      {
+        "key": "part-011",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-011.json",
+        "total": 36,
+        "sha256": "995728d81f15c06271dae1cddf3548568c9505f42c65bad49ef81f98fcfd4d08"
+      },
+      {
+        "key": "part-012",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-012.json",
+        "total": 41,
+        "sha256": "4fb97128f7f569d1fa3903129e48ff5fd6a7216a68f31c12835d920185b79328"
+      },
+      {
+        "key": "part-013",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-013.json",
+        "total": 40,
+        "sha256": "fe6aa651d643a6c58c03327c49ababb04de1f89ba792fd2b18bf7258300836a0"
+      },
+      {
+        "key": "part-014",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-014.json",
+        "total": 40,
+        "sha256": "d9f4a83f99578a8ab758b8309d2ebb37206f6a6ff369827d5c84c3e7a5506c05"
+      },
+      {
+        "key": "part-015",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-015.json",
+        "total": 38,
+        "sha256": "c000fbabecf793cd6556e98cbfecea2627df05041af35041fc3f11a5e5bb88c7"
+      },
+      {
+        "key": "part-016",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-016.json",
+        "total": 42,
+        "sha256": "480a9296c38d95fd9893887486e02b9a55085fa9c2b2166ae711568152bdd7e6"
+      },
+      {
+        "key": "part-017",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-017.json",
+        "total": 40,
+        "sha256": "27fb409f1fd01a6926735c8d0520f360af46f7c59edfe8264bdab3487fa5a2e1"
+      },
+      {
+        "key": "part-018",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-018.json",
+        "total": 37,
+        "sha256": "5f0bfc901f2edb02081b72414c0ec80fca69e618290884ba849ff39e09e92ccc"
+      },
+      {
+        "key": "part-019",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-019.json",
+        "total": 37,
+        "sha256": "3e0a2eeb0fae58943f96d84af858c9217d780470d0e47f2da7a7419c1a9ffdfb"
+      },
+      {
+        "key": "part-020",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-020.json",
+        "total": 38,
+        "sha256": "a16a895e308d851c783b1628c4e69662233fcbf83197ae939b9dc841e95d11e7"
+      },
+      {
+        "key": "part-021",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-021.json",
+        "total": 38,
+        "sha256": "5550d049aa5e6af4dcff66147e44f1c8e1e3d6aba730066f6183822193bf4788"
+      },
+      {
+        "key": "part-022",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-022.json",
+        "total": 38,
+        "sha256": "e1c98ba5d67aaefa8ce0949a0e85d0662545f3f790e4836ba0779b5ca8795b99"
+      },
+      {
+        "key": "part-023",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-023.json",
+        "total": 38,
+        "sha256": "6771c0e8875eec5c467159c224341a79c28493751bb81047246f7b4f904a0eea"
+      },
+      {
+        "key": "part-024",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-024.json",
+        "total": 40,
+        "sha256": "e355773edfd5fd30d6cab3a8032181589809de2f8fe2a53c2adc0e11b92122e2"
+      },
+      {
+        "key": "part-025",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-025.json",
+        "total": 39,
+        "sha256": "a8e08679e9c0f14550c2d5a154994772352c07ae1bd9dcb21231a7687207e2cb"
+      },
+      {
+        "key": "part-026",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-026.json",
+        "total": 38,
+        "sha256": "6790fed9fecbcfe231fbe03d8b15d110c3c93ca68e33535fd76a0989504edfbf"
+      },
+      {
+        "key": "part-027",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-027.json",
+        "total": 36,
+        "sha256": "bbb910b31346bf2960e7ce70c74b4a6de375a679eebf0d8cd0bc792710d15575"
+      },
+      {
+        "key": "part-028",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-028.json",
+        "total": 40,
+        "sha256": "04abc33dbc2cbc367782dc13aad1e6a70d501a050d01bdb5b8e895f269ac3743"
+      },
+      {
+        "key": "part-029",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-029.json",
+        "total": 41,
+        "sha256": "132fb941ecc0d51ac34da6a29ff7b380046e384c1a9213042f542b415f498d3f"
+      },
+      {
+        "key": "part-030",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-030.json",
+        "total": 41,
+        "sha256": "62038efadc58199eab4689d0f4d876ab2bb8cc0110ae828ae0439216d10cfd88"
+      },
+      {
+        "key": "part-031",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-031.json",
+        "total": 41,
+        "sha256": "b5387bbbc2cd4a5333a90672c99b8ea8fa9478571f1f96846fd503ab53b366eb"
+      },
+      {
+        "key": "part-032",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-032.json",
+        "total": 39,
+        "sha256": "acf35cee83a6fec09abc0b78a77b2d14d9cb7a6bacebbe7644b002a8b88e0aa7"
+      },
+      {
+        "key": "part-033",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-033.json",
+        "total": 31,
+        "sha256": "f1216ecbd078feab6b9b6305afbbe9106f7dc452bc9b6e91e814abef64648ebb"
+      },
+      {
+        "key": "part-034",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-034.json",
+        "total": 32,
+        "sha256": "e3e1f38760059c880e7bdcd9fc296fb03b8936f239ec08e6a45d86201513aecb"
+      },
+      {
+        "key": "part-035",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-035.json",
+        "total": 36,
+        "sha256": "25fe6618174bfd51539148c2c22325a7d3e1168407e0ee013acf7c60dd7eea06"
+      },
+      {
+        "key": "part-036",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-036.json",
+        "total": 38,
+        "sha256": "b75e22cff0f91c69eaf2145c2d304175f0f43db89fd3031fc5cd27a2b2a11cf0"
+      },
+      {
+        "key": "part-037",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-037.json",
+        "total": 38,
+        "sha256": "2db8bcc23f38220d74b5f57a1f3d4e2c44dc2b1f99ac33139f2144130253bfcf"
+      },
+      {
+        "key": "part-038",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-038.json",
+        "total": 38,
+        "sha256": "02888037543ce21c5505aa9bcbd80d7fa49ebc42c61a511442e99ad3406c632f"
+      },
+      {
+        "key": "part-039",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-039.json",
+        "total": 40,
+        "sha256": "4b8ad6df0d751b08afde5a667ba4a27aa922cd42a3fe5c6dec7d42eac9fb9347"
+      },
+      {
+        "key": "part-040",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-040.json",
+        "total": 40,
+        "sha256": "3f9ab641c0a78aba47a2caebd569ab2a4997843d73e55be0f6ec23abaa286d7c"
+      },
+      {
+        "key": "part-041",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-041.json",
+        "total": 31,
+        "sha256": "8a5235dc828859e8ed18c78d3362b57cdc62ec14523b0e4e3cf5da80c1f46ae7"
+      },
+      {
+        "key": "part-042",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-042.json",
+        "total": 25,
+        "sha256": "73212af6068bf6589490527a065150b11c08d300723d85ac5b5ca914b267d377"
+      },
+      {
+        "key": "part-043",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-043.json",
+        "total": 36,
+        "sha256": "c6eda4628a4d742f5717429716cf4ba3d23aef4177e9454775b8d664a0ccf1d1"
+      },
+      {
+        "key": "part-044",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-044.json",
+        "total": 36,
+        "sha256": "1536d5a7f26128e15afcab87727246ae13b85cef1858416ed96eec225172ced5"
+      },
+      {
+        "key": "part-045",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-045.json",
+        "total": 34,
+        "sha256": "6ec21415c942820c5b728e2c8dfdedd668ac3356a40ac4504a7830c99dd063dd"
+      },
+      {
+        "key": "part-046",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-046.json",
+        "total": 32,
+        "sha256": "2096ea27dc55f0e5924a45c30798ffdf6a4777626a8684ea7674cb376c2be4f4"
+      },
+      {
+        "key": "part-047",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-047.json",
+        "total": 30,
+        "sha256": "3726829cde2bc50af1e3563199e38f7572a23d96a92035b28ef18de5388e4311"
+      },
+      {
+        "key": "part-048",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-048.json",
+        "total": 33,
+        "sha256": "a9cd1cc832bb1b80b298ba55bda791740bac6601269a9bb7d30fb2b21f4bf545"
+      },
+      {
+        "key": "part-049",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-049.json",
+        "total": 35,
+        "sha256": "a6331b96cd085db46ecec553b1a93a1b1afdf655058cbf8ff89818925ab4de99"
+      },
+      {
+        "key": "part-050",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-050.json",
+        "total": 31,
+        "sha256": "961594f4d887ff1017c7890da9f763f0593447348f45ce700ecf0461617f9c74"
+      },
+      {
+        "key": "part-051",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-051.json",
+        "total": 30,
+        "sha256": "c868899104aff162641258d04c57fe841974803c05d7888427bbbfef2f02ce19"
+      },
+      {
+        "key": "part-052",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-052.json",
+        "total": 39,
+        "sha256": "9fbcd053cdff7f420e7d0fc24bb14adc1627ee895c27f010013536d7288122cf"
+      },
+      {
+        "key": "part-053",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-053.json",
+        "total": 36,
+        "sha256": "5f61e4e51144671cd8af8fe1e5d24b2cb5c8e550e048e93e4907ab937a48cc04"
+      },
+      {
+        "key": "part-054",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-054.json",
+        "total": 22,
+        "sha256": "45d4c7b53ac1d2857dc09fc6c6ad37bb15e2f235170ab0c041017b1e2c5d269d"
+      },
+      {
+        "key": "part-055",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-055.json",
+        "total": 18,
+        "sha256": "e57328c81b17b79f81454310f0e2d3bead9214b849d42ee846432e9828621c49"
+      },
+      {
+        "key": "part-056",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-056.json",
+        "total": 15,
+        "sha256": "aaee94a89cbdb166fdaa50109f7d44fb60bcaad6d541a0a0e456aef8b98b5c83"
+      },
+      {
+        "key": "part-057",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-057.json",
+        "total": 16,
+        "sha256": "28d011f4cb5ad636cd15758ff8067828cca49592defa4c316fe93a98560a3ce0"
+      },
+      {
+        "key": "part-058",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-058.json",
+        "total": 16,
+        "sha256": "410274cf60634ea681faeaf63d8acc44ce7a4bf5afb4fe69ea486f6c2f5901ca"
+      },
+      {
+        "key": "part-059",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-059.json",
+        "total": 13,
+        "sha256": "a26d88a0eda98d167344781b3ec8294cee71545e3da9578d51e002733977912c"
+      },
+      {
+        "key": "part-060",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-060.json",
+        "total": 14,
+        "sha256": "f41636c4b8f1e7fe43041e7efbf0e76253147868696d653e948417a05e38266b"
+      },
+      {
+        "key": "part-061",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-061.json",
+        "total": 16,
+        "sha256": "fb222d8b23d660f7d309e4f2f8f4d6552bde6c569afb37282e0944cc9a081265"
+      },
+      {
+        "key": "part-062",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-062.json",
+        "total": 22,
+        "sha256": "e12943345e60147110215903b8c33e72e82509ac376d1638cf6ac577b6a8f42c"
+      },
+      {
+        "key": "part-063",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-063.json",
+        "total": 27,
+        "sha256": "cdfb7b84c626123fba6716be124a68ad27af0bb700f38453c6c849c8c6a980ee"
+      },
+      {
+        "key": "part-064",
+        "path": "shards/20261018-semantic-rework/b34df5010a5f7f88bbef7dd2ad39d2496e0f4dcf4ea1218787476c4ce0314891/part-064.json",
+        "total": 21,
+        "sha256": "78ba48bd4608b81046fac8a74be550e2668850e54c2e06773c080d0fdac08241"
+      }
+    ]
+  }
+}

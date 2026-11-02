@@ -1,86 +1,63 @@
 # D15-2 - PAL auto 地形路线兼容修复
 
 Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: 议题 15 NPC 自主移动（PAL 内容兼容 / migration successor）
+Coding Owner: Codex
+Reviewer: Kimi（迁移架构）+ GLM（路线覆盖 / 数据账）
+Blocked By: 用户裁决否定任务前提
+Blocks: none
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是 PAL 旧 auto 路线与 D15 动态地形合同兼容修复的历史卡：以 s004/e76 永久等待为 canary、完成三方设计 agree（含 GLM 数据账全项复算）后，被用户 2026-08-13 裁决否定前提——PAL 作者巡逻/演出走位本就允许穿墙，仅敌追击用动态碰撞；未发布任何 migration successor、未改 PAL 路线与 generated content。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+（历史目标，已取消）修复 PAL 旧 auto 路线与 D15 动态地形合同缺口：可达地面 auto moveEntity 继续用 production terrain sweep，但不得因原版“不查墙”旧路线永久等待；修复落在迁移上游并重生成，不手改 projects/pal、不放宽 collision、不按 scene/entity 特判。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内（历史设计，未落地）：PAL registry/page/selection 全域 auto locomotion census 与 source ledger、同 schema append-only successor（d15-pal-auto-terrain-route-compat-v1，父级 w9-entity-lifecycle-v1）、production walkTick dry executor、7 值 disposition 表（runtime-safe/detour/endpoint-adjust/exit-truncate/unreachable/runtime-one-shot/authored-nudge）、cursor/SAVE8 兼容与 0/0/0 重放。
+- 范围外（取消后维持）：不发布 successor、不改 PAL 路线、不写 generated content、不做 runtime A* 或受阻假 resolve、不把 collide:false/floating 当穿墙许可。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+取消裁决（2026-08-13）：用户确认 PAL authored NPC 巡逻/演出走位允许穿墙；仅敌人追击用动态碰撞，floating 追击跳过地形与阻挡实体。本卡建立在“auto authored move/step 必须查 terrain”的错误前提上。正确修复归 D15-1 runtime collision-domain：authored move/step 为 scriptedBypass、chase/hostile 为 dynamic、floating 跳过完整 obstacle check。原三方设计签字（Codex/Kimi agree + GLM agree 附数据账复算：294/426/117/333/65/311/60/93/1005-247-327-143/33/88/237/7 全部经 audit-entity-motion.mts 本人实跑精确吻合、e76 canary (139,50)→(132,50) firstBlocked 136.75 逐字一致）保留为历史审计记录，不再构成 build 准入。
+- 当前状态：cancelled（历史终态）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡验收矩阵（ledger golden 三口径、projector/transition 双向逐字节闭合、runtime/save/release 与 e76 完整一圈 ≥15 秒）全部未执行。本页治理验收：quote 字节保全、逆回读按记录规则相等、模板与 overlay 章节齐全。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 3:Status: cancelled
-- 正文信号 8:Blocked By: 用户裁决否定任务前提
-- 正文信号 11:## 取消裁决（2026-08-13）
-- 正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。
-- 正文信号 21:## 历史目标（已取消）
-- 正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。
-- 正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`
-- 正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath
-- 正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、
-- 正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+原卡无恢复提示词；正确修复回到 D15-1 runtime collision-domain。本页治理不重开本卡、不恢复已否定前提。
 
 ## 历史范围
 
-- ops archive；日期：2026-08-12；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e`。
+2026-08-13 D15-1 discovery（33 endpoint/88 segment/237 unknown）与用户取消裁决；同日三方设计 agree；固定源 dce008a777bb45658e9d7a146624db9b57469f63。2026-10-17 R32 泛化封套误标 phase1，2026-10-18 S15 纠正为 phase2 历史卡正文。
 
 ## 原始结论
 
-- D15-2 - PAL auto 地形路线兼容修复：这是 task-card，当前文档状态为 cancelled。全文 367 行、26 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`：前提被用户裁决否定（authored 走位允许穿墙），设计未落地；碰撞域正确分层见 D15-1。原卡全文与三方审查记录在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：取消裁决（2026-08-13）；历史目标（已取消）；范围与硬边界；上下文锚点（实现前必读）；根因与首个 canary；审计基线（D15-1 discovery，2026-08-13）；冻结设计（v1，三方设计 agree）；1. 同版本 append-only successor；原始正文、表格、状态词和链接在 quote 保全。
+data/extracted/data/scene/4.json e76（autoLabel L_872, sState 2）、events/all.json 地址 875 的 0x10 [41,91,0]、s004 生成腿 walkTick 第 7 次尝试命中 map-001 collision、浏览器 11.6 秒进入永久等待；audit-entity-motion.mts 实跑 summary；sdlpal scene.c:851-902/script.c:31-98（PAL_NPCWalkTo 不查墙）。本页治理未重跑。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 3:Status: cancelled
-- 正文信号 8:Blocked By: 用户裁决否定任务前提
-- 正文信号 11:## 取消裁决（2026-08-13）
-- 正文信号 15:因此本卡取消，不发布 migration successor、不改 PAL 路线、不写 generated content。
-- 正文信号 21:## 历史目标（已取消）
-- 正文信号 79:- 静态 blocked endpoint 33 条；现有顺序扫描确认 segment hit 88 条；237 个 origin 未证明。
-- 正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`
-- 正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath
-- 正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、
-- 正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。
+historical。取消不等价于“PAL 路线无问题”或“D15-1 已修复一切”；碰撞域现行合同以 D15-1 与当前 reforge 代码为准。33/88/237 是当时审计口径，不外推为当前计数。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+上游卡 done/D15-1-npc-movement-dynamic-collision（碰撞域分层）；现行合同锚点 packages/reforge/src/{entity-walk,entity-motion,collision,project-map}.ts。若未来重开须按当前规范新开卡并核 primary source 与用户裁决。
 
 ## 原文保全
 
-固定源 SHA `5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # D15-2 - PAL auto 地形路线兼容修复
 >

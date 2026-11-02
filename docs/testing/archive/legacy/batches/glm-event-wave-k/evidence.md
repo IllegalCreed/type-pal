@@ -1,40 +1,62 @@
 # GLM Wave K 交付证据(GLM 独占记录;任务卡/看板/共享索引归 Codex)
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EVENT-WAVE-K-1 的 GLM 交付证据（GLM 独占记录；任务卡/看板/共享索引归 Codex）：r2（2026-09-29，rebase 到 main 4d34a007）逐项响应 r1 四 counter。
+
+## Scope
+
+四项返工对照：K04 第二场景前真 setMapReloader(null) 断言 reloadedMaps 保持 [99]；三反控改合法输入单轴变异（CC-K02 idleFrames 3→4、CC-K05 operand [1,0,0]→[0,0,0] 先由 speed=1 断言检出、CC-K03 opcode 0x27→0x26）+判据单一化 judgeControl（正控 exit0；反控 exit1+执行非零+恰一指定测试业务红且来自注入副本绝对路径+无 skip/timeout/收集红；FAIL 非零退出；self-test 8/8）；K03 撤卖出 storeNum 断言改两合法 operand 对照；K06 经现行 createBattleState（partyMembers=[0]+minimalRole/minimalEnemy）并加 state.players[0].roleId===0 合法性对照。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 冻结核验+六组对照+质量门 | verify-targets exit0（event-system.ts SHA c3332dd0… 1/1、零交集）；定向+相邻 638/638；typecheck exit0；全仓 lint 2760 文件 0/0/0；check.mjs PASS；diff 过；self-test 8/8 | GLM（作者）→Codex r2 accept | K01-K06 逐组 caller/旧证/一手 sdlpal 锚/新证/已证不重做（K01 trigger 游标恢复、K02 autoScript 计数轨迹、K03 卖出不读 operand、K04 负 wrap+真撤下对照、K05 0x73 fade 全合同、K06 battle 三态+giveItem） | 本地覆盖对照 event-system.ts 分支 1251→1314/1876（+63 臂）只证翻转、正式结算归 Codex |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+r2 四项全闭+六组对照交付；本地 +63 臂与官方 +55 口径差异如实（结算归 Codex）。
+
+## Evidence
+
+- 证据路径：本证据正文（quote 保全）；r2 修正后 Codex 结算净 +55 分支入基线。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM r2 交付 | 2026-09-29 | 四 counter 逐项修复+六组证据 | Codex accept（1f26d421） | r1 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-event-wave-k 的 GLM 交付证据；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM Wave K 交付证据(GLM 独占记录;任务卡/看板/共享索引归 Codex)：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+r2 四项全闭+六组对照交付；本地 +63 臂与官方 +55 口径差异如实（结算归 Codex）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四项对照、六组逐组表、质量门表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。r2 交付时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 codex-accept-r2-1f26d421.md。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `690f684cba0bc75b9bd8a85965a76a61bbaf4705207caf0f6830e74b29f0043e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `690f684cba0bc75b9bd8a85965a76a61bbaf4705207caf0f6830e74b29f0043e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM Wave K 交付证据(GLM 独占记录;任务卡/看板/共享索引归 Codex)
 >

@@ -1,6 +1,39 @@
 # CODE-QUALITY-109 — game analytics 安装器生命周期复核
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+逐文件复核并补齐packages/game/src/analytics/install-analytics.ts与install-analytics.test.ts：唯一生产caller是main.ts浏览器isProd入口，初始化异常被隔离、返回的installation调用方目前不持有（页面生命周期结束时无需额外产品动作）。SDLPal不提供本功能primary，隐私/网络合同由当前项目设计与相邻测试作oracle。
+
+## 范围
+
+相邻consent/UI/GA文件和main.ts仅作caller/oracle/生命周期读取不在本批修改；禁止将GA事件扩展到游戏状态、战斗、存档或输入。
+
+## 前提与证据
+
+固定源全文核读。发现与修复：原测试第二用例丢弃installTypePalAnalytics()返回值导致consent listener跨用例存活——测试隔离/资源ownership缺口而非生产行为缺陷；修复将installation存入局部测试变量、afterEach统一destroy()并清空引用，保留原有合法Measurement ID、DNT/GPC、无script请求和UI可见性断言。正确game runner 6files/23tests PASS 0 stderr；从仓库根直接调Vitest会绕过game jsdom配置报window/document不存在，已记录为runner scope不修改测试配置掩盖。2026-10-17收口：全仓check exit0（各包计数完整、lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/32review/3044pending；official ratchet与protected fast仍因shared 447/466、pal-extract 1068/1546等及总量回退失败，未改baseline；仅测试teardown变化，两文件保持review。
+
+## 验收
+
+批次收口必须运行全部门；coverage baseline回退保持原样；任何GA网络/隐私UI/公共入口/schema/save或用户可感知行为变化另开高风险卡并暂停实现。
+
+## 状态与交接
+
+review保持原语义；两文件不标done。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3250B / SHA-256 211dc07a1b79b7c03efc3e0ea6e84ffaf8deb53fb1a15c85ac2d75ebe2d9cec4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-109 — game analytics 安装器生命周期复核
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -59,3 +92,5 @@ consent listener 跨用例存活；这是测试隔离/资源 ownership 缺口，
   functions、943/1367 lines 以及总量回退失败；本批未改 baseline。
 - 仅测试 teardown ownership 发生变化；生产安装器、`main.ts` caller、GA 网络/隐私策略、
   schema/save、公共接口和生成物均未修改。两个文件保持 `review`，不标 `done`。
+```
+<!-- incremental-original-source:end -->

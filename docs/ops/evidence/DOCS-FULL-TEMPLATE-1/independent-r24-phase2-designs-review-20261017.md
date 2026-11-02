@@ -1,40 +1,44 @@
 # R24 phase2 archive designs · independent readonly review
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R24 轮的独立只读评审回执（39KB 长文）：verdict accept-readonly-proposal，对象为 21 篇 phase2 archive designs；worktree HEAD 1d39e2f8、固定内容源 revision 45d890e4；声称总读域 4157 physical lines。本页按 archive-record 接入，原文全文（含 21 篇 per-document full-read 表）在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R24 轮只读评审；固定源 revision 2dd1768c675d…。
+- 声称：21 篇均 source==after==catalog.sourceSha256 且固定 Git blob 与工作树逐字一致、无漂移；registry 均为 design-spec-v1/governed-legacy/content-reviewed，catalog archive/archived/reviewed；21 篇均不在 routing.migratedDocuments（与 archive designs README 边界一致）。
 
 ## 原始结论
 
-- R24 phase2 archive designs · independent readonly review：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：4 类 blocking counters 各 21 条 preserved（R24-B01 historical-boundary/R24-B02 no-runtime-credit/R24-B03 semantic-conflict-stop-lines/R24-B04 no-migration-ledger-write）；静态门 check:docs PASS（1235 Markdown/8076 links/361 tasks/282 body contracts/phase-lore 184/content 733）与 diff --check PASS；明确 runtime/E2E/视觉/coverage 0。
+- 21 行 per-document 表：每篇行数（98-165 等）、source=after SHA 前缀、registry/catalog 边界、routing absent。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全 counter 表、per-document 表与静态门数字。
+- 已撤回（目标 review 深审信用）：docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json 的 expandedAudit20261018.originalClaimRows 覆盖本批（R24）21 个目标的旧深审 claim（如 actor-model-design.md、ambience-design.md 等 21 个目标；完整清单见该 canonical 文件）。该扩展审计共 152 个旧 claim 跨 13 批、151 个旧 binding 降档；真实 S01 后继 docs/phase2/READ-FIRST.md 保留不降档。
+- 三分边界：目标 review 深审信用撤回不等于本篇旧只读/接收提案每句话都假——本页 quote 保真的字节事实仍成立；本篇自己的「独立/全文/门数字」声称仍属未认证；合格后继（READ-FIRST S01）不在撤回范围。
+- 尚未认证：「Codex 非作者独立只读接收」「完整读取 4157 行」为原文声称；独立席位未恢复，未认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。评审锚点（1d39e2f8/45d890e4）为当时树。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json；phase2 designs 现行合同归 docs/phase2/specs/。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `524bf146b1dfdc0b953fb304f7d3c9ce17e863c541834530f10c6079e262549e`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `524bf146b1dfdc0b953fb304f7d3c9ce17e863c541834530f10c6079e262549e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R24 phase2 archive designs · independent readonly review
 >

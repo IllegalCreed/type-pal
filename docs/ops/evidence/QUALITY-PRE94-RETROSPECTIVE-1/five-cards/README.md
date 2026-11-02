@@ -1,5 +1,38 @@
 # pre94 五张遗留卡复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+用户2026-10-20要求补53/79/80/81/90五张遗留卡的复审欠账。审计问题不是重跑全部pre94,而是:这五卡涉及的18份文件是否具备逐文件A–H/caller/oracle质量,必要返工是什么,哪些边界必须继续保留。基点`b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce`,唯一集成分支`codex/code-quality-3y`,本批Owner为Codex;主树与GLM原候选只读,94–102不扩展。
+
+## 范围与证据
+
+范围=五卡slices共18份本轮文件+4个广域caller上下文(game-state/event-system/battle-system/player-poison-state,均裁定review、不得凭上下文复用关闭文件)。逐文件八维、旧→新合同/身份映射与native成员SHA在[review.json](review.json);原始包与只读快检(`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs`)的完整raw/native在[native.json.gz](native.json.gz);任务卡见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。16个文件获显式接受(closedFiles),旧CODE53七ownership反控与helper/0x75/battle毒回调字节一致性由reuse-proof.json按实际范围+哈希见证,不推定整份event/battle文件未变。
+
+## 发现
+
+按卡真实发现:53补真实runtime0、直接显示槽/role入口映射、重复角色、离队guard、正式0x75清毒及装备重建,inspect测试改用公开工厂/hydrate替换残缺强转;79以只读生产解析器解码原盘SSS,真实performItem/runScript先取得2个HP业务红例(物品136/278只有装备伪毒时毒死目标而非施用者),再以既有isPlayerPoisoned修复战斗0x61重复非零扫描;80复用真实启战/旧卡guard/探索入离队四例,F1改独立嵌套字面量使旧4绿/新恰1业务红,去掉被真实链覆盖的fake-mode重复例;81的571候选到当前代码仅误导性Close(Esc)提示被纠正,两生命周期测试只对应selector变化,撤回旧check:fast的protected误标;90全runner/真实menu caller/当前7个大世界spell链,7旧弱/非法重复迁强合同、3标题更正、1真实非零use阶段新增,两枚旧绿新单红,测试退役magic-script 37→31、dev-panel.glm-next-wave 4→3附identityDigest与旧→新用例映射。过程失败如实保留(unbound snapshot、2项typecheck错误、临时producer路径错误均不充当产品红例)。
+
+## 结论
+
+16个文件按逐文件A–H/caller/oracle与必要返工明确接受;队列裁定五卡从pending登记为有明确A–H/限制的partial,83partial/0pending/0整卡accept。统一七门(check/ratchet/protected/docs/lint/ledger/diff)最终以review.json的integration、coreGates与完整原件为准:首跑check败于退役账显式总数(新增两条后常量仍31/66,已改33条/净少73例,保留14个拒绝轴),重跑七包20,377例全绿且静态/act/环境/stderr诊断均0;首次ratchet测试全绿但game branch/line四项floor下降,按用户已授权的合理整改重算,仅允许匹配完整旧baseline与23个当前SHA的有限game计数迁移,matcher字节未变。历史per-file branch原件缺失,不冒称19个covered branch变化均可归因。lint终态5691文件0诊断。另载erratum:Vitest4.1.7 reporter隐藏通过测试的console输出,历史raw counts仅为观测计数,撤回其runtime-zero门信用。未标passed的门不得当通过,旧门/旧行数/旧失败不倒写为本批结果。
+
+## 整改与复核
+
+仍保留的边界:53的Wear压缩/入口重入候选不顺带改,battle/event大状态机与集中浏览器视觉仍review;79已采纳的level≥99装备伪毒豁免不重问产品偏好;80的Dev Panel仍是DOM/编排复合模块,不虚构disposer公共接口;81共享成功缓存与生产renderer null策略保持;90第一阶段≤999清、>999装备状态保留不改,cost/caster签名按用户冻结保留。其它78张partial及94–102不扩展;浏览器截图/剧情E2E未新执行,像素/DOM证据仅覆盖表中指定功能。本页为historical时点回执入口;本轮用户可见变化仅79补齐既有机制与Dev关闭按钮去掉不存在的Esc承诺,无save/schema/生成物或公共接口变化。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5525B / SHA-256 b9e1c138f248565ad120c71cf85c77c5efd940c6604cf2ffa80225cbea470d53；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 五张遗留卡复审
+
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。基点 `b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce`；唯一集成分支 `codex/code-quality-3y`，Owner Codex。主树与GLM原候选只读，94–102不扩展。
 
 用户2026-10-20要求补53/79/80/81/90复审欠账。本页是短入口，[逐文件记录](review.json)列18份本轮文件八维、4个广域上下文的复用边界、16个已明确接受的文件；没有把复合文件、83卡或包级全绿当作验收。
@@ -36,3 +69,5 @@
 ## 剩余风险与下一步
 
 复审队列将五卡从pending登记为有明确A–H/限制的partial，仍0整卡accept；其它78张partial及94–102不扩展。单个文件可以凭完整本轮证据关闭；poison helper、battle dispatcher、Dev复合模块和大型event/battle上下文仍review。浏览器截图/剧情E2E未新执行；像素/DOM证据仅覆盖表中指定功能，不声称视觉全验收。
+```
+<!-- incremental-original-source:end -->

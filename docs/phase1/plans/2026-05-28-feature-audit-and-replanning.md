@@ -1,85 +1,56 @@
 # 2026-05-28 · 全功能逐条核对 + 开发计划重置
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是全功能逐条核对与开发计划重置的归档回执。工作原则、权威状态表建立过程与逐域核对结果在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：Feature audit/replanning: replace percentage claims with feature-status truth table; audit self-claimed complete/partial/todo features against sdlpal; phase A/B/C tasks, user decision points, evidence and M6+ reprioritization.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 背景：M5.5/M5.6 自报「47%→52% 完成度」被 user 反复揭穿夸大（session 3 末 user 原话「咱们不能再这样下去了，已经工程上的灾难了…」quote 保全）；本审计重建权威状态表并重置开发计划。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096`；512 行槽 / 23694 bytes。
-- 标题/章节锚点：1:2026-05-28 · 全功能逐条核对 + 开发计划重置; 17:工作原则(全程硬约束); 28:文件结构; 42:Phase 0:建立权威状态表(Day 0,~30 min); 44:Task 0.1:新建 `docs/feature-status.md`; 52:Feature Status · type-pal; 57:状态定义; 65:audit 进度。
+- Phase 0 建立权威状态表（新建 docs/feature-status.md，即今 [feature-status](../status/feature-status.md) 的前身）+ 状态定义；随后按 A 启动/引导等域逐条核对（quote 目录全列）。
 
 ## 发现
 
-- 正文信号 11:**Architecture**: 三阶段 — Phase A 核对自认 ✓(18 项)→ Phase B 核对自认 ⚠️(31 项)→ Phase C 基于 audit 结论重排 M6+ 优先级。**每条 task 由 user 拍板,不由 Claude 自判**。
-- 正文信号 13:**单一权威来源**: 新建 `docs/feature-status.md` 作为 README "完成度 N%" 表述的替代 — 所有功能 4 状态(✓/⚠️/✗/N/A)落到此文件,README 只引用、不再写百分比。
-- 正文信号 22:4. **诚实降级**:如果 sdlpal 真值跟 ts 实现有任何 1 行不一致,**立即承认**,不辩护"已抓重点 / 简版等价"。降级到 ⚠️ 或 ✗。
-- 正文信号 23:5. **commit 节奏**:每核完一条 + user 拍板,commit `audit(F#X): ✓→⚠️ 真值 sdlpal X.c:N-M 差异 Y`,不堆。
-- 正文信号 60:- **✓ claimed**:Claude port 自认 1:1,**但** user 尚未核对。带行号引用 sdlpal 待 user 拍。
-- 正文信号 61:- **⚠️ partial**:Claude 自知 / user 实测发现简版 / 缺真值 / 未完整 port。带具体差异说明。
-- 正文信号 62:- **✗ todo**:未做。
-- 正文信号 69:- 已 verified ⚠️:0 / 31 自认 ⚠️
-- 正文信号 75:| A1 | Trademark Logo | ✗ | main.c:179 PAL_TrademarkScreen | — | 未做 |
-- 正文信号 76:| A2 | Splash 屏 | ✗ | main.c:206 PAL_SplashScreen | — | 未做 |
-- 正文信号 78:| A4 | OpeningMenu | ⚠️ claimed | uigame.c:83 PAL_OpeningMenu | core/menu/opening-menu.ts | 数据 state machine,box 坐标 + 9-slice 未严格对齐 |
-- 正文信号 85:具体内容引用本 plan 上面给 user 的清单原文(A1-K5 + L1-L? 共约 90 行)。每条标 `⚠️ claimed` / `✓ claimed`(凡 Claude 自报 ✓ 暂记 claimed,等 user 拍板转 verified)/ `✗ todo` / `N/A`。
+- 工作原则为全程硬约束（quote 保全）；各域核对状态按 2026-05-28 时点逐行记录。
+- 已知 sdlpal 自身 bug（Bug-1 SelectAutoTarget 死循环/Bug-2 StealFromEnemy 无 dead check）按「port 时显式 fix」单独处理。
 
 ## 结论
 
-- 2026-05-28 · 全功能逐条核对 + 开发计划重置：这是 audit-report，当前文档状态为 historical。全文 512 行、46 个标题；摘要/首段为「> **背景**:M5.5 / M5.6 我自报"47% → 52% 完成度"被 user 反复揭穿夸大。session 3 末 user 原话:」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 本审计是「放弃自报完成度」的转折点（目录索引 📌 标记）；后续开发按重置后的计划推进，M6 Phase 1 按另行 plan 走。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.。
+- 权威状态表由本审计建立并由后续 feature-status-audit（2026-06-01）复审「没说谎」。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-28；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096`。
+- phase1 plans 审计+重置；时点 2026-05-28；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 2026-05-28 · 全功能逐条核对 + 开发计划重置：这是 audit-report，当前文档状态为 historical。全文 512 行、46 个标题；摘要/首段为「> **背景**:M5.5 / M5.6 我自报"47% → 52% 完成度"被 user 反复揭穿夸大。session 3 末 user 原话:」。属于历史/归档材料，不能单独证明当前实现。
+- 转折定性、权威状态表建立与逐域核对结果为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:2026-05-28 · 全功能逐条核对 + 开发计划重置; 17:工作原则(全程硬约束); 28:文件结构; 42:Phase 0:建立权威状态表(Day 0,~30 min); 44:Task 0.1:新建 `docs/feature-status.md`; 52:Feature Status · type-pal; 57:状态定义; 65:audit 进度；原始正文、代码、表格、状态词在 quote 保全。
+- 工作原则、文件结构与各域状态节在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 11:**Architecture**: 三阶段 — Phase A 核对自认 ✓(18 项)→ Phase B 核对自认 ⚠️(31 项)→ Phase C 基于 audit 结论重排 M6+ 优先级。**每条 task 由 user 拍板,不由 Claude 自判**。
-- 正文信号 13:**单一权威来源**: 新建 `docs/feature-status.md` 作为 README "完成度 N%" 表述的替代 — 所有功能 4 状态(✓/⚠️/✗/N/A)落到此文件,README 只引用、不再写百分比。
-- 正文信号 22:4. **诚实降级**:如果 sdlpal 真值跟 ts 实现有任何 1 行不一致,**立即承认**,不辩护"已抓重点 / 简版等价"。降级到 ⚠️ 或 ✗。
-- 正文信号 23:5. **commit 节奏**:每核完一条 + user 拍板,commit `audit(F#X): ✓→⚠️ 真值 sdlpal X.c:N-M 差异 Y`,不堆。
-- 正文信号 60:- **✓ claimed**:Claude port 自认 1:1,**但** user 尚未核对。带行号引用 sdlpal 待 user 拍。
-- 正文信号 61:- **⚠️ partial**:Claude 自知 / user 实测发现简版 / 缺真值 / 未完整 port。带具体差异说明。
-- 正文信号 62:- **✗ todo**:未做。
-- 正文信号 69:- 已 verified ⚠️:0 / 31 自认 ⚠️
-- 正文信号 75:| A1 | Trademark Logo | ✗ | main.c:179 PAL_TrademarkScreen | — | 未做 |
-- 正文信号 76:| A2 | Splash 屏 | ✗ | main.c:206 PAL_SplashScreen | — | 未做 |
-- 正文信号 78:| A4 | OpeningMenu | ⚠️ claimed | uigame.c:83 PAL_OpeningMenu | core/menu/opening-menu.ts | 数据 state machine,box 坐标 + 9-slice 未严格对齐 |
-- 正文信号 85:具体内容引用本 plan 上面给 user 的清单原文(A1-K5 + L1-L? 共约 90 行)。每条标 `⚠️ claimed` / `✓ claimed`(凡 Claude 自报 ✓ 暂记 claimed,等 user 拍板转 verified)/ `✗ todo` / `N/A`。
+- historical。核对结果按 2026-05-28 时点解释；当前状态以现行状态表为准。
 
 ## 继任文档
 
-- d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [feature-status](../status/feature-status.md) 与 [feature-status-audit](2026-06-01-feature-status-audit.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 2026-05-28 · 全功能逐条核对 + 开发计划重置
 >

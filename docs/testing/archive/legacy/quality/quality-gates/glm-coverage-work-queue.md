@@ -1,40 +1,61 @@
 # GLM非视觉补测长队列
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM 非视觉补测长队列主文档（2026-09-19 Codex 按用户「分批规划、让 GLM 持续有工作」建立）：**候选工作队列，不是十张已获实施授权的任务卡**；不增加产品能力、不重开已 done 任务。队列由 Codex 维护顺序，GLM 批次细化+获准后实施，Codex 独立接收，Kimi 独立终审。滚动状态：2026-09-23 新增大业务域双线计划（GLM 战斗六组/Codex 宿主六组，按 7,790/633 报告）；第二波 27bd8c00 已 done；2026-09-22 批次节奏改为 5-8 模块/完整业务域成批推进（Codex content 六模块 77 项整批已完成 check 8,118/strict 7,627）；TB00-TB10 均已收口（44b9b763 等）。
+
+## Scope
+
+- 基线与台账：生产对照 e58834f6；官方 fast 7,049 项/617 生产文件（基线 2026-09-18T17:25:47Z）；机器台账 glm-coverage-work-queue.json 列 617 文件四维计数与归属+生成器 census（校验基线/测试身份/报告分母/逐文件加总/生产零漂移）；这是覆盖报告盘点与候选抽核，**不是重新逐行审计 617 文件**，无新增正式测试。
+
+## Execution and assertions
+
+- **十批边界表**：TB-00 运行时状态与作者元数据（11 模块）/TB-01 内容合同残项（6；跨包去重：editor boundaries.test.ts:149 已覆盖表情重命名，不把相同业务搬包计新增）/TB-02 读取缓存与音效（6；13 字节假 RIFF+mock decoder 不算真实 WAV、在途 dispose 回填待合同判断）/TB-03 导入与工作线程（7；上传选图归属已修不重编旧竞态）/TB-04 自包含 PAL 表格（9；只测当前 caller mapped 入口、输入解耦不算新业务边界）/TB-05 RLE 与提取工具（9；giveItem 保 u16、见 legacy 字样不删）/TB-06 地图与组合模板（8；全部剩防御臂时停止本族不造假 fixture）/TB-07 脚本与内容辅助（7；五个无 caller 导出不补）/TB-08 一期菜单（9；outdoor 技能过滤与 SDL 保留 disabled 差异轴待核不冒称原版一致）/TB-09 一期宿主与计时（8；setStep 注释不符待证、GA 不接真实 Google）/TB-10 迁移当前合同（9；A-08/A-09 已知缺陷不得用错误现状做绿测）；数字是目标整文件既有命中数，不是拟补范围/保证提升/新增测试数/独立 bug 数
+- **互斥路由**：current-card 11/planned-batch 78/no-executable-counters 20（四分母均 0，不为类型导出填无意义测试）/no-fast-metric-gap 98（已命中不重测）/current-consumer-review 3（查 caller 非删除授权）/codex-ui-or-shell-triage 148（视觉 E2E 不交 GLM）/contract-or-fix-first-triage 87（不是 87 个缺陷）/glm-readonly-triage 172（只读盘点池）；部分路由是文件名启发式，JSON 逐条标依据，须接手者读当前调用域校正，不能据它认定缺陷/不可达/批准删除
+- **持续领取方式**：返工优先（不靠领新包绕过 counter）；准备队列不断档（至少两批可审候选）；一次审整批（三席 premise/design 齐+Codex build 核定后组间不重复签字）；允许错峰不积压（最多两批未接收实现成果）；分支隔离（每批独立 codex/ 分支 worktree、不共用可修改 fixture）；验收逐批闭环（Codex 复核→串行 check→ratchet→受保护单次 strict，失败不靠多数通过）；主线照常（本队列不成为薄 E2E 新前置门）；每批细化必须交付：真实 caller/守卫锚点/旧测试精确标题/剩余族唯一 ID+四类分类；白名单与隔离路径；合法正控先过现行守卫、反例只坏一轴；异步 entered/deferred；代表负控不为凑数一模块一针；官方 testSelection 双侧对照；回执从实际提交树复算
+- **条件池与不下放**：YJ2 后续（树缩减独立有界向量、空窗回引政策未定）只读搜证不做绿测；DSL/解释器从 172 只读池+87 合同池筛 TB-11 以后候选；保存/恢复/迁移 CLI 残臂须证合法可达；战斗与 Q2 已知缺陷另卡；无 caller 待核三文件（enemy-team-reference/script-library/script-chunk-store）是调用域复核候选非删除授权；Codex 保留主壳/视觉/音画/E2E；技能试放隔离归 EDITOR-SKILL-TRIAL-1；总提示词全文在 quote（持续队列工作合同）
+
+## Results
+
+- 规划验证：check:docs（20 项工具测试）、两机器文件 Biome、census --check、617 唯一文件/78 候选复算、diff --check 均过；生成器首遇 identities 格式差别改为逐项比较基线全部身份字段非忽略校验；本次仅规划无「规划三签」。
+
+## Evidence
+
+- 证据路径：本队列正文（quote 保全）；机器台账与生成器链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 长队列规划 | 2026-09-19 建立滚动至 09-23 | 十批 78 候选+路由+领取合同 | TB00-10 与第二波均已收口 done | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的非视觉补测长队列主文档；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM非视觉补测长队列：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+候选队列+互斥路由+领取/验收合同+条件池；TB00-TB10、第二波、大业务域双线全部后续收口；队列本身不构成实施授权。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+十批边界表、路由表、领取方式七条、每批细化交付清单与总提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。队列与计数按规划时点冻结；后续批次演进见各完成卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归各 TB/双线完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `9cabc3cd33923e82708c9b4066e7128bee8319cb10ba21cd2a45a584dcbd8b10`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `9cabc3cd33923e82708c9b4066e7128bee8319cb10ba21cd2a45a584dcbd8b10`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM非视觉补测长队列
 >

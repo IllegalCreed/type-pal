@@ -1,40 +1,61 @@
 # ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 总报告（2026-09-25；r1 交付 3967a376→r2 717d507d/9e5ba310→r3 闭 Codex r2 counter 1e4e3382 的 C1-C4；GLM 证据/测试贡献者不充独立第三方，接收复核 Codex；任务卡 draft 不进 build）。
+
+## Scope
+
+- 起点核验：起点 3270473862 与冻结 b11d4bc9 零 diff、候选 3967a376 packages/scripts 零 diff；白名单 r1 恰 12 文件（r1 曾误写 9）；未改产品/正式测试/配置/基线；未跑全仓门/迁移写盘/完整 E2E/未触碰 A3 帧循环；视觉操作后 git status 零改动。
+
+## Execution and assertions
+
+- **R0 账本更正**：条目数更正 38 唯一 ID（r1 手填 32 错误）；r3 机械小计 node 脚本从 entries 重算 covered 21/risk 12/blocked 0/reproduced 0/N/A 5=38（r1 手填 32、r2 过渡 19/14 均废弃）；逐条字段闭合：每条新增 evidenceKind（静态事实/已读测试断言/文件计数/本次执行四口径）/actual/expectedSource/affectedDomain/testsScope/attribution；覆盖主张附完整测试标题；大文件计数明确「未逐条宣读」不以 grep 冒称全绿；finalSha 登记避免自引用；浏览器版本/zoom/DPR 如实未测量视觉结论收窄 CSS px；r1 evidence.json formatter exit1 已 biome format 修复
+- **八包 r2/r3 状态表**：P1（6 条目：P1-001 risk 撤回改 covered derivedStore 22/22 本轮执行+29 state/16 ref/15 effect+1 layout AST 逐行绑定）；P2（5：P2-002 撤回改 covered）；P3（5：50 旧 case↔81 canonical 键区分守门合同收窄）；P4（5：门归属更正+93 计数+pump/render 小表）；P5（4：7 节点 15 边单 SCC+702 分项实测）；P6（5：双向递归+7 处自递归+6 参数+fs 收窄四模块）；V1（4：撤回 a11y 缺名+6 张新截图补齐+ID 对齐无 005）；V2（4：折叠归属 Codex+分隔条「测试存在+本轮未执行」）；分项 6/5/5/5/4/5/4/4=38 与各报告 ID 一一对应；reproduced=0 与 blocked=0 均为如实结果
+- **源码 hash 附录**：22 个受审源码 SHA256 前 16（App/MapMode/ScriptEditor/CommandForm/editor-navigation/multi-select/derived-store/battle-session/battle-core/event-system/scene-system/equip-effect/battle-opcodes/menu-driver/menu-mode/magic-script/author-script-core/enemy-script/migrate-content/translate-events/migration-transaction/translate-enemy-scripts）按 git show 复算
+- **未证风险与建议批次**：五条如实未证（画布内容资源缺口/取消路径回归充分性/分隔条未验证/assertSessions 渲染期失败无测试/P5 切后环形态/P6 参数矩阵与深度/非空脚本编辑合同未走查）；建议可拆批次：零行为批（placeholder+双 effect 合并）→低风险批（概念文档化+useFocusRevision+getCurrentMapNum 搬家先评估）→中风险批（transitionUi 单点+导航簇拆分）→最后 P1 保存流程单独卡；最小正式回归集合：P1 三文件 29 条+MapMode 20+battle 93+hooks-session 3+reference-navigation 全族+event/scene 抽样
+
+## Results
+
+- 复算命令块（git log/diff 白名单/node 38 重算/hash 抽查/derived-store 22/22 子 shell/JSON Biome/视觉复验 17 张）已按 r3 修正（1e4e3382..1410916e 起止、子 shell、根目录执行、21/12/5 注释）。
+
+## Evidence
+
+- 证据路径：本总报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 八包总报告 r3 | 2026-09-25 | 38 条目+R0 更正+批次建议 | 交 Codex r3/f423 复核 | r2 counter C1-C4 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的总报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+38=21 covered/12 risk/5 N/A（两项 blocked 已闭合）；八包状态一览；22 源码 hash；五条未证风险与四批实施建议；复算命令已修。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R0 更正、八包状态表、hash 附录与复算命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。总报告按 r3 时点；后续由 r3/f423 复核推进。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `9500c7b7a1f78ee370e578cd8d65189887677a15056cfcf717c406de5195fe6c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `9500c7b7a1f78ee370e578cd8d65189887677a15056cfcf717c406de5195fe6c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）
 >

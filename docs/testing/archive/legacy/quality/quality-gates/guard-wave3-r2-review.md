@@ -1,40 +1,60 @@
 # GLM 同步守卫第三批：R1–R3 返工复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-3 r2 返工复核（2026-09-26，候选 `16e647a1…7d9e`）：**counter，仍仅 R1/R2 与相应回执勘误**；当前结论见 r3 定点复核——R1 与旧敌转移反证已闭，只剩 R2 一处匿名对象调用（下文为 16e647a1 历史证据）。
+
+## Scope
+
+- 已闭不重开：八新测试/薄助手/专属证据白名单成立；loop 缺 cond、四类 scene use 载体、三 throw 缺字段反例已修；initial 拒绝污染 label 候选自身抓住；本席复跑原 runner 111 对照绿+八针各恰一 AssertionError+判据自测 10 项；全 content 1,133/1,133、TC/Biome/docs 过。
+
+## Execution and assertions
+
+- **R1 残**：record-items:154-158 角色效果表统一 extraPoisonRes 正控、scene 表 :194-198 统一 runSceneHook、投掷表 :398-402 统一 fixed magicDamage；直接反证：生产 validate.ts:934 `if (chance>100)` 改 `if (true)` 即合法 gate 也拒绝，G8 候选仍 39/39 绿；同输入独立正控原实现 40/40 绿、突变 39 绿/1 AssertionError 红；各表改 typed 同型合法基线+单轴 patch；先过同一 guard 再构造负例
+- **R2 残**：enemy-hook:119-127 badTransition 无调用前后比较；script-command:321-332 badFade/badWipe、:287 空数组未纳入；直接反证：enemy-script.ts:244 抛原消息前仅执行 transition.kind='stay'，候选仍 7/7 绿；追加同 badTransition 实际输入深快照 oracle 原实现 8/8、突变 7 绿/1 红；遍历八文件全部对象/数组拒绝调用逐次补齐；原始不可变标量不需快照
+- **回执计数**：新鲜 111 项中 G3 实际 12（正文八组表仍写 11）；runner TOTAL 111 而机账/正文写 110/109；新增 fixture 后仍写「未新造 fixture」；G3 末尾两次重复坏 wipe 并非独立自证；按新鲜 JSON 同步；删除冗余或准确收窄勿凑数
+
+## Results
+
+- 给 GLM 提示词：只闭 R1/R2+回执勘误、原白名单/生产/旧测试/配置/基线零改、不改 Codex 见证（全文在 quote）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；隔离见证复跑命令在 quote；/tmp 与 /var/folders 按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 复核 | 2026-09-26 | R1/R2 反证 | counter | 首轮 guard-wave3-review |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 guard-wave3 r2 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 同步守卫第三批：R1–R3 返工复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：三表统一正控不同型+部分拒绝调用无快照+回执计数不符；直接反证（chance>100→true、kind=stay）候选仍绿。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+反证数字、锚点行号与提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r3 定点复核与 integration 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `6803f0bbca7319e936106210a8ecefb084327efc7b40e64c2d3f5d1d734cefbf`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `6803f0bbca7319e936106210a8ecefb084327efc7b40e64c2d3f5d1d734cefbf`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 同步守卫第三批：R1–R3 返工复核
 >

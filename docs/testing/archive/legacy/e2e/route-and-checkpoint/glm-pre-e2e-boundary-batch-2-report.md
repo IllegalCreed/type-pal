@@ -1,40 +1,62 @@
 # GLM剩余边界大批回执（二）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是大批工作包（二）的整批回执：三轮链完整——GLM 首轮候选 4ffae69b counter（R1-R7 七阻断）→ 二轮 a5b7cd89 仍 counter（S1-S6 六剩余，120 次执行与 12 业务红被确认）→ GLM 额度耗尽后 Codex 接手（2026-09-14 用户「你来做吧」）完成剩余 S1-S6 诊断返工/自验证/集成；最终 34 covered/23 reproduced/15 risk，只收口卡前取证准备不是产品修复 accept。
+
+## Scope
+
+首轮 counter 要点：反向 contract（把失败残留/超时/丢弃新物断言为合同）、硬编码分类（A09 实测无残留仍报 reproduced）、手写被测 lstat 守卫、D 全部 tick 置空仍 covered（24 次命中）、E 未调真实 planner/transaction/materializer、机器账四字段缺证据。二轮确认：C01/C02/C05 正确写回方向已修、D 真实按键与字段断言、E 真实函数链+虚拟隔离、Biome exit0；剩 S1 恢复原验收目标/S2 真实 canonical entry/S3 新物再消费与两次偷取/S4 正确拒绝接住/S5 F09 合法输入/S6 账证一致。Codex 接手落实全部六项；最终分布 A 5/7/0、B 7/3/2、C 7/4/1、D 7/5/0、E 8/4/0、F 0/0/12；23 个业务红非 23 个独立根因非 134 条正式测试。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 13 项隔离鉴别力见证 | A 去真实 main 现场提交→A01 控制 exit1；B 零参 capture wrapper→B11 红转绿；C 正确库存写回→三条红转绿；D 禁用 tick/窄父菜单并集/敌附 silence；E 合同允许早拒绝→四条原树红；F 篡改分母→F01 exit1；collector exit0：121 次诊断+13 见证全符合 | Codex（接手，非第三席独立证明） | C07 新观察：当前毒第 8 tick 产物施加当场先执行一次第 7 轮末获得 145——与机制文档寄生 9 回合不一致，Q2 四向真值核定禁止直接改工程；B07 勘误 Codex 早先「正则计声明」推测（泛型 <T> 未计入） | 最小正式化集合五组随 C-01/A-08/09/B-05/08/09/B-06/07/Q1/C-02-05/Q2 各卡；U-02 继续待证 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+卡前取证完成：产品/正式测试/基线不变；不重开 D-01；不批准 E09-12 删除候选；正式卡缺 GLM 席位单独登记额度代班。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；72 行机器账 evidence.json 与 /tmp/type-pal-glm-b2-{review.JT6aXQ,rereview.Fjazma}/ 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 大批二三轮链 | 2026-09-14 | R1-R7→S1-S6→Codex 接手 | 取证收口 34/23/15（非修复 accept） | 两轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy e2e/route-and-checkpoint 的大批二回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM剩余边界大批回执（二）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+卡前取证完成：产品/正式测试/基线不变；不重开 D-01；不批准 E09-12 删除候选；正式卡缺 GLM 席位单独登记额度代班。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+两轮 counter 全文、S1-S6 落实表、最终分布表、13 见证表与新观察在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。2026-09-14 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归总收口与各修复卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `327e882aeec8c0b66babe7468aef193bf9211724f61db079c42c75b36bab2a74`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `327e882aeec8c0b66babe7468aef193bf9211724f61db079c42c75b36bab2a74`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM剩余边界大批回执（二）
 >

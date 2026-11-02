@@ -1,5 +1,40 @@
 # shared 纯类型/合同六文件复审（glm-foundation 模块 2）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计主题:packages/shared 六文件(resources.ts、input.ts、index.ts、events.ts、tables.ts、pal-authored-map-names.ts)纯类型/合同复审,基点 53db76bb。真实改动 6 处/5 文件:①index.ts FRAME_MS_FADE 注释重写——原注释把 2026-05-30 已废弃的旧设计(fade 提频 60fps,香兰报信瞬移 bug 根因方案)写成现行原理且常量 0 消费,现标明已废弃/无 caller;②events.ts LoadSceneCommand 运行时语义注释——原称 M3.5 stub,实际 event-system.ts:733/741 早已实现异步 waiting='scene-load';③tables.ts 删除 L475/L614 靠 declaration merging 静默合一的重复 LevelUpMagicEntry 声明(docblock 出处互相冲突),tagPLAYERROLES 大 docblock 挂回 PlayerRole;④resources.ts Tilemap.cells 措辞修正(外层 height 行、每行 width 列)。pal-authored-map-names.ts 与 input.ts 零改动。
+
+## 范围与证据
+
+零类型面/行为变化证明:tables.ts 用 tsc declaration emit 前后 diff,唯一差异恰为被删重复声明块,LevelUpMagicEntry 幸存声明(10 个外部消费者)逐字节相同([tables.base.d.ts](tables.base.d.ts)/[tables.after.d.ts](tables.after.d.ts));其余 4 文件 body-invariance(去注释打印 AST)与基点一致。门:shared 全包 16 文件 128/128(0 fail/pending/todo,[directed.json](directed.json));tsc --noEmit 0 错;scoped biome 6 文件 0/0/0;diff --check 干净。未跑全仓/coverage/protected(按准入)。原文状态 review;Codex 2026-10-19 裁定保留作者阶段证据、未整包收口,见[当前返工记录](../codex-stage2-rework.json)。
+
+## 发现
+
+作者层登记:五个 0 外部消费者公共出口(SpriteSet、PixelPos、FRAME_MS_FADE(已废弃设计)、BattleEffectIndex、LevelUpMagicTable)留 Codex 裁定(公共接口变化,JSON dump 消费方可能绕过类型);pal-authored-map-names.ts 为冻结考据 fixture(222 条/编号空洞有意),pal-map-names.test 锁 hash;nightColors「实测 PAT.MKF 仅 #0/#5 为 1536B」保留为有界实测陈述。最重要的继任事实:Codex 2026-10-19 勘误与接管——本片「类型 B/E 清零」结论经定向复核发现遗漏(TileCell 是两个 h 错排半格完整 DWORD、Item/Spell 使用 OBJECT 绝对 ID、装备槽序/三种角色计数/升级法术ID/对话参数均有错注),已窄修;原 events/input/tables 14 个运行时用例属类型或本地 fixture,转既有 tsc 编译链并补 flags/六位 equipableBy,当前 shared 114 运行时例与类型反控/恢复分开记录。
+
+## 结论
+
+原文时点结论:六文件零类型面/行为变化(d.ts 与 body-invariance 证明)、128/128 绿;但其「类型问题清零」的语义结论已被 Codex 2026-10-19 勘误部分推翻并窄修。本治理不重开任务、不改写勘误、不恢复被推翻结论、不撤销旧撤信。
+
+## 整改与复核
+
+本页正文承载原审计真实目标/发现/结论/限制与 Codex 勘误继任关系;原件逐字节保全在下方;失效条件(六文件类型成员变化→d.ts/body 证明重出、event-system loadScene 实现再变→注释复核、sdlpal 锚引用段变化→字段注释复核)按原文保留;候选待Owner接收。
+
+原文存活链接原样保留:[codex-stage2-rework.json](../codex-stage2-rework.json)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6099B / SHA-256 55d9191f6c18ee698773e0a1c4846861801b269e1fe550d01481ddeb79a87d10；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# shared 纯类型/合同六文件复审（glm-foundation 模块 2）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -48,3 +83,5 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run
 ## Codex当前勘误与接管（2026-10-19）
 
 本片类型B/E清零结论经Codex定向复核发现遗漏：TileCell是两个h错排半格完整DWORD，Item/Spell使用OBJECT绝对ID，装备槽序/三种角色计数/升级法术ID/对话参数均有错注，已窄修。原events/input/tables14个运行时用例属类型或本地fixture，转既有tsc编译链并补flags/六位equipableBy，当前shared114运行时例与类型反控/恢复分开记录。八维逐文件矩阵见当前回执，公共出口候选仍review。 [当前返工与限制](../codex-stage2-rework.json)。
+````
+<!-- incremental-original-source:end -->

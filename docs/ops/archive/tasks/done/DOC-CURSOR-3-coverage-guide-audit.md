@@ -1,55 +1,64 @@
 # DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（接收与正式修订）
+Contribution Owner: Cursor（只读核对回执）
+Reviewer: Codex
+Phase: ops
+Capability: 文档事实准备；不改变覆盖率统计或能力格
+Visual Verification Timing: N/A
+Branch: `codex/cursor-coverage-guide-r1`（独立 worktree）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是覆盖率说明定点只读核对历史卡（2026-09-25，基 817be7df）：线索=coverage.md:14-17 “最新本地实测”仍写 8008/639 而本地 summary 自报 8039/641；Cursor 交 C01–C05 五组核对回执，Codex 接收后单独窄修正式文案。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+核覆盖率说明哪些文字仍能代表现行命令/统计范围/最近实测，交可采用的窄修订建议；只授权 draft 只读取证。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：唯一交付 cursor-coverage-guide-audit.md（C01 命令/C02 快照/C03 范围/C04 入口/C05 既有证据去重，逐条稳定 ID+分类 确定不符/日期历史/待证/已有证据）。
+- 范围外：coverage.md/README/脚本/CI/基线/产品修改；运行覆盖率任务；把本地数宣布为远端 CI。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+历史批次表按发生时点保留（不把 8008/639 改写成 8039/641），只审“最新/当前”入口句；脚本存在≠运行成功；无全量源码身份校验时报告数标“本地快照”。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：Cursor 回执 b5e2ca4a 经 Codex 独立 accept（2 确定不符/6 日期历史/1 待证/1 既有证据）以 0ba9ed14 原样接入 main；Codex 另行修订 README 与 coverage.md 当前入口于 077516bb 推送（保留 8008/639 历史表）；check.mjs 与 diff --check PASS；开卡旧 8039 快照来源仍待证但不影响窄修订。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原候选留 archive/cursor-coverage-guide-r1 标签、worktree/分支已清理；无下一位 Agent 提示词。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 开卡、接收与集成同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：五组只读核对经接收驱动正式窄修（不改历史数字）。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-coverage-guide-audit.md 与 cursor-coverage-guide-review.md；coverage.md:14-17 线索。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。覆盖率入口现行文案以当前树为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+前批 C10 审计 cursor-docs-wave2 系列；后续 DOC-CURSOR-4/5/6。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `eca41a1fb049f7ae04584c3e4c635dea3937975c19a0c1ad37e7acab995db362`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `eca41a1fb049f7ae04584c3e4c635dea3937975c19a0c1ad37e7acab995db362`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-3 — 覆盖率说明与现行命令定点核对
 >

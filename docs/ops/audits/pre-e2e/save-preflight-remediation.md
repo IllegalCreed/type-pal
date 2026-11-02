@@ -3,65 +3,66 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 SAVE-PREFLIGHT-1（当前存档预检与恢复失败隔离）的修复回执：B-04 已 done（2026-09-06 用户明确授权收口）。终审候选 `2c39b1af`、整卡代码比较基线 `5f9f92ba`、收口接手 HEAD `c0d16e42`。验证矩阵与后续事项在 quote 中保全；本页不授当前实现之外的新 runtime/E2E 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- 要回答的具体问题：B-04/U-01——坏金额/朝向等坏输入越过预检并污染活动状态、恢复失败不隔离——修复后以什么证据收口。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-06；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-06；候选审查时点的实际验证矩阵（不在本次文档收口重跑）。
+- 验证矩阵：save 定向 6 文件/88 项（结构矩阵 50＋真实恢复链 20）；相邻生命周期/切场景 3 文件/22 项；完整 check 539 文件/6,246 项；单次严格 fast 609 生产文件/5,761 项；结构 guard 覆盖 lines117/statements136/functions38/branches46/51。
+- 开发期最小功能：隔离测试工程与独立浏览器存储（坏档拒绝后可走、好档恢复、短提示完整、pageerror=0）。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
-|---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |
+| 已完成项 | 内容 |
+|---|---|
+| 预检顺序 | 已知载荷结构先校验再进 normalize/恢复准备；损坏快照在停止旧脚本、替换世界/场景前拒绝 |
+| 反例拒绝 | 稀疏数组、非法持久状态、portrait=null 拒绝；分数坐标、HP=0、显式静音与合法可选缺席仍通过 |
+| 错误归属 | 读取/归一化/场景准备三阶段失败提示归最新请求；F9/菜单/boot 入口收口，保留 AbortError 协议 |
+| 提示合同 | 结构错误固定短文案「存档损坏，无法读取」；BDF 实测 144px，200px 区内完整；详细路径留 message/console.warn |
+| 测试形态 | 真实 main.ts AST 调用链＋normalize 阶段内挂起＋只删 isCurrent 一行的突变负控；原两份缺陷探针零改动 |
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：B-04 按上述范围关闭；候选至 HEAD 的 packages/ scripts/ 零 diff、整卡原探针零 diff（收口时核对）。
+- 当前不能证明：任意提交后异常回滚、全部未知字段穷举；未对用户真实数据库做损坏试验。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 后续事项：合法 checkpoint→行走/脚本→坏 checkpoint 拒绝→合法恢复归 R4/Q1 集中 E2E（Owner Codex 待跑）；非结构 codec 错误长提示为 Kimi 非阻断观察，后续小修中核全调用域。
+- 继任/supersedes：原 A–E 审计报告继续作为原基线历史；本回执只关闭 B-04。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-06；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-06；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- B-04 修复回执：当前存档预检与恢复失败隔离：这是 audit-report，当前文档状态为 current。全文 59 行、4 个标题；摘要/首段为「状态：**SAVE-PREFLIGHT-1 已 done（2026-09-06，用户明确授权收口）**。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- 回执原文（已完成清单、验证矩阵、Codex 全量日志路径、后续事项表、非结构错误跟进锚点）完整保留于下方 quote；日志为当时本机临时证据，持久结果见归档卡与 Git。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- Codex/Kimi 为独立审查 accept、GLM 为实现者自测 accept（三席证据在归档卡）；无代签、无缺签豁免。
+- 收口时文档工具测试 20/20、文档检查 397 Markdown/1,776 本地链接/138 任务零问题、`git diff --check` 通过。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |
+historical。r1 设计不重签；后续修复与 R4/Q1 用例另卡。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- SAVE-PREFLIGHT-1 归档卡（quote 内链接）拥有完整三席证据；R4/Q1 存档恢复回归按 E2E 合同登记。
 
 ## 原文保全
 
-固定源 SHA `1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `1461f5b3954eb8559c7d3403fdd101fe4832884e6b1ee970187fdede8aaa1ef8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # B-04 修复回执：当前存档预检与恢复失败隔离
 >

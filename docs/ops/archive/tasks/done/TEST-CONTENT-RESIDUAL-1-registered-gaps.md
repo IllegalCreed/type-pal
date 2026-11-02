@@ -1,55 +1,64 @@
 # TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: 已有内容合同覆盖（不改变能力地图）
+Coding Owner: Codex（用户授权接手CR-R1窄返工及集成；GLM原始测试贡献保留）
+Integration Owner: Codex
+Reviewer: Kimi / GLM（GLM参与贡献须披露，不作为独立第三方自证）
+Branch: codex/tb00-tb01-finish
+Revision: r2，2026-09-19；生产核对点`e58834f6389a40ffe9f187e6a8051f552e964d79`不变
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是内容残项补测历史卡（TB-01，r2；统一候选 44b9b763 接入 main 952a45bd）：23 项、5 对照/5 业务针/7 fixture、判据拒绝混合错误、原 15 跑及统一 check7988/ratchet/strict7497；三席分别核定（Codex 430fba79 落卡、GLM 原贡献者复核 f38c23dc、Kimi 终审 2c042bf5）同候选 accept；保留边界=A3 跨包已有证据不强制重复、rows 无长度上限、levelUp 悬空 owner 按现行 warn 维持原裁决。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+已登记内容合同残项补测；r1 前提收窄后 r2。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：glm-content-residual.md 工作包。
+- 范围外：产品/基线；借本卡开 R4/N6b。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+GLM 贡献须披露不作独立第三方自证。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-21）：分别核定两卡收口、无 counter/缺签、候选后零 diff、证据齐；只做文档收口不重跑。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+TB00 按自身签字核定不互相带过。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-19 r2/2026-09-21 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：TB-01 三席同候选 44b9b763 分别核定收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+23 项账、5+5+7、判据、统一门。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。残项合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+TB00（分别核定）与守卫波系列。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `d434907a013f41a51e0142b8d6d168d1803bd2225d47e03d93dacdf71007c80f`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `d434907a013f41a51e0142b8d6d168d1803bd2225d47e03d93dacdf71007c80f`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CONTENT-RESIDUAL-1 - 内容合同已登记残项补测（队列 TB-01）
 >

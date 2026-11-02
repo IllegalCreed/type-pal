@@ -1,5 +1,38 @@
 # CODE42 对话职责与测试质量
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE42 对话职责与测试质量」的治理候选页;证据原件即下方逐字节保全的固定main源(3124B,SHA d3d1d8b3fee7)。本页语义:基点56a4fa2a、候选17c3b390,CODE42责任拆分与测试质量修复——960行混合模块分为纯解析/状态推进/借用帧缓冲绘制,七个明确文件接受(五新关闭+两旧主测刷新),state源dialog-box.ts当时仍review;后续用户裁决已解除数值/姓名停线,整卡代码接受,统一门仍待全部pre94。历史验收时点,不重开任务。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原6个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../approved-boundaries/README.md) [prove-split.mjs](prove-split.mjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json) [verify.mjs](verify.mjs)。六阶段分提交身份(split/fixtures/privateAndRetirement/comments/legalReset/glyphReuse)见review.stages;首段纯搬移证明冻结7c80,不声称后继私有清理逐字相同。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)root实际出口保持;零生产/E2E调用的矩形占位API及两条专属用例退役;绘制私有函数只接fontColor;两处相同文字单位计算合用;三个合法输入工厂有真实双套件消费者;四处核心any去除;默认速度/两时钟路径/Save状态字段/真实像素断言保留。(2)旧69个主例可放过narration颜色数组为空;同一生产变异新主例恰1 AssertionError,其余107旧直接合同仍绿;总反控176包含旧/新69重叠,不报成176个不同合同。(3)一次12文件532例(105直接/427相邻)通过;随后只补25例合法reset(tick120/144建立非零typing状态、fontColor精确默认值)与23例同体字形搬移,替换重叠执行不累加为580。(4)state源review时的机制事实:真实事件脚本先设速度14,切框后姓名重置3,下一正文[0,24];SDLPal姓名分支不经过改速解析;观察用例通过只证明当前错误路径。(5)首次拆分产生者语法错误、unused-type告警、格式失败、错误cwd未收集观察及元数据产生者错误路径均分层披露,不写成通过。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:七个文件接受、五新关闭;game typecheck与局部静态零诊断;固定83卡76accept/7partial;2026-10-25用户裁决收到后数值/姓名停线由获批窄修与当前版本桥解除,整卡代码接受;所有pre94冻结前不跑全仓check/official coverage/ratchet/protected、不新PR或合main,94–102未扩展;旧原件和当时状态保留,目录固定旧版本快检可显示STALE,不据此重做未变合同。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:普通剧情可达性未证;观察用例通过不算修复失败反例;不用哈希冒称设计自动认证;统一集成门待全部pre94。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3124B / SHA-256 d3d1d8b3fee787fc008dfa6f2f94d56a768308027f9f0e7362147a9da45bad55；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE42 对话职责与测试质量
+
 Status: named code scopes accepted; state source and whole card remain review
 Owner: Codex（单Agent自审；不冒充第三方）
 
@@ -16,3 +49,5 @@ Owner: Codex（单Agent自审；不冒充第三方）
 首次拆分产生者语法错误、unused-type告警、格式失败、错误cwd的未收集观察及元数据产生者错误路径均分层披露并保留可得原件／明确复现件，不写成通过。首段搬移证明冻结7c80，不声称后继私有清理逐字相同；后继实际差异、源码／导入／测试映射和限定八维判断共同支撑裁定，不用哈希冒称设计自动认证。
 
 2026-10-25更新：用户裁决已收到；原数值／姓名停线由[获批窄修与当前版本桥](../approved-boundaries/README.md)解除。旧原件和当时状态保留，本目录固定旧版本快检可显示STALE，不据此重做未变合同。整卡代码接受，统一门仍待全部pre94。
+```
+<!-- incremental-original-source:end -->

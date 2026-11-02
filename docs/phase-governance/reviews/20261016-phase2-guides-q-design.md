@@ -2,38 +2,47 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「Q6 第二阶段作者指南迁移设计与首篇准入」的冻结设计归档：六篇真实操作指南（413 行）沿用已批准 guide-runbook-v1/1.0.0 迁移；本合同只准首篇 content-publication 的 canonical pilot。完整原提案（132 行）与首篇准入在三层 quote 中保全；设计不授全部六篇。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Q6 第二阶段作者指南迁移设计与首篇准入：原始正文完整保留于下方 quote。
+- 六篇与语义：actor-presets（64 行，身份与资源复用非行为 prefab）、battlefield-authoring（56，环境定义与三层优先级 startBattle→明雷 hostile→scene、默认 24、现代 0 合法）、content-publication（26，作者保存与 PAL 供应重导分开；无 `--write` 也先恢复中断事务）、debug-tools（81，DEV&&debug 动态入口与 13 条 console 表）、scene-entry-authoring（34，prepare/body 两 tab 与未接入的 reveal）、shared-script-author-guide（152，六种脚本选择与 N6b 未来范围）。
+- 保真：六 H1 原样、30 原 H2 降级保 slug/顺序、11 href 逐 occurrence、13 console＋6 选择表数据行保留；413 行原 source 入长 text 围栏。
+- 已核/未知分轴：现代 0 合法、默认 24、选择链、migrate 恢复可写、当前 22/SAVE12、prepare/body 实际 tabs 已核；actor 后继 UI、全部保存/发布 self 拒绝、callgraph DFS、最新 dist 零残留保持未知。
+- 写域：最终最大白名单 7 文件（六 MD＋专属回执）；首篇仅 content-publication＋回执两路径，非作者全文接收后另放其余五篇。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 固定 `d5641eef…` 六源逐 blob 相等；提案 132 行全文读；11 交付 artifact 与 17 primary/range 哈希实际核验；六 /tmp 证据 JSON（inventory/primary pins/graph/consumer calibration/WIP/draft 校正）。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。六篇正文迁移与中央接入以继任记录为准。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-phase2-guides-q.json`（同目录）：六篇逐篇实际来源、原 counter/失败与唯一 rootIntake 在此；不以作者指南或静态复核授运行信用。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf`（blob `3968136dae4361002f85d4d45382cef69575ba65`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`，26021B。
+- 第 2 层：SHA `d00798fb4e9bc1145fa75a52b8dda48be096ac3db2465fde8bffeddbcd13f3f8`，24152B。
+- 第 3 层：SHA `5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf`，22102B。
+
 <!-- original-source-quote:start -->
 > # Q6 第二阶段作者指南迁移设计与首篇准入
 >

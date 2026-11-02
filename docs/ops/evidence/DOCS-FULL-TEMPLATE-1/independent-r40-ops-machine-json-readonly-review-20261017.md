@@ -1,40 +1,41 @@
 # R40 ops machine JSON readonly review
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R40 轮的独立只读评审回执：verdict accept-readonly-proposal；对象为 13 个 ops 机器 JSON artifact（全文读取、parse、SHA 检查）。本页按 archive-record 接入，原文（含 13 条 artifact 清单）在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R90。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R40 轮只读评审。
 
 ## 原始结论
 
-- R40 ops machine JSON readonly review：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：13/13 fully read/parsed/SHA checked；建议 test-machine-evidence-v1 artifact-only envelope（原始字节与顶层字段仍为 consumer payload）；不删文件、不授 credit、ops evidence 保持 catalog 域外；逐条清单含 bytes/lines/object 类型/source-after SHA（如 coverage85-kimi mutation-receipt.json 24337B/2fe936ed、TEST-COVERAGE85-GLM-GAME mutation-results.json 843276B/059b258e）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全 13 条清单。
+- 已撤回（本篇关联批次在撤信范围）：correction-scope.json（2026-10-18，kind=withdrawal-scope-not-semantic-review）对 batch 39-94 的 review 记录撤回深审/全文/独立接受信用；本页所引该轮评审深度信用属撤回范围，不恢复。
+- 尚未认证：接收回执本身的「独立」身份与通过口径亦未经当前中央评审认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `852e1426687b71d9d5af2ee81a8290cd8e8806f22c3ef51a217c8f8e174272a7`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `852e1426687b71d9d5af2ee81a8290cd8e8806f22c3ef51a217c8f8e174272a7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R40 ops machine JSON readonly review
 >

@@ -1,40 +1,62 @@
 # TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组命令残项回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-COMMAND-BOUNDARIES-3 的 Cursor 作者回执（2026-09-26，独立 worktree codex/cursor-command-boundaries-r3；生产冻结 7cac1d72、准入祖先 7d64de13）：只补公开 Command 构造/apply/invert 行为残项不重做 F2 出口同一性（commands.ts 119 出口与本包无关）；合法输入走 buildBlankProject→正式 loader→toEditorState；不合 main 不标 done 不跑官方门。
+
+## Scope
+
+八行总账 C1-C8：actor-commands（首尾空格 name/locale 缺键/坏 face/coveredBy 不存在/DetachActorEntity）、entity-commands（构造后改入参不泄漏/SetEntitySprite no-op 同引用/触发区无朝向）、tileset-commands（重复定义 id/同 AssetId 记录不同/名称分类空）、sprite-commands（durationMs=0/actualFrameCount=0/DeleteUnusedSpriteAsset 引用拒绝）、battle-sprite-commands（重复 id/enemy profile 专属）、map-asset-commands（id 已存在/构造后改 def 用 clone）、startup-commands（清除 standardColor undo 恢复/空 defaultEntryId/空名称场景）、asset-label（无新文件只登记既有三文件证明）。五针 c1-actor-covered-by/c2-zone-facing/c3-tileset-empty-name/c4-sprite-asset-in-use/c5-enemy-profile；C4 红侧为重叠保护文案（AssetInUseError 先拦）如实登记。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+相邻+全 editor+负控 | 定向+相邻 11 文件/52 项（残项 7 文件/29 项+相邻 4 文件/23 项）；全 editor 331 文件/2858 项 success（相对准入 324/2829 恰 +7/+29）；typecheck、biome 5 文件 0 error、check.mjs 620 Markdown/3326 links/199 tasks、diff 过；五针新鲜目录 count=5 allOk allHit allRedExit1 allHashUnchanged | Cursor（作者） | judgeGreen/judgeRed 拒套件 file.message/额外失败/混错/timeout，--self-test 同 judge 含 runWithTimeout 堆栈对照 | 未跑官方 coverage/ratchet/strict/全仓 check；6010 未动 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+八组残项+五针全过；C8 登记既有证明；公开可调用未测路径不写真不可达。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；c*-mutant.json/evidence.json 与 /var/folders 目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor C1-C8 残项回执 | 2026-09-26 | 八组 29 项+五针 | 交 Codex（后续 cursor-command-boundaries-r3-integration 收口） | r1/r2 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/cursor-command-boundaries-r3 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组命令残项回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八组残项+五针全过；C8 登记既有证明；公开可调用未测路径不写真不可达。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+八行总账、五针表、可复制命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 cursor-command-boundaries-r3-integration.md。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `930cbdb0356e0e698b9f05ccfbe69c23e08e7cc9a71113c7bc1a9cb290a09cbf`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `930cbdb0356e0e698b9f05ccfbe69c23e08e7cc9a71113c7bc1a9cb290a09cbf`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-COMMAND-BOUNDARIES-3 — 八组命令残项回执
 >

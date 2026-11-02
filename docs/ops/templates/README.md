@@ -1,7 +1,7 @@
 # 任务模板
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-18
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -25,6 +25,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
+文档任务的交付材料、证据验收、复用与交接统一取[长期文档验收协议](../document-quality.md#文档交付与证据验收协议)；完整/轻量卡只填写本批参数，不另维护验收条款。
 完整/轻量模板的验收提示均接入[长期工程质量规范](../code-quality.md)：逐文件八维结论、问题处置、候选身份与失效条件、快速复验及原始结果。任务卡类型、状态词和必填章节合同保持，纯文档任务按实际范围说明适用性；小改可紧凑引用已有完整记录，不为填表新造专项。
 
 模板结构由[统一注册表](../../phase-governance/templates/README.md)管理，任务实施和签字只落实际卡。上级为[协作与工程维护](../README.md)；创建后由 Coding Owner 补实证据，不以空模板充当交付。

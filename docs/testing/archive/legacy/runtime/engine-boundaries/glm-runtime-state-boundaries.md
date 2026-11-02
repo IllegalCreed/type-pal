@@ -1,40 +1,65 @@
 # GLM运行时状态与作者元数据 · 六组补测工作包
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-RUNTIME-STATE-BOUNDARIES-1 工作包与 GLM 三轮实施复合回执（r1/done 统一候选 44b9b763；当前进展 2026-09-21：Codex 已补 D6 真实 finally/失败自证并适配 B7——56 项原 8 针/四 fixture/22 跑及统一 check 7,988/strict 7,497 通过三席 accept 用户授权收口；frame 在途 invalidate 政策仍待证；下面 GLM 回执按原候选保留旧 55 项和冻结期覆盖不作为当前树最新数字）。
+
+## Scope
+
+- 派发时事实：官方 fast 7,049 项/617 文件；十一模块表（A world-variable 47/51·35/44+migration-diagnostic 32/42·48/62/B compiler+project-view/C entity-action-player 150/175·136/183/D frame-animation-player/E magic+system-menu/F scene-entry+screen-hold+reward-gain）合计 576/657 行 475/639 臂——164 未命中臂不等于 bug 也不保证可合法构造；Codex 已复跑既有 content 两文件 10 项+reforge 九文件 80 项全绿。
+
+## Execution and assertions
+
+- **A 组 A1-A7**：ID128/129、name80/81、description500/501 边界（小数/负数/false 仍合法）；registry/definition/kind/flag/number 错型精确路径+原输入不变；空 description 合法空 name 非法（sys 只约束 ID）；两次初始化双向独立；diagnostic 容器/成员错型主 fixture 先过守卫；target/source 各自路径 address0 合法；五 category×三 capability 15 组合+前向字段不拒
+- **B 组 B1-B7**：resolver 四键（auto/interactive×perCommand/transition）互不复用核完整 after；缺 id/非法 digest/两 resolver 同 id；编译后修改产物不污染真正传入的条件/地址/entry（深快照同一输入）；page/trigger/auto/hook 有→无→有刷新保活体位置；stages/stateMachine 游标 entry 投影（非 initial 守卫下无 entry 空 body——按现行守卫收窄）；实体换序稳定+相关有差无关不误报；items use/throw/scratch 完整值双向别名（D-07 未在 fixture 复现不另立缺陷）
+- **C 组 C1-C6**：真实 resolveSpriteActionBinding 守卫（frameCount/帧范围/duration/loopFrom+fixture 过 validateSprites 自证）；单次越尾 promise 兑现 override 不悬挂历史 cue 不补发；自然结束/stop/clearEntity 三收尾再 advance 不重复；override 期间 setBase 删/替结束恢复新轨；旧 signal 在接管/stop 后 abort 不删新 override；精确边界/半步/dt=0/非法 dt+完整 cue 轨迹
+- **D 组 D1-D7**：容器首败→同 reader 修复成功拒绝不永久缓存；inflate 首败→重试 inflight 回零真实 decode；frameLimit/索引边界；invalidate(asset) 只清指定 invalidate() 全清同 id 换字节（进行中回填政策未定禁止默认绿固化）；小 frameLimit 跨 block/asset LRU 核被淘汰者与命中更新（2 帧容器×3 asset 解码计数 2/2/3/3/4 逐步见证）；sequence/frame/wait 三 await 分别 abort（entered 见证+同步结局观察器底层未放行外层已 AbortError 迟到不 onFrame）；非目标 key 不吞目标消费 onFrame 抛错清监听
+- **E 组 E1-E6**：learnedSkills 混合缺 id/非 outdoor 精确过滤 world/skills 不变；真实导航进不同 phase 后其他 phase 完整 no-op；死人确认不动同输入正控；castAll/toTarget 完整返回+MP 恰好/不足+各分支调用前深快照调用后比较（magicConfirmSpell 原地改菜单 state 按合同直证不调用 castOutdoorSkill）；system 四方向同值+记忆恢复越界 clamp+非 menu 确认 no-op；music/sound 显式 on/off+audio 缺席默认+save/load 仅核返回请求
+- **F 组 F1-F6**：fade/dither ms/kind 分别失配即拒（虚构 source 轴已删合法失配轴=ms/kind）；同场景二次 begin 新 token 旧 complete 不清新事务；ScreenHold 同 token 文字新 owner 旧取消不影响新事务空 token 拒绝保留活动态；finalizer 正常零调用失败先收口抛原错误；活动序列二次 present 拒绝首序列仍完成（advance 驱动不用时钟）；advance/timeout/abort 竞争单次兑现旧 timer 不清下一条+current 视图不泄漏内部 signal+Enter/空格/Escape/其它键/inactive 输入语义
+- **GLM 三轮返工**：R1 fixture 合法化（onTeleport 非 initial 移除 entry/legalItems 拆 ext-priv-bare 三合法/throw 用 fixedDamage/assertSceneFixtureLegal 自证/dither 虚构 source 删）；R2 D6 真实进入见证+D4 双 asset 换字节+D5 精确解码计数；R3 compiler after 逐组合精确+嵌套别名试验+once-sound 非空正控+E4 深快照；R4 Biome 逐行修+计数最终树重生（reforge 497→533/564、392→444/533）；第三轮（8ca74aac）：F1 held as never 删除；D6 结局观察改独立同步变量（不 await 永不 settle 的 Promise）D 组 8→9；E4 每分支调用前快照调用后比较删 _wBefore 自比较
+- **负控与覆盖**：6 对照+16 变异针（六组各 ≥2）rc=0 判据 AST 自测+MUTATION_HIT+AssertionError+钉名 JSON 见证+产品 hash 不变；Codex 六见证复跑六针全 detected 且 candidateFailures 为返工后新增断言精确标题；fixture 四检查全 accepted；11 模块局部 content 行 79→91/93 分支 83→101/106、reforge 行 497→533/564 分支 392→444/533；全包并集 content 4458→4470/5183、reforge 7927→7963/14118；未发现新产品缺陷 frame 在途回填记待证
+
+## Results
+
+- 执行纪律：fixture 先过 validator/loader 坏输入仅坏一轴；每组至少 2 条执行证据单点负控；相同实际输入快照在最后消费后比较（期望原地修改按合同写）；异步 entered/deferred 真实完成；39 族账逐行真实 caller/旧测试全名/新增或已有/待证或防御/缺陷归属；GLM 不跑全仓门 Codex 接收后统一串行；白名单 11 测试+2 fixture+3 工具在 quote。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；补正与收口见 tb00-tb01-completion；复核历史见 runtime-state-review。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 六组工作包+r1-r3 | 2026-09-19/21 | 39 族→55 项+16 针+三轮返工 | done（44b9b763 三席） | 首轮 counter R1-R4 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的运行时状态工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM运行时状态与作者元数据 · 六组补测工作包：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：六组 39 族 A1-F6 逐项落账（11 模块 55→56 项）；16 针+六见证全 detected；三轮返工（fixture 合法化/真实进入见证/同步结局观察器）；frame 在途回填待证如实交 Codex。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+模块表、白名单、A-F 六组 39 族逐项账、三轮返工要点与负控覆盖在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-RUNTIME-STATE-BOUNDARIES-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `739eb233757a318e4cc201fcfe55dbaf692db37beef6c9110731d497e5cde382`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `739eb233757a318e4cc201fcfe55dbaf692db37beef6c9110731d497e5cde382`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM运行时状态与作者元数据 · 六组补测工作包
 >

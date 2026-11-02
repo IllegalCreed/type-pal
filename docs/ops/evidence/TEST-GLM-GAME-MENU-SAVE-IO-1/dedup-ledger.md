@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-MENU-SAVE-IO-1 的排重账（GLM r1）：范围口径=packages/game 的 shell/input·input-replay·main-loop、core/menu 全部菜单、core/save/api·indexed-db、tools/save-io·quick-save；旧测 fullName 用 npx vitest list 全量导出（348 条覆盖 43 个相关测试文件），逐条核对 caller/合法输入/oracle 后分四类：NEW/REG/U（开放发现）/BLOCKED-UNREACHABLE。
 
 ## 证据身份
 
-- TEST-GLM-GAME-MENU-SAVE-IO-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 5b27483ba7ae2f4e782b05947cc603925a330a8df02ae707337f9706db9f67ca。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 菜单输入锁与释放、同帧键优先级、save-slot dispatcher 真链聚合、存档导入守卫、快捷键拦截与反馈。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- NEW 8 条（fullName/source:line/caller/typed 输入/oracle/与最近旧测差异逐行）：A1 菜单 modal 输入锁（menu-stack.ts:24-27+mode.ts:68；main-loop.test 只证 explore 行走、menu-mode 只证栈语义，无人证整链）；A2 关闭后下一 tick 起方向恢复驱动 party；A3 同帧 Menu+Confirm 取消优先关整栈（菜单侧同帧优先级未证）；C1 跨槽 max+1 真链（menu-driver.ts:1008-1021 dispatcher 真链+api.ts:40-48；cov85:972 只证空表、save-slot-menu:142 是测试内自算非真 dispatcher）；D1 parseImportedSave wNumScene 缺失/非数两形拒（save-io.test:20 只打 partyMembers 臂）；E1 F5/F9 preventDefault 非目标键放行（真实 KeyboardEvent cancelable）；E2 失败 toast 带因不外抛；E3 成功反馈。
+
+## 来源与输入
+
+- 真实 createInitialGameState+openMenu+ReplayInputSource/dispatchMenuInput/Save.saveSlot 公开 API。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- U-1/U-2 开放发现、B-1..B-5 受阻账（indexed-db blocked 等）如实分列；3 判例登记。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（8/8+8 针 VALID）。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-MENU-SAVE-IO-1 r1 排重账（348 fullName 四维排重）；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-MENU-SAVE-IO-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- 8 NEW 合同（锁/优先级/真链聚合/守卫/拦截/反馈）；U/B 账如实开放。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- NEW 表与 U/B/判例在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `5b27483ba7ae2f4e782b05947cc603925a330a8df02ae707337f9706db9f67ca`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `5b27483ba7ae2f4e782b05947cc603925a330a8df02ae707337f9706db9f67ca`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-MENU-SAVE-IO-1 排重账（GLM r1）
 >

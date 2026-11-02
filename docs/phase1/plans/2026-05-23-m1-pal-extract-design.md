@@ -1,71 +1,57 @@
 # M1 · pal-extract Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M1 pal-extract 里程碑设计文档的归档重写。范围划分与五节设计在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M1 extraction design: shared resource/event layers; slice resource extraction plus full event extraction; CLI; shared type expansion; output layout; tests, completion definition, dependencies, risks and milestone conflict resolution.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d`。
+- 目标：M1 里程碑（pal-extract）的设计文档（brainstorming 产出）——只讲「做什么/怎么组织/怎么验证」；配套 step-by-step 实施计划在 [m1-pal-extract](2026-05-23-m1-pal-extract.md)。
+- 时间范围：2026-05-23；对里程碑划分做了调整（quote 保全）。
 
 ## 里程碑
 
-- 原始章节：与全局文档的关系；对里程碑划分的调整；范围；1 共享底层(资源管线 / 事件管线共用)；2 资源管线 · 切片(开局场景一带:余杭客栈 / 李宅)；3 事件管线 · 全量；4 CLI 入口；5 shared 包扩充(@type-pal/shared)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 设计五节：共享底层（资源管线/事件管线共用）、资源管线切片（开局场景一带：余杭客栈/李宅）、事件管线全量、CLI 入口、shared 包扩充（@type-pal/shared）。
+- 明确不在 M1 范围的清单独立成节。
 
 ## 当前状态
 
-- historical；M1 · pal-extract Design：这是 design-spec，当前文档状态为 historical。全文 201 行、17 个标题；摘要/首段为「> 这是 M1 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M1 已完工（目录索引标 ✅）；实施记录见实施篇。
 
 ## 阻塞与决策
 
-- 正文信号 14:原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放在 **M4**;`05-events-schema.md` 又说"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满"。这两份文档对"反汇编器骨架在哪个里程碑"是冲突的。
-- 正文信号 16:本次 M1 设计**把冲突按 05 这边对齐**:
-- 正文信号 55:- **反汇编器** —— 字节码 → JSON 命令清单。具名 opcode 出具名命令、未具名 opcode 出 `raw` 命令。
-- 正文信号 132:- **RLE 放在 `io/`** —— 即便目前只有资源管线消费;它是字节级 decoder,和 MKF / YJ1 同性质,留位置给未来事件管线侧也可能需要的解码(如某些动画 opcode)。
-- 正文信号 200:| 切片场景 id 当前未确定 | 实施时跑一遍 sdlpal 或解析 SSS.MKF 场景数组首项;落到 `pal-extract` 的常量里,后续场景扩展时改它即可。 |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 设计期决策：资源管线按切片推进（先开局场景一带），事件管线一次全量。
 
 ## 下一步
 
-- 后继入口：M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇承接；当前提取管线以现行 pal-extract 实现与 [resource-status](../status/resource-status.md) 为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d`。
+- phase1 plans M1 设计；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M1 · pal-extract Design：这是 design-spec，当前文档状态为 historical。全文 201 行、17 个标题；摘要/首段为「> 这是 M1 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- 五节设计结构与范围边界为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M1 · pal-extract Design; 6:与全局文档的关系; 12:对里程碑划分的调整; 28:范围; 30:1 共享底层(资源管线 / 事件管线共用); 36:2 资源管线 · 切片(开局场景一带:余杭客栈 / 李宅); 49:3 事件管线 · 全量; 63:4 CLI 入口；原始正文、代码、表格、状态词在 quote 保全。
+- 与全局文档的关系、范围与各节设计依据在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 14:原 `03-development-plan.md` 把"字节码 → events.json 忠实转写器"放在 **M4**;`05-events-schema.md` 又说"M1 垂直切片只需 ~15 个 opcode 具名;其余先走 raw,M4 填满"。这两份文档对"反汇编器骨架在哪个里程碑"是冲突的。
-- 正文信号 16:本次 M1 设计**把冲突按 05 这边对齐**:
-- 正文信号 55:- **反汇编器** —— 字节码 → JSON 命令清单。具名 opcode 出具名命令、未具名 opcode 出 `raw` 命令。
-- 正文信号 132:- **RLE 放在 `io/`** —— 即便目前只有资源管线消费;它是字节级 decoder,和 MKF / YJ1 同性质,留位置给未来事件管线侧也可能需要的解码(如某些动画 opcode)。
-- 正文信号 200:| 切片场景 id 当前未确定 | 实施时跑一遍 sdlpal 或解析 SSS.MKF 场景数组首项;落到 `pal-extract` 的常量里,后续场景扩展时改它即可。 |
+- historical。设计按当时架构写成，实现已多轮演进。
 
 ## 继任文档
 
-- M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m1-pal-extract](2026-05-23-m1-pal-extract.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M1 · pal-extract Design
 >

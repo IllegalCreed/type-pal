@@ -1,6 +1,39 @@
 # QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+接续[百文件窗口](QUALITY-PENDING-100-1.md)剩余约30主体，以真实caller/独立像素/IO oracle逐文件核八维，只对证据充分且必要返工完成的文件授信用。
+
+## 范围
+
+候选32文件：assets内snapshot-input.setup、load-all-bounds、PNG三专测、rng/sprite blob snapshots、scene-cache两专测、snapshot-input-boundaries共10；present内四fixture与九专测、composition三fixture与六专测共22。分片按PNG/快照IO/加载缓存、菜单像素与fixture、世界叠层/战斗装配执行；产品代码、schema/save、资源/生成物和UI形态不写。
+
+## 前提与证据
+
+已有loader/codec/present生产实现与部分相邻测试证据按具体指纹复用；输入来自typed公开入口/实际IO域，合法BDF/RLE/YJ2 fixture不能只靠被测实现自洽，像素预期手列或来自一手C布局、不以重画相同函数生成oracle。当时main 72db4172、0behind。锚[长期八维](../code-quality.md)、[测试验收](../agent-workflow.md)、[共同证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)。
+
+## 验收
+
+2026-10-27：32候选全文八维，30存续主体代码接受、两PNG重复文件退役不计数；窗口累计100实际主体，3465tracked／694closed／2771pending。137定向/相邻0skip/空stderr；118旧身份映射、padding反控与双流见[本片证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md)。2026-10-28用户质疑后证据返工：15份P01–P03/P05–P16测试的C–H通用句不能充分支持低成本独立复验，全文重读15文件与7共享夹具后逐文件改为实际Owner、复用取舍、断言和隔离依据，并纠正7份记录内的caller/oracle/时钟事实，详见[补核范围与限制](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md#2026-10-28-回执质量定向复核)；无源码、测试、规则或原始执行附件变更，不把这次15文件补核说成重新认证整个200文件。
+
+## 状态与交接
+
+本地统一门（20536包测试＋732工具、七包typecheck与whole lint全零、唯一official 20,188fast/809src）后done指本地收口，远端PR/CI/合并尚待、发布以受保护PR实际结果为准。32候选不等于32接受；后续回执区分实现、测试、夹具、配置及证据复用，而不单报文件数量。原件另见[统一回执](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4828B / SHA-256 50edf30d37daffbccb807859eff493a6028375f46930179e9088743643d0e885；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单Agent；审查判断与运行事实分别记录）
 Phase: ops
@@ -51,3 +84,5 @@ Codex build allowed：以上测试/fixture有限整改；单一Owner，不委派
 Codex在同一治理分支按具体缺口定向补核，未开新文件窗口。15份P01–P03/P05–P16测试的C–H通用句不能充分支持低成本独立复验；全文重读这15文件与7共享夹具后，逐文件改为实际Owner、复用取舍、断言和隔离依据，并纠正7份记录内的caller/oracle/时钟事实。详见[补核范围与限制](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md#2026-10-28-回执质量定向复核)。
 
 无源码、测试、规则或原始执行附件变更；未重跑重型门，也不重复计入完成数。本卡既有代码接受保持，不能将这次15文件补核说成重新认证整个200文件。后续回执区分实现、测试、夹具、配置及证据复用，而不单报文件数量。
+```
+<!-- incremental-original-source:end -->

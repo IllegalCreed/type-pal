@@ -1,47 +1,46 @@
 # 第二阶段 · 决策记录（decisions）
 
-Status: historical
-Validity: historical
+Status: current
+Validity: current
 Owner: Codex（文档治理；不代签原执行）
 Last reviewed: 2026-10-17
 Template: governance-index-v1 / 1.0.0
+
+本页的 current 仅指现行导航、长期决定或按领域读取的参考职责，依据现行 READ-FIRST 的范围与铁律9；不是将 quote 内按日期记载的能力/排期/实现或历史执行重新授为当前事实。原始 source、旧复核和 quote 均保全。
 
 本页把历史材料接入 `governance-index-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 目的
 
-- 历史索引/治理入口：governance-index historical document full-text review: 第二阶段 · 决策记录（decisions）.
+- 现行治理导航入口，保留日期化原表：已拍板的第二阶段架构/范围决策记录，每条 = 决定 + 理由 + 影响；滚动累积自 2026-06-24（D1 垂直切片先行）至 D32（构件化地图重建归第三阶段）。
+- quote 正文实际结构：顶部「决策 outcome 索引」（2026-09-06 增，正文未改动，逐行给 D1–D32 一句话 outcome 与 superseded 关系）+ D1 起逐条决策正文。
+- 2026-06-25 重新聚焦：第二阶段 = 现代化引擎 + 编辑器 + 内容创作；原 D5–D8（MMO/玩法/成长系统）整体移交 `docs/phase3/backlog.md`。
+
+## 关键决策与演进（quote 原文为准）
+
+- D16 渲染地基：逻辑/显示分离 + 格坐标（已落地）；D18 包架构 + 阶段隔离（content/reforge/editor/migrate 四包现行）；D20 能力地图取代复刻验收（roadmap §8 已同步重组）；D21 浏览器访问 Web 编辑器、工程存用户本地、工程资源自包含；D24 战斗配置三层化、`sys:battleField` 退役（2026-07-07 补充：持久 `sceneBattleOverrides` 已退役）；D26 唯一地图模型、高度属于格子实例（原则有效；ProjectMapV2 为当时格式，现行共享地图/组合为 version 4，见 D29 与内容规范 §5）。
 
 ## 范围
 
-- 当前包含：历史入口、职责、阶段和下游导航。
-- 明确不包含：当前缺陷台账、runtime/E2E/视觉/coverage 结论。
+- D1–D32架构/范围决定及superseded关系；已转移phase3的决定留作历史，不恢复为第二阶段当前授权。
 
 ## 当前状态
 
-- `status`: historical
-- `lastReviewed`: 2026-10-17
+- `status`: current（入口/参考职责）；原文对账和实现数字按其历史日期使用。`lastReviewed`: 2026-10-17。
+- 历史冲突/未决（quote 原文）：D25 补²「道具图标真索引PNG」实测被推翻（2026-07-06，别再当 TODO）；D17 菜单系统「暂搁」为当时状态，D16 落地后已实现（capability-map C 域）；D22 属历史推进，现行顺序见路线图。
 
 ## 入口与责任
 
-- canonical 入口：当前 phase2/lore 文档、代码、测试和任务台账。
-- Owner：Codex（文档治理；不代签原执行）。
-- 下游使用者：实现、审计和测试维护者。
+- 历史入口：本页与 quote；当前 canonical 入口为现行 phase2/lore 文档、代码、测试和任务看板。
+- Owner：Codex（文档治理；不代签原执行）。下游使用者：实现、审计和测试维护者。
 
 ## 证据与下一步
 
-- 关键来源：`docs/phase2/decisions.md`；source revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0`。
-- 未决/阻塞：- 正文信号 36:**决定**：第一阶段（v1.0.0，功能无 todo，剩长尾视觉 / 听验）视为可收尾，第二阶段开工；策略 = roadmap §5「骨架先行 + 垂直切片」，不瀑布。
-- 正文信号 178:> - 旧碰撞兼容层（`pixelToTile`/`h`/lower-upper）维持、加 GridPos 入口（`isBlockedAt`/`sameGrid`），零行为变化。
-- 正文信号 252:**背景**：作者反馈「双线并行凌乱、脱离控制、想法混乱、第二阶段目标不清」。brainstorm 定位根因——不是代码乱，是**文档与真实意图打架**：① [roadmap §8](roadmap.md)「100% 复刻 = 验收」与 [铁律 #6](READ-FIRST.md)「现代化优先、不复刻怪癖」直接冲突，每步在「要不要为复刻忍脏」上反复拉扯；② roadmap 依赖链（P2 编辑器串行依赖 P1）与作者意图（编辑器是第一类产
-- 正文信号 260:3. **下一步选择器**（[capability-map §5](capability-map.md)）：下一步不靠直觉或 Claude 提议，跑选择器读图——三规则（先闭合半done ⚠️ > 开解锁多的新格 > 阶梯底部优先）+ 一轮一承诺纪律。
-- 正文信号 267:   - **MG2 迁移器增量合并** —— 解「迁移器重导覆盖人工修改」冲突。作者定调：**合并是迁移器内部职责，不是引擎/编辑器架构**——迁移器是开发期工具，完成期退役，引擎/编辑器永远只消费一份干净内容工程，不背「合并两层」的永久包袱（纠正了 brainstorm 中一度提出的「运行时分层合并」过度设计）。
-- 正文信号 384:### D25 补² · 道具图标真索引PNG **实测被推翻**(2026-07-06,别再当 TODO)
-- 下一步：带日期引用并以当前 canonical 文档复核。
+- 下方固定Git quote与原始结论分轴保留；用现行任务/规范核新决定。此页历史导航与内容结论不授runtime或历史执行复核信用。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-06-24；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0。
+- phase2/lore archive；日期：2026-06-24；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0`。
 
 ## 原始结论
 
@@ -53,18 +52,11 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 36:**决定**：第一阶段（v1.0.0，功能无 todo，剩长尾视觉 / 听验）视为可收尾，第二阶段开工；策略 = roadmap §5「骨架先行 + 垂直切片」，不瀑布。
-- 正文信号 178:> - 旧碰撞兼容层（`pixelToTile`/`h`/lower-upper）维持、加 GridPos 入口（`isBlockedAt`/`sameGrid`），零行为变化。
-- 正文信号 252:**背景**：作者反馈「双线并行凌乱、脱离控制、想法混乱、第二阶段目标不清」。brainstorm 定位根因——不是代码乱，是**文档与真实意图打架**：① [roadmap §8](roadmap.md)「100% 复刻 = 验收」与 [铁律 #6](READ-FIRST.md)「现代化优先、不复刻怪癖」直接冲突，每步在「要不要为复刻忍脏」上反复拉扯；② roadmap 依赖链（P2 编辑器串行依赖 P1）与作者意图（编辑器是第一类产
-- 正文信号 260:3. **下一步选择器**（[capability-map §5](capability-map.md)）：下一步不靠直觉或 Claude 提议，跑选择器读图——三规则（先闭合半done ⚠️ > 开解锁多的新格 > 阶梯底部优先）+ 一轮一承诺纪律。
-- 正文信号 267:   - **MG2 迁移器增量合并** —— 解「迁移器重导覆盖人工修改」冲突。作者定调：**合并是迁移器内部职责，不是引擎/编辑器架构**——迁移器是开发期工具，完成期退役，引擎/编辑器永远只消费一份干净内容工程，不背「合并两层」的永久包袱（纠正了 brainstorm 中一度提出的「运行时分层合并」过度设计）。
-- 正文信号 384:### D25 补² · 道具图标真索引PNG **实测被推翻**(2026-07-06,别再当 TODO)
+current（入口/参考职责）；quote和旧复核的具体实现、时间、计数仍为历史材料，不重授旧执行信用。历史冲突/未决见上方「当前状态与未决」；quote D 正文为唯一措辞来源。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

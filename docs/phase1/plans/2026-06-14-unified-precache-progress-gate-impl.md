@@ -1,81 +1,56 @@
 # 统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是统一预缓存进度门实施计划的归档重写。接口契约、Task 明细与验证结论在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Unified precache progress/playable gate implementation, SW bridge and deployment.
-- 日期：2026-06-14；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294`。
+- 目标：落实 [设计稿](2026-06-14-unified-precache-progress-gate.md)——三态进度 UI、加载页骨架、SW 低并发起步+boost 提速、可玩门与进入解锁；接口契约全程锁定各 task 引用。
+- 时间范围：2026-06-14/15。
 
 ## 里程碑
 
-- 原始章节：设计要点 / 约束(实现前必读)；接口契约(全程锁定,各 task 引用)；File Structure；Task 1: 三态进度 UI 控制器(precache-ui.ts)；Task 2: 加载页骨架升级(index.html 虚线 + 按钮)；Task 3: 预缓存客户端 early-register + ready/unavailable + boost(precache-client.ts)；Task 4: SW 让路——低并发起步 + boost 提速(sw.js)；Task 5: video autoplay 预热(avi-player.ts)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 链：precache-ui.ts 三态控制器 → index.html 虚线+按钮 → precache-client early-register/ready/unavailable/boost → sw.js 让路提速 → 可玩门接入；PROD 全流程实测通过（SW activated、进度不闪 8 采样、进入视频直接播、真离线零网络全命中）。
 
 ## 当前状态
 
-- historical；统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 780 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：验证结论含 dev 退化手动验证正常（E2E=1 vite dev 无 SW 无门）；e2e visual baseline 失败（a2 等）经 checkout 改动前对比确认为预存在旧漂移（`pnpm check` 不含 e2e 长期未跑暴露），与本重构无关。
 
 ## 阻塞与决策
 
-- 正文信号 141:Expected: FAIL（`createUnifiedProgressUi` 未导出）
-- 正文信号 339:Expected: FAIL（`onReady`/`onUnavailable`/`boostPrecache` 未实现)
-- 正文信号 471:if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速
-- 正文信号 618:const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
-- 正文信号 646:.catch((err: unknown) => {
-- 正文信号 657:.catch((err: unknown) => {
-- 正文信号 730:bash scripts/deploy.sh app   # 仅运行时代码改动,无需 pnpm extract(manifest 未变);若 nginx 缓存旧 index.html 需硬刷(memory: prod-deploy-stale-index-cache)
-- 正文信号 748:**占位扫描**:无 TBD/TODO;每个代码步给完整代码。
-- 正文信号 755:- PROD 下 `#boot-loading` 进度由 SW 字节驱动、不再包 fetch:确认首访 SW 未 claim 前的最早请求不计入只是"初期从非 0 起跳",不影响单调。
-- 正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：进度数据源统一走 SW 消息；进入按钮常驻、可玩门只解锁不阻断兜底。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e；/；p；r；o；g；r；e；s；s； ；g；a；t；e； ；c；o；d；e； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点已闭环；当前加载/预缓存行为以现行 shell 与 SW 代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-14；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294`。
+- phase1 plans 实施计划；时点 2026-06-14/15；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 780 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- Task 链与 PROD 实测验证结论为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan; 15:设计要点 / 约束(实现前必读); 24:接口契约(全程锁定,各 task 引用); 62:File Structure; 75:Task 1: 三态进度 UI 控制器(precache-ui.ts); 239:Task 2: 加载页骨架升级(index.html 虚线 + 按钮); 293:Task 3: 预缓存客户端 early-register + ready/unavailable + boost(precache-client.ts); 401:Task 4: SW 让路——低并发起步 + boost 提速(sw.js)；原始正文、代码、表格、状态词在 quote 保全。
+- 接口契约、设计要点/约束与验证结论在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 141:Expected: FAIL（`createUnifiedProgressUi` 未导出）
-- 正文信号 339:Expected: FAIL（`onReady`/`onUnavailable`/`boostPrecache` 未实现)
-- 正文信号 471:if (spawnMore) spawnMore() // 已在跑 → 立即补 worker;未跑 → 下次 precacheAll 直接全速
-- 正文信号 618:const isProd = (import.meta as unknown as { env?: { PROD?: boolean } }).env?.PROD === true
-- 正文信号 646:.catch((err: unknown) => {
-- 正文信号 657:.catch((err: unknown) => {
-- 正文信号 730:bash scripts/deploy.sh app   # 仅运行时代码改动,无需 pnpm extract(manifest 未变);若 nginx 缓存旧 index.html 需硬刷(memory: prod-deploy-stale-index-cache)
-- 正文信号 748:**占位扫描**:无 TBD/TODO;每个代码步给完整代码。
-- 正文信号 755:- PROD 下 `#boot-loading` 进度由 SW 字节驱动、不再包 fetch:确认首访 SW 未 claim 前的最早请求不计入只是"初期从非 0 起跳",不影响单调。
-- 正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。
+- historical。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e；/；p；r；o；g；r；e；s；s； ；g；a；t；e； ；c；o；d；e； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [设计稿](2026-06-14-unified-precache-progress-gate.md) 与现行 SW 实现；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan
 >

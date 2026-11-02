@@ -1,6 +1,65 @@
 # CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+存档域本体切片审核（api.ts 97行/indexed-db.ts 93行/api.test.ts 82行+相邻）并承接返工：双路径API（浏览器IndexedDB主路径/无IDB内存fallback）+DB级版本纪律（DB_VERSION bump即清档，P2#5 user已授权开发期存档可作废），记录级无版本字段为既有U-1。
+
+## 范围
+
+2生产+1专属测试+2相邻；后续扩展至连接所有权返工与Save校验E2E工具接线窄修（meal-trace-plugin）。不碰CODE94/95白名单与97-100批文件；不实现GAME-SAVE-INPUT-DOMAIN-1（槽号NaN/小数公共输入域）。
+
+## 前提与证据
+
+api.ts:14/26-29锚sdlpal MAX_SAVE_SLOTS=5、SAVEDGAME_WIN.wSavedTimes cross-slot counter（uigame.c:589-597）；indexed-db.ts:17-20锚P2#5版本纪律；game vitest(jsdom)不提供indexedDB→game测试全程内存fallback，IDB主路径仅浏览器可达（E-12登记）。原8个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
+
+## 验收
+
+返工史：E-10头注过时已更正；2026-10-18补审恢复roundtrip六类字段断言+读侧克隆（9例）；2026-10-25连接所有权：证首次open abort后失败Promise常驻、reset不关闭句柄、旧连接阻塞其它客户端升级（W3C IndexedDB 3.0 §2.1.1/§4.4/§5.2），修promise缓存/失败释放/close/versionchange失效；listSlots可写meta引用泄漏复现（9绿/1业务红）后仅复制数值字段返回；partyLevel注释纠正为实现取角色0。集中门时Save校验提取后的E2E工具接线漂移（meal插桩查旧内联条件、三合同AssertionError）由Codex窄修锚定首条真实assertValidSlot(slot)。终态2026-10-25：54路径20新关闭+34桥接+12相邻delta；全仓20605+714、七包TC、lint6111 0/0/0；唯一official 20168/807、原四条比率拒绝保留、仅三文件结构删除精确重计、同报告ratchet/protected exit0。
+
+## 状态与交接
+
+Status保持done（2026-10-25收口，done仅指本卡有限代码/质量门收口；本地冻结时未推送/PR/合并，远端发布由关联Git/PR与main CI记录）。GAME-SAVE-INPUT-DOMAIN-1（槽号输入域）与GAME-SAVE-IDB-COMMIT-1（事务abort后resolve）两停止线曾分别拦截，前者仍未在本卡实现。
+
+## 历史范围
+
+GLM初批零改动审核（E-10/E-12登记、api.test 8例真oracle）；Codex R2 counter复现真实Save→IDB在request success后事务abort仍resolve（开GAME-SAVE-IDB-COMMIT-1）；R3冻结作者旧交付；2026-10-15最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act、统一门不通过。
+
+## 原始结论
+
+原卡结论：连接所有权切片与listSlots复制修复完成、meal工具接线窄修完成；54路径统一门收口。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-94/approved-closeout/、codex-r2/r3-review、codex-takeover（统一入口）。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+历史任务卡（done有限语义）；save域后续以52收口等为准。
+
+## 继任文档
+
+GAME-SAVE-INPUT-DOMAIN-1（输入域裁决）、GAME-SAVE-IDB-COMMIT-1（事务语义）、GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1（V1内容校验）分别承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md) [GAME-SAVE-IDB-COMMIT-1.md](GAME-SAVE-IDB-COMMIT-1.md) [GAME-SAVE-INPUT-DOMAIN-1.md](GAME-SAVE-INPUT-DOMAIN-1.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 16516B / SHA-256 97bb20c352d7dbe2b342ee9b083cb56ec118438f536e62bf2ebb01c21b369f5c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -163,3 +222,5 @@ Codex 独立验收；E-10/E-12 并入 E-批；U-1（记录级版本）由既有�
 api.test原8例中roundtrip补回六类字段，新增1条读侧克隆：修改load结果的现金、嵌套HP和库存数量，第二次读取仍为原值；原存侧克隆另留，不混称同向。明确stub indexedDB为undefined，每例前后清内存Map并恢复全局；fixture当前HP150/MaxHP200、库存正数，未伪造IDB主路径。当前9例；真实IDB事务三例仍由原独立文件承担。生产api/indexed-db、schema/DB_VERSION、异常输入合同、迁移均未修改。
 
 [完整补审证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)记录旧弱spec与新spec的同一精确变异对照、所有失败与当前原件、caller/read边界；初次typecheck指出测试数组下标未收窄，改用正常遍历，未加强转/ignore。输入域裁决与IDB连接生命周期仍pending，CODE100/101及api.test均保持review，不以局部绿恢复整文件闭合。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,59 @@
 # CODE-QUALITY-43 — game draw sprite 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验精灵绘制三文件（`draw-sprite.ts` 与主/clip 测试）:逐帧 anchor、opaque mask、palette index 0、屏外裁剪、输入缓冲区 ownership;真实 caller 为 present.ts、战斗 sprite 与资源 loader,锚定 `scene.c`。
+
+## 范围
+
+三文件;不改变 sprite 资源格式、排序、用户可见形态或公共接口。
+
+## 前提与证据
+
+历史批:定向 14/14、game 全包 3519、editor 既有失败未改、ratchet 基线不变、protected fast 0 项下降。
+
+## 验收
+
+2026-10-21 基础绘制与同版本只读补证收口:原三文件——保留逐帧锚、借用 buffer、opaque0 合同;左上双裁剪旧 14 绿→新恰 1 业务红,底边存活像素替代重复行序,奇数宽单例由 main 与异宽帧承接;实现仅补 ownership 注释,函数体不变。A-H/callers/native 见 [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
+
+## 状态与交接
+
+done 保持原历史语义;收口只接受原卡范围。
+
+## 历史范围
+
+原卡属 2026-10-12 窄批时点;原始记录在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（14 定向、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;当前结论以 present-leaves 收口原件为准。
+
+## 继任文档
+
+present.ts/战斗 sprite callers 与 present-leaves 收口证据为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2737B / SHA-256 bb494c9861cd794c4a2797a35c86980108e9eeb993eab4531d97392edcb27ee5；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-43 — game draw sprite 窄批
+
+Status: done
 Phase: phase1 game
 Coding Owner: Codex
 Scope: `packages/game/src/present/draw-sprite.ts`、`draw-sprite.test.ts`、`draw-sprite-clip.grok-r1.test.ts`
@@ -41,3 +94,5 @@ Visual Verification Timing: e2e-deferred（精灵观感留集中 E2E；本批核
 原三文件：保留逐帧锚、借用buffer、opaque0合同；左上双裁剪旧14绿→新恰1业务红，底边存活像素替代重复行序，奇数宽单例由main与异宽帧承接。实现仅补ownership注释，函数体不变。
 
 [A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.
+```
+<!-- incremental-original-source:end -->

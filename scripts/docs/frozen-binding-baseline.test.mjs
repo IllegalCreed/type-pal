@@ -8,6 +8,7 @@ import { test } from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { validateCatalog } from './check-testing.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
+import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import {
   frozenBindingTemplate,
   frozenDocumentBaseline,
@@ -15,6 +16,8 @@ import {
   readFrozenBaselineRoot,
 } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { nativeArtifactContracts } from './historical-native-artifact-admission.mjs'
+import { nativeFamilyContracts } from './historical-native-family-admission.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const beforeRevision = 'ec2a87735435b409ff2c5b5e01bfb681af1e5c35'
@@ -100,17 +103,18 @@ function fixture(t) {
     write(route.path, bytes)
     save(registryPath, registry)
     save('docs/phase-governance/routing.json', routing)
-    save('docs/phase-governance/document-registry.json', {
-      entries: [
-        {
-          path: route.path,
-          templateId: route.templateId,
-          templateVariant: route.variant,
-          templateCompliance: 'template-compliant',
-          reviewRecord: 'fixture.json',
-        },
-      ],
-    })
+    saveDocumentRegistryFixture(directory, [
+      {
+        path: route.path,
+        phase: 'ops',
+        docType: 'test-catalog',
+        reviewStatus: 'content-reviewed',
+        templateId: route.templateId,
+        templateVariant: route.variant,
+        templateCompliance: 'template-compliant',
+        reviewRecord: 'fixture.json',
+      },
+    ])
     save('docs/phase-governance/reviews/fixture.json', {
       entries: [
         {
@@ -189,8 +193,25 @@ test('catalog default1.2 preserves the original18 plus correction and input publ
   assert.equal(current.requiredGovernanceFields.length, 14)
   for (const key of ['requiredFields', 'requiredValues', 'entryReadingsField'])
     assert.deepEqual(current[key], old[key])
-  assert.deepEqual(
+  const currentMachine = structuredClone(
     f.registry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),
+  )
+  // S25 explicitly admits this separately tested native format. All preexisting
+  // machine fields and variants remain locked to the original F1 contract.
+  assert(Object.hasOwn(currentMachine.variants, 'historical-vitest-native-v1'))
+  delete currentMachine.variants['historical-vitest-native-v1']
+  // S50 adds only these separately tested native formats; the original parent
+  // and all preexisting variants must still match the fixed F1 contract below.
+  for (const family of ['distilled-reporter', 'totals-summary', 'test-identity-array']) {
+    const definition = nativeFamilyContracts[family]
+    assert.deepEqual(currentMachine.variants[definition.variant], definition)
+    delete currentMachine.variants[definition.variant]
+  }
+  const artifact = nativeArtifactContracts['test-machine-evidence-v1']
+  assert.deepEqual(currentMachine.variants[artifact.variant], artifact)
+  delete currentMachine.variants[artifact.variant]
+  assert.deepEqual(
+    currentMachine,
     beforeRegistry.types.find((entry) => entry.templateId === 'test-machine-evidence-v1'),
   )
   assert.deepEqual(f.registry.historicalSourcePins, beforeRegistry.historicalSourcePins)

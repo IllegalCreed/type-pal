@@ -1,6 +1,45 @@
 # QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复GLM独立审计指出的三条第一阶段战斗分叉（用户2026-10-18要求'开新卡先红例后修'）：模拟法术优先上次存活目标（当前退化为首活敌/全灭槽0）、0x66使用运行时基础武术（当前读已含装备的战斗投影）、敌方非伤害法术也预掷自动防御并传递防御姿（当前受baseDamage门控）。后追加战内0x22复活保留装备状态补项。
+
+## 范围
+
+magic-damage.ts、battle-opcodes.ts、actions/magic.ts与模拟选靶内部helper及typed回归；战内复活补项限battle-opcodes.ts及cov85专测。范围外：CODE53/79毒键、CODE80/81面板、CODE90大世界复活、二阶段grantedStatuses模型、schema/save、公共入口签名。
+
+## 前提与证据
+
+primary：fight.c:87-128/5300-5400自动选靶先查上次存活未清槽目标、全灭返回-1且模拟函数把-1解释为全体；script.c:2007-2014的0x66取裸PlayerRoles.rgwAttackStrength非effective getter；fight.c:4719-4768敌法术在scriptOnUse前按状态短路预掷1/3防御、不受baseDamage门控。投影已含装备（projectRuntimeToBattleRoles累加equipmentEffect），必须读hydrate后runtime。原2个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) [codex-dead-removals.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)。
+
+## 验收
+
+先红后修：修前正式反例8红6绿（初版FIRE帧数误写2已按真实builder纠正为1、初次原件保留不作oracle信用）；最终合法15例对原基点0e3fc84fe三份旧生产源精确回放9红6绿零runtime error。修后15定向/37文件935相邻全绿（首次3旧fixture缺runtime失败后仅补runtime）。五枚精确变异各1业务AssertionError（拦回三机制/漏防御姿/致死后重选靶）、恢复SHA一致。相邻独立counter：H01单敌fixture误造缺失101警告（roster 1红2绿后修0xffff终止符，该测试原闭合转review）；H01判别力一行修（ip2=end→ip3=对话漏终态break变异旧绿新红）。战内复活补项：两条修前AssertionError（1000/32760被清零）→本地数值谓词保留>999、十字段新对象形状、HP/毒等级/目标优先级/帧刷新不变；新增单体非顺序队伍例party[1,0]。静态：game tsc0、docs工具125（catalog SHA失败后补精确绑定五consumer 0issue）、lint5086 0/0/0、ledger3314/284/55/2975。
+
+## 状态与交接
+
+Status保持review：三个窄修+战内复活补项局部源码/反例完成，统一门与浏览器视觉未签收；五条旧闭合记录转review、0新增closed；不恢复53波次收口信用、不宣布整文件完成。normal无目标assert域、极端WORD溢出、脚本失败动画、全灭normal FIRE落点仍待专项。
+
+## 验收边界
+
+GLM本条counter使magic-damage/battle-opcodes的旧'未发现直接缺陷'不能继续作为闭合证据；770f9168e对应审计第二节全部三条（选靶偏好含0x42伤害与FIRE共用同次目标、0x66裸runtime、敌法预掷进frame3）而非只修其一，直接caller三层均覆盖未只测新helper。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 14143B / SHA-256 4a95936ab46b2b8069e23136ca2408185d5c8325565ee201a31ba4673d844fd2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工
+
+Status: review
 Phase: phase1
 Capability: pre-94 / CODE3m、3t 战斗机制 counter
 Coding Owner: Codex（单一写入 Owner）
@@ -136,3 +175,5 @@ H01测试判别力另修一行：敌B入口ip2=end→ip3=对话；漏终态break
 [GLM正文删除与复活返工原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)保存两条实际修前AssertionError（1000/32760被清零）、原源/测试身份及当前103定向+181相邻。原全体例只加强与更正标题，新增1个单体非顺序队伍例：party[1,0]、目标slot1是role0，确认不影响活队友。修复保持十字段新对象形状，只用同一本地数值谓词保留>999；HP、毒等级、目标优先级和帧刷新不变。两侧临界999/1000与真实32760有直接业务断言，未用mock次数代替。无公共接口/schema/save/二阶段或资产变化。
 
 当前284game用例无stderr、game tsc0；与本缺陷无关的BGM24另记，不把它们充战斗覆盖。本卡恢复review，局部源码/反例完成，统一门和视觉未签收。原三项证据保留，未重跑其旧935套件。无下一位Agent提示词；Codex继续本批GLM剩余交付返工。
+```
+<!-- incremental-original-source:end -->

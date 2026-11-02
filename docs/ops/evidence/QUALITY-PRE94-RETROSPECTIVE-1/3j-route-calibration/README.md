@@ -1,5 +1,38 @@
 # CODE3j 检查点局部校准
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3j 检查点局部校准」的治理候选页;证据原件即下方逐字节保全的固定main源(4844B)。2026-10-23 Codex单Owner、基点38d6b2d13;本增量补齐上一[README.md](../3j-tools-quality/README.md)八维窗口的七项校准缺口,只修checkpoints.ts注释,配置/实现/测试/PB/公共接口未改,正文守恒由只读快检复算。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。原盘SSS.MKF 18条相关指令/11场景/10EO给出独立字节偏移与源哈希,与当前全局提取脚本逐项匹配;PalTimer冻结在ba7ca7cc(blob 0284a5d7),已读InitCheckPoints/位置谓词/香蕉检查,不将外挂源码当大宇原版。
+
+## 断言与业务 oracle
+
+七项局部信号当前引擎直接观察:见石碑(1808,520)早入容差、(1856,496)触发原盘5182;学功夫EO195触发2205、对话五次确认、2237切音乐86;上船场景6(1296,1224)到(1280,1216)入容差打点;生化危机EO924触发9716、入62定位(1312,1376);剑柱场景169触发22603、入146(464,1160);祈雨DEV主场景228走正式新游戏onEnter,32039设(1152,1040)、32044等待期打点;锁妖塔163到164(672,704)打点并完整观察165到147入塔演出。移动/自动触发/对白/转场/onEnter/音乐/计时均走生产实现,不写终态/split/音乐/跳过碰撞。首轮塔/剑柱直线路线被真实碰撞阻挡、上船误触方老板对白——失败与成功记录并存,不以producer exit0给失败case信用。**证据证明局部信号可达与接线,不证明新游戏到结局连续剧情、自然路线必经性或完整视觉验收**;旧容差与默认PB维持原设计,不称与PalTimer打点时刻完全一致。
+
+## 结果
+
+review.json逐项列checkpoints的A到H,其他十四文件/测试迁移/全仓门复用上窗同版原件;七项信号补齐后checkpoints.ts接受、CODE3j partial转accept;固定83卡65accept/18partial,账本3403/408closed/103review/2892pending,94-102未扩展。合并基点main的Documentation39913781974与Coverage39913781939 completed/success,App15368两required checks annotation 0;20170例/774源,lint5942文件0/0/0;本次未重采覆盖率或重跑未变测试。node verify.mjs只读复验:旧窗口快检因注释哈希改变返回STALE属预期,本增量承接其不变正文。
+
+## 限制与复核
+
+未重跑;成功场景pageerror/console warning/error均为空;未新增完整剧情E2E、音视频成品或二阶段编辑器预览信用。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4844B / SHA-256 161b66cb68b4a28a1b64197ce1cc05fd55f7e9ca5c73312dda5ef3eec6702145；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j 检查点局部校准
+
 2026-10-23，Codex 单 Owner；基点 `38d6b2d136dc38589df9729242590bc37a5a27e2`，同一 `codex/code-quality-3y`。本增量补齐上一[八维质量窗口](../3j-tools-quality/README.md)的七项校准缺口。只修 `checkpoints.ts` 注释，配置、实现、测试、PB 和公共接口均未改变；正文守恒由只读快检复算。
 
 ## 结果与边界
@@ -31,3 +64,5 @@
 合并基点 main 的 Documentation `39913781974` 与 Coverage `39913781939` 已 completed/success，App15368 两 required checks annotation 均 0；完整日志核零项目/平台诊断，20170 例／774 源，lint5942文件 error/warning/info 全 0。PR15 的全 check、official ratchet 与 protected fast 原件沿上窗复用，本次没有重采覆盖率或重跑未变测试。当前增量 check:docs、lint-zero（5944 文件，error/warning/info 均 0）、ledger、diff 与只读快检通过；首轮仅 all-cards 格式诊断，原件保留，格式化后清零。打包后的直接文档/静态复验及提交/推送/PR 门另存发布回执；不能把基点 CI 当新提交 CI。
 
 所有本次场景成功记录的 pageerror、console warning/error 均为空；未新增完整剧情 E2E、音视频成品或二阶段编辑器预览信用。下一有限范围可转 pre94 3k；无下一位 Agent 提示词，Codex 继续负责。只读复验失效时按具体变动补核，不从头重审已接受文件。
+```
+<!-- incremental-original-source:end -->

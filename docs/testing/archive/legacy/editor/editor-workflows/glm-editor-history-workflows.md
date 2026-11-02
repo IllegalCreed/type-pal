@@ -1,40 +1,64 @@
 # GLM 并行工作包：D-01 配对工作流正式回归
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-HISTORY-ORDER-1 主卡的 GLM 并行工作包 D-01（配对工作流正式回归）build 期工作合同（Revision r1，2026-09-13）：产品冻结 `dded6f27`，GLM 测试贡献、Codex Coding Owner；主卡已三席及用户验收 done 归档，本包已交付接收，下文保留工作合同不重新派发。
+
+## Scope
+
+- 对象=P01–P20 二十项配对工作流取证（七类真实配对/提交顺序/no-op/apply 失败/订阅/保存序列化/seed→loader 闭环/命令复用 census）；产品/既有测试对 dded6f27 零 diff。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 测试边界 | 仅稳定公开 API：new EditorHistoryCoordinator(main, script)、dispatch(scriptCommand, mainCommand)、undo()/redo()、两 session dispatch/getState/isDirty/canUndo/canRedo/subscribe/getHistoryVersion | 不读私有栈、不 mock 协调器/会话本身、不加新旧版本兼容适配 | 目标=构造协调器后两 session 普通 dispatch 归入全局历史 | 暂不依赖未落地的 connect/dispose/动作标签新 API |
+| P01–P07 | 七类真实配对（新建/复制/删除场景、新增/删除实体、新增/删除物品私有脚本） | 每类成功→一次 undo 双侧恢复→一次 redo 双侧恢复 | 保存合并结果合法 | — |
+| P08–P18 | pair→main→script 与反向排列连续 undo/redo 严格按提交顺序；两笔 pair 身份独立；pair 间插入普通编辑；main/script 成功新分支清对侧 redo；原 state no-op 不清 redo；apply 失败完整双侧状态保持；订阅只见完整结果；保存标记不改全局顺序（deferred 非 sleep） | 真实 Command 包故障门，不改产品 | 冻结树上全局错序未修，新增正确性断言预期红是正常的 | 不可 skip/test.fails/宽松匹配；缺 API/坏 fixture/异常收集是环境错误 |
+| P19–P20 | 真实 seed→正式 loader→pair 编辑/undo/redo→保存序列化→loader 重开核两侧作者内容；剩余命令对象复用/Root 重挂载 caller census | 内存 FileSystem 边界替身+仓内 fixture；禁 mock 真实身份/历史/引用策略 | 不用无效最小对象充闭环 | census 列真实调用点与可证伪限制，不自行决定新生命周期 API |
+
+## Results
+
+- 写入白名单：editor-history-paired-workflows.test.ts（新增）+ glm-editor-history-workflows-receipt.md；不得改主卡/既有测试/产品/配置/锁文件/coverage 基线/data/projects/reference。
+- 只跑新增+定向相邻、editor typecheck、改动文件 Biome；不跑全仓 check/coverage/ratchet；GLM 是测试贡献者必须终审披露，不代签不标 done。
+
+## Evidence
+
+- 证据路径：本合同正文（quote 保全）；[已接收取证](../../e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md)（G-H05/10/14 仍有待证）；回执在同目录 receipt 文件。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| D-01 工作包 | 2026-09-13 | P01–P20 合同 | 已交付接收（回执见 receipt） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 GLM D-01 工作包合同；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 并行工作包：D-01 配对工作流正式回归：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+P01–P20 二十项配对工作流取证合同（先 P01–P12+P19，后 P13–P18，最后 P20 对账）；冻结树预期红纪律。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+P 项表、公开 API 边界与白名单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。工作包已交付接收；主卡 done 归档。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前配对工作流状态归 EDITOR-HISTORY-ORDER-1 完成卡与现行测试。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `1e6b67680dd7b729ff55aa579f9736de84d246f1788d7a6df88fd3b41cd4d13d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `1e6b67680dd7b729ff55aa579f9736de84d246f1788d7a6df88fd3b41cd4d13d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 并行工作包：D-01 配对工作流正式回归
 >

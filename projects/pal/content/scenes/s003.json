@@ -2939,7 +2939,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "求药出发：指路、赠锤与服丹",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3470,7 +3470,8 @@
                         "entity": "e59"
                       }
                     }
-                  ]
+                  ],
+                  "label": "说明水月宫与破阵，收锤服丹后放行"
                 }
               ]
             }
@@ -4893,7 +4894,7 @@
         },
         "auto": {
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "求药出发：在大厅出口等候",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -4901,7 +4902,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "走到大厅出口并等待交谈",
                   "body": [
                     {
                       "kind": "moveEntity",

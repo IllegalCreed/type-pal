@@ -1,5 +1,38 @@
 # CODE-QUALITY-3y analytics consent当前复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE-QUALITY-3y analytics consent当前复审」(Date: 2026-10-18 Base: `28fcfbe310815bcfd712b2f3da1849e0f4076092` Branch: `codex/code-quality-3y`,单Agent Codex 自证不冒充第三方)的真实主题:analytics-consent.ts(90行)与其主测/H04 边界测的注释级复审与测试治理——consent 源只改事实注释(旧"广播异常仍失败关闭"说法无充分支持,改为"已提交且不保证订阅者收通知"),parsedTS/JS 相同(emit-identity.json),产品执行未改;未改隐私策略/GA网络/UI形态/schema/save/公共接口。
+
+## 范围与证据
+
+原报告含章节[CODE-QUALITY-3y analytics consent当前复审、身份、准入与逐文件读取、Primary、caller、ownership与实现结论、测试问题、修复与排重、当前状态、门与限制、交接与下一批]、6个链接;固定main源5921B(SHA 9618f867acda)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [assertion-transfers.json](assertion-transfers.json) [controls.json](controls.json) [emit-identity.json](emit-identity.json) [gates.json](gates.json) [read-boundaries.json](read-boundaries.json) 。读域16文件全读(consent/installer/UI/GA/main 源码与相邻测试+OPS-GA4 等历史卡);三原文件 90/57/71 行全文;未把旧 done 或未成功的 protected 结果继承为当前 accept。
+
+## 发现
+
+原文时点真实发现:旧主测清空全部 localStorage、订阅无 finally,H04 有 as never/unknown 双强转且标题称无 window 却没执行——修复后两文件只保存/恢复自有持久键、订阅/spy/window 模拟精确 finally 清理、真实 Storage+window 下 listener 在通知当场读到提交值。断言迁移:主测保持 3 例(独立持久键/合法两态/未知或抛错读),H04 由 3 拆 4(实际无window/属性拒绝、写失败false零广播、广播失败true精确写键值、真实未知事件与unsubscribe后零回调),0 整例退役。五反控(publish-before-persistence、dnt-zero-treated-as-signal、default-write-host-missing 各旧主3绿→新主2绿1指定红;notify-after-storage-failure、browserless-falls-back-to-global-storage 各旧H04 3绿→新H04 3绿1指定红)全成。首次 check:docs 工具125全过后因父导航漏链 exit1,docs.raw.gz 原件保留;补导航(README 只改计数头与一段子导航)后仅重放五个实际消费者,不重复125、不改写原 exit1。
+
+## 结论
+
+原结论按原时点保留:7定向+17相邻(6文件24绿)、game typecheck 零诊断、lint-zero(5330文件)、ledger 3315/261/85/2969,0新closed;三路径 pending→review、只 CODE-QUALITY-3y 卡 pending→partial(52partial/31pending/0accept,其余82对象与旧SHA不改);fetch 后 0behind/252ahead,不合main。jsdom 未执行真实 Google 端点,不以 DOM script 断言冒充实网/生产采集验收;跨 window/realm、广播失败时现存 GA 订阅端到端一致性、真实存储策略/浏览器/网络与完整 UI 卸载仍未验。
+
+## 整改与复核
+
+本治理候选仅覆盖文档角色与保全;整改事实以原文与后继卡为准(后继 3z 片在 4b86b04b 基点处理 google-analytics.ts 与初始化停止线);候选待Owner接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5921B / SHA-256 9618f867acdad84b45811cc58d1535ac3f2d1387f28fa0015f848ee364f6e733；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-3y analytics consent当前复审
+
 Status: recorded
 Owner: Codex（单Agent，自身源码/测试核证，不冒充第三方）
 Date: 2026-10-18
@@ -39,3 +72,5 @@ consent源纯读写与事件端口边界清楚，存储缺失/读异常/非法�
 静态门过程：首次pnpm check:docs工具125全通过，随后因父导航漏链exit1；docs.raw.gz原件保留。补导航后仅重放五个实际消费者，不重复125，不把原exit1改成通过。最终消费者与lint结果逐项见gates；统一门和实网仍未运行。
 
 宿主精度：本片“真实Storage/window/EventTarget”指正式game jsdom runner的实际DOM/存储实现及真实SUT接线；不表示独立浏览器或生产端实跑。相邻GA/UI测试也只按此范围记证据。
+```
+<!-- incremental-original-source:end -->

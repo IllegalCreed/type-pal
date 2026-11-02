@@ -1,40 +1,62 @@
 # 保存恢复：写入授权生命周期回归
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1（build/r2）下 Codex 独立推进的写入授权生命周期回归（2026-09-12，基于 693dec71）：workspace-capability-lifecycle.test.ts 新增 13 项，不改生产/GLM 测试/回执/旧测试/配置。
+
+## Scope
+
+13 项用 authorizeFirstSaveTarget/withAuthorizedWorkspaceMutation 实际签发对象（不伪造品牌/不导出私有函数；policy/writer/handle-store 登记业务与锁执行生产函数，只替换内存 FSA/恢复凭据/底层 IDB）：成功/失败后真实 token 失效 2、writer 提交后外层未退出 1、recent 声明生命周期 1、recent 身份不一致 4、恢复私有路径/操作归属 1、封存计划与原基线不符 3、保留恢复 scope 准入 1。十组单点负控（TS AST 定位唯一 throw 替换空块）各业务红：scope:234/private:337/begin:554/paths:511/identity:540/late:542/pending:544/sealing:311/path:346/operation:348。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+相邻+统一门 | 13/13、相邻 7 文件 214/214、typecheck/biome exit0；完整 check exit0 6796 项；官方 ratchet+单次严格 fast exit0 6308 项 | Codex | editor fast 201 文件/2069 项、618 生产文件不变；wp 新增 16 臂 56→40 未覆盖（LCOV 独立逐臂复算 82→66） | 自修正如实保留：typecheck 首跑 exit2（SaveSignature 赋值）、begin 负控首配 0 项、private 负控首触后层文案红改真实 operationId |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+13 项全绿+十组负控业务红；GLM open-identity-r1 仍在返工其 hint.source 缺口未被本批覆盖；父卡非 done 不代签。
+
+## Evidence
+
+- 证据路径：本回归正文（quote 保全）；/tmp/codex-capability.NLPLjB/ 全套日志与 reconcile.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 授权生命周期回归 | 2026-09-12 | 13 项+十组负控+统一门 | 完成（父卡仍 build/r2） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的授权生命周期回归；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 保存恢复：写入授权生命周期回归：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+13 项全绿+十组负控业务红；GLM open-identity-r1 仍在返工其 hint.source 缺口未被本批覆盖；父卡非 done 不代签。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+用例组表、负控位置表、自修正记录与质量门在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-12 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-SAVE-RECOVERY-1 完成卡与 closeout 文档。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5725ceaf3b519e447f206c5fd2fd8f370d43139c1ceb29aba05ba92aeef4198a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5725ceaf3b519e447f206c5fd2fd8f370d43139c1ceb29aba05ba92aeef4198a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 保存恢复：写入授权生命周期回归
 >

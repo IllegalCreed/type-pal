@@ -1,40 +1,62 @@
 # GLM物品六组：598777cf第三轮独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 第 3 轮 Codex 独立接收（2026-09-27，候选 598777cf 本地/远端一致）：counter；本轮未改候选语义、未合候选、不计覆盖。
+
+## Scope
+
+已闭合不重开：R1 构造器/装备正控保持；R2 旁库存（ownership:21-24 加 potion、:79-87 深快照非空哨兵，drop-unrelated-inventory 现 6 绿/2 业务红）、八项成长（growth-no-op 现 9 绿/1 红）、外部三哨兵（drop-external-money 现 5 绿/1 红）。残项：R2 RNG 次数与完整外部世界未钉（effects:347-368 固定 rng 值未记调用次数——item:1110 变异 7 次≠6 次独立 oracle 抓住而候选 10/10 绿；external:66-85 只比三字段——item:1187 变异 hp 清 0 候选仍 6/6 绿）；R3 未落盘（derived:149-151 仍匿名传 [100] 只拍 char、ownership:108-132 拒绝无前后快照、effects 另三次调用仍函数对象交快照）；R4 本批 2 条硬质量错误（external/ownership 导入排序 2 error，r3 交付声称 0error 不成立）+正文机账仍有已点名不符（receipt 仍 I2=7/净增 45、仍写 targetIds 门、fullName 省略号）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+残项针+静态 | 定向 46/46、content 1178/1178、相邻 17/17、TC 零诊断；四条漏检均有原实现绿/变异业务红独立 oracle（24 跑+残项两针） | Codex | rng 恰 6 次（rewards.ts:51-60 一层成长）、完整 outcome.world 深克隆仅变库存比较 | 修订只记录实际 rng 计数与完整 world 比较，不重写已正确八项数值不加矩阵 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter：R2 残两项（RNG 次数、完整 world）、R3 未落盘三处、R4 两硬错误+回执不符；没有发现并修产品缺陷（证明测试放过注入错误不宣称产品含变异）。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；/tmp/codex-item-logic-r3-*.log 与三个临时目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r3 接收 | 2026-09-27 | R2 三哨兵闭+RNG/world 残 | counter | r2 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/editor-workflows 的第 3 轮接收；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：598777cf第三轮独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：R2 残两项（RNG 次数、完整 world）、R3 未落盘三处、R4 两硬错误+回执不符；没有发现并修产品缺陷（证明测试放过注入错误不宣称产品含变异）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+残项见证表、四漏检 oracle 行、日志与目录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。物品六组多轮链以完成卡为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1-world-use-residuals 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `4ca8f4194b06176249aebfc1765eece7e31a2f3f1fefdbf978499ad138f1cb22`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `4ca8f4194b06176249aebfc1765eece7e31a2f3f1fefdbf978499ad138f1cb22`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：598777cf第三轮独立接收
 >

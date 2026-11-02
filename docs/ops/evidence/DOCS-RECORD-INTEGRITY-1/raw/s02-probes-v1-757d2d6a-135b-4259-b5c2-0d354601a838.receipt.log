@@ -1,0 +1,30 @@
+{
+  "kind": "documentation-publication-IO-probes-not-product-tests",
+  "role": "Reproduced author harness setup failure: choosing a contract and changing its status also invalidates a real dependency; never a product negative-control pass",
+  "command": [
+    "node",
+    "/tmp/s02-consumer-probes-v1.mjs"
+  ],
+  "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+  "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+  "scriptSha256": "e2482b15d9885b8065d98f37b3bc1c0cb244c9fb440b0170efa51009157684dc",
+  "retainedScript": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v1-757d2d6a-135b-4259-b5c2-0d354601a838.source.log",
+  "startedAt": "2026-10-17T20:35:41.755572+00:00",
+  "finishedAt": "2026-10-17T20:35:41.797467+00:00",
+  "exitCode": 1,
+  "signal": null,
+  "files": [
+    {
+      "stream": "stdout",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v1-757d2d6a-135b-4259-b5c2-0d354601a838.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "stream": "stderr",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v1-757d2d6a-135b-4259-b5c2-0d354601a838.stderr.log",
+      "sha256": "341dff27d4c8f2d5513dbef55d6dbc7eeb76b9949af99aca5d721c9f18541fdd",
+      "bytes": 702
+    }
+  ]
+}

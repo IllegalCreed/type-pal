@@ -1,40 +1,63 @@
 # GLM 覆盖率第二波准备回执 r3（针对 Codex r2 counter cec14f05 C1～C3）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-NONVISUAL-COVERAGE-2 第二波准备/实施复合回执：GLM r3 准备（C1-C3 落实+机账 v3-v5 演进）；**2026-09-22 Codex 实施接手**（用户授权接替额度耗尽的 GLM，保留 A/B 提交 6839ea78/816c32ce 历史未验收，初次复跑 58 项绿但 reforge TC exit2——假 flow/半 catalog 强转/悬挂 Promise 等由 Codex 修正）；**2026-09-23 同候选 `27bd8c00` 三席 accept 齐**（GLM 恢复后以贡献者复核 d8b9dfa7、Kimi 终审 5b44c37d），Codex 核零漂移 done 归档。
+
+## Scope
+
+- Codex 实际交付：25 测试文件+9 组内 fixture+2 工具，163 项（A25/B40/C20/D14/E45/F19；reforge49/editor50/content45/migrate19）；与 967b35fb 相比仅白名单新文件，25 产品源码对冻结 57dda7ed 逐份零差异。
+
+## Execution and assertions
+
+- **六组实施**：A current 编译器→真实 ProjectScriptRuntimeHost/runner→共享 core（完整派发实参/两 target 一次通知/真实 move 取消漂移）；B 正式工程 load+RLE/gzip/cursor/font/PNG 宿主→完整资源准备（B05 工程与资源 fixture 留 reforge 包内、PNG 字节独立 pngjs CRC/尺寸逐字节对上仓内 num/1、num/2）；C 作者树先 guard 再预览 lowering；D 完整 loader 工程→真实 EditSession 扫描/proof factory（新 generation 拒旧 proof）；E 完整父 guard 上单轴拒绝；F 自包含提取表→真实 translator（B11-1 四入口/独立 36 键）；表映射/三域/概率等已有 full 证明部分按输入解耦登记非 19 个新业务机制
+- **同口径覆盖**：coverage-wave2-coverage-config.mts 两侧官方 testSelection；before 仅排除 25 新测试、四包 before 测试数与 7627 基线对应包相等；四包净增 673L/761S/84F/572B（reforge 8514→8759/14599 等）；并非全部 25 文件达 95%行/90%分支；D 组若干文件覆盖净增 0 属真实业务断言补强机账如实为 0
+- **负控**：coverage-wave2-mutants.mjs：4 完整新套件正控+17 针；正控 163 项全执行零 skip/todo；每针以精确文件/标题选恰 1 项执行且自身 AssertionError 红（filteredByExactName 记录过滤项）、每针唯一替换、25 产品 hash 不变、拒普通 Error/混合/超时/未执行；不把另一用例红当目标鉴别力
+- **失败记录**：接手期：假 flow/半 catalog 强转、import/坐标/preview 类型错、删除宿主自检空转与越界 emptyWorld 重复测试；开发期：A 初始页缺失/B 技能 animation 缺失/C loop 缺 yield 被 guard 拒后补完整 fixture；D 初版 toEditorState 参数次序错 5 项失败；F 零 rate 直读 translate-enemy-scripts.ts:53-63 确认非零 magic 保留 chancePercent=0 按当前合同纠正；B05 第一版跨包引用 rootDir 失败改 reforge 自包含；不是通过多数重跑放行
+- **统一门**：pnpm check exit0 七包 8,281 项（47 既有 warning/7 info 其中 1 项本工具字符串风格已等价修正）；ratchet exit0；BASE_REF=967b35fb 单次 fast exit0 7,790 项/633 与新基线逐维一致；全仓行 73.80%/分支 65.41%；四包对照分子与官方基线完全相同、shared/pal-extract/game 完整基线对象不变；不宣称远端 CI 或 full/Q1/Q2
+- **GLM r3 准备（C1-C3）**：C1 四臂逐 arm 纠正（branchArmExceptions 支持同行拆 arm：validate-runtime [40,8,0] 无 pages 有 behaviors 合法分支归 NEW、migrate-enemies default-arg 三臂 NEW、仅 [211,28,1] 显式 false 保留 PEND）→NEW 955/1263、UNREACH 5/10、PEND 0/1 与 Codex 预期算术一致；C2 族级去重（dedupTitles 45→80 条含 5 套件提示展开）+familyTable（v4 补齐 11→20 行）+确切 25+9+2 白名单恢复；C3 负控更正：A03 通知合同更正（命令级恰一次通知）、B04 旧切片针退役归旧证据换 readText/readJson 包装针、F03 标 fast 解耦；v5 撤回「moveEntity 提交窗两臂已证」（第二条实为 hideEntity/removeEntity 生命周期取消），移动提交前后取消与会话漂移保持 A05 NEW 待补
+
+## Results
+
+- 有证据的收窄：script-references.ts:110-365 旧扫描器无现行 caller（当前 project-diagnostics.ts:710 用 FromVisits）归 E-05 审查不删除；BaseScriptProjectRuntime 无 current 消费者与 BaseProjectScriptRuntimeHost 区分；script-editor.ts:349 私有 visitor 只产 use owner 不制造 throw owner 凑尾臂。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账 glm-coverage-wave2-results.json（schemaVersion 3+codexImplementation 实名节）；复跑命令与失败目录 /tmp/type-pal-wave2-* 按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r3 准备+Codex 实施 | 2026-09-22/23 | 163 项+17 针+673L/572B | 27bd8c00 三席 accept done | r2 counter cec14f05 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 wave2 准备/实施回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 覆盖率第二波准备回执 r3（针对 Codex r2 counter cec14f05 C1～C3）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：163 项六组+17 针+四包净增 673L/572B；三门 exit0（fast 7,790）；A05 移动提交窗未证待补如实登记；GLM 准备 v3-v5 机账演进保留。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组实施表、覆盖对照表、C1-C3 更正、v4/v5 附节与失败记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；whole-file 目标未达项保持原归属。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-NONVISUAL-COVERAGE-2 完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `18203559e2c4403396c808d754c6e1f392306fc2c7a826a0dedc5926e4ca6bdc`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `18203559e2c4403396c808d754c6e1f392306fc2c7a826a0dedc5926e4ca6bdc`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 覆盖率第二波准备回执 r3（针对 Codex r2 counter cec14f05 C1～C3）
 >

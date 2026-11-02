@@ -1,55 +1,63 @@
 # SCRIPT-GOV-1 剧本共性问题族治理
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W7 / P3
+Coding Owner: 分包独占，见下文
+Reviewer: Codex Root
+Visual Verification Timing: e2e-deferred
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是剧本共性族治理历史卡（用户要求批量治理而非逐 NPC 救火）：首批建立全量问题族清单+修复源映射可靠的动态入口后继缺失/重复奖励+165 个复杂 flow 分类核机械折叠链；不把状态数量直接当 bug 数量；保护已验 001-005 场景与存档原字节。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+作者模型统一方案→步骤→指令，不保留并列"连续流程/高级状态"长期作者界面。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：全量问题族清单、动态入口后继/重复奖励修复、165 flow 分类。
+- 范围外：006 推进；恢复全量转换核、全局替换 wait、循环次数上限当时间、为过门改规则或手改 checkpoint digest。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+all.json L2018 给药后 advance/L3383 两段交谈后 reset/L5076 多帧 auto 续跑、0x24/25 动态安装边；一阶段 event-system.ts:1276-1288 advance/reset 游标与 :1342-1348 auto 按 tick 等待、goto.frameDelay 为计数非时间。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按分包独占+Root 验收收口（详见卡内各批记录）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+后续统一模型归 SCRIPT-GOV-2。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+首批治理窗口（001-005 共性回顾驱动）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：问题族清单+首批修复+165 flow 分类经分包验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+四向真值表、001-005 common-issues.md 母依据。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。治理成果由 GOV-2 与现行 content 承接。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+SCRIPT-GOV-2 与 common-issues.md。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `2b9ad7e11ffe0acb10b8385ee093498cef510c11de091b8391416112cfbfd14b`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `2b9ad7e11ffe0acb10b8385ee093498cef510c11de091b8391416112cfbfd14b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # SCRIPT-GOV-1 剧本共性问题族治理
 >

@@ -1,6 +1,59 @@
 # CODE-QUALITY-44 — game font / text primitive 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验字体 primitive 四文件（`font.ts` 与主/leaves/font-width 测试）:glyph 资源加载、tofu fallback、逐字绘制、阴影和 PAL 字宽量化;真实 callers 是 dialog/menu/battle/present,行为真值来自 `text.c:1075-1155,1478-1594,1725`、`ui.c:836-861`、`font.c:611-629`。
+
+## 范围
+
+四文件;不改字体资源、文本内容、公共接口或 UI 形态。
+
+## 前提与证据
+
+历史批:定向 33/33、game 全包 3519、editor 既有 number-field-adoption 失败未改、ratchet 基线不变（19,798）、protected fast 0 项下降。
+
+## 验收
+
+2026-10-21 基础绘制与同版本只读补证收口:原四文件——两文字入口共享私有字形三影→正色序列,不合并不同颜色推进循环;纠正 Unicode/tofu 列号及静态字宽近似边界;合法 16 字节 glyph 核 height,非零底图三影、补充平面码点、缺字游标均有真实结果;当前 27 例,旧数量不继承。A-H/callers/native 见 [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
+
+## 状态与交接
+
+done 保持原历史语义;收口只接受原卡范围,无 broad/adjacent 或 deferred visual credit。
+
+## 历史范围
+
+原卡属 2026-10-12 窄批时点;原始记录在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（33 定向、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;当前结论以 present-leaves 收口原件为准。
+
+## 继任文档
+
+dialog/menu/battle callers 与 present-leaves 收口证据为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2789B / SHA-256 78766c0999639eeb755dcba220c6f092f6381d353f540ea71d3b0617b1890def；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-44 — game font / text primitive 窄批
+
+Status: done
 Phase: phase1 game
 Coding Owner: Codex
 Scope: `packages/game/src/present/font.ts`、`font.test.ts`、`font.glm-phase1-leaves.test.ts`、`font-width.grok-r1.test.ts`
@@ -41,3 +94,5 @@ dialog/menu/battle/present，行为真值来自 `reference/sdlpal/text.c:1075-11
 原四文件：两文字入口共享私有字形三影→正色序列，不合并不同颜色推进循环；纠正Unicode/tofu列号及静态字宽近似边界。合法16字节glyph核height，非零底图三影、补充平面码点、缺字游标均有真实结果；当前27例，旧数量不继承。
 
 [A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.
+```
+<!-- incremental-original-source:end -->

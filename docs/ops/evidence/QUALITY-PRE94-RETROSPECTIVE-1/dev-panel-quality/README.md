@@ -1,5 +1,38 @@
 # CODE53／58 Dev 装配与生命周期质量
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE53／58 Dev 装配与生命周期质量」的治理候选页;证据原件即下方逐字节保全的固定main源(3464B,SHA 4088b431edea)。本页语义:2026-10-25、codex/code-quality-3y、基点2ccbffd0,Codex单Owner,五个Dev文件新关闭、队伍专测旧接受刷新;固定77accept/6partial不变;卡53仍有419行event-opcodes.cov85.test.ts待审,不从范围删除;58/57及其它未决范围不附带接受。历史验收时点,不重开任务。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[prove-recompose.cjs](prove-recompose.cjs) [receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json)。逐文件八维/读域/取舍见review.json(6文件),原件包receipts是JSON/base64无损gzip,成员字节与SHA在review索引。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)结构改动——场景页独立拥有observer/generation/缓存,队伍页委托既有inspect/装备入口,根宿主按原顺序调用工具段,两个状态键双强转删除,原public入口/类型/DOM/状态操作不变;还原器prove-recompose.cjs逆展开整个picker比较全部执行语句,是执行等价证明而非仅去注释hash。(2)10文件106例绿,私有类型收窄后其余105例复用、最终合法图像例单独绿,typecheck最终0;原43身份未删改,新增1条真实Canvas/16RGBA字面oracle。(3)完全不透明变异:旧43绿,最终合法夹具恰1个业务AssertionError,源完整复原。(4)旧party两例换回基点root仍2红,证实旧oracle漂移,修为完整16槽而非过滤零记录。(5)alpha-legal只是中间文件名不证明合法;初次alpha针被无关失败污染撤销信用;新像素夹具猜id缺cycles被类型门拒绝,按真实Palette合同补齐后才给反控/恢复信用;还原器两次逻辑错误与自身1error/7info静态拒绝都保留,修工具不迁就产品。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:五文件新关闭(dev-panel/dev-scene-panel/dev-party-panel/dev-indexed-image及其测试),77accept/6partial;未跑全仓check/官方coverage/protected,baseline未改,无新PR或main合并。低成本只读复验node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/verify.mjs,核当前源/依赖、全原件字节、native身份集合、完整还原与指定反控,不写树/联网/跑测试。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:本窗是行为保持,未重跑浏览器,不把缩略图缓存控制当CODE57像素正确;Dev固定P0文案、ID5合成毒标记、旧console计数(说7实际6个showDialog)等如实列为非阻断开发工具候选,不冒充真实施毒/剧情证据;下一片先核53声明的事件专测,再续1/57与58实际FileReader边界;3m/42等待真实裁决。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3464B / SHA-256 4088b431edeaefed547bd19f0fb6f50ed3f6a0feffbde893acec2357f8c4d824；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE53／58 Dev 装配与生命周期质量
+
 2026-10-25，同一 `codex/code-quality-3y`，基点 `2ccbffd0ecce117a5dad957bef85e9fc3dfe5496`，Codex 单 Owner。五个文件新关闭、队伍专测旧接受刷新；逐文件八维／读域／取舍／已知限制见 [review.json](review.json)。原卡53仍有419行 `event-opcodes.cov85.test.ts` 待审，不从范围删掉；固定77 accept／6 partial不变。58／57及其它未决范围不附带接受。
 
 ## 改动与验证
@@ -21,3 +54,5 @@
 必要复跑：`pnpm --filter @type-pal/game exec vitest run src/dev/dev-panel.test.ts src/dev/dev-panel.pure.test.ts src/dev/dev-panel.glm-next-wave.test.ts src/dev/dev-panel-party-lifecycle.test.ts src/dev/dev-panel-picker-lifecycle.test.ts src/dev/dev-indexed-image.test.ts --reporter=default`。
 
 本窗是行为保持，未重跑浏览器；旧功能／ownership证据仅按当前还原桥复用。不把缩略图缓存控制当CODE57像素正确。Dev已有的固定P0文案、ID5合成毒标记、旧console计数等限制如实列为非阻断开发工具候选；不冒充真实施毒／普通剧情证据。下一片先核原53声明的事件专测，再续1／57与58实际FileReader边界；3m／42等待真实裁决。
+```
+<!-- incremental-original-source:end -->

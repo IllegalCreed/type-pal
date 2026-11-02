@@ -1,40 +1,61 @@
 # GLM 第二波非视觉覆盖率整包 · 六组25模块
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-NONVISUAL-COVERAGE-2 第二波规划工作包（2026-09-22；规划 Owner Codex、实施 Owner GLM；生产冻结 57dda7ed，规划起点 456feb12 产品相同）：六组 25 模块、整文件候选缺口 960 行/1,274 分支臂——是候选缺口不是保证提升或应写 1,274 个测试；draft/准备阶段，三席设计齐+Codex 核门后才能写正式测试。
+
+## Scope
+
+- 官方 fast 7,538 项/633 生产文件（主工作树旧报告 7,502 不能冒充新基线，独立工作树报告与官方 baseline 逐包对齐）；机器清单 glm-coverage-wave2-evidence.json+只读生成器。
+
+## Execution and assertions
+
+- **六组范围**：W2-A 运行时脚本状态与宿主调用（3 模块/189 行/246 臂；A01-A05）；W2-B 模拟器配置与资源快照（6/102/100；B01-B05 拒绝矩阵/解析优先级/命令 invert/快照 seal 拒绝/版本漂移）；W2-C 精灵行为投影与帧动画草稿（3/112/210）；W2-D 引用图与删除凭据（6/89/159；须与 EDITOR-LOGIC-COVERAGE-1/SCENE-REF-GUARD/ITEM-AUTHORING/TB07 逐条去重只认扣除重叠后新增族）；W2-E 当前脚本/运行态守卫（4/218/305；外层 validateBaseScenes 已拦截的列重叠保护不截断 guard 硬打后层）；W2-F 迁移映射与审计自包含输入（3/250/254；三份既有测试被官方 fast 资产排除整体排除——接近 0 覆盖不代表没有测试）；已主动排除：main/App/绘图音画/Playwright 归 Codex；C-01~05/U-02/E-05/N6b 修复不混入；sound-reference-audit 等未确认 caller 的高缺口不按 0 覆盖直接排也不判死代码
+- **实施合同**：独立 codex/glm-coverage-wave2 工作树；同一父卡 A→F 各一组提交最后统一整包候选；仅新增 <stem>.wave2.test.ts（25 上限）+按组薄 fixture+诊断白名单工具；生产/旧测试/公共 fixture/全局配置/lockfile/资产/官方 baseline 零改；整文件 95% 行/90% 分支是方向非放宽理由；发现真实产品缺陷保留隔离反例交 Codex 其它组继续，不塞默认红/skip
+- **验收**：必须执行 GLM 交付前自检清单；特别禁止整模块 mock/另一对象快照/自比较/只看 length 非零/假 caller 取消/超时当业务红；异步 entered+同步结局+finally 释放同一底层；每组代表负控（全包建议 12-18 针随准备表冻结不机械凑一模块一针）；每针唯一注入点+精确标题 failed+AssertionError 首行+判据自测拒混合错误；官方 testSelection before/after（只移除本包新测试）局部 25 模块+涉及包整包分栏；分清新增业务/已有输入解耦/跨包重叠/待证
+- **冻结清单复算**：coverage-wave2-census.mjs --check；同口径清单过、旧主树 7,502 报告以 stale or mismatched report totals 拒绝；不同工作树绝对路径改变摘要须 Codex 另核登记不能冒充原报告；工具初版直接比较整个 fastTests 对象因 report 额外带 identities 误拒，改为逐项比较 baseline 全部字段（含身份/执行 digest）不是删除统计核验
+
+## Results
+
+- 准备段工作：25 模块逐臂分类+A01-F03 细化不重复业务族+准备回执与机账+冻结清单与验收条件+给 Codex/Kimi 同一准备候选的并行提示词；准备完成不等于正式测试开工。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；后续实施与接收见 glm-coverage-wave2-receipt.md 与完成卡（CLOSED DONE f2592597，163 测试+673L/572B）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| wave2 规划 | 2026-09-22 | 六组 25 模块合同+验收纪律 | 后续三签实施（完成卡 done） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 wave2 规划工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 第二波非视觉覆盖率整包 · 六组25模块：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六组 25 模块范围/排除/实施/验收合同+冻结清单复算纪律；缺口数字是候选上限非承诺。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组表、实施合同、验收纪律与复算勘误在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。规划按 2026-09-22 时点；实施结果见 receipt 与完成卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-NONVISUAL-COVERAGE-2 完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `7f281ca7bf23d58957703f8494256b0912582e9ff5ddf2855f54ccac02173c00`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `7f281ca7bf23d58957703f8494256b0912582e9ff5ddf2855f54ccac02173c00`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 第二波非视觉覆盖率整包 · 六组25模块
 >

@@ -1,55 +1,62 @@
 # TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM
+Reviewer: Codex
+Base: `b95a6947369bf5d32db5746df0c82acae27b3663`
+Branch: `codex/coverage85-glm-game-r1`
+Capability: test-quality / coverage branch closure
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 game 分支覆盖闭合历史卡（基线 branches 8408/11278，85% 约需 1179 edges）：event-system 队列/阻塞/恢复/异常收束、battle-opcodes/system 合法非法参数/结算/阶段、真实 typed battle state 构造输入；r1 已合 main（fe0fe141b）；r7 46ace96e0（193 合同全旧测未证轴/12 针 VALID/77.64%，±4 边 v8 波动已记录）待 Codex 终验。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+公开 caller/可观察业务 oracle 闭环；1179 是停止线计算非配额。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：packages/game 新专属测试+本地 typed fixture+证据。
+- 范围外：产品/旧测/共享配置/baseline/真实 PAL 数据；凑数重复合同或改阈值。
 
 ## 前提与证据
-- primary source：固定 source revision `f499196f7941d957d5985a8c0efa408008c0d0b3` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+状态转移+emitted event 为 oracle 不以调用次数代替。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：r7 193 合同/12 针/77.64%（±4 边 v8 波动记录）待终验。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+±4 边 v8 波动的记录方法为覆盖账纪律。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f499196f7941d957d5985a8c0efa408008c0d0b3`；本轮为 2026-10-17 R49。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+基 b95a6947、r1 合 main fe0fe141b、r7 待终验；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：game 覆盖闭合七轮推进至 77.64%（12 针 VALID）。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+193 合同账、12 针、v8 波动记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。覆盖现行数字以官方账为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+glm-game 系列与后续 Game 卡。
 
 ## 原文保全
-固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `505c373db024af6106f775cc574811ba3ebd04ad23576f402f02df9b7b9187fc`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `505c373db024af6106f775cc574811ba3ebd04ad23576f402f02df9b7b9187fc`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-COVERAGE85-GLM-GAME-1 — game runtime branch-contract closure
 >

@@ -1,61 +1,103 @@
 {
   "schemaVersion": 1,
   "id": "r84-ops-evidence-index",
-  "reviewer": "Codex root current evidence index migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R84: DOCS-FULL-TEMPLATE-1 README uses governance-index-v1 as the current evidence navigation entry; batch receipts remain historical/static and retain no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
+      "template": "governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and current governance-index migration; original evidence index retained under 原始证据正文",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "DOCS-FULL-TEMPLATE-1 evidence index：current governance-index；保留清单、批次回执、SHA、保护边界和历史停止线，不授权执行通过。",
-      "truthAnchors": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md:1"],
-      "unresolved": [
-        "The full cohort remains active/build; historical receipts require current registry/routing and fresh review before reuse."
+      "readMethod": "GLM S51 declared per-document text reading; Codex evidence acceptance and targeted content/role/history checks, actual public template and source byte checks. No repeated full dependent-source audit, historical execution reauthentication or runtime reexecution.",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "DOCS-FULL-TEMPLATE-1的证据/回执导航索引：卡头为当前治理入口（含2026-10-18勘误把R39–R96历史接受降级为被纠正声明），正文为inventory/protection身份、pilot链与R22–R83逐批复核/接入/接受三联引用及R38未使用编号补记。引用的批次结论须带勘误边界读取；索引职责完整、历史引文保持原样，retain。",
+      "truthAnchors": [
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "8-8",
+          "quote": "本页是全量文档治理的证据与回执导航入口。它记录清单、pilot、批次回执、SHA、保护边界和未执行限制",
+          "claim": "本篇职责=证据/回执导航索引，不授任何运行信用"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "10-10",
+          "quote": "2026-10-18 当前勘误：[记录可信度返工](../DOCS-RECORD-INTEGRITY-1/README.md)优先于下方历史R39–R96的接受、深审和完成声明",
+          "claim": "卡头勘误把下方R39–R96批量段落降为被纠正历史声明，阅读时须带此边界"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "128-128",
+          "quote": "HTML mockup 三篇未计入 R26 迁移，保持 governed-legacy，等待 HTML archive variant/template contract 冻结。",
+          "claim": "三个phase2 mockup(含本轮S51-434/435/436)在R26期明确暂缓，等待HTML合同冻结"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "lines": "468-468",
+          "quote": "R37 a32a087a0 后为a1ac53bbe工具改动，再到R39 170d97c7f；没有R38文档批次，无迁移/审查/完成信用。",
+          "claim": "R38为未使用编号的补记，防止把编号缺口误读为缺失批次"
+        }
       ],
-      "nextStep": "继续治理剩余 ops/phase-governance candidates，并在 consumer/successor/SHA 齐全后单独评估 cleanup。",
+      "unresolved": [
+        "Original historical executions, open product/audit counters and dependent implementation claims are not newly authenticated; document draft/review/rework lifecycle remains as written."
+      ],
+      "nextStep": "Use this exact accepted document version and template; invalidate affected claims if body/source/template changes. Continue 505 non-control JSON factual evidence correction and Owner 127 control contracts separately.",
       "phase": "ops",
       "module": "evidence-governance",
       "capability": "DOCS-FULL-TEMPLATE-1 evidence index",
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
         {
-          "nonAuthorReviewer": "r84_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e"
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "GLM",
+          "scope": "S51 specific unchanged Markdown content proposal",
+          "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "actor": "Codex",
+          "nonAuthorReviewer": true,
+          "decision": "accept-current-document-version",
+          "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3"
         }
       ],
       "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
-      "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+      "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
       "publicCallers": [
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
         "docs/phase-governance/document-registry.json"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+        "Exact unchanged Markdown at c2c0e8593de88886777b02c954f82b808cbe8ae2:docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md (SHA256 749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c)",
+        "GLM S51 specific assessment/read-domain/witnesses and Codex S51 evidence verdict; retained quoted reports are historical claims, not newly authenticated executions."
       ],
       "businessOracle": {
-        "type": "governance-index",
+        "type": "specific-current-document-role-history-and-template",
         "assertions": [
-          "batch receipts and source/after SHA remain navigable",
-          "historical status and no-execution boundaries remain explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "本篇职责=证据/回执导航索引，不授任何运行信用",
+          "卡头勘误把下方R39–R96批量段落降为被纠正历史声明，阅读时须带此边界",
+          "三个phase2 mockup(含本轮S51-434/435/436)在R26期明确暂缓，等待HTML合同冻结",
+          "R38为未使用编号的补记，防止把编号缺口误读为缺失批次"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"]
+        "result": "retain-specific-document-role",
+        "against": [],
+        "notes": "Accept this canonical navigation/protocol/report/design/task role; no deletion, downstream report reauthentication or all-JSON retention decision. Existing historical dedupe remains in previousCurrentFields."
       },
       "revision": {
         "currentSha": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
@@ -70,21 +112,15 @@
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r84-ops-evidence-index-20261017.json",
-        "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
-        "candidateSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
-        "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
-        "lineCount": 462,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "full current body retained under template sections",
-          "sourceBytes": 38193,
-          "sourceLines": 430,
-          "sourceFinalNewline": true,
-          "inverseSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
-          "exactRoundTrip": false
-        }
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S52/S51-owner-verdict.json",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -98,15 +134,95 @@
           "action": "R84 current evidence index migration",
           "reviewer": "r84_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "action": "Accept unchanged current Markdown document version; old withdrawals/counters remain historical, no execution reauthentication",
+          "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+          "beforeSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+          "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+          "previousCurrentFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateVersion": "1.0.0",
+            "template": "docs/phase-governance/templates/governance-index.md",
+            "historyOverlay": false,
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "reviewDepth": "structured-content",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "truthAnchors": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md:1"],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"
+            ],
+            "businessOracle": {
+              "type": "governance-index",
+              "assertions": [
+                "batch receipts and source/after SHA remain navigable",
+                "historical status and no-execution boundaries remain explicit",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md"]
+            },
+            "unresolved": [
+              "The full cohort remains active/build; historical receipts require current registry/routing and fresh review before reuse.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "stopLine": "do not promote governance index or receipts to runtime/E2E/visual/coverage acceptance",
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r84-ops-evidence-index-20261017.json",
+              "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+              "candidateSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+              "afterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+              "lineCount": 462,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "full current body retained under template sections",
+                "sourceBytes": 38193,
+                "sourceLines": 430,
+                "sourceFinalNewline": true,
+                "inverseSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
+                "exactRoundTrip": false
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            },
+            "artifactOnly": false
+          },
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": ["unstructured evidence index presentation; batch receipts remain historical"],
-      "stopLine": "do not promote governance index or receipts to runtime/E2E/visual/coverage acceptance",
+      "stopLine": "Current document semantics/template only; no historical withdrawn credit restored, no task done, runtime/E2E/visual/coverage or 212 native migration credit.",
       "userVisibleBeforeAfter": "原始全量证据索引保持 → 增加 governance-index 元数据、必填章节和当前停止线；批次事实不变。",
-      "reviewedLines": "1-462",
+      "reviewedLines": "全文1–468行逐行实读(含R22–R83逐批三联条目)",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "artifactOnly": false,
       "documentStatus": "current",
       "sourceGitRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e",
       "candidateSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
@@ -135,7 +251,73 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "dfab8cf41ecfe9b545b8bb40fa5dd21eacfe5b4aa120519a97f06a48f0456022",
+        "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Unchanged c2c0e8593de88886777b02c954f82b808cbe8ae2 Markdown body against actual governance-index-v1/1.0.0 route; historical quote/source assertions remain attributed."
+      },
+      "currentAuthoredReview": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "author": "GLM",
+        "nonAuthorReviewer": false,
+        "creditGranted": 0,
+        "sourceRevision": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+        "deliveryIndexSha256": "ead5cbe33d37ec8e0c66647af02b60356bcb8c34b0699492932324776b696d54",
+        "readDomain": {
+          "actual": "全文1–468行逐行实读(含R22–R83逐批三联条目)",
+          "reusedFrom": [],
+          "notRead": []
+        },
+        "assessment": "DOCS-FULL-TEMPLATE-1的证据/回执导航索引：卡头为当前治理入口（含2026-10-18勘误把R39–R96历史接受降级为被纠正声明），正文为inventory/protection身份、pilot链与R22–R83逐批复核/接入/接受三联引用及R38未使用编号补记。引用的批次结论须带勘误边界读取；索引职责完整、历史引文保持原样，retain。"
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "c2c0e8593de88886777b02c954f82b808cbe8ae2",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+        "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
+        "reportSha256": "d8448de21ade794197dbc4f588b87c76a9101532a58544a6501e287b6b5078f3",
+        "acceptedContentSha256": "1bc1073ef8e4a07676f1258c112d62146ae1d52520809cabad09fef2b0cf214b",
+        "scope": "Specific document role, historical attribution and existing template; not original source execution or downstream audit confirmation.",
+        "readDomain": {
+          "author": {
+            "actual": "全文1–468行逐行实读(含R22–R83逐批三联条目)",
+            "reusedFrom": [],
+            "notRead": []
+          },
+          "reviewer": "GLM assessment/witnesses; eight actual public body contracts, exact unchanged Git bytes, current role and history boundary evidence review. Two generated views/15 HTML kept outside production qualification."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S52",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  }
 }

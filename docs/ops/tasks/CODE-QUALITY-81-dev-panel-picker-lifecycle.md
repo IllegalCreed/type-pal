@@ -1,5 +1,58 @@
 # CODE-QUALITY-81 — game Dev Panel picker 生命周期
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复game Dev Panel场景picker的生命周期合同：picker关闭或列表代际替换后，旧IntersectionObserver与旧异步缩略图结果不得继续操作已失效DOM；成功结果仍可进共享缓存，失败/拒绝以既有占位文案收束。2026-10-20本卡既定合同已由Codex正式验收收口。
+
+## 范围
+
+仅packages/game/src/dev/dev-panel.ts中picker的observer释放、过滤/关闭后的异步缩略图写回与失败兜底；保留模块级缩略图缓存与renderSceneThumbnail现有公共签名，不引入AbortSignal、不改场景跳转/UI形态、不接管CODE53/CODE80队伍行为。
+
+## 前提与证据
+
+固定源全文核读。唯一生产caller是bootstrap.ts:958-966（renderer在725-770内捕获资源失败返回null）。实现：picker保存owner cleanup，关闭/列表重建disconnect observer；sceneGeneration/pickerClosed阻止旧queued entry与旧Promise写回；成功URL仍入既有模块缓存。HEAD原实现重放exit 1（3 failed/2 passed+1未处理rejection，失败锚点为close disconnect、过滤后迟到observer回调、rejection placeholder），修后5/5通过。反控omit-close-disconnect与reuse-generation-on-filter均exit 1、各1 failed/4 passed。完整check 43项Dev回归与真实全仓门零诊断，收口见[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)；逐项原件与退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 验收
+
+done覆盖原卡范围：关闭/重建disconnect、旧回调不加载、旧DOM不写回、成功缓存保留、null/reject占位与无悬空拒绝均成立。剩余风险保持登记：setupDevPanel全局window.keydown listener无生产disposer（bootstrap单次安装，无重复挂载/卸载caller证据）；2k+行复合dev-panel.ts整文件仍review，本卡仅收observer/thumbnail子合同；既有dev-panel.glm-next-wave.test.ts历史用例合同仍待逐文件收口。
+
+## 状态与交接
+
+done保持原语义；治理不重开、不撤回亦不扩大旧信用。无下一位Agent提示词，Codex继续剩余pre94。
+
+## 历史范围
+
+原卡属固定main时点；范围为dev-panel.ts picker生命周期子切片及其专测，其余Dev模块文件不在本卡。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-20正式验收，产品及测试源码相对ea9c3cc02无变化，文档/索引/账本门另实跑。
+
+## 当时证据
+
+当时回执属原时点证据：HEAD重放3 failed/2 passed、两枚变异反控各1 failed/4 passed、43项Dev回归零诊断；本页不重跑、不复授。关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；页面级监听按单宿主生命周期保留、共享缓存跨picker保留是登记过的既有合同边界，不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+后续pre94复审与共享文件治理以父卡QUALITY-PRE94-RETROSPECTIVE-1及看板为准；复合Dev文件整文件收口未见新卡。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8314B / SHA-256 c9d5de685e6fa81046faa25f97f32e9601b6c64fb11b2e9d18120c48633329c0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-81 — game Dev Panel picker 生命周期
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -75,3 +128,5 @@ picker observer释放、列表代际、迟到异步结果及失败占位。原�
 保留范围：页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

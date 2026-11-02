@@ -1,6 +1,59 @@
 # CODE-QUALITY-65 — game speedrun index orchestration
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验 speedrun 单例编排三文件（`index.ts` 116 行与两份测试）:编排只协调已核验的 snapshot/timer/store/overlay/countdown 能力——disabled short-circuit、wall-clock tick、overlay、F4/F8/F2 快捷键、paused gate、banana 不冻结世界、SSR no-op 与解绑,不越界改 GameState。
+
+## 范围
+
+三文件;只读相邻 main-loop.ts:175 rAF 调用、tools-panel 计时器控制、snapshot/timer/store/overlay/countdown 委托边界。
+
+## 前提与证据
+
+`startRafLoop` 每帧先按 `isSpeedrunPaused()` 冻结游戏世界再调用 `tickSpeedrunTimer`;index 只构造/驱动 SpeedrunTimer,经 store 持久化设置/PB,经 overlay/countdown/toast 更新 UI。历史批:定向 12 tests、speedrun wave 全门通过,账本 3266/309 closed;2026-10-18 复审 partial（直接两份 13 tests+相邻四文件 39 tests、typecheck,昂贵门沿用 47–52 波次）。
+
+## 验收
+
+2026-10-18 合法输入与解绑证据勘误:旧"合法fixture"结论不足——双重强转隐藏 facing0、残缺 battle/空 paletteFade;已改完整公开构造器与初始化。index 原解绑只看 toast 不足以证明计时不重置,现实际起表/重置/再起表 500 后解绑,确认 F4 保持 500/running;afterEach 回收监听/timer/DOM/偏好/单例。现有 20 例数量不变,PB 默认精确 9452000ms。只在隔离副本模拟解绑后静默重置:旧 20 绿→新 19 绿 1 个指定 AssertionError,正式恢复 20 绿。源码/测试/hash/native/raw 与定向相邻/静态门见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md);当前 partial 不变,无新全仓门。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-18 复审 partial,不以原 done 或包绿关闭产品。
+
+## 历史范围
+
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（12 定向、wave 全门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;fixture 勘误后结论以 63/65 勘误证据为准。
+
+## 继任文档
+
+CODE-QUALITY-63（snapshot,共用勘误）与 63-65-speedrun-fixtures 证据为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4592B / SHA-256 b243b5a2db4f8bc6daedbb721056ce217a945606a9c94a9b346371a88caed653；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-65 — game speedrun index orchestration
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -52,3 +105,5 @@ Codex单一Owner，build allowed仅snapshot/index三测试和治理记录。旧�
 请做：若重开审计，复核单例、设置/PB、tick/暂停/解绑委托与输入隔离
 输出：证据、测试；当前结论为 accept/done，不得改 GameState 公共接口
 ```
+````
+<!-- incremental-original-source:end -->

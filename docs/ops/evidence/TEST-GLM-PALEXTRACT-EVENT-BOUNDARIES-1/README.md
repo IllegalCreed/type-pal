@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 的证据索引（GLM r2，r1 被一审反控 runner 判据拒收后重造）：交付物仅新增测试 player-roles.event-boundaries-1.test.ts（PR-NAME-BOUNDARY-1 名称缺省/越表 fail-soft、PR-ELEM-ORDER-1 elemResistance water/earth 键映射判别），产品/旧测/config/baseline/真实数据零 diff。
 
 ## 证据身份
 
-- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 证据索引（GLM r2） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 bf2310355750be965a3561ee2e9faad387fd1888b3a20785dd0fef882b774d62。
+- 配套：dedup-ledger.md（7 文件逐轴排重——events 五文件与 scene.ts 全轴 existing-proof/unreachable/blocked，仅 player-roles 2 条真实新合同）；identity.json（2 合同 source/caller/输入/oracle/机读精确 fullName/针位含指定 AssertionError 子串与红相位门）；counterproof.json（r2 runner v2：schema vitest-json-reporter-v2、2/2 针 VALID+13 自测用例全按预期）；run-counterproof.mjs+mutation-logs/（六相位机读 JSON 与 stdout 档案各含 .json 与 .raw）；门证据 adjacent.raw（定向 2/2+相邻 20 文件 206/206）、full-suite.raw（69 文件 417/417）、typecheck.raw、lint.raw（全仓 0/0/0）、docs-gate.raw。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- r2 反控口径（判据全部来自 vitest JSON reporter，stdout 只落档）：每相位 vitest run --reporter=json --outputFile=<mkdtemp>（cwd=包根裸 exec）；机读提取计数+完整执行集 file×fullName×status（排序稳定摘要+规范序列化 sha256）；旧 /1 failed/ 文本匹配与「stdout 首行」判据已废除。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 红相位门：exit!==0&&signal===null&&spawnError===null&&numFailedTests===1&&pending/todo=0&&无 runtime/collection error；唯一失败 fullName 严格===目标（按 title 唯一提取）；failureMessages 恰 1 条 AssertionError 开头且含指定差异子串；红相位跑全文件不 -t 过滤。绿相位门：exit===0&&三失败类 0&&numTotalTests>0&&全 passed&&无 runtime error；restored 与 finalReplay 执行集与 original 逐三元组一致（identity set+sha 相等）。产品源每针记录原始/变异/恢复 sha。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 2 合同交付；main 既有环境观察（coverage 仪表×rng-frames 超时、board/index pin drift 随卡修复）如实登记。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r2 已推 05fc43173（业务面被认可、runner 重造 v2）待 Codex 二审；重建 node run-counterproof.mjs。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 r2 证据索引（2 合同+r2 runner v2）；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 证据索引（GLM r2）：原始正文完整保留于下方 quote。
+- events/scene 全轴 existing-proof/unreachable/blocked；player-roles 两真新。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 文件清单与 r2 判据全文在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r2 时点待二审。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `bf2310355750be965a3561ee2e9faad387fd1888b3a20785dd0fef882b774d62`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `bf2310355750be965a3561ee2e9faad387fd1888b3a20785dd0fef882b774d62`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 证据索引（GLM r2）
 >

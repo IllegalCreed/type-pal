@@ -1,5 +1,38 @@
 # C1 BALL/RGM同步诊断IO合同
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是任务卡C1有限准入片的证据目录页：把根片extract包级4块stderr中的BALL/RGM零尺寸两块，从"真实负面日志裸奔"转为显式同步IO断言合同；产品解析器/资源/接口/规则/baseline不改，0文件关闭。起点d0151242f、整改时点main=f98d0ddd8、单worktree codex/code-quality-3y。白名单：ball.glm-runtime-resource.test.ts（5→4）、misc-guards.kimi-r1.test.ts（16身份保持）与新增test-only src/__tests__/parser-diagnostics.ts。
+
+## 来源与输入
+
+上游为[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)C1准入节。反控原件[counter-probe.py](counter-probe.py)的20轮（前后各10段）在[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)；局部V8覆盖对照[before-coverage.json](before-coverage.json)/[after-coverage.json](after-coverage.json)；退役登记[retirement.json](retirement.json)与初次collector原件[retirement-proof.mjs](retirement-proof.mjs)；另进程核验[verify.py](verify.py)/[verification.json](verification.json)；阅读边界[read-boundaries.json](read-boundaries.json)；静态门[gates.md](gates.md)。
+
+## 断言与业务 oracle
+
+真实语义：BALL/RGM零尺寸帧是坏RLE输入而非原盘空槽；decodeRle显式拒零尺寸、parser catch写warn+原Error后null是当前产品真值。新合同用真实Node Console+内存Writable同worker完整捕获同步parser IO：期望warn必须手列全部消息与Error来源、stdout必须空、未知输出/错id/漏消息均失败。反控20轮：六个原诊断缺口（BALL/RGM各省warn、改chunkId、额外输出）旧21全绿→新各19绿1指定AssertionError；两个新harness合同（包装原始错误、throw时不恢复console）旧测试不经helper故绿、新各一红，不宣称旧helper有bug；bare-height重复转移旧强/弱两例红→新仅强例红，2→1不计单例针。修改前后局部V8完全一致：BALL statements12/13、functions1/1、branches11/12；RGM 8/13、1/1、6/12（installed coverage-v8只收当前worker inspector是同worker方案的依据）。退役登记BALL 5→4：同7B/同id1弱例退役、由原完整PNG例承接；登记前拒绝、登记后仅接受双digest+新SHA，25→26/净59→60，matcher/拒绝合同不变。
+
+## 结果
+
+8文件53定向、shared16/126、双方typecheck、coverage-tools71通过，0 stderr泄漏；完整extract 72文件431passed/0pending仍2 stderr块（tables未知OBJECT999、P07正例缺403映射）——BALL/RGM真实负面IO已被检查而非静音，但431绿不等于包级零诊断。静态四门exit0（docs1360/7344/443、lint4465全0、ledger3289/209/223/2857、0关闭）；collector初检exit0带15条useTemplate info未当通过，仅修新文件模板字面量后由零诊断硬门覆盖。全仓check/official ratchet/protected fast未新跑，editor未清，不合main；两测试与helper只review，0文件关闭。
+
+## 限制与复核
+
+本页为历史时点证据，未重跑任何命令；exit0/绿计数不外推。tables.test.ts864行/enemy-teams/P07已读未改，属C2下一片；helper最终只收窄一行过强注释（探针SHA efa8cfce…→当前81e4c3b5…，verify.py显式核该唯一差异）。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6859B / SHA-256 dea1e48901796c2f2b81a252c669d787c30f0f528e514f16b7038661955acdcb；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 BALL/RGM同步诊断IO合同
+
 归[原盘执行卡C1准入](../../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)与全83卡复审，起点d0151242f；唯一codex/code-quality-3y，main=f98d0ddd8，单Agent。产品解析器/资源/接口/规则不改，0新增关闭。
 
 ## 逐文件与根因
@@ -40,3 +73,5 @@ C1当前8文件53定向、shared16/126及双方typecheck、coverage-tools71通�
 本片新增唯一test-only helper进入tracked库存，两原pending测试和helper只记review，0文件关闭；全83编号卡仍9partial/74pending/0accept。下一片C2仅核enemy-teams/P07/tables的合法正向输入、未知域告警IO与精简，随后继续3b及94–102/editor。无下一位Agent提示词。
 
 最终注释核对：helper原“every output byte”表述过强，已收窄为完整日志记录合同；动态stack并非逐字节固定。行为探针之后只改这一行注释，当前helper与探针快照的其它每个字节完全相同；verify.py显式核该唯一差异及两SHA，不重跑无行为变化的用例。
+```
+<!-- incremental-original-source:end -->

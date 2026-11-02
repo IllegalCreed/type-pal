@@ -77,14 +77,18 @@
         {
           "id": "default",
           "label": "默认模式",
-          "auto": "default"
+          "animation": {
+            "sprite": "sprite-196",
+            "action": "pal-auto-v1-08679dac4d0551b2",
+            "loop": true
+          }
         }
       ],
       "initialPage": "default",
       "behaviors": {
         "trigger": {
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "求药渡海：乘船驶向仙灵岛",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -106,16 +110,16 @@
                       "kind": "clearDialog"
                     },
                     {
-                "facing": "down",
-                "kind": "setPartyFacing",
-                "member": 1
+                      "facing": "down",
+                      "kind": "setPartyFacing",
+                      "member": 1
                     },
                     {
                       "kind": "clearDialog"
                     },
                     {
-                "facing": "down",
-                "kind": "setPartyFacing"
+                      "facing": "down",
+                      "kind": "setPartyFacing"
                     },
                     {
                       "kind": "clearDialog"
@@ -206,81 +210,15 @@
                       "kind": "loadScene",
                       "scene": "s014"
                     }
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "default": {
-            "label": "默认自动行为",
-            "order": 0,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "持续自动动作",
-                  "body": [
-                    {
-                      "kind": "loop",
-                      "mode": "forever",
-                      "body": [
-                        {
-                          "kind": "wait",
-                          "ms": 1200
-                        },
-                        {
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "facing": "down"
-                        },
-                        {
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "frame": 1
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 1000
-                        },
-                        {
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "facing": "down"
-                        },
-                        {
-                          "kind": "setEntityFrame",
-                          "target": {
-                            "scene": "s005",
-                            "entity": "e116"
-                          },
-                          "frame": 0
-                        },
-                        {
-                          "kind": "wait",
-                          "ms": 200
-                        }
-                      ]
-                    }
-                  ]
+                  ],
+                  "label": "登船、划出码头并载入仙灵岛"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "出海木船"
     },
     {
       "id": "e117",
@@ -294,7 +232,7 @@
       "behaviors": {
         "auto": {
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "渡海途中：连续划桨",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -302,7 +240,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "逐拍划桨，维持船上角色动作",
                   "body": [
                     {
                       "kind": "loop",
@@ -398,12 +336,12 @@
                           "kind": "nudgeEntity",
                           "target": {
                             "scene": "s005",
-                          "entity": "e117"
-                        }
-                      },
-                      {
-                        "kind": "wait",
-                        "ms": 100
+                            "entity": "e117"
+                          }
+                        },
+                        {
+                          "kind": "wait",
+                          "ms": 100
                         }
                       ]
                     }
@@ -413,7 +351,8 @@
             }
           }
         }
-      }
+      },
+      "label": "张四（船上划桨）"
     },
     {
       "id": "e118",
@@ -2242,7 +2181,7 @@
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "婶婶病重：答应渡海并登船",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -2463,7 +2402,8 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "答应送往仙灵岛，走到船位并邀请上船"
                 }
               ]
             }

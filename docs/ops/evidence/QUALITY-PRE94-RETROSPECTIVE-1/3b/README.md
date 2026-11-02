@@ -1,5 +1,38 @@
 # CODE3b：SSS/M.MSG成果复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本篇是 CODE3b「SSS/M.MSG 边界测试」切片的证据索引，归 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) 全 83 卡复审（起点 8843d459b，main=f98d0ddd8，唯一 codex/code-quality-3y）；原 [CODE-QUALITY-3b-pal-extract-io-boundaries.md](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md) 保持历史 done，不冒充本轮 accept。本片真实目标：只改两份 boundary 测试——sss.boundaries 4→7（两组混合拒绝拆成 5 个独立 chunk 拒绝轴、手列两 EO/两 scene 完整语义与 raw、父 buffer 保护比较）、msg.boundaries 3→4（越界/倒序拆两例并核实际索引和值、输入 ownership 快照）；生产 sss.ts/msg.ts 及资源/规则/基线不动，0 新增关闭。
+
+## 范围与证据
+
+读取边界单列在 [read-boundaries.json](read-boundaries.json)：两 parser（sss.ts 211 行、msg.ts 30 行）、两 boundary、两 raw 测试、gbk/mkf/roundtrip 全文；cli.ts 仅 150–250/884–901，SDL global.h 74–125/237–243、global.c 284–291/392–421、text.c 780–850 为 primary。判别力：[counter-probe.py](counter-probe.py) 14 轮完整四文件，六针（SSS 前保护/后保护、第二 EO/scene 字段、MSG 正文/offsets 输入修改）旧 16 全绿→新各 19 绿 1 指定 AssertionError，恢复 20 绿，原件见 [before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)。身份变化见 [identity-change.json](identity-change.json)（16→20，SSS 4→7、MSG 3→4，4 移除/8 加入如实披露，无退役豁免）。独立 Python struct 全量对照见 [raw-probe.py](raw-probe.py)/[raw-proof.json](raw-proof.json)；另进程核验 [verify.py](verify.py)/[verification.json](verification.json)。
+
+## 发现
+
+真实数字与含义：原盘全量 5077 EO、295 scene、3955 对象 WORD、13514 消息 offset、43503 条指令——独立 Python struct（LE、3SHORT/13WORD/4WORD）与真实 parser 五个 digest 全部一致，消息 offset 从 0 到 M.MSG 完整长度非递减、解析 13513 条；但正文摘要只是观察，不是 SDL native 执行或完整 GBK/fixup oracle。六针 after 各恰 1 红：前/后保护区变异被「非对称 16 字段 EO 逐字段精确」例的父 buffer 比较捕获（期望 238 填充 vs 实得 0 覆盖），第二 EO/scene 字段变异被逐字段精确例捕获，MSG 两 ownership 变异被「四条精确（含空条）」例的输入快照比较捕获。旧测试盲点根因：原 guarded view 排除了保护区却注释称已覆盖；原错误例混合多轴且只查局部字段。
+
+## 结论
+
+本片时点结论：生产两个 parser 字节不变；两 boundary 旧关闭撤回 review、两 raw sanity pending→review，0 新增关闭；机器 3289 inventory/206closed/230review/2853pending，全 83 卡 10partial/73pending/0accept。恢复面：定向相邻 8 文件 42 例（含真实 roundtrip）、完整 extract 72 文件 435、shared 16 文件 126、双方 typecheck、coverage-tools 71 通过，0 stderr 块（本片恢复面零 stderr，与 3/3-annotate 片的 10 块不同）。
+
+## 整改与复核
+
+边界如实：完整 check、official ratchet、protected fast 未新跑（等 editor 诊断稳定窗口），不合 main；后继增量见 [README.md](closeout/README.md)（六文件收口）与 [README.md](raw-tests/README.md)（raw 测试补证 9→2）；当前 raw 文件已按新卡面变更，旧 after 的 SHA 检查应对 Git 3a9 候选，不反写旧原件。静态门 [gates.md](gates.md) 与 [regressions.json](regressions.json) 按实际回执记录；治理页不重开任务、不重跑执行。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6703B / SHA-256 cdd6917d4151c805a56b757be3f2c8a82fd1574f3a2e1187ea6e0e82acbf2b6e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3b：SSS/M.MSG成果复审
+
 2026-10-21后继模块收口见[当前六文件回执](closeout/README.md)；下方均保留各原切片时点，不沿用旧门诊断。
 
 归[全83卡任务](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，原[3b历史卡](../../../archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md)保持历史done/签字，不冒充本轮accept。起点8843d459b；唯一codex/code-quality-3y，main=f98d0ddd8。本片只改两份boundary测试，生产解析器/资源/格式/公共API/规则/基线不动，0新增关闭。
@@ -36,3 +69,5 @@ primary：SDL global.h95–121/239–243定义EO/scene/指令；global.c289–29
 [回归原件](regressions.json)：定向相邻8文件42例（含真实roundtrip）、完整extract72/435、shared16/126、双方typecheck、coverage-tools71通过，0stderr块。完整check、official ratchet、protected fast本片未新跑，editor运行时诊断未清，不合main；[静态门](gates.md)按实际回执记录。
 
 当前机器3289 inventory /206closed /230review /2853pending，0新关闭；全83卡10partial/73pending/0accept。下一有限片先收两份raw测试的弱oracle/排重，再继续3d/3g和其它编号卡；94–102/editor原目标继续。高风险机制/资产算法冻结；无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->

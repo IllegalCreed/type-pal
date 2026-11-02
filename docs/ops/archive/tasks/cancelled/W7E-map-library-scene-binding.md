@@ -1,86 +1,63 @@
 # W7E - 独立地图库与场景地图绑定（已取消）
 
 Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W1 / W3 / W7 / E1 / MG2
+Coding Owner: Codex
+Reviewer: Opus + GLM
+Visual Verification Owner: Codex（用户委托技术验收）
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是把自有地图升级为工程一等资产（MapIndexV1/稳定 ownMapId/contentVersion 2/五 Command/MG2 id 合并）的历史卡：三方设计 agree 且 Codex 已 build 自测后，被用户 2026-07-14 否决前提——迁移后 PAL 场景不得保留 reuseOriginalMap 双格式消费；全部签字与 accept 失效，由 W7F-canonical-map-pipeline 承接。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+（历史目标，前提已否决）自有地图从“当前场景顺带加载的 JSON”升级为一等资产：稳定 map id、独立注册表、地图库 CRUD、场景选择/复用/共享、未绑定地图保存重开仍存在、被引用地图不可静默删除；同时显式迁移旧 { ownMap: path }。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内（历史实施，已被否决前提覆盖）：MapAssetDefV1/MapIndexV1、SceneMap ownMapId、loader/编辑器/项目 IO/引用校验/迁移器/MG2 双表 id 合并、五不可变 Command、v1 只读兼容+保存时一次性升 v2（M1：纯 reuse 工程不升版）。
+- 范围外（否决后维持）：不把旧 Tilemap 与新 OwnMap 双格式保留进工程/引擎/编辑器；高度不放 tileset 元数据；未提交实现只在 W7F 重新三签后逐项甄别复用。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+用户裁决（2026-07-14）：旧地图格式只能存在于提取器与迁移器输入端；进入工程、引擎和编辑器的地图必须全部是唯一新版格式；高度必须属于地图格子实例。本卡让 content/reforge/editor 同时消费旧 Tilemap 与新 OwnMap 并把 PAL 场景保留为 reuseOriginalMap，直接违反该前提，故原设计、三方 agree（Codex/Opus 附 M1/M2、GLM 消费方矩阵七层零漏）、实现自测与 Codex accept（2026-07-14，D1-D5 落地、全仓绿、浏览器流程过）全部失效，不得作为任何推进签字复用。
+- 当前状态：cancelled（历史终态；superseded by W7F）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡 Codex accept 时的验收记录（content/reforge/editor/migrate 全绿、6013 v1 升级报告、13 图长列表深链、6010 PAL 只读复用）随取消失效，仅作历史事实。本页治理验收：quote 字节保全、逆回读按记录规则相等、模板与 overlay 章节齐全。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）
-- 正文信号 3:Status: cancelled
-- 正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为
-- 正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。
-- 正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。
-- 正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。
-- 正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器
-- 正文信号 160:- done 准入结论: blocked
-- 正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。
-- 正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+后续由 W7F-canonical-map-pipeline 承接；未提交实现禁止按本卡直接提交。本页治理不恢复双格式前提。
 
 ## 历史范围
 
-- ops archive；日期：2026-07-13；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e`。
+2026-07-13 用户要求地图列表/新建/编辑与场景选择；2026-07-14 三方 agree、build 与 Codex accept、同日用户否决前提取消。固定源 dce008a777bb45658e9d7a146624db9b57469f63。2026-10-17 R32 泛化封套误标，2026-10-18 S15 纠正。
 
 ## 原始结论
 
-- W7E - 独立地图库与场景地图绑定（已取消）：这是 task-card，当前文档状态为 cancelled。全文 358 行、28 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`（2026-07-14 用户裁决）：双格式消费前提被否决，全部签字失效，W7F 承接唯一新版格式管线。原卡全文（设计/schema/Command/MG2/消费方矩阵/风险）在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：目标；范围；上下文锚点；验收条件；推进签字；进入 build 前:设计签字；进入 done 前:审查签字；Draft: 设计与风险；原始正文、表格、状态词和链接在 quote 保全。
+content/index.ts:121-155、loader.ts:46-85,335-351、edit-session.ts:19-31、project-io.ts:99-105、migration-merge.ts:42-54/bootstrap.ts:46-58 等锚点；6013/6010 浏览器检查记录。本页治理未重跑。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 1:# W7E - 独立地图库与场景地图绑定（已取消）
-- 正文信号 3:Status: cancelled
-- 正文信号 13:> **取消说明（用户裁决，2026-07-14）**：本卡把迁移后的 PAL 场景继续保留为
-- 正文信号 75:  - `docs/ops/archive/tasks/done/MG2-incremental-migration-merge.md`：迁移产物必须三方结构化合并，不能因新 index 退回 atomic 整文件冲突。
-- 正文信号 96:  - 相同规范化旧 path 只生成一个 map asset；不同 path 产生稳定且唯一 id；冲突/非法 path fail-loud 并给文件/场景诊断。
-- 正文信号 103:  - MG2：merge 与 bootstrap 两套测试均覆盖 `/maps` id 合并；双方新增不同 map 无冲突，同 id 不同内容按既有规则报告冲突，不退回 atomic。
-- 正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器
-- 正文信号 160:- done 准入结论: blocked
-- 正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。
-- 正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。
+historical。地图资产模型当前事实以 W7F 后继与现行 content/reforge 代码为准；本卡 schema 设计（MapIndexV1/ownMapId）不得未经 W7F 甄别直接复用。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+承接卡 done/W7F-canonical-map-pipeline.md；相关已定基础 done/W7D-nlayer-map-schema.md、done/W7B-tileset-library.md、done/MG2-incremental-migration-merge.md。
 
 ## 原文保全
 
-固定源 SHA `27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # W7E - 独立地图库与场景地图绑定（已取消）
 >

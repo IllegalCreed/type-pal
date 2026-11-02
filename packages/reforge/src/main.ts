@@ -4290,6 +4290,10 @@ export async function bootGame(
             if (meta.slot?.kind === 'move') meta.slot.blockedAttempts = 0
             meta.entity.pos = { ...outcome.to }
             meta.entity.facing = outcome.facing
+            // A ride translates its carrier without walking it. Keep its explicit/action pose
+            // owner intact on every step, including arrival; gait would freeze static vehicles
+            // at frame zero and pause their independently authored action timeline.
+            if (meta.slot?.kind === 'move' && meta.slot.preserveFacing) continue
             if (reachedEndpoint) {
               worldPresentation.clearEntityFrame(meta.entity.id)
               motion.clearExplicitAnimation(meta.entity.id)
@@ -6220,6 +6224,10 @@ export async function bootGame(
     advanceEntityActions: (dt) => {
       entityActions.advance(dt, (id, source, owner) => {
         const entity = activeScene.scene.entities.find((candidate) => candidate.id === id)
+        const slot = scriptMotionSlots.get(id)
+        // Transport owns coordinates, not the carrier's page/base animation. Its auto script
+        // remains paused; ordinary script takes and automatic override owners still pause actions.
+        const transporting = slot?.kind === 'move' && slot.preserveFacing
         return (
           !!battleHost.active ||
           !entity ||
@@ -6228,7 +6236,7 @@ export async function bootGame(
           motion.hasGait(id) ||
           motion.hasExplicitAnimation(id) ||
           (source === 'automatic' &&
-            (authority.get(id)?.kind === 'script' ||
+            ((authority.get(id)?.kind === 'script' && !transporting) ||
               (owner !== undefined && authority.get(owner)?.kind === 'script')))
         )
       })

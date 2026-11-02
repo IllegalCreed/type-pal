@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-MOTION-TRANSITION-1 的排重账：基线 origin/main 7a9157ac5；方法=对卡面 8 文件每个公开导出/行为轴登记 source:line×公开 caller×合法 typed 输入×business oracle×既有 fullName，判定 existing-proof/NEW/U；旧测 fullName 引用格式 文件:行>用例名。判定总览：8 文件中 7 文件全轴 existing-proof 饱和；world-motion-runtime.ts 有 3 条 NEW；卡面重点轴 reservation/terrain/fairness、scene commit-abort-old-world isolation、input lock/latest intent 全部 existing-proof（与归档 world-lifecycle 卡同名结论一致）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-MOTION-TRANSITION-1 — 排重 ledger（8 文件逐轴账） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 9c68dff103ca02d737155df210975affef71a35e77be4a2d63fdd0933fda6017。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- reforge 运动域 8 文件：collision/scene-transition/world-motion-runtime 等。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- §1 collision.ts 六轴 existing-proof（buildIsBlocked 精确子格/非 0 恒阻挡/界外/作者态逐点一致/sameLatticeCell 错排/sameGrid 忽略 height——collision.test 逐行锚点）；§2 scene-transition.ts existing-proof（resolveSceneFacing 四臂链/resolveSceneSpawn 三态）；其余 6 文件逐轴账与 world-motion-runtime 3 NEW（MT-CADENCE-CLAMP-1 等）在 quote 表内逐行。
+- U 账 4 条防御臂与候选不设针账分列。
+
+## 来源与输入
+
+- 世界像素坐标、RuntimeSceneSpawn、停顿帧 dt 构造。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 3 NEW 合同；防御臂登记不伪造。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（3 针三态+五门）。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-MOTION-TRANSITION-1 排重账（8 文件逐轴）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MOTION-TRANSITION-1 — 排重 ledger（8 文件逐轴账）：原始正文完整保留于下方 quote。
+- 7 文件饱和+world-motion-runtime 三 NEW；U 账分列。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 7a9157ac5 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `9c68dff103ca02d737155df210975affef71a35e77be4a2d63fdd0933fda6017`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `9c68dff103ca02d737155df210975affef71a35e77be4a2d63fdd0933fda6017`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MOTION-TRANSITION-1 — 排重 ledger（8 文件逐轴账）
 >

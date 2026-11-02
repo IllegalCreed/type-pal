@@ -1,40 +1,60 @@
 # Codex r3窄复核：1410916e
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 r3 窄复核（2026-09-25；内容 1c6c6d91、formatter f20a88a6、登记 49054552、最终 tip 1410916e）：**仍 counter，但 C2 主要源码更正、C3 总账/hash 指针和 C4 最终 JSON 格式门已通过；仅保留三组定点正文/表格/复算残项**。保持 draft 不开 build 不标 done；不要求重拍截图/重跑产品测试/新研究。
+
+## Scope
+
+- 本轮通过：GLM 增量仅 11 白名单文档/机账（packages/scripts 对 b11d4bc9 零 diff）；38 唯一 ID=21 covered/12 risk/5 N/A（八包 6/5/5/5/4/5/4/4=38 与 JSON 一致）；22 源码 hash+17 图 hash 与 r2 机账相同；App 29 state/16 ref/15 effect+1 layout 真实绑定清单入正文、四个不存在 state 已撤回；P5 分项 702/P6 七处自递归/PanelResizeHandle 用例引用确认；evidence.json 在 1410916e Biome exit0（f20a88a6→49054552 仅 finalSha 变化未再破坏 JSON）。
+
+## Execution and assertions
+
+- **R3-1 正文残留**：v1-forms.md:32-33 仍标 V1-a11y risk「请产品确认意图」（与顶部撤回、机账 V1-002 相反）；p5-phase1-core.md:75-84 表内仍 331/102/158/39/30/36/7=703（正确 702 下一段才写）；:21-35/:68/:89-90 图仍不画已核回边仍用「环 A 残余 5 条」旧范围（顶部已说 7 节点 15 边）；p6-conversion-validation.md:33-35 仍由「无 fs」推全部纯函数/写盘唯一点（上轮要求撤回的扩大结论）；完成条件均为直接改表/改正文，旧错误只留清楚标识的历史勘误；无需新 SCC 研究
+- **R3-2 条目定义错位**：p4-battle-session.md:63-65 P4-002=risk/分散 ui 赋值 vs JSON/summary 同 ID 已是 covered/preparing 门归属——不同事实不只是状态单词；v1-forms.md:49-55 仍 V1-003=a11y/V1-005=六图 vs JSON 是 V1-002 合并+V1-003=六图且无 005；:74 把终态分支 battle-session.ts:1220-1224 写为 performAction（真正 performAction 动画消费在 :1565-1573 不清 scriptAnimation）——pump 1077-1081/终态 1220-1224/performAction 1565-1573 三清
+- **R3-3 命令不可照抄**：summary.md:88 用 0e751efe..HEAD 要求白名单外为空（包含本席 1e4e3382 对任务卡的合法修改实测会输出任务卡路径）——固定为 1e4e3382..1410916e 或各自 GLM 起止 SHA；:91-92 的 cd 会留在 packages/editor 下一行根相对 JSON 路径不存在——用子 shell/pnpm --filter/显式 cd 回根；:89 输出注释应更新 21/12/5
+
+## Results
+
+- 不重开已通过的 App/取消链/命名门/SCC 真值/图面证据/格式门；不要再只加「已更正」段落必须改掉表内对应行；无产品修复授权。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；独立只读对账 /tmp/codex-arch-r3-verify.json；GLM 提示词全文在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r3 窄复核 | 2026-09-25 | C2-C4 通过+三组定点残项 | counter（R3-1~R3-3） | r2 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 r3 窄复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex r3窄复核：1410916e：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+C2/C3/C4 闭合（源码更正/总账 hash/JSON 格式门）；剩 V1/P5/P6 旧表述、P4-002 与 V1 编号错位、终态/performAction 锚点、两条复制命令四组定点残项。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R3-1~R3-3 锚点表与完成条件在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 f423 定点复核闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `cd59c1beb7e2f9fe2044b9650d8c11eeb9c3ee9195c6175c97f67f5d99941189`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `cd59c1beb7e2f9fe2044b9650d8c11eeb9c3ee9195c6175c97f67f5d99941189`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex r3窄复核：1410916e
 >

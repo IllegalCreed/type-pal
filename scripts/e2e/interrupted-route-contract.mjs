@@ -24,6 +24,68 @@ const own = (trace, event) => {
   return latest.state
 }
 
+/** A selected first leg may finish before the player reaches the trigger. This
+ * proves that exact endpoint, not a positional tolerance. The departing second
+ * leg must still be a genuinely cancelled prefix. Callers also owe the native
+ * cadence, author identity, latest actor pose and complete draw census.
+ */
+export function verifySelectedRouteTerminal(route, index, target) {
+  const settled = route.terminal === 'motion-slot-settled'
+  assert(
+    route.terminal === 'motion-slot-cancelled' || (index === 0 && settled),
+    'selected route is neither a cancelled prefix nor a completed first leg',
+  )
+  assert(route.commits.length, 'selected route has no actual commits')
+  for (const [i, commit] of route.commits.entries()) {
+    assert.deepEqual(
+      commit.to.slice(0, 2),
+      [commit.from[0], commit.from[1] - 0.25],
+      'authored route escaped its exact primary stride',
+    )
+    if (i)
+      assert.deepEqual(
+        commit.from.slice(0, 2),
+        route.commits[i - 1].to.slice(0, 2),
+        'selected route lost commit continuity',
+      )
+    assert.equal(
+      commit.arrived,
+      settled && i === route.commits.length - 1,
+      'selected route has a false or missing arrival',
+    )
+  }
+  if (settled)
+    assert.deepEqual(
+      route.commits.at(-1).to.slice(0, 2),
+      target,
+      'completed first leg does not reach its exact primary target',
+    )
+  return settled
+}
+
+/** Completion acknowledgement can be queued behind foreground commands. The
+ * actual final displacement must already precede take; acknowledgement alone
+ * must never stand in for that causal boundary. */
+export function verifySelectedRouteHandoff(take, select, release, first, second) {
+  assert(
+    take &&
+      select &&
+      release &&
+      take.runId === select.runId &&
+      take.runId === release.runId &&
+      take.order < select.order &&
+      select.order < release.order &&
+      (first.settled
+        ? Number.isSafeInteger(first.lastCommitOrder) &&
+          first.lastCommitOrder < take.order &&
+          first.lastCommitOrder < first.to &&
+          first.to < release.order
+        : select.order < first.to) &&
+      release.order < second.from,
+    'route cancellation lacks real foreground take/select/release',
+  )
+}
+
 /** This is one installed two-leg source prefix, not an endpoint tolerance or a
  * certificate for arbitrary selections. Enclosing motion/pose proofs still owe
  * every eligible RF step and every actual draw. Unexecuted later legs are excluded.
@@ -206,20 +268,12 @@ export function verifyInterruptedMiaoRoute(game, reforge, receipts, adapters) {
     )
     assert.equal(route.sceneVisit, visit, 'interrupted route mixes authored visits')
     assert.equal(registration.slot.slowCadence, true, 'route lacks native slow cadence')
-    assert.equal(route.terminal, 'motion-slot-cancelled', 'route is not a real cancelled prefix')
-    assert(
-      route.commits.length &&
-        route.commits.every(
-          (commit) =>
-            same(commit.to.slice(0, 2), [commit.from[0], commit.from[1] - 0.25]) && !commit.arrived,
-        ),
-      'authored route escaped its exact primary stride',
-    )
+    const settled = verifySelectedRouteTerminal(route, index, sourceLegs[index].target)
     const origin = canonicalPosition(own(reforge, registration).position)
     const cancellation = reforge.causes.find((event) => event.order === route.end)
     assert(
-      cancellation?.phase === 'motion-slot-cancelled' && cancellation.slotId === route.slotId,
-      'route lost actual cancellation',
+      cancellation?.phase === route.terminal && cancellation.slotId === route.slotId,
+      'route lost its actual terminal event',
     )
     const terminal = canonicalPosition(own(reforge, cancellation).position)
     assert.deepEqual(origin, route.commits[0].from, 'route commits lost registration origin')
@@ -233,6 +287,9 @@ export function verifyInterruptedMiaoRoute(game, reforge, receipts, adapters) {
       end: terminal,
       steps: route.commits.length,
       slot: route.slotId,
+      terminal: route.terminal,
+      settled,
+      lastCommitOrder: route.commits.at(-1).order,
       from: registration.order,
       to: cancellation.order,
     }
@@ -262,17 +319,7 @@ export function verifyInterruptedMiaoRoute(game, reforge, receipts, adapters) {
   const release = commands.find(
     (event) => leaf(event)?.kind === 'releaseEntity' && same(leaf(event).target, targetRef),
   )
-  assert(
-    take &&
-      select &&
-      release &&
-      take.runId === select.runId &&
-      take.runId === release.runId &&
-      take.order < select.order &&
-      select.order < authoredLegs[0].to &&
-      release.order < authoredLegs[1].from,
-    'route cancellation lacks real foreground take/select/release',
-  )
+  verifySelectedRouteHandoff(take, select, release, authoredLegs[0], authoredLegs[1])
   assert.deepEqual(
     leaf(select).selection,
     { kind: 'use', value: 'legacy-002' },

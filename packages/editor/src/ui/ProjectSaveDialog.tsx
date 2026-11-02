@@ -1,3 +1,4 @@
+import type { SaveAsProgress } from '../core/open-actions.js'
 import { DsDialog } from './design-system/index.js'
 
 export type ProjectSaveActivity =
@@ -5,7 +6,7 @@ export type ProjectSaveActivity =
   | { phase: 'preparing' }
   | { phase: 'recovering' }
   | { phase: 'writing'; completed: number; total: number }
-  | { phase: 'saving-as' }
+  | { phase: 'saving-as'; progress?: SaveAsProgress }
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
@@ -21,11 +22,24 @@ export function ProjectSaveDialog(props: {
   activity: Exclude<ProjectSaveActivity, { phase: 'choosing-directory' }>
 }) {
   const { activity } = props
-  const writing = activity.phase === 'writing'
-  const determinate = writing && activity.total > 0
+  const progress = activity.phase === 'saving-as' ? activity.progress : activity
+  const measured =
+    progress && (progress.phase === 'writing' || progress.phase === 'staging')
+      ? progress
+      : undefined
+  const determinate = !!measured && measured.total > 0
   const percent = determinate
-    ? Math.min(100, Math.floor((activity.completed / activity.total) * 100))
+    ? Math.min(100, Math.floor((measured.completed / measured.total) * 100))
     : undefined
+  const stageLabel = progress?.phase === 'staging' ? '复制与暂存文件' : '写入并核验文件'
+  const pendingLabel =
+    progress?.phase === 'validating'
+      ? '正在校验暂存内容与来源…'
+      : progress?.phase === 'reopening'
+        ? '正在重新打开已保存工程…'
+        : activity.phase === 'recovering'
+          ? '正在恢复上次保存…'
+          : '正在准备工程文件…'
   const title =
     activity.phase === 'recovering'
       ? '正在完成上次保存…'
@@ -66,12 +80,14 @@ export function ProjectSaveDialog(props: {
           aria-valuemax={determinate ? 100 : undefined}
           aria-valuenow={percent}
         >
-          <span style={determinate ? { width: `${percent}%` } : undefined} />
+          {determinate && <span style={{ width: `${percent}%` }} />}
         </div>
         <output className="project-save-progress-label">
           {determinate
-            ? `${percent}% · ${formatBytes(activity.completed)} / ${formatBytes(activity.total)}`
-            : '正在处理，请稍候…'}
+            ? measured.phase === 'staging'
+              ? `${stageLabel} ${percent}% · ${measured.completed} / ${measured.total} 个文件`
+              : `${stageLabel} ${percent}% · ${formatBytes(measured.completed)} / ${formatBytes(measured.total)}`
+            : pendingLabel}
         </output>
       </div>
     </DsDialog>

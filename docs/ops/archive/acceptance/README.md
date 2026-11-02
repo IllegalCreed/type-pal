@@ -1,63 +1,41 @@
 # 历史验收批次
 
-Status: historical
-Validity: historical
+Status: current（仅指导航）
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Last reviewed: 2026-10-19
+Template: governance-index-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `archive-record-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是历史验收批次目录的当前导航：只负责把读者送到 2026-07 的用户验收清单；清单内的勾选、未勾项与用户判断按当时批次的时点解释，不能从本页推断当前待办或产品通过。
 
-## 历史范围
+## 目的
 
-- 原始日期、版本、阶段：固定于 source revision 和原始文档日期；属于 ops 历史 acceptance/board snapshot。
-- 归档原因：保留历史验收与 board 状态，避免把过去结论误读为当前状态。
+- 提供历史验收批次（用户逐项验收记录）的目录入口，防止把当时批次的勾选/未勾项误读为当前待办。
 
-## 原始结论
+## 范围
 
-- 保留原文语义，不改写为当前事实；原始结论在 quote 中逐行保全。
+- 当前包含：2026-07 验收清单（[验收清单(做完划掉;不对就截图)](2026-07-checklist.md)）一个条目。
+- 明确不包含：当前验收状态、产品 runtime/E2E/视觉/coverage 结论；未勾项不自动成为当前待办（原卡明言）。
 
-## 当时证据
+## 当前状态
 
-- 当时的来源、命令、SHA：`docs/ops/archive/acceptance/README.md`、source revision `140d11b23201715bc93763f9e07b075de63ba34c`、source SHA `0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329`。
+- `status`: current（导航索引）；被索引的清单为历史时点材料。
+- `lastReviewed`: 2026-10-19
 
-## 当前有效性
+## 入口与责任
 
-- current | historical | superseded | unknown：historical。
-- 当前不得外推的部分：历史验收、board 状态和旧任务完成度不能证明当前实现。
+- canonical 入口：本页与 [验收清单](2026-07-checklist.md)；上级为[运维历史归档](../README.md)。
+- Owner：Codex（文档治理）。
+- 下游使用者：验收历史追溯、任务证据 consumer。
 
-## 继任文档
+## 证据与下一步
 
-- 当前 canonical 文档：C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- supersedes / superseded-by：本归档记录不替代当前 task/evidence。
-- 若重新启用的复核条件：新的 task card、当前 source/oracle、独立验收和相应执行证据齐全。
-
-## 历史范围
-
-- ops archive；日期：undated；固定来源 `140d11b23201715bc93763f9e07b075de63ba34c`；source SHA `0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329`。
-
-## 原始结论
-
-- 历史验收批次：这是 archive-record，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「保留用户在当时批次的验收记录。未勾项不自动成为当前待办，现行状态查任务和审计台账。」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 标题锚点：文档与附件；原始正文、表格、状态词和链接在 quote 保全。
-
-## 当前有效性
-
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。
-
-## 继任文档
-
-- C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 关键来源：目录原卡（源身份与逆回规则见下方程序生成的保全节，不在正文手写哈希）。
+- 未决/阻塞：无。
+- 下一步：无需扩充；现行验收状态由当前任务卡与审计台账承载。
 
 ## 原文保全
 
-固定源 SHA `0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `140d11b23201715bc93763f9e07b075de63ba34c`，source SHA `0898e0a01c796a8743bc734cd322723d8f5ad137c6c90fca56ca83bff759f329`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 历史验收批次
 >

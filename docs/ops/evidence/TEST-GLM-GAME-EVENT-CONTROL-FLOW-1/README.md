@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 的交付证据：GLM r1（2026-10-05，分支 `codex/glm-game-event-control-flow-r1`，base `7a9157ac5`）事件解释器控制流残差——排重后 2 条新合同；r2（同日返工）反控判据库化+严格化并自测证明 r1 旧判据 7 类误收全拒。
 
 ## 证据身份
 
-- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83。
+- 新合同 2 条：event-system.glm-event-control-flow.test.ts——resolveConfirmGoto fail-closed、0x7F[0,0,0xFFFF] 回正豁免。
+- 目录：dedup-ledger.md（逐分支排重）、coverage-probe/（v8 statement 级实证）、data-reachability.py+output（全库 autoScript 0x7F 可达性扫描）、mutation-points/lib/runner/results/logs（三态反控 r2 判据）、mutation-selftest+selftest-results（判据自测）、directed-vitest.json。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- GLM r2 返工：Codex 一审判反控 runner 判据误收→判据库化+严格化（红相位 exit/signal/spawn、恰一失败、精确命中目标合同、红/原始执行集逐集合核对、恢复 identity 全等）；2 针按 r2 判据重跑 2/2 VALID；业务合同与测试文件零改动。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 判据自测：10 个合成反例（两失败/错合同/exit0/signal/spawn/pending/runtime/todo/执行集漂移+sanity）证明 r1 旧判据误收 7 类、r2 全拒且不过严；纯内存零临时树，产品源前后 sha 相等。
+- 一句话结论：runOneAutoOp 全族、0x7F 主路径、OP_PLACE_USED_ITEM、0x0A 主流程、终止/清理链、event-opcode-player 全族均已证（REG）；全库 auto 链 0x7F 零可达（unreachable 附脚本）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 定向/相邻/全量/typecheck/lint 0-0-0/docs/diff 全过（r1 时点）；回执见任务卡。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r2 已推 c765dde86（业务合同同 r1 未动；反控判据按一审 8 项重写+r2 双判据库+selftest 7 类误收证明）待 Codex 二审。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 r1+r2 交付（2 新合同+r2 严格判据）；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据：原始正文完整保留于下方 quote。
+- resolveConfirmGoto fail-closed 与 0x7F 回正豁免两 NEW；auto 链 0x7F 全库零可达附脚本。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 目录清单与一句话结论在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r2 时点待二审。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `8f6019e7fec8f487c30b37e1d077203dbf7b74177d72646fb84c86d097c1ad83`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 交付证据
 >

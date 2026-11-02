@@ -1,0 +1,1799 @@
+{
+  "kind": "independent-real-S03-S04-central-binding-intake-review",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "bodyAuthorTask": "/root/e2e_entry_semantic_author",
+  "nonAuthorReviewer": true,
+  "identityBasis": "Root authored the central plans, bindings, pins, matrix/card and evidence intake; reviewer did not edit them or either body. Reviewer originally authored the S04 body-review report, now retained byte-identically: this fact is disclosed and its original scoped body decision is inherited, not relabeled as new independent review of reviewer-authored content. This turn independently challenges root-owned actual central mutation and fixed resulting bytes. S03 original body reviewer was root; body contributor was a distinct logical task.",
+  "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+  "baseAcceptedCentralCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+  "intermediateS03IntakeCommit": "3a048f2a5b4d6aef204fbba47002b3e4fbca3f95",
+  "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+  "finalCheckoutClean": true,
+  "mainUnchanged": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "sourcePins": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/testing/e2e/README.md",
+      "bytes": 7862,
+      "sha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+      "repoPath": "docs/testing/e2e/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/testing/e2e/cross-stage/README.md",
+      "bytes": 4610,
+      "sha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+      "repoPath": "docs/testing/e2e/cross-stage/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+      "bytes": 48213,
+      "sha256": "251ef9fdb82b0b6bfb3593fb9dc983f53de2e570b988068308b7f21068121dd4",
+      "repoPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "bytes": 63034,
+      "sha256": "c979b6df8885a422d280d6c9f18f5d0d214492e2132169c18766e3613c9878e3",
+      "repoPath": "docs/phase-governance/reviews/20261018-semantic-rework.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/cross-phase-matrix.json",
+      "bytes": 95474,
+      "sha256": "b404f0da855c6deb41d40bd08f93689f04d3f190205af2c1fceea30fb7731667",
+      "repoPath": "docs/phase-governance/cross-phase-matrix.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/cross-phase-matrix.md",
+      "bytes": 10224,
+      "sha256": "8bb97d8c33ca796f9ece3c4cd482731437eff4bd613b6a05419fce8dcd43c657",
+      "repoPath": "docs/phase-governance/cross-phase-matrix.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "bytes": 290166,
+      "sha256": "6d763812dbcdee06ea6d9276e9a66477f91690da5f0198d69b6d973400376c56",
+      "repoPath": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+      "bytes": 6505,
+      "sha256": "0236ae33e3b8106e3bc4e87e625c236bbf2deb043429c70f209b10162a088580",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+      "bytes": 149812,
+      "sha256": "2638b886fa9a6ec5254c58db4bd603bc82d46a46b88f2e5344180d0b40eed7cb",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+      "bytes": 7973,
+      "sha256": "4fa482de8fcac49c7fc00a58a179e8ff665053fe79b543b813925872eddd20dd",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S03-cafe0578.json",
+      "bytes": 71111,
+      "sha256": "7c0b2ce8a6b459b774223fc591352181d2dd93b8898e277f3da225edf7a4c25a",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S03-cafe0578.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-addendum-S03-f9fbf0c7.json",
+      "bytes": 19529,
+      "sha256": "a09aa41c9b839097c1cff2a92f525deb19e0ceebaf7d8cbb5aa1d9376305b113",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-addendum-S03-f9fbf0c7.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+      "bytes": 13429,
+      "sha256": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
+      "bytes": 117343,
+      "sha256": "17ae0deb2770159b332b8068e0eaf614a6c418c935453922156a63f1fc96066b",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+      "bytes": 46151,
+      "sha256": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+      "bytes": 42673,
+      "sha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+      "bytes": 67198,
+      "sha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7",
+      "repoPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json"
+    }
+  ],
+  "inheritedC4dReview": {
+    "report": {
+      "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/independent-central-intake-review-c4d00d3e.json",
+      "bytes": 102560,
+      "sha256": "add7c29d52352b7239947931a852d8b05ba6b28c83b0bb5fb0c1fd76cea765cb"
+    },
+    "manifest": {
+      "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/artifact-manifest.json",
+      "bytes": 24753,
+      "sha256": "dfc2382de8170a7d7de00814ea8a0a7fe3a568a082c061d9bb4ffeaab637c454"
+    },
+    "all133ArtifactPinsReverified": true,
+    "scope": "Original storage plus33pending registration and prior pin/transport acceptance only; fixed scripts unchanged. This turn is separate actual S03/S04central composition acceptance."
+  },
+  "actualReadScope": [
+    "Full current90-line S03 and54-line S04 body re-read for correspondence with fixed accepted bytes and scope. Whole quote blocks compared with c4dpredecessor; original body SHA equality confirmed against author Git candidates. This does not reopen all source/business bodies previously narrowly read.",
+    "Complete new S03/S04successor entries including original claims, primary-source scopes, author/reviewer identity, conditioned quote and publication control fields. Every declared primary blob SHA/source-before Git revision checked, without claiming a new full semantic read of every dependency.",
+    "Public loader used on real current and owned/tmp eight-file Git snapshots for c4dandactualS03midpoint. Full2414objects/bindings/afterpins and native prefix/order/optional absence compared. R60eight-to-seven-to-six exact other objects/order, append-only superseded source pointers and sourceRecordSHA checked; removed original full binding objects copied from Git to owned sources.",
+    "All364transport rows and five declared manifest identities, top original author/independent reports, source command failures/identities and relative S04publication raw resolution. Every payload/stored hash and byte count independently decoded and matched original/tmp at review; no raw was reinterpreted as fresh reviewer execution.",
+    "Two actual344623plan/result/runner source/execution hashes and all edited donor/successor values checked versus actual two commits; all old pin maintenance deltas compared field-by-field and reason reviewed. New matrixJSON/MD, task and evidence README changes read in full; one old affected-count line plus two guarded rows retain stop lines.",
+    "Current independent full docs/lint/strict/progress/full-main/full-c4d/staged commands. Root two historical gate sessions decoded and metadata stream hashes matched; they remain root self-checks. Two failed own verifier versions retained separately."
+  ],
+  "notClaimed": [
+    "No renewed review of entire six stage reports,431-line common-issues ledger, full contracts/R4/checkpoint business contents or all reference sourceRefs. Primary hash checks preserve declared scope, not broaden it.",
+    "No runtime/E2E/visual/preview/capture/coverage/producttypecheck or historical execution acceptance; no otherR60restoration, five-quarantine release or semantic batching.",
+    "No S05body or future rootcombined-byte acceptance, no main/done, no cross-file transaction/universal platform-path guarantee."
+  ],
+  "findings": [
+    {
+      "id": "TWO-STEP-DONOR-SUCCESSOR-PRESERVATION",
+      "verdict": "verified",
+      "evidence": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-binding-audit-v2.stdout",
+        "bytes": 14140,
+        "sha256": "f29fd960f0aa5e395fa6b88a409bccd22c81edab565ccc3f051218fbe3dbe344"
+      },
+      "steps": [
+        {
+          "target": "docs/testing/e2e/README.md",
+          "donorBefore": 8,
+          "donorAfter": 7,
+          "otherObjectsAndOrderExact": 7,
+          "priorSupersededHistoryPrefixExact": true,
+          "sourcePointer": {
+            "path": "docs/testing/e2e/README.md",
+            "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "sourceRecordSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+            "successor": "20261018-semantic-rework.json",
+            "reason": "S03 fixed new body accepted by distinct non-author; only this binding moved. Historical withdrawals and original false exactRoundTrip are retained by source Git/entry history."
+          }
+        },
+        {
+          "target": "docs/testing/e2e/cross-stage/README.md",
+          "donorBefore": 7,
+          "donorAfter": 6,
+          "otherObjectsAndOrderExact": 6,
+          "priorSupersededHistoryPrefixExact": true,
+          "sourcePointer": {
+            "path": "docs/testing/e2e/cross-stage/README.md",
+            "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "sourceRecordSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+            "successor": "20261018-semantic-rework.json",
+            "reason": "S04 fixed new body accepted by distinct non-author; only this binding moved. Historical withdrawals and original false exactRoundTrip are retained by source Git/entry history."
+          }
+        }
+      ],
+      "semanticOldS01S02ThenS03ObjectsOrderExact": true,
+      "decision": "R60exactly8\u21927\u21926. Each step preserves other7or6complete objects/order and all top native metadata; supersededBindings prefix retained and exactly one specific sourceRevision/sourceRecordSHA/successor pointer appended. Full old bindings remain accessible at those fixed Git sources and are copied in this package; this is not a claim they are embedded as full objects in the compact pointer array. S01/S02andlaterS03successor values/order remain exact."
+    },
+    {
+      "id": "ONLY-TWO-NATIVE-UPGRADES",
+      "verdict": "verified",
+      "entryTotals": [2407, 2411, 2414],
+      "changedOriginalObjects": [
+        {
+          "path": "docs/testing/e2e/README.md",
+          "fields": [
+            "templateCompliance",
+            "reviewStatus",
+            "reviewRecord",
+            "templateVersion",
+            "historyOverlay"
+          ],
+          "before": {
+            "path": "docs/testing/e2e/README.md",
+            "phase": "testing",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateCompliance": "needs-migration",
+            "reviewStatus": "partial-review-unknown",
+            "reviewRecord": "20261017-r60-testing-e2e-entry.json"
+          },
+          "after": {
+            "path": "docs/testing/e2e/README.md",
+            "phase": "testing",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateCompliance": "template-compliant",
+            "reviewStatus": "content-reviewed",
+            "reviewRecord": "20261018-semantic-rework.json",
+            "templateVersion": "1.0.0",
+            "historyOverlay": false
+          }
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/README.md",
+          "fields": [
+            "templateCompliance",
+            "reviewStatus",
+            "reviewRecord",
+            "templateVersion",
+            "historyOverlay"
+          ],
+          "before": {
+            "path": "docs/testing/e2e/cross-stage/README.md",
+            "phase": "testing",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateCompliance": "needs-migration",
+            "reviewStatus": "partial-review-unknown",
+            "reviewRecord": "20261017-r60-testing-e2e-entry.json"
+          },
+          "after": {
+            "path": "docs/testing/e2e/cross-stage/README.md",
+            "phase": "testing",
+            "docType": "governance-index",
+            "templateId": "governance-index-v1",
+            "templateCompliance": "template-compliant",
+            "reviewStatus": "content-reviewed",
+            "reviewRecord": "20261018-semantic-rework.json",
+            "templateVersion": "1.0.0",
+            "historyOverlay": false
+          }
+        }
+      ],
+      "allOther2405ObjectsAndOrderExact": true,
+      "newSevenPendingEntries": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S03-cafe0578.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-addendum-S03-f9fbf0c7.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+          "phase": "ops",
+          "docType": "evidence-receipt",
+          "templateId": "evidence-receipt-v1",
+          "templateVersion": "1.0.0",
+          "templateCompliance": "needs-migration",
+          "reviewStatus": "partial-review-unknown",
+          "reviewRecord": "20261018-record-integrity-rework.json"
+        }
+      ],
+      "nativeMetadataUnchanged": true,
+      "decision": "Only two known paths alter reviewRecord/reviewStatus/templateCompliance/templateVersion/historyOverlay. Both approved fixed bodies become reviewed/compliant/version1.0.0/historyOverlayfalse. Seven new evidence entries remainpartial/needs and noartifactOnly. Original fixed1838cohort does not change."
+    },
+    {
+      "id": "FIXED-BODY-AND-REPORT-IDENTITY",
+      "verdict": "verified-scoped-inheritance",
+      "s03": {
+        "bodyCommit": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "bodySha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+        "nonAuthorReviewer": "/root",
+        "reportSha256": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25"
+      },
+      "s04": {
+        "bodyCommit": "c8715c2c4ac1771a77127917812c87b53a30d676",
+        "bodySha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+        "nonAuthorReviewer": "/root/receipt_integrity_independent",
+        "reportSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7"
+      },
+      "reportPins": {
+        "author-review-S03-cafe0578.json": "7c0b2ce8a6b459b774223fc591352181d2dd93b8898e277f3da225edf7a4c25a",
+        "author-addendum-S03-f9fbf0c7.json": "a09aa41c9b839097c1cff2a92f525deb19e0ceebaf7d8cbb5aa1d9376305b113",
+        "independent-review-S03-f9fbf0c7.json": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25",
+        "author-review-S04-c8715c2c.json": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb",
+        "independent-review-S04-c8715c2c.json": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7"
+      },
+      "decision": "Actual body bytes equal fixed approved author candidates and full historical quote blocks remain unchanged. Original conditional oneLF/directinverse2213\u22602212and244\u2260243claims are inherited exactly with no unconditional trim/R60oldroundtrip credit. Author self-checks retain falseindependence; original independent reports retain their original precentral falseacceptance flags, not rewritten as combined acceptance."
+    },
+    {
+      "id": "ORIGINAL-EVIDENCE-AND-RELATIVE-RAW",
+      "verdict": "verified-lossless",
+      "evidence": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/evidence-transport-audit-v2.stdout",
+        "bytes": 11014,
+        "sha256": "0cecffbb3c687c33bd389daad7797a225b018b0d1f84da22985f59a5632cb05f"
+      },
+      "maps": [
+        {
+          "slice": "S03-f9fbf0c7",
+          "map": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
+          "mapSha256": "17ae0deb2770159b332b8068e0eaf614a6c418c935453922156a63f1fc96066b",
+          "payloadRows": 231,
+          "sourceManifests": [
+            {
+              "path": "/tmp/type-pal-s03-author-20261018-al36xarv/artifact-manifest.json",
+              "sha256": "1fadfdfbbce2b0ab868437a4408143d114ccc1a725edfab2e807b21fe34ef073",
+              "artifacts": 141
+            },
+            {
+              "path": "/tmp/type-pal-s03-author-followup-20261018-2c1ksn5l/artifact-manifest.json",
+              "sha256": "7c63aee0cb2a507415681643558fb9fc83c3a708878e35e425ad91afadb0eed0",
+              "artifacts": 58
+            },
+            {
+              "path": "/tmp/type-pal-s03-root-independent-u7kxokal/artifact-manifest.json",
+              "sha256": "0a78ddf1a848c8d84866f9445e2c954abe68627794ad254ae49c6ffe52fcd8e7",
+              "artifacts": 26
+            }
+          ],
+          "scope": "Original reports unchanged. Distinct author self-check and non-author body acceptance preserved; central intake not performed by this transport. Raw lossless gzip retains payload/stored identities."
+        },
+        {
+          "slice": "S04-c8715c2c",
+          "map": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+          "mapSha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7",
+          "payloadRows": 133,
+          "sourceManifests": [
+            {
+              "path": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/artifact-manifest.json",
+              "sha256": "4c61ecb4f7aef821dc2a44a5f6fe5f552fe7c8e2a1d9099bacf7ca8faad148ed",
+              "artifacts": 76
+            },
+            {
+              "path": "/tmp/type-pal-s04-independent-20261018-c8715c2c/artifact-manifest.json",
+              "sha256": "2b4d605a5b414ebfbd81080c65922d3b94d09651f61d654ecc2f5582c475bd60",
+              "artifacts": 55
+            }
+          ],
+          "scope": "Original reports unchanged. Distinct author self-check and non-author body acceptance preserved; central intake not performed by this transport. Raw lossless gzip retains payload/stored identities."
+        }
+      ],
+      "all364PayloadHashBytesExact": true,
+      "allOriginalTmpBytesEqualAtReview": true,
+      "s04PublicationRawResolution": {
+        "originalPath": "/tmp/type-pal-s04-independent-20261018-c8715c2c/raw/publication-probe.stdout",
+        "repositoryPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/semantic-s04/independent/publication-probe.stdout.gz",
+        "encoding": "gzip",
+        "payloadSha256": "9763f873aff726a78477d16131f940f76aa677586d4b312a68eca15e23762af6",
+        "payloadBytes": 5045,
+        "storedSha256": "8f4c6c9488b30636dd34b8fb1a56eab0d8c147eae8b40e6cbdf6f15e4836cb68",
+        "storedBytes": 2195
+      },
+      "decision": "S03fourregisteredJSON/231payload and S04threeregisteredJSON/133payload link author/raw/independent manifest identities exactly. publicationControl.rawraw/publication-probe.stdout belongs to originalS04package and is resolved by intakeMap to gzip; it is not a dangling bare repository path. Exact baseline[]\u2192one006dependency rejection\u2192restore[]andunchangedcanonical/index are narrowpublicationIOobservations, not new E2E/business-test/runtime execution."
+    },
+    {
+      "id": "REAL-PLAN-AND-EXPLAINED-PINS",
+      "verdict": "verified",
+      "evidence": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/plan-pin-matrix-audit.stdout",
+        "bytes": 42065,
+        "sha256": "1710cf7325fb7b79bdb8bb7b0e1f46df19777c4d3463c934915797b88fbcba17"
+      },
+      "plans": [
+        {
+          "step": "semantic-s03-intake",
+          "beforeCommit": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "resultCommit": "3a048f2a5b4d6aef204fbba47002b3e4fbca3f95",
+          "planSha256": "2783bace0864c955092a6919249c5c8cd72c029674dc04b1a333e5459b58f013",
+          "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+          "newPendingRegistrations": 4,
+          "fixedApprovedNativeUpdates": [
+            {
+              "path": "docs/testing/e2e/README.md",
+              "before": {
+                "path": "docs/testing/e2e/README.md",
+                "phase": "testing",
+                "docType": "governance-index",
+                "templateId": "governance-index-v1",
+                "templateCompliance": "needs-migration",
+                "reviewStatus": "partial-review-unknown",
+                "reviewRecord": "20261017-r60-testing-e2e-entry.json"
+              },
+              "after": {
+                "path": "docs/testing/e2e/README.md",
+                "phase": "testing",
+                "docType": "governance-index",
+                "templateId": "governance-index-v1",
+                "templateCompliance": "template-compliant",
+                "reviewStatus": "content-reviewed",
+                "reviewRecord": "20261018-semantic-rework.json",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false
+              }
+            }
+          ],
+          "reviewEdits": [
+            {
+              "path": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+              "expectedFileSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf"
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+              "expectedFileSha256": "2c70bbb0d776cd90d7e3a3291bb3d359e54b14add9dd684e5a73adfc9cbeff0d"
+            }
+          ],
+          "allowedPinDeltas": {
+            "docs/testing/e2e/README.md": "S03 exact accepted new body, source/after and original report SHA already fixed; donor binding moved uniquely.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json": "S03 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
+            "docs/phase-governance/cross-phase-matrix.json": "S03 specific authority/navigation row; guarded, no execution credit.",
+            "docs/phase-governance/cross-phase-matrix.md": "S03 readable projection of new guarded matrix row.",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "S03 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md": "S03 actual report/map navigation appended; no other downstream semantic acceptance.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json": "S03 immutable raw owner/decoder entry appended; no original command streams changed."
+          },
+          "actualExecution": {
+            "command": [
+              "node",
+              "/tmp/maintain-registry-v2-intake.mjs",
+              "/tmp/type-pal-v2-explicit-plan-2q0pf7tl/plan.json",
+              "--apply"
+            ],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "startedAt": "2026-10-17T21:54:12.529554+00:00",
+            "endedAt": "2026-10-17T21:54:14.167130+00:00",
+            "exitCode": 0,
+            "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+            "planSha256": "2783bace0864c955092a6919249c5c8cd72c029674dc04b1a333e5459b58f013",
+            "stdoutSha256": "a747b2958c82e642ccac81a8a4b61387a759780a1f5010b8684d37d3ee40f369",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "nonAuthorReviewer": false
+          }
+        },
+        {
+          "step": "semantic-s04-intake",
+          "beforeCommit": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "resultCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "planSha256": "69be66c46684016fe2dc2d3402c79619fe0b00c519de731be92bde4731530cdb",
+          "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+          "newPendingRegistrations": 3,
+          "fixedApprovedNativeUpdates": [
+            {
+              "path": "docs/testing/e2e/cross-stage/README.md",
+              "before": {
+                "path": "docs/testing/e2e/cross-stage/README.md",
+                "phase": "testing",
+                "docType": "governance-index",
+                "templateId": "governance-index-v1",
+                "templateCompliance": "needs-migration",
+                "reviewStatus": "partial-review-unknown",
+                "reviewRecord": "20261017-r60-testing-e2e-entry.json"
+              },
+              "after": {
+                "path": "docs/testing/e2e/cross-stage/README.md",
+                "phase": "testing",
+                "docType": "governance-index",
+                "templateId": "governance-index-v1",
+                "templateCompliance": "template-compliant",
+                "reviewStatus": "content-reviewed",
+                "reviewRecord": "20261018-semantic-rework.json",
+                "templateVersion": "1.0.0",
+                "historyOverlay": false
+              }
+            }
+          ],
+          "reviewEdits": [
+            {
+              "path": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+              "expectedFileSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee"
+            },
+            {
+              "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+              "expectedFileSha256": "d1849c513302b4c126896772a683f76d2332c37164c9aac5be70a4492ba15a5c"
+            }
+          ],
+          "allowedPinDeltas": {
+            "docs/testing/e2e/cross-stage/README.md": "S04 exact accepted new body, source/after and original report SHA already fixed; donor binding moved uniquely.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json": "S04 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
+            "docs/phase-governance/cross-phase-matrix.json": "S04 specific authority/navigation row; guarded, no execution credit.",
+            "docs/phase-governance/cross-phase-matrix.md": "S04 readable projection of new guarded matrix row.",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "S04 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md": "S04 actual report/map navigation appended; no other downstream semantic acceptance.",
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json": "S04 immutable raw owner/decoder entry appended; no original command streams changed."
+          },
+          "actualExecution": {
+            "command": [
+              "node",
+              "/tmp/maintain-registry-v2-intake.mjs",
+              "/tmp/type-pal-v2-explicit-plan-lynq4cba/plan.json",
+              "--apply"
+            ],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "startedAt": "2026-10-17T21:57:06.363362+00:00",
+            "endedAt": "2026-10-17T21:57:07.760645+00:00",
+            "exitCode": 0,
+            "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+            "planSha256": "69be66c46684016fe2dc2d3402c79619fe0b00c519de731be92bde4731530cdb",
+            "stdoutSha256": "b72fbe9359f50ca581ea9fa14bd7f73d8568a741398964994dc31a7531993c20",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "nonAuthorReviewer": false
+          }
+        }
+      ],
+      "oldPinDeltaCount": 24,
+      "oldPinDeltas": [
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "target": "docs/phase-governance/cross-phase-matrix.md",
+          "priorSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
+          "afterSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
+          "method": "S03 readable projection of new guarded matrix row.",
+          "statusUnchanged": "content-reviewed"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/cross-phase-matrix.json",
+          "priorSha256": "c32f9668dd7f36f00b75cb6228f06e1d6326337c53d24c7cb4ab5ade297963c9",
+          "afterSha256": "a92fa677e800d86ecffdb4b9bc4a4f006d4b0aea40d14dfe35b85207618bed99",
+          "method": "S03 specific authority/navigation row; guarded, no execution credit.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "priorSha256": "cd977ced41f006d97c9dbad9cf88c6e205eef64a599459fddff1eff717113127",
+          "afterSha256": "ae602c2f69009f3c243e7ff646f8234550fc982e504989ac35341e153ac4f9ea",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+          "afterSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "priorSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+          "afterSha256": "d962e3194e7b92e389547b8991b0220f9ee54137f7b8df3d8edd992d521753fa",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "priorSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+          "afterSha256": "871a0ccf3f849eeec34634899ca9361790d6a3ae7b6da07a2341d336837b6ff5",
+          "method": "S03 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/phase-governance/document-registry.json",
+          "priorSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+          "afterSha256": "4313ed399b51a96589440db24f410ff96f838f1b944c8c7d3feba5524af9555d",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+          "priorSha256": "1cb9c6e8cc4bc4661a15db564e971a3722891aec12a51ec356992a4f2d1a2942",
+          "afterSha256": "ec6649cd835bb3c1f3d983f1b654b2b1d487179c82c0fdc576c4a5c41510a308",
+          "method": "S03 actual report/map navigation appended; no other downstream semantic acceptance.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "priorSha256": "e1c6c092ef2b2932d001c8469836660a90a212824806bf3a32d6438ca68b644b",
+          "afterSha256": "f8bd3a540129298a0da27baa3ee4f602733bb4ea6f9a31d9b3d108fd6d165338",
+          "method": "S03 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+          "priorSha256": "c200e4f89e48b298d43512cd5625e43bcfd564edfcf1ce98fa03b4a8fc0220e9",
+          "afterSha256": "9fbd1d25aac6dd23e7c8adc35bcb5f929c2921a78493375ee7e2aa3133298bbf",
+          "method": "S03 immutable raw owner/decoder entry appended; no original command streams changed.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/phase-governance/document-registry.ops.json",
+          "priorSha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d",
+          "afterSha256": "be7f68fe0b6ce9c9575bc10b0f07b31ae9e48d3d16ba3bd503c307a85b1f4dc0",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s03-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/phase-governance/document-registry.testing.json",
+          "priorSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "afterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "target": "docs/phase-governance/cross-phase-matrix.md",
+          "priorSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
+          "afterSha256": "8bb97d8c33ca796f9ece3c4cd482731437eff4bd613b6a05419fce8dcd43c657",
+          "method": "S04 readable projection of new guarded matrix row.",
+          "statusUnchanged": "content-reviewed"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/cross-phase-matrix.json",
+          "priorSha256": "a92fa677e800d86ecffdb4b9bc4a4f006d4b0aea40d14dfe35b85207618bed99",
+          "afterSha256": "b404f0da855c6deb41d40bd08f93689f04d3f190205af2c1fceea30fb7731667",
+          "method": "S04 specific authority/navigation row; guarded, no execution credit.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "priorSha256": "ae602c2f69009f3c243e7ff646f8234550fc982e504989ac35341e153ac4f9ea",
+          "afterSha256": "d7e1f66a774b4b78bdb92c086ac2d6028d203bf0c1a028a6a336bf09dc4c34a3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+          "afterSha256": "251ef9fdb82b0b6bfb3593fb9dc983f53de2e570b988068308b7f21068121dd4",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "priorSha256": "d962e3194e7b92e389547b8991b0220f9ee54137f7b8df3d8edd992d521753fa",
+          "afterSha256": "6ae98798961cea1b1e70c60d2d94cda5ec899a5d9a71880c9e04cf5d8c1c18b5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "priorSha256": "871a0ccf3f849eeec34634899ca9361790d6a3ae7b6da07a2341d336837b6ff5",
+          "afterSha256": "6d763812dbcdee06ea6d9276e9a66477f91690da5f0198d69b6d973400376c56",
+          "method": "S04 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "target": "docs/phase-governance/document-registry.json",
+          "priorSha256": "4313ed399b51a96589440db24f410ff96f838f1b944c8c7d3feba5524af9555d",
+          "afterSha256": "553e81083574b823061950c9e69cb87bacc0d254b7ff9bc5414a9fc1f66683bd",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+          "priorSha256": "ec6649cd835bb3c1f3d983f1b654b2b1d487179c82c0fdc576c4a5c41510a308",
+          "afterSha256": "0236ae33e3b8106e3bc4e87e625c236bbf2deb043429c70f209b10162a088580",
+          "method": "S04 actual report/map navigation appended; no other downstream semantic acceptance.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "priorSha256": "f8bd3a540129298a0da27baa3ee4f602733bb4ea6f9a31d9b3d108fd6d165338",
+          "afterSha256": "2638b886fa9a6ec5254c58db4bd603bc82d46a46b88f2e5344180d0b40eed7cb",
+          "method": "S04 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+          "priorSha256": "9fbd1d25aac6dd23e7c8adc35bcb5f929c2921a78493375ee7e2aa3133298bbf",
+          "afterSha256": "4fa482de8fcac49c7fc00a58a179e8ff665053fe79b543b813925872eddd20dd",
+          "method": "S04 immutable raw owner/decoder entry appended; no original command streams changed.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/phase-governance/document-registry.ops.json",
+          "priorSha256": "be7f68fe0b6ce9c9575bc10b0f07b31ae9e48d3d16ba3bd503c307a85b1f4dc0",
+          "afterSha256": "958284534c9549b44d80c649c551b15a99ae7fd70710448a4dfa05160dd27b0d",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "step": "semantic-s04-intake",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "target": "docs/phase-governance/document-registry.testing.json",
+          "priorSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "afterSha256": "66a77577cf45332f03ade68b9751000525f1595544d8be1be2bba6a03dbd0e05",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        }
+      ],
+      "decision": "Each plan has exact one approved nativeupdate, exactlytwo protected donor/successor review edits,4then3pending additions, fixed344623runner and exact realapplyplan/output hashes. Everyeditedreviewafter value equals actual commit. Otherreviewentries retain all fields except explicitafterpin+append-onlymaintenancehistory, matching actual targetbytes and declared reasons; no blanket refresh."
+    },
+    {
+      "id": "PRIMARY-SOURCE-PRECISION",
+      "verdict": "verified-identity-without-read-expansion",
+      "sourcePins": [
+        {
+          "path": "docs/testing/e2e/README.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f",
+          "scopeActuallyRead": "complete original33"
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": "catalog nine selected navigation/revision records"
+        },
+        {
+          "path": "docs/testing/indexes/by-stage.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+          "scopeActuallyRead": "by-stage complete"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": ["18-54", "98-132", "239-284", "467-482"]
+        },
+        {
+          "path": "projects/pal/e2e-checkpoints/README.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "806135cee7ca2e0b8f560b8b21e4c9674ff09a4a4d3428f7b7e9306f89281212",
+          "scopeActuallyRead": ["1-90"]
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": ["414-566"]
+        },
+        {
+          "path": "scripts/docs/generate-testing-index.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42",
+          "scopeActuallyRead": ["1-130"]
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314",
+          "scopeActuallyRead": ["1-55", "110-180"]
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": ["98-145"]
+        },
+        {
+          "path": "scripts/docs/markdown.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "scopeActuallyRead": ["1-45"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+          "scopeActuallyRead": ["1-34"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+          "scopeActuallyRead": ["1-26"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+          "scopeActuallyRead": ["1-26"]
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/README.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
+          "scopeActuallyRead": "complete original5lines/243bytes"
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/README.md",
+          "revision": "3a048f2a5b4d6aef204fbba47002b3e4fbca3f95",
+          "sha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+          "scopeActuallyRead": "complete before40lines/1427bytes"
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+          "scopeActuallyRead": "1-85,229-285,326-355; not entire431-line business ledger"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": "18-50,98-132,239-284,467-482; not entire548-line contract"
+        },
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+          "scopeActuallyRead": "1-103 current top/admission and dated history only"
+        },
+        {
+          "path": "docs/testing/e2e/README.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+          "scopeActuallyRead": "1-54,75-90 current navigation and historical backlink only; S03 acceptance separate"
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": "complete83-line current runbook"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": "187-336,414-564 publication/canonical/evidence/dependency/index consumer"
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": "complete e2e-common-issues record and selected e2e-006 fields only"
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+          "scopeActuallyRead": "selected native publication/source/claim/runtime/history/version fields only"
+        }
+      ],
+      "decision": "All25declared primaryblob SHA/revisions and oldsourceGitRevision match. scopeActuallyRead is kept exact; statement boundaries such as selectedcatalogfields or partialcontract ranges do not become complete source-business acceptance."
+    },
+    {
+      "id": "2414-UNIQUE-BINDINGS",
+      "verdict": "verified",
+      "uniqueRegistryReviewBindings": 2414,
+      "afterPinDrift": 0,
+      "decision": "Every current nativeentry has exactlyonecorrespondingreview with matchingrecord/status/compliance and actual afterhash. No duplicate binding and no other pending newevidence credit."
+    },
+    {
+      "id": "WITHDRAWAL-AND-QUARANTINE-BOUNDARY",
+      "verdict": "verified",
+      "withdrawal": {
+        "original": 1896,
+        "reaccepted": [
+          "docs/testing/e2e/README.md",
+          "docs/testing/e2e/cross-stage/README.md",
+          "docs/testing/governance.md"
+        ],
+        "remainingPartialNeeds": 1893,
+        "s01Outside": true,
+        "originalScopeAndFiveQuarantinesUnchanged": true
+      },
+      "decision": "Original1896snapshotandshardbytes unchanged. ExactlyS02/S03/S04are reaccepted affected bodies;1893remainpartial/needs. S01wasoutside affected set. Integrity-auditchangesonlyexplicitsemanticReacceptance1\u21923withoriginaltwoentryprefix maintained; five original receipt-quarantine fields remain unchanged."
+    },
+    {
+      "id": "GUARDED-MATRIX-CARD-AND-RERUN",
+      "verdict": "accepted-limited-accurate-declaration",
+      "changedOldMatrixRow": [
+        {
+          "id": "record-integrity-withdrawal-20261018",
+          "priorUnresolved": "1896 bindings were withdrawn. Only S02 has since earned a new fixed-body semantic/template acceptance;1895 remain without reacceptance. Five receipt scopes remain quarantined.",
+          "currentUnresolved": "1896 bindings were withdrawn. 3 fixed new affected bodies have separate non-author acceptance; 1893 remain without reacceptance. S01 is outside this set; five quarantines remain."
+        }
+      ],
+      "newGuardedRows": [
+        {
+          "id": "e2e-navigation-s03-20261018",
+          "from": ["docs/testing/e2e/README.md", "docs/testing/catalog.json"],
+          "to": [
+            "docs/testing/e2e/contract.md",
+            "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+            "projects/pal/e2e-checkpoints/README.md"
+          ],
+          "relationship": "Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness.",
+          "status": "guarded",
+          "evidence": [
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+            "docs/phase-governance/reviews/20261018-semantic-rework.json"
+          ],
+          "unresolved": [
+            "Fixed body/template non-author acceptance only; actual combined central intake review is pending.",
+            "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
+          ],
+          "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
+        },
+        {
+          "id": "e2e-navigation-s04-20261018",
+          "from": ["docs/testing/e2e/cross-stage/README.md", "docs/testing/catalog.json"],
+          "to": [
+            "docs/testing/e2e/contract.md",
+            "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+            "projects/pal/e2e-checkpoints/README.md"
+          ],
+          "relationship": "Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001\u2013005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.",
+          "status": "guarded",
+          "evidence": [
+            "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+            "docs/phase-governance/reviews/20261018-semantic-rework.json"
+          ],
+          "unresolved": [
+            "Fixed body/template non-author acceptance only; actual combined central intake review is pending.",
+            "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
+          ],
+          "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
+        }
+      ],
+      "delta": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/sources/review-and-matrix-delta.txt",
+        "bytes": 11608,
+        "sha256": "21921c016fa35d6fbdd0e2618b5378d7f65f741b9a331a9276f84be9271bc4e2"
+      },
+      "rerunAppendPointer": "/artifactOwnership/producers",
+      "decision": "Two new matrixrows remainguarded, describe only fixednavigation acceptance, keep otherR60/reference/runtime/preview/capture/coverageunknown andactualcentralpendingatfreeze. Existingaffected-countstatementis3/1893withS01outside. MD/task state rework/globalFAILandexact perstep2\u21923counts; rerun onlyappends2retentionmappings, preserving all historical commandobjects/numbers. No newproductexecutioncredit."
+    }
+  ],
+  "strongestAlternatives": [
+    {
+      "alternative": "Moving a body out of R60could silently reaccept seven/six siblings or erase original falseexactRoundTrip history.",
+      "judgment": "Refuted by exactcompleteotherobject/order comparison at each actualstep, fixed sourceRecordSHA pointers, explicit historicalwithdrawal and compact append-only superseded history. Onlythetwofixednativeentrieschange."
+    },
+    {
+      "alternative": "Author/root booleans or sourcehashequality alone could invent independent bodyacceptance.",
+      "judgment": "Refuted in this actual plan by exact acceptedbody/report Git/tmpbytes and distinct logicalbodyauthor/reviewertasks. This review inherits those originalfixedbodydecisions and independentlychecks rootcentralmutation; it does not claim model/vendor/humanindependence or deeprefbodyacceptance."
+    },
+    {
+      "alternative": "The S04publicationrawrelativepath is missing in repository or itsreject proves businessquality.",
+      "judgment": "Explicit originalpackagepath/intakeMap resolves actualgzip payloadSHA. It proves exactlypublicationdependencyIOrefusal; catalogandraw unchanged, no E2E credit."
+    },
+    {
+      "alternative": "Derived440andzeroSHAintegrityissues mean440documents were freshly semanticallyreviewed now or entirehardgate passes.",
+      "judgment": "False: Onlytwofixedpreviouslyacceptedbodies are integrated thisround; derived440/1838+5incremental is inheritedprogress. Fullcheck/strict/requirecomplete actuallyexit1."
+    }
+  ],
+  "currentQuality": {
+    "fullCheckDocs": {
+      "exitCode": 1,
+      "durationSeconds": 42.180671417,
+      "timedOut": false,
+      "toolTests": 178,
+      "pass": 178,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "strictDocuments": 2414,
+      "partialReviewUnknown": 1963,
+      "contentReviewed": 451,
+      "warningRetained": "Actualpnpmnode_moduleswarningandELIFECYCLEpreserved;noinstall/ruleweakening."
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 4492,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "strict": {
+      "exitCode": 1,
+      "passed": false
+    },
+    "requireComplete": {
+      "exitCode": 1,
+      "approvedCohort": 1838,
+      "cohortMigrated": 440,
+      "cohortPending": 1398,
+      "currentCandidates": 2414,
+      "currentPending": 1969,
+      "incrementalMigrated": 5,
+      "issues": [],
+      "exercisedTemplates": 17
+    },
+    "diff": {
+      "fullMain28fdThrough65Exit": 0,
+      "fullC4dThrough65Exit": 0,
+      "stagedExit": 0
+    },
+    "rootPriorGates": [
+      {
+        "step": "semantic-s03-gates",
+        "lintFiles": 4489,
+        "lintDiagnostics": 0,
+        "metadata": {
+          "check-docs": {
+            "name": "check-docs",
+            "command": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.798103+00:00",
+            "endedAt": "2026-10-17T21:55:24.871306+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "a0b28ba3ea803e3c2894a7bde95ce790b10230e2a46eafa03c36c69784c3b7ff",
+            "stderrSha256": "1fa037dbf925e78f693c8be912937fb518b0c1ac3c21d8bc7fbb04df52e4ff9d",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          },
+          "lint": {
+            "name": "lint",
+            "command": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.798217+00:00",
+            "endedAt": "2026-10-17T21:54:45.649401+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "5b90ba6bb95b7413e49536c61798d84fcae5050c3fa8b5388a500c0f796e70af",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          },
+          "strict": {
+            "name": "strict",
+            "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.801182+00:00",
+            "endedAt": "2026-10-17T21:54:41.913200+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "d15a7199f79061ad3ea136c0b37c82976349e8dcbedd8f69ab361aeba316cb0f",
+            "stderrSha256": "1fa037dbf925e78f693c8be912937fb518b0c1ac3c21d8bc7fbb04df52e4ff9d",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          },
+          "progress": {
+            "name": "progress",
+            "command": [
+              "node",
+              "scripts/docs/report-governance-progress.mjs",
+              "--require-complete"
+            ],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.801450+00:00",
+            "endedAt": "2026-10-17T21:54:46.242612+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "f96f0e79b0eb00b2836b45f707dd56a582e0705ded10d1baa548fb31adf0378d",
+            "stderrSha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          },
+          "full-diff": {
+            "name": "full-diff",
+            "command": ["git", "diff", "--check", "28fd9013e09e8792decbff2fa117aae14c36b196"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.799094+00:00",
+            "endedAt": "2026-10-17T21:54:41.097191+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          },
+          "staged-diff": {
+            "name": "staged-diff",
+            "command": ["git", "diff", "--cached", "--check"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:54:40.801608+00:00",
+            "endedAt": "2026-10-17T21:54:40.825112+00:00",
+            "head": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "771c0d16e5278792ad8a513ff9835a7837f9b0218d51fa74e5da6d3e83d6b4bf"
+          }
+        }
+      },
+      {
+        "step": "semantic-s04-gates",
+        "lintFiles": 4492,
+        "lintDiagnostics": 0,
+        "metadata": {
+          "check-docs": {
+            "name": "check-docs",
+            "command": ["pnpm", "check:docs"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.716355+00:00",
+            "endedAt": "2026-10-17T21:58:54.748108+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "04fa3d4cdae0de24583ae0a9744c483905ba825ace0eb4597819227a0cc05b60",
+            "stderrSha256": "52d755b307e6fab327c2ce218d6af263e40b1f979ffaea159770ef9b69581333",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          },
+          "lint": {
+            "name": "lint",
+            "command": ["pnpm", "lint"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.716471+00:00",
+            "endedAt": "2026-10-17T21:58:17.426110+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "f1f760f135dd709047bb6cfed6557bb7f31a14c5138d5b43745a880407194d76",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          },
+          "strict": {
+            "name": "strict",
+            "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.716698+00:00",
+            "endedAt": "2026-10-17T21:58:13.753552+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "1d0fefdb1d6f560f5af18b77ef136cc4afb190f00f2c595dccba63e01aa61bd4",
+            "stderrSha256": "52d755b307e6fab327c2ce218d6af263e40b1f979ffaea159770ef9b69581333",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          },
+          "progress": {
+            "name": "progress",
+            "command": [
+              "node",
+              "scripts/docs/report-governance-progress.mjs",
+              "--require-complete"
+            ],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.718613+00:00",
+            "endedAt": "2026-10-17T21:58:18.032268+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 1,
+            "signal": null,
+            "stdoutSha256": "05781b584f702513bb857644d5b3c1a783504edcc6ae16ad60d6f1897ed136af",
+            "stderrSha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          },
+          "full-diff": {
+            "name": "full-diff",
+            "command": ["git", "diff", "--check", "28fd9013e09e8792decbff2fa117aae14c36b196"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.716586+00:00",
+            "endedAt": "2026-10-17T21:58:13.074016+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          },
+          "staged-diff": {
+            "name": "staged-diff",
+            "command": ["git", "diff", "--cached", "--check"],
+            "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+            "identity": "/root central intake self-check; not non-author acceptance",
+            "startedAt": "2026-10-17T21:58:12.719663+00:00",
+            "endedAt": "2026-10-17T21:58:12.741195+00:00",
+            "head": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "exitCode": 0,
+            "signal": null,
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "inputManifestSha256": "cd723b43ad7eef53f926ffab07b007dd2ce65fff35ff418e1e0a8e927dccf1ec"
+          }
+        }
+      }
+    ],
+    "toolsAndProduct": "No scripts/product/oldtests/catalog/pairedE2Eevidence/coverage/sharedrulechanges. Current178toolsuite rerun; no producttypecheck/runtimeclaimed.",
+    "processState": "Allcapturedcommandsbounded180scompletedno timeout/signal/spawnerrorandemptyownafter-waitprocessgroups. Nootherprocesskilled;formattingseparate30sreadonlyFDstdin."
+  },
+  "actualCommands": [
+    {
+      "name": "check-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.028686+00:00",
+      "endedAt": "2026-10-17T22:02:05.209418+00:00",
+      "durationSeconds": 42.180671417,
+      "pid": 32831,
+      "ownProcessGroup": 32831,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/check-docs.stdout",
+        "bytes": 44028,
+        "sha256": "ba29807f1061a4d5b5eca9c70f8662b292b06567b61de79c6e90d9a4d0ae3e4e"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/check-docs.stderr",
+        "bytes": 488453,
+        "sha256": "52d755b307e6fab327c2ce218d6af263e40b1f979ffaea159770ef9b69581333"
+      }
+    },
+    {
+      "name": "detach",
+      "argv": ["git", "switch", "--detach", "65ee30adc41fd78c49b0ea261ce77b62b816ece0"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:01:16.825369+00:00",
+      "endedAt": "2026-10-17T22:01:16.939151+00:00",
+      "exitCode": 0,
+      "signal": null,
+      "beforeCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "beforeClean": true,
+      "afterClean": true,
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/detach.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/detach.stderr",
+        "bytes": 188,
+        "sha256": "3f77b8ca15a4f02e02ece33ea7a360c3a40a4577ac7a6964a885752167d88b6c"
+      }
+    },
+    {
+      "name": "evidence-transport-audit-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/transport_audit_v2.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:03:31.647534+00:00",
+      "endedAt": "2026-10-17T22:03:31.759580+00:00",
+      "durationSeconds": 0.11192558400000001,
+      "pid": 89925,
+      "ownProcessGroup": 89925,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/evidence-transport-audit-v2.stdout",
+        "bytes": 11014,
+        "sha256": "0cecffbb3c687c33bd389daad7797a225b018b0d1f84da22985f59a5632cb05f"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/evidence-transport-audit-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "evidence-transport-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/transport_audit.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:03:20.255612+00:00",
+      "endedAt": "2026-10-17T22:03:20.421988+00:00",
+      "durationSeconds": 0.16625358299999998,
+      "pid": 88679,
+      "ownProcessGroup": 88679,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/evidence-transport-audit.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/evidence-transport-audit.stderr",
+        "bytes": 752,
+        "sha256": "5081c77597cf52fd7f2fb11736f7bbaca6407d487f2c36314099ddcfed51a677"
+      }
+    },
+    {
+      "name": "full-main-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "28fd9013e09e8792decbff2fa117aae14c36b196..65ee30adc41fd78c49b0ea261ce77b62b816ece0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.025833+00:00",
+      "endedAt": "2026-10-17T22:01:23.362502+00:00",
+      "durationSeconds": 0.33650429099999996,
+      "pid": 32828,
+      "ownProcessGroup": 32828,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/full-main-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/full-main-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.036664+00:00",
+      "endedAt": "2026-10-17T22:01:27.590457+00:00",
+      "durationSeconds": 4.553702958000001,
+      "pid": 32839,
+      "ownProcessGroup": 32839,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/lint.stdout",
+        "bytes": 197,
+        "sha256": "9daba6305cdf53d6d65e12876681df742ea5cbcecbe73d408969a3ac854be346"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "plan-pin-matrix-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/plan_matrix_audit.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:04:24.850874+00:00",
+      "endedAt": "2026-10-17T22:04:25.667473+00:00",
+      "durationSeconds": 0.8165025,
+      "pid": 93296,
+      "ownProcessGroup": 93296,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/plan-pin-matrix-audit.stdout",
+        "bytes": 42065,
+        "sha256": "1710cf7325fb7b79bdb8bb7b0e1f46df19777c4d3463c934915797b88fbcba17"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/plan-pin-matrix-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--require-complete",
+        "--json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.044804+00:00",
+      "endedAt": "2026-10-17T22:01:28.080427+00:00",
+      "durationSeconds": 5.035496958,
+      "pid": 32846,
+      "ownProcessGroup": 32846,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/progress.stdout",
+        "bytes": 138487,
+        "sha256": "2138db130733b3ee17baa3c96200f5420d01fda1bdbdc8fd629a72180ad6e55a"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "semantic-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d..65ee30adc41fd78c49b0ea261ce77b62b816ece0"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.034809+00:00",
+      "endedAt": "2026-10-17T22:01:23.192465+00:00",
+      "durationSeconds": 0.157525375,
+      "pid": 32838,
+      "ownProcessGroup": 32838,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "semantic-binding-audit-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "node",
+        "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/semantic_binding_audit_v2.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:02:49.604113+00:00",
+      "endedAt": "2026-10-17T22:02:50.420790+00:00",
+      "durationSeconds": 0.816555625,
+      "pid": 87210,
+      "ownProcessGroup": 87210,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-binding-audit-v2.stdout",
+        "bytes": 14140,
+        "sha256": "f29fd960f0aa5e395fa6b88a409bccd22c81edab565ccc3f051218fbe3dbe344"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-binding-audit-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "semantic-binding-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": [
+        "node",
+        "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/semantic_binding_audit.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:02:38.892595+00:00",
+      "endedAt": "2026-10-17T22:02:39.181019+00:00",
+      "durationSeconds": 0.288332,
+      "pid": 86180,
+      "ownProcessGroup": 86180,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-binding-audit.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/semantic-binding-audit.stderr",
+        "bytes": 662,
+        "sha256": "07cda59f7ef7d6460d8d1c9d3241c46e6bc2ef556648762502ead294aa71a430"
+      }
+    },
+    {
+      "name": "staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.031622+00:00",
+      "endedAt": "2026-10-17T22:01:23.108660+00:00",
+      "durationSeconds": 0.076859708,
+      "pid": 32834,
+      "ownProcessGroup": 32834,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T22:01:23.031989+00:00",
+      "endedAt": "2026-10-17T22:01:24.103928+00:00",
+      "durationSeconds": 1.071694458,
+      "pid": 32835,
+      "ownProcessGroup": 32835,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/strict.stdout",
+        "bytes": 94,
+        "sha256": "1d0fefdb1d6f560f5af18b77ef136cc4afb190f00f2c595dccba63e01aa61bd4"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-semantic-central-independent-20261018-65ee30ad/raw/strict.stderr",
+        "bytes": 488453,
+        "sha256": "52d755b307e6fab327c2ce218d6af263e40b1f979ffaea159770ef9b69581333"
+      }
+    }
+  ],
+  "reviewerHarnessFailures": [
+    {
+      "name": "semantic-binding-audit",
+      "exitCode": 1,
+      "reason": "OwnsnapshotloadercallpassedunrecognizeddirectoryoptionwithoutmanifestPath,so loadedactualcurrent2414andfailed expected2407beforecomparison. v2explicitlyloadsownedGit-snapshotmanifestPath andrerunsfullcomparison. Originalscript/rawretained;notcandidatecounter."
+    },
+    {
+      "name": "evidence-transport-audit",
+      "exitCode": 1,
+      "reason": "Own verifier expected report-projectionkeysbaselineIssues/restoredIssuesin originalpublicationraw,whose nativekeysarebaseline/restored. Originalrawisunchangedandfullyinspected. v2usestheactualnativekeysand exactrejectedissue;originalscript/rawretained,notcandidatecounter."
+    }
+  ],
+  "counters": [],
+  "scopedCentralS03S04IntakeVerdict": "accept",
+  "centralIntakeAccepted": true,
+  "acceptedScope": "Onlyfixed65eeactualtwo-stepS03/S04body/binding/history/evidencetransportandexplainedpin/matrix/carddelta. Originalbodysemantic/templateacceptanceis inherited at exactapprovedSHAs; this is actualcentralcompositionverification, not a fresh allreferenceor440documentsemanticreview.",
+  "newReferenceBusinessSemanticAcceptance": false,
+  "historicalExecutionCreditGranted": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "allowedNext": [
+    "Rootmay record this exactcentralcompositiondecision separately andcontinue isolatedS05single-bodyreviewperitsownadmission. FutureS05ornewrootcombination requiresseparateactualfixed-byteverification.",
+    "Preserve originalreports/failedcommands/quarantines andall1893remainingaffectedpendingbindings. Onlyexplicitnewdocumentevidence mayadvanceunderactualnon-authorreview."
+  ],
+  "stopLines": [
+    "No main/done/unifiedhardgate whilefullcheck/strict/requirecompleteFAIL.",
+    "No otherR60or1896batchrestoration;no runtime/E2E/visual/preview/capture/coveragecreditsfromnavigationortransport.",
+    "Do not rewrite originalbodyreportscentralAcceptedfalse ororiginalfailedcommandnumerics; recordlatercompositionacceptanceseparately.",
+    "No acceptanceofS05futurebodyoranycommitafter65ee."
+  ],
+  "artifactPolicy": "Ownnew/tmp packageonly. Rawstreamsandfailedverifierversionsremain; decodedrootcommandpayloads arebytescopiesnotreexecutions. ProjectBiomeformatreportbeforefixedSHA;manifestinventoryexcludesonlyitselfwithseparate nonrecursivefinalseal."
+}

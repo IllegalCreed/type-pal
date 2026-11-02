@@ -1,6 +1,39 @@
 # GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复第一阶段IndexedDB存档事务语义：只有写事务complete后才报告成功，request success后的abort必须传播到Save调用者。已证反例（W3C transaction lifecycle + Codex R2 C4）：真实GameState→Save→IndexedDbSave，正控槽1读回321，槽2 put success后合法abort——API已resolve但槽2为空；退出0表示反证成立而非产品测试通过。最强替代解释（模拟器与浏览器自然故障不同）被规范允许的request success→abort时序排除。
+
+## 范围
+
+白名单indexed-db.ts及独立事务回归；api/quick-save/bootstrap只作caller证据。不改DB_VERSION/store/schema/清档/readonly/公共接口；fake-indexeddb 6.2.5作为game显式测试依赖接线（lock仅新增3行importer引用，离线安装造成的无关transitive刷新已撤回）。
+
+## 前提与证据
+
+固定源全文核读。用户批准（三项最小修复之①）。实现：commitWrite只在transaction complete后resolve；默认请求错误经abort传播；手动abort无原始错误时返回AbortError。修前put success后abort反例恰一业务断言失败；修后三测试证明complete时机、正常存读元数据/删除、覆盖与删除abort均reject且旧槽cash100保留；每例独立IDBFactory、结束关闭真实连接复位句柄/spy/global。与相邻菜单/Save/快存共11files/125tests、game typecheck通过。2026-10-15最终模块窗口：定向125、完整game3564与七包typecheck通过；完整check/ratchet/protected数值通过但真实诊断未清零。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+
+## 验收
+
+两项获批修复已提交推送且定向/相邻/typecheck成立；但最终窗口诊断未清零，本卡仍review、不标done、不关闭文件、不合main。若真实API在complete前不可能resolve或abort后已reject则推翻判断——该证伪条件未被触发。
+
+## 状态与交接
+
+review保持原语义：Codex作者实施/自验，冻结的独立三验与后续修复分开。无下一位Agent提示词，由Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6254B / SHA-256 30997984d2f31514a7baeaf32c8fdb0201f3afe0a20f3081b5a904156f80b272；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播
+
+Status: review
 Phase: phase1
 Capability: save transaction correctness
 Coding Owner: Codex
@@ -76,3 +109,5 @@ Coding Owner=Codex；按上述build白名单实施，完整验收前不标done�
 
 下一位 Agent 提示词：先重核本卡与 R2/C4、W3C 和真实 caller，提交最窄方案、失败 oracle、独占白名单
 供 Codex 核定。当前 draft，**不得开始实现、不得标 done，不改版本/清档/schema/接口**。
+```
+<!-- incremental-original-source:end -->

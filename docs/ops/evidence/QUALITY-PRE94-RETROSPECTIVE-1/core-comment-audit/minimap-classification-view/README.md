@@ -1,6 +1,39 @@
 # pre94 minimap 分类与缩放 oracle 返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 minimap 分类与缩放 oracle 返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4979B,SHA 12db758df754)。该证据片属 QUALITY-PRE94-RETROSPECTIVE-1 / core-comment-audit(base 987bddda,codex/code-quality-3y):只修两条事实注释并加强minimap测试,产品分类、缩放/键盘行为、seam/色板、资产、schema/save、公共接口均未修改。
+
+## 来源与输入
+
+三文件(minimap.ts原487行、minimap.test.ts原148行、minimap.glm-phase1-leaves.test.ts原200行)全文读取,tools/bootstrap接线、GameState/NPC/Command、disasm/SSS、库存helper与脚本catalog的逐文件行界与SHA见[read-boundaries.json](read-boundaries.json);授权与交接见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。原盘SSS.MKF只读统计(43503条script中425条0x1F、401条count0、0条signed负量)见[raw-quantity-audit.json](raw-quantity-audit.json),旧『绝大多数地图宝物/木鞋』断言据此收窄——这是该版本全部0x1F,不是仅地图宝箱,更不是可达剧情或原EXE观察。
+
+## 断言与业务 oracle
+
+SDLPal无同形态minimap,不能伪造原版UI真值;独立期望由4/13与180/世界视野宽推导,不借被测worldToThumb/BASE_PX反推。主测仍14例:中心视野改独立sx/sy/sw精确数值并以不同x/y排除轴混用,item/teleport保留旧顺序并核teleport先出现仍item优先,count0只改无据标题。[五枚源变异反控](controls.json):主测组Y误用X、漏角落钳制、传送抢先返回各完整旧14绿→恰1指定AssertionError;leaves组Equal无效、移除输入焦点守卫各旧6绿→新8例(含两条真实公开widget合同:keydown→setZoom→computeView→原生strokeRect四档裁剪与两端钳制、INPUT/TEXTAREA焦点守卫)恰1指定AssertionError。minimap.ts仅注释改动,去注释JS逐字节一致见[emit-identity.json](emit-identity.json);测试身份仅一标题勘误加两合同新增、无退役,见[test-identity-delta.json](test-identity-delta.json)。
+
+## 结果
+
+复原正式9文件58绿(22直接/36相邻),无skip/pending/unhandled;game typecheck通过,docs check 125例五组静态消费者全过,lint零诊断,账本3315 tracked/261 closed/82 review/2972 pending,门汇总见[gates.json](gates.json)。三文件继续review,0新closed,83卡51partial/32pending/0accept不变;本片不合main。
+
+## 限制与复核
+
+未知仍有非法持久zoom、DPR/越界与labelMap原型/非整数输入域、原地triggerLabel缓存失效、完整异步IO/取消/卸载与save/UI相邻边界;全仓check、official coverage ratchet、protected fast、完整包/真实原盘纹理/原EXE/浏览器视觉/E2E均不跑、留大任务收尾。raw负数量与具名高位数量语义缺生产输入证据留review;无复用提取,未证收益不扩大API。未重跑原命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4979B / SHA-256 12db758df754d892209e2d2271e77180657a8d483f6ff627279222c624736970；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 minimap 分类与缩放 oracle 返工
+
+Status: recorded
 Owner: Codex（单Agent；自身源码复核，不冒充第三方）
 Date: 2026-10-18
 Base: `987bdddac38ea3e95d84a3b82dcdeb1ba314556c`
@@ -33,3 +66,5 @@ leaves原6例保持，加两项真实公开widget合同：实际keydown→setZoo
 ## 交接与下一步
 
 同3y提交推送，fresh fetch且0behind后继续；全仓存量运行时诊断未清，不合main。接下来回到pre94尚pending的最小不重叠模块；minimap剩余输入/生命周期保留review，遇真实产品差异先专卡，不在这里顺手改。94–102/editor仍后置。无下一位Agent提示词，Codex单Agent继续完整83卡。
+```
+<!-- incremental-original-source:end -->

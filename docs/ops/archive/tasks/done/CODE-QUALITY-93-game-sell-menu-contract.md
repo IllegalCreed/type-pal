@@ -1,6 +1,59 @@
 # CODE-QUALITY-93 — game sell menu state contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:对 phase1 卖菜单四文件白名单（`sell-menu.ts` 与 test/boundaries/glm-phase1-leaves 三份测试）做逐文件语义核验与测试夹具清理,证明 sell menu factory/navigation/confirm/cancel/refresh 的合法输入、边界、错误传播、状态 ownership 与公共函数合同,并按 SDLPal primary source（`uigame.c:1755-1789` `PAL_SellMenu`、`itemmenu.c:287-310,331-377` 全库存列表与 sellable/inUse 确认门）对照全库存列表、sellable 与 `amount > amountInUse` 确认门、默认 No、单件半价交易意图、取消返回与卖出后游标刷新;菜单状态不直接拥有 cash/inventory 交易。本治理页只承载该历史任务语义,不重开已终态任务。
+
+## 范围
+
+白名单仅 sell-menu 四文件;本批不改变生产行为、公共接口、schema/save、资源或用户可见形态,只收 CODE-QUALITY-85 明确留出的 sell 部分。menu-driver 交易 apply、inventory-state 容量/装备占用、draw-shop 视觉形态及其它 Q3 文件不因本批关闭。
+
+## 前提与证据
+
+单一 Coding Owner 为 Codex;开批基点 `origin/main=cddf65557e60619e40e38168b276cf01981a106a`,隔离 worktree `/Users/zhangxu/illegal/type-pal-quality-3x`,分支 `codex/code-quality-3y`,0 behind / 80 ahead。最强替代解释"卖菜单应提前过滤不可卖条目"被 `itemmenu.c` 全库存建表与确认门直接反证;本文件为同步纯内存状态机,未知 catalog item fail-closed 不抛出。逐文件记录:sell-menu.ts 完整读取 139 行,`sellSelectItem` 对 catalog flag 与 `count - inUse > 0` 双门;测试侧移除 `as ItemFlags`/`as unknown as Item` 不必要强转、leaves 测试直接改 phase 的构造改为公共 sellSelectItem/sellConfirm 入口并删除与主测试同合同的重复缩表 clamp 用例。
+
+## 验收
+
+定向与相邻 9 个测试文件、96 tests 通过;3 个隔离精确反控（inUse 等值误放行、确认继承上轮 Yes、增表游标误归零）各绿→恰一指定业务 AssertionError→恢复绿。全仓 check 首次失败于 docs 导航门（新增 evidence 目录未加入导航）、二次失败于 content-review SHA 漂移门,均按原命令补正后重跑不弱化门。最终 Codex review accept:完整 `pnpm check`、official ratchet、protected fast 均 exit0,lint 4047 files 零 error/warning/info;protected 核准唯一 sell GLM 测试 3→2 精确退役。
+
+## 状态与交接
+
+done 保持原语义:只关闭 CODE93 四文件及 CODE96 两工具文件;分支含 CODE53/90 未收口行为,未合 main。机器 inventory 3271 生产文件、373 closed、15 review、2883 pending。用户要求该部分完成后停止,Codex 不领取新 pending;GLM 接手 CODE94/95（候选检查点 abf284d75）,须独立核 typed fixture/真实 caller/oracle 并跑全部门再交 Codex 验收。
+
+## 历史范围
+
+原卡属 2026-10-14 检查点时点;原始范围、日期与推进记录（review 检查点 2399b59ec、coverage 工具 exec session 68449 等）在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现 sell-menu 输入、边界、错误传播、异步/资源清理或公共接口缺陷;测试侧删除 GLM 重复缩表、纠正冒称渲染红/driver 层断言、以合法数量 7 替换 snapshot 777。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（gate-check-docnav-failure、gate-check-content-hash-failure、mutation-raw、CODE96/final-*）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭 cddf655 基点认定当前实现或授权新产品取舍;当前版本适用性未认证。
+
+## 继任文档
+
+CODE94/95 集成候选与 GLM 交接提示词见原卡末节;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 14221B / SHA-256 c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-93 — game sell menu state contract
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game core/menu
@@ -129,3 +182,5 @@ Codex review accept：完整读取与直接caller/primary/oracle成立，定向�
 CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。
 
 最终收口静态回执：docs1280 Markdown/6792links/417tasks、content-review570、quality工具37/37、lint4056/0errors/0warnings/0infos、ledger3271/373/15/2883均exit0。CODEx仅本六文件accept，未合main，后续GLM按上述提示词接手。
+```
+<!-- incremental-original-source:end -->

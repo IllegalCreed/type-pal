@@ -1,40 +1,63 @@
 # GLM运行时基础功能五组补测工作包
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-RUNTIME-CONTRACTS-1 工作包与 GLM 两轮实施复合回执（r1/done 统一候选 62a18137；2026-09-19 接收更新：源 3dfec190 剩余两项已闭环 Codex 集成 60 定向/1,190 全包/五常驻见证/原 15 跑/补充 lazy 输入污染反控/check 7,538/ratchet+fast 7,049 全绿三席 accept 用户确认 done 归档；GLM 回执/30 族/机账按源候选保留自验非独立第三方）。
+
+## Scope
+
+- 派发快照：官方 fast 6,932/617；reforge 1,130/124 行 7,853/14,118 分支 5,256/11,041；十模块表（A input 1/18·0/12+menu-state/B equip+use/C bgm 77/114+midi-preview 128/172/D loader 112/141+resolver/E cutscene 17/23+adapter 32/165·29/172）真实 caller 锚点在 quote——低覆盖不等于从未测不把 124 文件全作本包范围；派发前复跑九旧测试文件 68/68+typecheck exit0。
+
+## Execution and assertions
+
+- **A 键盘与主菜单**：A1 实际键盘事件 keydown→consumePressed→held→keyup Set 不别名非 repeat 各消费一次；A2 交错方向键 lastDownOf 按最后首次按下 repeat 不重排释放回退；A3 移动/空格/Enter/F5/F9 preventDefault 8 轴（事件须 cancelable 先证到达不伪造 defaultPrevented）；A4 非零记忆 cursor 重开合法边界超界归 0；A5 多步真实导航完整 stack/父 cursor/稳定 id/原状态不变+同起点两次等价终态（共享菜单树常量非导航层对象）；A6 单层 back=CLOSED 常量重开不污染
+- **B 装备/使用菜单**：B1 4 项/3 列末行不满四方向真实 clamp 首尾跨行 itemId 精确；B2 确认只记选中进 pick-role 不提前换装返回重读背包（快照比较真正传入的同一 world 最后消费后）；B3 hero-b 只见自己可装件 party 外空列表；B4 6 项/3 列两行 clamp+initialCursor 记忆恢复（含 sc-1 scene 类）；B5 pick-item sc-1 经 useConfirm 产 execute/pick-target u-2 经 useConfirm→useApply（itemId↔selectedItemId 一致）请求一律真实入口不手拼；B6 失败原样返回+world 逐值不变+Esc 回 pick-item 光标留在该物（request≠物品副作用已执行）
+- **C 音频异步**：C1 挂起期间并发 resume 只触发一次被拒清旗标后续可再调；C2 拆懒初始化接管+已初始化真读取乱序（旧读 entered 挂起→新请求先完成→旧读迟到被 post-read 门丢弃两资源字节身份不同逐字节核）；C3 readBytes 失败不 load 不 play 修复后同曲真正提交（bgm initP 拒绝缓存政策待证不固化）；C4 旧选择迟到 AbortError+同 asset+cacheKey 在途去重读取轨迹一次+旧 load finally 不清仍在途新请求（A 挂起→B entered→A 迟到被拒→重复 B 只读一次）；C5 读取失败可观察修复重载+后端 initialize 失败不缓存失败下次重试成功；C6 并发 play 去重+pause/stop/seek/dispose 使挂起 play 失效（snapshot+实际后端动作双断言）；只注入既有 RuntimeAdapter 不调真实 AudioContext 不作听感
+- **D 工程与资源**：D1 三 indexed 场景 author 形态+runtime 完整对话投影（speaker/portrait{asset,side}/rows）+实际输入保真（project 纯数据含 actorsById+读取边界捕获实际 lazy scene 正文对象交付时快照消费后比同一对象不用两次 clone 互比）+读取确定性（改名不再冒称输入保真）；D2 返回顺序=sceneIds 顺序+中间失败整批拒绝不返部分数组（IO 轨迹证明确实读过前序）；D3 stamps 合法非空过守卫/缺席 [] 对照/坏内容只坏一轴；D4 失败消息含 projectId/asset/kind/path/底层原因+同一 resolver/source 修复后同 asset 成功；D5 urlForRole 产 URL 不读字节+真实 urlFor IO 失败经 readError 包装（IO 层而非 record/role 层提前拒绝全轨迹仅 url:）+同实例修复恢复；D6 显式/角色两入口 kind 门+catalog/roles/source 不污染；AssetResolver 在 asset-resolver.ts 非 assets.ts；不向 resolver 凭空加 hash 校验
+- **E 派发与演出**：E1 clearDialog/cameraSnap/video/frameAnimation 真实分支+async 同 signal；E2 await intent 挂起不进下一条/executor 拒绝 busy 收尾后续不执行；E3 显式零值与可选缺席（frame startFrame:0/fade ms 缺省 300 显式 0 保留）；E4 current adapter dialog/clear/wait+give/lose/playSound/music/ambience 全参数 count 默认 1（载荷经 compileRuntimeCommands 当前守卫；host 替身未实现成员触碰即失败=非目标零调用实证）；E5 openShop 挂起/playVideo 拒绝错误原样/playFrameAnimation/cameraPan 全参数；E6 命令对象派发前后保真+可选项缺席显式键形态；BaseRuntimeLeaf 有字段≠当前工程可执行；正常载荷经 current 守卫不 compileBaseCommands 绕门；cancelAll 只重置呈现不造自动 abort 合同；明确排除 vanishEntity/旧 chunk resolver/loadLastSave/战斗复活毒投掷/地图 commit/数值公式/浏览器渲染
+- **两轮返工与负控**：R1 C2 拆两例+C4 新增 finally 不清新请求交错；R2 D1 直读完整 author identity+cue+D4/D5 同一实例故障修复；R3 B2/B3/B6 真正传入同一 world 最后消费后+B5 真实 useConfirm/useApply；R4 A5 完整终态等价+独立 state+节点按合同共享；收窄轮 D1 改钉实际输入（actorsById+lazy scene 同一对象）+看板撤回对另一卡的回退；负控 5 对照+10 针 rc=0（每组 2 针 MUTATION_HIT+AssertionError+钉名 JSON 见证+hash 不变）；四见证全 detected+输入保真见证 detected（marker 打印 polluted.name 无 TypeError）；覆盖十模块净增 +74 行/+84 语句/+73 分支（input 1→18/18 全覆盖 adapter 32→62/165）；实施期失败记录（rejects.toThrow 改值断言/use-open 针钉错标题/fake sequencer paused）与返工期失败（vi.fn 克隆 ArrayBuffer 空视图/AbortError 拒绝改 outcomes 值断言/D1 曾快照整个含活 resolver 的 project）真实保留
+
+## Results
+
+- C3 bgm initP 拒绝缓存政策记待证交 Codex；无 caller 排除已核（ScriptChunkStore/MemoryScriptResolver/loadAllProjectMaps 不授权删除不补测保活）；30 族每行真实 caller/旧测试全名/状态/剩余归属在 quote。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；接收历史见 reforge-runtime-contracts-review；覆盖复现命令（RR1_MODE before/after 物理绝对路径）在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 五组工作包+两轮返工 | 2026-09-19 | 30 族→60 项+10 针+五见证 | done（62a18137 三席） | 首轮 counter R1-R4 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的运行时合同工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM运行时基础功能五组补测工作包：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：五组 30 族 A-E 逐项落账（60 项）；十模块净增 +74 行；input 全覆盖 adapter 32→62；四见证+输入保真见证全 detected；C3 initP 待证如实交 Codex；实施与返工失败记录真实保留。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+十模块表、白名单、A-E 30 族逐项账、两轮返工要点与负控覆盖复现命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-REFORGE-RUNTIME-CONTRACTS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `8817df4404bb4c1d562678818ff871d2a7331d61c212271c569da94995fd2960`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `8817df4404bb4c1d562678818ff871d2a7331d61c212271c569da94995fd2960`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM运行时基础功能五组补测工作包
 >

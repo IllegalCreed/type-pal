@@ -1,93 +1,57 @@
 # 统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把 phase1 历史设计接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是统一资源预缓存进度门设计稿的归档重写。设计动机、时序与三态进度条方案在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计稿讨论资源预缓存进度、可玩门和进入解锁，但原稿不能证明当前实现状态。
-- 目标结果：保全该设计的流程、约束和验收意图，并把当前事实交给继任实现与测试证据。
+- 问题：离线预缓存（2026-06-13 offline-precache-sw 已上线）缺少统一进度展示与「可玩点」控制；用户在长时间预缓存中无反馈、无提前进入路径。
+- 目标：Service Worker 统一进度数据源 + 单组件三形态进度条 + 可玩门与进入解锁 + SW 不可用兜底；dev/e2e 下整套行为 gate 掉。
 
 ## 真值与约束
 
-- 原版/primary source：原始设计稿全文 quote；相关 phase1 资源与运行时来源需按日期重新核验。
-- 当前阶段证据：本页是 2026-06-14 的历史材料；本次只做正文治理和来源可追溯性检查。
-- 不可违反的约束：历史状态不得升格为当前完成；不得把静态治理当作 runtime/E2E/视觉/coverage 证据。
-- 未知与冲突：当前预缓存实现、部署表现和真实入口仍需继任文档、代码和执行证据确认。
+- 本文是设计稿（spec）不是实现计划；经用户确认后转 writing-plans 生成 task 级实现计划（对应实施篇 2026-06-14-unified-precache-progress-gate-impl）。
+- 增强对象为已实现并上线的 offline-precache-sw。
 
 ## 方案
 
-- 数据/流程/接口：保留原设计的预缓存进度、可玩门和入口解锁关系，并以 archive overlay 标记历史边界。
-- 选择理由：设计语义属于规范和取舍记录，使用 `design-spec-v1` 比计划状态模板更能保留决策结构。
-- 明确不做：本次不修改产品实现、不重写原始 quote、不授任何执行信用。
+- 进度数据源收敛到 SW（单一来源）；进度条三态（单一组件三个形态）；「让可玩点尽快到达」按资源优先级分批；进入解锁在可玩门通过前禁用入口；兜底覆盖 SW 不可用/老浏览器/注册失败。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前实现或部署行为漂移。
-- 可证伪观察：当前代码、运行时日志或 E2E 结果与本页设计约束不一致时，本页必须保留为历史并由新证据裁决。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本；不引入旧实现兼容层。
+- 已知后续（非本设计）：76k 小文件请求数大，未来可把 world 图块打包成少量归档降请求数；移动端/计费网络可加「暂停预缓存」开关。
 
 ## 验收
 
-- 可执行验证：source/after SHA、原文 quote inverse、模板章节、registry/review/routing/catalog 一致性。
-- 业务 oracle：历史设计的目标和约束可追溯，当前实现结论必须来自继任 primary source。
-- 复核 Owner 与截止条件：Codex 独立复核；静态门通过且历史边界、来源哈希和继任入口齐全后接收本候选。
-
-## 目标与时间范围
-
-- 历史目标：Design of unified precache progress/playable gate and acceptance.
-- 日期：2026-06-14；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99`。
-
-## 里程碑
-
-- 原始章节：背景 / 动机；设计；整体流程(时序)；进度条三态(单一组件, 三个形态)；进度数据源:Service Worker 统一；让"可玩点"尽快到达；可玩门 + 进入解锁；兜底(SW 不可用 / 老浏览器 / 注册失败)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
-
-## 当前状态
-
-- historical；统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec：这是 design-spec，当前文档状态为 historical。全文 82 行、13 个标题；摘要/首段为「> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。」。属于历史/归档材料，不能单独证明当前实现。
-
-## 阻塞与决策
-
-- 正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-
-## 下一步
-
-- 后继入口：C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 设计验收以用户确认为准；实现验收归实施篇与其测试；本文不授 runtime/E2E 信用。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-14；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99`。
+- phase1 plans 设计稿；时点 2026-06-14；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec：这是 design-spec，当前文档状态为 historical。全文 82 行、13 个标题；摘要/首段为「> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。」。属于历史/归档材料，不能单独证明当前实现。
+- 三态进度条/统一 SW 数据源/可玩门+解锁/兜底四件套设计为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec; 6:背景 / 动机; 21:设计; 23:整体流程(时序); 35:进度条三态(单一组件, 三个形态); 40:进度数据源:Service Worker 统一; 45:让"可玩点"尽快到达; 49:可玩门 + 进入解锁；原始正文、代码、表格、状态词在 quote 保全。
+- 整体流程时序与各节设计依据在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。
+- historical。当前预缓存行为以现行 SW 实现与测试为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 实施篇 [impl](2026-06-14-unified-precache-progress-gate-impl.md) 与现行 service worker 代码；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec
 >

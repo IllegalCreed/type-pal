@@ -1,6 +1,59 @@
 # GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复UI单帧加载失败后的编号漂移：旧loadAll把失败帧转undefined再push成功帧使索引压紧，呈现按原SPRITEUI编号取帧导致后续图片画错。实际反证：71个有效6×8 PNG每帧独立色号，全成功时数字1用帧20色号20，帧19单独404后实际用帧21色号21（expected20/received21恰一像素业务AssertionError）。用户2026-10-22批准“批准保留原编号（推荐）”。
+
+## 范围
+
+白名单loader.ts、load-all-recover.grok-r1.test.ts与load-all-ui-frame-identity.test.ts；保留原编号、迁移旧错误oracle及两例真实像素合同；其它optional资源keyed Map、生成物、shared RLE真值、公共接口、存档不变。
+
+## 前提与证据
+
+固定源全文核读。错误是编号漂移而非下载失败本身或原盘图片损坏；合成PNG用合法manifest/帧尺寸不替换解码核心。实现：三正式像素/错误合同、C10/C11迁移和资产相邻216绿、game TC0；六真实GOP快照均实际passed、输入只读SHA已核，解除旧六skip观察缺口，不由此认证shared全部格式。缺帧沿用既有呈现行为：drawBox缺必要帧报错、drawNumber缺数字帧跳过。2026-10-22模块最终收口完成同步main后全部集中门，五文件有限接受，浏览器/实际视觉未执行。锚点:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done为代码与模块门完成：旧C10“压紧数组”断言迁移为正确编号合同、保留物品图标缺失/成功键合同；缺帧不挪补、不新增占位图片或重试。
+
+## 状态与交接
+
+done保持原语义；治理不重开。后续按父卡3h剩余范围推进，用户原编号裁决已固化。
+
+## 历史范围
+
+原卡属固定main时点；范围为UI帧装配与编号合同子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-22模块收口，五文件有限接受。
+
+## 当时证据
+
+当时回执属原时点证据：帧19 404后expected20/received21恰一像素红、216相邻绿、模块集中门零诊断；本页不重跑、不复授。关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；若将来UI消费改为显式原编号Map，数组漂移结论须重核；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+父卡3h（CODE-QUALITY-3h-game-assets-shell）继续资产加载复审。 关联:[CODE-QUALITY-3h-game-assets-shell.md](../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/README.md) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/module-closeout.json) [ui-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/ui-fix.json) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4769B / SHA-256 7609e53581cbd8c2e59cc47d7a40307fb50f1571feb17977919a73b3dbb29162；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移
+
+Status: done
 Phase: phase1
 Capability: assets / UI frame identity
 Coding Owner: Codex（用户2026-10-22批准，三文件窄build allowed）
@@ -60,3 +113,5 @@ Template: task-card-v1 / 1.0.0
 ## 下一位 Agent 提示词
 
 本卡代码与模块门已完成。后续按父卡3h剩余范围推进；用户原编号裁决已固化，不重开相同修复，不扩94–102。
+```
+<!-- incremental-original-source:end -->

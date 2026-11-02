@@ -1,40 +1,62 @@
 # P2 · MapMode.tsx 生命周期与手势边界取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P2 取证（2026-09-25，冻结 3270473862；对象 MapMode.tsx 3819 行静态只读）。含 r2 四条更正：撤回 P2-002「缺 pointerCancel/lostpointercapture」（:3075-3079 两入口均存在统一走 cancelPointerInteraction :2292-2305 清全族、window blur :2307-2310 同函数——r1「blur 只清 hover」不实）；测试计数分列（静态声明 58 test(/it( vs Vitest list 收集 72 参数化展开）；§1 手势描述同步；P2-004 收窄单调用点。
+
+## Scope
+
+- 输入生命周期：手势状态 ref 全景（strokeRef 笔划逐格收集 onUp 一次性提交/hoverRef/selectionDragRef+selectionPreviewRef/paintingRef+rectAnchorRef/stampSessionRef 图章会话防串 :416-421）全部组件私有无模块级可变状态；canvas pointer 三入口（onDown :1948 按键过滤+transformIntent 落点冻结、onMove :2158、onUp :2222 pointerId 校验防多点串+stroke 按 tile/collision 分组单条命令）。
+
+## Execution and assertions
+
+- **effect 清理 19 个逐一核对**：右键菜单 rAF 聚焦 :541-555 remove 对称闭环；window blur :2307-2312 → cancelPointerInteractionRef remove 对称（r3 更正非只清 hover）；:338/:341 双 effect 职责重叠（risk-P2-003 后者疑似重构残留）；:584 ensureMapLoaded 无清理 catch 吞错（同 P1-003 同型 risk）
+- **undo/redo 同步**：全部内容修改走 dispatchWorkspace/dispatchStampGroupEdit 单命令历史（test :977 图层动作组只派发一条 MoveProjectMapLayerCommand、:1101 整组移动一步历史提交）；数据修改不绕历史层；DOM/UI 态在提交/取消路径显式重置；会话/项目切换清场：mapId 变化 :605-628 清五态、EditSession 变换清组选择/变换预览/剪贴板/删除确认（test :1579/:1611/:2000）
+- **数据/DOM 边界**：画布 canvas+lattice 数学（pixelToLattice/isLatticeInside）；菜单聚焦 canvasContextMenuRef 局部 querySelector :543-547 无全局越权；拟拆单元建议（非执行）：图章作者态/选区拖拽手势/变换预览三单元各自闭环；每单元保真断言已被测试钉住
+- **测试对账 20 条**：会话防串 :1507/变换取消 :1962（锁定 Inspector 切回平移取消预览清选区）/拖放边界 :1131/:1150/菜单键盘闭环 :1889/组操作合同 8 条/确认与零写族 8 条/单命令历史 :977；静态 58+其余 38 条同文件可查；未覆盖区（r3 改述）：取消路径无专测条目（实现存在不拔高为已测）；ensureMapLoaded 失败静默无断言
+- **证据条目**：P2-001 covered（58 条）；P2-002 covered（r2 撤回 risk——实现存在，开放问题仅取消路径专项回归充分性未证列未证风险）；P2-003 risk（双 effect 重复职责可合并无行为差异证据）；P2-004 risk 收窄（:584 该调用点 catch 吞错不推及整页）；P2-005 covered（两处 window/document 监听对称清理）
+
+## Results
+
+- 未证风险：取消路径行为回归未运行复现（r1 缺口结论已撤回）；dispatchWorkspace 内部 undo 栈未深读（以 MapMode 派发点为边界）。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P2 取证 | 2026-09-25 | 生命周期全景+19 effect+58 对账+r2 更正 | 5 条目（3 covered/2 risk） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P2 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P2 · MapMode.tsx 生命周期与手势边界取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+手势状态 ref 全景+pointer 三入口+cancel/blur 统一清场；19 effect 逐一核对（两 risk：双 effect 重叠/ensureMapLoaded 吞错）；58 条静态对账；P2-002 撤回改 covered。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+effect 表、去重表 20 条与五条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `88f0463e49a155dd338d8cb055608494c8362c05d349f485ddb061845f609c1e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `88f0463e49a155dd338d8cb055608494c8362c05d349f485ddb061845f609c1e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P2 · MapMode.tsx 生命周期与手势边界取证（ARCH-SUPPORT-GLM-1）
 >

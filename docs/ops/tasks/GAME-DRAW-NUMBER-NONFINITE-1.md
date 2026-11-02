@@ -1,6 +1,59 @@
 # GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复drawNumber收到非有限number时的非终止：V1接受有限base，100%临时加成的乘法可溢出使状态页effective值进入非终止长度循环。已证探针：base=Number.MAX_VALUE仍通过导入且重算后保留，Extra/effective为Infinity，真实drawPlayerStatus由VM 250ms看门狗中断；base=100正常返回effective200。SDLPal数字输入为UINT无Infinity域，故这是TS数值域的失败隔离（入口Number.isFinite守卫跳过），不是SDLPal移植。用户2026-10-24裁决call_edfe7d7f551d4841b9fae30c955bcae2“批准跳过异常数字（推荐）”。
+
+## 范围
+
+限定draw-number.ts及其专测/真实caller回归；不改变V1数据合同、存档值、属性成长、战斗公式或原盘脚本；负数/小数/槽数策略不扩展；上游buff数值精度/溢出与V1上界是独立问题不在本卡重写。
+
+## 前提与证据
+
+固定源全文核读。正式红例：nonfinite-red-valid四例中两业务AssertionError（直接正Infinity/真实状态页）先于守卫；守卫后17数字专测全绿；首轮写文件cwd错误的no-files原件保留、不授红例信用。旧探针直接注入rgEquipmentEffect会被读档重算消除，不能作为生产证据。CODE3k数字质量收口：2新关闭（draw-number与新nonfinite专测）、5身份槽位专测刷新接受；3411tracked/420closed/99review/2892pending；定向13→17、相邻16文件77例；完整check20576包例+700工具例、七包typecheck；唯一官方采集20147例/777源与同报告ratchet/strict protected通过，硬静态及运行0/0/0。锚点:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done为有限范围收口：非有限数字跳过且有限输入布局保持由17专测证明；普通剧情自然可达性仍未知，未宣称完整浏览器读档或视觉路线验收；远端CI/合并状态按后继Git回执核，不以本地done冒称已发布。2026-10-24封存补核纠正原SDLPal注释链接一级目录错误，仅该URL字节不同。
+
+## 状态与交接
+
+done保持原语义；治理不重开。下一位Agent从其余16张pre94 partial核Owner与最新main，不扩94–102。
+
+## 历史范围
+
+原卡属固定main时点；范围为drawNumber入口守卫子切片，上游数值域问题不在本卡。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-24 CODE3k数字质量收口，2新关闭+5刷新，官方20147/777与protected零诊断。
+
+## 当时证据
+
+当时回执属原时点证据：两业务红→17绿、相邻77例、完整check20576+700工具/官方20147零诊断；本页不重跑、不复授。关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；用户既有裁决保留TS属性持续增长，不能借此把属性重新限制为WORD；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+其余pre94 partial以父卡[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)与看板为准。 关联:[QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6157B / SHA-256 8ef98e60a2111f6676d5bf7dab9d7c19c5f848052b64cb5561eed806729c8e47；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制
+
+Status: done
 Phase: phase1
 Capability: CODE3k / numeric presentation boundary
 Coding Owner: Codex
@@ -66,3 +119,5 @@ Codex有限范围accept/done allowed。2026-10-24 CODE3k数字质量收口：2�
 本卡有限收口。仅从其余16张pre94 partial核Owner与最新main，不扩94–102。
 
 2026-10-24封存补核：纠正原SDLPal注释链接的一级目录错误，完整源码仅该URL字节不同；不重跑本地全仓/覆盖率，原冻结与失败证据保留，同报告protected及最终静态/远端CI另记。关闭数不变。
+```
+<!-- incremental-original-source:end -->

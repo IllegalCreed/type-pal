@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { assertWritableReviewSelection } from './review-record-storage-guards.mjs'
 
 const root = resolve(new URL('../..', import.meta.url).pathname)
 const reviewDir = resolve(root, 'docs/phase-governance/reviews')
@@ -8,6 +9,13 @@ const digest = (path) =>
   createHash('sha256')
     .update(readFileSync(resolve(root, path)))
     .digest('hex')
+const selection = readdirSync(reviewDir)
+  .filter((name) => name.endsWith('.json'))
+  .map((name) => `docs/phase-governance/reviews/${name}`)
+assertWritableReviewSelection(selection, {
+  readBuffer: (p) => readFileSync(resolve(root, p)),
+  resolve: (p) => resolve(root, p),
+})
 for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
   const path = resolve(reviewDir, file)
   const review = JSON.parse(readFileSync(path, 'utf8'))

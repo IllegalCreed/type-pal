@@ -1,0 +1,41 @@
+import datetime,hashlib,json,pathlib,re,subprocess
+root=pathlib.Path('/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal');out=pathlib.Path(__file__).parent;base='28fd9013e09e8792decbff2fa117aae14c36b196'
+def sha(b):return hashlib.sha256(b).hexdigest()
+def raw(p):return (root/p).read_bytes()
+def load(p):return json.loads(raw(p))
+def git(*args):return subprocess.check_output(['git',*args],cwd=root,timeout=30)
+rows=[]
+def ck(n,v,details=None):rows.append({'name':n,'passed':bool(v),'details':details})
+audit=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json')
+r27=load('docs/phase-governance/reviews/20261017-r27-phase1-plans.json');details=[]
+for e in r27['entries']:
+ s=raw(e['path']).decode();q=s.split('<!-- original-source-quote:start -->\n',1)[1].rsplit('<!-- original-source-quote:end -->',1)[0]
+ inv='\n'.join(line[2:] if line.startswith('> ') else '' if line=='>' else line for line in q.split('\n'))
+ dec='\n'.join(re.sub('[␠⇥]+$',lambda m:m.group().replace('␠',' ').replace('⇥','\t'),line) for line in inv.split('\n'))
+ # Framing contributes at most one extra terminal newline; no internal whitespace normalization.
+ candidates=lambda v:[v,v[:-1] if v.endswith('\n\n') else v]
+ d=any(sha(v.encode())==e['sourceSha256'] for v in candidates(inv));dd=any(sha(v.encode())==e['sourceSha256'] for v in candidates(dec))
+ source=git('show',e['sourceGitRevision']+':'+e['path']);ck('R27 source '+e['path'],sha(source)==e['sourceSha256'])
+ expected=next(x for x in audit['r27']['documents'] if x['path']==e['path']);ck('R27 inverse '+e['path'],d==expected['directUtf8Inverse'] and dd==expected['sentinelDecodedInverse'])
+ details.append({'path':e['path'],'directUtf8':d,'trailingSentinelDecoded':dd})
+ck('R27 15 direct +5 encoded',sum(x['directUtf8'] for x in details)==15 and all(x['trailingSentinelDecoded'] for x in details))
+r22=load('docs/phase-governance/reviews/20261017-phase2-audits-r22.json')['candidateAcceptanceChainCorrection']
+ck('R22 exact chain SHA',sha(raw(r22['path']))==r22['sha256'] and 'no new semantic or independent acceptance' in r22['currentScope'])
+r24=load('docs/phase-governance/reviews/20261017-phase2-designs-r24.json')['independentCandidateAcceptance'];ck('R24 current intended SHA',sha(raw(r24['path']))==r24['sha256']==audit['r24']['currentReceiptSha256'])
+r24old=json.loads(git('show',audit['r24']['sourceCommit']+':docs/phase-governance/reviews/20261017-phase2-designs-r24.json'))['independentCandidateAcceptance'];ck('R24 old incorrect asserted SHA',r24old['sha256']==audit['r24']['badPin'] and sha(git('show',audit['r24']['sourceCommit']+':'+r24old['path']))!=r24old['sha256'])
+md=raw(r24['path'].replace('.json','.md')).decode();ck('R24 dangling text explicit erratum',all(x in md for x in ['哈希与悬空声明勘误','reported below','不是当前证明','当前真实性/独立审信用另行核验']))
+seq=git('log','--format=%s','--max-count=2','a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb').decode().splitlines();ck('R38 numbering sequence',seq==['docs: support artifact-only governance progress','docs: envelope R37 JSON evidence artifacts'] and not list((root/'docs/phase-governance/reviews').glob('*-r38-*')))
+ident=[]
+for p in (root/'docs/phase-governance/reviews').glob('*.json'):
+ obj=json.loads(p.read_bytes());acc=obj.get('independentCandidateAcceptance')
+ if isinstance(acc,dict) and acc.get('nonAuthorReviewer') is False:
+  ck('explicit same actor credit withdrawn '+p.name,acc.get('verdict')=='withdrawn-independent-credit' and acc.get('historicalVerdict')=='accept');ident.append(p.name)
+for r in audit['repairs']:ck('repair after SHA '+r['path'],sha(raw(r['path']))==r['afterSha256'])
+obs=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json')
+for c in obs['cases']:ck('old receipt unchanged in correction '+c['id'],git('diff','--name-only',base+'..HEAD','--',c['sourcePath'])==b'')
+q=audit['receiptHistoryScreen']['quarantinedClaims'];ck('five bounded quarantines',len(q)==5 and {x['case'] for x in q}=={'C08','C09','C12','C13','C15'})
+ck('protected scope no code/old test/coverage delta',all(p.startswith(('docs/','scripts/docs/')) for p in git('diff','--name-only',base+'..HEAD').decode().splitlines()))
+ck('checkout still clean',git('status','--porcelain')==b'')
+report={'checks':rows,'r27':details,'explicitSameActorWithdrawals':ident,'quarantines':q,'failed':[x for x in rows if not x['passed']]}
+(out/'supplemental-audit-v2.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps({'checks':len(rows),'failed':report['failed'],'r27Direct':sum(x['directUtf8'] for x in details),'r27Decoded':sum(x['trailingSentinelDecoded'] for x in details),'sameActorWithdrawals':len(ident)},ensure_ascii=False))

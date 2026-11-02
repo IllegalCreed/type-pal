@@ -1,40 +1,58 @@
 # TEST-GLM-STATE-COMMANDS-1 独立接收反证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-STATE-COMMANDS-1 的 Codex 独立接收反证：候选 codex/glm-state-commands-r1@36c1f034（对 main@b1e646e2）判 counter/rework；GLM 是贡献者，自验不是独立接收。
+
+## Scope
+
+已证实：16 目标源码 SHA 与冻结表一致零漂移；reforge 4 文件 34/34、editor 12 文件 82/82 独立定向；b|c|d 三批反控各绿对照+三针钉名业务红（A 批不在工具批次表）；白名单恰 16 新叶测试+三薄 fixture+专属工具与回执。四项 counter：R1 A 批交付不完整（README 仍写待实施、ledger/fullName/命令退出码缺、A 反控未交付）；R2 静态硬门未过（biome 6 error/1 warning：A 四文件导入排序+use-menu-state 格式+工具 noTemplateCurlyInString）；R3 B/C/D 合法最小项目不合法（scene:s+scenes:[] 过 validateManifestEntryPoints 会被 assertProjectSaveValid 拒，as unknown as 越过类型检查）；R4 最终回执与树不同步（候选头 36c1f034 vs 卡面 7be02ad6）。
+
+## Execution and assertions
+
+- **定向+反控+静态**：vitest run glm-boundaries（34/34、82/82）；mutants b；c；d 各 exit0 三针红；biome 完整 JSON 6E/1W；Codex；R1-R4 逐项锚点（a/README.md:3、tools:20-183、b.ts:71-72、d.ts:74-75、c.ts:89-97、project-diagnostics.ts:148-210、:823-828）；返工后 Codex 定点复核 R1–R4 才合入
+
+## Results
+
+- counter 四项（R1 A 批证据链未交付/R2 biome 6E 1W/R3 B/C/D scenes:[] 非法最小项目/R4 回执与树不同步）；定向 34/34、82/82 与反控 b/c/d 三针已独立复现，16 目标源零漂移。
+
+## Evidence
+
+- 证据路径：本反证正文（quote 保全）；/tmp/codex-glm-state-{a,bcd}-tests.log、-mutants-{b,c,d}.log、-biome.log 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 接收反证 | 原文时点 | 白名单核+定向+反控+静态门 | counter/rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31；本轮 R76。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-state-commands 的独立接收反证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-STATE-COMMANDS-1 独立接收反证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter/rework 四项（A 批证据链、静态 6E/1W、B/C/D 非法最小项目、回执不同步）；不合 main、不跑官方全仓 ratchet/strict-fast、不标 done。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+定向/反控/静态日志路径与 R1–R4 逐项锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。后续轮次以任务卡链为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-STATE-COMMANDS-1 完成卡（后续 R1-R4 返工已闭合、90400f17 集成）。
 
 ## 原文保全
 
-固定 source revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `73f9298808753c624ef410c031f8e3138be5d122c888fa22ba4cbfaa772b092b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `73f9298808753c624ef410c031f8e3138be5d122c888fa22ba4cbfaa772b092b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-STATE-COMMANDS-1 独立接收反证
 >

@@ -1,67 +1,62 @@
 # TEST-EDITOR-ALCHEMY-BOUNDARIES-1 — 炼蛊与灵葫机制编辑边界
 
 Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: GLM（新对话B，唯一测试写入者）
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: editor / item alchemy boundaries
+Visual Verification Timing: N/A（代码/DOM合同，不改布局，不宣称像素/剧情E2E验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是炼蛊/灵葫机制编辑边界历史测试卡（B1-B10 有限清单）：深链目标删除空态、引用状态降级、材料/产物缺引用集合去重不自动修复、最新会话权威、消耗者唯一材料限制、999 上限边界等；候选 a8d155df4/testCandidate 9e9fab94c（8 合同/8 针全 VALID/定向集恰一红）。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+B1-B10 每轴直接证据+裁决即停；已证零/多 owner、复合配方、单命令 undo（:117-:731 既有族）existing-proof。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：ItemAlchemyTab/ItemAlchemyEditors boundary-contracts 测试+证据。
+- 范围外：运行时炼蛊公式/原版优先级/UI 形态取舍；typed 合法数据与损坏内容域分开。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+draft effect+fallback 双保险单层变异不可观察→针打 Tab 层 syncToken 接线；editor 隔离树 wrapper config 判例再确认。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：8 合同/8 针全 VALID 全定向集恰一红、4914 全包、lint 0/0/0；B1/B3 existing-proof、editors 文件有意不建。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+原卡无下一位实现 Agent。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+CONTRACT-BATCH 窗口（冻结 797a46a0）实施与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-EDITOR-ALCHEMY-BOUNDARIES-1 — 炼蛊与灵葫机制编辑边界：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：B1-B10 裁决后 8 合同经独立验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+B 轴清单、既有 proof 行锚（ItemAlchemyTab.test:117-731）、四态反控。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。炼蛊编辑合同现行状态以当前测试为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+前置 ITEM-EFFECT-RESIDUAL 卡以本卡为排重底账。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `f4ca9e78689ec0f70537b41958d5bfcfc8c7367f40316d7c6ca650b2d41fd9a4`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `f4ca9e78689ec0f70537b41958d5bfcfc8c7367f40316d7c6ca650b2d41fd9a4`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-EDITOR-ALCHEMY-BOUNDARIES-1 — 炼蛊与灵葫机制编辑边界
 >

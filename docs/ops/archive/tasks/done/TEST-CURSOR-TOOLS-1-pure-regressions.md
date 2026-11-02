@@ -1,55 +1,66 @@
 # TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（正式接入与工具实现）
+Contribution Owner: Cursor（隔离候选测试）
+Reviewer: Codex
+Phase: ops
+Capability: 文档工具与F1审计工具的回归准备；不改变能力格
+Visual Verification Timing: N/A
+Branch: main（来源候选`codex/cursor-tools-tests-r1`，tip`85f2a824`）
+Revision: r1
+Evidence freeze: 590037a6
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 八组工具纯函数候选回归历史卡（draft 隔离起步、Codex 正式接入）：T01 链接定位/T02 本地目标/T03 任务元信息索引/T04 现行段版本/T05 纯文本搬移/T06 选择器预筛/T07 例外清单判定/T08 导航字形工具；统一 node:test+node:assert/strict 内存输入，不启动应用。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为文档工具与 F1 审计工具的公开纯函数补可执行回归准备；工具合同来自现行注释/维护规则/已签规范/旧业务断言，不以当前函数返回值单当预期真值。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：八组允许的 tests/t01-t08 候选文件+独立实验目录。
+- 范围外：产品/正式测试 build 准入；applyRelocation 整仓入口；未知预期固化成绿测试；GLM/Codex/其它 Cursor 包的目标文件。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+先最小正控确认模块导入不执行 CLI；design-system-audit 只调四个公开函数；预期由独立人工可核输入推得，不以"没有 throw"/源码含字符串/数 mock 冒充回归。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Codex 接入收口（正式接入记录见 cursor-tool-regressions/integration.md，被后续 CURSOR-WAVE-2 W5 引用为去重基线）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+不宣称已提升官方七包覆盖率。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 派发与接入；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：八组工具候选经 Codex 正式接入收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-tool-regressions/README 与 integration.md。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。工具现行合同以 scripts/docs 测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+CURSOR-WAVE-2 W5 以本卡为去重基线。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `84bc99e5043fc4bf96ae2d6eca2e02103c56878f530dcb0036888f87dbd91ef4`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `84bc99e5043fc4bf96ae2d6eca2e02103c56878f530dcb0036888f87dbd91ef4`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-TOOLS-1 — 八组工具纯函数候选回归
 >

@@ -1,0 +1,35 @@
+{
+  "executionId": "check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de",
+  "binary": "pnpm",
+  "args": [
+    "check:docs"
+  ],
+  "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/",
+  "startedAt": "2026-10-17T19:46:39.614Z",
+  "finishedAt": "2026-10-17T19:47:28.742Z",
+  "exitCode": 1,
+  "signal": null,
+  "spawnError": null,
+  "sourceHead": "b0d5b9c167fa16b6558fc0e3422ae9784af308aa",
+  "inputSnapshot": "raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
+  "inputSnapshotSha256": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
+  "trackedDiffSha256": "e42021de8dcc9332c147bd82074d02b24bcd8b6db4bdcae563e0588364d83553",
+  "environment": {
+    "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+  },
+  "files": [
+    {
+      "stream": "stdout",
+      "path": "raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stdout.log",
+      "sha256": "065b63dbf9642e5020b2c656669fae3fbcdbedf0a7835e1d6239821cd8427f72",
+      "bytes": 31322
+    },
+    {
+      "stream": "stderr",
+      "path": "raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log",
+      "sha256": "fcf9f7bd0e1ee1287ab839bb68519df744be23b81966a63e058c8b316a799e6c",
+      "bytes": 475777
+    }
+  ],
+  "reviewerRelationship": "author self-check; not independent acceptance"
+}

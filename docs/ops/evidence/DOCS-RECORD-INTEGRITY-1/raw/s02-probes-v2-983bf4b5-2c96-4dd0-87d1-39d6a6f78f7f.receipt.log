@@ -1,0 +1,30 @@
+{
+  "kind": "documentation-publication-IO-probes-not-product-tests",
+  "role": "Corrected author publication-IO probes: expire an already-proposal leaf without changing status; no rule weakened",
+  "command": [
+    "node",
+    "/tmp/s02-consumer-probes-v2.mjs"
+  ],
+  "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+  "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+  "scriptSha256": "9d422ac4ad98c80492ae13694360669bd738d7e1cd9580187f172569548792e8",
+  "retainedScript": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v2-983bf4b5-2c96-4dd0-87d1-39d6a6f78f7f.source.log",
+  "startedAt": "2026-10-17T20:35:41.798484+00:00",
+  "finishedAt": "2026-10-17T20:35:41.849147+00:00",
+  "exitCode": 0,
+  "signal": null,
+  "files": [
+    {
+      "stream": "stdout",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v2-983bf4b5-2c96-4dd0-87d1-39d6a6f78f7f.stdout.log",
+      "sha256": "41417ee24a971d97c2bcdde9a26f5a5747006c2978e6df427a4ec3b6676fdbb2",
+      "bytes": 1027
+    },
+    {
+      "stream": "stderr",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v2-983bf4b5-2c96-4dd0-87d1-39d6a6f78f7f.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}

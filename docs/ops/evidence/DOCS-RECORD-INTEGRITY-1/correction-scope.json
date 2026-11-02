@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "kind": "withdrawal-scope-not-semantic-review",
+  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "date": "2026-10-18",
+  "owner": "Codex",
+  "reason": "GLM audit: unsupported deep/full-text and independent-acceptance claims; byte preservation is separate.",
+  "recordCount": 56,
+  "entryCount": 1896,
+  "approvedBaselineAffected": 1395,
+  "incrementalAffected": 501,
+  "records": [
+    {
+      "record": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "batch": 39,
+      "entries": 7,
+      "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+      "batch": 40,
+      "entries": 13,
+      "sourceSha256": "b8c1f5685137c99c6863ad12de658fa39f354f0d9cbd7cd1df9a72f759cdb94f"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+      "batch": 41,
+      "entries": 10,
+      "sourceSha256": "9f2870b69a0eb92e9f495ad86a4ba2a601b58f21104dad18981484461e2bbb66"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r42-ops-archive-task.json",
+      "batch": 42,
+      "entries": 20,
+      "sourceSha256": "060b272c76932bf21303d5089e963cf960ecafc0ab28c6210008d25d00eaab27"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r43-ops-archive-task.json",
+      "batch": 43,
+      "entries": 20,
+      "sourceSha256": "84d7779552d82739f741e6ca1b56849064b423681ca2c20825f420964d83ad3e"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r44-ops-archive-task.json",
+      "batch": 44,
+      "entries": 20,
+      "sourceSha256": "6939fb03b04117f2176c33b9bfb98c667689245ed167040d4cc1dc7e10fc2173"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+      "batch": 45,
+      "entries": 20,
+      "sourceSha256": "53c5ff0559ea64781e65dbc0d2a4f6aadd174bddc916644966728a45c3975b13"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r46-ops-archive-task.json",
+      "batch": 46,
+      "entries": 20,
+      "sourceSha256": "83c4595773d2d238bea37d277b96a641e3579a1bc87926cec8024c17da751af7"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r47-ops-archive-task.json",
+      "batch": 47,
+      "entries": 20,
+      "sourceSha256": "4bef40336f7f9db13ba7eca467fd381b33fc4345c7731644c629457da3a187a3"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r48-ops-archive-task.json",
+      "batch": 48,
+      "entries": 20,
+      "sourceSha256": "cb0d6073cc782cb9e3ea52bf353c9b4f8cc45eb828ba30d8c65df303ffdede33"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r49-ops-archive-task.json",
+      "batch": 49,
+      "entries": 20,
+      "sourceSha256": "c233a66a924aaf61a859a51122ca366f2028f30f1a9d7a047c51b85f0ffb0fd9"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r50-ops-archive-task.json",
+      "batch": 50,
+      "entries": 20,
+      "sourceSha256": "97f458e56601d80b7c8d9054b70aaad6e4af85a393ac9e6b4db3efd6f8874baa"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r51-ops-archive-task.json",
+      "batch": 51,
+      "entries": 20,
+      "sourceSha256": "f3a00f385634548c42bdafe44d882620c706327a9beed92e9d5b3422ddd94c68"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r52-ops-archive-task.json",
+      "batch": 52,
+      "entries": 20,
+      "sourceSha256": "0a1143e09d43d6d83d9fd6d6cbd3247ebc3a063f59784f06f785076c228d1d33"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r53-ops-archive-task.json",
+      "batch": 53,
+      "entries": 16,
+      "sourceSha256": "7f31b6c302882f5aa48fffcbf62f89845559fd2453f72a98ec468871ce6af57a"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+      "batch": 54,
+      "entries": 3,
+      "sourceSha256": "f5861c171503534434d0d935b45a9e5c8a8b0132e77109b305b4acda58dc0297"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+      "batch": 55,
+      "entries": 2,
+      "sourceSha256": "7158bda04775bfed318100cd60af1fdfd6c4da0bb5879ed5165cb5d5ed24e05c"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+      "batch": 56,
+      "entries": 6,
+      "sourceSha256": "4f25448c2ea9a3f5024da4dc75235dd07ac10fbf64048adb503b96739ff5be5d"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+      "batch": 57,
+      "entries": 6,
+      "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+      "batch": 58,
+      "entries": 2,
+      "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r59-ops-archive-task-cards.json",
+      "batch": 59,
+      "entries": 36,
+      "sourceSha256": "304a0ab05b84b8c60b1a5ed51b5618d2eb8370b3bf4467a6897fa50ad01b0f81"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+      "batch": 60,
+      "entries": 8,
+      "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+      "batch": 61,
+      "entries": 17,
+      "sourceSha256": "9dee852490730da010832b1f66bcc0e203859addcfd54dce88b3eb1468b9d4b0"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+      "batch": 62,
+      "entries": 23,
+      "sourceSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+      "batch": 63,
+      "entries": 10,
+      "sourceSha256": "5dbc3936bd00880e4f242d70b89c57aaf3581597be17889fab9ae031da904d6b"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+      "batch": 64,
+      "entries": 10,
+      "sourceSha256": "d4014f50ace39a760373d77217182028d121577794e8b0451248b1f0b20b5a99"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r65-ops-evidence-readmes.json",
+      "batch": 65,
+      "entries": 10,
+      "sourceSha256": "ef7069db070a80b2dbfdadda4218d34dfdf2475e201c21f3de455076c0972e38"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r66-ops-evidence-readmes.json",
+      "batch": 66,
+      "entries": 10,
+      "sourceSha256": "03fe63307160e8e9c37c4ff7f83377e69e25cb4496c0946466a3bded53bb557d"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+      "batch": 67,
+      "entries": 12,
+      "sourceSha256": "887a12c18104adfc57376bae26d4e6c96bacd8fdf72e89e3b1c30e56b4413d1b"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json",
+      "batch": 68,
+      "entries": 10,
+      "sourceSha256": "8f751db52247ebf4d81ac906f44be1c80076be363680d7d9788cd17b1fc84a18"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+      "batch": 69,
+      "entries": 10,
+      "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+      "batch": 70,
+      "entries": 5,
+      "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+      "batch": 71,
+      "entries": 50,
+      "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+      "batch": 72,
+      "entries": 50,
+      "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+      "batch": 73,
+      "entries": 50,
+      "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+      "batch": 74,
+      "entries": 50,
+      "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+      "batch": 75,
+      "entries": 50,
+      "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+      "batch": 76,
+      "entries": 50,
+      "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+      "batch": 77,
+      "entries": 50,
+      "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+      "batch": 78,
+      "entries": 50,
+      "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+      "batch": 79,
+      "entries": 50,
+      "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+      "batch": 80,
+      "entries": 33,
+      "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+      "batch": 81,
+      "entries": 50,
+      "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+      "batch": 82,
+      "entries": 50,
+      "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+      "batch": 83,
+      "entries": 4,
+      "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+      "batch": 84,
+      "entries": 1,
+      "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+      "batch": 85,
+      "entries": 100,
+      "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+      "batch": 86,
+      "entries": 100,
+      "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+      "batch": 87,
+      "entries": 100,
+      "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+      "batch": 88,
+      "entries": 99,
+      "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+      "batch": 89,
+      "entries": 100,
+      "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+      "batch": 90,
+      "entries": 100,
+      "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+      "batch": 91,
+      "entries": 99,
+      "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+      "batch": 92,
+      "entries": 24,
+      "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "batch": 93,
+      "entries": 103,
+      "sourceSha256": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778"
+    },
+    {
+      "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "batch": 94,
+      "entries": 37,
+      "sourceSha256": "638c420f8ea85c45f7c3c63bb28ba601986933f2a43b12a7e47103d6b6ce3aa9"
+    }
+  ],
+  "parts": [
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-1.json",
+      "count": 350,
+      "sha256": "038cb9a89f0136a42756755fd1ac323d890c0fcb9c2b18eb892f720603cffbc6"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-2.json",
+      "count": 350,
+      "sha256": "71dd56fa1e04e4860563e3dfdd21130f2e829d833a05987faae2d757da60e5c1"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-3.json",
+      "count": 350,
+      "sha256": "85c641721c4c141a05924351662185ee0836923f67231b9e788d10f53af8e3a5"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-4.json",
+      "count": 350,
+      "sha256": "c7d60628e2fde0b85c429932fb0a5f9bbd0e34ca2b6ab0ef81dc231e4e19812d"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
+      "count": 350,
+      "sha256": "7be1d49028a3d5824e775d65caaef4f32e61407814871823a3b414015890185d"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-6.json",
+      "count": 146,
+      "sha256": "60d3dfd37830ef136395e9c5962c3334f8429a21bc8bc73e9c3e79d243b45754"
+    }
+  ]
+}

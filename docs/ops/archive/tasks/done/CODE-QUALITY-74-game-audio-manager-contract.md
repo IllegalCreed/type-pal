@@ -1,6 +1,59 @@
 # CODE-QUALITY-74 — game audio manager contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验 shell 音频管理器三文件（`audio.ts` 与主/leaves 测试）:SFX/BGM 路由、队列 ownership、去重、开关与 OGG 资源释放保持 SDLPal/第一阶段约束;AudioManager 只消费 GameState 音频意图,不主动改变用户可见音频行为。
+
+## 范围
+
+三文件;只读相邻 bootstrap caller 与 bootstrap-audio/shell-bootstrap 测试;`audio-midi.ts` 异步曲目切换风险留 CODE-QUALITY-75 独立 review,不在本卡关闭。
+
+## 前提与证据
+
+真值:`midi_tsf.c:45-168`、`sound.c:769-772,930`;`audio.ts:74-106` 曲目选择、`164-194` OGG 释放、`200-319` manager 状态与开关。已知坑:AudioContext/decode 在 Node 测试环境不可用,听觉演出集中 E2E,不用 no-op 测试冒充播放验证。历史批:定向 27 tests、全仓门通过,账本 3266/329 closed。
+
+## 验收
+
+历史 accept 后两轮再验:2026-10-21 批准前记录——本轮 actual 调用图确认 OGG 构造器无生产入口,现行工厂仅 MIDI/RIX,setter 只是 bootstrap 旧空写;早先泛称 OGG 生产 caller 成立不再沿用,三例旧 OGG 测试不能冒充现用产品覆盖,当前 partial,三文件不关闭;旧导出裁决见 [QUALITY-LEGACY-OGG-RETIREMENT-1.md](../../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md),未经裁决不得删除导出。随后 2026-10-21 输入音频模块收口:原三文件 A–H 接受,用户明确批准无生产入口的旧 OGG 导出/空写/三个专测及唯一 fixture 退役;现用 MIDI/RIX/manager 函数体保全,旧 loop 反控按版本复用,musicUrl 接真实 MIDI caller,纯重构另提交;不附带关闭 bootstrap/音量大文件或新增听觉全流程信用。逐文件八维与原件见 [input-audio-closeout.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)。
+
+## 状态与交接
+
+done 保持原历史语义;当前有效结论以 2026-10-21 输入音频收口为准,广域 caller/听感/剧情 E2E 不附带接受。
+
+## 历史范围
+
+原卡属 2026-10-13 核验时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现 `audio.ts` 内直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（27 定向、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;OGG 退役与现用 MIDI/RIX 合同以 input-audio-closeout 原件为准。
+
+## 继任文档
+
+CODE-QUALITY-75（MIDI 竞态）、QUALITY-LEGACY-OGG-RETIREMENT-1（旧导出裁决）与 input-audio-closeout 为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5295B / SHA-256 72cc3580dc549abd07de52e3b5d4f086bf0591f6725b404b5de90e5d03f9301c；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-74 — game audio manager contract
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -70,3 +123,5 @@ Visual Verification Timing: N/A（音频路由与资源生命周期；听觉 E2E
 原三文件A–H接受。用户明确批准无生产入口的旧OGG导出/空写/三个专测及唯一fixture退役；现用MIDI/RIX/manager函数体保全，旧loop反控按版本复用。musicUrl接真实MIDIcaller，纯重构另提交；不附带关闭bootstrap/音量大文件或新增听觉全流程信用。
 
 [逐文件八维、授权/合同映射与完整原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json)及只读verify-input-audio为当前入口。统一check/官方ratchet/protected与静态零诊断按实际回执；旧原始结果不改写。
+````
+<!-- incremental-original-source:end -->

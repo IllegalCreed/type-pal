@@ -1,6 +1,59 @@
 # MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+退役旧脚本索引读取：migration-project-io::discoverProjectManagedFiles仍读content/scripts/index.json的chunks并入托管集，而pal-current-publication::FORBIDDEN_CURRENT_PATH已拒绝content/scripts/发布路径、ARCH-PAL-SUPPLY-1历史确认旧转换域已退役；现有boundaries与glm-o专测把chunks轴明确标为退役不复活，但主测仍混有该域fixture与断言。用户2026-10-26批准删除退役脚本index读取、旧文件保持非托管。
+
+## 范围
+
+只删除该旧索引读取分支；保留scene/map当前发现、显式seed、原始字节快照、TOCTOU、非托管保护；不改导出签名、当前格式、作者脚本或工程产物，不运行含recover写入的真实migrate:content命令。
+
+## 前提与证据
+
+固定源全文核读（133行实现、真实publication CLI与plan、主测和边界/GLM专测）。实施：正式新例6绿1指定业务红后修，五迁移/plan文件36绿0stderr；原专测chunk片段退休、场景精确全集保留，TOCTOU换当前map路径；旧JSON及chunk按非托管哈希、坏旧索引亦不解析。2026-10-26本地统一门收口：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。
+
+## 验收
+
+done为代码与本地门：该项曾属AGENTS资产管线ownership停止线、旧任务记录只供事实来源不自动作写盘授权；未推送/PR/合并，发布以真实GitHub状态另核。
+
+## 状态与交接
+
+done保持原语义；治理不重开。父52其它未闭合范围继续。
+
+## 历史范围
+
+原卡属固定main时点；范围为migration-project-io退役索引读取子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-26本地统一门52/52收口。
+
+## 当时证据
+
+当时回执属原时点证据：6绿1红后修、36绿0stderr、20620+721/official20185零诊断；本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效；旧JSON/chunk按非托管哈希、坏旧索引不解析；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续统一门。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3247B / SHA-256 6fbad1e6983cd2cc84992d4b15a962d8d6a36d1e2d369aba40942ea106954560；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围
+
+Status: done
 Phase: phase2
 Capability: current migration IO ownership
 Coding Owner: Codex（单一实现写入者）
@@ -31,3 +84,5 @@ Branch: codex/code-quality-94-102
 2026-10-26 实施：只删除退役脚本index读取，显式seed/scene/map保持。正式新例6绿1指定业务红后修，五迁移/plan文件36绿0stderr；原专测chunk片段退休、场景精确全集保留，TOCTOU换当前map路径。旧JSON及chunk按非托管哈希，坏旧索引亦不解析；未启动真实migrate命令/不写工程。统一门与发布另核。
 
 - 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。
+```
+<!-- incremental-original-source:end -->

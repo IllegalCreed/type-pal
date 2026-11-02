@@ -1,6 +1,59 @@
 # CODE-QUALITY-49 — game draw inventory live-zero 行为冲突
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:裁定物品目标层在实时库存数量变为 0 时的 canonical 行为——当前 TS 只省略数量而保留图标/名称,SDLPal `uigame.c:1401-1419` 只在 `i > 0` 内绘制 BALL/名称/数量、`:1468-1470` 对 `i <= 0` 返回取消,现有 grok-r1 测试 oracle 又要求归零仍画物品名,三方直接冲突;裁决前保持 blocked/review。用户于 2026-10-12 裁决选择 B:按 SDLPal 对齐,范围限定大世界使用物品目标层。
+
+## 范围
+
+`draw-inventory.ts`、`draw-inventory.glm-phase1-leaves.test.ts`、`inventory-list-pixels.grok-r1.test.ts`;只读 P01/P02 caller/oracle、inventory-menu、draw-menu、menu-driver。不触碰 schema/save/asset pipeline;退出状态机不改。
+
+## 前提与证据
+
+修复:先把图标/名称/数量统一置于 live `amount > 0` 分支（先跑失败反例确认旧实现确实在数量 0 时画出 BALL 图标）,保留目标框与角色信息,退出仍由 `menu-driver.ts:697-704` 既有 auto-cancel 负责。代表场景:目标选择层打开时脚本或同帧消费最后一件药品。
+
+## 验收
+
+修复批:定向 4 files/22 tests、game typecheck、game 全包 311/3519、全仓 `pnpm check` 通过;coverage ratchet 只升不降更新 baseline;protected fast 0 项下降;lint-zero 3994 files 全 0;docs/content、diff-check、ledger 通过;账本 3266/265 closed。2026-10-18 Codex 复审 partial:历史 done 不等于本轮验收;`inventory-list-pixels.grok-r1.test.ts` 的 G06-A12 `document is not defined`（12 tests 中 11 passed/1 failed）未修环境未静音,该文件保持 review;其余相关 10 files/190 tests 与 typecheck 通过。证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)。
+
+## 状态与交接
+
+done 保持原历史语义（用户裁决 B 已执行并归档）;2026-10-18 复审 partial,不标 accept。无下一位 Agent;本批已完成归档。
+
+## 历史范围
+
+原卡属 2026-10-12 裁决修复时点;原始四向真值矩阵与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:绘制层 live count 分支与 dispatcher 零数量 auto-cancel 均与 primary 一致。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（失败反例、修复 diff、ratchet 新 baseline 数字）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;G06-A12 环境问题按 2026-10-18 复审保持 review,不凭旧 done 自动闭合。
+
+## 继任文档
+
+CODE-QUALITY-91（inventory 一级框）与 QUALITY-PRE94-RETROSPECTIVE-1 复审证据为相邻/继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7635B / SHA-256 daee67ea54de0726e692a0c46ab6ef28c50cc1eaa96eb9c16eedb9549854cc9e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-49 — game draw inventory live-zero 行为冲突
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -76,3 +129,5 @@ Visual Verification Timing: mixed（功能行为先裁决；菜单观感仍留�
 历史 `done` 不等于本轮验收。用户已批准大世界目标层 live-zero 按 SDLPal 对齐。本轮在 `codex/code-quality-3y` 上完整读取实现、三份范围测试、P01/P02 caller/oracle、inventory/menu 生命周期与 SDLPal `uigame.c:1289-1473`、`itemmenu.c:28-310`、`play.c:268-323`；确认绘制层 live count 分支和 dispatcher 的零数量 auto-cancel 与 primary 一致，未发现新的实现缺陷。
 
 当前测试环境仍有 `inventory-list-pixels.grok-r1.test.ts` 的 G06-A12 `document is not defined`：该文件 12 tests 中 11 passed、1 failed；未修改环境、未静音，文件保留 `review`。其余相关测试 10 files / 190 tests passed，game typecheck passed。复审状态为 `partial`，不标 `accept`。证据见 [`49-draw-inventory`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)。
+````
+<!-- incremental-original-source:end -->

@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 2026-10-07 对 TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1 的独立验收：固定候选 `80a9c5c6b`、测试提交 `f43359781`；Codex 只读固定候选在独占副本复跑。
 
-## 证据身份
+## 审计问题
 
-- 当前作者命令表单独立验收 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b。
+- 五个新合同及 E1–E12 分类的接受裁定；隔离复跑真实性与白名单核对；集成修正账中两处导航/分类错误的核对。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 7/7 冻结源一致；改动均在白名单；重跑回执 hash a1638f82…7046、原候选回执 hash dd8ac291…3474；副本依赖最初指向作者真实目录被 Vite 隔离 allow 拒绝，改独占副本离线安装锁定依赖后完整复跑（首次失败不隐藏）。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 真 CanonicalScriptBodyEditor→aggregate→author bridge 链，无 mock 子控件/改产品/私有 draft；空 shop numeric 臂、sound/music 占位点击叶子守卫、portrait 选择/清除字段保全，与旧 body/oracle 不重复（旧 glw 音效空目录用例只打开菜单列选项；旧 current-identity 无 portrait 两路径）。
+- 五针完整独立重跑、19 判据自测及 3 真实 hook/异步 uncaught 探针通过，恢复字节相同且临时树移除；原候选 34 个 JSON/raw artifact hash、五个重建 mutant/恢复 hash 逐枚一致。
+- Editor typecheck 零诊断；新两文件零 act/console.error，相邻旧 App 文件 34 条 act 警告如实分列。
+- 集成修正账勘误：不存在的 glm-control 文件简称应为真实 command-form-control.glm-large-wave.test.tsx、E2 未登记变量行错位——均为已直接核 body 的导航/分类修正，不改业务测试。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 五合同及分类接受，本地串行集成门全部通过（全仓 check、官方 ratchet、以原派发为保护基点的 fast 按序退出 0；Editor 全包 4906/4906、根 lint 3607 文件 0/0/0），本卡 done；不宣称 GitHub CI 已通过。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 主树并集分支 50113/60209=83.23%，冻结与分母未缩，不将并集增益归成作者私有增量；与 A 共享唯一集成门回执（../TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/codex-integration-gates.json）；B counter 未合、GitHub 新 CI 状态另核；不因整体未 85% 重开已闭合 E1–E12。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-07 Codex 独立验收记录（候选 80a9c5c6/测试 f43359781）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- 当前作者命令表单独立验收：原始正文完整保留于下方 quote。
+- 五合同+E1-E12 分类接受，本卡 done；两处集成修正账勘误如实。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 复跑细节、hash 与集成门数字在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。验收按 2026-10-07 候选时点；GitHub CI 另核。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡完成记录。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `964cd274866d265635d1c6797d4e92cab47672bf328dc179ed3327169982938b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 当前作者命令表单独立验收
 >

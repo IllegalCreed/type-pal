@@ -1,9 +1,17 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel } from './document-model.mjs'
-import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { cacheGitSnapshots, createGitDocumentSnapshotReader } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
+import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
+import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
+import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
+import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
+import { createIncrementalGitSourceReader } from './incremental-git-source.mjs'
+import { inspectIncrementalCohort } from './incremental-review.mjs'
+import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const readBuffer = (path) => {
@@ -19,11 +27,43 @@ const read = (path) => {
 }
 const config = JSON.parse(read('docs/phase-governance/routing.json'))
 const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
+const pilotReviews = [
+  ...nativeFamilyAdmissions,
+  ...historicalHtmlAdmissions,
+  ...nativeArtifactBindings.filter((entry) => !entry.existingVariant),
+]
+  .filter((pilot) => config.migratedDocuments.some((doc) => doc.path === pilot.path))
+  .map((pilot) => pilot.reviewRecord)
+// C04: protected review reader — materializes flat or sharded reviews through the safe loader
+let reviewGroup
+const reviewReader = (logicalPath) => {
+  reviewGroup ??= loadReviewRecords({
+    root,
+    ...(config.migratedDocuments.some((doc) =>
+      currentReviewLedgerAdmissions.some((p) => p.path === doc.path),
+    )
+      ? {}
+      : { logicalPaths: [...new Set([logicalPath, ...pilotReviews])] }),
+  })
+  return reviewGroup.records.get(logicalPath)
+}
+const reviewGroupReader = () => {
+  reviewGroup ??= loadReviewRecords({ root })
+  return reviewGroup
+}
 const issues = checkDocumentModel(config, registry, read, {
+  root,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
-  readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
+  readSourceBuffer: cacheGitSnapshots(createGitDocumentSnapshotReader(root)),
+  readIncrementalSourceBuffer: createIncrementalGitSourceReader(root, () =>
+    inspectIncrementalCohort(reviewGroupReader().records)?.rows.map((row) => row.primarySource[0]),
+  ),
+  readHtmlSourceBuffer: cacheGitSnapshots((pin) => readGitHtmlSnapshot(root, pin)),
+  reviewReader,
+  reviewGroupReader,
 })
+if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 for (const issue of issues) console.error(`- ${issue}`)
 console.log(
   `document model: ${issues.length ? 'FAIL' : 'PASS'} (${config.routes.length} routes; ${config.migratedDocuments.length} body contracts; ${issues.length} issues; structure only)`,

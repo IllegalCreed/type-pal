@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+C02宿主与删除生命周期治理：白名单battle-sprite-harness.tsx、battle-sprite-ui.ts、BattleSpriteLibrary.c02-g04测试三文件，目标是只观察实际cache调用返回的Promise、实际异步删除提交在act域内等待、DOM完成后断言；最强替代解释（删除后的焦点effect/重绑而非首次挂载占主要告警）以宿主消融证伪。
+
+## 范围
+
+仅三文件；不改生产、schema/save、资产管线或UI；定制source可能有意挂起，默认保留其pending语义、显式等待由caller控制；spy仅透传观察、卸载/失败须恢复。
+
+## 前提与证据
+
+固定源全文核读。oracle与精简：G04-03改合法未保存blob输入、G04-07精确核真实sha错误与零污染；G04-04磁盘删除→undo的全部record/blob SHA/目录/真实解码/保存门断言并入G04-05（3帧与4帧在此删除/撤销路径没有不同分支，二者同为authored未使用磁盘源，不构成独立输入轴），G04-05另证redo重新删除已恢复blob；精确10→9退役快照。最终9例0诊断、两个强弱oracle反控有效。完整模块窗口：源码7433f71f5、G04九例两反控0诊断，相邻78例仍535条其它act；七包20270与typecheck、全仓check/官方确认版ratchet/普通protected数值通过、覆盖计数不变fast19861；但三门仍2049/2076/2081条未包act、577/584/584环境、各2导航，严格零诊断门未通过。原件:[README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/window-review.md)。
+
+## 验收
+
+三个文件review、0关闭，3284/229closed/51review/3004pending；作者自验不冒充独立accept；相邻535条act由后继切片（QUALITY-EDITOR-DIAGNOSTICS-3）接管。
+
+## 状态与交接
+
+review保持原语义；无下一位Agent提示词，Codex继续本片。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4632B / SHA-256 57cc540051c009ac85d814a5bfced69a7b17dbd59547ac39b83cd70a81c130ee；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验，不冒称独立验收）
 Phase: phase2
@@ -67,3 +100,5 @@ G04-05另外证明redo重新删除已恢复blob；G04-03保留初始pending-blob
 51efbc1ff生命周期已推送；最终9例0诊断，两个强弱oracle反控有效，精确临时树已移除。
 仅作者自验，未冒称独立accept；当前review等集中完整门。0文件关闭，3284/229closed/51review/3004pending。
 用户后续明确要求把94、95、97–102已发现问题全部修妥；当前卡属于全仓诊断阻塞，原产品停止线保持。
+```
+<!-- incremental-original-source:end -->

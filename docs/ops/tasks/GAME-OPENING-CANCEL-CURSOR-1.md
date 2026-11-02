@@ -1,6 +1,39 @@
 # GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复标题选读档、槽位取消后的默认光标复位：SDLPal uigame.c:143-150取消槽位后wDefaultItem=0（复位新游戏），基线TS menu-driver.ts:984-990仅pop使原opening对象仍cursor1；opening-menu.ts:47-50注释声称取消复位但未实现，cov85.test.ts:819-832只检查栈形。真实dispatch Down→Confirm→Menu反例见Codex R2 C3。
+
+## 范围
+
+仅menu-driver标题取消窄分支及cov85真实链测试；不预授权修改factory、公共接口、UI形态、Save或二阶段。用户2026-10-15批准（三项最小修复之②）。
+
+## 前提与证据
+
+固定源全文核读。实现：标题读档取消pop后仅对opening父菜单selection.cursor归0；游戏内取消仍清整栈。沿真实Down→Confirm→Menu链的原用例先恰一业务断言失败（cursor1≠0），修后相邻11files/125tests、game typecheck通过。最小真实浏览器验证：独立Vite6025、系统Chrome155、真实启动到标题，ArrowDown/Enter/Escape返回标题cursor0、pageErrors=[]；默认Playwright捆绑headless缺失，改用已安装Chrome的独立无用户profile会话；截图codex-opening-selected-load.png与codex-opening-cancel-new-game.png已直接查看。仅SDLPal验证，pal.exe实机观感未核。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+
+## 验收
+
+两项获批修复（本项②）已提交推送且定向125/相邻/typecheck通过；但2026-10-15最终模块窗口完整check/ratchet/protected数值通过而真实诊断未清零，本卡仍review、不标done、不关闭文件。
+
+## 状态与交接
+
+review保持原语义；Codex作者实施/自验，冻结的独立三验与后续修复分开。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5350B / SHA-256 4a6f2875a066ba5123856ea766b3d055c642cc5c440e6c08725e1d802aeec8ac；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
+
+Status: review
 Phase: phase1
 Capability: opening menu fidelity
 Coding Owner: Codex
@@ -72,3 +105,5 @@ Coding Owner=Codex；按上述build白名单实施，完整验收前不标done�
 
 下一位 Agent 提示词：先重核本卡/R2 C3/SDLPal，提交最窄方案、真实 caller 失败 oracle 与独占白名单。
 当前 draft，**不得开始实现、不得标 done，不扩展 UI/接口/Save 范围**。
+```
+<!-- incremental-original-source:end -->

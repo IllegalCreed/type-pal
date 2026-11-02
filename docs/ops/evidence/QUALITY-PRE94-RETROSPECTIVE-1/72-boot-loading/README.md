@@ -1,5 +1,38 @@
 # CODE72 启动加载逐文件复审与错误态风险
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+历史 CODE72 的两份 boot-loading 测试需要重排,且复审中发现真实产品缺陷风险:先 ui.fail 后完成请求时,当前 DOM 从'启动失败:主资源加载失败'变为'加载必要资源 50%'。基点 0587d8714、唯一 codex/code-quality-3y;Codex 单一 Owner,build allowed 仅两份 boot-loading 测试及治理证据,实现/主入口/进度UI冻结;72 由 pending 推进 partial,不作整卡 accept;新产品问题单列高风险卡 [QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)。
+
+## 范围与证据
+
+[read-boundaries.json](read-boundaries.json) 记 149 行实现、两测试、83 行 main、187 行 precache-ui 及并行资源屏障/DOM 骨架/真实caller的范围和 SHA。primary 为项目静态 index.html 与 main 的两段进度、onPlayable/失败和 bootstrap 资源屏障合同;SDLPal 无同形浏览器加载UI,未改第一阶段机制。实现包装 fetch 并 finally 记完成数;fallback DOM 采用 max(started,expected) 分母、单调99封顶,finish 才100并600ms移除;callback 模式不写 fallback DOM;restoreBootFetch 停止计数/回调,主入口成功时调 onPlayable。[contracts.json](contracts.json) 人工列 9+11 条实际合同、合法输入、精确 oracle、排重和隔离:保留20例,删除 main 弱重复失败提示用例交由 G09-C11 的完整文案/错误类/同一root/释放包装核验,新增 Request/init 含 headers/signal 和 Response 身份透传。
+
+## 发现
+
+主测试改 typed fetch IO 替身和受控16ms刷新,去除无谓核心强转;第二波请求用可完成的 deferred 并 finally settle,新增实际4/8分母断言;finish 细化599/600ms,缺 overlay 直接检查未包装身份,不再声称未实跑的 SSR;afterEach 释放 callback、排空待渲染再清 timer;host 拒绝用例验证同一 Error;RAF 恢复原函数,虚拟 timeout 回调在 finally 也清理;DOM 编码 PNG 只作数据 IO 见证,不赋浏览器视觉信用。[before-proof.json](before-proof.json) 与 [after-proof.json](after-proof.json) 保存 command/cwd、exit/signal/spawn、完整 file×fullName、正式源/测试/mutant hash 及精确副本清理:三枚变异分别丢 RequestInit、吞底层 reject、固定分母——各旧20绿→新19绿+1 指定 AssertionError;正式恢复20绿;未把 collection/runtime 错误或多红计有效针。[failure-repro.json](failure-repro.json) 用真实公开 boot-loading+precache-ui 及 typed 在途 fetch,先 ui.fail 后完成请求:当前 DOM 从'启动失败:主资源加载失败'变为'加载必要资源 50%',恰一指定 AssertionError;spec/native/raw/source SHA 与清理原件齐全;不 mock bootstrap 核心,不声称完整 main/HTTP/SW 或浏览器现场;loader/resourcesReady 的 Promise.all 与 main PROD catch 源码支持该可玩前时序;条宽、错误类和视觉未在这条红例断言。生产未修(当时);main 和 boot-loading 保持 review,precache-ui 旧整文件'已验证'因直接 counter 撤回 rework,原 NaN 窄修与原件不追溯抹除;boot-loading 头注释仍有'分波会小幅回退/所有入口no-op'等与当前单调/恢复行为不一致表述,列待修,不把注释改写充当产品修复。
+
+## 结论
+
+[test-gates.json](test-gates.json):直接20例、precache UI 及 bootstrap 相邻合计 6 files/54 tests passed,0 failed/pending/stderr;game typecheck 通过;[static-gates.json](static-gates.json) 记录 docs/lint/ledger/diff。账本 3312 tracked/288 closed/47 review/2977 pending:两测试首次有直接证据+2closed,UI 旧关闭撤回1,main/boot 待审;83卡 49 partial/34 pending/0 accept;没有把 54 相邻例所涉其它文件关闭。静态首轮:125 文档工具测试和 docs/model/testing/phase 均通过;content-review 因新增 3i 勘误的 after SHA 遗漏而失败,已保留失败 raw,全文旧卡/四行新勘误核读后只更新该条记录和既有引用链;最终文档/lint 复验见 static-gates 中的后续回执。
+
+## 整改与复核
+
+2026-10-18 用户批准后的窄修:[README.md](approved-fix/README.md) 替代上述'未修/冻结'的当前状态——三个生产文件按批准修复失败进度与计数 ownership,四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck 及实际 PROD 失败/正常进场与看图完成;boot-loading.ts 新增闭合,main/UI 仍 review,UI 主测试新增 review;289closed/47review/2976pending;旧 counter 和原 NaN/测试历史原件保留,不把整卡升格 accept。全仓 check/ratchet/protected 未运行,47-52 旧门信用已撤回;下一步同片 UI 测试合同/隔离,再续 73。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5032B / SHA-256 5df78529de78bf2c8088cabacb4bc872e9520ac698495bbcaa6dd8f996ae95c7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE72 启动加载逐文件复审与错误态风险
+
 基点 `0587d8714`，唯一 `codex/code-quality-3y`。Codex单一Owner，build allowed仅两份boot-loading测试及治理证据；实现/主入口/进度UI冻结。72由pending推进partial，不作整卡accept；新产品问题单列[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)。
 
 ## 全文读取、真实caller与primary
@@ -33,3 +66,5 @@
 ## 2026-10-18 用户批准后的窄修
 
 [批准修复证据](approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。
+```
+<!-- incremental-original-source:end -->

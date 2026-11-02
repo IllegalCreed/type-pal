@@ -1,6 +1,64 @@
 # GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+按用户 2026-10-22「大改试一下移动端按照你的方案布局能不能放得下」的授权做可运行横竖屏布局：窗口固定的半透明六键触控层（左下一体四方向盘支持滑动换向、右下确认/取消圆钮）、画面按 8:5 最大适配、移动工具抽屉、左上半透明小地图开关、标准 Gamepad 映射。关联 issue #7。从可运行试验推进到用户认可的软件交付与追加授权的阿里云应用包发布。
+
+## 范围
+
+范围内：游戏外壳/触控/手柄接线、移动端工具裁剪（移除快捷键/计时器/FPS/全屏/存档导入导出）、必要测试与反控。范围外：二阶段编辑器、游戏机制/帧缓冲/地图数据/存档格式、重提取与资源重发布。不改 320×200 帧缓冲与键位含义；虚拟与键盘进入同一 AbstractKey，不派发伪 KeyboardEvent。候选基点 92e901806，单一写入 Owner Codex，分支 codex/game-mobile-layout。
+
+## 前提与证据
+
+浏览器新增交互无原版手机布局真值（玩法输入沿用现有抽象键）。视觉验证 dev-functional：320×568/375×667/390×844/667×375/844×390/1280×800 六视口 DOM 原件+横竖屏/状态页/开场截图直接核图；触控区≥50px、圆钮≥64px、无页面横向溢出。触控反控（重复click、冻结换向各恰1指定AssertionError→恢复9绿）、手柄反控（去掉standard映射守卫恰1红→恢复7绿）、modal 输入红绿（3真实caller修复前指定AssertionError）、键盘激活红绿（焦点按钮空格500ms只进一次状态页）。原54个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [aliyun-browser.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json) [aliyun-mobile-portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png) [aliyun-mobile-settings.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png) [aliyun-release.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-release.json) [browser-geometry.json](../evidence/GAME-MOBILE-LAYOUT-1/browser-geometry.json) [build.txt](../evidence/GAME-MOBILE-LAYOUT-1/build.txt) [ci-acceptance.json](../evidence/GAME-MOBILE-LAYOUT-1/ci-acceptance.json) [ci-ledger-before-sync.txt](../evidence/GAME-MOBILE-LAYOUT-1/ci-ledger-before-sync.txt) [controls-hidden.png](../evidence/GAME-MOBILE-LAYOUT-1/controls-hidden.png) [coverage-before-closed-panel-contract.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt) [coverage-before-shell-integration.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt) [coverage-concurrent-timeout.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-concurrent-timeout.txt) [coverage-shell-integration-passed.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt) [docs-before-envelope-restored.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs-before-envelope-restored.txt) [docs-before-link-fix.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs-before-link-fix.txt) [docs.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs.txt) [final-game-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/final-game-check.txt) [game-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/game-check.txt) [gamepad-build.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-build.txt) [gamepad-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-check.txt) [gamepad-controls.json](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-controls.json) [gamepad-docs.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-docs.txt) [gamepad-lint.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-lint.txt) [independent-review.txt](../evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt) [input-controls.json](../evidence/GAME-MOBILE-LAYOUT-1/input-controls.json) [input-settings.png](../evidence/GAME-MOBILE-LAYOUT-1/input-settings.png) [keyboard-activation-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/keyboard-activation-evidence.json) [landscape.png](../evidence/GAME-MOBILE-LAYOUT-1/landscape.png) [lint.txt](../evidence/GAME-MOBILE-LAYOUT-1/lint.txt) [live-tools-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/live-tools-evidence.json) [modal-input-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/modal-input-evidence.json) [opening-touch-menu.png](../evidence/GAME-MOBILE-LAYOUT-1/opening-touch-menu.png) [portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/portrait.png) [production-keyboard-activation.png](../evidence/GAME-MOBILE-LAYOUT-1/production-keyboard-activation.png) [production-touch-status.png](../evidence/GAME-MOBILE-LAYOUT-1/production-touch-status.png) [release-build.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-build.txt) [release-coverage.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt) [release-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/release-evidence.json) [release-typecheck.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-typecheck.txt) [touch-status.png](../evidence/GAME-MOBILE-LAYOUT-1/touch-status.png) [window-preview.png](../evidence/GAME-MOBILE-LAYOUT-1/window-preview.png)。
+
+## 验收
+
+game check 333文件/3715测试+typecheck；lint 零诊断；最终候选 356ac4fad（测试增补1c0b2acbd）：官方 coverage:ratchet exit 0，755 源码/20024 fast 测试（statements 71884/79706、branches 52105/62132、functions 13626/15182、lines 64198/69749）。PR #8 合并为 7663b307（head 9322990af 三检查全过：protected coverage 20024 fast 与本地基线一致、文档CI 125工具测试、GitGuardian）；issue #7 已回复关闭、分支退役。GitHub 首轮 Coverage 曾因新增14个 tracked 路径未入专项账本被拦（账本声明3338 vs 真实3352），同步库存后 47/47 通过。追加发布：固定 aba959e603（与过CI的9322990af 逐字节一致）执行 deploy.sh app，线上 pal.illegalscreed.cn 返回新 hash、11个应用文件本地/源站/CDN SHA 一致、375×667 实测六键+工具+设置记忆、回滚备份保留。
+
+## 状态与交接
+
+Status 保持 done：用户产品验收（2026-10-22 认可设计、确认无实体手柄仍授权提交）、独立复核（唯一P2工具面板布局切换未刷新已修并复验）、官方本地覆盖率与 GitHub protected 门均成立。done 不外推：实体手机/手柄、Safari 安全区、完整剧情 E2E、生产 SW 离线信用、阿里云之外的部署均未测；手柄只交付 standard 映射软件支持。
+
+## 历史范围
+
+迭代过程保留：从更多按键/标题/上下栏的试验收敛到最简叠加布局；集成期补齐 AVI 跳过/DOS splash/结局等键的抽象 action 入口（触控/手柄先由 modal 消费）；覆盖率两次中间失败（迁移器并发超时、关闭态 guard 未执行）均保留原件后以合法补测过门；文档门 progress 完整性检查曾发现两处 artifact-only envelope 被误替换，已恢复并单列 maintenanceReview。
+
+## 原始结论
+
+原卡结论：用户认可设计并授权提交推送关闭 issue；标准映射（0确认、1取消/菜单、9菜单、12–15十字键、左摇杆死区0.35/回中0.2）、每 rAF 重读设备、断开清 contact、失焦/工具阻塞须回中松键、非 standard 映射不猜键；浏览器模拟视口不等于实体手机。
+
+## 当时证据
+
+docs/ops/evidence/GAME-MOBILE-LAYOUT-1/ 全套原件（六视口 geometry、各轮 check/lint/build/docs 日志、触控/手柄/modal/键盘红绿、release-evidence、ci-acceptance、aliyun-release 与线上截图）。原链接与当时回执属原时点证据，本页不重跑、不复授。
+
+## 当前有效性
+
+软件交付与发布事实按其时点有效；后续外壳/输入改动以现行主线为准，硬件兼容仍需实际设备反馈。
+
+## 继任文档
+
+无下一位 Agent 提示词（本卡已收口）；实体设备兼容反馈另行走板。原存活入口逐字保留：
+
+关联:[CLAUDE.md](../../../CLAUDE.md) [governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [aliyun-browser.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json) [aliyun-mobile-portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png) [aliyun-mobile-settings.png](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png) [aliyun-release.json](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-release.json) [browser-geometry.json](../evidence/GAME-MOBILE-LAYOUT-1/browser-geometry.json) [build.txt](../evidence/GAME-MOBILE-LAYOUT-1/build.txt) [ci-acceptance.json](../evidence/GAME-MOBILE-LAYOUT-1/ci-acceptance.json) [ci-ledger-before-sync.txt](../evidence/GAME-MOBILE-LAYOUT-1/ci-ledger-before-sync.txt) [controls-hidden.png](../evidence/GAME-MOBILE-LAYOUT-1/controls-hidden.png) [coverage-before-closed-panel-contract.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt) [coverage-before-shell-integration.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt) [coverage-concurrent-timeout.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-concurrent-timeout.txt) [coverage-shell-integration-passed.txt](../evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt) [docs-before-envelope-restored.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs-before-envelope-restored.txt) [docs-before-link-fix.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs-before-link-fix.txt) [docs.txt](../evidence/GAME-MOBILE-LAYOUT-1/docs.txt) [final-game-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/final-game-check.txt) [game-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/game-check.txt) [gamepad-build.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-build.txt) [gamepad-check.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-check.txt) [gamepad-controls.json](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-controls.json) [gamepad-docs.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-docs.txt) [gamepad-lint.txt](../evidence/GAME-MOBILE-LAYOUT-1/gamepad-lint.txt) [independent-review.txt](../evidence/GAME-MOBILE-LAYOUT-1/independent-review.txt) [input-controls.json](../evidence/GAME-MOBILE-LAYOUT-1/input-controls.json) [input-settings.png](../evidence/GAME-MOBILE-LAYOUT-1/input-settings.png) [keyboard-activation-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/keyboard-activation-evidence.json) [landscape.png](../evidence/GAME-MOBILE-LAYOUT-1/landscape.png) [lint.txt](../evidence/GAME-MOBILE-LAYOUT-1/lint.txt) [live-tools-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/live-tools-evidence.json) [modal-input-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/modal-input-evidence.json) [opening-touch-menu.png](../evidence/GAME-MOBILE-LAYOUT-1/opening-touch-menu.png) [portrait.png](../evidence/GAME-MOBILE-LAYOUT-1/portrait.png) [production-keyboard-activation.png](../evidence/GAME-MOBILE-LAYOUT-1/production-keyboard-activation.png) [production-touch-status.png](../evidence/GAME-MOBILE-LAYOUT-1/production-touch-status.png) [release-build.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-build.txt) [release-coverage.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt) [release-evidence.json](../evidence/GAME-MOBILE-LAYOUT-1/release-evidence.json) [release-typecheck.txt](../evidence/GAME-MOBILE-LAYOUT-1/release-typecheck.txt) [touch-status.png](../evidence/GAME-MOBILE-LAYOUT-1/touch-status.png) [window-preview.png](../evidence/GAME-MOBILE-LAYOUT-1/window-preview.png)。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 27295B / SHA-256 956257e0e191ad4a31d0387ddcda0865eee67050da1d36899598b1829513ef3a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持
+
+Status: done
 Phase: phase1
 Capability: mobile presentation / touch / gamepad input
 Coding Owner: Codex
@@ -226,3 +284,5 @@ Branch: codex/game-mobile-layout
 - 375×667线上页面实测：运行脚本为新hash，320×200画布按375×234.375显示；实际启动进入客栈对白、虚拟确认已执行，六键与工具可见。设置关闭虚拟键后刷新仍关闭，工具入口保留；已恢复原开启选择，临时视口/测试标签已清理。[线上画面](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-portrait.png)、[设置](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-mobile-settings.png)、[浏览器记录](../evidence/GAME-MOBILE-LAYOUT-1/aliyun-browser.json)；捕获warn/error均0。本轮为入口、进场和显示设置烟测，完整剧情未验。
 - 回滚保留dist.old，旧index SHA与发布前一致；另有`/var/www/type-pal/release-backups/mobile-gamepad-20261021T231748Z.tgz`，gzip可读且备份index与旧站一致。没有修改nginx、证书或凭据。
 - 浏览器模拟视口仍不等于实体手机，手柄只交付已核standard映射，尚无实体手柄实测；此前硬件限制继续有效。
+```
+<!-- incremental-original-source:end -->

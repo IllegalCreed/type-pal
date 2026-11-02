@@ -1,7 +1,7 @@
 # 跨阶段文档真值矩阵
 
 Status: current
-Last reviewed: 2026-10-16
+Last reviewed: 2026-10-18
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -62,6 +62,10 @@ Template: governance-index-v1 / 1.0.0
 | 域导航 ↔ 出版与历史工具 | 49页可达、36历史层；22/11出版与源12分轴，112工具只归属旧账 | guarded | 不倒填原Owner、不续期、不把路径/SHA或regex caller当工具/运行验收 |
 | Q 作者指南 ↔ 实际执行与保存路径 | 六指南分清共享、战场优先链、调试存档风险、入场安全缺口与脚本未知 | guarded | 保原历史与未知；不以模板/窄源码审读授运行或产品build |
 
+| READ-FIRST准入 ↔ 阶段事实权 | 现行L1十一条与五类停止线恢复，原quote保全，作者/原始源维护权分清 | guarded | S01固定正文已非作者接收；不续期其他入口、不复活退役转换器、不授运行信用 |
+
+| Testing治理 ↔ 真实发布consumer | schema2前言/注释/证据配对、UTC过期门、九投影与冻结legacy身份按实际consumer重写 | guarded | S02固定正文已非作者接收；发布/结构不授业务测试或执行信用 |
+
 维护 Owner 为 Codex；每次实际变更回写相关 canonical、review、catalog 与矩阵，不把索引作为第二份状态源。
 
 ## 证据与下一步
@@ -69,3 +73,33 @@ Template: governance-index-v1 / 1.0.0
 机器行逐项保存来源、未知和停止线；只说明已登记关系，不代表全 docs 关系已穷尽。相关入口：[文档模型](../ops/guides/documentation-model.md)、[现行协作](../ops/agent-workflow.md)、[测试治理](../testing/governance.md)、[SAVE12 合同](../phase2/specs/save-system.md)、[DLC 创意](../lore/dlc-ideas.md)、[第三阶段参考](../phase3/reference/art-pipeline.md)。
 
 当源证据推翻前提时先停受影响批次，更新关系和用户产品裁决，不将 guarded 擅改 resolved；全量审查仍由[任务卡](../ops/tasks/DOCS-FULL-TEMPLATE-1.md)推进。
+
+- S03：[docs/testing/e2e/README.md](../testing/e2e/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，固定65ee30ad组合已获非作者限定接收；后继中央变更另验，不授运行或全量完成。
+
+- S04：[docs/testing/e2e/cross-stage/README.md](../testing/e2e/cross-stage/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，固定65ee30ad组合已获非作者限定接收；后继中央变更另验，不授运行或全量完成。
+
+- S05：[路线方案](../testing/e2e/route-proposal.md)固定新正文/设计模板已获非作者接受；七用户规则、双轨原生真档、版本与覆盖/用途分轴，设计仍proposed，固定4ddd中央组合已限定接收、后继另验、未运行。
+
+- S06：[002原生审计](../testing/e2e/evidence/e2e-002.json)固定71的16字段/真实source反例修正已获非作者接受；只证首次hidden/末观察hidden，完整帧/游戏运行另验；fixed67数据及fixed88导航分别已接收，原counter与root别名明确映射，当前组合另验。
+- [回执设计1.0](reviews/20261018-governance-receipt-storage-design.md)原93a6章节判断与新0d16日期/完整正文consumer分别获独立接受，本次仅重授proposed正文/模板；v5消费者另获限定接受，实际S07中央pilot待验，既有候选零迁移。
+
+- S07：[003原生审计](../testing/e2e/evidence/e2e-003.json)固定a233正文/1.5模板获非作者接受；本次唯一中央gzip试点仍待实际组合独立验收，不授运行或其他篇完成。
+
+- 固定157的S07实际中央试点、proposed日期正文入账及counter原ID/root别名映射已获非作者限定接受；新004/005/006组合另验，不能从旧body报告继承实际中央接受。
+- S08/S09：004的story/items/saves、005的奖励/news/动态Canvas各守实际源码域，两篇各重授1；S10：006历史true/currentAuditfalse及原数据/slot/rider/视觉缺口继续blocked，它原属10-16历史pilot、不在1896撤回集合，丰富正文不加重授数。原1896仅8重授/1888待核，五隔离不解除。
+
+
+- S16固定abff：ops历史证据导航current仅指入口；phase1历史计划/资源状态与phase2历史设计按原时点保留。N3原三签、版本轴、提示词不恢复当前授权；deep-audit原统计差1关系未知。123篇文档接收与8路由实际接入分别记录，全量/runtime/E2E/coverage仍待独立证据。
+
+
+- S17：153历史Testing导航current只指入口；历史报告/设计/计划/质量门守原候选和日期。365原文保全单列；241篇原接收保留，124篇返工经据证验收及Owner18篇小修后接收固定正文/模板，历史执行不重授。coverage台账/模拟器r2a/脚本合同不因本轮模板治理获得当前运行或新产品授权。
+
+- S18：Ops历史证据73篇只接收文档/模板；排重登记与配对执行回执分开，23篇ledger不新增testing catalog发布身份；旧“全绿”、未接收turn-boundaries、80标题/81次执行与覆盖85%未达边界保留。六篇Owner边界修正是维护自验，73结论误抽metadata及旧run-meta不获认证。
+
+- S19固定039：原始回执字节保全不等于旧“独立/深审/全绿”获认证；初始1896与追加152旧claim并存，READ-FIRST合格S01后继不撤。40正文与61metadata结论反例修正中，21其余正文、S17/S18既有438保留，中央本轮零新完成。
+
+- S19修正a13：27扩大撤信边界与61原源保全成立，48正文/具体字段保留；R41–R53的源清单首两项/数量/范围修正保留，但两句说明和core仍有同族错误，终修只限13篇。旧28+30件不覆盖，零中央新信用，不授旧独立/执行或全量done。
+
+- S19 final4e：同一13反例闭合，全部61历史正文接收；旧深审/独立/执行不恢复。中央reviewRecord结构迁移61条至31/30新片，旧完整条目以Git引用保留；两个新Owner原生JSON仍partial，父卡rework。S20准入27篇历史审计/域报告/设计，分清现行canon与当时提议，三层复合quote不得冒真源SHA。
+
+- S20：历史审计/域报告/设计27篇的具体证据与边界据证接收；Owner只修当前review入口、分层源声明与core映射，旧执行不追认。registry指向决定当前审查，旧状态词不恢复信用。S21只读盘点1124 JSON，结构解析与字段数不授全文语义或迁移完成，新合同先设计冻结。

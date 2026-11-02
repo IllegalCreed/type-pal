@@ -1,5 +1,45 @@
 # GLM持续任务：pre-94剩余复审与首轮整改
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「GLM持续任务：pre-94剩余复审与首轮整改」的治理候选页;证据原件即下方逐字节保全的固定main源(6744B,SHA e58f95974d02)。
+
+## 来源与输入
+
+本页是执行章程而非回执：它规定 GLM（主要审查、首轮整改）与 Codex（证据验收、返工、共享账本与集成）的分工、工作树纪律（自有detached worktree、单Coding Owner、不抢活跃实现）、自主推进节奏（2-4文件/模块切片、不逐片等用户传话）、证据成本边界（每模块一个稳定入口、全仓门由Codex集中收尾）与RLE遗留归属（G-1/O-1/O-2/O-4/R-1保持原状态）。2026-10-20更新：验收返工改由Codex直接处理；已发给GLM的89800a1c1候选C1-C3保留GLM Owner至冻结交付。父卡链接见下方存活入口。
+
+来源为固定Git载体,非本次运行;原1个链接处置见作者review的linkDisposition。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 断言与业务 oracle
+
+本页承载的授权与边界事实（currentExecution=false，历史指令按其时点保全）：
+
+- 准入范围：仅pre94剩余复审+已授权首轮整改；不启动94-102及更高编号；不因本任务扩大实现白名单、不抢写活跃实现。
+- 高风险边界：schema/save/migration/资产管线/公共接口/第一阶段机制/用户可感知行为变化不由此泛化准入——先钉一手证据与反例、开风险候选，新的产品取舍交用户裁决。
+- 测试纪律：逐例核合法fixture/独立oracle/caller/排重/隔离/判别力；行为修复先红后绿；不堆弱测试/强转/ignore，不复活退役fallback。
+- 完成口径：未被接收的候选不得自行合main/标accept；模块证据充分不等于专项完成；83卡未解项如实列出，0未知冒充已验证。
+
+## 结果
+
+本页结果是GLM持续任务的现行章程与交接基线：后续glm-foundation/各切片README均在本章程下交付，Codex按证据验收协议接收。本治理候选不重开该任务、不改变其build allowed状态与范围。
+
+## 限制与复核
+
+未重跑任何命令；本页语义为指令/章程，其条款是否在每个切片中被遵守由各切片回执与Codex验收裁定承载，本页不自带执行结果。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6744B / SHA-256 e58f95974d02c59200dc03f9c1eaa8dea8f949aac65a45c78552fcc09b7e751d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GLM持续任务：pre-94剩余复审与首轮整改
+
 Owner: GLM（主要审查、首轮整改）；Codex（证据验收、后续返工、共享账本与集成）
 Status: build allowed，按下列范围，不是全仓任意产品变更授权
 用户2026-10-18要求一次交付大任务，减少两边传话。本指令与父卡当前准入共同生效，完整质量标准在docs/ops/code-quality.md第4.1节；本文件不复制另一套标准。
@@ -45,3 +85,5 @@ Status: build allowed，按下列范围，不是全仓任意产品变更授权
 Codex据证审查普通批次，不重复全文；有具体风险/矛盾/缺证据才定向展开，后续验收返工由Codex直接完成，必要时只索取已有原件或事实。阶段集成由Codex在同一3y分支提交推送；统一诊断未零前不合main。模块证据充分不等于全专项完成：83卡未解项/风险仍须如实列出，0未知冒充已验证；94–102保持本轮范围外。
 
 RLE遗留归属：G-1结构候选、O-1尺寸/输入域、O-2/R-1错误合同、O-4/R-2排重，以及QUALITY-RLE-COMMAND-TRUTH-1继续原状态；不把本包当作解码/编码算法或资源格式的修改授权。
+```
+<!-- incremental-original-source:end -->

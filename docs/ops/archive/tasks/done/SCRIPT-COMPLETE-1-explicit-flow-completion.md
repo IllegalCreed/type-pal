@@ -1,55 +1,64 @@
 # SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W7 / X1 / P3
+Coding Owner: Codex Root
+Reviewer: Codex / e2e_002_runner（只读独立前提与实现压力审）
+Visual Verification Owner: Codex
+Visual Verification Timing: mixed
+Branch: codex/e2e-002-r1
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是脚本完成语义历史功能卡（2026-09-30 用户以"两条指令→零条且下次仍执行当前步骤"截图指出结束占位不合理）：完成建模为可保存真实状态、编辑器直接选择完成不造作者空节点、谨慎清理 PAL 经核实纯结束占位；集成 fc1d5804 的 443 纯结束折叠+完成持久语义+10648 完整门独立接收；门画面问题由 DOOR-1 解决。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+把完成从"空步骤占位"改为显式可保存状态；版本切换仅当前 canonical、旧开发档拒绝不建 upgrader。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：content 作者 flow/cursor/版本及 guard；reforge 控制流/宿主/投影/保存；editor 通用 flow 编辑/引用/预览；当前工程 manifest 与已核实纯结束占位；规范/指南/本卡。
+- 范围外：一阶段语义、地图/资产/提取/退役转换核；parallel/join、全局对白冻结、自动折叠未知空节点。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+用户 2026-10-01 确认无草稿并批准后才集成刷新主工程；历史 SAVE9 报告原样保留当前只消费 SAVE10。
+- 当前状态：done（历史终态；清账收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-10-02 清账）：集成 fc1d5804 的 443 折叠+持久语义+10648 完整门独立接收；6012 真实一步卡完成表达可用。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+版本 fixture 机械更新单独记录。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-30 用户指出与批准、实施、2026-10-02 清账收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：显式完成语义+443 纯结束折叠经独立验收与用户批准集成收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+用户截图与四选一裁决、fc1d5804 验收、SAVE9→SAVE10 边界。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。完成语义现行行为以当前 content/reforge 为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+DOOR-1/SAVE-1/CHOREO-1 与 PRE-005-DEBT-1。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `66c4676f8bae4e808e78c081d4b17f65b628b610b1a03d89724dc3effa6e1920`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `66c4676f8bae4e808e78c081d4b17f65b628b610b1a03d89724dc3effa6e1920`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # SCRIPT-COMPLETE-1 — 脚本完成语义与空结束步骤清理
 >

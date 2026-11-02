@@ -1,6 +1,65 @@
 # CODE-QUALITY-95 — menu 测试夹具合法性 counter
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+撤回并纠正三份测试的旧闭合信用（inventory-menu.test.ts、inventory-menu.boundaries.test.ts、shop-menu.boundaries.test.ts）：boundary roles()把PlayerRole[]写成Object.fromEntries对象、主测试死人fixture只有id/hp/name、shop fixture缺Item必需字段，均以as unknown as掩盖——绿但不能算业务覆盖。
+
+## 范围
+
+三份文件修正：补typed Item/PlayerRole、按roleId索引构造真实数组、删无必要强转、数量用合法域；复用coverage85 harness纯makeRole工厂。不改产品/公共接口/schema/save/ItemFlags/caller；不加ignore/exclude/timeout/fallback。
+
+## 前提与证据
+
+直接类型tables.ts:51-76,491-592（Item必填字段与PlayerRoles.roles数组合同）；真实caller inventory-menu.ts:213-254按playerRoles.roles[roleId]构建目标、shop-menu读取合法Item catalog；oracle：party[2,0]返回真实roleId 0、死人仍可选、inUse等值门、cash===price/price-1。原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+## 验收
+
+GLM复核裁定三份修复合法（typed形态与caller一致、makeRole纯函数、旧'空角色'用例oracle本就期望use-target+selectedItemId=200、id 400/401→105/110后oracle等价）；Codex R2 counter收紧：库存测试200物品applyToAll=true时死人目标/取消直接进选人，但生产menu-driver:711-717与SDLPal play.c:268-323对applyToAll跳过picker——R4改单体usable consuming（合成fixture注释声明）；R3 accept仅限三份fixture修正。2026-10-25复审增量：三份修正已由pre94菜单逐文件A-H、renderer版本桥和PR22统一门接受，原30路径全部与最新main 8eb一致，counter的合法typed/真实单体目标/非顺序队伍oracle均复用；并入94-102统一门终态（54路径20新关闭+34桥接，official 20168/807）。
+
+## 状态与交接
+
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
+
+## 历史范围
+
+2026-10-15各时点保留：R2基点cddf65557、R3候选5477af1e4（3283/229closed/44review/3010pending）、最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act统一门不通过。
+
+## 原始结论
+
+原卡结论：三份fixture修正经Codex R2/R3局部accept后，由pre94菜单逐文件A–H、renderer版本桥和PR22统一门正式接受；counter的合法typed Item/Role、真实单体目标和非顺序队伍oracle均复用。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-94/glm-review.md（三份裁定明细）、codex-r2/r3-review、approved-closeout与current-review。原链接与当时回执属原时点证据，本页不重跑、不复授。
+
+## 当前有效性
+
+历史任务卡（done有限语义）；测试治理方法论（绿不等于业务覆盖）作为范例长期有效。
+
+## 继任文档
+
+母卡CODE-QUALITY-94-menu-integration-window与94-102系列承接集成终态。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 13125B / SHA-256 cf02e0e17fe1e05e6ee2609fd26af08db57731c29f75b1537eb4db0237b28ca4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-95 — menu 测试夹具合法性 counter
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -123,3 +182,5 @@ Codex独立24files/241tests及game typecheck通过；CODE95完整字段/数组�
 ### Codex caller 复核补充：CODE95同样counter
 
 库存测试的200物品applyToAll=true，死人目标/取消却直接进选人；生产menu-driver:711-717和SDLPal play.c:268-323会跳过picker。因此“typed修正局部通过”初判须收紧：字段/数组修正成立，真实单体caller前提仍需R4修正，CODE95转rework。见codex-review.md的R4；只修合法测试输入，不改变产品行为。30文件保持review，未有accept、未合main。
+```
+<!-- incremental-original-source:end -->

@@ -1,40 +1,62 @@
 # Cursor工具回归正式接入与目录路径修复
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Cursor 工具回归正式接入与目录路径修复回执（候选 85f2a824 Codex 独立接收记录 e11489dd；用户要求验证并提交推送；本轮把候选放入正式测试入口并修正 rewriteRepositoryPaths 中较长映射只匹配文本前缀时遮蔽有效父目录映射的缺陷——此前绿套件 22/22 与显式诊断 1 绿/1 红是修复前证据）。
+
+## Scope
+
+- 修复边界：relocate.mjs 的 rewriteRepositoryPaths/applyRelocation 真实脚本；优先最长映射若后续字符是路径名一部分正则在选中映射前排除此候选让有效较短父目录映射接续；独立回归先红（docs/old/deep 与 docs/old/deep-extra.md 不是目录包含关系若还登记 docs/old→docs/archive/old 应重写）；Git SHA 历史引用/不同后缀路径/Markdown 链接改写保留原合同未改 applyRelocation 文件事务实现。
+
+## Execution and assertions
+
+- **正式入口**：文档链接定位/本地目标/任务索引/版本段/路径改写/原 T05 诊断进入 scripts/docs/*.test.mjs 随根 test:docs-tools 与 Documentation workflow；四条仅检查导入的烟测未转正重复父映射正控已合并；allowlist 与导航字形进入 packages/editor/scripts/cursor-*.test.mjs 随编辑器常规 Vitest；T06 原 selector-preflight.test.ts 已有充分证据不增同义用例；原隔离候选回执保留历史测试迁入正式位置后实验目录不再维护第二套活动用例
+- **验证表**：独立路径回归修前 AssertionError 红/修后绿且原 T05 诊断同输入也绿；定向文档工具 34/34+编辑器审计 5/5；editor typecheck/Biome/文档静态门过；全仓 check exit0；ratchet exit0 8,039 fast/641 文件基线只升不降（提升 0 范围变化 2）+fast exit0 行 77.45%/分支 67.84% 无回退；文档工具新用例归独立文档门禁编辑器新增 5 项进官方 fast；未缩生产未改阈值未跑完整 E2E
+
+## Results
+
+- Cursor 候选测试贡献者 Codex 负责修复/集成/自验/Git 收口；改动限于工具函数和已核测试。
+
+## Evidence
+
+- 原回执的独立路径回归先红后绿、定向文档工具 34/34、编辑器审计 5/5，以及 check/ratchet/fast 原时点验证表；当前仅治理文档，未重新执行这些历史产品门。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 工具回归集成 | 原文时点 | 六项正式入口接入 docs 工具链；rewriteRepositoryPaths 前缀遮蔽先红后绿修复 | 集成完成（三门过） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 Cursor 工具回归正式接入与目录路径修复回执（候选 85f2a824 Codex 独立接收记录 e11489dd；用户要求验证并提交推送；本轮把候选放入正式测试入口并修正 rewriteRepositoryPaths 中较长映射只匹配文本前缀时遮蔽有效父目录映射的缺陷——此前绿套件 22/22 与显式诊断 1 绿/1 红是修复前证据）。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- Cursor工具回归正式接入与目录路径修复：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+工具回归接入+rewriteRepositoryPaths 前缀遮蔽修复（先红后绿）；正式入口 docs 工具+编辑器审计；三门 fast 8,039 范围变化 2。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 原回执的独立路径回归先红后绿、定向文档工具 34/34、编辑器审计 5/5，以及 check/ratchet/fast 原时点验证表；当前仅治理文档，未重新执行这些历史产品门。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。工具回归接入+rewriteRepositoryPaths 前缀遮蔽修复（先红后绿）；正式入口 docs 工具+编辑器审计；三门 fast 8,039 范围变化 2是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-CURSOR-TOOLS-1 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `db7b3a11d6673d30650d185dcf7f1ea2c3f2b407818bfa774a28b46595419621`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `db7b3a11d6673d30650d185dcf7f1ea2c3f2b407818bfa774a28b46595419621`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # Cursor工具回归正式接入与目录路径修复
 >

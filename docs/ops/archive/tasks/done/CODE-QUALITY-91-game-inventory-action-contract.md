@@ -1,6 +1,59 @@
 # CODE-QUALITY-91 - game inventory-action menu contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验物品一级子菜单三文件（`inventory-action-menu.ts` 与两份测试）:装备（WORD 22）/使用（WORD 23）的 canonical WORD id 与顺序、静态 cursor 记忆、Confirm 由 caller 分派到 equip/use 菜单、单体 selection primitive 负责边界与环绕、防御性空选择,及其 menu-driver caller/返回链与 SDLPal primary source（`uigame.c:878-919`、`ui.h:80-81`、`play.c:244-359`）对齐;只有直接证据成立的三份文件才关闭。本治理页只承载历史任务语义,不重开已终态任务。
+
+## 范围
+
+范围内仅三份白名单文件;`menu-driver.ts`、`inventory-menu.ts`、`equip-menu.ts`、`draw-menu.ts` 及 shared primitive 仅作 caller/oracle 只读。范围外:CODE-QUALITY-90 revive status boundary（仍 blocked）、CODE-QUALITY-53/79 poison key、快捷键 E/W 直达物品路径。明确不改产品行为、公共接口、schema/save、生成物或 UI 形态,不以包级绿灯或覆盖率当逐文件关闭理由。
+
+## 前提与证据
+
+一句话前提:物品入口先展示两个项目的一级框（装备 WORD 22/使用 WORD 23）,静态选择记忆上次 cursor,Confirm 再由 caller 分派。最强替代解释"TS 的 inventory-action 可能只是绘制层标签"被 `menu-driver` dispatcher 与 game-state 字段 caller 证据反证;旧 T10b 漏过 `PAL_InventoryMenu` 一级 box 的坑在实现注释与 caller 中显式保留。本批按 [AGENTS.md](../../../../../AGENTS.md) 的 Codex 分派—贡献者执行—Codex 独立验收临时模式执行;mutation controls 覆盖 id mapping、cursor guard、wrap、WORD lookup、empty selection 五轴。
+
+## 验收
+
+Codex 独立复核 accept:5 files / 85 targeted-adjacent tests;4 针精确 identity 反控（绿→指定业务红→恢复且字节还原）;game typecheck 与 Biome;full check、official ratchet、protected fast、lint-zero、ledger 全通过。done 准入:只关闭三份白名单记录。
+
+## 状态与交接
+
+done 保持原语义:本卡无实现 diff,纯治理/证据批;CODE-QUALITY-90 仍 blocked 待用户裁决,本批不解除。无下一位 Agent 提示词,当前由 Codex 完成验证与收口。
+
+## 历史范围
+
+原卡属固定 main 时点(2026-10-14);原始范围、真值矩阵与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:三份白名单逐文件证据完整,primary source、caller、oracle、合法输入、排重与有效反控均通过,未发现直接生产缺陷,无必须返工项。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执(定向/相邻测试、mutation 运行、全量质量门)属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-84(inventory 菜单列表层)与 CODE-QUALITY-86(equip 菜单)为相邻已收口卡;CODE-QUALITY-90 revive boundary 仍待用户裁决;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9913B / SHA-256 787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-91 - game inventory-action menu contract
+
+Status: done
 Phase: phase1
 Capability: code-quality / game core menu
 Coding Owner: Codex
@@ -135,3 +188,5 @@ Branch: codex/code-quality-3y
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词；当前由 Codex 完成本批验证与收口。
+```
+<!-- incremental-original-source:end -->

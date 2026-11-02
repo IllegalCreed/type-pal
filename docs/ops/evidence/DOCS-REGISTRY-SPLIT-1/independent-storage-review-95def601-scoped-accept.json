@@ -1,0 +1,799 @@
+{
+  "kind": "independent-frozen-registry-storage-implementation-and-scalar-correction-review",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root/registry_storage_author",
+  "coordinatorTask": "/root",
+  "nonAuthorReviewer": true,
+  "identityBasis": "Reviewer did not author registry implementation, either correction, canonical native data or author tests. Own scripts, inert fixtures and evidence live only in new reviewer-owned/tmp. Candidate files were never modified; only explicitly authorized clean detached checkout was performed. This report makes an independent decision after source, counter and actual command checks; author remains nonAuthorReviewerfalse.",
+  "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+  "parentCommit": "db814e3cfecc51b8226453f6930b8ec4c22a0743",
+  "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+  "finalCheckoutClean": true,
+  "mainUnchanged": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "frozenInputs": {
+    "module": {
+      "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/sources/frozen-document-registry.mjs.txt",
+      "bytes": 17576,
+      "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
+      "repoPath": "scripts/docs/document-registry.mjs",
+      "lines": 465
+    },
+    "pathFixture": {
+      "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/sources/frozen-document-registry-path.test.mjs.txt",
+      "bytes": 3827,
+      "sha256": "dc48bbc3e5629091f5e97cc3131b28cb366dcdf605ff0c2183df6dcfb14249ad",
+      "repoPath": "scripts/docs/document-registry-path.test.mjs",
+      "lines": 99
+    },
+    "exactTwoFileDelta": {
+      "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/sources/exact-two-file-delta.txt",
+      "bytes": 2900,
+      "sha256": "cd98a942896a491656a25909c048b8e37fa8279970b42fd35b3f21fbad132e41"
+    },
+    "designStandard": {
+      "commit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "version": "2.0.2",
+      "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+      "scope": "Inherited previously full-read fixed design and its independent design-only report; no design rewrite."
+    },
+    "nativeFlatSource": {
+      "commit": "3fae68aec8f448bf83d1d85e61da35c94d5200ae",
+      "path": "docs/phase-governance/document-registry.json",
+      "bytes": 1047444,
+      "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+      "entries": 2374
+    },
+    "authorAddendum": {
+      "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/sources/author-addendum/addendum.json",
+      "bytes": 7910,
+      "sha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a"
+    },
+    "authorManifest": {
+      "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/sources/author-addendum/manifest.json",
+      "bytes": 12008,
+      "sha256": "b1e9f368042813225ad5ecb5d1267a65fa664020c7403b694e3164524e085a9e"
+    }
+  },
+  "actualReadAndExecutionScope": [
+    "Full db..95 two-file diff and full99-line path IO fixture; path validator source context. Unchanged storage module/CLI/adapters/retired writers/full specialist logic and old fixture contract checks were fully read in fixed37 review and inherited only where byte/delta identity permits.",
+    "Own current loader full2374ordered entry object equality, including key order and optional-field absence, against the fixed original flat Git blob; all8top-level native metadata values independently serialized and compared; actual8physical files read and compared to both37anddb.",
+    "Own original D800/D801 dual-surrogate package replay now rejects; four negative escaped unpaired strings exercise exact loader error and both actual copied CLI consumers. All exact stderr, argv, cwd, time, exit/signal/spawn values are preserved in raw replay JSON.",
+    "Own restored legal baseline includes BMP Unicode, interior spaces, emojiU+1F600, supplementary ideographU+20000 and scalarU+10FFFF, retains original strings and UTF8 roundtrip. Phaseops on a lore path stays phaseops; no path-derived reclassification.",
+    "Full new author addendum/manifest/round records/primary red-green raw;78artifact hash pins and23completed commands verified, current source/test and before/red input pins matched. Author test names and exact test bytes are corroborated, not used instead of independent execution.",
+    "Own current178docs-tool tests and50storage tests, full pnpm check:docs, lint, strict and both text/JSON require-complete outputs; complete nonempty28fd..95 and911..95 diff plus staged diff. Every process completed without timeout/signal/spawn error and own process group empty."
+  ],
+  "findings": [
+    {
+      "id": "REGISTRY-PATH-UNICODE-SCALAR",
+      "originalDbStatusPreserved": "open counter and rework in immutable original db report",
+      "statusOn95": "closed-within-the-reproduced-contract-input-domain",
+      "source": "scripts/docs/document-registry.mjs:107-113",
+      "explanation": "Array.from iterates a valid UTF16 surrogate pair as a supplementary Unicode code point, while an unpaired code unit remains in D800..DFFF. Explicit rejection of that range blocks the original valid-UTF8 JSON escaped-surrogate input without normalizing path identity or rejecting valid pairs.",
+      "independentReplay": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/scalar-counter-replay.stdout",
+        "bytes": 19675,
+        "sha256": "d3d6f65befe1898b8284927a7162dc1185729197b263d657f13756fd73278a04"
+      },
+      "observed": {
+        "originalDualPackageRejected": true,
+        "negativeCases": 4,
+        "negativeCodeUnits": ["D800", "D801", "DC00", "embedded DBFF before x"],
+        "actualConsumerRuns": 8,
+        "eachConsumerExit": 1,
+        "eachConsumerSignal": null,
+        "loaderErrorOriginalJavaScriptStringExact": true,
+        "positiveRestorationExact": true,
+        "documentBodyFilesCreated": 0
+      },
+      "strongestAlternative": "The changed consumer assertion could hide replacement-character normalization of stored paths and falsely pass.",
+      "decision": "Rejected that alternative: Buffer conversion is used only for expected CLI stderr rendering. Loader error must still equal the exact original JS string. Own legal paths are deep-equal to input and exact UTF8 roundtrip; actual original surrogate package is refused before document-body access. No stored path rewrite was introduced."
+    },
+    {
+      "id": "REGISTRY-NATIVE-DOCUMENT-PATH",
+      "statusOn95": "inherited-closed-at-original-dot-parent-empty-scope",
+      "evidence": "Original independent db replay six exact loader/two-consumer controls remains in the fixed249-artifact package; source clauses unchanged and own current50suite reexecutes all16invalid-form path cases plus positive.",
+      "strongestAlternative": "A scalar fix might replace or weaken the prior dot/empty checks.",
+      "decision": "Full exact delta adds only code-point-range exclusion inside existing predicate and retains every prior segment clause. Current suite still runs those actual-loader/consumer cases. Original37anddb verdicts remain rework for their fixed historical inputs."
+    },
+    {
+      "id": "NATIVE-DATA-AND-METADATA-PRESERVATION",
+      "status": "verified-current",
+      "independentAudit": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/inheritance-audit.stdout",
+        "bytes": 3181,
+        "sha256": "0ac0eb2f9e2b9c1dc3c715ecfedeb7abf2d9c0701a9d3726d04fa0a1ac7913c4"
+      },
+      "entries": 2374,
+      "entrySerializedIncludingKeyOrderEqual": true,
+      "metadataEachEqual": [
+        "id",
+        "generatedBy",
+        "policy",
+        "roots",
+        "extensions",
+        "structuralRoots",
+        "summary",
+        "scopeNote"
+      ],
+      "templateVersionAbsent": 1632,
+      "templateVariantAbsent": 2351,
+      "physicalFiles": [
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "bytes": 4745,
+          "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.ops.json",
+          "bytes": 590511,
+          "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.lore.json",
+          "bytes": 4980,
+          "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase1.json",
+          "bytes": 23584,
+          "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase2.json",
+          "bytes": 42462,
+          "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase3.json",
+          "bytes": 1860,
+          "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase-governance.json",
+          "bytes": 70224,
+          "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+          "unchangedFrom37AndDb": true
+        },
+        {
+          "path": "docs/phase-governance/document-registry.testing.json",
+          "bytes": 325266,
+          "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "unchangedFrom37AndDb": true
+        }
+      ],
+      "strongestAlternative": "The loader could silently insert absent optional defaults, reorder entries/keys or derive phase from directory while equality appears superficially unchanged.",
+      "decision": "Compared complete JSON serialization of every ordered native entry object and each native metadata value against the fixed Git flat, plus raw physical-byte pins against37anddb. Absent versions/variants remain absent. Native phase, generatedBy, roots and summary remain original meanings; no semantic credit or entries added. This does not deeply review each business field."
+    },
+    {
+      "id": "UNCHANGED-STORAGE-CONTRACTS",
+      "status": "accepted-by-limited-reviewed-inheritance-and-current-suite",
+      "evidence": [
+        {
+          "reportSha": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda",
+          "manifestSha": "dbb508b7fe0d5941d3d8cd3511ea070380107cfb38e00b3dcead02f136e4a47a",
+          "files": 201,
+          "verdictRemains": "rework"
+        },
+        {
+          "reportSha": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d",
+          "manifestSha": "4d61b6b8eee5ee5f9bb4544cc992a2676e019fd443fed9eed8394e752f47c2cc",
+          "files": 249,
+          "verdictRemains": "rework"
+        }
+      ],
+      "unchangedContractsReviewedPreviously": [
+        "Private WeakMap source/token identity and deep freeze; forged/reused stale snapshots and full input edits reject.",
+        "Protocol-following writers use atomic exclusive lock, held-lock full-source revalidation, private snapshot and manifest-last publish; real writer race cannot lose first update.",
+        "Actual mid-publication SIGKILL leaves lock/oldbytes/recovery hashes; consumers reject mixed generation. Recovery is explicit and manual, never automatic lock stealing.",
+        "Mapping is tied to private published snapshot even when second actual writer publishes immediately after release; original mapping targets retained, no hand rewrite of old mapping.",
+        "CLI output parent/exclusive writable/nofollow preflight rejects missing parent or existing output before publishing; mapping write after successful publication remains nontransactional boundary.",
+        "Actual sync caller downgrades stale reviewed binding to lawful partial/needs; missing reviewRecord invalidnull rejects before any package byte change; restored lawful review can write again.",
+        "Actual consumers reject malformed shards/hash/positions/path/phase/summary/duplicate/UTF8 and liveflatv1; three retired bulk writers refuse before prereqs. Two old fixtures retain ordered108and60assert call expressions exactly."
+      ],
+      "strongestAlternative": "Two specific path counter closures prove universal native path canonicalization or atomic filesystem transaction safety.",
+      "decision": "Not established. Acceptance covers the explicit relative native Git document-path input domain and tested protocol-following writer contract. Case folding, filesystem Unicode normalization/reserved-name differences, arbitrary external filesystem writers and cross-mapping transactions are outside the guarantee. No universal filesystem identity or normalization guarantee is granted."
+    },
+    {
+      "id": "ADMINISTRATIVE-PIN-INHERITANCE",
+      "status": "limited-inheritance-only",
+      "evidence": "Current board/index bytes equal fixed37. Fixed37 separately checked exactly one registry-task build/Owner/admission delta versus3fae and actual --print-task-index exact output.",
+      "decision": "Existing accepted content is inherited with only that already reviewed administrative delta. This does not rereview all364cards or accept root future central-intake board/index bytes. Original two SHA drifts remain real current failures until explicitly reconciled elsewhere."
+    },
+    {
+      "id": "AUTHOR-SCALAR-ADDENDUM",
+      "status": "provenance-corroborated-self-check",
+      "audit": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/author-addendum-audit.stdout",
+        "bytes": 1369,
+        "sha256": "1c91e844bfad8a3b6e63f651c99fda9a4c2701a5396dfc344de769dbd3dd56f8"
+      },
+      "authorNonAuthorReviewer": false,
+      "verifiedFiles": 78,
+      "completedRoundCommands": 23,
+      "assemblyTimeGlobalSnapshotRecords": 180,
+      "before1075": {
+        "tests": 17,
+        "pass": 15,
+        "assertionFailures": 2,
+        "exitCode": 1
+      },
+      "after1078": {
+        "tests": 50,
+        "pass": 50,
+        "exitCode": 0
+      },
+      "sameBeforeAfterTestHash": "dc48bbc3e5629091f5e97cc3131b28cb366dcdf605ff0c2183df6dcfb14249ad",
+      "decision": "Two added high/low-surrogate cases fail with AssertionError on old db module and pass after95with same source-pinned17path-fixture identities; after50includes old33storage cases. Raw and exact byte pins support this narrow IO discrimination. These are not product business tests, historic execution credit or E2E/coverage acceptance.",
+      "limits": "Global index snapshot is accurate at addendum assembly; it is not original37/db time. Old author delivery, both mappings and earlier addendum untouched. The finding cites the earlier no-body-read escape probe; later actual same-inode proof remains independently preserved in db counter/report."
+    }
+  ],
+  "qualitySummary": {
+    "fullCheckDocs": {
+      "exitCode": 1,
+      "durationSeconds": 43.073789875,
+      "timedOut": false,
+      "toolTests": 178,
+      "pass": 178,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "docsIssues": 0,
+      "documentModelIssues": 0,
+      "testingDocsIssues": 0,
+      "phaseLoreDocuments": 184,
+      "strictDocuments": 2374,
+      "partialReviewUnknown": 1925,
+      "contentReviewed": 449,
+      "warningRetained": "pnpm local package/node_modules warning remains in actual stdout despite NODE_PATH. Whole docs result is FAIL; structure0 does not prove full semantic acceptance."
+    },
+    "specialist": {
+      "exitCode": 0,
+      "tests": 50,
+      "pass": 50,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "note": "Overlap with178tools; no summing to claim228unique tests or business coverage."
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 4462,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "strict": {
+      "exitCode": 1,
+      "passed": false
+    },
+    "requireComplete": {
+      "textExitCode": 1,
+      "jsonExitCode": 1,
+      "approvedCohort": 1838,
+      "cohortMigrated": 436,
+      "cohortPending": 1402,
+      "currentCandidates": 2383,
+      "currentPending": 1942,
+      "incrementalMigrated": 5,
+      "issues": [
+        "docs/ops/board.md: completed review SHA drift",
+        "docs/ops/tasks/index.md: completed review SHA drift"
+      ],
+      "exercisedTemplates": 17
+    },
+    "fullRevisionDiffs": {
+      "main28fdThrough95ExitCode": 0,
+      "admission911Through95ExitCode": 0,
+      "stagedExitCode": 0,
+      "note": "Both complete nonempty ranges are real checks, not empty-workdiff substitutes."
+    },
+    "productTypecheck": "not run or claimed; source delta is docs tooling IO only",
+    "processState": "All own bounded180s captures completed with no timeout, signal or spawn error and empty after-wait own process group. No other task processes were killed. Formatting is separate30s ordinary-readonly-FD input with actual receipt."
+  },
+  "actualCommands": [
+    {
+      "name": "author-addendum-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-scalar-independent-20261018-95def601/audit_author_scalar.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:43:08.735348+00:00",
+      "endedAt": "2026-10-17T21:43:08.802431+00:00",
+      "durationSeconds": 0.066996083,
+      "pid": 28529,
+      "ownProcessGroup": 28529,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/author-addendum-audit.stdout",
+        "bytes": 1369,
+        "sha256": "1c91e844bfad8a3b6e63f651c99fda9a4c2701a5396dfc344de769dbd3dd56f8"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/author-addendum-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "check-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.868971+00:00",
+      "endedAt": "2026-10-17T21:42:47.942641+00:00",
+      "durationSeconds": 43.073789875,
+      "pid": 75458,
+      "ownProcessGroup": 75458,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/check-docs.stdout",
+        "bytes": 44053,
+        "sha256": "d8dee215e2961510ef355df0692f49608f8cab83fae107ca8d010f558b5d7755"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/check-docs.stderr",
+        "bytes": 479762,
+        "sha256": "089d441bd1221514bfe64a6bea60864b49a3f3b9d376a91bf705498337c7865e"
+      }
+    },
+    {
+      "name": "detach",
+      "argv": ["git", "switch", "--detach", "95def6014dddcebaac7e10b8b7e98f6e3ca57df3"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T21:41:59.772803+00:00",
+      "endedAt": "2026-10-17T21:41:59.796447+00:00",
+      "exitCode": 0,
+      "signal": null,
+      "beforeCommit": "db814e3cfecc51b8226453f6930b8ec4c22a0743",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "beforeClean": true,
+      "afterClean": true,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/detach.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/detach.stderr",
+        "bytes": 173,
+        "sha256": "c4f2284cbad6655bdec6c92abd0cd6473bc3dc4e348f147735d1e2c104fc33b5"
+      }
+    },
+    {
+      "name": "full-author-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "911ac4dcbb3ea2288ae215769ae9acd6e333d763..95def6014dddcebaac7e10b8b7e98f6e3ca57df3"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.856224+00:00",
+      "endedAt": "2026-10-17T21:42:04.937850+00:00",
+      "durationSeconds": 0.081496292,
+      "pid": 75452,
+      "ownProcessGroup": 75452,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/full-author-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/full-author-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "full-main-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "28fd9013e09e8792decbff2fa117aae14c36b196..95def6014dddcebaac7e10b8b7e98f6e3ca57df3"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.863560+00:00",
+      "endedAt": "2026-10-17T21:42:05.099489+00:00",
+      "durationSeconds": 0.23575291699999998,
+      "pid": 75457,
+      "ownProcessGroup": 75457,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/full-main-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/full-main-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "inheritance-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-scalar-independent-20261018-95def601/inheritance_audit.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:47.138333+00:00",
+      "endedAt": "2026-10-17T21:42:47.532588+00:00",
+      "durationSeconds": 0.394153042,
+      "pid": 26665,
+      "ownProcessGroup": 26665,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/inheritance-audit.stdout",
+        "bytes": 3181,
+        "sha256": "0ac0eb2f9e2b9c1dc3c715ecfedeb7abf2d9c0701a9d3726d04fa0a1ac7913c4"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/inheritance-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.858276+00:00",
+      "endedAt": "2026-10-17T21:42:10.354441+00:00",
+      "durationSeconds": 5.4960895,
+      "pid": 75453,
+      "ownProcessGroup": 75453,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/lint.stdout",
+        "bytes": 197,
+        "sha256": "6c0b756a5d5d71c8155d85bd90b5a8f6f5d0a1d7bb99c1c57f26c061a86704a2"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "progress-json",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--require-complete",
+        "--json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:53.052592+00:00",
+      "endedAt": "2026-10-17T21:42:55.033498+00:00",
+      "durationSeconds": 1.980837333,
+      "pid": 27673,
+      "ownProcessGroup": 27673,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/progress-json.stdout",
+        "bytes": 137467,
+        "sha256": "98971cff5d99f35c4852cf387ccdd6ab0196081e1c70d3f747f5ad2ff025b6f4"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/progress-json.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--require-complete"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.856204+00:00",
+      "endedAt": "2026-10-17T21:42:11.011887+00:00",
+      "durationSeconds": 6.155606166,
+      "pid": 75451,
+      "ownProcessGroup": 75451,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/progress.stdout",
+        "bytes": 155,
+        "sha256": "f8c36b6db185fa2e31336a18e0a6a882b0f8d6823deb97707f7f2c16f7a701f1"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "scalar-counter-replay",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-scalar-independent-20261018-95def601/scalar_replay.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:37.724265+00:00",
+      "endedAt": "2026-10-17T21:42:38.164831+00:00",
+      "durationSeconds": 0.4404925,
+      "pid": 19307,
+      "ownProcessGroup": 19307,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/scalar-counter-replay.stdout",
+        "bytes": 19675,
+        "sha256": "d3d6f65befe1898b8284927a7162dc1185729197b263d657f13756fd73278a04"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/scalar-counter-replay.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.863475+00:00",
+      "endedAt": "2026-10-17T21:42:04.935467+00:00",
+      "durationSeconds": 0.071870666,
+      "pid": 75455,
+      "ownProcessGroup": 75455,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "storage-specialist",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": [
+        "node",
+        "--test",
+        "scripts/docs/document-registry.test.mjs",
+        "scripts/docs/document-registry-path.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.860844+00:00",
+      "endedAt": "2026-10-17T21:42:12.912955+00:00",
+      "durationSeconds": 8.05178575,
+      "pid": 75454,
+      "ownProcessGroup": 75454,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/storage-specialist.stdout",
+        "bytes": 12742,
+        "sha256": "86d71363a50b295954867b9bb7e77f3c99b77bec519ba149531d959364952186"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/storage-specialist.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:42:04.863235+00:00",
+      "endedAt": "2026-10-17T21:42:06.100715+00:00",
+      "durationSeconds": 1.2374052500000001,
+      "pid": 75456,
+      "ownProcessGroup": 75456,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/strict.stdout",
+        "bytes": 94,
+        "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-scalar-independent-20261018-95def601/raw/strict.stderr",
+        "bytes": 479762,
+        "sha256": "089d441bd1221514bfe64a6bea60864b49a3f3b9d376a91bf705498337c7865e"
+      }
+    }
+  ],
+  "reviewerHarnessFailuresThisRound": [],
+  "priorFailuresPreserved": "37anddb own failed fixture setups/verifier assumptions, author original hangs and precise cleanup remain unchanged in pinned earlier packages. No failed command is rewritten or reclassified as passing. Current text progress and subsequent JSON progress are separate actual commands.",
+  "countersOpenInReviewedScope": [],
+  "counterClosureScope": "Only fixed95and the explicitly reproduced dot/parent/empty/unpaired-scalar input contracts. Historical counter/report bytes stay unchanged.",
+  "scopedStorageVerdict": "accept",
+  "implementationAccepted": true,
+  "implementationAcceptanceScope": "Frozen95storage implementation plus eight canonical data files; source-preserving migration/write/read contracts and two corrected input-domain counters within explicit limits. Excludes root later central intake, new review bindings and new evidence registration.",
+  "singleDocumentSemanticAcceptance": false,
+  "templateAcceptance": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "allowedNext": [
+    "Root may prepare a concrete isolated central intake of this fixed implementation and exact eight data bytes, preserving explicit source/history and separate administrative pin reconciliation. This report is not acceptance of resulting future intake bytes.",
+    "Register newly introduced storage manifest/shards/design/control evidence explicitly as partial/needs according to their own scope; no new doc semantic completion is inferred from storage acceptance.",
+    "Preserve old37/dbrework packages and all original failures with byte mappings; future raw storage may use an explicit flat ordinal/gzip container map with both stored and decoded payload SHA/bytes, including owned.git fixture payloads, without executing/recreating nested.git paths."
+  ],
+  "stopLines": [
+    "Do not merge main or mark card done: current fullcheck/strict/progress remain FAIL, including two board/index completed-review SHA drifts and current candidate registration gaps.",
+    "Do not upgrade any other withdrawn binding, single-document semantic result or all1838cohort; current2383projection is not the original approved cohort.",
+    "Do not infer product runtime/E2E/visual/deployment/coverage or universally canonical native filesystem identity from this tooling IO review."
+  ],
+  "artifactPolicy": "Report is project-Biome formatted before fixed SHA. Full package manifest inventories every file except itself, including original command streams, source snapshots, copied author78artifacts and owned.git fixture bytes. Nonrecursive external final seal pins report and manifest. No earlier package is modified."
+}

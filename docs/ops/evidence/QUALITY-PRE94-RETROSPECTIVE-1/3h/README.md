@@ -1,5 +1,38 @@
 # CODE3h PNG 测试质量复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本页为CODE3h（PNG测试质量复审切片）的治理候选页，原件为下方逐字节保全的固定main源（8589B，SHA 753e49c77a9d）。审计主题：基点46fb9d5fe、main=f98d0ddd8、单worktree下复审四份PNG测试（png.test/png-decode.grok-r1/png.glm-phase1-leaves/p10-indexed-png），四份测试10→9、0新增文件关闭，只改测试、注释与两项精确退役数据；原[3h卡](../../../archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md)done保留历史身份，本片不替整卡补accept。页面按时间层叠多个后续窗口入口：2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)（七文件新关闭、63accept/20partial、check20601+691工具、official20172/774及同报告protected通过）、[blob、公共宿主与对话资源质量](blob-quality/README.md)、[资产装配与测试质量](assets-quality/README.md)、[启动屏障与fixture切片](bootstrap/README.md)、[fetch-retry/旧71成果复审](fetch-retry/README.md)；各段计数保留各自时点。
+
+## 范围与证据
+
+读取口径见[读取边界](read-boundaries.json)：六生产文件全文（png.ts/loader/tileset-blob/rle-decode/fetch-retry/bootstrap-resources）+四测试与fixture；bootstrap.ts（1944行）只读三段调用点、world.ts仅cloneInputs段、pal-extract sprite.ts为3d同SHA复读。primary链：extract sprite.ts:27–55合法索引写R/G/B、opaque 0/255；game png.ts:24–51 createImageBitmap→canvas→R/A平面并finally close；真实caller含loader.ts:43–47 fetchPng、dialog-assets.ts:42–70头像加载、P10 toSpriteImages→drawSprite→Framebuffer。RLE格式与CLI输出ownership两个draft停线不因PNG测试解除。
+
+## 发现
+
+先旧绿再新红（原件[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)）：palette index1→0改写与cause替换两变异旧10全绿；新各8绿+1指定AssertionError（A02数组deep equal红值[+0,2,3,4,5,9]≠[1,2,3,4,5,9]、A05真实验证cause身份）；丢错误上下文旧6绿4红→新8绿1红、删finally close旧8绿2红→新5绿4红（Grok A03+P10三独立轴）——后两者是原oracle转移不算新缺口。全部失败errorName=AssertionError。初轮探针因Vitest4.1.7 .rejects预分配栈误判实际AssertionError，[分类诊断](classifier-diagnostic.json)、四轮checkpoint与原探针gz保留；改用default reporter关联errorName后复用原四份native回执、只补缺失close轮。身份与排重：[collection.json](collection.json)证明四测试在origin/main、旧3y、本片基点三commit逐字节等于before快照；Grok5→4、GLM2→1双identityDigest见[retirement.json](retirement.json)，退役表27/net62→29/net64、matcher不变；局部V8覆盖20/20等恒等，只是局部对照。[verify.py](verify.py)另进程只读重建10轮身份，非第三方审查。
+
+## 结论
+
+[测试回执](test-gates.json)：game相邻17文件107例、extract相邻4文件16例、coverage工具74例全exit0零诊断；game typecheck与四文件Biome见[初始静态回执](initial-test-static.json)；最终静态门见[gates](gates.md)。四测试只从pending登记review；全83卡13partial/70pending/0整卡accept；全仓check/official/protected未新跑、editor全包诊断未清、未合main。
+
+## 整改与复核
+
+后续有限片（bootstrap-resources两测试与fetch-retry boundary）与窗口演进以各子目录入口为准；本页各段结论不重开、不撤不改终态。未重跑任何命令；候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8589B / SHA-256 753e49c77a9d317c67e4d9f13d3db8affb9b87b17fab13b67db6b654d5f40392；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3h PNG 测试质量复审切片
+
 2026-10-23 [RLE出口／运输snapshot／启动取消收口](rle-boot-quality/README.md)：七文件新关闭，原3h六生产文件逐项接受，63accept/20partial；同步英文main后的check20601+691工具、official20172/774与同报告protected通过，PR状态另核。其余历史段按各自时点保留，shared格式/3i余项不随本窗接受。
 
 当前相邻增量：[blob、公共宿主与对话资源质量](blob-quality/README.md)，独立八维、原生身份/退休映射、隔离及诊断反控；统一门状态以该入口为准，未据定向绿接受整卡。
@@ -58,3 +91,5 @@ fixture复用现有32行png-rgba.ts（zlib/CRC、自给字节，不调用SUT）�
 四测试只从pending登记review，六旧生产关闭保留历史身份，本片未重新accept、也没有直接生产counter便批量撤回。全83卡当前13partial/70pending/0整卡accept。其它旧卡、assets cache/loader/blob、shell启动屏障的整文件合同/测试质量，以及94–102/editor诊断仍待；CLI清理策略继续等既有用户裁决。全仓check/official ratchet/protected本片未新跑，editor最新全包仍有诊断，未合main。
 
 下一有限片：3h的bootstrap-resources两测试与fetch-retry boundary合同，先核合法LoadedAssets fixture、真实bootstrap caller与混合断言/排重；不改bootstrap.ts或未决产品/资产策略。完整模块稳定窗口再集中统一门。无下一位Agent提示词，Codex单Agent继续全部83卡。
+```
+<!-- incremental-original-source:end -->

@@ -1,0 +1,235 @@
+{
+  "kind": "single-document-nonauthor-semantic-review",
+  "slice": "S03",
+  "createdAt": "2026-10-17T21:03:21.623621+00:00",
+  "reviewer": {
+    "canonicalTask": "/root",
+    "nonAuthorReviewer": true,
+    "bodyAuthor": "/root/e2e_entry_semantic_author",
+    "separation": "Root assigned scope and issued preservation counter; contributor alone edited README in isolated worktree. Root did not author body. Distinct logical tasks are claimed; no external vendor or fabricated human identity."
+  },
+  "candidate": {
+    "commit": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+    "path": "docs/testing/e2e/README.md",
+    "afterSha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+    "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+    "sourceSha256": "310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f",
+    "sourceLines": 33,
+    "beforeLines": 68,
+    "afterLines": 90
+  },
+  "decision": "accept this frozen README semantic rewrite and governance-index-v1/1.0.0 body only; central intake pending registry storage split",
+  "readScope": {
+    "full": [
+      "original33",
+      "pre-change68",
+      "first candidate90; final one-paragraph diff and unchanged remainder",
+      "by-stage complete"
+    ],
+    "selected": {
+      "docs/testing/e2e/contract.md": ["18-54", "98-132", "239-284", "467-482"],
+      "projects/pal/e2e-checkpoints/README.md": ["1-90"],
+      "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md": ["1-45"],
+      "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md": ["1-34"],
+      "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md": ["1-26"],
+      "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md": ["1-26"],
+      "scripts/docs/generate-testing-index.mjs": ["1-130"],
+      "scripts/docs/check-testing.mjs": ["414-566"],
+      "scripts/docs/check.mjs": ["1-55", "110-180"],
+      "scripts/docs/document-model.mjs": ["98-145"],
+      "docs/testing/README.md": ["34-48"]
+    },
+    "catalog": "nine E2E navigation/revision records only, not full catalog business conclusions",
+    "authorReport": "identity/claims/read-scope/counters/gate summary and addendum fields read; all manifests mechanically hash-verified; no claim all raw commands were re-reviewed semantically"
+  },
+  "conclusions": [
+    {
+      "claim": "Current navigation now exposes each actual stable stage index/canonical pair outside historical quote.",
+      "evidence": "six real catalog e2e-stage records; public Markdown localTarget + renderIndexes verifies 12 targets and exact by-stage bytes",
+      "limit": "six stage/report bodies not newly accepted"
+    },
+    {
+      "claim": "Catalog owns publication status/date/dependency; task cards own admission and raw owns execution. The README no longer supplies conflicting dynamic stage status table.",
+      "evidence": "current prose lines16-20/44; selected validator dependency statuses and unchanged catalog nine rows",
+      "counterexample": "catalog verified five stages still carries minimumSave11; checkpoint head reports only SAVE12 001/002 confirmed. README explicitly disallows treating those five as today execution/preview/capture-ready."
+    },
+    {
+      "claim": "Preview must check actual per-entry NPC state and persist/reopen association, independently of game runner passed.",
+      "evidence": "contract239-284; entity card first45 confirms static-only accepted scope and future E2E collection",
+      "limit": "no editor UI, preview state, runtime or visual execution performed"
+    },
+    {
+      "claim": "Current task links use active board/index and original R4/005/006/entity cards; old board stays historical.",
+      "evidence": "current links and read top card status build/review/rework/review",
+      "limit": "does not close those task counters or grant product build from navigation"
+    },
+    {
+      "claim": "Next action now has actual stage/version/predecessor/preview stops rather than unrelated Q batch instruction.",
+      "evidence": "before68 vs candidate90 evidence-next-step and contract five-artifact closure",
+      "limit": "no downstream route/report source facts are superseded"
+    },
+    {
+      "claim": "Whole preserved quote is unchanged; direct inverse is not byte equal. Exact one-LF separator accounting recovers fixed 2212-byte source.",
+      "evidence": "root public-consumer/preservation receipt; original source SHA, decoded2213 vs source2212, exact0a suffix",
+      "limit": "old R60 exactRoundTrip declaration remains historical withdrawn; no unconditional trim or retroactive exact-pass"
+    }
+  ],
+  "counter": {
+    "id": "S03-QUOTE-SEPARATOR",
+    "firstCandidate": "cafe0578acdde76405955102dd4d01427f18cffb",
+    "firstWording": "unqualified reversible quote statement could inherit old exactRoundTrip over-credit",
+    "authorFix": "f9fbf0c7 explicitly states entire quote unchanged, exactly one separator LF removal, fixed-source SHA, no direct equality/unconditional trim",
+    "closedAtThisFrozenBody": true,
+    "oldReportsFailuresRetained": true
+  },
+  "templateAssessment": {
+    "templateId": "governance-index-v1",
+    "templateVersion": "1.0.0",
+    "purpose": "stable stage/report/shared contract lookup",
+    "scope": "001–006/common contract/route/cross-stage/checkpoint navigation only",
+    "currentState": "publication versus fresh execution/preview/capture",
+    "entryResponsibility": "actual stage links and unique fact owners",
+    "evidenceNextStep": "declared limited source reads and concrete stop/writeback flow",
+    "publicStructureIssues": 0,
+    "semanticAcceptanceReason": "Each required section contains the specific navigation duties and limits above; structure/hash checks alone did not grant acceptance."
+  },
+  "legalInputs": [
+    "fixed source Git bytes",
+    "real catalog stable IDs and testing-root-relative target paths",
+    "existing original task card admission",
+    "real contract preview/closure clauses"
+  ],
+  "publicCallers": [
+    "testing README canonical system -> E2E overview",
+    "catalog contract/route/common-issues index -> overview",
+    "human/Agent ID -> index -> canonical/evidence",
+    "public renderIndexes/check-testing and Markdown/localTarget/checkTemplateBody"
+  ],
+  "businessOracle": "Every current E2E stage is reachable from current README; publication/history cannot stand in for actual candidate/version/checkpoint/preview evidence. Root manually checked source-to-prose boundaries and the public producer targets, not a product runtime oracle.",
+  "dedupe": "No new parallel status table or product/mirror-string test. Root temporary probe checks source identity/navigation/producer contract only.",
+  "execution": {
+    "receipts": [
+      {
+        "name": "staged-diff",
+        "command": ["git", "diff", "--cached", "--check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.071267+00:00",
+        "endedAt": "2026-10-17T21:01:41.087512+00:00",
+        "exitCode": 0,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "check-docs",
+        "command": ["pnpm", "check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.067882+00:00",
+        "endedAt": "2026-10-17T21:02:15.436745+00:00",
+        "exitCode": 1,
+        "stdoutSha256": "35a805d90b9df796468045ad3686739e8a696ef716041837df1f55c60071169e",
+        "stderrSha256": "7d3d831d3f8a654d19c33c67807a1c31013448e2008bac533b70e4d16a605121",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "strict",
+        "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.069297+00:00",
+        "endedAt": "2026-10-17T21:01:42.037508+00:00",
+        "exitCode": 1,
+        "stdoutSha256": "21fa16527f8d865a90d680fa1546aec345030124b52d709338ce3300cb0681bd",
+        "stderrSha256": "7d3d831d3f8a654d19c33c67807a1c31013448e2008bac533b70e4d16a605121",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "lint",
+        "command": ["pnpm", "lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.068703+00:00",
+        "endedAt": "2026-10-17T21:01:45.244589+00:00",
+        "exitCode": 0,
+        "stdoutSha256": "305908d82aac5d230c4f0526481e61dea93e1aff5a49638c245a2b6885bade5e",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "full-author-diff",
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "08d95c2e255b7833ef3ce1e6d81011b766fb39d4..f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.070234+00:00",
+        "endedAt": "2026-10-17T21:01:41.088231+00:00",
+        "exitCode": 0,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "progress",
+        "command": ["node", "scripts/docs/report-governance-progress.mjs", "--require-complete"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.069440+00:00",
+        "endedAt": "2026-10-17T21:01:45.737663+00:00",
+        "exitCode": 1,
+        "stdoutSha256": "db1064eaa6fc2d59804ba62e6c5481401bb6fb741df2a6005c6199be5714bd8c",
+        "stderrSha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      },
+      {
+        "name": "consumer-preservation",
+        "command": ["node", "/tmp/type-pal-s03-root-independent-u7kxokal/probe.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "startedAt": "2026-10-17T21:01:41.067770+00:00",
+        "endedAt": "2026-10-17T21:01:41.155999+00:00",
+        "exitCode": 0,
+        "stdoutSha256": "a651a4eaf79f9b1e1aac3a38f93427a56e4ff88d34d2bbe9d10e0aa0a03fc8f7",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "inputManifestSha256": "726e936c82ef5f6de05d9337c44bd675974873e936e9c4bd4b3fc2bd19ce6f6d"
+      }
+    ],
+    "inputManifest": "inputs.json",
+    "unchangedAfter": "unchanged-after.json",
+    "rawPreserved": true,
+    "reportedCheckDocs": "128 tests pass; structural/docs/testing/phase consumers0; final strict content truly FAIL",
+    "lint": "4448 files,0 error/warning/info",
+    "progress": "437/1838+5 is inherited isolated-candidate projection, not this review credit;1930 pending;not full acceptance"
+  },
+  "artifactVerification": [
+    {
+      "manifest": "/tmp/type-pal-s03-author-20261018-al36xarv/artifact-manifest.json",
+      "sha256": "1fadfdfbbce2b0ab868437a4408143d114ccc1a725edfab2e807b21fe34ef073",
+      "verifiedFiles": 141,
+      "scope": "all payload identities, not semantic endorsement of each command or source"
+    },
+    {
+      "manifest": "/tmp/type-pal-s03-author-followup-20261018-2c1ksn5l/artifact-manifest.json",
+      "sha256": "7c63aee0cb2a507415681643558fb9fc83c3a708878e35e425ad91afadb0eed0",
+      "verifiedFiles": 58,
+      "scope": "all payload identities, not semantic endorsement of each command or source"
+    }
+  ],
+  "acceptance": {
+    "bodyAccepted": true,
+    "templateBodyAccepted": true,
+    "centralLedgerIntegrated": false,
+    "otherDocumentsRecertified": false,
+    "globalQualityGatePassed": false,
+    "runtimeE2EVisualCoverageAccepted": false,
+    "fullTaskComplete": false,
+    "mergedMain": false
+  },
+  "stopLine": "Root central registry split/integrity/hash intake and new central gates still required. Five quarantined historical receipt scopes and remaining withdrawn entries stay uncredited. No main/done while hard gates fail.",
+  "nextStep": "Integrate exact accepted body and immutable author/root reports after registry v2 storage capacity is independently verified; move unique active binding with explicit old R60 history, then update only this document credit and recalculate actual central checks."
+}

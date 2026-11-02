@@ -1,40 +1,62 @@
 # TEST-GLM-CONTENT-GUARDS-2 r1 独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-2 r1 的 Codex 独立接收（2026-09-26，候选 b8e037cb 对起点 ef19ae7e、接收主线 fe4ccdb2）：counter，仅 R1–R4；不接入 main、不改候选测试语义、不执行官方统计门。
+
+## Scope
+
+已通过不重开：白名单三测试+一 fixture+专属目录；三目标对 51048353 不漂移；全 content 79 文件/957 项与 TC 独立复跑 exit0；六针实跑有效红与判据仍具误收能力分别成立；fixture 用当前形状无强转；作者递归 13 项未复制、G5 真实新增断言有价值。四项 counter：R1 输入保真与精确错误未被钉住（enemy-validation-shapes.leaf:20-22 只 toBe(input)，ms=888 变异三份候选仍 91/91 绿；battle-choreography.leaf:218-227 回调后改 cue.rows[0].text 仍 91/91；enemy-ai-condition-guard.leaf:91-93 toThrow(string) 子串匹配，WRONG.when.in[1] 变异仍 91/91）；R2 同型合法对照/单轴构造与回执不符（wait 缺 ms 正控实为 stopMusic(0)、:305-307 turn 缺 value、:272-279 未过同型合法中间 hook、:208-214 标题称缺 rows 实为整 cue 缺席）；R3 负控判据误收五类反例（AssertionError 后混 TypeError/timeout/多失败/短 title 匹配/另一物理根同后缀全被接受，缺运行态 load 命中见证）；R4 最终树格式门（evidence.json:19 起 biome exit1 与 receipt 0 error 矛盾）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 复跑+五反例 | content 957 项、六针各 exit1 一 AssertionError、三生产 hash 保持 | Codex | 五类误收输入应拒实收表；修复须绑定同一失败记录的绝对文件与实际 fullName 恰一红恰 exit1 | 自测调用同一真实判据含五反例，不新造脱离运行入口的自测谓词 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter 四项（输入保真/同型正控/判据误收/格式门）；本轮反例是隔离变异不是生产现状；共享 percent 叶父入口已证上下界与直接入口变体须分开去重。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；复建工具与本席机账链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 接收 | 2026-09-26 | 白名单+复跑+五反证 | counter（R1–R4） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/quality-gates 的守卫叶 r1 接收；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-CONTENT-GUARDS-2 r1 独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 四项（输入保真/同型正控/判据误收/格式门）；本轮反例是隔离变异不是生产现状；共享 percent 叶父入口已证上下界与直接入口变体须分开去重。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1–R4 逐锚点、五反例应判/实际表、去重边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。守卫叶后续轮次以完成卡链为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `caf8b2c02d9bdd9e66cc2616c28648c6943279816529a2ce3e1ed054c4682ac7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `caf8b2c02d9bdd9e66cc2616c28648c6943279816529a2ce3e1ed054c4682ac7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-CONTENT-GUARDS-2 r1 独立接收
 >

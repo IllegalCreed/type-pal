@@ -1,40 +1,62 @@
 # SAVE-BARRIER-LINEAGE-1 · 实现与验证记录
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 SAVE-BARRIER-LINEAGE-1（保存与嵌套脚本活动互等）r1 实现与验证：实现前 e13216e7、build 准入 11ad25fa（三席设计齐）；2026-09-17 done 归档，候选 dff3442d 三席同候选 accept 无返工；本次仅文档收口不冒称重新执行。
+
+## Scope
+
+实现边界：wrapper 开战以自身身份进 activity 包装透传原 signal；lineage 计数改逐登记真实 lease/coordinator 记录（只复用 active 表同 runtime/exact signal 成员、finally 精确删除）；script-world WeakMap 只作 lease→key 查询（活跃由 active 表对象身份裁决）；产品严格 4 文件，SAVE8/content20、F5 区域与 10 秒上限不变。正式回归 43 项（script-activity-lineage 18 映射 SL-03~07、runtime-save-lineage 22、save-lineage.chain 3 真实 main AST）；先红后绿：首批 3 项产品未修 2 红/1 绿（script save barrier 超时 10000ms）。八针反控（wrapper-key/wide-admission/premature-child-stop/stale-registration/exception-lease-leak/stale-epoch-write/forged-parent/key-not-identity）全部唯一源码替换且业务 AssertionError 红。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 统一门 | Reforge 定向 8 文件 127 项、typecheck、biome、diff 过；完整 check exit0 七包 7079 项；ratchet exit0 只升不降+单次严格 fast exit0 6591 项/617 生产文件（+43） | Codex | reforge 行 7680→7848/14117、分支 5149→5252/11041、语句 8494→8674/16186；除 reforge 六包基线逐字相同 | 实现期失败记录不删：apply_patch 两次拒绝、unhandled rejection、TS7022/7023、第 8 针唯一性拒绝收窄、check 后 1 缩进错误完整重跑 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：43 项+8 针全过入基线；SL-E1~E3 集中 E2E 仍待跑不等于完整 E2E；exact signal 是内部家族合同不保证区分刻意共用 signal 的外部调用。
+
+## Evidence
+
+- 证据路径：本记录正文（quote 保全）；/tmp/type-pal-save-lineage-build.CpRUZH/ 全套日志在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| SBL r1 实现+验证 | 2026-09-17 | 43 项+8 针+统一门 | done（三席 accept dff3442d） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy persistence/save-and-recovery 的保存屏障实现记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- SAVE-BARRIER-LINEAGE-1 · 实现与验证记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：43 项+8 针全过入基线；SL-E1~E3 集中 E2E 仍待跑不等于完整 E2E；exact signal 是内部家族合同不保证区分刻意共用 signal 的外部调用。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+回归三文件表、八针表、质量门与失败记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-17 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 SAVE-BARRIER-LINEAGE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `2f0a3a41a64f0a1c483e4ddd65e6617c3b130bbba2769e3ebbbdc038e6307602`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `2f0a3a41a64f0a1c483e4ddd65e6617c3b130bbba2769e3ebbbdc038e6307602`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # SAVE-BARRIER-LINEAGE-1 · 实现与验证记录
 >

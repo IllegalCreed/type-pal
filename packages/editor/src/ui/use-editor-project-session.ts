@@ -294,6 +294,9 @@ export function useEditorProjectSession(input: {
         sourceDirectory,
         removePaths,
         { source: projectSource, authorBaseline: authorBaselineRef.current },
+        (progress) => {
+          if (projectGuard.isCurrent(lease)) setActivity({ phase: 'saving-as', progress })
+        },
       )
       if (!opened || !projectGuard.isCurrent(lease)) return
       if (projectGuard.canReplace(lease)) current.onOpened?.(opened)

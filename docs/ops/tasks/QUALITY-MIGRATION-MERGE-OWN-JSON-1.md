@@ -1,6 +1,39 @@
 # QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权
 
 Status: review
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核定三方合并只读取对象实际拥有的 JSON 字段，正常保留 `constructor`、`__proto__` 等名字；范围限migration-merge.ts与正式专测，不改磁盘格式、schema、生成物或游戏存档。
+
+## 范围
+
+发现时只读复现：基线 `{}`、作者 `{"constructor":"author"}`、迁移 `{"constructor":"upstream"}` 抛DataCloneError；作者 `{"__proto__":{"safe":true}}` 与迁移 `{other:1}` 合并只剩other且真实plan的writes/target同样漏字段无冲突。都是合法泛型JSON；尚未证明当前完整PAL工程或普通发布含这些键，不作全局原型污染、磁盘覆盖或数据泄漏的扩大结论。
+
+## 前提与证据
+
+修复前 `mergeObject` 用 `in` 判断字段存在，将继承属性也读成输入；结果用普通赋值，`__proto__` 触发setter未成为自有JSON字段。最强替代解释：发布器与内容schema的实际键域可能排除这些名字，但不改变低层合并合同可复现的输入缺口。锚[父窗口](QUALITY-PENDING-100-3.md)、[八维质量](../code-quality.md)、[证据入口](../evidence/QUALITY-PENDING-100-3/README.md)（merge/observe.mts与完整执行原件归父窗口）。
+
+## 验收
+
+2026-10-29用户明确裁决“批准按真实 JSON 字段修复（推荐）”。5条JSON红例覆盖constructor新增冲突/单侧枚举/删除冲突、`__proto__`自有data property与正常结果原型、真实plan的target/writes/summary；实现用own-key Set、hasOwn三侧读取与data-property定义，无键黑名单。JSON检查点36绿；最终主测37绿、16相邻文件215绿、migrate TC0，完整default+json/stdout/stderr见父窗口merge-approved命名空间。必要的not.toThrow把DataCloneError转成明确业务断言。
+
+## 状态与交接
+
+本卡代码接受、Status review等父窗口统一门；未执行真实迁移、写生成物或改资源/存档/公共签名。私有primitive死分支清理与本行为修复独立，不将清理后的全绿当作缺陷已修。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4430B / SHA-256 2db6ee90ec6e3809fc08c9de0c9b6c5a61d4e809e6d31fb44715c736ff93e28e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权
+
+Status: review
 Owner: Codex
 Coding Owner: Codex
 Reviewer: Codex（单 Agent）
@@ -49,3 +82,5 @@ Branch: codex/code-quality-94-102
 5条JSON红例覆盖constructor新增冲突/单侧枚举/删除冲突、__proto__自有data property与正常结果原型、真实plan的target/writes/summary。实现用own-key Set、hasOwn三侧读取和data-property定义；JSON检查点36绿，仅另卡资源红例仍失败。未使用键黑名单，不改变输入原型，不声称修复全局污染。
 
 最终主测37绿、16相邻文件215绿、migrate TC0，完整default+json/stdout/stderr见[父窗口原件](../evidence/QUALITY-PENDING-100-3/README.md)的merge-approved命名空间。默认快检保留旧私有重构/反控身份，并逐项核当前获批差异，不重复全文或旧变异；重型check/coverage/protected及提交推送合并仍集中到稳定窗口。
+```
+<!-- incremental-original-source:end -->

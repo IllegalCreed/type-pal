@@ -1,6 +1,39 @@
 # CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+复核账本仍为待核的packages/reforge/src/menu/menu-box.residual.glm.test.ts：确认五个公开绘制合同（R1两级级联框层偏移/框高/金钱卷轴/金额右对齐；R2最深层闪烁相位回绕/系统面板静态高亮/禁用选中红/未选米白；S1九行状态数据顺序/HP/MP斜杠与蓝色最大值/经验青色最大值/装备加成；S2角色名金黄居中与默认立绘回落；S3六格装备网格/已装备图标等比内缩/空槽跳过）是否有真实caller、合法typed输入、可判别oracle、相邻排重和反控证据。
+
+## 范围
+
+白名单仅该测试文件、当前任务卡与docs/ops/evidence/CODE-QUALITY-105/；不改menu-box.ts、旧测试、资源、schema、UI行为或coverage配置。
+
+## 前提与证据
+
+固定源全文核读。primary为当前menu-box.ts公开render/renderCascade/renderStatus，生产caller是main.ts菜单渲染分流；菜单输入由menu-state.ts的openMenu/moveCursor/confirm构造，五个测试均通过公开入口驱动。相邻四个测试文件逐项排重：数字/卷轴/确认框、九宫格阴影与退化输入、状态板毒/头像/阈值/图标缩放和运行时资源轴均有独立合同；fixture使用typed MenuAssets/CharacterInstance/WorldState/ItemDataMap，renderSpans仅记录为绘制oracle、measureSpans保持真实实现。历史5/5反控（K1–K5）已在当前源树重放：均能变异红、还原绿。当前源实现SHA与历史冻结menu-box.ts相同（9c7c7b569e035fe5771fce79e5549e34aea1d66b7577569b2a6d98962ffcf2c1）。
+
+## 验收
+
+定向5files/25tests PASS无stderr；相邻21files/118tests PASS但有一条reward-gain-queue.boundaries未await expect().resolves诊断（不在白名单不静音）；reforge typecheck过；全仓check exit0、lint 4962文件0/0/0；official ratchet与protected fast均exit1（shared/pal-extract/total既有baseline回退），未改baseline。五个合同与五针反控均有当前源码证据、未发现需修复缺陷，但相邻诊断与统一coverage门仍失败，不能关闭本文件，登记review。
+
+## 状态与交接
+
+review保持原语义；下一步先处理相邻Vitest诊断独立最小批次再复验本卡；发现公共UI/资产/一阶段机制变化立即停线另开高风险卡。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4414B / SHA-256 af5018f1b8bf89482eadbbc30b01adae7d2aa9cc752dfad6f1aeb77f6bf950f8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -68,3 +101,5 @@ typed `MenuAssets`、`CharacterInstance`、`WorldState`、`ItemDataMap`，只将
 五个合同和五针反控均有当前源代码证据，未发现需要修复的产品或测试缺陷；但相邻包已有未
 await 诊断且统一 coverage 门仍失败，不能关闭本文件。下一步先处理相邻 Vitest 诊断的
 独立最小批次，再复验本卡；任何发现公共 UI、资产或第一阶段机制变化时立即停线另开高风险卡。
+```
+<!-- incremental-original-source:end -->

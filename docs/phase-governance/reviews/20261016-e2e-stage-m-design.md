@@ -2,38 +2,46 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「E2E 002–005 阶段入口与报告治理设计」（M）的冻结设计归档：冻结 002–005 八份 Markdown（815 行）的具体语义迁移与保真方法——四份 test-e2e-stage-v1＋四份 test-run-report-v1，17 类型不增、0 overlay；首步只准 002 两篇 pilot。根冻结决定、完整原提案与非作者独立设计在三层 quote 中保全；设计冻结不授正文迁移 credit。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；Version M-stage-governance / 1.0.0；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- E2E 002–005 阶段入口与报告治理设计：原始正文完整保留于下方 quote。
+- 迁移对象与保真：八篇源 pin 固定于 `5a125c37…`（002 261 行/003 117/004 222/005 151＋四 README 各 16）；报告原 frontmatter+testing-meta 为唯一 live 前缀、其余全 body 入 Revision history 长围栏、外层 4 反引号；47 原标题/4 表 23 行/14 href 逐项映射，002/003 两旧坏 fragment 仅存冻结原文。
+- 语义边界：出版 verified（catalog/10-02）只是出版轴；10-08 局部 35/56 反例与「完整链/基础设施收口被连续卡反例推翻」分时点；006 保持 rework；004 只 saves 产 005 前驱；各轮 warning 原值不清零。
+- 写域与顺序：作者白名单 9 文件（八 MD＋专属回执）；先 002 README+report＋回执两 pilot 项，非作者逐篇接收后再准余六；001/006/四配对 JSON/SSOT/中央不在写域。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 作者提案 MD（SHA `b30e0605…`）与详细 JSON；非作者独立设计 478 行（SHA `fb7190ca…`）design agree 不预授实现；/tmp 布局 probe 只验前缀+围栏方法非 canonical。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。八篇正文迁移与中央接入以继任记录为准。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-e2e-stage-m.json`（同目录）：旧 002 及新 003–005 各守固定来源；dc2 行政/中央/矩阵接入已获独立接收，保留 counter。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef`（blob `5edce9f738722c7dcb4db641ceb603b69a18fdfc`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`，40017B。
+- 第 2 层：SHA `7c3225714cdf9727b4b452a1581b06a32c7578ab7f6469dd19ebc1bfdb29beeb`，38056B。
+- 第 3 层：SHA `eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef`，35903B。
+
 <!-- original-source-quote:start -->
 > # E2E 002–005 阶段入口与报告治理设计
 >

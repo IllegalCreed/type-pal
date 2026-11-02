@@ -1,75 +1,57 @@
 # B1 — 玩家状态行为正确性(D8 / D21)实施 plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 D 系列 B1 批次（玩家状态行为正确性）实施计划的归档重写。callpath read 清单、差异表与六个 Task 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：D batch1 status behavior plan: sdlpal callpath and TS gap table; status counters/decrement/disabled-player selection/perform behavior/AttackMate; battle-end cleanup; focused completion criteria and feature-status/opcode-status updates.
-- 日期：2026-05-31；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6`。
+- 目标：收口 D8（玩家状态行为）与 D21（战末清理）；上承 [D 系列 roadmap](2026-05-31-d-series-completion-roadmap.md) Batch 1。
+- 纪律：执行须 TDD——每个行为先写失败单测（gs/battle state 数据级断言）再实现，commit 引 sdlpal `file:行号`。
 
 ## 里程碑
 
-- 原始章节：sdlpal callpath read 清单(已完成 2026-05-31)；ts 现状 ↔ sdlpal 差异表；Task 1:统一 status 计数器模型(boolean → number)；Task 2:逐回合递减全部 status；Task 3:selectAction 跳过 + 自动填失能玩家；Task 4:perform 时 sleep/paralyzed→Pass,confused→AttackMate/Pass；Task 5:AttackMate 实现(随机友军物理攻击)；Task 6:D21 战末清状态 / 毒 / Extra 装备效果。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 前置：sdlpal callpath read 清单完成（2026-05-31）与 ts↔sdlpal 差异表。
+- Task 1 统一 status 计数器模型（boolean→number）、Task 2 逐回合递减全部 status、Task 3 selectAction 跳过+自动填失能玩家、Task 4 perform 时 sleep/paralyzed→Pass 与 confused→AttackMate/Pass、Task 5 AttackMate 实现（随机友军物理攻击）、Task 6 D21 战末清状态/毒/Extra 装备效果。
 
 ## 当前状态
 
-- historical；B1 — 玩家状态行为正确性(D8 / D21)实施 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、10 个标题；摘要/首段为「> roadmap: [2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) Batch 1。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：B1 完工（目录索引 ✅）；完成判据见 quote B1 节。
 
 ## 阻塞与决策
 
-- 正文信号 21:| `fight.c PAL_BattlePlayerValidateAction` AttackMate prep | 3448-3479 | 未混乱→转 Attack 打敌;混乱→无活友军 then Pass(sdlpal mod 关"独自打敌")|
-- 正文信号 36:| 4 | selectAction 跳过 KO/sleep/confused/paralyzed 玩家不开菜单 | `tickSelectAction` 等**所有活队员**都有 pendingAction;不跳失能、不自动填 | 失能玩家会卡 queue / 误开菜单 | battle-system.ts:460-535 |
-- 正文信号 38:| 6 | perform 时:sleep/paralyzed→Pass;confused→dying?Pass:AttackMate | `tickPerformAction` 玩家分支(1524-1531)直取 pendingActions,无解算 | 缺 Pass/AttackMate 解算 | battle-system.ts:1524-1531 |
-- 正文信号 80:- [ ] Step 1:battle-system.test.ts 加失败测 —— 3 队员,队员 1 sleep>0:run tickSelectAction 序列,断言 (a) 菜单 selectingPlayerIdx 不停在队员 1(跳过),(b) 队员 1 自动得 pendingAction `{type:'attack', actionId:0
-- 正文信号 81:- [ ] Step 2:tickSelectAction 起手:对每个活队员,若 `sleep>0‖paralyzed>0`(或 confused>0)且 `!pendingActions.has(i)` → 自动 set pendingActions[i] = `{type:'attack', actionId:0, target:autoTarget}
-- 正文信号 117:- [ ] Step 2:finalizeBattleCleanup 加:对每 party member `curePoisonByLevel(gs, roleId, 3)`(遍历 rgPoisonStatus,items[poisonId].poison.wPoisonLevel<=3 清)+ `removeEquipmentEffect(gs, role
-- 正文信号 131:- [ ] feature-status.md D8 ⚠️→✅ claimed / D21 ⬜→✅ claimed,引 sdlpal 行号;opcode-status.md 0x30 残注更新。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 状态模型 boolean→number 是本批结构性决策（对齐 sdlpal 计数器语义）。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；s；t；a；t；u；s； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；,； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；D；-；s；e；r；i；e；s； ；r；o；a；d；m；a；p；;； ；h；i；s；t；o；r；i；c；a；l； ；p；l；a；n； ；d；o；e；s； ；n；o；t； ；g；r；a；n；t； ；b；e；h；a；v；i；o；r； ；c；r；e；d；i；t；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由后续批次承接；当前状态行为以现行代码与 [feature-status](../status/feature-status.md) 为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-31；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6`。
+- phase1 plans D 系列实施计划；时点 2026-05-31；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- B1 — 玩家状态行为正确性(D8 / D21)实施 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、10 个标题；摘要/首段为「> roadmap: [2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) Batch 1。」。属于历史/归档材料，不能单独证明当前实现。
+- 六 Task 切分与状态计数器模型为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:B1 — 玩家状态行为正确性(D8 / D21)实施 plan; 12:sdlpal callpath read 清单(已完成 2026-05-31); 29:ts 现状 ↔ sdlpal 差异表; 46:Task 1:统一 status 计数器模型(boolean → number); 63:Task 2:逐回合递减全部 status; 74:Task 3:selectAction 跳过 + 自动填失能玩家; 86:Task 4:perform 时 sleep/paralyzed→Pass,confused→AttackMate/Pass; 98:Task 5:AttackMate 实现(随机友军物理攻击)；原始正文、代码、表格、状态词在 quote 保全。
+- callpath 清单与差异表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 21:| `fight.c PAL_BattlePlayerValidateAction` AttackMate prep | 3448-3479 | 未混乱→转 Attack 打敌;混乱→无活友军 then Pass(sdlpal mod 关"独自打敌")|
-- 正文信号 36:| 4 | selectAction 跳过 KO/sleep/confused/paralyzed 玩家不开菜单 | `tickSelectAction` 等**所有活队员**都有 pendingAction;不跳失能、不自动填 | 失能玩家会卡 queue / 误开菜单 | battle-system.ts:460-535 |
-- 正文信号 38:| 6 | perform 时:sleep/paralyzed→Pass;confused→dying?Pass:AttackMate | `tickPerformAction` 玩家分支(1524-1531)直取 pendingActions,无解算 | 缺 Pass/AttackMate 解算 | battle-system.ts:1524-1531 |
-- 正文信号 80:- [ ] Step 1:battle-system.test.ts 加失败测 —— 3 队员,队员 1 sleep>0:run tickSelectAction 序列,断言 (a) 菜单 selectingPlayerIdx 不停在队员 1(跳过),(b) 队员 1 自动得 pendingAction `{type:'attack', actionId:0
-- 正文信号 81:- [ ] Step 2:tickSelectAction 起手:对每个活队员,若 `sleep>0‖paralyzed>0`(或 confused>0)且 `!pendingActions.has(i)` → 自动 set pendingActions[i] = `{type:'attack', actionId:0, target:autoTarget}
-- 正文信号 117:- [ ] Step 2:finalizeBattleCleanup 加:对每 party member `curePoisonByLevel(gs, roleId, 3)`(遍历 rgPoisonStatus,items[poisonId].poison.wPoisonLevel<=3 清)+ `removeEquipmentEffect(gs, role
-- 正文信号 131:- [ ] feature-status.md D8 ⚠️→✅ claimed / D21 ⬜→✅ claimed,引 sdlpal 行号;opcode-status.md 0x30 残注更新。
+- historical。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；s；t；a；t；u；s； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；,； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；D；-；s；e；r；i；e；s； ；r；o；a；d；m；a；p；;； ；h；i；s；t；o；r；i；c；a；l； ；p；l；a；n； ；d；o；e；s； ；n；o；t； ；g；r；a；n；t； ；b；e；h；a；v；i；o；r； ；c；r；e；d；i；t；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [D 系列 roadmap](2026-05-31-d-series-completion-roadmap.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # B1 — 玩家状态行为正确性(D8 / D21)实施 plan
 >

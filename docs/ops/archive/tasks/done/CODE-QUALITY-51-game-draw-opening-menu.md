@@ -1,6 +1,59 @@
 # CODE-QUALITY-51 — game draw opening menu wave member
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验标题菜单绘制三文件（`draw-opening-menu.ts` 与两份测试）,确认 FBP 全屏背景上的两行 `PAL_ReadMenu` 文本（不画 9-slice box）、两项文案、长文案 x 公式、闪烁选中色、阴影与缺背景边界对齐 SDLPal `uigame.c:42-167`、`ui.c:458`;`opening-menu.ts` 负责 cursor/choice,绘制层不拥有输入或存档。本卡与 CODE-QUALITY-52 组成 present/menu wave,先定向证据后统一跑全仓门。
+
+## 范围
+
+三文件;只读相邻 opening-confirm-pixels.grok-r1、draw-menu 公共出口、present.ts FBP chunk 2 注入、opening-menu 状态机、menu-driver。标题菜单观感留集中 E2E。
+
+## 前提与证据
+
+最强替代解释"测试只验证 tofu/素色 fixture 而遗漏真实词表 fallback、背景尺寸或 state ownership"由真实 caller、primary source 与缺资源反例域界定。历史收口:定向 3 files/17 tests、wave 统一门（check、ratchet、protected fast、lint-zero 3994 0/0/0、docs/content、ledger）通过,账本 3266/275 closed。
+
+## 验收
+
+历史 accept 后历经两轮再验:2026-10-18 Codex 复审 partial——直接 3 files/17、相邻 4 files/107、game typecheck 通过,未发现可由 primary+caller 证实的新 direct defect;coverage/ratchet/protected/full check 留 wave 收口,证据见 [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md)。2026-10-21 renderer 八维统一门收口:按原三文件逐项 A–H 接受——收窄移植/宽度说明,补 100ms/600ms 与缺背景不清零的旧绿新单红;第四字断言迁移后截首字仍单红,弱 cursor 例交由精确色值例承接;原选择/读档状态和接口不改。逐文件记录见 [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json),完整集中门与原件见 [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-18 复审 partial、2026-10-21 renderer 收口按原范围接受且不附带广域文件接受;无产品行为/schema/save/管线/调用接口变化,视觉/E2E 仍延后。
+
+## 历史范围
+
+原卡属 2026-10-12 wave 时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷;定向 17+wave 全仓门通过。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（17 定向、wave 统一门、lint 3994 零诊断）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;renderer 收口结论以其原件为准,不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+renderer 收口证据见上方链接;相邻 opening-confirm 像素 oracle 已由其它卡收口;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6419B / SHA-256 6346b8694cb7546d2690832758171cddb73b0c398ce3dd57c00351c4c63b0df1；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-51 — game draw opening menu wave member
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -78,3 +131,5 @@ Visual Verification Timing: e2e-deferred（标题菜单观感留集中 E2E；本
 只按opening原三文件：收窄移植/宽度说明，补100ms/600ms与缺背景不清零的旧绿新单红；第四字断言迁移后截首字仍单红，弱cursor例交由精确色值例承接。原选择/读档状态和接口不改。
 
 [完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。
+````
+<!-- incremental-original-source:end -->

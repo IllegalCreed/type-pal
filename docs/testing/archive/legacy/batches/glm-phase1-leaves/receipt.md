@@ -1,40 +1,62 @@
 # GLM 第三对话交付回执（TEST-GLM-PHASE1-LEAVES-3）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-PHASE1-LEAVES-3 的 GLM 交付回执：六批 A-F（L01-L24）逐批登记 SHA/diff/新鲜 JSON/反控/未证项；分支 codex/glm-phase1-leaves-r1、生产冻结 4a9ad67f；只填本人候选/自验，不代签、不合 main、不标 done，官方统计与集成由 Codex 统一执行。
+
+## Scope
+
+批 A menu 数据层 50 项（L01-L04：primitives 越界 clamp/Switch 越上界、item-select matchesFilter 直测、magic-select 悬空剔除、in-game-magic-menu DL22 施法人光标记忆（uigame.c:674/719）、inventory iCurInvMenuItem 恢复 clamp、equip/in-game-menu 词表）；批 B 31 项（L05-L08：shop/sell 错相零请求、save-slot 只同步合同、battle-inspect rgPoisonStatus/steal 三分支/hiddenExp 池级、state-dump ?tp_dump=1、detectors atSpot ±48/±24 恰边界）；批 C 34 项（L09-L12 绘制层：save-slot savedTimes 黄数字、draw-magic 死亡未选中 0x18/被选中 0x1C、draw-shop ownedCount 含跨队已装备、draw-box 缺帧 fail-loud/menuTextMaxCols 量化）；批 D 20 项（L13-L16：箭头 frame69 at anchor+(-8,-74)、settlement 三屏精确数字/hidden-exp x=167 公式交叉验证、font fShadow 三影全仓首测、screen-wave shift=trunc(60·w/256) 手算；present-battle 登记 existing-proof）；批 E 19 项（L17-L20 tools 面板/minimap 真实 canvas/toast/display-scale/countdown/timer 两段式暂停）；批 F 17 项（L21-L24：store 坏 JSON 降级/overlay 原位更新/precache-client pause-resume 协议/dialog-assets 404 skip/audio OGG 即时音量；三源 existing-proof 登记）。合计 171 项+LV1-LV4 四项隔离短视觉样本（6082）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 六批共用判据+反控 | leaves-mutants.mjs：判据自测 10 反例+对照 exit0+单针恰 exit1/恰一红/绝对文件/实际 fullName/拒混错 timeout/隔离 config 注入/生产 sha 前后一致/entered.json 见证；每批 2 针（inv-menu-icur-clamp/magic-caster-cursor-memory/sell-refresh-shrink-clamp/steal-money-item-branch/save-slot-saved-times/shop-owned-equipped-count/learn-magic-name-color/wave-fade-only-advance/toast-container-cleanup/tools-panel-scale-delegate/store-bests-key-merge/ogg-volume-live-refresh）| GLM（作者） | 各批相邻回归（menu 308/404、present 424/444、tools 147、shell+assets 281）全绿；typecheck/biome 0 诊断；docs PASS | 事件记录如实：批 D/E 文档提交曾被污染前缀/错写 README，本提交按 36ea9f50 恢复并重建，历史损坏不追溯改写 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+六批交付+四视觉样本完成；未证项逐批如实（防御分支 typed 输入不可达、blink 红相位留观感、真实 SW/听感不测）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；evidence/batch-{A..F}/** 与 browser-host/evidence.md 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM 六批回执 | 2026-09-2x | L01-L24 171 项+12 针+LV1-LV4 | 交 Codex（官方统计统一） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31；本轮 R76。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-phase1-leaves 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 第三对话交付回执（TEST-GLM-PHASE1-LEAVES-3）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六批交付+四视觉样本完成；未证项逐批如实（防御分支 typed 输入不可达、blink 红相位留观感、真实 SW/听感不测）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六批逐批清单、反控明细、视觉样本链接与文档损坏事件记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-PHASE1-LEAVES-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `e627d020e3dc21928efa0f355225b4d0e19380341482ca08c78cd8f94c5fde2b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `e627d020e3dc21928efa0f355225b4d0e19380341482ca08c78cd8f94c5fde2b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 第三对话交付回执（TEST-GLM-PHASE1-LEAVES-3）
 >

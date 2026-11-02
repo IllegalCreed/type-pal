@@ -1,40 +1,60 @@
 # D2 第一阶段大主控所有权候选
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-CONTINUATION-1 D2 第一阶段大主控所有权候选回执（Owner Codex；基点 d70d73b8（已同步 origin/main@9fe9ea11）、实现头 138c41c8；不合 main 不运行共享全仓 coverage 门，待原接收对话统一集成——后续统一门与集成状态见 architecture-continuation-integration.md）。
+
+## Scope
+
+- 所有权边界：event-opcode-player.ts 单独拥有 22 个角色成长/装备/HP-MP/复活/毒状态/法术槽 opcode 及私有 helper（统一 raw 入口同步委派，event-system 继续 re-export；战斗专属 enemy opcode 仍是已消费 no-op 未建第二解释器）；battle-runtime-context.ts 单独拥有资源表形状/隐藏键/live roles 查询/注入 runner 优先级与释放（不趁重构改全局 Map，对象引用与 hidden-key 语义不变）；battle-finalization/progression/settlement 三 owner（lost/fled/watchdog 写回/清理/屏波恢复/0x07 接回顺序；主隐藏经验/RNG 成长/学法术；奖励建屏/post-script/首帧拒键/胜利半血恢复）；battle-system 仍拥有 phase 路由/选择/行动/动画/公式；bootstrap-resources.ts 先 soundfont 再同步场景主资源/glyph/dialog 三 loader（glyph 失败 warn 退化 tofu、soundfont 失败保留 rejection 给 MIDI 但不阻断 playable settle）。
+
+## Execution and assertions
+
+- 行数：event-system 5570→5108（新增 opcode owner 427）；battle-system 3749→3139（四 owner 98/67/306/246）；bootstrap 1946→1931（启动 owner 64）——行数只作边界证据不把搬行数冒称行为收益。
+
+## Results
+
+- Game 全量 167 文件/2,459 项通过（候选 worktree 到主仓真实 data/extracted+五个 raw MKF 临时只读 symlink，trap 解除不留痕）；production build 157 modules 通过只留既有大 chunk 提示；15 针全检出、产品 hash 前后不变。
+
+## Evidence
+
+- 保持项与未证项：所有权重构无夹带真 bug 修复；SAVE8/content20/opcode 常量/公式/RNG 抽取/玩法/奖励 UI/资源 URL 格式/scene cache/资产/正常存档零改；旧 public 入口继续 re-export 非长期兼容分支无复制状态 owner；未运行全仓 check/官方 ratchet/strict/full/Q1/Q2/远端 CI/正常存档持久化/浏览器视觉——运行期证据=真实机制回归+真实 PAL 数据 MKF 对拍+反控+production build。
+- 证据路径：本候选回执正文（quote 保全）；机账与两 runner 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| D2 所有权候选 | 原文时点 | 六 owner 拆分+2,459 全量+15 针 | 候选快照（统一门留集成） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的 D2 主控所有权候选回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- D2 第一阶段大主控所有权候选：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六 owner 边界拆分（opcode 427 行/四战斗 owner 717 行/启动 owner 64 行）+真实 MKF 对拍全绿+15 针全检出；无行为变化。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+所有权边界、行数、两 runner 与保持项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。候选时点未合 main；集成状态见统一回执。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-CONTINUATION-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `80ef052c6555275e5ec86a136a145cc6cb397ba8b88af1eb829f82d0203a4eda`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `80ef052c6555275e5ec86a136a145cc6cb397ba8b88af1eb829f82d0203a4eda`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # D2 第一阶段大主控所有权候选
 >

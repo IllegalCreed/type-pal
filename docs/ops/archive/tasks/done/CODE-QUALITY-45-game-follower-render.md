@@ -1,6 +1,59 @@
 # CODE-QUALITY-45 — game follower render 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验 0x98 额外跟随者渲染三文件（`follower-render.ts` 与主/gap 测试）:trail ownership、sprite chunk 身份、方向/步帧、站立/行走和缺槽边界;来自 SDLPal `scene.c:210-226,732-743,767-771`、`res.c:335-348`,真实 caller 是 present.ts。
+
+## 范围
+
+三文件;不改变移动、碰撞、脚本或资源 schema;与 follower-pos 已有合同排重。
+
+## 前提与证据
+
+历史批:定向 10/10、game 全包 3519、editor 既有失败未改、ratchet 基线不变。
+
+## 验收
+
+2026-10-21 基础绘制与同版本只读补证收口:原三文件——明确 trail 写 Owner、稠密前缀和 MGO chunk;测试去死 _step 与无效 null 工厂分支,四步预期独立列值;仅撤稀疏 fixture 的生产覆盖信用,正常缺尾与公开 number 参数防御保留;实现体不变。A-H/callers/native 见 [present-leaves-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json),完整当前门见 [present-leaves-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)。
+
+## 状态与交接
+
+done 保持原历史语义;收口只接受原卡范围。
+
+## 历史范围
+
+原卡属 2026-10-12 窄批时点;原始记录在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（10 定向、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;当前结论以 present-leaves 收口原件为准。
+
+## 继任文档
+
+present.ts caller、follower-pos 相邻合同与 present-leaves 收口证据为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2581B / SHA-256 4c20b25e4384cf4c53c06e142570ac8a88483957b4833bf49090810af42b5ad8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-45 — game follower render 窄批
+
+Status: done
 Phase: phase1 game
 Coding Owner: Codex
 Scope: `packages/game/src/present/follower-render.ts`、`follower-render.test.ts`、`follower-render-gap.grok-r1.test.ts`
@@ -40,3 +93,5 @@ Visual Verification Timing: e2e-deferred（跟随者演出观感留集中 E2E；
 原三文件：明确trail写Owner、稠密前缀和MGO chunk；测试去死_step与无效null工厂分支，四步预期独立列值。仅撤稀疏fixture的生产覆盖信用，正常缺尾与公开number参数防御保留；实现体不变。
 
 [A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.
+```
+<!-- incremental-original-source:end -->

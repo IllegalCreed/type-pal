@@ -1,5 +1,39 @@
 # CODE3m RNG 复审与边界修复切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 CODE3m 战斗 RNG 助手的复审与边界修复切片（基点 f6a88d3c4，分支 codex/code-quality-3y）：完整复审 rng.ts 与直接测试并读取真实战斗/事件 caller，只修复已证实的 range API 边界，不改随机算法、seed 格式、存档结构或产品抽样策略；3m 整卡保持 partial。证据原件为下方逐字节保全的固定main源；逐文件读域明细见同目录 read-boundaries.json（5 个全文读取 + 4 个部分区间，SHA 逐文件钉定）。
+
+## 来源与输入
+
+全文读取 packages/game/src/core/rng.ts（51 行：seed 归一化、mulberry32 next、全部区间 API 与状态所有权）与 rng.test.ts（83 行确定性序列/半开/闭区间/浮点/非法边界 oracle），以及三个真实 caller：enemy-ai.ts（129 行：目标选择、死亡槽拒绝、魔法概率、混乱目标抽取）、actions/flee.ts（81 行：RandomLong(0,def)、boss 短路顺序与逃跑经验归属）、battle-progression.ts（306 行：升级/隐藏经验抽样顺序与逐池消耗）。部分区间：battle-system.ts 的队列抖动/自动选法术/混乱目标/升级调用段、battle-system.test.ts 相邻回归段；primary 为 reference/sdlpal/util.c:169-275 的 lsrand/lrand/RandomLong/RandomFloat，并核对 fight.c:1474-1563、3637-3658、4143、4540-4658 与 battle.c:1238-1284 的实际消费顺序。来源为固定Git载体,非本次运行;原0个链接处置见作者review的linkDisposition。当前存活入口:无当前仓库内存活链接。
+
+## 断言与业务 oracle
+
+本片核心发现：SDLPal 的三个随机区间 API 在 to <= from 时直接返回 from 且不推进 RNG 状态；TS 原实现仍调用 next()，倒序区间还可能产生错误值。先加入「相等/倒序返回 from 且 state 不变」失败反例（旧实现 1 failed / 7 passed），再为 range、rangeInclusive、rangeFloat 增加同形前置分支：合法区间的分布与返回范围不变，只消除边界输入的错误结果与额外抽样。另更新一条 battle-system 相邻回归测试：单人队 RandomLong(0,0) 场景显式固定后续伤害掷骰——该测试原先隐式依赖错误的额外抽样，修后仍验证越界目标不崩溃且实际受击；未扩大生产调用范围。文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。
+
+## 结果
+
+验证为 rng.test、enemy-ai、battle actions/system、progression、state-machine、event-system 共 7 files / 638 passed，无新增测试诊断；先行边界反例按预期失败、修复后通过。coverage、official ratchet、protected fast、全仓 pnpm check 按用户成本规则留到完整大模块收口，本片不宣称统一质量门通过。
+
+## 限制与复核
+
+本片触及第一阶段随机抽样与 RNG 消费顺序高风险边界，但只恢复 SDLPal to <= from 合同；mulberry32 与 SDLPal LCG 的既有架构差异保留，未触碰 seed/save/public schema。公式、magic/status/queue/positions 与 RNG helper 证据现已各自成片，3m 统一质量门仍未收口，整卡不升 accept。未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2222B / SHA-256 dbf1e15774e9d3c2be564fe4bae911ef75d65b7fbd2d28492dae70ab5ab07018；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3m RNG 复审与边界修复切片
+
 基点：`f6a88d3c4`；分支：`codex/code-quality-3y`。本片完整复审 `rng.ts` 与直接测试，读取真实战斗/事件 caller；仅修复 range API 的已证边界，不改随机算法、seed 格式、存档结构或产品抽样策略。3m 整卡保持 `partial`。
 
 完整读取 `packages/game/src/core/rng.ts`、`rng.test.ts`；读取 `enemy-ai.ts`、`actions/flee.ts`、`battle-progression.ts`，以及 `battle-system.ts` 的队列 jitter、自动选法术、混乱目标、隐藏经验与升级调用区间。primary 为 `reference/sdlpal/util.c:169-275` 的 `lsrand/lrand/RandomLong/RandomFloat`，并核对 `fight.c:1474-1563`、`fight.c:3637-3658`、`fight.c:4143`、`fight.c:4540-4658`、`battle.c:1238-1284` 的实际消费顺序。
@@ -11,3 +45,5 @@
 验证：`rng.test.ts`、enemy-ai、battle actions/system、progression、state-machine、event-system 共 `7 files / 638 passed`，无新增测试诊断；先行边界反例按预期失败，修复后通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。
 
 高风险边界：触及第一阶段随机抽样与 RNG 消费顺序，但只恢复 SDLPal `to <= from` 合同；mulberry32 与 SDLPal LCG 的既有架构差异保留，未触碰 seed/save/public schema。公式、magic/status/queue/positions 与 RNG helper 证据现已形成，3m 统一质量门仍未收口。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,59 @@
 # CODE-QUALITY-82 — DATA.MKF 独立诊断脚本
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:核验并修复只读诊断脚本 `packages/pal-extract/audit-data-mkf.mjs` 两个候选问题:（1）固定绝对路径 `/Users/zhangxu/illegal/type-pal/data/raw/DATA.MKF` 使隔离 worktree 误读主树;（2）非法 offset 静默截成合法 chunk 大小。修复后保持 `node packages/pal-extract/audit-data-mkf.mjs` 入口与输出格式:路径改为相对 `import.meta.url`,损坏结构在打印 census 前拒绝。
+
+## 范围
+
+白名单仅该脚本与新增 `audit-data-mkf.test.ts`;不修改 extractor CLI、shared codec、资产管线、raw/extracted 数据或公共 API。开批 HEAD `571fbeb18683c6f36d5b54a213c9a6159f28d4aa`,0 behind / 54 ahead,基线 `origin/main=646c8097`。
+
+## 前提与证据
+
+caller 搜索未发现 package script/import/生产运行链,该文件自身就是手工 CLI 入口,无 export。primary:`palcommon.c:855-1013` LE32 偏移表与相邻 offset 相减、`global.c:292-308,427-429`。最强替代解释"绝对路径用于有意集中读取同一资产"因违反隔离 checkout 与可迁移仓库路径被拒。保留 standalone parser 的理由:真实入口是 node 执行 .mjs,而 shared codec 是未构建的 TS workspace export。
+
+## 验收
+
+失败反例:HEAD 原实现隔离临时树回放 exit1、8/8 新增合同失败,证明串读与不 fail-closed（原件 baseline-original.txt）。修复后:audit+shared MKF 11/11、tables parser 90/90、pal-extract 全包 71 files/431 tests、typecheck/Biome 通过;真实 DATA.MKF 从 /tmp cwd 读取 15 chunks/63978 bytes,HEAD 原脚本与候选输出逐字节一致;全仓 check、ratchet（731/19855）、check:fast、docs/content、ledger 通过。推进记录如实登记:初次候选在建卡/反例前误落盘,已完整撤回为 HEAD 后重建失败反例,不冒称首轮先红。
+
+## 状态与交接
+
+done 保持原语义:本批不触碰 schema/save/migration/资产管线/公共 API/生成物;standalone parser duplication 作为执行方式边界保留登记。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点;原始记录在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:两个候选问题以失败反例证实并修复,真实输出等价。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（baseline-original、定向/全包计数、ratchet）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前脚本状态。
+
+## 继任文档
+
+CODE-QUALITY-2（共享 MKF 边界）为历史相关卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5236B / SHA-256 76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-82 — DATA.MKF 独立诊断脚本
+
+Status: done
 Owner: Codex
 Phase: phase1 pal-extract / Q6 diagnostic
 Capability: read-only MKF census
@@ -47,3 +100,5 @@ Codex：premise verified / build allowed；范围只读诊断、零 API 变动�
 ## 剩余与交接
 
 本批不触碰 schema/save/migration/asset pipeline、公共 API、raw/extracted 生成物或用户可见行为；standalone parser duplication 作为执行方式边界保留并登记。全仓未完成；本批不得关闭未读的 Q3 文件。无下一位 Agent 提示词，继续由 Codex 单 Agent 执行。下一批选择未被活动卡占用的 Q3 pending 或 Q6 非 E2E 工具。
+```
+<!-- incremental-original-source:end -->

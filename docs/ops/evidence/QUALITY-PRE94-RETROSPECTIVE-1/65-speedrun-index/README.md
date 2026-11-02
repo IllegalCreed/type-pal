@@ -1,5 +1,38 @@
 # CODE65 speedrun index 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+历史 CODE-QUALITY-65 的单例编排需重新核验:基点 f7423f6a8、分支 codex/code-quality-3y,只复核单例编排、主循环 tick、设置/PB persistence、暂停门和快捷键解绑,不改变 GameState/公共 API/产品行为;整卡复审为 partial。2026-10-18 两则勘误:统一门 [README.md](../53-wave-gates/README.md) 信用撤回;本页旧测试合法性结论由 [README.md](../63-65-speedrun-fixtures/README.md) 精确替代。
+
+## 范围与证据
+
+实现/直接测试:speedrun/index.ts(116行)、index.test.ts(126行)、index.glm-phase1-leaves.test.ts(47行)。真实 caller:shell/main-loop.ts 的 startRafLoop、tools-panel.ts 计时器操作,以及 snapshot/timer/store/overlay/countdown。Primary/oracle:speedrun design §4-§6、SpeedrunTimer/store/checkpoint 合同和真实 DOM/键盘 caller;index 不是 GameState owner。
+
+## 发现
+
+tickSpeedrunTimer 在无 document 或 disabled 时短路;启用后从 GameState 建 snapshot、推进单例 SpeedrunTimer,仅在 dirty/justResumed 时写 PB 或提示,并按 show 委托 overlay/countdown;setupSpeedrunHotkeys 只在 enabled 时处理 F4/F8/F2,返回可重复调用的解绑函数;isSpeedrunPaused 只把 manual pause 交给主循环冻结,香蕉暂停允许玩家走到树上取物;单例 reset、默认 bests 播种和 store 持久化保持职责边界,未发现错误吞没/共享状态泄漏/异步清理缺陷。两份直接测试共 13 tests;相邻 6 files/39 tests;typecheck passed。
+
+## 结论
+
+编排切片核验成立;但 2026-10-18 合法输入/判别力勘误:核心双重强转隐藏非法 Facing 和不完整状态,解绑 toast 观察不能独立证明计时保持;当前仍 partial,旧 raw/数字保留。
+
+## 整改与复核
+
+正式构造器、实际计时 oracle 与失败清理已由 63-65-speedrun-fixtures 补齐;overlay、checkpoint 实跑或其它 pre-94 卡未关闭;旧波次不能认证新候选,无新全仓/coverage/protected 门。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3029B / SHA-256 002108023b3816198f9975fc3e5e3178d2b117c0ee1752ebded82b76d44791b3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE65 speedrun index 当前复审切片
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点：`f7423f6a8`；分支：`codex/code-quality-3y`。本片只复核单例编排、主循环 tick、设置/PB persistence、暂停门和快捷键解绑，不改变 GameState、公共 API 或产品行为；CODE-QUALITY-65 当前复审为 `partial`。
@@ -27,3 +60,5 @@
 ## 2026-10-18 合法输入/判别力勘误
 
 本页旧测试合法性/解绑结论不足，已发现核心双重强转隐藏非法Facing和不完整状态；解绑toast观察不能独立证明计时保持。相应当前声明由[63/65勘误](../63-65-speedrun-fixtures/README.md)精确替代，旧raw/数字保留。正式构造器、实际计时oracle与失败清理已补；当前仍partial。旧波次不能认证新候选，无新全仓/coverage/protected门。
+```
+<!-- incremental-original-source:end -->

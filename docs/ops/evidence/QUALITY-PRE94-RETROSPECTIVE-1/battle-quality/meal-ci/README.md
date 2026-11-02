@@ -1,5 +1,40 @@
 # 385主线CI的meal夹具窄返工与隐藏成长裁决
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+385主线Docs39689206973成功，但Coverage39689207073在 pal-meal-shell.test 的 a normal landing 用例 normal landing 默认5000ms超时（Reforge 8964绿/1红）。平台Node20动作迁移warning与Ubuntu镜像notice原样保留，不把失败、平台注解或本地成功隐去。
+
+## 范围与证据
+
+同一codex/code-quality-3y，基点38502c046；本包只接受 pal-meal-shell 测试输入准备的有限差异，0新增文件关闭；固定pre94仍57accept/26partial/0pending、账本3355/371closed/114review/2870pending。实际八维、来源、边界及原件索引见[review.json](review.json)；完整命令/cwd/版本/exit、双流/native JSON、完整输入、producer及完整385远端原件在[native.json.gz](native.json.gz)。
+
+## 发现
+
+- 574个sprite定义合成561个asset需求、13种帧数；每次project内部建两个私有缓存，只复用已完成压缩/hash，每asset与每read仍有自有字节，不缓存失败或跨case共享状态。
+- 原九身份、全部业务主体/断言/timeout经AST逐项核验不变（boot/渲染/按键/等待/地图/场景）；六种case完整文档与每case942个synthetic二进制路径旧/新逐项相同；单独私有探针验证cache返回buffer独立、frame factory隔离、压缩/hash失败原样传播不缓存、fresh实例不承接旧cache——这是输入/ownership证明，不冒称游戏反控或编解码oracle。
+- 单次本地profile：project准备约150.48ms→58.18ms，sprite部分112.34ms→13.99ms；load/冷启动仍是实际成本，超时因果未完全隔离。
+
+## 结论
+
+本轮仅刷新Reforge官方collectPackage：8965例/158源、0 stderr与诊断（临时只读导出facade仅换import路径/去CLI dispatch/加export，其余runner语句AST一致）；其余六包复用上一完整官方20032/758采集，组合报告原严格metrics/scope/protected比较全过、baseline原字节保持。没有再次跑全仓coverage CLI或完整pnpm check；完整check仍为150650c59的20430，随后24个受影响测试已分别核、20406未变结果复用。lint5790为0/0/0；check:docs首轮因缺shard manifest SHA 124绿/1红，修正后只重跑受影响5个catalog套件、复用其余120个未变工具测试。该Reforge文件仍implicit pending，不授完整文件、E2E路线、视觉或二阶段产品接受。2026-10-22用户裁决：第一阶段七项隐藏成长保留TS持续增长（裁决卡[GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md](../../../../tasks/GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md)）（65535+1为65536，明确偏离C WORD的0），数值实现、主升级999cap、save/导入与二阶段均不改；该选择只解除本项停止线，3x保持partial。
+
+## 整改与复核
+
+私有profile与减少重复工作没有证明385超时的唯一原因；只在实际新main CI通过后报告远端通过，不增加timeout或靠rerun原失败冒称修复。默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`，核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络。最新main同步：84ac10431仅增加移动端部署文档，已普通merge接入同一3y；代码/测试/配置及保护baseline原字节未变、不重复采集，同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[integration-native.json.gz](integration-native.json.gz)；新main CI仍按实际run另核。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4780B / SHA-256 b1cab8ba4650debef413cd9d00c491a50799a3f68a42d0188d38b4ac603334dd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 385主线CI的meal夹具窄返工与隐藏成长裁决
+
 Status: recorded
 Owner: Codex（单Agent）
 Template: evidence-receipt-v1 / 1.0.0
@@ -37,3 +72,5 @@ lint5790为0/0/0，ledger及diff通过，文档五consumer/progress零issue。�
 默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`。核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络、不写文件；MATCH仅证明这些绑定。下一仍已有3v临时草案，94–102不扩展。
 
 最新main同步：84ac10431仅增加移动端部署文档，已用普通merge接入同一3y，未force或新建分支。代码/测试/配置/项目输入及保护baseline原字节未变，不重复采集；同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[完整同步原件](integration-native.json.gz)。新main CI仍按实际run另核。
+```
+<!-- incremental-original-source:end -->

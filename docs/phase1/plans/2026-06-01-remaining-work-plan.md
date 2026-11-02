@@ -1,79 +1,56 @@
 # type-pal 剩余工作执行计划(2026-06-01)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 2026-06-01 剩余工作执行计划的归档重写。认知订正（11 项其实已做/2 项死代码）与 W1–W5+L 排序在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Corrected remaining-work W1-W5/L plan, false gaps, risks and order.
-- 日期：2026-06-01；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe`。
+- 来源：源码级清查 workflow（9-agent，逐项回 reference/sdlpal 核实「是否真没做」，防 checkbox 过期）；31 项排查 → 20 真待办（W1–W5）+ 11 其实已做（订正 roadmap）+ 2 死代码该删 + 2 sdlpal 真值冲突不该做。
+- 纪律：TDD（先失败数据级单测）、每项引 sdlpal file:行号、不靠截图、逐项 commit。
 
 ## 里程碑
 
-- 原始章节：⚠️ 先订正认知(这些不是缺口)；其实已做(11 项 — roadmap checkbox 过期,跟 G9/D1 一样被错标)；死代码 / 不接(2 项 — 经 source 定性)；W1 — 战斗公式补全 + 死代码清理(纯逻辑,无渲染依赖,最稳先做)；W2 — 持久 fAutoBattle(历史上曾误判 trance 觉醒演出为 N/A)；W3 — 世界/菜单层(独立于战斗,可任意时段穿插)；W4 — 战斗演出视觉:OffMagic/EnemyMagic 帧改造(内聚同批,共用 builder)；W5 — 入场/逃跑演出(present 层基础设施,放最后)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- W1 战斗公式补全+死代码清理（纯逻辑最稳先做）、W2 持久 fAutoBattle（历史上曾误判 trance 觉醒演出为 N/A）、W3 世界/菜单层（独立可穿插）、W4 战斗演出视觉 OffMagic/EnemyMagic 帧改造（内聚同批共用 builder）、W5 入场/逃跑演出（present 层基础设施放最后）、L 系统（炼丹/蛊虫——多为 already-done+端到端验证）。
 
 ## 当前状态
 
-- historical；type-pal 剩余工作执行计划(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 126 行、12 个标题；摘要/首段为「> 来源:源码级清查 workflow(9-agent,逐项回 reference/sdlpal 核实"是否真没做",防 checkbox 过期)。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：执行顺序 W1→W3→W2→W4→W5→L 系统，每项独立 commit；总工作量估约 30-45h 等效跨多 session，按批 TDD 逐项做不打包推后。
 
 ## 阻塞与决策
 
-- 正文信号 4:> 31 项排查 → **20 真待办**(W1-W5)+ **11 其实已做**(订正 roadmap)+ **2 死代码该删** + **2 sdlpal 真值冲突不该做**。
-- 正文信号 10:## ⚠️ 先订正认知(这些不是缺口)
-- 正文信号 20:| D20-2 中毒精灵本体紫色 | **sdlpal 真值冲突,不该做**:全源 grep 证实中毒从不设精灵 iColorShift 紫色(头像染色已做) |
-- 正文信号 50:> - 2026-06-01 的“trance magic id 47 完全未被引用”结论已废弃。真实路径是 object-magic 295「梦蛇」
-- 正文信号 70:| **A4 OpeningMenu 坐标公式** | S | draw-opening-menu.ts:39 硬编码 x=125;真值 `125-(w>4?(w-4)*8:0)`,w=PAL_WordWidth | port wordWidth helper(ui.c:836)。⚠️ '新的故事'4 字 → w=4 → x=125 **可能已对**,gap
-- 正文信号 71:| **F1 默认新游戏字段核对** | M | (标题"非 SAVEDGAME 反序列化"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-
-- 正文信号 84:| **wWave 屏波** | M | 原语 screen-wave.ts 在(大世界已接 present.ts:180);battle 渲染路径未接 + magic.wave bump 未推 | builder 帧带 screenWave 字段(首帧 set=magic.wave、末帧复位 0,sWaveProgression=0);present-ba
-- 正文信号 98:| **D13 敌逃飞出屏动画** | M | battle-opcodes.ts:1035 applyEnemyEscape 纯数据 stub(health=0,1042 行有 TODO);无飞出帧 | 生成飞出时间轴:全活敌同步 `pos.x+=5,pos.y-=2`/帧,x>320 移除,10ms/帧,末尾强清 objectId=0(**数据终态须与旧
-- 正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 关键决策：先订正认知——「这些不是缺口」章节防止把过期 checkbox 当待办重做。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点的后续见 D 系列与状态表演进；当前待办以现行看板与任务卡为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe`。
+- phase1 plans 执行计划；时点 2026-06-01；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- type-pal 剩余工作执行计划(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 126 行、12 个标题；摘要/首段为「> 来源:源码级清查 workflow(9-agent,逐项回 reference/sdlpal 核实"是否真没做",防 checkbox 过期)。」。属于历史/归档材料，不能单独证明当前实现。
+- 31→20+11+2+2 的排查分布与 W/L 排序为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:type-pal 剩余工作执行计划(2026-06-01); 10:⚠️ 先订正认知(这些不是缺口); 12:其实已做(11 项 — roadmap checkbox 过期,跟 G9/D1 一样被错标); 27:死代码 / 不接(2 项 — 经 source 定性); 33:W1 — 战斗公式补全 + 死代码清理(纯逻辑,无渲染依赖,最稳先做); 47:W2 — 持久 fAutoBattle(历史上曾误判 trance 觉醒演出为 N/A); 64:W3 — 世界/菜单层(独立于战斗,可任意时段穿插); 78:W4 — 战斗演出视觉:OffMagic/EnemyMagic 帧改造(内聚同批,共用 builder)；原始正文、代码、表格、状态词在 quote 保全。
+- 「其实已做 11 项」「死代码 2 项」清单与各 W 节在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 4:> 31 项排查 → **20 真待办**(W1-W5)+ **11 其实已做**(订正 roadmap)+ **2 死代码该删** + **2 sdlpal 真值冲突不该做**。
-- 正文信号 10:## ⚠️ 先订正认知(这些不是缺口)
-- 正文信号 20:| D20-2 中毒精灵本体紫色 | **sdlpal 真值冲突,不该做**:全源 grep 证实中毒从不设精灵 iColorShift 紫色(头像染色已做) |
-- 正文信号 50:> - 2026-06-01 的“trance magic id 47 完全未被引用”结论已废弃。真实路径是 object-magic 295「梦蛇」
-- 正文信号 70:| **A4 OpeningMenu 坐标公式** | S | draw-opening-menu.ts:39 硬编码 x=125;真值 `125-(w>4?(w-4)*8:0)`,w=PAL_WordWidth | port wordWidth helper(ui.c:836)。⚠️ '新的故事'4 字 → w=4 → x=125 **可能已对**,gap
-- 正文信号 71:| **F1 默认新游戏字段核对** | M | (标题"非 SAVEDGAME 反序列化"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-
-- 正文信号 84:| **wWave 屏波** | M | 原语 screen-wave.ts 在(大世界已接 present.ts:180);battle 渲染路径未接 + magic.wave bump 未推 | builder 帧带 screenWave 字段(首帧 set=magic.wave、末帧复位 0,sWaveProgression=0);present-ba
-- 正文信号 98:| **D13 敌逃飞出屏动画** | M | battle-opcodes.ts:1035 applyEnemyEscape 纯数据 stub(health=0,1042 行有 TODO);无飞出帧 | 生成飞出时间轴:全活敌同步 `pos.x+=5,pos.y-=2`/帧,x>320 移除,10ms/帧,末尾强清 objectId=0(**数据终态须与旧
-- 正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。
+- historical。排查结论按当时源码状态解释。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [d-series-completion-roadmap](2026-05-31-d-series-completion-roadmap.md) 与 phase1 状态表；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # type-pal 剩余工作执行计划(2026-06-01)
 >

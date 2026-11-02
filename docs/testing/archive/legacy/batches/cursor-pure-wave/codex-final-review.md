@@ -1,40 +1,62 @@
 # TEST-CURSOR-PURE-WAVE-1 · Codex 独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-PURE-WAVE-1 Codex 独立接收（候选 bd8876e4…1229）：**accept**，首轮 R1-R3 counter 已逐项闭合。
+
+## Scope
+
+- R1：frame-sequence 测试改真实 deflateSync 编码经 parseFrameSequence 与 decodeFrameSequenceFrame/inflateSync 还原同一 RGBA 再单独翻转保留位 [5]/[7]，不再用 identity 压缩伪造合法帧；R2：删除错桶的 script-library 测试及 a02 针（getScriptBody 在当前 packages/ 非测试调用域仅有自身定义且错桶会被 checkScriptLibrary 拒），A 包第二针改为合法 stamp 的 a03 col 越界；R3：script-chunk-store 测试先 deriveScriptChunk 确认 owner 为 shared/c01 经 normalizeScriptLibrary 生成实际 bytes 过 checkScriptLibrary 后再断言二次 resolve 缓存命中、旁分片零读与 lease 收尾。
+
+## Execution and assertions
+
+- **复跑**：content 3/3、reforge 2/2、editor 2/2；三包 tsc exit0；11 改动文件 Biome 0；module-mutants 六针对照绿指定 fullName 候选自身 AssertionError 红退出 1 源 hash 未变判据自测通过；diff 仅测试/fixture/回执/负控工具无生产改动
+- **统一门**：check exit0（9,966 项 lint 2,309 文件零）→ratchet exit0→BASE_REF=c442dcb7 受保护单次 fast exit0（9,505/730）；两 fast 同口径 46,615/63,323=73.61% 净增 5 臂分母 +2；增量是卡面允许的两个 src/cursor-pure-fixtures.ts 测试辅助模块被官方源码扫描计入不误写成产品目标新臂
+
+## Results
+
+- Cursor 是贡献者自验不替代接收；当前模式不要求固定三席签字。
+
+## Evidence
+
+- R1-R3 闭合依据见 [首轮反例](codex-intake-review.md)；原回执记录 content 3/3、reforge 2/2、editor 2/2、六针及串行统一门，当前未复跑这些历史产品门。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 最终接收 | 原文时点 | R1-R3 逐项复验（真实 deflateSync/撤错桶/chunk-store 先过 checkScriptLibrary）+串行统一门 | accept（bd8876e4 集成） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-CURSOR-PURE-WAVE-1 Codex 独立接收（候选 bd8876e4…1229）：**accept**，首轮 R1-R3 counter 已逐项闭合。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-CURSOR-PURE-WAVE-1 · Codex 独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+PURE-WAVE accept（bd8876e4）：R1 真实 deflateSync 替 identity 伪造帧、R2 删错桶 script-library+getScriptBody 无消费者、R3 chunk-store 先过 checkScriptLibrary 再断言缓存/零读/lease；六针+三门（fast 9,505 净增 5 臂分母+2 系 fixtures 计入）。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- R1-R3 闭合依据见 [首轮反例](codex-intake-review.md)；原回执记录 content 3/3、reforge 2/2、editor 2/2、六针及串行统一门，当前未复跑这些历史产品门。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。PURE-WAVE accept（bd8876e4）：R1 真实 deflateSync 替 identity 伪造帧、R2 删错桶 script-library+getScriptBody 无消费者、R3 chunk-store 先过 checkScriptLibrary 再断言缓存/零读/lease；六针+三门（fast 9,505 净增 5 臂分母+2 系 fixtures 计入）是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-CURSOR-PURE-WAVE-1 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `ef63755e52ba8cbfd2ff44432920475565e1174462eb8a6c946b26f8492c3a21`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `ef63755e52ba8cbfd2ff44432920475565e1174462eb8a6c946b26f8492c3a21`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-PURE-WAVE-1 · Codex 独立接收
 >

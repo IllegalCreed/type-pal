@@ -2,36 +2,38 @@
 
 Status: historical
 Owner: Codex（文档治理；原报告 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页把 testing domain 历史候选报告接入 `archive-record-v1`。原候选状态、owner、source refs、测试计数、warnings、counter、未执行项和交接在 quote 中保全；历史材料不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 ARCH-CONTINUATION-1「A3-d/e 世界移动与绘制状态归属候选」的分项验证快照：Owner Codex，基点 `be5218bb`，实现 `7be10bf4`；候选不合 main、待原接收对话统一集成和执行 check/ratchet/strict。时序合同、20 新增、9 针反控与隔离功能核验在 quote 中保全；统一门与集成状态以统一回执为准。
 
 ## 历史范围
 
-- 源文档固定于 `01bd03367050801bd2317719f498807ca2f66200`；本轮 R61 只做历史归档结构迁移。
+- testing domains 历史候选报告；日期：见正文各候选时点（quote 内以原报告日期为准）；固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- A3-d/e 世界移动与绘制状态归属候选：原始候选报告的结论、计数、失败和限制按日期范围保留，不升格为当前事实。
+- 所有权边界：`WorldMotionRuntime` 组合既有 `MotionRuntimeCoordinator` 收拢世界拍/command epoch/partyMove/gait/side-stick/fairness/trace（不复制 authority/epoch/slot/lineage）；`WorldScenePresentation` 拥有大世界绘制态（显式定帧/队伍 gesture/shake/wave phase）；main `6148→5698` 行、两新 owner 合计 903 行；`advanceMoves` 保留 main 作同步协调点（canonical endpoint→live position→touch→continuation 顺序）。
+- 时序与采样：partyMove 旧合同（新请求兑现旧 waiter、abort 拒绝并解 listener）；世界拍至多每 rAF 一拍、menu/hostile/battle/confirm 冻结累计；切场失效顺序（脚本 token→activation/cancel slots→restart lineage→release authority→清 gait/fairness→reset camera）由正式架构测试固定；绘制帧优先级显式定帧>gait>0x87>语义 action>loop>idle、wave 只在 100ms 世界拍推进。
+- 回归与反控：新增 20 项（WorldMotionRuntime 10/WorldScenePresentation 5/main AST 5）；定向/相邻 13 文件 167 项、Reforge 177 文件/1642 项、typecheck/Biome/build 通过；[九针] 冻结世界拍、party abort 释放、slot registry、gait owner、帧优先级、当前帧锚、follower 深度、shake 相位、wave 静态叠层——control 15/15、坏实现均单一 AssertionError 检出；旧 checkpoint/save AST 链 37 项全绿。
 
 ## 当时证据
 
-- 原 source:line、caller、合法输入、oracle、测试结果和 paired evidence 由下方 quote 与同目录 history/evidence 保留。
+- 最终临时机账 `/var/folders/.../type-pal-world-runtime-mutants-mcFlrN/summary.json`；工具要求精确 file/fullName、exit1、唯一 load 注入、全生产 hash 不变。
+- 隔离功能核验：6053 PAL 宿主直达 `s135@42,17`，连续右移玩家/相机推进、Esc 菜单正常开闭、无错误遮罩；未读浏览器 console 故不宣称 console 零错。
 
 ## 当前有效性
 
-historical。当前 catalog、canonical report、paired evidence 和 fresh receipt 拥有现行事实权；本次不重跑。
+historical（分项候选时点）。「不合 main/未跑统一门」不代表后续集成状态；A3 四段齐备须统一门并合 main 后才正式标 A3 完成。
 
 ## 继任文档
 
-- 当前 canonical 文档：同目录的 current report、testing catalog、task card 和 fresh evidence。
-- supersedes / superseded-by：替代未分层的历史呈现；不删除原始报告。
-- 若重新启用的复核条件：补齐当前 catalog identity、合法输入、business oracle、独立 review 和动态证据。
+- 统一回执与所属连续治理卡；GLM 六组纯守卫测试另卡。
 
 ## 原文保全
 
-固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `01bd03367050801bd2317719f498807ca2f66200`，source SHA `a0d89bc516840dafffc58f6b9339451cae4993763dac80a1c0b2863cd42cdd56`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # A3-d/e 世界移动与绘制状态归属候选
 >

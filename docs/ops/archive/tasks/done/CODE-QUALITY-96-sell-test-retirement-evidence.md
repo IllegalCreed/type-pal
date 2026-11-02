@@ -1,6 +1,59 @@
 # CODE-QUALITY-96 — sell 测试精确退役保护账
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:按用户"测试少而精、确认重复必须精简、重新实测官方基准"授权,把 CODE93 已证重复缩表用例（`sell-menu.glm-phase1-leaves.test.ts` 第三例与主测试 `refreshSellGrid` 非空缩表同合同）的真实退役登记到官方精确保护账。白名单仅 `scripts/coverage/approved-test-retirements.mjs`、其 test、本卡与 CODE93 证据/账本/导航。
+
+## 范围
+
+工程保护账,无产品/UI 修改。predicate、扫描范围、生产源码/包删除禁止、阈值、ignore/exclude、provider、timeout 全部不变;不提供通用移除开关,未来字节/身份/count 不符仍拒绝。
+
+## 前提与证据
+
+机制证据:`run.mjs:386-402` 要求真实 test-count 删除用 `--allow-scope-removal` 确认;`:415-466` protected 检查要求精确历史 count、两端 execution identity digest 和当前文件 SHA。精确源证据 `test-retirement-proof.json`:原 baseline 与 origin/main 均 3 例/相同 digest,当前 2 例与完整文件 SHA 已由机器读取。最强替代解释"删掉独有行为"被主测试仍完整执行相同非空缩表合同、3 针反控与相邻 96 tests 反证。
+
+## 验收
+
+过程门:原完整 ratchet 实测全部 19874 tests/731 sources 通过、指标提升,但在 scope acknowledgment 处 exit1（protected 未启动）;第一次新全仓 check 被真实账本测试拒绝——两条工具记录误放表区外（declared 21 review/actual 19 review）,归位后重跑。终态:`VITEST_MAX_WORKERS=1 pnpm check` exit0（7 包 typecheck/测试,lint 4051/0/0/0）;官方 `pnpm coverage:ratchet --allow-scope-removal` exit0（731 生产文件/19874 fast tests,提升 4 项/范围 2 项,未手改 baseline）;真实 protected fast exit0。coverage 工具 59/59、quality 工具 37/37、docs/content-review、ledger 均通过。最终账本 3271/373 closed/15 review/2883 pending。
+
+## 状态与交接
+
+done 保持原语义:与 CODE93 同批只关闭六文件（CODE93 四+CODE96 两工具）;分支含未收口行为未合 main。用户要求本部分完成后 Codex 停止;GLM 接手 CODE94/95（候选 abf284d75）;CODE95 三份旧测试 counter 独立保持 review。
+
+## 历史范围
+
+原卡属 2026-10-14 收口时点;原始记录（exec session 93008、旧 68449/39466 失败终态等）在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:protected 明确核准唯一 sell GLM 测试 3→2 精确退役;未降低规则、ignore/exclude 或生产范围;原始失败回执保留,不追溯改写历史。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（ratchet exit1 原件、账本测试拒绝、final-* 静态回执 docs1280/6792links/417tasks、lint 4056 零诊断）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;精确退役 metadata 须在接收六文件白名单时同时核对,不复制源分支整份 coverage baseline。
+
+## 继任文档
+
+CODE94/95 集成候选与 GLM 交接提示词见原卡末节;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7290B / SHA-256 932165ccc8e011dd5506de99204cd91896da947c8b0522ec2eff2fb2f19c418b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-96 — sell 测试精确退役保护账
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: ops
@@ -69,3 +122,5 @@ Codex review accept：完整读取与直接caller/primary/oracle成立，定向�
 CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。
 
 最终收口静态回执：docs1280 Markdown/6792links/417tasks、content-review570、quality工具37/37、lint4056/0errors/0warnings/0infos、ledger3271/373/15/2883均exit0。CODEx仅本六文件accept，未合main，后续GLM按上述提示词接手。
+```
+<!-- incremental-original-source:end -->

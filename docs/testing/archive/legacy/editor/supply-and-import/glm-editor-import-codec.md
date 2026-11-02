@@ -1,40 +1,62 @@
 # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-IMPORT-CODEC-1（TB-03）工作包：当前 Codex 接收结论——2026-09-20 r5 候选 e4461a30 最后 counter 闭合、集成 91623a9a；统一候选 4894719e 过 check7748/ratchet/受保护单次 strict-fast 7259，三席 accept 齐用户授权 done 归档；首轮 counter 仅留历史；PNG 编码失败 close 缺陷保持 Codex 独立修复归属。
+
+## Scope
+
+冻结快照 C1-C8 八族：image-import（PNG 签名→宿主解码→尺寸/调色板→真实返回字节；编码失败位图未释放已确认隔离给 Codex 不固化错误绿测）、battle-sprite-import（最少帧数/ID 冲突/kind 单轴）、frame-animation-images（保序/MIME/finally 收尾）、frame-animation-codec（sourceFrame 门/块复用/跨三块 TPFS 真实重开）、worker-client（请求 ID/transfer 副本/terminate）、codec.worker（隔离 self 动态 import 真实 onmessage）、video-metadata（box 扩展长度/零长/截断/嵌套三态）。GLM r1：7 新测试 39 项+8 针（PNG 签名门/battle 尺寸/10 帧门/unique id/块缓存逐出 DecompressionStream 计数见证/sourceFrame 越界/传输副本/meta 偏移）；r2 闭 C0/C1+R03 三项（quantize 实参保真/双向 transfer/deterministic digest）；r3 完整合法 PNG（真 CRC32+zlib stored+Adler-32）+归因更正；r4 宿主尺寸合同（IHDR 大端 4 字节单字节写法会把 320 截成 64 当场发现）；r5 返回预览保真（blobProducts bytes.slice 快照/firstByteDiff 全字节扫描避免 256283B 失败 diff ~522 秒/新针 returned-preview-replaced-by-main）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 负控+双见证+统一门 | 判据四向自测+3 对照+9 针全绿；png-host-review control 7/7 删 canvas 尺寸 detected；preview-review control 6/6 坏实现候选 AssertionError 检出；定向 39/39、tc、11 文件白名单 biome rc=0；统一门由 Codex（check 7748/ratchet/strict-fast 7259） | GLM→Codex done（4894719e） | 像素勘误落账：实际 index 182、indexed (182,182,182,255)、preview (34,5,73,255) 非 r4 原写的 109（以 Codex 独立解码为准）；主图 f614fb…/preview ee694d… 均 256283 字节 | 上传选图竞态已 done 不重开；真实视频文件/浏览器 worker 环境差异/视觉不在本批 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：r5 最后 counter（返回预览保真）闭合；编码失败 close 缺陷后由 image-import-cleanup.md 独立修复。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-import-codec-evidence.json 与 r1-r5 各回执在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-03 工作包 | 2026-09-19/20 | C1-C8+GLM r1-r5 五轮 | done（4894719e 三席 accept） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/supply-and-import 的 TB-03 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：r5 最后 counter（返回预览保真）闭合；编码失败 close 缺陷后由 image-import-cleanup.md 独立修复。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+C1-C8 快照表、五轮回执、勘误注与白名单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。五轮链时点材料。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 migration/supply-and-import/import-codec-acceptance.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `04ef444e82d5cbbdcce0502558312abc13f8c09ea5e5b8ba4704a8b80ae2b3a5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `04ef444e82d5cbbdcce0502558312abc13f8c09ea5e5b8ba4704a8b80ae2b3a5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM编辑器导入、编码工作线程与视频元数据工作包（TB-03）
 >

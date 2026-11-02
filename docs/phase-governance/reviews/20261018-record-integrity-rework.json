@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "record-integrity-rework-20261018",
+  "reviewer": "Codex same-actor corrective maintenance; not independent review",
+  "reviewDate": "2026-10-18",
+  "policy": "Explicit withdrawals and mechanical integrity only. This root does not certify its own content hash or semantic completion.",
+  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "supersededBindings": [
+    {
+      "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
+      "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+      "sourceRecordSha256": "db4ca20bd0d806e768702ddba10e62a29ae8736887b19e2cb82d6946d4ffb419",
+      "successor": "20261018-semantic-rework.json",
+      "reason": "Only this exact independently accepted new body/template binding moved; other entries/order and original withdrawal/history retained."
+    }
+  ],
+  "maintenanceHistory": [
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S22",
+      "sourceRevision": "19371962230ea46bc97fbd7723cf0192310be4bc",
+      "changedTargets": [
+        "docs/phase-governance/document-registry.ops.json",
+        "docs/phase-governance/document-registry.phase2.json",
+        "docs/phase-governance/document-registry.phase-governance.json",
+        "docs/phase-governance/reviews/20261021-s20-accepted-01.json"
+      ],
+      "scope": "Explicit empty-carrier retirement and current administrative/pin deltas only; old review credit unchanged."
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S24",
+      "action": "Only admitted native pilot/contract/test documentation and transitive after pins; original native fields and pending migration credit retained.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-FULL-TEMPLATE-1/S25",
+      "action": "Exact affected source/contract/prose pins and their transitive dependencies only; no semantic or migration/execution credit.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-21",
+      "task": "DOCS-NATIVE-JSON-1/S26",
+      "action": "Exact S26 handoff/card/index/registry pins and transitive dependencies only; no content or execution acceptance.",
+      "nonAuthorReviewer": false
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1",
+      "action": "Exact administrative dependencies for approved new task; native599/302 unchanged"
+    },
+    {
+      "date": "2026-10-23",
+      "task": "DOCS-NATIVE-VITEST-269-1/S29-central-publication",
+      "action": "Exact administrative/dependent pins for scoped implementation acceptance,269new qualified historical-document intake and publication metadata. Original immutable source pins/history retained; publication author self-check pending independent review.",
+      "nonAuthorReviewer": false
+    }
+  ],
+  "_reviewStorage": {
+    "schemaVersion": 1,
+    "producer": "review-record-storage/1.0.0",
+    "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+    "logicalKeys": [
+      "schemaVersion",
+      "id",
+      "reviewer",
+      "reviewDate",
+      "policy",
+      "sourceRevision",
+      "entries",
+      "supersededBindings",
+      "maintenanceHistory"
+    ],
+    "source": {
+      "path": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+      "revision": "8103c7e1879b926df0ac00acdba06a6fe4ea691f",
+      "gitObject": "0c324e9c636de903c5b655264e4824b3723d2254",
+      "sha256": "7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382"
+    },
+    "logicalSha256": "8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774",
+    "totalEntries": 89,
+    "entryOrderSha256": "cb52a283287891ba14bafafb5bdb53d407838fdbf988507bbf7c7b86f4805eda",
+    "orderedEntriesSha256": "567f4a4278e133453aa3795d5b366c2cd2b5bef650bb492088048660f1dea5d5",
+    "shards": [
+      {
+        "key": "part-001",
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-001.json",
+        "total": 36,
+        "sha256": "19bf2da48bb73eff0a98d2c29841e325ad05c92b4c18a17b640d78beced6dc63"
+      },
+      {
+        "key": "part-002",
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-002.json",
+        "total": 36,
+        "sha256": "b62ac58248a682647a9c69eb022d851d238758c66ff9ca5bfedf1bd9fb7fa221"
+      },
+      {
+        "key": "part-003",
+        "path": "shards/20261018-record-integrity-rework/8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774/part-003.json",
+        "total": 17,
+        "sha256": "598fc75100cd5f204745fbf5c77d9575788cfcdbf1ce275908e87d6c6963ad71"
+      }
+    ]
+  }
+}

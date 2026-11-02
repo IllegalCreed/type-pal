@@ -2,38 +2,48 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「固定 binding baseline 的 JSON 正文合同设计」（F1 v2.0.1）的冻结设计归档：为固定捕获索引 `docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json` 冻结 test-catalog-v1 父 1.2.0 的 frozen-document-binding-baseline-v1 变体合同与 22 路径维护白名单。根冻结决定、完整 v2 提案与 F1-C1…C5 counter 闭合在三层 quote 中保全；设计冻结不授实施或迁移 credit。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；Version F1-binding-baseline / 2.0.1；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- 固定 binding baseline 的 JSON 正文合同设计：原始正文完整保留于下方 quote。
+- 冻结对象：唯一 root 固定于 revision `33cc2df5…`、blob `00da11bb…`、849,646 bytes/18,407 行、八原键/1,838 项、自 membership 0；status `baseline-pending-semantic-review` 等原值不刷绿。
+- 合同要点：default 完整 16 治理字段有序保存于 defaultRequiredGovernanceFields（共用 14 去 publicationRules/entryReadings）；新 _governance 精确 19 键＋captureReading 8 键、三布尔全 false；readFrozenBaselineRoot/inspectFrozenBaselineView 低层单向依赖、全层 decoded 重复 key 拒；错 path/type/variant 不能 fallback ordinary。
+- 维护白名单：2.0.0 的 21 路径＋补 templates/README 当前记录维护共 22；F1-SCOPE1 counter 记录该遗漏；v1 的 F1-C5（generatedBy 行为误述）由 v2 修正并以独立 16 case probe 闭合。
+- 时序：L 十索引接入（`afb149b9`）已独立接受，F1-C4 前提满足；未来版本 roll 是新 SSOT 字节，旧 L 签字不授权其后变化。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 作者 v2 187 行（SHA `b0aea32f…`）、旧 v1 169 行、非作者定向设计 30 行＋独立 16 case probe、根对 33cc 原 blob 的 rawSHA/八键/1,838 项机器身份核验。
+- pilot 计划（ownedtmp 真实 Git 对象、default 等值正反控、native 变造拒绝、非递归回归）为未来必做，本轮未运行。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。实施、canonical pilot 与中央接入以继任记录为准；1838 分母不变、baseline 最多 incremental 1。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-binding-baseline-contract.json`（同目录）：e136 作者交付时点、dd377 自然接入与固定 164 中央/矩阵均已分别独立接收；后续写回按字节另验。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3`（blob `a86c387e27a39b208060105af4ab8ed0e9a30b60`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886`，37610B。
+- 第 2 层：SHA `ba5cabf543c711f1299ce2f1340316ef0934e75756383368a2913dc452b41f0c`，35587B。
+- 第 3 层：SHA `9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3`，33353B。
+
 <!-- original-source-quote:start -->
 > # 固定 binding baseline 的 JSON 正文合同设计
 >

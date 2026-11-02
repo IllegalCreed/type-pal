@@ -1,5 +1,40 @@
 # 百文件窗口统一门原件
 
+Status: current
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+[父回执](../README.md)之下记录冻结 100 主体后统一门的采集边界、本地结果、复验入口与发布状态。本目录不授给未审文件任何关闭信用；current 仅指本导航入口。
+
+## 范围
+
+覆盖完整 `pnpm check`、official fast、同报 ratchet/protected 重放、退役工具、docs/ledger/lint/diff 终门与提交前 fetch 基点；完整字节在[完整字节索引](native-index.json)，无损原件在 [native 包](native.json.gz)。重放工具 [replay.mjs](replay.mjs) 复用完整采集报告、原样提取官方比较与写基线逻辑，不重复跑覆盖率。
+
+## 当前状态
+
+首次 official fast 在第七包 editor 中途随会话执行被中断、没有退出回执，不能记通过；前六包原生通过摘要/coverage-summary/test inventory 原字节保留，恢复脚本只补跑 editor，且首版恢复脚本在启动任何包前有重复 raw 局部声明的语法错误、失败原件保留。首次 `pnpm check` 在 testing docs 处报告四条 sourceRef 漂移并退出 1，对照引用测试字节完成有限行号/SHA 桥接，原失败回执不复写为绿；早先 GitHub TLS 下载/fetch 故障已恢复、不得将本地 origin 缓存冒称最新远端。完整 check：七包 20,503 例、各包 typecheck（含 editor 脚本）通过、全仓 lint 0 errors / 0 warnings / 0 infos，完整 stdout 389099 字节、stderr 0；官方 fast 实际 20,154 例。8 个仍存文件精确快照退役 23 例、四重复文件删除 12 例、新存储失败例 +1，净 -34。收口账本行已转 closed 而底部汇总初次仍为 695/101，机器检查明确失败，该状态重现原件为 window2-ledger-projection-red；修正汇总为机器实际 796/0/2667 后再核，不把原失败改成通过。
+
+## 入口与责任
+
+- [精确计数与合同去向](recount.json)：20188→20154、809 生产源、分包含指标与逐例退役身份。
+- 只读复验 `node docs/ops/evidence/QUALITY-PENDING-100-2/uniform/verify.mjs` 核原件、退出状态、精确身份/范围与未变官方比较器，见[复验实现](verify.mjs)；它不代替实际 GitHub 发布验收。
+- 成功同步原件 window2-fetch-before-commit 与[基点快照](publication-base.json)：branch `codex/code-quality-94-102`、head 与 originMain 均 `f47f052fa1e732f7e574e70b268790d301dada3d`、提交前 0 ahead / 0 behind，单列发布前提，不算新增代码审查信用。
+
+## 证据与下一步
+
+100 主体＋1 新增宿主叶本地接受，机器 3463 tracked / 796 closed / 0 review / 2667 pending；新资产需求风险与未审实现保持 pending。04:11Z fetch 成功、origin/main 仍 f47、提交前 0 ahead / 0 behind；推送、正常受保护 PR 与合并后 main CI 由 goal 执行，本地门不提前替远端声明通过。源字节变化、见证矛盾或需要新产品取舍时停线交 Owner。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3112B / SHA-256 bac6b1124292214332e3a1f117ece7fcde4f557cb03ff0fa8fd98788a90ae6cc；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 百文件窗口统一门原件
+
 [父回执](../README.md)。本目录只记录冻结100主体后的统一门，不授给未审文件任何关闭信用。
 
 ## 采集边界
@@ -23,3 +58,5 @@
 100主体＋1新增宿主叶本地接受，机器3463 tracked / 796 closed / 0 review / 2667 pending。新资产需求风险与未审实现保持pending。早先GitHub TLS故障已恢复；04:11Z fetch成功，当前origin/main仍f47，提交前0ahead/0behind。推送、正常受保护PR与合并后main CI继续由goal执行，本地门不能提前替远端声明通过。
 
 成功同步原件window2-fetch-before-commit与[基点快照](publication-base.json)单列发布前提，不算新增代码审查信用。
+```
+<!-- incremental-original-source:end -->

@@ -1,5 +1,38 @@
 # Pre-94 47–52 波次质量门证据
 
+Status: rework
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「Pre-94 47–52 波次质量门证据」的真实主题按原文时点保留:2026-10-18 对 47–52 六卡波次统一质量门回执(f544b9b94)的审计与撤回。当前裁定:该提交的"pnpm check 通过/波次收口"缺少完整未裁剪原件、按来源统计的诊断计数和零诊断结论,不能满足 AGENTS 的 error/warning/info 清零门;撤回统一门通过与收口,不可据此合 main;后续 55–67 切片沿用本回执的门信用一并撤回,逐文件/定向结果仍按各自原始证据核定。
+
+## 范围与证据
+
+原报告含当前裁定、GLM 独立审计四项返工后续与历史引文三部分;[audit.json](receipt-audit/audit.json)定位原提交、四次原生 CommandExecution(UTC 时间、command/cwd/exit、持久化片段 SHA)与限制——这些是会话持久化片段而非完整未裁剪日志,`check` 记录明确含 `command output truncated for persistence`,没有诊断字符串不能推定诊断为 0;其他执行输出完整性也未被认证。原28行精确字节另存 [original-readme.md.gz](receipt-audit/original-readme.md.gz);逐项处理与证据见 [README.md](receipt-audit/README.md)。
+
+## 发现
+
+原文时点真实发现:两次审计结论一致——exit 0 可核,当轮 act/环境等诊断计数不可核;完整未裁剪原件仍缺,不能验收。C10 的完整原件已重核 SHA 并重数 624 条 act、243 条环境告警(其回执另有 321 stderr 块/1 表单告警),它证明的是 C10 不是本波次;本波次计数保持 unknown,不填写 0,也不虚构与 C10 相同。原覆盖率生成/退役审计的数值历史与 baseline 字节保留;本次没有重跑全仓/coverage、没有修改 baseline 或放宽规则。
+
+## 结论
+
+本页治理结果=原文保全完整、模板符合,不产生新执行结果。原回执(历史引文,含"通过"文字均非当前有效验收):VITEST_MAX_WORKERS=1 pnpm check 通过且 lint-zero 5002 文件 0/0/0、coverage:ratchet 因 6 个已存在测试文件身份计数减少被拒(非覆盖率回退)、--allow-scope-removal 通过(六项 removal 命中精确退役账)、coverage:fast 通过主线保护基线、官方 fast 基线 737 source/19,930 tests(statements 90.02%);47–52 卡仍 partial、两像素测试 document 诊断保留 review、draw-magic 由 GAME-MAGIC-PLAYERINFO-STATUS-1 停线。
+
+## 整改与复核
+
+GLM 独立审计四项返工后续(回执超卖/原始附件缺失/两源码上界越界/旧授权头外推)已逐项处理,详见 receipt-audit/README.md;修正第3/4项不自动消除第1/2项证据缺口,47–52 原回执保持 rework。未来稳定大模块收尾须一次保留完整 stdout/stderr、执行身份与诊断分项计数再单独裁定;缺失的当轮原件不能用后跑日志补签。未重跑命令;候选待Owner接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5647B / SHA-256 8e9d0b386fa627f342d04c1771ed87f6c30c0704650ab94600a14bb559816582；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Pre-94 47–52 波次质量门证据
+
 Status: rework（2026-10-18 撤回统一门通过与收口信用）
 
 ## 当前裁定
@@ -50,3 +83,5 @@ C10 的完整原件已重核 SHA，并重数624条 act、243条环境告警（�
 > - `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` 与 `shop-preview-pixels.grok-r1.test.ts` 的直接像素测试仍分别有 `document is not defined` 环境诊断，保留 `review`，未改环境、未跳过、未静音。
 > - `packages/game/src/present/menu/draw-magic.ts` 仍为 `review`：SDLPal `PlayerInfoBox` 的毒/状态视觉与当前实现存在高风险边界，已由 `GAME-MAGIC-PLAYERINFO-STATUS-1` 单独停线等待裁决。
 > - 下一批继续从 pre-94 的 pending 中选不与活跃任务重叠的最小切片；不把 94–102 或后续卡提前纳入本波次。
+```
+<!-- incremental-original-source:end -->

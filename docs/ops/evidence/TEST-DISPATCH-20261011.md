@@ -2,56 +2,58 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: plan-status-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 2026-10-11 的测试派发记录：在 dispatch base/source 冻结 `9aa3bed89` 上开出三个有限、互不重叠的 GLM 残差包（draft 卡），并声明既有候选的接收状态。
 
-## 证据身份
+## 目标与时间范围
 
-- TEST dispatch 2026-10-11 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2。
+- 2026-10-11 派发；冻结基点 `9aa3bed892728f17c70d2f86d1fe07db10a718b8`（官方 fast 基线：729 源码文件、19,789 测试、分支 51060/61181=83.46%）。
+- main 上既有未提交 entity-state 草稿文件有意不动；既有 `TEST-GLM-GAME-TURN-BOUNDARIES-1` 保持 review 候选——其 15 合同证据未接收，待原生 raw/identity 与合法输入复核。
 
-## 来源与输入
+## 里程碑
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- `TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1`：仅 ControlCommandForm 资源/商店/共享自身合同。
+- `TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1`：仅 ItemUseEffectEditor 残差合法失败/修复/引用合同。
+- `TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1`：仅 MenuBox 已接收资源/状态轴之外的公开布局/派发合同。
+- 三包均允许零新增合同，测试文件白名单互斥；贡献者须冻结源 hash、对既有 fullName 排重、在所列范围停止。
 
-## 断言与业务 oracle
+## 当前状态
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- historical：派发时点记录。三包后续实际交付/验收见各自证据目录与 Codex 接收记录；本页不追认其结果。
 
-## 结果
+## 阻塞与决策
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 无派发阻塞。约束决策：Codex 执行独立验收与当前 HEAD 质量/CI 门；候选未合并不计官方覆盖（合并后重测）。
 
-## 限制与复核
+## 下一步
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- （历史时点）贡献者在各自白名单内交付；Codex 集成后统一结算覆盖率。本页无继任执行动作。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-11 测试派发记录（三残差包准入）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- TEST dispatch 2026-10-11：原始正文完整保留于下方 quote。
+- 三包互斥白名单+零新增允许+冻结/排重/停止纪律；turn-boundaries 15 合同保持未接收。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 派发基线 fast 数字与包清单在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。派发条件以当时冻结源为准，不授权当前执行。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归三张残差卡各自的证据目录与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `e067ed21a2b3a6989ed7e83bbd97e8a8ed12ba1c59357fd46fd721f47520c2d2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST dispatch 2026-10-11
 >

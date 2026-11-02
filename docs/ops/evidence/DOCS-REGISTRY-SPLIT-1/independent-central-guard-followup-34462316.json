@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-central-intake-guard-followup",
+  "reviewer": "/root/central_intake_guard_review",
+  "author": "/root",
+  "nonAuthorReviewer": true,
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T21:41:21.842700+00:00",
+  "scope": "Frozen private maintenance runner and plan builder guard review only; no source storage-code implementation or real central ledger mutation acceptance.",
+  "frozenSources": {
+    "runner": {
+      "path": "/tmp/type-pal-central-guard-v2-independent-sgkawtne/maintain-registry-v2-intake.mjs",
+      "sha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d"
+    },
+    "builder": {
+      "path": "/tmp/type-pal-central-guard-v2-independent-sgkawtne/build-v2-central-plan.py",
+      "sha256": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b"
+    },
+    "publicApiSourceCommit": "db814e3cfecc51b8226453f6930b8ec4c22a0743",
+    "publicApiSourceSnapshot": {
+      "/tmp/maintain-registry-v2-intake.mjs": "f68193a3b3c3350820645b1a54b9929b4527e9dad1ef61b960897de5b9f75eab",
+      "/tmp/build-v2-central-plan.py": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/document-registry.mjs": "5d50872b3a02853661a42412a5bb307a8e7b083a4661e66600eff0a4e153d0d8",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/terminal-json.mjs": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/document-registry.test-support.mjs": "b4095b5de7b4875142e43e1fac74e54974113acaee5d814b088cfe9674f60665"
+    }
+  },
+  "previousReport": {
+    "path": "/tmp/type-pal-central-guard-independent-1a17z3s9/independent-central-guard-review-v1.json",
+    "sha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f",
+    "preservedUnchanged": true
+  },
+  "verdict": "Limited acceptance of fixes for the tested IO/authority/pin guard counters. Real central intake plan and resulting byte/status/pin changes still require separate non-author verification.",
+  "counterClosure": [
+    {
+      "id": "CENTRAL-OUTPUT-PREFLIGHT",
+      "status": "closed-for-frozen-v2-guards",
+      "observations": [
+        "existing-output/new-observation.json",
+        "missing-output-parent/new-observation.json"
+      ],
+      "actual": "Both original negatives exit 1 before any expected input bytes change; realpath parent validation and exclusive ordinary output fd reservation precede writer."
+    },
+    {
+      "id": "CENTRAL-DAG-PREFLIGHT",
+      "status": "closed-for-frozen-v2-guards",
+      "observations": [
+        "review-cycle/new-observation.json",
+        "preexisting-review-cycle/new-observation.json"
+      ],
+      "actual": "Old arbitrary whole-file cycle edit rejected by unrelated-entry guard; separate preexisting-cycle fixture reaches exact prepublish DAG error. Both fail before inputs change."
+    },
+    {
+      "id": "CENTRAL-SEMANTIC-GRANT-AUTHORITY",
+      "status": "closed-for-original-arbitrary-path-counter",
+      "observations": [
+        "unapproved-semantic-grant/new-observation.json",
+        "valid-fixed-s03-binding/new-observation.json"
+      ],
+      "actual": "Arbitrary docs/ops/a.md fake-independent upgrade rejected before writes. Real fixed S03 body and exact accepted report bytes pass approved-path checks; donor unrelated entry, full old binding history and new packet are preserved in this owned subset fixture."
+    },
+    {
+      "id": "CENTRAL-PIN-TARGET-RACE",
+      "status": "closed-for-unreviewed-pin-counter-with-explicit-partial-publication-boundary",
+      "observations": ["target-drift-during-publication/new-observation.json"],
+      "actual": "Independent watcher changes body after prepublish recheck while actual public writer lock exists. Runner exits 1 at exact postpublish-target conflict and does not pin new bytes. Registry pending addition was already published, output is reserved but empty, so this is fail-closed pin checking rather than multi-file rollback."
+    }
+  ],
+  "positiveExecution": [
+    {
+      "observation": "valid-pending-registration/new-observation.json",
+      "exitCode": 0,
+      "actual": "Real public branded loader/writer adds pending entry while old native entry stays equal; new status partial-review-unknown and template needs-migration."
+    },
+    {
+      "observation": "valid-fixed-s03-binding/new-observation.json",
+      "exitCode": 0,
+      "actual": "Exact already-accepted S03 body 8ddfbda4... and report f1b24c7d... are accepted by the authority guard. Temporary subset fixture only; no actual root intake or fresh semantic certification."
+    },
+    {
+      "observation": "valid-builder-pending-registration/builder-observation.json",
+      "builderExitCode": 0,
+      "runnerExitCode": 0,
+      "actual": "Unchanged Python builder generates a complete explicit partial registration plan; frozen v2 runner applies it through real public API. Native total 2 -> 3; no status promotion."
+    }
+  ],
+  "codeReadObservations": [
+    "Public loadDocumentRegistry supplies the branded loadedSource used in the same process by writeDocumentRegistry; no serialization/forgery is used.",
+    "Registry updates are restricted to the two fixed S03/S04 paths and accepted body/report hashes; native identity fields are preserved under an explicit allowed-field set.",
+    "Edited review metadata and non-target entry list/order are protected, prior supersededBindings prefix is preserved, and output history is append-only for actual pin deltas.",
+    "Expected target hashes are snapshotted and rechecked before writer; public returned storage SHA and current-run formatted child review SHA are used for exact postpublish pin checks.",
+    "No code modifies registry.structuralRoots or adds a storage/receipt semantic-completion exception."
+  ],
+  "remainingBoundaries": [
+    "Private runner remains an explicit trusted-plan maintenance tool, not a validator of every possible per-document semantic/history claim. Root must inspect actual allowedPinDeltas reasons, S03/S04 record contents and superseded history against fixed packets before applying.",
+    "The valid S03 fixture tests only the fixed authority/binding path using already-accepted body/report; it is an owned subset with one unrelated entry, not the full real eight-entry R60 donor. Full donor cardinality/history preservation must be checked during real central intake.",
+    "S04 fixed branch was read with its specific body/report hashes; it was not separately applied in a positive fixture during this limited followup.",
+    "Post-reservation exceptions can leave an empty output file. External raw command capture is required and remains authoritative for failure; do not parse or register that empty file as a successful JSON receipt. No cross-file registry/review/output transaction or rollback is claimed.",
+    "The first followup setup attempt failed while trying to restore a tracked node_modules symlink through write_bytes. This was reviewer fixture setup only, occurred before runner execution and was fixed solely in an owned /tmp probe script. Failed scratch prefix /tmp/type-pal-central-guard-v2-independent-2odu2nax is not candidate evidence.",
+    "Owned temporary fixture .git stores sources and has a read-only node_modules symlink to shared installed dependencies. No repository files, shared author scripts, product tests, coverage or source-code implementation were modified.",
+    "No full check:docs, lint, progress completion or full semantic acceptance is granted by these focused probes."
+  ],
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "cardDoneAllowed": false,
+  "mergeToMainAllowed": false,
+  "actualCentralIntakeApplied": false
+}

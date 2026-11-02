@@ -1,40 +1,64 @@
 # 剩余动态交互后继前提核查
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: design-spec-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是剩余动态交互后继前提核查证据包（读 8efe04861 作者工程及原始全局脚本，回答四个动态交互绑定是否漏后继并把安装普查未证项与实际内容缺陷区分；当前结论允许进入精确修复设计，尚未执行产品修改或验收，不代表新增剧情 E2E 通过；产品准入由 SCRIPT-GOV-3 Root 独立核定；原始证据用全局 IP 标识比行号稳定）。
+
+## 问题与目标
+
+- 四个动态交互绑定（s021 林月如二次交互/京城莺莺支线三绑定/e2319 默认错误后继/四个 trigger unknown）是否漏后继；把普查 unknown 与真实缺陷区分。
+
+## 真值与约束
+
+- 第一阶段语义：scene-system.ts:304 优先读 triggerResume.ip 否则 triggerLabel 并记 triggerOwnerId；event-system.ts:1922 最外层结束指令结算（advance 存下一条全局 IP/reset 存指定入口/普通 end 保持已推进入口）——「首段结束后再次交互」必须查同一 owner 后续入口，另一实体或方案存在同一对白不能代替正确绑定；:4240 的 0x25 用 operand0 选实体非零新入口同时清旧 triggerResume；原始对象号 1-based 提取 id 与 eN 是 0-based 逐项核未把数组位置当身份；:2324 的 0x0A 等玩家确认否分支跳 operand0；:4493 的 0x6D 场景号 1-based。
+- s021 林月如：scene21 e403=sprite229 触发 5816、e404=触摸区 5844；5636-5808 冲突演出 5727 显现 e403、5807 显现 e404；离开时 5844 给 e403 安装 5818→5818-5840 交谈并给 e404 安装 5894→5841 advance→下次 e403 交互 5842 dlg2074→5843 普通 end 复读；当前 s021.json:2682 e403 legacy-001 只含 5818 首段未切自身、同方案无 2074 无下一步骤故再次交互重播长段；目标=保留「回头询问求救」首段加「交谈后复读」步骤（dlg2074、identity:narration、slot:top 停留复读）保持 e404 新绑定；说话人无显式源字段保留原始无署名显示不猜姓名牌。
+- 莺莺支线可达链（非死代码）：scene100/e1824 静态 trigger17494 初态隐藏→scene121 onEnter18112 在 18127 显现 e1824→17497 的 0x0A 否分支 17500 走完故事到 17534 给茶水小妹 e2293 安装 17546→e2293 17548 给 scene134 莺莺 e2318 安装 17554→莺莺 17554 给嫖客 e2319 安装 17573、17555 给 scene131 安装入场 17582→重进后 17582-17626 让莺莺现身解释并在 17624 给 scene100/e1824 安装 17632；当前同一链有真实作者调用（s121 onEnter 显现/s100 confirm.onNo 选 s131-e2293/e2293→e2318/e2318→e2319+s131 入场/s131 onEnter 最终选 s100-e1824）——证明完整静态动态调用链但不冒充玩家已走通。
+- 三绑定修复：s131/e2293（17546-17549 指路安装莺莺 advance 17550/17551 dlg6170/6171、17552 reset 指路劝阻交替→两步骤「指引莺莺房间」→「提醒不要闯入」）；s134/e2319（17573 问谈什么 advance 17575-17577 dlg6183-6185 end 复读→「询问来意」→「催促尽快谈完」）；s100/e1824（17632-17699 完整质问改五跨场景实体状态 17700 advance、17701 dlg6248 end→「质问乞丐结束支线」→「乞丐求饶复读」五实体状态仅首次）——三项无需新产品取舍；最强替代解释（链不可达/owner 另有/已被接管）被完整静态入口+0x0A 否分支+每个安装操作数+当前 selector 链反驳。
+- e2319 默认错误后继：scene134 静态 trigger15927-15929 dlg5441/5442 advance 15930、15931/15932 dlg5444 end；当前 s134.json:301 默认步骤首段正确但 next 指向 legacy-002（转身说 dlg6249→6250 对应原始 17703-17708，scene134 清单把 17703 绑另一实体 e2321）——邻实体正文误接不能以「已有复读」关闭；修复缩成「初次驱赶」+「再次警告」两步骤删错接 6249/6250，e2321 保留「给娘送茶」。
+- 四 trigger unknown 核查表：s034/e573 8656（合八字后继 8759 dlg3147 缺失；说话人显式姓名牌是林忠 vs scene34 静态林天南——owner 与 dialog speaker 分离本轮修漏正文无需裁决改名）；s052/e897 10245（粗指纹误读 loadScene.sceneId 为旧字段——后继结构存在修扫描器字段）；s213/e3606 31292（去岸首段有但回岸后继 31296-31298+reset31292 遗漏，交 Motion owner 核芦苇漂道具 294）；s262/e4568 34097（应补两次后继「追忆两族婚姻」→「催促交杖」只补 34138 前缀不完整）；三同族对照 s268/e4673（空终点被完成态替代有结构依据不增空步骤）/s137/e2332（后继存在须防重复奖励验收）/s118/e2165（两臂显式未见漏后继）。
+- 多上下文 18 条四来源：8 条 s016/e218 重复方案指纹歧义无漏后继（合并冗余需同步所有 caller）；2 条 s032/e549 擂台挑战者确实缺后半段（8164 同族一并核交 Motion owner；观众 8134-8144 确定林家擂台比武）；1 条 self33674 双 owner（s250+s252）是正确源调用域须引两实体正文 hash 不能 single-owner 覆写；7 条 6 个门口切场绑定（default 有 source transition 而 legacy-001 没有——动态方案漏切场渐变同族候选交 Family owner）。
+- 扫描器限制与修正：原 callerContexts 漏 0x0A（jumpOperand 补全+确认分支识别非线性前缀）；loadScene token 误读 command.sceneId 改读 scene（原粗指纹曾产生 scene:undefined）；22 项工具测试通过；只改善调查能力不自动批准产品修补。
+- 重跑全量：639 边=580 安装+53 清绑定+6 无操作；178 mapped/18 multicontext/264 unknown/120 作者保护（等级都不是正确性验收）；结构可达 458 静态+174 动态+7 not-observed 已无 unproven-dynamic-root（17534/17548/17554/17624 由确认分支漏扫解释）；7 not-observed 中四条 operand0=0 无操作，余 12323/14140-14141 无 label 片段无已核入口不应创建猜测 caller——「全输入已检未观察到可达 caller」不是绝对死代码证明。
+- 纯图探针（排除作者保护 s000-s005 后 204 项静态 trigger 根首段 advance/reset）：修正后 137 项后继 token 在实际 next 目标/2 项非线性/64 项无粗指纹/1 项实际缺失（s134/e2319/default）；137 只证内容线索非运行时验收；64 项分 22 源仅 end（当前已 complete）+42 非对白动作（ride 往返与自动接管须按命令参数核不是空 token 当空脚本）。
+
+## 方案
+
+- 有限闭合应包含完整 639 边清单、每类证据与所有新增实质候选执行反控，不以 riskCandidates 降到 0 代替完成；51 个 nonlinear 前缀保留「扫描无法建立唯一等价」结论按 GOV2 全 auto 轨迹/购买奖励分支测试交叉归并，未完成归并前不宣称所有 unknown 无问题。
+
+## 边界与风险
+
+- 未恢复转换器、未启动浏览器、未关闭 6012、未修改主工作树；新的 schema、原 IP 调度、parallel/join 和退役转换核都没有必要恢复；验收须真实 compiler/runner 连续激活及跨场景 world 选择回执不能只检查后继文字出现。
+
+## 验收
+
+- 建议加同族 s134/e2319/default、s034/e573/8656、s262/e4568/34097；芦苇漂与擂台挑战者交 Motion owner；Root 独立读关键 IP、核精确写入 Owner 后授权 build；真实执行覆盖连续激活、原 caller 选择、副作用只执行一次、reset 交替和最终复读后才标已修。
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy batches/script-governance 的剩余动态后继前提核查；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 剩余动态交互后继前提核查：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 四个原触发候选后继缺失前提已核+三个同族新增建议；unknown≠缺陷口径；普查修正后全量重跑等级分布。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 四向事实表、莺莺链、unknown 核查表、multicontext 四来源与扫描器修正在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。核查按 8efe04861 时点；修复与验收归 SCRIPT-GOV-3。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归 SCRIPT-GOV-3 任务卡与修复台账。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f95869a07a76f9f572ce6d669c3bed0515e3d5b3206598d1e67b7a273633a870`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f95869a07a76f9f572ce6d669c3bed0515e3d5b3206598d1e67b7a273633a870`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 剩余动态交互后继前提核查
 >

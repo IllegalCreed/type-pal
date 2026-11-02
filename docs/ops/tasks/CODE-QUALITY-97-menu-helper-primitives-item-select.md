@@ -1,6 +1,65 @@
 # CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+menu域第二批基础helper审核（primitives.ts 175行/item-select.ts 94行+5测试）：两helper是menu域共享纯函数，合同由sdlpal（uigame.c:242-451、ui.c:510-572 L38不跳disabled、ui.c:540+ PgUp/PgDn；play.c:266 kItemFlagUsable入口、uigame.c:1777 kItemFlagSellable入口、itemmenu.c price/2）与10+生产caller共同钉住。
+
+## 范围
+
+2生产+5测试；登记E-4（pageUp/pageDown/findNextSelectable无当前生产caller、dir=-1臂无调用）与E-5（createItemSelectMenu/ItemDisplayMode/rightText无生产caller，真实菜单走inventory/shop/sell 1:1 port）。
+
+## 前提与证据
+
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+## 验收
+
+返工更正三处注释反事实：equip位引用改kItemFlagEquipable=1<<1（global.h:136一手核，旧注位序反）；kItemFlagImportant声明为工程近似（枚举无此项）；PgUp锚更正（PAL_ReadMenu无kKeyPgUp分支）。发现并钉住pageDown'target钳制优先于跳过disabled'的真实语义（与pageUp方向不对称）；potion投掷否决隔离（usable+throwable）、important双守卫各自单真用例。2026-10-25增量：primitives旧未来Step3注释纠正；boundaries混合第一例拆空表/单项/入参不变三合同、leaf的Confirm/Switch混例一分二，5文件51例全绿。公共page/旧物品factory仍等待GAME-MENU-HELPER-API-1裁决未删除。终态并入94-102统一门（official 20168/807、20新关闭+34桥接）。
+
+## 状态与交接
+
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
+
+## 历史范围
+
+2026-10-15各时点保留：R2（装备位注释反事实/伪disabled反例/否决位混淆）、R3（内联Important与测试翻页锚仍错）、最终窗口bb94ad8e2。
+
+## 原始结论
+
+原卡结论：两helper通过——primitives是被10+文件正当共享的primitive非过度抽象；item-select的'M5简版'近似均显式标注为已知近似而非机制事实。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-94/全套。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+历史任务卡（done有限语义）。
+
+## 继任文档
+
+GAME-MENU-HELPER-API-1（page/物品factory接口裁决）与CODE-QUALITY-94母卡承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 10693B / SHA-256 15a22f6c73269bb04bcfc266f2fedea6570d25de5378d619582fd001f8e770d2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-97 — menu 基础 helper 逐文件审核（primitives / item-select）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -120,3 +179,5 @@ CODE94/95 的 30 文件窗口不含 menu 模块两个基础 helper，本批补�
 ## 下一步
 
 Codex 独立验收后收口为已验证；E-4/E-5 与 CODE94/95 登记的 E-1/E-2/E-3 合并为后续实现批候选。无用户裁决需求。
+```
+<!-- incremental-original-source:end -->

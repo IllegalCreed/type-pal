@@ -41,6 +41,8 @@ const digest = 'f'.repeat(64)
 const shared = new RuntimeSharedScriptResolver(library, digest)
 const governedAutoKeys = new Set([
   ...motionTransitionLedger.rows.map((row) => row.key),
+  // E2E006: the boat's retired auto is now exercised by main.ride-presentation.test.ts.
+  's005/e116/auto/default',
   's016/e218/auto/default',
   's016/e218/auto/legacy-001',
   's048/e797/auto/default',
@@ -274,7 +276,7 @@ async function observe(
 
 test('all current scene scripts use steps; automatic phases are inside one step', () => {
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1322)
+  expect(autos.size).toBe(1321)
   let flows = 0
   for (const scene of scenes) {
     for (const entity of scene.entities)
@@ -289,7 +291,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
         expect(hook.flow.kind).toBe('stages')
       }
   }
-  expect(flows).toBe(4657)
+  expect(flows).toBe(4656)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])

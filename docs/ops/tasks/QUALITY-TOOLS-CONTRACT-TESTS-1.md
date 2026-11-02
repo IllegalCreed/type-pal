@@ -1,6 +1,39 @@
 # QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+继续全仓代码治理，核四个尚未登记关闭的工具测试文件的八维质量：合法 fixture、精确失败 oracle、统计与范围审计、真实子进程诊断及临时资源隔离；不以增加测试数或覆盖率作为目标。
+
+## 范围
+
+`scripts/coverage/{metrics,inventory,environment,full-inputs}.test.mjs`（每组两文件，累计相关切片）；相邻实现、正式 run.mjs 调用、批准表消费者只核合同，不重开既有逐文件接受。同一治理 worktree；主树、其它活动 Owner、生成物、产品代码、coverage 规则/基线均不写。用户2026-10-26更新节奏后本卡成为[约百文件窗口](QUALITY-PENDING-100-1.md)第一子批，不单独开PR。
+
+## 前提与证据
+
+工程前提：现有 metrics 非法输入反例同时缺少其它 metric，目标 covered>total 校验被删除也可能继续抛错；inventory 只断言 changes 数量不足以识别错报。真值为 Node assert/test 的真实运行、run.mjs 收集/compare/protected/full 输入调用及叶函数合同；SDLPal、游戏行为、存档、canonical 版本更改均 N/A。锚[长期八维质量](../code-quality.md)、[工作流与测试验收](../agent-workflow.md)、[测试治理](../../testing/governance.md)；基点 `123595ac3a651957b36061eacced329369c495e5`，597 closed／0 review／2865 pending。
+
+## 验收
+
+2026-10-26代码审查收口：本卡4主体文件A–H接受，136工具相邻与必要反控成立；ops mjs 不属于包级 TS 输入，不伪称新增 typecheck。具体结论/问题/原件见[本卡唯一证据](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)内共同review.json。
+
+## 状态与交接
+
+统一门待约100窗口；2026-10-28本地统一门（20536包测试＋732工具测试、七包typecheck与whole lint全零、唯一official 20,188fast/809src）后done指本地收口，远端PR/CI/合并尚待、发布以受保护PR实际结果为准。原件见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。无下一位Agent提示词；Codex继续同一分支。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4083B / SHA-256 90227c42eedf1883ccc68825c295adceea8ac301cf63ad1853f48e928cc65962；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent 自审，不冒称第三方验收）
 Phase: ops
@@ -49,3 +82,5 @@ Branch: codex/code-quality-94-102
 ## 本窗口本地验收收口
 
 2026-10-28（JST）：100主体八维及本地统一门接受；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准。 20536包测试＋732工具测试全部通过、七包typecheck和whole lint error/warning/info为0；唯一official20,188fast/809src，有限计数调整后原报告ratchet/protected0。文件关闭只来自本卡既有逐文件证据，未扩大到其它pending。见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)。本卡done指本地审查/整改/验收，远端发布不是预先完成声明。
+```
+<!-- incremental-original-source:end -->

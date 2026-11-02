@@ -1,55 +1,60 @@
 # TEST-CODEX-PLAYBACK-1 — 当前脚本预览控制与隔离态
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（控制器数据与时序合同；不冒称视觉验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是编辑器隔离预览（core/playback.ts 合同）六组纯测试历史记录（2026-09-26，起点 82863cf2）：controls/motion/entities/presentation/effects/queries 的控制进度、合法 leaf 组合与跨次输入隔离。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为 SceneScriptWorkspace.tsx:178-194,245-265 与 PreviewCanvas.tsx 驱动的公开 playCanonical/tick/pause/resume/step 补当前入口合同测试；不复活无生产调用方的旧 play/退役命令域。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：六份新测试 playback.{controls,motion,entities,presentation,effects,queries}.test.ts、专属 playback-canonical-fixtures.ts 与 codex-playback/ 证据；真实 flow guard/compiler/runner/host，经公开 view/tick 观察。
+- 范围外：产品/旧测试/配置/资产；旧 playback.test.ts 12 项与 architecture-lab/playback-scope.test.tsx 4 项已证域（map scratch、cut 入口、旧失败/淡幕/hold、confirm 两臂、旧 play 换源/wait/卸载）；不把预览战斗桩日志称为真实战斗、不声明 Canvas 像素已测。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+当前合同锚点 core/playback.ts:1-7,284-654；最强替代解释（未覆盖臂只能从私有 host/旧 play 进入）成立则只登记不为比例强造输入。单步首次阶段门问题保留独立红诊断、归 EDITOR-PREVIEW-STEP-1 修复卡，不改绿预期掩盖。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：六组 54 项（7/10/9/7/9/12）与旧 12+lab4+Canvas2 合计 72/72；六正控/六单点反控真实 AssertionError、源码 hash 不变；完整 check9326→官方 ratchet→保护 82863cf2 单次 strict8834 严格串行 exit0；+138B/+203S/+188L/+76F，全仓 45131/63178=71.43…%。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 Codex 自验 accept/done（当前委派模式无固定他席门，纯测试无需用户 UI 验收）；单步 D1 不随本卡关闭、仍在独立 draft 修复卡；母卡剩 1446 分支继续。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 定向接收与统一验收同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组预览控制/隔离态合同按纯测试批收口；单步阶段门缺陷移交 EDITOR-PREVIEW-STEP-1。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+SceneScriptWorkspace/PreviewCanvas 消费锚点、独立红诊断、批回执。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。预览合同现行状态以当前测试与代码为准；单步缺陷当时未闭合。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+修复卡[EDITOR-PREVIEW-STEP-1](EDITOR-PREVIEW-STEP-1-command-gates.md)；队列母卡[TEST-COVERAGE-PLUS5-1](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `879495a639e1d9f1cb1d715f0e166d620b23154a4cb90b62403f931fedfb4dc0`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `879495a639e1d9f1cb1d715f0e166d620b23154a4cb90b62403f931fedfb4dc0`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-PLAYBACK-1 — 当前脚本预览控制与隔离态
 >

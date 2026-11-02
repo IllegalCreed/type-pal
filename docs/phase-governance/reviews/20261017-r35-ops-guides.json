@@ -12,28 +12,26 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Kimi 浏览器实测操作手册：这是 guide-runbook，当前文档状态为 current。全文 60 行、7 个标题；摘要/首段为「> 给 Kimi（视觉验收 / 浏览器实测）的操作手册。**最重要的提醒：reforge 游戏本体是纯键盘」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "readMethod": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "现行浏览器指南按游戏键盘、编辑器DOM与debug输入层分工；F5/F9仅在探索路由、视频点击重试播放而跳过走键盘、DEV快照须等待Promise、e2e-load失败回新局不得误认恢复成功。以完整原稿和当前caller核静态事实，不授实际浏览器/E2E/视觉信用。",
       "truthAnchors": [
-        "docs/ops/guides/browser-verification.md:1",
-        "docs/ops/guides/browser-verification.md:1 Kimi 浏览器实测操作手册",
-        "docs/ops/guides/browser-verification.md:7 1. 环境与入口",
-        "docs/ops/guides/browser-verification.md:16 2. 游戏键位速查（reforge 运行时）",
-        "docs/ops/guides/browser-verification.md:29 3. 浏览器实测手法（给 Kimi）",
-        "docs/ops/guides/browser-verification.md:40 4. 调试面板 `?debug`（D13-1）",
-        "docs/ops/guides/browser-verification.md:48 5. 常见键盘流程样例",
-        "docs/ops/guides/browser-verification.md:55 6. 关键纪律"
+        "docs/ops/guides/browser-verification.md#目的",
+        "docs/ops/guides/browser-verification.md#原文保全",
+        "packages/reforge/src/input.ts",
+        "packages/reforge/src/runtime-input-router.ts",
+        "packages/reforge/src/video-player.ts",
+        "packages/reforge/src/main.ts",
+        "packages/reforge/src/debug-tools.ts"
       ],
       "unresolved": [
-        "正文信号 52:- **对话翻页**：连按 Space 到底，最后一页关闭；`~NN` 尾停顿不可加速（等待自动推进）。",
-        "正文信号 53:- **战斗胜利结算**：结算屏自动播放，Space 可跳过等待。"
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "guides",
       "capability": "ops-guides-browser-verification",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S35正文作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
         "full-text-structured-review",
@@ -42,29 +40,48 @@
           "nonAuthorReviewer": "r35_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        },
+        {
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S35",
+          "nonAuthorReviewer": false,
+          "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
         }
       ],
       "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
-      "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
-      "publicCallers": ["docs navigation / repository reference"],
+      "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+      "publicCallers": [
+        "docs/ops/guides/README.md（既有导航链接）",
+        "docs/ops/guides/dev-servers.md（当前正文交叉入口）"
+      ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/guides/browser-verification.md"
+        "明确获准的候选/engine/project/origin及当前canonical工程",
+        "同引擎/当前版本检查点或明确标注的正常入口",
+        "实际可用的浏览器键盘/截图工具和任务要求的观察目标"
       ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "document-content-and-navigation",
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "普通画布点击不作世界行动；表单焦点/当前输入层不混。",
+          "视频点击开始与默认跳过键Space/Enter/Escape分开。",
+          "DEV观察点存在性及dumpSave异步结果、碎片恢复警告如实记录。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/guides/browser-verification.md"]
+        "result": "scoped-comparison",
+        "against": [
+          "docs/ops/guides/dev-servers.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md",
+          "docs/ops/README.md",
+          "docs/ops/agent-workflow.md"
+        ],
+        "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
       },
       "revision": {
-        "currentSha": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "currentSha": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
         "implementationSha": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
         "history": [
           {
@@ -78,29 +95,26 @@
             "date": "2026-10-17",
             "action": "R35 phase2/lore migration or HTML artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S35 current document bytes separated from historical implementation/source",
+            "previousCurrentSha": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+            "currentSha": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
-        "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
-        "candidateSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
-        "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
-        "lineCount": 124,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 3746,
-          "sourceLines": 59,
-          "sourceFinalNewline": true,
-          "inverseSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
-        }
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -114,16 +128,160 @@
           "action": "R35 readonly proposal accepted then migration/envelope",
           "reviewer": "r35_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "907a7a95023c7484ca6bf2b82992dad44310624877f0fc18ff681461133cbdf7"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S35 authored semantic rewrite; pending non-author acceptance",
+          "beforeSha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+          "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "pre-e2e",
+              "currentBoundary": "current phase2/lore docs/code/tests own truth"
+            },
+            "versionScope": {
+              "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+              "date": "undated",
+              "validity": "current-guide"
+            },
+            "publicCallers": ["docs navigation / repository reference"],
+            "counterReworkBlocked": [
+              {
+                "id": "R35-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No product execution or visual acceptance."
+              }
+            ],
+            "unresolved": [
+              "正文信号 52:- **对话翻页**：连按 Space 到底，最后一页关闭；`~NN` 尾停顿不可加速（等待自动推进）。",
+              "正文信号 53:- **战斗胜利结算**：结算屏自动播放，Space 可跳过等待。",
+              "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+            ],
+            "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/ops/guides/browser-verification.md"]
+            }
+          }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+            "unresolved": [
+              "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+            ],
+            "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+            "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+            "counterReworkBlocked": [
+              {
+                "id": "S35-INDEPENDENT-PENDING",
+                "status": "pending",
+                "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+              },
+              {
+                "id": "S35-NO-EXECUTION",
+                "status": "not-in-scope",
+                "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
+              }
+            ],
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+              "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+              "candidateSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+              "afterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+              "lineCount": 124,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 3746,
+                "sourceLines": 59,
+                "sourceFinalNewline": true,
+                "inverseSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+                "exactRoundTrip": true,
+                "trailingWhitespaceEncoding": {
+                  "space": "␠",
+                  "tab": "⇥"
+                }
+              },
+              "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+            "originalCoreConclusion": "Kimi 浏览器实测操作手册：这是 guide-runbook，当前文档状态为 current。全文 60 行、7 个标题；摘要/首段为「> 给 Kimi（视觉验收 / 浏览器实测）的操作手册。**最重要的提醒：reforge 游戏本体是纯键盘」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+            "originalReviewDepth": "deep-semantic",
+            "originalReadMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+            "originalContentReviewStatus": "content-reviewed",
+            "originalTemplateCompliance": "template-compliant",
+            "originalAfterSha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "907a7a95023c7484ca6bf2b82992dad44310624877f0fc18ff681461133cbdf7"
+            },
+            "originalEntryLocator": {
+              "record": "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+              "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+              "sourceRecordSha256": "dc16cc3008e6ce040458a7aa3b39e2dca7e9a898728a8ee2a5b92c636f0a3a56",
+              "sourceRecordGitObject": "eca5c47064ad1b019973353f0cff1d4262ccb6be",
+              "entryIndex": 0,
+              "path": "docs/ops/guides/browser-verification.md"
+            },
+            "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "authorCanonicalTask": "/root/s12_semantic_author",
+            "nonAuthorReviewer": false,
+            "noNewSemanticOrTemplateOrRuntimeCredit": true
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-124",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
+      "userVisibleBeforeAfter": "泛化封套和旧工具说明 → 当前输入层、视频启动/跳过、异步快照及碎片失败边界的具体指南；未改变产品。",
+      "reviewedLines": "本篇before 124行与固定source 59行全文；候选 149行；依赖为下述限定读域",
       "reviewNotes": "浏览器手册区分游戏键盘、编辑器鼠标和 debug DOM，要求真实入口、机读观察点和集中 E2E 证据，禁止把点画布无反应当作产品缺陷。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "current-guide",
+      "documentStatus": "current",
       "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
       "candidateSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
       "primarySource": [
@@ -132,26 +290,183 @@
           "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
           "sha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
           "scope": "full source"
+        },
+        {
+          "path": "docs/ops/guides/browser-verification.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+          "scope": "S35 full before-document and preserved quote carrier"
+        },
+        {
+          "path": "packages/reforge/src/input.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "19898663409820e9c385b0eae57568d212f64a7055c159c60b657448ecb40dc8",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/reforge/src/runtime-input-router.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/reforge/src/video-player.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "b03868025b829b271fb619167ea02151400edab1398d3dc8b8f49911f0c09bac",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+          "readScope": "targeted lines270-296,324-342,830-893,6044-6074,6334-6438"
+        },
+        {
+          "path": "packages/reforge/src/debug-tools.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "f69fe0206611e390bc24c8b0b0101f9fc22d372f3410f320c3c394a1f494bd70",
+          "readScope": "targeted lines370-449"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "pre-e2e",
-        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+        "appliesTo": ["phase1", "phase2"],
+        "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
       },
-      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "dependencies": [
+        "packages/reforge/src/input.ts",
+        "packages/reforge/src/runtime-input-router.ts",
+        "packages/reforge/src/video-player.ts",
+        "packages/reforge/src/main.ts",
+        "packages/reforge/src/debug-tools.ts"
+      ],
       "versionScope": {
-        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
-        "date": "undated",
-        "validity": "current-guide"
+        "historicalSourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "historicalSourceDate": "undated",
+        "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+        "lastReviewed": "2026-10-24",
+        "validity": "current instructions/navigation; static review only"
       },
       "counterReworkBlocked": [
         {
-          "id": "R35-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution or visual acceptance."
+          "id": "S35-INDEPENDENT-PENDING",
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
+        },
+        {
+          "id": "S35-NO-EXECUTION",
+          "status": "not-in-scope",
+          "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+        "afterSha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "currentAuthoredReview": {
+        "task": "S35",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/guides/browser-verification.md"],
+          "fixedSourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+          "staticSourceRefs": [
+            {
+              "path": "packages/reforge/src/input.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "19898663409820e9c385b0eae57568d212f64a7055c159c60b657448ecb40dc8",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/reforge/src/runtime-input-router.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "e6883cfc17bffc99a66b1b975aaf882ac979ca41840b854d3c2b25293aa06006",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/reforge/src/video-player.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "b03868025b829b271fb619167ea02151400edab1398d3dc8b8f49911f0c09bac",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/reforge/src/main.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+              "readScope": "targeted lines270-296,324-342,830-893,6044-6074,6334-6438"
+            },
+            {
+              "path": "packages/reforge/src/debug-tools.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "f69fe0206611e390bc24c8b0b0101f9fc22d372f3410f320c3c394a1f494bd70",
+              "readScope": "targeted lines370-449"
+            }
+          ]
+        },
+        "quote": {
+          "sourceSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a",
+          "sourceGitObject": "ce87eef2f5933ee091a6d70c1b17596575857480",
+          "tailSha256": "3a69de9579632f760c572814fbea6bc6960b8df7880f1a0326697906d8511766",
+          "tailByteEqual": true,
+          "inverseRule": "drop-exact-one-unquoted-separator-LF",
+          "separatorCount": 1,
+          "quotedSeparatorCount": 0,
+          "inverseBytes": 3746,
+          "inverseSha256": "d5479df81b63ac30b36e0ed5f2541b6eca9895adb7bd3442299988629dde4a8a"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+          "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a"
+        }
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Existing guide-runbook-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "8a956ec769efc306212d35a5f9d1183e0b538257a8bb743ce8dea64fe8e80a9a",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/0",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/guides/dev-servers.md",
@@ -160,31 +475,32 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "readMethod": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "本地服务指南恢复6005 game、6010/6011 editor PAL/demo、6050/6051 Reforge demo/PAL的显式脚本与协议，区分game E2E=1仅关SSL、LAN dev:lan、编辑器同源试玩、ignored二进制物化与作者工程维护权。旧5173/5174注释、6001/L2和bake均不恢复旧入口或成为PAL缺图修复。默认publication入口先恢复journal，计划模式也可能写盘；--write发布content/assets/baseline，缺current baseline拒绝bootstrap。静态核命令，未起停服务/写盘。",
       "truthAnchors": [
-        "docs/ops/guides/dev-servers.md:1",
-        "docs/ops/guides/dev-servers.md:1 本地开发服务器 · 端口与启动命令",
-        "docs/ops/guides/dev-servers.md:8 新人前置(clone 后必做)",
-        "docs/ops/guides/dev-servers.md:15 原版仙剑游戏文件(MKF 全家 + PAL.EXE)放入 data/raw/(版权资产不进 git)",
-        "docs/ops/guides/dev-servers.md:20 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
-        "docs/ops/guides/dev-servers.md:30 一阶段 · 仙剑本体(game)",
-        "docs/ops/guides/dev-servers.md:50 二阶段 · 编辑器(editor)",
-        "docs/ops/guides/dev-servers.md:79 二阶段 · 新引擎(reforge)",
-        "docs/ops/guides/dev-servers.md:96 常见坑"
+        "docs/ops/guides/dev-servers.md#目的",
+        "docs/ops/guides/dev-servers.md#原文保全",
+        "packages/game/package.json",
+        "packages/editor/package.json",
+        "packages/reforge/package.json",
+        "packages/game/vite.config.ts",
+        "packages/editor/vite.config.ts",
+        "packages/migrate/package.json",
+        "packages/migrate/scripts/migrate-content.mts",
+        "packages/migrate/scripts/bake-assets.mts",
+        "packages/reforge/src/boot.ts",
+        "packages/editor/src/main.tsx",
+        "docs/phase2/READ-FIRST.md"
       ],
       "unresolved": [
-        "正文信号 4:> game 用 **6005**(! 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
-        "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
-        "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行",
-        "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "guides",
       "capability": "ops-guides-dev-servers",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S35正文作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
         "full-text-structured-review",
@@ -193,26 +509,49 @@
           "nonAuthorReviewer": "r35_readonly_review",
           "verdict": "accept-readonly-proposal",
           "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f"
+        },
+        {
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S35",
+          "nonAuthorReviewer": false,
+          "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
         }
       ],
       "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
-      "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
-      "publicCallers": ["docs navigation / repository reference"],
-      "legalInputs": ["current repository documentation", "docs/ops/guides/dev-servers.md"],
+      "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+      "publicCallers": [
+        "CLAUDE.md（启动命令路由）",
+        "docs/ops/guides/README.md（既有导航链接）",
+        "docs/ops/guides/browser-verification.md（当前正文交叉入口）"
+      ],
+      "legalInputs": [
+        "仓库根目录/已安装依赖和任务允许的engine/project",
+        "已有服务Owner与端口状态",
+        "被任务授权的当前资源供应和物化范围"
+      ],
       "businessOracle": {
-        "type": "historical-template-migration",
+        "type": "document-content-and-navigation",
         "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
+          "五端口与package脚本、PAL env、strictPort一致。",
+          "HTTP/HTTPS、LAN绑定与同源工程句柄边界明确。",
+          "migrate:content默认先恢复事务，不能当严格只读；--write的content/assets/baseline发布与bake输出职责不混，作者正文不重生成。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/guides/dev-servers.md"]
+        "result": "scoped-comparison",
+        "against": [
+          "docs/ops/guides/browser-verification.md",
+          "docs/ops/evidence/README.md",
+          "docs/ops/audits/README.md",
+          "docs/ops/README.md",
+          "docs/ops/agent-workflow.md"
+        ],
+        "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
       },
       "revision": {
-        "currentSha": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "currentSha": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
         "implementationSha": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
         "history": [
           {
@@ -226,29 +565,26 @@
             "date": "2026-10-17",
             "action": "R35 phase2/lore migration or HTML artifact envelope",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S35 current document bytes separated from historical implementation/source",
+            "previousCurrentSha": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+            "currentSha": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
-        "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
-        "candidateSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
-        "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
-        "lineCount": 168,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 4634,
-          "sourceLines": 103,
-          "sourceFinalNewline": true,
-          "inverseSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
-        }
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -262,16 +598,167 @@
           "action": "R35 readonly proposal accepted then migration/envelope",
           "reviewer": "r35_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "dc3bc9556e559ad30a4b95964a42172340d7be513f5127a321175c2a83e541e9"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S35 authored semantic rewrite; pending non-author acceptance",
+          "beforeSha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+          "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "pre-e2e",
+              "currentBoundary": "current phase2/lore docs/code/tests own truth"
+            },
+            "versionScope": {
+              "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+              "date": "2026-07-04",
+              "validity": "current-guide"
+            },
+            "publicCallers": ["docs navigation / repository reference"],
+            "counterReworkBlocked": [
+              {
+                "id": "R35-1",
+                "status": "preserved-open-for-product-work",
+                "statement": "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+              },
+              {
+                "id": "R35-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No product execution or visual acceptance."
+              }
+            ],
+            "unresolved": [
+              "正文信号 4:> game 用 **6005**(! 原定 6000 是 Chrome unsafe port(X11 保留),`ERR_UNSAFE_PORT` 拒开,2026-07-04 挪走)、编辑器从 **6010**、reforge 从 **6050** 起。",
+              "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+              "正文信号 99:- **`assets/index.json` 有记录但 `projects/pal/assets/migrated/` 或 `runtime/` 404** = ignored 二进制尚未物化。运行",
+              "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突",
+              "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+            ],
+            "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": ["docs/ops/guides/dev-servers.md"]
+            }
+          }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+            "unresolved": [
+              "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+            ],
+            "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+            "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+            "counterReworkBlocked": [
+              {
+                "id": "S35-INDEPENDENT-PENDING",
+                "status": "pending",
+                "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+              },
+              {
+                "id": "S35-NO-EXECUTION",
+                "status": "not-in-scope",
+                "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
+              }
+            ],
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r35-ops-guides-20261017.json",
+              "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+              "candidateSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+              "afterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+              "lineCount": 168,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 4634,
+                "sourceLines": 103,
+                "sourceFinalNewline": true,
+                "inverseSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+                "exactRoundTrip": true,
+                "trailingWhitespaceEncoding": {
+                  "space": "␠",
+                  "tab": "⇥"
+                }
+              },
+              "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+            "originalCoreConclusion": "本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+            "originalReviewDepth": "deep-semantic",
+            "originalReadMethod": "full-text UTF-8 source read and R35 semantic migration; quote inverse checked",
+            "originalContentReviewStatus": "content-reviewed",
+            "originalTemplateCompliance": "template-compliant",
+            "originalAfterSha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "dc3bc9556e559ad30a4b95964a42172340d7be513f5127a321175c2a83e541e9"
+            },
+            "originalEntryLocator": {
+              "record": "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+              "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+              "sourceRecordSha256": "dc16cc3008e6ce040458a7aa3b39e2dca7e9a898728a8ee2a5b92c636f0a3a56",
+              "sourceRecordGitObject": "eca5c47064ad1b019973353f0cff1d4262ccb6be",
+              "entryIndex": 1,
+              "path": "docs/ops/guides/dev-servers.md"
+            },
+            "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "authorCanonicalTask": "/root/s12_semantic_author",
+            "nonAuthorReviewer": false,
+            "noNewSemanticOrTemplateOrRuntimeCredit": true
+          }
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "follow current repository routes and ownership; do not use historical instructions as current authorization",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-168",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
+      "userVisibleBeforeAfter": "泛化封套中的旧启动表 → 当前package端口/协议、同源与publication恢复写盘边界的具体指南；未起停服务或修改产品。",
+      "reviewedLines": "本篇before 168行与固定source 103行全文；候选 203行；依赖为下述限定读域",
       "reviewNotes": "开发服务器手册固定端口、PAL 资源物化、current-only 迁移和 demo/pal 入口；明确 bake 不会物化 PAL 工程资源，避免错误修复路径。",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "current-guide",
+      "documentStatus": "current",
       "sourceGitRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
       "candidateSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
       "primarySource": [
@@ -280,31 +767,261 @@
           "revision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
           "sha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
           "scope": "full source"
+        },
+        {
+          "path": "docs/ops/guides/dev-servers.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+          "scope": "S35 full before-document and preserved quote carrier"
+        },
+        {
+          "path": "packages/game/package.json",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "83ea7789432e4937b7e7f7ca4ae093f0487b6f772f7acb3c8bcf7f8084528d14",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/editor/package.json",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "42163ff55b01dc9db58eb1d5d7b730ca79efe853a1cd797c7928da2243033009",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/reforge/package.json",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+          "readScope": "full file"
+        },
+        {
+          "path": "packages/game/vite.config.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "ca3efa390c3f0d2ea2e2caf4fbc4470d7ec1e5e12558a20f3cbada795bf080da",
+          "readScope": "lines1-115"
+        },
+        {
+          "path": "packages/editor/vite.config.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0",
+          "readScope": "lines1-18 and126-157"
+        },
+        {
+          "path": "packages/migrate/package.json",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "909dcd796e0caabd08a1d0c63d27e7df4d7fb5eebc94e810f7c1257602168eda",
+          "readScope": "scripts lines8-20"
+        },
+        {
+          "path": "packages/migrate/scripts/migrate-content.mts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "1bf6bfad98013bfe89a92dd1b3adf3f4d20777c8243b43f98efee01e72c9d157",
+          "readScope": "lines1-75 (startup recovery/publication order)"
+        },
+        {
+          "path": "packages/migrate/scripts/bake-assets.mts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "c42589048215ba97a70f4d1bfb1e690d101f50fbd0dd5ae3225c2e44bca5604e",
+          "readScope": "lines1-66 (owned output root)"
+        },
+        {
+          "path": "packages/reforge/src/boot.ts",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "12d93445803c5325b041a6672d3af9271779e932ddcd45d97ca68e697b3b9630",
+          "readScope": "VITE_PROJECT_ID/default branch"
+        },
+        {
+          "path": "packages/editor/src/main.tsx",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "43352a834103d90de20b103c57bd688d68217ea989497737254485d636ae333e",
+          "readScope": "VITE_PROJECT_ID startup declaration"
+        },
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+          "readScope": "full file"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "pre-e2e",
-        "currentBoundary": "current phase2/lore docs/code/tests own truth"
+        "appliesTo": ["phase1", "phase2"],
+        "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
       },
-      "dependencies": "Current AGENTS/ops workflow, task cards and current project evidence.",
+      "dependencies": [
+        "packages/game/package.json",
+        "packages/editor/package.json",
+        "packages/reforge/package.json",
+        "packages/game/vite.config.ts",
+        "packages/editor/vite.config.ts",
+        "packages/migrate/package.json",
+        "packages/migrate/scripts/migrate-content.mts",
+        "packages/migrate/scripts/bake-assets.mts",
+        "packages/reforge/src/boot.ts",
+        "packages/editor/src/main.tsx",
+        "docs/phase2/READ-FIRST.md"
+      ],
       "versionScope": {
-        "sourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
-        "date": "2026-07-04",
-        "validity": "current-guide"
+        "historicalSourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+        "historicalSourceDate": "2026-07-04",
+        "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+        "lastReviewed": "2026-10-24",
+        "validity": "current instructions/navigation; static review only"
       },
       "counterReworkBlocked": [
         {
-          "id": "R35-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突"
+          "id": "S35-INDEPENDENT-PENDING",
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         },
         {
-          "id": "R35-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution or visual acceptance."
+          "id": "S35-NO-EXECUTION",
+          "status": "not-in-scope",
+          "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+        "afterSha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "currentAuthoredReview": {
+        "task": "S35",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/guides/dev-servers.md"],
+          "fixedSourceRevision": "f4c664a8cf0dd564f68857b393861f553e35c73f",
+          "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+          "staticSourceRefs": [
+            {
+              "path": "packages/game/package.json",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "83ea7789432e4937b7e7f7ca4ae093f0487b6f772f7acb3c8bcf7f8084528d14",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/editor/package.json",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "42163ff55b01dc9db58eb1d5d7b730ca79efe853a1cd797c7928da2243033009",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/reforge/package.json",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+              "readScope": "full file"
+            },
+            {
+              "path": "packages/game/vite.config.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "ca3efa390c3f0d2ea2e2caf4fbc4470d7ec1e5e12558a20f3cbada795bf080da",
+              "readScope": "lines1-115"
+            },
+            {
+              "path": "packages/editor/vite.config.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "c6913c3db24c9b8e49d03dd036860072779f4f1b0449aced55dfe607759ffcc0",
+              "readScope": "lines1-18 and126-157"
+            },
+            {
+              "path": "packages/migrate/package.json",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "909dcd796e0caabd08a1d0c63d27e7df4d7fb5eebc94e810f7c1257602168eda",
+              "readScope": "scripts lines8-20"
+            },
+            {
+              "path": "packages/migrate/scripts/migrate-content.mts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "1bf6bfad98013bfe89a92dd1b3adf3f4d20777c8243b43f98efee01e72c9d157",
+              "readScope": "lines1-75 (startup recovery/publication order)"
+            },
+            {
+              "path": "packages/migrate/scripts/bake-assets.mts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "c42589048215ba97a70f4d1bfb1e690d101f50fbd0dd5ae3225c2e44bca5604e",
+              "readScope": "lines1-66 (owned output root)"
+            },
+            {
+              "path": "packages/reforge/src/boot.ts",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "12d93445803c5325b041a6672d3af9271779e932ddcd45d97ca68e697b3b9630",
+              "readScope": "VITE_PROJECT_ID/default branch"
+            },
+            {
+              "path": "packages/editor/src/main.tsx",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "43352a834103d90de20b103c57bd688d68217ea989497737254485d636ae333e",
+              "readScope": "VITE_PROJECT_ID startup declaration"
+            },
+            {
+              "path": "docs/phase2/READ-FIRST.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+              "readScope": "full file"
+            }
+          ]
+        },
+        "quote": {
+          "sourceSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368",
+          "sourceGitObject": "1d1a9ea2482ccc7207ab4e69e142e09267818b79",
+          "tailSha256": "9ca54f431aed2aaa5160463592cbc275dbd741674ff10c0495e382b7f425499a",
+          "tailByteEqual": true,
+          "inverseRule": "drop-exact-one-unquoted-separator-LF",
+          "separatorCount": 1,
+          "quotedSeparatorCount": 0,
+          "inverseBytes": 4634,
+          "inverseSha256": "448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+          "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea"
+        }
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Existing guide-runbook-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "1b8710f21e3f803806136fa4fedaf24492cf533232f21af5349ee4a9e5e193ea",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/1",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/guides/documentation.md",
@@ -354,7 +1071,7 @@
         }
       ],
       "sourceSha256": "efd18cfedfaf7abd7780b12eedcd320b6a25721c3e103be775f90e175b3fb1d5",
-      "afterSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+      "afterSha256": "dadcee81c33ce239bfa49e4f822472714b1368bd962914769e755d9168861869",
       "publicCallers": [
         "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-GOV-1-documentation-cleanup.md",
         "docs/ops/guides/documentation.md → ../archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
@@ -492,7 +1209,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+        "afterSha256": "dadcee81c33ce239bfa49e4f822472714b1368bd962914769e755d9168861869",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/guides/README.md",
@@ -526,7 +1251,7 @@
         }
       ],
       "sourceSha256": "c27aeac40cb42c31f5c6d8d47e17a3bfffc6c666967f5385b9807cd51c0ec9aa",
-      "afterSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+      "afterSha256": "675c16e9438555543c8381fb3a33791d3cddd0ff4cea6a774ad3de418334d75b",
       "publicCallers": [
         "docs/ops/guides/README.md → ../README.md",
         "docs/ops/guides/README.md → browser-verification.md",
@@ -652,7 +1377,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+        "afterSha256": "675c16e9438555543c8381fb3a33791d3cddd0ff4cea6a774ad3de418334d75b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -676,12 +1409,36 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r35-ops-guides-candidate-acceptance-20261017.json",
     "sha256": "30963d4168cac54fdee1b17e106fa7f56c6c5d365a96c7510135b3b4342e39e6",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "4/4 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": ["docs/ops/guides/browser-verification.md", "docs/ops/guides/dev-servers.md"],
+    "entryCount": 2,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

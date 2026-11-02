@@ -1,55 +1,64 @@
 # ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: Editor design-system action-group governance（不改变 capability-map）
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Risk: 公共合同迭代（共享组件 + registry validator；完整三签）
+Depends On: `ED-FRAME-TIMELINE-UX-RESTORE-1`
+Target Design-System Version: `2.23.0`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是图层动作组历史功能卡：LayerStackControls（地图/组合共用）的集合/状态/排序动作统一 32×32 compact DsActionGroup；修复 140px 最窄栏横向溢出、状态名称语义冲突、非显然禁用无可见原因；action-group registry 正确登记不含移动按钮的合法动作组（RESTORE-1 后的正确登记形态）；稳定 layer id/内容命令/workspace 状态/undo 边界不变；DS v2.23.0。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+图层动作组形态统一+窄栏可用+registry 合法登记。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：LayerStackControls/MapMode/StampContentEditor、CSS+两级 container query、registry/audit/schema 测试、DS 2.23.0、双 consumer 视觉验证。
+- 范围外：layer id/命令/undo 变更。
 
 ## 前提与证据
-- primary source：固定 source revision `f499196f7941d957d5985a8c0efa408008c0d0b3` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+Depends On RESTORE-1（native drag 例外后的登记形态）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+不含移动按钮的合法动作组登记为 registry 后续口径。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f499196f7941d957d5985a8c0efa408008c0d0b3`；本轮为 2026-10-17 R49。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方窗口与收口（2.23.0）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：图层动作组+窄栏合同经三方收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+LayerStackControls 迁移、registry 登记、2.23.0。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。图层控件现行形态以当前设计系统为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+RESTORE-1（依赖源）与 ED-DS-3。
 
 ## 原文保全
-固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `a5b3cc53092b403d762341d4025d9dc170a55eaf9430caa3fe988fa8dc468050`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f499196f7941d957d5985a8c0efa408008c0d0b3`，source SHA `a5b3cc53092b403d762341d4025d9dc170a55eaf9430caa3fe988fa8dc468050`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-ACTION-GROUP-ADOPTION-3 - 地图与组合库图层动作组及窄栏合同
 >

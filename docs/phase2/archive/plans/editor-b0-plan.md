@@ -1,74 +1,56 @@
 # 编辑器 B0 地基 · 实现计划(给 GLM 开工)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把历史实施计划接入 `plan-status-v1`，并追加 `archive-record-v1` 历史 overlay。原计划的日期、checkbox、执行分工、数字、结果词、未知和链接均在 quote 中保全；本页不授予当前待办、runtime、E2E、视觉或 coverage 信用。
+本页是第二阶段历史实现计划的归档重写。任务结构、分工、约束与验收在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或准入信用。
 
 ## 目标与时间范围
 
-- 历史目标：编辑器 B0：reforge 可 import/renderSceneFrame、sprites 注册表、SceneDef.paletteId、跨引用校验、React/Vite 脚手架、EditSession/Command/undo 纯核，含浏览器 gate 与不做项。
-- 原始时间范围：2026-07-01；固定 source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `254efed1d661faaabb1093ec5595af5e43e444583598bff9959b8e031a72668d`。
-- 当前时间状态：历史归档；本页只说明当时计划的目的和边界，不续写执行期限。
+- 编辑器 B0：reforge 变可 import 的包+抽 renderSceneFrame、精灵注册表 sprites.json（修实体精灵硬编码）、SceneDef.paletteId（去 URL 调色板兜底）。
 
 ## 里程碑
 
-- 原始章节/里程碑：全局约束(每个任务都隐含)；文件结构(先看清边界)；Task 1 · reforge 变可 import 的包 + 抽 renderSceneFrame；Task 2 · 精灵注册表 sprites.json(修实体精灵硬编码)；Task 3 · SceneDef.paletteId(去 URL 调色板兜底)；Task 4 · validateReferences 跨引用校验(content)；Task 5 · editor React 脚手架(boots + 能 import reforge)；Task 6 · EditSession + command/undo 纯核(TDD)；B0 总验收 gate。
-- 计划步骤、Task 编号、分工和 checkbox 的原始含义均保留在下方 quote；它们不构成今天的 build 准入。
-- 本次治理里程碑：完成具体语义分栏、历史 overlay、源/after SHA 和继任入口登记。
+- 编辑器与引擎复用的第一块地基（渲染复用）；修硬编码从注册表开始。
+- 逐 Task 明细（Global Constraints/契约/真值锚/Self-Review 如原文所载）在 quote 保全。
 
 ## 当前状态
 
-- 当前文档状态：`historical` / `archive`；正文状态信号：3:> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。；4:> 当前能力见 [能力地图](../../capability-map.md)，实际工作从 [看板](../../../ops/archive/board-history/board-20261004.md) 进入。；308:test('dispatch 改状态;原状态不被 mutate(不可变)', () => {；328:test('subscribe 在每次状态变化时触发,退订后不再触发', () => {
-- 历史结论：编辑器 B0 地基 · 实现计划(给 GLM 开工)：这是 plan-status，当前文档状态为 historical。全文 397 行、13 个标题；摘要/首段为「> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。」。属于历史/归档材料，不能单独证明当前实现。
-- 当前能力、实现结果和任务排序必须从继任规范、代码、看板/任务卡和新的独立证据读取。
+- historical：实现结果以 capability-map、现行 specs 与对应任务卡为准（quote 头部 2026-09-06 历史文档注记）。
 
 ## 阻塞与决策
 
-- 历史冲突/未决：
-- GLM/Claude 分工、计划中的 API 字段和测试 TODO 是历史；存疑项与 reforge 实际字段需重核。
-- 不含 B1 UI/当前 editor design-system，不能以 plan 自查宣称实现。
-- 停止线：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；GLM/Claude 分工、计划中的 API 字段和测试 TODO 是历史；存疑项与 reforge 实际字段需重核。
-- 旧计划中的 done/open/待审/浏览器验收词只保留为日期化证据，不能改写为 current。
+- 原 Agent 分工（如 GLM/Claude 分段）与「签名钉死」契约仅作当时协作记录。
 
 ## 下一步
 
-- 继任入口：docs/phase2/specs/editor-architecture.md；docs/phase2/specs/editor-design-system.md；当前 packages/editor/reforge。
-- 若需重新执行：先建立新的 task card，核对当前 primary source、合法输入、版本范围、business oracle、可证伪观察和独立验收；不得直接沿用本页步骤。
-- 本次迁移完成后仍需候选独立接收；全量 1838 目标保持 active/build。
+- 历史时点计划已完成或被后续演进取代；现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 历史范围
 
-- 原始范围：phase2 archive plan；日期/版本：2026-07-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原文 396 行 / 28917 bytes。
-- 归档原因：计划包含当时的执行分工、接口、checkbox 和验收步骤，当前合同已经由后继规范/代码承接。
+- phase2 archive 实现计划快照；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 编辑器 B0 地基 · 实现计划(给 GLM 开工)：这是 plan-status，当前文档状态为 historical。全文 397 行、13 个标题；摘要/首段为「> **历史设计/计划**：本页保存当时的接口、分工和实施步骤，不作为今天的待办或准入。」。属于历史/归档材料，不能单独证明当前实现。
-- 保留原始结论的历史适用范围；新增章节不把计划结果提升为当前实现。
+- 任务链结构与关键约束为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `254efed1d661faaabb1093ec5595af5e43e444583598bff9959b8e031a72668d`；标题锚点：1:编辑器 B0 地基 · 实现计划(给 GLM 开工), 15:全局约束(每个任务都隐含), 27:文件结构(先看清边界), 65:Task 1 · reforge 变可 import 的包 + 抽 renderSceneFrame, 124:Task 2 · 精灵注册表 sprites.json(修实体精灵硬编码), 161:Task 3 · SceneDef.paletteId(去 URL 调色板兜底), 178:Task 4 · validateReferences 跨引用校验(content), 257:Task 5 · editor React 脚手架(boots + 能 import reforge), 272:Task 6 · EditSession + command/undo 纯核(TDD), 351:B0 总验收 gate。
-- 原始链接、代码、表格、checkbox 与状态词在下方逐行 quote 保留；本轮未运行计划中的 runtime/E2E/视觉/coverage。
+- 逐 Task 步骤与约束在 quote 保全。
 
 ## 当前有效性
 
-historical。当前不把计划步骤、Self-Review、done/open 标签、浏览器 gate 或历史数字视为现行契约或执行证据。
-- 当前不得外推：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；GLM/Claude 分工、计划中的 API 字段和测试 TODO 是历史；存疑项与 reforge 实际字段需重核。
+- historical。
 
 ## 继任文档
 
-- current canonical / 复核入口：docs/phase2/specs/editor-architecture.md；docs/phase2/specs/editor-design-system.md；当前 packages/editor/reforge。
-- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。
-- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。
+- [editor 设计](../designs/editor-design.md)；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `254efed1d661faaabb1093ec5595af5e43e444583598bff9959b8e031a72668d`；以下只增加 quote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `254efed1d661faaabb1093ec5595af5e43e444583598bff9959b8e031a72668d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 编辑器 B0 地基 · 实现计划(给 GLM 开工)
 >

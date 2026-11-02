@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto'
 import { dirname, posix } from 'node:path'
 import { isDeepStrictEqual } from 'node:util'
 import { parseTestingFrontMatter } from './check-testing.mjs'
+import { currentNativeControlIssues } from './current-native-control.mjs'
+import { currentReviewLedgerIssues } from './current-review-ledger.mjs'
 import {
   frozenBindingTemplate,
   frozenDocumentBaseline,
@@ -9,7 +11,20 @@ import {
   inspectFrozenDocumentBaseline,
   readFrozenBaselineRoot,
 } from './frozen-document-source.mjs'
+import { historicalDocumentDeliveryIssues } from './historical-document-delivery-native.mjs'
+import {
+  historicalDocumentReceiptIssues,
+  historicalReceiptKind,
+} from './historical-document-receipt.mjs'
+import { historicalHtmlIssues } from './historical-html-native.mjs'
+import { historicalNativeArtifactIssues } from './historical-native-artifact.mjs'
+import { historicalNativeFamilyIssues } from './historical-native-family.mjs'
+import { historicalVitestNativeIssues } from './historical-vitest-native.mjs'
+import { incrementalDocumentIssues } from './incremental-review.mjs'
+import { mainSuccessorDocumentIssues } from './main-successor-document.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
+import { rollforwardDocumentIssues } from './rollforward-document-contract.mjs'
+import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
 function documentStatus(text, contract) {
   if (contract.format === 'json') {
@@ -37,7 +52,7 @@ function documentStatus(text, contract) {
   return /^([a-z][a-z-]*)(?=$|[\s（(])/.exec(fields[0][1])?.[1]
 }
 
-function publicationIssues(text, contract, read) {
+function publicationIssues(text, contract, read, documentPath) {
   const catalogPath = contract.statusPolicy?.catalog
   if (!catalogPath) return []
   let catalog
@@ -50,7 +65,16 @@ function publicationIssues(text, contract, read) {
   }
   const entries = catalog?.entries?.filter((entry) => entry.id === id) ?? []
   if (!id || entries.length !== 1) return ['publication status requires one catalog identity']
-  return documentStatus(text, contract) === entries[0].status
+  const entry = entries[0]
+  const lineageIssues = testingEvidenceLineageIssues(entry, (path) =>
+    read(posix.join(dirname(catalogPath), path)),
+  )
+  if (lineageIssues.length) return lineageIssues
+  const isHistorical =
+    entry.historical?.publication &&
+    documentPath === posix.join(dirname(catalogPath), entry.historical.evidence)
+  const expectedStatus = isHistorical ? entry.historical.publication.status : entry.status
+  return documentStatus(text, contract) === expectedStatus
     ? []
     : ['publication status differs from catalog']
 }
@@ -62,6 +86,18 @@ function section(text, heading) {
   const tail = lines.slice(start + 1)
   const end = tail.findIndex((line) => /^## /.test(line))
   return tail.slice(0, end < 0 ? undefined : end).join('\n')
+}
+
+function machineDeclarationIssues(text, template, version) {
+  let metadata
+  try {
+    metadata = JSON.parse(text)._governance
+  } catch {
+    /* Body validation reports malformed JSON. */
+  }
+  return metadata?.templateId === template.templateId && metadata?.templateVersion === version
+    ? []
+    : ['machine template declaration mismatch']
 }
 
 export function checkRouting(config, read) {
@@ -190,11 +226,30 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     return [] // The body contract reports malformed JSON.
   }
   if (!value || Array.isArray(value) || typeof value !== 'object') return []
-  const pins = Array.isArray(registry.historicalSourcePins)
-    ? registry.historicalSourcePins.filter((pin) => pin.path === doc.path)
-    : []
-  if (pins.length !== 1) return ['historical source requires one approved external path pin']
-  const pin = pins[0]
+  let pin
+  let baseline
+  let source
+  if (contract.preservedSource.kind === historicalReceiptKind) {
+    // Reuse the frozen cohort identity instead of duplicating its source pins.
+    if (!readSource) return ['approved historical Git source unavailable']
+    baseline = inspectFrozenDocumentBaseline(read, readSource, options)
+    if (baseline.issues.length) return baseline.issues
+    const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
+    if (bindings.length !== 1) return ['historical receipt requires one frozen cohort binding']
+    source = readSource({ path: doc.path, revision: frozenDocumentBaseline.revision })
+    pin = {
+      path: doc.path,
+      revision: frozenDocumentBaseline.revision,
+      gitObject: source?.gitObject,
+      sha256: bindings[0].sourceSha256,
+    }
+  } else {
+    const pins = Array.isArray(registry.historicalSourcePins)
+      ? registry.historicalSourcePins.filter((pin) => pin.path === doc.path)
+      : []
+    if (pins.length !== 1) return ['historical source requires one approved external path pin']
+    pin = pins[0]
+  }
   if (
     !/^[a-f\d]{40}$/.test(pin.revision ?? '') ||
     !/^[a-f\d]{40}$/.test(pin.gitObject ?? '') ||
@@ -208,7 +263,7 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     )
       return ['historical source pin is outside the independently frozen snapshot']
     if (!readSource) return ['approved historical Git source unavailable']
-    const baseline = inspectFrozenDocumentBaseline(read, readSource, options)
+    baseline ??= inspectFrozenDocumentBaseline(read, readSource, options)
     if (baseline.issues.length) return baseline.issues
     const bindings = baseline.entries.filter((entry) => entry.path === doc.path)
     if (bindings.length !== 1 || bindings[0].sourceSha256 !== pin.sha256)
@@ -221,7 +276,7 @@ function preservedSourceIssues(text, doc, registry, contract, read, options) {
     metadata?.sourceSha256 !== pin.sha256
   )
     return ['historical source declaration differs from approved external pin']
-  const source = readSource?.(pin)
+  source ??= readSource?.(pin)
   if (!source || typeof source.text !== 'string')
     return ['approved historical Git source unavailable']
   if (
@@ -282,6 +337,54 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   const text = read(doc.path)
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
+  const contract = doc.variant ? template?.variants?.[doc.variant] : template
+  const checkAdoptedBody = (body, type, bodyOptions) => {
+    const bodyContract = bodyOptions.variant ? type.variants?.[bodyOptions.variant] : type
+    return [
+      ...checkTemplateBody(body, type, bodyOptions),
+      ...publicationIssues(body, bodyContract, read, doc.path),
+      ...machineDeclarationIssues(
+        body,
+        type,
+        bodyContract?.templateVersion ?? type.templateVersion,
+      ),
+    ]
+  }
+  const successorIssues = mainSuccessorDocumentIssues(
+    doc,
+    template,
+    read,
+    options,
+    checkAdoptedBody,
+  )
+  if (successorIssues !== undefined && (successorIssues.length || doc.path.endsWith('.json')))
+    return successorIssues
+  const rollingIssues =
+    successorIssues === undefined
+      ? rollforwardDocumentIssues(doc, template, read, options, checkAdoptedBody)
+      : []
+  if (rollingIssues !== undefined && (rollingIssues.length || doc.path.endsWith('.json')))
+    return rollingIssues
+  const incrementalIssues =
+    rollingIssues === undefined
+      ? incrementalDocumentIssues(doc, template, contract, read, options)
+      : undefined
+  if (incrementalIssues !== undefined && (incrementalIssues.length || doc.path.endsWith('.json')))
+    return incrementalIssues
+  const nativeControlIssues = currentNativeControlIssues(doc, template, contract, read, options)
+  if (nativeControlIssues !== undefined) return nativeControlIssues
+  const controlIssues = currentReviewLedgerIssues(doc, template, contract, read, options)
+  if (controlIssues !== undefined) return controlIssues
+  const artifactIssues = historicalNativeArtifactIssues(doc, template, contract, read, options)
+  if (artifactIssues !== undefined) return artifactIssues
+  const htmlIssues = historicalHtmlIssues(doc, template, contract, read, options)
+  if (htmlIssues !== undefined) return htmlIssues
+  const familyIssues = historicalNativeFamilyIssues(doc, template, contract, read, options)
+  if (familyIssues !== undefined) return familyIssues
+  const deliveryIssues = historicalDocumentDeliveryIssues(doc, template, contract, read, options)
+  if (deliveryIssues !== undefined) return deliveryIssues
+  const nativeIssues = historicalVitestNativeIssues(doc, template, contract, read, options)
+  if (nativeIssues !== undefined) return nativeIssues
   if (!template) return [`unknown template ${doc.templateId}`]
   const overlay = registry.types.find(
     (type) => type.templateId === registry.historyOverlayTemplateId,
@@ -292,32 +395,24 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
   })
   if (doc.historyOverlay && !overlay?.requiredSections?.length)
     issues.push('history overlay contract missing')
-  const contract = doc.variant ? template.variants?.[doc.variant] : template
+  issues.push(...(historicalDocumentReceiptIssues(text, doc, template, contract, options) ?? []))
   if (contract) {
-    issues.push(...publicationIssues(text, contract, read))
+    issues.push(...publicationIssues(text, contract, read, doc.path))
     const baselineIssues = bindingBaselineIssues(doc, template, contract, options)
     issues.push(
       ...(baselineIssues ?? preservedSourceIssues(text, doc, registry, contract, read, options)),
     )
   }
   if (!contract) issues.push(...(bindingBaselineIssues(doc, template, contract, options) ?? []))
-  if (template.format === 'json') {
-    let metadata
-    try {
-      metadata = JSON.parse(text)._governance
-    } catch {
-      // The body check already reports malformed JSON.
-    }
-    if (
-      metadata?.templateId !== template.templateId ||
-      metadata?.templateVersion !== template.templateVersion
-    )
-      issues.push('machine template declaration mismatch')
+  const format = contract?.format ?? template.format
+  const version = contract?.templateVersion ?? template.templateVersion
+  if (format === 'json') {
+    issues.push(...machineDeclarationIssues(text, template, version))
     return issues
   }
   const visible = withoutFences(text)
   if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible)) issues.push('review date missing')
-  if (!visible.includes(`Template: ${template.templateId} / ${template.templateVersion}`))
+  if (!visible.includes(`Template: ${template.templateId} / ${version}`))
     issues.push('template declaration mismatch')
   return issues
 }

@@ -1,5 +1,38 @@
 # CODE3j tools／speedrun 质量窗口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3j tools/speedrun 质量窗口」的治理候选页;证据原件即下方逐字节保全的固定main源(6238B)。2026-10-23 Codex单Owner,基点1880db84a;原卡七个生产文件及必要专测,不扩展94-102、不改节点/坐标/PB/默认时间/游戏机制或公共接口。当前统一门与文件裁定以[review.json](review.json)的integration为准,历史定向通过不代替当前全仓门。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原2链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。完整字节原件是JSON映射gzip,每项含bytes/sha256/base64,可恢复原始stdout/stderr/执行command/cwd/exit/signal与Vitest native JSON;失败反控与失败网络读取均保留不计成功门。复验:node …/3j-tools-quality/verify.mjs默认只读,指纹变化返回STALE不能继承结论,MATCH表示证据身份一致而非自动证明设计合格。
+
+## 断言与业务 oracle
+
+七生产源+两改动专测+六同版专测逐文件A-H:toast生产不变,主文件4例加leaf 2例归并为4例,删除实际重复测试文件(toast.glm-phase1-leaves,2例,合同去向toast.test.ts四例)不改退役豁免/scope判据;map-names只修过时中文回退注释,tools-panel/dev-panel caller取代旧minimap直调说法,三例保持;time-format仅移除私有pad死宽度参数、四公开签名不变;countdown仅补rAF同文案guard说明;checkpoints只收窄未冻结PalTimer行号与实跑承诺,五坐标点、学功夫BGM86、锁妖塔入口164/165/147缺运行校准——旧关闭撤回review,3j保持partial。两项新判别力各有旧绿/新单红/恢复绿原件:toast淡出opacity改1、map英文未知名改中文,红例均指定业务AssertionError。display-scale/FPS复用移动端逐文件证据;countdown/time-format/checkpoints专测复用CODE67-69正式记录及当前哈希。
+
+## 结果
+
+本窗定向8文件/28例、相邻15文件/92例,stderr均空;统一门:完整env VITEST_MAX_WORKERS=1 pnpm check=20599包测试+692工具测试、七包类型与lint全过、error/warning/info与测试stderr均0——原始两次失败不改写(首轮独占Chrome 45s超时、次轮默认并发五个CLI子进程超时),未为恢复改超时/规则/断言/实现,最后全量原命令单worker通过。官方采集一次20170例/774源(原ratchet因一项结构计数拒绝,166字节拒绝stderr原样保留不记首跑通过;-1/-1默认分支精确结构协调后同报告ratchet/strict/protected零回退;与前窗业务日志逐块核对仅author baseline elapsedMs自然变化)。三文件新关闭(time-format.ts、toast.test.ts、map-names.test.ts),checkpoints.ts撤回review,11个同版接受刷新;3403tracked/407closed/104review/2892pending,83卡64accept/19partial/0pending。
+
+## 限制与复核
+
+未重跑;checkpoints五坐标/BGM86/三入口仍待真实运行校准,不把包绿当路线完成;无游戏路线、产品视觉或剧情E2E实跑;统一工具门含真实Chrome回收合同。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6238B / SHA-256 4a6311b574a64b1ce34ecc2dd2d96b68af796ac3879ced2e4c645f5b1021b8bf；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3j tools／speedrun 质量窗口
+
 2026-10-23，Codex 单 Owner，同一 `codex/code-quality-3y`，基点 `1880db84a18aa40574d768621dd3ae6ddc7c9df9`。原卡七个生产文件及必要专测；不扩展 94–102，不改节点、坐标、PB、默认时间、游戏机制或公共接口。当前统一门与文件裁定以 [逐文件记录](review.json) 的 `integration` 为准，历史定向通过不代替当前全仓门。
 
 ## 复验入口
@@ -34,3 +67,5 @@
 单次官方报告采集（原 ratchet 因一项结构计数拒绝）：20170 例／774 源；加入精确 -1/-1 默认分支结构协调后，同报告官方策略重放与 strict/protected fast 零回退，完整 stdout 与前窗业务日志逐块核对：只有 author baseline 的 elapsedMs 自然变化（IO 计数全相同），已全文核该 console.info 来源。最终策略重放/protected 的 stderr 空；原 ratchet 的 166 字节拒绝 stderr 原样保留，不记首跑通过。只移除实际已删的 toast 两例文件；旧文件内退役表与保护判据不变，仅私有默认参数已覆盖分支 -1/-1 的精确结构协调。最终基线采用本次原生投影。
 
 三文件新关闭：time-format.ts、toast.test.ts、map-names.test.ts；checkpoints.ts 旧关闭撤回 review，其余 11 个同版接受刷新。当前 3403 tracked／407 closed／104 review／2892 pending；固定 83 卡仍 64 accept／19 partial／0 pending。checkpoints 五坐标、BGM86、三入口仍待真实校准，不把包绿当路线完成。
+```
+<!-- incremental-original-source:end -->

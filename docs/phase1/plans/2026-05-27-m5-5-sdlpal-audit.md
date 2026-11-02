@@ -1,85 +1,55 @@
 # M5.5 · sdlpal 全源 audit(deviation report)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M5.5 sdlpal 全源审计的归档回执。三级 Tier 划分、deviation 列表与完成度口径在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：M5.5 full sdlpal deviation audit: 46 C files/448 functions, tiered port status, known sdlpal bugs, per-file function coverage and explicit audio/UI/runtime deviations.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- Goal：对 reference/sdlpal 全 46 个 .c 源逐文件/逐函数审计，与 type-pal ts port 1:1 对照，产 deviation 列表+follow-up task；audit 不实现——实现留 M6+（2026-05-27）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88`；788 行槽 / 58603 bytes。
-- 标题/章节锚点：1:M5.5 · sdlpal 全源 audit(deviation report); 9:优先级; 11:Tier 1(game 核心逻辑,已大量 port); 19:Tier 2(UI / 数据加载,部分 port); 24:Tier 3(低优先 — 渲染底层 / 音频 / 配置); 33:sdlpal 自身 bug / 设计缺陷(audit 过程发现); 37:Bug-1:`PAL_BattleSelectAutoTarget` 死循环(fight.c:4500-4517); 55:Bug-2:`PAL_BattleStealFromEnemy` 无 dead target 检查(fight.c:5193+)。
+- 优先级三层：Tier 1（game 核心逻辑已大量 port：scene.c/play.c/script.c/battle.c/fight.c/global.c）、Tier 2（UI/数据加载部分 port）、Tier 3（低优先：渲染底层/音频/配置）。
 
 ## 发现
 
-- 正文信号 6:**Format:** 每文件一节,列已 port 函数 / 未 port 函数 / ts 与 sdlpal 差异 / 实施
-- 正文信号 69:case(line 3286+),fToEnemy 标志可能未设 → line 3500 dead check 跳过 → wTarget
-- 正文信号 88:> - ⚠️ 简版 port / 差异(具体说明)
-- 正文信号 89:> - ✗ 未 port(by design 用 web API 替代 或 follow-up 未做)
-- 正文信号 91:> - ? 自动 grep 有 keyword match,**待手工核**
-- 正文信号 101:| 44 | `AUDIO_MixNative` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 102:| 65 | `AUDIO_AdjustVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 103:| 81 | `AUDIO_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 104:| 169 | `AUDIO_CD_Available` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 105:| 177 | `AUDIO_OpenDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 106:| 381 | `AUDIO_CloseDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 107:| 442 | `AUDIO_GetDeviceSpec` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+- audit 时完成度 47%（✓91+⚠️118）；顺带发现 sdlpal 自身 bug——Bug-1 `PAL_BattleSelectAutoTarget` 死循环（fight.c:4500-4517）、Bug-2 `PAL_BattleStealFromEnemy` 无 dead target 检查（fight.c:5193+），port 时显式 fix。
 
 ## 结论
 
-- M5.5 · sdlpal 全源 audit(deviation report)：这是 audit-report，当前文档状态为 historical。全文 788 行、51 个标题；摘要/首段为「**Goal:** 对 reference/sdlpal 全 46 个 .c 源逐文件 / 逐函数审计,与 type-pal ts port 1:1」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 该自报完成度口径后被用户实测与 [feature-audit-and-replanning](2026-05-28-feature-audit-and-replanning.md) 推翻（「47%→52%」被揭穿夸大），成为放弃自报完成度的转折起点；M5.6 后约 52%、48 个函数转 ✓（quote 尾注）。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；/；o；p；c；o；d；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；;； ；M；5；.；6； ；p；l；a；n； ；i；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；f；o；l；l；o；w；-；u；p；,； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.。
+- deviation 由 M5.6 实修与后续重置计划承接；audit 表 in-place 更新。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-27；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88`。
+- phase1 plans M5.5 审计；时点 2026-05-27；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M5.5 · sdlpal 全源 audit(deviation report)：这是 audit-report，当前文档状态为 historical。全文 788 行、51 个标题；摘要/首段为「**Goal:** 对 reference/sdlpal 全 46 个 .c 源逐文件 / 逐函数审计,与 type-pal ts port 1:1」。属于历史/归档材料，不能单独证明当前实现。
+- Tier 划分、47% 口径与 sdlpal Bug-1/Bug-2 为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M5.5 · sdlpal 全源 audit(deviation report); 9:优先级; 11:Tier 1(game 核心逻辑,已大量 port); 19:Tier 2(UI / 数据加载,部分 port); 24:Tier 3(低优先 — 渲染底层 / 音频 / 配置); 33:sdlpal 自身 bug / 设计缺陷(audit 过程发现); 37:Bug-1:`PAL_BattleSelectAutoTarget` 死循环(fight.c:4500-4517); 55:Bug-2:`PAL_BattleStealFromEnemy` 无 dead target 检查(fight.c:5193+)；原始正文、代码、表格、状态词在 quote 保全。
+- 逐文件 deviation 列表与优先级节在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 6:**Format:** 每文件一节,列已 port 函数 / 未 port 函数 / ts 与 sdlpal 差异 / 实施
-- 正文信号 69:case(line 3286+),fToEnemy 标志可能未设 → line 3500 dead check 跳过 → wTarget
-- 正文信号 88:> - ⚠️ 简版 port / 差异(具体说明)
-- 正文信号 89:> - ✗ 未 port(by design 用 web API 替代 或 follow-up 未做)
-- 正文信号 91:> - ? 自动 grep 有 keyword match,**待手工核**
-- 正文信号 101:| 44 | `AUDIO_MixNative` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 102:| 65 | `AUDIO_AdjustVolume` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 103:| 81 | `AUDIO_FillBuffer` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 104:| 169 | `AUDIO_CD_Available` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 105:| 177 | `AUDIO_OpenDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 106:| 381 | `AUDIO_CloseDevice` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
-- 正文信号 107:| 442 | `AUDIO_GetDeviceSpec` | ✗ | M6 Web Audio API + SpessaSynth 替代,当前未 port(游戏静音运行) |
+- historical。完成度口径已被推翻，仅作审计沿革证据；当前状态以现行状态表为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；/；o；p；c；o；d；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；;； ；M；5；.；6； ；p；l；a；n； ；i；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；f；o；l；l；o；w；-；u；p；,； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M5.6 设计/实施](2026-05-27-m5-6-playability-design.md) 与 [feature-audit-and-replanning](2026-05-28-feature-audit-and-replanning.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M5.5 · sdlpal 全源 audit(deviation report)
 >

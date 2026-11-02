@@ -2,56 +2,60 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-SCRIPT-INTERACTION-1（当前脚本编辑器交互与草稿边界 A1–A10）的贡献候选证据：贡献者 GLM 新对话 A（唯一测试写入者），派发 `91aac75c5`、产品冻结 `797a46a09`（冻结源三件 sha256 与 targets.json 一致并在隔离树逐针复验）。2026-10-08 原始回执未经修正的内容不代表当前验收。
 
 ## 证据身份
 
-- TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40。
+- 新增测试文件恰一个：`ScriptEditor.interaction-boundaries.test.tsx`（7 条原子合同+文件内专属 harness）；白名单中 author-command-edit 与 `__tests__/script-interaction-boundaries/` 真实无缺口未建空文件（后者曾放 harness.tsx，因 design-system adoption 门按非 test 的 .tsx 计数使旧门 pin 101→102 漂移，折叠回 .test.tsx 内并删除）。
+- 清单终态：A1/A3/A9 existing-proof；A2 定位帧淘汰、A4×2 插入面板撤销、A5 被拒复制、A6 被拒删除、A7 被拒重排（成功/undo existing-proof）、A8 键盘事件域 new-contract；A10 registration+自身卫生（RAF/spy/DOM/root 全恢复）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 合法输入：真实 ScriptEditor 组件 + 真实 Ds 设计系统；A2 用双 revision 双 RAF 帧（旧帧被守卫淘汰不 focus/scroll 旧行）；A6 不点击 DsDialog 遮挡的底层删除按钮，只核实际行操作被拒后保留选择/正文及重试。
+- 工作树 `/private/tmp/type-pal-editor-script-interaction.fgkhat/type-pal`，分支 `codex/glm-editor-script-interaction-r1`。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 判据只读复用 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 判据库：judgeSelfTest 20 例自洽+真实 Vitest 探针 3 例（纯业务单红受/afterAll hook 错误拒/异步 uncaught 拒）。
+- 7 针（A2/A4a/A4b/A5/A6/A7/A8）×四相位全 accepted：每针独立 mkdtemp 树（冻结源逐文件校验、node_modules 只读软链、树内 wrapper vite.config 仅追加 fs.allow）、原始绿→恰一指定业务 AssertionError（执行身份多重集与绿态逐字一致）→恢复字节==冻结字节→末次重放绿；源/测试/mutant/restored sha256 逐针记录。
+- A7 干跑判例：变异 CommandRows 包装层 `if (changed) reorderKeys.move` 无效（useDsReorderKeys 每渲染按对象身份调和）——判据诚实拒收后换「拒绝路径仍重映射选择」有效针；「key 不移动」断言由调和机制结构性保证保留。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- （贡献时点）定向+相邻 60/60+扩展 44/44，新 UI 定向零 act/console.error/未处理异常；typecheck 双段零错；全包 test 4913/4913（旧 4906+新 7）；根 lint PASS（3723 文件 0/0/0）；check:docs PASS。
+- 共享登记缺口如实单列：先 stage 全部新增代码后 code-quality-ledger FAIL——inventory 3,086 vs 台账 3,085，归因恰为新增 1 个 tracked test 文件，修复建议在 gates.json `qualityLedger.diagnosisForCodex`；贡献者不改共享台账。
+- 后续验收裁决（同批 codex-review.md）：A2/A4×2/A5/A6/A7/A8 七合同接受（A1/A3/A9 existing-proof），候选 21ea24361 于 2026-10-11 验收集成。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 基点托管 CI 状态未在本树复跑（Documentation 通过/Game 旧测超时失败为派发既录，白名单外）；无本卡未完成轴、无产品缺陷（A2 守卫/拒绝协议/身份 effect 按当前实现合同成立）。最终裁决见 ../TEST-CONTRACT-BATCH-20261008/codex-review.md；旧 JSON/raw 不改写。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-08 贡献候选证据（7 合同+7 针四相位）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录：原始正文完整保留于下方 quote。
+- 7 new-contract 交付+3 existing-proof+A10 卫生；验收后七合同接受集成（21ea24361）。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 清单终态表、A7 干跑判例、门数字与台账缺口归因在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。原始回执不代表当前验收；终态以同批 codex-review.md 为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归 ../TEST-CONTRACT-BATCH-20261008/codex-review.md。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `658779e2564663f222700e562d51b31c6b3e569387714166fc9d1e5f5a1c1f40`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录
 >

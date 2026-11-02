@@ -1,40 +1,55 @@
 # 大业务域覆盖率推进：战斗流程与真实运行时宿主
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: plan-status-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是大业务域覆盖率推进计划（2026-09-23 用户批准从零散补测改为优先完整业务流程；两卡 TEST-BATTLE-WORKFLOWS-1（GLM Owner）与 TEST-RUNTIME-SHELL-COVERAGE-1（Codex Owner））。**2026-09-24 当前状态：两卡均已收口**——宿主/统计修复三席 accept；战斗 r5 Codex 接收/GLM 自验+用户豁免 Kimi 终审，统一 check 8,363/ratchet/单次 strict 7,872/633 通过，全仓行 76.23%/分支 66.81%。
+
+## 目标与时间范围
+
+- 基点 f2592597：官方 fast 7,790 项/633 生产文件（全仓 L 51,967/70,420、B 41,307/63,149）；冻结盘点 coverage-large-domain-evidence.json+只读复算器（主树 coverage/fast 是 7,627 旧报告不采用，有效报告在 glm-wave2 worktree 与 7,790 基线逐字段一致；复算器逐层官方持久字段投影，初版对嵌套 identities 整对象比较误拒已改）。
+
+## 里程碑
+
+- 里程碑一（基线核验）：七包既有报告核验/Top20 排序/十目标源码与真实入口旧测试抽读/分工六组合同与白名单设计完成；无新增正式测试、无覆盖率提升、未执行迁移/浏览器/改产品。
+
+## 当前状态
+
+- 里程碑二（两卡实施收口）：战斗六组=真实 BattleSession 选招→行动/敌钩子→终态→写回连续业务断言（4 模块 648 行/1,013 分支上限）；宿主六组=实际 bootGame→输入/菜单→存档/场景接线（6 模块 3,830 行/2,814 分支上限）——数字是范围上限非承诺（BattleSession 451 遗漏行中 189 行在 render 入口后；main.ts:339 官方只命中 30/3,360 行）。
+
+## 阻塞与决策
+
+- 为什么不是小工具批：main.ts:339 真实独立运行与编辑器试玩共用入口（shop-trial:138 虽真调 bootGame 但 :349-352 商店分支提前返回）；battle-session:1191 同 tick 贯穿选择/readiness/行动/结算；script-control-flow-audit/sound-reference-audit 无现行 caller 留 E-05 不为数字复活；migrate/pal-assets 缺口需核 full 已有证明另候选。
+
+## 下一步
+
+- 双线边界：独立卡独立 Owner；GLM 绝不浏览器/截图/视觉；替身仅封装外部浏览器 IO、禁 mock 被测业务函数/反射私有栈/as unknown/源码抽取冒充导入；每失败分支配同输入合法对照；两组至少一代表业务反控（唯一替换点+产品 hash 不变）；两包间接命中重叠最终以并集重算不能直加。
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- 决策：不逐组签字（设计只核真实调用者/输入合法性/可观测结果/mock 边界/反控方向/Owner 隔离）；三席 r1 设计签齐（Codex b1f62c6b/Kimi d24ead8d/GLM 5b07d84a）后 Codex 统一核 build allowed。
 
 ## 原始结论
 
-- 大业务域覆盖率推进：战斗流程与真实运行时宿主：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 历史结论（原文时点）：首批范围按卡内六组固定，实施者不需重做几百条逐臂规则表。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 证据与集成：复算命令/卡链接/证据边界在 quote 保全；集成结果与下一批建议见 battle-workflows-integration.md。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。两卡已收口；下一轮优先真实宿主二批与迁移主链已有证据去重（尚未开新卡，准备/基线章节保留历史不重新领取首批）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归两张完成卡与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `e493b0b076143e78fd9aaa14630ace6e7005e12fd7aaf749623af2915022f80b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `e493b0b076143e78fd9aaa14630ace6e7005e12fd7aaf749623af2915022f80b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 大业务域覆盖率推进：战斗流程与真实运行时宿主
 >

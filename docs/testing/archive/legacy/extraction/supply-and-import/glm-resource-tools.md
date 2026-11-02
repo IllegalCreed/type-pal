@@ -1,40 +1,62 @@
 # GLMRLE、事件与资源工具补测工作包（TB-05）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-RESOURCE-TOOLS-COVERAGE-1（TB-05）工作包：当前 Codex 接收结论 accept（2026-09-20 候选 00801036、统一候选 256116ee；check7709/ratchet/受保护单次严格 fast 7220 通过，三席齐用户授权 done 归档）；首轮 counter 仅留历史；正文含 R01-R09 合同族表、收窄与隔离、代表负控、冻结目标/白名单及 GLM r1/r2/r3 三轮回执。
+
+## Scope
+
+R01-R09：shared/rle、rle-encode、events/disasm、recompile、annotate、slice、resources/palette、font/bdf-to-json、asset-manifest 逐族列当前调用/一手锚点/旧测试已覆盖/允许新增候选；收窄：parseSpriteChunk 宽容结果不要求保槽、deprecated alias 无生产调用不扩测、recompile 缺失 label 默认 0 不立新政策、asset-manifest version 键是 path+size 非内容 hash。GLM r1：8 新测试 24 项+9 针（严格 RLE 零长指令/编码透明 run 封顶/写入奇对齐 pad/disasm o1 signed/recompile label 丢失/slice globalEntries/palette 夜半偏移/BDF 第二字节/manifest 根 self）；r2 闭 C0 首行判据/C1 12 文件 biome/R05-1 撤 label 政策/R05-2 补 126/127 单段+未用 operand WORD=0；r3 判据精确唯一目标。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 双包负控+覆盖对照 | resource-tools-mutants.mjs 跨 shared+pal-extract 单点替换：判据自测+3 对照+9 针全钉名首行 AssertionError、产品 hash 不变；shared 全包 14 文件/115 项、pal-extract 34 文件/173 项（4 项真实资产 ENOENT 与基线相同）；官方 fast shared 106→115、pal-extract 110→125 双 exit0 | GLM（作者）→Codex accept | 覆盖对照逐文件（rle L117→121、recompile 47→50、slice 71→79、bdf 38→40、asset-manifest 12→21 等） | 待证保持原归属（symlink 递归政策、YJ2 后续政策） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+当前 accept/done；GLM 回执为候选自验原文以当前 Codex 复核勘误为准。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-resource-tools-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-05 工作包 | 2026-09-19/20 | R01-R09+GLM r1-r3 | accept→done（256116ee） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy extraction/supply-and-import 的 TB-05 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLMRLE、事件与资源工具补测工作包（TB-05）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+当前 accept/done；GLM 回执为候选自验原文以当前 Codex 复核勘误为准。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九族表、冻结目标/白名单、三轮回执在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。九批链以 glm-nine-final-review 为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor/testing-records/glm-nine-final-review.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `38bfbd662f48d8a9796a611f5fbd2d97ff55ef8ac79ec7eff4c03487c6b62a05`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `38bfbd662f48d8a9796a611f5fbd2d97ff55ef8ac79ec7eff4c03487c6b62a05`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLMRLE、事件与资源工具补测工作包（TB-05）
 >

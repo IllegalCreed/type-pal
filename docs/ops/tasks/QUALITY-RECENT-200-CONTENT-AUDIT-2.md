@@ -1,6 +1,39 @@
 # QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+接续[首轮风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md)，完成最近200主体中此前尚未复核的全部153个文件。用户2026-10-28在本轮发现新缺口后明确要求剩余文件全部复查；已复核47及本轮首15不重复做，仍有效的版本证据保留；按复杂度收缩切片，不为凑数降低标准。
+
+## 范围
+
+首片15个既有主体（shop三、ambience三、grid两、tileset三、stamp四文件）；剩余138固定清单在同目录queue.json，枚举/指纹只排期不授阅读信用，第十二片冻结时固定队列清零。写白限于固定剩余主体内必要的注释、测试组织、断言、排重、有证据的内部结构整改及原回执勘误；不改定义值域、结算规则、资源格式、存档或产品接口。已批准的[商店定义归属修复](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md)单列，不扩张其它机制授权。
+
+## 前提与证据
+
+基点6ebca402ae2c419ad9922f8d29097b45ea6a0df6；合并后documentation 40653820151与fast-coverage 40653820177均success、完整日志CRC通过且可见warning/act/stderr/unhandled均0（首次fetch TLS失败保留）。只核二阶段canonical源码/实际caller，不套用第一阶段逐状态保真；共享纯值合同允许必要复用，只有不同调用边界、已证重复或可证伪缺口才整改。锚[八维规范](../code-quality.md)、[工作流](../agent-workflow.md)、[二阶段边界](../../phase2/READ-FIRST.md)、[原第二窗口](QUALITY-PENDING-100-2.md)；完整路径见[证据入口](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md)。
+
+## 验收
+
+2026-10-28收口：153本轮主体＋前47有效复用＝200／200，原200复查排队0，不授其它pending信用。全仓20506／typecheck／lint0；官方20157／810采集按包恢复，精确content重计与三退役快照后同报ratchet/protected0。新增PNG反控首筛误选父describe、失败原件保留，修正为leaf词组后旧指定1绿、新指定1业务红。最终静态补验check:docs、lint6195文件0/0/0、diff与只读证据校验通过；新增helper1已单独关闭，当前3464／797closed／0review／2667pending。
+
+## 状态与交接
+
+两已批归属修复（商店与对话同族）正式红例/真实caller与相邻验证成立；后续同一治理分支分提交并受保护发布，实际远端状态以Git/关联PR为准，不在本卡预写合并。无新增产品取舍；无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 13608B / SHA-256 e44bc32d1b5a13144ac5291aa2f4bd221e63f589d59ce6ac6e327b714f9c82c9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent）
 Phase: ops（第一／二阶段按文件区分）
@@ -103,3 +136,5 @@ Codex单一Owner，build allowed：固定队列最后20主体，含misc-mkf、FI
 2026-10-28 Codex单Agent：153本轮主体＋前47有效复用＝200／200，原200复查排队0；不授其它pending信用。两已批归属修复正式红例／真实caller与相邻验证成立。全仓20506／typecheck／lint0；官方20157／810采集按包恢复，精确content重计与三退役快照后同报ratchet/protected0。失败原件和限制见父窗口audit；最后文档／静态回执及受保护PR发布事实另据实际命令，不提前冒称已推送/合并。无新增产品取舍。
 
 最终静态补验：check:docs、lint6195文件0/0/0、diff检查、只读证据校验与账本全部通过，具体命令／时间／完整原件见证据gates.json。原200不重复计数；新增helper1已单独关闭，当前3464／797closed／0review／2667pending。后续同一治理分支分提交并受保护发布；实际远端状态以Git/关联PR为准，不在此预写合并。
+```
+<!-- incremental-original-source:end -->

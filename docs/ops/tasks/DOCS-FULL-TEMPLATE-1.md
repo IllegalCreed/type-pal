@@ -1,34 +1,42 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（旧全量 done 已撤回；S87 候选及最终接入验收未整体收口）
+Execution: review/rework（正文与严格待办0；S89完整文档门、官方ratchet20222项及登记后工具158项通过，受保护CI与集中非作者接受未闭合）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 各批次实际审查人与原回执保持原范围；本轮 Codex 仅核导航与状态差异，不重授历史独立验收
-Branch: codex/docs-s87-main-successor（治理候选）；codex/task-entry-organization（本轮导航整理）
-Last reviewed: 2026-11-01
+Reviewer: GLM（S87/S88及既有明确范围accept；S89新增实现、适配和封存待集中非作者接收）；Codex（贡献者据证接收、中央接入Owner）
+Branch: codex/docs-final-quality
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
-2026-11-01 状态勘误：原全量完成结论已在后继治理中撤回。本次按固定候选
-`7f045e964b79c4fc216befbfdc00668bd7a54888` 的本卡顶部、S87 末段及接收边界校正当前入口；
-不把该分支的工具、中央 registry 或全部文档实现视为已经合入本树。
-源可在保有该本地候选的仓库由 `git show 7f045e964b79c4fc216befbfdc00668bd7a54888:docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md` 回读；当前无远端分支可达，发布原候选仍由治理 Owner 收口。
-以下现行摘要负责接手；“历史实施记录”以下保留原时点声明，不恢复已撤回的 done 或旧信用。
+> 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
+
+## S80 最新 main 滚动整合与整包准入（2026-10-31，build allowed）
+
+- 单一写入Owner为Codex，隔离分支见顶部；S78/S79树和原包冻结。4351项按各自原候选复用，不重授；父卡保持build/rework，硬门未过不合main、不推送、不done。
+- 固定已接受S79 `511c59b13fec67839b9f6fb7dcfd109d42a747dd`、旧main `72db417255d8ca4227522420e9185ef468462aa7`、新main `5e66fa6b6291f94330fb5d7fc9828062e0eb8a51`（含PR #34）。S79的另分支延期只指当时，不沿用到本轮。
+- 实际179新增（41MD/138JSON）、50变更、67 artifact；实际32个冲突路径（先前预检人工计33，更正为32）。50中17中央review控制及5个Owner投影/发布控制归Codex；207作者目标=179新增+28变更（65MD/142JSON），一次整包交GLM。
+- 保留114逻辑owner/不可变片及4351原记录；不以main旧flat覆盖，不恢复撤信。规范接入最新语义组织/判等反控要求；catalog保留001两次有范围出版复核和006实测边界，活动reviewBy仍退休；索引由公开producer重建。产品和旧测试只承接已获批上游合并，无本轮附加修改。
+- 冻结`document-rollforward-candidates/1.0.0`为作者候选合同，不新增模板或生产授信表。Git身份、精确余集与白名单由工具实取；变更篇同时钉定旧接受与上游来源；原生JSON字节不写。首次迁移MD用原文围栏，变更篇复用现有模板、逐字保留既有历史span，完整前态由固定Git保全，不再嵌套第二层封套；代码质量当前条款在可见正文逐字保留。旧4351绑定、签名、1933 native根不放宽；受影响新内容待独立接受。
+- 五pilot为新任务卡、证据导航、原生CI回执、更新的现行规范、变更配对机器证据。公开CLI真实写入、只读幂等及越界/伪造/尾字段反控后才冻结GLM准入。GLM先独立验收公共增量和五pilot，再同一委托完成其余202篇；207篇逐篇语义核对，读域与复用如实，不以抽样代替。
+- 上1916中的11合并提案尚未删除。6字节相同项核引用/pin/替代字段后由Owner受控退役；5不同执行身份保留独立性并说明理由。提案、治理接入、实际删除分记；固定1838分母不改，不加重复正文或账本代替处置。
+- 作者只写白名单MD与仓外证据，不改中央registry/routing/review/catalog/规则，不自授信用；中央扩容、控制pin级联和退休由Owner在交付接受后按实执行。现有公共模板可复用；确有新格式只停受影响项，不将整包退回设计小包。
+- 完整check:docs、lint和三口径diff-check须零error/warning/info。新增/变更未接入前如实保留红与待办，不改旧签名或刷新hash洗白；静态结果不授产品/runtime/E2E/视觉/coverage信用。受保护main集成另据真实最新CI。
 
 ## 目标
 在不覆盖共享工作树改动、不把静态治理冒充运行时验收的前提下，核定 docs 全树的文件归属，冻结可审查的统一模板注册表，再按批次把正文迁移为模板合规并为每篇保留可追溯 review record。
 
 ## 范围
 - 范围内：docs 物理树分类；Markdown/JSON/HTML 的逐篇语义审查；testing 专用类型；artifact/evidence 归属；registry、cross-phase matrix、review records；模板 pilot 后的分批迁移。
-- 范围外：产品源码、旧测试、coverage、运行时/E2E/视觉结论；正文仅在用户批准合同及对应真实pilot后分批迁移。
+- 默认范围外：产品源码、旧测试、coverage及运行时/E2E/视觉结论；后续用户逐处授权的例外只按各节固定范围执行，不能扩为通用许可。正文仅在用户批准合同及对应真实pilot后分批迁移。
 - 明确不做：不删除历史，不将历史结论升格当前事实，不用路径启发式替代全文阅读，不覆盖主工作树四项改动。
 
 ## 前提与证据
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review/rework；S87 实现、16 篇作者稿及完整临时树待非作者验收，真实中央未完成该批补史与授信。导航整理不授 runtime/E2E/视觉/coverage 或全量文档完成信用。
+- 当前状态：review；S87/S88非作者接受、16篇正式授信及205条真实出版补史均已接入，4542注册身份精确。S89本地完整文档门、官方ratchet20222项、登记后工具158项与lint通过，严格审阅/迁移待办及完整性均0；新增范围非作者接受、当前候选远端受保护CI和主线集成尚未闭合，不宣布整体done，原R波撤信保持。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -38,22 +46,12 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：后继治理的非作者验收、中央接入、最终硬门与受保护主线集成尚待闭合；旧 R 波记录不因本次状态勘误恢复信用。
-- 下一步：治理 Owner 从上述固定候选核最新进展，完成剩余接收与硬门后再集成；保留同一任务身份。仓库系统瘦身在当前文档批次收口后独立推进，不把其全部存量追加为本卡完成前提。
+- 历史S75基点：当时2435合规/0待办、1835基线迁移+3批准退役及600增量迁移。此为S75时点结果；后续main滚动新增与变更以S80–S86记录为准，不能沿用为当前完成数字。
+- 下一步：以本候选执行受保护documentation/fast-coverage远端CI，再按PR集成与真实结果收口。006技术/用户接受及原附件直接复用，不新增runtime信用；当前文档待办为0，远端门和集成未完成前不合main、不标done。
 
-## 2026-11-01 看板与任务入口整理
+## 历史实施与交接记录的适用边界
 
-- 用户授权：沿现有看板和任务入口区分长期治理、第二阶段功能、第三阶段储备，标清状态、阶段、依赖与下一步；不另建平行文档。
-- Owner：Codex；隔离分支 `codex/task-entry-organization`，基点 `c88be9b3b5b9dc38c77d8c440085e35b8d15fc43`。build allowed 仅覆盖本导航差异。
-- 白名单：`docs/ops/board.md`、`docs/ops/README.md`、`docs/ops/tasks/README.md`、本卡、006 原卡的当前摘要、生成任务索引，以及这些文件已有 review record 的精确差异。没有新任务 ID、文档目录或平行进度账本。
-- 前提：原任务卡/生成索引负责状态，看板负责分工；后继未合入成果单列固定 Git 来源。第一、二阶段产品行为 N/A，本轮只校正导航，不改代码、测试合同、产品格式或验收规则。
-- 验收：原活动卡全部可达、表内状态与卡顶部一致；规划不伪装成已准入任务；既有卡面待收口与实际功能欠账分开；检查文档、lint 与 diff 的真实结果。历史正文保留，只更新实际核过的文档差异和来源。
-- 当前进度：本批导航整理完成，原 53 张活动卡保留，纠正文档母卡后共 54 张；任务索引已按原生成器更新，未新增文档。本批不改变全 docs 治理的 review/rework 状态，受保护主线集成结果以本分支关联 PR 为准。
-- 验证与复核：`pnpm check:docs` 通过（131 项工具回归，0 failed/skipped/todo；链接、状态、模板、审阅及完整性检查零问题）；`pnpm lint` 为 0 error/warning/info，`git diff --check` 通过。原卡历史正文、未涉及的 review 条目逐字保留，8 个入口标题锚点可达。首轮旧 SHA 与原件保全绑定失败已定向修复；仅更新 9 条既有审阅/入链记录，三个载体的逆向差异均还原到固定 Git 原件，没有复制过程证据或改验收规则。
-
-## 历史实施记录
-
-以下为主线旧卡的原始计划与各轮记录；其中 completed、done、独立复核及进度数字仅属原时点，受上方状态勘误和后继裁定约束。
+以下原始清点、R波声明及S批次各按原日期保存。R23起撤信、同主体独立虚标及执行锚错误按返工卡与后继裁定处理，任何旧done不恢复；本次只复用已接受范围和核当前授权/状态/来源链，不重做旧2435成员语义或历史raw。旧分母/日期红与各轮数字不是本次统计。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提
@@ -108,7 +106,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-无下一位 Agent 提示词；Codex 继续执行冻结注册表、pilot 和分批迁移，最终仍需独立验收。
+S13/S14既有接受保留；S15固定f998fff7d6d746c2fbb3bc29b00b4137b2275dfe的273篇获据证非作者文档限定接受，N3原字节保留且blocked。中央使用原14分区；下一包S16一次准入123篇历史Markdown/导航候选（含N3补齐），内部自行分段推进、集中回交。全量仍rework，不合main、不done；旧R批信用不恢复。
 
 ## 用户裁决记录
 
@@ -1583,8 +1581,1575 @@ Template: task-card-v1 / 1.0.0
 - “过时”按适用范围标成 `historical` 或 `artifact-only`，不等于无用。删除候选必须同时满足：无正文/registry/routing/review/evidence/task 引用、无当前 caller、已有 successor 或原始证据保全、保留 source/after SHA 与日期、同步 README/index/矩阵并通过全部检查；否则只做归档封套，不删除。
 - 当前实际树 `2341` 个 Markdown/JSON/HTML 文件中，`2340` 个进入 governed candidates：`1838/1838` baseline 已闭合、`502` incremental 已登记；R94 review ledger 由 `document-registry.json.structuralRoots` 显式登记并保留完整文件与外部 evidence，不进入普通迁移分母。全量治理仍 active/build，不标记 done。
 
-### 2026-10-17 全量独立收口（R96）
+### 2026-10-17 全量独立收口（R96；2026-10-18 已撤回）
 
 - Codex 独立复核当前 registry、routing、模板 registry、review records、cross-phase matrix、HTML/artifact 归属和 protected-file 主树 SHA；2340/2340 governed entries 均为 `template-compliant` + `content-reviewed`，无 `governed-legacy`、无 SHA drift、无孤儿链接。
 - `node scripts/docs/report-governance-progress.mjs --require-complete`：`1838/1838 baseline`、`502 incremental`、`0 current pending`、`17/17 templates`；R94 review ledger 的结构根边界单独登记，不授任何 runtime/E2E/视觉/coverage 信用。
 - `pnpm check:docs`、`pnpm lint`、`git diff --check` 全部通过，lint 为 `0 errors / 0 warnings / 0 infos`；任务卡状态切换为 `done`，待主树快进与推送后收口。
+
+## 2026-10-18 GLM 审计与记录信用撤回
+
+- 接受记录层 counter；完整清单以 correction-scope 六个分片为准：R39–R94 共56份review、1896条当前绑定，其中approved baseline 1395、incremental 501。不是把估算的约1800当作实际cohort数。
+- R39–R93 全部当前 content-reviewed/deep-semantic/full-text 声明降为 partial-review-unknown/structured-content、needs-migration；R94 与最终R96收口同样撤回。原source、日期、quote、raw与历史verdict保留在Git/原receipt，不能继续继承当前接受信用。
+- 183ec0bf0 手改R65命令摘要8080→7970，没有附带新执行证据。这是错误的证据维护；旧accept撤回。新重跑为当下候选的真实命令，不追认2026-10-17曾经重跑。
+- a1ac53bbe 静默放宽artifactOnly完成判定不予追认；返工卡已登记并回退该捷径。artifactOnly/artifactEnvelope只说明储存方式，不授模板/语义完成；后续格式标准变更先提案/pilot再准入。
+- 全树修复113份生成封套的分号损坏，quote字节逐块保持；R26=4、R27=20、R28=22。与用户报告44不同，按实际路径记。旧gate只核结构/链接/hash，未检查可读性；真实文档audit现增加损坏反控。
+- R24错误hash和reported below追加当前勘误，不覆写历史quote。R22补actual candidate acceptance路径/SHA链块，补链不新授独立审。R38为未使用编号：R37→工具改动→R39，无受审批次。
+- R27本次逐篇sourceSha对比15/20直接UTF-8逆回、5/20需行尾U+2420/U+21E5解码，均匹配原source；与审计14/6差异保留逐篇表。旧20/20不能不加条件地称原字节逆回。
+- 全部“独立”标签须有作者/审查者身份和受审范围支撑。同一Codex自跑只记自验；本次没有非作者复核，不自授重审通过。
+- 完整check:docs/strict/require-complete失败是撤回完成状态的真实结果；保留失败，不改规则或批量刷新状态变绿。本卡rework，逐篇语义重审和非作者复核未完成。
+
+
+## 2026-10-18 S01：READ-FIRST 真实语义重审准入
+
+- 前提：58e899bf纠错包已由非作者`/root/receipt_integrity_independent`限定接收，冻结报告与39项原证据接入d4d5cfc6；五项receipt隔离不解除，统一门仍FAIL。
+- Codex build allowed：仅重审`docs/phase2/READ-FIRST.md`正文及其registry/routing/R33后继记录、phase2 catalog/view/manifest、矩阵、任务和必要证据/pin链。Coding Owner为root；不改产品、旧测试、coverage或静态规则。
+- 具体counter S01-AUTHORITY：当前AGENTS操作表与文档模型L1都要求开工必读；R33却把现行十一条铁律降为historical、仅存quote，catalog还称current。保真不关闭这个事实权冲突。
+- 设计：恢复governance-index-v1现行正文，十一条规则逐项表达，五类串台有可操作停止线；原文quote字节与原日期保持。以现行AGENTS、原用户规则、演出共同标准及09-30作者真源裁决决定边界，不把旧行数/修复数量或阶段实现快照当今天事实。
+- 当前作者只对本篇和明确读取的依赖段负责；R33原接受不外推到本篇新字节。本篇先partial-review-unknown/needs-migration，固定候选交非作者全文复核后才决定单篇信用；整卡继续rework、不合main。
+
+
+### S01 作者候选与命令边界
+
+- 已实际读原55行、纠错前122行和新120行；七项直接依赖按逐篇记录的窄域/全文范围分开，没有声称重审所有链接目标。十一条规则、五类停止线和资产约定重新写入现行部分，quote完整字节不变。
+- R33旧绑定迁出至S01唯一后继；原完整record由d4d5cfc6源Git/SHA定位，其余R33正文不外推复核。仅READ-FIRST一项临时改partial/needs-migration，故继承进度暂减1，并非篡改固定1838分母。
+- 首次S01捕获如实保留两个JSON格式error的lint失败；修格式后另起新UUID，lint零诊断、diff0，strict/check:docs/require-complete依旧exit1。具体输入、命令与输出见返工证据rerun索引，后续登记不冒充同字节重跑。
+- 新候选待非作者全文/来源/反例审查；不以静态结构绿灯自授语义接收，不改产品或旧测试/coverage。
+
+
+### S01 非作者counter返工（0ec6b296）
+
+独立Reviewer指出作者沿用的“sLayer×8只进排序”排他断语错误：Game present.ts588/589/600–610将sortY和iLayer都供cover几何，Reforge SpriteDraw也分列排序与cover参数。root实际补读present.ts560–617及render.ts74–115；只将现行表述限缩为最终blit不重复叠加、排序与cover各按真实合同，原quote保持。S01-LAYER-BLIT登记为author-fixed-pending-non-author；修复候选未重新获accept，不授正文或产品信用。
+
+
+## 2026-10-18 S02：测试治理真实runbook重审准入
+
+- Codex build allowed：在已限定接收纠错之后，单篇重审docs/testing/governance.md及唯一review/registry、矩阵、任务、证据和必要pin；Coding Owner为root。S01新正文仍等非作者最终回执，不改其固定字节。
+- 已全文读R83前73行与当前正文；实际回读check-testing.mjs的catalog/canonical/evidence/legacy验证、生成器与relocate/finalizer、AGENTS/文档模型/测试质量段/模板入口。这里不核18份测试记录的业务质量，不改catalog/机器证据或旧测试。
+- S02具体counter：旧正文漏schema2 front matter；reviewBy过期门实际上覆盖所有非archived/superseded发布状态；旧四维生成描述不足当前九个投影；原legacy census禁止靠追加清单授权新平面文件。改写成唯一身份→配对→状态→业务质量→迁移退役→实跑留存的真实步骤，不能仅加模板封套。
+- 只对本篇新字节准备后继；1896撤回历史清单保留，作者候选仍partial/needs-migration，固定新SHA再由非作者逐篇核验。无产品/旧测试/coverage或模板放宽授权，整卡rework、硬门未过不合main。
+
+
+### S01 非作者单篇接收（8ef07ca7固定正文）
+
+- Reviewer `/root/receipt_integrity_independent`逐条核十一条规则/五类停止线及来源反例，首个0ec6候选rework与sLayer原counter保留，仅在8ef0正文SHA70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be闭合并接受本篇语义/模板。
+- 冻结报告SHA288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303和45项原证据按原字节接入返工证据目录，独立intake map保原路径与SHA。本篇恢复唯一binding信用；不是R33全批复审或1896批量恢复。
+- 当前S02测试治理作者候选仍partial/needs-migration；统一门和整卡均未过，main不变、整卡rework。S01只恢复此前被本轮单篇counter暂停的1份，不将继承437视为本轮重认证437份。
+
+
+### 独立证据的无损存储迁移（0bac72c2反控）
+
+原样接入的编号源码摘录包含有意义的行尾空格，staged diff检查真实失败后仍提交候选检查点；未合main。当前设计仅将该检查列出的6份原payload用确定性gzip承载，原source SHA/bytes不变，新增stored SHA/bytes/encoding/from→to映射。原报告不改，Git源0bac与临时原件继续保留；接入索引为唯一仓库路径映射。先按计划核原SHA，压缩后解压逐字节复核，再重算索引pin和完整范围diff；不改规则、ignore/gitattributes、原文空格或审查verdict。此为附件存储容器迁移，不授模板/语义新信用。
+
+
+## 2026-10-18 S03：E2E总览的隔离贡献准入
+
+- Codex build allowed，仅隔离文档候选，不授产品build/全量门通过。按AGENTS“Codex分派、贡献者执行、Codex独立验收”分派单篇Owner `e2e_entry_semantic_author`；root负责非作者正文复核及中央ledger/索引接入。S02仍在fe546c7e固定快照独立审，不混入未来字节。
+- 唯一贡献者写入白名单：docs/testing/e2e/README.md；不得写registry/review/catalog/任务/看板、代码、旧测试或coverage。作者报告和原始执行输出只在自己的/tmp生成，提交README的精确候选SHA后交root接收。
+- 设计：复用已经真实通过的governance-index-v1/1.0.0，实际重写五必填章；恢复001–006阶段页/正式报告、共同合同/预览起点/路线proposal/横向问题/检查点/当前任务入口；当前状态由testing catalog与生成by-stage投影拥有，旧状态表只作原时点quote。原33行quote全字节保留，不续期下游阶段运行。移除当前部分无关Q批次提示，历史看板不充当前准入。
+- 作者须独立全文读固定dc478db11c6b52c4e50a1d1135f8a4740796418c原33行和当前68行；实际读当前catalog相关9项导航字段、by-stage完整投影、现行治理/模板合同及必要的contract窄域。不得声称读过6篇完整报告、跑过E2E或获得业务接受。
+- 验收：root核原/新全文、具体导航与事实权反例、入出链、完整quote/source-after SHA、producer/catalog消费与本篇模板；作者自验不代签。只有本文固定新正文可审，不外推其余R60或1896绑定，整卡rework/硬门未过不合main。
+
+
+### S02 非作者单篇接收（fe546c7e固定正文）
+
+- `/root/receipt_integrity_independent`独立全文核原73/前108/新83行及真实consumer，逐六步骤/来源反例、复放publication-IO probes，限定接收正文SHA dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9与runbook模板。
+- 原报告SHA db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381未改；47项原artifact按显式gzip容器、原payload与stored双SHA/bytes映射保全。Reviewer自身capture末尾清理断言失败及真实15条命令分别保留，不改为候选失败或虚报通过。
+- 本次只恢复1896撤回中的这1篇新正文，原撤回清单不删，剩1895未重授；S01另属R33新发现counter。继承进度不是本轮重认证总量。完整check:docs/strict/require-complete仍真实FAIL，lint/完整基点和staged diff零诊断，整卡rework、不合main。
+- 当前registry距1MiB仅约2KB，S02接入后先作正式分片结构方案；不得压字符串或调BiomemaxSize救急。S03作者仅在独立树改README，不触共享账本。
+
+### S03 固定正文的非作者限定接收，中央登记待接入
+
+- root 先核原33/前68/候选90行、by-stage全文及合同/检查点/相关卡/producer/validator明确窄域，对cafe0578的无条件quote逆回表述提出counter。贡献者独立修为f9fbf0c7，正文SHA `8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9`：整个quote不变，直接逆回2213字节不等于2212字节原文；仅剔除已核恰一个分隔LF后按原SHA相等，不能无条件trim或恢复R60旧exactRoundTrip声明。
+- root未编写该正文，固定字节上接收本篇具体导航、事实权、版本/预览/停止线及五章模板；实际公共consumer/producer核六组阶段路径。非作者报告SHA `f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25`及原始七条命令在`/tmp/type-pal-s03-root-independent-u7kxokal`，作者原141项/追加58项payload均复核SHA；原失败/报告未改。
+- 此为单篇固定候选接受，中央ledger尚未接入；不增加当前完成数。S03隔离树实际check:docs/strict/require-complete失败，lint0、staged及作者基点完整diff0；不冒充当前根集成字节验收。
+
+## 2026-10-18 S04：横向材料导航的隔离贡献准入
+
+- Codex build allowed，仅单篇文档候选。Owner继续为`e2e_entry_semantic_author`，在其干净S03冻结候选之后复用隔离worktree；新增唯一写域`docs/testing/e2e/cross-stage/README.md`，中央ledger、catalog、任务/看板、产品/旧产品测试/coverage均由原Owner保护。
+- root已全文核现行40行及其中原始短导航：它仍承担现行横向材料导航，采用既有governance-index-v1/1.0.0。作者必须自行全文核固定源/当前正文与必要common-issues入口、catalog发布/配对字段和R4准入窄域后，写出可用的当前入口、issue-family回链职责与真实停止线；不得把common-issues所有历史业务结论或001–005执行当作本次已审。
+- 原quote/source字节及日期保留；有分隔LF、旧状态或原counter须逐项记录。只准真实所读/所跑范围，作者自验不能授reviewed/template-compliant。root随后独立实读原/新/来源与反例，再决定单篇接收；registry分片未独立接收前不批量中央入账，整卡保持rework。
+
+## 2026-10-18 S05：路线方案的真实语义重审准入
+
+- Codex build allowed，仅隔离单篇 `docs/testing/e2e/route-proposal.md`。唯一正文 Owner 为 `/root/e2e_entry_semantic_author`，基于其干净 S04 候选新分支实施；root 保护中央卡/registry/review/pin/矩阵，配对 catalog/evidence、产品、旧产品测试和 coverage 不在写域。存储候选未独立接收前不得中央批量入账。
+- 已接收只读 harvest 的排期输入，不授正文完成：报告 SHA `315e8118249124d183a15b5d2e1ea1de0692cb2dcef6d6c4d9daf3064c1feb90`，54项清单 SHA `d44d860ad86423f1d5549fb3f5a02ae85e61bd594cec277b8416c522c7fb056f`；原174行/现219行、两处 sourceRef 及明确依赖窄域实际核读范围保存在 `/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v`。root核了13项发现、七条用户规则矩阵与五章方案；未把仅hash的依赖称全文审。
+- 使用现行 design-spec-v1/1.0.0，具体恢复七项用户裁决、两轨原生真档、精确位置/完整NPC帧/对白消费/预览门；分开 Q1/Q2/editor 覆盖方向与 verify/visual/capture 用途。现有001/002入口及source-only前驱验证按真实能力写，历史无runner、工具会话不可用和旧容差不升为今天事实；版本/sourceRefs与原配对机器字段不追溯改写。
+- `validatePredecessor` 的40位revision语法检查不是当前HEAD或真实执行证明；`:both`拒capture，capture不能作verify前驱。只允许已核当前合同下最小重算/补采/重跑，未知能力继续unknown，不把旧连续卡的时点接受概括为今天全E2E通过。
+- 原quote整个块必须保留；直接inverse多一个LF，只能按已核恰一个分隔LF及固定source SHA说明条件保全，不恢复R60旧无条件exactRoundTrip信用。固定新正文后由非作者逐篇验原/前/新及必要来源、反例、真实consumer和质量门；作者自验不授reviewed/template-compliant。整卡rework，硬验收未过不合main或done。
+
+
+### S03 固定正文与唯一中央绑定接入
+
+- 正文SHA `8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9`，原非作者报告SHA `f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json)。此次只移R60本篇，另7条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
+- 仅本篇新正文/模板接受：Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness.
+- 1896撤回中已逐篇重授2篇，余1894；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。
+
+
+### S04 固定正文与唯一中央绑定接入
+
+- 正文SHA `1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c`，原非作者报告SHA `e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json)。此次只移R60本篇，另6条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
+- 仅本篇新正文/模板接受：Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.
+- 1896撤回中已逐篇重授3篇，余1893；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。
+
+### S05固定正文非作者接受，中央接入尚未授信
+
+- 固定作者候选`b87a239769295a4a2549255adc3b91f0417324ca`，正文SHA `7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6`。非作者全文读原174/前219/新274行、逐七规则与五章设计模板及27项明确依赖范围，限定接受正文/模板；报告SHA `4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302`，原97项清单在`/tmp/type-pal-s05-independent-_4zlmxx2`。
+- 两次CLI在隔离树缺资产的前置阶段失败，未到capture guard，不能冒称CLI拒capture成功；001拒capture仅源核，002另有公共API的synthetic IO验证，不计真实存档或运行信用。自身probe设置失败、原始输出与全局docs/strict/progress失败均保留。此时尚未迁移S05中央binding，不增加当前1896重授计数；本卡仍rework。
+
+## 2026-10-18 S06：原生002机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-002.json`的`_governance`内容；唯一Owner `/root/e2e_entry_semantic_author`在干净S05 b87后新分支实施。其余16个原生字段的值、顶层key/数组序、日期与现5421字节原生前缀全部保留；catalog、canonical报告、产品、旧产品测试和coverage不可写。原107行5414字节与现124行6393字节按对象/顺序相等说明，不伪称字节逆回相等。
+- 既有test-machine-evidence-v1/1.5.0的document-audit-v2足够，不新增变体或降低标准。root已全文读现124行/模板及harvest的16字段释义、14项发现；作者原107/当前124及六sourceRef、实际caller/20行/现金偏序/三人生命周期/正式恢复的实读范围，见`/tmp/type-pal-s06-readonly-harvest-20261018-g2s9_afu`，报告SHA `79392410d1086109e5107c81648550fdc23ff218bbda552159aa26dad1bede62`、70项清单SHA `c23e18c9e97ea298ca43e82b34da331062ef83e8cfa7c362ba20538ab15c269a`。
+- 须实质重写治理对象：逐16字段的意义/事实权/适用时间/证据范围，primarySource的真实完整或窄域、当前静态审查/非执行身份、原_governance历史及具体反例/停止线。只更新lastReviewed、添加泛封套、或复用artifactOnly授完成均不合格。
+- 原verified、dedupe.reviewed、source-backed分别归发布/历史命名/源码轴；d022与22/11不变，现源22/min12和RF12另记，不把RF格式套Game。短oracle引文不覆盖完整三人/恢复合同；20行、[0,500]及dlg50<commit<dlg51、真实位移/替身生命周期/控制与独立呈现/停读/正式恢复各按实际source范围解释，不能把终态/源码存在当实跑。
+- raw缺失仅指原时点checkout，本轮也未打开游戏raw；不得抹去canonical的历史实跑或把docs日志填进native artifacts。findings逐日期保留，旧待做句不升格为今天状态。作者候选保持非作者验收pending，冻结新字节后独立逐字段验源码、保全、模板及真实consumer；中央登记与1896信用另经root接入，不合main或done。
+
+### S03/S04固定中央组合的非作者接收
+
+- 非作者逐项核固定`65ee30adc41fd78c49b0ea261ce77b62b816ece0`及其源2407/2411/目标2414绑定，限定接受S03/S04两次唯一迁移：R60 8→7→6，其余对象、顺序、S01/S02及第二次的S03不变；七个新增证据仍partial/needs。原报告SHA `f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821`及146项运输见[中央报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json)。
+- 同时核364个原payload/存储身份、25个Git一手pin、真实178工具与lint4492零诊断；完整docs/strict/progress仍FAIL。两次自身harness错误与原日志保留，不倒写为候选失败或通过。
+- 1896撤回中仍仅重授3篇、余1893；S01另列。这里只关闭固定65的中央复核待项，新报告登记/本次确认写回及未来S05/S06不在该报告接受范围，整卡继续rework、不合main或done。
+
+### S05唯一中央绑定接入
+
+- 固定b87正文SHA `7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6`，非作者报告SHA `4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302`；只移R60该篇6→5，其余五条和semantic旧四条不变，原撤回/quote条件/history保留。
+- 原54 harvest/82作者/97非作者项及三个manifest共236项显式运输；原失败不改。七用户规则/五章设计和具体source/IO反例获接受，方案仍proposed，历史22/min11不改、现源22/min12与RF12分轴。两次CLI缺资产提前失败不授capture guard或运行信用。
+- 1896中仅4篇重新授信、余1892，S01另列，五隔离仍在。新六份报告/映射一律pending，不自授报告完成；v3私有工具765094护栏已获非作者13正反针限定接收，未来实际中央组合另验。硬门未过整卡仍rework、不合main或done。
+
+## 2026-10-18 S07：原生003机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-003.json`的`_governance`；唯一Owner `/root/e2e_entry_semantic_author`先完成S06单counter修正、冻结新commit/原回执，再在干净新分支改003。产品、旧产品测试、coverage、catalog、canonical报告、其他正文与中央记录均不可写。S06仍待非作者复核，不借本准入接受它。
+- root实际全文读003现127行、harvest的16字段/13发现/8替代解释/迁移方案与真实读域，未读655/503源全文，不借harvest当自己或本篇的semantic接受。固定harvest在`/tmp/type-pal-e2e003-readonly-harvest-20261018-k1j_n_io`：报告SHA `cc18db7cdab1e64553afb2dc7499fe8f3d19c6701be5986f0d1945735e200115`、64项清单SHA `5e573607c8146fecf21627c3954d6ecfb88e22befe304951a482cff91984a5b0`，原临时脚本引号错误与后继修复保留。
+- 内容核定为schema2 document-audit，使用现有test-machine-evidence-v1/1.5.0/document-audit-v2，无新变体或artifactOnly捷径。原110行5294与现127行6273的16native对象/键序/数组序同值但非字节相等；现5301B前缀SHA `00ed42ae233338691538403222ccce3356d19b1db977eecdbd1b6dda18a08c55`、日期/status/历史/原7sourceRefs全部保全。只改治理对象，保旧治理限定history，作者nonAuthor=false/验收pending。
+- 实质解释16字段和7引用：verified发布、历史dedupe.reviewed、source-backed、performedfalse分轴；d022/22/11与现源22/min12、RF12及Game原生格式分开。003的002前驱含route/core/choreography、真实字节/world/Canvas/handoff一致，40hex不证明HEAD/producer真实性，sourceDifferences记录不等于拒绝或无影响结论。
+- 业务须按003实际范围：12楼梯提交的交替delta/间隔实绘/步相/三帧，14行完整正文与speaker/顺序；126/127控制/未取菜交接，ready body不等于004执行；153<启用<155、大娘58之后实际路线与厨房替身/大厅隐藏偏序。完整NPC/对白槽显隐/preview另验，不能从部分predicate或source存在补强保证，S06首次hidden→暂现→hidden反例作为不夸大源码的提醒。
+- collector是8000events/800pages/4000partyframes/60000world/2restore的所读窄域，后半bridge与共享预算未全文核不能抄002数字。verify保存/fresh-context正式恢复与capture提前return、both拒capture分清；32路径本checkout metadata absent不说明历史未运行，未开raw/未hash、原Owner/retentionunknown。原五findings按日期/候选及旧异SHArun与后继both分别保留，不把旧待做句当今日进度。
+- 冻结后由非作者完整核原/前/新及必要一手域、真实consumer/具体反例、native/prefix保全与模板。作者自验不授reviewed/template-compliant，中央只按真实固定字节另接入；全卡仍rework、不合main或done。
+
+### 后续治理回执原件存储设计（尚未采用）
+
+- [1.0.0-draft提案](../../phase-governance/reviews/20261018-governance-receipt-storage-design.md)固定原稿SHA `eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e`，Owner root，仅设计审查准入；非作者接受/版本冻结/真实consumer与反控pilot之前不实施。目的为落实文档模型的附件原件与review不递归自审规则，后续一次性工具输出以双SHA原件附件归属，逐篇完整semantic条目仍必需。
+- 1838与现2424全部既有候选/待审/原报告零迁移、零豁免，不因gzip退出既有分母；业务canonical JSON及配对机器证据路径和字段不变。新提案本身另登记为pending，不自授模板/语义完成。若需任何既有路径迁移，须另逐篇source→target/link/consumer映射，不以本提案预批。
+
+### S05固定4ddd中央接收与回执设计1.0.0冻结
+
+- S05非作者中央报告原payload SHA `fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce`，62项无损运输含原manifest。原JSON格式不合当前formatter时原字节存gzip，同名文件仅JSON值/键序/数组序相等的阅读投影，双身份在map明确；不改原命令/数字/失败，也不拿投影SHA钉原报告。固定4ddd的2417旧native/唯一迁移/2424 after pin/236+460运输及原门输入已限定接受，原始自身harness失败保留，后继本次写回不在其scope。
+- [设计独立报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json)SHA `d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe`全文核两稿、五章具体语义/真实template consumer及fixed4ddd基线，限定接受稳定设计93a6；唯一改动为Design version行。原eada不删，正式冻结proposed1.0.0，不授实施/采用/pilot/中央或报告本文完成。210项运输含208原项、manifest及外部seal；原自身setup失败保留。
+- root build allowed仅准备私有工具新版本与owned/tmp正反针，Owner root；实施白名单为新的/tmp runner与夹具、原件显式运输及本卡中央登记，旧344623/765094/builder/公共storage API冻结，不动产品/旧测试/coverage/ignore/structuralRoots。须非作者核真实gzip consumer、精确body/template版本/报告双身份、旧plain回归及写前拒绝，再做一篇实际机器证据正文和中央分别独立pilot，之前不能复用新路由。
+- 1838/全部既有候选和pending无缩分母；当前仍仅1896中4篇重授/1892待审，S01另列，五隔离不解除。新四份回执/映射pending；提案仅冻结字节，不自授其binding完成，后继单篇记录须真实非作者凭据。S06新71只修过强“不再现”一句，仍待非作者闭合；S07隔离写入不授中央信用。完整硬门仍FAIL，不合main或done。
+
+## 2026-10-18 S08：原生004机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-004.json`的`_governance`，唯一Owner `/root/e2e_entry_semantic_author`在干净a233后新分支实施。S07仍独立审中、S06仅固定71正文接收且中央待验，本准入不续其信用。其余native、canonical/catalog、产品、旧测试、coverage及中央账不可写。
+- root全文读当前132行及harvest16字段/17发现/迁移方案，另有原先canonical1–78/meal-contract280–340,395–482的窄读；没有读作者全部927/1082/895等源码，不借hash/harvest当root全文或本篇接受。只读报告`/tmp/type-pal-e2e004-readonly-harvest-20261018-7pf2_gnd/harvest-report.json` SHA `d4627932b932a915c00a80cba8fbc173ff438761d974de5a541cc8249ad8fd3a`，102项清单SHA `841e991c46baa4e249b8b8a0248723d6deb98d6fea2781337b87f65f04ddf7ef`。
+- 内容核定schema2/document-audit适用现test-machine-evidence1.5/document-audit-v2，无新变体或artifactOnly。保原115行5679B语义/当前132行6658B的全部16native/键序/数组序/日期/7refs及5686B prefix SHA `bc0eafb4eaf7829edb4497586e68ac109dfcc9375a4903b4237dfde2dcf0c630`，原治理完整留限定history；只换日期或泛封套不算迁移，作者false/非作者待验。
+- 按004自身source展开：每引擎story/items/saves、完整both精确6；40行=2+13+25而非赠酒单段40，story40/1context无保存专项，items15/1核取消0dispatch/错误1、真实提示与库存绑定，saves40/3含慢读/208中档/终档fresh恢复，唯saves可005前驱。真实赠酒唯一正文/扣酒/隐藏喊话/控制和正式save/restore各有独立义务，不从首次hidden/终态推全程不再现或全帧通过。
+- 四个短contract sourceRef只含目标函数开头须另按完整函数实读；40hex不是HEAD/producer真实，Game前驱源码路径差异拒与RF仅记录分开。共享Canvas谓词对缺nonBlack/SHA对象可true的纯helper反例，只限字段假设；真实pixelproducer另核，不抄003更强形状保证或造产品缺陷。collector本篇64MiB/768MiB/32MiB与分流计数按实际读域说明，未审recorder/causal接线不授像素完整性。
+- 9a488 Git声明21/min10/RF10、d02222/min11/RF11、现22/min12/RF12分时点，原字段不倒填，Game格式独立。原failed comparison/receipt-only再验证/非零警告保留，旧待做不作今天进度；15位置本checkout metadata absent不等于原六份精确路径已找到或全仓未运行。原raw/Producer/Owner/retention未知，未开游戏raw不填docs日志进native artifacts。实际storyEndControl不因旧source字符串/movement恢复已删尾部走位。
+- 冻结新正文后独立全文/来源/反例/consumer及保全验收，再由root显式中央接入；作者自验、结构绿或本准入均不授reviewed/template-compliant/全局信用。全卡rework、硬门未过不合main或done。
+
+### S06与稳定设计的唯一中央绑定接入
+
+- S06固定71正文SHA `91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448`，原非作者报告SHA `1318ecf75bc3b1a9e4ed205b8d420392b4521dc245780f06d8cc2c4c75c95e9f`，R60只移该篇5→4，其余4条与旧semantic5条保全；16native/5421B前缀不变。原880 rework与first-hidden反例不改，71只闭合治理措辞，不改产品oracle或授游戏实跑。480项运输保作者/harvest/原rework/修正/独立输出与原失败，最终报告仍plain旧读取路径；未采用新gzip报告授信路由。
+- 稳定设计93a6/d632仅移原pending该篇到semantic根，增量不计1896恢复；新增唯一design-spec路由，其他迁移路由保全。设计仍proposed，实施/gzip consumer/采用/pilot未过。两新报告/映射仍partial/needs，不自授报告本文完成。
+- 1896撤回中仅5篇重新授信、剩1891；S01及新设计另列，五隔离不解除。本次实际中央组合仍须非作者验唯一binding/旧对象及SHA、原件和输入范围；全卡rework、不合main或done。S07只是固定正文接受、中央未入账，S08隔离作者中不授信用。
+
+### v4 plain接入护栏与首次计划拒绝
+
+固定root私有runner SHA `7069132efe1f21393eeb5938ec65a24174fc48375a3a2c8229a6b67aa1b2196b`已获非作者限定IO护栏接受，原报告SHA `5682ec52a53b1d8e1aec5001dc6e4074cbc37e56d909827b030eef4797903fb7`；7有效正针/31有效拒绝不抹掉其68次真实执行中的fixture失败。仅3完整review根，不声称已验114根真实中央DAG；最终报告仍用plain既有路径，无新gzip consumer或pilot信用。
+
+root首份真实dry-run计划漏列未变化的设计独立报告作为expectedFiles静态输入，v4正确在输出预留/发布前拒绝“non-author report not pinned in plan”。原计划、exit1/stdout/stderr保留；核全部已声明输入/HEAD与registry/review未变化后，另建新计划补精确d632只读pin，不加宽allowedPinDeltas、不手改原失败回执、不把这次拒绝说成成功或产品counter。
+
+### RECEIPT-META-REVIEW-DATE：完整正文门补充counter
+
+首轮实际组合门发现设计提案缺Last reviewed（两条同根诊断），不能把先前checkTemplateBody章节通过当完整迁移元数据通过。保全部失败日志与原93a6/d632章节接受；仅该提案reviewStatus/templateCompliance降为partial/needs，1896的S06第五重授/1891待审不变。root只插入实际非作者审阅日2026-10-18，新的固定字节须另获非作者full migrated-body消费和精确授权tuple复核后才可重授；不改原报告或伪造旧门通过。整卡仍rework、新gzip采用/pilot未验、不合main/done。
+
+## 2026-10-18 S09：原生005审计的隔离正文准入
+
+- Codex build allowed，唯一Owner `/root/e2e_entry_semantic_author` 在干净2de6新分支，仅改 `docs/testing/e2e/evidence/e2e-005.json` 的_governance；原16字段/8refs/key与数组顺序/日期及6015B prefix SHA `41aa6c3e7815c96d1832cb7c192637fdee6214ef6a4da1a7b0652534530a236a`全部保留。现有test-machine-evidence-v1/1.5.0/document-audit-v2适用，不新增schema或artifactOnly。S07已固定正文限定接受未中央接入、S08非作者仍封报告，不借本准入授信用。
+- root全文读当前140行和harvest的18发现/10替代/迁移方案，另窄读errand-contract350–470和observer245–305；未读其508/541/668源码全文，未把harvest当root完整审查。只读报告SHA `74c385f581f9e3d14ccb022daaf1413d68e550673f0a69e371e786c6fdd5371f`、77项manifest SHA `c4d9bf60faa8e8d389ee904a3c3f20642e49d3807ccce4849c845a029b7f0fc9`，精确读域及13份固定SHA继承位于/tmp/type-pal-e2e005-readonly-harvest-20261018-xmle6gcc；作者不可把继承读域写fresh全文。
+- 实质展开16字段/8引用及本篇业务：story/guards/saves每引擎40/49/40行、1/1/2contexts；004 saves运行准入不同于offline通用checkpoint消费。唯一500→550晚于215，不虚构下一对白上界；布防/approach与news原子clear/draw/control偏序逐项按真实源码表述。后台仅恢复后实际位移和末观察可控，不授全五目标/全程控制；最小DTO纯谓词probe不是合法游戏反例。005不要求跨时刻整个Canvas相等，正式持久state/非黑/续走各有职责。
+- collector只seq/global order、不补atMs或完整actorRecording；物理snapshot-graph384MiB/池128MiB与展开DTO/各recorder预算区分。98a21/min10、d02222/min11、现22/min12和RF格式分时点；wrapper失败、后补case/receipt-only再验证及warnings不追溯改写。26 metadata absent不等于旧运行不存在，raw/producer/retention未知。原治理完整保留限定history；作者nonAuthor=false/独立待验。冻结后另获非作者正文/模板/consumer和中央验收，整卡rework、不合main/done。
+
+### DOCS-CHECK-INVENTORY-BUFFER：实际全量文件清单消费counter与修复准入
+
+第二轮中央check:docs真实触发scripts/docs/check.mjs:329的spawnSync git ENOBUFS；Git已输出超过默认1MiB的完整候选路径清单。原失败会话/tmp/type-pal-central-s06-design-date-pending-_69lky7w完整保全；不能将178工具通过或progress零integrity冒称check:docs通过。此时lint4508零诊断、完整diff零、strict/require-complete仍FAIL，缺口不豁免。
+
+Codex build allowed，仅文档工具结构修复。唯一实现Owner `/root/receipt_integrity_independent` 在其已冻结S08只读输入之后独立干净新分支，白名单scripts/docs/check.mjs与新增/必要文档工具测试；root只负责本卡和中央。采用真正分块读取或stdout磁盘spool，保Git原argv/根/cached+others+exclude-standard/-z集合、NUL/Unicode路径、存在性过滤、导航/链接判定、错误fail closed和清理；不抬maxBuffer、不新增ignore/exclude、不缩分母、不改产品/旧产品测试/coverage。至少一个真实Git输出大于1MiB的回归，验证末尾路径/特殊路径及Git失败不会变空成功；冻结后由不同主体核实现/实际消费/原失败与新输出、执行必要门。此准入不是修复接受或统一门通过。
+
+### 固定67中央数据接收、导航counter与文件清单实现接收
+
+- 非作者原报告payload af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04限定接受S06唯一中央数据与设计诚实降档，wholeCentralClosure=false。实际114根/2431 afterpin零漂，三真实计划22维护delta逐次format→hash后字节精确复现；其余2427旧native/缺省/顺序、R60其他4/semantic旧5、480原件及13session运输、1896仅5重授/1891待审与五隔离保全。不借此接收本次写回或未来正文/工具。
+- 原失败归属更正：两轮check:docs都在178工具通过后因ENOBUFS退出1；首轮两条缺审阅日期诊断来自progress完整迁移消费者，不来自尚未走到的check:docs正文阶段。原日志/日期counter/自身harness错误不改。日期新0d16另获6c43完整单篇consumer限定接受，但本次只写回证据，设计仍partial/needs且proposed，未重授模板完成。
+- 固定67真实公共navigation发现reviews/README缺设计入口。root现在只在继任区补相对链接，原archive quote整个块不变；这是待新门/非作者窄复验的修复，旧67不倒签全中央通过。
+- 405清单实现由另一Owner编写，root非作者实际2IO验证及旧buffer反控/完整root清单逐序核，限定报告payload159e674199306c5940657cd0d3622141798ef78ccf2f86ea2952c1aa637cd8f5；已仅导入两个docs工具文件为7eca34c5。1,104,714B fixture与真实1,089,542B root清单完整，NUL/Unicode/尾部/不存在/ignore原语义与失败清理保持。root第一次误期望导航零而失败、C第一次symlink夹具误读、作者初始lint排序失败均保留；不抬maxBuffer/ignore/分母、不改产品/旧产品tests/coverage。
+- 原清单覆盖和后继快照分开：C37项+manifest/外部seal/pycache实际运输40，工具作者247+manifest运输248，root27+manifest运输28；不是原manifest自动覆盖后继。所有原JSON/失败/数字字节按payload/stored双身份保留，工具原件附件不授报告自身完成。当前整卡rework、硬门未过不合main/done。
+
+### S09固定正文/模板限定接受，中央尚未接入
+
+root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1、新616内容与原/前native、独有508/541/668/60源码全文及必要依赖窄域。38Git pins与16字段/8refs/6015B prefix、旧治理保全及真实fullmigrated/pair正针、三类mutation和两轨背景/news边界12组source controls均通过；共享B c3f的固定927/1082/895/275旧读域继承，不称root重新全文读过。原报告payload b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f，仅正文/1.5 audit-v2接受，未导入005或迁移当前binding、不增加5重授计数。
+
+作者87清单之外7个自回执/manifest另运输；harvest77之外7另存；root51清单之外manifest及排除字段说明addendum另存。原报告builder取错排除字段名写null，原字节不改；92c188cf独立补列实际exclusions且不冒称在原51清单。当前S07/S08/S09仅隔离固定正文接受，未来gzip授权和实际中央pilot须独立接收后才可复用。
+
+## 2026-10-18 S10：历史执行006的限定正文准入
+
+- Codex build allowed，仅文档候选。唯一Owner `/root/e2e_entry_semantic_author` 在干净de423后新分支，只改docs/testing/e2e/evidence/e2e-006.json._governance；16native/3refs/原日期/5artifacts/key数组序/4676B prefix保持。实际kind仍document-audit但历史performed=true，必须用现有1.5/historical-execution-publication-v2，不套audit-v2或翻false；当前审查非执行轴单列false，不新增schema/变体/artifactOnly。
+- root全文读现120行及harvest12发现/5前提影响/迁移方案，未读全部独有237/364/447等源码，不借作者harvest作root语义接受。冻结报告7b93548dfa2d4da6faf482f649ce1118027b63048cd535b33888d21844df967f、95manifest f17b8437663df2107b91550ad068a7347f00afc94b2ef5fca2c5007a354c2114；实际原源33cc2df50c7279d2750ddad4fcf6c373b7b2bda3的96行/4679B与dc/current同120行/6419B分层。原4676B前缀加固定LF右括号LF实际逆回9b692423，不把任意JSON等值当字节逆回。
+- 正文实质解释16字段、3短ref能力、95行含四落地收尾/真实前驱/只消费报告的both、有限helper与terminal/rider/资源的不同职责、doctor当前state2与旧state3、旧偏移/朝向冲突和各历史日期；公共规则引用权威入口，避免重复复制005长段。原历史true和旧治理完整保留，不把旧C2/expired提示当今日下一步。
+- 明确blocked结论：原1513/1516/1517数据实际缺席，95行原版内容/terminal原意等价、真实slot/rider原件、完整SAVE12船链和视觉等不能因函数或author小片段变已核。旧偏移两组冲突缺原raw/修正时序不裁一组为真；保带日期原声明并列unknown/blocked，不重建raw或擅跑产品/离线E2E。harvest16 shell exit0但stderr FileNotFoundError与两次exit2真实诊断失败保留。
+- 这只准治理候选写入，不预授006 semantic/template完成、原版事实/历史运行真实性或当前E2E接收。作者自验nonAuthor=false，冻结后由非作者逐项核实际正文/来源/反例/保全/consumer；前提不足者继续blocked，中央信用与全量硬门均不授。产品/旧测试/coverage/canonical/catalog/中央不在作者写域，全卡rework，不合main/done。
+
+### S07唯一实际中央试点、日期重授与counter来源纠正
+
+- 原15回执逐项裁定已完成，仅10项已解释/5项隔离，不是15项历史重跑通过；全卡仍rework。现在只将固定a233/1b93的003正文接入：原16native/7refs/5301B前缀与旧治理原样，C实际全文110/127/595及合同/旅程与逐域来源审查获限定接收；R60仅移出003，另3不变。受影响1896仅6篇有新正文非作者接受、1890未重授；S01及新设计在该集合之外，不重写冻结correction-scope六部分。
+- exact v5消费者SHA7b33f129由另一Owner B实际验证两raw正针、旧plain正针、12写前拒绝及真实删除guard反控，原报告f7a5完整保留；夹具只有3review根，不冒充真实114DAG。此为第一篇实际中央gzip回执pilot，必须再获非作者固定树中央复验后才能复用到S08/S09；其已接收隔离正文仍未导入中央。设计0d16日期/full consumer修复与旧d632章节分源，恢复的仅proposed设计正文/模板，不授采用或全量完成。
+- fixed88非作者dd075确认唯一导航链接修复、2431native/114根维护pin与原运输/门输出边界，但发现RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH。本次明记C af743原ID RECEIPT-DESIGN-NAVIGATION-MISSING，root159 helper别名RECEIPT-DESIGN-MISSING-INDEX，指向同README缺入口；两原件不改。导航已修与别名元数据纠正待本次窄复验分开，零额外正文信用。
+- 原件运输纠正：root误将S07可重建fixed-a233 Git副本递归带入，原11624文件运输payload b8bc39a31accfba522c2aed49c956681ede0aa463f13e7abdaa10179c45eeaff已在任何门/登记/消费前完整移到自有/tmp隔离，原审查源未改。按原96清单加manifest本身运输97原件，transport payload21a78b8fa17cb17ae40c7a7accf1040daf6e03443d73871b9874938496a2d577；不是删除既有候选/报告或改变1838义务。C88原38manifest之外manifest/pycache/实跑残留共41另运输，后继不冒称原清单覆盖。
+- 所有新一次性执行输出仅既有raw ownership附件，full逐篇结论仍在现有semantic root；不迁走既有正文/report候选，不加structural root/ignore/maxSize豁免。实际dry/apply/格式后哈希与全真实硬门、114根/2431唯一binding保全均独立记录。未过全量硬验收不合main、不done；静态不授runtime/E2E/视觉/coverage。
+
+### Progress 清单共享 IO：限定实施准入
+
+- Codex build allowed，仅docs工具IO。root当前docs Git清单已达968514B；真实check导航曾越1MiB导致ENOBUFS，已获独立验收的磁盘stdout方案位于check.mjs，而progress仍使用默认execFileSync buffer。准以同一实际Git大清单反例治理剩余consumer，不缩短路径/删除raw/抬buffer/降门救急。原1838及增量、strict/complete原义保留。
+- 单一实现Owner `/root/receipt_integrity_independent` 从固定157独立干净分支实施；root为非作者复核者。白名单仅scripts/docs/check.mjs、report-governance-progress.mjs、抽出的单一inventory辅助模块与直接必要docs-tool测试。旧产品tests/产品/coverage/config/中央registry与规范正文不在贡献者写域，不合main。
+- 共享底层只负责相同Git argv/pathspec/NUL完整读取及私有spool/0600/finally清理、失败不解析；保持checkoutFiles原公开API及成功后exists过滤。progress原pathspec docs、后缀过滤/去重及对tracked-deleted的原口径不得被复用exists过滤静默改变。Git stdout直接文件，不扩大maxBuffer或改变ignore。
+- 验收为少量真实IO：实际>1MiB docs路径及NUL/尾部/非ASCII、相应完整progress公开consumer，必要失败清理/旧check兼容与实际旧buffer反控；不得用共享helper自测冒充CLI消费。声明夹具真实源码/完整数据范围；不重复旧180套作为语义深度。作者冻结完整diff/源SHA/真实命令/失败原件，root独立核代码及有判别力实跑后才导入候选，全部硬门仍按真实输出、不授full/main/done。
+
+### S08/S09与S10分别接入、首篇实际pilot接收写回
+
+- 非作者C对固定157实际S07中央pilot限定接受，原报告5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b/36清单，后继快照39另运输。114根/2431唯一pin零漂、真实10delta逐次format后hash重放；仅S07和设计两native状态变/其他2429含S06原样；原counter-ID/root alias纠正闭合。v5仅两个rawtuple，此次后继仍须各自工具及实际中央验收，full/global/main/done始终false。
+- 独立B最终v6-v2报告0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa限定接受S08/S09 exacttuples及3根131输入真实IO：两raw/旧plain正针、4负针和删bodyguard反控；原v1两句130笔误原稿及13格式化原件不改，v2只校正文字，真实maps一贯131。225manifest之外原manifest/外部seal/5finalizer共232原件运输，可重建131clone明确排除，惰性source/.git字节仅gzip/map不生成实际Git库。
+- 独立C对v7/S10 exacttuple+IO限定接收，原报告2c175b3a2eab05cb51b19dab2457018d823e75ea36ed28b6423317d70406ecdb/93清单，仅2根103输入，3正3拒/真实删guard发布后负oracle失败及恢复拒；十次private运行含setup失败完整保留。它不等114DAG或006body重审/实际中央，v6旧代码逐字继承；各schema guard实际到达层级按原报告，不将pin/identity层拒绝说成已过gunzip/schema。
+- 只导入A三个已获独立正文/1.5模板接收的固定body：004 d66f23/0051e50d5/006b19bf6。004/005从R60当前3条中只移两条，common-issues留原样；006真实donor是10-16历史执行pilot原3条，只移006，其README/report另2原样。006此前已content-reviewed/template-compliant，不在冻结1896集合，不能伪报一篇重新授信；受影响计数仅6→8/1888待核，006只是既有有效正文丰富，历史true/5artifact/原日期和缺源blocked不改。
+- root准备错误保留：原脚本把006猜成R60，next查找在写账前StopIteration，未产packet/未写中央；原script及另时真实复现raw保留，不冒称初次时间。新v2按真实registry/donor及冻结六部分核外集；S08/S09准备包一处“R60含006”关联文字也仅在另v2纠正，旧准备包原样且未应用。不为赶进度沿用错误归属或重复计数。
+- 原件按实际清单范围保全：S08独立181+manifest=182、author82+后7=89、harvest102+后7=109；S10独立280+manifest/seal/5外部=287、author75+后7=82、harvest95+后7=102。后继自回执不冒称原清单成员，原JSON/失败/数字不改，不移走任何既有report候选。新一次性执行raw仅既有ownership附件，逐篇完整结论仍在semantic root，零报告自审信用。
+- 当前只为候选中显式唯一binding/真实source-after SHA与原生保全写回，实际新中央组合待非作者固定树验收。docs清单progress共享IO准入与设计HTML候选只按各自范围推进，无产品/旧测试/coverage/配置写权。后续真实六门与暂存diff均分源记录，完整check:docs/strict/requirecomplete未过不合main、不done。
+
+### 后继只读排期与共享IO接收边界
+
+- root非作者已全文核ff0d4f89四文件diff/33行共享IO/126行真实CLI测试，独立实跑原2针+新1针全部通过，并核实际root9266条docs清单1046981B逐序/逐路径全等；同机旧all-checkout buffer真实ENOBUFS独立留存。该数当时仍低于docs单独1MiB，不伪称旧progress此刻已炸；作者owned大docs fixture的旧progress反控另分源。原报告fe9f69d2af91541d2df095a04efde570e46cc925ac9c8e23903843097e7678f6仅接收4文件IO，已导入1cb30568，实际集成全门另跑。
+- 作者B原报告3b53adbddc62b2c4ecd2739cf643da8d1ba92d7cf92898f2998a27e76b30f462/68清单及外部5/seal/manifest共75原件保留；82可重建clone只按原排除，不导入根目录。原2check测试字节未改，零产品/旧产品tests/coverage/config变更。
+- S11 HTML设计3d3e4f58仍只tmp proposed/draft-1.0.1，新增精确配对/variantVersion/source授权尚待完整非作者设计冻结，禁止实现HTML/README/sidecar/consumer。A可并行只读harvest当前R60最后common-issues.md，核全文/原源/实际入口及必要证据，交具体内容提案；未给其正文写build，不能凭S04链接/旧wrapper续授。
+
+### 共享IO实际集成反例：真实CLI夹具缺依赖
+
+- 首次1cb组合全门真实checkdocs退出1：181工具178过/3败，terminal-codec169/171/172的隔离CLI缺新git-inventory.mjs，属于本次新增依赖未同步，不能归“存量”或给豁免。本次未走到navigation/model/testing/phase，不借前轮输出假称已执行；独立lint4511零、progress445/1838+6incremental/1980pending/0integrity和full/stageddiff各自实际结果原样保留。旧root fe9f仅IO窄接受不覆盖这次整套集成反例。
+- Codex build allowed给原Owner B追加唯一必要docs-tool夹具写域scripts/docs/terminal-codec.test.mjs，只把真实新模块复制到原真实CLI fixture，所有原断言/namespace/codec/反控强度和旧产品tests字节保持；不用skip、mock假模块、改预期或降低门。先冻结S11设计counter报告再修隔离分支，root非作者独立核新增diff/有效实跑，正式全181重新实测后才讨论候选集成范围。原失败/时间/streams不编辑。
+- 这不改变任何正文重授、1896/8/1888或五隔离；S08/S09/006实际中央组合仍待非作者固定树复核，global/main/done始终false。
+
+- 上述夹具counter的修复候选fdb65d9d仅依赖表增加git-inventory一行38B；root移除该行逐字等于原文件，所有断言/反控与测试体未变，已导入c8e01511。作者真实复现31/34+3fail、修后34/34及3IO另跑通过；root不借作者数字冒充完整181，后继整仓命令原件另存，最终global/main/done仍不授。S11完整非作者f647365b报告明确S11-COMPANION-BINDING-LOCATION返工，原draft1.0.1不冻结/不准实现；A先只读S12后另修draft1.0.2，原版与失败不改。
+
+### 夹具修复后当前中央组合：真实181项与全量失败分开
+
+- 固定c8e01511加显式owned WIP中央组合真实重新执行完整check:docs，181/181工具项通过，fail/skipped/cancelled/todo均0；navigation1301 Markdown/8200 local links/364 tasks、document model7 routes/1264 body contracts、testing0及phase/lore184均通过。最终strict仍FAIL：2431唯一文档中457 content-reviewed/1974 partial，不能把前置通过写成整个check:docs通过。原完整argv/cwd/time/stdout/stderr/输入324819B及unchanged-after保留在post-fixture-full-181-first-current-central-gates运输，payload3465cd69c6366e00d6753488280aa8a58a095a4660088ef305e3bcf11405f6e2；此前178/181+3fail原件不改。
+- 同轮独立pnpm lint4511文件零error/warning/info、相对main28fd全候选diff --check为0；requirecomplete仍FAIL：445/1838基线+6增量、1980当前候选待审、17/17模板、0integrity。该轮staged diff为当时实际暂存区，不能替代后继真实全候选暂存检查。上述计数是旧有效绑定与本轮新接受的投影，不冒称445篇本轮重审；受影响1896只8篇重新授信/1888未授，006外集丰富零额外信用。
+- fdb夹具作者报告8616153f5427e215ac6ea1d523dcc8a4662e243a1f6dd3fbb120b9880ecc644a/76清单加原manifest/seal/五外部实际83原件，transport54ebe5312f796e5aaced1897119fd942c9092e57ae69d4decf18e066896b9e66；原报告builder猜行号892失败及新910纠正分源保留。root接收只一行真实依赖及181实际集成验证，不冒充逐项34合同新深审。两次card-only显式maintenance各1pin原计划/dry/apply输出保留，不批量刷hash授语义信用。
+- S11 draft1.0.1非作者f647 counter原150清单加manifest/seal/五外部共157运输，payloadf65ca03d76aabc13d31ae9aeb6e80bf2888a1512dd668fbb3ec987002a78b3ed。确认entries[i].nativeCompanions与原草案root位置冲突，draft仍rework，1.0.2仅tmp修订，不准HTML/sidecar/README/consumer实现。S12只读harvest293fc724e37191a8b08de4d6e47e2a0c704c4467cb44d4022e8b179c767fec0b已给七家族/时点/源域/条件LF保全方案；正文build和独立语义接受仍未授。
+- 先对本次固定中央候选作另一Owner非作者验收：S07 fixed157接收写回、004/005唯一迁移、006真实donor/历史true/外集零计数、immutable correction-scope、114根/2431唯一binding/format后哈希、原运输和真实工具边界及全候选暂存diff。任何counter先返工，全卡rework/global/main/done=false；仅隔离候选检查点可提交，不推送或合main。
+
+### 固定7af中央非作者反例：canonical报告路径误写
+
+- 非作者/root/central_successor_independent固定7af53f61实际验收结论rework，原报告5f94261c4ed186c76794e1dba5a3ccbf71711ed5ec86c1c4122c89969a0da976，counter原ID CENTRAL-CANONICAL-PATH-S08-S09。root把004/005 canonical报告路径猜成不存在目录，matrix两处to及semantic各三处truthAnchors/publicCallers/dedupe共8字符串错误；这不是作者正文错误。已分别按catalog真实e2e/stages/004-meal/report.md与005-shrimp/report.md及固定Git/blob/SHA修复，不改catalog或native正文/历史字段/计数。
+- 181/181、Markdown导航0、structural0并未遍历这些JSON语义引用；不能据前门绿称无悬空引用。原7af与两个181原始结果不改；本次显式逐字段路径/canonical目标核验及新固定候选窄复审另存。不得把新JSON路径核验伪报现有门已新增支持。
+- 该非作者同时限定核过2431有序binding仅三条变、另2428不变、两donor唯一迁出、114根afterpin零漂与四v7实际format后hash13delta重放全等；33运输map/1705原source rows/1354新gzip双身份、1350实际staged及两binary patch/两轮181原件均吻合。以上分别通过不关闭本counter，也不授本批central acceptance或新正文信用。
+- 当前只授权这8处引用修复、两条entry追加原ID历史、card如实写回和受影响pin明确维护。全卡rework，S12正文build未授；新固定候选非作者窄复验闭合前不继续正文、不合main、不done。五隔离/1896撤回范围/8重新授信1888未授与006外集0额外信用保持。
+
+### 固定6a中央限定接收；S11设计counter与S12单篇准入分开
+
+- 非作者/root/central_successor_independent最终报告b6c01744a7cb7878b55788556c92e077f45cedded91894141c33477181e6b207只接受固定6a72229ab9055ddca5a9d3b9b4833570ea7e47a7实际中央组合，原ID CENTRAL-CANONICAL-PATH-S08-S09在该候选闭合。8引用/两历史准确，2431native与8storage实际0变、114根0漂、3delta重放逐字节同；6map/123source rows/105新gzip与最终110路径真实暂存patch核过。工具fixedBodyUpdates=2只是两次before=after绑定授权，不代表两篇body重写。原7af仍rework，原回执不改。49清单+manifest=50运输，external seal/finalizer另列，不冒称在49内。
+- 上述限定接收不授新增正文信用、全量或main/done。最新实际181/181及导航/模型/testing/phase通过，lint4511零；整个checkdocs/strict/requirecomplete仍FAIL，445基线+6增量/1980待审只是当前投影。五历史隔离、1896撤回/8重新授信/1888待核与006外集0额外信用原样。后继ack/新正文不在该固定报告预授范围。
+- S11作者draft1.0.2最终4fd583661ab82add3b83109d0d6138a697475f0ec57349da2a7e5daa2fd57fa3及52清单+manifest53原件保留。root非作者eeb814effd9d2520dac9b66167fedf87708b0fae7e6c4937fc051962fdac4803仅闭合设计位置counter和继承读域归属：原生241B/Git全同、现默认HTML8问题且虚构Markdown/错module仍0、实际最终design-spec结构0/去章日期拒绝；这不是未来HTML实现通过。正式promote/稳定链接/Git designRef与普通root ESM parse5实际exit1前提仍pending/blocked，不冻结注册表、不实施HTML/README/sidecar/consumer。原fb/86/3d3/557/f647与失败原件保持。
+- S12 Codex build allowed，仅现有test-domain-report-v1/1.1.0文档候选，单一Owner /root/s12_semantic_author。复用已登记且当前干净b166的隔离worktree docs-semantic-e2e-entry，另建codex/docs-s12-common-issues分支从本准入检查点开始；保原分支/原件，不reset/stash覆盖。唯一正文白名单docs/testing/e2e/cross-stage/common-issues.md；根中央账/索引/catalog/e2e-common-issues.json/e2e代码/产品/旧产品tests/coverage/config不在作者写域。
+- 准入依据：本人新48段实际读域d55861ea363fc01a722aeef21b67b97dbe48b6cf76784c2504ec029b38553e1d与109行具体方案119a4fc3637ea428ea99e08d712038a3f6a2ed03a7c62004b63e95ad396624f4，101清单+manifest102原件；旧A293fc仅继承，source/current cdb892e3与原601229精确绑定。root全文核当前431与该方案/实际sourceRef范围/四wrapper，给候选写权，不预授语义或模板完成。无需新类型/变体，不能把48读段算48文档。
+- 新正文须实质表达七家族与D01–D12/R01/T01–T11共24索引的具体来源/责任/业务判据/日期/入口/停止线，非24闭合bug；current仅catalog发布轴，006只历史/rework。明确六refs窄域、17k/60k测试源码非本轮执行、draw stub非像素、span/容量归采集比较、后期原指令与8raw缺失仍unknown，不复活party+4/600ms等撤回候选。
+- 严守frontmatter/testing-meta全部原字节、quote52736B/1ac28e2b583447b70baf8cd5455394f0f6a4be04765d3151a327f12220ec8e93原字节；inverse直接52042B不等source52041，只去marker前既有恰1LF才等601229，禁止trim/泛化变换或倒改旧声明。仅更新现可见五章/真实核读日期及必要实际导航，不重跑旧转换或补造raw。作者须逐链接/fragment及catalog真实canonical核查，避免重现本次JSON猜路径错误。
+- 作者在隔离候选实际验证现单篇完整consumer/配对证据、精确保全及有判别力的出版/保全反例，记录真实argv/cwd/time/exit/streams/source-afterSHA与全部失败；nonAuthor=false，完整diff/body-onlycommit交付。不同Owner完整核新正文、来源/历史/反例和实际consumer后才可决定接受；中央R60单条迁移/registry/matrix/card与新exact回执接入另由root处理，不能借其他S文档接受续授。本卡持续rework，不合main、不done。
+
+### S12作者实查的两个历史fragment：root单独导航修复准入
+
+- 作者实际完整fragment检查发现S12-HISTORICAL-FRAGMENT-RENAME-ARCHIVE-20261008、S12-HISTORICAL-FRAGMENT-RENAME-001-20261007；原quote的两个旧slug对应的标题已改名。作者11/16真实FAIL原件不改，正文原quote必须原字节保全，不能改旧链接过门或将缺口豁免。S12固定作者候选1c23ddde3529e81c9d95240fb6de4e0ae42531d4/61bb76dfd5de68fad02337ab95e6451c8f0e0e1d520140d328a48873abfc5747仍未获语义/模板/中央接受。
+- Codex build allowed给root，仅两个目标的兼容导航：docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md的现行archive wrapper中补旧name锚及到原历史章节的精确转接；docs/testing/e2e/stages/001-opening/report.md在既有历史验收heading前补旧name锚。target原quote、历史heading、日期/状态/数值/机器元数据、catalog和产品不改；不恢复旧“当前”标题，不为两个目标授新深审完成。原目标source SHA由作者counter固定，root写前核同字节。
+- 采用GitHub官方custom anchor的name语法，依据[官方写作语法](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#custom-anchors)。原作者ATX-only probe不支持显式name，保其原失败不改；root后继必须实际核非fence/非comment/非quote中的唯一named anchor、转接真实heading及全部链接，并以移除对应锚能复现原2项失败的有效反控证明修复。不是宣称旧公共门已有fragment覆盖，也不改全仓规则/ignore。
+- 只作新增导航delta和对应explicit pin/history维护，实际source/after与不同Owner窄验收另存，零正文重授/零runtime信用。若独立验收未闭合，两历史导航counter与S12模板/中央完成继续pending，整卡rework/main/done=false。
+
+### 固定752两处历史导航非作者限定接收；S12精确措辞继续返工
+
+- 非作者/root/central_successor_independent报告39344a9f7826e316aef9fb0abc12e572f67e103d7892634a59cdebf74127c91b只接受752708a42db05a9901d0f7bcb3478283db5a521c的两个兼容锚。两个原ID S12-HISTORICAL-FRAGMENT-RENAME-ARCHIVE-20261008与S12-HISTORICAL-FRAGMENT-RENAME-001-20261007仅在target navigation范围闭合；删除一个/两个name各复现原1/2问题，fence/comment/quote及重复锚拒绝。原文/quote/heading/日期/状态精确保全，不授两目标新深审或S12语义。65项原件加manifest=66在s12-two-historical-anchor-nonauthor-fixed-752708运输，payload7fc4c8c58f4a132819556c4ded08e37dfcc87fde368e2a5eaf249e549701eccb；外seal/finalizer及root真实57路径暂存另分列。
+- 固定1c23 S12正文加固定752目标的完整44link/11fragment为0问题，实际当前旧正文仅两alias入链；这是指定组合导航结论，不是S12中央接受。2431native及8storage不变、114根0漂、6维护delta实际涉及4review文件且format后重放一致。真实181/181和lint4511全零不改写wholecheckdocs/strict/requirecomplete仍FAIL；445基线+6增量/1980待审不算新深审数。原失败、ENOBUFS私有枚举失败与新限定MD枚举、旧公共门未查fragment的能力更正全部保留。
+- root实际续核新正文与六sourceRefs具体行域，给S12-NONSPAN-SCREEN-PROJECTION措辞counter：无span分支只返回pose与事件order/atMs/tick/renderId，不调用screenProjection；span才逐clock调用且可回null屏幕字段。唯一正文Owner继续仅common-issues.md，在保2590B metadata/52736B quote下修这一行，并将导航小节同步为已接受的固定组合时点；原1c23与119清单/失败不改。新body-only successor仍待root非作者复核，不由作者自授闭合。
+- root后继只准入上述单篇候选与必要canonical入账；先核最终正文/diff/保全/真实单篇consumer与配对/所有链接及反控，再决定单篇语义与模板结论。中央R60唯一迁出、registry与矩阵同步及exact非作者回执tuple接入单列；若需v8私有writer，只能增该精确tuple并经不同Owner实际IO正反例验收，禁止通配或无差别hash刷新。整卡rework，五历史隔离、1896撤回与8重新授信/1888待核不变，global/main/done=false。
+
+### S12固定1f25单篇非作者接收与精确中央入账范围
+
+- root非作者报告9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604限定接受作者1f25fc42c8d4f8fc01c5ac64e75cbd996461e621的common-issues正文c372c3bcdd825ede2fd13e3b08f32cb0707a2ac7ccd20dbeb5cfbf16048a36ed与既有test-domain-report-v1/1.1.0。实际读新当前全文层、复用原386/旧431与四wrapper已核读域并验证原字节，重读六refs窄域；S12-NONSPAN-SCREEN-PROJECTION措辞在真实288–297/318–330与新diff闭合。不是新读所有链接目标全文，source/旧run/preview/coverage无新信用。
+- root实际组合固定1f25正文加752兼容目标44links/11fragments零问题；去单/双锚复现原1/2失败。真实完整document/pair consumer0及错publication/缺章拒绝，2590B metadata和52736B quote精确保持，quote/header损坏拒绝；direct inverse52042B不等source52041B，仅显式去分隔1LF相等。原1c23、119原件、两次断链FAIL、早期hook指令纠正与新45原件补充不改。
+- 本次中央范围仅把这一条R60最后active binding迁到semantic-rework，native唯一entry改content-reviewed/template-compliant1.1/historyOverlayfalse；其余2430 native逻辑不变。旧R60所有metadata/withdrawal、原证据和既有superseded链保留，新增该单篇明确源SHA/Git继任；矩阵仅加guarded S12关系。raw报告不因gzip运输自获文档完成，1896撤回范围/五隔离不改。
+- v8只新增此精确body/report/version和原生actor/verdict范围校验，须不同Owner实际IO正反例验收后才运行显式计划；该单篇语义接受不预授私有consumer、最终中央候选或全量门。写盘后另核唯一binding/旧donor0条/全部pin、真实静态门及固定中央非作者结论，任何失败保留原件。本卡继续rework，main/done=false。
+
+### 固定fa63实际S12中央组合非作者限定接收
+
+- 非作者/root/central_successor_independent正式报告3fd6cfaba313aafca94633df80b6bdb297741a64b544e97a44aced93bd9c3f0d接受固定fa63aeb8c7cb3593762aaffc774ae2cbe52899cf的实际单篇中央组合。正文语义/模板沿root9cfa、导航沿39344、私有v8机制沿6005各自限定来源，不重授其范围或冒新读/新跑。独立核2431 native仅common一变、其余2430对象序/键缺省保持，114根/2431唯一binding零漂；两显式edit与6维护delta、五review实际Biome重放逐字节等Git。R60最后一条迁出与原撤回/Git/SHA继任完整。
+- 16新运输map/631原source rows/455raw双身份及原路径字节核过，42个非零原命令回执保留；465路径5766815B真实staged patch、271门输入（10canonical+261raw）及后194仅原件/实际gate raw边界吻合。非作者首轮harness误把testing shard SHA当不变metadata的自身失败及v2修正保留，不倒改成候选counter或原命令成功。81原件加manifest=82与外seal/finalizer分列保全，不递归运输可重建快照。
+- 固定实际全门181/181且fail/skipped/cancelled/todo均0，navigation1301 Markdown/8237links/364tasks、model7routes/1264contracts（结构only）、testing0与phase/lore184通过，lint4511全零；wholecheckdocs/strict/requirecomplete仍FAIL。3952诊断行只为pending review/template，当前458 content-reviewed/1973 partial，迁移446/1838基线+6增量/1979当前候选待审/17模板/0integrity；这些含沿用有效成果，不冒称全为本轮新深审。
+- 原1896撤回范围及五历史隔离不改，实际现有native与固定parts交集9篇已重新接受、1887篇待审；S12是其中新增1，006外集/设计/S01等不计入这9。没有当前runtime/E2E/视觉/preview/coverage或全量完成信用。后继ack只写本卡/对应显式pin及不可变原件运输，不再改S12正文、native字段、catalog/pair/两目标或扩范围。
+- 本卡持续rework；全量硬验收未过，不合main、不推main、不标done。下一步按固定cohort与增量继续真实逐篇审阅；已核合格的源域/模板/工具直接复用，未准入原生变体仍先设计冻结，不能用静态绿补造缺失执行。
+
+### 新三遍审计：R23起的追加撤信与候选锚点纠正
+
+- 原R39起撤回不足。新增189份Markdown窗口中152条模板结论已由固定Git/逐条模式复现；其中READ-FIRST已有S01真实非作者后继，保护该后继，另151当前旧绑定降为partial-review-unknown/needs-migration/structured-content。原1896 scope及六分片不改，新历史claim并集2048；不是新审2048篇，也不把未匹配37篇或3HTML自动重授。
+- 实际72份acceptance JSON中70含candidateHead。按原首次blob与完整after集合，68可准确改锚、R65保ledger/body双锚，R92/R93仍unknown；不能凑用户50/53或猜SHA。六B01复制错位撤回、R64坏路径显式更正，R88–R91四原数字组保全并隔离；新实际门不能补真旧执行。
+- 九份R93设计的Git真源与旧两层wrapper复合体分别记录；原quote不改，不把复合体SHA称为Git原文。N3补单行尾空格编码规则并撤直接exact；R27明确15direct+5encoded/quote289，保留原始空白语义。目录拆分卡继续rework，未补造原缺失独立回执。
+- 具体逐条来源与当前纠错见[完整审计追加段](../evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json)；实际中央写盘、质量门与非作者结论另按本次固定候选记录。S12/fa63/752、配对JSON既有限定成果和全部旧失败/隔离保留。S13三导航仅有只读提案，暂不正文build。本卡持续rework，不合main、不推main、不done。
+
+
+### 固定23b扩大纠错非作者接受写回
+
+- Reviewer `/root/s11_design_rework` 对固定 `23b62e9772a85096ba10ebf5971ebe066d7ff632` 给出 `limited-accept-record-correction-only`；报告 SHA `dae53bb2ee5caa3139751a9594ba39d986e7d359824da74edd490f573960996a`，没有新增阻塞 counter。151 撤信、70 回执、9 真源、N3/R27 编码、118 pin 与原件运输均独立核过；181/181 实跑和 lint 零诊断成立，完整治理门仍失败。
+- 原始报告/91 成员/manifest 与外 seal 不改，精确运输与范围见[返工卡](DOCS-RECORD-INTEGRITY-1.md)和既有 integrity-audit 的 expandedAudit20261018.independentAcceptance。本行政写回与新包准入不是报告所接受的固定对象；不重授旧运行或全量完成，不更改 S01/S12/配对 JSON、旧失败或撤回清单。
+
+### 后续执行分工（用户2026-10-18）
+
+- Codex 主导：任务排期与不重叠白名单、模板/consumer/账本的通用机制、复杂语义冲突与来源裁决、非作者逐篇复核、全仓质量门、集成与状态写回。中央 registry/review/routing/matrix/catalog 的唯一写入者为 root；机制检查不自动授语义完成。
+- GLM 执行：按已冻结合同逐篇阅读、正文模板治理、具体审阅记录草稿与真实自验；每包仅写所准入正文。已核合格成果直接复用，同类交付稳定后扩大批量；不以机械 envelope 或泛化结论充深审，不自授独立接受。
+- 实际入口：用户选择手动转发；本次只准备可转发交接，未自动调用或冒称已派发 GLM。GLM 完成交精确候选/原件，Codex 决定接受或返工。无需逐批再问许可，关键产品取舍/事实冲突仍按停止线处理。
+
+### GLM S13 首包准入与交接
+
+- Codex 新 `build allowed`：仅三篇历史任务导航正文候选，单一 Coding Owner 为 GLM；这是 root 根据用户持续授权、已有 governance-index 1.0 pilot 与具体 a6ea67c7 设计逐项核定的隔离候选准入，独立于固定23b纠错报告，不预授正文/中央/全量接受。
+- 隔离工作树为 `/Users/zhangxu/.codex/worktrees/docs-archive-navigation/type-pal`，分支 `codex/docs-s13-glm-navigation`；root 在本准入提交后从其提交创建该分支，保留原 detached d17/旧分支。GLM 开始前核分支/源 SHA/脏树；本包以包含本准入的分支初始提交为 base，不在 main 或中央 root 实施。
+- 根已复核三篇当前全文与原源保全、具体只读设计和真实 README 排除/状态顶层/索引消费者；三篇 body SHA 与提案一致。cancelled 原生审阅状态已在23b撤信，不能继承提案 d17 的旧信用。当前模型路由仍旧值，GLM 不改；body 合同按 governance-index-v1/1.0.0、historyOverlay=false 明确验证，中央接入另由 root 负责。
+- 正文完成后仍须 Codex 对每篇具体语义、原源/quote、导航、真实消费者与 before→after 做非作者复核；GLM 交自验不等于接收。全卡持续 rework，全量门未过不合main、不推main、不done。
+
+以下为可直接转发的自含提示词；状态是“已备妥，待用户转发”，不是 GLM 已开始或已完成：
+
+你是 type-pal 的 GLM 文档贡献者；Codex 负责准入、中央入账和非作者审核。用户手动转发本提示词，不代表你已交付。
+
+任务：DOCS-FULL-TEMPLATE-1 / S13，三篇历史任务导航的真实语义与模板治理。先读父卡顶部和其最新“GLM S13 首包准入与交接”节。若该节还没有 build allowed，仅核对交接条件，不能自行开始正文。
+
+执行目录仅为 /Users/zhangxu/.codex/worktrees/docs-archive-navigation/type-pal，分支应为 codex/docs-s13-glm-navigation。先记录 git status、branch、HEAD；有他人改动、来源不符或仍 detached 时停止受影响写入，不 reset/stash/覆盖，不在 main 或 root 中央 worktree 实施。
+
+按序必读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/guides/documentation-model.md、docs/ops/agent-workflow.md、docs/ops/board.md、父卡当前准入、DOCS-RECORD-INTEGRITY-1 最新裁定、docs/phase-governance/templates/{README.md,governance-index.md,registry.json}、docs/testing/governance.md 与 docs/testing/_templates/README.md。复用已核实成果，不批量回读无关历史回执。
+
+唯一正文白名单：docs/ops/archive/tasks/README.md、docs/ops/archive/tasks/done/README.md、docs/ops/archive/tasks/cancelled/README.md。只改这三篇；逐篇审阅记录草稿、命令原始回执和完整 patch 交到独立 /tmp 目录，不能写中央 registry/review/routing/matrix/catalog/card/board/index、产品、旧产品测试、coverage、配置或依赖，也不能自行合 main。
+
+已有具体设计可复用：docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s13-three-navigation-readonly-no-build-d17/a6ea67c7e80cc51e3575af3e0165e37d9a658e109b944f5ace010aabaadbaebb.gz。解压阅读原提案并核 payload SHA；它是 d17 时点只读提案，不代替本次实际正文阅读。其 cancelled 的旧 content-reviewed/template-compliant 观察已被23b纠错撤回；本包不能沿用旧信用。
+
+三篇均用已冻结 governance-index-v1 / 1.0.0、Status current（只指导航）、phase ops、historyOverlay false，正文五章为目的/范围/当前状态/入口与责任/证据与下一步。总页给 done、cancelled、上级和统一索引实链；done 页表达已归档 done 范围与原卡证据，允许任务原位关闭；cancelled 页纠正历史 task-card/phase1/cancelled 的导航误分类，取消理由和替代项仍取原卡。不得把本页 current 变为历史任务重开或产品通过。不要手抄数百卡或只换标题套模板，当前必要导航必须在 quote 外可直接访问。
+
+保留三篇现有标题、路径和 original-source-quote:start/end 之间的完整原字节。两篇原源固定 b9901f97a3a09359cbeaed9dde126e6f44b7f229（293B/10LF、259B/7LF），cancelled 固定 dce008a777bb45658e9d7a146624db9b57469f63（258B/7LF）；cancelled 逆回读须精确排除原有一个未加quote的分隔 LF，不能 trim、通用替换字符或声称无条件直接相等。旧封套由本次 before SHA/Git 留存，原始日期与结论不改。
+
+当前正文三个 before SHA 按上述顺序为 fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8、2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0、c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c。Codex 会先给分支准入；若实际不同先交差异，不覆盖。
+
+交付：三篇正文候选、每篇具体可证伪结论与实际阅读范围/来源/状态权/owner/provenance/阶段/依赖/版本/入口/合法输入/oracle/排重/counter/历史与supersedes/source-after SHA/before→after/停止线/下一步/模板符合性；作者 nonAuthorReviewer 必须为 false。保留真实 argv/cwd/起止时间/exit/完整 stdout+stderr、所有失败和限制，格式化后再取 after SHA。
+
+实际检查三篇显式新合同的 checkMigratedDocument、可见链接、quote 精确逆回读、任务索引投影未变、pnpm check:docs、pnpm lint 和非空完整/暂存 diff --check。中央旧 routing/after pin 未接入或全量尚未迁移会使完整 check:docs 失败；保留真实失败，不能改账本/规则/输出放行，不能称统一门通过。无需新增产品测试或重跑runtime/E2E/视觉/coverage。
+
+提交仅三篇正文到本候选分支，交精确 commit、before/after map、原件 manifest 和 /tmp 证据路径，交 Codex 非作者审。不得自授 reviewed/compliant/accept/done 或恢复152/1896等旧范围信用。来源冲突、机器字段/原quote改变、需新模板或产品取舍时停止受影响项，给具体 counter，不逐批问用户是否继续。
+
+
+### S13 GLM 三篇导航逐篇非作者裁定与中央接入
+
+- GLM 作者固定候选 `7611019fb41cf5bd401e87858e5e716b015ede22`，base `741d96580689e6e97cffd9c286511f3bacd34044`，恰三篇 +60/−114；作者 `nonAuthorReviewer=false` 保留。root 不把自验转成独立签字：对总页、done、cancelled 各给独立的固定正文/模板限定接受，根报告 SHA `3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0`，实际 full-read 范围和自身失败/v2 更正均保留。
+- 总页接受分类及当前入口7实链；done接受本目录done范围、原卡证据和原位关闭边界5实链；cancelled接受取消边界及R32类型/phase/status三层纠正5实链。任务状态仍取原卡顶部，三导航不重开历史工作或证明产品通过。原marker字节380/341/341不变；原源293/259B直接相等，cancelled259B须精确排除唯一未引用LF才等258B，不能冒直接inverse。
+- 836个legacy tracked文件与base逐字节相等、working/index/commit零差异，无未跟踪含ignored残留。误生成153份及恢复过程缺当时完整原回执，该数量仅保作者事故陈述，不认证历史执行；root只读生成器文本，未import。三篇之外candidate无改动，中央写权未被GLM使用。
+- 独立运行确为181/181、lint4511全零；候选完整checkdocs真实FAIL，恰旧routing20问题，另跑testing/phase通过，strict4257恰4254原pending加3新SHA漂移；索引byte-equal，完整非空base..candidate diff及两暂存口径0。这是接入前真实失败，不改旧输出。原48作者文件加外manifest和root40原件加manifest分别保全。
+- root仅显式接入上述三篇、三条gov-index/historyOverlay=false路由、R32/R41三唯一binding迁至既有semantic记录与旧entry完整保留、必要native/pin/matrix和本卡；R32误分类单独记入既有integrity审计，原1896 scope/六分片和其余152旧声明不重写。实际接入和后验门另保原件，不预授新组合通过。总卡仍rework，不合main、不推main、不done。
+
+### 后续验收简化（用户2026-10-18最新指示）
+
+- 用户明确：GLM承担全文治理、自验及充分证据；Codex验收其交付，不能默认将贡献者工作重新做一遍。此为后续工作方式的显式调整，不是静默放宽artifactOnly、模板、真实语义或全量零诊断标准。
+- GLM每包交固定commit/base、精确白名单、逐篇来源/结论/before-after/SHA/原源保全/状态边界、命令完整原始输出及失败/事故。Codex优先以通用机械核验检查范围、哈希、保全、模板、原始回执及已批准合同；人工集中核关键结论、高风险和冲突。证据不足精准退回，已核合格成果直接复用。
+- 不默认逐篇全文重读或重复整套命令。仅当中央接入改变输入、出现失败或新风险时运行必要的对应检查；最终硬门仍须真实通过。逐篇记录如实区分“GLM全文审阅”“Codex证据核验/风险复核”，不能把抽核或结构检查冒称全文深审。本次S13已实际完成的root全文/实跑保原事实，后续不重复。
+
+
+### S14 GLM 十二篇历史任务卡准入
+
+- Codex build allowed：S14单一正文Owner为GLM，以下12路径为唯一正文白名单；现为待用户手动转发，未声称GLM已开始。当前源基点5b4a7cd56e4f2a65af7b5ebf7200c3a63f4af237；隔离工作树沿docs-archive-navigation，分支codex/docs-s14-glm-history从本准入提交开始。root不预读再替GLM做全文治理，清单仅按未审绑定排期，不以路径或旧docType授语义信用。
+- 复用冻结task-card-v1/1.0.0及archive-record历史overlay、既有合格历史卡pilot；GLM逐篇实际核类型再实施，类型/合同不适配的单篇报counter，不新增模板、不静默降门。原历史状态/日期/结论/未知和quote字节保留，不续授旧测试或产品信用。
+- GLM只跑目标合同/保全/导航/索引、lint与完整diff；root中央接入后运行必要的全仓checkdocs，避免双方重复181项。交固定commit/base、逐篇具体review草稿、source/before/after/模板/保全manifest、可回放脚本与命令原始输出及失败/事故；root证据优先核验，风险/冲突才深入。作者不写中央，原硬验收不降低，父卡持续rework/main/done=false。
+- 用户不必每批提醒：Codex每批验收或返工时主动给下一份自含GLM提示词，写明白名单/base/分支/证据与停止线，用户只负责手动转发。
+
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md
+- docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md
+- docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md
+- docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md
+- docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md
+- docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md
+- docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md
+- docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md
+- docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md
+- docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md
+
+
+### 通用文档验收协议接入（用户2026-10-18）
+
+- 用户要求参照codex/code-quality-3y长期代码验收规范，将文档验收提升为通用合同。唯一规范为[项目文档模型中的文档交付与证据验收协议](../guides/documentation-model.md#文档交付与证据验收协议)，版本document-delivery-acceptance/1.0.0；AGENTS、工作流与完整/轻量任务模板引用它，本卡S13/S14等原段落仅保留当时的执行/交接快照，不是另一套现行规则。
+- 当前S14白名单、Owner、base dd37d6da、既有模板与停止线不变；贡献者从中央候选已提交的通用协议读取，勿为追规则切换/覆盖正在工作的分支。后续提示词只列本批参数和通用协议版本，不复制整份规范。全卡仍rework/main/done=false；新通用协议本身不授任何未审正文信用。
+
+
+### 文档质量规范位置纠正（用户2026-10-18）
+
+- 目录判断按职责：ops顶层维护跨任务长期制度，guides提供具体操作与组织方法，tasks记录单次执行，evidence保存观察。通用文档质量与验收规范唯一正文为[docs/ops/document-quality.md](../document-quality.md)，与代码质量规范同层；此前放进文档模型属于层级判断失当。
+- 迁移源为c23f7751的documentation-model同名章节，1.0.0条款逐字节迁出，旧anchor保留转接；AGENTS、工作流、ops导航、任务模板与routing同步改指。显式源/目标SHA、链接重算与consumer结果保留，不改旧回执。新文件单列当前增量登记，不静默扩1838分母，也不由搬路径授逐篇迁移完成。
+- S14仍用dd37d6da基点和原12篇白名单；无需重开、切分支或重做成果，只更新通用规范引用。全量治理仍rework/main/done=false。
+
+### S14 固定候选的证据返工裁定（2026-10-18）
+
+- 作者GLM候选 `fb00cc89a58539969760c05737f9003ef7c80fa2`，base `dd37d6da551b77b28d972df6e5d6b08387aa4211`，恰白名单12篇 +371/−288，作者nonAuthorReviewer=false。按document-delivery-acceptance/1.0.0核12条具体结论/映射，不默认再做全文。逐篇裁定、实际读域及解除条件见[非作者证据裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-evidence-adjudication/f65c43dd67c501e7dd3ea8f9e7e636f55069c59d72462508f74aab13d8786301.gz)。
+- 机械核验：12/12 before/source/after与真实Git全等；marker区直接对base逐字节相等、inverse直接等原源12/12，不使用trim或LF变换；candidate.patch与Git完整diff字节相等；39条附件指纹全等；索引输出与candidate提交版字节相等；实际base..candidate diff检查0。原快检自身PASS不用于授base保全信用。
+- 风险定向：实际读O波、QUALITY-TEST-INPUTS、OPQ-RETIREMENT三篇可见正文与原源，核472=470+2、1b/8efe基点、I06随机输入与图像IO双根因、五文件净减16精确账及零当前重授。其余九篇只核贡献者具体结论与证据/字节，不冒称root全文深审；未复跑旧测试、CI、产品、runtime/E2E/视觉/coverage。
+- S14-E01（12篇共同阻塞）：receipts/summary.json声称候选 `fb00cc89a1cf0e5d43af25f7cf3c93d22c69bf56` 不存在，不能把输出指纹当真实候选输入证明。须保留原件另附勘误，以真实git rev-parse取得身份、固定运行前后输入后新增真实回执，不能改旧数字/时间伪装旧执行。
+- S14-E02（12篇共同阻塞）：原verify-quote-inverse.mjs比较working对HEAD，在已提交树是自比较，不能证明对base相同；root补核已证明本批12区未坏。须另版显式base/candidate字节比较，当前12篇全部要求直接inverse，无trim/LF裁剪/隐式codec。
+- 原41作者文件（含未列39清单的后加handoff及原清单本身）加外部freeze map完整保留在s14-author-originals-before-evidence-rework raw session；fabricationNote未抹除，当前12 before已独立核正确，但首版丢失字节及发现/重生过程不追认证实。7命令原输出指纹可复核，旧执行输入身份未获信用。
+- 裁定：12篇逐篇均为evidence-only rework，未发现需改正文的counter；不撤回机械/三风险已核成果，也不将其等同中央content-reviewed/template-compliant。仅让GLM追加补证，不改12正文/commit、不写中央。未接入故不重复181或整仓checkdocs；接入后再核真实组合。本卡仍rework/main/done=false。
+
+### S14 补证解除与十二篇限定接入（2026-10-18）
+
+- 固定候选fb00cc89a58539969760c05737f9003ef7c80fa2、base dd37d6da及12正文未变；旧41原件与新26清单指纹全部匹配。E01新runner从git rev-parse取得身份，绑定干净固定HEAD及输入未变；旧臆写SHA和七旧执行的输入身份撤信保留。E02改用显式base/candidate Git blob字节比较，root只重放一次新快检12/12通过；不重复全文及作者lint/model/导航。v2脚本核固定提交，working干净另由runner/root核验；13输入具体hash未落回执，已记录该限制，以干净Git完整HEAD固定tracked版本。
+- 逐篇限定接受见[固定正文非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)。贡献者负责12篇全文语义，root复用12条具体结论/保全及三篇风险核读，只核补证；记录明确演员与实际读域。旧manifest首版未恢复、旧回执不追认，不授旧CI/测试/产品/runtime/E2E/视觉/coverage信用。
+- 中央按精确12条before→after tuple、原R41/R42完整supersededBindings、现有semantic-rework唯一后继、format后SHA及必要pin依赖接入；routing已匹配不改。私有维护器只核已作出的显式决定与身份，不能生成语义结论；S15复用同合同，不逐包写另一套规则。接入后组合检查原件另存，未通过前不宣布全仓门或整卡完成。
+- 首轮组合真实exit1：181/181、导航/model/testing/phase及lint/diff通过，但中央mapper未把作者legalInputs/businessOracle/dedupe/revision四类文本/简写转成现有consumer所需数组/对象，产生48条本轮额外诊断，另有4226条既有pending。属Codex中央适配遗漏，不退正文给GLM；原值另列保留，按原具体结论归一化字段，不降低规则。原失败回执不覆盖；修后仅复核相关中央记录、结构/lint/diff，已合格181及未受影响测试/phase结果复用，未宣称checkdocs全量通过。
+
+### S15 GLM 剩余274篇历史任务卡大包准入（2026-10-18）
+
+- 用户明确要求对齐后直接交大规模任务，减少两边传话。Codex build allowed：GLM为单一正文Owner，一次负责剩余274篇历史任务卡候选（done268、cancelled6）；精确白名单/before SHA以本次冻结source-manifest为准，临时交接目录由execution-manifest给出本准入提交的实际base。选择只代表排期，实际类型与历史语义仍由GLM逐篇核，不继承旧标签信用。
+- [冻结274路径清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-274-source-white-list-admission/87b818b722561d11cf373336679b2e5e04bd4678253cefaefa10028db2842972.gz)的payload SHA为87b818b722561d11cf373336679b2e5e04bd4678253cefaefa10028db2842972，源快照f8eaa07b；274正文合计10642618B，非全文已读声明。本机交接目录为/tmp/type-pal-S15-GLM-large-handoff-80kecaf8，实际执行base另在execution-manifest取本准入提交，不以源快照代替候选base。
+- 复用document-delivery-acceptance/1.0.0、task-card-v1/1.0.0与archive-record历史overlay及合格pilot。GLM在白名单内按篇幅自行分段读写、提交和保存进度；普通组可20–40篇，长文缩小至适合真实全文处理的范围，最终集中交一个候选与证据入口。不逐段要求用户转发或批准，不以大包授权改成脚本生成通用结论。
+- 每篇保留原终态、日期、counter、来源/quote精确字节和实际codec声明，写具体目的/结论/边界/继任及独立review草稿。合同不适配、真源未知或冲突仅停该篇，保留原件并给解除条件，继续其余白名单；新模板/产品取舍交Codex。无需为单篇blocked中断整个大包。
+- GLM只写白名单正文与包外追加证据，不写中央registry/routing/review/matrix、父卡、看板、索引、模板/规则、产品/旧测试/coverage。内部按影响跑快检，最终同候选集中跑保全/合同/导航/索引/lint/diff，回执身份自动取Git并固定真实输入；review与manifest按体积拆片，单片小于512KiB，不复制源码/日志凑证据。整仓181/checkdocs留中央组合执行。
+- 一次回交所有完成与blocked路径、真实base/final candidate、分片索引/逐篇具体结论与证据/快检/原始诊断/事故。Codex默认机器核全包、集中看具体结论与高风险，异常只扩受影响claim，不默认再全文治理274篇。全卡持续rework，不合main、不推main、不done。
+
+### S15 中央接入分区方案 v1（2026-10-19，Codex build allowed）
+
+- 固定候选f998fff7d6d746c2fbb3bc29b00b4137b2275dfe，base7ee72caa，白名单274；实际273正文改写、N3-1整文件等base。Owner按document-delivery-acceptance/1.0.0据证验收，复用贡献者逐篇全文与自验；root核全包身份/源/保全/索引/回执，风险定向看W7E、TB菜单/资源IO及N3字节上下文，未重做273篇全文或旧执行。
+- 现semantic-rework总账574733B，继续追加大包会接近或超过1MiB。冻结本次存储方案：保留现有R32/R42–R53/R59共14个review文件作为物理分区，在原路径逐条写fresh S15记录，并把旧withdrawn entry完整附入supersededBindings；原根metadata/日期/旧回执保留历史，新记录单列实际2026-10-19接受日和作者/Owner读域。currentIntake明确当前范围，不能把旧根的历史policy或签字当新整批信用。
+- 逐篇迁移映射固定before/source/after SHA、原分区与同路径新记录、旧entry保留位置、Owner独立裁定原件及format后pin；不追加新canonical review文件，不改现有消费者、模板或registry schema。每个格式化分区须小于1MiB；实际大小与完整source-before-image、唯一binding及pin依赖核验落原件。若超限则停出版重新设计，不能字节压缩或ignore救急。
+- 六篇cancelled正文/原源均正确，作者manifest/review却写documentStatus=done；新中央记录按实际cancelled纠正，保留作者原字段与原件，不改其候选。交接口述1264/8322为陈旧数，真实回执1265合同/8382链接均零问题。251处不同source revision锚点另核Git blob全部等同，不把文本revision不同误报内容漂移。batch1的PENDING-FINAL及五起事故过程只按现存Git和作者原件归因，不补造中间失败输出。
+- N3原文件before/after为1714a48d...，原源c369eaf3...；逆回840328B对源840326B，唯一差异offset659166为U+2420(e290a0)对ASCII空格，精确单点映射后完全相等。21个U+2460(e291a0)在两边原义相同；作者“21处U+2420/全替换差40B/规则非均匀”和before70965ef8前缀无效，原件保留另行纠正。现封套已明确第8711行映射，无新模板/产品取舍；N3仍blocked/needs-migration，因为整篇语义与正文改写未完成，不由codec字节核验授完成。
+- 本方案只准入273条fresh接受与N3 blocked记录、必要分区currentIntake/索引/矩阵/父卡/after pin维护。根Owner自验不冒称中央出版另有非作者复审；贡献者正文的非作者裁定与中央组合质量门分开。最终全卡仍rework，不合main、不推main、不done。
+
+### S15 实际中央接入与边界（2026-10-19）
+
+- 逐篇裁定见[Owner固定源规则明确版报告](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz)。273条接受、N3一条blocked，2432唯一binding的全部after pin实核相符；其余2158条native有序对象不变，旧274条withdrawn entry完整保留。六篇取消卡中央documentStatus按原源/candidate的cancelled写入，不沿用作者done误填。
+- 42篇sep-lf-1只在精确剔除end marker前最后一个结构性LF后等原源，明确directInverseEqual=false；该LF不必单独占空行，不做trim。231篇直接逆回相等。N3的一个U+2420映射与21个原义圈号分别记录；源码全文与新正文未完成，不授迁移完成。
+- 原14物理分区实际最大700110B，未向574733B的semantic-rework根追加；未新造canonical记录文件、未改consumer/schema/模板或大小门。旧根metadata保留历史，currentIntake与逐entry的2026-10-19日期/actor/实际读域承载本次信用。私有工具的错body与错partition两负例均在写盘前拒绝；首轮dry-run因36条R59旧native缺templateVersion被拒，原失败保留，显式补既有1.0.0后dry/apply通过，未降门。
+- 本轮首次pin维护复用旧工具日期常量18，实际操作为19；仅对本轮新delta追加dateCorrection并保留原date，真实命令原件不改。后续工具要求显式operationDate，不再用固定日期。此为Owner记录勘误，不恢复任何旧执行真实性。
+- 作者55文件及外freeze map原样保留；五起事故的最终修复由现树/Git/终验支持，中间缺失的失败raw不事后补真。作者六门原件有效，root只重放保全并补全包源/状态/pin核验；中央组合门另存真实输出。最终硬门未过不得合main或done。
+
+### S16 GLM 一百二十三篇历史Markdown大包准入（2026-10-19）
+
+- Codex build allowed：GLM单一正文Owner，一次负责123篇约4.94MB：ops/archive剩余25篇（含N3）、phase1/plans42篇、phase1/status7篇、phase2/archive49篇。白名单为[冻结源清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-123-source-white-list-and-N3-map/88f5b8a86557e96eb25846d4cf7b9c28c0ae193384983dc1190f33e4a1b59c71.gz)，payload SHA 88f5b8a86557e96eb25846d4cf7b9c28c0ae193384983dc1190f33e4a1b59c71；本机/tmp/type-pal-S16-GLM-history-md-large-cg_56q9z，实际base取后续execution-manifest中的本准入提交。旧7ee源快照仅证同字节，不能当实际执行base。
+- 路径/旧docType只排期。逐篇实际核其职责与适用性，复用冻结17类及已合格pilot；目录README的当前导航与所指历史材料分开，不一律historical或强套task-card。历史报告保留原日期/结论/未知；引用旧规不恢复退役三签或兼容。生成器拥有的文件须核真实source/consumer；需要越界修源或新合同只停该篇，继续其余白名单。
+- N3可先用Owner已给显式byte map：inverse offset659166，e290a0→ASCII20，第8711行，其余21个e291a0圈号保留；原封套已声明该规则，不需新模板/产品裁决。GLM仍须全文核读并写出具体历史正文、明确codec，quote零改动后另交文档验收。不得把本次字节分析当全文已审。
+- GLM只改白名单Markdown和/tmp/s16-glm-evidence追加证据；不改HTML/JSON机器文档、中央账本/路由/矩阵、父卡/看板/索引/模板/规则、产品/旧测/coverage。不import生成器试探。不合main、不推main、不done。普通文档按篇幅自行分段续办，不逐批请求用户中转；每篇最终有完成或具体blocked集合记录。
+- 按document-delivery-acceptance/1.0.0交分片manifest/review、具体结论与primary锚点、保全与真实consumer/链接/索引映射、实际命令输入身份/完整原件/事故。作者nonAuthorReviewer=false，Git身份/SHA自动取得。对误分类须交拟绑定合同的真实定向检查与旧routing归因，不为旧路由绿强套错误模板；共享routing由Owner接入。片小于512KiB，原件纠正另附，不自嵌哈希。
+- 最终同一候选集中跑全包保全/拟模板合同/导航/索引byte-equal/lint/base..candidate diff，诊断必须按实际如实归因；181/整仓checkdocs及产品/历史执行留中央按影响安排。集中一次回交全部123篇完成/blocked、候选/base、索引SHA、快检/原件与未跑边界，Owner据证审并集中看风险，不默认重新全文治理。全量目标持续rework。
+
+### S15 中央门的跨日发布复审（2026-10-19）
+
+本次实际 `pnpm check:docs` 的 181 工具检查全部通过，随后 testing consumer 因 `e2e-route.reviewBy=2026-10-18` 在 UTC 2026-10-19 到期而退出；原始失败保留，不宣称组合门通过。Owner 完整核读该方案现行正文和配对 document-audit evidence，并核前驱/版本源码、公开 caller 片段、共同合同及 R4/005/006 当前状态，执行有界发布适用性复审：维持 proposal、lastVerified=2026-10-04、原 revision/版本及 performed=false；七天后于 2026-10-26 再审，来源/准入变化提前复审。仅同步本条 catalog 的复审期限、正文复审说明和 evidence 新增复审记录，历史 quote 与机器执行字段不变；生成器已实际重生九个视图且无派生字节变化。这是 Owner 存量文档发布维护，不属于 GLM S15 白名单，也不新增语义迁移数量；原始复审记录和后续 consumer 实跑分别存入中央 raw，工具/产品/E2E/视觉/coverage 不互代。
+
+### S16 固定76dd候选非作者复核与返工（2026-10-19）
+
+- Codex `/root` 对 base `69c47cac8f4ab810d1d28c6feaa83b45eccf8473`、candidate `76dd738b63c3c06c4d31bc1db90e90a0d2fa24b0` 作 `rework` 裁定。13提交恰123白名单正文、tracked干净、零共享域/产品/旧测/coverage改动；123份before/source/after及blob均取Git相等，tail全保真。94direct/23sep-lf-1/5已声明U2420 codec/N3单点codec全部独立验证；N3唯一e290a0@659166→20后840326B，21个e291a0圈号保留，直接inverse不相等为预期。保全通过不补全文信用。
+- 按用户要求实际重跑六门：保全123/123、model7路由/1265合同/0issue、导航1302MD/8678链接/364任务/0issue、生成索引对候选blob字节相等、lint4511文件E/W/I均0、base..candidate diff0。固定HEAD+clean tracked和157项外部原件/准入指纹前后不变；原作者六门output SHA/字节也匹配。未跑181/整仓checkdocs/产品/旧测/coverage，不授全量/main/done。
+- S16-C01：批3–12恰99篇读域明确为table-summary、intro/headers/key-sections/tail或局部历史日志；不满足已授权逐篇全文。由GLM补读实际未读段并校正文义/读域，Owner不重做99篇；只换“全文”标签或以字节保全代读不解除。N3仍blocked，已知codec不再是阻塞理由。
+- S16-C02：批13八篇ops归档README为适配旧central绑定强改archive-record/evidence-receipt。逐篇目录原文只导航，且上述两类状态词无current，Owner裁定本八篇采用governance-index-v1/1.0.0、historyOverlay=false、current仅指导航；GLM修白名单正文与拟模板检查，Owner在接受后改中央路由/绑定。两篇phase1 README补archive overlay本身不列为此反例。
+- S16-C03：B10 census正文把104个0空槽误写104支零语义槽敌队；861=757有效槽+104空槽，68为含空槽队伍，56为含空槽且≥2有效敌的交集，20为含空槽且summon/divide定义的交集。须纠单位与条件，保留时点数字和输入pin。S16-C04：2026-07验收清单实际15项=7已划+8未划；新正文写九项且仅述A4未划，遗漏其余历史未划义务。须完整列明15/7/8，未划项仍不自动成为当前待办。
+- S16-E01：review index的SHA58b2c3f7正确，133行/123唯一path+10历史修订有说明；仅bytes85061陈旧，实际112186，另附更正，不倒改原件。S16-E02：原包缺所报25/1/58失败原始stdout；reflog/未amend与amend blob可证batch10真实改一条roadmap链接，batch13可证10白名单改动，不能据此补真所有历史数字。可补现存原件；丢失则明确撤回其已认证声明并保留原说法，不补造。作者旧输入清单只pin四份交接文件；Owner新重放才认证当前固定候选的六门输入，不倒认证旧执行。
+- 其余14篇具体正文与支撑证据保留，不要求重写；批1/2“fully read”和逐篇统一partial readDomain的矛盾须据实际澄清，若确有漏读才补读。完整集合、逐项解除条件及Owner八篇定向读域见[不可变裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-owner-fixed76dd-evidence-and-counters/a2b2cc1631a6e648e1669443b83aac502f979d5f36b593a11b851d20ff81dd06.gz)。123机械信用保留，本轮新增中央content-reviewed为0，S15已接收273篇及其他既有信用不撤回；全卡仍rework。
+- GLM继续原分支，base仍69c47、从76dd追加提交，证据写新/tmp/s16-glm-evidence-correction；旧153文件已冻结，禁止覆盖更正。先处理C01–C04/E01–E02，全部完成或逐篇blocked后一次回交。拟绑定八篇的旧routing失败须如实归因，不为绿门再强套错误类型。
+
+### S16 修正候选347逐篇裁定（2026-10-19）
+
+- Codex非作者复核 base69c47、countered76dd、candidate `34724ed619f1f39ef0e83eaee4b8b4c369a18d3e`。修正轮恰1提交/10授权正文；总14提交/123白名单。原153文件零覆盖，新41件已冻结；123源/before/after/blob/tail及94direct/23sep-lf-1/5codec/N3单点等价全部吻合。新review恰123唯一path，SHA3eedabb2正确。
+- 实际重跑G1/G3/G4/G5/G6通过（123保全、8679链接、提交索引字节相等、4511文件E/W/I0、diff0）；G2实际exit1，48问题恰属于8篇旧路由，不宣称绿。八条gov-index拟绑定无异议；只读内存路由投影经公开document-model实际0问题，未改任何中央routing，不能把投影当接入。当前root也未复制作者候选正文。
+- C03/C04闭合：861=757有效槽+104空槽、68/56/20条件及15项=7已划+8未划完整，逐条对照source，保留旧日期/结论/输入pin。按10篇定向样本（含4篇巨型日志与N3）、另两篇数值展开、逐篇具体结论和完整机械证据，对[裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-correction-fixed347-owner-114-and-counters/ade0619ba055502fc018f99329a80808cbd15afdccbfac96b0733548f804ca3d.gz)内固定114篇作正文/模板限定接收；其after SHA及原源/依赖未变时下轮直接复用，不再重复全文审阅。该接收不等于中央入账或114份新增迁移数量。
+- 仍退9篇：6篇docs/ops/archive/evidence目录README的当前head只有返回上级链接，11/3/3/2/3/1实际入口全留在quote，未解除C02要求的可见导航。N3新读域只说明538–9684及11225提示词头，未证明Git真源9631–11269末段提示词全文；只补缺段或提供实际已读域，不重做N3其余章节/codec，更不执行历史Agent提示词。
+- 新数值反例：`docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md`封套/结论新增81=9+32+39错误等式（右侧80）；source另列期间已修1，须解释统计范围，不能擅自把已修1当互斥补项。该篇读记录只具体列统计/修复进度/DH1-DH4，尚需澄清或补齐其余DH/DM/DL读域。`docs/phase1/status/resource-status.md`封套/core称13MKF却列14独立文件，原源14个MKF H2且新读记录已写14，须修新结论一致性，无需重抽产品。
+- E01仍需机械修复：本轮shard实际168667 UTF-8字节，索引128808恰为JS UTF-16 string.length（code points128785），builder line69使用body.length、line59也用字符串长度估分片。SHA正确且实片<512KiB；须按最终格式化UTF-8 Buffer字节重生索引及分片限值，不手填。原两轮证据继续不可变。
+- E02的幸存1issue原件SHAe5ae370f及/tmp/s16-check-b10.log同字节，丢失25/58精确计数已撤认证，未补造输出。另将丢失58-run写作“on76dd”不成立（76dd留存G2及Owner原重跑均0）；失去原件的候选身份应unknown，不能猜先前提交，也不倒认证旧输入。此勘误不否定当前347六门实况。
+- 本轮native新增content-reviewed=0；S15及此前已收成果保持。中央路由/registry/review接入待9篇及证据元数据修正后的组合候选；全卡继续rework，不合/推main、不done。GLM继续原分支，只改本9篇和新/tmp/s16-glm-evidence-final-fix证据，其余114正文冻结在347 after SHA；完整路径、停止线及解除条件见裁定原件。
+
+
+### S16 终修固定abff逐篇接收与中央接入（2026-10-20）
+
+- 固定候选 `abffb0166d98572945e22f60eb49475bc41901e2`，base `69c47cac8f4ab810d1d28c6feaa83b45eccf8473`；123篇集合精确，终修追加8文件、33+/24-，另115篇字节不变（含此前接收114篇与N3）。原153件、修正41件逐文件SHA不变，新44件封存；作者nonAuthorReviewer=false，Codex独立裁定。原347的114篇仅在source/body/template/dependency条件不变时复用，没有重新全文审123篇。
+- 九篇返工闭合：六导航补齐23个实际可点入口；deep-audit原81/9/32/39/已修1并列保留，80与81差1且包含/互斥未知，不补造分解；resource-status按14个独立MKF身份和非空分母订正；N3补读固定源9631–11269历史提示词/交接尾部，原正文与quote不动。单一offset659166的U+2420→ASCII20及21个原生①保持，直接逆回不相等是预期。
+- E01 UTF8字节187527与索引SHA独立复算一致；E02幸存1issue原件保留，丢失58-run身份unknown/unverified且旧76锚定撤回，不倒认证历史失败数字。N3审阅行误带C02导航补记由Owner直接撤回该字段，采用专属补读记录；不要求贡献者为此再返工。Owner初稿继承旧counter摘要的装配问题另留原件，当前报告将其明确降为historical-only，未改raw命令输出。
+- [逐篇非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz)只授固定正文/模板；GLM实际全文核读和Codex据证/定向抽核分开记录。中央使用原10个review分区、逐篇保留supersededBindings，8条README改governance-index-v1/1.0.0与historyOverlay=false；N3由blocked改为本篇历史文档接收，不重开旧任务或恢复旧三签。
+- 本次中央组合门结果另行真实落盘：作者G2的48项只属于接入前旧路由，不算中央通过；接入后必须归零。父卡继续rework、不合main、不推main、不done；runtime/E2E/视觉/coverage零授信。后续已授权小问题由Owner直接修正并留痕，产品取舍/来源冲突仍按停止线。
+
+
+### S16 中央组合实录与剩余门（2026-10-20）
+
+- 123篇实际进入原10个review分区，8条路由与native类型显式纠正，旧条目完整保留。新raw裁定只授文档，中央记录与实际body SHA吻合。2432 native中718 content-reviewed、1714 partial、0 blocked；进度投影701/1838基线正文迁移、增量11、1720当前候选待迁移，17/17模板已pilot。计数是局部进度，全量并未完成。
+- 接入窗口真实`pnpm check:docs`：181/181工具测试、导航8705links、1265正文合同、testing-docs均通过；随后phase/lore因98个已改正文的旧catalog针未同步而失败，原stdout/stderr保留。Owner已补齐phase1/phase2各49个限定catalog针、原状态/history与本次文档限定裁定，并重建两视图；首次重建另遇manifest byStatus未同步，已按真实184项重算，不改consumer/规则。phase/lore后续184项通过；末轮静态/strict结果另落真实回执，不能把首次整链写成PASS。工具实现未变，181真实通过可复用。
+- lint实测4511文件E0/W0/I0，diff三口径零诊断；全仓strict剩余partial/needs未清，require-complete仍失败，故不合main、不推main、全卡继续rework。局部S16闭合不恢复原R批执行真实性，也不授runtime/E2E/视觉/coverage。
+
+### S17 GLM 三百六十五篇历史Testing Markdown大包准入（2026-10-20）
+
+- Codex build allowed，一次交付365篇、3,062,930B：仅当前未接收的docs/testing/archive全部Markdown。冻结[白名单/source规则](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-365-historical-testing-source-and-admission/586864bd5f72df85daaa6b362169b7ec3b11b7f4bcd977561fd8ba1e2bd71a6f.gz)，payload SHA `586864bd5f72df85daaa6b362169b7ec3b11b7f4bcd977561fd8ba1e2bd71a6f`；[协议绑定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-365-historical-testing-source-and-admission/7e4f0fe7db2b4b0a11b0feb42b1536fc7676ecc00d4eee7c0eff14c93265827a.gz)。本机目录`/tmp/type-pal-S17-GLM-testing-history-9vikd2pp`，snapshotRevision只证明源字节；实际执行base以本准入提交之后生成的execution-manifest为准。
+- 分支`codex/docs-s17-glm-testing-history`，复用已干净的隔离docs-archive-navigation工作树；GLM单一正文Owner，Codex维护全部中央域。普通8–15篇/批、巨型日志1–3篇，内部自行续跑，最终集中回交，不逐批请示。每篇真实全文读域/具体结论与最终正文一致，不以标题或摘要代读。
+- 365篇均已机械核实为sep-lf-1：marker到EOF完整字节不动，剥引用后只排除end标记前恰一个未引用分隔LF，精确等固定Git原源；无trim/隐式codec/通用换行替换。该保全不等于语义审阅。
+- 旧archive-record路由只作待审绑定。逐篇按内容选冻结模板；导航current仅指入口，必要链接须在可见层可点击；历史测试/合同/报告保持原日期、数字、状态、失败/counter与机器quote。类型纠正交intended-routing清单，由Owner接入，作者不强套旧路由、无新testing catalog身份或假schema2、无reviewBy/status续期。新模板/原源或产品冲突仅停受影响篇，继续其他篇。
+- 白名单外全部只读：中央registry/routing/review/matrix/catalog、父卡/看板/索引、模板/规则、JSON/HTML/附件、产品/旧测试/coverage。保留所有旧证据，新证据`/tmp/s17-glm-evidence`按run追加；不import生成器探测、不移动/删除文件。小的已核清记录错误可由Owner直接修正并留痕。
+- 作者交付同一固定候选的保全/拟模板逐篇检查、链接/索引、lint、diff；旧routing冲突必须精确归因并提供拟模板定向零诊断。181/整仓check:docs/产品测试留中央。逐篇review分片<512KiB且用Buffer.byteLength实量，Git身份/SHA程序化实取、raw失败永久保留、运行前后指纹一致。完整合同见长期document-delivery-acceptance/1.0.0与本包协议绑定。
+- 完成或阻塞后一次回交：完整base/candidate、completed/blocked精确集合、分片索引与整包SHA、只读快检、实际raw命令/时间/exit/signal/输出及事故/未跑项。作者nonAuthorReviewer=false，不自行接收、合main、推main或标父卡done。
+
+
+S16末轮实际中央范围[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-actual-central-123-scope-receipt/85b0b72dbe6df5ea1e7f908e92f9d517a562513b7eccbe7ee9feaacd6c07dd52.gz)：123正文与候选逐字节同，只有123个native逻辑绑定变化、其余2309个对象不变；10分区旧绑定保留。静态组合导航8707链/1265合同/phase184/testing/lint4511均零诊断；strict恰3434项=1714 partial状态+1720待迁移，0漂移或其它问题；完成门仍失败。此回执是Owner中央实施自验，非第二次非作者审，不覆盖565ca829逐篇独立文档裁定。后继仅本段证据导航/针维护另核，无新增语义授信。
+
+
+### S17 固定00319证据验收与限定接入（2026-10-20）
+
+- 作者候选`00319ff897adf7c1a8427b2ada02922cd190fecf`，真实base`c45c31dccbc70afcd43180b2b7d84a72e2a11407`，83提交、恰365白名单；作者481件冻结。365份before/source/after/blob、整段quote tail与精确sep-lf-1逆回逐字节通过；分片365行/380436 UTF8字节/SHA独立复算通过。保全全过不等于正文模板全过。
+- Codex集中核模板职责、153导航入口集合及10个原文/新头/r0风险切片，不重复全文治理365篇。接收241篇（153导航、79执行报告、6设计、2计划、1质量门）；124份执行报告新正文表格仍缺列/错列，共453处行宽不符，另两篇把Python list序列化进正文，部分r0参数旋转仍留下章节错位/重复。G1只查非空章节，不足以识别这些反例；仅这124篇转正文模板返工，已支撑的来源/读域/保全可复用。
+- 小修由Owner直接收口：61篇Results用同页已写的具体「原始结论」复制成明确历史结果，未新增事实；glm-state-commands/codex-integration的新头链接多一级父目录，按原quote与真实目标纠正。quote零改。这62篇维护自验与原GLM语义的非作者据证判断分开记录；准备后的固定241正文提交`90e9b051da6bf2dffd946da73f23f83472cf08ec`，不是把原00319全包标accept。
+- [逐篇裁定及124个path:line反例](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz)；原摘要/file-manifest完整base多写e72、21行commit仍为$SHA、82行作者时间标到10-21，均不当执行身份或时间证明。当前身份/字节从真实Git重算；三处B实为Unicode字符数，另一处记录同时含局部与全量字节，单位澄清不冒充新全文阅读。r0实际提交133路径，所报139修复数量不追认、不倒改原件。
+- Owner独立快检：G1全365、索引72477B相等、testing0issue、lint4511 E0W0I0、diff通过；作者树真实导航为1issue（上述新链接，Owner已修），不是全绿。旧G2恰365模板声明冲突只证明作者未写中央；本次仅241条路由/native类型及原12个review分区接入，另124篇中央正文仍保旧字节，不装作迁移完成。旧绑定完整保留于所记Git revision/文件SHA/唯一path selector及条目hash，避免重复嵌入撑大JSON；原top metadata继续历史，不恢复旧R批信用。
+- 实际组合模板1265合同0issue、导航10010链0issue已核；稳定组合其余门与strict/进度另保真实回执。全量仍rework、不合main、不推main、不done，静态治理不授runtime/E2E/视觉/coverage信用。
+
+### S17 一百二十四篇定点返工准入（2026-10-20）
+
+- Codex build allowed，GLM仅修[124篇冻结反例清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-124-targeted-rework-admission/046d8738f89ce4972f0ce4d3a37144e361adfdd697107ab0026a1397bc4b016d.gz)，payload SHA `046d8738f89ce4972f0ce4d3a37144e361adfdd697107ab0026a1397bc4b016d`；本机`/tmp/type-pal-S17-rework124-handoff-3auccozg`。不要求重做已经成立的全文阅读/保全；只对字段归属不清之处定向回原源。不得靠补空列、泛称、Python repr或照健康页旋转占位过门。
+- 新隔离分支`codex/docs-s17-glm-rework`由Owner在中央241接入后准备：保留已接收241及62处小修，再仅叠入00319的124篇countered正文作为返工起点；实际base以随后execution-manifest为准，00319是来源候选不是新执行base。旧S17分支与481证据保留不动。
+- 只写124篇正文及`/tmp/s17-glm-evidence-correction`新run证据，241篇和中央域/规则/产品/旧测试/coverage只读。quote marker至EOF保持字节；sep-lf-1不变。每篇执行/断言、结果、历史修订与继任按真实含义归位，表格列完整或用具体分项说明；真实缺失写明原时点未知，不编造输入/oracle/结果。
+- 新证据用实际Git身份/UTF8 bytes/真实ISO时间，撤回旧时间/占位hash认证口径而不覆盖旧原件；逐path报告修正、复用读域与新增定向核读。新快检须覆盖124头部表格/章节角色、全365保全、索引/链接/testing/lint/diff与拟模板合同。共享旧routing若仍恰124处冲突须精确诊断，Owner组合接入后归零；不改共享规则、不复跑181/产品/coverage，不逐批问许可。
+
+
+S17实际中央组合[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-actual-241-central-124-held-receipt/67f67e4b4e1b9c7ef70befe5d675651bc7a3179ca346ad52acc598aed11ea020.gz)：仅241个native逻辑绑定变化，2191个其余对象不变，124篇中央正文/绑定仍旧；旧条目的Git引用、整文件与条目hash逐项复核。当前959 content-reviewed/1473 partial，迁移942/1838+11增量，1479候选待迁移；strict恰2952=1473状态+1479迁移，0 SHA或其它诊断。初中央适配直接继承61个scalar truthAnchors，strict按数组合同拒绝；Owner保原字符串无损套一项数组后这61项清零。首次修正计划遗漏raw报告pin被预写拒绝，原件保留；新独立计划补精确pin后dry/apply通过，没有降低规则或追溯改绿。模板/导航/testing/phase、lint及diff均通过，181复用S16未变工具实现的真实结果；没有本轮整仓check:docs或产品/coverage通过声明。上述是中央维护自验，非第二次非作者审；S17整包和父卡仍rework。
+
+### S17 定点返工据证裁定与Owner小修（2026-10-20）
+
+- 固定贡献者候选`2dace81bacdac61922c6fc13c3998ee7231a4397`，执行base`9156646ed7980d0b1df305080c7af291cac1a188`，两提交恰124路径；原453处表格反例逐行复现并清零，241篇整文件只读与365篇quote/sep-lf-1逆回全部成立，旧481证据及本轮31件原件保留。GLM作者自验仍nonAuthorReviewer=false。
+- 不能追认作者“零占位/零重复”声明：定向复核发现11篇归档四章仍见quote占位（其中5篇Evidence为[]、3篇input/caller格实际为运行结果），7篇仍有重复证据/修订行；Owner按用户授权直接修18篇，不改quote或原结论。D/E Results归原批真实结果，未证/视觉边界单列。18篇修正是Owner维护自验，不冒称第二次非作者审；其余逐篇工作直接复用，不要求全文重做。
+- 最终正文候选`43c0c430f911333f4280d686b2ae55d06eb1f4fe`，逐篇[非作者裁定及前后SHA](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz)，payload SHA `fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214`。当前只接收124篇固定正文/既有test-run-report-v1合同；原241信用不变。中央124路由、review、after pin按显式计划接入，实际组合门另记；未合main、不推main、不标父卡done。
+- Owner真实重放导航/索引/testing/lint4511零/diff均过；接入前G2红恰124旧路由声明冲突，修后拟路由内存合同0，不冒称已实改通过。辅助lib的错误原基点常量及宽松逆回判断不作证据，Owner用冻结manifest与纯字节规则复算。原review时间/$SHA问题仍不认证，本轮目标字段读取不冒称全文重读。中央适配首跑遇到anchors数组/字符串形状不同而在写入前停止；随后兼容数组并保留原值，不改变公共合同或原件。
+
+S17实际接入：124条native由partial/needs改content-reviewed/template-compliant、124条routing改test-run-report-v1/historyOverlay=true，原241绑定和正文不变。当前1083 content-reviewed/1349 partial，迁移1066/1838+11增量，1355当前候选待迁移；strict恰2704=1349状态+1355迁移，0 SHA及其它诊断。模板/导航/testing/phase和diff通过；首轮lint因routing及矩阵JSON格式有2诊断，修复后另记真实复跑，不改旧输出。原review全文通过Git parent精确引用保留，逐项hash可复核；未重授旧执行或完整全量治理。
+
+### S18 GLM 七十三篇Ops证据Markdown准入（2026-10-20）
+
+- Codex build allowed：73篇非中央治理Ops历史证据Markdown；仅修改随后execution-manifest白名单和`/tmp/s18-glm-evidence`。预准入[固定源快照](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-ops-evidence73-source-admission/6c8a3d16fa1758fa6bf8b405f3113fc1143426ec8fbd09335f4941329b91dd08.gz) payload SHA `6c8a3d16fa1758fa6bf8b405f3113fc1143426ec8fbd09335f4941329b91dd08`；本机`/tmp/type-pal-S18-GLM-ops-evidence-ochkkd_e`。它只证身份/保全，不授逐篇语义分类或阅读信用。真实执行base在中央S17接入提交后由Owner另取。
+- 分支`codex/docs-s18-glm-ops-evidence`，复用隔离worktree docs-archive-navigation；贡献者GLM单一正文Owner，手动转发后开始，Codex中央独立验收。正文源共426782B，67篇sep-lf-1、6篇direct已逐篇固定；quote marker至EOF不动，不能用两种规则任取其一或trim/codec。
+- 逐篇全文读取固定真源，先记录有锚点的具体结论和职责，再从已有冻结Markdown模板选择；不得按README/旧绑定猜类型。导航必须在可见正文提供有效入口，current只指入口；历史执行、counter、日期和零/非零诊断保原口径。可选既有governance-index/evidence-receipt/test-run-report/audit-report/test-contract/test-catalog/test-domain-report/quality-gate/design-spec/plan-status，以registry的实际版本/章节为准；新增模板、事实冲突或不适配只停受影响篇。
+- 先做每个所选类型至少一篇内部pilot并核语义无损，可在同一授权内自行通过后续办，不逐批请示。禁止泛化封套、见quote占位、[]/Python repr、列补空、按位置旋转字段、重复修订行；运行结果不是合法输入、姓名不是caller、未跑项不是oracle。无日期写原时点未知，短导航不造执行事实。作者修完必须按这批已见反例整族检查，不只比行宽。
+- 只读本包外、所有机器JSON/HTML/raw/脚本/截图及S17已接收365；不改中央routing/registry/review/matrix/catalog/父卡/board/index/模板/规则/共享配置，机器字段与配对证据不能重写。产品源码、旧测试和coverage不授权。禁止import生成器探测。
+- 一次最终交付：固定base/final candidate、73篇完成/blocked精确集、逐篇读域/核心结论/源锚点/字段角色/边界/模板理由、程序取Git身份和before/source/after/blob/bytes、只读与quote证明、分片<512KiB索引、整包file-manifest、不覆盖旧失败的事故账；给Owner一条真正执行校验且任何漂移非零的快检入口，禁止空库调用或`|| true`。
+- 每个final门回执要有argv/cwd/真实ISO起止/exit/signal/完整输出+SHA、固定候选与运行前后输入指纹；preservation/结构、check.mjs+索引byteequal、testing、lint零E/W/I、base..HEAD diff必须通过。旧routing合同冲突须列path/精确issue并以内存拟模板零issue证实，实际接入由Owner完成；不降门，不跑181/整仓check:docs/产品/E2E/coverage。结尾主动附Codex验收提示词。全卡仍rework，不合main、不推main、不标done。
+
+S17中央最终[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-corrected124-actual-central-combination/1a3ef096c3984b3ef60995175e2fd7f7ddccc6506d76943bb9fceb5de6872362.gz)：124条native变化、其余2308条逻辑绑定不变；原241正文/绑定、365 quote、旧481与新31原件逐项成立，11分区旧review完整Git引用核对。真实组合导航10042链接、model1265合同0 issue、testing/phase通过、lint4511零E/W/I、diff通过；strict仍2704待治理项且0漂移/其它诊断。S17这365篇固定正文/模板包闭合，父卡与统一门未完成，不合main、不推main、不标done。S18为下一独立正文包，未执行产品或新181/整仓check:docs。
+
+### S18 七十三篇据证验收与边界修正（2026-10-20）
+
+- 贡献者固定base097812f31c1c6a0fdac325900a3b7806969303ac、candidate b5f544a10cd59275b385ff350d9798fbb35bdf66（十提交恰73篇），原40证据件冻结不覆盖。67篇sep-lf-1、6篇direct与before/source/after/blob/UTF8 bytes逐项成立，S17已接收365篇整文件不动。全文治理由GLM承担，Codex未重做73真源全文阅读。
+- 逐篇核心结论字段73/73误抽元数据（仅五种模板头），不采信为具体结论；Owner读取73正文“原始结论”并按原字映射中央历史声明，原错误字段留痕。定向完整核读十一处头部/字段与六组源切片，六篇排重账的“闭合/全绿”收窄为NEW合同及预期oracle登记，实际执行归配对回执；不改quote，Owner维护自验不冒称第二次非作者审。
+- 23篇ledger选evidence-receipt成立：本页是历史任务排重/证据，不是当前catalog发布的test-domain-report，无需为过合同新增catalog身份或换历史状态。其余七audit、二plan、一run-report、一quality-gate按内容分工接收，11条路由类型须中央接入；原62条类型保留。
+- 原run-meta仍指4602406a且缺最终候选身份，旧回执时序不认证。Owner对b5固定候选真实重放七门：保全/索引/testing/lint4511零EWI/diff/导航通过；G2实红恰11文件×6=66旧路由诊断，修后拟模板内存检查0。Owner最终正文候选5521fd94b2695ffcdd2d271f7c8ffedf25ddf083，逐篇[独立裁定及原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz)，payload SHA 1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089。
+- 只收固定正文/模板，不恢复历史执行或原非作者信用；中央routing/native/review/after pin与实际组合门另记。父卡仍rework，不合main、不推main、不标done；181及产品门实现未变，不重复声称本轮全仓check:docs或runtime/E2E/视觉/coverage通过。
+
+### S19 GLM 六十一篇历史治理回执准入（2026-10-20）
+
+- Codex build allowed：DOCS-FULL-TEMPLATE-1证据目录内61篇历史R22–R53审阅/接受Markdown；仅清单白名单正文及新/tmp/s19-glm-evidence可写，活动README、父卡、中央域、所有JSON/raw/规则、产品/旧测试/coverage只读。固定源[快照](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-historical-governance61-source-admission/666a3196ebe2bf30e1fb7032f29561d432516d4112f68c724fe30a3115f73d3f.gz) payload SHA 666a3196ebe2bf30e1fb7032f29561d432516d4112f68c724fe30a3115f73d3f；本机/tmp/type-pal-S19-GLM-historical-governance-p6i8n6gb。真实execution base在S18中央提交后程序实取，分支codex/docs-s19-glm-historical-governance，复用隔离worktree。
+- 61篇真源295665B、均sep-lf-1；quote marker至EOF与H1不变。逐篇全文核读旧正文与当前纠错边界，写出这篇原来声称什么、支持/未知/已撤回分别是什么、证据锚点与后继。旧“独立/深审/全绿/完成”只按“原文声称”保留，不能当本轮事实；反之也不凭文件名一概宣判内容不实。当前信用须指向固定中央review/纠错卡，不恢复旧签字、旧candidateHead或未认证数字。
+- 现有archive-record-v1/1.0.0优先适配历史回执；确需其它既有冻结Markdown模板须按内容说明并内部pilot，不新增模板/机器schema/规则。每类先一篇pilot后自行继续，无需逐批许可；不重做旧批正文迁移或runtime测试，不改配对JSON及其原数字。
+- R24现有2026-10-18勘误片段必须逐字保留并明确标历史勘误记录，里面“当前”指当时树；不可不加时点当本轮新SHA事实。若需新当前值只能程序核实际目标并单列，不覆盖旧段；源、codec、原件冲突只停受影响篇记blocked，继续其它篇。
+- 通用交付按document-delivery-acceptance/1.0.0：逐篇真实readDomain/具体结论/anchors数组/类型理由/角色与历史边界、before/source/after/blob/UTF8 bytes、状态/停止线；coreConclusion要来自本篇实际结论而非metadata，逐条程序校验非空/非模板头但不冒称机械语义认证。S18原73及S17原365全文件只读。
+- 新证据分片<512KiB+唯一索引，保失败/事故，真实Git与时间不手填；同一最终候选跑全包保全/结构、导航+索引byteequal、model实际或精确旧路由归因+拟模板内存0、testing、lint零EWI、base..HEAD diff。每门逐命令argv/cwd/真实ISO起止/exit/signal/完整输出SHA、候选和输入指纹前后一致；不用前一提交的run-meta覆盖最终身份。181/整仓check:docs/产品/E2E/coverage留中央，不合main、不推main、不标父卡done。结束主动附可转发提示词，最终集中回交完成/blocked精确集。
+
+S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-actual73-central-combination/2048373ca3aede2f3e2d6b0de634addead2661e04cd6802b0a2c084b8e034452.gz)：73条native变化、其余2359逻辑绑定不变；11路由改绑、9既有review分区内旧完整条目以Git引用保留并逐项核hash；S17全365正文/绑定及旧481+31和本轮40原件不动。当前1156 content-reviewed/1276 partial，迁移1133/1838基线+17增量、1282候选待迁移；strict恰2558=1276状态+1282迁移，0 SHA或其它诊断。实际model/导航/testing/phase/lint4511零EWI/diff通过。上述是中央维护自验，独立正文裁定另见固定报告；父卡继续rework，不合main、不推main、不标done。
+
+### S19 固定039候选据证裁定与定点修正准入（2026-10-20）
+
+- 固定作者候选039f0d584be615cf5ac827aa3a5c15a783e63efa、base89d4ca8daff090e8a8d6528d5ed56e7d3ce5159d，五提交恰61篇。28件原证据冻结；61篇source/after/blob/UTF8 bytes、quote tail、明确sep-lf-1、H1均成立；R24历史勘误逐字恰一次且未冒充新SHA；S17/S18既有438篇全文件只读。Owner真实重放七门全部exit0（model1265合同0、lint4511零EWI、导航/索引/testing/diff/保全通过），静态绿不解决下面语义/证据问题。
+- S19-E01：61/61 coreConclusion再次都是同一metadata段，不能作逐篇结论。必须修逐篇证据字段、读取来源与生成器选段，不要求重做全部真源阅读。原错误字段与旧执行回执不覆盖；实际补读范围如实记录。
+- S19-C01：27篇早轮回执用原39–94初始scope作“无专属撤回”，遗漏已限定接收的expandedAudit20261018：R23/24/25/26/27/28/29/31/32/33/34/35/36共152旧深审claim，以及R30/31/32/34/35/36六个无效复制counter。目标review条目撤信不等于本篇只读提案每句都假；151旧binding降档与READ-FIRST真实S01后继保护须同时保留。不能继续笼统写R22–R38全部仅未认证，也不能倒过来全批重撤真实后继。逐篇目标/数量/已知无效counter见冻结清单。
+- S19-C02：R41–R53十三篇readonly正文沿用其它轮的WAVE-O/OPS-DOC例子（如R43真源前两项是E2E-001-CLOSE与DOC-CURSOR-5，并无这两外轮任务）；R53又把821–982当清单行数范围，真源实际含更长任务。只修本篇例子与范围/原文自相矛盾边界，不能修改quote里的旧模板错误。
+- [逐篇非作者counter及解除条件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)，payload SHA 8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353。准入一次定点修正：同分支、同原base，从039追加；仅40篇反例正文可写，21篇其余正文按039整文件SHA保留，61条新review记录修正；新证据仅/tmp/s19-glm-evidence-correction，旧28件不覆盖。438篇/全部quote/R24勘误与中央域、规则、配对JSON、产品/旧测试/coverage只读；已合格保全和正文成果复用，不全文重做。
+- 本轮中央新增content-reviewed/template-compliant为0，不采纳候选正文或改61绑定。当前1156 content-reviewed/1276 partial、1133/1838基线+17增量、1282候选待迁移及strict2558待治理项保持原口径；父卡仍rework，不合main、不推main、不标done。Contributor按document-delivery-acceptance/1.0.0一次回交修正候选与逐命令真实回执，无需逐批请示；无需新产品取舍。
+
+### S19 定点修正a13据证裁定与终修准入（2026-10-21）
+
+- Git真实候选a13de52d169db3957b78ff18036361c742a84e92，base89d4、从039追加61a→a13；tracked干净、仅node_modules未跟踪，所见reflog为连续追加提交（不据此宣称能排除所有历史reset）。回信/HANDBACK手填完整SHA错误，机器review与原始回执均用真实Git身份；旧文字原件保留，以新勘误解决，不倒改。旧调用python3 replay.sh错误，实际使用zsh并留真实命令。
+- Owner重放双verifier与完整replay：bodyChanged40/completed61/blocked0；全部61 source/quote在显式sep-lf-1下精确保全，R24历史块逐字恰一次；21正文与S17/S18既有438整文件只读。旧28文件集合与SHA、修正包30文件清单及9条真实回执一致；本轮实跑导航/索引byte-equal/model1265零issue/testing/lint4511零EWI/双口径diff均绿。61a的双marker形态可由Git重现；丢失assert原始输出仍为未认证，不补造。
+- 原C01的27篇目标/数量/canonical与六无效counter边界已闭合，61条metadata形式问题已修。其余48篇正文与语义字段保留，无需重做全文。仍有同一13篇R41–R53 readonly的两处说明和13条core：R41真实10=2README+8卡却被新增“原文复制矛盾”写成不符；13个真源均不存在新引的Ten documents；R42–R53开头又把两README当实际范围。首两项/数量/范围修正有效，但新core照抄039错误快照，R53仍写821–982而非821–11269。逐篇位置/条件见[固定非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)。本轮按已知同族矛盾定向展开，未重读61全文。
+- build allowed终修：同分支从真实a13追加，仅13篇已知readonly的开头对象句与复制矛盾说明可写；48其余正文按a13整文件SHA保留。新证据仅/tmp/s19-glm-evidence-final-fix；13 core取实际固定源与最终正文原始结论节，61条身份/after pins程序刷新，48条已合格语义字段不改。旧28+30与全部61quote、R24、438先前正文、共享域/JSON/规则/产品/旧测试/coverage只读，不逐批许可。准入清单[固定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final13-targeted-correction-admission/dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8.gz)，本机/tmp/type-pal-S19-final13-handoff-97168u4i，manifest SHA dd2b3234910a522a59c1f8d2ab90fdb9edfd255ab36a432e7953f97cf0f2e7d8，快检verify-final.py。039快照authorBodySpecificConclusion是当时错误观察，不能当推荐终稿。
+- S19尚未整体接收，中央新增正文/semantic/template信用0，仍1156 content-reviewed/1276 partial、1133/1838基线+17增量/1282待迁移；全卡rework，不合main、不推main、不标done。未跑181/整仓check:docs/产品/E2E/coverage；静态绿不追认旧深审、旧门数字或旧独立席位。
+
+### S19 final13闭合、六十一篇文档包接收（2026-10-21）
+
+- 固定GLM候选4e571f79a877430a236329b670da094d92e89fae，从真实a13单提交13文件38+/38−；tracked干净，仅node_modules未跟踪。全部61保全、48正文/十项语义保护字段及此前438全文件只读；旧28+30与新30件冻结核符。最终review61行、UTF8 shard291373B与SHA实符，全部身份实取；13 core等最终原始结论节，不再复制039错误观察。
+- C01/E01/C02闭合：R41的10=2README+8卡明确一致；R42–R53实际20/16卡且无README，真实Two README/eight completed旧句按历史矛盾登记；伪引Ten documents已移除。R43首两项及57–113、R53首两项及821–11269保留。Owner复用48合格成果，据证核最终13差异和风险切片，未重读61全文；双verifier与实际zsh replay均通过，model1265零issue、导航0、索引byte-equal、testing0、lint4511零EWI、双diff0。逐篇[非作者限定接收](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz)。
+- erratum两项勘误成立；其中revParseRawOutput实际是终修4e的输出，Owner另核旧a13^{commit}明确身份，未把当前输出冒充旧原始回执。旧双marker事故的缺失assert原件仍未认证，历史深审/独立/产品通过不恢复。
+- 中央结构方案：原R90展开50条完整记录的1208346B、引用版1150169B均被预检阻断，尚无写入。使用现有reviewRecord路由分为31/30条新分区20261021-s19-accepted-01/02；旧R89/R90/R91仅迁出61当前条目，旧完整条目以全文件/条目Git SHA引用留存，其他条目不动。新分区各小于512KiB，consumer/schema/质量规则不变，不放宽maxSize。两份Owner新JSON另登记partial/needs-migration，不自授机器文档独立完成。
+- S19子包done仅指61份GLM历史正文/模板及中央接入。父卡继续rework：native2434=1217 content-reviewed+1217 partial；迁移1133/1838基线+78增量、1223候选待迁移；新账本2份仍待治理。未跑181/整仓check:docs/产品/E2E/coverage，不合main、不推main，不标全量done。
+
+### S20 GLM 二十七篇历史审计/域报告/治理设计准入（2026-10-21）
+
+- Codex build allowed，一次交付27篇：9份pre-e2e历史审计、8份testing history/report、9份20261016治理设计及reviews历史README。源范围/逐篇before/source/blob/quote SHA见[固定源清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-historical27-fixed-source-admission/1f24d215fb4ce5dcc5703343fdbb8c56192cffdf623ea1cc090ed1cc6839590e.gz)，本机/tmp/type-pal-S20-source-admission-ie1d1ba4。完整真实源557446B；18篇单层sep-lf-1，9篇设计三层各排除恰一个结构分隔LF才等真实Git源，不得把外层复合体SHA当源SHA。保全既有整个外层quote tail与H1，不trim/codec/统一字符替换。
+- GLM在新隔离分支codex/docs-s20-glm-historical-reports执行，真实execution base由本节提交后程序实取写清单，复用docs-archive-navigation工作树；开工tracked须净。Owner仅核了范围、来源字节、模板候选和读域前提，不声称已经全文语义审过27篇。
+- 逐篇全文核真实源与既有正文/嵌套边界，写本篇实际论点、对象/数量/版本、已确认与未知、原反例/未跑项、当前继任和停止线，不能用标题或行数当core、不能把Owner旧观察快照当建议终稿。旧设计只记当时提议/裁定，不自动变成当前授权；历史审计不按旧快照宣判当前代码有缺陷。原机器字段、数字、原结论和quote全部保留；本批不复跑旧产品、测试或coverage。
+- 采用已有冻结17模板：audit-report/archive-record是当前候选；README职责按实际正文判断，可提议现有governance-index/guide-runbook等。先做每种拟模板一篇本地pilot后自行继续；不强套错误旧routing。贡献者仅交拟routing及相同公共checker的内存零issue检查，实际中央绑定Owner单写；若需新模板/源冲突只停受影响篇。
+- 唯一写入为27白名单正文及/tmp/s20-glm-evidence；父卡/看板/索引/registry/routing/review JSON/catalog/matrix/模板/规则、所有配对机器字段与JSON、产品/测试/coverage只读。S17/S18/S19既有499正文只读，原28+30+30证据不可覆盖。按document-delivery-acceptance/1.0.0交逐篇具体记录和真实读域、before/source/after/Git身份、分片<512KiB、失败/事故原件与输入指纹；只读快检、导航/索引byte-equal、model实际或精确旧路由归因+内存拟绑定0、testing、lint零EWI、base..HEAD diff。181/整仓check:docs/产品门留中央。原源只读不因历史矛盾清理重写；不合main、不推main、不标父卡done。无需逐批确认，最终集中回交并附可转发Owner提示词。
+
+### S20 历史二十七篇据证接收与中央接入（2026-10-21）
+
+- GLM固定d4a86f32d248a88f0e5ab45c804e40ca50f19ffa、base9216bee972267675d500d372ec6059560ad02a03，八提交恰27篇。Owner全读交接和逐篇结论/差异，核27源与H1/quote tail、18单层/9三层、499前序正文及S19旧88原件；80件作者交付冻结，82660B review shard核符。定向核C-01..C-07与X-C01撤回、A-01..09和历史修复SHA、battle-host 46287966/29/11/8463/7972/77.41%、binding-baseline 33cc/849646/1838/F1-C1..C5/22；未重做27全文阅读。
+- 作者完整replay实跑通过；独立另核真实model恰一条README声明/旧routing冲突，不能因replay的`|| true`推断model成功；公共checker内存拟路由0。join-bug在982b34ff逐字符行和48158B失败diff原件均可核，d4修复后无残留；diff只发现空白症状，不是通用可读性/语义oracle。
+- 按用户小修授权，Owner直接维护10篇：9设计补齐已冻结三层SHA/字节声明；当前reviews README改由registry唯一reviewRecord选定当前条目，明确撤信/partial/draft与旧content-reviewed并存，不恢复旧深审/独立/产品信用，并链接S19当前分片。9审计的弱core从现有具体发现表/结论映射，README core改为实际当前导航职责；旧作者记录不改。Owner维护是同主体自验，不伪装第二次独立审。27份合成真实候选ded0ad321084fe62df25a7336ee2f16c153a0d77，保存在codex/docs-s20-owner-minor；未改原作者分支/证据。逐篇[据证限定接收](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz)。
+- 中央只改README一条routing/type；27条native与review迁至一个<512KiB的20261021-s20-accepted-01分区，旧四分区的完整条目按Git全文件/条目SHA引用留存，其他条目不动。新Owner原生JSON另登记partial/needs，不授自我语义完成；私有准备脚本曾把紧凑日期误写20227021，已在任何中央计划执行前修正并保留原脚本/勘误，不改规则放行。
+- S20文档子包done；父卡仍rework。native2435=1244 content-reviewed+1191 partial；迁移1151/1838基线+87增量、1197候选待迁移。未跑181/整仓check:docs/产品/E2E/coverage，不合main、不推main、不标全量done。
+
+### S21 GLM 未完成JSON合同盘点与迁移设计只读准入（2026-10-21）
+
+- 允许只读分析整个当前未完成JSON候选：registry中reviewStatus非content-reviewed或templateCompliance非template-compliant的.json，共1124份（包括3份已获语义接受但仍未迁移的材料，旧合格信用复用）。精确Git基点、SHA/blob/字节集合在本节提交后程序冻结，不靠路径猜类型；不因本轮盘点改变1124份状态或全量分母。
+- GLM在codex/docs-s21-glm-json-contract-intake从Owner固定提交新建分支，复用现有隔离worktree；仅/tmp/s21-glm-evidence可写，整个仓库/全部JSON/模板registry/producer/consumer/产品/测试/coverage只读。已接收526正文与历史原件全部保护。可在/tmp编写只读解析/盘点工具，不import有顶层生成副作用的脚本，不复跑旧产品/测试。
+- 大包先做结构事实：1124/1124精确字节和完整解析/字段路径/类型/数组形态/版本与状态位置、重复键或解析异常、现存envelope/variant/生产者声明；readLevel必须写parsed-structure-only，不能冒称全文语义审阅或content-reviewed。类型归组以实际schema/字段及真实producer/consumer为据，不用目录/标题替代。generatedBy只作原声明，实际调用者须有代码file:line/调用链，未知如实未知。
+- 每个拟迁移合同族至少一份真实字段级样本，逐字段说明机器字段职责、合法输入、oracle、历史运行结果与当前documentAudit的边界、依赖/适用版本/停止线；数组仅声明实际核过的范围，不以遍历hash宣称读懂全部业务。优先覆盖testing机器证据、catalog/index、治理review/receipt、固定源/终端包装与archive等实际出现的类型；既有原字段和日期不修改，不把历史数字写成新执行事实。
+- 输出1124条分片inventory及完整group→path覆盖、分层读域、代码producer/consumer证据、每族现有17模板/版本/variant是否真的适配、缺口与最小新增合同提案、无损迁移/原生字段深等与真实consumer正反例计划、pilot与退出条件。匹配/未核/冲突分开；需要新增variant/模板必须设计提案由Owner冻结后才准canonical build。本轮不批量包envelope、不改JSON、不授1124份完成。
+- 按document-delivery-acceptance/1.0.0交真实Git/文件身份、可回放只读工具和实际输出/失败原件；分片<512KiB，不自嵌hash，不补造旧raw。Owner默认核集合/字段解析与claim证据、代表性合同风险，不重做所有字段语义审查。181/整仓check:docs/产品门不跑；无源改动不重复无关测试。无需逐篇确认，集中回交并附可转发Owner提示词。新产品取舍或不可逆操作仍停线交用户。
+
+### S22 三份空账本退役与固定清单处置（2026-10-21）
+
+- 用户明确授权先处理三份空账本的退役、历史引用和1838清单的显式处置，再推进JSON；由Codex直接执行，不逐批请示、不交GLM。单一Owner Codex，隔离分支codex/docs-audit-rework，基点19371962230ea46bc97fbd7723cf0192310be4bc；父卡保持rework，不合main、不标全量done。
+- build allowed：删除reviews下20261004-lore-guijie-batch2.json、20261004-phase1-root-batch2.json、20261004-structured-content-new-01.json三个仅剩身份与空entries的载体；原301/251/433B及最近非空原件均由固定Git提交/blob/SHA恢复，原12条文档的当前接替记录分别在r33/r30/r56，原信用不变。
+- 冻结生命周期合同empty-review-ledger-retirement/1.0.0，属于显式处置而非新增模板或artifactOnly豁免。唯一处置源放现有document-registry manifest的documentRetirements，包含授权入口、原登记快照、三个原件/非空前身与接替路径、保全引用区的独立SHA。原1838绑定基线不修改；migrated、retired与pending分别报告，退役不得算作正文迁移。
+- 前置核验：原件须来自regular Git blob，当前原件entries恰空且无纠错/迁移字段；最近非空前身的每条文档都须在当前registry与唯一reviewRecord中找到；待删路径不得仍有活动条目或migrated route，不得存在检出残留。缺原件、错误SHA、重复处置、缺接替或重新出现的文件一律失败。
+- 历史引用仅允许已登记且完整quote SHA吻合的保全原文区解析到固定Git原件；README新增可用的Git恢复与当前接替入口，原quote字节零变。当前正文引用、任意missing target和被改动的quote仍失败；旧JSON中的原时点路径不做全仓替换。
+- 白名单：以上三个删除、现有manifest/所属分片及对应review条目、README当前说明、父卡/看板/文档模型、必要docs检查器及一个新增定向回归文件。只补当前delta与必要pin，不复制全部库存/执行原件，不新增逐篇回执。产品源码、旧测试、coverage、旧作者包与既有526篇正文保持；README仅当前说明是明确例外，原quote仍保全。
+- 验证：真实Git恢复、12条接替与保全SHA；定向正反例覆盖伪造来源/缺接替/重现文件/现行断链/quote改动/未授权删除/分母和迁移信用；docs工具完整回归、check:docs、lint、diff检查按实际结果入账。全量存量partial/needs仍是未完成，不降低规则，不把局部通过冒充整仓硬门通过。
+- 后续JSON按S21留存裁定推进：133活跃输入/绑定、988冻结历史证据、3退役；分类不授语义或模板完成。先用现有已接受材料做原生格式合同pilot，不为每份JSON新造正文或重复证据。无下一位Agent提示词，由Codex续办。
+
+S22已实施：三个空载体退出当前registry与r93活动条目，原12项接替逐条可查，README quote保持原字节；只维护6个受影响review的12个after pin，旧状态不升格。原件通过Git恢复，不复制三份JSON到新位置。新检查器与现有四消费者的自验原件只保留[这一份命令日志](../evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz)，gzip无损保留首轮失败及完整输出，仓库不留明文副本；缺门或非零诊断不得收口。实现作者Codex，以下是作者自核，nonAuthorReviewer=false，不冒充新独立验收。
+
+首轮完整工具回归194/195通过：phase-lore-catalog.test.mjs:81仍断言current54/draft53/archived77，实际为current49/draft11/archived28/historical96。该旧测试及catalog各文件对基点零diff；本轮不改旧测试、不回退历史状态以制造通过。首轮lint的3项导入排序和1项字符串风格诊断已定点修复，后续以日志中的真实重跑为准；完整硬门未过，S22不标done，父卡继续rework。
+
+| 文件 | A 正确性 | B 注释 | C 边界 | D 复用 | E 测试 | F 可读性 | G 简洁性 | H 可复验 |
+|---|---|---|---|---|---|---|---|---|
+| document-retirements.mjs | Git字节/空载体/12项接替/残留拒绝 | 生命周期不授语义信用 | 纯检查与IO适配分开 | 四消费者共用 | 实际Git正反例 | source/predecessor分名 | 单一处置源 | 注入读与真实CLI |
+| document-registry.mjs | 保留2432条原生字段 | 复用既有存储边界说明 | 仅加处置形状门 | 原品牌writer | 完整存储回归 | 单行明确调用 | 无新存储层 | 现有临时包夹具 |
+| check.mjs | 历史区限定；现行断链仍拒绝 | 解释条件加载 | 无处置时无新增registry依赖 | 原Markdown解析器 | 偏移/quote/断链反例 | 显式historicalTarget | 无新增ignore | 纯audit与实际入口 |
+| check-content-review.mjs | 退役凭据失败进入硬诊断 | 简单接线无重复注释 | 不改原strict词表 | 共用处置检查 | 原严格门仍需全过 | 原输出保留 | 不过滤未知缺失 | 真正中央组合 |
+| report-governance-progress.mjs | 1838=migrated+retired+pending | 明确退役非迁移 | 不改冻结源 | 同一处置投影 | 1838/0迁移/1退役反控 | 分列计数 | 无平行状态表 | 真CLI仍拒绝假完成 |
+| document-retirements.test.mjs | 合法Git与原生schema夹具 | 明示不授旧结论 | 所有变异仅临时目录 | 同一合法基点 | 14项业务正反例 | 单因拒绝命名 | 不堆覆盖率用例 | 独立1838 oracle/退出码 |
+
+### S23 JSON原生合同首包设计前提（2026-10-21）
+
+- Codex续办，不交GLM；先核DOC-IA-2的additional-attachments/preservation-report/relocation三件既有内容接受与机器字段。它们当前仍needs-migration；r37的structured-content与泛化core不外推成已通过本轮原生合同，不增加完成数。
+- 已核三种字段职责：2张对话附件的from/to/kind/sha256；419项唯一from与唯一to的历史分类/迁移表（8种kind，kind不是单纯移动动作）；保全回执的419计划、261迁移/保留、134任务、89历史、9媒体、24消费者及9条退役记录。计数口径可能交叉，不擅自相加，也不把旧failures=[]当作今天实跑。
+- 冻结前还须核对应实际consumer/历史来源、9个恢复锚与2个附件去向、root与目录映射的例外；旧baseline/SHA与日期不刷新。只读或结构核验不授全文语义或模板信用。原JSON不搬进payload，不新建三份sidecar；若原生合同可用，优先复用现有registry绑定与已有review承载当前审查。
+- 本节是设计前提，非批量build或新增模板冻结。S22先以实际门结果收口当前实施范围，父卡与剩余JSON继续rework。
+- S22隔离实施提交7be2ee60e，未合main、未done。S23继续核来源：三JSON全部等于33cc固定原件；9个退役恢复锚逐字节相符。419条中398条直接匹配声明baseline，19条由6a653f97d的历史工具路径改写解释并沿原路径复算相符；原看板SHA不符、自身任务在baseline缺失两项显式未证，不刷新原字段或授当前执行信用。
+- 本轮只将具体字段职责/缺口写回既有r37三行及原目录README；保留历史记录入口，不新建逐篇账本。拟格式、兼容与pilot停止条件集中放[现有模板提案S23](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s23历史文档迁移与清理回执原生合同草案)，仍draft，既有17类/模板版本/路由/1838绑定均不变。完整读域是三对象字段解析、全部419条源身份核验与9恢复锚；不将遍历hash或该三份的旧structured-content状态称为新增全文语义接受。
+
+### S24 catalog断言、两项来源与原生pilot准入（2026-10-21）
+
+- 用户明确授权修复旧catalog断言并核清两项来源，再推进JSON原生合同pilot；Codex单一Owner，基点ccb48be40d517878aeb73b1a9767de0bd92cc942，复用隔离分支codex/docs-audit-rework。build allowed包括phase-lore-catalog.test.mjs这一个旧docs测试的过期断言修复；不授权产品/其它旧测试/coverage改动。
+- loader测试改以四份原生分片的独立字段/整项集合为oracle，保留184成员/阶段集合与排序检查；不回退catalog的historical分类、不固定另一套易过期状态快照。
+- 来源核验限定两项claim：原看板SHA、任务卡自引用SHA及其实际生成时点；查Git原件与生成链，确实无法恢复的旧执行来源如实unknown，不补造blob或刷新旧SHA。核清口径后先冻结S23原生格式/版本兼容设计，才做对应pilot；不批量授余下JSON信用。
+- 白名单为本测试、必要docs模板/检查器及其新定向回归、三份DOC-IA-2原生JSON和目录说明、既有registry/routing/review的精确接入与after pin、原模板提案/父卡/看板。复用现有单份压缩命令日志，不新造逐篇账本或来源副本。作者自验明确nonAuthorReviewer=false；硬门未过不合main、不标done。
+- 来源核查扩至四个原/归档路径的全部可达版本，1244个不同blob/13,045,507B均未命中两项SHA；不据此断言全仓或不可达历史无此对象，也不补造未提交来源。两claim维持unverified；两种原生格式1.0.0已按提案冻结仅供三篇pilot，默认Markdown不滚动。先验证原生保全、版本隔离、固定路径防换标、严格JSON和未知不可清零，再做canonical候选；模板接受与全文语义信用不由作者自验授予。
+- 三篇canonical候选已仅追加_governance，原生字段和值均等于固定33cc对象。新合同与真实model/progress的7项定向检查通过，包括联合换标反控（临时移除自有guard才复现假完成，恢复后拒绝）。registry/routing显式绑定三篇、移除旧artifactOnly等存储标志，r37复用原三行；needs-migration保留，未增加迁移信用。完整门与原始失败按既有单份压缩日志的实际输出记录。
+- 首轮完整工具201/202：重复追加三条source pin触发原frozen-binding-baseline测试；实现已改成直接复用1838固定绑定/Git reader，删除三条重复pin，原pin列表及该旧测试未改。失败原件保留，重跑以日志实际输出为准；不靠放宽测试接受额外状态源。
+
+| 受审实现/测试 | 八维自核要点（作者Codex，nonAuthorReviewer=false） |
+|---|---|
+| phase-lore-catalog.test.mjs | 保留成员与排序oracle；从真实分片独立对照状态和完整内容，无第二份时点快照；仅此旧docs测试获用户修改授权。 |
+| document-model.mjs | 变体format/version优先且旧合同回退不变；复用1838固定绑定/Git reader，不新增三份source pin或解析器；真实CLI回归覆盖默认Markdown和JSON。 |
+| historical-document-receipt.mjs | 固定三篇/两变体与13键治理边界；复用严格字节JSON parser；五项内容有类型要求；未知/重跑/换标不准绕过。只检查，不生成数据或授接受。 |
+| historical-document-receipt.test.mjs | 七项合同原子场景，临时共享只读Git对象与隔离文件；原生改值/改来源/空章节/坏字节/假执行/删未知/联合换标皆拒绝，含guard反控校准。未改产品测试或覆盖率。 |
+
+S24作者阶段重跑：202/202文档工具通过，导航/model1268合同/testing/phase184均0issue，lint4515文件E/W/I=0，diff检查0；无SHA或其它完整性漂移。check:docs最终仍exit1，仅严格审阅2382项（1188 partial＋1194迁移待办）；1151/1838迁移、3显式退役、87增量不变。当时三篇为待非作者验收的原生pilot候选；两项来源仍unverified，父卡rework、不合main、不标done。
+
+#### S24 GLM非作者证据接受与Owner接入（2026-10-21）
+
+- 按document-delivery-acceptance/1.0.0接收用户转交的GLM回执：nonAuthorReviewer=true，三篇additional-attachments.json、preservation-report.json、relocation.json分别accept，零counter。唯一机器记录复用[r37的s24NonAuthorEvidenceAcceptance](../../phase-governance/reviews/20261017-r37-ops-json-evidence.json)，不另造验收JSON或复制原生对象。旧R37接受撤信记录不改写。
+- 被验候选为4d39c2f4cbab6b0fdee0b85b181162df3b39802e，base为ccb48be40d517878aeb73b1a9767de0bd92cc942。GLM实际读域为单提交27文件diff、三件字段级复算、固定33cc/blob/1838绑定三方身份与定向门；属于pilot证据复核，不是重新全文治理。Codex本轮核HEAD/工作树、候选stat与回执边界，未把GLM实跑写成Codex重跑。
+- GLM报告实跑：两份定向测试12 pass/0 fail（含guard反控校准），document-model为7 routes/1268 contracts/0 issues，base..candidate diff检查空；复用压缩日志中202/202工具测试与lint4515文件E/W/I=0原件，未重跑整仓或产品测试。双false、固定未知entry 1/58、原生字段保全、默认Markdown回退和原5条historicalSourcePins均保持。
+- Owner裁定：两种1.0.0原生变体可复用作后续同类历史回执的合同基础；本次已实施路径仍严格限定三篇，新增路径/来源/实际consumer须另卡明确准入，不能借accept批量扩权。S23冻结口径、默认Markdown版本和其它模板不变。
+- 本次只关闭S24-NATIVE-PILOT证据接受项：三篇needs-migration、既有contentReviewStatus/reviewDepth与原生正文均不变，新增迁移信用0。relocation两项来源仍unverified；417/419不升格419/419，旧执行未复跑。check:docs严格2382待办保留，全卡仍rework，不合main、不推送、不标done。后续先由Codex按真实schema/consumer拟定独立JSON批次；本轮无下一位Agent提示词，不把该接入当作下一批build授权。
+
+### S25 原生工具输出合同与去重工作量（2026-10-21）
+
+- 用户授权Codex继续处理，不再重复转派已盘点工作。受审基点8daab219877b82c96700b1ec19b5a18ff6b4eab3；单一Owner Codex，沿用隔离分支。build allowed仅本节设计的三篇原生Vitest pilot、必要model/进度显示/新反例、既有registry/routing/r85及精确依赖pin、模板提案/本卡/看板与既有压缩日志；不修改原测试、产品、coverage、526篇已接受正文或冻结执行原件。
+- 当前2382是诊断条数，不是文档数。逐path集合核得：1188篇审阅未完、1194篇模板迁移未完，交集1188，去重1194篇（1121 JSON＋58 Markdown＋15 HTML）。另6篇只缺迁移，为三篇DOC-IA-2 JSON与三篇已审HTML。1838是固定基线，不是当前文件总数；新增与退役仍分列。后续摘要同时报篇数/诊断数，不隐去原诊断。
+- S21分组只作结构盘点，F06休眠误判已由Owner纠正；133活跃与988冻结保留责任沿用，不批准4/5个新类型、给1121份统一envelope或批量恢复信用。S24两变体只覆盖旧文档搬迁/保全回执，不适用于Vitest原始结果。
+- 冻结独立S25 pilot设计见[模板提案](../../phase-governance/templates/registry-proposal-20261011.md#2026-10-21-s25原生vitest历史输出合同)。仅选TEST-EDITOR-ALCHEMY-BOUNDARIES-1的adjacent.json、directed.json、counterproof-runs/N-B4-missing-reference-dedup.json。它们与33cc固定原件逐字节相同；原生输出不追加_governance、不重排、不复制到payload/sidecar，当前说明复用r85原三行，来源复用1838绑定与真实Git，不新增source pin列表。
+- 实际读域：三件完整JSON字段/全部断言身份与失败信息、同卡README/gates/receipt、counterproof中B4相位与后继Codex撤回B5/B10并补强B7的结论。相邻8文件37绿、定向6文件31绿、B4定向31中30绿1红；Vitest的18/12个suite不是文件数，不能拿sum套文件数。gates另载旧8条act warning，success=true不等于历史零诊断或当前产品验收。本轮不重跑这些产品测试。
+- 作者pilot仍partial-review-unknown/needs-migration，0新增信用，待非作者证据接受及中央迁移裁定；不是为保持字节不变而免审或自动完成。批量新增路径须另卡准入，不能仅按文件名/JSON形状自动覆盖302份。
+- 首轮整套工具207/208：frozen-binding-baseline.test.mjs:194要求机器证据合同与F1历史快照整体相等，因新增变体报红。未改原父字段或原六变体；该断言将后续显式新合同也锁死，不能靠换文档类型避门。用户在本轮明确授权仅此旧docs断言适配：取副本、确认新增变体存在、仅移除已批准的这一键，再与原完整机器合同deepEqual；任一旧字段/旧变体或其它未准入键变化仍失败，historicalSourcePins继续整组deepEqual。新变体由六项定向正反例独立约束；旧失败输出保留，后续以真实重跑为准。除此不修改任何旧测试。
+
+| S25实现/测试 | 八维作者自核（nonAuthorReviewer=false） |
+|---|---|
+| historical-vitest-native.mjs | A固定33cc/1838与原字节、精确三相位、唯一review及双false；B注释说明原件与当前说明分离；C纯校验只读、Git与parser复用现有接口；D复用既有来源/记录而非新pin/sidecar；E红结果合法、错字节/字段/身份拒绝；F命名按原生输出职责；G只三路径、无批量形状推断；H内存reader与真实CLI皆可反证。 |
+| document-model.mjs | A固定路径先于普通模板分派防联合换标；B沿用结构不授接受边界；C新模块自管native语义、旧格式流程保持；D单一model/progress caller；E真实CLI验证；F早返回划清格式；G不新增独立命令或重复parser；H原依赖注入不扩权。 |
+| check-content-review.mjs | A仍逐条报全部诊断、不放宽门；B区分诊断和篇数；C只读当前唯一review投影；D复用同一集合；E当前1188/1194/1188/1194与独立path集合复算；F双轴命名；G无新JSON报表；H不读取时钟或写盘。 |
+| historical-vitest-native.test.mjs | A真实三份原件/固定来源与真实CLI；B明确红相位不是失败门；C临时共享只读Git、隔离写入；D复用registry fixture；E六项按字节/来源/语义字段/相位/版本/联合换标判别，包含guard反控校准；F测试名陈述拒绝条件；G不增加产品/coverage测试或镜像断言；H临时目录after清理，产品未执行。 |
+| frozen-binding-baseline.test.mjs | A只在克隆副本排除已准入且必存在的一个新键，原父字段/原六变体与旧source pin仍deepEqual；B说明F1保全与S25增量边界；C/D/H不改变fixture/consumer或原Git来源；E新变体仍由独立原生合同用例拒错，旧测试主体保持；F明确命名；G仅此获用户授权的docs断言，无新豁免列表。 |
+
+S25作者阶段结果：新六项＋获准旧F1四项定向10/10；完整208/208，导航1302 MD/10160链/364任务、model1271合同、testing与phase/lore184均0issue，lint4517文件E/W/I=0，diff检查0。check:docs仍exit1，仅严格2382＝1188审阅＋1194迁移待办，去重1194篇；1151/1838基线迁移、3显式退役、87增量、0完整性漂移。三篇原生字节/其它模板与source pin不变；治理身份仍partial/needs-migration，不新增接受或完成。Vitest4.1.7本地producer的getSuites递归及success仅依失败计数已定向读源码并留原件，未执行旧产品测试。首轮207/208失败与用户授权后的恢复输出均追加原压缩日志。
+
+作者阶段的下一步为非作者证据验收；后续GLM回执与Owner接入见下节，原208/208/lint与保全原件直接复用。
+
+#### S25 GLM非作者证据接受与Owner接入（2026-10-21）
+
+- 接收用户转交的GLM回执：nonAuthorReviewer=true，adjacent.json、directed.json、counterproof-runs/N-B4-missing-reference-dedup.json分别accept，零counter。唯一机器记录放[r85的s25NonAuthorEvidenceAcceptance](../../phase-governance/reviews/20261017-r85-testing-archive.json)，不另造JSON/sidecar。被验候选24b93ab8f53aaf9b7cfe963349658dfd5201c86c，base为8daab219877b82c96700b1ec19b5a18ff6b4eab3；Codex核HEAD/工作树与候选范围，未冒称复跑GLM的命令。
+- GLM实际读域：单提交全diff、三件双源字节/断言明细复算、r85全部100行对比（3行改、97行不变）、registry/routing/proposal差异、两个测试文件与S25原件关键计数。实际实跑原生定向6/6、model7 routes/1271合同/0issue、base..candidate diff空；208/208、lint4517零诊断及post-scope复用原件。产品/E2E/coverage/旧8针未跑。
+- 关闭S25-NATIVE-PILOT证据接受项，原作者qualification仍nonAuthorReviewer=false，GLM非作者结论独立记录；R85旧撤信原件及信用边界不改。Owner确认historical-vitest-native-v1/1.0.0可作为后续同类原生回执准入基础，当前固定三路径/来源/相位及原父1.5.0、六变体/source pin均不变。
+- 本次仍只接pilot证据：三篇partial-review-unknown/needs-migration与原生字节保持，0新增迁移/语义信用；B5/B10撤回、B7补强与旧8act warning不清除。当前1194篇未完/2382诊断、1151/1838迁移、3显式退役、87增量和父卡rework保持，不合main、不推送、不标done。
+- 下一批前提已只读复核：S21/F01共302件字节均未漂移；295件为原13字段形态，其中272件SHA匹配33cc冻结绑定（含三篇pilot），23件无该绑定成员；另7件字段形态不同（4件短摘要、1件带进程信息摘要、2件附distillation）。272件中余269件仅列同类设计候选，尚未逐篇语义接受或扩大固定三路径；30件例外单列，不补造来源或硬套合同。该结构/绑定核查不等于逐篇全文审阅，也未认证302个Git blob或旧执行。
+- 无下一位Agent提示词；后续由Codex直接拟定269件的独立批次准入和30件例外的来源/格式合同，实际批量迁移另卡。S24三件needs-migration及两项unverified来源不受本次影响，不用本accept扩权。
+
+### S26 分工纠正与GLM大包准入（2026-10-21）
+
+用户再次明确Codex主导通用合同/准入/疑难/证据验收，GLM承担逐篇治理和重复执行。此前把JSON清理与设计授权外推到批量执行的Owner判断收回；S24/S25是Codex作者所以GLM做非作者审，不作为颠倒后续大包职责的依据。前节“Codex直接拟定”只保留设计/准入责任，269件内容与30例外分析改由GLM执行。
+
+独立[DOCS-NATIVE-JSON-1](DOCS-NATIVE-JSON-1.md)统一承载S26及后续原生JSON包，不为内部小批再建卡。Codex build allowed：269件逐篇内容稿＋23件来源/7件格式例外，三篇pilot只读，GLM唯一写入/tmp/s26-glm-evidence，内部自行分段、最终一次回交。源/当前blob及before SHA已冻结，工具只核身份与锚，不替代内容审查；本次不增加302件审阅或迁移信用。
+
+本轮只新增一份调度卡，其审阅/迁移尚未接受，registry2433，待办由1194篇/2382诊断变为1195篇/2384诊断；原1194件待办保持、固定1838分母不变。这是显式控制文档增量，不静默混入原基线或当作旧文档退步。共享合同/路由扩展及接收后的中央写回仍由Codex做；当前S25三路径实现不冒充已接269件。完整派发参数、原件及停止线归子卡与冻结清单，后续用户只需转发一次提示词。
+
+#### S26 GLM首轮证据核验与字段返工（2026-10-21）
+
+Codex非作者核候选ccc094e860e7e118bacb95b61c425f9fc2d037de及仓库零写入，工具回放269稿/30例外/302载体通过；独立抽红/pending/probe三条引文、计数及context，复算全部23个Git载体起点和7格式大纲。机械身份、原文锚与来源成果保留，旧运行未认证，新增语义/迁移信用0。directed-summary五计数及distillation声明SHA与已认证来源的边界由Owner直接订正，不要求重做30例外。
+
+内容准入rework：269结论为程序拼接，62条相位由文件名推导、13条上下文只引H1；186条排重串至其它任务，三份四失败报告集合只列前三个截断名、三份pending的非通过口径错误。N-B10漏后继撤回与probe-r1时序诊断角色是具体反例；按共用缺陷扩大到269判断字段，保留已核事实而非重做机械盘点。精确C01-C03、读域和解除条件归[子卡](DOCS-NATIVE-JSON-1.md#s26-首轮证据裁定2026-10-21)及原压缩日志S26验收段；GLM仅在新/tmp/s26-glm-evidence-correction补稿，原包冻结，旧仓库候选不切换。当前1195篇/2384待办、1151/1838迁移及全部中央绑定不变，全卡仍rework，不合main、不推送、不标done。
+
+#### S26修正接收与S27存储前置（2026-10-22）
+
+Codex据证接受C01-C03修正：候选ccc094e860e7e118bacb95b61c425f9fc2d037de仓库零写入，旧包冻结，269/0/30回放；N-B10撤回/probe时序角色与两族producer/后继抽核成立。143红报告完整集合及三份四失败、三份pending均核对，Owner直接补207处遗漏比较计数与两处撤回锚，不让GLM为机械小问题再次往返。共享上下文复用和程序核读如实记，不称269次人工深审。23来源与7格式沿用限定接收，原执行/历史撤信不恢复，本轮reviewed/template-compliant/迁移信用均0。
+
+中央预演被1MiB前置拦截：r85/r87/r88新稿1081574/1113330/1073436B，所有8份review仍保留原字节，未发布269行。停止于写入前，不压缩语义或放宽Biome。Owner选择保留逻辑review身份的薄manifest＋有界分片方向；[子卡S27](DOCS-NATIVE-JSON-1.md#s27-review存储接入前置2026-10-22)准入GLM只读一次性交付8源599entry的source/consumer/test-impact/pin映射，Codex处理通用设计与实施准入，不重做S26。复用原卡与压缩日志，无新canonical账本；1195待办/2384诊断及1151/1838不变，全量仍rework、不合main、不推送、不标done。
+
+#### S27源映射接受与前提定点返工（2026-10-22）
+
+Codex非作者核c55ebedf3a347cef306c04de352652614f93dd39及S26分支保留/仓库零写入，回放8源599并独立核599条entry SHA、两序指纹、registry入边数/冻结源与三份回执，源成果接受。consumer-map将check-content-review直读错称经registry透明，漏全目录/参数化writer；“零旧测试必改”被Vitest测试直接parse r85后entries.filter反证；pin-map漏R92八条及R94一条afterSHA入边，并误把124个与after不同的revision.currentSha泛称当前pin。599个after本身全部匹配当前正文，不是新增124个SHA漂移。
+
+仅返工consumer/test-impact/pin及相关plan，原599源/回执与S26接收不重做。Owner处理引用行号/逐源total小订正，Git同revision物化/完整逻辑头保全/先599存储后269/逐片实format是后续设计方向；实际schema/实施包仍待事实前提闭合，不根据错误影响图提前冻结。精确C01-C03、证据与新/tmp只读域归[子卡裁定](DOCS-NATIVE-JSON-1.md#s27前置映射非作者裁定2026-10-22)，仍复用原卡与压缩日志。0迁移/完成信用、1195待办/2384诊断不变，不合main、不推送、不标done。
+
+#### S27修正接受与S28实施准入（2026-10-22）
+
+Codex非作者accept C01-C03修正，候选c55ebedf未变：10源身份、9条SHA边、41/28/31/24历史revision差异、三回执与原包冻结均核过。Owner订正“静默过门/整体丢失”后果，不重造原GLM证据。S26与599源成果保留；新增语义/迁移/完成信用0。
+
+[子卡S28](DOCS-NATIVE-JSON-1.md#s28-review存储实施冻结2026-10-22)冻结review-record-storage/1.0.0：保全逻辑头/键值/顺序/历史，Git同revision物化，先writer全选择集守卫、后loader/consumer、最后8manifest/分片/R92/R94组级锁发布。GLM一次实施代码/新测试并在临时树演练599存储，不写中央、不接269、不修改产品/coverage；真实r85旧测试一import两读适配另按具体授权。物理分片须逐件归属并与实际集合对账，1838分母和现有待办不缩。原卡/原单份压缩日志复用，无新canonical账本；当前1195待办/2384诊断与1151/1838仍不变，本卡保持rework、不合main、不推送、不标done。
+
+#### S28实施证据rework（2026-10-22）
+
+候选b6e9325f55c957ca491bdcdca6e818488a1137e2的5提交/17文件scope、8源599及302原生最终保全、授权测试三处语义适配6/6、正常dry-run8manifest/19片与新18pass保留（另1skip）。新schema/IO风险定向反例证明发布器可接受目标外单文件并覆盖外改、prepare假源/重复组报599、loader漏SHA/快照/孤片、consumer绕保护及retirement未定义root；正式新测试依赖/tmp且完整工具套证据不足，作者逐文件八维未交。不是只补记录即可接受的实现。
+
+Codex非作者裁定6项C01-C05/E01返工，具体path/反例/解除条件归[子卡](DOCS-NATIVE-JSON-1.md#s28-实施证据裁定与定点返工2026-10-22)及原单份压缩日志。GLM在同分支b6后追加修复、原包冻结、新证据/tmp/s28-glm-review-storage-correction；不重做S26/S27或599语义，不改原源/产品/其它旧测试/coverage/共享规则。中央未cherry-pick、不发布，仍先599存储后269语义；当前1195待办/2384诊断、1151/1838不变，全卡rework、不合main、不推送、不标done。
+
+#### S28修正轮部分闭合（2026-10-22）
+
+fc7be36e候选实际7提交/18文件，599源与302原生、授权三处适配6/6、正常dry-run保留。Git/source/分片SHA/主要键序/原Buffer/历史provider等已修子项接受；但合法path临时树实证目标manifest/R92/R94仍被覆盖、未知兄弟代留下释放锁，生产loader/consumer/真独立oracle和完整runner/八维仍有精确剩余。根新定向卡在自己的Biome子进程后停止，仅观察12pass，不记当前20/20；旧GLM后台管线交作者处理，未动他人进程。
+
+[子卡剩余裁定](DOCS-NATIVE-JSON-1.md#s28-修正轮部分闭合中央发布仍停止2026-10-22)逐counter保留已支持成果，只退未闭子项。新终修包给19文件（仅新增check-document-model生产安全reader接线），旧包冻结，新证据/tmp/s28-glm-review-storage-final-fix；仍先599存储后269语义，中央代码未接入、存储未发布、计数/信用不变。本卡rework，不合main、不推送、不标done。
+
+#### S28终修仍阻断发布（2026-10-22）
+
+54314318候选8提交/19白名单、599源/302原生及授权三处旧测试适配保全；Codex实跑per-file三套23/0和正式docs-tools231/0，完整raw补齐，不倒签作者摘要。C02 prepare的deepStrictEqual/9 before-pin闭合，其余已核子项复用。
+
+[子卡本轮裁定](DOCS-NATIVE-JSON-1.md#s28-终修验收测试通过发布反例未闭2026-10-22)保留具体反例：组API仍写额外合法path、放过active旁未知代、拒精确原before；loader读A记B与symlink/原pin缺口、实际consumer忽略保护reader。只退剩余合同及弱反例/失实声明，既有19文件同分支追加，原三包冻结。中央未接代码/599存储，269语义另行；计数/信用不变，全卡rework，不合main、不推送、不标done。
+
+用户2026-10-22授权Codex接手S28剩余返工。GLM549九提交保留为隔离返工基底，Codex作者直接修复发布计划/全字节快照/真实caller和弱反例，实际完整231绿，原失败与挂起处置保留；旧测试不扩权、源8/599与302原生不动。当前等待Codex补丁范围的非作者复验，不自授accept，不发布599、不接269；全量1195待办/2384诊断和迁移计数不变，父子卡仍rework、不合main、不推送、不标done。
+
+#### S28非作者接受与599存储中央发布（2026-10-23）
+
+GLM只读接受Codex35a33f102（零counter、23/0、当前代码指纹绑定231/lint原件），Owner已核原件并受控发布8薄manifest/19分片/599条及R92八pin→R94[6]一pin，第二次重放全字节幂等。完整逻辑对象/JSON序列/599历史字段不变；19片来自安全loader验证归属与全物理对账，0信用、单列artifact，不缩1838或静默遗漏。中央4文件补线及24项自验另归Codex作者，不倒签非作者已验；详情及两次临时fixture首红原件见[子卡](DOCS-NATIVE-JSON-1.md)。原单份压缩日志复用，302原生/269语义/registry条目/路由/模板及1195原待办、2384严格诊断和迁移计数不变，下一步269另卡准入。本卡仍rework、不合main、不推送、不标done。
+
+#### S28中央存储与补线非作者accept已接收（2026-10-23）
+
+GLM接受3eec25022（39文件、零counter），Owner核固定候选/两回执SHA与原件，回放172项并补positions/实际Git全集/512KiB/deepStrictEqual，14pin=9存储+5行政精确。24/232与lint4544按原件/输入复用，不重做599语义。接受只关闭S28存储/4补线证据；所有原生/269状态及2384严格诊断、1195待办/1838分母仍保持。S29拟卡仅外部draft，尚未入仓增加待办，用户要求明确build allowed后方可实施；详情见[子卡最新裁定](DOCS-NATIVE-JSON-1.md#s28-中央发布非作者accept接收2026-10-23)。不合main、不推送、不标父子卡done。
+
+#### S29 用户批准与269篇准入（2026-10-23）
+
+用户明确批准S29草案；[正式子卡](DOCS-NATIVE-VITEST-269-1.md)已入仓build allowed。Codex冻结跨8review/269原生合同与受控delta设计，GLM复用S26修正稿和Owner补丁，只交新增内容/风险pilot及差异；330原行、302原生和全部历史信用保全。生产validator仍限三pilot、269正式发布未实施；本卡继续rework。本次仅新增1增量卡及2项待办，1838不变，不合main、不推送、不标done。
+
+#### S29 269篇贡献者证据接收（2026-10-23）
+
+固定1377650ed的269篇差异输入已核保全、绑定与完整结果；14pilot实际八相位覆盖，255篇真实标复用/组合而非本轮全文深审。Codex直接修新增评语/摘要的公共边界小错，原包冻结，Owner勘误另核；不令GLM再做全部。中央269未写入，实际审阅/迁移扣减均0、严格2386项不变；通用合同与当前generation受控发布继续归Codex，详见[S29](DOCS-NATIVE-VITEST-269-1.md)。本卡仍rework，不合main、不推送、不标done。
+
+### S29 勘误accept与通用实现待审（2026-10-23）
+
+GLM对19b583a0的Owner勘误只读非作者accept已接收，零counter；范围仅4共享规则/13字段/3摘要，不自签其原稿。Codex完成9文件原生合同和当前generation受控writer，新增6项实际consumer/并发/幂等测试及owned临时269全包演练；新实现仍作者自验，待非作者复核。中央269、330非目标、302原生和8manifest/19片未写入，严格2386项与迁移1151/1838均不变。完整身份、保全、读域与停止线以[S29卡](DOCS-NATIVE-VITEST-269-1.md)为准；继续rework，不合main、不推送、不标done。
+
+### S29 原生269正式接入（2026-10-23）
+
+GLM对259d九文件通用实现的非作者accept已接收；Owner据已接受S26/S29内容及独立勘误另作269条新的有限文档裁定，在原8review位置正式发布并接入registry/routing。23新片/19旧片退出，330非目标与302原生不变，旧R波深审/执行信用不恢复。实际迁移1420/1838（+269），另3retired、87incremental；当前927篇、921审阅+927迁移=1848严格待办（-538），全量仍未完成。发布结果待未参与者据证复核，详情与SHA/反例见[S29卡](DOCS-NATIVE-VITEST-269-1.md)；本卡仍rework，不合main、不推送、不标done。
+
+### S29 发布与夹具非作者接收（2026-10-23）
+
+未参与者独立接受269发布数据和用户明确授权的两处旧文档测试夹具适配，零新counter；实际完整238工具项通过、lint4555零E/W/I。原235/3失败及授权完整保留，不改原生/产品/coverage或放宽合同。迁移1420/1838（+269），严格2386→1848（-538），去重927篇；check:docs仅该严格待办仍FAIL。本卡rework、S29 review，不合main、不推送、不标done；独立读域/准确SHA/后续边界归[S29](DOCS-NATIVE-VITEST-269-1.md#s29-发布结果与获准夹具适配独立接收2026-10-23)，复用原单份日志与既有review。
+
+### S30 历史JSON回执输入与暂保留裁定（2026-10-23）
+
+接收212份历史R波JSON的可复用内容输入，Owner直接完成公共字段小修并获未参与者独立accept，零counter；原包冻结，0迁移/执行信用。入站33–41文件属实，70件source/after差异已分轴；“全部不可替代”撤为当前暂保留、完整替代性未知，未删移或新增原件副本。逻辑原生合同1.0.0已冻结，4源275行/212目标/63非目标与R94控制链的真实发布前提另核；未注册生产变体或批量接入。精确原件SHA、读域和反例见[原生JSON卡](DOCS-NATIVE-JSON-1.md)，复用原单份日志与唯一review位置；1420/1838、3retired、87incremental及927篇/1848严格诊断保持，全卡rework，不合main、不推送、不标done。
+
+### S31 发布前置映射接收与S32准入（2026-10-23）
+
+四源275行/212目标映射已据证接收，Owner直接订正既有guard误报、旧semantic精确10源遗漏及13对象/5 before/0旧片退出口径；原GLM包冻结，真实OID容量与R92三边→R94[6]已核，未重做212全文。具体裁定与原件归[原生JSON卡](DOCS-NATIVE-JSON-1.md#s31-四源发布前置证据接收2026-10-23)及原单份压缩日志，无新平行账本。
+
+Codex获准S32隔离实施通用存储边界：先显式冻结旧one-shot写域与当前组读回，再实现四源同锁/恢复/物化发布，代码经非作者复验后另裁真实发布。212生产合同/pilot/迁移尚未完成，本次0信用；1420/1838迁移、3retired、87incremental、927篇/1848严格诊断不变，父子卡继续rework，不合main、不推送、不标done。
+
+### S32 通用边界实现待独立验收（2026-10-23）
+
+Codex完成四源受控存储边界、旧one-shot写域保护和6针新测试；真实CLI在owned临时Git树演练12写/0退、13对象重建与旧31物理/302原生保全，再发布只读0写。旧CLI物化R94实际正例及旧S29分片控制拒绝均验证；macOS真实根路径误拒的首次失败保留、修复另跑。5文件八维/完整raw及停止线归[子卡S32交付](DOCS-NATIVE-JSON-1.md#s32-通用存储实现与临时树演练交付2026-10-23)与原单份日志。
+
+这仍是作者自验，待GLM只读非作者据证接受；真实四源存储/212生产合同/pilot/语义均未发布，0新增信用。原212目标行、S29存储和原生载体不动，1420/1838、3retired、87incremental及927篇/1848严格待办保持。父子卡rework，不合main、不推送、不标done。
+
+### S32 四源存储受控发布（2026-10-23）
+
+GLM对a83实现/演练的非作者accept原件已实核；Owner据此真实发布4manifest/7片及R92三边→R94[6]一边，12写/0旧片退出，同来源重放精确零写。未参与者不经生产loader从Git+positions独立核13对象/275行、旧31物理/599行/302原生及全2434 current pin，首次发布零counter；准确SHA与行政换代边界见[子卡](DOCS-NATIVE-JSON-1.md#s32-非作者accept与四源中央存储发布2026-10-23)。不重复212全文，不新造canonical账本。
+
+存储只改善体积/消费者边界，212生产合同/pilot/语义尚未接入，本轮迁移/运行信用0。仍1420/1838迁移、3retired、87incremental、927篇/1848严格诊断，父子卡rework；后续中央行政generation与发布结果据证独立核，不合main、不推送、不标done。
+
+### S32 封存接受与 S33 合同 pilot（2026-10-24）
+
+已实核GLM对f47e最终身份/封存accept的原件与快检，零counter；原发布/行政/封存范围分记，未认证212语义。Codex按[子卡S33准入](DOCS-NATIVE-JSON-1.md#s32-封存非作者接收与-s33-原生合同-pilot-准入2026-10-24)实施通用原生合同和owned临时树代表pilot，复用已接受212内容稿，不重复全文治理。真实review行/原生载体/信用保持；212生产语义writer和中央发布另验，1420/1838、3retired、87incremental、927篇/1848严格诊断不变。本卡仍rework，不合main、不推送、不标done。
+
+### S33 C1 接收与 S34 实施（2026-10-24）
+
+GLM已对35716b4a只读非作者accept，C1关闭，S33合同/六pilot及其余原范围可接受。S34由Codex按DOCS-NATIVE-JSON-1的新准入实现212篇精确身份/来源边界与当前组writer，在仓外临时树演练，未向真实中央发布。来源机械复核203条直接匹配、9条旧revision中无该路径但声明SHA均有精确Git原件；旧SHA不改，候选显式记录旧/新指针。这9条包含已接受pilot对应的旧中央记录，不推翻S33修正验收，也不认证旧执行。
+
+原生212/保护302、旧八源599及实际目标review状态保持；本轮不授语义/模板迁移/runtime信用。严格927篇/1848项及1420/1838迁移不扣减。实现、全组临时写入/失败恢复证据另交未参与者复验，正式接入仍在后续停止线之外；父卡rework，不合main、不推送、不标done。
+
+### S35 与 S34 并行的四篇 ops 正文治理准入（2026-10-24）
+
+用户要求GLM复核期间继续推进。Codex build allowed：从b2f3d839297c1e68835db906b47eec609dd36870在独立worktree docs-parallel-guides、分支codex/docs-s35-ops-guides，全文治理browser-verification.md、dev-servers.md及ops/evidence、ops/audits两份README。保持S34工作树/HEAD/原验收包冻结，不能自行代签S34或提前发布212。
+
+正文复用guide-runbook-v1与governance-index-v1/1.0.0，逐篇以实际脚本、输入路由和导航消费者核事实；原quote/marker尾部保全，历史执行不重授。仅改四正文、本节、对应R35/R39/R54唯一review和必要R93/R94 after级联、既有单份证据日志；不新建模板、writer、测试、sidecar或第二份中央账本，不改产品/旧测试/coverage/日期门槛。作者非独立review，实际迁移信用待未参与者接收；全文治理候选、当前文档有效性与产品执行分别表达，父卡仍rework，不合main、不推送、不done。
+
+## S36 并行架构审计与纠错证据导航（2026-10-24）
+
+- Codex build allowed；Owner为Codex，隔离分支codex/docs-s36-audit-navigation，基点601cd5af1e6db54a15144a94f9f63857b4c88050。S34/S35候选及原验收材料冻结不动。
+- 白名单正文恰三篇：ops/audits/architecture-debt.md、ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md、ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md。按现有audit-report/governance-index合同恢复具体队列/职责导航，历史数字与旧待验段标原时点，不授新产品或旧执行信用。
+- 现有唯一review三行写作者语义、真实读域和before/after；只更新必需after依赖及既有gzip，不新建中央账本/sidecar。架构原quote不动；两导航原历史段落/目标完整保留，旧全文由本基点Git定位。
+- document-delivery-acceptance/1.0.0；作者nonAuthorReviewer=false，partial-review-unknown/needs-migration保持，新信用0。正文/来源/历史及导航须未参与者独立接受，不自行恢复旧R批信用。
+- 不改产品、旧测试、coverage、模板、规则、catalog日期或212待发布行；不合main、不推送、不标done。静态门如实记失败，S34独立审先完成，S35/S36排队交付，不打断GLM当前验收。
+
+## S37 并行二阶段现行规格正文（2026-10-24）
+
+- Codex build allowed；隔离分支codex/docs-s37-phase2-contracts、基点9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c。S34–S36候选/工作树/原证据冻结。
+- 正文白名单恰三篇phase2/specs/content-schema、script-system、project-lifecycle。按现有design-spec-v1/1.0.0+history overlay恢复原现行合同，核版本/公开guard/身份/命令根的限定源码；不改产品设计、实现、旧测试、coverage或旧quote，不授实跑。
+- 现有R33唯一三行记录具体内容/真实读域/保全；catalog.phase2只维护三条after+追加历史、薄catalog只维护该片descriptor，既有R93/R94顺序级联。无需新合同、writer、canonical账本或sidecar。
+- 文档适用性current与审阅完成分轴，partial/needs及新信用0保持；待未参与者据证裁定。全量硬门未过不合main、不推送、不done，不因旧catalog.reviewed或原三席接受恢复信用。
+
+## S34 accept 接收与 S38 实际内容发布（2026-10-24）
+
+GLM对b2f3d839的212准入/零信用writer/演练只读非作者accept已核两份原件SHA接收，零counter。Codex在50d02fcb后继独立树执行真实212内容发布：18写/7退出、150物理，全组2434 pin/12source/302原生与2218非目标行保全，212 after正文与接受计划完全一致、幂等0写。详见[子卡S38](DOCS-NATIVE-JSON-1.md#s34-非作者-accept-接收与-s38-零信用中央内容发布2026-10-24)及原单份压缩日志。
+
+本次只发布已接受内容说明，不晋升partial/needs或接routing/registry，0新增迁移/runtime信用；927篇/1848项与1420/1838保持，实际发布结果独立复核待补。S35–S37十篇候选/原树继续冻结，集中一次交GLM据证逐篇核验；不重做全文、不堆重复账本。E2E006过期红及另分支延期隔离保持，父卡rework，不合main、不推送、不done。
+
+S38整合首轮实际多424诊断（212旧registry分类+212通用evidence.path缺失），不冒称只剩1848。Owner限定补齐原212字段/中央分类与pin，零迁移/执行信用，失败回执原状保留；最终门按新实跑值记。
+
+## S39 十篇非作者接受、两条路由与当前版本迁移接入（2026-10-24）
+
+- 接收GLM对S35 601cd5af1e6db54a15144a94f9f63857b4c88050四篇、S36 9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c三篇、S37 50d02fcb9fe63885ecf6069b61a45252bb88a1af三篇的逐篇accept，零counter；原HANDBACK SHA `2a5db10cb482b3eeb2edd6138668841a4e0eadf0c19996e31bfdfff3685cc04d`，verdict `42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20`。读域为十篇完整差异/来源保全、对应静态源码切片与声明依赖，未读下游全报告或全量产品源码，未跑产品/E2E/视觉/coverage。
+- 同时接收S38 c1e457f9e069497eb9a92b59cb63aa732217518e发布/行政/补线/封存四阶段非作者accept；HANDBACK SHA `54b828ebd18181e6d4a55c9191dc4e3791f14f2c204cb2a90d636fd566d1ea2f`，verdict `05e0d2ca7d10f4700a5bd0dd4782bc3437cf94c37927b8a95d8fb40d174b8f2e`。这只接收212零信用发布事实，不授212迁移/runtime或恢复R批历史信用。
+- Codex build allowed在c1e457f9后继独立worktree docs-s39-markdown-intake、codex/docs-s39-markdown-intake处理本批中央接入。十篇正文SHA与quote不改，已有八条route保持；两份S36 evidence README新增governance-index-v1/historyOverlay=false路由，真实合同通过才纳入迁移投影。唯一原review行增加本次独立接受与当前版本限定裁定，currentAuthoredReview的作者自验与零信用字段不倒签。旧claimCorrection逐值移入本次history的historicalClaimCorrection、旧evidence及pending字段保留于历史；旧R波声明继续无效，不因新版本接受而复活。
+- Owner据上述逐篇accept明确授这十篇当前文档的content-reviewed/template-compliant，registry同条同步。范围为已写的指南/导航/规格正文及模板，不认证执行、下游报告全文或全部实现合规。预期新增8/1838基线迁移+2增量，当前pending减10、strict减20；最终只以真实progress/strict和合同输出核定，不用预期数冒充命令产物。
+- 白名单限现有FULL/NATIVE卡与board、routing、registry的ops/phase2分片及薄manifest、现有matrix的document-template-contract限定接受边界、原十篇review行与必要精确after级联、既有单份gzip。无新canonical账本/sidecar/模板/代码/旧测试/coverage；212已发布行、302原生、全部旧来源/quote及五棵先前候选树冻结。先owned临时树完整物化/真实合同/投影，再受控实际接入；所有新after格式后取SHA，R33字符值/键序必须完全保值，不改规则。
+- 本轮是Owner中央接入作者动作，接受原正文不等于新行政结果已独立接受；证据另交未参与者据差异核验，不再重做十篇全文。E2E006过期红保持，硬门未全通过，父子卡rework、不合main、不推送、不标done。
+
+## S39 中央接入非作者接受与 S40 两篇正文准入（2026-10-24）
+
+- 接收GLM对6f33d0f3bd9eb0f7986d84292328057e5f0deb3c四轴只读非作者accept，零counter。HANDBACK SHA `72d9b5d7e05cbe80709ba0fa384f3b699ef6b381056b4f5b49f44e464d96751f`，verdict SHA `5879ab959c04483b554cb58686dcb867d00e91ad5460504d65e991bf5046e74b`；Owner实取候选及两SHA一致，复用其十篇保全、十行晋升、两路由及行政封存复验，不再重复正文或复审接受回执本身。当前1428/1838、3 retired、89 incremental、917 pending/1828 strict；212迁移/runtime信用仍0，E2E006日期红不延期。
+- Codex build allowed：从6f33d0f3后继隔离worktree docs-s40-phase2-reference、分支codex/docs-s40-phase2-reference，全文治理 `docs/phase2/specs/editor-architecture.md` 与 `docs/phase2/reference/dialogue-presentation.md`。前者核现行设计职责/导航及源码有限切片；后者核2026-06-26/27历史外观、时序和字体更正，并明确与当前二阶段的适用边界。复用design-spec/reference-canon与archive overlay 1.0.0，不新增模板或产品决定。
+- 白名单：两正文、本卡、R33对应唯一两行及R93/R94必要after级联、catalog.phase2两after和薄catalog descriptor、既有单份gzip。marker至EOF与固定原源逐字节保全；历史争议不删除、不把sdlpal说成原版独立实测。只就实际读域写具体结论；不把代码切片当全实现、runtime/E2E/视觉/coverage验收。原source/history/撤信不恢复，作者nonAuthorReviewer=false/creditGranted=0，partial/needs不自动晋升，独立正文验收另交未参与者。
+- S34–S39全部候选、原工作树和证据冻结；不改中央routing/registry/matrix、产品、旧测试、coverage、规则、日期或212行，不新建canonical账本/sidecar；完整硬门未过保持rework，不合main、不推送、不done。
+
+## S41 二十份模板源正文治理准入与一次集中验收（2026-10-24）
+
+- 用户要求减少中间转交；Codex build allowed从S40 3ed87f734df357799c4d9a44205781d3deba5c14后继独立树docs-s41-template-sources、同名codex分支治理二十份Markdown模板源。S40两篇及S34–S39候选/原证据冻结；本次与S40合成一次22篇非作者验收，不单独按两篇派发。
+- 精确正文范围：通用模板archive-record/audit-report/design-spec/evidence-receipt/governance-index/guide-runbook/narrative-idea/plan-status/reference-canon/task-card十份；testing的e2e-report/e2e-stage-README/quality-gate/test-catalog/test-contract/test-domain-report/test-e2e-stage/test-run-report八份Markdown；Ops完整与轻量任务卡两份。JSON模板、注册表合同及版本/词表、模板README/规则不改；完整/lite与旧E2E starter不重复计类型，17类保持。
+- 目标是可读的reference-canon说明与原骨架明确分开；原当前源整体保留在可精确提取的代码块，说明只约束如何填写、身份/字段职责、状态/证据与停止线，不改原占位、示例旧版本或业务合同。test-catalog.md是JSON合同说明而非发布对象。逐篇全文核读当前raw，旧source pin只核身份不冒称全部原历史已重审；既有artifactOnly是待中央显式处置的旧机械登记，本次不据此放行、不新加豁免。
+- 白名单限二十正文、本卡、R58/R62各篇唯一review及必要R93/R94 after级联、原单份gzip。routing/registry/matrix不改；拟reference-canon真实公共checker定向检查仅作本轮结构证据，正式route/去旧artifactOnly与信用仍待非作者接受和Owner另行接入。作者nonAuthorReviewer=false/creditGranted=0，partial/needs保持，不堆新canonical账本或sidecar。
+- 所有原骨架字节、旧source/history/撤信、212/302原生与已接收十篇保持；不改产品、旧测试、coverage、日期、模板注册表、机器字段或规则。中央物化先临时树验证后真写，失败留原件；必要硬门按实记红，父子卡rework、不合main、不推送、不done。
+
+## S42 剩余683份一次授权大包与Owner并行接入（2026-10-24）
+
+- 用户指出22篇不是大包。Owner纠正工作分解：在固定83743275bb560a4ea4bbbd2a15baf7f138f9145b树，917份当前needs-migration精确分成S40–S41验收中22份、已交内容且由Owner负责后续接入的212原生历史回执、剩余683份。三集合互斥且全集相等；683=640 JSON+28 Markdown+15 HTML，共65704700当前载体字节。1838是固定cohort：已迁移1428、显式退役3、原基线余407；当前917另含增量，1828是两类待办诊断，不是文档份数。当前数字不改为预计完成。
+- Codex build allowed一次派发GLM完成683份内容/原生审阅差异与精简裁定大包，协议document-delivery-acceptance/1.0.0。授权源为本节固定Git提交；正文输入固定S41候选及逐路径SHA，GLM仅向仓外交付，repositoryWrites=0。原S40/S41工作树/两包/合并提示词继续冻结，当前22篇验收不中断；不重做那22篇或S30/S38已交的212内容。GLM可内部按内容族/容量分段，自存进度、遇单篇counter只停该篇，最终一次集中回交，不逐批请示。
+- 逐篇交付实际治理内容而非新一轮盘点：具体core/事实见证/读域/来源与状态边界/依赖caller/legalInputs/oracle/排重/历史与停止线，绑定现有owner/index；JSON保留原生字节，治理说明复用现有review，不加_governance/payload/逐篇sidecar。Markdown确需改写给真实body候选，已符合者提供逐节对应与保留依据；HTML保留代码/DOM/脚本资源职责，不改成散文。旧type只是输入分类，最终建议依实际内容，未冻结格式不伪报符合。
+- 精简优先：逐篇区分仍有直接消费者的系统/治理数据、不可替代证据、可被替代/重复派生产物与未知。引用分当前直接consumer、历史quote、机器pin，不把多份raw转录当独立用途；退役提案须列独有语义/精确替代/源Git保全/引用和pin迁移，未经Owner独立裁定不删移。现有空账本专用退役合同不可冒充一般JSON通用许可。
+- 完整逐篇读域如实记录：机器解析/全数组机械遍历与人工语义核读分开；缺失来源、未运行、旧撤信/红相位/重复或pending保持，不用标题/路径/行数或批量通用句充当结论。当前载体提交不冒充历史执行来源，manifest用公开loader物化并区分carrier与logical见证。不能因683大包降低验收；正文/原生合同缺口只隔离对应族，不阻断其余交付。
+- 本包只交唯一分片review-delta索引/必要body候选和真实命令原件，不复制全部source/native/raw或创建第二份canonical账本。共享registry/routing/review/catalog/矩阵/任务/看板/模板/规则、产品/旧测试/coverage均禁止GLM写。source检查、进度和最终verify只读；不运行生产writer/生成器/发布、旧测试或全仓门。已认证相同输入证据复用，来源/关键上下文变化只使受影响claim失效。
+- Codex并行主导212已有成果的合同/路由/信用前提与接入，不等待GLM683全部结束，不重复既有全文；本准入不自动授212或683信用，不以批量口头批准代签独立接受。Owner后继行政修改与GLM冻结来源分轴，回交仅在源SHA仍匹配时接入；漂移只重核该篇，不重做整包。全量必要门未过，父子卡rework，不合main、不推送、不done。
+
+## S43 S40–S41 二十二篇接收与 S42 据证裁定（2026-10-24）
+
+- Owner实核GLM合并非作者accept原件：HANDBACK SHA `9419ace8636213b478872fda6b8b7dcd1952efb0796f27b4ccdeaf585a78a368`，verdict SHA `bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd`，22/22、零counter；候选3ed87f734与83743275的逐篇after仍匹配。复用已核正文/原骨架/有限源码证据，不重做全文或为accept另造review。Codex build allowed在7e38a97b后继隔离树docs-s43-accepted-intake接入：20份模板源显式reference-canon路由，22份registry与唯一review同步，只认可新after版本；20份旧artifactOnly/历史撤信移入原行history，既有source/currentAuthoredReview和历史原结论保留。source-reference接受不认证下游模板使用者、原示例执行或产品通过。
+- 真实接入前提为临时树整组读回、22正文零字节变化、原12 source pin/2434 after pin/302原生/212目标全保全。仅新增20route，其他route与registry条目不变；原gzip保留解压前缀并收原accept一次。本轮预期22篇双待办解除；最终计数取实跑progress/strict，不提前声称全门通过。E2E006过期不续、212迁移/runtime信用仍0。
+- S42源83743275与交付SHA全部实核，原只读verify重跑683条/683载体、见证/保护集合过。GLM如实披露104条字段/正文深读与579条机械解析族合成；Owner抽8条前者、15条后者，保留有效机械工作和已核具体事实，未宣称683篇全文验收。裁定rework：579条oracle仅SHA且结论为族/元数据；37条字段读稿留生成残句（29条为false top-level items）；消费者把历史contributor/binding回执计为活跃；28篇retain-compliant需真实逐节判定，E2E006/capability-map仍含旧泛化封套。具体受影响集合/解除条件在仓外唯一Owner裁定，SHA `b8be0fbc533951feb294fcafe6cde29905fb9f011c38776d0c77c7893582c15e`，原包冻结，0新信用，不无差别重做已核字段。
+- 七份identity-MUT-01..07-restored与SHARED-original字节同SHA `2155c250414bcb6c8020a74664ad503782617072ed71fb6291be822261b40a5d`。批准合并设计方向；尚不删除：相位文件名关联是需保留的独有元数据，必须有精确别名/引用/pin/cohort处置和适用退役合同，不借空账本专用规则放行。139条一律archive-record建议不予冻结；其余544条的existing也只表示父类型存在，不代表原生variant/path已准入：3件DOC-IA-2可复用S24原生合同，5篇MD回到实际既有合同，3个HTML mockup需原生设计，128件其余JSON需分review/存储控制/索引与系统数据合同，避免把治理系统数据归作历史散文。此为设计范围准入，不授迁移/来源执行信用。
+- S42一次授权继续有效：GLM仓外定点补足整个683包，复用原哈希/机械见证/已核字段与诚实读域，原包追加纠正而非覆盖；MD确需正文改写给真实diff/prefix，native零改，不写共享域。Owner并行负责通用原生合同/212既有成果接入，后续一次集中回交；不逐篇逐批索要许可。本卡及父子卡仍rework，不合main、不推送、不done，静态治理不授runtime/E2E/视觉/coverage信用。
+
+## S44 S42修正据证裁定与Owner有界整改（2026-10-25）
+
+- GLM修正包四SHA与原包保全实核，官方只读verify=683稿/683见证、零仓库变动，不认证语义。Owner抽5类C02事实、10类形状稿、12新前缀及七别名/1838集合；接受38项指定数字/失败语义纠正，保留机械成果和诚实读域，不默认重做683全文。Owner裁定SHA `072bc8e74b6d5edc4857660698c4302ece12a223dcca405f5a97803a67837fde`；C01尚有487元数据开头+19泛称角色结论需补具体意义，122治理控制件由Owner并行负责，其余384非控制件仍由GLM一次集中补足。
+- Codex build allowed从1404e6057隔离后继docs-s44-correction-intake：只落12个S42已交具体前缀的Owner章节/范围修正，原marker至EOF/H1保全、status除有一手职责依据的四入口外不动；review仍partial/needs、nonAuthorReviewer=false、credit0。原S40–S43接受和212/302原生不动。共享写限本卡/看板、既有模板提案、12唯一review行及必要after/catalog级联和原单份gzip，不改产品、旧测试、coverage、规则或模板注册表。
+- 组包回归Owner直接补：38个C02整对象覆盖导致C03/C05旧字段回流，七别名补全也被覆盖；恢复作者过程件的已做字段，不要求用户再转一轮修组包。197 Testing JSON均不在现有historical-vitest-native精确准入路径内，不能只凭父变体存在写existing；additional-attachments应复用真实S24 relocation绑定。五件缺pending字段不补0；111逻辑review件由公开目录reader实消费，保留为system而不是无字面引用就reference。原包/修正包冻结，Owner仓外只存有界delta，不另造完整683账本或native副本。
+- 七restored清册与SHARED确实同blob，但七件全在固定1838中；此前“不在1838测试捕获”错误，不作为退役依据。恢复完整相位别名、Git保全和精确替代，旧捕获/旧回执/历史source pin绝不回写。保持仅批准合并设计、实际删除0、retired仍3；通用别名退役合同/反控与现行引用处置未完成前不删。
+- 生成投影核对：现有render与catalog两索引字节全等，无生成器错误。现行READ-FIRST范围与铁律9仍指定roadmap/capability-map/decisions/harvest为方向、决策与知识先行入口，因此修R33过宽historical前缀：四篇current仅限入口/参考职责，原表日期/实现数字/旧复核/冲突和quote仍为历史，不恢复旧R33信用、不借此改产品排期。不手改生成索引或将canonical入口静默归档。harvest的2026-10-11脚本集成注记保留但明确固定原源quote不含此句、不认证其当前适用性。
+- 原417 needs-design纠正为652原生准入待设计：637 JSON（除S24三件）+15 HTML；多235是旧197路径和38回流误标，不是新增235文档。精确分族/先后依赖与pilot前提写回既有模板提案S44段，17父类型/现行版本不改，未冻结实现不伪报model通过。28MD另按现行合同处理；Owner12前缀通过真实合同后也不自行授独立接受，六个retain-compliant仍须正文/头部适配。
+- 本批仅候选正文/设计整改；895当前待迁移与1784严格诊断不预扣，212/runtime信用0。必要门取实跑，E2E006过期不续；父子卡rework，不合main、不推送、不done。后续合并还须核另分支延期与最新HEAD，不借其日期或质量绿。
+
+
+## S45 S42补足据证接收与十七篇正文接入（2026-10-25）
+
+- Codex build allowed：从c6518d9d隔离后继接收GLM补足包（file-manifest 9b3f0d83、review-index ffe22710）与S44非作者增量accept（报告c784859c）。只改五张任务卡的精确模板适配、本提案Status/有界pilot排期、本卡/看板、17条唯一review及实际routing/registry/matrix和必要pin级联/原单份gzip；不改代码、旧测试、coverage、共享规则。不合main、不推送、不标父子卡done。
+- 补足范围：683稿保留，384份新语义=Testing195+Ops189。Codex按实际读域接收为设计输入，抽L/E各6篇逐值核模板/消息反控/19204审计数/38与40差额/真实测试fixture/331计划/419保全/R22与R25范围/350撤回绑定/7针判据/15条历史VALID。作者未读明细继续未读，不把程序parse或本次12抽核写成384全文深审完成。
+- Owner360条delta逐字段递归复算全保；7清册仅多两个补充说明键，旧裁定值没有覆盖。它们均在固定1838，仍不删除，不重写旧binding-baseline/历史回执。原包、修正包、补足包均冻结；官方verify683/683、witness683通过但不授语义信用。
+- 小问题由Owner补充限定：C04击杀回执实际是重复id错误消息差异，不独立证明广义业务正确；successor-repairs.json有真实pal-script-successor-governance.test.ts fixture入口，须retain-native-evidence；TURN15个VALID只转录原回执，后继撤信与raw/native缺口保留。原文件/旧stdout不改，不退回整包。
+- 六份MD patch从固定83743275独立应用并核after SHA；实际公共合同六候选零issue、六原文均红。五张任务卡按GLM具体原文/精确patch获Codex非作者据证接受并接五条task-card路由；任务顶部rework/build不变。registry-proposal组合保留S44增量，Status:draft仅指新增格式设计；不改design-spec词表，不解冻已有合同，本页新Owner状态/排期差异留后续非作者验收。
+- S44十二篇：Codex已接受GLM原事实；GLM本次仅接受Codex章节/范围/四入口职责与R33勘误。两作者范围交叉独立验收后，只对c6518d9d对应12个after SHA授新文档版本信用，不由GLM代签自己原稿，不恢复旧R波信用。加本次五卡共17条content-reviewed/template-compliant，primary/source/quote与旧撤回史保持。
+- 本次应得投影：基线1457/1838（+13）、3retired、99incremental（+4）；current reviewed1562/compliant1556、待审872/待迁移878，严格1750=872+878（交集872、去重878）。以实际report输出核定；旧1784减少34只归17篇Markdown，不扣212或652原生。全量门仍未过：E2E006 reviewBy2026-10-23过期红不改日期，产品/runtime/E2E/视觉/coverage信用0。
+- 排期裁定见既有模板提案S45段：652=A41+B79+C127+D28+E15+F362；GLM一次完成652逐路径schema/消费者/合同字段映射与有界子族/代表pilot建议，复用384内容和原勘误，不重复包装全文、不写仓库。Owner并行处理控制127/通用格式与来源冲突；正式新变体及native发布须实际pilot与非作者验收。此处只准入外部设计稿，不准入native批量正文/状态写入。
+- 留存仍用唯一review行和既有s22-validation.log.gz：只留本次摘要、输入清单SHA、风险样本/patch正负证明、中央差异和真实门回执；不复制683稿/全native/全文quote、不新建canonical账本。下一份GLM提示词合并Owner增量复核与652映射，用户只需一次转发。
+
+
+## S46最终设计包据证裁定与S47有界后续（2026-10-25）
+
+- S45 Owner增量的GLM非作者accept接收：报告7beef12b，限定f0a18da7的17篇中央接入/设计Status/归因/保全与行政封存；不代签GLM原稿，不重做S44/257工具。报告提到的“四个registry artifact键”与“两个retention补充键”属不同对象，不是原裁定字段覆盖；原件不改。1750待办与878当前待迁保持。
+- S46本次收件为批3终版并入后的最终索引27e51a69、三片5648fbf7/30b00a2a/c668a405、plans f7a2b75e；所有652路径/源SHA、分片容量、原包7件与仓库零写入实核，双verify exit0接受为设计输入。143族与50计划仍proposed，不等于652已治理或新格式已冻结；212/native/runtime新增信用0。
+- 设计返工C01–C03：PIL-A-red-phase代表例混入无reporter字段的mutation-points/汇总回执；36/50计划以“see shard fieldRoles”代替具体必填合同。865个组合/数组/root选择器尚无可机械解析语法，不把这865项全冒称语义错误；另16路径27项字段有无矛盾已经证明。代码basename/同形reader不当直接consumer，真实运行/存储reader不自动授JSON文档格式准入。具体路径、原件SHA与解除条件见原单份日志S47/verdict.json及field-scope摘要；原652稿保留，不要求重做全文。
+- 小问题由Owner直接修74路径的稀疏字段：29 reporter实算断言/失败/文件记录/套件层级；两个distillation单列载体与声明原件SHA；14命令族按实际嵌套judge/phases/aggregate/repro分开；空entries仍是存在字段；15功能/存储合同与文档迁移合同分轴。实际三个S25路径通过真实原字节/保护review合同，保留existing；摘要与模板定义不借既有实例合同获准。修正后3 existing、23 existing-format-new-admission、626 new-contract-proposed，仅为设计分类，无状态晋升。
+- Owner关闭一项多余设计阻塞：历史coverage-summary的绝对路径键按原字节不透明保留，不要求已消失的旧worktree存在，也不认证当前coverage census。41 reporter/摘要无非零pending实物，5件缺pending；不编造历史pending运行，后续复用既有边界或明确合成反例。Native载体、原来源、source pin、1838分母均不改。
+- Codex build allowed从f0a18da7隔离后继S47：当前只写本卡/看板/既有模板提案、相应after行政级联与原单份gzip，记录S45接收/S46据证返工及5个真实pilot设计种子；不改正式registry/routing/产品/旧测试/coverage/共享规则，不授新迁移信用。Owner并行负责公共native guard/来源轴/控制127设计；GLM仅定点补合同定义、选择器与消费者锚，复用74修正，一次集中回交。不合main、不推送、不标done。
+
+
+## S48 S46返工据证接收与Owner首批原生pilot设计（2026-10-25）
+
+- GLM352稀疏delta与53计划的身份、三项只读verify实跑均通过，原652与仓库零改；接收可复用映射与诚实零信用边界，不据issues0认定设计闭合。原报告的15 functional existingSystemContract不是native准入白名单（目标交集仍3条S25）；“五种子已并入cases”实为仅r73一条且混型，四A种子未入。原报告保留，Owner勘误分开记录；S47行政/封存有限accept可复用，不涉及作者652自签。
+- 内容层C01–C03仍有缺口：A/B样本和目的错型，39计划反例泛化；HTML宿主误要求canvas。421处原required改absent中，Owner逐字段证实413数组元素实际存在+4根表达误置，覆盖155路径；直接改为真根或数组pointer+itemFields与实际计数，不改原生。消费者抽6writer/6directory共12路径，5成立/4关系错误/3kind订正；同错误文本有界展开16路径，替换17声明，保留同row另外35条。两类修订共160路径，仅fieldRoles/consumerWitnesses；其余可用内容保留，不要求重做652。
+- Owner接手上述确定修复，不再让用户转整包返工。非作者子代理独立复算417字段/652原生与16消费者，accept零counter。既有Owner74事实与五种子不倒退；本次新修复与原作者包均独立封存于既有单gzip，不造第二份全量账本。
+- 本轮build allowed限定三正文（本卡/看板/registry-proposal）、关联行政after级联、既有gzip及仓外原型。按提案冻结A/B/D首8载体、7形状的1.0.0实施设计：红/绿完整reporter、缺pending摘要、蒸馏reporter、真实命令摘要、identity数组、纯变异定义、历史path映射。原型8正例/8合成语义反例/2解析反例通过并非作者复验；生产model/progress联合合同与正式routing尚未实施，不把原型或设计冻结登记成template-compliant。C/E/F和余下设计继续draft。
+- 后继实施由Codex持有通用guard/精确准入/临时树联合反例；复用既有review位置，原生字节与旧cohort/source pin保持，不更改旧测试、产品、coverage、ignore或maxSize。当前父子卡rework，严格1750/878待迁移文档不扣，212/runtime信用0；必要门全过前不合main、不推送、不done。
+
+## S49 剩余644设计据证裁定与首八通用guard实施（2026-10-25）
+
+- Codex build allowed从03b6e7135隔离后继S49：实现S48八个精确载体的原生guard、source/当前review分轴与真实model/progress接线、新增文档工具反例及临时树pilot。正式registry/routing和生产review状态本轮不改；旧测试、产品、coverage、source pin、共享配置不改，不合main、不推送、不done。作者为Codex，独立复核按实际差异，不重复652全文。
+- 同时据证验收GLM剩余644包，原件冻结。39建议按实际形状逐条裁定，53计划的字段/type与代表正例必须一致；指针存在与variant名正则不代替合同验证。确定的计数/组合器小错由Owner修，不能因此撤销无关内容证据。设计不授迁移或runtime信用。
+- 本轮共享写限本卡/看板/既有模板提案、相关6条行政after级联及原单份gzip；代码限scripts/docs内新增原生family admission/guard/reading/测试及document-model、check-document-model、report-governance-progress必要接线。临时树使用真实consumer与隔离fixture，原生字节、旧cohort与17个已接受Markdown保持。1750严格项/878待迁移不预扣；E2E006日期红按事实报告。
+- GLM原五件SHA及源652/保护8/剩余644实核，Owner实际只读重放两命令均exit0。该replay只检自选case pointer/计划ID/variant名字，不检完整required/type/forbidden；未封进作者四文件manifest的work缓存不作为独立事实源。三名非作者按风险复核39提案及代表合同：39实际22完整reporter+10summary+4identity+2distilled+1command；HANDback把既有3条混入reporter25。39中27符合S48形状，12需另设计，剩余分区改为27+614+3=644；不重新计算或撤销未受影响的内容结论。
+- Owner批准27条精确path/源SHA/variant进入后续实施白名单（21reporter、2summary、3identity、1distilled），尚无正式routing或迁移信用。12条不放宽S48：缺files的summary、缺pending/suite的reporter、无status的inventory、非testResults蒸馏及非argv命令等各按原生另设计。matchAny按指定键子集匹配正确，真正组合错误是每次匹配重复追加替换；Owner以后使用保留非匹配后只追加一次的算法，一篇重复pin去重，另八篇仅顺序差异不算内容丢失，35条其他见证保全。
+- 53计划不整体冻结：122JSON代表正例的1191required检查有670缺失（33计划）及2类型冲突，50forbidden和53legalStates仍通用说明；保留case身份、原数据与未执行披露。推荐41mutation拆40完整/1精简摘要，选择两件精确pilot冻结；100review控制含37根形状及7合法空entries，先选一条实entry与一条5转移空账本，仅冻结pilot范围，现行控制生命周期/全局唯一ownership/转移保全合同未定前不套历史raw。两HTML角色按真实mount/module及静态三区冻结设计，不要求canvas。
+- 首八guard强制固定carrier Git对象/原字节、旧source字段、唯一review位置与可解析fieldRoles，完整reading对齐计数/身份/来源；无合法输入混入结果、无缺pending补0、无套件当文件。本pilot阶段强制partial-review-unknown/needs-migration及执行双false，联合换标或伪晋升必须被真实model/progress拒绝。旧272和212合同与准入不扩张；正式新variant注册另经准入和相关旧文档测试适配授权，不隐式改旧断言。
+
+## S50 首八原生合同注册与逐篇接受接入（2026-10-25）
+
+- 用户已明确授权frozen-binding-baseline.test.mjs单处补丁（SHA36c9e66c）：新增一个import及三个新machine变体逐项deepEqual后从局部比较副本移除；原父/六旧变体、source pin与所有旧断言继续锁定。Codex build allowed从S49固定52cc1bd53隔离后继，正式注册已验六个新原生variant并接首八精确route/现有唯一review；不扩到另27路径或剩余644，不改其原生字节。
+- 先由独立贡献者对八载体按真实字段/原source/current review写具体稿，复用已核内容，非作者逐篇据证接受。历史测试失败、缺pending、截断身份、旧撤信/来源不确定保持，不重跑或重授历史/runtime。新guard只允许旧partial/needs模式，或固定报告SHA+逐路径内容指纹+Owner明确裁定支持的新文档接受；不删除原状态护栏，不用hash代替语义审。未接受篇保持partial/needs。
+- 白名单：上述授权旧测试、既有native family admission/guard及必要新文档工具测试；模板registry仅六变体、routing仅八路径、registry仅八条相应分类/状态投影、矩阵当前接受边界；本卡/原生JSON子卡/board/既有提案，以及八唯一review和真实依赖after级联、既有单份gzip。来源Git/1838/cohort/旧存储sourcePins与212/272旧合同保持，原review历史逐值保全；不新增canonical副本或sidecar。物化输出在隔离临时树先验，接入和晋升按真实结论逐条决定。
+- 旧测试适配仅授权补丁；本轮新增测试用于精确接受门、伪造/跨篇/改结论与真实model/progress联合反控，不重复旧原子。必要门在稳定树集中实跑一次，已有同输入证据据证复用；未满足全量硬门仍rework，不合main、不推送、不done。候选证据按实际结果封存，E2E006日期不自动续，1750诊断/878文档只在真实接受接入后按实扣减。
+
+## S52 S51据证裁定与八篇现成Markdown接入（2026-10-25）
+
+- S51原四SHA、658集合与1768见证实核，官方只读replay通过但明确不授semantic acceptance。632JSON由统一生成器以root形状/首标量/通用缺字段生成，无法独立支持所有旧业务结论；22JSON与3MD源已变化却全set空。当前127治理控制件继续由Owner承担内容/合同，其余505非控制JSON只补缺失claim见证和必要语义，正确旧事实不重做，原包冻结，不新造全套账本。正式裁定及逐路径清单收既有单份gzip。
+- 26篇MD/HTML具体保留候选可复用；Owner直接修两处旧结论截断与设计稿容量表述（1047444距1MiB尚1132），不改源正文、不让贡献者为小错循环返工。42条exact建议：27沿用已准入形状实施、2HTML沿用冻结pilot实施；另外13HTML仍需Owner合同，不因结构相近自动准入。两派生视图与catalog重渲染字节一致，生成格式合同由Owner处理，禁止手改视图过门。
+- Codex build allowed从c2c0e859隔离后继：接收GLM据证保留内容，先接8份未改字节且现有正文合同0issue的Markdown；具体源SHA/作者实读域在现有唯一review内。仅3新增已存在父类型的route，registry8条匹配投影、矩阵当前接受边界、本卡/board及真实after级联和既有gzip。没有新产品或代码合同，无代码/旧测试/coverage/模板规则修改。父卡C2旧体接受保留，新S52行政段不倒签为GLM已读，父卡本轮不晋升。
+- 原source/quote/history/withdrawal逐值保持；旧claimCorrection移入新历史记录，不恢复旧执行。原生全部零字节变化，212历史交付与已接收S50八原生/旧272保持；每篇新信用只属当前Markdown内容/模板，不授runtime/E2E/视觉/coverage。先镜像再真实物化，必要门与扣减按实记录；父子卡rework，硬门未满足不合main、不推送、不done。
+
+
+## S53 S51补证裁定与S52非作者接收（2026-10-26）
+
+- 接收GLM对cbbb3be44的只读非作者accept（HANDBACK 14f599be/verdict c4185642）：范围仅S52八篇未改正文的接入、三route/八registry、旧历史/原生/after pin与行政封存；不重做原八篇全文，不自签本轮505 JSON。S52实减16诊断/8文档已成立，1718/862为上轮实际基线，不借新回执再扣。
+- S51定点包39192868的505身份/663新指针值与C2源只读快检通过；源505相对83743275字节未变，原22JSON漂移均在Owner控制127范围，不向贡献者虚扩大。程序解析、旧具体人工读稿与本轮风险核分轴；不能把schemaVersion/id/首末元素当完整业务oracle。
+- Codex build allowed从cbbb3be44隔离后继：保护冻结S50/C2与S52，先完成内容证据裁定、Owner定向补20份仍泛化的旧稿与通用来源locator/缺失轴勘误，原生/旧包零写。其余正确旧稿据证复用，不再让GLM重做505全包。Owner补稿须非作者按真实新增范围复验，之前不授reviewed/template-compliant/迁移/runtime信用；本轮中央仅本卡/board、真实after行政级联与既有单份gzip，0产品/代码/旧测试/模板/routing/registry改动。
+- 七MUT-restored与SHARED字节别名的合并设计沿用先前裁定，须保留逐针还原相位、固定1838显式retired、原Git/历史引用/当前consumer映射；loader合同及负检前仍保留，不靠删文件/缩分母消待办。498 retain不据族名或路径直接认定不可替代，维持安全暂留与后续精简权。
+- 127当前控制件与其通用合同由Owner继续，652分族设计不因505新witness自动注册。必要门按真实日期/输入记录，E2E006不自动续，父子卡rework，不合main、不推送、不done。
+
+- 本轮Owner原生对照37件totals/11个完整单失败集合、五数组/五命令件成立；保留482份旧具体稿并不冒称重新全文。新增23路径稀疏Owner稿=20角色/具体结论扩展+此前PLB/BF两勘误+ScriptEditor摘要真实exit0补正，均待GLM只审Owner新增范围；499旧core引用从无该字段的S46设计行改为S42精确locator，六原生pilot仍取当前r37/r85。498暂留不等于已证不可替代。旧脚本按形状取值的663见证保留，但不以包绿宣布505全量语义已完成。
+
+## S54 S53限定accept与二十七篇既有原生合同扩展（2026-10-26）
+
+- 接收S53固定10bf07a2的GLM只读非作者accept，HANDBACK SHA975ac5b3/verdict SHA319613c5，五轴零counter。范围为Owner23增量、499来源locator、纯505组合及行政保全；482旧具体稿复用，不解释为505新全文重审或正式状态发布。1718诊断/862文档维持实数，七别名退役及127当前控制件仍由Owner处理。
+- Codex build allowed从10bf07a2隔离后继，单一Owner为Codex。先实现S49/S52既已裁定的27精确路径（21 raw reporter、1 distilled、2未报告pending的summary、3 identity数组），复用原四变体及固定83743275 carrier；不新增模板或通配准入。carrier Git OID/SHA、历史source Git/SHA和当前唯一review位置全部实取，保持两个来源轴独立。
+- 白名单仅既有historical-native-family-admission.mjs、一个精确扩展数据模块、两个真实CLI的已准入review预加载枚举、一个必要新文档工具测试；本卡/board/既有提案与真实after行政级联、既有单份gzip。旧测试、父合同/variant/sourcePins、产品/coverage及原生字节不改。新27正文19字段由S53已验内容组合并明确原生角色/读域，在仓外生成，不新增canonical副本或sidecar。
+- 本轮先在隔离临时树通过真实model/progress连接27的partial/needs候选，证明结构可用、无自动状态扣减；伪造或借用S50验收的晋升必须拒绝。真实routing/registry/current语义条目不写，27正式接受和扣减在新实现/字段归一化获非作者据证接受后另行受控接入。必要门集中一次实跑，未跑和红门如实披露；不合main、不推送、不done。
+
+- 临时树实际consumer演练：27逐篇合同0issue；public model/progress为0issue、目标27全部pending、completed=0，另有11临时控制JSON单列。联合伪晋升使两个public门均exit1且完成仍0。CLI预加载由首八扩为精确35准入集合，首八接受清单保持8；27内容19字段复用S53具体稿并显式原生角色、两来源轴和未读域，归一化新稿待非作者集中复核。准备期读域类型与临时树分母误断言均由现有门拒绝后修正，未改规则，原失败原件保留。
+
+- Owner内容对照补正五稿：n2/n3失败身份不再抄n1，n1/replay-n1采用原值完整fullName；adjacent的counterproof旧totals.files=38与fileCount=18明确分轴，不再互证文件数。旧S53来源与修正前稿均保留，代码/原生未改。必要门实跑270工具测试全过、4589文件lint零诊断；全仓门仍因E2E006日期过期exit1，严格1718/862未扣。末段写回后按当前输入重新实跑集中门，最终身份取封存回执。
+
+## S55 一次交接：S54独立验收与239原生文档最终候选（2026-10-26）
+
+- 用户尚未转发S54提示词，要求现在调整；废止“只验27即停”的交接方式。Codex build allowed：GLM先在冻结f623859b1只读非作者验收S54，再在本独立后继分支作为作者连续完成27扩展原生文档+212历史交付回执的最终候选、受控接入工具及全包临时树演练，一次回交，不以设计/预核/内容ready替代作者候选完成。小问题在候选修复，冻结S54及其原包不写。
+- 精确范围由仓外Owner execution-manifest绑定239路径/当前唯一review位置/原生SHA/OID/历史来源/当前行指纹：27取S54扩展准入，212取historicalDeliveryCohort，交集为0。既有S30–S54真实合格结论、见证、历史与源码依据直接复用，只补缺口；不机械重写正确字段或虚称239新全文深审。S54若有counter，仅阻止受影响路径沿用其接受；212和其余可独立成立部分继续，最终交精确ready/blocked集合。
+- 本轮Owner冻结的实现边界：复用现有四native-family变体和historical-document-delivery-native-v1，无新类型/父版本/source pin变化。27的S50旧八接受清单不扩写；可新增一个精确completion资格分支和准入数据。212保留V1原合同与旧测试语义，将Owner接受前的晋升控制放在新受控writer入口，不能为新策略静默重写旧V1合同或旧测试。已有S34零信用writer及存储层保持原行为，不放宽原mutable集合或通配路径。
+- 作者在本候选可写239条的最终内容/分类、27真实route与registry投影及必要after级联，但所有目标保持partial-review-unknown/needs-migration，无作者自签独立接受。新writer必须要求Owner的精确非作者验收绑定（逐路径内容digest+原生after+角色/来源+报告SHA+Owner明确决定）；Owner grant默认null，真实晋升命令缺grant必须拒绝且零写。27未改S54内容可复用GLM本轮非作者报告；212或GLM改过的内容由Codex终验，不能以GLM旧稿/作者自验代签。
+- 必须交可直接由Owner验收和接入的候选提交：新脚本不依赖硬编码/tmp材料；计划路径可由CLI参数传入。复用已有保护loader/packer/物理事务，原生零改、sourcePins不改、历史前缀保全、字节级当前after级联、独立物化、重复运行零写、失败保留锁/staging和受控恢复。旧writer不扩大权限；同一组metadata/review/mirror必须同事务或经等价先验和完整读回，不留半个候选。
+- 全239在隔离完整树演练：无Owner grant拒绝；标明synthetic的临时Owner grant验证正常晋升、精确扣减、伪签/跨篇借签/语义改后刷新hash拒绝、并发输入漂移拒绝、二次零写。synthetic接受只存在临时树，不入真实候选或验收证据中的真实Owner字段。三轴分列：作者最终内容完成、候选部分状态、Owner接受后的演练/实际投影；候选1718/862不得写成已减，演练按actual逐篇计数，不猜1838基线/增量归属。
+- 白名单：既有historical-native-family-qualification.mjs仅新27completion分派；新historical-json-completion.mjs、historical-json-completion-admission.mjs、historical-native-family-completion-admission.mjs、update-historical-json-completion.mjs与至多两个有必要判别力的新文档工具测试；本卡/board，27 route和对应registry投影、239唯一review及真实after级联、既有单份gzip。新文件按需不全建；不改其他脚本、旧测试、模板registry、产品/coverage/运行回执。单篇事实不足留blocked，不影响其余交付；旧测试适配确需新授权时保留完整补丁/失败证据，继续其它可独立部分，不能改旧断言过门。
+- 作者自验使用实际命令/输入指纹/raw输出；同输入稳定证据复用，全套和lint集中到最终候选，不逐小批重复。E2E006日期不自动续，严格门与全仓门红如实保留；不合main、不推送、不标父子卡done。127控制件与其它未准入合同仍归Owner，不在本包扩张；待本239最终候选回交后由Codex集中验收、小修、真实签发和实际扣减，不再让用户逐阶段传话。
+
+## S56 S55据证返工、Owner接手与限定接受接入（2026-10-26）
+
+- S54独立accept已核两SHA：HANDBACK 7edf41e9、verdict b330793b，复用27真实十九字段与5勘误，不重做505。S55 ec259853a不接收：239行仅新增三个_completion标志，未应用27正文；实际model162 issues、strict另8项漂移，源回执280 pass/1 fail并非281/0，node_modules仍被追踪。grant接受任意64位报告和未准入路径、CLI硬编码仓外依赖、未校验批事务或级联。原候选/回执冻结留存，不签发其grant或运行其writer。
+- Codex build allowed从干净准入f639587e隔离后继接手；放弃六个未验不安全新工具/弱测试，沿用已验保护loader/packer/成组物理事务。既有S50资格算法仅增加精确S54二十七篇已接受数据的选择及task来源，原八接受表/其算法与旧272/212合同不变；一个必要新测试检验27真实接受及刷新hash/借签拒绝，旧测试/产品/coverage不改。
+- 全212核心结论与GLM原稿逐篇精确比对：192原样，20既有Owner勘误；其中3在六个S33 pilot范围内，沿用GLM原复核+C1关闭，其余17篇须非作者补审，不由Owner自签。六pilot使用既有GLM内容接受，其余189原稿由Codex据证风险验收；共195历史回执可接受。另27使用S54 GLM非作者接受，195历史回执本轮接入；27新增元数据校正与17既有Owner稿合计44保持partial/needs，原始R波/执行撤信一律不恢复。
+- 195实际接入先完整临时树，27仅元数据候选，再真实有界物化；复用现有唯一review，按新接受迁移旧claimCorrection到历史逐值保留，source/provenance/revision history前缀和所有原生字节保全。registry为195状态及27候选分类，routing按222已准入现有变体补齐缺失入口，矩阵仅当前接受边界、本卡/board及真实after级联、既有单份gzip。不堆复本或给review再造review。原sourcePins/1838分母固定，未通过完整硬门仍rework，不合main、不推送、不done。Owner仅签其非作者范围及据证继承的独立范围；待补17另列，不虚报239全过。
+
+- 首个临时树拦截了历史195缺正式路由/registry变体，以及27稿的通用reviewDepth/证据路径/公开caller元数据缺口；不加豁免，不授27新状态。Owner仅规范这27的审阅元数据并保留待非作者复核；其核心结论/nativeReading/oracle等原业务说明不改。S54旧报告只接受原稿，不冒称覆盖S56新元数据，未签发的completion接受表为空。
+
+## S57 S56非作者accept接收与44项当前版本接入准入（2026-10-27）
+
+- GLM只读非作者回执已实取：HANDBACK SHA `ac9526ef076b20f71a5265e85b73a2fb5ba7e601f5b60ca939a30b72b0a214d6`，verdict SHA `1f3c0cc95229cb3e6a40ef7c173d54ab44a947528738546de0bdf3d1b06293bb`，候选`14e0336fe045d038a29ab773acaa639696d31ea8`；195接入、27元数据、17既有Owner结论及3代码全部accept/零counter。读域为贡献者披露的结构全量核验、风险样本和既有接受范围组合，不写成239篇新的全文重审。S55否决与原R波撤信不恢复。
+- Codex build allowed：从已技术接受且冻结的006后继`33cfb9ad89f8696802b7c2ec466fbc93cccf8149`在隔离分支`codex/docs-s57-final44-intake`接入44当前版本。仅激活既有completion-admission的精确27路径/内容digest/本次报告SHA数据，新增当前正反回归；17历史回执沿既有生产合同，正文/原生/source pin不改。逐项对照被接受S56物化行后晋升44条、原claimCorrection逐值入史；registry44状态、缺失17已冻结变体routing、矩阵当前边界、本卡/board/索引与精确after行政级联同步，必要证据沿既有单份gzip追加，不复制全稿/原生或新建canonical账本。
+- 旧测试`historical-native-family-completion.test.mjs`把真实27行永久当partial/空表，已备固定S56 Git夹具适配补丁；该指定旧测试适配已获用户2026-10-27明确授权并按补丁应用，全部原断言保留。原通用算法/旧S50接受表、产品、旧产品测试、coverage、规则和源码真值不变。先临时树演练及真实consumer/反例验证，接入后按实际门扣减；不合main、不推送、不标父子卡done，006已接受技术/视觉不重开。
+
+### S57 实际接入结果与后续边界
+
+44已在真实当前组接入：27精确内容digest绑定本次GLM报告，17既有Owner结论绑定同一非作者接受；17缺失历史原生变体route补齐、27既有route保持、registry44状态投影同步。实际原生717字节不变，2376非目标/非行政行原样，15行政after边，2435 pin全精确、12原source pin保留；44原claimCorrection如有逐值入史，旧R波/执行信用不恢复。成组物理事务报告creditGranted=0只指该物理API不授语义信用，本轮44当前文档晋升由本节Owner决定及精确非作者绑定授予，二者分轴。
+
+临时树新旧5项合同回归通过；用户已批准的旧夹具适配保留全部原断言，固定S56输入继续验证partial/借旧S54拒绝，新增当前正反例核27实际接受、结论改后自刷hash拒绝、借旧报告拒绝及runtime越权拒绝。首次provider对代码路径拒绝属于夹具适配失败，生产JSON reader不放宽，失败原件保留。
+
+实跑strict1258=626审阅+632迁移、交集626、632 distinct（较006后继1346/676实减88/44）；progress1463/1838基线迁移、3退役、340增量、632当前待迁、0完整性问题。只计本次44新接受，不把S56既有195再扣；不同固定候选的旧计数不追改。统一门以既有单份s22-validation.log.gz中S57终态原件为准，父卡仍rework，不合main、不推送、不标done；006接受边界沿既有固定候选保留。
+
+## S58 后续一次交接准入：S57接入复核与142份保留控制/HTML终版内容（2026-10-27）
+
+- GLM一次完成S57有界发布/夹具/行政封存非作者验收，再作为贡献者处理首次交出的127当前控制JSON与15HTML，共142份终版内容候选。127清单精确沿S51责任分割ownerControls（此前由Owner预留，未让GLM重复505稿），15为当前未迁HTML全集；逐篇具体路径、固定Git/物理SHA及logical读取轴由仓外执行清单冻结在本S57终态候选。既有正确稿按来源复用，仅补真实缺口；内部自主分段，单篇确实blocked则记录具体解除条件并继续，最终一次回交，不以设计/shape盘点/只读预核替代终稿。
+- 本包允许GLM仓外作者最终review稀疏差异及必要HTML wrapper patch；原生JSON/HTML源字节保持，运行字段、旧审阅信用和历史不改。review manifest只读页不等于逻辑对象/下游文档全文已读，必须按固定Git provider物化后逐篇核本控制对象的目的、真实消费者、集合/状态分轴、结果、source pin、生命周期与停止线，不复审其所引用的数千下游正文。HTML核实际DOM/脚本/资源/公开职责，不能把静态样机称为运行验证，原码保全。
+- 来源语义/具体正文/可解析原文见证/真实consumer/处置建议由GLM交最终内容；通用存储/格式合同、准入表、共享中央写入/退役执行与产品取舍继续归Codex并行处理。不得复制全量原生/完整下游稿，不再造canonical账本；不得写仓库、生成器、共享配置/规则、旧测试、产品或coverage。S57独立接受只签Owner增量，142作者稿nonAuthorReviewer=false，不混用身份。本包零自动迁移/runtime信用，必要合同未准入者明确contract-pending，不要求用户逐批许可。
+
+## S59 S57接收、S58据证裁定与原生HTML合同pilot准入（2026-10-27）
+
+- S57固定c801f5fd的GLM非作者接受原件两SHA已实核：报告b958a5f3、verdict abed3a13，七轴accept/零counter。复用44晋升、17route/44registry、授权夹具/四新回归、源/native/行政/封存证据；报告把17 Owner core复核归S53的旁述不作为新事实，实际44grant直接绑定S56报告1f3c0cc9，原件保留不改。不重复195/44正文或整轮工具。
+- S58五件清单SHA、142路径/原生源及结构计数可复用，0仓库变动。Owner据实际稿区分：15HTML的静态用途/依赖/缺构建产物边界可据证验收并作字段规范化；111逻辑review稿的集合/状态/存储说明可作为当前control数据说明复用，不冒称已审下游正文；其省略号身份与不合法required pointer由Owner修正。matrix65裁决及templates17合同内容在作者稿中明确未逐项作声明级语义核读，Owner现已补核关系/停线与父合同字段，未补读下游真值或所有旧变体。所有142稿缺primary/witness/排重/下一步等终态字段，本轮Owner补机械归一，不令贡献者重建全包；上述2控制对象补尚缺语义，不撤销正确的结构事实。具体集合/解除条件在唯一仓外裁定，父卡不据all-ready授信。
+- Codex build allowed从冻结c801f5fd隔离S59：先在既有模板提案冻结两种HTML-native变体1.0.0（historical-ui-mockup、historical-browser-host），父design-spec/evidence-receipt版本不滚动。原始HTML全字节保全，元数据使用唯一现有review位置；新增独立HTML Git reader不放宽JSON reader，parse5真实静态DOM结构/引用/固定源/真实消费者与未执行边界共同检查；model/progress两个公共caller接线。只准入三个owned pilot（mockup、root-only宿主、缺main.js构建输出宿主），新测试须含真实固定源正例和换标/改字节自刷hash/引用误报/借签晋升拒绝，先完成证据演练再中央批量接入。
+- 当前127控制JSON是可变控制面，不套immutable历史JSON合同：先写生命周期/内容与行政投影、非循环信用/来源规则草案，未读语义和组写入前提未闭合时保持draft，不冻结为可发布合同。源control/15HTML、产品/旧产品测试/coverage及原source pin零改；旧测试不改，若确需适配另按用户指定补丁授权。S57/006候选/GLM原包冻结，632/1258待办不扣；Owner代码/pilot非作者验收前不合main、不推送、不标done，不重复造review或sidecar。
+
+### S59 实际证据与未授信用
+
+S58的142源/5件清单与S57非作者回执已固定核验；111逻辑review的集合/状态说明、16控制结构和15HTML静态用途据证保留。Owner仅补142条来源/真实pointer/字段归属/consumer/排重与下一步，另补matrix关系声明和17父模板合同的实际读域，不重做下游全文。phase2 registry109与catalog105的差额恰为一张Ops任务卡和三HTML，不作漏项或删除；7空账本保留其合法空集合。原包不改、不复制全量源、不建新canonical账本。
+
+实现候选33076986c：两HTML变体1.0.0、3精确owned pilot与8项真实正反测试；公开model拟路由1822/0issue，progress0完整性，移除HTML provider两caller均恰3issue、恢复转绿。修正提前加载parse5导致旧隔离夹具59红，原失败留存；实际解析才加载真实parser，旧测试零改。完整文档工具284/0、lint4620文件0E/W/I；真实check:docs只余strict1258=626审阅+632迁移、交集626，非全门通过。2435 after pin/12 source pin精确；717原生JSON和15HTML零字节变动，registry/routing/语义状态不改，0迁移/runtime信用。行政事务先镜像后真实7写/2旧片退出、9边，后续仅本段/看板终态行政封存。新Owner字段/两声明补读与HTML合同/pilot留非作者按增量复核，不借S57接受代签。原单份gzip追加原件，父子卡rework，不合main、不推送、不done；006验收保持原范围，不交GLM重审。
+
+## S61 S59接收与S60十五HTML统一接入准入（2026-10-28）
+
+- S59 GLM非作者verdict接受8代码/3pilot/142机械归一/保全；仅接收其实际有据范围。报告把首红225/59误称测试分类并归006过期，与冻结原件不符，该旁述撤出接受依据，旧原件不改；正确终件为284/0且仅strict1258。006技术/视觉既有接受不重开。
+- S60剩12原生HTML结构/来源/正文事实据证复用。旧manifest记录27929B/34046c6e，而实际终稿23855B/a73b648d、12条；Owner冻结实际字节绑定，旧manifest不刷新、不称旧清单已过。作者用正则概要标成static-html-reading的形状及缺失完整字段由Owner按S59已接受算法补齐；不重新治理全包。RV1把2522字符写成B，实际2707UTF-8B，作明确单位勘误；不动原文/脚本。
+- Codex build allowed从cf71157cf隔离后继统一处理15HTML，复用已冻结两1.0.0合同/已验字节provider、保护loader/组事务。原3pilot绑定S59 GLM精确接受，其余12绑定Codex非作者证据裁定（原稿GLM，Owner机械应用既已非作者接受的字段归一；有限计量勘误另标来源，不倒签GLM）。仅扩12精确来源准入及两组接受数据、不扩父模板/格式/通配路由；新增当前接入正反回归，旧测试不改。
+- 复用现有唯一review位置，原生15及717JSON/source pins/撤信保全；旧artifactOnly/historyOverlay显式纠正，原claimCorrection逐值入史。实际route/registry15投影、矩阵当前边界、父卡/board/索引及after pin级联与单份gzip同步。先owned完整临时树实际model/progress/借签与摘要变更拒绝，再真实接入。源中绝对dev-root、缺main.js、旧归档根路径保持历史未执行边界。
+- 原15含3已content-reviewed但全needs，预计只减15迁移+12审阅=27严格项，不按30预扣；扣减以真实终态门为准。127可变控制JSON合同继续draft；Owner增量候选留后续集中复验，必要硬门全零前不合main、不推送、不标父子卡done，不改产品/旧测试/coverage或门规则。
+
+- S61完整门首轮288工具全绿但另拦27条中央review形状问题（15缺evidence.path、12深度词不在既有枚举），实际diagnostics仍1258，未写成严格1231或全门通过。中间8923f36f保持隔离候选，后续追加修复不改首红原件。补齐evidence.path为唯一固定HTML自身、深度用既有partial-semantic；明确其是据证静态审阅，不借该词声称全文重跑。路径是行政定位字段，由guard额外强制等于源path；不进入源语义digest，原3pilot接受digest不变，改路径仍被拒。源/正文/旧source pin不改，修复后重跑全链再记实际扣减。
+
+### S61 实际扣减与封存边界
+
+15HTML已在真实现有review/route/registry接入；其中原3已reviewed只新增模板迁移，另外12新增当前源文档接受，合计只扣15迁移+12审阅。三原pilot的接受语义digest不变，行政evidence.path严格绑定同一固定源；其余12机械元数据按现行词表补齐。原claimCorrection逐值入史，原生HTML/脚本/717JSON、12旧source pin及2435 after pin保全；不把原文中的PASS/真实函数/旧测试数重新认证成当前执行。物理事务creditGranted=0只描述组写入API，本轮15文档迁移由显式接受和Owner决定授予，修复阶段不重复扣减。
+
+修复候选adbe0f886：完整check:docs实跑289工具/0fail，model1834/0issue、链接/索引/Testing/phase-lore均过，中央非strict审阅0issue；lint4622文件0E/W/I。整体check:docs exit1仅strict1231=614审阅+617迁移、交集614、617 distinct（608JSON+9MD），较S59实减27/15；基线1478/1838+3退役+340增量，0完整性。首次288/0加27元数据错误的1258原件保留，未追改成1231。
+
+Owner6代码差异（两精确准入/接受数据、资格选择与定位字段约束、两caller集合、新5项当前回归）及15发布/行政封存留下一次集中非作者复验；原S59/142全文不重做。127可变控制JSON仍draft，006既有技术/视觉接受不重开。全卡未完成，不合main、不推送、不标done；不新增canonical账本/sidecar，原单份gzip只追加必要原件与来源绑定。
+
+## S62 S61非作者接收与整包派发重排（2026-10-28）
+
+- S61九轴accept原件已核：HANDBACK 044a35d5e05440f1f7dc758082e77dd95c06dde7b8e3b086c38221ecea4ba7ee；verdict b1222adf5df8594ef0b68dfb3a752a6f44a1cbbb3430cd9128e3c6dc5259e15f，候选793c9e165。接收6代码/13测试/15HTML与三阶段行政封存，不重做142全文、不重复扣迁移。报告末尾把319613c5（S53）写作S59接受的旁述不作来源，原件保留；S59实际基点cf71157cf及其精确报告沿既有固定记录。
+- 用户要求改变实际派发边界。当前617=608JSON+9MD；原“481份全部历史JSON”口径撤回。473份可复用历史源文档拟由GLM整包实施；127可变控制JSON、现行Testing catalog、两006证据、三JSON模板、两现行legacy索引共135JSON及9MD由Owner持有。三集合逐路径排重、并集617，不删除、换分母或自动批准退役。
+- 473条原生SHA全部匹配S53组合器的固定来源；已独立接受范围仅为23增量与组合规则，不等于473逐篇迁移信用。组合器505/23/482及canonical SHA 3f16b3a7599e96f428cbb9df49373812a0a3b4b716435f2b447f5163faafcc8c复用，不要求重写内容或再全文核读。沿原可解析出处与后继撤信，旧source/运行未知仍未知；7个既有retire-proposed仅保留原件，正式退役不由贡献者顺手执行。
+- 本轮Codex build allowed限定：接收S61、冻结473/135/9完整职责清单和候选完成定义，父卡/看板/必要after行政级联及原单份gzip；不改生产代码/旧测试/原生/模板注册/已接受语义状态，不授新迁移。下一阶段公共原生合同、保护reader/writer API及完整临时树model/progress/中央非strict联合pilot由Codex先完成，不再把缺少Owner前提交给GLM反复盘点。
+- GLM下一次授权必须覆盖完整473路径到隔离提交候选及自验，不只交design/content-ready/只读建议。内部批次自主连续，不逐批申请；普通小错误包内修复，真实单篇阻塞精确列出并继续其它。需新公共合同的未知由Owner补前提，不把“等Owner”伪写贡献者完成，也不反复让用户中转。
+- 准入三轴分开：用户范围已批准；公共合同/API/pilot目前未ready；GLM包尚未发出、buildAllowed=false。这个状态来自真实技术前提未齐，不是等待用户许可。Owner先交能直接调用的公共层和就绪指纹后，一次发473最终执行包；届时继承本范围授权，不再逐批问用户。
+- 总包终件需包含473精确完成/blocked集合、固定候选/原生保全、真实model/progress/中央审阅/索引/Testing/lint/diff证据和可只读快检；当前正式接受/Owner grant/真实中央发布仍归Codex。源稿、作者自验、独立接受、实际迁移四阶段分列，进度只按实际接入与严格待办扣减；本S62不减1231/617。全卡rework，不合main、不推送、不done，006不交GLM。
+
+
+## S63 公共原生合同与473执行就绪（2026-10-28）
+
+用户已授权Codex完成公共合同、受控候选writer及完整临时树pilot，然后一次交473份GLM执行包；本轮build allowed。Coding Owner Codex，基点7ffb2b83e；复用S62精确473/135/9清单及S53内容组合。仅scripts/docs工具/新增回归、模板原生变体及设计、父卡/看板/必要行政after级联和既有单份gzip。原生源、135控制语义、9MD正文和已接受迁移不在本轮正文写权限内；旧测试改动须原授权或另行精确许可。
+
+合同先冻结：沿现有template体系，以精确path/carrier字节/Git对象/唯一现有review位置限定历史原生artifact；字段角色和指针见证可复算，原结论、来源unknown/撤信/停止线保留。模型结构通过不授语义；作者候选保持partial/needs，显式Owner接受后才可晋升。GLM可在隔离候选域整包更新473已有review正文及相应route/registry投影，经公共API写入；真实中央发布、grant和135+9由Owner持有。
+
+writer须先验证全量白名单与before，再生成完整组/行政pin依赖闭包，使用活锁、staging、公开loader读回、失败保留和原生字节保护；不新增sidecar/平行账本，不导入带顶层写副作用的生成器。临时完整树验证model/progress/非strict/索引/Testing/lint及定点反例；公共层就绪前不发GLM设计或只读小包。就绪后一个执行提示词覆盖473最终候选，内部批次自主，真实单篇阻塞列明继续其他，不逐批问用户。1231/617以实际门记录，不预扣；不合main、不推送、不标done。
+
+
+### S63 实际就绪与S64整包准入（2026-10-28）
+
+三原生变体各1.0.0、473精确源已冻结；17父类型/旧合同/source pins保持。467新候选正文、6个DOC-IA-2/S25专用pilot原样复用原guard及未知来源；carrier Git不认证旧执行。支持equals（默认）、array-length、object-keys、object-key-count、string-contains小见证，value至多4096 UTF-8B，完整raw保留。正式接受表仍空，writer禁改状态/签名/source/撤信；公开guard只允许partial/needs或未来精确非作者接受+Owner决定。
+
+完整临时树实际66写/35退出，114逻辑/155 review物理+4控制投影、41片/12源pin/2435 after精确；467正文变化、6复用、27行政行、1935其余行不变。model2301/0、非strict0、progress617待迁/0完整性、链接1304MD/10629/366、Testing0、lint4633零诊断、索引byte-equal、diff0；只读重验473/0写。真实rename故障在3控制写后触发，64备份/锁/staging保留且reader拒半发布。公共层和候选可用性已实跑，真实473未接入，0新增迁移/runtime信用。
+
+完整工具串行42文件296/296、0fail/0skip，无删除/降门。默认pnpm并发一轮295/294/1中旧Git stdin卡八分钟，仅本次夹具子进程86970被终止；首红/PID、同源完整串行295及最终扩展296原件均保留。存储锁调度、旧pilot reader、工作计划与回执重名、可选字段投影、text provider、20空caller等首红均留痕并修根因，不手改旧输出。新测试读7ff固定partial输入，未来合法接入无需再申请夹具适配；旧测试仅用户授权F1 import与新变体核对。整体1231/617未过，不合main/推送/done。
+
+212历史JSON当前已在S56/S57接入（全部content-reviewed/template-compliant），S38等旧零迁移陈述保持原时点，本轮不重复计数或恢复旧执行。
+
+S64 build allowed一次覆盖473最终隔离提交候选。GLM在同一委托先非作者定向复核S63公共层，accept后直接继续473作者实施，不中途回交只读/设计/content-ready。具体正确稿复用，逐篇核core/数值/失败与pending集合/类型/字段角色/真实读域并补可解析见证；六pilot复用不重复授信。内部自主分批、自验提交后连续做；真实单篇事实或活控制权冲突精准blocked并继续其余，不因旧needs-design标签停止整包。
+
+授权GLM仅在专属worktree经公共API生成现有review、routing/registry机械投影及after闭包；135控制件权威语义、9MD、代码/接受表/模板/原生/产品/旧测试/coverage只读，真实中央/grant仍Codex持有。终件包含实际base/candidate、473完成/blocked集合、S63非作者报告与S64作者交付分列、真实完整回执及只读快检。partial/needs与1231只在Owner真实接受后扣；七退役提案保留不删。公共层技术就绪，新ADMISSION派发，S62未派出原件不覆盖。
+
+
+## S64 473作者候选据证裁定与Owner十一条定点纠错（2026-10-28）
+
+原作者GLM候选9c751652b3a3269e5c90e6d2490ed48d8e6073ec（基点4b4a8f62）经真实Git身份、固定源字节、原生合同、现有review位置与全量after闭包核验：473=467正文变化+6专用pilot原样复用，114逻辑/155物理/41片/12源pin/2435 after全部精确，27行政行、1935其余行保全。三份作者语义原件恰160+160+153、443 match/30 mismatch；这只记录作者逐篇核对，不冒充Codex再次全文审阅。
+
+Codex按document-delivery-acceptance/1.0.0审交付/逐篇记录与修正差异，并对12个不同族条目定向核具体原生字段、失败身份、计数和历史边界。其余462条证据接收，11条需要当前结论纠错：A-G资源波仍留错误unproven范围；TB-05九针被换成另一组虚构简称；两个CI scope把数值/布尔混称；BHTR引文双单引号；CDN同任务错句与追加勘误并存；pilot保全件仍错借protocol字段；四条CS结论被截断而错误标match。只关闭有依据的claim，不因包绿整批恢复信用。
+
+用户已授权小修由Owner直接处理。Codex在codex/docs-s64-owner-intake从9c冻结候选追加十一条修正，039b1740a781db2914e74171e09312affbce7ca8仅改现有review与必要after级联；真实公共writer为11目标31写/23旧片退出，零原生/代码/旧测试修改。补齐准确七批与未证项、九针完整原名、混合scope、六条精确标记、两刷新任务分界、保全件七键，以及CS审计18/46件、6/17针、81/80多重集与异执行集反例；来源未知、旧撤信与完整历史前缀全部保留。作者自验不代签，这11条由GLM只读非作者复核增量；不要求重新治理其余462或整包473。
+
+所有473在当前canonical维持原partial/needs（DOC-IA三条既有content-reviewed除外），接受表仍空，0新review/迁移/runtime信用。此前作者check:docs原始结果为296工具通过、strict1231退出1，不能简写成整门通过或归为006日期错误；stderr恰1231严格待办，无其它诊断。617=473本包+135控制JSON+9MD，当前待办不预扣；212早已在S56/S57接入不重复计数。最终质量门以本次终态真实回执为准，完整结果与十一条before→after只封存到既有s22-validation.log.gz，不新增第二套canonical账本。全卡仍rework；不合main、不推送、不done。下一步仅复核Owner十一条增量，随后Owner一次统一授信/中央接入并据门实减。
+
+
+## S65 S64非作者接受与473原生文档正式接入（2026-10-28）
+
+S64 Owner十一条修正已获GLM只读非作者accept，候选c948bb0bd8916aeacec89b0e84c146e9c32ef435，报告HANDBACK f3233252fa680682288cbafab87a72bf263d1d8d8115bc6a43de8d0ffcbabc14 / verdict c3918fa0de5a34616016a6a65fda9373c753647f90cc493f8d330d8b4fc2f339。Codex核实真实身份、11条内容指纹与无counter后接收；原作者462条沿5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0裁定，11条Owner增量沿GLM报告，作者关系分开，不自签或复做473全文。
+
+本轮build allowed：沿S64已经批准的473精确范围，由Codex在codex/docs-s65-native473-intake填充现有接受接口、受控授信/中央接入、registry投影、矩阵与任务/看板/单份gzip封存。6个专用pilot保持原合同与原生字节；DOC-IA-2两项unverified原源不清除；135控制JSON+9MD仍为Owner剩余正文，不混入本包。停止线不变：不合main、不推送、不标父子卡done。
+
+正式接入体b0941c0370791ec579f4f1922744b42f959937b4：新增单一473条内容hash接受表，现有admission引用它，来源是Codex462/GLM11非作者裁定；不改guard或物理writer、不改旧测试。新增两条回归核真实473内容绑定，并拒绝语义漂移/借路径/恢复旧信用/runtime自授/残留当前撤信/作者代签；与既有七测共9/9、0fail/skip。完整公共model在写前逐篇验证467通用+6原合同，闭合接受/Owner决定后才允许发布。
+
+一次受控发布67写/37旧叶退出，最终114逻辑、156 review物理/42片，连三registry投影共159对象；12固定source pin保留、2435 after全部精确、302既有原生保护与473本包原件字节全等。398条claimCorrection完整移入历史，旧撤信与来源unknown不恢复，所有core/读域/oracle/原文等接受内容零改；27行政行仅after与维护history、1935其余行不变。routing与模板合同零改。六专用pilot的当前状态接受不改原载体或放宽原guard。
+
+实际新增473份template-compliant、470份content-reviewed（3份DOC-IA已有审阅，只补迁移，不重复计）。progress实跑1808/1838基线已迁、3显式退役+483增量、144当前待办、0完整性问题，较此前1478+340/617实减473；27基线与117增量仍待治理。静态严格待办预计由1231减943至288，最终数字只取本轮终态check:docs原件，必要门未清零前全卡保持rework。旧执行、产品/E2E/视觉/coverage信用均为0，不把历史failed/pending改绿，不重跑已接受006。
+
+本轮正文语义接受已经有独立证据；Owner状态/存储/注册投影与行政封存另提供可机械复现增量，不要求GLM重审473正文。后续推进Owner持有135控制JSON公共合同与9MD，不能用固定历史原生变体放行可变控制件。新记录复用唯一现有review位置和既有gzip，不另建parallel账本。门结果、封存身份和下一提示词见本轮证据包及最终提交。
+
+
+## S66 S65非作者接受与现行review账本公共合同pilot（2026-10-28）
+
+S65中央接入候选9d3e6834e9f41475a5802f37db4f898aa42179ba获GLM五轴accept、零counter；HAND-BACK 2cd9f03177b3646479aac23dadad9f9a6137212147e1beb2cf66c8acd5b93a6c / verdict 5dc90a9df88e8ca5ca9ae0c3d4d12e09fd497fccb39b228843cc67b0eb35345f。Owner核实身份和报告后接收，不重复授473迁移或470审阅。实际strict288/144待办、1808基线+3退役+483增量保持；全量硬门仍未过。
+
+本轮Owner build allowed限定公共current-review-ledger-native-v1合同及临时树pilot：ops-03单条、phase2-01空entries且五转移、r85真实manifest+分片。固定9d源Git只钉合同初始身份/逻辑头/有序membership，不冻结现行原生全字节或下游条目状态；使用已接受保护loader解析当前组，核唯一归属、完整旧转移Git锚、原source pin、descriptor/孤片/活锁/字节快照。原review政策和撤信属于各自历史范围，不从control完整性给成员恢复语义/独立/运行信用。控制件metadata复用现有唯一review，不新增sidecar、自SHA或第二套账本。
+
+先冻结本轮有界设计再实施：母类型evidence-receipt、自有1.0.0的json-native变体；必填具体职责、authority/callers、合法组输入、成员与空/转移规则、状态/历史界线、更新及信用失效、stopLine/nextStep。header/有序path+原source轴改变需重审，不靠刷新after洗白；既有成员内容/状态、after维护与maintenanceHistory可按各自授权变更，child语义/状态有效性仍由child合同和全局门独立验证。flat与manifest可按同逻辑值合法重包，必须经原loader；旧source pin不能变。可变after是行政观测，不作为永久immutable真值。
+
+本轮只在临时组注入三条具体partial/needs稿，注册variant与public model/progress接线后真实验证；生产三route/registry/review语义状态不改，正式接受表不启用，不授新迁移。负例覆盖错误header/成员/借位置、坏after、删除或伪造历史转移、非保护reader、重复归属、假晋升以及flat/manifest一致性；空账本不得强加entries/0、不得顺手退役。旧测试只读，产品/006/E2E/coverage不改；父卡/提案/看板和必要after行政级联按唯一gzip封存。合同/三pilot完成后交一次非作者实施验收，Owner同时继续其余可变控制面；不合main、不推送、不done。
+
+
+## S67 S66独立接受与111现行账本完整执行准入（2026-10-29）
+
+S66公共合同源5fb140552e26e2f4dbe36b9d8cc64d6f4cd69fee、三篇临时候选4768219ea979ed8981fa86377d2c540cec1de467已获GLM只读非作者accept、零counter。Codex核两原件完整SHA：HANDBACK 5c1f86864d18c8c28ded01604f96f0c4b8bef7a16abfb210bf6cd9d4e8fb691b；verdict 43cfa8aca67a1cfae6589b89c613369535053a3001cd066bb1381a3f485a9473，并定向回放原verify-final，源0正文/7行政、pilot3正文/5行政、2435 pins、473原生保全、144/288和0信用逐项相符。验收覆盖公共代码和三份具体正文，不复读S65/473，不给成员正文或旧执行授信。非阻断字段说明：原pilot-final-identity.proposalVsFoundationDiffSha256记录0962..4768全程差异，正确含义foundationToFinalCandidateDiffSha256；0962..1d6初提案差异另见原pilot-identity，1d6..4768=653dd9cf绑定双CLI回执不变。冻结原包不改，澄清和新原件仅封入既有gzip。
+
+本轮Codex build allowed从5fb隔离后继codex/docs-s67-current-ledger-bulk完成同类111逻辑账本的精确准入及受控候选工具、完整临时树演练和一次可执行交接。111为S62清单中真实逻辑owner，不含物理分片；3篇已接受正文复用，另108篇由GLM正式治理。沿S66同一current-review-ledger-native-v1/1.0.0：9d真实Git的稳定header、有序成员path/source身份和原source pin冻结；after/status维护及物理世代按受保护loader分轴，不冻结活字节、不套历史载体合同。空账本显式转移保留，不由空数组自动退役。
+
+候选writer只改111现有review位置的解释字段与其route/registry机械投影、必要after/世代级联。完整before行hash、白名单位置、原source/after/status/claimCorrection/revision和历史前缀先验；每次先在内存用公开model和真实Git/materializer核新正文与依赖，后复用已接受的活锁/staging/退出/读回事务。R92/R93自身也是正文目标，其控制字节随成员解释更新的after只作为有界行政边，不得误写成原生不可变或child接受。无sidecar/第二套账本；候选保持partial/needs与0信用，Owner接受与正式grant另行执行。其余24 JSON、9 MD、产品/006/coverage/旧测试不在GLM写权限。
+
+GLM下一委托先只读非作者复核Owner公共增量及完整演练；通过后同一委托直接在隔离worktree执行108篇（合并复用3篇，交111全包），不中途回交设计/只读/content-ready小包。逐篇核逻辑header、政策/纠错历史、真实成员职责/来源身份、transfer、具体字段角色、入口/合法输入/oracle和未读域；不要求重新审阅2435成员正文，不将解析或全字节扫描说成人工全文深审。可复用S58内容，但计数/首末成员/状态/物理形态须以本候选重算，过期事实改正文。内部自主分段，遇单篇真实语义冲突精确blocked并继续其它。终交必须是实际提交候选、完整全包保全/模型/进度/非strict/索引/Testing/lint/diff原件和一个只读快检，不以计划稿替代实施。
+
+已接受三正文只复用S66终稿，允许明确追加S66接受范围说明，不恢复旧撤信。Owner持有所有grant/正式中央接入和24 JSON+9 MD；作者自验不代签。144 pending/288严格项不预扣；全卡rework，不合main、不推送、不标done。旧测试未获新授权不得修改。
+
+S67完整组首轮演练在落盘前拒绝：R93新增解释后格式化输入将达1,075,985B，超过1MiB；没有压缩结论、放宽maxSize或继续写半树。Owner据此明确准入R93唯一flat→manifest升级，固定10ae2c1447f7f5583bc1407024a506e174d2d914真实flat Git原件（OID eba5c8346cad3c5d39ed863ccdc223e9daedddf9、SHA c6abadaa7f66a7c51882396f6363c3eb32282d9deac75e1adb1c0b257099ae3e），91成员及旧源字段原样保全。原12 source pins不改；current事务只允许无R93时12或持此精确R93 pin时13，新增source也须真实Git解析、staging/读回共同核验。新manifest/每片仍≤512KiB；新物理载体本身不产生新正文分母。现行合同拒绝其它flat→manifest升级或更换R93 source，数据与授信仍分轴。原S66“本轮不准入新source”维持其时点；本S67是显式新增唯一存储准入，不追溯改写S66。旧current-review-ledger测试夹具从live改为固定9d复制的最小补丁已备，单独等用户既定旧测试许可；未获许可前不编辑该旧文件。
+
+
+### S67 实际就绪与S68一次性111作者候选（2026-10-29）
+
+公共增量实施10ae2c1447f7f5583bc1407024a506e174d2d914→d9088a81e262b3babf1de6cbf3d1ca06ac24d5b8→70d770f477628d6ba7ec3a2d51c2329269c5162a。111精确逻辑绑定=原3不变+108新增；真实Git9d header/成员-source身份逐项一致。原3正文仅在临时树复用S66终稿，其余108为显式结构演练稿，不伪称语义完成。分组lore转移及单条phase转移共20 subjects由真实Git/当前唯一去向逐一核验；不改原转移格式。用户已明确授权current-review-ledger.test.mjs该一处固定9d夹具适配，原断言全部保留；旧许可pending文字保留为前一时点。
+
+真实完整演练候选121df7694c12ecc3bf59231f8338c3b06dc6bb2c，111解释写入13物理输出、3旧片退出，114逻辑/159 review物理/45片/13 source pins（原12逐值保全+R93唯一固定10ae），2435 after精确、锁释放、0信用。3篇已有接受语义复用，108篇结构起稿尚待GLM实际作者治理。R93被显式拆成manifest+3片，均受既有≤512KiB cap；完整当前组不改1838分母、无新增旁账。当前公共publish函数锁/staging/备份/rename/退出/读回/失败保留代码对S66逐字节相同；本轮增加的是准备期准入与完整13-manifest实跑，不冒称复跑过新的故障注入。
+
+源与临时树完整310/0fail/0skip，源model2301/0、临时2412/0；lint源4644/临时4647均0E/W/I，scope证明源0正文/6行政、临时111正文/3行政、473旧原生/原12source/旧status与claimCorrection全保全。临时首全门在Testing报8个新工作树缺失的006旧build产物；8原SHA只读引用补齐后仅重跑受影响下游：链接/索引/Testing/phase-lore/progress均0，strict恰144文档/288诊断。310同候选工具结果复用，不刷新006日期、不重跑runtime。并发改卡导致首read-only envelope失败、1MiB首红、未变incoming误列、旧分组转移不适配、缺忽略产物五类原件完整留痕，不修改旧执行输出。
+
+S68 GLM build allowed在本S67最终候选的新隔离worktree一次覆盖111最终候选：先非作者只读接受本公共增量与演练，accept后同委托直接继续108篇逐篇语义作者实施+3篇终稿复用，不中途回交只读/设计稿。只通过公开candidate API更新现有位置和机械投影/after闭包；受控临时树、原S66、Owner源冻结。真实grant与中央发布仍Owner；现有144/288及0信用不变，剩余24 JSON/9 MD由Owner并行，006不在本包。全卡rework，不合main、不推送、不done。
+
+
+## S69 S67据证接收、S68限定纠错与受控授信前提（2026-10-29）
+
+GLM回交S67非作者accept及S68作者候选12d90b4da6e2cc36c94ceab6577828cd79c7698e（base440541915、单提交13路径）。Owner核原件：HANDBACK 2fe632cf18854ef9b576ed8f849bf92a26c362ebdc49315b858ab5a8e5ed5f0c，verdict8235101fe7a99be9de79aa734b0104dda3b58243d8c0671aa7e14add884f365a，final-plan db2bdbe58594e3b4330d33f5085afef603b3467e49d2add72d2c5697c781a415，file-manifest5bc2a504e5178ae7aa3f3c643b12ba9898d151c29a672573ef83fd47e79bea46。范围/13件原件/111正文+3行政/2321其余/2435after/473原生/旧状态与撤信/108计数分布/原12+新1source/registry与routing投影全部独立复算一致，三S66 core/readDomain/role未改。不重做成员正文或GLM已校准的完整机械审查。
+
+接收S67公共增量与实跑演练的非作者结论，但两处回执解释须勘误，原件不覆盖：逐字节不变的是publish函数，prepare在S67实际新增R93 source/13pin校验，不采信“prepare也不变”的声明；S68 finalPhysicalFiles=162是159 review物理+3控制投影，退役3片另计，不能解释成含旧片未删。都不构成实际机器内容丢失或越权写入。
+
+Owner按用户“小修直接处理”在codex/docs-s69-ledger-intake从12d隔离追加963ff5492956372d12a8ac7295dd1be944cde95d：108条读域收窄为实际披露的policy/scope去重核读与机器字段枚举，不再泛称整个嵌套header人工全文；55条当前机械维护reviewer不倒签到原reviewDate；lore的7事件/9subject分开；R34/R41/R60明确9/10/8个supersededBindings与实际接替账本，不把historicalReviewIdentity误说成成员数组。三复用正文core/readDomain/role不动；111未解/下一步改为可长期适用的条件边界，避免正式接受后仍写“尚未验收”。机器原件/旧撤信/source/状态保持，全部counter与改动规则及prior完整行hash复用现有history。11写/6旧片退出，114逻辑/160 review物理/46片/13原source，2435after精确；0新信用。Owner新增文字需由未参与者只核此增量，不重新审111原始正文。
+
+本轮进一步build allowed：仅文档工具内实现现行控制接受资格与Owner发布入口，复用既有candidate规划/registry投影/DAG/锁/staging/保护读回，不重造物理writer。正式接受表当前为空；候选保持partial/needs，只有冻结path、具体正文hash及分域非作者basis+独立报告、Owner决定全部成立才可content-reviewed/template-compliant。current after是可维护观测，不作为永久接受身份；header/成员-source与原pin仍由原guard独立验证。旧claimCorrection原对象必须完整移入唯一publication history，不能恢复其旧信用；runtime/child授权均false。作者--write和Owner--publish分开，传假报告、换路径、改状态或序列化句柄不得越权。仅新增必要回归，既有测试字节不改；17父合同/版本/registry不变。
+
+GLM交付没有逐命令argv/cwd/ISO/exit/输入指纹结构回执，原raw保持未绑定口径；Owner因此在固定12d真树补跑一次check:docs，310/0fail/0skip、docs0/model2412/0通过后Testing报唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29。不得据此刷新日期或豁免，catalog不在本次正文范围；Owner后续单独核该日期门前提。现行strict144文档/288诊断仍实记，全量硬门未过。剩余24 JSON/9 MD继续Owner范围；不合main、不推送、不done。后续同一份非作者提示词只验S69差异/接受边界与证据，接受后再由Owner填真报告与受控发布111，不再要求GLM重做作者包。
+
+
+## S70 S69独立接收与111现行账本正式授信（2026-10-29）
+
+GLM对6e0723208b722591a83a622ba700d8ecc9f18521的R01–R05限定增量及六文件资格边界非作者accept、零counter。回执HANDBACK SHA470855f7870f5305baf4721a6db99539b41cbc2eabdfc7457c7ed525cf1bee49、verdict SHA33b249b0caef1fdc9abb77de34d492459fd5c9d0c01f0575de73f50081c29f66；111内容摘要清单SHA0bfe990dc88542ad7d6852db859b70b0b58250acaa95cc275c0f0e6197bb5e88由Owner逐行复算匹配。GLM仅签Owner增量；S68基础字段另引Codex8245b7b0裁定，三复用pilot基础另引GLM43cfa8ac，不能以GLM签自己的作者稿。
+
+本轮Codex build allowed：在codex/docs-s70-ledger-publication编译111逐路径/正文hash/分域basis接受表，经已接受--publish通道正式接入，更新registry投影及必要行政after闭包、父卡/看板与原单份gzip。旧claimCorrection完整入唯一publication history，旧撤信不恢复，成员正文与runtime均不授信。发布前旧144/288保持，发布后只按真实progress/strict扣减；剩余24JSON/9MD仍Owner范围，e2e-001日期红不得刷新或豁免。父子卡保持rework，不合main、不推送、不done。
+
+发布预检发现registry状态投影写错字段：实际consumer读取reviewStatus，而旧投影写contentReviewStatus。Owner按用户小修授权修正一行，并新增固定6e Git夹具、调用真实projector及reviewCreditIssues的回归；旧实现实际报registry/review status mismatch，修复后通过。只导出无写入权的纯投影函数供该测试调用；旧测试、产品、coverage、合同和source pin不改。首个仓外编译脚本语法错误发生在表写入前，修正后重跑；原失败与前述业务红回执保留。接受表本身不晋升任何状态，只有受控发布成功后据实记录。
+
+S70实际接入：接受表111/111与6e正文hash精确绑定；真正CLI在固定d7141f66b clean候选上dry-run（13计划写/7退）后同plan执行--publish，13写/7旧片退，114逻辑/160 review物理/46片/13源pin与2435 after精确。registry恰111行reviewStatus及templateCompliance晋升；108个旧claimCorrection完整移入各自唯一publication history，2324其余语义行保留。111接受只覆盖现行账本解释，oldClaimRestored/runtime/childSemanticAcceptance均false；物理事务返回creditGranted=0不代替显式Owner授信，本轮实际新增111当前审阅与111模板迁移。原生473字节、routing、17父合同及1838固定清单未动。
+
+稳定候选9fca3c914实测：317文档工具测试/0fail/0skip，docs链接/任务状态门与model2412/0通过；lint4652文件0error/0warning/0info；phase-lore184通过；progress1818/1838迁移、3显式退役、17基线未迁与584增量迁移，完整2435当前候选中2402合规、33待办（24JSON+9MD），integrity零。strict由144/288降至33/66（审阅33、迁移33、交集33），实减222诊断。check:docs仍exit1：testing唯一e2e-001 reviewBy2026-10-28<UTC2026-10-29，非本批解除，不刷新日期、不豁免；全量硬门保持rework。行政后仅更新父卡/看板及精确after/maintenance闭包，不改变任何接受正文hash。接入结果与新增一行投影修复交GLM只读增量复核，不重审111正文。
+
+## S71 S70限定接收与剩余现行控制合同（2026-10-29）
+
+S70候选8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9已获GLM只读非作者accept、零counter；HANDBACK b6fa2a61f393c4ea8e2f67a95c8eadb39176a718e3d575b3dcf6d5d6d72f13af，verdict eb8b2e86ee4314e0530a5e27285c285e828438e86ce1f8556b795b87392af879。范围仅S70三代码/分域接受应用/实际发布/行政/封存；111既有正文和S68/S69各自裁定不重做。由Owner据证接收本增量，不再次授予111或child/runtime信用；全卡仍rework，33/66不因接收回执重复扣减。S70工作树/候选/原包冻结，使用隔离后继codex/docs-s71-current-controls。
+
+本轮Codex build allowed：处理剩余24JSON的公共合同与受控真实pilot，并核验e2e-001日期门。19件live控制（16治理控制+testing catalog+两legacy投影）使用当前控制原生合同；3件模板JSON示例用原生参考合同；006两件沿已存在的执行/历史发布合同，不重跑或外借GLM运行信用。字段保持原生，治理复用现有唯一review位置，不新增sidecar或平行账本。current语义结构/有序身份和after观测、旧source、当前接受分轴；原生结构或政策变更使解释指纹失效，合法子项状态/after维护仍须真实consumer和子项合同。模板示例不当实际执行。17父类型/原有变体/source pin/既有测试保持，新格式自有1.0.0。
+
+原型/公开guard/原生结构检查、复用保护组事务的封闭candidate/publication通道、临时树pilot与22件控制/示例最终作者候选由Codex完成，真实状态先保持partial/needs；拒绝借旧接受或只刷after授信。至少覆盖phase catalog manifest、registry manifest及模板注册表自描述三种真实pilot，正反例须进入同一公共model/progress合同。未满足实际接受条件不得发布新授信。旧测试不改；产品/coverage/真实E2E执行不在本轮写权限。
+
+e2e-001须实际核读完整报告/配对JSON、7个sourceRefs行段/实际SHA、两runner和both调用链、现行content22/minimumSAVE12及oracle；必要定向工具回放只授工具合同信用。能据证续审时才更新reviewBy及索引/文档审阅日期，保留lastVerified原日期、旧candidate/版本/raw和runtimeExecution=false；若当前执行事实不足，保留缺口，不把文档续审冒充新实跑。日期门不以豁免、ignore或自动滚动日期解除。
+
+S71正式22项计划首次dry-run在任何落盘前被1MiB护卫拒绝：20261018-record-integrity-rework结构根原flat为981042B，补七个registry分片的具体说明后无法继续flat。Owner据此显式准入该结构根唯一flat→manifest升级，固定8103c7e1879b926df0ac00acdba06a6fe4ea691f的真实flat Git原件（OID 0c324e9c636de903c5b655264e4824b3723d2254、SHA7aff0960daeec007f687d6dc882f7f2ca03bbd3e08e62e04dcd331d09a237382）。它不是governed正文，不增加2435或1838分母；旧13source原样，14th只对应本精确普通Git blob，原对象/成员/位置和旧历史由保护loader保全。新manifest与每片沿原512KiB/1MiB护卫，不压缩结论、不提高maxSize。公共事务与同一封闭candidate通道先支持新精确source，再在三pilot及全22演练中核组读回；不得静默升级其它flat owner或伪造通过。
+
+S71实际交付：两变体各1.0.0已注册，19控制+3JSON示例共22件完成逐路径具体解释；仍partial/needs，接受表为空。复用既有共享事务的封闭native-control candidate/publication通道；作者不能改状态，Owner通道只能应用未来真实编译接受；原ledger通道不会自动触发新结构根升级。10项新回归含真实source/22角色、三model正例、类型/来源/结构/派生汇总反例、假授信、IO竞态/同字节symlink/活锁、资格纯正反例及原catalog schema的过渡职责。旧测试零改动。
+
+三pilot临时树完成17写/7退、14source/49片、2435pin，model2415/0、非strict review及testing均通过；初次whole-model发现原catalog仍在partial旧schema阶段而被新角色提前拦截，已限定仅旧身份partial/needs且无编译接受时保留原schema检查，活动native metadata/授信后禁止降级，原失败保留。另补docType与模板父类型严格相等。物理写入在139，随后只读公共guard修订与实际组读回在70226f5a08467d8e554505f56eaaff87e56e61ed；分阶段如实，不将新版guard倒签到旧执行。
+
+实际22作者候选15e210c39通过同一公开CLI --write（21写/7退、167物理=163 review+4控制投影、14manifest/49片、2435after精确）；两接受表中S70的111签名内容不变，S71表仍0，新语义/迁移/runtime/child信用均0。新结构根独立JSON解包重建与公开loader逐值/键序/三个fingerprint相等，旧13pin保全；原生473、001/006三配对JSON、冻结1838不动。只有模板示例的两个minimumSAVE默认值从11改为12，不将示例当执行。
+
+001续审已真实核读完整报告和原配对JSON、7源码SHA/行段、两runner/both调用链及55行原生对白合同；三工具文件25/25通过，无浏览器/存读档/视觉新执行。reviewBy按这次文档复核从2026-10-28续至2026-11-28，lastVerified=2026-09-28、原22/11候选/history和配对原件逐字节保留；当前观察22/12单列。新工作树缺少8份既有006产物被testing门拒绝后，只以真实SHA复用只读链接，不重跑或改006。稳定候选实跑327工具/0fail/0skip、docs0/model2433/0/testing0/phase184、lint4660文件0E/0W/0I；progress1818+3+17/1838及584增量、33pending/0integrity，check:docs exit1仅剩strict33/66。没有全门通过或done声明。
+
+下一步将本轮公共增量、结构升级、日期审阅和22具体解释一次交GLM非作者复核；真实接受后只编译22正文hash/报告并沿已备--publish通道授信，预计33→11须以实际计数为准。剩余9MD+006两JSON由Owner并行，不重审已接受111成员/旧runtime；本轮不合main、不推送、不done。
+
+## S72 S71据证接收与22项当前控制/示例受控授信（2026-10-29）
+
+S71冻结候选c4a4295d8b6002e8b3f73c7abe8adc0bd45b8a08已获GLM非作者22/22 accept、零counter；HANDBACK 771c9bd552835998ce8572bb6cc07488d464e26ae77d0b74887564aef2b5ffca、verdict 94db1d0fe3683c6d9866e50755b17b6da48e769ad8aac7a29b41df115312384c，内容hash清单8cf600cdc580fd5a65086accb54625ff0d23ea28f902e719b993cbbfc6bdc406及targets22逐值匹配。Owner接收公共12代码、22具体解释、8103结构根/三pilot、001真实源码续审与行政封存范围，不重审旧111/473/006runtime，不因收回执重复授信。报告门段括注的9MD+2JSON是22接入后的预期剩余11项；发布前真实仍33文档/66诊断，不能据该括注提前扣减。
+
+本轮Codex build allowed：在隔离codex/docs-s72-control-publication编译现有22项非作者接受表（绑定c4a候选/具体contentSha/本GLM报告/作者与验收人分离），通过S71已接受公开CLI同一plan dry-run后--publish；只改精确22的状态、接受签名与唯一publication历史，原claimCorrection完整移史，原始正文与来源不改。registry同步22状态及真实after/世代闭包，S70已接受111签名/473原生/14来源pin保全；不增加sidecar/全量review副本，不改旧测试/产品/coverage。必要全仓门实跑后记录真实扣减，不把物理事务creditGranted=0误说成未授显式Owner信用，也不授child/runtime。剩余9MD+006两JSON仍Owner，全卡rework；不合main、不推送、不done。
+
+S72实际发布：在51f16ad77843a268eb3d7af6b00658e6f1f7fcb9干净候选上，受控plan canonicalSHA96b676a20ae73b904fbcb600352d98a8609ed27b50e26104f064bf3d1defbce6先dry-run再同plan --publish，20写/10旧片退，166总物理=163 review+3 registry投影，114逻辑/49片/14原source及2435 after精确，锁释放与退出完成。实际接入提交1447a4e1776f48ca1976d8561a6e7169b8f10d20。22状态与接受签名获准，14个旧claimCorrection完整移入唯一publication history，旧111签名/原生473保全；其余2413解释逐值不动，registry恰22状态投影。新增22当前审阅与22模板迁移，child/runtime/旧声明恢复均0。
+
+发布后实测strict33文档/66诊断→11文档/22诊断，实减44；完整329工具/0fail/0skip、model2433/0、Testing0、phase/lore184、lint4661文件0E/W/I。progress1826/1838迁移+3退役+9基线未迁、598增量迁移，当前2424合规/11待办、integrity零。check:docs真实exit1仅严格门22条，001日期未再刷新、006不重跑，不能宣布全量通过。剩余恰board、父卡、006任务卡、lore timeline、两phase投影、Testing治理、006 README/report和两006原生JSON。
+
+本轮只改接受表、新增两个真实发布资格/反例测试，以及用户已明确授权的current-native-control.test.mjs单处夹具适配（原空表正例保留；编译接受后必须拒旧catalog角色，其余断言不动，import按既有Biome排序）。首9绿1红、仓外准备脚本失败、旧行政适配器三输入不匹配、plan漏creditGranted均在落盘前拒绝，原件保留；未降guard。新重复路径反例保持长度22，只破坏唯一性，避免被数组上界提前拦截；后续按终态重跑门。本轮生产writer/guard/合同/source准入逻辑零改动。S72后续复核仅看这三代码差异/实际发布/行政封存，不重审S71已接受22正文；9MD+2JSON继续Owner隔离推进，不合main、不推送、不done。
+
+## S73 S72接收、版本适用性对齐与最终11正文（2026-10-30）
+
+S72候选eeba525e4fd0a997a47418b672ceca4b1326a87c已获GLM非作者accept、零counter；HANDBACK49abfb74a73e7a24894f54345b3e5d05131982c29fe257fb413ea64c75b5e327、verdict50f918f2003ec9fdb2d3097fcda9991d4165c6492be0a4f5c1d3c63482c6bbd4。仅接收表/获准测试适配/实际发布/行政封存，不重复授22信用。
+
+Codex build allowed在隔离codex/docs-s73-final11完成余9MD+006两JSON的文档治理；两JSON原生字节不动，复用现有execution/historical-execution-publication-v2合同与真实技术/用户接受，仅现有review补当前历史/范围解释。任务与报告修正已被后继关闭的pending说明，state2/state3、525的12/11入口与起伏修复11/10分轴；历史quote/测试metadata与原数据保持。两phase视图走现有generator五章合同及共享model校验，不另造一份路由状态。
+
+用户要求先看代码治理E2E新规则：源工作树quality-94-102在e94098f94上的未提交政策已只读核验，14测试全过。按其已批准政策，活动reviewBy从18当前catalog条目与六阶段入口退休，逐条旧值进入reviewHistory；保留lastVerified/revision/原JSON、source hash与分代配对。testing-revisions只读命令复用原实现；HEAD不同不单独判过时，相关content/save/源码变化先归因再局部复验，缺失不宣称适用。当前较新治理正文与lineage consumer保留，不整文件覆盖代码分支旧版本，不整包导入其20条catalog。旧日历失败/续期原件仍保留，不追溯为从未失败。
+
+用户已明确授权check-testing.test.mjs该一处政策适配：合法无期限正例、期限拒绝反例、移除旧日期/参数；原配对/source漂移/runtime反例保留，其它旧测试不改。其余新回归只核实际索引producer与其共享合同。文档作者自验不代签非作者接受；新正文保持partial/needs、原claimCorrection/历史/来源不删，全量门和11状态只在真实接受后扣减，不合main/推送/done。
+
+S73作者候选已在3ebe78bb70bcd6b6614fba46fd82f7ce99ae7f3e交齐原11篇及12份有实际政策变化的文档，后者原有当前接受暂撤至partial/needs，不借旧签名认证新规则。旧独立接受/原状态进入既有history，原claimCorrection与来源不删；2412其余语义保全，2435 after精确、114逻辑/163 review物理/49片/14原source不变，23写/10旧片退，0新增审阅/迁移/runtime信用。两006 JSON、473旧原生、原1838清单、routing与模板JSON合同逐字节保全；当前新解释不恢复旧执行或未核canon。
+
+固定83dc14427081c0295f6f29e1ca3e0d202bbc7c6d真实运行：335文档工具/0fail/0skip；docs链接与任务状态0、model2433/0、Testing0、phase/lore184通过；lint4664文件0error/0warning/0info。check:docs真实exit1仅strict23文档/46诊断（23审阅、23迁移、交集23），progress1817迁移+3退役+18未迁/1838、595增量迁移，当前2412合规/23待办、integrity零。旧11→暂23是同批12份政策修订待重新接受，不是新增未读范围；接受后按真实投影扣减，不能预报全门通过。
+
+testing-index-governance.test.mjs首验4绿2红仅两页审阅日期夹具不符，用户另行明确授权两处断言适配：按视图名锁by-stage/by-status为2026-10-30，其余七页仍2026-10-16，全部成员/状态/来源/幂等/反控不动，83dc提交仅此补丁。首次仓外准备因不同模块实例的受保护快照被拒绝，registry已作有界候选投影而review组未发布；统一为本树同一模块后重跑成功，失败原件保留。一个model回执命令本身通过但包裹输入因同时提交测试发生变化，不作终态依据；上述稳定整仓回执替代，不手改旧回执。
+
+本轮统一交GLM非作者验23篇文档角色/历史/规则与公共工具增量；不请其重做006技术或用户视觉验收，不重审2435下游正文。旧日期红/续期记录保持历史，适用性只读比较不产生新运行信用；真实source/配对/内容save边界仍严格。原作者证据及S72两份独立报告各封存一次于既有gzip，不新增平行账本；硬验收与Owner授信未闭合前仍rework、不合main、不推送、不done。
+
+## S74 S73限定接收与最终正文中央接入（2026-10-30）
+
+GLM对cd1d3a686853bd745c4129827d894f6e3f84555d非作者验收23/23 accept、四轴零counter；HANDBACK SHA ee869543b4c5264711e34ed280e01efd124b7244f72b5c709c8a998a9ea585bc、verdict SHA bad9c6f77dffc4b5d22a77347cee604e3b72e42c34875bd72a78e785d9b0d042。Owner核真实候选与23逐路径contentSha完全相等后据证接收，不重复全文治理、335工具或006技术/视觉；本报告只签S73正文/政策/保全/行政范围，不能提前作为本轮发布结果的接受。
+
+本轮Codex build allowed：隔离codex/docs-s74-final-intake，固定S73真源，编译23条GLM接受与独立Owner决定，仅晋升其状态/签名，旧claimCorrection完整移史；原source、具体解释与已接受2412其余语义保留。registry同步23真实状态与必要after/分片级联，原22/111与473原生保全，复用已验收的有界锁/staging/真实Git/组读回事务，不新增规则豁免、账本或产品运行信用。正文只有当前父卡/看板的准入及实际结果写回，不改23已接受业务解释。
+
+接入前发现两份phase视图虽已由producer和共享model验证，却未列migratedDocuments；完整进度consumer要求每项完成都有唯一正式路由。Owner精确追加by-phase/by-status两条governance-index-v1、historyOverlay=false路由，其余2433路由与七操作入口不变。routing原控制解释/结构指纹只接受过2433版本，不能用旧签名洗成2435：该一项改为partial/needs，原S72出版事件和签名完整包入历史封套（含固定Git/条目hash），新解释与结构/成员指纹待一次限定非作者接收，再编译已有接受表及公开grant。不改其原source或公共guard，不增加模板、变体、旧测试改动或新执行。原23份可按已接受范围接入，不被这一个控制增量连带撤信；所有剩余数以实际门为准，父卡仍rework、不合main、不推送、不done。
+
+实际发布固定cd1d3a686为受审来源，先准备有界registry/路由候选并dry-run，再同一计划独立重建比较全部输出后执行受控事务：23物理写/10旧片退，114逻辑/163 review物理/49片/14source及2435after精确，锁释放、退出完成。实际接入提交2fd03f6fdd5f39bfc26f23ffd576aba3178fc5b9；23条原具体解释hash均与GLM报告相同，3个原claimCorrection完整入各自唯一出版history，其余2411语义保持；原111及另21控制接受不变，routing旧接受完整归史。物理事务creditGranted=0只表示它不自行授权，不能否认本轮明确Owner23项文档/迁移授信；child/runtime/旧声明恢复仍0。
+
+固定2fd03f6f实测335/335、0fail/0skip；docs0、model2435/0、Testing0、phase/lore184通过，lint4664文件0E/0W/0I。strict真实23文档/46诊断→1文档/2诊断，唯一routing；完整进度实际1835/1838迁移+3退役、0基线未迁、599增量迁移，当前1待办、17/17模板覆盖、0integrity。check:docs和--require-complete仍真实exit1，分别因该控制待验，未放行或报done。本轮未改任何生产工具/旧测试/coverage，也不重跑006；后继结果写回与该控制继承的过时适用说明/自引用counter在同一待验范围定向澄清，23已接受具体解释不变。
+
+## S75 S74接收、最后一项受控授信与最终文档硬门（2026-10-30）
+
+GLM对5cea276459404bf1dec59641901b8617d29dd5f1的中央23授信/唯一routing解释/行政封存三轴accept、零counter；HANDBACK SHA 104e7b2da5b40a62175e682154b8c59de3215274cc1c40ee62e7a292e610a42f、verdict SHA 3dd1c37f55d6c44ee833102c70300263ecd594927eb55da286976c98eb1e2435。routing具体解释hash为83d0ab9fb78077ed8948decb24391f4363b65ae106abe24d202fd9f0fa7f2edf，与公共模块及冻结候选相等；Owner据证接收，不重审S73的23篇或006技术/视觉，不重复授前23信用。
+
+本轮Codex build allowed：隔离codex/docs-s75-final-gates，仅机械替换现有current-native-control-acceptance表中routing一项的报告/hash/候选/任务/日期，保留其余21项、作者/非作者分离与所有guard不动；调用已接受的applyCurrentNativeControlGrant及保护事务，registry同步该一项和必要after/世代闭包。旧2433版本的事件/签名仍完整在历史封套，新2435正文解释、原source、23/111/另21接受与473原生不改；不新增合同、writer、模板、旧测试适配或runtime信用。随后实际运行check:docs、lint、diff与require-complete，只有真实零诊断才记录待办归零；父卡不因此自动合main/推送/done，整合代码治理分支的独立工作树仍须保护。
+
+回执B有一处定位措辞勘误：其中“evidence source钉cd1d”与真实字段不符。cd1d是旧已接受条目的before定位；不可变source仍为8e961d3a2f9e6f8de6fa09964953aff8cc1edbd9，后者由原准入与Git字节provider验证。Owner按实际字段/一手Git校正这句说明，原GLM回执不修改，不改任何pin或借其文字刷新来源；其具体解释hash和其余接受范围不受影响。
+
+实际接入提交1ce18cfbc：现有表仅routing的五个绑定值机械替换，公开applyCurrentNativeControlGrant对精确83d0ab9f解释授信，8物理写/6旧片退、2435after/14source/114逻辑/163物理/49片精确，锁释放、退出完成。其余2434条具体解释不变，原23/111/另21控制接受和473原生保全；旧2433版本的封套和原source保留，新当前出版事件不恢复旧信用，新增1当前文档/迁移信用、child/runtime为0。
+
+首轮335工具333绿2红：current-native-control-publication.test.mjs把22项都固定为S71同一报告，真实routing已经S74换版，旧夹具失效。用户2026-10-30逐处授权该唯一文件的固定来源适配：仅routing行从5cea真Git取源并锁3dd1报告，其余21仍固定c4a/94db，按条目组成隔离夹具，不冒充整份历史快照；原22项正例与篡改/伪造/重复/作者越权反例保留。补丁临时应用结果与实际文件字节相等，2/2定向恢复；5d774a893仅此补丁。原333/2回执不改写，随后该固定候选完整335/335、0fail/0skip；check:docs真实exit0，model2435/0、Testing0、phase/lore184、strict0/0/0；lint4664文件0E/W/I。require-complete已实际exit0：1835+3/1838、600增量、2435当前候选0待办、17/17模板、0integrity。
+
+当前任务转review并同步看板/任务索引，只写真实结果与行政after，不改已接受具体解释或给旧R波恢复信用。文档治理静态硬门在本隔离树已通过，未合main/推送/done；另一个代码治理工作树仍有未提交改动，main与本文档线已分叉，整合须按真实差异和保护清单另核，不能借本次通过覆盖它们。本轮不再拆新的GLM正文/设计包，最后1项已经按其真实非作者接受直接发布。
+
+## S76 main安全整合、34冲突与新增1916候选准入（2026-10-30）
+
+用户明确继续授权：先处理34处冲突与1916候选内容分类，复用已接受成果；公共合同/工具准备好后再一次整包交GLM，不逐批确认，硬门未过不合main、不done。Codex为唯一整合Owner，build allowed在codex/docs-s76-main-integration隔离树；源S75为bd77f62da023f5e500d8b4db01863784fcc83e3d，main固定72db417255d8ca4227522420e9185ef468462aa7，共同源28fd9013e09e8792decbff2fa117aae14c36b196。不得修改源S75、primary main的14未跟踪资产或代码治理树379未提交改动。
+
+范围：三向核34冲突（32文档、文档工具check.mjs、Reforge构建配置），保留主线真实新增与S75来源/保全/接受分域；1916候选为456MD+1460JSON，无新HTML，逐文件读字节并按真实结构、内容与consumer分类，机械分类不授语义/迁移信用。旧3份已批准空账本退役映射仍有效，不复活它们；原1838分母不改。以实际合并后的不同字节和事实变化定位受影响claim，不重新治理未变的2435篇。
+
+可修改：冲突文件、必要索引/引用/现行规范、治理工具/合同及单一现有账本的增量结构；Vite配置只合并已批准模块切分与主线单worker验证安排，静态目录/原另存保存恢复行为不变，按实际版本类型/构建/必要烟测验。产品逻辑、旧测试、coverage不得顺手改；旧测试仍逐处另授，若发现新产品/schema/save取舍停止该项并给证据。公共增量合同与pilot由Owner完成并冻结，不发只读/设计半成品包给GLM；GLM最终白名单不得包含共享中央或产品源码。
+
+本轮隔离树允许出现显式未接入/draft状态，旧main机械SHA或历史独立字段不能覆盖S75当前信用；真正变化的正文须记录新差异，不只刷hash。合并到本候选不等于合main，原源/after/历史/机器字段及当前消费者分别核验。最终组合后的check:docs、lint、diff与完成性必须真实零诊断，未过保持build/rework，不声明全量通过。
+
+### S76 冲突实况与整包执行合同（2026-10-30）
+
+隔离合并提交9780a02734b898f977cfadfee41476d7071a140d已解除34/34 Git冲突；不是合main。main源72db与S75源bd77均保持原分支与字节，primary main仍0 tracked改动/14未跟踪资产；代码治理树有并行工作，观察到394 tracked/66未跟踪，未触碰。代码与文档规范分域并存、main PR-only规则保留；Vite合并原分块与main单worker，Reforge typecheck和实际Vite8.0.14生产构建均通过，最大JS268.05kB、无告警，不授新006或另存运行信用。
+
+三个模板的历史源块与game-mechanics引文已恢复S75固定字节；main新增质量提示/日期化机制勘误放在原块外。17个冲突review/control保留当前已接受的分片、归属、撤信及接受；main52项并行声明留真实Git blob定位，另4个自动合并review owner也恢复已接受身份，不能以旧main机械SHA覆盖当前信用。现行正文差异另审，不用恢复源块删除main已批准取舍。旧3份空账本退役不复活，1838固定分母不变。
+
+新增1916全部源字节结构读取：456MD+1460JSON，共25,280,749B，0解析失败/0文件达1MiB。全量初分类后另按真实task consumer核131任务卡、testing catalog核6配对材料；模板初提案为task-card131、guide-runbook3、evidence-receipt1573、audit-report111、test-machine-evidence88、governance-index8、test-domain-report2。它们是排期/准入建议，必须由贡献者逐篇语义核实，不能把程序分类称为全文深审。原main另5324附件按固定Git保留：txt560/gz4484/py51/mjs91/exit62/png50/mts4/raw7/ts4/patch3/cjs8；归属回对应卡/README/回执的实际引用，未知caller显式待核，不另造每附件散文。
+
+公开合同document-incremental-candidates/1.0.0已接入长期document-quality规范，不新增模板类型或改原父版本。原生候选复用既有三类artifact-native合同，通用纯校验只增加显式carrierRevision输入，旧473绑定/原源默认保持。新构建器核固定main新增全集、真实Git OID/SHA/长度、范围、模板、任务状态、机器值见证、唯一候选位置与精确保全；仅写白名单MD及仓外交付，不写JSON载体、中央routing/registry/review/matrix或接受表。live front matter/testing-meta由原源程序保留在保全块外，不把必要元数据只藏在引文中。
+
+Owner已做5真实pilot候选：取消毒键卡、coverage:ratchet退出0回执、M05一文件两断言重试、docs退出1数组和空console数组。保留M05初红根因未知、suite计数不等于文件数、exit0或空日志不等于零诊断/产品通过。pilot只作格式与具体语义示范，未写生产正文，待GLM非作者核公共增量后在同一委托继续整包实做；不再等用户转发第二个设计/只读任务。新8项反例/正例定向通过，旧测试零修改。
+
+初检nav1759MD/13962链接/497任务0issue、Testing0issue、phase/lore184通过，lint6403文件0E/W/I。首次整套工具341/342，唯一失败是旧CLI反例先被当前脏树守卫拒，未触达其预期flag错误；不改断言，提交干净后复验。该长轮期间增量模块继续细化，包裹输入变化已如实留红，不当终态绿。候选model最初11issue及after/pin缺口未被豁免；相对main的diff检查零，相对S75引入main原raw的空格/EOF诊断保留，不trim证据过门。
+
+事故：一次仓外分类器未处理空Status导致IndexError，已保留原脚本后修复；一次pilot构造把context锚误别名进nativePointers被公开guard拒，已分开字段并重验；一次源观察脚本UTF8输入失败，后续独立命令才成功，未把失败输出冒充成功。原件不手改。整包由GLM做真实正文与原生语义最终候选、Codex做中央扩容/pin和接收；所有作者稿partial/needs、credit0，硬门未过不合main、不推送、不done。
+
+## S77 GLM 新增1916份正文执行整包准入（2026-10-30）
+
+Owner按用户S76授权核范围后一次build allowed：贡献者GLM在codex/docs-s77-incremental-1916隔离树，对固定main72db4172的1916新增集合（456MD+1460JSON）交完整正文/原生语义最终候选，内部批次与续办自行管理，不逐批回交或索取许可。先对Owner公共增量与5 pilot据证非作者验收，若可用直接继续作者执行；该非作者结论只覆盖Owner部分，不代签自己的1916稿。正式清单、真实base/HEAD、工具指纹及本卡范围见仓外type-pal-S77-GLM-incremental1916准入包；固定1838、旧2435接受及三个批准退役不扩张/撤销。
+
+正文作者白名单恰456篇新MD；1460JSON只读保全，具体审阅写统一仓外候选review，不往每份源文件加sidecar。公开build-incremental-document-candidates仅写MD，源SHA/OID/字节、原文保全与派生字段程序实取，所有作者稿partial/needs/credit0。五pilot中取消任务必须保留cancelled与CODE53接替边界；Vitest重试绿不证明初红根因，exit0/空console不代表零诊断或E2E通过。活动testing publication状态与固定载体来源时点分轴，不能把六配对入口降为仅引文或误归档。
+
+全文语义核验适用1916/1916：旧可接受稿逐字段复用并写来源，新稿逐篇记录实际读域、结论、来源/phase/适用版本、消费者/合法输入、文档oracle/原生值见证、排重、counter/rework/blocked、历史/继任、前后SHA、模板选择理由/符合性与停止线。不用抽检、目录归纳、模板句或只哈希代替逐篇语义审阅；工具通过不认证作者确已阅读。精简/退役只能交具体来源、引用/consumer/替代和可逆退出提案，本包不删载体。5342或其它推算分母不可替代固定1916清单；附件实际5324单列归属，不授正文信用。
+
+禁止GLM改中央registry/routing/review/matrix/catalog、父卡/看板/索引、合同/工具、产品、旧测试/coverage或共享配置，不import生成器探测。单篇前提/合同不适配只阻该篇，列counter和解除条件后继续其余集合；不吞异常、不伪造来源/执行记录、不reset/stash/覆盖他人改动。最终一包交完整候选身份/集合、逐篇语义记录、patch、真实回执、失败/事故原件及只读快检；完成集合是作者交齐，不是独立接受或治理done。Codex并行做中央扩容与受影响claim/pin处理，最终授信和全量门由Owner集中执行。硬门未过不合main、不推送、不标父子卡done。
+
+### S77 内容返工据证接收与Owner规范保值收尾（2026-10-31）
+
+GLM最终作者候选62f27e854466f540fb595dc4ca4fbcb3bf4adf56（在6b83c9a2后恰两提交）按document-delivery-acceptance/1.0.0据证接收，原074a746c三counter与98df3dfca记账保留历史，不抹除。277件新交付hash全等、旧413件冻结文件不变；官方verify1916ready/0blocked/1460原生保全，Codex独立核456原文尾段相对上轮候选字节不变、patch等Git且恰456白名单；五pilot只加retention、全部既有nativeWitnesses/nativeAssessment零改。343公共工具及A轴既有接收直接复用，未重做1916全文。
+
+C01具体正文与C02原生语义缺口闭合：CODE69 done/partial、CODE53旧停止线/当前有限accept、C04真实工作流与统一诊断红、CODE90 revive临时/装备边界及非官方重放、3l生命周期局部浏览器范围、input-rotation出版与执行分轴等定向对源；另核CODE88三变异恢复、image-only30绿/535告警、三项用户取舍、duplicate-click第二Confirm边沿等。未展开全文/原raw/产品执行明确保留作者读域限制，不倒授旧运行信用。
+
+Owner直接处理规范一处残余：GLM规范摘要仍把F/G/H及部分细则放在历史块、顶部Owner为治理作者；通过已接受公开构建器把固定main72db完整现行条款原字节恢复为可见正文，保留规范Owner Codex，原source块零改，不新写政策。不将这份Owner渲染替换冒称GLM提交原字节；具体body/hash与零语义变更证明在本次Owner回执，随后中央组合集中复核，不再要求用户单独转话。
+
+C03作为保留/归并提案接收：456retain-prose/1449retain-native/11consolidate-proposed。11件逐一对源，6对确实逐字节相同，须先迁引用/pin再受控归并；其余5件只有输出或结论重叠，命令/时点/原raw身份不同，本轮继续保留，不能把935例的结论转给421B另次回执或删掉时点证据。0文件删除/移动，不授退役信用，不新增逐文件sidecar。
+
+Owner verdict SHA 9978c24851c0ea74ac6f5a8fa7e451cbbff7e95ad793dc2d9f44f331017f9b45，证据在仓外type-pal-S77-correction-owner-audit-am91s10r；原报告nav14423按最终raw14422勘误，旧报告/回执不改。作者阶段nav0issue、testing0、索引96213B字节等、lint6403零诊断及diff0按实际输入复用；Owner规范/行政变化补核实际相关门。全部作者状态仍partial/needs，0迁移/runtime信用，旧2435/1838不变；中央4处控制pin、1916扩容/正式接受表及全量硬门仍Owner待办。无下一位Agent返工提示词：下一步Owner完成公共中央接入后一次集中非作者验收；不合main、不推送、不done。
+
+## S78 1916中央扩容、控制pin与正式授信（2026-10-31）
+
+实施核源更正：以下开工预排的115 owner不执行。实际复用既有20261018-semantic-rework，保留原28条并分片接入1916条；逻辑owner仍是原114精确全集，after为4351。原稿的prospective位置通过28+index显式迁移，不新建空种子账本。新增第15个storage source是既有semantic owner在6995的真实flat Git blob，原14个source不变，不构成新增正文或自签。
+
+容量核定：ops旧片694615B，新增1910ops分配到[2435,3390)、[3390,4345)两个明确registry物理片；testing新增6条落原testing片，根描述符7→9。两新片由实际loader核归属并显式列为存储部件，不靠目录前缀遗漏正文。旧flat保留既有1MiB合同，新review/registry片保持512KiB。范围重叠及既有归属的正式反例已先红后绿；此前夹具缺字段导致的失败不计反控。
+
+S76整合42条旧after观测已逐项核旧pin等S75固定blob、新字节等固定整合输入，15个带marker的原文/模板块完全相等；不写成42篇新深审或新运行接受。控制类原角色/source/签名保留，最新成员与计数用独立Owner行政投影维护，不冒充旧GLM接受。完整4351pin/1916grant规划已只读构建，真实中央尚未发布。
+
+用户明确授权继续完成1916中央扩容、4处控制pin修复与正式授信后运行全量硬门；Codex唯一Owner，隔离codex/docs-s78-central-1916，base6995a8ec10598695e62df67e6f1d38da72bba38f，build allowed。复用S77作者62f27e854及9978c248据证接收、五pilot非作者接受和Owner规范原样保值渲染，不重复全文治理或伪造新的独立签字。原1838与2435接受、3批准退役、旧114逻辑owner/来源pin及473原生保持；新增1916另列增量，1933原生载体保持（旧473+新1460）。
+
+可改：中央唯一当前review、routing/registry/matrix及必要SHA/DAG；文档通用reader/受控writer/准入与资格的最小有界扩展、必要新增反例和规范/任务写回。新owner必须真实Git初始化、分片小于512KiB，不持久化另一套全文或per-file sidecar。旧114精确约束不改成下限；新115组须固定旧全集加一个准入owner，全部4351唯一after归属真实校验。4处控制只按实际来源、角色与已接受入站增量维护观测，旧语义/撤信/历史签名保留；不能单刷hash洗白或把Owner新解释冒充旧GLM接受。
+
+既有测试若夹具确需适配仍逐处另授，本轮不先改旧测试；产品/旧产品测试/coverage/共享忽略规则不改。实现先反例、临时树完整演练及故障/幂等，再受控发布；授信必须逐篇绑定真实作者/非作者依据和接受内容，状态与执行信用分轴。全量check:docs/lint/diff/require-complete实际零诊断才可记静态通过；新工具/中央组合的独立复核另按真实范围集中交付，不逐批问许可；不合main、不推送、不done。
+
+### S78 中央落盘、守卫反控与封存窗口（2026-10-31）
+
+中央真实发布已落在3a1ab51e59034e7d542a81f5af9ba56706663579：1916篇按已接受正文/具体语义逐篇正式授信，456MD与1460原生JSON仍采用原接受字节；既有2435条的正文审阅字段逐项保全。总4351唯一after/registry/routing精确，沿用原114逻辑owner；semantic-rework原28+1916=1944，15个真实Git来源manifest/103片，原14来源保留。4处控制pin、42项固定整合观测和18条依赖pin在原角色/签名之外显式维护，不以刷新hash恢复旧信用。新增2个registry片是有界物理部件，旧7片归属保留，不生成第115个或第二套全文账本。
+
+真实临时树与中央各87写/10旧片退出、1933原生载体字节保全；同输入重放0写/0新grant。不经生产loader的独立原始JSON重建核114/15/103/4351、旧2435语义及新1916资格，结果全等。normalization仅记录真实读域/位置/版本语义，不把程序解析称为人工全文；1916份原候选元数据可由单一稀疏逆映射逐项复原，未复制完整review或原生载体。
+
+初轮完整check:docs353/353、nav14423/0、model4351/0、Testing0、phase/lore184、strict0/0通过；lint6467文件0E/W/I，require-complete为1835/1838+3批准退役+2516增量、0待办、17/17模板、0完整性问题。该原件真实绑定3a1，不倒写为之后候选实跑。后续行政事务另发现并闭合C78-A01：两个新registry部件必须在首次发布后的每次写回捕获真实快照，并在staging公开重建完整9/4351。自有临时树真篡改先红（旧实现未拦截，11写，随后恢复原片），修复后同反例加锁前拒绝/零写/无残锁，正常11写/7退出/0新grant通过；真实中央片未遭篡改。
+
+公共实现15文件的A–H逐文件自审不冒充非作者接受；本次保全首红/恢复/命令原件并只追加既有gzip。采用拼接新gzip member同时保留原压缩字节前缀和65713415B解压前缀，不反复重写旧回执。封存后的最终check:docs/lint/diff/require-complete另以仓外type-pal-S78-central-1916-shssowtj终态原件为准，未运行时不提前标绿。
+
+本段为已接受正文的中央/行政写回，非重新全文审阅。原1838分母、3退役、历史撤信/来源/运行边界不变，0新增runtime/E2E/视觉/coverage信用。全卡仍build/rework；新工具与组合候选集中交未参与作者的GLM据证复核，不重做1916/2435治理。硬门/独立接受未齐不合main、不推送、不标done；另分支延期只记录，不借其绿或越界集成。
+
+### S79 S78非作者accept接收与最新main前置（2026-10-31）
+
+Codex据证接收GLM对冻结候选21e989cfa49a70b6c65fea057b600f1582b99b24的四轴accept，零counter。verdict SHA-256为6536441964f6d2afdd917a38a478f72dff710e0fa714f317440c6b81884881d7；回执原件、快检stdout/stderr及S78封存后终态硬门原件追加既有gzip各一次，S78原包与冻结树不改。nonAuthorReviewer=true仅归GLM的Codex实现/授信/行政/封存复核，1916内容/5 pilot继续复用9978c248/63a67ce2，不由作者重签。公共实现及接入的非作者前提已闭合，不重跑已接受353工具或重做4351正文。
+
+两条minor非counter：admission.json的115保留为原始预排，已由原114 owner复用设计明确替代，原文件不倒改；publish回执head为当时实际e3ebf45f3工作树头，后续发布提交3a1ab51e5、封存候选21e989cfa分列，不能把后来的commit回填成旧执行身份。当前114/15来源/103片、9 registry片与4351精确after/1916授信/1933原生保全沿已接受范围复用；本次仅行政接收与必要pin级联，新增授信/运行信用均0。
+
+本次收口在codex/docs-s79-s78-acceptance隔离树进行，S78的21e树保持冻结。父卡仍build，未标done。最新main前置读取发现远端已为e94098f949452bc3bf8d028f21bdc0a4e400ea22，非S78冻结的72db41725：15个后续提交涉及122个docs路径，63新增候选（30MD/33JSON）、21既有候选变化、38新增附件。只做固定Git字节/JSON形状清点，不授内容审阅信用；63不是1916返工，也不改变固定1838分母或复用4351的已接受范围。git merge-tree预演实有11冲突，未合工作树；代码治理PR34仍独立open、4dc35e33源未混入。
+
+下一步Owner处理最新main的11冲突、63新增及21变化，仅复核实际增量；原已接受正文直接复用，代码/产品真源按各已合并提交来源保留，不擅自改产品、旧测试或coverage。main分支保护要求最新基点上的PR documentation/fast-coverage两项CI，不能用S78本地绿冒充远端或绕过保护。当前接收不授权直接推main，不推送、不done；原主树14个用户未跟踪资源与延期分支保留。暂无下一位Agent提示词：本次是Owner接收/安全集成前置，贡献者后续整包须等真实基点与工具准入准备好。
+
+
+### S82 六份重复原生载体实际退役
+
+Status: build / rework（2026-11-01；Owner Codex；用户已明确授权实际退役，不是继续提案）。单一写入分支 `codex/docs-s82-duplicate-retirement`，固定源 `c72c498f014fe1bcdfdee986c9ec0336f8807bd9`。GLM 的 S81 候选与 S78–S80 已验收内容冻结，不在本分支改写。
+
+冻结合同 `duplicate-native-artifact-retirement/1.0.0`：仅下列六个逐字节相同载体；机器字段、原审阅结论/签名和历史路径身份保留。注册表的一份 `nativeArtifactRetirements` 明示旧路径→活动后继、固定源 revision/blob/SHA/字节。注册身份总数仍为 4351，其中活动 4345、已退役历史身份 6，不能把历史身份计为当前正文或新增迁移信用；原 1838 分母与原三份空账本退役不变。
+
+| 退役载体 | 保留的唯一活动载体 | 字节 |
+|---|---|---:|
+| `docs/ops/evidence/CODE-QUALITY-88/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-88/mutation-results.json` | 3115 |
+| `docs/ops/evidence/CODE-QUALITY-89/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-89/mutation-results.json` | 3162 |
+| `docs/ops/evidence/CODE-QUALITY-90/mutation-raw-legal-script-id/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-90/mutation-legal-script-id-result.json` | 39518 |
+| `docs/ops/evidence/CODE-QUALITY-90/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-90/mutation-results.json` | 36366 |
+| `docs/ops/evidence/CODE-QUALITY-91/mutation-raw/mutation-results.json` | `docs/ops/evidence/CODE-QUALITY-91/mutation-results.json` | 31140 |
+| `docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-real-abort-proof.json` | `docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json` | 1131 |
+
+准入与步骤：先真实 Git 双轴/字节比较及引用清点，冻结六项范围 SHA `43174d1e3bd12f175dd5c56b3ada67b10a521a466f6041138ac68c0b469a7279`；临时树 pilot 与正反例通过后，删除六个副本，撤掉六条活动 routing，引入验证后的生命周期映射并同步控制 after pin 的行政级联。只改 docs 工具、这六个正文删除、现有 registry/routing/review 分片行政字段及本节；不复制原 JSON、新建逐篇 sidecar 或第二份治理账本。
+
+活动引用必须落到后继；历史 review 的 path/primarySource/evidence 继续陈述原时点，并由本映射解析去向，不能批量改写成它当年读取了后继。当前 README 已指向同目录聚合结果或 real-abort-proof；raw 日志、独立执行回执、历史 runner 均保留。旧 runner 属历史复现入口，不构成本次运行授权；若再次生成旧文件，公开退役校验必须报错，不能静默排除。
+
+必验：六个固定源与后继实际 blob/OID/SHA/字节一致、后继当前字节不变；旧路径物理不存在且不再活动路由；原审阅 pin 唯一保留；现行链接无悬空；控制投影仅新生命周期行政事件，不改旧接受签名。拒绝范围扩大、假来源、后继缺失/篡改、重复路由、符号链接和退役副本重新出现。注册表物理分片与原 1916 语义 root 不重排、不重授信。格式化先于取 hash，review DAG 按依赖顺序重建；不得顺手刷新 S80 已有的 30 个漂移。
+
+验收与停止线：本轮作者 Codex，自验不是非作者接收；准备后与后续整包集中复核，避免用户逐批转话。已验收成果直接复用；静态检查按受影响范围运行，最终必要门仍须零 error/warning/info。S80 的 5 个 model 冲突、30 个已知 after 漂移和 209 份待办不因此清零，S81 另包处理；本轮无产品、旧测试或 coverage 改动，无 runtime/E2E 信用。不合 main、不推送、不标父卡或本段 done。
+
+S82 实施记录：六个副本已物理删除，六条旧 migrated route 已撤下，注册表单一映射指向原字节不变的六个活动后继。删除 payload 合计 114,432B；R94 仅两条控制 after pin 行政变化，旧三片退出、新三片按公开 loader 读回，114 个逻辑 owner 与旧 1916 语义 root 保全。全 tracked docs Markdown 的 16,423 个链接扫描未发现指向六旧路径的活动或历史链接（1771 篇 docs Markdown），无需制造正文改写；旧机器审阅身份由映射解释，不改写其历史 primarySource。
+
+作者自验已完成临时树正例与拒绝性反例。事故如实保留：一次旧 generation 目录重复 rmdir，在全部计划写/删后报 ENOENT，锁与失败原件保留；逐项核对实际字节与公开临时树读回后只释放本次锁，未覆盖原失败回执。另以真实红反例发现行政事件 contract 字段误写 true，改为冻结合同标识并只重打包该 R94 行政世代。最初全量 369 项为 368 绿/1 红（真实 CLI 因未提交工作树先拒绝），不改旧测试；初 lint 的新测试 import 排序已修。正式结果以干净候选的后续原件为准，旧红不抹除。进度投影初轮为主动终止的未完成执行，不计通过。现阶段仍 build/rework，不自签非作者验收。
+
+S82 冻结作者候选 `5bc5b7b23a7e1907603b20ec549d234241ce957d`：6个JSON副本已经删除，6个后继原字节不变；R94两控制pin行政级联精确，4351注册身份=4345活动+6退役，原1838分母/3旧退役不变。最终独立于mutator的只读快检scope0/写入0，114逻辑owner与旧1916语义root保全；新六合同测试均实际通过。lint6611文件零诊断、nav1800MD/15458链接0issue、testing按旧pin复用8附件后0issue、phase-lore184通过、diff-check0。实际pnpm check:docs整套369/370（临时Git stdin子进程阻塞后中止），同一干净候选单套重跑11/11通过，不能把原整命令改记exit0；model仍5旧冲突，strict仍30旧漂移，progress为4524候选/209待办（含原1838的22待办），40完整性诊断如实保留。
+
+本次只向[现有统一证据流](../evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz)追加一个S82 member，包含逐文件A–H自审、实际执行回执/首红/恢复/定向复验和只读快检；原压缩流字节前缀与解压前缀均完全保留，不新增逐篇账本。已清理本轮4个派生stage与12份逐个对固定Git比较全等的原源备份，未碰其它任务tmp或GLM包。作者实施已落盘，待后续集中非作者复核；不是done，不授新语义/迁移/runtime信用，不合main、不推送。封存提交只追加本段和此gzip，复用代码/正文相关门，新增链接另验。
+
+
+### S83 S80/S81 整包证据验收与接收勘误
+
+Status: build / rework（2026-11-01）；Owner Codex，build allowed仅限据证验收、接收层记录勘误/有界传输、冻结Owner候选整合。作者源`7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911`、base`c72c498f014fe1bcdfdee986c9ec0336f8807bd9`与原交付`/tmp/s81-glm-main-rollforward207/`冻结不写。Owner隔离分支`codex/docs-s83-rollforward-acceptance`基于S82封存`737b7cb58fc8a131b92df92aae23516bc0072e06`，保留六项实际退役与所有旧接受记录；不合main、不推送、不标done。
+
+验收A（GLM非作者）：四代码与五Owner seed据报告151f5f1e及真实Git/原件核接收；A不授B作者或运行信用。B原始207行=5 seed原样+202作者（62MD/140JSON）；65MD/142JSON精确集合，固定Git源保全、当前任务状态与规范性入口按实际差异核，已接受存量不重复全文治理。仅新增规则/明确矛盾定向展开。
+
+本轮Owner已触发并限定两类展开：终稿恢复本地链接而11篇review仍留中间稿固定Git处置，限记录字段修正、不返工正文；raw draft-index单文件3.6MB含570KiB复用正文行，不准入正式分片、也不放宽512KiB/1MiB任何门。复用公共builder的review-only entries输出作有界接收计划，正文留Git；原始作者包作为原件不改、不直接充正式账本。额外未入146清单的临时文件另分类，不计已冻结交付信用。
+
+允许仅将白名单候选正文整合入本Owner分支（不授信），修订接收层11条记录的具体链路声明并保留原值/作者/实际读域，生成一个有界接收索引，更新本段与现有证据流；不改产品、旧测试、coverage、公共模板或既有审阅签名。196篇无此缺陷按证据直接复用，11项Owner修订在后续集中非作者复核前保持partial/needs、credit0；207正式授信、28变更/22控制重绑与全量硬门另据准入实施，不借本轮accept扩权。
+
+S83 验收裁定（2026-11-01）：A按GLM报告151f5f1e接收四代码与五seed；B内容证据207/207接收（5 seed复用+202 GLM），不要求返工正文。独立Git/字节核65MD的55历史块和任务状态、142JSON固定源载体；独立解释器核3182条quote/pointer/值/计数/子串0失败。真实最终diff44MD，作者62MD中44改/18复用，另3MD seed不变。作者“64MD/复用X”和原始“12处”不能作实际计数；第二提交为11文件/16行编辑、16唯一链接目标/18渲染处恢复。
+
+11份review留有中间稿外置Git处置，Owner已就真实base/candidate对象修53字段，保留原值、读域与作者；196行完全不变、全部原prepared报告可精确重建。这里是Codex对原GLM正文的非作者审阅纠错，不是新增作者正文；本段先前要求再找GLM复审同一机械勘误属过度拆分，已按用户“细小返工Owner直接处理”授权更正，不再产生review-of-review轮次。S82真正新增代码仍须正常非作者验收，不借此自签代码。
+
+大行处置已实施：不放宽512KiB/1MiB，也不把3.6MB raw draft当正式账本。公共builder输出的review-only候选已落8片，最大479448B、最大行48324B；不复制530KiB正文prefix，正文在Git。全部候选仍partial/needs/false/credit0，仅作为中央输入，未更新registry/routing/review/签名或迁移统计。S82六退役、114逻辑owner/全中央存储字节与原1916语义root保全，0新增漂移；实际4345活动记录扫描仍原30漂移。
+
+唯一开放C83-E01是原始失败回执定位：作者HANDBACK.md:16、incidents.md:3/8称首nav红保留，但交付及三个有界同任务sibling目录未找到该原件，指定的final-check-docs.receipt.json是7273终态exit0。不能推断已删除，也不认证原失败输入身份。Owner已在c885真实临时工作树后续重演，实际恰2条子目录未进入导航，命令/时间/输入/完整输出均另存；它不是原首跑，不填造旧时间/HEAD/diff。只要求GLM定位真实原件或如实unknown并撤回无据保全声明，不重做207正文；其余真实终验与正文证据继续有效。原作者包146清单项、patch全部真且未修改；额外20临时项不计146冻结信用。
+
+组合候选e90930753348ce14fc9001e3b5f437c6481740d0实测nav1800MD/15466links/527tasks零issue、testing零、lint6611零诊断、diff净；复用未变源码相关旧工具证据，未重跑全370/产品/E2E/coverage，不冒全门通过。209待办的精确分解仍179新增+26失效作者记录+4 Owner控制（board/父卡/index/catalog），两已正确文档testing/governance与_templates/README直接复用。正式发布还需Owner处理3个未定documentStatus、4配对JSON原variant及46个revision源值归一留史，不以publication verified/rework充治理状态，不因固定源就退役当前索引。全卡rework、授信0、未合main/推送/done。必要原件一次并入现有统一证据流，不新增逐篇账本；GLM下一次委托将S82必要代码独立验收与E01补证合一，Owner并行推进公共中央工具。
+
+### S82/S83 非作者接收与 C83-E01 撤回闭合（2026-11-01）
+
+Codex已核GLM合并交付三报告SHA与唯一清单，S81原146件、S82原100件及S83原89件均未变；作者源7273与退役候选737b均保持冻结。A-REPORT SHA-256 `327efd07c73bfbee65e465a77c65c698a5cb4665e7fdcef016aae31b32ebe7fc`：接收GLM（nonAuthorReviewer=true）对S82七代码/测试、六退役、路由、两行政pin及失败恢复/封存的accept，零counter。Owner另实跑sealed快检：6项/114432B、4351注册=4345活动+6历史、baselineRetired仍3、114owner/1916语义root保全、控制pin2、0越界/0写/0信用。旧370整套、产品/E2E/coverage未重跑，不冒称全门绿。
+
+C83-E01按原verdict明定的“无法提供原件则如实撤回保全声明”路径关闭。B声明SHA-256 `79978545e20a37ce9ea6893c4a1cb73831551d55d268cebb5c0e320138cab1e3`：作者明确承认重跑前删除同名首红json/stdout/stderr，撤回原HANDBACK:16与incidents:3/8三处保全声明。有界搜索无副本；删除经过按作者自述记录，不裁定动机，不把本声明当作可独立复验的删除执行原件。原首红证据缺失与执行身份永久保持unverified/unavailable；Owner后来重演和作者回忆均不认证其时间/HEAD/argv/diff。原冻结包不倒改，旧open裁定与本次闭合事件并存，不用“关闭counter”恢复原首跑保全信用。7273真实终验和207内容证据接收范围不受影响，无正文返工。
+
+本次Owner只向本卡与现有统一证据流追加一次三报告/清单、紧凑闭合裁定与真实快检；不新增逐篇sidecar或重复全文账本。父卡仍build/rework，当前无GLM返工、无需用户再转发同批任务。中央合同/受控接入由Codex继续：207候选按已接受内容复用，正式需要处理179新增+26失效作者记录+4Owner控制=209待办；5 model/30 drift仍开放。未正式授信、不合main、不推送、不标done，0新增运行/产品/E2E/视觉/coverage信用。
+
+### S84 中央滚动接入合同、精确恢复与存储演练（2026-11-01）
+
+Status: build/rework；用户“继续”授权既定中央扩容/控制pin/正式授信方向，Codex单一写入Owner；隔离`codex/docs-s84-rollforward-central`，base `f17181f96d97301a3fdabfb94d1d860963d379bc`。S81/S82/S83候选及原件冻结。先完成完整207接入规划与真实临时树存储读回，公共生产事务/consumer适配及集中非作者验收未齐前不发布、不授信；不把规划/容量演练作迁移完成。原209待办不提前扣减。
+
+公共边界：精确207=179新增+28变更（其中两篇字节与旧pin相同直接复用）；沿用114逻辑owner，新179仅追加原semantic-rework，28保持原owner/位置，不新建空账本。完整旧4351记录须能从稀疏前值映射逐字段精确恢复，四条旧1916变更不得静默重签旧接受root；六项退役与1838原分母/三旧退役保留。变更配对JSON保留原生产模板/变体与出版/执行语义，三缺失documentStatus按当前文档生命周期显式裁定，不能把publication verified/rework当新执行信用。实际readDomain原样保留，不升级为人工全文。
+
+实施仅docs工具、本卡、既有看板和统一证据流，复用storage packing/真实Git reader与普通文件守卫；仓外接入计划分片<512KiB且不复制正文，旧flat仍原1MiB。正式写入前须固定实际来源、编译逐篇非作者依据、完整DAG/caller适配和故障恢复；临时树只证明保全/容量/物化，不冒充model/语义/产品全通过。禁止把旧S78一次性writer扩权到新基线；旧测试不改，新增反控核尾字段/源OID/权限/签名和前值恢复判别力。整包准备好再集中交GLM核公共代码与发布增量，不拆逐篇只读包，不重复207正文。
+
+S84规划与临时树实测（尚非生产发布）：完整207行已固定源Git/OID/当前载体逐项复算，179追加原semantic-rework、26按原owner/index替换候选、2未变原review精确复用。新行只补治理必需字段，不改作者具体结论/读域；原207候选字段及旧4351完整review/签名均可经稀疏前值精确恢复。三缺失documentStatus显式指当前文档生命周期，四配对JSON保留原生产变体/版本与出版语义，207行仍partial/needs、0授信。新工具无生产write/publish/grants参数，已反控拒绝。
+
+实际完整临时树为114逻辑owner/4530条review与registry身份/4524活动路由、6退役身份保留；registry9→10片，原9归属/位置不变，新增179均ops且仅占[4351,4530)新片80648B。16个受影响review owner按真实DAG重建17条行政pin，最大新review片450617B，不新增source pin或放宽512KiB/旧flat1MiB。公开storage/registry loader读回精确；不经生产loader的Python重建另证旧4351恢复/205候选恢复、registry↔review逐项类型状态和路由退役全集。该演练尚未执行template model/正式资格消费者，不冒充生产可发布；真实中央仍旧4351/4345，209待办未扣。
+
+新增7项合同/反控与原10项候选合同联合实跑17/17、零skip；lint6616文件零error/warning/info，diff净。新实现4代码+1新测试按职责分层（纯review规划、纯control投影、只读CLI、派生临时树演练），不改任何旧测试/产品/coverage。首轮新测试发现“恢复candidate时漏去随后追加的prior inverse”边角，已修、5绿1红原件保留；完整投影首轮因三配对旧route不存在historyOverlay键，严格parse/deepEqual拒绝手工构造undefined，已改显式保留字段缺席、另目录重跑全绿。未改门数字、未覆盖红件；旧临时目录按逐文件hash清单后可清理，最终演练与原始回执留存。
+
+后续生产实现前提明确：旧1916接受root须从四条变更的稀疏前值复原；公共consumer须识别精确新增179/变更26与10片布局，保留旧native配对合同；受控当前世代事务须按六退役生命周期检查输入、编译实际非作者接受表并处理4个Owner控制观察。未完成这些生产边界前不运行旧S78 writer、不实际发布、不清零model/strict、不扣迁移数。准备齐后一次集中非作者验收，不给GLM再拆正文/只读设计小包。全卡继续rework，不合main、不推送、不done。
+
+### S85 正式中央滚动发布边界（2026-11-01，build allowed）
+
+用户要求持续推进到完整全仓治理；Codex单一Owner，基于69abb48a8742d9e3ef6f819f4695f1786e1e2293在隔离codex/docs-s85-rollforward-publication实施生产reader/qualification/事务。复用S84的207输入与完整规划/存储演练，不再给GLM拆正文或只读设计包。可改docs公共工具、新增必要反控、本卡/看板/既有证据流；允许在临时树执行真实当前世代公开事务、故障与幂等演练，真实中央发布仍以公共实现的非作者验收为前提。不修改旧测试、产品、coverage、共享忽略配置；旧测试如确需适配按现有逐处授权纪律。
+
+冻结接入为179新增+26变更+2原样复用，四条原1916成员和其余旧review通过稀疏前值恢复，不放宽原接受root；四配对原生生产合同和六项实际退役保持。新增10片布局必须精确界定，不能把原9片约束改为任意下限；4个Owner控制只按实际固定来源与行政含义记录，不借刷新SHA恢复旧语义或运行信用。新增授信逐条绑定S83非作者证据或S80五seed的GLM依据，作者不能自签。受控发布失败保留锁/前态/暂存，并经真实读回后才退旧世代；无写权限参数或身份变化必须零写拒绝。
+
+S85作者实施与临时树结果（2026-11-01）：新增有界滚动发布入口及qualification/source/control/body合同，复用既有current-generation事务与DAG打包器；原三个事务profile保持原合同，新增profile精确4530注册/4524活动/6历史退役、114逻辑owner/10registry片。205授信分别绑定5个Owner seed的GLM依据与200个变更作者行的S83 Owner裁定；2个未变文档不重授，所有旧4351语义/签名通过完整旧root与稀疏逆映射保留。模板与四原生配对的生产变体不扩，六退役不会复活或移出历史分母。
+
+真实公开API仅在自有临时树演练：主事务96写/66旧片退出，行政追加13写/7旧片退出；4530 after pin精确（4524检出+6历史）、15manifest/112shard、205授信随后零写零授信重放；行政追加不新增授信。事务回执的231/229是各次读回物理对象集合，含相应控制/行政输出，不是新增文档数。真实rename故障在安装3项后触发，锁/staging/前态原件保留，4639项输入逐字节恢复确认后才释放临时锁，公开reader恢复；真实中央写入为0。固定Git批读独立核mode/OID/Git blob内容hash/SHA256，减少重复子进程；不缓存可变磁盘输入或取消出口复核。
+
+首红原件按轮保留：隔离树漏复制.gitignore导致格式器失败、退役文件误入旧模型目标、原生JSON误走Markdown章节检查，均在新profile/正确格式分派内修复并重跑；未改规则、JSON载体或旧测试来放行。早期完整工具轮381/382、输入变化如实标无终态复用信用；其中旧CLI测试在未提交工作树先触发clean-tree拒绝，待提交实现后以原测试重验。最新临时全链轮已exit0且输入前后不变；全仓门最终结果另据原件记账，尚不宣布通过。公共实现作者Codex/nonAuthorReviewer=false，待同一完整包的非作者验收后才可真实发布；不合main、不推送、不done，产品/E2E/视觉/coverage信用为0。
+
+稳定实现9d167bcc2bf96d2855c87179bd06353f3377e09d上的真实终验：官方`pnpm check:docs`内384/384工具、导航15466链接/527任务零issue；其后model恰5项旧中央冲突而exit1，未声明统一门通过。lint6627文件0E/0W/0I、phase/lore184、task-index101492B逐字节等、diff-check空。真实中央仍30条after drift、209接入pending、16/17模板、progress40 integrity；首轮testing8红均为此新worktree未复制的既有006附件，逐件按固定evidence SHA/大小原样恢复后testing零issue，没有重跑E2E或新增信用。剩余门首轮wrapper的stdin源码未事前固定，仅作诊断观察，不冒充未来全门认证。
+
+临时发布后进一步以原公开CLI仅换root核4524全量body合同，已0issue。首轮20红源于partial fixture遗漏27项HTML资源/caller/矩阵源码端点；按现有合同补齐其实际原字节后归零，首红与补齐清单保留，生产代码/合同未为此放宽。独立重建器不调用生产loader，重建114owner/15manifest/112片、完整4351旧review逆回、205分域签名、4530 after pin与6历史缺失全部通过。r4运行时8旧代码diff+11新文件与提交实现精确绑定；封存前仅把事务旧“144”注释改为完整捕获组，两行comment-only/执行字节与行数不变，复用范围和精确变换另记。
+
+本次将S84前置与S85生产边界合为一次22文件公共实现/完整临时树非作者委托，不再拆设计或正文小包；未预签真实生产。只向原gzip追加一个有界member；本轮五棵被替代的自有派生树约1.73GB已清理，命令/raw/锁/恢复与最终两树保留，其它任务文件未碰。接受后由Owner执行相同公开事务并核真实全量门；无新实现/语义/证据差异时复用本轮与既有正文接受。全卡仍build/rework，不合main、不推送、不done。
+
+本轮公共代码及完整演练准备齐后一次集中交GLM非作者验收，内容207和既有4351不重复治理。真实发布/后续硬门尚未执行就不提前记绿；全量check:docs/lint/diff与完成进度须实际零诊断，父卡rework、不合main、不推送、不done。
+
+### S86 实际中央发布与最终硬门（2026-11-01，build allowed）
+
+GLM非作者验收接收：候选db39aaa8ed80a52915d89e826bf305faed2a75c8，verdict SHA-256 `0bb97d4dda3cb50ad24fd4053463d8a8ce7145052c240987da3b11fca0f43d8c`、HANDBACK `8fdef52d4197bf10117d7d62110d2d81ef8aa1bdfee306f45a0416f8743f7059`，六轴accept/零counter。Owner实核两原件SHA、候选/干净tracked树并重跑sealed快检通过；接收仅覆盖公共实现/演练/绑定/封存，不能预签尚未执行的生产。既有207内容及4351成果直接复用；不另传相同只读包。
+
+Codex沿用同一隔离树和已接受公开CLI，冻结179新增+26变更正式授信、2未变原样复用、4控制源观察；不改公共实现、模板、旧测试、产品或coverage。本节准入覆盖真实公开事务、行政pin级联、独立物理/逻辑读回与最终check:docs/lint/diff/require-complete；结果待实际运行后追加，不提前扣209待办或写全门通过。顶部改review并同步唯一任务索引，旧S75“当前”数字明确归历史，四控制实际来源随当前Git提交核定；旧撤信/runtime/child边界不变。硬门未过不合main、不推送、不done。
+
+S86实际发布与门结果（2026-11-01）：执行基点50d70b3dd2b3251414431d3e1d5436d777b968ea；公开CLI真实96写/66旧片退出，提交f6a956529cfa5efdb79a72af89feef08a21cab60。205分域授信=179新增+26变更，2未变不重授、4控制实际源观察；真实4530pin=4524活动+6历史全精确，114owner/15manifest/112shard、旧4351内容和签名独立重建保全。范围162原始路径与计划完全相等（Git重命名投影显示97文件），无越界；只读重放0写/0授信。三种计数不混为文档分母，零runtime/child信用。
+
+完整进度门实跑exit0：1835/1838基线迁移+3批准退役，2689增量迁移+6增量退役，209当前待办实减至0，17/17模板、0完整性问题。这是该工具的迁移/身份轴结果，不代表全量硬门通过。官方check:docs首轮383/384，旧S82投影测试错误读取活树新世代；用户明确授权仅固定其第二例到737b7cb5 Git夹具，全部原断言不变。仓外副本6/6后实际应用410938718；后续官方384/384、导航0、4524合同0、testing0、phase/lore184均通过，随后的strict却实报205条history empty而exit1。首红、授权和重跑均原样保留，不把exit1写成通过。
+
+205条history为空是本轮中央记录的真实缺口，不能归因于最新main、不能用progress的0待办掩盖。这是发布前完整演练未覆盖strict终点的漏检；正文/原生字节、来源、具体结论及独立依据仍有证据，先保留这些有效范围。Owner将补录真实f6a发布事件，并以严格派生事件/原授信指纹绑定验证，保留原空值与旧接受范围，不补造作者阅读或旧执行。守卫/派生逻辑改变须定向非作者复核后才真实补录；不降低history门或重做207正文。
+
+### S87 最新main余量与后继边界准入（build allowed，未发布）
+
+远端已重新固定c88be9b3b5b9dc38c77d8c440085e35b8d15fc43（相对原5e66新增PR35/36六提交）；当前文档分支尚未整合该点，不能对最新main宣告全量完成。内容余量实为12新增（3MD/9JSON）+4正文变更，另2行政视图/6旧flat中央控制/9非prose附件（初计10，固定Git逐路径核定更正）。源码与旧测试只承接已获批上游提交，主工作树未知改动不碰；不把旧2346条flat账覆盖当前4530条与分片。
+
+Codex单一Owner可在隔离分支处理合并、7篇Markdown真实模板治理、9原生JSON既有合同复用和精确来源/历史/消费者说明；同时完成已发表205历史事件的受控补录，以及可复用的后继准入/旧视图逆回/精确registry片界/事务边界。沿用17模板、114逻辑owner及原source pins，不为新一轮造平行账本；旧语义/撤信和六物理退役保持。新的公共实现、整包16内容及完整临时树演练准备齐后一次集中非作者验收，不拆只读/设计小包；接收前不生产补史或授新16信用，不逐批问许可。硬门未过不合main、不推送、不done。
+
+S87实施进展：最新main以真实双亲合并fcd42bd6b进入候选分支，9冲突明确裁定，六旧flat中央文件保留S86现行版本。四篇原文区块保全；代码账本随实际工程文件新增只增加待核，846既有关闭不变。7MD已按现有合同治理，9JSON字节不改；16作者稿与真实primary/upstream来源分轴，仍partial/needs、无非作者签名。
+
+205历史补录仅派生真实f6a95652发布观察，保存原空history与原签名，不补造旧阅读/执行；新事件任何字段变化均拒绝。后继用四项稀疏逆回及十二追加恢复4530前驱，原205/1916接受仍可独立验证；新增物理片只占[4530,4542)，114owner/15source pins及17模板不扩。新授信必须另有精确GLM报告/内容hash，接受表当前为空。
+
+首轮完整临时树真实98写/75旧片退出，4542pin=4536活动+6历史，15manifest/113shard；205补史后空history为0，新16仍候选，原中央逐对象不变。23定向工具测试通过、0失败/0跳过；此为实现期结果，不代替最终候选全仓门。三轮彩排失败分别为旧source-reader拒绝、根文件前缀与重复旧模板元数据；首红输出、零写恢复证明及失败stage保留，原自有锁已据证释放，仅保存其SHA，不冒称原锁字节仍在。后续393工具全过、lint6676零；临时树导航/模型/测试/phase门通过，strict39中32为16篇待授信、7为MD证据路径缺项，后者已修作者稿并新增准备前拒绝，待最终重验。最终来源绑定、完整零诊断门和集中非作者验收未完成，不生产发布、不合main、不推送、不done。
+
+本轮材料按通用证据验收规范留必要原始流、实际身份和精确候选差异，固定Git可复用的checkout不永久复制。已将一个失效临时树收束为8.2MiB候选差异包，回收约1.10GiB；未删除仓库原件，也未把其旧strict39失败改绿。全仓筛查另见3465个额外同blob路径约42MiB，属精简候选，不把内容相同自动当作执行相同；需核消费者、独有信息和退出条件后实际合并。此处是清理线索，不是全仓垃圾已清除的声明。
+
+用户2026-11-01裁定：仓库清理与精简作为长期工作类型进入AGENTS操作路由，与文档治理、代码治理、覆盖率推进并列。本轮全仓文档治理先按既定硬验收收口；通过后另开独立对话和任务，系统处理全仓无用、重复、过时材料与持续生成来源。沿用本轮有效清理线索、固定Git和唯一证据，不再复制一套逐篇账本；实际删减、引用及恢复验证归后续专项。该后续专项尚未启动，不据本条记清理完成，也不将其全部存量追加为本卡的完成前提。当前已准入的退役、来源/引用闭合及文档硬门仍须完成，父卡保持review/rework。
+
+用户已明确批准将既有006归档作为验收附件Release发布；实际tag为evidence-e2e006-20261027，指向远端已有c88主线，未发布文档候选代码。服务端SHA与114016097B全等，真实下载后恢复8/8原件，零新执行信用。新增标准库恢复工具先核固定八描述符及完整归档SHA，再流式提取声明文件，拒路径穿越/链接/覆盖/未知stage，故障留自有锁与恢复信息。首次固定120秒下载因链路慢失败、零目标写；改为45秒停滞/900秒总界限的进展守卫后实际成功，未改产品/E2E测试期限或任何SHA门。
+
+持久入口：[006验收附件](https://github.com/IllegalCreed/type-pal/releases/tag/evidence-e2e006-20261027)。新检出环境可运行`python3 -B scripts/docs/restore-e2e-evidence.py`经gh下载校验；已有该固定归档时加`--archive <本地归档绝对路径>`，全套八项均匹配即零写返回。之后仍运行原`pnpm check:docs`，恢复不代替任何原始SHA、版本、发布配对或运行证据门。
+
+CI保持受保护documentation汇总和每job五分钟，按tools/structure/completeness三段并行执行原check:docs全部子命令及lint，完成段额外要求--require-complete；新增或丢失未分配的check:docs命令即拒绝。三段先恢复同一固定附件，任一失败/跳过/取消均不能使汇总通过；fast-coverage不改。恢复与命令归属12项Python反例/正例通过，源码/候选/CI结果仍须最终受审与实际验证，不把附件保全代作006剧情复验。
+
+S87终态作者证据：代码基点85fc5effa，395文档工具全部通过/零skip，lint6677零诊断，221工具输入逐文件绑定。独立Git传输检出没有alternates，真实98写/75旧片退出，173原始路径精确；不经生产loader的独立重建证4542pin、114owner/15manifest/113shard、15真实来源pin、旧205/1916范围保全和空history0。新16仍partial/needs/0信用；临时strict真实exit1且仅32候选诊断。进度首轮91=16候选+75尚在Git cached集合的退役片；精确暂存后另轮实报16pending/0integrity、require-complete仍exit1，未改枚举器规则或旧原件。完整进度末轮本机289.5秒，远端CI尚未执行，不能用本地结果提前签远端门。
+
+九个非prose附件按固定c88 blob/SHA/当前字节及实际README或机器消费者逐项核定，保留原raw、闭包、旧投影和隔离反控用途；未运行旧verifier、未展开压缩raw作产品重审。下一份集中委托覆盖S86实际观察/已授权fixture适配、S87公共增量/完整临时树、16篇逐路径内容、006附件恢复/CI及用户清理约定。必要证据复用同一仓外包，真实中央phase-governance字节仍等S86基点；非作者接收后才编译接受表、生产写入与最终硬门，不合main、不推送、不done。
+
+### S88 S87接收与正式中央发布（2026-11-02，build allowed）
+
+GLM只读非作者回执已由Owner核SHA及冻结候选：7f045e964b79c4fc216befbfdc00668bd7a54888，verdict SHA-256 `711ca81f8dc106f3c99b1cd46c4a351a32a8bd2b935d97897787b230ca672ced`，HANDBACK `6e10debf92937be81acc2a4f2baeef6069b430ab75caf13d60d5d9b1e4ee1f49`。四域及16篇全accept/零counter；Owner另重放原只读verify-release通过，395/lint6677、4542临时身份/16pending/32严格项及真实中央零写均与原范围相符。GLM的182/184是semantic-rework owner抽样逆回，其余2行是合法S87替换；跨owner完整205依公共真实f6a重建与完整逆映射，不将抽样冒称205逐条人工重审。Python独立补跑按该回执原12项口径记，提交版正式395包含13项Python合同，不混成新增产品测试。
+
+本节准入覆盖：把报告明确接受的闭合16成员编译成精确path/contentSHA/候选/报告签名表，沿已接受公开CLI真实执行205补史与16授信、registry/routing/pin级联、只读幂等检查、行政封存和最终门。代码只填既有接受表，不改已审算法、产品、旧测试或coverage；16正文/原生与原来源保持原字节，旧4530及1916接受不重授。接受实现和作者稿不预签尚未执行的生产结果。
+
+远端最新main已是02a67c5aa639d43813511a552d44a1c4e5a99b78（PR37纯导航10路径，无新增文件/产品代码）。既有c88接受直接复用；新导航、父卡/006当前摘要及四旧flat控制单独核合并，禁止把旧flat覆盖本树分片或用主线旧done替换当前review。其导航整理验收不授006新执行/视觉或全docs完成。最新main及受保护远端CI尚未闭合前，父卡保持review/rework，不合main、不推送、不done。
+
+S88主线导航合并裁定：保留本树已发布的四份canonical review（其中三份为manifest），不引入PR37旧flat；原accepted根、15source pins和旧签名不覆盖。采纳长期质量/第二阶段功能/第三阶段储备三分类和两个README入口，并保留本树document-quality规范链接。006保留本树更完整且区分11/10与旧12/11的接收记录，原Status rework与quote原字节不改；父卡保留S88真实执行和原撤信。任务索引由公开生成器投影，不手工挑一份主线索引。PR37的131项原门只属其源树，本树最终门另实跑；新增治理条目0、产品/旧测试变更0。
+
+导航控制维护补线仅将两个既有README加入后继层的行政输入名单；原四项rollforward合同、16篇source/接受表和任何文档分母均不改。这两行是Owner整合PR37的有限名单调整，不声称属于GLM对7f045e96的旧代码接受；实际同一公开守卫正向只返回两导航+看板/父卡四输入，注入未准入docs/README.md即拒绝且原记录不变。既有受控事务负责全部pin重建与读回，最终整套工具和零诊断门另实跑；不新增产品测试或代码关闭信用。
+
+普通 Git clone 复验首轮395项为394绿/1红：native-artifact-retirements 第六例把`.git`当作文件读取，普通clone下为目录而报EISDIR；这是夹具布局假设，不改生产守卫或删原断言。最小适配已在仓外分别对worktree/clone六测全绿，待用户对这一处旧测试明确授权，未获准前不写回。独立后段导航门另实测暴露主线分类漏链接五张活动子卡；本轮补回看板明确入口及真实卡面状态，不伪造子卡done。两次失败各保留真实命令、输入与输出，后续结果不覆盖首轮。
+
+
+### S88 非作者接收、获准夹具适配与完整本地门（2026-11-02）
+
+GLM对生产检查点c30af68bb93afef30f03cc29708906e9933be7c7四轴accept、零counter；verdict SHA-256 d4772bba1ee42efcc2a57aff053ad12b994a213f013df5c85792ec1c28d75b8d，HANDBACK 905e2a4920c972c788ee2cc6a10f5e9f0186bb005f1f145a766a0e57066669b0。16签名逐项绑定其S87报告711ca81f，生产96写/75旧片退出、205补史、三轮有限导航维护均按原范围接受；两文件代码增量为16接受表与两个既有README行政路径。旧4351/1916及15 source pins直接复用，不重授原R波信用。
+
+轴C原为未应用条件接受。用户本轮明确授权文档工具第六例，原断言/source pin不改；Owner只应用既定补丁8e1266174259b0de88693a8bdf2467d9683f7fd05758ab5f9e88e0e374d06212，实际文件由9cc337bc变为72d99c2e，提交561a3401b73386a6ef34628b32e3b7373f1e7c80。只新增execFileSync import，并通过只读git rev-parse --absolute-git-dir生成夹具gitdir指针；六例原断言、生产代码、source pin、coverage均未改变，工作树实际六测6/6。普通clone中原EISDIR不再出现。
+
+第一次完整复跑为393/395，两红均是固定Git/格式化子进程ETIMEDOUT；同一运行窗口系统日志明确记录合盖及深度休眠，原失败原样保留。唤醒后受影响两文件44/44，再以临时防空闲休眠的caffeinate运行原pnpm check:docs --require-complete，正式395/395、零skip，七段全exit0；没有放宽时限、断言或修改并发/检查图。lint6679文件0E/0W/0I；workspace typecheck按未变产品/编译输入的既有真实结果复用，远端还须实跑。
+
+本地实测：4536活动合同+6历史退役=4542注册身份；strict0文档/0诊断，1835/1838基线迁移+3批准退役、2701增量迁移+6原生退役，current pending0、integrity0、17/17模板已行使；phase/lore184、testing0问题。完整命令及原失败、授权、两份GLM回执各保留一次于既有统一gzip的新有界追加，压缩字节前缀与解压前缀均保全；不复制原生载体、整树或旧二进制patch。这里只完成本地门与接收条件，不预签远端CI、main集成或done；006已验收成果直接复用，runtime/child新增信用0。
+
+### S89 远端门的执行优化准入（2026-11-02，build allowed）
+
+PR38头e43018060bca6cb780aa4e655fb3f7e4076c19b8的首次远端结果不通过：fast-coverage在原质量夹具缺两项文档CLI依赖时44/45失败；用户单处授权后仅补复制清单，五例原断言/source pin/时限不改，实际5/5，提交0bbdf1028bccbd3c61cd5f740bc7f7c8f4a78955。Documentation三作业均在五分钟预算内未完成而取消，汇总正确拒绝；三组8/8附件恢复约4–5秒即完成，实际耗时在工具测试及模板/完整性检查，不能归因下载或冒称通过。
+
+Codex单一Owner，沿用户继续处理完整门/远端CI的既定授权实施：只改git-document-snapshot.mjs、check-document-model.mjs、report-governance-progress.mjs的固定Git快照复用，restore-e2e-evidence.py的CI分配及docs.yml矩阵；新增git-document-snapshot-cache.test.py与documentation-ci-plan.test.py作对应真实Git/原生Node分片反控，既有测试源不再修改。既有快照读取函数的路径、commit/mode/大小拒绝保持，缓存只在一次验证中复用已成功读取的完整commit/path，返回独立buffer并设内存/条目界限；当前文件、锁、source-group完整性和最终读回不缓存。须有实际Git对象、错误输入/不可达对象不缓存、不同版本/路径、返回值篡改隔离和预算边界的可证伪证据。
+
+CI保留原七命令图与五分钟上限；工具按文件以Node原生分片覆盖完整集合，所有分片及每个原门都必须成功，新增/删除/重排原命令或改变测试命令形状时拒绝。各作业恢复全部8项锁定附件，strict/require-complete/lint及最终汇总不降门；新Python测试接入正式CI。先比较同一数据树优化前后的完整JSON输出逐字节相等，再实测门与远端执行；模板/分母/授信表/原生载体、产品、coverage均不改，不借调度或缓存授新语义/runtime信用。实现与反控准备后由未参与者集中核新增范围，S88原接受不重做；最终仍须受保护CI实际全绿，不合main、不标done。
+
+实现期实测新增缓存七测与分片六测均通过、原恢复十三测仍通过；包装字符串revision命中已暖缓存的真实AssertionError反例先红，显式primitive类型守卫后七测恢复全绿，原Git读取器正文不改。全质量工具45/45、lint6679零诊断。首次在尚有本卡/代码未提交变化的作者树跑完整文档工具为394/395：唯一红为旧CLI反例先触发“tracked working tree must be clean”，未进入其原期待的flag拒绝；不删断言或扩大许可，冻结提交后补核该文件并由远端三分片重验完整集合。原命令/失败/修复输入保持独立，未称本轮全工具已绿。
+
+5b9a8b1d7冻结后该文件实际6/6；远端三工具分片、导航、模型、strict及lint共七作业通过，唯progress仍超过原五分钟预算，documentation汇总正确拒绝；fast-coverage当时仍在真实执行，不预签结果。同一5b9数据树的诊断显示JSON缓存已到32MiB，838次热来源因饱和而未复用，1916固定main来源的首读还逐件启动Git。Codex在既定执行优化范围增加incremental-git-source.mjs一项：复用已接受readPinnedGitDocuments，对受保护cohort给出的完整固定pool批读，仍逐件核Git commit/mode/OID/SHA及完整framing；未知路径走原读取器，错误pool不退回忽略。原单篇读取器正文及全部source pin不改；JSON缓存仅在同一32MiB/4096条界限内淘汰冷来源，未缓存miss、活动文件或锁。新增/调整的新测试为缓存与真实固定pool10/10、原incremental回归10/10；同数据完整输出对比与远端重验另按实际结果收口，不以七绿一超时冒全门通过。
+
+后续性能差异核查：单用近期缓存与批读的同数据完整JSON仍逐字节相等，但实际约225秒，对照诊断约222秒，不声称已有明显提速。继续在同一snapshot模块提取私有读取核心，默认单篇接口的路径/type/mode/大小拒绝与返回五字段保持；仅新工厂按实际完整commit索引Git树（32MiB/131072条/128版本上限），blob仍从Git读取。非法UTF8、重复树或不能索引时回原逐路径校验，不把索引失败当已通过。当前13项新测试实跑全过，含真Git命令轨迹“一次commit核定/一次树索引/三次实际blob读取”、坏UTF8替代字符不冒名、重复树仍拒绝、错pool SHA及revision拒绝；lint6679零诊断。新旧全报告与远端结果继续按原件记账，所有source pins、原生字节、状态/授信及五分钟预算不变。
+
+### S89 调度方案修订与旧夹具单处授权（2026-11-02，build allowed）
+
+用户明确指出原3个对外检查被扩成11项过度拆分，Owner据此撤回八文档矩阵和汇总作业方案；前两轮超时仍按失败保留，不倒改成通过。新方案恢复唯一documentation作业，与fast-coverage、GitGuardian保持三个对外检查；只安装一次依赖、恢复一次全部8件锁定附件，依序运行原七命令、14项来源读取测试、六项编排测试与零诊断lint。整套串行作业按完整工作量给20分钟有界预算；这是整作业的编排/资源计划修订，原单项测试、子进程时限、所有断言、完整性与coverage失败判据均不改，不以延长单用例掩盖失败。新编排须经非作者复核及真实远端执行才可接收，不借旧八作业的七绿冒新方案已绿。
+
+远端fast-coverage的5处红已定位为旧pal-unified-steps夹具仍要求已退役船体auto：当前294场景实际1321自动流/4656总流，旧夹具期待1322/4657且仍生成该旧auto的四个场景oracle。用户本轮仅授权packages/reforge/src/pal-unified-steps-content.test.ts：将s005/e116/auto/default列入既有专属证明集合并同步两个精确总数，其余断言、历史oracle原件、source pin、产品代码、测试时限和coverage配置不改。既有main.ride-presentation两项真运行壳证明及006用户视觉按原范围复用；仓外派生副本两文件5412/5412通过，不授新的浏览器/E2E/视觉信用。正式树按既定补丁应用，最终必要门仍按本候选实际结果记账。
+
+本机664ce7855的完整文档命令为394/395：唯一红来自旧historical-execution-source夹具的Git hash-object --stdin长时间阻塞；采样显示子进程在stdin读取，Owner仅终止已核身份的自有阻塞子进程，原命令exit1/输入未变如实保留，不当有效业务AssertionError反控。该文件原样隔离重跑11/11通过，未改此旧测试或时限；其它394项复用本轮原结果，但不写成一次395/395。Linux远端最终仍须完整运行全集合。
+
+GitGuardian的13条报告位置逐条与三个原生授权字段核对，都是call_格式用户问答引用（两incident，多提交/分片重复），不是服务凭据；只记录误报依据，未关闭扫描、修改忽略规则、标记平台已消警或改写Git历史。S88已接受4536正文、六历史退役、15固定来源pin和既有006成果直接复用，新增语义/runtime/child信用0；新工具与编排尚待集中独立接收，硬门未过不合main、不标done。
+
+最终来源域反例补核：U+2028/U+2029文件名在旧单篇读取器中被拒，新树索引曾接受，已通过真Git反例先红并把拒绝统一进共用路径验证；实际14/14来源测试恢复全绿。该修正保持默认读取器既有拒绝域，不影响已冻结正常源路径。664代码在同一5b9数据树的完整进度JSON逐字节等于前态，约165.6秒对照221.5秒仅作实测观察，不作硬件无关承诺；最终一行拒绝域补强及新单作业编排另绑实际候选与回执。正式树编排6/6、原恢复13/13、获准两文件单测5412/5412和lint6679零诊断均有真实原件；仍待新远端全门和新增范围非作者验收，不预签整体完成。
+
+远端2f5c56ab候选的文档作业实际395/395、导航/模型/testing/phase-lore/strict与require-complete全部通过，随后新增来源反控为13/14：Git2.56在hash-object阶段拒绝重复tree，尚未执行该例的读取器拒绝断言。该缺陷属于本轮新增测试的跨Git版本夹具构造；仅在自有临时仓库构造损坏对象时显式使用--literally，并逐字节读回确认损坏输入确实保留，生产读取器、原反例断言、时限、source pin和产品均不改。本地Apple Git2.39、Git2.47及官方源码独立构建的同版Git2.56修正轮各14/14；同版重演确认原构造exit128/duplicateEntries、修正构造字节精确，十四测试函数AST与2f5候选全等。独立构建工具首轮缺模板目录的warning不作零诊断依据，自有空模板路径校准后同版14/14零告警；一次Git2.47驱动PATH缩窄缺Node的失败与修复后的实跑分记，不改测试迁就驱动。最终远端终态另按真实结果记账，原18m42s失败不倒改为通过。这里的S89是当前PR38的CI收口编号，不是新增一轮正文治理；旧提示词候选保持历史冻结，待修正候选一次集中验收。
+
+同一2f5候选的fast-coverage最终在编辑器三例另存为断言失败；此前reforge实际367文件/8993测试全绿，不能把新失败误指为已修船体auto或覆盖率比例下降。共享memoryAuthorDirectory把跨realm的真实ArrayBuffer当JSON编码，合法种子素材字节被破坏，新增生产哈希校验正确拦截。用户本轮明确授权仅适配packages/editor/src/core/__tests__/author-save-fixture.ts的缓冲区识别/原字节复制，旧断言、产品校验、source pin、coverage和时限不改。先提Node types.isArrayBuffer方案，运行通过但类型门TS2591拒Node依赖，未提交该失败方案或修改类型配置；Owner在同一已授权编码器内改用标准ArrayBuffer.byteLength内建getter验真实品牌，再复制到当前realm，避免原型或toStringTag误判。最终实际59直接调用文件/754测试全绿零告警，编辑器两阶段typecheck零诊断；远端新候选全门仍待实跑。本地测试依赖软链曾解析到另一检出目录，最终正反与实跑均显式绑定本树workspace exports，未改依赖软链或共享配置；32例原断言的有效反控为29绿3红→32全绿，其余58文件722例不变。原两份失败CI与作者验证保留各自身份；仅现有统一gzip追加独有输出，既有接受和006不重授信用。
+
+按远端同一选择范围扩展核验为619文件/4798测试全绿，但第一次完整运行仍有六条React act警告，进程exit0不算质量接受，原输出不改。用户另行明确授权仅把App.leave-guard.test.tsx三个另存为轴共用的一处entered.promise等待纳入已导入act；原32项断言、I/O门和时限不改。派生整套同范围619/4798零告警后，按获准补丁SHA70a86fc8精确应用；实际UI源码与派生输入SHA逐字节相等，应用后本树32例与两阶段typecheck再次零诊断。据此有范围复用该整套结果，不冒称又在修改后的原树重跑了全部619文件；新的受保护远端终态与本轮新增范围非作者接受仍待实取。当前已知修正统一纳入PR38，不另开正文治理批次，父卡继续review。
+
+### S89 官方完整采集后的性能观测合同补证（2026-11-02，build allowed）
+
+干净隔离检出afe487353的原始官方coverage:fast实际20218项测试全部通过，但覆盖率门exit1：editor语句30857/34210低于30537/33847、分支24826/29737低于24578/29435、行27600/29883低于27319/29570；total对应三轴亦未过。原生完整采集保持输入不变，未修改baseline、阈值、排除、provider或比较器，不能以测试全绿代替覆盖率通过。该检出的完整文档单作业实际395/395+来源14/14+编排6/6+lint6679零诊断，strict/迁移/integrity均0；006八附件恢复及原接受直接复用，不重授运行信用。
+
+Codex单一Owner，在用户已授权的保存性能整改与完整门收口范围，新增且仅新增packages/editor/src/core/save-performance.test.ts，验证既有性能观测模块的双条件启用、无请求静默、真实计时汇总与逐次另存重置、事务日志节流；不改生产模块或旧断言，不为比例堆重复用例。以公开beginSaveMeasurement入口、控制时钟和日志IO作独立可观察oracle；补可证伪反例及类型/lint/官方采集。原新增三个保存性能模块及原测试保留，基线scope接入另按明确授权，未授权前不写baseline或精确退役表。GLM在afe冻结树先审已交12文件，后继仅审新增差异及回执，原接受不重做；全门/非作者接受前不合main、不推main、不标done。
+
+
+实际补证：新增四项观测测试与编辑器两阶段typecheck均零诊断；隔离副本绕过URL opt-in后恰三绿一指定业务AssertionError、零pending，恢复原源后四绿，未改生产模块。首个反控驱动因macOS /var与/private/var路径身份未归一而收集失败（0测试），如实保留且不作有效业务反控；驱动改用物理规范路径后完成上述正反链，测试体和oracle未改。完整编辑器按官方同参数/同精确V8环境、仅报告目录改仓外实跑620文件/4802断言全绿、stderr0；四轴分别30873/34210、24842/29737、7823/8716、27615/29883均不低于原基线。六个未改包复用本次官方完整采集，与新编辑器结果的组合比较同样不降；组合是提案依据，不冒称官方ratchet或新远端CI已通过。
+
+准备阶段的覆盖率范围提案仅两登记文件：baseline.fast.json由官方ratchet重采集登记816→819源码/20205→20222测试，approved-test-retirements.mjs仅加船体旧auto的5414→5410精确身份/SHA行；旧条目、门槛、include/exclude、provider及比较器保持。当时受初始coverage须另行明确授权约束，两文件未写且等待用户裁定；后继实际授权与执行如下，不把此前等待状态当作当前状态。GLM持续队列首包仍固定afe，后继只有本新增观测测试及有界行政/封存差异，原4536正文/6历史退役/006接受不重做；父卡继续review，不能以本次局部补证宣称主线或完整质量门已完成。
+
+
+### S89 已授权覆盖率登记与最终CI候选（2026-11-02）
+
+用户明确批准两登记文件且原门槛不降，并另行批准approved-test-retirements.test.mjs的最小集合夹具适配：原95条/378计数差与不可变、全部拒绝反控保留，新增船体条目单独精确核对，通用正例遍历全部96条。前述原提案patch头含临时绝对路径，git apply include未命中、源字节断言早退；Owner未检查该失败便启动官方采集，属执行次序错误。源文件当时未改，因此保留这轮有效固定输入的官方采集；路径头校准只改变目标表示、原提案与错误记录均保留，采集结束后再接入精确条目和获准测试适配，未用重复采集掩盖顺序错误。
+
+实际官方pnpm coverage:ratchet --allow-scope-removal（protected base=02a67c5a）exit0，819源码/20222断言、编辑器620文件/4802断言通过，11项指标提升、无下降；baseline由正式producer落盘，非提案复制或手改计数。后置验真确认baseline与本次summary逐字段一致，源码新增恰连接/性能观测/读池三件，唯一计数退役恰pal-unified-steps-content的5414→5410，原95条批准记录逐字段保留、判据函数本体不变，真文件字节正例接受而篡改SHA拒绝。接入后完整coverage工具158/158、零skip/todo及诊断，lint6680文件零诊断；未另称又重跑了一次完整coverage:fast。当前候选的受保护远端CI及S89集中非作者接受仍待实际取得；既有4536正文/6历史退役/006接受复用，未新增文档语义、child或runtime信用，不合main、不标done。
+
+### S89 CI库存投影补正（2026-11-02）
+
+远端d778候选的fast-coverage于产品覆盖率采集前被quality-tools真实拦截：新增save-performance.test.ts已进入tracked库存，但代码治理账本仍声明3621/2775待核。此项为Owner新增文件后漏同步清点，非测试或覆盖率判据缺陷；未改旧测试、规则、生产源码或覆盖率基线。按原公开inventory及audit函数重算现行两统计，首次补正3622/846闭合/0待审/2776待核，新增逆映射专测后最终3623/846/0/2777；两新文件只隐式待核；两段原文保全与旧846项依据不动，核心结论仍是按当前库存分列、不给新增文件代码关闭信用。
+
+纠正后真实复跑远端同一前置命令pnpm test:quality-tools && pnpm typecheck && pnpm lint：45/45、七包类型门及lint6680零诊断通过。819源码/20222测试的既有官方采集和精确覆盖率登记输入代码未变，按原范围复用，不重复采集或冒称失败远端已过。后继候选需重新取得受保护CI与新增范围非作者接受；原失败完整日志与具体执行身份保留，未合main、未done，新增文档语义/runtime/代码关闭信用0。
+
+补正准备阶段被原逆映射门拦截，尚未发布：S87后继首次新增maintenanceDeltas时，priorSuccessorRecord直接逆回已授信/维护后的行，导致字段全集不等。限定改为先使用已存在且参与签名校验的pendingSuccessorRow候选视图，再走原稀疏逆映射；字段全集/原始指纹与外围签名检查均不削弱。新增两项专测以固定Git旧行和已接受的S86补史为oracle：原实现1绿1指定AssertionError红，修复后连同相邻共15/15通过；额外未登记治理字段仍拒绝。首次绿色轮的新增夹具漏组合既有补史而失败，按真实oracle修正后另存v2，旧失败未改写。没有修改任何旧测试或授信表，新增代码/证据仍待非作者定向接收。
+
+修复终态再次实跑同一前置组合：45质量工具、七包类型检查、lint6681文件零诊断；新两测另以排序后的最终字节2/2复验。新增测试首次import排序诊断已修并另存重跑原件；此前失败不作通过。d778的documentation远端已success，fast仍保留为前置库存失败，后继双必需检查另取。
+
+事务staging读回第二次拦截固定正文SHA，written/retired均空；逐一复核11个before对象与固定Git和当前字节相等后释放本Owner锁，删除4670文件/199271932B的自有演练树，仅保留恢复身份/原件/可重建计划。最终库存正文严格缩为两行数字，元数据、叙述、表和两保全段原样。当前后继合同只对这一ledger识别该机器投影：原有批量读取的真实Git primarySource与已接受7f正文同SHA，维护链从原SHA贯通当前SHA、零新增信用；平衡数值只能改变总数/待核，闭合846/待审0及其它每字节不变。数量真实性继续由未修改的quality-tools实际库存审计把关，其余正文/JSON仍固定SHA拒绝。新增该范围正反例后相邻16/16、质量工具45/45及lint6681零诊断通过；全门与这三代码增量非作者接受仍待完成，不自签。
+
+最后读回预检已用公开checkMigratedDocument在保留staging上返回0 issue；JSON-only provider误用已收回，复用原Markdown primarySource，无来源扩权。初始发布inspect也复用同一个两行投影判据，其余15篇仍逐字节保全；增加真实Markdown源/断链/伪授信反例后最终17定向+45质量工具+lint6681零诊断。第二棵失败stage同样0写，核11 before后清除4670文件/199272540B，锁已释放，保留必要执行/恢复身份；不把演练树当永久附件。

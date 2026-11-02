@@ -1,0 +1,859 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-fixed-S05-central-intake-review-not-report-document-selfreview",
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T22:25:04.827117+00:00",
+  "reviewerTask": "/root/central_intake_guard_review",
+  "centralAuthorTask": "/root",
+  "bodyAuthorTask": "/root/e2e_entry_semantic_author",
+  "nonAuthorReviewer": true,
+  "identityBoundary": "This reviewer did not author the fixed root central intake. Earlier body report4fd and guard report250 were authored by this reviewer and are checked here only as exact immutable transport/binding inputs. Neither report document receives semantic/template acceptance from this review.",
+  "candidate": {
+    "root": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+    "sourceCommit": "1f2749f31e28ce176bdddcd3c91ce3dba21c6180",
+    "bodyOnlyCommit": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+    "fixedCentralCommit": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+    "bodyAuthorCommit": "b87a239769295a4a2549255adc3b91f0417324ca",
+    "bodyPath": "docs/testing/e2e/route-proposal.md",
+    "bodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+    "bodyReportSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
+    "guardReportSha256": "250b0984d54c574b2dd0e48fefd2edd0a0d1f68e2574ed1d81cb8e87ea9eb293"
+  },
+  "verdict": {
+    "decision": "accept-limited-fixed-central-intake-with-global-hard-gates-failing",
+    "actualFixedCentralIntakeAccepted": true,
+    "scope": "Only fixed4ddd sole S05 binding transfer, native-object/history preservation, exact new pending records, original transport/provenance, review SHA DAG and declared authority/matrix/task deltas. Acceptance does not extend to later root commits or WIP.",
+    "newIndependentBodySemanticReviewPerformedThisRound": false,
+    "additionalBodyCreditFromThisReview": 0,
+    "reportDocumentSemanticCreditGranted": false,
+    "newTemplateOrPolicyApproved": false,
+    "counterInFixedCentralCompositionFound": false
+  },
+  "coreConclusion": "冻结4ddd的真实中央接入可限定接收：2418→2424只新增六个partial/needs，2417个旧native对象含缺省、字段/数组次序保全；S05仅凭固定b87/4fd移R60六→五，旧五条和semantic旧四条（含65确认）不动。历史撤回、五隔离和原始失败保留，所有当前pin零漂移。独立硬门依然FAIL，不是全量治理完成。",
+  "actualReadScope": {
+    "fixedGitOnly": "Data comparisons use git show of1f/8b/4ddd and b87. Root was clean at4ddd when six gates started. Later root commits/WIP were not read as fixed4ddd evidence.",
+    "substantiveReading": [
+      "Entire new S05 central review entry including all29 primary source declarations, seven user-rule/five chapter projection, legal inputs/oracle/dedupe/counter/history/stop lines; compared to fixed prior actual body report without granting that report document self-review.",
+      "All small substantive deltas to task card, both evidence README, matrix JSON/MD, integrity audit and rerun producer ownership; top-level status remains rework/proposed/guarded and actual combined intake pending at authorship.",
+      "Entire private runner765094 source; actual plan/apply receipts and source/publication file pins; public registry loader path and API bytes, no live apply invocation.",
+      "Full native registries and all114 review JSON through parsed exact-order/object/absence and SHA/DAG comparisons; no new semantic review of all those document bodies is asserted.",
+      "All236+460 transport rows, source manifests and originals, all12+21 original command-session files,279 root gate input pins and274 new gzip ownership coverage checked byte-for-byte.",
+      "Owned fixed4ddd public consumer snapshot1360 files hashed against Git; only public loader and documentation publication/template consumers run, no product."
+    ],
+    "notRepeated": "Complete original174/before219/new274 body review and actual27 bounded business source reads were already recorded in immutable4fd. This round verifies29 fixed Git pins and exact27 readScope projections and actual body identity, without claiming fresh full reads of all referenced dependencies.",
+    "ownReportDocumentBoundary": "4fd/250 bytes, receipt identity and transport consistency only; their own per-document semantic/template statuses remain partial/needs."
+  },
+  "mechanicalChecks": [
+    {
+      "name": "native-objects-and-shards",
+      "pass": true,
+      "observations": {
+        "before": 2418,
+        "bodyOnly": 2418,
+        "after": 2424,
+        "soleOldNativeChanged": ["docs/testing/e2e/route-proposal.md"],
+        "unchangedOldNative": 2417,
+        "pendingAdditions": [
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/harvest-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json",
+          "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-runner-v3-76509484.json"
+        ],
+        "noNewStructuralRoots": true
+      }
+    },
+    {
+      "name": "sole-binding-and-old-history",
+      "pass": true,
+      "observations": {
+        "donorBefore": 6,
+        "donorAfter": 5,
+        "otherDonor5Exact": true,
+        "oldSemantic4Exact": true,
+        "oldWithdrawalPreserved": true,
+        "uniqueBinding": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "priorDonorSha256": "251ef9fdb82b0b6bfb3593fb9dc983f53de2e570b988068308b7f21068121dd4"
+      }
+    },
+    {
+      "name": "review-pin-DAG-and-append-only-history",
+      "pass": true,
+      "observations": {
+        "reviewFiles": 114,
+        "afterPins": 2424,
+        "drifts": 0,
+        "acyclicReviewDAG": true,
+        "maintenanceDeltas": 13,
+        "allOldAfterAndOtherFieldsPreserved": true,
+        "topologicalOrder": [
+          "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
+          "docs/phase-governance/reviews/20261004-lore-phase3-batch1.json",
+          "docs/phase-governance/reviews/20261004-phase1-root-batch2.json",
+          "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
+          "docs/phase-governance/reviews/20261004-structured-content-ops-01.json",
+          "docs/phase-governance/reviews/20261004-structured-content-ops-02.json",
+          "docs/phase-governance/reviews/20261004-structured-content-ops-03.json",
+          "docs/phase-governance/reviews/20261004-structured-content-ops-04.json",
+          "docs/phase-governance/reviews/20261004-structured-content-ops-05.json",
+          "docs/phase-governance/reviews/20261004-structured-content-phase1-01.json",
+          "docs/phase-governance/reviews/20261004-structured-content-phase2-01.json",
+          "docs/phase-governance/reviews/20261004-structured-content-phase2-02.json",
+          "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+          "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
+          "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
+          "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
+          "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
+          "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
+          "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
+          "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation-records-1.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation-records-2.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation-records-3.json",
+          "docs/phase-governance/reviews/20261016-domain-navigation.json",
+          "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
+          "docs/phase-governance/reviews/20261016-historical-architecture-receipts.json",
+          "docs/phase-governance/reviews/20261016-historical-cards-c.json",
+          "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+          "docs/phase-governance/reviews/20261016-historical-cards-f.json",
+          "docs/phase-governance/reviews/20261016-historical-cards-h.json",
+          "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+          "docs/phase-governance/reviews/20261016-historical-static-html.json",
+          "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+          "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
+          "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
+          "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+          "docs/phase-governance/reviews/20261016-terminal-a8.json",
+          "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
+          "docs/phase-governance/reviews/20261016-testing-lab-history.json",
+          "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "docs/phase-governance/reviews/20261017-phase2-audits-r22.json",
+          "docs/phase-governance/reviews/20261017-phase2-designs-r24.json",
+          "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
+          "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+          "docs/phase-governance/reviews/20261017-r27-phase1-plans.json",
+          "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "docs/phase-governance/reviews/20261017-r29-phase1-status.json",
+          "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
+          "docs/phase-governance/reviews/20261017-r31-ops-archive-records.json",
+          "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+          "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+          "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+          "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+          "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r42-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r43-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r44-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r46-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r47-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r48-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r49-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r50-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r51-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r52-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r53-ops-archive-task.json",
+          "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+          "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+          "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+          "docs/phase-governance/reviews/20261017-r59-ops-archive-task-cards.json",
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+          "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+          "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r65-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r66-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+          "docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+          "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+          "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+          "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+          "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
+          "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "docs/phase-governance/reviews/20261018-semantic-rework.json",
+          "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json"
+        ]
+      }
+    },
+    {
+      "name": "fixed-source-pins-and-actual-readscope",
+      "pass": true,
+      "observations": {
+        "gitPins": 29,
+        "authorRevisionPins": 27,
+        "preciseReadScopesMatchOriginalReport": true,
+        "ownReportDocumentSemanticCreditGranted": false
+      }
+    },
+    {
+      "name": "withdrawal-cohort-regrant-and-quarantines",
+      "pass": true,
+      "observations": {
+        "withdrawn": 1896,
+        "reacceptedAffected": 4,
+        "remaining": 1892,
+        "S01OutsideCohort": true,
+        "immutableCorrectionScopeFiles": [
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-1.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-2.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-3.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-4.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-5.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-6.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json"
+        ],
+        "fiveQuarantinesUnchangedWithinAudit": true
+      }
+    },
+    {
+      "name": "S05-236-lossless-transport",
+      "pass": true,
+      "observations": {
+        "rows": 236,
+        "uniqueStoredPayloads": 181,
+        "allDoubleSHABytesAndOriginalsMatch": true,
+        "allManifestMembersCovered": true,
+        "semanticCreditGranted": false
+      }
+    },
+    {
+      "name": "guard-460-lossless-transport",
+      "pass": true,
+      "observations": {
+        "rows": 460,
+        "uniqueStoredPayloads": 125,
+        "allDoubleSHABytesAndOriginalsMatch": true,
+        "allManifestMembersCovered": true,
+        "semanticCreditGranted": false
+      }
+    },
+    {
+      "name": "actual-intake-session-transport",
+      "pass": true,
+      "observations": {
+        "rows": 12,
+        "allBytesPreserved": true,
+        "entireOriginalDirectoryCovered": true
+      }
+    },
+    {
+      "name": "actual-gate-session-transport",
+      "pass": true,
+      "observations": {
+        "rows": 21,
+        "allBytesPreserved": true,
+        "entireOriginalDirectoryCovered": true
+      }
+    },
+    {
+      "name": "actual-plan-publication-inputs-and-API-bytes",
+      "pass": true,
+      "observations": {
+        "planSha256": "afe3e0d305a349302f8c86514467be15da7704b4e933149dc20c7f85e05e3dd9",
+        "expectedPinnedFiles": 136,
+        "reviewInventory": 114,
+        "sourceStorageFiles": 8,
+        "publishedStorageFiles": 8,
+        "publicAPIsUnchanged": [
+          "scripts/docs/document-registry.mjs",
+          "scripts/docs/terminal-json.mjs"
+        ],
+        "reviewPinDeltas": 13,
+        "execution": {
+          "command": [
+            "node",
+            "/tmp/maintain-registry-v3-intake.mjs",
+            "/tmp/type-pal-v2-explicit-plan-8t2q2dk2/plan.json",
+            "--apply"
+          ],
+          "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+          "startedAt": "2026-10-17T22:15:30.741899+00:00",
+          "endedAt": "2026-10-17T22:15:32.159912+00:00",
+          "exitCode": 0,
+          "runnerSha256": "7650948490b2efe4ec5ae56b41426afc4fd80fcf05e793f54e8c1fb9c4f106bb",
+          "planSha256": "afe3e0d305a349302f8c86514467be15da7704b4e933149dc20c7f85e05e3dd9",
+          "stdoutSha256": "32af9bdf28da2f021f8e6327eaf2516fcef4c4a2d1936ef2c45c48e576fc5c7c",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "nonAuthorReviewer": false
+        }
+      }
+    },
+    {
+      "name": "pending-records-and-body-receipt-projection",
+      "pass": true,
+      "observations": {
+        "sixPendingRecordsExactPlan": [
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/harvest-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
+          "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json",
+          "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-runner-v3-76509484.json"
+        ],
+        "ruleTemplateAlternativeAndQuoteCopyFromFixedNonAuthor": true,
+        "reportDocumentSemanticCreditGranted": false
+      }
+    },
+    {
+      "name": "root-original-six-gate-raw-and-input-byte-chain",
+      "pass": true,
+      "observations": {
+        "pinnedVisibleInputsAllMatchFixed4ddd": 279,
+        "inputsAreAllVisibleDirtyFilesAtSourceHeadNotWholeLaterSessionAddition": true,
+        "rootOriginalReceipts": [
+          {
+            "name": "check-docs",
+            "exitCode": 1,
+            "startedAt": "2026-10-17T22:15:54.436049+00:00",
+            "endedAt": "2026-10-17T22:16:36.439162+00:00",
+            "stdoutSha256": "ee76ec7f06da7ab7eb4afb1090edc378f19f3d22937103ed4ba744e85c874472",
+            "stderrSha256": "c4d35c89cdbdf94b2dff764606a4981dc7433661ed23763fcfc2b4a80f3fd605"
+          },
+          {
+            "name": "lint",
+            "exitCode": 0,
+            "startedAt": "2026-10-17T22:15:54.436173+00:00",
+            "endedAt": "2026-10-17T22:15:58.992337+00:00",
+            "stdoutSha256": "fb9ecfd7a8a6557b205d916bf89a063c728bd7dc89b322886606f3a2d1c34309",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "strict",
+            "exitCode": 1,
+            "startedAt": "2026-10-17T22:15:54.438750+00:00",
+            "endedAt": "2026-10-17T22:15:55.291850+00:00",
+            "stdoutSha256": "50371f6ea94b35fc36e5321b93cb76967fe87347d9daf79e3cc6c4ed6f86e7ff",
+            "stderrSha256": "c4d35c89cdbdf94b2dff764606a4981dc7433661ed23763fcfc2b4a80f3fd605"
+          },
+          {
+            "name": "progress",
+            "exitCode": 1,
+            "startedAt": "2026-10-17T22:15:54.439060+00:00",
+            "endedAt": "2026-10-17T22:15:59.534903+00:00",
+            "stdoutSha256": "e0cc39750eeac973dede9644c086efa008dd2c72f856af547f36e8783be37d97",
+            "stderrSha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+          },
+          {
+            "name": "full-diff",
+            "exitCode": 0,
+            "startedAt": "2026-10-17T22:15:54.436964+00:00",
+            "endedAt": "2026-10-17T22:15:54.998226+00:00",
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "staged-diff",
+            "exitCode": 0,
+            "startedAt": "2026-10-17T22:15:54.439842+00:00",
+            "endedAt": "2026-10-17T22:15:54.460427+00:00",
+            "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "independentResultMatchesRootStableDiagnostics": true,
+        "allOriginalFailuresUnedited": true
+      }
+    },
+    {
+      "name": "machine-prefix-quote-and-precise-separator",
+      "pass": true,
+      "observations": {
+        "fixedBodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+        "nativePrefixSha256": "3f6ac4003e1e3b8d761faf05eb5316cc37225863ef6a72372581e1b8e80bd419",
+        "pairedCatalogAndEvidenceBytesUnchanged": true,
+        "wholeQuoteBytes": 18076,
+        "wholeQuoteSha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0",
+        "authorEndMarkerWithoutFinalLFSpanBytes": 18075,
+        "authorSpanSha256": "55374ee1e9df997d3dd8ddb986337e69867dde52db299cafb0be88e15ced9053",
+        "spanDifferenceNotContentDrift": true,
+        "directInverse17693NotEqual": true,
+        "removeOnlyKnownOneSeparatorLFReturnsOriginal17692": true,
+        "unconditionalTrimUsed": false
+      }
+    }
+  ],
+  "actualPublicConsumers": {
+    "registry": {
+      "argv": [
+        "node",
+        "/tmp/type-pal-s05-central-independent-q69d_8hy/probe-registry-readonly.mjs"
+      ],
+      "cwd": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-4ddd-readonly-snapshot",
+      "startedAt": "2026-10-17T22:22:30.182061+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 87100,
+      "returnCode": 0,
+      "finishedAt": "2026-10-17T22:22:30.254062+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-public-registry.stdout.raw",
+        "sha256": "b985daa6240f2f699c8bdba8cab1703cd5ce1cd266b4fd51d3cfc85fcfe65e89",
+        "bytes": 2788
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-public-registry.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "publication": {
+      "argv": ["node", "/tmp/type-pal-s05-central-independent-q69d_8hy/probe-doc-consumers.mjs"],
+      "cwd": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-4ddd-readonly-snapshot",
+      "startedAt": "2026-10-17T22:22:30.182046+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 87099,
+      "returnCode": 0,
+      "finishedAt": "2026-10-17T22:22:30.242935+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-public-consumers.stdout.raw",
+        "sha256": "73049059a1b61c5e86ee113c62405d6a09c41d3217d43f29385158142f3d838e",
+        "bytes": 5890
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/fixed-public-consumers.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "observation": {
+      "kind": "actual-public-document-consumers-and-byte-preservation",
+      "candidateSha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+      "source": {
+        "sha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+        "bytes": 17692,
+        "lines": 174
+      },
+      "before": {
+        "sha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+        "bytes": 20712,
+        "lines": 219
+      },
+      "after": {
+        "bytes": 32006,
+        "lines": 274
+      },
+      "quote": {
+        "wholeBlockSha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0",
+        "wholeBlockBytes": 18076,
+        "wholeBlockUnchanged": true,
+        "directInverseBytes": 17693,
+        "directInverseSha256": "c5b7d1c19ec9d8cd4471d39ba9d7e7e00842bace8a9747c7c77c7e76ddc94c5b",
+        "directEqualsSource": false,
+        "identifiedSeparatorHex": "0a",
+        "conditionalInverseBytes": 17692,
+        "conditionalInverseSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+        "conditionalEqualsSource": true,
+        "unconditionalTrimUsed": false,
+        "oldR60AcceptanceRestored": false
+      },
+      "metadataPrefix": {
+        "sha256": "3f6ac4003e1e3b8d761faf05eb5316cc37225863ef6a72372581e1b8e80bd419",
+        "unchanged": true
+      },
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "67-111",
+          "anchor": "export function validatePredecessor(",
+          "role": "input",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "actualSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "anchorInRange": true
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "actualSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "anchorInRange": true
+        }
+      ],
+      "template": {
+        "baseline": [],
+        "deleteCurrentAcceptanceHeading": ["missing section: 验收"],
+        "restored": [],
+        "meaning": "structure only; substantive chapters independently read"
+      },
+      "publication": {
+        "catalogRouteStatus": "proposal",
+        "historicalRevision": {
+          "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "contentVersion": 22,
+          "minimumSaveVersion": 11,
+          "history": [
+            {
+              "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+              "date": "2026-10-04",
+              "action": "source-and-publication-audit",
+              "notRun": ["runtime", "E2E", "coverage"]
+            }
+          ]
+        },
+        "canonicalBaseline": [],
+        "versionMutation": ["e2e-route: evidence/catalog version mismatch"],
+        "restored": [],
+        "unchangedEvidenceSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+        "renderedIndexesIssues": 0,
+        "meaning": "publication/schema IO only; does not execute games"
+      },
+      "outgoingLinks": [
+        {
+          "target": "../../ops/board.md",
+          "line": 22,
+          "resolved": "docs/ops/board.md"
+        },
+        {
+          "target": "../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "line": 22,
+          "resolved": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md"
+        },
+        {
+          "target": "../../../packages/content/src/character.ts",
+          "line": 38,
+          "resolved": "packages/content/src/character.ts"
+        },
+        {
+          "target": "../../../packages/reforge/src/save/types.ts",
+          "line": 38,
+          "resolved": "packages/reforge/src/save/types.ts"
+        },
+        {
+          "target": "../catalog.json",
+          "line": 40,
+          "resolved": "docs/testing/catalog.json"
+        },
+        {
+          "target": "evidence/e2e-route.json",
+          "line": 40,
+          "resolved": "docs/testing/e2e/evidence/e2e-route.json"
+        },
+        {
+          "target": "contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07",
+          "line": 42,
+          "resolved": "docs/testing/e2e/contract.md"
+        },
+        {
+          "target": "contract.md#每段核对编辑器预览初始状态用户2026-10-12",
+          "line": 44,
+          "resolved": "docs/testing/e2e/contract.md"
+        },
+        {
+          "target": "README.md",
+          "line": 50,
+          "resolved": "docs/testing/e2e/README.md"
+        },
+        {
+          "target": "../../../projects/pal/e2e-checkpoints/README.md",
+          "line": 50,
+          "resolved": "projects/pal/e2e-checkpoints/README.md"
+        },
+        {
+          "target": "../../../scripts/e2e/opening-both.mjs",
+          "line": 60,
+          "resolved": "scripts/e2e/opening-both.mjs"
+        },
+        {
+          "target": "../../../scripts/e2e/inn-both.mjs",
+          "line": 61,
+          "resolved": "scripts/e2e/inn-both.mjs"
+        },
+        {
+          "target": "../../../scripts/e2e/inn-contract.mjs",
+          "line": 63,
+          "resolved": "scripts/e2e/inn-contract.mjs"
+        },
+        {
+          "target": "contract.md#4-验证档与录像档",
+          "line": 75,
+          "resolved": "docs/testing/e2e/contract.md"
+        },
+        {
+          "target": "contract.md#录制与判定分离最小重跑用户2026-10-08",
+          "line": 80,
+          "resolved": "docs/testing/e2e/contract.md"
+        },
+        {
+          "target": "cross-stage/common-issues.md",
+          "line": 81,
+          "resolved": "docs/testing/e2e/cross-stage/common-issues.md"
+        },
+        {
+          "target": "../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+          "line": 83,
+          "resolved": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md"
+        },
+        {
+          "target": "contract.md#e2e-收口硬门用户2026-10-042026-10-12补充",
+          "line": 89,
+          "resolved": "docs/testing/e2e/contract.md"
+        },
+        {
+          "target": "contract.md#8-自动录像准入门槛",
+          "line": 91,
+          "resolved": "docs/testing/e2e/contract.md"
+        }
+      ],
+      "renderedAnchorValidation": false
+    },
+    "meaning": "Real public current4ddd loader and documentation consumers in an exclusively owned exact Git snapshot. Template delete验收 rejected then restoration0; evidence minimumSave11→12 rejected then restoration0. These prove limited storage/publication/structure contracts only."
+  },
+  "quoteSpanReconciliation": {
+    "wholeBlockWithEndMarkerFinalLF": {
+      "bytes": 18076,
+      "sha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0"
+    },
+    "authorSpanExcludesOnlyFinalEndMarkerLF": {
+      "bytes": 18075,
+      "sha256": "55374ee1e9df997d3dd8ddb986337e69867dde52db299cafb0be88e15ced9053"
+    },
+    "finding": "Different explicitly reconstructed extraction spans, not content drift. Central copied4fd wholeBlock span accurately; neither original report is edited. Direct inverse17693 remains unequal to original17692; remove only identified one separatorLF and exact source SHA matches; no trim or R60 old acceptance revival."
+  },
+  "nativeFieldPreservation": {
+    "metadataPrefixSha256": "3f6ac4003e1e3b8d761faf05eb5316cc37225863ef6a72372581e1b8e80bd419",
+    "catalogSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+    "pairedEvidenceSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+    "unchanged": true,
+    "meaning": "Historicald022/content22/min11 retain original publication identity, not renumbered into SAVE12 current execution."
+  },
+  "executionBoundaries": {
+    "privateRunnerSha256": "7650948490b2efe4ec5ae56b41426afc4fd80fcf05e793f54e8c1fb9c4f106bb",
+    "builderSha256": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b",
+    "v2BasePreserved": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+    "brandedSource": "Exact fixed runner imports public load/write and passes returned loadedSource in same process; source8file hashes and published8file hashes match actual fixedGit/apply receipt. This reviewer did not invoke apply in any repository.",
+    "noTransactionClaim": "Public/native publication and private review DAG updates are not a cross-file transaction. Prior guard report limitations preserved;13 guard cases are not substituted for actual4ddd intake acceptance.",
+    "twoOldColdCLIFailures": "4fd original attempts failed importing absent data/extracted/events/all.json before capture guard. Remain original failures; this round did not retry or grant CLI capture rejection success.",
+    "sourceAndSyntheticIO": "Only original explicitly synthetic predecessor parser/IO receipt was projected; no authentic checkpoints/game runtime/visual/preview/capture/coverage were exercised or accepted."
+  },
+  "independentSixGates": {
+    "check-docs": {
+      "argv": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.597673+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33983,
+      "returnCode": 1,
+      "finishedAt": "2026-10-17T22:18:50.728575+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/check-docs.stdout.raw",
+        "sha256": "55e49c4ac702b1ec801562dc31c58b51840b557889f90f65546cf659aab5a034",
+        "bytes": 43994
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/check-docs.stderr.raw",
+        "sha256": "c4d35c89cdbdf94b2dff764606a4981dc7433661ed23763fcfc2b4a80f3fd605",
+        "bytes": 490774
+      }
+    },
+    "lint": {
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.584651+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33982,
+      "returnCode": 0,
+      "finishedAt": "2026-10-17T22:18:19.270730+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/lint.stdout.raw",
+        "sha256": "fb9ecfd7a8a6557b205d916bf89a063c728bd7dc89b322886606f3a2d1c34309",
+        "bytes": 182
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "strict": {
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.581745+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33980,
+      "returnCode": 1,
+      "finishedAt": "2026-10-17T22:18:15.614715+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/strict.stdout.raw",
+        "sha256": "50371f6ea94b35fc36e5321b93cb76967fe87347d9daf79e3cc6c4ed6f86e7ff",
+        "bytes": 94
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/strict.stderr.raw",
+        "sha256": "c4d35c89cdbdf94b2dff764606a4981dc7433661ed23763fcfc2b4a80f3fd605",
+        "bytes": 490774
+      }
+    },
+    "progress": {
+      "argv": ["node", "scripts/docs/report-governance-progress.mjs", "--require-complete"],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.589696+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33981,
+      "returnCode": 1,
+      "finishedAt": "2026-10-17T22:18:19.725929+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/progress.stdout.raw",
+        "sha256": "e0cc39750eeac973dede9644c086efa008dd2c72f856af547f36e8783be37d97",
+        "bytes": 155
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/progress.stderr.raw",
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+        "bytes": 89
+      }
+    },
+    "full-diff": {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "28fd9013e09e8792decbff2fa117aae14c36b196..4ddd17e401115c8f2ce128bbd2af0ab0349de8db"
+      ],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.649897+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33986,
+      "returnCode": 0,
+      "finishedAt": "2026-10-17T22:18:15.185512+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/full-diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/full-diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "staged-diff": {
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+      "startedAt": "2026-10-17T22:18:14.597834+00:00",
+      "candidateHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+      "timeoutSeconds": 90,
+      "timedOut": false,
+      "spawnError": null,
+      "ownedPid": 33984,
+      "returnCode": 0,
+      "finishedAt": "2026-10-17T22:18:14.689122+00:00",
+      "stdout": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/staged-diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-s05-central-independent-q69d_8hy/staged-diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  },
+  "gateInterpretation": {
+    "checkDocs": "exit1:178/178 docs-tool tests pass; docs1300/8186 local links/364tasks, document-model, testing docs and phase-lore184 structural subchecks0; strict content review fails2424/1972partial/452reviewed. Local missing node_modules pnpm warning retained in raw, not excused as whole-gate pass.",
+    "lint": "exit0:4502 files;0errors/0warnings/0infos.",
+    "strict": "exit1; rawstderr490774 bytes SHA c4d35c89cdbdf94b2dff764606a4981dc7433661ed23763fcfc2b4a80f3fd605 identical to root original.",
+    "progress": "exit1:441/1838 baseline+5incremental;1978pending;17/17 exercised;0integrity issues; notfull acceptance.441 inherited projection is not441fresh semantic reviews.",
+    "diff": "Complete28fd→4ddd diffcheck0; stageddiff0.",
+    "globalHardGatePassed": false
+  },
+  "reviewerHarnessFailuresRetained": [
+    {
+      "files": ["audit.py", "mechanical-audit.json", "mechanical-audit.stdout.raw"],
+      "finding": "First own checker incorrectly treated S05 history array as object, then expected every transport encodinggzip although exact original report rows correctly useidentity. Failed assertions/tracebacks kept; audit-v2 corrects only own interpretation and three cases pass. No candidate bytes changed."
+    },
+    {
+      "files": [
+        "prepare-public-snapshot.py",
+        "prepare-public-snapshot.stderr.raw",
+        "public-consumers.stderr.raw"
+      ],
+      "finding": "System Python tarfile.extractall lacks filter kwarg. Initial owned snapshot preparation fails; subsequent attempted probe module does not exist and fails as captured. prepare-public-snapshot-v2 validates safe regular Git archive members explicitly, then fixed public consumers pass. Neither setup failure is a candidate counter."
+    },
+    {
+      "files": ["audit-extra.py", "mechanical-extra.json", "mechanical-extra.stdout.raw"],
+      "finding": "Own extra checker first referenced nonexistent predecessorIoProbe.boundary rather than actual object and used an incorrectly transcribed expected author spanSHA. audit-extra-v2 compares actual original object and reads frozen author reportSHA, both exact comparisons pass. Original failed checker/results retained."
+    }
+  ],
+  "artifactCoverage": {
+    "fixedHead": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+    "newGzipFiles": 274,
+    "unownedNewGzipFiles": [],
+    "allNewGzipCoveredByExplicitTransport": true,
+    "fixedSnapshotFiles": 1360,
+    "readonlyState": {
+      "root": {
+        "head": "d90c8a15436e8babf9f2687dde94737c020acef7",
+        "status": "",
+        "meaning": "read-only observation; root later WIP is outside fixed4ddd acceptance"
+      },
+      "main": {
+        "head": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "status": "",
+        "meaning": "read-only observation; root later WIP is outside fixed4ddd acceptance"
+      }
+    },
+    "repositoryWritesByThisReviewer": false
+  },
+  "stopLine": "No S06/S07 or later root-WIP acceptance, report-document self-review, raw storage redesign approval, current runtime/E2E/preview/visual/audio/capture/coverage, full docs completion, main integration or done permission.",
+  "nextStep": "Root may record this exact fixed4ddd central acceptance as new scoped receipt metadata with pending document status; later new files/acknowledgment, S06 counter fixes and genuine per-document semantic work require their own independent review. Keep global hard gates failing until resolved.",
+  "repositoryWritesByReviewer": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "fullDocsSemanticAcceptance": false,
+  "reportDocumentSemanticAcceptance": false,
+  "productRuntimeCreditGranted": false,
+  "mergeToMainAllowed": false,
+  "cardDoneAllowed": false
+}

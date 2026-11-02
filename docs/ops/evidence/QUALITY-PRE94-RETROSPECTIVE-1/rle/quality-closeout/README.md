@@ -1,5 +1,38 @@
 # CODE1 RLE测试质量与真实资源影响域收口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原文审计对象是CODE1下五个shared RLE测试文件加一个新test-only fixture的测试质量收口，及用真实原盘资源反证当前RLE解码影响域。基点13a68691f61693450a04cb3effae6ee5a6e8c277（codex/code-quality-3y，主树只读）。顶部时点注记：原盘格式停止线已获批并修复，见[README.md](../../code1-closeout/pal-source-fix/README.md)；本文测试质量原件保持，格式冻结措辞为历史时点。
+
+## 范围与证据
+
+六测试范围按逐文件A–H裁定接受（见[review.json](review.json)）：rle.test、boundaries、GLM-o三旧review与新fixture共四项新关闭，runtime-resource与encoder两项旧关闭刷新。59→59身份精简的逐条去向见[identity-mapping.json](identity-mapping.json)（九个已证重复合并，所有旧身份有已执行新身份承接）。三反控generic-opacity/strict-pixels/indexed-count旧单例绿、新恰一业务AssertionError红；官方源SHA不变。执行回执：基点五文件59/59、game相邻20/20、extract相邻12/12、reforge相邻20/20、退役账单回归82/82、shared typecheck与scoped Biome exit0，全部无损归档于[receipts.json.gz](receipts.json.gz)。静态门（九项static-*，复用未变docs工具回归）另冻结于[static.json](static.json)。全仓check/official coverage/protected/PR按用户要求等全部pre94冻结后再跑。
+
+## 发现
+
+格式停止线把MGO571由未知变成真实counter：唯一special offset在MGO571槽1，TS99396越界而SDLPal特殊规则取33860；ASan编译原生YJ2得两幅320×200帧（第二帧23036非零像素），而当前loadSpriteFramesBlob只返一帧、playEndingAnimation要求至少两帧，故实际播放第200步妖兽层全黑——隔离妖兽层的定向反例见[ending-actual.png](ending-actual.png)与[ending-native-reference.png](ending-native-reference.png)。合成高位literal与作者canonical透明游程分歧仍在原任务卡[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)。4,662,630条已trace命令零高位分歧是TS结构trace，不等于全资源native像素一致。
+
+## 结论
+
+六测试范围代码接受，但产品rle.ts仍review、CODE1整卡仍partial、3m/42未关闭、固定83卡保持80accept/3partial；产品算法、接口、原盘和生成物零改动。本页不授完整pre94/集成/原版结局验收信用。三源副本反控都旧绿新恰一业务AssertionError红，非收集错误或超时；首次快检两轮误判（预期红stderr要求为空、名称筛选skipped当执行）原件保留，最终按passed/failed身份核验。
+
+## 整改与复核
+
+低成本复验入口为只读verify.mjs（exit0核上下文/原件/身份映射/三单红/退役判据/MGO反例；缺raw返回2注明unavailable，不把缺数据当通过）。需重放时先解压归档到新owned临时目录并改路径。过程披露与原子性补审（四种帧错误、容器头/offset/尺寸独立可定位；重复count篡改表截断并入容器头oracle）按原时点保留；候选待Owner接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7200B / SHA-256 6e48eb3f68e75ac9b69a7d9d513518ba55ed466ccd829541491d0526f30df00e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE1 RLE测试质量与真实资源影响域收口
+
 > 2026-10-25当前：原盘格式停止线已获批准并修复，见[PAL来源修复及当前只读复验](../../code1-closeout/pal-source-fix/README.md)。本文测试质量原件保持；格式冻结措辞为历史时点，统一门另记。
 
 Status: current evidence receipt
@@ -63,3 +96,5 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/verify
 原子性补审：boundaries四种帧错误、GLM-o三种容器头／两种offset／两种尺寸及独立合法正控、encoder单帧／空容器分别可定位；重复的count篡改表截断并入现有容器头oracle。未添加新行为轴或为覆盖率补数量。
 
 [最终文档／lint／diff／ledger静态原件](static.json)与上表代码回执分开冻结；复用未变的docs工具回归，不重跑125例，也不把静态检查等同统一check或coverage。
+````
+<!-- incremental-original-source:end -->

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-S04-central-intake-guard-addendum",
+  "reviewer": "/root/central_intake_guard_review",
+  "author": "/root",
+  "nonAuthorReviewer": true,
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T21:44:55.772576+00:00",
+  "parentReport": {
+    "path": "/tmp/type-pal-central-guard-v2-independent-sgkawtne/independent-central-guard-followup-34462316.json",
+    "sha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685",
+    "modified": false
+  },
+  "sourceSnapshot": {
+    "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+    "preparedScriptSha256": "51d01b7bb4b603916b883ce43b2d9ca3cc437494cfd2120dfc9e472b3af71735",
+    "preparedEntrySha256": "f25b3b100f5310cfa6371dfb67184ae512fcaa63e82a4facbed993a774d80de3",
+    "sourceRootHeadObserved": "29ad7d7f1ffc63a9f674ca1581c2673b659e7a60",
+    "ownedFixtureCommit": "1533ad38fd061feb7fd2720ec7352127ac3b294e",
+    "actualScope": "Full seven-entry R60 donor and three-entry semantic-root fixture after assumed fixed S03 intake; ten selected native entries, not whole 2374 central inventory. Public API copies frozen at db814e as prior guard review; no 95 scalar implementation acceptance."
+  },
+  "verdict": "S04 fixed-body/report positive and exact-identity negative guards accepted in owned temporary fixture only.",
+  "actualTests": [
+    {
+      "case": "fixed-s04-positive",
+      "observation": "fixed-s04-positive/observation.json",
+      "exitCode": 0,
+      "facts": {
+        "bodySha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+        "reportSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+        "donorBefore": 7,
+        "donorAfter": 6,
+        "allSixOtherDonorEntriesPreserved": true,
+        "completePreviousS04BindingPreservedUnderSupersededHistory": true,
+        "priorSupersededHistoryPreserved": true,
+        "threeOtherSemanticRootEntriesPreserved": true,
+        "newPreparedS04EntryPreserved": true,
+        "nineOtherNativeRegistryEntriesPreserved": true,
+        "nativeRegistryTotalUnchanged": 10
+      }
+    },
+    {
+      "case": "wrong-s04-body",
+      "observation": "wrong-s04-body/observation.json",
+      "exitCode": 1,
+      "allInputBytesUnchanged": true,
+      "actualError": "not approved fixed body docs/testing/e2e/cross-stage/README.md",
+      "discriminant": "Wrong-body fixture updates both plan input SHA and binding afterSha to the wrong bytes, so rejection specifically comes from the fixed approved-body guard rather than a stale plan hash."
+    },
+    {
+      "case": "wrong-s04-report",
+      "observation": "wrong-s04-report/observation.json",
+      "exitCode": 1,
+      "allInputBytesUnchanged": true,
+      "actualError": "not approved fixed non-author report docs/testing/e2e/cross-stage/README.md",
+      "discriminant": "Wrong-report fixture updates both plan input SHA and evidence.reportSha256 to its wrong bytes, so rejection specifically comes from the fixed report identity guard."
+    }
+  ],
+  "preparation": {
+    "script": "prepare-s04-entry.py",
+    "scriptSha256": "51d01b7bb4b603916b883ce43b2d9ca3cc437494cfd2120dfc9e472b3af71735",
+    "output": "prepared-s04-entry.json",
+    "outputSha256": "f25b3b100f5310cfa6371dfb67184ae512fcaa63e82a4facbed993a774d80de3",
+    "actualExitCode": 0,
+    "unmodifiedScriptExecuted": true,
+    "scope": "A real seven-entry donor after assumed fixed S03 intake and three-entry semantic root were prepared inside owned /tmp. Actual source root files were only read. A fixture-only commit with the real f9 parent lets the unchanged script verify exact before bytes and primary Git sources."
+  },
+  "preservationMeaning": "Object/value/order assertions above are checked against the complete seven-entry donor and complete old S04 binding in the owned fixture. No other semantic or original execution credit is restored.",
+  "limits": [
+    "Temporary fixture uses ten selected native entries, not the complete real 2374-entry central registry. This is not actual root central intake acceptance.",
+    "The public loader/writer copies are the prior frozen db814e IO implementation used by the guard review. This addendum does not accept the pending 95 scalar code patch or replace its independent review.",
+    "Fixed S04 body and independent report are preexisting accepted sources. This addendum tests guard transport/identity/history preservation only; it does not perform a new body semantic review.",
+    "No repository file, task card, central registry/review JSON, source report, previously frozen evidence package or shared /tmp author script was modified.",
+    "No full check:docs, lint, runtime, E2E, visual, preview, capture, coverage, global hard gate, main merge or done credit is granted."
+  ],
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "actualCentralIntakeApplied": false,
+  "cardDoneAllowed": false,
+  "mergeToMainAllowed": false
+}

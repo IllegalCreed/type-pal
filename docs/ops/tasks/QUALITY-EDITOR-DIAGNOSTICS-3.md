@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+清理C02 BattleSpriteLibrary测试的异步生命周期诊断并精简已证重复：白名单四测试源（battle-sprite-ui.ts、c02-g01/g02/g05测试），真值为React官方act要求等待触发更新的实际异步工作；目标口径是图片只等真实硬件端口Promise、提交/失败只等真实session或新notice、历史操作进act并等实际预览。
+
+## 范围
+
+只改上述四份测试源码；不改宿主实现、产品/公共API/schema/save/资产管线/生成物；UI助手全文重读，三测试按上一轮SHA复用直接读取记录。
+
+## 前提与证据
+
+固定源全文核读各检查点。根因证伪：bitmap-only等待30/30、535条act未降，撤回图片主因解释；改为等待真实提交/新raw notice及真实历史回流后535→23（余23均为G01 act外dispatch/undo），修后30/30零诊断。raw helper返回当次DOM结果，旧waitRawMessage只有G01/G05 caller已整体替换移除。精度片：G01-01/08用真实reader完成交付闸门证pending窗口与解除；G05改canonical BattleSpriteProfile判别联合无unknown强转；三个头注撤回未经全库核实的新颖性声明。精简仅G01-02→03（10→9，总30→29）：两者都是authored同资产同消费者、仅项目名与无像素oracle的配色不同，属一次外部12→10缩帧后的整组回流；隔离反控proofReady守卫移除各恰一AssertionError、改名草稿复位mutant下原03仍绿/原02红。首次相邻命令两文件过滤名写错实际只跑7文件69例，原件保留不冒充全相邻；纠正后9文件77例0skip/0诊断。稳定窗口addf1dca1：check、官方确认版ratchet、普通protected fast均exit0；六份源码窗口内字节冻结；736源/19860 fast测试、四项覆盖分子分母与前基线完全相同。原件:[next-read-boundaries.json](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/next-read-boundaries.json) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。
+
+## 验收
+
+静态门0/0/0通过但不代表运行时诊断已清零：统一门仍不通过、禁止合main。宿主历史pending导航/异常清理故障注入与未知跨文件重复仍待核；账本3284/229closed/54review/3001pending、0关闭，不冒称独立验收。下一候选Kimi BattleSprite工作流须先新卡白名单。
+
+## 状态与交接
+
+review保持原语义；无下一位Agent提示词，由Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7309B / SHA-256 7ca1d42a4eac33154abbd0d1e770b3d37fbd8aeb5bf1a3b62fbc3a599a67689b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验与独立验收分开）
 Phase: phase2
@@ -73,3 +106,5 @@ Codex：premise verified / design agree，build allowed；需以隔离产品muta
 精度检查点addf1dca1已提交并推送两条治理分支后才集中跑完整门。check、官方确认版ratchet、普通protected fast均exit0；实际各门诊断计数及完整原件见[窗口报告](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/window-review.md)。静态门0/0/0，不代表运行时诊断已清零；统一门仍不通过，禁止合main。
 六份源码在整个窗口字节冻结，packages/scripts只产生官方baseline。736源文件/19860 fast测试，四项覆盖分子分母与前基线完全相同，仅G01 10→9精确精简。定向29、相邻77、工具65及七包typecheck通过，0关闭；账本3284/229closed/54review/3001pending。
 当前review，仅冻结作者实测，不冒称另一个Reviewer独立accept；宿主历史pending导航/异常清理故障注入与未知跨文件重复仍待核。下一候选Kimi BattleSprite工作流须先新卡白名单，处理真实完成信号与准备结果自写问题。无下一位Agent提示词，由Codex继续。
+```
+<!-- incremental-original-source:end -->

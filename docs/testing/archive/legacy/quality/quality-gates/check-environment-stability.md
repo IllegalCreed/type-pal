@@ -1,40 +1,61 @@
 # 检查环境隔离与真实宿主测试负载
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-ENV-STABILITY-1 回执（2026-09-24，Codex 独立实施，用户明确本批暂不安排 GLM/Kimi 不代签）：三个问题面——NODE_COMPILE_CACHE 覆盖精度污染、flows 五首例并发超时、覆盖插桩下 AST 重复编译超时；最终源码 `e17af240` 三门 exit0，两卡已核 done。
+
+## Scope
+
+- 对象=检查环境隔离（preciseCoverageEnvironment 子进程环境）与真实宿主负载（Reforge maxWorkers=2）+AST 编译缓存。
+
+## Execution and assertions
+
+- **缓存根因**：Node22.19.0/22.23.2 分别开/禁 NODE_COMPILE_CACHE 均 9/10 与 10/10；失败是 same-range 初始化计数，升级 Node 不消除；Node 官方文档明确编译缓存可能降低 V8 覆盖精度；新增 preciseCoverageEnvironment 仅构造子进程环境：移除 NODE_COMPILE_CACHE、强制 NODE_DISABLE_COMPILE_CACHE=1（调用者 override 不能重开）、其它变量保留；官方 runner 所有 spawn 与自测真实子进程接入；不放宽断言或降基线；带污染环境工具自测 Node30 30 绿+Node22.23.2 30 绿
+- **flows 负载**：原两轮各 3 失败=boot/menu/dialog/save/scene 五首例超时（非固定三用例）；installShellHost resetModules 首次冷图加载在测试计时内+11 核多 worker 争用；Reforge vite 配置仅增 maxWorkers=2（直接 Vitest/包 test/官方覆盖统一消费）；不改 timeout/身份/isolate/断言/排除；同树对照 Reforge 全集与 game/pal-extract 同时运行两轮 1,460/1,460；首例 3326/3326/3326/3426/3368ms→1927/598/503/654/626ms；总耗时 18.2s→34.4s 明确接受吞吐换稳定余量不宣称加速
+- **AST 残项**：首次统一 check 8,381 绿后 ratchet 在 Reforge 发现 3 旧链超时（checkpoint DEV 注册例 6,041ms、save-lineage 5,631/5,614ms）；根因=fixture 每次 harness 重新解析 main 原文并 transpile；修复仅缓存编译工厂（严格按 source+names+properties 键，每次新 env 新闭包；DEV lazy 复用但每次真实注册；lineage 共享只读 AST）；新增 3 fixture 回归+负控源键删除实际报 3≠6 AssertionError；带 V8 插桩 23 项全绿最慢 1,660ms；未修改 Node 默认版本/依赖锁/测试超时
+- **最终门**：最终源码 e17af240 重新串行；check 8,384、ratchet 7,893/633、受保护单次 strict 7,893/633 均 exit0；严格跑前后基线 hash 一致；机账 stability-fire-closeout-evidence.json 保留首轮失败
+
+## Results
+
+- 本轮时长是诊断观察，不是严格性能基准或速度承诺；仍需最终全仓同口径门禁确认。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp JSON 与日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 环境稳定 | 2026-09-24 | 缓存隔离+maxWorkers+AST 工厂缓存 | 三门 exit0，两卡 done | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的环境稳定回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 检查环境隔离与真实宿主测试负载：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+三根因（编译缓存精度/冷图并发超时/AST 重复编译）修复+对照数字；吞吐换稳定余量如实登记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+对照表、修复边界与最终门数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。性能数字按当时机器；当前配置以现行 vite/runner 为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-ENV-STABILITY-1 完成卡与现行配置。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `00d9a939e7b274f3c8af67482a3cb560b2c96a30dfa80e895f59eba0758470cf`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `00d9a939e7b274f3c8af67482a3cb560b2c96a30dfa80e895f59eba0758470cf`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 检查环境隔离与真实宿主测试负载
 >

@@ -1,5 +1,58 @@
 # CODE-QUALITY-60 — game quick-save lifecycle
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验快速存档/读档两文件（`quick-save.ts` 与测试）:F5 只在 explore、无 dialog、空 menuStack 时保存固定 slot 1;F9 委托 bootstrap 完整读档恢复;两键 preventDefault 并将失败转为 toast,不吞错误、不残留 window listener。
+
+## 范围
+
+两文件;只读相邻 bootstrap.ts:1110-1118 注入 caller、save-io、Save API、save-import-quicksave.glm-msio.test、phase1 save plan 快捷键准入。SDLPal 快速键是 type-pal 工具能力（primary N/A）。
+
+## 前提与证据
+
+历史批:定向 quick-save 4 tests、与 tools-panel/save-io/MSIO 合计 29 tests、save wave 全门通过,账本 3266/292 closed。
+
+## 验收
+
+2026-10-21 当前复审 accept（置顶勘误,与 CODE-QUALITY-59 共用）:获准结构/历史非空/角色域修复先红后绿,52 相邻、20386 全仓 check、19988 official ratchet/protected 全部零诊断,5 次原生文件/IDB 入口验证;60 复用有效九例及反控;不扩大到 Save/IDB/面板整文件或 94–102,逐文件 A–H 与原件见 [save-v1-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。2026-10-21 中间片记录:纯测试合同迁移与注释修正（旧 MSIO 的 D1 移入 save-io 主测,E1/E2/E3 并入强化后的 quick-save 主测,20→18 包含 toast 相邻,不以数量或包绿授验收）,无产品执行变化、用户槽位或 schema 修改;覆盖率、protected 和全仓 check 未运行,本中间片未推送/合并,CODE60 保持 partial,待完整模块门后正式裁定（基点 92e901806926c0fb08b9787877eed9ed45147d8d）。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-21 复审 accept 为当前有效结论,中间片 partial 记录按其时点保留。
+
+## 历史范围
+
+原卡属 2026-10-13 wave 时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:F5/F9 准入、preventDefault、解绑、异常 toast 与 bootstrap caller 均核验。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（4 定向+29 wave 合计、全门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;当前结论以 save-v1-local 复审原件为准。
+
+## 继任文档
+
+CODE-QUALITY-59（save-io 版本门）与 save-v1-local 复审为继任;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3735B / SHA-256 322f4fb89980ae81f27c46e7364e9ad282f4f19a80607368aaf6d0ff30693937；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-60 — game quick-save lifecycle
+
 > 2026-10-21当前复审accept：[CODE59/60逐文件A–H与完整原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/save-v1-local.json)。获准结构/历史非空/角色域修复先红后绿，52相邻、20386全仓check、19988 official ratchet/protected全部零诊断；5次原生文件/IDB入口验证。60复用有效九例及反控；不扩大到Save/IDB/面板整文件或94–102。下文保留历史时点。
 
 Status: done
@@ -54,3 +107,5 @@ Visual Verification Timing: N/A（快捷键与 toast 生命周期）
 若重开审计：复核 quick-save.ts/test、bootstrap caller 与 save version boundary；不得直接重用本卡作为新 build 授权
 当前结论：accept/done，无实现改动
 ```
+````
+<!-- incremental-original-source:end -->

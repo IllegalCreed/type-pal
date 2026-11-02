@@ -1,6 +1,39 @@
 # QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+接续已合并的[首个百文件窗口](QUALITY-PENDING-100-1.md)，按用户2026-10-28指令累计约100个实际完成八维审核的主体文件后，再集中执行重型检查、覆盖率和提交发布。
+
+## 范围
+
+首片是[present 主测与 hold 专测](QUALITY-GAME-PRESENT-HOST-TESTS-1.md)；后续按第十三片准入推进至冻结。依赖补读、文件搬移、退役、哈希枚举和未完成审查不计入100；只选机器账本 pending 且无活跃 Owner 冲突的有限模块。
+
+## 前提与证据
+
+同一治理分支基点f47f052fa1e732f7e574e70b268790d301dada3d；前窗PR30已合并，合并后Documentation 40543911264、Coverage 40543911792均success且原始日志已核零诊断，但不授予本窗集成信用。初始账本3466 tracked／695 closed／0 review／2771 pending。冻结计数勘误：migration-diagnostic.ts原已关闭，原77/101阶段草稿数字多计1，当前真实新主体100。八维与节奏锚[长期规范](../code-quality.md)、[当前工作流](../agent-workflow.md)、[实时账本](../audits/code-quality-file-ledger.md)。
+
+## 验收
+
+2026-10-28本地收口：100主体＋1宿主叶（Canvas宿主另列不占主体），四重复专测退役不计数；机器3463 tracked／796 closed／0 review／2667 pending。全仓20503例、typecheck、lint与同报official 20154/809、ratchet/protected均通过且零诊断；第一次check的四条sourceRef失败、原采集中断及恢复脚本首跑语法错误均留原件。见[逐文件证据](../evidence/QUALITY-PENDING-100-2/README.md)与[统一回执](../evidence/QUALITY-PENDING-100-2/uniform/README.md)。
+
+## 状态与交接
+
+收口当时远端fetch连续TLS失败、卡保持review仅待发布（不代表100文件还待全文复审）；2026-10-28T04:11Z重新fetch成功，origin/main仍f47f052fa、治理分支提交前0ahead/0behind，卡转done。推送、受保护PR及合并后CI按goal继续执行；本提交不提前声称远端检查或合并通过。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 10857B / SHA-256 00b14cf7b1ec1c003981d8b5d5151dd98bdb09dc8cc28ab592850f69721d7682；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent；审查判断与执行事实分别记录）
 Phase: ops
@@ -101,3 +134,5 @@ Codex build allowed：fbp-player.test、fbp-scroll.grok-r1.test、ending-player.
 ## 提交前同步恢复
 
 2026-10-28T04:11Z重新fetch成功，origin/main仍f47f052fa，治理分支提交前0ahead/0behind。上述TLS故障已恢复；100主体与本地统一门完成，卡转done。推送、受保护PR及合并后CI按goal继续执行；本提交不提前声称远端检查或合并通过。
+```
+<!-- incremental-original-source:end -->

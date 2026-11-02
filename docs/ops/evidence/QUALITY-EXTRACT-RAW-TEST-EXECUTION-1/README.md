@@ -1,5 +1,38 @@
 # Extract原盘执行完整性与像素oracle
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是QUALITY-EXTRACT-RAW-TEST-EXECUTION-1证据族的根导航与总结页：extract两份原盘测试（data-misc.test.ts/misc-mkf.test.ts）从"六条raw不存在warn后假passed"整改为真实原盘执行+固定像素oracle的全程证据索引。整改只动四份内聚测试与test-only helper，生产/原盘/生成物/公共接口0改动；起点b41dc8d53，整改时点main=f98d0ddd8，单worktree codex/code-quality-3y；任务卡留build、0文件关闭、不合main。下方保全块是原始README全文，本节以上为本轮语义整改补写的可见正文。
+
+## 来源与输入
+
+上游是[QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)任务卡与[all-cards.md](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)复审。本族证据原件：native侧[native-probe.py](native-probe.py)提取未改函数体、[native-primary.c.gz](native-primary.c.gz)函数C原件、[native-rgba.bin.gz](native-rgba.bin.gz)RGBA流与指纹母本[native-proof.json](native-proof.json)；反控[counter-probe.py](counter-probe.py)的[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)与最初成功反控[after-proof.json](initial-after/after-proof.json)；身份与合同对账[native-identities.json](native-identities.json)、[empty-transfer.json](empty-transfer.json)、[fast-scope.json](fast-scope.json)、缺输入对照[missing-input.json](missing-input.json)；阅读边界[read-boundaries.json](read-boundaries.json)；另进程核验[verify.py](verify.py)/[verification.json](verification.json)；恢复回执与静态门[gates.md](gates.md)；后续诊断承接片[README.md](diagnostics-c1/README.md)与[README.md](diagnostics-c2/README.md)。
+
+## 断言与业务 oracle
+
+真实语义要点：native探针以未改SDLPal PAL_SpriteGetFrame/PAL_RLEBlitToSurfaceWithShadow/YJ2_Decompress、最小8位surface、同一帧绘全0与全255双背景判opaque，把DATA9/10、RGM、BALL、FIRE四原盘逐帧解出1332条RGBA指纹（71/85/88/251/837），测试只读固定预期摘要、经PNG真解码后完整匹配，PNG压缩字节不作跨版本oracle。整改后身份21→20：8移除/7加入中7条是描述性改名（imagecount+≤400 sanity、"多数解码出"、"if frames exist"措辞→精确有效帧数+SDLPal全部RGBA），唯一业务删除是FIRE空块例，其空输出合同由fire.glm-runtime-resource.test.ts承接，0与7两个空index输入保留在同一合同。七针输出变异（DATA9改1像素/DATA10少1帧/RGM改1像素/BALL改1像素/FIRE改frame index/FIRE0缺1槽/合成raw改空结果）下旧21例全绿且每段带6个stderr块，新20例各恰一指定业务AssertionError、0 stderr块；空块转移是旧2红→新仅GLM1红的多红转移，不冒充单例业务针；错误root重现使六原盘入口ENOENT失败（IO拒绝，kind明示不计业务AssertionError信用）。
+
+## 结果
+
+定向7文件36例、shared包check、双方typecheck全部0诊断通过；完整extract包级432 passed/0 pending但仍有4个stderr块/46行（tables unknown OBJECT 999、misc-guards RGM零尺寸0x2/2x0、BALL GLM零尺寸0x0、enemy-teams OBJECT 403缺映射），packageAcceptance=false，不以432绿接受包级零诊断。五项静态门（check:docs/lint/coverage-tools/ledger/diff-check）exit0、lint 0 errors/0 warnings/0 infos；全仓check、official coverage ratchet、protected fast未新跑，editor诊断未清。0文件关闭，任务卡留build，不合main。
+
+## 限制与复核
+
+本页为历史时点证据导航，本轮整改未重跑任何命令；exit0/绿色计数不外推为零诊断或产品通过。4块stderr中RGM/BALL两块由diagnostics-c1转为显式完整IO断言、tables/enemy-teams两块由diagnostics-c2处理，后续状态以各子目录README与gates回执为准；机器计数以ledger原命令实测为准。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8416B / SHA-256 a8fea5ad4ddab31ce1592acc417332803646f8e83d2a7a422938479563a23622；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# Extract原盘执行完整性与像素oracle
+
 归[任务卡](../../tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md)及[94前全83卡复审](../QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。起点b41dc8d53，最新main=f98d0ddd8；唯一codex/code-quality-3y、单Agent。只改四份内聚测试/测试helper，生产/原盘/生成物/公共接口不改，0新关闭。
 
 ## 逐文件、primary/caller与未修
@@ -57,3 +90,5 @@ Primary是SDLPal palcommon.c真实PAL_SpriteGetFrame与PAL_RLEBlitToSurfaceWithS
 ## C2敌队诊断合同支持片
 
 [C2逐文件/真实IO与7有效反控](diagnostics-c2/README.md)：正例补完整映射与DTO/ownership，未知999同输入独立转移；92身份总数不变但原生变动显式记录，实际V8覆盖保持。extract72/431零stderr、shared126/战斗caller186/双方TC通过，0文件关闭；enemies错误slots注释撤回review，统一门/editor仍未清。
+```
+<!-- incremental-original-source:end -->

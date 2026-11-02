@@ -3,12 +3,12 @@
   "id": "independent-r64-ops-evidence-readmes-candidate-acceptance-20261017",
   "reviewDate": "2026-10-17",
   "reviewer": "Codex root independent post-migration audit",
-  "candidateHead": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+  "candidateHead": "7d609719e2347f6367712a54f2f81ccf3830b657",
   "verdict": "accept",
   "scope": {
     "targetDocuments": 10,
     "readAndChecked": 10,
-    "candidateReview": "docs/phase-governance/reviews/docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json"
+    "candidateReview": "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json"
   },
   "blockingCounters": [
     {
@@ -117,5 +117,60 @@
       "templateId": "evidence-receipt-v1",
       "pass": true
     }
-  ]
+  ],
+  "recordIntegrityCorrection20261018": {
+    "schemaVersion": 1,
+    "kind": "record-only-source-anchor-and-credit-correction",
+    "date": "2026-10-18",
+    "authorTask": "/root/central_successor_independent",
+    "nonAuthorReviewer": false,
+    "currentAcceptanceCredit": "withdrawn",
+    "oldClaimedIndependentAcceptanceCredit": "withdrawn-unverified-same-actor",
+    "oldGateExecutionCredit": "withdrawn-unverified-summary",
+    "newSemanticCreditGranted": false,
+    "newExecutionCreditGranted": false,
+    "newCentralAcceptanceGranted": false,
+    "correctionIndependentlyAccepted": false,
+    "originalCandidateHead": "4ce17faa06c6ce05f4a4868de380e25d4854e575",
+    "actualCandidateHead": "7d609719e2347f6367712a54f2f81ccf3830b657",
+    "anchorStatus": "corrected-to-complete-committed-after-tuple",
+    "sourceGit": {
+      "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r64-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "blob": "ccf2214d1b1acb7e1389010d6622777e7f38acb4",
+      "sha256": "0b753a7f0796c09afc1196b839094bca701d6adc6229bbb5c6594a477823ab41",
+      "originalFirstReceiptCommit": "7d609719e2347f6367712a54f2f81ccf3830b657",
+      "originalFirstReceiptBlob": "ccf2214d1b1acb7e1389010d6622777e7f38acb4",
+      "originalFirstReceiptSha256": "0b753a7f0796c09afc1196b839094bca701d6adc6229bbb5c6594a477823ab41"
+    },
+    "originalVerdict": "accept",
+    "originalCandidateReviewPath": "docs/phase-governance/reviews/docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+    "actualLedger": {
+      "path": "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+      "firstIntroductionCommit": "7d609719e2347f6367712a54f2f81ccf3830b657",
+      "firstIntroductionBlob": "bb86365353c142b00b82d9771a1bdbd1d0f9f6df",
+      "firstIntroductionSha256": "d4014f50ace39a760373d77217182028d121577794e8b0451248b1f0b20b5a99"
+    },
+    "completeTargetAfterTupleCommit": "7d609719e2347f6367712a54f2f81ccf3830b657",
+    "factualBasis": {
+      "reportSha256": "c6a469c22d4dabcc82d02cf86eb8736e2118d4e2da2ce3eb1b3d7dd40a6f1b27",
+      "mapSha256": "b07e674249cc0fc9df8dd445f1a8c842b9cd52db955b83123a17ac265e48e9fd",
+      "sourceHead": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e"
+    },
+    "originalFieldPolicy": "Original verdict/date/documents/staticCommands/numeric claims remain historical values; this correction withdraws current trust and never certifies old execution or deep reading.",
+    "stopLine": "Record correction only; no content/runtime/E2E/visual/coverage/central/global/main/done credit. Root publishes only after review; a different Owner must independently accept the fixed correction.",
+    "candidateReviewPathCorrection": {
+      "originalPath": "docs/phase-governance/reviews/docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+      "actualPath": "docs/phase-governance/reviews/20261017-r64-ops-evidence-readmes.json",
+      "reason": "Duplicated directory prefix; actual ledger and complete after tuple independently fixed in frozen factual map."
+    },
+    "immutableOriginalRaw": {
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-receipt-correction-draft-C-d17/0b753a7f0796c09afc1196b839094bca701d6adc6229bbb5c6594a477823ab41.gz",
+      "encoding": "gzip",
+      "payloadSha256": "0b753a7f0796c09afc1196b839094bca701d6adc6229bbb5c6594a477823ab41",
+      "payloadBytes": 4313,
+      "storedSha256": "04c247939cbbdf712b7cdf999f35f6f4ccc4f029257684fa0f7062ada6d9a74f",
+      "storedBytes": 1466
+    }
+  }
 }

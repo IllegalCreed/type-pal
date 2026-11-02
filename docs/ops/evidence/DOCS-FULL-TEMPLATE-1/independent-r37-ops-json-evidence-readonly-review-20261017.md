@@ -1,40 +1,41 @@
 # R37 ops JSON evidence readonly review
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R37 轮的独立只读评审回执：verdict accept-readonly-proposal、scope 3/3、issues 0；对象为 3 个 ops archive JSON evidence。本页按 archive-record 接入，原文在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R90。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R37 轮只读评审。
 
 ## 原始结论
 
-- R37 ops JSON evidence readonly review：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：独立解析并读取 3 个 JSON；原始字段与字节不变；本批只登记 artifact envelope、source/after SHA、字段清单和 consumer 复核边界；ops JSON evidence 不进入 phase/lore catalog 或 Markdown body routing；不授 credit。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全原文。
+- 已撤回：无本篇专属撤回。
+- 尚未认证：「独立解析读取」为原文声称；未认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `44e1315bb987b91c80be34c40922cc8e5d690d5bdc1a5720e9d75b8b6e7dc79a`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `44e1315bb987b91c80be34c40922cc8e5d690d5bdc1a5720e9d75b8b6e7dc79a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R37 ops JSON evidence readonly review
 >

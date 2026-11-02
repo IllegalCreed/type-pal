@@ -1,6 +1,65 @@
 # GAME-ENGLISH-1 - 第一阶段英文语言包与界面
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+第一阶段可选简体中文或English并记住选择；英文覆盖剧情、名称、菜单与玩家工具；两种语言使用相同已修正玩法脚本与存档，英文较长时仍可读可翻页。用户2026-10-22授权继续英文版工作并验收（「可以了，那就把这次英文版提交推送，过CI后合并并部署到阿里云，顺便清理多余分支」）。
+
+## 范围
+
+SLF文本解析与可再生语言包、残留中文补译、语言偏好、探索/战斗对话、物品说明、画布菜单与DOM壳层、必要字体布局、定向测试与浏览器核验。范围外：二阶段及编辑器界面翻译、配音、视频/图片内文字重制、全篇译文重新校订。明确不用英文SSS.MKF覆盖玩法、不提交EXE/原盘二进制/整包data/en、不改save版本。
+
+## 前提与证据
+
+英文是展示层：SLF按原消息起止索引匹配可变行数台词组，不按英文行数改写指令数量或IP（sdlpal script.c:3088/:3444、text.c:1010）。语言包保存WORDS与按原始message起止范围索引的台词组，保留转义/颜色/速度/等待/clear语义；展示游标与原脚本resume IP分离。原20个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CLAUDE.md](../../../CLAUDE.md) [game-mechanics.md](../../phase1/game-mechanics.md) [contract.md](../../testing/e2e/contract.md) [agent-workflow.md](../agent-workflow.md) [code-quality-file-ledger.md](../audits/code-quality-file-ledger.md) [code-quality.md](../code-quality.md) [branch-protection.json](../evidence/GAME-ENGLISH-1/branch-protection.json) [dialog-review.json](../evidence/GAME-ENGLISH-1/dialog-review.json) [docs-maintenance.json](../evidence/GAME-ENGLISH-1/docs-maintenance.json) [integration-review.json](../evidence/GAME-ENGLISH-1/integration-review.json) [main-sync-2-gates.json](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json) [main-sync-2.json](../evidence/GAME-ENGLISH-1/main-sync-2.json) [native-publication.json](../evidence/GAME-ENGLISH-1/native-publication.json) [opening-browser.json](../evidence/GAME-ENGLISH-1/opening-browser.json) [release-gates.json](../evidence/GAME-ENGLISH-1/release-gates.json) [release-preflight.json](../evidence/GAME-ENGLISH-1/release-preflight.json) [release.json](../evidence/GAME-ENGLISH-1/release.json) [shell-review.json](../evidence/GAME-ENGLISH-1/shell-review.json) [text-review.json](../evidence/GAME-ENGLISH-1/text-review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+
+## 验收
+
+资源：共同指令43,522条、4,768组精确匹配、578词条、364个clear边界、0汉字残留、0缺字形，两次完整提取manifest均00fa07bbb38ef7a6。测试：三贡献者包（DOM 129项单业务红→5绿；对话9+77相邻+continuation单项反例；提取原件）；Codex包级shared 13/114、pal-extract 83文件496项（maxWorkers=2，两默认超时保留）、game 347文件3789项零stderr；画布反控小字体空格/战后旧名各1精准红。官方初轮20,141过但ratchet真实失败（game/pal-extract分支与全仓比例），补定时清屏/SLF拒绝/未知JSON/英文标点合同后最终ratchet 20,180全绿（12指标提升/10范围变化）；统一门七包1,684文件/20,609项。装备返工：4格写死过宽按SDLPal WORD36..39半角宽改3格（119→103px）。偷物名称撇号/连字符escape返工70项相邻恢复。
+
+## 状态与交接
+
+Status保持done：用户2026-10-22 accepted并授权提交推送/CI合并/部署/清理分支。发布：main两次推进（acb96a123→d297e64d0）后PR #11在候选612b203a1两项必需Actions+GitGuardian成功后于2026-10-22T15:50:13Z合并为365e582e2；deploy all --skip-check exit0/186modules/0warnings、CDN刷新、2,909资源与28HTTPS闭合、线上真实UI选English+刷新保持+真实键盘到李大娘英文对话、日志无warn/error。main保护已配置。收尾文档PR与退休分支/worktree清理按原卡记录尚待执行。
+
+## 历史范围
+
+冻结候选05e1cfcff；英文冻结时点库存Git 3,401条（较3,373净增28全pending）。初轮extract两项默认5秒超时、两次夹具API校准失败、初轮官方ratchet失败均保留原件不改写。
+
+## 原始结论
+
+原卡结论：功能与生产发布已完成；Codex独立审核收尾候选后另经保护分支PR与必需CI合入。旧冻结门、正式剧情E2E与线上有限smoke各保留实际边界。
+
+## 当时证据
+
+docs/ops/evidence/GAME-ENGLISH-1/全套（text/dialog/shell-review、docs-maintenance、integration-review、native-publication、opening-browser、release-gates、main-sync-2、branch-protection、release等）。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+软件交付+阿里云发布按其时点有效；全剧情逐段英文E2E、专业译文校订、实体设备、线上离线导航不在本卡信用范围。
+
+## 继任文档
+
+无新产品交接；退休分支/worktree清理与文档收尾按原记录由Codex执行。原存活入口逐字保留：
+
+关联:[CLAUDE.md](../../../CLAUDE.md) [game-mechanics.md](../../phase1/game-mechanics.md) [contract.md](../../testing/e2e/contract.md) [agent-workflow.md](../agent-workflow.md) [code-quality-file-ledger.md](../audits/code-quality-file-ledger.md) [code-quality.md](../code-quality.md) [branch-protection.json](../evidence/GAME-ENGLISH-1/branch-protection.json) [dialog-review.json](../evidence/GAME-ENGLISH-1/dialog-review.json) [docs-maintenance.json](../evidence/GAME-ENGLISH-1/docs-maintenance.json) [integration-review.json](../evidence/GAME-ENGLISH-1/integration-review.json) [main-sync-2-gates.json](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json) [main-sync-2.json](../evidence/GAME-ENGLISH-1/main-sync-2.json) [native-publication.json](../evidence/GAME-ENGLISH-1/native-publication.json) [opening-browser.json](../evidence/GAME-ENGLISH-1/opening-browser.json) [release-gates.json](../evidence/GAME-ENGLISH-1/release-gates.json) [release-preflight.json](../evidence/GAME-ENGLISH-1/release-preflight.json) [release.json](../evidence/GAME-ENGLISH-1/release.json) [shell-review.json](../evidence/GAME-ENGLISH-1/shell-review.json) [text-review.json](../evidence/GAME-ENGLISH-1/text-review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 20949B / SHA-256 12d0ddf73411f315804979c20eff804af3844c0bfc48fb95e7069edbfce965d8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-ENGLISH-1 - 第一阶段英文语言包与界面
+
+Status: done
 Phase: phase1
 Capability: 第一阶段多语言展示
 Coding Owner: Codex（集成与画布界面）；english_patch_audit（提取）；english_runtime_audit（对话）；english_shell_audit（DOM壳层）
@@ -153,3 +212,5 @@ Branch: codex/game-english
 ## 下一位 Agent 提示词
 
 无新产品交接。功能与生产发布已完成；Codex独立审核本收尾候选后，另经保护分支PR和两项必需CI合入，再清理已核退休分支/worktree。清理尚未执行；旧冻结门、正式剧情E2E和本次线上有限smoke各保留实际边界。
+```
+<!-- incremental-original-source:end -->

@@ -1,6 +1,59 @@
 # GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+解除pre94 CODE3x遗留的WORD极端域未知并取得产品取舍：applyHiddenExpGrowth七项基础属性累加无16位转换，而原C的PLAYERROLES属性行为WORD数组（common.h:144 unsigned short；battle.c CHECK_HIDDEN_EXP对该字段+=RandomLong(1,2)）。本机cc编译原C复合赋值验证：65535+1→0、+2→1；TS同边界由65535涨至65536（指定AssertionError 65536!==0）。探针用真实DATA.MKF阈值（前3项0/15/40、末项32000）、合法loadDefault/project/startBattle结算入口、隐藏exp15使武术涨1且主等级99不触发999cap。用户2026-10-22裁决“保留TS持续增长，明确记录偏离”。
+
+## 范围
+
+仅applyHiddenExpGrowth七项基础属性累加及其成长差值；不扩展为引擎WORD转换治理，不改save格式、内容校验、资源、公共字段、二阶段或主升级999cap。
+
+## 前提与证据
+
+固定源全文核读。本卡为记录已批准偏离，无行为修改：第一阶段七项隐藏成长继续TS数值累加，超65535不回绕、不封顶、不套999cap；原C对齐断言失败保留为分歧证据。文档治理：机制文档在历史quote外追加当前决策、历史quote字节不变；完整check:docs首轮缺phase1 shard SHA失败保留，修正后只重跑受影响catalog测试与全部consumer。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+done按已选偏离策略收口；这不自动关闭3x（仍partial，须按原卡八维独立裁定）；普通原盘剧情可达性未知；未运行完整SDLPal/原盘剧情/浏览器导入。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，Codex单Agent维护。
+
+## 历史范围
+
+原卡属固定main时点；范围为隐藏成长16位边界记录卡，无数值实现改动。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：用户保留TS持续增长裁决记录收口，lint-zero 0/0/0。
+
+## 当时证据
+
+当时回执属原时点证据：原C字段更新得0/1、TS正式结算边界65536恰一指定AssertionError、五consumer/progress无issue；本页不重跑、不复授。关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；guard通过不冒称完整导入/剧情重放；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+3x整卡按父卡QUALITY-PRE94-RETROSPECTIVE-1独立裁定。 关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5649B / SHA-256 67d22284ef4ffcfec8e84f7bd7cfe2ecbc8403d13f804c2010687cb2ae8ae4ef；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: battle / numeric boundary
@@ -69,3 +122,5 @@ Codex已核边界分歧，普通原盘剧情可达性未知；用户取舍已明
 ## 下一位Agent提示词
 
 无下一位Agent提示词，Codex单Agent维护；后继读本卡用户裁决，不扩大到其它数值字段、save或二阶段。
+```
+<!-- incremental-original-source:end -->

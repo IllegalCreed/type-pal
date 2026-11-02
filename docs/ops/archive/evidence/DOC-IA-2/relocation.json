@@ -2527,5 +2527,43 @@
       "kind": "document-path-consumer",
       "sha256": "e3a0b1bbc6213bbe490260f5e9f2c8d2b4687193c0241a69560ce4eec2990bfc"
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "evidence-receipt-v1",
+    "templateVersion": "1.0.0",
+    "variant": "historical-document-relocation-v1",
+    "lifecycle": "historical",
+    "lastReviewed": "2026-10-21",
+    "owner": "Codex",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "651aa67cd13ab71b3fede6f037ab1c71873420cb",
+    "sourceSha256": "6e9fbc8635f1f1de127622dee900cc06fcf0f00f87af23625beb7b2bf3a44938",
+    "reviewRecord": "20261017-r37-ops-json-evidence.json",
+    "currentAudit": {
+      "identity": "419项历史文档路径/角色/源SHA映射",
+      "sourceAndInputs": "33cc固定419项原生字段；业务baseline为04fb，19项工具路径沿2871f721b与6a653f97d的精确历史差异回查。",
+      "oracle": [
+        "原生419项字段和值保持，from/to各自唯一；9组目录前缀不能覆盖逐项映射。",
+        "398项直接基点SHA加19项原工具路径SHA已证；条目1/58保持未证，不刷新原SHA。"
+      ],
+      "result": "417/419来源身份匹配；条目1自身任务在业务baseline不存在，条目58原看板SHA不符；相关路径1244种可达blob均未命中两项声明SHA。",
+      "limits": "8种kind是文档角色，不是动作；遍历身份不等于重新逐项执行或认证419项业务迁移。缺before-image不能补成已核。",
+      "runtimeExecutionPerformed": false,
+      "historicClaimsReexecuted": false,
+      "unverifiedClaims": [
+        {
+          "entry": 1,
+          "status": "unverified",
+          "reason": "任务在业务baseline不存在；相关原/归档路径的全部可达版本未命中声明SHA，未提交捕获只是可能解释。"
+        },
+        {
+          "entry": 58,
+          "status": "unverified",
+          "reason": "原看板baseline字节SHA与声明不符；路径重写可解释名称，不能修复字节来源缺口。"
+        }
+      ]
+    },
+    "stopLine": "原生字段/固定源/未知项变化即停止；不以结构通过重授旧执行信用。",
+    "nextStep": "本原生候选待证据验收；needs-migration保持，未通过全部硬门不合main、不标done。"
+  }
 }

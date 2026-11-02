@@ -1,55 +1,63 @@
 # TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: reforge / runtime session
+Branch: `codex/glm-reforge-runtime-session-r1`
+Visual Verification Timing: dev-functional
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM 承接的 runtime input/frame-session/project-view 边界审计历史卡：输入仲裁/帧推进/取消/world-view 替换合同；三轮沿革——r1 typecheck 红被 counter、r2 以纯净 worktree 检出 origin/main 6a5675ef 一手复现归属为 main 既有（4548a895b 移档未同步 import）、r3 按 Codex 授权一行 import 修正闭合，typecheck 0 错、全量 8731 过后验收。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+忙时输入锁、重复/迟到输入、取消后丢弃、frame tick 暂停/恢复、迟到回执不重复执行、view snapshot/实体离场/scene token 失效恢复的公开合同。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：runtime-input-router/runtime-frame-session/runtime-project-view/world-motion-runtime 公开 coordinator/runner caller。
+- 范围外：私有 state/debug 观察口；与 host-lifecycle 卡重叠域。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+归属核实判例：counter 不分辨基线归属时用 git worktree --detach 纯净检出复跑——同址同文 TS2307 在 main 亦现=既有债（379304503 加入测试时 JSON 在旧路径合法、4548a895b R100 移档未同步），本分支拓扑不背锅；修一行 import 须 Codex 显式授权。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：r3 全套重验（定向/相邻/全量/typecheck 0/lint/diff）后 Codex 验收收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位实现 Agent。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+r1/r2（2026-10-04）与 r3 验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：runtime session 合同经 typecheck 归属核实+授权一行修正闭合验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+r2 归属核实的纯净检出记录、根因链 Git 锚点（379304503/4548a895b）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。runtime 合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+相邻 HOST-LIFECYCLE/MHB 卡。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `998314e454522dca9896c5dd17d3f110505b4f052e1e69dd57429c1816b4a7d2`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `998314e454522dca9896c5dd17d3f110505b4f052e1e69dd57429c1816b4a7d2`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-RUNTIME-SESSION-1 — runtime input and frame-session contracts
 >

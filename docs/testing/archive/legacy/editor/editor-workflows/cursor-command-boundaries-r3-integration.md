@@ -1,40 +1,65 @@
 # Cursor 八组命令残项返工接收与集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-COMMAND-BOUNDARIES-3 最终接收与集成回执：候选 `a732f7d2…85f9`（基于 `b6bcc9b4` 的 R1–R3 修订）2026-09-26 Codex 独立实现接收 **accept**，统一质量门全部通过核定 **done**，合入提交 `cf40748a…75ea`。
+
+## Scope
+
+- 候选 a732f7d2dba5401f428cf53ca5df682ec28885f9；对象=R1 真实 seed 登记/R2 深快照+污染针/R3 八组表分未覆盖与真不可达。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| R1 | crate/vase 真实 seed hero 字节+正式 AddSprite；敌初态真实 starter 字节+enemy profile | assertProjectSaveValid | 实际状态通过；非法 player profile 拒绝是单轴；本席另插保存门两组各 4/4 绿 | 不以原非法初态冒充成功工程 |
+| R2 | map/def 构造前独立深快照；共享 tileset 非空实际 gzip 字节 | 污染针 | 图层名污染单点变异 2/2 绿→1 绿/1 候选 AssertionError；新增「撤销删除共享字节」「apply 污染共享 catalog」两针均 5 对照绿/突变 4 绿+1 红、源码 hash 不变 | 全内容/manifest/索引/旁对象/undo/redo 比较 |
+| R3 | 八组表分未覆盖/真不可达；C4 如实列后层 AssetInUseError 重叠保护 | 定向+相邻 52/52（29+23） | TC 通过；作者五针本席重跑通过 | C8 existing-proof 与已核项不重开；未测防御臂不新增为任务范围 |
+| 统一门 | 完整 check→官方 ratchet→保护 449adb54 单次 strict-fast | pnpm 串行 | check 9,602 项/964 测试文件 exit0（editor 3,019=2,990+29）；ratchet 9,110 项净增 48 分支/39 行/47 语句/7 函数；strict 9,110/9,110 | 全仓 B45,786/63,288=72.35%；summary 比对首次误比 selectedTests/identities 诊断失败，核 run.mjs:318-341 正式投影后更正，未重跑覆盖 |
+
+## Results
+
+- 隔离集成树自 origin/main@449adb54：仅新增七正式测试/一 fixture 与专属文档；产品/旧测试/资产/coverage 配置零改；GLM 仍 counter 的 111 项或主工作树帧动画不混入。
+- docs 入口先行检查因 review 状态索引未同步失败一次，同步索引后重过（正式 check 无测试失败）；未运行迁移发布、未改用户工程或 6010。
+- 功能 UI/完整 E2E N/A；Cursor 是测试贡献者，作者自验不替代独立接收；无下一位提示词。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；[独立隔离见证工具](../../../../domains/editor/editor-workflows/tools/parallel-guard-command-r2-review-witnesses.mjs)（复跑命令在 quote）；/tmp 与 /var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 接收+集成 | 2026-09-26 | R1–R3 清零、三门全过 | done（cf40748a 合入） | r3 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 cursor-command-boundaries-r3 集成回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor 八组命令残项返工接收与集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：R1 真实登记、R2 污染针翻红、R3 如实分类；三门 exit0；纯测试卡无用户 UI 取舍。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+候选/合入 SHA、覆盖口径与投影比对勘误在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；当前状态以官方套件为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 catalog 与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `f48f7b14efee0c55a7f70cdffc2acfae5881ace07da83142b446c5c96a4de1a8`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `f48f7b14efee0c55a7f70cdffc2acfae5881ace07da83142b446c5c96a4de1a8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor 八组命令残项返工接收与集成
 >

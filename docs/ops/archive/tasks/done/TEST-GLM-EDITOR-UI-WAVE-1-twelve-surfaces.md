@@ -1,55 +1,62 @@
 # TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM（隔离工作树内唯一测试 Coding Owner）
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: dev-functional（仅在断言涉及可见画布/布局时取最小证据）
+Product Freeze: `31945f4e59e898acbaebaa3f4e5cb76dd58f045a`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是编辑器十二模块（U1 SkillTab/EnemyTab/ItemUseEffectEditor、U2 BattleSprite/WorldSprite/Tileset、U3 Cutscene/Image/Audio workbench、U4 PreviewCanvas/SceneCanvas/DataMode）交互回归历史卡：G1/G3 accepted、G2-R2 返工后 ade76a13/1dcbc316 待复核（legalStages 为 play() 实际消费的 stages、SceneCanvas 真实 catalog/reader/gzip 解码）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补公开 UI/回调入口可证伪回归：合法增改切换删除的实际提交、旁项保真、失败不提交；对用户动作断言实际下游对象而非按钮存在。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：十二目标旁 *.glm-ui-wave.test.tsx+glm-ui-wave-* fixture+glm-editor-ui-wave/** 证据。
+- 范围外：FRAME-EDITOR 三个 WIP、Codex 的 ScriptEditor/MapMode/App、Reforge host、E2E 001；Cursor content 包零重叠。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+UI harness 陷阱判例集：native .click() 非派发 MouseEvent、指针序列分 act 冲刷、blur 门提交、memo 克隆、preview-proof mock 需真实 catalog sha。视觉需隔离服务两处代表证据，不占用户 6010。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：G1/G3 accepted；G2-R2 ade76a13（head 071a39d8，经 main 1dcbc316 合并）39 定向+164 定向相邻+editor 全包 3255/3255、4 针业务红，待 Codex 复核 G2-R2。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 UI harness 判例集为后续编辑器测试复用。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+Product Freeze 31945f4e 派发、G1-G3 分批与 G2 返工；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：十二模块交互回归按组分批收口（G2 经 R2 返工）。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+glm-editor-ui-wave/** 回执与反控。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。编辑器 UI 合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后续 EDITOR 系列卡复用本卡 harness 判例。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `53d864fd31664c2e99bf8d8581722094c5d5dd903be0d1ccaeaff66c077969ea`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `53d864fd31664c2e99bf8d8581722094c5d5dd903be0d1ccaeaff66c077969ea`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EDITOR-UI-WAVE-1 — 编辑器十二模块交互回归
 >

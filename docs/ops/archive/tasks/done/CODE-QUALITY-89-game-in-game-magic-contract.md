@@ -1,6 +1,59 @@
 # CODE-QUALITY-89 — game in-game-magic state / execution boundary
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:证明大世界法术菜单按 SDLPal 四段生命周期运行——多成员先选活施法人（单人直接进法术列表）、活人 HP gate、法术确认只生成施法请求或目标阶段、目标确认/脚本/扣 MP 由 dispatcher 执行、取消与 MP 耗尽按原版返回层级收口;状态模块只产生合法请求并在失败或错 phase 时 fail-closed。primary:`uigame.c:653-875`、`magicmenu.c:301-484`。
+
+## 范围
+
+四个白名单文件:`in-game-magic-menu.ts` 与三份测试。范围外:menu-driver、magic-script、event-system、draw-magic、battle-system 及共享 Spell 类型。不改法术脚本、MP 规则、目标合法性、公共接口、schema/save、资源或 UI 形态。
+
+## 前提与证据
+
+关键合同:四 phase、非顺序 party role id、runtime-projected roles、caster cursor 记忆与 MP refresh。最强替代解释"当前行为是 TS 自定义 UX"被一手 `uigame.c` 分支、caller runtime projection 和相邻 cov85 dispatcher 链反证。本批按 [AGENTS.md](../../../../../AGENTS.md) Codex 独立验收模式执行;复用 CODE-QUALITY-88 的 object-id 结论。
+
+## 验收
+
+仅测试 fixture 改动:移除三份状态测试不完整 `as unknown` fixture,改为完整 typed PlayerRole/Spell/Magic,并增加 battle-only spell 的 Magic 关联使 outside filter 反控真实可判别。定向/相邻 9 files / 158 tests、白名单 3 files / 37 tests、game typecheck/Biome 通过;3 针隔离反控均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0,coverage baseline 未变。账本 3,270:closed 368、review 9、pending 2,893。Evidence 见 [README.md](../../../evidence/CODE-QUALITY-89/README.md)。
+
+## 状态与交接
+
+done 保持原语义:四条记录已关闭;script/MP caller、battle magic、draw 与 shared Spell 类型留后续 pending。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点(2026-10-14);原始真值矩阵与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:状态 phase、party role identity、取消、光标记忆、MP refresh 与脚本 ownership 均与 SDLPal/真实 caller 一致,未发现生产直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执(定向/相邻、mutation、全量门)属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭旧基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-88（magic-select 建表）为同族已收口卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7538B / SHA-256 41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-89 — game in-game-magic state / execution boundary
+
+Status: done
 Phase: phase1
 Capability: Q3 phase1 game core/menu in-game magic
 Coding Owner: Codex
@@ -107,3 +160,5 @@ Branch: codex/code-quality-3y
 ## 下一位 Agent 提示词
 
 无，等待下一批从最新 ledger 选择互斥 pending 文件。
+```
+<!-- incremental-original-source:end -->

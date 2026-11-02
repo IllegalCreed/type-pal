@@ -1,42 +1,36 @@
 # 切片 1（重定 · 小版）· 鬼界民居 demo
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: archive-record-v1 / 1.0.0
 
-本页按 `archive-record-v1` 保留历史 indoor slice 语义；不授当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是第二阶段第一刀（重定小版）鬼界民居 demo spec 的归档重写。范围、内容来源约束与架构红线在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或准入信用。
 
 ## 历史范围
 
-- phase2 archive indoor slice；日期：unknown；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932`；70 行槽 / 4647 bytes。
-- 历史语义：Small real-content slice proposal for a one-room ghost-home demo in reforge Canvas 2D: Li Xiaoyao walks/collides and talks to one or two ghosts; scope excludes editor/migration/combat/menu/save/scene switching/complex animation; reuse original tiles/sprites and hand-write scene data; minimal Scene/Map/Entity/Dialogue model; three-layer state, instantiable engine, pure movement/collision, Renderer interface, action-handler registry; build order content→renderer/input→assets→movement→dialogue; browser walk/collision/dialogue acceptance and a few focused tests.
+- 第二阶段第一刀的当前 spec（写作时点），取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。
+- 一句话与范围：鬼界民居 demo；内容来源硬约束=不画新图/不做新美术/不碰编辑器；demo 台词作者定（demo 级别）；最小数据模型是 P0 schema 的切片子集（够用即可）。
+- 架构红线是这刀的真正目的：在真内容上证明干净架构。
 
 ## 当时证据
 
-- 标题锚点：1:切片 1（重定 · 小版）· 鬼界民居 demo; 7:0. 一句话; 11:1. 范围; 17:2. 内容来源（不画新图 / 不做新美术 / 不碰编辑器）; 26:3. demo 台词（我定，demo 级别）; 38:4. 最小数据模型（P0 schema 的切片子集，够用即可）; 49:5. 架构红线（这刀的真正目的：在真内容上证明干净架构）; 57:6. 构建顺序（按这尺寸，不是 21 任务）；原始链接、代码和状态词在 quote 保全。
+- 范围、内容来源、demo 台词、数据模型与红线五节在 quote 保全。
 
 ## 当前有效性
 
-historical。Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.
-- 历史冲突/未决：
-- The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.
-- Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.
-- The “browser can really play” acceptance is a proposal, not evidence from this readonly read.
+- historical。spec 按写作时点解释；后续切片演进与现行架构以 capability-map、specs 与任务卡为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；a；n；y； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；c；a；n；o；n；i；c；a；l； ；s；l；i；c；e；-；1； ；c；o；n；t；e；n；t；/；r；e；f；o；r；g；e； ；s；p；e；c；;； ；t；h；e； ；o；l；d； ；s；p；e；c；.；m；d； ；i；s； ；e；x；p；l；i；c；i；t；l；y； ；r；e；p；l；a；c；e；d； ；i；n； ；t；h；e； ；t；e；x；t； ；b；u；t； ；r；e；m；a；i；n；s； ；a；r；c；h；i；v；e；-；o；n；l；y；.。
-- 当前事实需从继任规范、代码和新 review 读取。
+- [旧版 spec](spec.md)（被取代沿革）、[切片实现计划](plan.md) 与现行 specs；[archive 导航](../../README.md)。
 
 ## 原文保全
 
-固定源 SHA `ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932`；下方 quote 可逆回原文。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 切片 1（重定 · 小版）· 鬼界民居 demo
 >

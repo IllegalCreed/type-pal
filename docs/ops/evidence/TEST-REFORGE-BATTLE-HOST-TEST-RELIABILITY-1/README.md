@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 的交付证据：Owner GLM、状态 Codex 独立 accept 本地集成门通过 done；工作树 `/private/tmp/type-pal-reforge-battle-test-reliability`、分支 `codex/glm-reforge-battle-test-reliability-r1`、冻结产品基点 `ce808b42e`、派发提交 `d84b3db23`；40 位 SHA 全表见 identity.json（冻结源 sha256 建树时 4/4 核验）。
 
 ## 证据身份
 
-- TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 c8d4a56eaadb1ec3d130d1370fc26a8ac02ed50fd3f5c68fb8ec5240b35125a6。
+- R1 基点复现结论（如实：本地未复现）：CI 真红（gh 实录签名一致 untilActive:184 expected null not to be null）——run 37560425624（ce808b42e）BF-08+BF-09 双红、run 37585132871（d84b3db23 派发基点）BF-09 单红；≤3e1ad5fe8 更早运行无该文件命中；本地基点四条件均未复现（定向 3/3、相邻 26/26、instrumentation 绿、CI 同参全包 coverage 绿；CPU 加压 8 忙进程与线程池饱和探针下 rounds-until-active 仍 7-9）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- R2 根因（可证伪链）：失败签名=固定 100 轮事件循环预算耗尽（红例 60-127ms 即红非超时）；判别证据=同次 CI 运行内走同一链用 vi.waitFor 的 battle-host.test 16 例全绿、唯一红的是固定轮数等待器→失败变量=等待器原语；机制测量=单次原生 inflate ≈2 个 setImmediate（quote 详）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 修复：BF-08/09/10 固定轮数等待器迁移 vi.waitFor（默认条件+超时）；BF-09 拆分；四条关闭路径实际消费 start、释放持定 IO 并恢复宿主；N1-N5 单目标针+恢复/重放；N6 家族红（四条 harness 恢复合同）不计恰一业务针；N3 跨层四红仅级联披露。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- Codex 独立重跑 formal：22 判据自测、3 真实污染探针、N1-N5 通过；原作者 48 个 raw/JSON 字节 hash、六个重建 mutant 与恢复 hash复核一致。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 主树后续 CI 维护：1ef3a9ef4 上战斗 8/8、帧动画 8/8、C 卡表单 5/5；唯一失败旧 MapMode 首帧焦点竞态（Codex 独立复现与同步另存 ci-map-menu-focus-sync.json）。memory 补充：r1 已推 b28ba0d81（CI BF-08/09 固定轮数等待器根因+vi.waitFor 迁移）待终审。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 r1 交付（BF-08/09/10 修复+反控）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 交付证据：原始正文完整保留于下方 quote。
+- 固定轮数等待器为 CI 红根因；本地未复现如实；vi.waitFor 迁移判别证据=同次 CI 对照。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- R1/R2 记录与维护注记在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。done 时点；CI 以新推送实测为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 codex-review-r1.md。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `c8d4a56eaadb1ec3d130d1370fc26a8ac02ed50fd3f5c68fb8ec5240b35125a6`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `c8d4a56eaadb1ec3d130d1370fc26a8ac02ed50fd3f5c68fb8ec5240b35125a6`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 交付证据
 >

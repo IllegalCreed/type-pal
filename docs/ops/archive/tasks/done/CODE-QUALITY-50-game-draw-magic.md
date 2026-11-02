@@ -1,6 +1,59 @@
 # CODE-QUALITY-50 — game draw magic 窄批
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验大世界仙术菜单绘制四文件（`draw-magic.ts` 与三份测试）,确认施法人选择、仙术网格、WIN95 MP/说明布局、目标箭头、角色信息框、运行时数值与缺资源边界对齐 SDLPal `magicmenu.c:36-484`、`uigame.c:653-875`、`uibattle.c:31-269`;绘制层只投影状态与运行时资源,不拥有输入/脚本/MP 扣除。
+
+## 范围
+
+四文件;只读相邻 draw-menu/present 注入、in-game-magic-menu 状态生命周期、menu-driver、P06 caller/oracle。菜单观感留集中 E2E。
+
+## 前提与证据
+
+disabled 由 MP/死亡/usable outside battle 构造;P06 覆盖合法施法人/网格/目标/MP/翻页,GLM leaves 覆盖死亡/禁用/空表/缺 catalog,pixels 覆盖坐标/缺帧/运行时属性/说明多行/透明孔。历史批:定向 4 files/25 tests、game 311/3519、全仓门通过,账本 3266/269 closed。
+
+## 验收
+
+历史 accept;2026-10-18 Codex 复审发现高风险用户可见差异:SDLPal `PAL_PlayerInfoBox` 在仙术页复用的底部信息框中绘制中毒头像染色和乱/定/眠/封状态字,当前 `draw-magic.ts` 明确省略。已开 [GAME-MAGIC-PLAYERINFO-STATUS-1.md](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) 等待用户裁决;本批未改实现或公共输入,draw-magic.ts 登记 review,三份测试按自身合同登记已验证。50 当前复审为 partial,不标 accept。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-18 起 draw-magic.ts 实际处于 review,状态字/中毒染色补齐与否待用户裁决,不由本治理页改写终态。
+
+## 历史范围
+
+原卡属 2026-10-12 窄批时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（25 定向、game 全包、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;draw-magic.ts 当前以 GAME-MAGIC-PLAYERINFO-STATUS-1 裁决与后续复审为准。
+
+## 继任文档
+
+GAME-MAGIC-PLAYERINFO-STATUS-1 为未决高风险卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6397B / SHA-256 aefcfd2eec8ab7147555dd44c9b72c2e3932346c2195e08a8125fe7d8788ca6d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-50 — game draw magic 窄批
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -67,3 +120,5 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 历史 `done` 不等于本轮验收。本轮完整读取四个范围文件、P06 caller/oracle、menu/state 生命周期与 SDLPal `magicmenu.c:1-484`、`uigame.c:653-875`、`uibattle.c:31-269`；直接 25/25、相邻 5 files/136 tests 和 game typecheck 通过。
 
 发现高风险用户可见差异：SDLPal `PAL_PlayerInfoBox` 在仙术页复用的底部信息框中绘制中毒头像染色和乱/定/眠/封状态字，当前 `draw-magic.ts` 明确省略。已开 [`GAME-MAGIC-PLAYERINFO-STATUS-1`](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) 等待用户裁决；本批未改实现或公共输入，draw-magic.ts 登记 `review`，三份测试按自身合同登记已验证。50 当前复审为 `partial`，不标 `accept`。
+````
+<!-- incremental-original-source:end -->

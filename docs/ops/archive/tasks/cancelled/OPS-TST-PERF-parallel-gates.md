@@ -1,86 +1,63 @@
 # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 
 Status: cancelled
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，current-only 一次性基线合计 56.94s，不重建旧并行 runner）
+Phase: ops
+Capability: test infrastructure / release gate
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Branch: codex/ops-tst-perf-current-baseline
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本卡是 shared/fresh 隔离并行 release runner 的历史卡：原目标省约 6 分钟墙钟，2026-08-19 经历 v4-only 前提失效与三方重签（PB1-PB4）、build 期四次 fail-closed serial control 与 copy-on-write 内存返工后，2026-08-22 因 release 路由被 current-only 删除、收益上限仅约 10 秒而取消。
 
 ## 目标
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+（历史目标）新增显式 test:release:parallel 仅并行 release-pal-shared 与 release-pal-fresh：manifest/canary/preflight/unit 串行先行、双 child 独立进程/临时根/报告、递归 RSS 采样与 sibling 终止、三次同机串并行对照 digest 守恒；默认串行命令不变。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 范围内（历史）：vitest.release.config.ts 四组配置、pal-test-fixture lease/fresh 事务、profile-release.mts 的进程组/RSS 骨架、4.5/3.5/7.5GiB 预算与失败矩阵（RSS 不可读/超预算/静默串行回退均 fail-closed）。
+- 范围外（处置后维持）：不重建 parallel runner、不恢复 release epoch/transition/seal/oracle/shared lease/fresh proof/兼容 fallback；默认 current-only 命令不变。
 
 ## 前提与证据
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+2026-08-22 处置依据：f1466374 删除 vitest.release.config.ts、test:release、release-pal-shared/fresh、lease、proof protocol 与 parallel runner；当前唯一拓扑 unit 37/330 + pal 3/10（0 重复），fast 10.03s/331MB、PAL 46.91s/966MB，合计 56.94s；完美重叠收益上限仅 fast 约 10 秒，重建跨进程隔离/采样/守恒对照属新基础设施债。2026-08-19 插曲：canary 修复越界历史地图结构，用户裁决地图证明必须消费 canonical v4（223/223 已 v4），三方按 v4-only 重签（PB3 15 seal 域普查、PB4 owned-leaf sha256 对照；C1-3 首批 NPC 审批重绑至 digest cd68376e，semanticEquivalent=true/173 决策）。build 期四次 serial control 均按矩阵 fail-closed：历史 enemy-team 投影致 shared worker V8 4GiB OOM（峰值 4,310,237,184B）→ copy-on-write 返工；外层超时改 150m；p6-shadow hook 180s→600s 后 6/6 过。
+- 当前状态：cancelled（历史终态）
 
 ## 验收
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+原卡验收（三次 parallel/serial digest、title/count/skipped/writes/deletes/conflicts 逐项相等、RSS 预算、报告守恒）未走完即失效。本页治理验收：quote 字节保全、逆回读按记录规则相等、模板与 overlay 章节齐全。
 
 ## 状态与交接
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 3:Status: cancelled
-- 正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，
-- 正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知
-- 正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，
-- 正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。
-- 正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。
-- 正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：
-- 正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。
-- 正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。
-- 正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+处置明确：取消不转 rework、不写实现；未来可感知性能回归以当时 current 清单另开窄卡。2026-08-22 用户获知版本包袱清除后授权 Codex“按你的节奏推进”，仅做一次性测量与失效处置、未复跑旧长测。本页治理不恢复 runner。
 
 ## 历史范围
 
-- ops archive；日期：2026-08-10；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e`。
+2026-08-10 建卡；08-17 三方 agree（PB1 RSS 3,218,849,792B 钉 wallclock:288、PB2 同机同批次）；08-18/19 build 与 v4-only 重签；08-22 取消。固定源 dce008a777bb45658e9d7a146624db9b57469f63。2026-10-17 R32 泛化封套，2026-10-18 S15 纠正。
 
 ## 原始结论
 
-- OPS-TST-PERF-B - shared/fresh 隔离并行 release runner：这是 task-card，当前文档状态为 cancelled。全文 661 行、23 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。
+`Status: cancelled`（2026-08-22）：release 路由已删、收益上限约 10 秒，取消不重建；旧三方签字保留为历史记录。原卡全文（含 v4-only 重签与四次 control 报告）在下方 quote 保全。
 
 ## 当时证据
 
-- 标题锚点：2026-08-22 current-only 终局处置；目标；范围；上下文锚点；前提真值矩阵；冻结的资源与失败矩阵；验收条件；推进签字；原始正文、表格、状态词和链接在 quote 保全。
+build/release-runs/serial-control-* 四份 summary.json（0776db40/eff7da24/3b6c3253/726c3eba）；shared-diag-In6MRj（RSS 4,249,681,920B）；p6-diag-jdHkXk 6/6；v4-authority-rebuild-df147a94/c1-approval-rebind-audit.json；current-only-baseline-2026-08-22.md。本页治理未重跑。
 
 ## 当前有效性
 
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 3:Status: cancelled
-- 正文信号 4:Execution: cancelled（2026-08-22；ARCH-CURRENT-ONLY-1 已删除 shared/fresh release 路由，
-- 正文信号 31:处置：**取消，不转 rework，不写实现。** 默认 current-only 命令保持不变；若未来出现新的可感知
-- 正文信号 36:旧三方 premise/design 签字因实施对象消失而失效，只保留为历史记录；`cancelled` 不是 `done`，
-- 正文信号 54:  - 递归采样 child process-tree RSS、sibling 取消、失败汇总和可审计报告。
-- 正文信号 102:出现任一项即保持默认串行并进入 `rework/blocked`。
-- 正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：
-- 正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。
-- 正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。
-- 正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。
+historical。56.94s/37/330/3/10 为 2026-08-22 时点；当前测试拓扑与耗时以现行配置为准；本卡不授权恢复任何 release epoch 或并行基础设施。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+current-only 基线证据 docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md；同窗口取消卡见[OPS-TST-PERF-consolidated-determinism](OPS-TST-PERF-consolidated-determinism.md)；母卡 OPS-TST-PERF-release-wallclock。
 
 ## 原文保全
 
-固定源 SHA `bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # OPS-TST-PERF-B - shared/fresh 隔离并行 release runner
 >

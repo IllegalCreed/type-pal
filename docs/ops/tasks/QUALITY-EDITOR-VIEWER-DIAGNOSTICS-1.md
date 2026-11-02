@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+C03查看器（SpriteResourceViewer）测试宿主保真：selectedFrame是受控prop，effect只跟资产/reader/稳定callback；upload-harness的inline onSelectedFrameChange每次渲染变身份引起额外重读。目标是外部受控更新不额外callback、真实cache/palette call-through等待、late/unmount/revision实际完成后才断言，不静音、不吞console。
+
+## 范围
+
+g03/g04两测试、upload-harness.tsx与upload-ui.ts的Viewer分段及通用卸载finally；不借机改Wizard/Uploader；产品、schema/save、接口、资产管线、规则或生成物不改；g03-10仅命中helper无record占位（无业务执行）按规则精简。
+
+## 前提与证据
+
+固定源全文核读各检查点。首片：原20例51act；受控更新反例先红；稳定宿主+真实IO等待后完整20例零诊断，g03-10精确退役1条，最终19通过/0skip/三模式0。相邻9文件69通过但63act；隔离业务反控8绿1指定AssertionError、恢复19绿。增加AssetResolver125行全文依据，非configurable gate不改descriptor以typed委托观察真实promise。C09续片（K02真实帧编辑工作流）：五例分别验证追加/替换/删除原子修复/阻断/迟到归属，56→44→0act；真实解码/提交/revision/迟到缓存见证补齐，取消零额外交付与undo/redo重读有直接断言；两枚反控（迟到alive与追加选择）旧/新均4绿1指定AssertionError，恢复5绿、临时树已删且另进程重构核对。相邻80仍63act；完整editor包631文件/4945例通过但759act/243环境与1只读表单告警。证据:[README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)。
+
+## 验收
+
+Viewer侧19+5例身份清零诊断并具双反控成立；但统一零诊断门未过（相邻/整包仍有act与环境告警），0文件关闭、不合main；机器3287/223closed/199review/2865pending。
+
+## 状态与交接
+
+build保持原语义：作者自验不称独立accept；完整门待C07/C08稳定窗口。无下一位Agent提示词，Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6675B / SHA-256 baa7f81c679c49b237d9d8cc917beeca2fabde98c09b09f3b55613ac9159b1a9；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取
+
+Status: build
 Owner: Codex
 Reviewer: Codex（作者自验/独立证据重构分记）
 Phase: phase2
@@ -47,3 +80,5 @@ Coding Owner Codex premise verified / design agree，build allowed，仅以上�
 Codex premise verified / design agree / build allowed，仅上述测试与helper；不得改Viewer产品、schema/save、资产管线、公共接口或规则。五条身份/业务断言保持；先基线，再逐步核诊断和oracle；隔离至少两枚业务反控（迟到alive与追加选择），拒绝timeout/setup/TypeError混错。定向/相邻/editor typecheck、静态门与ledger后同一3y提交推送，完整门在稳定窗口集中。本片0文件关闭，不将作者自验称为独立accept。证据后续写C09子目录，无下一位Agent提示词，Codex继续。
 
 C09当前检查点：五例身份保留、56→44→0act；真实解码/提交/revision/迟到缓存见证补齐，取消零额外交付与undo/redo重读有直接断言。两枚反控旧/新均4绿1指定AssertionError，最终恢复5绿、临时树已删且另进程重构核对；相邻80仍63act，editor typecheck通过。机器3287/223closed/199review/2865pending，0关闭；产品与规则未动。[本片原件/读取与风险](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md)。完整editor包631文件/4945例通过但759act/243环境与1只读表单告警；docs/lint-zero/ledger通过。统一零诊断门仍未过，不合main。
+```
+<!-- incremental-original-source:end -->

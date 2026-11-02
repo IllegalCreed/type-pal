@@ -1,6 +1,39 @@
 # GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用
 
 Status: draft
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核清大世界已学法术的显示与禁用：SDLPal magicmenu.c:338-372所有非零已学法术入表、flags仅改fEnabled；基线TS in-game-magic-menu.ts:135-139 outsideSpells预过滤（主测试:486-498要求隐藏）。真实公开工厂反例（Codex R2 C2）：完整typed角色已学[300,305]，305被删。本卡尚无实现、无build allowed。
+
+## 范围
+
+拟核in-game-magic-menu/magic-select与真实菜单caller回归；是否需要公共配置变化先设计，不自动扩大签名；不动生成数据、脚本机制、UI形态、二阶段。
+
+## 前提与证据
+
+固定源全文核读。2026-10-15三验后的关键转折：用户未批准③并质疑“原版大世界仅显示恢复术”，立即停线。重读magicmenu.c:245-291对入表项无隐藏分支、fEnabled只决定色彩与确认，uigame.c:732传FALSE，支持SDLPal源码“已学条目显示但禁用”；但这不是DOS版pal.exe实机证据。当前提取数据的大世界可用标志仅7项（296气疗术、297观音咒、298凝神归元、299元灵归心术、300五气朝元、301还魂咒、302赎魂），支持“可使用范围为恢复/复活”但不证明DOS原版列表如何显示。原测试把305命名飞龙探云手是合成目录；当前提取305=鬼降、377=飞龙探云手，不把fixture文案当原始ID真值。数据SHA/完整SDL调用链见codex-outside-magic-truth.json。反证已在候选5477af1e4复跑；用户明确只批准①②，③未批准。原件:[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+
+## 验收
+
+保持draft、无build allowed：先核DOS实机/用户产品意图，不改显示行为；若找到明确批准隐藏的用户裁决应改目标，不声称当前与SDLPal一致。预留最小方案仅为前提核验参考，不是实施授权。
+
+## 状态与交接
+
+draft保持原语义；无下一位Agent提示词，不得开始实现、不标done、不擅改公共接口或机制真值。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4759B / SHA-256 6324fd0f844287861364a023c103c10ae49a6f438e2cb19162a59b55107e3561；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用
+
+Status: draft
 Phase: phase1
 Capability: magic menu fidelity
 Coding Owner: Unassigned
@@ -61,3 +94,5 @@ uigame.c大世界caller：:732传FALSE，magicmenu.c:245-291对入表项无隐�
 
 下一位 Agent 提示词：先核本卡/R2 C2/SDLPal及真实 caller，提交最窄方案、合法失败 oracle 和独占白名单。
 当前 draft，**不得开始实现、不得标 done，不擅改公共接口或机制真值**。
+```
+<!-- incremental-original-source:end -->

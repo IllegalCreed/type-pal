@@ -1,0 +1,41 @@
+570:     // sdlpal scene.c:301-316 真值(sLayer 来自 EVENTOBJECT,signed i16):
+571:     //   pos.y  = eo.y - vp.y + sLayer*8 + 9     (sort key)
+572:     //   iLayer = sLayer*8 + 2
+573:     //   blit_y = pos.y - height - iLayer
+574:     //          = eo.y - vp.y + 7 - height       (sLayer*8 项相消)
+575:     // → blit anchor (cy) = npc.y - vp.y + 7;screen sy = npc.y - vp.y + SCREEN_CENTER_Y,
+576:     //   故 drawSprite cy = sy + 7(sLayer 不进 blit,只进 sort key 和 cover sy)。
+577:     const sLayer = npc.sLayer ?? 0
+578:     // 屏外剔除 — port sdlpal scene.c:286-314(血池审查 2026-06-12):**剔除发生在
+579:     // AddSpriteToDraw 与 PAL_CalcCoverTiles 之前** — 屏外对象既不画精灵、也不产生 cover
+580:     // tile。旧码无此剔除 → 刚出屏的对象(如血池触发垫 1018)仍按脚下 cell 产 cover 条目,
+581:     // 把 layer-0 地砖晚序盖到屏内 layer-1 墙体/池沿上 = 走动时屏缘"异常地块"忽隐忽现。
+582:     //   x = eo.x - vp.x - width/2;  if (x >= 320 || x < -width) skip
+583:     //   vy = (eo.y - vp.y + sLayer*8 + 9) - height - sLayer*8 + 2;  if (vy >= 200 || vy < -height) skip
+584:     const cullLeft = sx - Math.floor(sprite.width / 2)
+585:     if (cullLeft >= SCREEN_W || cullLeft < -sprite.width) continue
+586:     const cullVy = sy + 11 - sprite.height // sLayer*8 项相消(+9-...+2 = +11)
+587:     if (cullVy >= SCREEN_H || cullVy < -sprite.height) continue
+588:     const sortY = npc.y + sLayer * 8 + 9
+589:     const iLayer = sLayer * 8 + 2
+590:     const capturedSprite = sprite
+591:     const capturedSX = sx
+592:     const capturedSY = sy
+593:     const capturedNpcId = npc.id
+594:     entries.push({
+595:       baseY: sortY,
+596:       draw: (f) => drawSprite(f, capturedSprite, capturedSX, capturedSY + 7),
+597:       id: `npc-${capturedNpcId}`,
+598:     })
+599:     // cover tiles for NPC — sy 与 iLayer 都用 sLayer 计算
+600:     addCoverTileEntries(
+601:       entries,
+602:       ctx.tilemap,
+603:       ctx.tileImages,
+604:       npc.x,
+605:       sortY,
+606:       capturedSprite.width,
+607:       capturedSprite.height,
+608:       gs.camera,
+609:       `npc-${capturedNpcId}`,
+610:       iLayer,

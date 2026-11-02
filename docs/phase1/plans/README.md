@@ -1,62 +1,61 @@
 # docs/plans/ — 开发过程历史档案(索引)
 
-Status: historical
-Validity: historical
+Status: current（仅指导航）
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: governance-index-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `governance-index-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段开发过程历史档案的当前导航。目录本体是历史快照：每个文件是写作当时（文件名日期）的里程碑设计/实施计划/审计报告；计划早已执行、实现可能已偏离、审计结论可能已被推翻或并入状态表——把这里的内容当现状读会误导后续工作（原索引自述）。
 
 ## 目的
 
-- 历史 phase1 计划索引与导航：Historical plans index, legend, links and later-history entry points.
+- 索引 M0–M5 里程碑（设计+实施计划，均已完工）、M5.5–M5.6 审计与计划重置（关键转折）、2026-05-30 起差异审计期（逐子系统对 sdlpal 1:1）、资源管线优化与 2026-06 后期计划；防止历史计划/审计被误读为当前状态。
 
 ## 范围
 
-- 原始章节：怎么用这个目录；状态图例；索引；M0–M5 里程碑(设计 + 实施计划,均已完工)；M5.5–M5.6 审计与计划重置(关键转折)；差异审计期(2026-05-30 起,逐子系统对 sdlpal 1:1)；资源管线优化；2026-06 后期计划（历史）
+- 当前包含：六组里程碑设计+实施对（m0 骨架、m1 提取、m2 运行时切片、m3 战斗骨架、m3.5 场景切换、m4 提取补全、m5 系统补全）、审计转折四件（m4-extract-audit/m5-5-sdlpal-audit/m5-6-playability/feature-audit-and-replanning）、差异审计期 D 系列与专项计划、资源管线与后期计划（quote 索引全列）。
+- 明确不包含：当前状态与当前计划；现行真值以 phase1 状态表、pre-E2E 审计与现行文档为准。
 
 ## 当前状态
 
-- historical；索引只负责导航，不能替代计划/审计正文。
+- `status`: current（仅指导航）；被索引的 41 篇均为历史时点材料（各自文件名日期）。
+- `lastReviewed`: 2026-10-19
 
 ## 入口与责任
 
-- 后继入口：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.
+- canonical 入口：本页 + 索引内的各历史文件；上游为 phase1 状态表目录。
+- Owner：Codex（文档治理；不代签原执行）。
+- 下游使用者：第一阶段演进史追溯、审计沿革研究。
 
 ## 证据与下一步
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82`；停止线：do not promote historical claims to current truth without a current source or user decision
+- 关键来源：固定源 revision（保全节全量 pin）；状态图例与「把这里的内容当现状读会误导后续工作」警告在 quote 保全。
+- 未决/阻塞：无。
+- 下一步：引用任何文件时按文件名日期作时点解释；当前事实以现行代码、状态表与新审计复核。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：README.md；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82`。
+- phase1/plans 目录；第一阶段开发过程历史档案（文件名日期为写作时点）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- docs/plans/ — 开发过程历史档案(索引)：这是 plan-status，当前文档状态为 historical。全文 78 行、9 个标题；摘要/首段为「> ⚠️ **本目录是历史快照,不代表当前状态。**」。属于历史/归档材料，不能单独证明当前实现。
+- 目录自述「本目录是历史快照，不代表当前状态」；计划早已执行、实现可能已偏离、审计结论可能已被推翻或并入状态表。
 
 ## 当时证据
 
-- 标题锚点：1:docs/plans/ — 开发过程历史档案(索引); 6:怎么用这个目录; 12:状态图例; 19:索引; 21:M0–M5 里程碑(设计 + 实施计划,均已完工); 33:M5.5–M5.6 审计与计划重置(关键转折); 42:差异审计期(2026-05-30 起,逐子系统对 sdlpal 1:1); 63:资源管线优化；原始正文、代码、表格、状态词在 quote 保全。
+- 索引三段表（M0–M5/转折期/差异审计期）与状态图例在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 3:> ⚠️ **本目录是历史快照,不代表当前状态。**
-- 正文信号 16:- 🔄 **可能含未完项** —— 原文列了 backlog / roadmap;**现状须对照状态表核实**,勿直接照搬当待办执行。
-- 正文信号 17:- 🧪 **待实测** —— 列了交给 user 的真机验收用例,verified 与否以 user 核对为准。
-- 正文信号 56:| [remaining-work-plan](2026-06-01-remaining-work-plan.md) | 剩余工作执行计划(W1–W5,20 真待办) | 🔄 |
+- 导航 current（仅指导航）；41 篇被索引文件均为时点材料，引用须带文件名日期。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- phase1 状态表、pre-E2E 审计与现行文档。
 
 ## 原文保全
 
-固定源 SHA `6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # docs/plans/ — 开发过程历史档案(索引)
 >

@@ -2,6 +2,59 @@
 
 Status: cancelled
 Owner: Codex
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+保留这张玩家毒键域前提返工卡的取消原因和接替边界；不重复启动CODE53已接管的工作。
+
+## 范围
+
+原卡属于phase1玩家毒表的role/party-slot入口与生命周期，明确不扩展至二阶段origin/schema、存档迁移或新的产品实现。
+
+## 前提与证据
+
+原卡基于f0cf0f7f主线系观察；统一3y后，139行helper已有partySlotForRole/indexOf与离队guard，因此取消此重复入口。原卡同时保留SDL原版锚与TS旧caller观察，二者属于各自时点，不用旧role键段落描述合并树当前实现。
+
+## 验收
+
+本页治理核取消归属与历史边界，未复跑毒表、战斗tick、状态页或视觉。取消不等于候选accept，旧probe事实和强替代解释保留在原文。
+
+## 状态与交接
+
+终态仍cancelled；端到端caller、队伍生命周期及视觉的后继裁决回[CODE53](../../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md)。无本卡产品build授权。
+
+## 历史范围
+
+卡内Owner为Codex，Reviewer原标待完整caller独立复核；原始phase1身份与取消日期不改写成当前测试通过。
+
+## 原始结论
+
+统一接回旧3y的CODE53候选，取消重复卡；原先“完全等价”的证据不足与完整跨域核读义务没有因取消自动闭合。
+
+## 当时证据
+
+原卡列global.c施/解/查毒、uigame.c状态页、旧TS生产caller与合法party[2,0] probe；原件入口是[94前回溯](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。本次保全这些引用，没有重新认证其执行。
+
+## 当前有效性
+
+当前仅有效于历史任务归属；不凭原卡旧基点认定今天TS的键域，也不将用户既有取舍外推成未知schema/save变更授权。
+
+## 继任文档
+
+CODE53是原卡明确接替入口。若该卡的原验收或当时反例变化，应在其唯一事实源裁定；本页不新增平行产品状态。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2889B / SHA-256 bb31071760398d043e4188297a05c9b4c3a36f62e09884eb769c8f805918eadb；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-PLAYER-POISON-KEY-DOMAIN-1 — 玩家毒键域前提返工
+
+Status: cancelled
+Owner: Codex
 Reviewer: Codex（待完整caller独立复核）
 Phase: phase1
 Capability: player poison ownership
@@ -29,3 +82,5 @@ Visual Verification Timing: e2e-deferred（仅在确认UI行为修复后登记�
 先全文读相关实现并列完整key读写清单，核队伍加入/离开/重排与战斗期间约束、旧存档实际输入、equipment脚本、真实状态页caller。构造合法非[0,1,2]队伍与施毒→入战→tick/清理oracle。只有事实与产品目标一致且无需新取舍时才记build allowed；涉及新schema/save/迁移/产品取舍继续停线，不主动恢复兼容代码。当前未改实现、不迁存档、不删测试、不标done。
 
 证据：[94前回溯](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)。无下一位Agent提示词，Codex后续核前提。
+```
+<!-- incremental-original-source:end -->

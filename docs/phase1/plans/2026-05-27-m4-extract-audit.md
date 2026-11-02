@@ -1,81 +1,56 @@
 # M4 pal-extract 实际提取清单 audit
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M4 提取清单审计的归档回执。14 MKF chunk 级处理表与真漏洞列表在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：M4 extraction audit: byte-level inventory and completeness review across 14 MKFs; fixes for palettes, item/portrait/video/data/menu labels; remaining audio and AVI/runtime gaps; explicit non-covered concerns.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 触发动机：M5.6 v2 session 2 起 T17 作者错说「FBP 没 extract」被用户怼；修法为通读 `packages/pal-extract/src/cli.ts` 1-686 行，把所有 MKF/chunk 实际处理范围+输出 path 列清楚，留作后续 task 真做前查表信源（不再 shallow grep 推断）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`；187 行槽 / 17801 bytes。
-- 标题/章节锚点：1:M4 pal-extract 实际提取清单 audit; 11:2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账); 35:数据基线; 43:14 MKF · chunk 级处理表; 98:后续 task 资产真实状况; 114:真漏洞列表(实做对应 task 前必须补); 116:1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b); 121:2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)。
+- 2026-05-27 首版 + 2026-05-29 完整性复审与缺口补齐（byte-level 逐 raw 对账）；14 MKF chunk 级处理表为审计主体。
 
 ## 发现
 
-- 正文信号 16:- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+n
-- 正文信号 24:- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
-- 正文信号 29:- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
-- 正文信号 103:| **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
-- 正文信号 104:| **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
-- 正文信号 107:| **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
-- 正文信号 110:| **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
-- 正文信号 165:- 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
-- 正文信号 182:- 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
-- 正文信号 186:待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+- 真漏洞列表（实做对应 task 前必须补）：BALL.MKF RLE→252 物品图标 PNG、RGM.MKF RLE→88 角色头像 PNG、1-6.avi→mp4（ffmpeg 离线）等，均于 2026-05-27 当日修复（quote 带修复标记）。
+- 方法论教训（quote 尾节）：audit doc 不能只看 cli.ts 调用——必须追 parser 函数实现（dump-all vs 选 subset）；本文档自身也曾由 WORD.DAT 漏洞触发第一次修订。
 
 ## 结论
 
-- M4 pal-extract 实际提取清单 audit：这是 audit-report，当前文档状态为 historical。全文 187 行、14 个标题；摘要/首段为「> 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 提取真实状况以本审计表为当时信源；后续以 [resource-status](../status/resource-status.md)（信源已被取代，目录索引注明）承接。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
+- 真漏洞当日修复并标注；byte-level 对账为复核方式。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-27；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`。
+- phase1 plans 提取审计；时点 2026-05-27/05-29；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M4 pal-extract 实际提取清单 audit：这是 audit-report，当前文档状态为 historical。全文 187 行、14 个标题；摘要/首段为「> 触发动机:M5.6 v2 session 2 起 T17,我错说 "FBP 没 extract",被用户怼。」。属于历史/归档材料，不能单独证明当前实现。
+- 14 MKF 处理表与真漏洞修复清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M4 pal-extract 实际提取清单 audit; 11:2026-05-29 完整性复审 + 缺口补齐(byte-level 逐 raw 对账); 35:数据基线; 43:14 MKF · chunk 级处理表; 98:后续 task 资产真实状况; 114:真漏洞列表(实做对应 task 前必须补); 116:1. BALL.MKF RLE 解 → 252 物品图标 PNG — ✓ 已修(2026-05-27 T10b); 121:2. RGM.MKF RLE 解 → 88 角色头像 PNG — ✓ 已修(2026-05-27 T10d session 3)；原始正文、代码、表格、状态词在 quote 保全。
+- 数据基线、处理表与 shallow-extract-audit-lesson 待存 memory 记录在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 16:- **PAT.MKF 夜间调色板**:9 chunk 中仅 #0/#5 是 1536B(白天256+夜间256),余 7 个 768B 纯白天。旧 `cli.ts decodePalette(subarray(0,768))` 丢了 #0/#5 夜间半 → 0x54/0x80 night 视觉错。**已补**:`decodePalette` 抽 day+n
-- 正文信号 24:- `GOP.MKF`(16MB)= **tileset 瓦片位图**(非障碍层,旧 doc 写错);sdlpal `global.c` **不开** `gop.mkf` 探测,只 res.c per-mapNum 加载;未引用 map 原版也永不加载。
-- 正文信号 29:- 只剩**音频 runtime 播放系统接入**(opcode 0x43 setMusic / playSound 真播)。**数据侧已全部落地**:SOUNDS WAV(363)+ Musics MIDI(86)+ CD ogg(8)。至此 raw 下无任何未提取的游戏资源数据。
-- 正文信号 103:| **T18 Trademark + Splash + AVI** | Splash chunk 3/4 + 1.avi/2.avi/3.avi → mp4 | ⚠ splash PNG OK,**3 AVI 未转 mp4** | 需补 ffmpeg 离线流水线 |
-- 正文信号 104:| **T10b InventoryMenu fullscreen** | BALL 252 物品图标 + SPRITEUI | ⚠ **BALL 未解 RLE,无 PNG** | 需补 RLE 解 → PNG 流水线 |
-- 正文信号 107:| **T10e EquipItemMenu** | BALL + SPRITEUI | ⚠ 同 T10b | 同 T10b(可一并补)|
-- 正文信号 110:| **M5.M-w3 BuyMenu / SellMenu**(已部分做)| **STORE 表**(DATA chunk 0)| ⚠ **chunk 0 未抽** — 现在用 opcode operand stub | M5.M-w3 真做时补 |
-- 正文信号 165:- 14 个 MKF 是否覆盖 sdlpal 用的全部资产 — 还有 `MAP.MKF / GOP.MKF / FIRE.MKF` 这些 sdlpal 也有更细的 sub-chunk 解码可能未覆盖
-- 正文信号 182:- 用户起手 msg 与 sdlpal 真值冲突时立刻问,不擅自二选一
-- 正文信号 186:待存 memory:`shallow-extract-audit-lesson.md` — "凭 find filename / sdlpal 三元 macro 推 M4 是否提取 X = 错;只信 cli.ts 通读 + parser 函数实现追溯 + 本 audit doc"
+- historical。信源已被 resource-status 取代（目录索引声明）；当前提取以现行管线为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [resource-status](../status/resource-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M4 pal-extract 实际提取清单 audit
 >

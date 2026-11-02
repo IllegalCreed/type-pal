@@ -1,40 +1,62 @@
 # TEST-GROK-PRESENT-1 — Codex 独立候选复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GROK-PRESENT-1 的三轮独立复核（首轮 bd6fad55 counter C1-C3→r2 5cb98087 counter 仅 C1a→r3 `503a2d24` **accept（仅隔离候选材料）**，2026-09-25；正式接入与统一覆盖率见 grok-present-integration.md——集成后 5fc04913/ec2bf0f7 已推送）。
+
+## Scope
+
+- r3 残项闭合：diff 5cb98087..503a2d24 只含 README 与 P01/P02/P04/P05/P07 五个候选测试；P05 各 draw 与前后 cloneInputs 使用同一具名 items；本席把 r2 同型见证放真实 makeGs→createInventoryMenu→confirmInventoryItem→openMenu→drawMenuStack 链（draw 实传数组 find 加 call-through 钩追加合法 Item），输出 {"sameSnapshot":false,"actualItemsLength":2} exit0（r2 同场景 sameSnapshot:true）；候选 JSON 25/25、23 项真实 draw+2 项快照 helper 分栏正确、tsc/Biome/文档/diff exit0、三针仍原树绿业务红源 SHA 不变。
+
+## Execution and assertions
+
+- **首轮 C1**：cloneInputs 不覆盖实际输入：fixtures/world.ts:120-145 只记录 frames/icons 的 indices/opaque 不记录 width/height、接口无 spells/magics/portraitIcons/equipBg/statusBg/objectPoisons/levelUpExp；独立运行原 helper 改 frames[0].width=99 与 spells[0]._name 后快照 JSON 仍完全相等（snapshotEqualAfterTwoInputMutations:true）——判据确实漏检；P09 匿名位图直接传入不比对实际 indices、P08 三种 screen 与 UI 帧未做保真
+- **首轮 C2**：对照绘制之后才取快照（p05:50/:56、p07:71/:74）：首轮 draw 原地改写输入而第二轮只读时深比仍绿；每次 draw 前拍真实实参紧接 draw 后比较；不把合法 openMenu/confirm/playerStatusNext 状态机改变算作绘制污染
+- **首轮 C3**：P06 MP fixture 非产品调用链状态（roles.roles[4].mp=10 与 gs.PlayerRolesRuntime.rgwMP[4]=8 不一致；正式入口 menu-driver:167-168,485-489 先把 runtime 投影到角色）；候选判断 10 MP 菜单画 8 MP 数字；费用 4/30 在两预算下恰好同向无法发现陈旧预算；改用 runtime 一致输入或现行投影+区分 8 与 10 的边界费用正反对照
+- **r2 C1a**：部分快照仍不是传给 draw 的同一个 catalog 数组（p05:59-66/[item] 与实际 drawMenuStack 新建数组各一份、p02 同）；本席隔离见证：实传数组 find 加钩追加合法 Item，输出 sameSnapshot:true/actualItemsLength:2/checkedItemsLength:1——真实绘制消费已变实参候仍绿，违反「绘制前取实际数据独立快照绘制后立即深比」；返工：catalog 数组具名一次让快照与产品调用指向同一数组对象；快照自测至少验证一次数组增删/重排可被发现；不把修改另一份等值数组当反控
+- **已核不重开**：白名单相对 16fb1cbf 只有 grok-present-regressions/**（png-rgba.ts 属 P10 必需原卡遗漏本席补录不拒收）；23/23（十文件 4/3/2/2/3/3/1/1/2/2）+相邻六文件 17/17；逐读九个真实 draw 函数，字形单点/三色数字/7 对 4/图标 0x84/nibble 边界/RGBA/opaque 0 与透明孔均由真实 Framebuffer 断言无烘焙快照；mutants 三针原树绿单点业务红（7→4 数字/图标缺失/close 0→1）源 SHA 不变；反控只证明三项鉴别力不为遗漏输入快照背书；r2 已核：fixtures 补全 IndexedImage 四字段+实际 spells/magics/portrait/背景/毒/升级表；P06 改 projectRuntimeToBattleRoles 费用 8 与 9 在 8 MP 边界区分（旧静态 10 MP 会放行 9）
+
+## Results
+
+- accept 不等于正式接入/产品修复/浏览器视觉/官方覆盖率；任务仍 draft 不合 main 不标 done（后续集成另文）；Grok 只是候选测试贡献者；无下一位提示词。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 三轮复核 | 2026-09-25 | C1-C3→C1a→闭合 | r3 accept（隔离候选） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 Grok present 三轮复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GROK-PRESENT-1 — Codex 独立候选复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+三轮递进：cloneInputs 漏检（宽高/法术/毒/升级表缺）→快照时机（绘制后才拍）→P06 MP 投影链→实参数组身份；r3 同一具名数组+call-through 见证闭合 accept。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+三轮反证与已核清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。复核按候选时点；正式接入见 integration 回执。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 grok-present-integration 与官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `189d0800d8527652840d929e2e6d3ec251ca95b68cb26749be7a6e683cf2013c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `189d0800d8527652840d929e2e6d3ec251ca95b68cb26749be7a6e683cf2013c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GROK-PRESENT-1 — Codex 独立候选复核
 >

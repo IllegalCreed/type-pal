@@ -1,40 +1,61 @@
 # ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-CURSOR-BATCH-1 作者交付回执（2026-09-26，Cursor 独立 worktree 分支 codex/cursor-architecture-batch-r1，起点 origin/main 8bf40b90；Codex 已独立接收 fc09645e 并完成统一门禁/最小功能验证与 done 收口，见最终验收 cursor-architecture-batch-integration.md——下文「不合 main/不标 done」为交付时点职责说明）：连续实施 C00-C10、U00-U12 共 24 组，commands.ts/controls.tsx 保留旧公开出口、新模块对 Command 只 type-import 不 runtime 回引旧 barrel。
+
+## Scope
+
+- 旧 controls.tsx barrel 恢复开工前 50 个公开出口；r1 回执把新增写成 7 类型是错的——真实多出 2 runtime 值（draftSource/useDsDraftController）+5 类型，DsFieldControlProps/DsFieldHelp 本已公开；text-overflow-adoption producer 改指真实新组件、adoption/boundary 静态路径更新原反例仍拒。
+
+## Execution and assertions
+
+- **24 行总账**：C00-C10 命令组（引用文案/in-use 文案/label/槽位截断/重复 id/默认 power/默认 curability/C07 新例只证构造器不称守卫——守卫证据是既有 commands.test「DeleteAmbience:脚本显式引用」+负控改针删除门/overflow 文案/locale label/清空 label）+U00-U12 UI 组（describedBy 空串/busy 文案/help-tip aria-label/compact/file-picker/inline/Enter 提交 Escape 取消/step 属性/field id/combobox role/switch role/count class/alert role）；每组独立提交 SHA+负控 JSON 在 quote 表；身份合同：各组测试断言 controls.<X>===moved.<X>
+- **出口与依赖**：命令模块 runtime 依赖表（world-variable/enemy/skill/poison 走 content+project-reference-adapters；locale/project-name/level-up/asset-label 零 runtime）；UI 模块 runtime 只走 control-utils/help-tips/floating-layer/icons/text-inputs/draft-input-state/field-layout 单向依赖不回引 controls.js；withEnemy 仍被残留 SetEnemyBattleSpriteCommand 使用留在 enemy-commands.ts；CSS/产品宿主/格式配置/超时/排除/基线未改
+- **r2 窄修（对照 Codex R1-R3）**：R1：C00 enemyState 改现行 EnemyDef、C05 技能补 animation/usableOutsideBattle、C10 资源路径改 assets/authored/——测试内先跑 validateEnemies/validateSkills/validateAssetCatalog 再进命令；C07 新标题改 add/invert 身份；R2：判据改绝对源路径+唯一替换+MUTANT_HIT 锚定 fullName+正控必须执行 1 项+红侧恰 exit1+逐条 failureMessage 以 AssertionError 开头拒 caused by/timeout/错文件；--self-test 覆盖 Codex 双反例/0 执行/exit2/null/未命中/混错/超时；R3：旧 barrel 回 50 出口+两 formatter error 已格式化（5 条 template-curly warning 保留——插值针保持字面量）
+- **验证**：定向+配方 34 files/401 tests exit0；typecheck exit0；改动 Biome formatter error 已清；负控自测 --self-test exit0；24 针 evidence.json：count=24/allOk/allHit/全部 redExit=1/hashUnchanged=true（C07 红侧为既有守卫 expected function to throw）；editor 完整 check 313 files/2,813 tests exit0（本地 frozen-lockfile install+环境内 PAL sprites 链接不入 Git）；未跑官方 coverage/未开浏览器
+
+## Results
+
+- 作者自验不能替代 Codex 独立接收；可复制命令块（定向 33 文件列表/recipes+reorder/mutants 单组/check:docs/diff）在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；24 个负控 JSON 与 evidence.json 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 24 组实施+r2 窄修 | 2026-09-26 | 24 组+判据重构+313 文件 check | 后续 Codex 接收 done（fc09645e） | 首轮 R1-R3 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 cursor-architecture-batch 作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+24 组全部实施（11 命令+13 UI）；出口 50 保持+真实新增 2+5；r2 按 R1-R3 窄修（fixture 过守卫/判据绝对路径唯一命中/格式化）；24 针全 hit。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+24 行总账表、依赖表、r2 窄修与可复制命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。交付时点未合 main；集成状态见最终验收。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 cursor-architecture-batch-integration 与任务卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `ab2f6f9a5e14542844d72c93c2da3a2698a0db7fd5a20eb3451acec1f14a905f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `ab2f6f9a5e14542844d72c93c2da3a2698a0db7fd5a20eb3451acec1f14a905f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理
 >

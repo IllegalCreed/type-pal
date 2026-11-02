@@ -1,6 +1,39 @@
 # CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+复核两个账本待核测试文件：command-form-control.residual.glm.test.tsx与ItemUseEffectEditor.residual.glm.test.tsx，确认真实caller、合法typed输入、可判别oracle、相邻排重与反控。
+
+## 范围
+
+本批只审测试不改UI或产品行为；完整读取两测试及真实生产caller/公共出口/相邻oracle（CommandForm.tsx、ScriptEditor的CanonicalScriptBodyEditor/CanonicalCommandForm/EntityAddressEditor、command-form-current-fixture、ItemTab、EditSession/project-diagnostics/实体引用collector、K10/U1c/M02相邻合同）。
+
+## 前提与证据
+
+固定源全文核读。ControlCommandForm残余合同：经checkAuthorCommands合法callScript输入、真实CanonicalScriptBodyEditor双击→聚合编辑弹窗→EntityAddressEditor caller；验证悬空场景专属“引用失效”禁用项、实体保留原始文本不伪装combobox、重选合法场景自动绑定首个实体、只在完成时提交完整地址；callScript/jumpScript self分支由作者bridge实际分流排除、无重复不可达分支。ItemUseEffectEditor残余合同三测试经真实ItemTab/loader/EditSession/onStatusNotice：R1场景有效实体失效warning+sceneIndex名+实体修复+保存门红→绿+单步undo；R3跳过首个无实体场景+placeEntityInFront完整schema+scene target联动+保存门undo；R5无可放置实体时候选仍可达+精确错误通知+零history漂移。基础测试只覆盖回调层失效地址/切场景，不含真实loader/sceneIndex/保存门/无实体失败臂，故非重复。P1（选puppet未自动补battleOnly）仍是产品裁决项不夹修。定向2files/4tests PASS 0 stderr 0 act；相邻22files/224tests PASS但有22条act诊断（M02/ItemTab异步更新未包act）；editor typecheck过；账本3307/231closed/17review/3059pending。
+
+## 验收
+
+因相邻诊断与未决P1，两文件由待核转review而非已验证；coverage ratchet既有shared/pal-extract回退按CODE-QUALITY-100/101证据记录。
+
+## 状态与交接
+
+review保持原语义；相邻act诊断由CODE-QUALITY-104小批清理；P1若需产品行为改变另开高风险卡请用户裁决。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3646B / SHA-256 f1fde0819ea966595cd425ac854cab8eedf0be23094369decbce9ca8bffb47e8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase2
@@ -60,3 +93,5 @@ bridge 的实际分流排除；测试没有重复不可达分支，也没有 moc
 清理后重新跑这两个残余测试的定向/相邻回归。P1 `puppet`/`battleOnly`
 若需产品行为改变，另开高风险卡并请求用户裁决。本卡不改产品、schema、旧测试
 或覆盖率规则。
+```
+<!-- incremental-original-source:end -->

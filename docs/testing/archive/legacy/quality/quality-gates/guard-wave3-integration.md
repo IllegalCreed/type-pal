@@ -1,40 +1,61 @@
 # GLM八组同步守卫：独立接收与统一集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-3 独立接收与统一集成回执（2026-09-27，候选 `6a114727…2a75`，Codex 实现 **accept**；基于 main `efab10f3` 隔离集成树合并提交 `7a1cf54f`）：Codex 独立核定 done 并归档。
+
+## Scope
+
+- 本轮仅四文件：G5 测试、任务卡作者交付、回执和机账；代码只把匿名 {} 具名、调用前独立深快照、原精确错误断言后立即比较实际同一输入。
+
+## Execution and assertions
+
+- **终轮反控**：独立隔离加载突变只在 enemy-script.ts:371 非数组拒绝前给实际输入加属性、保留原错误；对照 7/7 绿，变异 6 绿/1 候选 AssertionError（expected { __codex_mutation: true } to deeply equal {}，锚候选 G5:184）；恰 exit1、唯一目标 fullName、非超时/环境错误、源码与候选 hash 不变；没有追加 oracle
+- **定向与沿用**：八文件定向 110/110、TC 与改动 Biome 独立通过；上轮已闭 R1 正控与 R2 其他快照不重开；原八针/10 判据自测沿用上一轮独立证据（本轮未改 runner）；回执 fixture/历史计数/旧标题勘误已核；八新测试+一薄 fixture，产品/旧测试/配置/排除/超时及资产零改
+- **统一门**：完整 check 首次 exit0 七包 9,712 项/972 测试文件（content 1,132=原 1,022+110）；TC 及全仓 Biome 过（80 warnings/7 infos 零 error）；官方 ratchet 首次通过 9,220 项/728 生产文件：净增 260 分支/184 行/226 语句/7 函数；全仓 B46,046/63,288=72.76%、行 81.42%；content B90.74%/行 95.47%；七包分母相同、另六包基线深比较相等；单次受保护 strict 9,220/9,220 首次通过；按 run.mjs 正式 baselineView 投影去掉生成时刻后与 ratchet 基线全对象深比较相等；无重试取多数
+- **收口**：实现反证清零、质量门全过；Codex 独立核定 done 归档；固定三席暂停不代签；当前分母 +5pp 目标仍需 46,658 臂、剩余 612；不把 110 项测试数冒充覆盖增量
+
+## Results
+
+- 未跑 full/Q1/Q2/远端 CI；不将本地门禁等同远端结果；不混入主工作树未完成的帧编辑测试。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；终轮见证工具与复跑命令在 quote；/tmp 与 /var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 接收+集成 | 2026-09-27 | 终轮反控+统一门 | accept→done（7a1cf54f） | r3 定点 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 guard-wave3 集成回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM八组同步守卫：独立接收与统一集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：匿名对象具名+实际输入快照终轮闭合；三门首次全过；净增 260 分支；GLM 无需返工。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+终轮反控细节、三门数字与投影比对在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `32fa521a8c694f0e45f2522c282ea6161b638831839c788efbbb13103eb89438`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `32fa521a8c694f0e45f2522c282ea6161b638831839c788efbbb13103eb89438`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM八组同步守卫：独立接收与统一集成
 >

@@ -1,40 +1,63 @@
 # TEST-GLM-LARGE-WAVE-4 · A 批回执（编辑器命令表单与作者工作区）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 A 批回执（编辑器命令表单与作者工作区；r1 本批 1429e1b1、R2 031b3e47、R3 本次推送）：新增 12 源各一个同目录 .glm-large-wave.test.ts(x)+fixture command-form-glw-kit+隔离宿主+共用 needle-judge；47/47 passed（新鲜 JSON）；editor tsc 0+13 新文件 Biome 全零+check.mjs PASS+diff 干净。
+
+## Scope
+
+- 逐组旧证→新差异：A01 control（新增 playSound 选择/缺失警告/onOpenSound 委派、playMusic 资产 id、setAmbience 两路、learnSkill 槽位警告、clearDialog 无参）、world（makeLoadScene 三模式 pos 深拷贝可选键不携带、retargetLoadScene 重置+朝向过渡保全全过 checkCommands）；A02 dialogue（unbound 首张 portrait 启用立绘提交资产 id、side 翻转保资产、取消清除整组、主立绘↔命名表情切换）、actor（不可参战/不存在目标禁用项、持续回合 1-999 钳制、毒抗下限、setParty 按行替换保站位）；A03 DataMode（scripts 页真实 ScriptEditSession、sprite 域定义优先/asset 回退/onObjectFocus 兜底、shop isProjectDirty 主+脚本会话合成）、SharedScriptTab（focusScriptId 深链钉回新发现行为、self 契约落库、重复稳定 ID 双路、引用未就绪删除关闭、面板逐行打开）；A04 SceneScriptWorkspace（传送出口槽位回显、自动行为通道空态提示经 preview hint）、AmbienceTab（色板草稿回显/Escape 回 canonical/blur 保持、切换目录跟随、preview 实时 tint+projectKey）；A05 StampLibraryTab（focusObjectId 深链初始选中随 prop 跟随）、SpriteUploadWizard（行 K 参与 4+K 整除推导/整除失败报错撤缩略图/回退恢复真实 sliceAtlasGrid）；A06 EnemyAnimPreview（定义/资产缺失可见失败、无施法帧提示、在途换定义旧加载不覆盖）、FireEffectPreview（播放暂停倍速实速标注、音效失败可见不进播放、闸门未释放保持加载态）。
+
+## Execution and assertions
+
+- **不可达/未证 4 条**：ControlCommandForm jump/call/setEntityAuto/setEntityTrigger/setSceneOnEnter/onTeleport 被 checkAuthorCommands 拒且 CanonicalCommandForm 从不传 scriptIndex/onOpenScript 无消费者；World/Actor 的 moveEntity 等臂属 AUTHOR_CUSTOM_COMMAND_KINDS canonical 走内联不可达（已内联证到）；运行时方言 cue 无 identity 无生产入口；EnemyAnimPreview 共享引用确认门（referenceCount>1）未构造引用边未证
+- **反控**：3 枚 VALID（R2 十一代表针/R3 精确相等重跑）：playSound 提交资产、makeLoadScene pos 深拷贝、在途换定义帧数；judge 自证（对照 exit0 真实执行/注入点恰 1/临时副本跑完即删/生产源 SHA 前后同）
+- **视觉**：端口 6086 console 0：A1 命令表单清除取消两图（2→5 草稿→取消恢复 2）、A2 音效缺失恢复两图（ghost ⚠→鼓点恢复）；只挂 CommandForm 与 SoundPicker 不冒充完整 App 未点试听避免无音频设备假失败
+
+## Results
+
+- A 批 12 源新增测试逐组差异落账（playSound 资产 id/makeLoadScene 深拷贝/unbound 立绘/钳制/isProjectDirty 合成输入/深链钉回/K 整除/在途换定义帧数）；四类不可达臂如实登记不凑数；3 反控 VALID+2 视觉（6086 console 0）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；batch-a-directed.json 逐条 file/fullName/status 与 A 批处置依据表在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| A 批回执（含 R2/R3 返工） | 原文时点 | 12 源新增+3 反控+2 视觉；R2/R3 修正并入最终回执 | 交 Codex（整包 R3 accept） | r1 初版 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-GLM-LARGE-WAVE-4 A 批回执（编辑器命令表单与作者工作区；r1 本批 1429e1b1、R2 031b3e47、R3 本次推送）：新增 12 源各一个同目录 .glm-large-wave.test.ts(x)+fixture command-form-glw-kit+隔离宿主+共用 needle-judge；47/47 passed（新鲜 JSON）；editor tsc 0+13 新文件 Biome 全零+check.mjs PASS+diff 干净。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · A 批回执（编辑器命令表单与作者工作区）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+A 批 12 源新增逐组差异表（playSound 资产 id/makeLoadScene 深拷贝/unbound 立绘/钳制/isProjectDirty 合成/深链钉回新发现行为/K 整除/在途换定义）；四类不可达臂如实；3 反控+2 视觉。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 证据路径：本回执正文（quote 保全）；batch-a-directed.json 逐条 file/fullName/status 与 A 批处置依据表在 quote。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。A 批 12 源新增逐组差异表（playSound 资产 id/makeLoadScene 深拷贝/unbound 立绘/钳制/isProjectDirty 合成/深链钉回新发现行为/K 整除/在途换定义）；四类不可达臂如实；3 反控+2 视觉是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-GLM-LARGE-WAVE-4 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `e71921c6489efd474cd7f940793e76e45f3891979f43c2342dff56ac64bffb07`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `e71921c6489efd474cd7f940793e76e45f3891979f43c2342dff56ac64bffb07`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · A 批回执（编辑器命令表单与作者工作区）
 >

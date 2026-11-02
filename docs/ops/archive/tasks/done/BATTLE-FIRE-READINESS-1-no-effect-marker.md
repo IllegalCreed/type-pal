@@ -1,55 +1,65 @@
 # BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: 既有战斗资源准备缺陷；PAL试打预制数据交付阻断
+Coding Owner: Codex
+Reviewer: Codex（用户本次独立授权，Kimi/GLM缺签豁免；非二席签字）
+Visual Verification Owner: Codex
+Visual Verification Timing: dev-functional
+Branch: main（e17af240；预制数据源ea80749a按文件接入，未整树覆盖）
+Revision: r1 / 2026-09-22
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是无 FIRE 特效技能资源准备缺陷历史卡：effectSprite=65535（无特效标记）被当作不存在资源预载阻断开战（57dda7ed 时 battle-sprite-readiness.ts:40-57 只判 chunk>=0、battle-trial-assets.ts:232-247 同病）；修复=FIRE 集合计算的无特效标记+回归；2026-09-24 回迁 main 核对段如实标注分支产物不在 main、生产锚点仍成立、额度与门禁状态过时。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+使合法无特效技能不被当作缺失特效资源预载，解除七套预制方案中三套的开战阻断。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：FIRE 集合无特效标记、双方 execution/合击/敌方闭包回归、七套实际启动补证。
+- 范围外：schema/content20/SAVE8 切版、迁移/资源重生成、伤害/成长/AI；不删梦蛇/金蝉脱壳凑绿、不伪造 65535 资产、不忽略真缺失资源。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+回迁核对判例：分支树证据（数据 11/11、check 8040）不能在 main 复现须逐项标注；pal-authored-overlays.ts:151-168（392 effectSprite=65535）、skills.json 仅 295/377/392 含 65535、assets/index.json 无该名——锚点在 main 逐条复核仍成立；普通战斗同 collector 入口 main.ts:2356 补锚。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按用户独立授权+e17af240 集成收口（预制数据 ea80749a 按文件接入未整树覆盖）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+回迁核对段的"过时处标注"方法是历史卡治理样本。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-22 r1、2026-09-24 回迁核对与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：无特效标记修复与预制数据按文件接入收口；分支证据不可复现处如实标注。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+生产锚点行号清单、预制方案记录（冻结提交永久链接）、回迁核对段。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。资源准备现行行为以当前 reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+TEST-BATTLE-WORKFLOWS 系列为后续战斗域。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `7c2fd4bea962823e2cfe1814090ba45e4eb26fd043ade938a5dd3706513dadc8`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `7c2fd4bea962823e2cfe1814090ba45e4eb26fd043ade938a5dd3706513dadc8`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # BATTLE-FIRE-READINESS-1 - 无特效技能的战斗资源准备
 >

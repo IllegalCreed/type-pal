@@ -1,69 +1,57 @@
 # 2026-06-06 Battle System Current Audit
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 2026-06-06 战斗系统现状审计的归档回执。旧误报排除清单与 P0/P1/P2 分级差异在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：Current battle audit: false-positive exclusions, P0/P1/P2 findings.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 战斗系统大修入口：只记录当时 TS 实现与 SDLPal 的实质差异；旧 roadmap 的阶段性残留不复写，避免把已修功能再次当缺口处理。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165`；56 行槽 / 3873 bytes。
-- 标题/章节锚点：1:2026-06-06 Battle System Current Audit; 6:已排除的旧误报; 15:P0:已修复行为差异; 30:P1:规则/体验差异; 51:P2:低优先级。
+- 2026-06-06 时点的 battle 子系统；证据为 sdlpal 源行号对照与已修提交（quote 保全）。
 
 ## 发现
 
-- 正文信号 8:- Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。
-- 正文信号 28:- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。
-- 正文信号 33:- 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。
-- 正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。
+- 已排除的旧误报 8 组：Protect 除因子、Summon/Trance 接入、敌方状态门与 dualMove、battle music、0x31/0x92、friendDeath/dying 脚本、D29 baseline 生产同源化等此前均为旧文档过期描述。
+- P0 已修复行为差异：战斗用物消耗规则（先跑 scriptOnUse 再按 kItemFlagConsuming 扣、scriptOnUse==0 按 no-op、UseItem 前摇后跑脚本；战斗 UseItem 不检查 g_fScriptSuccess 而 大世界保留 gate）、投掷 scriptOnThrow==0 等。
+- P1 规则/体验差异五项已修：选择期 nAmountInUse 预占、cover 专属演出、底部状态字（乱/定/眠/封）、同速行动顺序（同 dex 敌先）、同一敌人模板对象变体按原始 OBJECT_ENEMY 编号挂脚本。
 
 ## 结论
 
-- 2026-06-06 Battle System Current Audit：这是 audit-report，当前文档状态为 historical。全文 56 行、5 个标题；摘要/首段为「本文件作为战斗系统大修入口,只记录当前 TS 实现与 SDLPal 的实质差异。」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 当时战斗差异主体已收口，剩余入 P2 低优先级（quote 保全）。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；a；u；d；i；t；.。
+- 各修复已带对应实现；后续战斗差异以 [cutscene-status](../status/cutscene-status.md)、[feature-status](../status/feature-status.md) 与新审计为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-06；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165`。
+- phase1 plans 审计快照；时点 2026-06-06；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 2026-06-06 Battle System Current Audit：这是 audit-report，当前文档状态为 historical。全文 56 行、5 个标题；摘要/首段为「本文件作为战斗系统大修入口,只记录当前 TS 实现与 SDLPal 的实质差异。」。属于历史/归档材料，不能单独证明当前实现。
+- 旧误报排除 8 组、P0/P1 分级清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:2026-06-06 Battle System Current Audit; 6:已排除的旧误报; 15:P0:已修复行为差异; 30:P1:规则/体验差异; 51:P2:低优先级；原始正文、代码、表格、状态词在 quote 保全。
+- sdlpal fight.c 行号引用与逐项修复说明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 8:- Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。
-- 正文信号 28:- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。
-- 正文信号 33:- 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。
-- 正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。
+- historical。审计按 2026-06-06 时点解释；当前战斗行为以现行代码与测试为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；a；u；d；i；t；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- phase1 状态表与后续审计；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 2026-06-06 Battle System Current Audit
 >

@@ -1,5 +1,58 @@
 # CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复战斗opcode 0x61（OP_JUMP_IF_PLAYER_NOT_POISONED）装备伪毒判定边界：SDLPal script.c:1957-1965调PAL_IsPlayerPoisonedByLevel(role,0)、global.c:1640-1685忽略level>=99；基线TS只检查非零毒ID，与主世界isPlayerPoisoned(已忽略>=99)合同不一致。engineering-notes.md:57与game-mechanics.md:1256-1270已记录采用原版后期修复（装备伪毒不算中毒），故“刻意保留早期行为”的替代解释被历史决策否定。2026-10-20本卡合同正式收口。
+
+## 范围
+
+battle-opcodes的0x61判定窄修与真实物品合同测试；保留target优先/caster兜底/operand0跳转/无gs行为；不改生成物、schema/save或通用兼容层；整份战斗opcode dispatcher归CODE3t文件复审。
+
+## 前提与证据
+
+固定源全文核读。原盘脚本锚点（all.json segments[0].commands，数字label与数组索引已核一致）：寿葫芦item269装备入口39163为0x18[16,269,0]/0x29[0,563,0]/0x29[0,564,0]；毒563入口40860为0x1b[0,20,0]、毒564入口40858为0x1c[0,20,0]；九阴散item136用入口39502为0x61[39505,0,0]/0x1b[0,999,0]；毒龙胆item278入口39765为0x61[39505,0,0]/0x2c[0,3,0]；公共失败目标39505为0x5f[0,0,0]。真实performItem→runScript→dispatchBattleOpcode红例：4例中2例恰在目标HP业务断言失败——只有装备伪毒时九阴散错误回血、毒龙胆错误存活，非顺序队伍[4,0]施用者真毒不能替目标算中毒；level0回血、level3解毒及level4/99两例原实现已绿。修复复用既有isPlayerPoisoned(role)消除跨层重复毒等级知识；242相邻通过。收口见[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)；逐项原件见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 验收
+
+done覆盖原卡窄缺陷：真实level0毒计入、level≥99装备效果豁免、目标/施用者隔离均由四个typed反例与242项相邻证明；最新七项集中门诊断全部为零。CODE53曾无意用isPlayerPoisoned替换非零ID扫描的行为已撤回，本卡窄修与CODE53寻址分清、独立提交。
+
+## 状态与交接
+
+done保持原语义；治理不重开、不扩大旧信用。无下一位Agent提示词，Codex继续剩余pre94。
+
+## 历史范围
+
+原卡属固定main时点；范围为战斗0x61判定子切片，CODE3t dispatcher整文件与广域旧测试不在本卡。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-20正式验收，产品及测试源码相对ea9c3cc02无变化。
+
+## 当时证据
+
+当时回执属原时点证据：4例2目标HP业务红、242相邻、七项集中门零诊断；本页不重跑、不复授。关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 当前有效性
+
+仅历史任务归属有效；寿葫芦装备毒与九阴散回血/毒龙胆解毒是不同路径，不能互相泛化；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+dispatcher广域复核归CODE3t；五卡收口以completion.json与父卡为准。 关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6917B / SHA-256 2818199851b92f59224800954fea55dcdd4d66d9f126ed52f32d0062d02ee284；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -62,3 +115,5 @@ Owner Codex。用户本轮“处理五卡必要返工”与工程既有保真修
 保留范围：整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

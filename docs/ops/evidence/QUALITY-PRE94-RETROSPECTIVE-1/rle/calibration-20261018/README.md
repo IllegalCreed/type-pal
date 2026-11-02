@@ -1,5 +1,36 @@
 # RLE首批独立校准与执行准入
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 RLE 首批独立校准与执行准入的治理候选页;原件为 Codex 校准回执(2026-10-18,读取基点 170edee44,原文 Status: review),归[父卡](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)和[既有RLE证据](../README.md)。本包是首批交付口径校准,不是模型能力考试,也不是每批新增的只读前置门;GLM 随后直接执行获准整改,Codex 独立验收,未经裁定的格式行为继续冻结。总裁定:GLM 发现的账本漂移成立,但其归因和『八维无问题』完整性需返工;高位 literal 既有探针表现为显式拒绝,不能外推所有格式分歧都必然 fail-loud 或绝无静默像素偏差;W-1 两行由 Codex 修复,W-2/W-3 扩为三文件文案候选;产品实现/fixture/断言/资源/格式/接口均未改,三受审文件保持 review、0 新增关闭(83 卡 55 partial/28 pending/0 accept),历史 partial 不自动取得八维信用。
+
+## 来源与输入
+P-1 独立追溯五锚点:c727bc81e=三个 RLE 旧关闭撤回 review;9cf1fd09f 及父 22eead43a=另一支线旧表(没有正文不足以推断意图);89bf84e16(治理线第一父 8861b2994)=合并文档支线后第一张活动表取回旧关闭,是本治理线实际状态丢失点;7b8365195=仅重开 boundaries、前两行持续误列 closed;本次 W-1=只恢复 rle.ts/rle.test.ts 为 review 并链接本包(3319 tracked/249 closed/105 review/2965 pending)。[完整逐行差异](ledger-drift.json):243 条旧 review 失去该状态——26 条转 closed、217 条不再进入活动表;修复前当前其中 76 closed/130 未登记/36 review/1 rework;两行修复后另 74 条 closed 候选仍待核后继证据,不是本批新产品缺陷,不能批量改状态。Codex 本次全文读取三受审文件+rle.glm-o+rle.glm-runtime-resource+rle-encode+shared index/package.json+game rle-decode/tileset-blob+extract sprite,当前行数与 SHA 见 [manifest](manifest.json),不改写原包历史行数;SDLPal 核读 PAL_SpriteGetFrame 及绘制判定段,沿[既有真值卡](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)复用证据,不把当前 51 绿当 SDL 一般格式证明。八维逐文件校准(要点):rle.test 26 例 catch 例确有完整坏帧头后保留合法帧;boundaries 七例『1长度』实为 2、『帧头越界』实为尺寸非法、FFFF 实为 0FFF、首例未调 report 入口;strict 的 frameCount<=0 与 offsets[0]!==tableBytes 两臂在 slot0=count 双身份下可证不可达(登记 G-1 结构候选,未删除,GLM 未登记此项)。观察项:O-1 尺寸分配(每 plane 理论 4,294,836,225 字节,禁实际巨量分配)、O-2 过短容器(RangeError 为直接观察非已证 bug)、O-3 0x18444 SDL 特例(SDL 乘2转 WORD 为 0x8444,TS 未实现)、O-4 排重候选、G-1 结构候选、R-1/R-2 转交摘要未定义不得猜造。GLM 可立即执行的有限批次:premise verified/design agree/build allowed 仅限文案候选,Coding Owner=GLM、集成/账本 Owner=Codex;临时 detached worktree、白名单三文件仅注释/docblock/错误标题、旧→新 51 身份一一映射(26+7+9+9 数量不变)、AST/去注释对照证明 body 不变、Codex 同一 3y 分支分提交集成后清理 worktree。
+
+## 断言与业务 oracle
+执行证据:Codex 独立定向 4 文件 51/51(0 fail/skip/pending,完整 618 字节输出 0 error/warning/info/runtime 诊断),见 [targeted.json](targeted.json)、完整输出与原生 JSON 按附件保全;它是本次 Codex 独立执行,不冒称找回 GLM 未附的原件;历史 54 与当前 51 不混为同一身份集合。快速复验 verify.py 只读核 Git 来源、实际输入、附件字节/51 身份、历史表格差异和当前两行 review;不联网、不改树、不跑测试;不自动认证八维语义。
+
+## 结果
+验证表:RLE 定向 4 文件 51/51 零诊断;check:docs [docs.json](docs.json) 125/125 工具合同+5 消费者全过;lint 初次 [lint.json](lint.json) 报本包 manifest 一个格式错误(原件保留),格式修正后 [lint-final.json](lint-final.json) 5535 文件 0 error/0 warning/0 info;[ledger.json](ledger.json) 3319/249/105/2965 PASS 仅记录一致性;范围/历史保持 [scope-verification.json](scope-verification.json) 与 [scope-final.json](scope-final.json) 证仅两活动行状态回退、历史表尾及其它元数据保持;快检 [fast.json](fast.json) 输入/原件/51 身份/243 历史记录匹配;首次最终消费者检查 [docs-final.json](docs-final.json) 因尚未生成的回执链接报 2 个缺失(保留失败原件),附件就位后 5 消费者结果为 docs-final-pass.json;后补回执格式见 [artifact-format.json](artifact-format.json)。125 工具测试源与首次 check:docs 相同,最终只复跑受影响 5 消费者。
+
+## 限制与复核
+未运行:相邻全包、typecheck、全仓 check、official coverage ratchet、protected fast、E2E/视觉;本批只改文档/记录,无产品 build 或合 main;旧 editor 诊断未闭合前不合 main;静态文档结果不代替产品统一门。本治理不重跑、不改写原判定;原件逐字节保全在下方;候选待Owner非作者接收。
+
+原文存活链接原样保留:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../README.md) [ledger-drift.json](ledger-drift.json) [manifest.json](manifest.json) [targeted.native.json.gz](targeted.native.json.gz) [targeted.raw.gz](targeted.raw.gz)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 15042B / SHA-256 836e3c8b54d9cc96453852ed51bbea5f9aef2127a1a82717e88b888e37a38ed8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# RLE首批独立校准与执行准入
+
 Status: review
 Owner: Codex
 Date: 2026-10-18
@@ -90,3 +121,5 @@ GLM下一批先交此三文件实作；Codex可同时处理纯记录沿革。接
 | 未运行 | 相邻全包、typecheck、全仓check、official coverage ratchet、protected fast、E2E/视觉；本批只改文档/记录，无产品build或合main。 |
 
 新附件有原件与SHA，已有历史失败不覆盖。首次最终消费者检查[docs-final.json](docs-final.json)因尚未生成的回执链接报2个缺失，保留失败原件；附件就位后的5消费者结果为`docs-final-pass.json`。后补回执格式见[artifact-format.json](artifact-format.json)。125工具测试源与本次首次check:docs相同，最终只复跑受影响的5个消费者，不再重跑125合同。
+```
+<!-- incremental-original-source:end -->

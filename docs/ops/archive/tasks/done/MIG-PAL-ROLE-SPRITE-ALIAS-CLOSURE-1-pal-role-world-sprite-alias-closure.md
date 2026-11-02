@@ -1,55 +1,61 @@
 # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-24 三方 accept 与用户验收齐）
+负责人: Codex（Coding Owner）
+参与审查: Kimi（迁移规则 / 闭包不变量）、GLM（全角色 / 全场景 census）
+能力格: C2 内容迁移 / MG2 生成一致性
+风险级别: 高（asset pipeline / migration / generated project）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是角色精灵语义别名全量闭包历史卡：用户发现 zhao-linger 与 sprite-3 并存指出前卡只处理李逍遥未举一反三；只读 census 证实另有林月如/阿奴/盖罗娇三组严格重复——本卡退休 4 个数字 SpriteDef（sprite-3/7/5/26）、37 场景 44 实体引用归一为语义名、修迁移上游与 publication overlay 不手改 projects/pal、建立完整角色表驱动的闭包门禁（未登记重复 fail-loud）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+所有 PAL 原始角色语义 SpriteDef 与数字 SpriteDef 严格重复闭包为零；SpriteDef 只表可复用视觉定义、实体身份只由 EntityRef.actor 表达（已拍板语义）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：4 别名退休+44 引用归一+上游修复+闭包门禁。
+- 范围外：重开前卡（按其既定范围保留 done 历史）。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+census 反例成立（举一反三教训）；前卡范围遗漏由本卡纠正。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方 accept 与用户验收收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: historical（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+闭包门禁为后续迁移红线。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-24 发现/实施/收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `> **状态**：done（2026-08-24 三方 accept 与用户验收齐）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：4 别名退休+44 引用归一+闭包门禁经三方与用户收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+全角色/全场景 census、闭包不变量、上游修复 diff。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。别名闭包现行状态以当前迁移器与门禁为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+前卡 MIG-PAL-WORLD-SPRITE-ALIAS-1 与后续迁移卡。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `894af864199037e655ae1b0dfbbc121240a5687174f471deec0b518926975c74`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # MIG-PAL-ROLE-SPRITE-ALIAS-CLOSURE-1 PAL 角色大世界精灵语义别名全量闭包
 >

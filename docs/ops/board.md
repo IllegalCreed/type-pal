@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-01
+Last reviewed: 2026-11-02
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -18,11 +18,11 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-本次核对主线基点 `c88be9b3b5b9dc38c77d8c440085e35b8d15fc43`。表内英文状态严格取本树任务卡顶部；
+分类承接已批准主线 `02a67c5aa639d43813511a552d44a1c4e5a99b78`；当前事实按本候选任务卡与原始证据核对。表内英文状态严格取本树任务卡顶部；
 “候选已接收”“代码已合入”“整卡 done”分别解释，不能相互替代。历史卡面未同步时明确列为待对账，不照旧诊断重复开工。
 
-- 文档治理：本地后继 `7f045e964b79c4fc216befbfdc00668bd7a54888` 已撤回旧全量 done，仍有 S87 接收/接入和最终门；原卡本次同步为 review。该候选未整体合入本树。
-- 006：本地后继 `33cfb9ad89f8696802b7c2ec466fbc93cccf8149` 已记录技术与用户观感接收；本树原卡保持 rework，剩余候选集成与差异核验，不能再用旧摘要声称该候选未补 NPC/视觉。
+- 文档治理：S88生产检查点及既有4542身份接受继续复用，正文与严格待办0。S89本地完整文档门、官方ratchet819源码/20222测试及登记后工具158项、lint6680零诊断已取得；两登记文件与一处旧测试适配均获用户明确授权。单一documentation作业及原七门/来源与编排反控保持，006接受直接复用；远端d778因新增专测漏同步代码库存被拦，后继仅修现行清点并已复跑45工具/七包类型/lint零诊断；S89新增范围集中非作者接受、后继候选受保护CI和PR主线集成仍待闭合，原卡review，不冒称已合main。
+- 006：技术与用户观感接收按后继 `33cfb9ad89f8696802b7c2ec466fbc93cccf8149` 及当前原卡范围复用；本候选原卡已明确船身起伏补修后11入口/10状态，不把前轮12/11推广成新同版全测。当前仍 rework，等待文档/集成硬门，不重做已闭合NPC和视觉，不授新剧情或音频信用。
 - 代码治理：后继批次已产生接收与统一门回执，最新逐路径状态以[代码账本](audits/code-quality-file-ledger.md)为准。卡面仍 build/review 不自动等于源码还需重做；整卡的产品/视觉及发布义务逐项对账。
 
 ## 入口与责任
@@ -40,9 +40,21 @@ Template: governance-index-v1 / 1.0.0
 | 工作线 | 唯一事实入口 | 当前状态 | 阶段 | 依赖 | 下一步 |
 |---|---|---|---|---|---|
 | 代码治理 | [逐文件账本](audits/code-quality-file-ledger.md)、[质量规范](code-quality.md) | 持续；当前批次与存量分开 | 跨第一/二阶段及工程工具 | 真实 caller、风险与单一 Owner；不等覆盖率目标才推进 | 核下表旧卡收口义务；新批从实际 pending 选有限模块，复用有效证据 |
-| 文档治理 | [DOCS-FULL-TEMPLATE-1](tasks/DOCS-FULL-TEMPLATE-1.md) | review | ops / 跨阶段 | 后继候选的非作者接收、中央接入、硬门与主线集成 | 先收口现有候选；本轮只整理原导航与状态，不扩全仓治理范围 |
+| 文档治理 | [DOCS-FULL-TEMPLATE-1](tasks/DOCS-FULL-TEMPLATE-1.md) | review | ops / 跨阶段 | S89新增范围非作者接受、受保护CI与主线集成 | 完成当前候选远端门后按PR收口；既有正文与006接受直接复用 |
 | 仓库瘦身 | [文档模型](guides/documentation-model.md)；本轮用户确认的长期方向 | 长期方向已确认；系统清理批次未启动 | 全仓 / 本地工程资源 | 当前文档批次收口；删除前核消费者、独有信息和可恢复来源 | 冻结首批重复/过时/可重建材料，实际删减并同步引用，同时治理生成来源 |
 | 测试与覆盖率 | [测试治理](../testing/governance.md)、[官方 fast 基线](../../scripts/coverage/baseline.fast.json)、[测试目录](../testing/indexes/README.md) | 持续；基线已有，按真实业务缺口补强 | 跨第一/二阶段 | 合法输入、真实 caller/oracle、排重；集中窗口核官方门 | 结合当前模块补关键未覆盖分支、精简弱测试；不以例数/总比例替代质量 |
+
+### 文档治理：子卡接入与历史对账
+
+以下五张子卡仍在活动状态。已完成的合同、迁移与独立接收按父卡后继记录复用；表内原卡状态保留，不把历史待办计数当作当前缺口。它们随本轮文档硬门与主线集成统一对账，不另开重复治理包。
+
+| ID | 原任务入口 | 卡面状态 | 当前责任与下一步 |
+|---|---|---|---|
+| DOCS-CATALOG-SPLIT-1 | [DOCS-CATALOG-SPLIT-1](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | 复用已验收的分片与 consumer，保留旧独立验收撤回；核父卡最终门后同步状态 |
+| DOCS-NATIVE-JSON-1 | [DOCS-NATIVE-JSON-1](tasks/DOCS-NATIVE-JSON-1.md) | rework | 原生字节、来源未知与历史信用边界沿后继接入结果核对，不重复生成回执 |
+| DOCS-NATIVE-VITEST-269-1 | [DOCS-NATIVE-VITEST-269-1](tasks/DOCS-NATIVE-VITEST-269-1.md) | review | 复用 S29 已接收的 269 篇与中央发布；旧 1848 待办仅属原时点 |
+| DOCS-RECORD-INTEGRITY-1 | [DOCS-RECORD-INTEGRITY-1](tasks/DOCS-RECORD-INTEGRITY-1.md) | rework | 旧撤信、原件失踪与勘误继续有效；核后继语义和最终门，不恢复原 R 波信用 |
+| DOCS-REGISTRY-SPLIT-1 | [DOCS-REGISTRY-SPLIT-1](tasks/DOCS-REGISTRY-SPLIT-1.md) | build | 已验收 registry 分片复用；生产总量按当前公开检查，不沿用原容量估计 |
 
 ### 代码治理：既有批次与卡面收口
 

@@ -1,40 +1,55 @@
 # R24 phase2 designs candidate independent acceptance
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R24 轮候选接收回执：verdict accept（candidate documentation reception only），对象为 21/21 篇迁移后的 governed phase2 design；candidate HEAD 1d39e2f8、固定 source revision 45d890e4。本页按 archive-record 接入；页内含 2026-10-18 历史勘误块（逐字保留）。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R89。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R24 轮接收回执；固定源 revision 2dd1768c675d…（S15 R90 迁移层）。
+- 声称的门：check-document-model PASS（303 body contracts）、check-content-review --strict PASS（733）、check:docs 1237 Markdown/8083 links/361 tasks、lint 4136 文件 0/0/0、diff --check PASS。
 
 ## 原始结论
 
-- R24 phase2 designs candidate independent acceptance：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：21/21 五章与 overlay 非空、quote inverse/source-after live SHA/registry-review-routing/catalog/旧 20261004 review duplicate=0 全过；阻塞计数 4 类各 21 条（历史边界/源保真/零产品执行信用/不得宣称 full done）在候选接收内闭合。
+- 21 篇证据表（actor-model/ambience/asset-pipeline/…/visual-design，各带 source/after SHA 前缀与 PASS 列）；每篇机器证据声称在同名 JSON documents[]。
+- 只读回执字节检查：/tmp raw SHA b2a35ff1 vs evidence-copy a7cdf862，差异为 JSON 数组格式化（parsedContentEqual=true，非阻塞）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全 21 行证据表与门数字。
+- 已撤回（本篇专属）：2026-10-18 勘误——原引用 SHA 15670685…无可核对目标不再采信；6f3754397 改为目标 JSON 当时真实 SHA 1141788c…；原文「reported below」与自称重跑不是当前证明（勘误块全文见下方当前有效性节）。
+- 已撤回（目标 review 深审信用）：docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json 的 expandedAudit20261018.originalClaimRows 覆盖本批（R24）21 个目标的旧深审 claim（如 actor-model-design.md、ambience-design.md 等 21 个目标；完整清单见该 canonical 文件）。该扩展审计共 152 个旧 claim 跨 13 批、151 个旧 binding 降档；真实 S01 后继 docs/phase2/READ-FIRST.md 保留不降档。
+- 三分边界：目标 review 深审信用撤回不等于本篇旧只读/接收提案每句话都假——本页 quote 保真的字节事实仍成立；本篇自己的「独立/全文/门数字」声称仍属未认证；合格后继（READ-FIRST S01）不在撤回范围。
+- 尚未认证：「Codex 独立非作者审查」「21/21」为原文声称；R24 轮评审记录不在撤信批次 39-94 内，但独立席位未恢复认证。
 
 ## 当前有效性
 
+historical。（以下为 2026-10-18 历史勘误记录，逐字保留；其中的「当前 SHA/当前字节」指 2026-10-18 时点固定树，不是本轮新事实。本轮未重算、未改写配对 JSON。）
+
+### 2026-10-18 哈希与悬空声明勘误
+
+原引用的 1567068529b5e0d200b7abff9a0924817dfc22b6fd6beb1c0740cc7d12fba925 没有可核对的目标证据，不再采信。6f3754397 已改为目标 JSON 当时的真实 SHA 1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787；该 JSON 当前字节 SHA 为 1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787，见[实际 JSON](independent-r24-phase2-designs-candidate-acceptance-20261017.json)。下方原文的“reported below”和自称重跑不是当前证明；其历史文字保留，当前真实性/独立审信用另行核验。
+
+
 historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+
+（勘误块结束。本页当前有效性仍为 historical：历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。）
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用与纠错边界见 DOCS-RECORD-INTEGRITY-1 与 receipt-candidate-adjudication-20261018.md；phase2 设计现行真值由 docs/phase2/specs/ 与 READ-FIRST 承接。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `5a521bb03a4b4881f9757a1a98a10d87f91f6733e13c33bea76af10874ac701a`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `5a521bb03a4b4881f9757a1a98a10d87f91f6733e13c33bea76af10874ac701a`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R24 phase2 designs candidate independent acceptance
 >

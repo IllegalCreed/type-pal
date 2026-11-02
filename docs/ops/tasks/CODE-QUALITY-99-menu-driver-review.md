@@ -1,6 +1,65 @@
 # CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+menu输入路由中枢menu-driver.ts（1047行）及两主测（657行/1007行cov85）的逐文件审核与返工：行为合同由sdlpal各菜单函数控制流（goto-out语义、INNER loop、switch/confirm阶段机）与bootstrap注入边界共同钉住。
+
+## 范围
+
+1生产+2测试。登记E-7（约6处as unknown as/as any部分对象fixture，按CODE95口径不算业务覆盖）、E-8（_bus死参）、E-9（makeEquipMenuEntry零caller死导出）；死出口/死参清理等待集中接口裁决不借此修改。
+
+## 前提与证据
+
+逐dispatcher锚：shop uigame.c:1615、sell:1755、opening:122-152（Cancel=新游戏）、system DH9:650/1031（return TRUE→goto out关整栈）、inventory C4 INNER loop play.c:288-303、use-target live refresh:1401-1418/1468、equip DM23:1820/1857-1859/2016-2019、magic:740-861（MP不足退picker）、player-status:1265-1284、save/load:578-611；真实caller menu-mode.ts:28每帧tickMenu→dispatchMenuInput、bootstrap注入四handler。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+
+## 验收
+
+返工链：E-7修复（全面typed化mkItem/mkSpell/mkMagic+makeRole、弱遍历改确定性cursor安排）；cov85两处11条库存改11个不同合法itemId（真addItemToInventory按id合并）、补save/load handler异步reject与同步throw两条ownership oracle；C4空目标假正例先红后绿、同步handler双重强转删除、用户批准的标题取消修复（23f4effbf，125相邻+真实浏览器验证）。2026-10-25质量余项：纠正inventory-action取消回hub、装备空swap到done、play.c误引为uigame.c三处坏注释；角色夹具10/20/30改非顺序2/0/4、afterEach回收handler；新直接counter——StartGameHandler公开允许Promise但bootstrap真实async开场回调的两个新游戏输入分支均丢弃拒绝，正式37绿/2指定AssertionError后增统一私有startNewGame边界（失败记录原因、不清标题、不自动重试）。终态并入94-102统一门（20605+714、official 20168/807、20新关闭+34桥接）。
+
+## 状态与交接
+
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录，不能从本节预告继承）。
+
+## 历史范围
+
+2026-10-15各时点保留：R2基点cddf65557（旧非法fixture未修/标题取消oracle与异步ownership缺口）、R3候选5477af1e4（C4空目标假正例复现/双重强转待删/3283/229closed/44review/3010pending）、最终模块窗口bb94ad8e2三门exit0但3620/3610/3523条未包act统一门不通过。
+
+## 原始结论
+
+原卡结论：menu-driver注释为「注释说明为什么」的范本（每dispatcher带sdlpal控制流真值含用户bug史锚）；menu域core+driver全覆盖完毕后换域。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-94/（codex-r2/r3-review、codex-takeover、codex-final-window、approved-closeout、current-review）。原链接与当时回执属原时点证据，本页不重跑、不复授。
+
+## 当前有效性
+
+历史任务卡（done有限语义）；menu路由后续以52收口等为准。
+
+## 继任文档
+
+CODE-QUALITY-94母卡与94-102系列、QUALITY-REVIEW-52-CLOSEOUT-1承接集成终态。原存活入口逐字保留：
+
+关联:[README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12753B / SHA-256 aa5fa5d15c1cdd0660e1f9d480e8fbbb8a470d04acda1dc270658cef92bfb130；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-99 — menu 输入路由中枢审核（menu-driver 及其测试）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -128,3 +187,5 @@ menu 域逐文件治理第四批（1 生产文件 + 2 测试文件，不碰 CODE
 ## 下一步
 
 Codex 独立验收；E-7/E-8/E-9 并入 E-1..E-6 待 94/95 验收后的实现批（E-7 触发 coverage 范围门，须同批 ratchet）。menu 域 core+driver 全覆盖完毕；后续换域选批。无用户裁决需求。
+```
+<!-- incremental-original-source:end -->

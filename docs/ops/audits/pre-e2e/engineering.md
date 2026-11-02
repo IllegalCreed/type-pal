@@ -3,69 +3,71 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 PRE-E2E-AUDIT-1 E 批（测试、工程与维护性）只读审计报告：基线 `223a20f0`，新增 6 项编号记录（4 类功能/测试问题、1 类旧调用面残留、1 项全仓门禁未绿）；E-01/E-03/E-04/E-06 已由后续修复收口。探针与 12 文件/76 条测试记录在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- E 批范围：测试可信度（前置条件与实际结果一致性）、缓存正确性、版本纪律残留、全仓门禁基线与发布/性能边界。
+- 要回答的具体问题：哪些「测试通过」实际是零断言假通过或口径错误；哪些历史输入/producer 仍未退役；当前全仓 lint 是否真的绿。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-19；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-19；基线 `223a20f0`（产品代码与 A–D 批一致）。
+- 一手来源与命令：probe-test-gates / precache-progress / preview-cache 三探针（主 Agent 复跑）；真实 Vitest 运行原测试文件验证假通过与收集期失败。
+- 既有测试复跑：game 4 文件/17 + 资源 3/23 + migrate 1/21 + editor 4/15，共 12 文件/76 条。
+- 排除项：未运行完整 pnpm check、未自动格式化产品源码、未执行 SSH/CDN/nginx/deploy（deploy.sh 只读+`bash -n`）。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
+| ID | 类别 | 级别 | 确认内容 | 状态（源内时点） |
 |---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。
-- 正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。
-- 正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。
+| E-01 | 一阶段测试 | P2（skip 分支 P3） | 资源缺失时零断言假通过；声明 skip 却在收集期读缺失文件而失败 | 已修：phase1-resource-test-inputs（20 项隔离回归，check7,478/fast6,989） |
+| E-02 | 一阶段缓存进度 | P2 | 404 资源未缓存却计入「已缓存」字节并显示 100% | 一阶段缓存/离线专项 |
+| E-03 | 二阶段编辑器 | P2 | FIRE 预览缓存只按 chunk，跨工程显示前一个工程图片 | 已修：editor-preview-cache（15 回归/7 针，check7,457/fast6,969） |
+| E-04 | 二阶段编辑器 | P2 | 缩略图首次失败被永久缓存为 null，恢复后不重试 | 已修：同 editor-preview-cache |
+| E-05 | 二阶段版本纪律 | P2 合同残留 | v11 dense enemies/旧动画参数/历史翻译分支仍由旧测试维持，无生产消费者理由 | 退役候选，另卡处理 |
+| E-06 | 全仓门禁 | P2 工程基线 | typecheck 7 包通过但全仓 lint 238 error/50 warning/13 info，不能声明 check 全绿 | 已修：quality-gate-remediation 完整 check 通过 |
+- 结构建议（不计缺陷）：缓存容量/释放合同、benchmark 先测后定、影子实现收口、check:fast 边界澄清、「e2e」测试文件名不等于浏览器 E2E。
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：E-01 假通过三形态（effect 缺失 exit0 零断言/RNG·GOP 缺失收集期 exit1/正常对照 5 断言）以真实 Vitest 复现；E-02 进度口径、E-03/04 缓存身份与失败恢复均有内存桩复现与底层恢复对照。
+- 当前不能证明：线上已损坏、全部缓存容量策略、发布原子性全量验证；238 条 lint 诊断不等于 238 个运行缺陷。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 修复 Owner：E-01/E-03/E-04/E-06 已由 Codex 连续维护收口；E-05 另按跨包/迁移风险开卡，先钉当前行为再删；E-02 归一阶段缓存/离线测试。
+- 复核条件：恢复可解释绿基线，不以关闭规则或豁免存量换绿；CLAUDE 旧「lint 不在 check」说明随 E-06 校正，合同以 package.json 为准。
+- 继任/supersedes：五批至此收口，风险归并与建议顺序见 [summary](summary.md)。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-19；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-19；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- E批 · 测试、工程与维护性审计：这是 audit-report，当前文档状态为 current。全文 175 行、11 个标题；摘要/首段为「基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- E 批原文（6 项逐项一手证据/反证/修复方向、性能结构建议、已排除与部署边界、验证回执）完整保留于下方 quote；各修复状态为原文内后续追加时点。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- probe-test-gates 成功表示复现了缺 raw 两 suite 失败/缺 effect 零断言 passed/正常 effect 五断言 passed 的合同。
+- 12 文件/76 条普通测试通过；错误注入回执不计入普通绿色数；全仓类型检查与静态设计门禁（92 文件/2 例外）通过，全仓 lint 红为当时基线。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。
-- 正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。
-- 正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。
+historical。E-06 修复后全仓门禁口径以 quality-gate-remediation 与现行门禁为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- [summary](summary.md) 总收口；各修复回执（quote 内链接）拥有各自范围的事实权。
 
 ## 原文保全
 
-固定源 SHA `9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `9ccbb5497801cd932c27c5e3df0f5540b21b6a672d5814d13f0a051be74bac73`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # E批 · 测试、工程与维护性审计
 >

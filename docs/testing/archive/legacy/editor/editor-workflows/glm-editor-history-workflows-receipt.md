@@ -1,40 +1,61 @@
 # GLM 配对工作流回归回执（glm-editor-history-workflows r1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 D-01 工作包 GLM 冻结树正式回归回执（产品冻结 `dded6f27`、分支基点 `64b3c8ba`）：**15 绿+5 预期红（全部为 D-01 未实现的全局历史正确性断言）**，不是产品修复声明；Codex 接收候选为远端 `1f043a66…3a54`（非文末旧 amend 前 SHA），接收适配与勘误见文末。
+
+## Scope
+
+- worktree type-pal-glm-histwf 分支 codex/glm-history-workflow-tests；`git diff dded6f27..64b3c8ba -- packages` 为空；白名单两文件+docs/testing/README 一词机械索引；测试只用稳定公开 API（协调器优先+「最后通知归属」启发式 fallback 复现 App historyOwnerRef 语义）。
+
+## Execution and assertions
+
+- **P01–P07**：七类真实配对（新建/复制/删除场景、增删实体、增删物品私有脚本）；全绿：成功双侧同步、undo/redo 内容恢复、保存合并序列化合法；P03 用真实双 provider；P04/P05 canonical 投影成对；ItemTab 真实组合（Add 私有+UpdateItem 加 runScript ref）
+- **P08/P09/P13/P14/P17**：**预期红**：P08/P09 严格逆序断言失败（冻结树单栈归属先拆/错撤、第一次 undo 应撤整笔 pair 而价格未回 30）；P13/P14 孤儿 redo 复活（跨侧分支清理未实现）；P17 成功 pair 期间脚本订阅观察到半状态 1 次；五红与已接收取证 G-H01/02/07/13 同根，为 D-01 已签设计目标行为，交主线实现后转绿
+- **P10–P12/P15/P16/P18–P20**：P10 协调器双顶接管两笔 pair 独立往返；P11 撤到双侧边界/重做到底全恢复；P12 七处 caller 对账（App 5+ItemTab 2，脚本侧先于主侧）；P15 no-op 不入栈；P16 真实 Command 包故障门（第二参与者失败 receipt 回滚双侧）；P18 markSaved/hydrate 不增 historyVersion；P19 seed→loader→配对→serialize→内存盘→重开双核；P20 dispatch 恰 7 处+Root 成组新建；过程失败七项均已修复（fixture 缺 item/dirty 旗标拆层/provider 形状/同步 throw/hydrate 配置/两步撤空观察/静态导入），未改产品
+- **Codex 接收适配（2026-09-13）**：删除手写 historyOwnerRef fallback 全部走当前 Owner；P12/P20 改 Vite 源码 raw 导入移除 node fs/grep 与整文件 ts-nocheck；修正 P09（第三次只撤正文 price=0/body=[]）与失败位置勘误；snap 补完整两侧；P13/P14 先核 canRedo=false 不用 if(revived) 掩盖；最终适配定向 20/20+timeline 24+foundations 14=58/58 绿；git 对象隔离复跑原冻结树独立得 15 绿/5 红；同一最终树五针反控（order10 红/split26 红/future2 红/pop3 红/save6 红，其中 save 含 4 错误放行+2 下游拒绝层位变化如实登记）；接收为测试贡献，不作为 GLM 独立终审自证；主线不 merge 冻结产品
+
+## Results
+
+- 命令与退出码（最终提交树实跑）：本套件 exit1（5 failed|15 passed）；定向相邻 3 文件 23 passed exit0；tsc exit0；biome 0/0（两次 format 修复后复跑）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp/glm-histwf-final.log 与主线适配/隔离复跑/五针日志在 quote（按原文时点）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 冻结树回执 | 2026-09-13 | 20 项（15 绿/5 预期红） | Codex 接收+主线适配 58/58 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 GLM 配对工作流回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 配对工作流回归回执（glm-editor-history-workflows r1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+15 绿+5 预期红（P08/P09 错序、P13/P14 孤儿 redo、P17 半状态）登记三根因交主线；Codex 适配后 20/20+58/58，五针反控 save 针 4 错误放行如实登记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+P01–P20 逐项账表、命令退出码、过程失败修复记录与接收适配细则在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。冻结树取证；主线最终证明强度以主卡回执为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前配对工作流状态归 EDITOR-HISTORY-ORDER-1 完成卡与现行测试。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `ec890562b34fa38527eb00270af4eeeab71dc11f2d2b6e2f624326f28a8a31bf`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `ec890562b34fa38527eb00270af4eeeab71dc11f2d2b6e2f624326f28a8a31bf`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 配对工作流回归回执（glm-editor-history-workflows r1）
 >

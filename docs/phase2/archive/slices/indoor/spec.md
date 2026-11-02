@@ -1,42 +1,36 @@
 # P1 · 切片 1：室内场景跑通（slice 1 spec）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: archive-record-v1 / 1.0.0
 
-本页按 `archive-record-v1` 保留历史 indoor slice 语义；不授当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是切片 1 旧版 spec（重新聚焦前）的归档重写。暂缓裁决与决策映射在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或准入信用。
 
 ## 历史范围
 
-- phase2 archive indoor slice；日期：2026-06-24 / 2026-06-25；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80`；278 行槽 / 19111 bytes。
-- 历史语义：Historical P1 indoor-slice spec: goal and scope table; D1–D9 mapping; content/reforge package layout; scene/map/entity/cutscene schema; indexed-PNG assets; three-layer state and lightweight component entities; pure movement and separate world/entity collision; declarative event/dialogue; WebGL2 plus Canvas2D text; loop/input/error/module boundaries; tests, build order, and future items.
+- 切片 1 第一版 spec（含 WebGL2、MMO 碰撞留口、内容无关的通用房间）；2026-06-25 标注 ⚠ 暂缓/待重写；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。
+- 暂缓裁决：重新聚焦后第二阶段改为 Canvas 2D 起步+切片承载真实 DLC 内容+不留 MMO 口（见 quote 头部对 decisions 2026-06 的引用）。
+- 正文保留目标与范围、决策映射（本刀如何兑现 D1–D9）、包与目录、内容数据模型（content schema 切片子集）、资产与解码（复用原版/运行期解码）、三层状态等设计章节。
 
 ## 当时证据
 
-- 标题锚点：1:P1 · 切片 1：室内场景跑通（slice 1 spec）; 12:0. 目标与范围; 25:1. 决策映射（本刀如何兑现 D1–D9）; 39:2. 包与目录; 91:3. 内容数据模型（content schema 切片子集）; 164:4. 资产与解码（复用原版 / 运行期解码）; 174:5. 三层状态（[P0§1](../../designs/content-schema.md) / [D2](../../../decisions.md)）; 182:6. 实体 + 子系统（轻量组件袋，非 ECS 框架）；原始链接、代码和状态词在 quote 保全。
+- 决策映射与各设计章节在 quote 保全。
 
 ## 当前有效性
 
-historical。Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.
-- 历史冲突/未决：
-- The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.
-- It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.
-- The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here.
+- historical（superseded）。旧 WebGL/MMO 范围未按此实施；重定范围见 [鬼界民居 demo](guijie-minju.md)。
 
 ## 继任文档
 
-- d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；i；s； ；t；h；e； ；n；a；m；e；d； ；t；e；x；t；u；a；l； ；s；u；c；c；e；s；s；o；r；;； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；r；e；f；o；r；g；e；/；c；o；n；t；e；n；t； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；m；u；s；t； ；b；e； ；r；e；v；a；l；i；d；a；t；e；d； ；b；e；f；o；r；e； ；u；s；e；.。
-- 当前事实需从继任规范、代码和新 review 读取。
+- [guijie-minju spec](guijie-minju.md)（取代版）与 decisions 日志；[archive 导航](../../README.md)。
 
 ## 原文保全
 
-固定源 SHA `01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80`；下方 quote 可逆回原文。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # P1 · 切片 1：室内场景跑通（slice 1 spec）
 >

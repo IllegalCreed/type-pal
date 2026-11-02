@@ -1,67 +1,62 @@
 # TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界
 
 Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: GLM（新对话B，唯一测试写入者）
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: reforge / test-contract-precision
+Visual Verification Timing: N/A（无UI变更，不宣称像素/剧情观感验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是存档校验测试精简历史卡（S1-S 轴有限清单）：旧结构测试多处 as unknown as 把坏形状塞进 CurrentSavePayload；公开 assertCurrentSaveStructure(value: unknown) 已是合法外部边界不需要双桥；B-R2-01 闭合（同次子进程双 reporter 联判+suite.message 拒收+Failed Suites/Uncaught/Errors 行全套污染拒收+真实形态探针自检）——r3 1d09128fe/工作 7249e4604 待终审。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+S1 逐条输入层/拒绝层/oracle/重复账→S 轴精简与输入边界重建；坏形状直接构造 unknown 传公开 guard、合法 payload 用现行 builder+satisfies。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：两旧测试文件+本卡证据（产品冻结 ce808b42）。
+- 范围外：save/schema/格式变更；转换器/sidecar/存档修复。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+字段数组成员/每回调 hole-skip 是独立接线；反控入口随测试集对齐否则成历史工具；主树文件勿相对链接——判例出此卡。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：r3 1d09128fe（B-R2-01 三原合同归还 maxMP/两空洞、B-R2-02 反控入口对齐 17 针全 VALID sha fd65dc26、docs 链接门修正；定向 176、全包 8793、账 80）待 Codex r3 复审。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+SAVE11/content22 唯一不兼容旧开发档。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+CONTRACT-BATCH 窗口 r1/r2/r3；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：存档测试精简与输入边界（17 针）经 r2/r3 返工后收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+S 轴清单、双 reporter 联判判据、17 针反控。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。存档校验测试现行形态以当前文件为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+结构 guard 原卡 SAVE-PREFLIGHT-1。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `c6940ddbb51809f6befa533baf42381dd26d3dead37b18f19826f1cb6826c42a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `c6940ddbb51809f6befa533baf42381dd26d3dead37b18f19826f1cb6826c42a`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 — 当前存档校验测试精简与输入边界
 >

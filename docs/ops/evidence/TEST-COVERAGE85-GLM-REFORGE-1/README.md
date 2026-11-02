@@ -1,59 +1,63 @@
 # TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r7 = r6 内容 + 反控重 pin）
 
 Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把历史 ops evidence 接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知、任务状态和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 TEST-COVERAGE85-GLM-REFORGE-1 的交付证据（Owner GLM、分支 `codex/coverage85-glm-reforge-r1`，r7=r6 内容+反控重 pin；交付时点状态：待 Codex 独立验收、不合 main、不标 done）。
 
-## 证据身份
-- `id`：原始证据记录或任务证据目录身份（保留于 quote）。
-- `schemaVersion`：若原文提供则保留于 quote。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：source `f706a0a6a5db3339642e6a7a6105389d447a7ee3c23c58b39f1c519a0a6be830`；after 见本批 review record。
+## Scope
 
-## 来源与输入
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 覆盖目标：reforge 包 fast 口径（与官方 runner 同参数）分支覆盖从基线推进；不达 85% 不作为达标收口。
+- 度量（基线=main r5 合入后 → 终态 r6）：branches 9787/12166（80.44%）→9793/12166（80.49%，+6）；statements 15841→15843（+2）；lines 14209→14212（+3）。80.49%≠85%：距 85%（10341 臂）仍差约 548 臂。
 
-## 断言与业务 oracle
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：对应 task card、同批 evidence 和 successor receipt。
+## Execution and assertions
 
-## 结果
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- 交付：8 个 `*.c85-*.test.ts` 共 118 测试（r5 的 113+r6 的 5：entity-motion 让位回落/持杖多拍回喂/绕行受限、runtime abort 保留断点的真实 continuation 复跑、main 标题启动空序列），全公开 caller；零 unsafe cast/`@ts-expect-error`/skip/timeout 扩大，观测面只 `observation()` 与 canvas DEV dataset。
+- 配套账本：c85-family-ledger.json（fullName→family→源行→caller→oracle，118/118 全匹配、双跑逐字节一致）、c85-branch-delta.json（臂级闭合账+基线/终态 lcov）、c85-identity-status.json（file×fullName×status）。
+- r6 blocked 登记 B1：battle-session.ts render/timeline/settlement/召唤染色 ~390 臂——`state`/`visual` 均 private（battle-session.ts:211）且卡面约束不新增产品接口，观测口落地前无法合法断言，未伪造。
 
-## 限制与复核
-- 未执行/未覆盖：本次不执行 runtime、E2E、视觉或 coverage。
-- 不得外推的结论：不得外推当前产品完成、当前 runtime、E2E、视觉或 coverage。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
+## Results
+
+- 定向 8 文件 118/118 绿；全量 fast 325 文件/8687 测试全绿（main 干净基线复现）；typecheck 零错误；lint 全仓 3145 文件零诊断；docs PASS；diff 产品零改动。
+- 反控 9/9（含 vacuous 零匹配硬防）：r7 在干净树对当前 118 测试树整体重 pin——executedSet/skippedSet、command/cwd/env digest、exit/signal/spawn、stdout/stderr 全量、四态 hash、mkdtemp+finally。
+
+## Evidence
+
+- 后续工作面（非不可达）：main.ts 主循环/交互长尾 ~780 臂（installShellHost+key()/frame() 逐场景推进）、battle-session 表现层 ~390 臂（待产品观测口）、script-runner-core 续跑帧 ~22 臂、entity-motion 求解器 ~41 臂（侧踏需多拍 side-stick 纪律场景）、其余 reforge 文件 ~160 臂。
+- 历史轮次：r1-r2（76f3c6bf2/746f0c4f8 +128 臂）、r3（4cef72844 撤重复→108 测试）、r4-r5（75a12d84b…515eeaf96 证据迁移+executed/skipped 分集）、r6-r7（c835378e5/d0a14b337 真实多拍/continuation→118 测试）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r6+r7 交付 | 原文时点 | 118 测试/9793/12166（80.49%）+反控整体重 pin | 待 Codex 独立验收 | r1-r5 |
+| 模板接入 | 2026-10-20 | S18 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`；本轮为 2026-10-17 R39。
-- 归档原因：历史 ops evidence 只作为时点回执保留，避免把旧执行记录当作当前事实。
+
+- TEST-COVERAGE85-GLM-REFORGE-1 r7 交付证据；固定源 revision a1ac53bbea78…（direct 规则）。
 
 ## 原始结论
-- `Owner: GLM · Branch: `codex/coverage85-glm-reforge-r1``；原文完整语义保留于下方 quote。
+
+- 118 测试+6 臂净增（80.49%），B1 blocked 如实；85% 未达差不冒收。
 
 ## 当时证据
-- 原始标题、章节、任务状态、命令、产物、SHA 和链接保留于 quote。
+
+- 度量表、blocked 表、后续范围五域与验证数字在 quote 保全。
 
 ## 当前有效性
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 consumer 和 fresh receipt 仍待重新核对。
+
+historical。交付时点待验收；后续集成状态以中央记录为准。
 
 ## 继任文档
-- 当前 canonical 文档：对应 task card、当前 evidence consumer 和重新生成的 receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；不删除原始历史证据。
-- 若重新启用的复核条件：以合法输入重跑，核对业务 oracle、artifact SHA 和独立 review。
+
+当前结论归 coverage 台账与 Codex 接收记录。
 
 ## 原文保全
-固定源 revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `f706a0a6a5db3339642e6a7a6105389d447a7ee3c23c58b39f1c519a0a6be830`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定 source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `f706a0a6a5db3339642e6a7a6105389d447a7ee3c23c58b39f1c519a0a6be830`；下方 quote 逆回读规则：剥引用后与固定原源逐字节相等（direct，不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-COVERAGE85-GLM-REFORGE-1 交付证据（r7 = r6 内容 + 反控重 pin）
 >

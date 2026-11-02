@@ -114,14 +114,482 @@
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "document-audit-v2",
-    "lastReviewed": "2026-10-17",
-    "owner": "Codex",
-    "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+    "lastReviewed": "2026-10-18",
+    "owner": "/root/e2e_entry_semantic_author",
+    "nonAuthorReviewer": false,
+    "provenance": [
+      "original paired e2e-003 document audit",
+      "R60 historical governance retained without inherited acceptance",
+      "S07 sole-owner semantic candidate after root build allowed; author self-check only"
+    ],
     "sourceSha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
     "sourceGitObject": "ed0692f2794b072431743e3a15cd4e08e9e3d59b",
-    "scope": "Document-audit of e2e-003; original versions/candidate/claims/history retained. No new runtime execution.",
-    "beforeAfter": "Original flat paired E2E audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
-    "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
-    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+    "scope": "逐16个原生字段解释003的发布/历史源码/非执行轴，核七个sourceRef和真实caller、002前驱、12楼梯实绘步相、14行及未取菜交接的所读源码合同。仅治理候选，不重写原生业务或授当前运行/独立接受。",
+    "beforeAfter": "改前6273字节127行已有通用治理封套，具体业务/版本/日期边界缺释义；改为16字段、7短引用、真实primarySource读域与003专属oracle/反例/历史。现5301字节原生前缀及全部16key/值/顺序/数组/日期不变；原110行5294字节与现格式仅native对象等值，不声明字节逆回。",
+    "primarySource": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-003.json",
+        "gitRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+        "sha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+        "readScope": "原110行全文；16native字段、数组和日期。历史源，不是当前游戏raw。"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-003.json",
+        "gitRevision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+        "sha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+        "readScope": "改前127行全文含既有_governance，下方history完整保留原治理对象。"
+      },
+      {
+        "path": "docs/testing/_templates/test-machine-evidence.json",
+        "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "readScope": "all46 lines generic execution example, separated from applicable audit variant"
+      },
+      {
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+        "readScope": "all655 lines in readonly-harvest commands03+04; source only, no function invoked or underlying script/scene/locale data opened"
+      },
+      {
+        "path": "scripts/e2e/kitchen-journey.mjs",
+        "sha256": "1fba1d579eed458e9204ad6dc63d519ac560b9d67883209e6b1cc4251720ded3",
+        "readScope": "all503 lines in readonly-harvest command05 1-225/306-503 and06 226-305; sed306-510 stopped at actual EOF503; not launched"
+      },
+      {
+        "path": "scripts/e2e/kitchen-game.mjs",
+        "sha256": "9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142",
+        "readScope": "all3 lines"
+      },
+      {
+        "path": "scripts/e2e/kitchen-reforge.mjs",
+        "sha256": "5d90460221e58842879fc3d0da09a49f4575a65f0e609a63d9d5a6c4f5c23b67",
+        "readScope": "all3 lines"
+      },
+      {
+        "path": "scripts/e2e/kitchen-both.mjs",
+        "sha256": "1a64a8af4098290c38e01b0a873c61616abc1d134fa0312c6e06a840a05c140e",
+        "readScope": "all98 lines; no children or recompare launched"
+      },
+      {
+        "path": "docs/phase-governance/templates/registry.json",
+        "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "readScope": "test-machine-evidence-v1 identity/version/format/requiredGovernance/historyRule plus full document-audit-v2 definition only; other variants/entire824 registry not fresh reviewed"
+      },
+      {
+        "path": "scripts/e2e/kitchen-observer.mjs",
+        "sha256": "583e846bae766bf04ceb63edd91c1d7bdeb818b10f2b12e7f5904d195454cdca",
+        "readScope": "1-280; seven-ref1-115 plus render-span/events/pages/party-frame/restore hook scope;281-500 not semantically read, rg matches discovery only"
+      },
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "readScope": "122-228, shared assertInnHandoffPayload/assertInnStoryHandoff and assertInnRestoreCommitted complete; few readInnContract file-list lines at end not full dependency review"
+      },
+      {
+        "path": "scripts/e2e/opening-frame.mjs",
+        "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+        "readScope": "20-49: entire openingFrameMatches and initial wait helper only;50-58 not read"
+      },
+      {
+        "path": "scripts/e2e/reforge-opening-policy.mjs",
+        "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+        "readScope": "75-91 openingSaveView complete only"
+      },
+      {
+        "path": "scripts/e2e/browser-journey.mjs",
+        "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+        "readScope": "175-224 newContext/IndexedDB plus rg297-298 report.json writer discovery; no full300-line browser lifecycle read or cleanup proof"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "readScope": "168-170 version sourceRef only; rest351-file hash only"
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+        "readScope": "1-16 SAVE_VERSION12; rest54-file not read"
+      },
+      {
+        "path": "docs/testing/catalog.json",
+        "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+        "readScope": "one full e2e-003 record;002/004/contract id/canonical/status/evidence/dependsOn fields only"
+      },
+      {
+        "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+        "sha256": "9ff07f4aa0470a8949e39313657ee85922abf0e59e2170cae78709603cc1aac8",
+        "readScope": "frontmatter/testing-meta1-9, current18-58, historical103-130 only; rg other matched snippets discovery; not full204-line report re-audit"
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "readScope": "98-149 and239-284 current complete-frame/dialogue/minimal-rerun/preview/hard-gate contract; no full548-line audit"
+      },
+      {
+        "path": "package.json",
+        "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+        "readScope": "12-21 E2E script keys;003 dispatch18-20 used, others inventory"
+      }
+    ],
+    "fieldReadings": [
+      {
+        "field": "schemaVersion",
+        "meaning": "原生schema2是paired document-audit格式，不是通用execution示例schema1；不能机械改schema。",
+        "factOwner": "原生JSON与既有注册变体",
+        "applicability": "原始110行和当前127行完全同值。"
+      },
+      {
+        "field": "id",
+        "meaning": "e2e-003稳定绑定下楼、道士与厨房交代canonical/catalog/evidence，不是新runID。",
+        "factOwner": "唯一catalog配对身份",
+        "applicability": "本次只核身份，不声明阶段执行。"
+      },
+      {
+        "field": "kind",
+        "meaning": "实际kind=document-audit，结合performed=false满足现有1.5.0/document-audit-v2。不是按e2e路径套执行证据，也无需新变体。",
+        "factOwner": "原生kind与注册requiredValues",
+        "applicability": "原发布类型保持。"
+      },
+      {
+        "field": "status",
+        "meaning": "verified与catalog相同，属于catalog-publication轴，不授当前源版本/完整演出/preview/runtime通过。",
+        "factOwner": "唯一catalog状态轴",
+        "applicability": "不延长lastVerified2026-10-02/reviewBy2026-11-02。"
+      },
+      {
+        "field": "candidateSha",
+        "meaning": "d02278dc0154dd73b5db24388a35c30bb096cc81是2026-10-04 source-and-publication-audit候选；不代表本轮治理候选或10月1日两份实跑的共同revision。当前sourceRefs匹配不反推d022运行。",
+        "factOwner": "原native history及配对metadata",
+        "applicability": "历史候选不改；sourceHash当前匹配不反推原d022运行。"
+      },
+      {
+        "field": "versions",
+        "meaning": "content22/minimumSave11随d022原审计保留；现character168-170为22/min12，RF SAVE_VERSION12。Game仍核type-pal-save/gs原生形状，不能套RF version12。",
+        "factOwner": "历史versions与当前源码常量分开",
+        "applicability": "不把旧SAVE9/10/11历史数据作为当前前驱。"
+      },
+      {
+        "field": "sourceRefs",
+        "meaning": "七项全部真实hash/anchor/范围匹配：Game桥、002前驱、楼梯、终态、版本、trace consumer、collector。楼梯/终态两处oracle及trace consumer引文均不完整，前驱ref也不包括return尾部或共享helper；不能由短引文代替完整业务合同。",
+        "factOwner": "真实源码绑定与扩展实读范围",
+        "applicability": "source-only；所有native引用保持不变，额外解释放治理对象。"
+      },
+      {
+        "field": "publicCallers",
+        "meaning": "003/game与reforge三行桥到runKitchenJourney；both需--game-report/--reforge-report分别传--from。单轨--from真实002报告，both拒capture；只读源码未启动。",
+        "factOwner": "package18-20、三桥/双轨调度源码",
+        "applicability": "both要求同revision/sourceHash/rows及子route/core passed，不把两份旧异SHA独立run合并。"
+      },
+      {
+        "field": "legalInputs",
+        "meaning": "同引擎passed002，route/core/choreography passed，002.end.save.json原字节/hash与payload、end/restored world及其hash一致；合法起态、Canvas和共享inn handoff另按以下来源核。正常held输入计划不跳场景、不取菜。40hex仅语法，sourceDifferences只记录，均非当前HEAD/producer真实性认证。",
+        "factOwner": "kitchenArguments/validateKitchenPredecessor及实际journey",
+        "applicability": "与002较弱前驱合同不同，须按003自身来源解释。",
+        "sourceObligations": [
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:35-88,90-205",
+            "reading": "单轨--from要求同引擎002/name/fragment、profile非capture；end/restored world完全相等，payload投影等于endWorld。Canvas正尺寸/非黑阈值/64hex及restored对end尺寸SHA精确匹配。Game type-pal-save/gs大厅4、RF12/content22/pal/s003和各自合法持久起态分别核，不将RF格式套Game。"
+          },
+          {
+            "source": "scripts/e2e/inn-contract.mjs:122-228; scripts/e2e/opening-frame.mjs:20-49",
+            "reading": "共享assertInnHandoffPayload/StoryHandoff保第一日大娘合法交接、待触发状态；openingFrameMatches要求正尺寸/nonBlack至少20%，对expected比较尺寸/SHA。这些字段一致性不能证明真正像素或生产存档来自可信执行。原生117-199引文不包含函数205尾或这些helper。"
+          },
+          {
+            "source": "scripts/e2e/kitchen-journey.mjs:1-225,306-503",
+            "reading": "读取前驱真实报告与checkpoint字节后bootstrap，记录predecessorSourceDifferences而非自动拒绝差异。正常输入走route/楼梯/对白/厨房，verify Game F5 Save.loadSlot/serialize，RF checkpoint那次production barrier dumpSave的结果写字节，post-resume另调另记；assertKitchenEndPayload后fresh-context恢复，RF核同步restore commit，postResumeWorld另记，Canvas同引擎精确比较。capture先核live终态并返回，不产verify结束档/正式恢复证明。未运行，不审未读helper的完整内部实现。"
+          }
+        ]
+      },
+      {
+        "field": "businessOracle",
+        "meaning": "003的楼梯、对白与未取菜交接合同见以下五组源义务；原生三条摘要和七个短sourceRef均不等于完整演出或本次运行。",
+        "factOwner": "kitchen-contract293-354/397-479/481-655与503行实际journey",
+        "applicability": "完整函数源存在不等于本轮观测；相关NPC完整演出/preview另验。",
+        "sourceObligations": [
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:499-594",
+            "reading": "stairs窗口内仅筛选Game commit:applyRawOpcode或Reforge commit:nudgeParty的party实际位移，精确12次，投影delta交替[10,10]/[6,6]。每次与下一次提交（末次为endOrder）之间，须有同位置实绘记录、right/walking、draw和commit的stepFrame相等、相邻phase按mod4递增、layer0、Game2/RF li-xiaoyao精灵、9+[0,1,0,2]帧索引和正尺寸，至少3个不同步行帧；并非只数12或核131,52终点。此谓词核记录字段，不独立认证生产像素。"
+          },
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:293-354; scripts/e2e/kitchen-journey.mjs:226-305",
+            "reading": "固定14行56/57/58/145/146/148/149/150/152/153/155/156/126/127。text与speaker均按源码normalize去空白和末尾冒号；以真实page instance/累计行序核未缺行、未倒退和未重播。driver的complete=false只用于逐段消费进度，最终assertKitchenTrace用默认complete=true核全14行。未读运行期原locale/作者数据，未观察本轮真实页面或对白槽完整显隐。"
+          },
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:397-497",
+            "reading": "停止于126/127后控制返回、桌菜可见而未取。Game核场景2/500现金/库存不变/sprite2、e56隐藏、厨房e19=2/e20=1和L_560/L_583/L_604、resume ip626及前驱持久状态。RF核s001/500、flags/vars/inventory/party保持、无端菜208、e19选中flow精确126/127；e20 ready body须真含141/142、换208与隐藏e20命令，但cursor仍undefined。ready body存在不等于执行004。独立kitchenEndPresented还核final/presented控制、大娘朝上与呈现frame6；不冒称完整NPC逐帧验收。"
+          },
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:595-642",
+            "reading": "首个菜启用progress必须在dlg153之后、dlg155之前。大娘首个实际位移晚于dlg58；129,66→129,61→124,61按序有commit端点，首次隐藏晚于最后端点，厨房替身e19激活早于大厅e56首次隐藏。没有从这些find/终态谓词推出全程不再现或无缺帧；相关完整演出另验。"
+          },
+          {
+            "source": "scripts/e2e/kitchen-contract.mjs:499-533; scripts/e2e/kitchen-journey.mjs:340-503",
+            "reading": "trace须overflow=false/errors=[]；events/pages/frames/worldRenders/causes/restores/resources分别seq连续，合并order连续和atMs不逆行，actor before按sceneVisit/scene/id连续。journey最终调用该完整consumer，verify随后正式保存和fresh-context恢复；capture提前return。本次未调用这些业务函数，不能授runtime/visual/preview/capture-ready。"
+          }
+        ]
+      },
+      {
+        "field": "dedupe",
+        "meaning": "旧reviewed/against002、004为历史业务边界/排重声明；notes明确004取菜入口核读不计003实跑。不代表本轮审过002/004完整正文或测试去重。",
+        "factOwner": "原publication边界声明",
+        "applicability": "本轮不新增测试/覆盖率计数，不自授reviewed。"
+      },
+      {
+        "field": "claims",
+        "meaning": "唯一e2e-003-source-contract是source-backed，七个locator逐项对齐sourceRefs；不得改成runtime-backed或推出当前完整003/001-006通过。",
+        "factOwner": "原claim显式范围与实际七绑定",
+        "applicability": "source-only，非新runtime。"
+      },
+      {
+        "field": "runtimeExecution",
+        "meaning": "performed=false/rawArtifacts=not-present-in-isolated-checkout/claimScope=historical-publication-only保持原审计时点含义。另在2026-10-17T22:15:17Z对本隔离树32个相关位置做metadata探测均absent，未打开或hash游戏raw。原run各自树、Owner及retention未知，不能据此断言全仓或历史从未执行。",
+        "factOwner": "原时点/checkout与本次metadata观察分别负责",
+        "applicability": "未打开/哈希游戏raw，也未核原tree存储/retention/Owner。"
+      },
+      {
+        "field": "findings",
+        "meaning": "五条原文/顺序保持：10-10对白留显source刷新不授完整链；10-08补录待冻结是当时状态；10-06采集/消费SAVE12只核源码；10-06版本说明保d022/11与未运行；两份旧异revision独立run和004相邻核读不计003覆盖。须区分10月1日旧批次、10月7日新批次和10月11日后继，不混成今天进度。",
+        "factOwner": "各日期原说明和配对canonical选段",
+        "applicability": "旧待做句或旧through记录都不自动续期/抹去。",
+        "dateReadings": [
+          {
+            "index": 0,
+            "date": "2026-10-10",
+            "reading": "原文只刷新sourceRefs/anchor，完整对白槽draw/显隐义务指向原连续卡/局部验证。未全文读这些后继证据，不从本条授完整001–006或preview。"
+          },
+          {
+            "index": 1,
+            "date": "2026-10-08",
+            "reading": "工具尚未冻结/未补录是该时点声明；不转成2026-10-18当前进度，也不抹去canonical其他批次的历史记录。"
+          },
+          {
+            "index": 2,
+            "date": "2026-10-06",
+            "reading": "SAVE12 collector/consumer及worldRenders/sceneVisit/实绘步帧是源码更新，不是SAVE12 runtime通过；drawn与selected/world-pass-only不混称生产像素。"
+          },
+          {
+            "index": 3,
+            "date": "2026-10-06",
+            "reading": "现源22/min12与原candidate/versions22/11分开，原未运行声明不改；旧待验句的当前状态须另看实际任务/冻结回执。"
+          },
+          {
+            "index": 4,
+            "date": "undated original note",
+            "reading": "10月1日两份异revision独立run不能合成同SHA both；不否定10月7日独立的新both批次。004取菜相邻源码核读不计003执行覆盖。canonical仅核1-9/18-58/103-130，未复验历史raw或后继所有counter。"
+          }
+        ]
+      },
+      {
+        "field": "artifacts",
+        "meaning": "[]是本document-audit未附原游戏产物，不应填本轮docsconsumer日志。当前build/e2e及32相关位置metadata均absent，仅是此checkout此时观察，不说明历史从未存在。",
+        "factOwner": "原发布数组与本次路径元数据",
+        "applicability": "raw bytes未知/未打开；存储owner/retention未知。"
+      },
+      {
+        "field": "history",
+        "meaning": "唯一2026-10-04 d022 source-and-publication-audit及notRun runtime/E2E/coverage不变；后续治理历史只入_governance，旧governance2026-10-17也保留但不恢复R60完成信用。",
+        "factOwner": "原审计历史",
+        "applicability": "本轮治理修订只记_governance；原生history、日期和notRun保持。"
+      }
+    ],
+    "sourceRefReadings": [
+      {
+        "index": 0,
+        "meaning": "kitchen-game:3只调用Game桥；Reforge/both另有独立已读source，不能由此一ref代表全部caller。",
+        "path": "scripts/e2e/kitchen-game.mjs",
+        "declaredRange": "3-3",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 1,
+        "meaning": "117-199包含前驱检查及末尾assertInnHandoffPayload调用，但函数实际到205；还依赖predecessorView35-88、openingFrameMatches20-34及共享inn handoff。不是仅passed+hash，亦非HEAD/真实producer认证。",
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "declaredRange": "117-199",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 2,
+        "meaning": "534-557覆盖party真实commit筛选、12计数、交替delta和frame查找开头；558以后walking/phase/frameIndex/3帧等完整义务不能省略。",
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "declaredRange": "534-557",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 3,
+        "meaning": "395-412先含上一函数收尾，assertKitchenStoryEnd实际397开始；这里只覆盖Game分支前部，不覆盖RF flags/vars/party/selected flow/未激活菜cursor或控制呈现。",
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "declaredRange": "395-412",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 4,
+        "meaning": "character168-170精确content22/minSave12；RF SAVE12来自save/types9，历史versions11不更新。",
+        "path": "packages/content/src/character.ts",
+        "declaredRange": "168-170",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 5,
+        "meaning": "497-518先是presentation函数尾，499进入assertKitchenTrace，ref只到timeline循环开头；未完整包含global order/clock、14行、楼梯与大娘/菜偏序。",
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "declaredRange": "497-518",
+        "hashAndAnchorMatched": true
+      },
+      {
+        "index": 6,
+        "meaning": "observer1-115是world clock与actor-render span前半；计数events8000/pages800/partyframes4000/restore2及hook在额外已读105-280，不能套002的6000/600/32MiB配置。未审共享recorder默认预算或281-500生产桥。",
+        "path": "scripts/e2e/kitchen-observer.mjs",
+        "declaredRange": "1-115",
+        "hashAndAnchorMatched": true
+      }
+    ],
+    "currentAudit": {
+      "date": "2026-10-18",
+      "sourceWorkspaceBase": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+      "kind": "author-source-and-native-field-audit",
+      "runtimeExecutionPerformed": false,
+      "nonAuthorReviewer": false,
+      "acceptance": "pending non-author review; template structure and central binding are not author-granted completion",
+      "publication": {
+        "owner": "docs/testing/catalog.json:e2e-003",
+        "status": "verified",
+        "lastVerified": "2026-10-02",
+        "reviewBy": "2026-11-02",
+        "meaning": "原发布轴与日期保留，不续期runtime/视觉/preview或R60完成信用；canonical拥有其各批次历史说明。"
+      },
+      "versions": {
+        "historicalNative": {
+          "content": 22,
+          "minimumSave": 11,
+          "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81"
+        },
+        "readCurrentSource": {
+          "content": 22,
+          "minimumSave": 12,
+          "reforgeSave": 12
+        },
+        "limit": "Game原生type-pal-save/gs分别核，不写RF12到Game；当前hash相同不反推旧d022实跑。"
+      },
+      "nativePreservation": {
+        "prefixBytes": 5301,
+        "prefixSha256": "00ed42ae233338691538403222ccce3356d19b1db977eecdbd1b6dda18a08c55",
+        "keys": [
+          "schemaVersion",
+          "id",
+          "kind",
+          "status",
+          "candidateSha",
+          "versions",
+          "sourceRefs",
+          "publicCallers",
+          "legalInputs",
+          "businessOracle",
+          "dedupe",
+          "claims",
+          "runtimeExecution",
+          "findings",
+          "artifacts",
+          "history"
+        ],
+        "policy": "所有_governance外值/键序/数组序/日期保全；不向native artifacts填写本轮docs日志。"
+      },
+      "callerChain": [
+        "package e2e:003/003:reforge → 各三行桥 → runKitchenJourney；单轨--from同引擎真实002报告",
+        "e2e:003:both → 两个独立子进程，各接--game-report/--reforge-report作为--from；源码核子route/core、同revision/sourceHashes/14rows后调用recorded parity",
+        "both拒capture；未启动任何桥/子进程/浏览器、parity helper未阅读全文或执行"
+      ],
+      "predecessorBoundary": "源码核002 route/core/choreography、原字节/完整world/Canvas/handoff一致；40hex只是revision语法，记录sourceDifferences不是自动拒绝/无影响证明，也不认证生产者。当前接受仍需真实来源/差异影响判断。",
+      "collector": {
+        "readScope": "kitchen-observer1-280；281-500未读，rg命中仅发现",
+        "countsInReadSource": {
+          "events": 8000,
+          "pages": 800,
+          "partyFrames": 4000,
+          "worldRenders": 60000,
+          "restoreCommits": 2
+        },
+        "limits": "仅源码计数/actor-render span/hook定义。共享recorder默认字节预算未读，不填002的32MiB；未核collector后半生产桥或全NPC像素接线。"
+      },
+      "rawAvailability": {
+        "observationAt": "2026-10-17T22:15:17.686532+00:00",
+        "checkout": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "checkedLocations": 32,
+        "result": "32个精确相关位置metadata均absent，含build/e2e；这里只重用冻结harvest观察，不称本秒重探测",
+        "contentOpened": false,
+        "contentHashes": "not computed",
+        "originalOwnerAndRetention": "unknown; absent here does not deny historical runs"
+      },
+      "notReadOrRun": [
+        "Full204-line canonical and all raw/history dependencies",
+        "Any actual game raw/report/save/trace/screenshot contents; no content hashes of game raw",
+        "Underlying extracted script data/author scenes/locale that readKitchenContract reads at runtime",
+        "kitchen-observer281-500 production bridge, recorder default budgets, input-plan/replay/recompare helper implementations",
+        "Full adjacent002/004 reports or product tests/coverage",
+        "无public runner、Game/RF runtime、browser/visual/audio/preview/capture、旧产品测试或coverage执行；源码只读与本轮docs consumer分开。"
+      ],
+      "templateChoice": "现有1.5.0/document-audit-v2足够；不改schema/native配对或引入artifactOnly/新变体。"
+    },
+    "counterexamples": [
+      {
+        "case": "12个commit/131,52终点成立但间隔无draw或站姿滑行",
+        "sourceDistinction": "完整499-594还核间隔同位置实绘、right/walking、phase/frameIndex和三帧；计数/终点不够。这里只推源码判别义务，未执行反控。"
+      },
+      {
+        "case": "driver complete=false看似放宽14行",
+        "sourceDistinction": "分段消费调用允许partial；最终assertKitchenTrace默认complete=true核14行和speaker/累计序。数量不代替正文/显隐证据。"
+      },
+      {
+        "case": "ready flow含141/142/208所以已取菜或已覆盖004",
+        "sourceDistinction": "RF终态同时要求cursorundefined、inventory/party不变且无端菜208；准备真实后继body与实际执行分开。未运行003或004。"
+      },
+      {
+        "case": "40hex/hash/Canvas字段自洽所以是真实当前HEAD运行",
+        "sourceDistinction": "validator核形状/字节/一致性；不认证producer或HEAD，sourceDifferences也未自动拒绝。真实raw与来源链另验。"
+      },
+      {
+        "case": "大娘到点/首隐/终隐即可推出全程不再现或无缺帧",
+        "sourceDistinction": "003按499-655的find和时序字段解释，未新增全区间谓词；S06已出现hidden→visible→hidden仍过部分source谓词的反例，不能类推成003真实缺陷或全链允许再现。完整帧/actorRecording另验。"
+      },
+      {
+        "case": "verified/source-backed/performedfalse互相冲突，或raw缺失说明历史未运行",
+        "sourceDistinction": "发布、源码和本审计非执行分别有事实权；32路径absence仅冻结时点隔离树元数据，原树/Owner/retention未知。"
+      },
+      {
+        "case": "10月1日异SHA独立run不可both，所以后来both也无效；或旧待做永远未做",
+        "sourceDistinction": "canonical所读1-9/18-58/103-130区分10月1日两候选、10月7日两个新批次及10月8/11说明。未全文复验后继卡/raw，既不授今日全通过也不否认所有历史运行。"
+      },
+      {
+        "case": "七hash/模板/consumer零问题等于全文业务/视觉/preview验收",
+        "sourceDistinction": "短ref不涵盖完整consumer/producer；本轮未读observer后半、未打开运行期原数据/raw、未验全槽显隐或preview，作者自验不能代非作者接受。"
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-10-17",
+        "scope": "historical R60 envelope only; withdrawn completion is not restored",
+        "preservedGovernance": {
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.5.0",
+          "variant": "document-audit-v2",
+          "lastReviewed": "2026-10-17",
+          "owner": "Codex",
+          "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+          "sourceSha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+          "sourceGitObject": "ed0692f2794b072431743e3a15cd4e08e9e3d59b",
+          "scope": "Document-audit of e2e-003; original versions/candidate/claims/history retained. No new runtime execution.",
+          "beforeAfter": "Original flat paired E2E audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
+          "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
+          "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+        }
+      },
+      {
+        "date": "2026-10-18",
+        "scope": "S07 author governance-only source semantic candidate after explicit build allowed",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": false,
+        "nativeHistoryUnchanged": true
+      }
+    ],
+    "stopLine": "仅_governance可写；不改catalog/canonical/sourceRefs/原生status/版本/日期/raw。源码存在、历史verified或字段/模板消费不能授当前runtime/完整NPC帧/对白槽显隐/preview/visual/capture-ready。原数据、生产桥、raw或前提不足时对应结论unknown；新产品取舍交root，不自创。作者不授reviewed/template-compliant/global通过/1838完成，旧失败及S06counter独立保留。",
+    "nextStep": "冻结本篇精确候选后由非作者按原110/前127/新全文与具体一手读域、反例、native/prefix和真实consumer逐项复核；只有root另行接入中央绑定。实际执行接受须按当时任务准入、真实前驱/版本/来源差异及原raw重核，完整演出/preview另验；当前全卡rework，不合main或done。"
   }
 }

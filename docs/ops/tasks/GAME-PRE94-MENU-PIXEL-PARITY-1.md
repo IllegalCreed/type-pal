@@ -1,6 +1,59 @@
 # GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复pre94 CODE48/49/50登记的三处菜单显示分歧：①仙术死亡头像——draw-magic.ts无条件满色blit而SDLPal HP==0时bPoisonColor=0经PAL_RLEBlitMonoColor绘黑白；②单人装备选人框——draw-equip.ts rows=max(1,party-1)多出空白高度而SDLPal传wMaxPartyMemberIndex单人即0；③物品使用目标框——draw-inventory.ts在ITEMBOX(120,80)前多绘(+5,+5)shadow而SDLPal仅正常blit。2026-10-20用户批准②③与①显示兜底（“仙术页做兜底死亡黑白头像也可以”），①中机械增加死亡头像分支未批、战后复活可达性另核（SDLPal battle.c:1808-1815仅won调PAL_BattleWon、TS finalizeBattle先写回HP再cleanup不复活、startBattle下一战斗入口才HP0→1）。
+
+## 范围
+
+仅三处显示分歧，非94–102扩展；不改状态机制、存档、资源或公共跨包接口；①以独立palette低位像素oracle、②以真实边框/背景行像素、③以额外shadow位置原背景像素为oracle。
+
+## 前提与证据
+
+固定源全文核读。与GAME-MAGIC-PLAYERINFO-STATUS-1共用present窗口：实现已完成用户批准范围，原始先红后修与后继重放、共享纯提取快照、真实菜单三阶段接线见窗口证据；31文件163定向/相邻通过、无运行诊断、game typecheck通过。完成裁定：共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见集中回执；HP0为批准的防御显示，未声称完整逃跑生产路径已测。锚点:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 验收
+
+done只授本卡显示合同与明确文件结论；不授48/49/50整卡信用；浏览器观感/E2E沿原卡集中延后。
+
+## 状态与交接
+
+done保持原语义；治理不重开。当前83卡仍15accept/68partial，48/49/50不提前关闭。
+
+## 历史范围
+
+原卡属固定main时点；范围为三处菜单像素显示子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-21完成裁定，批准显示范围完成。
+
+## 当时证据
+
+当时回执属原时点证据：三处真实framebuffer红例先行、31文件163定向相邻零诊断；本页不重跑、不复授。关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 当前有效性
+
+仅历史任务归属有效；战后复活可达性证据提示可达但未构造真实战斗逃跑→大世界菜单证明；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+present窗口与GAME-MAGIC-PLAYERINFO-STATUS-1共用；父卡QUALITY-PRE94-RETROSPECTIVE-1继续。 关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4727B / SHA-256 6e704c62391a17b9a7822f4d6a9e1b13f54b406cb975423a125b8851fc3195c0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧
+
+Status: done
 Owner: Codex
 Reviewer: Codex（不冒充第三方）
 Coding Owner: Codex
@@ -40,3 +93,5 @@ Codex唯一Owner；与GAME-MAGIC-PLAYERINFO-STATUS-1共用present窗口。①死
 ## 2026-10-21 完成裁定
 
 批准显示范围已完成；共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见[集中回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。只授本卡显示合同与明确文件结论；HP0为批准的防御显示，未声称完整逃跑生产路径已测；浏览器观感/E2E仍沿原卡集中延后，不改状态机制/存档/资产或跨包公共接口。
+```
+<!-- incremental-original-source:end -->

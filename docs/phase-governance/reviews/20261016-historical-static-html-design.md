@@ -2,38 +2,47 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「三份静态 HTML 历史原型：格式合同与 bootstrap 准入」的冻结设计归档：为 docs/phase2/archive/mockups/ 三原型（actor-mode-v1 266 行/actor-mode-v2 291/place-mode 254，共 811 行）拟冻结 archive-record-v1 父 1.1.0＋唯一 historical-static-html-v1 变体；分阶段准入只到阶段 A（bootstrap 三文件）。原提案、精确合同补充与 C-HTML-3 同步 parser 补充在三层 quote 中保全；设计不授任何原型迁移 credit。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- 三份静态HTML历史原型：格式合同与bootstrap准入：原始正文完整保留于下方 quote。
+- 事实判断：三原型均纯 parse5 解析（每篇 html/head/body/style＋三个顶层 div、无 script/事件属性/资源/id、parse error 0）；v2 body 与 v1 逐字节相同仅新增 25 行样式（19 个未用 class）；place 画布明写「复用 reforge 渲染（此处为布局占位）」；原作者/日期 unknown，v1/v2/v3 是 title 内原型名不是版本。
+- 合同要点：唯一 owned span（BEGIN/STYLE/DETAILS/END 精确文法）插入 closing body 前；CSS 唯一字面 1,475B（SHA `a68216e8…`）只作用于治理 ID；删除 span 后 Buffer 逐字节恢复原源为主证＋parse5 AST 投影第二证；13 对可见 dl metadata 是唯一机器读取源；source 固定 `33cc2df5…` 三 tuple。
+- 分阶段准入：阶段 A 仅 package.json/pnpm-lock/.github-workflows/docs.yml 三文件（parse5=8.0.1 devDependency＋full-history CI bootstrap）；B 六代码路径、C 根库存、D 68 版本位置滚动与 62 历史叶锁、E actor-v2 单篇 pilot 均另准。
+- C-HTML-3：parser 必须同步按需加载（无 node_modules 的合法 Markdown/JSON/F1 caller 不得先崩）；第 9 review 文件（templates/README current）与 62 历史叶锁补入维护域。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 三个真实 probe（无尾 LF byte inverse/AST 双证、UTF16 vs byte offset 反例、同步 loader 四态）与旧 15 项 caller 基线 15/15 复跑；全部 /tmp 证据 SHA 在 quote 内。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。当前注册表仍 archive 1.0，未发布 HTML 变体；其余 12 testing HTML 不套本格式。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-historical-static-html.json`（同目录）：仅依赖/历史 bootstrap 三文件前置准入及六待核库存；阶段 B–E 未开。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411`（blob `087d112cf9e911cbb01ea6038d3152fb7847f8cd`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`，70535B。
+- 第 2 层：SHA `cf47a77ea7775512f6df959276d9cc0ac45312ab568ec924b033196d07fc1eb3`，67970B。
+- 第 3 层：SHA `2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411`，65333B。
+
 <!-- original-source-quote:start -->
 > # 三份静态HTML历史原型：格式合同与bootstrap准入
 >

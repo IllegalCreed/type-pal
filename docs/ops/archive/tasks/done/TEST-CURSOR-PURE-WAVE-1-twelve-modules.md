@@ -1,55 +1,63 @@
 # TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Cursor
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（纯数据与状态合同；不作视觉验收）
+Production Base: `19b0101ced90fe39acadfa27f9890604753be25b`
+Suggested Branch: `codex/cursor-pure-wave-r1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 三包十二模块（content frame-sequence/script-library/stamp/item、reforge dither-transition/screen-fx/project-map/script-chunk-store、editor item-references/battle-data-references/asset-diagnostics/stamp-ownership）纯逻辑补测历史卡（2026-09-27）：首轮 counter 三项反证（A01 压缩产物非正式可解码帧序列/A02 错桶被完整校验拒绝且 getScriptBody 无生产调用者/B04 落非派生分片且 bytes 声明不符）经返工撤回 A02 后收口。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+对当前公开入口补确定性回归：合法最小输入经生产编码/校验、边界/失败路径与旁对象保真；旧 fast LCOV 252 未命中臂仅选题池不承诺可达。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：十二目标各至多一个 *.cursor-boundaries.test.ts、三包各一个 fixture、cursor-pure-wave/{a,b,c,tools} 证据。
+- 范围外：生产源/旧测试/配置/基线/资产/E2E/GLM 十六模块/暂停帧编辑 WIP；从 TEST-GLM-STATE-COMMANDS-1 rework 候选复制 fixture。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+最强反例四条（旧测试已证/伪造非法 fixture 穿中间纯函数但保存门前被拒/只比较实现自身输出/提早 mock 被测函数）由正控+故障反控+非目标断言回应；每包两针共六针须本包新增测试自身恰一条业务 AssertionError 红。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：最终 7 项新测试（A3/B2/C2），A02 非法错桶/无消费者撤回不凑覆盖；返工候选 bd8876e4 accept——隔离树定向 7/7、三包 typecheck、11 文件 Biome 0、六针确切业务红；完整 check 9966、lint 2309 零、官方 ratchet 与保护 c442dcb7 单次 strict-fast exit0；+5 已覆盖臂/+2 统计臂；两个 fixture 模块入官方源码清单作范围变化披露。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+Cursor 为测试贡献者、自验不作独立证明（当前模式）。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-27 准入、首轮 counter、返工与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：十二模块批经一轮 counter（三项直接反证）返工后按统一门收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+codex-intake-review.md（首轮 counter）与 codex-final-review.md；工作包冻结 README。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。三包合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后继批[TEST-CURSOR-CONTENT-PURE-WAVE-2](TEST-CURSOR-CONTENT-PURE-WAVE-2-sixteen-modules.md)。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `8e3909d71f8e4e6dd5909ad6e3a9eb19fc39a6590ea1d6dda1daa1e211e03ee9`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `8e3909d71f8e4e6dd5909ad6e3a9eb19fc39a6590ea1d6dda1daa1e211e03ee9`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-PURE-WAVE-1 — 三包十二模块纯逻辑回归
 >

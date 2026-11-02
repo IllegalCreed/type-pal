@@ -1,40 +1,60 @@
 # ARCH-F2-CURSOR-BATCH-1 · Codex 首轮独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-CURSOR-BATCH-1 首轮接收（2026-09-26，候选 d0684e78，起点 8bf40b90）：整包 counter 转 rework；机械搬移事实接收不要求 24 组重做。未合候选、不更新官方覆盖率、不标 done；用户免手工验证由 Codex 接收。
+
+## Scope
+
+- 已核事实（不重开）：90 改动路径在 editor 命令/设计系统及证据目录，其它包/CSS/资产/锁文件/官方配置零改；commands.ts 原 139 顶层声明逐 token 保持、119 出口无缺无增；controls.tsx 78 声明 77 个逐 token 相同（唯一 draftSource 只补显式 : string 返回类型）；32 新生产模块、47 可达 editor 运行期模块无回引 barrel（类型擦除后核 import/export）；overflow 登记 11 条 producer 语义 diff 其余字段保持；定向 32 文件 344 项+recipes/reorder 57/57+editor 完整 check 313 文件/2,813 项 exit0（首轮 --ignore-scripts 缺 canvas native build 主动终止 143，链接同版本已编译产物验证真实 getContext 后重跑通过非重试挑绿）。
+
+## Execution and assertions
+
+- **R1 fixture**：直接抽取候选实际 factory 交现行守卫：command-contract.test.ts:15 enemyState 被 validateEnemies 拒「缺键 name」（stats 用非当前 EnemyDef 字段强转掩盖）；skill-commands.test.ts:12 被拒「缺键 animation」；asset-label-command.test.ts:8 被拒 authored 资源不在 assets/authored/；ambience-commands.test.ts:45-59 标题宣称 blocks in-use delete 实际只手工 new 错误对象查文案随后零引用删除成功；单点移除 ambience-commands.ts:104 引用阻断新用例仍绿、旧 commands.test.ts:1866 真实守卫测试业务红——不要求重复造新守卫测试，收窄标题/回执将已有测试与其单点反控列为 C07 证据；不依赖 as unknown as EditorState 掩盖域对象错误
+- **R2 负控判据**：module-mutants.mjs:315-322 取任何一行含 AssertionError 再仅比较 leaf title：普通 Error 内嵌 AssertionError 子串判 true；错误文件/错误 fullName 相同 leaf title 判 true；:294 仅 basename 匹配未钉绝对路径无命中标记；:268 正控只查 exit0 不核目标执行数、-t 未转义未锚定；抽跑 c07 负控确为对照绿/文案变异红——只证明错误文案不证明删除门，不能把 24 项作者账当本席独立通过；返工：运行判据核绝对文件+精确 fullName+预期执行数；变异源绝对路径唯一替换点具名命中标记；恰 exit1；逐 failureMessage 拒普通 Error/混错/超时；加真实判据自测（双反例/0 执行/exit2/null/未命中/混错/超时）
+- **R3 出口收口**：controls 旧出口 50→57：真实新增 2 runtime 值（draftSource/useDsDraftController）+5 类型——非回执写的 7 个类型（DsFieldControlProps/DsFieldHelp 本已公开）；移除不必要新增旧 barrel 出口保留原 50 与实际下层依赖；最终树 Biome 非全绿：module-mutants.mjs 与 text-overflow-adoption.json 各 1 formatter error（格式化复核即可；工具字符串插值是变异文本不能按 lint 建议改真实插值）；窄修后同步 24 行账/出口数字/证据类型/最终命令
+
+## Results
+
+- 见证工具 architecture-review-witnesses.mjs 只读候选源码、产品变异在隔离 Vite load 视图；fixture 提取与判据锚冻结于 r1。本轮不跑官方 ratchet/strict、不碰 6010；隔离浏览器最小功能验证由 Codex 在窄修接收后完成；三贤人固定签字暂停。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；机账链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 2026-09-26 | 机械搬移核验+R1-R3 反证 | counter 转 rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 cursor-architecture-batch 首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-CURSOR-BATCH-1 · Codex 首轮独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+机械搬移 90 路径/139+78 声明逐 token 核验接收；counter 三项：三个 fixture 被现行守卫拒+C07 标题与实不符（已有守卫测试可作证据）、负控判据误收双反例、出口多 7 与两处 formatter error。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1 抽取表、R2 判据反例、R3 出口清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由后续 integration 回执闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-F2-CURSOR-BATCH-1 后续回执。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `6ecce117529a98799dbfc97a07a3094dae20e959f099a676c0b446c7515de86b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `6ecce117529a98799dbfc97a07a3094dae20e959f099a676c0b446c7515de86b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-CURSOR-BATCH-1 · Codex 首轮独立接收
 >

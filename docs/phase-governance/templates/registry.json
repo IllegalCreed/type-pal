@@ -24,7 +24,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "current-governance-control-native-v1": {
+          "templateId": "governance-index-v1",
+          "variant": "current-governance-control-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Live authority, membership and physical ownership; child semantic credit stays separate."
+        }
+      }
     },
     {
       "docType": "task-card",
@@ -112,7 +123,155 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-document-relocation-v1": {
+          "format": "json",
+          "templateVersion": "1.0.0",
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lifecycle",
+            "lastReviewed",
+            "owner",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "reviewRecord",
+            "currentAudit",
+            "stopLine",
+            "nextStep"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false,
+            "_governance.currentAudit.historicClaimsReexecuted": false
+          },
+          "preservedSource": {
+            "kind": "historical-document-receipt-v1",
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          },
+          "purpose": "Historical from/to role and source map; not an executable current migration.",
+          "requiredFields": ["purpose", "directories", "entries", "_governance"]
+        },
+        "historical-document-preservation-v1": {
+          "format": "json",
+          "templateVersion": "1.0.0",
+          "requiredGovernanceFields": [
+            "templateId",
+            "templateVersion",
+            "variant",
+            "lifecycle",
+            "lastReviewed",
+            "owner",
+            "sourceGitRevision",
+            "sourceGitObject",
+            "sourceSha256",
+            "reviewRecord",
+            "currentAudit",
+            "stopLine",
+            "nextStep"
+          ],
+          "requiredValues": {
+            "_governance.lifecycle": "historical",
+            "_governance.currentAudit.runtimeExecutionPerformed": false,
+            "_governance.currentAudit.historicClaimsReexecuted": false
+          },
+          "preservedSource": {
+            "kind": "historical-document-receipt-v1",
+            "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+          },
+          "purpose": "Historical preservation/retirement claims with explicitly separate current source audit.",
+          "requiredFields": [
+            "baseline",
+            "plannedFiles",
+            "completedTaskReceipt",
+            "retainedRelocated",
+            "archivedTasksWithPreservedBodyAndSignatures",
+            "otherHistoricalSnapshotsWithPreservedBody",
+            "retainedMediaByteIdentical",
+            "sourceConsumersOnlyPathSubstitution",
+            "gameMechanicsBodyAndFormulasPreserved",
+            "historicalProofDigest",
+            "normalization",
+            "retiredArtifacts",
+            "failures",
+            "_governance"
+          ]
+        },
+        "historical-document-delivery-native-v1": {
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "d9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e",
+          "purpose": "Immutable historical governance-delivery receipts; current explanatory body remains at its existing unique review position; carrier identity never authenticates old execution.",
+          "historicalRoles": [
+            "author-contribution-ledger",
+            "readonly-review-verdict",
+            "candidate-acceptance-verdict"
+          ],
+          "requiredEvidenceFields": [
+            "nativeWitnesses",
+            "contextReferences",
+            "readDomain",
+            "fieldRoles",
+            "retention",
+            "historicalBoundary"
+          ],
+          "historyRule": "Preserve raw bytes, old source/after axes, original contradictions and withdrawal corrections; no current execution credit. S33 admission is six pilots only."
+        },
+        "historical-command-summary-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-command-summary-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-mutation-definition-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-mutation-definition-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-path-map-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-path-map-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-browser-host-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-browser-host-native-v1",
+          "format": "html-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "lifecycle": "historical"
+        },
+        "historical-evidence-receipt-artifact-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-evidence-receipt-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
+        },
+        "current-review-ledger-native-v1": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "current-review-ledger-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Explain a live review ledger and its ownership, history and safe storage without accepting child document semantics or old execution."
+        }
+      }
     },
     {
       "docType": "design-spec",
@@ -134,7 +293,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-ui-mockup-native-v1": {
+          "templateId": "design-spec-v1",
+          "variant": "historical-ui-mockup-native-v1",
+          "format": "html-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "c801f5fd5f9a59e1db4bac0babe8a6a1403bfcff",
+          "lifecycle": "historical"
+        }
+      }
     },
     {
       "docType": "plan-status",
@@ -178,7 +348,18 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "current-template-example-native-v1": {
+          "templateId": "reference-canon-v1",
+          "variant": "current-template-example-native-v1",
+          "templateVersion": "1.0.0",
+          "format": "json-native",
+          "metadataLocation": "existing-current-review",
+          "lifecycle": "current",
+          "purpose": "Editable JSON template example; placeholders and example statuses are not executions."
+        }
+      }
     },
     {
       "docType": "narrative-idea",
@@ -222,7 +403,17 @@
         "nextStep"
       ],
       "historyRule": "Preserve original date, claim, candidate SHA and applicability; append a corrective revision and replacement links without promoting historical execution to current verification.",
-      "format": "markdown"
+      "format": "markdown",
+      "variants": {
+        "historical-archive-record-artifact-native-v1": {
+          "templateId": "archive-record-v1",
+          "variant": "historical-archive-record-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
+        }
+      }
     },
     {
       "docType": "test-catalog",
@@ -734,6 +925,44 @@
           "preservedSource": {
             "baseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
           }
+        },
+        "historical-vitest-native-v1": {
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "current-review",
+          "sourceBaseline": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+        },
+        "historical-distilled-vitest-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-distilled-vitest-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-summary-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-summary-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-identity-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-identity-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "sourceCarrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b"
+        },
+        "historical-test-machine-evidence-artifact-native-v1": {
+          "templateId": "test-machine-evidence-v1",
+          "variant": "historical-test-machine-evidence-artifact-native-v1",
+          "format": "json-native",
+          "templateVersion": "1.0.0",
+          "metadataLocation": "existing-current-review",
+          "purpose": "Explain a fixed historical native artifact without rewriting its machine fields or granting execution credit."
         }
       },
       "statusPolicy": {

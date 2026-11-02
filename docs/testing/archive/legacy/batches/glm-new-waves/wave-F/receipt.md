@@ -1,40 +1,62 @@
 # TEST-GLM-NEW-F-1 交付回执（GLM Wave F）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-F-1 GLM 交付回执（分支 codex/glm-new-f-r1、生产冻结 ced193f4、目标 digest 27ee3a81；范围合规 git status 仅新增文件：10 同目录 glm-next-wave 测试+唯一 typed fixture app-script-kit.tsx+wave-F/** 证据，产品/旧测/共享配置/工程/基线零改动未触 A-E）；含 r2 返工节（响应 codex-review-F-9b015064 五项）。
+
+## Scope
+
+- 逐组旧证→新差异表（12 源全覆盖 10 测文件 22 用例）：F01 App+ScriptEditor（命令行双击弹窗回显 ms=17→取消零历史零 dirty 零草稿泄漏）、F02 PreviewCanvas（loading/error 精确消息+失败态 rAF 零调度）+FrameAnimationEditor（点击帧格计时器按 40ms 重锚播放不中断）、F03 DesignLab（缺省 fixture+23 链接唯一 aria-current+RF-25 舞台切换+lab-error）+ActorMode（陈旧 focusActorId 回落+非法 focusSection+空库禁用）、F04 BattleSpriteUploader（48×16 图集真实解码 3 帧+帧宽 10 精确失败文案「图 48×16 切不开」）+SpriteFrameWorkbench、F05 battle-trial-launch 真实 hook 驱动真实 transport（显式 config 经真实 admission 逐字段保真+URL 身份三元组+ack 前 start 未完成+window.open=null 释放独占+ack 前卸载 abort 投递）、F06 两 commands（apply 不改写传入 state 深快照互证+previous 首次 apply 捕获+UpdateSprite 篡改不污染 redo）。
+
+## Execution and assertions
+
+- **门禁**：新测 10 文件 22/22（新鲜 JSON file/fullName/status）+相邻定向 24 旧文件 233/233；editor typecheck 零诊断；精确 11 新增源文件 Biome 全零+wave-F 6 文件全零（全仓 lint 包装器 2644 文件 0/0/0 佐证）；docs check PASS（758 md/4033 links/234 tasks）；无既有文件修改
+- **反控 4 枚**：r2 判据隔离 needle-judge.mjs：候选整文件对照 exit0+executed>0+failed=0+skipped=0→注入全文件恰 1 次→临时副本注入恰 exit1（混错/skip/timeout/exit2 均 INVALID）→汇总 failed 恰 1 且 FAIL 行恰 1→FAIL 文件与临时副本绝对路径相等→fullName 与 --name 精确相等→AssertionError→executed 与基线一致→生产源 SHA 前后一致；任何路径 finally 清理；--selftest 七场景反例自测 SELFTEST-PASS（healthy=VALID；无判别力/非唯一注入/精确名不匹配/基线红/文件缺失=INVALID 无 needle-tmp 遗留）；四针全 VALID：N1 撤销按钮断言翻转（r1 .toBeDefined() null≠undefined 恒真判 INVALID 换 .toBeTruthy()）、N2 config toEqual({})、N3 失败消息替换、N4 framesPerDir 2→99
+- **功能视觉两条**：宿主 browser-host 6091 strictPort+blank seed 内存目录真实装载+Chrome 原生 gzip；drive-f.mjs playwright channel:chrome；四截图 SHA 齐备亲眼核验：F1 编辑弹窗回显 40（底层行 17 已提交）/取消后重开 17 不留草稿；F2 帧宽 10 失败文案+改回 16 三枚真实缩略图复启用；页面上方大段空黑区（editor.css 假定 App 壳层布局）不影响组件证据可读性如实登记；上传走页面内真实 Canvas→toBlob→DataTransfer（setInputFiles 在本宿主不稳定弃用）
+- **r2 返工五项**：①App 新测收集失败：vi.mock 工厂引用静态导入 memoryAuthorSaveStore（ReferenceError Cannot access __vi_import_…）——改工厂内 await import fixture 的 hoist-safe 装配（S15 判例）；②vitest-final.json 格式 error 重生格式化；③F05 扩展名 .tsx→.test.ts+createElement 去 JSX；④判据加固：INVALID 不再 process.exit 跳清理改 JudgeInvalid 异常流+finally；失败文件绝对路径精确相等+fullName 与 --name 精确相等+汇总 failed 恰 1；selftest 七场景；⑤新增 wave-F/README.md 索引（父目录导航留 Codex）；r2 复跑 22/22+233/233+typecheck 0+lint 0/0/0+docs PASS
+- **未证边界**：不冒充：F01 非完整保存/E2E、F05 不证战斗机制等价、F02 不生成产品资源、F04 不接资产发布；existing-proof：BattleSimulatorWorkbench（start 契约十例钉死组合端口 F05 补）；潜在产品观感项未开缺陷：PreviewCanvas 失败态无重试入口、上传器调色板失败共用「切不开」空数组分支——留 Codex/用户裁决；未跑官方 ratchet/fast/全仓 check/E2E；候选覆盖收益未在本分支测量（隔离分支百分比不得相加）
+
+## Results
+
+- 候选与登记：r1 38d849a1…（head 9b015064 已判 rework）；r2 候选 08371dc2…（返工五项单提交，登记 SHA 见下一提交）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；证据 JSON/判官/宿主链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1+r2 交付 | 2026-09-29 | 22 用例+4 针+2 视觉+五项返工 | r2 交 Codex 复审（后续 accept c5ecf694） | r1 rework |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave F 交付回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-F-1 交付回执（GLM Wave F）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+12 源 22 用例窄合同+四针 VALID（判据 finally 清理+绝对路径+精确名）+两条功能视觉四截图+r2 五项返工（hoist-safe/格式/扩展名/判据/README）；观感项两处如实登记未开缺陷。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+逐组差异表、门禁五项、反控表、视觉截图表、r2 返工与候选登记在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。回执按候选时点；r2 后续获 accept。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 Wave F r2 验收与 A-J 并集集成回执。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `24e428be87ea3a7213cd2d589c8561f1e54147f63280df1ece5fa5695253ed69`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `24e428be87ea3a7213cd2d589c8561f1e54147f63280df1ece5fa5695253ed69`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-F-1 交付回执（GLM Wave F）
 >

@@ -1,40 +1,63 @@
 # GLM物品六组：37027b2d固定清单复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 r6 固定清单复核（候选 `37027b2d…7615`，2026-09-27，本地/远端一致）的 Codex 回执：仍 **counter**——本轮无新业务要求或新反控针，未合候选、未改贡献者测试、不计覆盖。
+
+## Scope
+
+- 候选 37027b2d89e671a4442d0a405d99f9ce9efb7615；对象=原 R3 固定清单执行核验；机账 item-logic-r6-review-evidence.json。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 已过项 | external consuming 旧 effectResults 断言恢复、fixture 排序+块状 forEach、derived not-owned 保护、README 46/46 | 八针接收工具 | true/exit0/missed=[]；content 98 文件 1178/1178、executor 17/17、作者 46 对照+六针+10 自测均过；九文件 Biome 0/0/0 | R1/R2/八针/毒表/旧断言与零诊断不重开 |
+| R3 残项 | derived:85-89/217-220（三次 effectiveStat、GrantedStatuses、attackAll 打包一个快照；:125-127 Resistances 只拍 c）、preflight:82-86（noUse 现场造匿名 catalog）、ownership:126-134（负数/非整数拒绝无 before/after、toThrow 子串）、effects 14 处单输入助手漏 catalog、external 五处只拍 world | git diff 核 | ownership/effects 相对 2796124b 零 diff | 任务卡「I3 已具名/I5/I6 全部保护/负数已补」声明与代码不符——是可直接核对的事实，不是复核加门槛 |
+| R4 残项 | receipt 合计 I2=7/净增 45（真实 I2=8/净增 46）；resolve-stopped-skip 针 ID 改了但源码锚仍 targetIds（实际门为 stoppedTargets）；fullName 省略号；external 标题 | 回执核 | 数字/锚点不符 | 旧「已全部完成」须明确勘误；八针通过不代表未修改的输入保护自动成立 |
+| helper 撤回 | expectInputsUnchanged 被改为 run:(value:object)=>void 且仅 inputs 非空才执行 | 契约核 | 所有现行调用是零参数闭包 | 恢复无条件 run()，保留 before 快照与块状 forEach；撤回无关契约改动 |
+
+## Results
+
+- 给 GLM 定点提示词：基于 37027b2d 逐行清表、不重做已过项、不新增矩阵；git show HEAD 逐项确认实际函数体；复跑八针门/定向/相邻/content/TC/九文件 Biome/docs/diff；静态诊断全零后推送完整 SHA。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；日志 /tmp/codex-item-logic-r6-*.log 与机账 JSON。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r6 复核 | 2026-09-27 | 固定清单执行核 | counter | r5 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 item-logic r6 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：37027b2d固定清单复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：R3 五类清单未执行完+R4 数字/锚点不符+helper 无关改动应撤回；已过项不重做。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+锚点表、零 diff 事实与提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 仅指当时候选；最终闭合见 item-logic-integration.md（26e7a269）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `687064bde082a6f5e325791c6e07891d4ebfdcd141750fd041b60ceb78b4a68f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `687064bde082a6f5e325791c6e07891d4ebfdcd141750fd041b60ceb78b4a68f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：37027b2d固定清单复核
 >

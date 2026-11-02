@@ -16,7 +16,8 @@ concurrency:
 jobs:
   documentation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    # Full sequential suite; per-test deadlines and all failure criteria stay fixed.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -34,9 +35,7 @@ jobs:
             pnpm-lock.yaml
             .github/workflows/*.yml
       - run: pnpm install --frozen-lockfile
-      - name: Check repository documentation
-        run: pnpm check:docs
-      - name: Check documentation progress integrity
-        run: node scripts/docs/report-governance-progress.mjs --json
-      - name: Check zero-diagnostic lint
-        run: pnpm lint
+      - name: Restore the pinned retained evidence and run the complete assigned gates
+        run: python3 -B scripts/docs/restore-e2e-evidence.py --ci-stage all
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -1,5 +1,38 @@
 # CODE94/95 — Codex 独立验收 counter（2026-10-15）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本篇是 Codex 对 GLM CODE94/95 交付的首次独立验收（实现候选钉 5cb6b9d22，后续到 e45378a81 仅 CODE97–102 文档不改变候选；审查在独立 codex/quality-menu-accept-94-95 工作树，不写主工作树）。结论：CODE94 与 CODE95 均 counter/rework，30 条保持 review，无 main 合并，不宣称剩余整组语义 accept。
+
+## 范围与证据
+
+四项 counter 均带行级锚点。R1（P1）：统一门存在大量真实诊断——glm-check.txt React act 警告 3489 + jsdom 导航 2（@5250/43827）、glm-ratchet 3527+2、glm-protected-fast2 3499+2，三者 terminal 均为 exit0；示例行 glm-check:6428/6438、ratchet:3300/3310 是 React 原生 not wrapped in act 指示非反控字符串；静态 lint 4012/0/0/0 与七包绿不能外推三门干净通过。R2（P2）：候选生产注释与真源矛盾——inventory-menu.ts:22 仍称 M5 stub log 而真实 caller menu-driver.ts:716/720/733 已进入 startOverworldItemScript 执行链；:126-127 仍称物品 id0 是观音符而 items.ts:88-101 实际 id=ITEM_OBJ_START+i（有效域 61..294，0 为哨兵；itemmenu.c:343-347 以 wItem!=0 计库存，uigame.c:1653/1683 按全局 object id 寻址）。R3（P2）：21 份测试的"通过/typed零强转"合并行缺逐文件 caller/oracle/隔离/判别证据，且与报告自己的 E-3 矛盾——item-magic-select.test.ts:24/30/33/37/39 存在 Item.flags 强转、:127 有 Spell.flags 强转；"重复≥3必须提取"被明确否定为非用户规则，复用须按真实共享语义/输入/失败策略/生命周期证明。R4（P2）：CODE95 死角色目标用例不满足真实 caller 前提——物品 200 applyToAll=true 时生产 menu-driver.ts:711-717 直接跑脚本并 return，:720 才是单体选人入口（SDLPal play.c:268-323 同），直调 confirmInventoryItem 的绿色不能证明生产选人域可达。
+
+## 发现
+
+局部成立与独立复跑：CODE95 完整字段与 roleId 数组修正成立，makeRole 纯工厂合法；空角色旧断言原本就期望 use-target+selectedItemId=200，修正标题未弱化 oracle；shop 夹具恰等门/差1/No意图与 catalog-before 对照成立。Codex 独立运行 24 files/241 tests exit0、game typecheck exit0，均无 stderr 诊断（命令见 targeted-command.json，原件 codex-targeted/codex-typecheck）。manifest candidate/main SHA 30/30 机械匹配，不升级为语义 accept。处置要求：保留原件并更正门状态；先核诊断归属与异步策略，不静音 console、不加 exclude/ignore/silent、不降门；集中存量诊断由 Codex 核 Owner/白名单另卡，不授权 GLM 为 CODE94 越界批量改 editor；修复后须有未裁剪原始回执，退出0有诊断仍不能 accept。
+
+## 结论
+
+CODE94 counter/rework、CODE95 counter/rework：字段/数组修正成立但 R4 真实 caller 前提不成立，三份维持 review 不恢复旧源字节信用。此前 Codex"局部合同通过"初判在完整 caller 核验后收紧为本 counter。30 条保持 review，未合 main。文末为 GLM 返工交接提示词（按 R2/R3/R4 白名单修复、逐文件证据、R1 另卡），GLM 随后的 R1–R4 返工记录见 glm-review.md 返工段，再验收见 codex-r2-review/codex-r3-review。
+
+## 整改与复核
+
+本页治理正文承载该 counter 的真实论据/行号/局部成立范围与处置要求；原件逐字节保全于下方。限制：按 2026-10-15 时点，三门 txt 原件（约 1.8–1.9MB）经 codex-review-proof.json 的 SHA/行号采信未逐字节打开；未重跑 241 tests。历史结论不改写；后续轮次以其各自文件为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8339B / SHA-256 3f2a372eb7b180b92aad4a0bc875cea2aca75f3bb99f77069be95d6b51fd6813；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE94/95 — Codex 独立验收 counter（2026-10-15）
+
 Reviewer: Codex。实现候选钉 `5cb6b9d22`（GLM CODE94/95 交付）；后续到 `e45378a81` 仅 CODE97–102 文档，不改变该候选的 packages/coverage baseline。审查在独立 `codex/quality-menu-accept-94-95` 工作树，不写主工作树或 GLM 实现。无新增文件闭合，无 main 合并。
 
 ## 结论
@@ -63,3 +96,5 @@ Codex独立运行：24files/241tests exit0，game typecheck exit0，均无stderr
 按R2/R3/R4在当前白名单内修错误注释和fixture参数合同，补每个测试文件的真实caller/oracle/合法输入/隔离/排重/判别性记录；不要用“抽样”或一个21文件合并行代替逐文件证据。不要为减少pending强关，不因数量≥3机械建共享helper。R1的集中诊断另有Owner/白名单后再修，不为过门静音或越界改UI。
 
 原始GLM检查、ratchet和protected退出0但带诊断均不计干净验收；修正后按官方门重新保留精确终态，不复制旧baseline。未过统一门不得标done或合main。CODE97–102和其它pending/review不因本review改变状态；提交当前白名单交付供Codex再次独立验收。
+```
+<!-- incremental-original-source:end -->

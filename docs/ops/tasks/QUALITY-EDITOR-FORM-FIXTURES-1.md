@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+editor数值表单测试保真：白名单四测试（LevelingEditor.test、LevelCurveEditor.ui.test、CasualtyEditor.test、CasualtyEditor.glm-m.test），目标是去双重强转、用当前blank/loader构造合法输入、少量连续输入与真实键盘/blur、字段/键ownership oracle准确；React act官方文档为primary，不关闭检查。
+
+## 范围
+
+仅四测试文件；不改组件、content/schema/SAVE、公共接口、公式/机制、资产管线、生成物与规则。character.ts168明确CONTENT_VERSION=22（初看22曾疑过期版本，读常量后撤回），无schema升级/兼容/迁移需求。
+
+## 前提与证据
+
+固定源全文核读。作者检查点：四文件16例、相邻11文件78例通过、三类诊断0；前三文件先原样14例消融334环境→10act→0再做合法fixture/输入精简；第四文件（CasualtyEditor.glm-m）相邻7条act外更新全部来自三次真实undo位于act外，两例7act→0。身份仅概率门标题诚实更名，数量16不变、不退役。K4删键反控旧10绿/新恰1条AssertionError/恢复14绿。机器3284/229closed/62review/2993pending、0关闭。联合窗口复核：C04/C05/C06八源冻结候选cae26b1c7完成check、普通ratchet、protected fast退出码均0、硬静态零诊断、coverage范围/指标无删降，但仍有act/环境诊断，严格统一门未过。原件:[README.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
+
+## 验收
+
+单改act环境可能把原先漏报的act外卸载变成新告警，故以消融+合法夹具实测为准；现有100次输入不是业务边界，待原例零诊断后缩成少量不同合法值；未知跨文件重复先不删。统一诊断未清不合main、0文件关闭。
+
+## 状态与交接
+
+review保持原语义；无下一位Agent提示词，Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5172B / SHA-256 f87cc7309c16531bff8aabe73c77de70a3dec2e71f6cdbdd19e723412e29828a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验/独立验收分开）
 Phase: phase2
@@ -49,3 +82,5 @@ Codex premise verified / design agree，build allowed，仅前三测试。
 ## 联合窗口复核
 
 C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。
+```
+<!-- incremental-original-source:end -->

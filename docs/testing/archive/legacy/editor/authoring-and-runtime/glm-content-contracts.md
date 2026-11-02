@@ -1,40 +1,62 @@
 # GLM六组内容合同补测工作包与回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CONTENT-CONTRACTS-1 的工作包与 GLM 回执合体（r1/done：源 428a7852→集成 adbabb84，三席 accept 用户确认 2026-09-18 归档；生产冻结 7ab20689；GLM 写新测试、Codex 独立接收集成、Kimi 独立审查）：含派发时已核快照（官方 fast 6814 项/617 生产文件，13 模块 1842 行/1743 臂未命中 468 臂）、六组检查族 A-F、GLM r1 返工回执与 43 族逐项对账、缺口分类。
+
+## Scope
+
+GLM r1 返工（对应 counter R1-R4）：R1 F bundle 去退役 onEnter/sprites 补 label、A4 普通字符串移入合法 setFlag.flag（见证 7 项 fixture 检查全 accepted）；R2 actor 表快照比较真正传入同一对象/来源越界只坏一轴/C5 非零 offset 完整解码逐像素/F 确定 severity+完整 where+完整 Issue 多重集合（levelUp 悬空=warn）；R3 mutants 改 JSON 报告运行态执行见证+判据拒 TypeError/ReferenceError/timeout/Unhandled 混入+自测（mixedFailureAccepted 翻 false）；R4 43 族逐项对账+命令绝对路径+evidence.json 过 biome。最终树 13 新测试文件 118 项；定向 118/118、全 content 55 文件/675 项、tc/biome rc=0。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 双工具复跑+覆盖对照 | content-contracts-mutants.mjs rc=0（自测+6 正控+12 针各 MUTATION_HIT+AssertionError+钉名新增测试实际 failed、9 产品文件 sha 不变）；review-witnesses rc=0（4 对照+6 针 detected+7 fixture accepted）；覆盖 before 42 文件/557→after 55/675（50 生产文件分母同；局部 13 模块语句 +117/分支 +128；全包 81.34%→83.39%、73.08%→75.71%） | GLM→Codex accept（adbabb84） | 缺口分类四层：可达未测（asset:409-421 unbound portrait 臂等）/已有重叠/防御窄 caller/N-A（C8 TextEncoder 源码不存在）；D-02/D-06/D-07 归属不变 | 派发快照只读统计非接收后结果；最终报告重测自己的冻结树 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：43 族账含 Codex 集成裁定（C1/F3/F5/F8 按真实入口收窄，订正不代改 GLM 历史签字）。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-content-contracts-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 六组工作包+回执 | 2026-09-18 | 118 项+12 针+43 族账 | done（adbabb84 三席 accept） | 原候选 dbe579c5 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/authoring-and-runtime 的内容合同工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM六组内容合同补测工作包与回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：43 族账含 Codex 集成裁定（C1/F3/F5/F8 按真实入口收窄，订正不代改 GLM 历史签字）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组检查族、43 族逐项对账、覆盖数字、缺口分类在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。2026-09-18 时点数字。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 content-contracts-review.md（返工接收节）。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `dd59d7fbbb2ab8567af9cc35acf726b5e1b71f63b882b49149e8faef5d648845`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `dd59d7fbbb2ab8567af9cc35acf726b5e1b71f63b882b49149e8faef5d648845`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM六组内容合同补测工作包与回执
 >

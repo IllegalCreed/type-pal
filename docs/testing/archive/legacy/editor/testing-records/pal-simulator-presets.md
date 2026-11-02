@@ -1,40 +1,62 @@
 # PAL 工程自带试打方案
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 PAL 工程七套预制试打方案记录（Owner Codex；2026-09-22 用户批准六套+李逍遥/巫后组合，2026-09-24 用户指定 Codex 独立完成）：既有格式下的预制内容补充，不新增模拟器能力/schema/存档格式/迁移逻辑；当前已完成交付（check8384、ratchet、单次严格 fast 7893/633 全过；原 65535 阻断由 BATTLE-FIRE-READINESS-1 窄修）。
+
+## Scope
+
+唯一真源 projects/pal/editor/battle-simulator.json（随初始 PAL 工程分发的人工维护文件；通用编辑器不写死 PAL ID、已有用户副本不自动补入/覆盖）；七套：三人成型（默认）/初出江湖/逍遥与灵儿/中段双人/苗疆组合/决战准备/回梦往昔（李逍遥30+巫后48），均满体力/真气、手动、可逃跑、24 号无五灵战场；数值为标注的建议测试快照非原版进度必达。2026-09-24 独立实施：collector 对已解析执行面 0xffff 不建资源请求（6 新用例修前 4 红/2 绿修后 6 绿）；自建 Chrome 经真实「开始试打」逐一验证七套入战与重新试打恢复。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 数据回归+浏览器实测 | pal-simulator-presets.test.ts 11→12 项（只消费 Git 内 JSON；loader/parser→resolve→collectBattleTrialIssues→prepareBattleTrial 全链零 issues）；数据套件 12/12；定向相邻 29 绿；单点负控红 | Codex | 真实 UI：七方案可见默认三人成型、360/375/385 体力等实测；回梦往昔资源错误如实登记后由 BATTLE-FIRE-READINESS-1 修复 | 自动化两如实单列：一次等待被工具 3 秒上限截断、一次撞 500ms 关闭轮询窗口，均未伪记资源失败 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+七套方案接入 main 全门通过；归属证据（battle-simulator-library.ts:18/project-io.ts:341/migration-project-io.ts:20,119 非托管保护）确认不新建模板镜像；不修改伤害/成长/AI、不覆盖旧用户工程、不跑完整 Q1/Q2。
+
+## Evidence
+
+- 证据路径：本记录正文（quote 保全）；统一机账 stability-fire-closeout-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 预制方案交付 | 2026-09-22/24 | 七套+11→12 项回归+真机验证 | 已完成交付（接入 main） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/testing-records 的试打方案记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- PAL 工程自带试打方案：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+七套方案接入 main 全门通过；归属证据（battle-simulator-library.ts:18/project-io.ts:341/migration-project-io.ts:20,119 非托管保护）确认不新建模板镜像；不修改伤害/成长/AI、不覆盖旧用户工程、不跑完整 Q1/Q2。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+七套表、归属证据、2026-09-22 历史 11/11 与旧浏览器失败记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为交付时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 BATTLE-FIRE-READINESS-1 与统一机账。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `795e9f029725a8e19be615993e986e1122d19a9df0f775fc1dd526e44d0cf60d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `795e9f029725a8e19be615993e986e1122d19a9df0f775fc1dd526e44d0cf60d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # PAL 工程自带试打方案
 >

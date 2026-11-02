@@ -14,6 +14,10 @@ Template: reference-canon-v1 / 1.0.0
 
 毒表第二维是队伍位置；以角色为入口的施/解/查毒先映射第一个匹配位置，状态页cursor/战斗循环等已有位置的消费者直接读本槽。0x75换队先清毒再刷新装备；正式加载存档也清毒、重建装备效果，不把保存过的毒表直接激活。HP/MP与普通状态仍按角色索引。以上是CODE53既有用户裁决及真实caller的复核，不改变存档格式。
 
+## 2026-10-18 的 0x66 修复记录（并行分支时点）
+
+main `72db417255d8ca4227522420e9185ef468462aa7` 在旧引文内追加了修复进展。本次将该记录置于引文外：当时记录 0x66 已改读当前角色 runtime 裸武术，基础武术50/0、只改变装备与Extra的双场手算回归保持263/213伤害；对应[机制返工证据](../ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)属于原时点有限候选。原文同时限定未通过统一集成门、未合main、未实测原版游戏；本次整合不重授这些执行信用。旧引文恢复 S75 冻结字节，后续当前事实以生产caller及原任务为准。
+
 ## 适用范围
 
 ### 2026-10-22 第一阶段隐藏成长的当前偏离
@@ -81,7 +85,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- Current phase1 canonical docs/code/tests and a fresh primary-source review.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全
@@ -481,9 +485,7 @@ historical。do not promote historical claims to current truth without a current
 > **不执行该法术的scriptOnUse**，所以投掷模拟铜钱镖不等于也执行其扣500文脚本。
 > 普通铜钱镖扣钱入口为原始脚本43062；投掷则按投掷流程消耗武器。
 >
-> **2026-10-18 修复进展**：用户要求本项开卡先红后修后，0x66 已改读当前角色的 runtime 裸武术；基础武术50/0、只改变装备和Extra的双场手算回归均保持263/213伤害，原始失败与当前定向见[机制返工证据](../ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)。这是隔离治理候选，未通过统一集成门、未合main，未实测原版游戏。
->
-> **修前实现差异（历史取证，原说明保留）**：
+> **当前实现差异（只记录，尚未修复）**：
 >
 > 一阶段 [battle-opcodes.ts:439-453](../../packages/game/src/core/battle/battle-opcodes.ts#L439)
 > 的0x66注释把SDL取值误写成effective getter，实际也读取已投影、含装备加成的`ctx.playerRoles.roles[roleId].attackStrength`；

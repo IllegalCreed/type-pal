@@ -1,71 +1,37 @@
 # ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 ED-3 A–C 批 PAL 引用索引性能证据的回执。冻结预算、原始样本与逐纵切检查点在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前性能或 coverage 信用。
 
 ## 证据身份
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- ED-3 A/B/C 批统一引用索引性能与确定性证据，采样时间 2026-09-04 至 2026-09-05；环境 Apple M3 Pro / 18GB / Darwin arm64 24.6.0 / Node 22.19.0 / pnpm 10.29.2。
 
 ## 来源与输入
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 真实 `projects/pal` 经 Vite SSR 载入（294 scenes、5,077 entities）；文件 IO、loader 校验与初始组装不计入样本；永久复现入口 `pnpm --filter @type-pal/editor benchmark:references -- --project projects/pal --samples 20`；A 批基线 `9d2473c6` → 候选 `55a7fe84`。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- 冻结预算：snapshot/derived warm p50 ≤ 基线 ×1.15、p95 ≤ ×1.20；init request JSON ≤16,887,725B；ready reply JSON ≤13,345,844B；统一索引 JSON ≤2,500,000B 硬门不得机械抬升。时间只作同机手工回归不进 CI；CI 用确定性门（blocker parity、rows/target buckets、快照上限、deep equality）。
 
 ## 结果
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- A 批：全部指标 pass（snapshot warm p50 623.729ms / p95 749.724ms 等，quote 全表）。
+- B 批五段纵切逐步收敛：战场/敌队/氛围（6,928 rows）、skill/enemy/poison（+1,194 边触发 2.5MB 硬门后以 compact wire 压缩而非抬阈值）、actor（`1806a90f`，808 人物引用）、item（`376934e0`，1,182 条）、world sprite/action/battle sprite（`aeb35214`，14,501 rows；首轮 derived p50 超 2.713ms 后追加 `d521d965` 类型化稳定键修复而非反复抽样碰线）。
+- C 批最终 clean 候选 `01512c84`：25,188 rows / 101 relations；snapshot p50/p95 595.130/677.743ms、derived 598.759/725.320ms、ready reply JSON 2,523,748B、索引 2,372,327B，全部 pass；受扰样本（并行负载 810.934/1,379.069ms、1,574ms 抖动等）按既定规则保留记录、不作为通过证据。
 
 ## 限制与复核
 
-- 未执行/未覆盖：- 正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
-- 正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：2026-09-04；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5。
-
-## 原始结论
-
-- ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）：这是 evidence-receipt，当前文档状态为 historical。全文 247 行、10 个标题；摘要/首段为「环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +
-- 正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。
-
-## 继任文档
-
-- C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- historical。数字按当时工程快照时点解释；B/C 后续不得机械抬阈值，须随 adopter 迁移退役旧 DTO 并以完整 reply 净体积与冷/Worker 同构共同判断。媒体抽验、6010 页面 1280/1024 无横向溢出与 console error 0 等功能检查点另有截图（quote 引用）。目录导航见[历史证据回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `3b58bdf236a503d65db272faabb8ba16d6ba167d3034e95a635679230dc54ca5`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）
 >

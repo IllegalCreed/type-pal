@@ -1,0 +1,30 @@
+import datetime,glob,hashlib,json,os,pathlib,signal,subprocess,time
+root=pathlib.Path('/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal');out=pathlib.Path(__file__).parent
+env=dict(os.environ,NODE_PATH='/Users/zhangxu/illegal/type-pal/node_modules')
+def sha(x):return hashlib.sha256(x).hexdigest()
+commands=[('docs-tools',['node','--test',*[str(p.relative_to(root)) for p in sorted((root/'scripts/docs').glob('*.test.mjs'))]]),
+ ('r65-r66',['node','scripts/docs/verify-r65-r66-preservation.mjs']),
+ ('content-integrity',['node','scripts/docs/check-content-review.mjs']),
+ ('content-strict',['node','scripts/docs/check-content-review.mjs','--strict']),
+ ('require-complete',['node','scripts/docs/report-governance-progress.mjs','--json','--require-complete']),
+ ('check-docs',['pnpm','check:docs']),
+ ('lint',['pnpm','lint']),
+ ('diff-base-head',['git','diff','--check','28fd9013e09e8792decbff2fa117aae14c36b196..HEAD'])]
+receipts=[]
+for name,argv in commands:
+ start=datetime.datetime.now(datetime.timezone.utc).isoformat();t=time.monotonic();timeout=False;err=None
+ try:
+  proc=subprocess.Popen(argv,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+  try:stdout,stderr=proc.communicate(timeout=180)
+  except subprocess.TimeoutExpired:
+   timeout=True;os.killpg(proc.pid,signal.SIGTERM)
+   try:stdout,stderr=proc.communicate(timeout=5)
+   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);stdout,stderr=proc.communicate()
+  code=proc.returncode;sig=-code if code<0 else None
+ except OSError as e:stdout=b'';stderr=b'';code=None;sig=None;err=repr(e)
+ files=[]
+ for label,b in [('stdout',stdout),('stderr',stderr)]:
+  p=out/(name+'.'+label+'.raw');p.write_bytes(b);files.append({'stream':label,'path':str(p),'sha256':sha(b),'bytes':len(b)})
+ r={'name':name,'argv':argv,'cwd':str(root),'environment':{'NODE_PATH':env['NODE_PATH']},'startedAt':start,'finishedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'elapsedSeconds':time.monotonic()-t,'exitCode':code if code is None or code>=0 else None,'signal':sig,'spawnError':err,'timeout':timeout,'raw':files};receipts.append(r)
+ (out/'independent-command-receipts.json').write_text(json.dumps(receipts,indent=2)+'\n')
+ print(json.dumps({'name':name,'exitCode':r['exitCode'],'signal':sig,'elapsedSeconds':r['elapsedSeconds'],'stdoutTail':stdout.decode(errors='replace')[-1200:],'stderrTail':stderr.decode(errors='replace')[-700:]},ensure_ascii=False),flush=True)

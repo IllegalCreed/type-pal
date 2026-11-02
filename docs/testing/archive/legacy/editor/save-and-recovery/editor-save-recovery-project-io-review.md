@@ -1,40 +1,62 @@
 # 作者保存恢复：project-io边界复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 下 Codex 的 project-io 边界复核（2026-09-12 起，生产源码不改、与 GLM 打开身份测试并行；四批独立推进：前批 15 项+11 常驻命中、恢复快照边界 10 项、另存为边界 10 项、私有本地记录转换清理 11 项）：最新旧作者保存链退役与统一候选归最终收口 closeout 文档，本页各批数字仅代表当时源码。
+
+## Scope
+
+四批：①project-io-admission 15 项+11 个常驻命中表（非空图章未加载拒绝/自定义索引路径能重开/部分 JSON 写集完整验证等）+六组负控业务红+10 臂构造保证（E3）+3 臂退役审查候选（E4：旧分片序列化路径/旧 writeFile——App:3042-3066 回退分支正常启动不可达、应整组退役审查不补假正控）；②save-readback-boundaries 10 项（journal/writer 原页恢复区分「重新打开已恢复的项目」、PAL 最后取样间隙外部修改在 owner 回调前拒绝、JSON 三形式记账、裸二进制拒绝）+四组负控（snapshot/admission/binary/evidence 各业务红）；③save-as-boundaries 10 项（取消 null/构建失败保留原异常/缺源与过期源基线拒绝/清理与重开）+三组负控+两个 E3 源码链证明；④workspace-local-record 11 项（contextFromRecord 唯一调用域证据→改名 localContextFromRecord 清理、先测旧实现再测清理后）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 四批统一门 | ①check 6783 项/ratchet+严格 fast 6295；②check 6806/fast 6318（wp+io 重点 66→60）；③check 6835/fast 6347（open-actions 103→106/108）；④check 6846/fast 6358（wp 未覆盖 21→14、退休 7 未覆盖臂+2 判断臂全仓分支-9 总数如实） | Codex | 编写期修正如实（serializeOne 误导入/catalog 首项 JSON 误断言二进制/凭据阶段错误预期 applying 非 ready）；辅助取旧 LCOV ENOENT 改由 verified.json+Git baseline 复算 | E3/E4 继续计分母；不按可选类型硬造成功用例（io30-38 九臂不升 E3） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+四批推进不改生产不改 GLM 文件；最新统一结论归 closeout 文档。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；/tmp/codex-{project-io.xphxdA,readback.0YbCrU,save-as.uCWxGJ,record-cleanup.Rifq6t}/ 四证据目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| project-io 复核四批 | 2026-09-12 | 46 项+16 组负控+四统一门 | 各批完成（父卡仍 build/r2） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的 project-io 边界复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：project-io边界复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+四批推进不改生产不改 GLM 文件；最新统一结论归 closeout 文档。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+11 命中表、E3/E4 证明、四批用例组与负控在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。各批数字为当时源码时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-closeout.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `85072289460cf6a0a981cc07765766f298a35839a411725be63501ba6d72d12d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `85072289460cf6a0a981cc07765766f298a35839a411725be63501ba6d72d12d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：project-io边界复核
 >

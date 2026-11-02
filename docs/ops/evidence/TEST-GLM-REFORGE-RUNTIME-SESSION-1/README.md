@@ -1,59 +1,55 @@
 # TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据
 
 Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史 ops evidence 接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知、任务状态和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 TEST-GLM-REFORGE-RUNTIME-SESSION-1 的证据：分支 `codex/glm-reforge-runtime-session-r1`、base origin/main `0eb936cf3`（r3：Codex 裁决授权后完成 stale import 一行修正并全套重验；沿革：开卡基 a2857c123→r1 45d890e4c→r2 6a5675efa→r3 0eb936cf3，四目标源文件与本卡测试在各基间零变化，证据在 r3 tip 重生成）；范围=runtime input router、frame session、world-motion runtime、runtime project view 四文件的未证明公开合同，不做覆盖率百分比承诺。
 
 ## 证据身份
-- `id`：原始证据记录或任务证据目录身份（保留于 quote）。
-- `schemaVersion`：若原文提供则保留于 quote。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：source `7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7`；after 见本批 review record。
+
+- 4 专属测试文件 15 条合同（全公开 caller、零 unsafe cast、零 ts-expect-error、零 skip、零 timeout 扩大、零业务核心 mock）：runtime-input-router.runtime-session-1.test.ts（1：菜单层完整按键集合原样送达，路由器不预滤 Escape/F5/[、不旁路二次派发）；runtime-frame-session.runtime-session-1.test.ts（2：混合截止时间等待的到期子集逆向结算含 0ms 与 >= 边界、未到期不连带；恢复后淡入从 gameplay 时间推进非墙钟）；world-motion-runtime.runtime-session-1.test.ts（8：在途走位中止来源署名消息与注册表清理、预中止信号四注册入口全拒、在途 auto 单步中止零续点残留、同目标重复注册替换接管同源+auto 跨类、实体 authority 接管清步态/侧避锁、单步 attempted 后与追逐取消后迟到回执静默、scene token 注册时快照与 teardown 失效语义含取消先于 authority 释放顺序回执）；runtime-project-view.runtime-session-1.test.ts（4：hostile onLose 命令体剥离 gameOver/其余字段逐字、canonical 缺席实体刷新跳过、scratch 可选腿 followers/mapOverride/entityLayer 深拷贝、runtimeProjectView 整体替换面入口重投影/items 适配/scriptStore 显式 undefined/其余引用透传）。
 
 ## 来源与输入
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/evidence/TEST-GLM-REFORGE-RUNTIME-SESSION-1/README.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+
+- 三账（包内 __tests__/runtime-session-1/）：rs1-identity-status.json（15 条 file×fullName×status）、rs1-family-ledger.json（逐合同 name→family→源行→caller→oracle 与身份账双向唯一匹配）、rs1-mutation-counterproof.json+raw/（三态反控；quote 详）。
 
 ## 断言与业务 oracle
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：对应 task card、同批 evidence 和 successor receipt。
+
+- 反控 clean-tree 前置、四态 sha256、console+json 原文、executed/failed/skipped 分账、mkdtemp+finally 清理。
 
 ## 结果
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+
+- r3 全套重验；memory 补充：r3 已推 00b4e4f71（基 0eb936cf3，counter 沿革闭合）待 Codex 终验；判例：rejects 断言 JSON 前缀是 Error 非 AssertionError（改 catch+同步断言）。
 
 ## 限制与复核
-- 未执行/未覆盖：本次不执行 runtime、E2E、视觉或 coverage。
-- 不得外推的结论：不得外推当前产品完成、当前 runtime、E2E、视觉或 coverage。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
+
+- 换基返工先核脏文件在 origin/main 存在性+卡面 AA 合并+数字全重生成。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`；本轮为 2026-10-17 R39。
-- 归档原因：历史 ops evidence 只作为时点回执保留，避免把旧执行记录当作当前事实。
+
+- TEST-GLM-REFORGE-RUNTIME-SESSION-1 r3 证据（4 文件 15 合同）；固定源 revision a1ac53bbea78…（direct 规则）。
 
 ## 原始结论
-- `分支 `codex/glm-reforge-runtime-session-r1`;base `origin/main` `0eb936cf3``；原文完整语义保留于下方 quote。
+
+- 输入仲裁/帧推进/暂停恢复/取消/迟到回执/scene token/world-view 替换全落。
 
 ## 当时证据
-- 原始标题、章节、任务状态、命令、产物、SHA 和链接保留于 quote。
+
+- 交付物明细与三账在 quote 保全。
 
 ## 当前有效性
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 consumer 和 fresh receipt 仍待重新核对。
+
+historical。r3 时点待终验。
 
 ## 继任文档
-- 当前 canonical 文档：对应 task card、当前 evidence consumer 和重新生成的 receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；不删除原始历史证据。
-- 若重新启用的复核条件：以合法输入重跑，核对业务 oracle、artifact SHA 和独立 review。
+
+当前结论归任务卡与 Codex 终验记录。
 
 ## 原文保全
-固定源 revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定 source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `7333ac1d266d2481f5648fbf9954b9414fb50b287f1ba81bf59a3d50729b45b7`；下方 quote 逆回读规则：剥引用后与固定原源逐字节相等（direct，不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-RUNTIME-SESSION-1 证据
 >

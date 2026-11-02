@@ -1,0 +1,1843 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-registry-storage-design-review",
+  "reviewDate": "2026-10-18",
+  "createdAt": "2026-10-17T21:05:59.098640+00:00",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "nonAuthorReviewer": true,
+  "nonAuthorBasis": "This task did not author design/card, original 2374 registry, or source tools. It independently read candidate bytes and real sources, raised two concrete counters before accepting a corrected design, and wrote only its own /tmp evidence. Same Codex family/team membership is not claimed to be organizational independence.",
+  "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+  "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+  "initialReviewedCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+  "mainBaseCommit": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "designVersion": "2.0.2",
+  "designSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+  "cardSha256": "c3fda1ffbef4e7a7e5489213fee7041ef215a854a291fdc6afa780cceb6f4d3a",
+  "fixedRegistrySource": {
+    "commit": "3fae68aec8f448bf83d1d85e61da35c94d5200ae",
+    "path": "docs/phase-governance/document-registry.json",
+    "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+    "bytes": 1047444,
+    "entries": 2374,
+    "sameAtFinalCandidate": true
+  },
+  "readScope": {
+    "fullText": [
+      "AGENTS.md",
+      "docs/ops/guides/documentation-model.md",
+      "docs/ops/agent-workflow.md",
+      "docs/ops/board.md",
+      "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md at09ec and38f",
+      "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md at09ec, draft2.0.1 and frozen2.0.2",
+      "scripts/docs/check-content-review.mjs",
+      "scripts/docs/report-governance-progress.mjs",
+      "scripts/docs/sync-governed-document-registry.mjs",
+      "scripts/docs/classify-governed-documents.mjs",
+      "scripts/docs/generate-structured-content-reviews.mjs",
+      "scripts/docs/enrich-review-metadata.mjs",
+      "scripts/docs/document-integrity.mjs",
+      "scripts/quality/lint-zero.mjs",
+      "biome.json",
+      "package.json scripts"
+    ],
+    "completeMechanicalInspection": [
+      "All 2374 flat entry objects decoded and traversed for keys, field presence, counts, summary, path uniqueness, phase blocks; exact frozen Git bytes compared",
+      "Seven-phase independent partition feasibility model: original object/order equality and formatted physical size",
+      "Final clean HEAD/source/design/card pins, no scripts/docs changes since58e",
+      "Provided author gate raw SHA checks and byte retention"
+    ],
+    "partialRead": [
+      {
+        "path": "scripts/docs/historical-execution-source.test.mjs",
+        "lines": "1-168,300-345,370-438,590-640; registry-related occurrences searched across complete file",
+        "scope": "Fixture publisher/real CLI paths and representative native history negative assertions; not each test business assertion"
+      },
+      {
+        "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+        "lines": "1-160,430-540; registry-related occurrences searched across complete file",
+        "scope": "Fixture publisher/real CLI helper and representative calibrated native/path tests; not every assertion"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+        "scope": "Registry entry and related exact-source after pin, control-root DAG references; not the complete large ledger"
+      },
+      {
+        "path": "docs/phase-governance/routing.json and templates/registry.json",
+        "scope": "Registry references searched; no complete re-review of all native business fields"
+      }
+    ],
+    "codeSearch": "rg over repository *.mjs,*.mts,*.ts,*.py,*.cjs,*.js excluding node_modules found six listed source entries and two fixture files as direct document-registry/entries callers. Arbitrary external /tmp scripts are not exhaustively discoverable; root explicitly disables its named temporary writer.",
+    "notReadOrAccepted": [
+      "2374 individual document bodies or their full semantic conclusions",
+      "Every field in large R94/control/review ledgers",
+      "Product implementation, old product tests, official coverage baseline",
+      "A v2 implementation: none exists in this frozen candidate",
+      "New runtime/E2E/visual/deployment evidence"
+    ]
+  },
+  "findings": [
+    {
+      "id": "source-capacity-and-scope",
+      "verdict": "accept-design-premise",
+      "sources": [
+        "source-file-pins-09ec.json",
+        "raw/source-shape.stdout",
+        "raw/freeze-verification.stdout"
+      ],
+      "finding": "Exact frozen flat bytes equal Git source 3fae68ae: 1,047,444 bytes, 2374 entries, 1132 bytes below unchanged 1MiB limit. Metadata/summary mechanically inspected across all entries. 1838 is the separately frozen approved cohort; current candidate count is 2376 and must never replace that denominator.",
+      "strongestAlternative": "Increase Biome maxSize or shorten/omit source strings rather than split.",
+      "decision": "Rejected by the task constraint. Seven physical phase shards are feasible without changing source native objects or rules."
+    },
+    {
+      "id": "positions-and-native-phase",
+      "verdict": "accept-design",
+      "sources": [
+        "design 2.0.2:25-31",
+        "raw/source-shape.stdout /phaseBlocks",
+        "raw/partition-feasibility.stdout",
+        "raw/freeze-verification.stdout /nativePhaseExamples"
+      ],
+      "finding": "Actual source phases occupy 32 interleaved blocks. Plain phase concatenation changes original global order. Parallel global positions reconstruct every original object in order in the independent feasibility model. Actual docs/README.md belongs to phase-governance and ED-ENTITY-STATE-PLAN-1 task belongs to phase2; partition must use native phase, never directory inference.",
+      "strongestAlternative": "Sort by phase/path because phase is already recorded and consumers only iterate.",
+      "decision": "Reject: iteration order and explicit source identity are preservation contracts. Implementation must reject missing/duplicate/noninteger/negative/out-of-range positions and phase/count disagreement, not silently repair."
+    },
+    {
+      "id": "all-native-metadata-and-optional-entry-fields",
+      "verdict": "accept-design-after-counter",
+      "sources": [
+        "design 2.0.2:17,25,29,41,65",
+        "counter-09ec.json REGISTRY-NATIVE-METADATA",
+        "raw/source-shape.stdout /metadata,/fieldCounts,/shapeCounts"
+      ],
+      "finding": "Source has 13 native entry shapes. Only seven keys are common; templateVersion occurs 742 times and templateVariant 23 times. artifactOnly 1107, historyOverlay 2106, retentionException 2, artifactEnvelope/artifactFormat remain native preservation data. 2.0.2 now preserves top-level generatedBy history and all native metadata, with storageProducer separate; complete metadata comparison is explicit.",
+      "strongestAlternative": "Require templateVersion/Variant on every entry for a stricter new loader, or replace historical generatedBy with the new writer.",
+      "decision": "Reject: fabricated defaults or changed producer history would mutate native source. Missing optional keys stay missing. Historical five roots and source scopeNote remain historical, not a current exhaustive inventory claim."
+    },
+    {
+      "id": "semantic-credit-and-cohorts",
+      "verdict": "accept-design-boundary",
+      "sources": [
+        "design 2.0.2:13,19,47-55,67-73",
+        "scripts/docs/check-content-review.mjs:1-166",
+        "scripts/docs/report-governance-progress.mjs:1-152",
+        "scripts/docs/document-integrity.mjs:1-27"
+      ],
+      "finding": "Storage validity grants no content-reviewed/template-compliant/execution credit. Active content checker retains reviewCreditIssues, SHA, duplicate review and strict status checks. Progress currently skips artifactOnly completion and validates real body/route/SHA. Source 1925 partial/449 reviewed and 1931 needs/443 compliant are inherited ledger values, not this review acceptance.",
+      "strongestAlternative": "Equal object hashes, a valid manifest or all tests passing can certify every legacy entry or restore withdrawn bindings.",
+      "decision": "Reject. Preserve withdrawal/quarantine and fixed 1838 baseline; semantic/body/E2E/runtime/visual/coverage acceptance remains outside this design review."
+    },
+    {
+      "id": "writer-concurrency-and-failure",
+      "verdict": "accept-design-after-counter; implementation-unproved",
+      "sources": [
+        "design 2.0.2:35-39,59-63",
+        "counter-09ec.json REGISTRY-WRITER-RACE",
+        "raw/race-model.stdout"
+      ],
+      "finding": "09ec admitted two SHA checks passing before either publication, then a successful later overwrite losing the first update. 2.0.2 requires the same atomic lock for all public writers and migration, full source revalidation while holding it, owner-token release, no PID/time-based stealing, and preservation of lock/old bytes/recovery information after partial publish. Manifest remains last; inconsistent packages fail closed.",
+      "strongestAlternative": "Single Coding Owner plus a pre-write SHA check is sufficient, or post-write reload can detect all conflicts.",
+      "decision": "Reject that explanation: two invocations by one Owner can race, and coherent overwrite reloads successfully. New serialization contract closes the specification counter. Implementation must exercise two real writers against the same source, stale input after lock acquisition, and injected partial-publication failure. No filesystem-wide atomicity or protection against arbitrary non-cooperating edits is claimed."
+    },
+    {
+      "id": "loader-validation-and-reader-boundary",
+      "verdict": "accept-design; implementation-unproved",
+      "sources": ["design 2.0.2:25-31,59-61"],
+      "finding": "The logical view restores entries for all active consumers from descriptor-pinned exact formatted bytes, with summary/count/phase and same-directory controlled regular-file constraints. Missing/tampered/aliased/escaped shards and invalid positions must fail closed. A reader can return a coherent prior generation if all its pinned bytes match; it must never treat a mixed package as accepted.",
+      "strongestAlternative": "Keep v1 fallback for convenience or treat a failed shard load as empty.",
+      "decision": "Reject. Live consumers use only v2. Historical v1 source is read only by the explicit fixed-SHA migration path or Git proof. Actual path/symlink and half-package checks are implementation acceptance work."
+    },
+    {
+      "id": "producer-and-consumer-entrypoints",
+      "verdict": "accept-migration-plan",
+      "sources": [
+        "all six source entrypoints listed in readScope",
+        "repository code search inventory in readScope"
+      ],
+      "finding": "Repository code search found exactly six direct production registry readers/writers plus two fixture files. check-content-review, report-governance-progress and sync must share the new loader/writer. classify currently heuristically overwrites the registry; generate currently manufactures content-reviewed records from extraction; enrich fills depth/legacy metadata. Their explicit retirement before filesystem work is warranted.",
+      "strongestAlternative": "Adapt those three old generators to schema2 to retain convenient bulk operation.",
+      "decision": "Reject because that would retain known false-credit producers. Only schema fixture/read path adaptation is authorized, not changing product tests or coverage."
+    },
+    {
+      "id": "fixture-quality-preservation",
+      "verdict": "accept-requirement; no-new-test-acceptance",
+      "sources": [
+        "scripts/docs/historical-execution-source.test.mjs:26-168,312-345,381-438,592-640",
+        "scripts/docs/frozen-binding-baseline.test.mjs:36-160,443-534"
+      ],
+      "finding": "Current fixtures publish minimal v1-shaped registry inputs and run real model/progress CLIs. They must publish valid v2 fixture storage and use the common loader while retaining original native-field/hash/route/cohort and calibrated guard-removal assertions. Source fixture adaptation may add actual required fixture fields; it cannot lower public validation.",
+      "strongestAlternative": "Replace real CLI assertions with a loader deep-equal or weaken native guard tests because fixture schema changed.",
+      "decision": "Reject. Existing historical counter/MISSED/warning fields, frozen path/order/identity checks, exact failure reasons and restoration remain quality obligations. I did not conduct a fresh semantic audit of all 1380 fixture lines or grant business test/runtime credit."
+    },
+    {
+      "id": "new-file-ownership-and-pin-dag",
+      "verdict": "accept-design-with-explicit-pending-inventory",
+      "sources": [
+        "design 2.0.2:19,41,55,67",
+        "task card Draft section",
+        "raw/freeze-verification.stdout",
+        "R94 registry binding source after SHA 921eaef..."
+      ],
+      "finding": "Design/card lack old flat entries intentionally and disclose the gap; seven new shard files and migration artifacts must be separately registered partial/needs, with new review ownership, without changing the 2374 preservation denominator. Historical structuralRoots are three exact control-ledger paths, not a general exemption. Registry currently binds to R94 with withdrawn partial/needs status.",
+      "strongestAlternative": "Exclude new machine storage/control files via a widened structuralRoots to avoid self-reference or refresh every after pin.",
+      "decision": "Reject. Explicit ownership/review records and an acyclic external pin chain are required. Actual delta must be read before pin updates; the registry/shard split cannot itself promote review status."
+    },
+    {
+      "id": "quality-and-residual-gates",
+      "verdict": "design-only-acceptance; global-gates-fail",
+      "sources": [
+        "qualityCommands",
+        "raw/v202-progress.stdout",
+        "author-gate-retention-map.json",
+        "author-gate-v202-retention-map.json"
+      ],
+      "finding": "Independent final commit docs0, lint0 with 4450 files and zero diagnostics, staged0 and full 28fd..HEAD diff0. Strict1 and require-complete1 are complete actual runs. Progress still reports 436/1838 baseline, 5 incremental, current2376/pending1935, with two completed-review SHA drifts at board and task index. Own full check:docs timed out at 90 seconds and has no terminal test or gate result.",
+      "strongestAlternative": "Use empty worktree diff, author test totals or timeout output to certify a clean complete gate.",
+      "decision": "Reject. Full base diff is the actual range check. Timeout remains incomplete, original failed author runs remain exact, and author artifacts do not replace independent command exits."
+    }
+  ],
+  "counters": [
+    {
+      "id": "REGISTRY-WRITER-RACE",
+      "originalCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "originalStatus": "rework",
+      "originalRecord": "counter-09ec.json",
+      "originalRecordSha256": "4eded3b0b684788f3fe0e4c7ce36e1c480a9937c868da4124292a9818b568bcd",
+      "currentStatus": "closed-at-design-contract-level-only",
+      "resolutionSources": ["design 2.0.2:37-39,61,63"],
+      "implementationResolutionVerified": false
+    },
+    {
+      "id": "REGISTRY-NATIVE-METADATA",
+      "originalCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "alsoRaisedAgainst": "draft2.0.1 retained the same omission",
+      "originalStatus": "rework",
+      "originalRecord": "counter-09ec.json",
+      "currentStatus": "closed-at-design-contract-level-only",
+      "resolutionSources": ["design 2.0.2:17,25,29,41,65"],
+      "implementationResolutionVerified": false
+    }
+  ],
+  "openDesignBlockers": [],
+  "independentModels": {
+    "race": "Specification countermodel only, not real candidate writer execution. Demonstrates that old stated checks admitted a lost update.",
+    "partition": {
+      "kind": "design-partition-feasibility-model-not-candidate-loader",
+      "reconstructedObjectsAndOrderEqual": true,
+      "sourceTotal": 2374,
+      "perPhase": {
+        "ops": {
+          "total": 1280,
+          "formattedBytes": 590511,
+          "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+          "below1MiB": true
+        },
+        "lore": {
+          "total": 14,
+          "formattedBytes": 4980,
+          "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+          "below1MiB": true
+        },
+        "phase1": {
+          "total": 60,
+          "formattedBytes": 23584,
+          "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+          "below1MiB": true
+        },
+        "phase2": {
+          "total": 109,
+          "formattedBytes": 42462,
+          "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+          "below1MiB": true
+        },
+        "phase3": {
+          "total": 5,
+          "formattedBytes": 1860,
+          "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+          "below1MiB": true
+        },
+        "phase-governance": {
+          "total": 147,
+          "formattedBytes": 70224,
+          "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+          "below1MiB": true
+        },
+        "testing": {
+          "total": 759,
+          "formattedBytes": 325266,
+          "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "below1MiB": true
+        }
+      },
+      "scope": "Uses actual source objects and positions. No proposed implementation was executed or accepted."
+    },
+    "interpretation": "Neither model nor SHA equality substitutes for actual loader/writer negative cases or semantic acceptance."
+  },
+  "qualityCommandCount": 22,
+  "qualityCommands": [
+    {
+      "name": "check-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "env",
+        "TMPDIR=/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/fixtures",
+        "pnpm",
+        "check:docs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:29.742948+00:00",
+      "endedAt": "2026-10-17T21:02:59.758429+00:00",
+      "elapsedSeconds": 90.0150555,
+      "exitCode": null,
+      "signal": null,
+      "spawnError": "TimeoutExpired(90s); subprocess.run killed only own child",
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/check-docs.stdout",
+        "bytes": 14394,
+        "sha256": "eccaddc2e976b9fa0c3ee766aae8540f46403ff52383c3c8a62f1b6ad5957787"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/check-docs.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "docs-direct",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:05.518086+00:00",
+      "endedAt": "2026-10-17T21:03:06.111807+00:00",
+      "elapsedSeconds": 0.593626291,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/docs-direct.stdout",
+        "bytes": 92,
+        "sha256": "87be3439b6fd103b74fc0412f780e170fb828ae375579859d76b13ef1d2ddcd4"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/docs-direct.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "ff-v202",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "argv": ["git", "merge", "--ff-only", "38f18ff9102bf45104573b29beda4e3a2b662483"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T21:03:58.386505+00:00",
+      "endedAt": "2026-10-17T21:03:58.423520+00:00",
+      "exitCode": 0,
+      "signal": null,
+      "beforeCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "afterCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "beforeStatusBytes": 0,
+      "afterStatusBytes": 0,
+      "freezePinsExact": true,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/ff-v202.stdout",
+        "bytes": 235,
+        "sha256": "5f30467c54fe2bebbbfea5e50c83566bac4b5414e23c5819d82ae42b3005a112"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/ff-v202.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "freeze-verification",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/freeze_verify.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:04:26.009656+00:00",
+      "endedAt": "2026-10-17T21:04:26.112526+00:00",
+      "elapsedSeconds": 0.1027825,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/freeze-verification.stdout",
+        "bytes": 1107,
+        "sha256": "ad38c4b46555a00c8b729bc45550451016c71a7cacbb126b65244bcc328b755c"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/freeze-verification.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "full-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["git", "diff", "--check", "28fd9013e09e8792decbff2fa117aae14c36b196..HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:05.123626+00:00",
+      "endedAt": "2026-10-17T21:01:05.424309+00:00",
+      "elapsedSeconds": 0.30053475,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/full-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/full-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:05.117816+00:00",
+      "endedAt": "2026-10-17T21:01:08.637185+00:00",
+      "elapsedSeconds": 3.519190375,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/lint.stdout",
+        "bytes": 197,
+        "sha256": "a515e6f2e69a9b3df8946f46eed13cbd2a347f0e10d84fa7940d477b080069b1"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "model-direct",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:06.382232+00:00",
+      "endedAt": "2026-10-17T21:03:07.428822+00:00",
+      "elapsedSeconds": 1.046485333,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/model-direct.stdout",
+        "bytes": 79,
+        "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/model-direct.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "own-fixture-cleanup",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/cleanup_own_fixtures.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:41.618834+00:00",
+      "endedAt": "2026-10-17T21:03:41.945530+00:00",
+      "elapsedSeconds": 0.326555417,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/own-fixture-cleanup.stdout",
+        "bytes": 1484,
+        "sha256": "1f655f4de30da6f07c1a23168119084397231777536865860f6ff747eddfb14e"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/own-fixture-cleanup.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "partition-feasibility",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/partition_design_probe.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:59.989094+00:00",
+      "endedAt": "2026-10-17T21:02:00.393348+00:00",
+      "elapsedSeconds": 0.404166666,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/partition-feasibility.stdout",
+        "bytes": 1546,
+        "sha256": "6a3fec29ae1a0c9ac2f13ded363c057c2c8a8715165b2e823565f8aa0bd644cb"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/partition-feasibility.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "phase-direct",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:25.191734+00:00",
+      "endedAt": "2026-10-17T21:03:25.242248+00:00",
+      "elapsedSeconds": 0.050394417000000004,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/phase-direct.stdout",
+        "bytes": 44,
+        "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/phase-direct.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--json",
+        "--require-complete"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:05.122255+00:00",
+      "endedAt": "2026-10-17T21:01:09.225507+00:00",
+      "elapsedSeconds": 4.1031235829999995,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/progress.stdout",
+        "bytes": 137467,
+        "sha256": "a0d9c614b37404b39a3b3c26c09228ea6740136b2542846f321a1235391dd463"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "race-model",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/race_model.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:00:44.318874+00:00",
+      "endedAt": "2026-10-17T21:00:44.346711+00:00",
+      "elapsedSeconds": 0.027753165999999996,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/race-model.stdout",
+        "bytes": 620,
+        "sha256": "41745c3f52c7eb3aaabe5179b4f812d1c32bbc29745f2d7d0bfc93955a65aef9"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/race-model.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "source-shape",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/inspect_source.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:00:43.947626+00:00",
+      "endedAt": "2026-10-17T21:00:44.076190+00:00",
+      "elapsedSeconds": 0.128470416,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/source-shape.stdout",
+        "bytes": 16497,
+        "sha256": "6dcd1ed781e2dcf3c6bf32e6df3049d926754879b049e0599a062060ee3807a9"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/source-shape.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:05.117887+00:00",
+      "endedAt": "2026-10-17T21:01:05.134436+00:00",
+      "elapsedSeconds": 0.016437790999999997,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:01:05.118380+00:00",
+      "endedAt": "2026-10-17T21:01:06.002517+00:00",
+      "elapsedSeconds": 0.884024334,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/strict.stdout",
+        "bytes": 94,
+        "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/strict.stderr",
+        "bytes": 479640,
+        "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+      }
+    },
+    {
+      "name": "testing-direct",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "09ecbcbb9f5932cf41af7479b7c3287766dfd62f",
+      "argv": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:24.850805+00:00",
+      "endedAt": "2026-10-17T21:03:24.947008+00:00",
+      "elapsedSeconds": 0.09612120800000001,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/testing-direct.stdout",
+        "bytes": 30,
+        "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/testing-direct.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "v202-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:58.776022+00:00",
+      "endedAt": "2026-10-17T21:03:59.720163+00:00",
+      "elapsedSeconds": 0.944026459,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-docs.stdout",
+        "bytes": 92,
+        "sha256": "87be3439b6fd103b74fc0412f780e170fb828ae375579859d76b13ef1d2ddcd4"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-docs.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "v202-full-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": ["git", "diff", "--check", "28fd9013e09e8792decbff2fa117aae14c36b196..HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:58.776066+00:00",
+      "endedAt": "2026-10-17T21:03:59.044909+00:00",
+      "elapsedSeconds": 0.26871449999999997,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-full-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-full-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "v202-lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:58.776040+00:00",
+      "endedAt": "2026-10-17T21:04:01.344204+00:00",
+      "elapsedSeconds": 2.568013792,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-lint.stdout",
+        "bytes": 197,
+        "sha256": "a515e6f2e69a9b3df8946f46eed13cbd2a347f0e10d84fa7940d477b080069b1"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "v202-progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--json",
+        "--require-complete"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:58.776098+00:00",
+      "endedAt": "2026-10-17T21:04:01.886876+00:00",
+      "elapsedSeconds": 3.1106367500000003,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-progress.stdout",
+        "bytes": 137467,
+        "sha256": "a0d9c614b37404b39a3b3c26c09228ea6740136b2542846f321a1235391dd463"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "v202-staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:03:58.776023+00:00",
+      "endedAt": "2026-10-17T21:03:58.785935+00:00",
+      "elapsedSeconds": 0.009758792000000002,
+      "exitCode": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "v202-strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "38f18ff9102bf45104573b29beda4e3a2b662483",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:04:05.930880+00:00",
+      "endedAt": "2026-10-17T21:04:06.237499+00:00",
+      "elapsedSeconds": 0.306531125,
+      "exitCode": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-strict.stdout",
+        "bytes": 94,
+        "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-strict.stderr",
+        "bytes": 479640,
+        "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+      }
+    }
+  ],
+  "executionLimitations": [
+    {
+      "command": "check-docs",
+      "result": "timeout/incomplete, not exit1 or PASS",
+      "timeoutSeconds": 90,
+      "rawMetadata": "raw/check-docs.json",
+      "known": "subprocess.run TimeoutExpired branch killed its own child; wrapper did not capture a final child exit/signal. No claim that null means normal termination. Original stdout stops during the test sequence; no final totals.",
+      "cause": "Not diagnosed; not attributed to candidate design.",
+      "cleanup": "Exact four owned fixture directories were checked for open files with lsof, inventoried and removed; raw/own-fixture-cleanup.* preserves evidence. No other task process was killed."
+    },
+    {
+      "scope": "exploratory shell reads",
+      "detail": "Two exploratory rg reads guessed nonexistent review/control filenames and returned exit2. These were corrected using actual path inventory. They are not quality checks or candidate findings; no success result was inferred from them."
+    },
+    {
+      "scope": "author artifacts",
+      "detail": "Author09ec first checkdocs exit1 preserves missing README link; after-link raw has no separate supplied command receipt, so its terminal exit is author freeze claim. Author2.0.2 checkdocs exit1 has a matching command receipt and raw hashes, tests128pass but full strict FAIL and pnpm node_modules warning. These are retained as author evidence, not independent executions or global acceptance."
+    }
+  ],
+  "residualGlobalState": {
+    "registryEntries": 2374,
+    "currentCandidates": 2376,
+    "approvedCohort": 1838,
+    "cohortMigratedProjection": 436,
+    "cohortPendingProjection": 1402,
+    "incrementalMigratedProjection": 5,
+    "currentPendingProjection": 1935,
+    "integrityIssues": [
+      "docs/ops/board.md: completed review SHA drift",
+      "docs/ops/tasks/index.md: completed review SHA drift"
+    ],
+    "scopeNote": "All counts are current mechanical projections, not new semantic endorsements. Two new design/card entries remain explicitly pending registration; no zero-orphan or zero-global-diagnostic claim."
+  },
+  "scopedDesignVerdict": "accept-design-2.0.2-for-isolated-implementation-only",
+  "scopedCorrectiveVerdict": "two specification counters closed on fixed new design bytes; original rework record retained",
+  "implementationAccepted": false,
+  "semanticAcceptanceGranted": false,
+  "templateAcceptanceGranted": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "implementationAdmissionRecommendation": "Root may freeze this exact version/commit and record build allowed only after appointing one isolated Coding Owner with this card whitelist and separate non-author implementation acceptance. This report does not itself claim implementation success or global integration approval.",
+  "allowedNext": [
+    "Record fixed design2.0.2 SHA and both original/corrected counter records, assign one isolated implementation Owner; root must not co-edit the same implementation whitelist",
+    "Implement one public strict v2 loader/writer and explicit fixed-source v1 migrator under the common lock; retire dangerous generators before any filesystem reads/writes",
+    "Produce complete 2374 per-entry native/object/order mapping and all-top-level metadata comparison; keep any new design/card/shard/map/review artifacts as separately enumerated partial/needs candidates",
+    "Exercise actual consumers with bad shards/positions/path/phase/hash/count/summary, concurrent writers, stale loaded input, publication interruption and explicit recovery provenance; retain original schema-fixture quality assertions",
+    "Read actual affected document/navigation/review deltas before updating after pins; preserve pending board/index drift until honestly reviewed",
+    "Submit a frozen implementation candidate plus truthful raw commands for independent acceptance; retain strict/require-complete FAIL until genuine semantic completion"
+  ],
+  "stopLines": [
+    "Do not merge main, mark either governance card done, or claim unified static/semantic/runtime acceptance",
+    "No old entries/reviews may be promoted because storage hashes or deep-equal passed",
+    "No product/old product test/coverage/config-ignore/Biome-size changes",
+    "No silent roots expansion, path-based phase reclassification, generatedBy history rewrite, optional-field default filling, fallback v1 read or template-format exemption",
+    "Any lost-update/half-package/path escape/native mismatch/withdrawal credit counter requires rework before accepting implementation",
+    "Do not reuse author test totals to replace the preserved independent full-check timeout"
+  ],
+  "filePins": {
+    "initial": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "bytes": 6028,
+        "gitBlob": "e8e196ab3b5dafa1ffa23a4e736b9c51171c23cb"
+      },
+      {
+        "path": "docs/ops/guides/documentation-model.md",
+        "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "bytes": 9468,
+        "gitBlob": "ec57bf5c6fdb134590c325fa1d7ac6cc2cb3fc08"
+      },
+      {
+        "path": "docs/ops/agent-workflow.md",
+        "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+        "bytes": 9567,
+        "gitBlob": "81a7a3d5bd3e3ca0366a4a6a40c96a55e7338ede"
+      },
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "2f52710e277afd3a51dd7534d637681e95a088c620cdda11cfae883c127b2429",
+        "bytes": 3909,
+        "gitBlob": "a3be69cecb81980f65998817af20edc73edfd64f"
+      },
+      {
+        "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "sha256": "7c76566b6f35048e46213edae33d28aac39e2fd1064e5092d699183542ce3010",
+        "bytes": 3803,
+        "gitBlob": "1660d6aafc6a4757bd13ae69c7095f24ad5aca52"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+        "sha256": "84db4e61a44b29040e4325f700c928bc6c9038422b1171b9a85c6a6f67e65f51",
+        "bytes": 6251,
+        "gitBlob": "0c0360757a0652bf847b0082978b7e5892edf001"
+      },
+      {
+        "path": "docs/phase-governance/document-registry.json",
+        "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+        "bytes": 1047444,
+        "gitBlob": "77913bc98b09ab065523c2e1df0db2c4da39312e"
+      },
+      {
+        "path": "scripts/docs/check-content-review.mjs",
+        "sha256": "8c6210c293e013d5d6057b81774996f4774cf6d3abaf87a8437575c940f99786",
+        "bytes": 7356,
+        "gitBlob": "ad64405395481f48a754897706ca36ae0593ee66"
+      },
+      {
+        "path": "scripts/docs/report-governance-progress.mjs",
+        "sha256": "f7f6143974059a7caeb7982f0cb83274813cfb8ee1861d983e78eecfdb922ad8",
+        "bytes": 6552,
+        "gitBlob": "ecb446772312dca67384003e36954b985654d030"
+      },
+      {
+        "path": "scripts/docs/sync-governed-document-registry.mjs",
+        "sha256": "1b9c61b17b0e887b56a00087a5e64a750d0f6a33d126251949705f8f784db2bf",
+        "bytes": 1809,
+        "gitBlob": "735e0fc8e30518c3eb4af2862f0ae0feec7f8610"
+      },
+      {
+        "path": "scripts/docs/classify-governed-documents.mjs",
+        "sha256": "73957137c51c2eb66be8182e1b7fec1fda3a3dc49f2138b4d3a387ae19688def",
+        "bytes": 3999,
+        "gitBlob": "6f64f5dc1215bea37f3cd7bdee356418b4e54c23"
+      },
+      {
+        "path": "scripts/docs/generate-structured-content-reviews.mjs",
+        "sha256": "4ffd79952841ac6c90e6b758b6df565af05778f08422c20f875d2d1738530163",
+        "bytes": 7229,
+        "gitBlob": "81e48e83c36f559fd24847111dbd5fa807b818dd"
+      },
+      {
+        "path": "scripts/docs/enrich-review-metadata.mjs",
+        "sha256": "5576faef7e170cd04404d3a9ac49f7a140692f3b3f594a7a28f37939cf352aae",
+        "bytes": 1372,
+        "gitBlob": "c0b09ec5cb2c4689a62a2001bc403fbe8ce4f874"
+      },
+      {
+        "path": "scripts/docs/historical-execution-source.test.mjs",
+        "sha256": "8f0638661106fbcc52edf4ab7d4018afdb79c6c16eb461480c06df581887ef32",
+        "bytes": 27985,
+        "gitBlob": "80b0982f9279ca61f1eccd6578255448963e2e9b"
+      },
+      {
+        "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+        "sha256": "8e7b88032ea8330dfaf361f0ef757b88392daf388369797bf403024e3c3e650a",
+        "bytes": 21901,
+        "gitBlob": "5b1ddbbe6afee50032f07aab9129ea48e991a5e2"
+      },
+      {
+        "path": "scripts/docs/document-integrity.mjs",
+        "sha256": "5b9f905c67b568cb7862ae86b81194937a3eda32f08a95550ad2fa953c02edd8",
+        "bytes": 1041,
+        "gitBlob": "d16efacffe839ee0e1189b0c764abd69f482fbd1"
+      },
+      {
+        "path": "scripts/quality/lint-zero.mjs",
+        "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+        "bytes": 3515,
+        "gitBlob": "a911610b9b664d5920d0ed43ba501fba5f2bcc45"
+      },
+      {
+        "path": "biome.json",
+        "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+        "bytes": 2515,
+        "gitBlob": "347f429933764c8ae9b581bd9abcd774fdb60ca4"
+      }
+    ],
+    "final": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "bytes": 6028,
+        "gitBlob": "e8e196ab3b5dafa1ffa23a4e736b9c51171c23cb",
+        "sameAs09ec": true
+      },
+      {
+        "path": "docs/ops/guides/documentation-model.md",
+        "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "bytes": 9468,
+        "gitBlob": "ec57bf5c6fdb134590c325fa1d7ac6cc2cb3fc08",
+        "sameAs09ec": true
+      },
+      {
+        "path": "docs/ops/agent-workflow.md",
+        "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+        "bytes": 9567,
+        "gitBlob": "81a7a3d5bd3e3ca0366a4a6a40c96a55e7338ede",
+        "sameAs09ec": true
+      },
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "2f52710e277afd3a51dd7534d637681e95a088c620cdda11cfae883c127b2429",
+        "bytes": 3909,
+        "gitBlob": "a3be69cecb81980f65998817af20edc73edfd64f",
+        "sameAs09ec": true
+      },
+      {
+        "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "sha256": "c3fda1ffbef4e7a7e5489213fee7041ef215a854a291fdc6afa780cceb6f4d3a",
+        "bytes": 4021,
+        "gitBlob": "04e604cc1b3e96d9a49006ed6b2f46b2dc111837",
+        "sameAs09ec": false
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+        "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+        "bytes": 9012,
+        "gitBlob": "9d46b9d8a98ac17a42159e5e9109e3e8e88ad93e",
+        "sameAs09ec": false
+      },
+      {
+        "path": "docs/phase-governance/document-registry.json",
+        "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+        "bytes": 1047444,
+        "gitBlob": "77913bc98b09ab065523c2e1df0db2c4da39312e",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/check-content-review.mjs",
+        "sha256": "8c6210c293e013d5d6057b81774996f4774cf6d3abaf87a8437575c940f99786",
+        "bytes": 7356,
+        "gitBlob": "ad64405395481f48a754897706ca36ae0593ee66",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/report-governance-progress.mjs",
+        "sha256": "f7f6143974059a7caeb7982f0cb83274813cfb8ee1861d983e78eecfdb922ad8",
+        "bytes": 6552,
+        "gitBlob": "ecb446772312dca67384003e36954b985654d030",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/sync-governed-document-registry.mjs",
+        "sha256": "1b9c61b17b0e887b56a00087a5e64a750d0f6a33d126251949705f8f784db2bf",
+        "bytes": 1809,
+        "gitBlob": "735e0fc8e30518c3eb4af2862f0ae0feec7f8610",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/classify-governed-documents.mjs",
+        "sha256": "73957137c51c2eb66be8182e1b7fec1fda3a3dc49f2138b4d3a387ae19688def",
+        "bytes": 3999,
+        "gitBlob": "6f64f5dc1215bea37f3cd7bdee356418b4e54c23",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/generate-structured-content-reviews.mjs",
+        "sha256": "4ffd79952841ac6c90e6b758b6df565af05778f08422c20f875d2d1738530163",
+        "bytes": 7229,
+        "gitBlob": "81e48e83c36f559fd24847111dbd5fa807b818dd",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/enrich-review-metadata.mjs",
+        "sha256": "5576faef7e170cd04404d3a9ac49f7a140692f3b3f594a7a28f37939cf352aae",
+        "bytes": 1372,
+        "gitBlob": "c0b09ec5cb2c4689a62a2001bc403fbe8ce4f874",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/historical-execution-source.test.mjs",
+        "sha256": "8f0638661106fbcc52edf4ab7d4018afdb79c6c16eb461480c06df581887ef32",
+        "bytes": 27985,
+        "gitBlob": "80b0982f9279ca61f1eccd6578255448963e2e9b",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+        "sha256": "8e7b88032ea8330dfaf361f0ef757b88392daf388369797bf403024e3c3e650a",
+        "bytes": 21901,
+        "gitBlob": "5b1ddbbe6afee50032f07aab9129ea48e991a5e2",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/docs/document-integrity.mjs",
+        "sha256": "5b9f905c67b568cb7862ae86b81194937a3eda32f08a95550ad2fa953c02edd8",
+        "bytes": 1041,
+        "gitBlob": "d16efacffe839ee0e1189b0c764abd69f482fbd1",
+        "sameAs09ec": true
+      },
+      {
+        "path": "scripts/quality/lint-zero.mjs",
+        "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+        "bytes": 3515,
+        "gitBlob": "a911610b9b664d5920d0ed43ba501fba5f2bcc45",
+        "sameAs09ec": true
+      },
+      {
+        "path": "biome.json",
+        "sha256": "3d1f3d4d2593635c44a80b717016b6abd634423f749a564c82ddf759e54fff74",
+        "bytes": 2515,
+        "gitBlob": "347f429933764c8ae9b581bd9abcd774fdb60ca4",
+        "sameAs09ec": true
+      }
+    ]
+  },
+  "artifactCount": 110,
+  "artifacts": [
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-freeze-09ec.json",
+      "relativePath": "author-freeze-09ec.json",
+      "bytes": 1743,
+      "sha256": "da883c1ca6e8e49029c0f5d3165174ea0da22c08ecc621e9ce6991090d97035d"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gate-retention-map.json",
+      "relativePath": "author-gate-retention-map.json",
+      "bytes": 4619,
+      "sha256": "9667a120b95a8faccd1c8f50954388bb05c34156d06ef2fd1994da77508385b0"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gate-v202-retention-map.json",
+      "relativePath": "author-gate-v202-retention-map.json",
+      "bytes": 4380,
+      "sha256": "de4e869ed8d9f609dd60914a3107f65db2ac7b6ac42af31efca9ae63a7268144"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/capture.py",
+      "relativePath": "author-gates-09ec/capture.py",
+      "bytes": 1140,
+      "sha256": "79ad9b0794244f4722a0045eb0df501ec28c9e3985db8189f03aa3efa3e123df"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/check-docs-after-link.stderr",
+      "relativePath": "author-gates-09ec/check-docs-after-link.stderr",
+      "bytes": 479640,
+      "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/check-docs-after-link.stdout",
+      "relativePath": "author-gates-09ec/check-docs-after-link.stdout",
+      "bytes": 31323,
+      "sha256": "e3aef18c52cd96ebf29c1929a2c914dabbfe60cd950961e4402fd12b10e13385"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/check-docs.json",
+      "relativePath": "author-gates-09ec/check-docs.json",
+      "bytes": 403,
+      "sha256": "0ec4493d913c01ba13300d9fcc3d5137d70f876bcdaf60b99158bf4ffe65c690"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/check-docs.stderr",
+      "relativePath": "author-gates-09ec/check-docs.stderr",
+      "bytes": 115,
+      "sha256": "bf805aab8573f748fe31919214bcef73c6ef5ba11acfd16445c665e7c298365c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/check-docs.stdout",
+      "relativePath": "author-gates-09ec/check-docs.stdout",
+      "bytes": 30957,
+      "sha256": "031aed293635bc4bbd82a3b3bc929d5efca3895888d796435a9578c2f61bb4e3"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/full-diff.json",
+      "relativePath": "author-gates-09ec/full-diff.json",
+      "bytes": 459,
+      "sha256": "c03cddc5637c9db6c121fa56a94e6b57322edafd45f62c6fd51e78cb0f4d8dd1"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/full-diff.stderr",
+      "relativePath": "author-gates-09ec/full-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/full-diff.stdout",
+      "relativePath": "author-gates-09ec/full-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/lint.json",
+      "relativePath": "author-gates-09ec/lint.json",
+      "bytes": 397,
+      "sha256": "343739ffc7d4e68def69e70c9d3a09d3d1849033b39a686f34b0ceb4e73f123c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/lint.stderr",
+      "relativePath": "author-gates-09ec/lint.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-09ec/lint.stdout",
+      "relativePath": "author-gates-09ec/lint.stdout",
+      "bytes": 182,
+      "sha256": "73f0a327f802140bacdb81af08a4f6a2ffb39be02aace5b1cfdd93da1b5f7ecc"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/capture.py",
+      "relativePath": "author-gates-v202/capture.py",
+      "bytes": 1140,
+      "sha256": "79ad9b0794244f4722a0045eb0df501ec28c9e3985db8189f03aa3efa3e123df"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/check-docs.json",
+      "relativePath": "author-gates-v202/check-docs.json",
+      "bytes": 403,
+      "sha256": "1809714b3e54205dab51475b02aa57a757afb055cef4a277f1ab5008f1432939"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/check-docs.stderr",
+      "relativePath": "author-gates-v202/check-docs.stderr",
+      "bytes": 479640,
+      "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/check-docs.stdout",
+      "relativePath": "author-gates-v202/check-docs.stdout",
+      "bytes": 31332,
+      "sha256": "9d4bc58ce5ff2aa2fe33090d3d636c85fca4a1933ec986fbe0c9c4be30387266"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/full-diff.json",
+      "relativePath": "author-gates-v202/full-diff.json",
+      "bytes": 459,
+      "sha256": "62b4b831734b67b634c0289676d33baa1203c8db586fdfed045a0f50971cfb65"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/full-diff.stderr",
+      "relativePath": "author-gates-v202/full-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/full-diff.stdout",
+      "relativePath": "author-gates-v202/full-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/harness.stderr",
+      "relativePath": "author-gates-v202/harness.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/harness.stdout",
+      "relativePath": "author-gates-v202/harness.stdout",
+      "bytes": 305,
+      "sha256": "8c41977ca4da14d56feac1f8be50b89e397e45ca2b30d90bff863629f1020f02"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/lint.json",
+      "relativePath": "author-gates-v202/lint.json",
+      "bytes": 397,
+      "sha256": "0c7d4ba7a55e737a2cea88ba12ca8377941e1b633bda59ddd99820599235759e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/lint.stderr",
+      "relativePath": "author-gates-v202/lint.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/lint.stdout",
+      "relativePath": "author-gates-v202/lint.stdout",
+      "bytes": 182,
+      "sha256": "73f0a327f802140bacdb81af08a4f6a2ffb39be02aace5b1cfdd93da1b5f7ecc"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/author-gates-v202/pid",
+      "relativePath": "author-gates-v202/pid",
+      "bytes": 5,
+      "sha256": "541dadd8aa698bf6e15a04c9fb14c016f1edf5823bd84ddeb7199cd30d980090"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/build_report.py",
+      "relativePath": "build_report.py",
+      "bytes": 22075,
+      "sha256": "492cce409b1f78e15f47514a981342b34499ec01ff93e66f3a497f35969b5769"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/capture-v202.py",
+      "relativePath": "capture-v202.py",
+      "bytes": 1434,
+      "sha256": "6b3a9163ea4007a4f6d4f55c4c5529d5344e0f65187179cf617bfc3ad385bfd0"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/capture.py",
+      "relativePath": "capture.py",
+      "bytes": 1434,
+      "sha256": "1ca25c798f99ce8713acc0f0562e54744279905b17988283e58a48948548ef5b"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/cleanup_own_fixtures.py",
+      "relativePath": "cleanup_own_fixtures.py",
+      "bytes": 1443,
+      "sha256": "843ce782f232fbccd54a60bd424732420247d31083b61eb00154eb7ad5215e07"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/counter-09ec.json",
+      "relativePath": "counter-09ec.json",
+      "bytes": 2710,
+      "sha256": "4eded3b0b684788f3fe0e4c7ce36e1c480a9937c868da4124292a9818b568bcd"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/counter-format-receipt.json",
+      "relativePath": "counter-format-receipt.json",
+      "bytes": 655,
+      "sha256": "472e61aaf4610213647483d292e395061745f99d5c2dbfd2ad23d03177ee101f"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/freeze_verify.py",
+      "relativePath": "freeze_verify.py",
+      "bytes": 1012,
+      "sha256": "3d7125790cfe70a1b7067353e7ddb51113dee89ba979316102f70bdc59d95cec"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/inspect_source.py",
+      "relativePath": "inspect_source.py",
+      "bytes": 2054,
+      "sha256": "abbc2f3c437a4db7033aaae600a5ba745acbccb331f4bc1f59935e7bc269283c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/partition_design_probe.py",
+      "relativePath": "partition_design_probe.py",
+      "bytes": 1370,
+      "sha256": "8fe718cc09fa3eec60895f55674ddbe39b478b1d3a7b5eb1e651c09b6e0cb7c2"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/race_model.py",
+      "relativePath": "race_model.py",
+      "bytes": 1499,
+      "sha256": "3b88db400dc05a5d773c926f7892c54ed913015578eabf2341798bcd5a4b2989"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/check-docs.json",
+      "relativePath": "raw/check-docs.json",
+      "bytes": 1132,
+      "sha256": "2aa46ddec59d12565de9f50dc13d9280f650c8b5140dfe387fa5eb8656b52fe6"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/check-docs.stderr",
+      "relativePath": "raw/check-docs.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/check-docs.stdout",
+      "relativePath": "raw/check-docs.stdout",
+      "bytes": 14394,
+      "sha256": "eccaddc2e976b9fa0c3ee766aae8540f46403ff52383c3c8a62f1b6ad5957787"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/docs-direct.json",
+      "relativePath": "raw/docs-direct.json",
+      "bytes": 993,
+      "sha256": "2eb71c0084c7d040f39a3b169392e8a7a3913c5114ef44b76f548fdf4be075dd"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/docs-direct.stderr",
+      "relativePath": "raw/docs-direct.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/docs-direct.stdout",
+      "relativePath": "raw/docs-direct.stdout",
+      "bytes": 92,
+      "sha256": "87be3439b6fd103b74fc0412f780e170fb828ae375579859d76b13ef1d2ddcd4"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/ff-v202.json",
+      "relativePath": "raw/ff-v202.json",
+      "bytes": 1021,
+      "sha256": "bbc653a010fd4cc70a8359f5bfa6dc2e7c6aa1fb907b59dc47c6fbc305754254"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/ff-v202.stderr",
+      "relativePath": "raw/ff-v202.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/ff-v202.stdout",
+      "relativePath": "raw/ff-v202.stdout",
+      "bytes": 235,
+      "sha256": "5f30467c54fe2bebbbfea5e50c83566bac4b5414e23c5819d82ae42b3005a112"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/freeze-verification.json",
+      "relativePath": "raw/freeze-verification.json",
+      "bytes": 1074,
+      "sha256": "c5a026c61b160921b8d9a092b2f2bdc43b4b083d6cac805570c1799da106e4bb"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/freeze-verification.stderr",
+      "relativePath": "raw/freeze-verification.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/freeze-verification.stdout",
+      "relativePath": "raw/freeze-verification.stdout",
+      "bytes": 1107,
+      "sha256": "ad38c4b46555a00c8b729bc45550451016c71a7cacbb126b65244bcc328b755c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/full-base-diff.json",
+      "relativePath": "raw/full-base-diff.json",
+      "bytes": 1050,
+      "sha256": "7f7eff0737ed17c32ff26b13615980c2e901e8eac80b80e6d2d49d52901f168e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/full-base-diff.stderr",
+      "relativePath": "raw/full-base-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/full-base-diff.stdout",
+      "relativePath": "raw/full-base-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/lint.json",
+      "relativePath": "raw/lint.json",
+      "bytes": 955,
+      "sha256": "fdd61be3f94e5d38e229c3c7d042dbc29785e176e0f213e421e9b9cf423ea0ce"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/lint.stderr",
+      "relativePath": "raw/lint.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/lint.stdout",
+      "relativePath": "raw/lint.stdout",
+      "bytes": 197,
+      "sha256": "a515e6f2e69a9b3df8946f46eed13cbd2a347f0e10d84fa7940d477b080069b1"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/model-direct.json",
+      "relativePath": "raw/model-direct.json",
+      "bytes": 1011,
+      "sha256": "6c3928981ce499b0d6edd511f061f39e6bda3ee18cfc24986cc2c039399712a7"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/model-direct.stderr",
+      "relativePath": "raw/model-direct.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/model-direct.stdout",
+      "relativePath": "raw/model-direct.stdout",
+      "bytes": 79,
+      "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/own-fixture-cleanup.json",
+      "relativePath": "raw/own-fixture-cleanup.json",
+      "bytes": 1083,
+      "sha256": "300b6da7e93a537353afa8a3c84f8a9da0fc2478d8d881a05c922dbe4f3bea67"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/own-fixture-cleanup.stderr",
+      "relativePath": "raw/own-fixture-cleanup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/own-fixture-cleanup.stdout",
+      "relativePath": "raw/own-fixture-cleanup.stdout",
+      "bytes": 1484,
+      "sha256": "1f655f4de30da6f07c1a23168119084397231777536865860f6ff747eddfb14e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/partition-feasibility.json",
+      "relativePath": "raw/partition-feasibility.json",
+      "bytes": 1091,
+      "sha256": "c0e214e9ec49b00dfb3faaff34e579d36cf4d7a8af85d3e6426f4e9cd3c31a88"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/partition-feasibility.stderr",
+      "relativePath": "raw/partition-feasibility.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/partition-feasibility.stdout",
+      "relativePath": "raw/partition-feasibility.stdout",
+      "bytes": 1546,
+      "sha256": "6a3fec29ae1a0c9ac2f13ded363c057c2c8a8715165b2e823565f8aa0bd644cb"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/phase-direct.json",
+      "relativePath": "raw/phase-direct.json",
+      "bytes": 1027,
+      "sha256": "a6c5ae9bd8f617571716e5c3193fbd0866a908b9f2763191c1ffa6bd2b33a3d0"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/phase-direct.stderr",
+      "relativePath": "raw/phase-direct.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/phase-direct.stdout",
+      "relativePath": "raw/phase-direct.stdout",
+      "bytes": 44,
+      "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/progress.json",
+      "relativePath": "raw/progress.json",
+      "bytes": 1057,
+      "sha256": "a5952c90e179029cdccf75cbda53e7acd7edc5f626d50bf5bd0e76f02777a4fe"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/progress.stderr",
+      "relativePath": "raw/progress.stderr",
+      "bytes": 89,
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/progress.stdout",
+      "relativePath": "raw/progress.stdout",
+      "bytes": 137467,
+      "sha256": "a0d9c614b37404b39a3b3c26c09228ea6740136b2542846f321a1235391dd463"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/race-model.json",
+      "relativePath": "raw/race-model.json",
+      "bytes": 1054,
+      "sha256": "3968d432a5ed3b500d44775d4a33b504714079313242767ce28c656c1a31a02c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/race-model.stderr",
+      "relativePath": "raw/race-model.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/race-model.stdout",
+      "relativePath": "raw/race-model.stdout",
+      "bytes": 620,
+      "sha256": "41745c3f52c7eb3aaabe5179b4f812d1c32bbc29745f2d7d0bfc93955a65aef9"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/source-shape.json",
+      "relativePath": "raw/source-shape.json",
+      "bytes": 1057,
+      "sha256": "5e95e6a4847021b1f9539c6e0911d8ad6cd8b05bae0eac1732736a028115f557"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/source-shape.stderr",
+      "relativePath": "raw/source-shape.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/source-shape.stdout",
+      "relativePath": "raw/source-shape.stdout",
+      "bytes": 16497,
+      "sha256": "6dcd1ed781e2dcf3c6bf32e6df3049d926754879b049e0599a062060ee3807a9"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/staged-diff.json",
+      "relativePath": "raw/staged-diff.json",
+      "bytes": 1013,
+      "sha256": "4db5179d828cf4181a5625a3c644023804a77e19b7fa2e64d1095bacbf84ded7"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/staged-diff.stderr",
+      "relativePath": "raw/staged-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/staged-diff.stdout",
+      "relativePath": "raw/staged-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/strict.json",
+      "relativePath": "raw/strict.json",
+      "bytes": 1014,
+      "sha256": "848ac55ceba8c393593ea61e5770dbe5547342e73c08a0498f0deb8c733b35b6"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/strict.stderr",
+      "relativePath": "raw/strict.stderr",
+      "bytes": 479640,
+      "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/strict.stdout",
+      "relativePath": "raw/strict.stdout",
+      "bytes": 94,
+      "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/testing-direct.json",
+      "relativePath": "raw/testing-direct.json",
+      "bytes": 1018,
+      "sha256": "3edca69b0be914cb0e9b15355ddd592585054e01e40a7234986c81d416902d58"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/testing-direct.stderr",
+      "relativePath": "raw/testing-direct.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/testing-direct.stdout",
+      "relativePath": "raw/testing-direct.stdout",
+      "bytes": 30,
+      "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-docs.json",
+      "relativePath": "raw/v202-docs.json",
+      "bytes": 987,
+      "sha256": "ba77bcb3d0a562720d953213681e7ca384a533c05ee920bd472b919594aa98e6"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-docs.stderr",
+      "relativePath": "raw/v202-docs.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-docs.stdout",
+      "relativePath": "raw/v202-docs.stdout",
+      "bytes": 92,
+      "sha256": "87be3439b6fd103b74fc0412f780e170fb828ae375579859d76b13ef1d2ddcd4"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-full-base-diff.json",
+      "relativePath": "raw/v202-full-base-diff.json",
+      "bytes": 1074,
+      "sha256": "77b14960cf96ce8263b62ba894ccfa408aa2fd812f68ad1dca902a205a414ffb"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-full-base-diff.stderr",
+      "relativePath": "raw/v202-full-base-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-full-base-diff.stdout",
+      "relativePath": "raw/v202-full-base-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-lint.json",
+      "relativePath": "raw/v202-lint.json",
+      "bytes": 970,
+      "sha256": "2b9b6067ac91c4c555a7790a7e9c649884a1060398525da7fb2d348bcfe3d452"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-lint.stderr",
+      "relativePath": "raw/v202-lint.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-lint.stdout",
+      "relativePath": "raw/v202-lint.stdout",
+      "bytes": 197,
+      "sha256": "a515e6f2e69a9b3df8946f46eed13cbd2a347f0e10d84fa7940d477b080069b1"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-progress.json",
+      "relativePath": "raw/v202-progress.json",
+      "bytes": 1072,
+      "sha256": "d7c73448329d4ee90bb05d8570938a909b75f2aa2450b085e6ef5c77a7167df8"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-progress.stderr",
+      "relativePath": "raw/v202-progress.stderr",
+      "bytes": 89,
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-progress.stdout",
+      "relativePath": "raw/v202-progress.stdout",
+      "bytes": 137467,
+      "sha256": "a0d9c614b37404b39a3b3c26c09228ea6740136b2542846f321a1235391dd463"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-staged-diff.json",
+      "relativePath": "raw/v202-staged-diff.json",
+      "bytes": 1028,
+      "sha256": "ecd9fba654cf10cd423b62a1be7ff855cef2684ae1a6d8f951adc11a73d49335"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-staged-diff.stderr",
+      "relativePath": "raw/v202-staged-diff.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-staged-diff.stdout",
+      "relativePath": "raw/v202-staged-diff.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-strict.json",
+      "relativePath": "raw/v202-strict.json",
+      "bytes": 1029,
+      "sha256": "030f1bc299d8c065f14cdfff338d5f3d3f496c7d72f9be80212ee6d21746dec1"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-strict.stderr",
+      "relativePath": "raw/v202-strict.stderr",
+      "bytes": 479640,
+      "sha256": "b1ba3f572be73d7afda6be1b47e0b0ccd70a76c3e50ffb6c3ee8050f6073337e"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/raw/v202-strict.stdout",
+      "relativePath": "raw/v202-strict.stdout",
+      "bytes": 94,
+      "sha256": "d61fb0dc8fad3a6dda03c49b21e77d56dd2c10f0c778ceb0e76f3cd9acd81c6a"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/snapshots/09ec-card.md",
+      "relativePath": "snapshots/09ec-card.md",
+      "bytes": 3803,
+      "sha256": "7c76566b6f35048e46213edae33d28aac39e2fd1064e5092d699183542ce3010"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/snapshots/09ec-design.md",
+      "relativePath": "snapshots/09ec-design.md",
+      "bytes": 6251,
+      "sha256": "84db4e61a44b29040e4325f700c928bc6c9038422b1171b9a85c6a6f67e65f51"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/snapshots/2.0.2-card.md",
+      "relativePath": "snapshots/2.0.2-card.md",
+      "bytes": 4021,
+      "sha256": "c3fda1ffbef4e7a7e5489213fee7041ef215a854a291fdc6afa780cceb6f4d3a"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/snapshots/2.0.2-design.md",
+      "relativePath": "snapshots/2.0.2-design.md",
+      "bytes": 9012,
+      "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/source-file-pins-09ec.json",
+      "relativePath": "source-file-pins-09ec.json",
+      "bytes": 4001,
+      "sha256": "8caf61d6cc263ddd3708b67a0c50597282ba1f67f3faed4023343ab4843cd8bd"
+    },
+    {
+      "path": "/tmp/type-pal-registry-design-independent-20261018-09ecbcbb/source-file-pins-38f18ff9.json",
+      "relativePath": "source-file-pins-38f18ff9.json",
+      "bytes": 4435,
+      "sha256": "663a8cc2b4c5fa26e47d30f0fbc6a2f29c96f7fc3bff3179a9b0cf3d3fc652e0"
+    }
+  ],
+  "artifactPolicy": "Exact bytes; command and author raw are never reformatted. This report is formatted through project Biome before hashing. Report/formatter receipt are excluded from self-hash inventory to avoid recursion; final SHA is issued externally."
+}

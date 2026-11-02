@@ -1,5 +1,38 @@
 # 百文件窗口集中验收
 
+Status: recorded
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+[父卡](../../../tasks/QUALITY-PENDING-100-1.md)；同一治理分支codex/code-quality-94-102，fetched main 72db417255d8ca4227522420e9185ef468462aa7。窗口100个实际主体全文A–H，前70与末30分别保留原生结果，不把相邻依赖、既有接受、文件搬移或退役计入100；[逐文件唯一索引](../review.json)和[末30](../asset-render/README.md)给每个文件的caller/oracle/整改/局限，哈希枚举不能代替语义判断。Status=recorded按内容实况：本页承载本地集中门实际执行回执，远端发布以受保护PR与CI实际结果为准。
+
+## 来源与输入
+
+六次全仓首跑失败与必要桥接的完整stdout/stderr/命令时间exit都在[native索引](native-index.json)对应成员，首跑从不覆盖：window100-check（测试提取宿主漏新增collaborator，现一同提取真实supplySupplementalSceneObjects，恢复13绿/空stderr）；r2（唯一git hash-object子进程0CPU卡住，向owned子进程发SIGTERM保留失败，docs worker11绿）；r3（4个E2E证据引用过期，仅更新current sourceRefs及两条同源指针为527–642）；r4（忽略的extracted仍是旧main剧情产物，APFS clone备份209MB后按当前命令完整再生，最终仅6个场景/修订产物变化、MAP chunk0空50B notice单独披露）；r5（census期望pal-win-1改当前canonical pal-win-2，22例恢复绿）；r6（editor PAL沿用已撤回旧总数，五个精确计数加1/2并以私有克隆差分证team267与sprite548两条真实边，migrate另跑96文件740例绿）。均为受影响宿主/夹具/绑定的必要恢复，不获第101个主体信用。
+
+## 断言与业务 oracle
+
+最终 `pnpm check` 实际exit0、空stderr：20536包测试＋732工具测试全部通过，七包typecheck/whole lint 0errors/0warnings/0infos；此前exit1与各恢复定向原件保留，未相加冒充整仓绿。唯一官方采集实际执行20,188个fast测试、809个生产文件census闭合；ratchet首次因提取器branches回落exit1（167B完整stderr保留），之后按用户允许的合理结构/测试质量基准调整、复用原报告，由[原官方函数提取重放器](replay.mjs)执行原ratchet尾段、原atomic writer及protected fast谓词，二者exit0/空stderr；没有第二次采集，没有改runner、选取配置、比较器或退役谓词。
+
+## 结果
+
+[逐文件核算](recount.json)将实际main CI（Coverage run40478991718/artifact12724545170，CRC验证下载）与当前唯一报告比较：其它六包全部逐文件指标一致，提取器恰10个文件变化；仅调整必要的branch比较基准673/796→661/790，6个退役适配器分支及6个合法夹具/现用模块迁移分支退出旧fast信用，现用动画writer的4个新增覆盖分支保持增益，语句/函数/行及其它六包沿用原门槛。三个无生产caller旧出口退役已获用户明确批准；[授权数据桥接](approval-proof.json)记录六个仍存在文件的计数减少精确绑定main/current数量、身份摘要和最终字节、五新增数据快照与PNG替换原5→4为当前4→3，删除文件逐条必须实际不存在、不使用新增ignore/exclude或浮动容差。退役工具首跑140绿/1红：旧负例用字面量10伪造数量、恰等于新首行合法旧数量，只将负例改为该前像加1、14条拒绝身份/谓词保留，复跑141绿/空stderr（本次测试夹具错误，不是产品红例或规则豁免）。当前PR30候选以[RNG CI增量](ci-rng/README.md)为准：首轮远端实际1例ENOENT，保留原盘合同、增补自足fast输入后extract413/TC0与新official20188/809 ratchet/protected均0，七包每个源文件计数逐项等于首报；原全仓20536/732按不变范围复用、不称新整仓运行，真实CI失败后共两份不同候选报告、第一份未覆盖。收口材料首验（只读复验因三条过短轴描述拒绝后按既有全文证据补明；docs首跑125工具绿后14项——13张done卡留活动看板、索引未按终态分区——已移出看板并重建索引）亦保留。
+
+## 限制与复核
+
+仓库根执行 `node docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/verify.mjs` 默认只读：核100主体验收身份/A–H、原件字节、当前baseline与原报告投影、六精确退役及有限调整、最终check实际exit/诊断；不再次跑测试或覆盖率。replay.mjs需显式设置此回执的protected ref，只有--ratchet允许原writer写baseline、普通模式只读。native原件与两份完整summary均gzip无损保存；下载网络失败的6份本地诊断可能含临时鉴权URL，只公开SHA/省略原因、私有原件保留，它们不是代码或测试质量门原件；代码/测试门日志全部保留、未裁剪或脱敏重写。当前机器账本3465tracked／694closed／0review／2771pending（ci-rng增量后3466/695/0/2771）；本窗代码接受100不代表全仓治理完成，不扩其它pending或94–102新范围，发布仍走受保护PR与CI，远端结果未发生前不提前声明。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6853B / SHA-256 c61763242ba0f845e667fb9d285f8472fbd818dc31812e341cdc2c28f22072f6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 百文件窗口集中验收
+
 ## 身份与范围
 
 [父卡](../../../tasks/QUALITY-PENDING-100-1.md)；同一治理分支 `codex/code-quality-94-102`，fetched main `72db417255d8ca4227522420e9185ef468462aa7`。窗口100个实际主体全文A–H，前70与末30分别保留原生结果，不把相邻依赖、既有接受、文件搬移或退役计入100。[逐文件唯一索引](../review.json)和[末30](../asset-render/README.md)给每个文件的caller/oracle/整改/局限；哈希枚举不能代替语义判断。
@@ -40,3 +73,5 @@ native原件与两份完整summary均gzip无损保存。下载网络失败的6�
 收口材料首验亦保留：只读复验因三条过短轴描述拒绝，已按既有全文证据补明stores可测依赖及sounds标题/逐项字面值边界，不改源码或降低校验约束。文档首跑125工具绿后报14项：13张done卡仍留活动看板、索引未按终态重新分区；已移出活动看板并用既有生成器重建索引，其它任务行不变。后续只复跑受影响的文档静态门，复用已绿的125工具。
 
 当前PR30候选以[RNG CI增量](ci-rng/README.md)为准：首轮远端实际1例ENOENT，保留原盘合同、增补自足fast输入后，当前extract413/TC0与新official20188/809 ratchet/protected均0，七包每个源文件计数逐项等于首报。原全仓20536/732按不变范围复用，不称新整仓运行；真实CI失败后共两份不同候选报告，第一份未覆盖。当前3466/695closed/0review/2771pending；primary100和其它pending边界不变，远端复验仍待。
+```
+<!-- incremental-original-source:end -->

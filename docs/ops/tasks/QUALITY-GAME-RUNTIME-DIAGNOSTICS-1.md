@@ -1,6 +1,39 @@
 # QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核清game完整包验证的17块stderr：dfd03a811上原生320文件/3605例通过、0失败/跳过但完整输出17块stderr，因此不算包级质量验收；涉及event-system/scene/mode、magic/equipment脚本、战斗fixture、AVI/RNG/precache。实际文本同时有预期缺label/IO失败和疑似错误fixture（缺current EO、未知enemy等），归因必须逐file、真实caller/typed状态与primary核实。
+
+## 范围
+
+先核看板/活跃Owner挑2–4个不重叠文件；C2切片白名单仅e2-equipment-effects.test.ts与e4-run-equip-script.test.ts；预期负面IO必须核完整记录/实参/错误身份与隔离，不全局静音console、不过滤未知输出、不改生产日志级别。
+
+## 前提与证据
+
+固定源全文核读。C2装备脚本负输入切片：两stderr均来自合法负输入（未知equipment row 999与未注册L_99999），生产fail-safe warning是业务oracle；用vi.spyOn(console,'warn')在测试自身生命周期内捕获并精确断言、finally恢复。未改测试两warning反例为8/8、2 stderr blocks；显式oracle后8/8、0 stderr；相邻装备/跨模块6文件66 tests通过0 stderr。C2统一门：根pnpm check通过（lint 4962文件0/0/0），official ratchet与protected fast coverage tools 75/75但正式门均被shared/pal-extract基线回退拒绝，未改baseline。完整game verbose复跑321 files/3612 tests通过仍15块stderr，剩余15块未全文核验。原件:[game-diagnostics.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json) [test-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json) [QUALITY-FETCH-ABORT-LIFECYCLE-1.md](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)。
+
+## 验收
+
+fetch取消产品风险另归生命周期卡不混为console清理；退出0仍有诊断不通过；历史raw/计数不改写为零。账本3307tracked/226closed/12review/3069pending，0新增文件关闭。
+
+## 状态与交接
+
+build保持原语义：与editor全包诊断共同阻塞统一质量门、未合main；无下一位Agent提示词，Codex单Agent继续83卡与94–102目标。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4839B / SHA-256 f7cd9d81f63c8d64111f7ddd3f2d6cfe786973a98a4207cd455f82023748917f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前原生输出核验，不冒充第三方）
 Phase: phase1 game
@@ -37,3 +70,5 @@ C2 统一门回执：根 `pnpm check` 通过（docs 1468/8698，lint 4962 文件
 ## 当前结论与交接
 
 C2 已将两装备负输入 warning 归因为可验证的预期负合同；完整 game verbose 复跑为321 files/3612 tests通过但仍15块stderr，剩余15块未全文核验；本卡保持build。账本当前3307 tracked、226 closed / 12 review / 3069 pending。与editor全包诊断共同阻塞统一质量门，未合main、0新增文件关闭。fetch取消产品风险另归[生命周期卡](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)，不混为console清理。全部83卡与94–102/editor目标继续；无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->

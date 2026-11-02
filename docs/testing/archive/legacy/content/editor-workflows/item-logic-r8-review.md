@@ -1,40 +1,62 @@
 # GLM物品六组：3da6002e收尾复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 第 8 轮 Codex 收尾复核（2026-09-27，候选 3da6002e 本地/远端一致）：counter，仅 helper 与证据收尾；上一轮六处 tuple 和完整错误均接受；未合入、不计覆盖、不新增矩阵或针。
+
+## Scope
+
+这次真正通过：effects 五处与 external battleItems 已拍同一次调用的实际对象；ownership 三条错误改用 expectExactError（Error 且 message 全等）；八针接收检查 exit0（candidateMutationGate=true/missed=[]）；content 98 文件 1178/1178（新增 46）、相邻 executor 17/17、九文件 biome 0/0/0。仅余两个原事项：fixtures expectInputsUnchanged 相对 170283a0 零 diff 仍为旧签名（卡内 r7 声称已恢复无条件 run() 与实际提交不符，给出完整替换函数）；receipt 整文件零 diff 仍留 I2=7、净增 45、fullName 省略号与 targetIds 错定位（应为 I1–I6=8/8/6/8/10/6 总 46，停止针 from 为 stoppedTargets continue），r7 块须明确勘误。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 八针+定向+全包 | 八针接收检查 exit0；作者 10 判据自测+46 对照+六针通过；content 1178/1178、相邻 17/17、TC/Biome/docs 零诊断 | Codex | 六个新鲜 JSON 精确 fullName 原文（I1 effectiveStat/I2 equippableItems/I4 removeOwnedItems floor+max/I5 oneAlly 跳过/I6 库存深克隆/I6 引用合同） | 仅改 helper/receipt/evidence 并勘误 r7 块，六业务测试文件已接受不再改 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter 仅两事项（helper 旧签名零 diff、receipt 零 diff 与 r7 不实声明）；下一位 GLM 提示词在 quote 全文保全（含六 fullName 原文与替换函数）。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；/tmp/codex-item-logic-r8-{required,author-mutants,content,adjacent,tc,docs}.log 与两临时目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r8 收尾复核 | 2026-09-27 | 八针闭+两原事项 | counter（仅 helper/receipt 收尾） | r7 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/editor-workflows 的第 8 轮复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：3da6002e收尾复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 仅两事项（helper 旧签名零 diff、receipt 零 diff 与 r7 不实声明）；下一位 GLM 提示词在 quote 全文保全（含六 fullName 原文与替换函数）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+日志前缀、临时目录与六精确 fullName 在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。物品六组最终以 r8 后续闭合为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1-world-use-residuals 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `d35555222c2d9a01aae26e6a898df9a853187a93ac34ac58e76dbceb4f999503`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `d35555222c2d9a01aae26e6a898df9a853187a93ac34ac58e76dbceb4f999503`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：3da6002e收尾复核
 >

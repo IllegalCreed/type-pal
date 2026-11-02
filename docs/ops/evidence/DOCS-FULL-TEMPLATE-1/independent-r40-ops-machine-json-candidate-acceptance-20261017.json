@@ -3,7 +3,7 @@
   "id": "independent-r40-ops-machine-json-candidate-acceptance-20261017",
   "reviewDate": "2026-10-17",
   "reviewer": "Codex root independent post-migration audit",
-  "candidateHead": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+  "candidateHead": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
   "verdict": "accept",
   "verdictScope": "candidate machine JSON artifact reception only; not full-goal done and no product credit",
   "scope": {
@@ -354,5 +354,55 @@
       "coverage": 0,
       "pass": true
     }
-  ]
+  ],
+  "recordIntegrityCorrection20261018": {
+    "schemaVersion": 1,
+    "kind": "record-only-source-anchor-and-credit-correction",
+    "date": "2026-10-18",
+    "authorTask": "/root/central_successor_independent",
+    "nonAuthorReviewer": false,
+    "currentAcceptanceCredit": "withdrawn",
+    "oldClaimedIndependentAcceptanceCredit": "withdrawn-unverified-same-actor",
+    "oldGateExecutionCredit": "withdrawn-unverified-summary",
+    "newSemanticCreditGranted": false,
+    "newExecutionCreditGranted": false,
+    "newCentralAcceptanceGranted": false,
+    "correctionIndependentlyAccepted": false,
+    "originalCandidateHead": "170d97c7f782aa3e4d1981f605a31299554dbd6e",
+    "actualCandidateHead": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+    "anchorStatus": "corrected-to-complete-committed-after-tuple",
+    "sourceGit": {
+      "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r40-ops-machine-json-candidate-acceptance-20261017.json",
+      "blob": "edc42c601ca5ac81d38e1c78637d3457a0304317",
+      "sha256": "9dcffd00a1f75d180a375817058bcdd1900762644f7cedd9583bf5e19ceca3ea",
+      "originalFirstReceiptCommit": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "originalFirstReceiptBlob": "edc42c601ca5ac81d38e1c78637d3457a0304317",
+      "originalFirstReceiptSha256": "9dcffd00a1f75d180a375817058bcdd1900762644f7cedd9583bf5e19ceca3ea"
+    },
+    "originalVerdict": "accept",
+    "originalCandidateReviewPath": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+    "actualLedger": {
+      "path": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",
+      "firstIntroductionCommit": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "firstIntroductionBlob": "a09122ad24a8e89d110ed009f91360a8871d6f71",
+      "firstIntroductionSha256": "b8c1f5685137c99c6863ad12de658fa39f354f0d9cbd7cd1df9a72f759cdb94f"
+    },
+    "completeTargetAfterTupleCommit": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+    "factualBasis": {
+      "reportSha256": "c6a469c22d4dabcc82d02cf86eb8736e2118d4e2da2ce3eb1b3d7dd40a6f1b27",
+      "mapSha256": "b07e674249cc0fc9df8dd445f1a8c842b9cd52db955b83123a17ac265e48e9fd",
+      "sourceHead": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e"
+    },
+    "originalFieldPolicy": "Original verdict/date/documents/staticCommands/numeric claims remain historical values; this correction withdraws current trust and never certifies old execution or deep reading.",
+    "stopLine": "Record correction only; no content/runtime/E2E/visual/coverage/central/global/main/done credit. Root publishes only after review; a different Owner must independently accept the fixed correction.",
+    "immutableOriginalRaw": {
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-receipt-correction-draft-C-d17/9dcffd00a1f75d180a375817058bcdd1900762644f7cedd9583bf5e19ceca3ea.gz",
+      "encoding": "gzip",
+      "payloadSha256": "9dcffd00a1f75d180a375817058bcdd1900762644f7cedd9583bf5e19ceca3ea",
+      "payloadBytes": 12920,
+      "storedSha256": "6fa82d8bec83311443c999d0db9c04f1ac368bbb882002cc4ba7ac83ae570014",
+      "storedBytes": 2581
+    }
+  }
 }

@@ -1,0 +1,755 @@
+{
+  "kind": "docs-semantic-author-candidate",
+  "taskId": "DOCS-FULL-TEMPLATE-1",
+  "slice": "S04",
+  "createdAt": "2026-10-17T21:12:09.543522+00:00",
+  "author": {
+    "canonicalTask": "/root/e2e_entry_semantic_author",
+    "role": "single Coding Owner of cross-stage README only",
+    "nonAuthorReviewer": false,
+    "authorSelfCheckOnly": true
+  },
+  "decision": "candidate-awaiting-root-non-author-content/source/counter review; no reviewed/template-compliant/whole-task completion granted",
+  "scope": {
+    "worktree": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+    "branch": "codex/docs-semantic-cross-stage",
+    "baseHead": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+    "frozenCandidateCommit": "c8715c2c4ac1771a77127917812c87b53a30d676",
+    "actualChangedFiles": ["docs/testing/e2e/cross-stage/README.md"],
+    "repositoryWriteWhitelist": ["docs/testing/e2e/cross-stage/README.md"],
+    "centralLedgerUpdated": false,
+    "mainMerged": false,
+    "pushed": false,
+    "cleanAfterCommit": true,
+    "protectedS03BodySha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+    "temporaryEvidenceRoot": "/tmp/type-pal-s04-author-20261018-p_ahi1x_"
+  },
+  "admission": {
+    "rootCardRevision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+    "taskCardFullFileSha256": "63eff2fc0e37d5692181cc7730b9c527ce0f2d3c8c28e0bfe8ba6dad9cf5a54e",
+    "readScope": "S04 paragraph at end, not entire large task card; prior top/current rule reads reused",
+    "snippetPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/fixed-s04-admission.md",
+    "snippetSha256": "7e13f1f68a9f09a90dc5223171e7cf3a54101fe1364cfd13e67219cda2c24822",
+    "meaning": "build allowed for isolated single document candidate; no central/source/test/runtime writes"
+  },
+  "documentIdentity": {
+    "path": "docs/testing/e2e/cross-stage/README.md",
+    "owner": "Codex (cross-stage navigation maintenance)",
+    "provenance": "fixed original navigation atdc478db1, previous R60 wrapper atf9fbf0c7, explicitly assigned single-author S04 candidate; no original runtime producer impersonation",
+    "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+    "sourceSha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
+    "sourceBytes": 243,
+    "sourceLines": 5,
+    "beforeSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+    "beforeLines": 40,
+    "afterSha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+    "afterLines": 54,
+    "templateId": "governance-index-v1",
+    "templateVersion": "1.0.0",
+    "templateChange": "none"
+  },
+  "uniqueCoreConclusions": [
+    "Original five-line navigation has one common-issues link and an explicit affected-stage ID backlink duty. The40-line wrapper kept the usable link only inside quote and inaccurately described nonexistent original testing-meta/catalog identity/sourceRefs. Candidate restores usable current links and removes that boilerplate claim.",
+    "Catalog e2e-common-issues is an audit with canonical common-issues.md, formal index e2e/README.md and dependencies001-005. Cross-stage README is a human directory entry linked by the parent README, not a replacement catalog index.",
+    "Common-issues narrow read contains later006 historical families and differing dated judgments inside quote. Their existence does not enlarge this audit catalog dependency membership or grant006 verification; candidate makes this boundary explicit without changing catalog or family claims.",
+    "Issue-family maintenance needs actual affected stable IDs, concrete entry/person, source/candidate/version/raw, alternative explanations and root-layer evidence. Same NPC or many mismatches alone does not prove shared root; public runtime/collector/comparator/route/content failures must remain distinguishable.",
+    "A common repair/test green does not settle an individual stage render/save/preview/capture obligation. New same-root evidence reopens the relevant common issue; still-unproved independent stage findings stay unresolved and return to original admitted task/report."
+  ],
+  "authorityBoundaries": {
+    "directoryREADME": "human current navigation and backlink duties only",
+    "publicationAndPairing": "catalog e2e-common-issues identity/status/dates/dependsOn/canonical/index/evidence",
+    "formalIndex": "docs/testing/e2e/README.md remains catalog index; this directory README has no catalog index users",
+    "auditCanonical": "common-issues body owns its specific source/review/date/finding limits, not refreshed by README",
+    "execution": "individual stage report/evidence/current candidate/checkpoint owns actual pass/fail; common audit/source-backed is not new runtime",
+    "taskAdmission": "R4 or relevant original card top/current range/counter and owner; board routes active work",
+    "acceptance": "root non-author decision and later separate central intake only"
+  },
+  "actualReadScope": {
+    "sourceAndDocument": [
+      "original5-line243-byte Git source fully read",
+      "previous40-line README fully read",
+      "new54-line candidate fully read after mutation"
+    ],
+    "dependencies": [
+      {
+        "path": "docs/testing/e2e/cross-stage/common-issues.md",
+        "sha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+        "lines": 431,
+        "actualReadScope": [
+          "1-43 front matter/testing-meta/current wrapper",
+          "58-78 dated historical scope/withdrawals and001-006 title",
+          "229-285 reusable family ledger/identified coverage index and explicit limits",
+          "326-355 public runtime versus tool failure/reopen/backlink rules; only these narrow scopes semantically read"
+        ]
+      },
+      {
+        "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "lines": 394,
+        "actualReadScope": [
+          "1-103 top status/current scope/stop lines and dated original priority; shell also read104-155 but no added semantic or execution credit"
+        ]
+      },
+      {
+        "path": "docs/testing/governance.md",
+        "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+        "lines": 83,
+        "actualReadScope": "full83 lines reread; fixed accepted S02 bytes, no review of all testing records"
+      },
+      {
+        "path": "docs/phase-governance/templates/governance-index.md",
+        "sha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
+        "lines": 22,
+        "actualReadScope": "full template; reuse1.0.0"
+      },
+      {
+        "path": "docs/testing/catalog.json",
+        "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+        "lines": 2003,
+        "actualReadScope": "one complete e2e-common-issues entry only; other entries consumed mechanically by existing public audit"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "sha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+        "lines": 156,
+        "actualReadScope": "root keys and schemaVersion/id/kind/status/candidateSha/history/sourceRefs/runtimeExecution/claims plus correct versions object; not all findings/artifacts/governance business content"
+      },
+      {
+        "path": "docs/testing/e2e/README.md",
+        "sha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+        "lines": 90,
+        "actualReadScope": "protected S03 incoming paragraphs lines40/79-80 and catalogue index relationship; rest prior S03 full read reused"
+      },
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "38be765d96a0cb688bfab92965cf59791d42634a267075983ebfd6751304a651",
+        "lines": 47,
+        "actualReadScope": "prior full47-line read reused for active routing only"
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "lines": 548,
+        "actualReadScope": "prior S03 narrow18-50/98-132/239-284/467-482 read reused for common intent/preview/capture scope; no fresh full contract review"
+      }
+    ],
+    "catalogEntryRead": {
+      "id": "e2e-common-issues",
+      "kind": "audit",
+      "title": "001–005 共性问题族",
+      "status": "current",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "cross-stage-audit",
+      "canonical": "e2e/cross-stage/common-issues.md",
+      "index": "e2e/README.md",
+      "evidence": "e2e/evidence/e2e-common-issues.json",
+      "tags": ["e2e", "audit", "script-governance"],
+      "lastVerified": "2026-10-04",
+      "reviewBy": "2026-11-04",
+      "dependsOn": ["e2e-001", "e2e-002", "e2e-003", "e2e-004", "e2e-005"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "346-376",
+          "anchor": "export function assertErrandBackground(",
+          "role": "oracle",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "497-518",
+          "anchor": "export function assertKitchenTrace(",
+          "role": "oracle",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+        },
+        {
+          "path": "scripts/e2e/render-evidence-observer.test.mjs",
+          "lines": "323-398",
+          "anchor": "test('per-frame clocks do not consume state-change budgets and remain bounded'",
+          "role": "oracle",
+          "sha256": "46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"
+        },
+        {
+          "path": "scripts/e2e/npc-transition-contract.mjs",
+          "lines": "262-338",
+          "anchor": "export function renderedPoseEvidence(",
+          "role": "render span consumer",
+          "sha256": "f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "lines": "164-178",
+          "anchor": "count('worldDrawCompleted')",
+          "role": "render collector insertion",
+          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+        },
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "515-630",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+        }
+      ],
+      "publicCallers": [
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "each stage's current same-engine predecessor",
+        "normal input/navigation",
+        "isolated browser storage"
+      ],
+      "businessOracle": {
+        "type": "issue-family-closure",
+        "assertions": ["公共根因按族收敛", "路线/演出/存档失败分开归因", "源码核读不计作实跑"]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "e2e/stages/001-opening/report.md",
+          "e2e/stages/002-inn-guests-and-reward/report.md",
+          "e2e/stages/003-kitchen/report.md",
+          "e2e/stages/004-meal/report.md",
+          "e2e/stages/005-shrimp/report.md"
+        ],
+        "notes": "只汇总问题族，不复制各阶段通过数字。"
+      },
+      "revision": {
+        "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "contentVersion": 22,
+        "minimumSaveVersion": 11,
+        "history": [
+          {
+            "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "date": "2026-10-04",
+            "action": "source-and-publication-audit",
+            "notRun": ["runtime", "E2E", "coverage"]
+          }
+        ]
+      },
+      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+    },
+    "evidenceFieldsRead": {
+      "schemaVersion": 2,
+      "id": "e2e-common-issues",
+      "kind": "document-audit",
+      "status": "current",
+      "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "versions": {
+        "content": 22,
+        "minimumSave": 11
+      },
+      "history": [
+        {
+          "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "date": "2026-10-04",
+          "action": "source-and-publication-audit",
+          "notRun": ["runtime", "E2E", "coverage"]
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "lines": "346-376",
+          "anchor": "export function assertErrandBackground(",
+          "role": "oracle",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "497-518",
+          "anchor": "export function assertKitchenTrace(",
+          "role": "oracle",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+        },
+        {
+          "path": "scripts/e2e/render-evidence-observer.test.mjs",
+          "lines": "323-398",
+          "anchor": "test('per-frame clocks do not consume state-change budgets and remain bounded'",
+          "role": "oracle",
+          "sha256": "46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"
+        },
+        {
+          "path": "scripts/e2e/npc-transition-contract.mjs",
+          "lines": "262-338",
+          "anchor": "export function renderedPoseEvidence(",
+          "role": "render span consumer",
+          "sha256": "f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "lines": "164-178",
+          "anchor": "count('worldDrawCompleted')",
+          "role": "render collector insertion",
+          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+        },
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "515-630",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "1968bcb8b8c1bfd45ea4928242b719a04635f84ab9ec4d4728cb7f8888abeb7a"
+        }
+      ],
+      "runtimeExecution": {
+        "performed": false,
+        "rawArtifacts": "not-present-in-isolated-checkout",
+        "claimScope": "historical-publication-only"
+      },
+      "claims": [
+        {
+          "id": "e2e-common-issues-source-contract",
+          "result": "source-backed",
+          "evidence": [
+            "scripts/e2e/errand-contract.mjs:346-376",
+            "scripts/e2e/kitchen-contract.mjs:497-518",
+            "scripts/e2e/render-evidence-observer.test.mjs:323-398",
+            "scripts/e2e/npc-transition-contract.mjs:262-338",
+            "scripts/e2e/opening-trace-plugin.mjs:164-178",
+            "scripts/e2e/opening-trace.test.mjs:515-630"
+          ]
+        }
+      ]
+    },
+    "notReadOrNotClaimed": [
+      "full431-line common-issues business review or current re-certification of its old current/accept claims",
+      "full394-line R4 review or operational completion",
+      "full source code bodies of six cited sourceRefs; public consumer checked hashes/pair shape, not business semantics",
+      "full stage report content or001-005 execution evidence",
+      "runtime, E2E, editor UI/preview, visual or coverage execution",
+      "central1896 binding recovery/S01-S03 or root registry design acceptance"
+    ],
+    "scopeClarification": "02 command raw has more printed material and tool display truncation;03 replayed common274-285/326-355 and fullR4 top1-103 untruncated. Only listed narrow business/navigation scopes are claimed."
+  },
+  "realCallerLegalInputOracle": {
+    "legalDocumentInputs": [
+      "fixed original Git UTF-8 bytes and previous candidate path",
+      "actual registered audit ID and safe existing canonical/index/evidence paths",
+      "current stable affected stage IDs and reports reached through protected parent E2E index",
+      "existing governance-index-v1/1.0.0 template and current task admission"
+    ],
+    "realCallers": [
+      {
+        "source": "docs/testing/e2e/README.md",
+        "lines": [40, 80],
+        "target": "cross-stage/README.md",
+        "scope": "line40 live navigation;line80 historical quote link"
+      },
+      {
+        "source": "catalog e2e-common-issues",
+        "target": "e2e/README.md",
+        "scope": "actual index is parent, zero catalog index users of cross-stage README"
+      },
+      {
+        "source": "E2E-R4-1 task",
+        "lines": [30, 62],
+        "target": "common-issues.md",
+        "scope": "R4 consumes canonical family material, not direct directory README"
+      }
+    ],
+    "mechanicalOracles": [
+      "exact fixed source SHA and entire quote-block byte comparison to before",
+      "explicit direct inverse244 not equal source243; condition exactly one terminal LF removal then full source SHA equality",
+      "public checkTemplateBody returns0 issues for actual new text and existing1.0 template",
+      "public validateCanonicalEvidence(entry)/validateCatalog(catalog)/validateIndexes(catalog) return0; renderIndexes by-stage exact matches stored view",
+      "project Markdown parser/localTarget resolves11 local link occurrences and current common canonical/index/evidence links; parentS03 SHA stays exact"
+    ],
+    "semanticEvidenceAndCounterexamples": [
+      "common-issues:245 separates香兰e83 and秀兰e84 remaining paths despite shared auto/save issues; shared repair is insufficient to collapse individual findings",
+      "common-issues:326-335 separates public runtime from NPC script fixes and explicitly reopens a common root on recurrence",
+      "common-issues:337-352 distinguishes executor/navigation/Chrome failures from product script defects, and preserves actual failed raw/remainingR4 cleanup",
+      "common-issues:249 and251-285 demand person/entry/raw/alternative/root/red-green and warn identified001-006 index is not all fixed",
+      "R4:1-66 retains current scope and outstanding abnormal cleanup/capture/full-Q requirements; old normal cases cannot settle them"
+    ],
+    "limits": "temporary scripts are source/link/consumer mechanical self-checks, not mirror-prose regex tests or independent semantic/product acceptance"
+  },
+  "beforeAfter": {
+    "before": "generic40-line wrapper, useful common-issues link only in quote, unspecified canonical/consumer and one-line backlink instruction, unconditional inverse wording",
+    "after": "54-line current directory entry with audit/pair/parent-index/contract/R4 routes, specific scope and repair/backlink duties, concrete stop lines and explicitly conditional inverse"
+  },
+  "fiveChapterAuthorAssessment": [
+    {
+      "section": "目的",
+      "lines": "8-10",
+      "content": "find repeated-root family and responsible layer, return to each affected stage evidence"
+    },
+    {
+      "section": "范围",
+      "lines": "12-16",
+      "content": "registered001-005 audit versus later006 historical content; no stage count copying"
+    },
+    {
+      "section": "当前状态",
+      "lines": "18-22",
+      "content": "navigation-only current, catalog publication authority, historical/source-backed/common-green limitations"
+    },
+    {
+      "section": "入口与责任",
+      "lines": "24-34",
+      "content": "five purpose-to-entry mappings and current Owner/paired source/parent-index responsibilities"
+    },
+    {
+      "section": "证据与下一步",
+      "lines": "36-42",
+      "content": "concrete family/backlink evidence, unresolved-stop/reopen/writeback procedure and actual read/run limits"
+    }
+  ],
+  "templateAssessmentCredit": "author content mapping and public structure check only; no self-granted migration/review acceptance",
+  "dedupe": {
+    "against": [
+      "catalog audit record and generated views",
+      "parent E2E stage/report index",
+      "common issue canonical body/evidence",
+      "R4 task and shared E2E contract"
+    ],
+    "result": "no second stage-state table, no copied historical pass totals or family verdicts, no replacement catalog index, no new repository runtime/mirror regex tests"
+  },
+  "historyVersionsDependencies": {
+    "original": "5-line source and full quote preserved; source has no explicit date, previous Last reviewed17 remains in Git, new Last reviewed18 records this actual navigation read only",
+    "quote": "quoteBlockSHA456e786f8973cfc97838a1c671354f30f39855e5d6ddd6499d109cc370439ed4 unchanged; direct inverseSHAf7e91edbb47a220ae04d2d605c192617934b329885f4df47ffee368f1d7a753a is not source; remove only existing suffix0a then sourceSHA14d8 matches",
+    "catalog": "publicationcurrent and lastVerified2026-10-04/reviewBy2026-11-04/historyd02278dc/content22/minimumSave11 fields kept, not renamed into currentSAVE12 execution",
+    "evidence": "kinddocument-audit,source-backed claim,runtimeExecution.performed=false/rawArtifacts not-present-in-isolated-checkout are read as publication/source evidence only",
+    "scope": "later006 quoted findings do not change001-005 audit dependsOn; no downstream status/history/supersedes altered"
+  },
+  "countersAndState": [
+    {
+      "id": "S04-CURRENT-LINK-IN-QUOTE",
+      "authorDisposition": "restored live current link/table; pending non-author closure"
+    },
+    {
+      "id": "S04-NONEXISTENT-ORIGINAL-META",
+      "authorDisposition": "removed generic original testing-meta/catalog/sourceRefs claim absent from5-line source; pending non-author closure"
+    },
+    {
+      "id": "S04-INDEX-OWNERSHIP",
+      "authorDisposition": "explicitly retain parent formal catalog index; distinguish actual parent caller and R4 canonical consumer; pending non-author closure"
+    },
+    {
+      "id": "S04-LATER-FINDING-SCOPE",
+      "authorDisposition": "separate006 historical content from audit dependencies/acceptance; pending non-author closure"
+    },
+    {
+      "id": "S04-SHARED-ROOT-OVERCLAIM",
+      "authorDisposition": "real family/source-layer/backlink/stop duties; no shared green to stage acceptance; pending non-author closure"
+    },
+    {
+      "id": "S04-QUOTE-SEPARATOR",
+      "authorDisposition": "whole block unchanged; direct inverse false explicitly reported, only knownLF condition removes1 byte; no unconditional exactRoundTrip; pending non-author review"
+    },
+    {
+      "id": "GLOBAL-REWORK",
+      "authorDisposition": "whole task remainsrework, main unchanged, five quarantined receipts untouched, global failures retained; no central credit added"
+    }
+  ],
+  "gateResults": {
+    "checkDocs": {
+      "exit": 1,
+      "summaryLines": [
+        "# tests 128",
+        "# pass 128",
+        "# fail 0",
+        "# cancelled 0",
+        "# skipped 0",
+        "# todo 0",
+        "docs: 1297 Markdown / 8119 local links / 363 tasks / content22 SAVE12",
+        "docs: PASS (0 issues)",
+        "document model: PASS (7 routes; 1263 body contracts; 0 issues; structure only)",
+        "testing docs: PASS (0 issues)",
+        "phase/lore governance: PASS (184 documents)",
+        "content review: FAIL (2372 documents; {\"partial-review-unknown\":1924,\"content-reviewed\":448})"
+      ],
+      "stderrLines": 3856,
+      "thisREADMEdiagnostics": [
+        "- docs/testing/e2e/cross-stage/README.md: after SHA drift",
+        "- docs/testing/e2e/cross-stage/README.md: strict review status is partial-review-unknown",
+        "- docs/testing/e2e/cross-stage/README.md: strict template migration pending"
+      ]
+    },
+    "lint": {
+      "exit": 0,
+      "files": 4448,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "strict": {
+      "exit": 1,
+      "stderrLines": 3856
+    },
+    "requireComplete": {
+      "exit": 1,
+      "raw": "migration progress: 437/1838 baseline + 5 incremental; 1930 current candidates pending; 17/17 templates exercised; 0 integrity issues; not full acceptance",
+      "credit": "inherited machine projection only, not author re-certified totals"
+    },
+    "diff": {
+      "preStage": 0,
+      "staged": 0,
+      "fullF9fbToNewFrozenCommit": 0
+    },
+    "notRun": ["product typechecks/tests, runtime/E2E, preview UI, visual, coverage"]
+  },
+  "executionRecords": [
+    {
+      "name": "01-source-current-admission-and-protection",
+      "startedAt": "2026-10-17T21:08:13.013033+00:00",
+      "endedAt": "2026-10-17T21:08:13.116672+00:00",
+      "durationSeconds": 0.103812,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "git status --short && git rev-parse HEAD && shasum -a 256 docs/testing/e2e/README.md docs/testing/e2e/cross-stage/README.md && git show 911ac4dcbb3ea2288ae215769ae9acd6e333d763:docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md | tail -13\ngit show dc478db11c6b52c4e50a1d1135f8a4740796418c:docs/testing/e2e/cross-stage/README.md\ncat docs/testing/e2e/cross-stage/README.md\nwc -l docs/testing/e2e/cross-stage/common-issues.md docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md\nrg -n \"^#{1,5} |^> #{1,5} |issue|family|阶段|状态|回链\" docs/testing/e2e/cross-stage/common-issues.md | head -90\nif git show-ref --verify --quiet refs/heads/codex/docs-semantic-cross-stage; then exit 2; else git switch -c codex/docs-semantic-cross-stage; fi",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "d8ba74dca0950c34ee3605cff46ba168dbbb8c087dbebc35e8a48a87b098a92d",
+      "stderrSha256": "34b82d781015b3e7edf4f82327acd281682380ef7388f02adadcf637d633d1c2",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/01-source-current-admission-and-protection.json",
+      "receiptSha256": "344f00758491f9a67eecefcc276a7d41cfc9b1284cd183e5bd9434e1876791c1",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/01-source-current-admission-and-protection.sh",
+      "shSha256": "5547e35246426ef8c56f2840976bd31688458412ea9397e09074a44e61a0dc4a",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/01-source-current-admission-and-protection.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/01-source-current-admission-and-protection.stderr"
+    },
+    {
+      "name": "02-common-issues-and-r4-narrow-scopes",
+      "startedAt": "2026-10-17T21:08:26.112169+00:00",
+      "endedAt": "2026-10-17T21:08:26.124362+00:00",
+      "durationSeconds": 0.012392167,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "sed -n \"1,43p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"58,78p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"229,285p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"326,355p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"1,47p\" docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md\nsed -n \"55,155p\" docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md\ncat docs/testing/governance.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "b5d24ce2940ffbfd2eb823d1d945c94a2a4c877d0fc20b300c5cc7cf6db0cf9d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/02-common-issues-and-r4-narrow-scopes.json",
+      "receiptSha256": "51e7f05bbf8385fcdb6422c659ec194795791de1d4e35fd9404a68abf01c7ce6",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/02-common-issues-and-r4-narrow-scopes.sh",
+      "shSha256": "3c5a2b57eab1bebe2638f1d8be0515e5b53c9c8efa5318e772a0a9fd5e7ed828",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/02-common-issues-and-r4-narrow-scopes.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/02-common-issues-and-r4-narrow-scopes.stderr"
+    },
+    {
+      "name": "03-remaining-common-issues-and-r4-entry",
+      "startedAt": "2026-10-17T21:08:37.272259+00:00",
+      "endedAt": "2026-10-17T21:08:37.279652+00:00",
+      "durationSeconds": 0.007567457999999999,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "sed -n \"274,285p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"326,355p\" docs/testing/e2e/cross-stage/common-issues.md\nsed -n \"1,103p\" docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "54166f7fe75635f572302981dc91cc31571fb8b759b56c61a9650eb164f21ce6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/03-remaining-common-issues-and-r4-entry.json",
+      "receiptSha256": "75d515d751c0687940a1c6042b9c5321b86050866c6acd1c81f5f7cc15dda838",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/03-remaining-common-issues-and-r4-entry.sh",
+      "shSha256": "97ae2fc94e16dd4d0b1e6b58f7aae6e8453604a14e231accb77fd4fe865cdb9e",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/03-remaining-common-issues-and-r4-entry.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/03-remaining-common-issues-and-r4-entry.stderr"
+    },
+    {
+      "name": "04-catalog-pair-fields-and-current-callers",
+      "startedAt": "2026-10-17T21:08:47.710487+00:00",
+      "endedAt": "2026-10-17T21:08:47.763333+00:00",
+      "durationSeconds": 0.05303075,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "python3 - <<'PY'\nfrom pathlib import Path\nimport json\nc=json.loads(Path('docs/testing/catalog.json').read_text())\ne=next(e for e in c['entries'] if e['id']=='e2e-common-issues')\nprint(json.dumps(e,ensure_ascii=False,indent=2))\np=Path('docs/testing')/e['evidence']\na=json.loads(p.read_text())\nprint('evidence keys',list(a))\nfields=['schemaVersion','id','kind','status','candidateSha','contentVersion','minimumSaveVersion','history','runtimeExecution','sourceRefs']\nprint(json.dumps({k:a.get(k) for k in fields},ensure_ascii=False,indent=2))\nprint('pairedClaims',json.dumps(a.get('claims'),ensure_ascii=False,indent=2))\nPY\nrg -n \"cross-stage/README.md|common-issues.md|e2e-common-issues\" docs/testing/e2e/README.md docs/testing/indexes/by-stage.md docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md\ncat docs/phase-governance/templates/governance-index.md\nshasum -a 256 docs/testing/governance.md docs/phase-governance/templates/governance-index.md pnpm-workspace.yaml",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "3b32ffa316dff6cc4978694c4e78bae4f02cd77040336395c5629a7940ee443d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/04-catalog-pair-fields-and-current-callers.json",
+      "receiptSha256": "74892ba76d23a1439253880ca720ec953979bfbf0d9e03600d5657471f691b50",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/04-catalog-pair-fields-and-current-callers.sh",
+      "shSha256": "0297b8ef2bcafcf7285e53a095a388a75d60aa8e23f01f3c85d4af74315ca3cf",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/04-catalog-pair-fields-and-current-callers.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/04-catalog-pair-fields-and-current-callers.stderr"
+    },
+    {
+      "name": "05-evidence-versions-and-quote-accounting",
+      "startedAt": "2026-10-17T21:09:12.441818+00:00",
+      "endedAt": "2026-10-17T21:09:12.480869+00:00",
+      "durationSeconds": 0.039154167000000004,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,hashlib,subprocess\na=json.loads(Path('docs/testing/e2e/evidence/e2e-common-issues.json').read_text())\nprint('paired evidence versions',json.dumps(a['versions'],ensure_ascii=False))\nsrc=subprocess.check_output(['git','show','dc478db11c6b52c4e50a1d1135f8a4740796418c:docs/testing/e2e/cross-stage/README.md'])\nb=Path('docs/testing/e2e/cross-stage/README.md').read_bytes()\nq=b.split(b'<!-- original-source-quote:start -->\\n',1)[1].split(b'<!-- original-source-quote:end -->',1)[0]\nd=b''.join(l[2:] if l.startswith(b'> ') else l[1:] for l in q.splitlines(keepends=True))\nprint(json.dumps({'sourceLines':len(src.splitlines()),'sourceBytes':len(src),'sourceSha256':hashlib.sha256(src).hexdigest(),'currentLines':len(b.splitlines()),'currentSha256':hashlib.sha256(b).hexdigest(),'quoteLines':len(q.splitlines()),'directInverseBytes':len(d),'directInverseEqualsSource':d==src,'conditionedInverseEqualsSource':d[:-1]==src,'suffixHex':d[len(src):].hex()},ensure_ascii=False,indent=2))\nassert d[:-1]==src and d[len(src):]==b'\\n'\np=Path('/tmp/type-pal-s04-author-20261018-p_ahi1x_')\n(p/'source-readme.md').write_bytes(src);(p/'before-readme.md').write_bytes(b)\nPY",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "519ffbe14db1935046227fd8d3c6264044759d842271784e5d7424d7837e675c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/05-evidence-versions-and-quote-accounting.json",
+      "receiptSha256": "3ccc153e7dfd6fc6cbae4e520aa428640317045e8b906829da931cba3d075093",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/05-evidence-versions-and-quote-accounting.sh",
+      "shSha256": "c61f5baf9ba67cb29de915cae1e3b9a1fc25595e43be036e8dc618f1c9069726",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/05-evidence-versions-and-quote-accounting.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/05-evidence-versions-and-quote-accounting.stderr"
+    },
+    {
+      "name": "06-edit-current-navigation",
+      "startedAt": "2026-10-17T21:09:39.158738+00:00",
+      "endedAt": "2026-10-17T21:09:39.185592+00:00",
+      "durationSeconds": 0.026967124999999998,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "python3 /tmp/type-pal-s04-author-20261018-p_ahi1x_/edit-readme.py && cat docs/testing/e2e/cross-stage/README.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "598d9dd5129cbf35d37438def2912a7025999519817ebcc4a8c62c5617b02994",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/06-edit-current-navigation.json",
+      "receiptSha256": "6e80f10ec8bd3f277d13d707055f3cb2eea97520f683ab25fc3f133554003e16",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/06-edit-current-navigation.sh",
+      "shSha256": "a327bbce5bee59eff0b19ab8b2b23711869417c0b04c512aea3ea1587433ec02",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/06-edit-current-navigation.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/06-edit-current-navigation.stderr"
+    },
+    {
+      "name": "07-source-template-paired-consumer-links",
+      "startedAt": "2026-10-17T21:10:05.081093+00:00",
+      "endedAt": "2026-10-17T21:10:05.546267+00:00",
+      "durationSeconds": 0.46534512499999997,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "node /tmp/type-pal-s04-author-20261018-p_ahi1x_/verify-entry.mjs",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "60f49f6ce3f0029e33034f4a69dc2aceb2988b4512eec414e1fb7d93c1f05e3d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/07-source-template-paired-consumer-links.json",
+      "receiptSha256": "0b29d51e5600d53a75554527fd495b0e7016ac170bd577918735de1d824e71a1",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/07-source-template-paired-consumer-links.sh",
+      "shSha256": "7215c3e64e895478c18c65c5f166cfc81dd34d907faaaebc2a9277afd216df9e",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/07-source-template-paired-consumer-links.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/07-source-template-paired-consumer-links.stderr"
+    },
+    {
+      "name": "08-check-docs",
+      "startedAt": "2026-10-17T21:10:14.446687+00:00",
+      "endedAt": "2026-10-17T21:10:54.997643+00:00",
+      "durationSeconds": 40.551027417,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "NODE_PATH=/Users/zhangxu/illegal/type-pal/node_modules pnpm check:docs",
+      "exit": 1,
+      "signal": null,
+      "stdoutSha256": "9ab6c01f53b66ff058c628b48ed784dc2e98b7a8119cbce287123822e922e3de",
+      "stderrSha256": "7cb14cc7b08eabf84cbd454faa78e9d4d8334ffe275b104b5b4ef4b0491347a1",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/08-check-docs.json",
+      "receiptSha256": "256a9bf7578f6d48390c4db72db58acfa95b1e2281f9213591b0a1fc37b22646",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/08-check-docs.sh",
+      "shSha256": "e9de7db5386d25be3b436603ee7b1c9f54fc78b3c5085874cbb29ca830f5c502",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/08-check-docs.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/08-check-docs.stderr"
+    },
+    {
+      "name": "09-lint",
+      "startedAt": "2026-10-17T21:10:14.446688+00:00",
+      "endedAt": "2026-10-17T21:10:18.006282+00:00",
+      "durationSeconds": 3.559899334,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "NODE_PATH=/Users/zhangxu/illegal/type-pal/node_modules pnpm lint",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "305908d82aac5d230c4f0526481e61dea93e1aff5a49638c245a2b6885bade5e",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/09-lint.json",
+      "receiptSha256": "5494cfdbbdd0a85075b1e026368a9b5f4d50df37822526965979e3da0ac931aa",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/09-lint.sh",
+      "shSha256": "e8dd8f92c9d6f9cfe8672535c81c5a86dd6cea38c58b017a4272c4bae7ad3fc2",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/09-lint.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/09-lint.stderr"
+    },
+    {
+      "name": "10-strict",
+      "startedAt": "2026-10-17T21:10:14.446688+00:00",
+      "endedAt": "2026-10-17T21:10:15.089248+00:00",
+      "durationSeconds": 0.64343325,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "node scripts/docs/check-content-review.mjs --strict",
+      "exit": 1,
+      "signal": null,
+      "stdoutSha256": "21fa16527f8d865a90d680fa1546aec345030124b52d709338ce3300cb0681bd",
+      "stderrSha256": "7cb14cc7b08eabf84cbd454faa78e9d4d8334ffe275b104b5b4ef4b0491347a1",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/10-strict.json",
+      "receiptSha256": "e7801b07e52343aaf9fc9eecc1a387ab81136a4271761a575ce70e15bb488452",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/10-strict.sh",
+      "shSha256": "ef069fca00845e752cd18bec3fae2c4014e79a105af157456d6e225e52d16d60",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/10-strict.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/10-strict.stderr"
+    },
+    {
+      "name": "11-require-complete",
+      "startedAt": "2026-10-17T21:10:14.446687+00:00",
+      "endedAt": "2026-10-17T21:10:18.515729+00:00",
+      "durationSeconds": 4.06919525,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "node scripts/docs/report-governance-progress.mjs --require-complete",
+      "exit": 1,
+      "signal": null,
+      "stdoutSha256": "db1064eaa6fc2d59804ba62e6c5481401bb6fb741df2a6005c6199be5714bd8c",
+      "stderrSha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/11-require-complete.json",
+      "receiptSha256": "07226676526423c9952527768609ad620d8066fa5e6726ea1b82e66858784c5c",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/11-require-complete.sh",
+      "shSha256": "9970a45cb746d9d0b7ebcc4b1ec0c7c7b519ed3e12b3601ce68713aaf9ecb50a",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/11-require-complete.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/11-require-complete.stderr"
+    },
+    {
+      "name": "12-staged-diff-and-protected-s03",
+      "startedAt": "2026-10-17T21:10:39.281543+00:00",
+      "endedAt": "2026-10-17T21:10:39.355022+00:00",
+      "durationSeconds": 0.073681625,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "git diff --check && git diff -- docs/testing/e2e/cross-stage/README.md && git add -- docs/testing/e2e/cross-stage/README.md && git diff --cached --check && git diff --cached --stat && shasum -a 256 docs/testing/e2e/README.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "bc9d63cf268095afc10f624a5429cbb26c2cd859d9046452f67ce8db8a118de0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/12-staged-diff-and-protected-s03.json",
+      "receiptSha256": "aa4bdb49010a17d52045230880a5258faaab3ebda8f4f476073de859a1e08bf4",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/12-staged-diff-and-protected-s03.sh",
+      "shSha256": "b8f21c89d511288adf403040bdb1ca8672529ea8becd707005dc578c9e695119",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/12-staged-diff-and-protected-s03.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/12-staged-diff-and-protected-s03.stderr"
+    },
+    {
+      "name": "13-gate-summary-freeze-candidate",
+      "startedAt": "2026-10-17T21:11:07.076515+00:00",
+      "endedAt": "2026-10-17T21:11:07.208422+00:00",
+      "durationSeconds": 0.132061208,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "python3 - <<'PY'\nfrom pathlib import Path\np=Path('/tmp/type-pal-s04-author-20261018-p_ahi1x_')\nprint((p/'08-check-docs.json').read_text())\nfor line in (p/'08-check-docs.stdout').read_text().splitlines():\n if line.startswith(('# tests ','# pass ','# fail ','# cancelled ','# skipped ','# todo ','docs:','document model:','testing docs:','phase/lore governance:','content review:')): print(line)\nlines=(p/'08-check-docs.stderr').read_text().splitlines()\nprint('stderr lines',len(lines))\nprint('this README diagnostics',[l for l in lines if 'docs/testing/e2e/cross-stage/README.md:' in l])\nPY\ngit diff --cached --check && git commit -m \"docs: restore cross-stage issue family navigation\" && git rev-parse HEAD && git diff --check f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece..HEAD && git diff --name-only f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece..HEAD && git status --short && shasum -a 256 docs/testing/e2e/README.md docs/testing/e2e/cross-stage/README.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "d9b3a7ceda1ec9a5beb55774d9257de9044e3d827521370baf527d080a914a47",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/13-gate-summary-freeze-candidate.json",
+      "receiptSha256": "07e39d07388e9686b143470e8e8d7369edbaf4963ed58274f759ab137cf2c47b",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/13-gate-summary-freeze-candidate.sh",
+      "shSha256": "e482a969c4d59a874b2088e585ad7cccf9f2def51e6ff59b105316c17cc553d3",
+      "stdoutPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/13-gate-summary-freeze-candidate.stdout",
+      "stderrPath": "/tmp/type-pal-s04-author-20261018-p_ahi1x_/13-gate-summary-freeze-candidate.stderr"
+    }
+  ],
+  "executionNotes": [
+    "Numbered command receipts include exactUTC times/cwd/script/exit/signal, full untruncated stdout/stderr and script/raw SHA. Tool display truncation did not truncate stored streams.",
+    "04 exploratory evidence field lookup printed null for nonexistent top-level contentVersion/minimumSaveVersion;05 explicitly read actual versions.content22/minimumSave11. Null lookup is not a missing-field claim or metadata edit.",
+    "Mechanical inbound scan explicitly lists dangling tracked reference/sdlpal/AUTHORS.md unreadable; official checkers and rule levels unchanged; no skip/ignore added.",
+    "Repository writes are exactly the one README; all scripts/reports/raw snapshots live only in this new /tmp directory. Prior S03 worktree content is protected by SHA in07/12/13."
+  ],
+  "stopLine": "Do not merge/push/done or update reviewed/template-compliant/global status from this author package. Root independently reads fixed original/current/new, dependencies/counters and true consumer before deciding any single-document acceptance and central ledger intake.",
+  "nextStep": "Root non-author reviews c8715c2c4ac1771a77127917812c87b53a30d676 / afterSHA1c345654 at exact listed source scopes, decides S04 counters and five-chapter semantic suitability, then separately handles central registry/review/index/evidence and gates. Whole-task rework/main protection remain."
+}

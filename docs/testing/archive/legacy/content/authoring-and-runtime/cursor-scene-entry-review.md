@@ -1,40 +1,61 @@
 # DOC-CURSOR-4 — Codex 独立接收与 H7 窄修订
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-4 独立接收与 H7 窄修订（2026-09-25，Cursor 只读候选 31618c0d…214f 对 dbf79106 仅一份回执+导航一行）：**accept，H7-1～H7-6 无阻断 counter**；后续接入：用户要求通过后直接合并推送——候选已以 b7b9df35 选择性接入 main，Codex 现行指南窄修 60aa0e1d 沿用，任务卡归档 done（prepare 安全目录产品缺口仍另排不借本卡关闭）。
+
+## Scope
+
+- 一手复核：可达链（App.tsx:1577/3136-3144/3200 仅场景编排可开脚本抽屉→SceneScriptWorkspace:202-212/315-321「进场脚本」→ScriptSceneHookInspector:185-209→CanonicalScriptFlowEditor；ScriptEditor:3742-3753 prepare 缺席只出正文、:3755-3812 已有才出「画面出现前/脚本正文」两页签；现行组件测试 :1330-1360 实际渲染切换；ScriptTree 仅 describeScriptCommand 导入非控件来源；未开 6010 视觉像素非本席证据）。
+
+## Execution and assertions
+
+- **数据门**：author-script-core:956-959/990-993/1108-1110 只允许 onEnter 初始 stage/state 带 entry；当前流程编辑器只更新已有 prepare（:4011-4022）没有 reveal 参数控件、创建/删除 entry 或「恢复默认」操作；script-system.md:156-164 数据合同不等于这些操作已在 UI 实现
+- **默认切场**：Reforge main.ts:2256-2274/2299-2303 无 onEnterEntry 时执行常规 fade-out/in；数据上缺 entry 与普通淡变成立，但不能写成当前页面有「默认场景淡变」提示
+- **安全目录与守卫分离**：script.ts:267-350 标记 dialog/fade/loadScene/moveParty 为 blocked；当前 ScriptEditor:2832-2918/3162 插入组不据 prepare 分流；author-script-core:793-796 检查 prepare 普通作者命令形状未按 safety 值筛选；project-io:229 保存前诊断走 validateAuthorScenes；本席从已跟踪 s001 默认方案复制合法 dialog 到 entry.prepare 只读调 validateAuthorScenes([scene]) 得 accepted——原指南「菜单不出现且保存 fail-loud」是确定错误；产品未连上安全目录是独立后续缺陷不借文档卡修改产品不推断运行时结果
+- **样例**：projects/pal/content/scenes/s001.json 已跟踪：hooks.onEnter.initial=default，初始 stage prepare=playMusic music.pal.031+teleportParty(59,-23)、reveal=dither 2160ms/previousPresentedFrame、body 首条李大娘对话；数据样例可保留；「界面三块读作」不成立，浏览器显示细节因未开隔离实例不作肉眼结论
+
+## Results
+
+- 候选 check.mjs PASS+diff --check exit0；本席正式修订仅 scene-entry-authoring.md 现行 UI 描述与作者提示（保留数据合同与 s001 样例），不改产品/测试/脚本/基线或 Cursor 报告；内容安全缺口需另行优先级裁定不能让错误指南掩盖。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 独立接收+接入 | 2026-09-25 | H7-1~6 复核+两处指南窄修 | accept→已接入 done（31618c0d→b7b9df35） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 DOC-CURSOR-4 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-CURSOR-4 — Codex 独立接收与 H7 窄修订：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept：H7 六组无阻断；「保存 fail-loud」被 validateAuthorScenes 实测 accepted 推翻（safety 目录未接入是独立产品缺口）；「界面三块/默认淡变提示」收窄为数据合同。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+可达链、数据门、安全目录分离与 s001 样例在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。接入按当时 main；指南现行版以 60aa0e1d 起为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-CURSOR-4 任务卡与现行指南。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `0936651d26ae02937d9ed5d3467b4e33a10ad7d477964329b32982880571a55d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `0936651d26ae02937d9ed5d3467b4e33a10ad7d477964329b32982880571a55d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-4 — Codex 独立接收与 H7 窄修订
 >

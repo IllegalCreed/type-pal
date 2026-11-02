@@ -1,55 +1,62 @@
 # DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2 documentation
+Capability: 只读事实核对，不改变产品或现行指南
+Contribution Owner: Cursor
+Review/Integration Owner: Codex
+Branch: `codex/cursor-scene-entry-truth-r1`（独立 worktree）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 scene-entry-authoring.md 六类声明只读核对的历史卡（2026-09-25）：起因=DOC-CURSOR-1 的 H7 把未被现行页面渲染的 ScriptTree.tsx:673 文案当用户可见事实；本卡以 App.tsx:3200→SceneScriptWorkspace:295-321→ScriptSceneHookInspector:185→ScriptEditor:3699-3800 真实渲染链为准逐句核对 H7-1～H7-6。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+产出现行 UI 事实表供 Codex 窄修指南：进场脚本入口/三块结构、默认场景淡变显示、恢复默认控件、初始 onEnter 独占编辑、prepare 菜单与保存校验同源、PAL s001 样例可读性——逐条 confirmed/wrong/pending-ui/blocked-input 分类+最窄替换句。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：唯一可写 cursor-scene-entry-truth.md 回执；只读源码/git show/现有测试；自有隔离环境最小浏览器检查可附。
+- 范围外：正式指南/产品/测试/基线/迁移/覆盖率/E2E；用户 6010 工程；未渲染组件字符串证明 UI 可见。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+ScriptTree:660-807 是旧组件文本，须证明生产渲染路径才能当证据；数据/校验参照 script-system.md:156-164 与 author-script-core.ts 初始节点/allowSceneEntry 守卫；源码与指南冲突只报告不擅改。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：候选 31618c0d 经 Codex 独立核验（对照 App/组件接线、assertProjectSaveValid、collectScriptReferenceIssuesFromVisits、BattleFieldPicker），以 b7b9df35 选择性 cherry-pick 接入并保留贡献者；Codex 另自行窄修指南 60aa0e1d（旧“三区/默认提示/恢复默认”改现行两页签与数据/UI 边界）；check.mjs 与 diff --check 通过。prepare 安全目录未接入菜单/作者保存守卫是另一个产品缺口不随本卡关闭。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡按用户“审核通过就合并推送”收口；原候选留 archive/cursor-scene-entry-r1 标签，分支已清理。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 准入、接收与集成同日；Evidence freeze 9540f059；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：H7-1～H7-6 事实回执经独立核验接入并驱动指南窄修。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-scene-entry-truth.md 与 cursor-scene-entry-review.md；真实渲染链锚点。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。指南现行内容以当前树为准；prepare 安全目录产品缺口以中央账本为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后批[DOC-CURSOR-5](DOC-CURSOR-5-confirmed-source-fixes.md)/[DOC-CURSOR-6](DOC-CURSOR-6-author-guide-fact-batch.md)；现行指南 docs/phase2/guides/scene-entry-authoring.md。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `41262acc5df0127779418fa68223d3f4e465ea8c3bc4955bc0b03119255dc6f5`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `41262acc5df0127779418fa68223d3f4e465ea8c3bc4955bc0b03119255dc6f5`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-4 — 场景入场指南当前 UI 事实核对
 >

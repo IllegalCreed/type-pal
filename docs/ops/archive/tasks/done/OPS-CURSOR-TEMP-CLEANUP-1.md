@@ -1,55 +1,62 @@
 # OPS-CURSOR-TEMP-CLEANUP-1 - Cursor 反控临时工作树去重清理
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Reviewer: Codex（独立于原 Cursor 测试产物）
+Phase: ops
+Capability: ops
+Visual Verification Timing: N/A（磁盘与 Git 运维，不启动游戏或录屏）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 180 个 cursor-counter-* 临时 worktree（约 80.6GiB）去重清理的历史运维卡（2026-10-02）：根因=counter.mjs:230 建隔离树、逐用例复制完整依赖、旧版 process.exit 跳过 finally 不清理（修复 2e1f7228 已改 throw/catch/finally 但不追溯删除）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+按用户要求判断残留副本：逐字节区分已提交代码/故意变异/独有内容，独有内容先可恢复保存再精确删除 180 树及 Git 注册项，不扩大到其它 Agent 工作树。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：180 树逐树审计（各一处 tracked 修改：166 逐字节匹配已提交反控 manifest、14 独立确认实验性变异）；90 份测试/fixture 中 24 与候选逐字节同、66 为旧稿全部保留；158 个去重 blob（1,165,858B）+180 份 diff 保存于本机恢复仓库（提交 870cc624，逐 blob 回读 hash 与 git fsck --strict 过）；固定清单精确删除；额外保留 base/cursor-candidate 两引用避免对象回收。
+- 范围外：全局 prune/通配删除；把故意变异合入产品；因清理提前接收 Cursor 完整候选；其它 Owner 的树/分支/活动对话。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+最强替代解释（某些目录含人工修改/独有文件）由逐文件对应反控规则/已提交 blob/独立备份处理——任何无法对应的文件阻止该目录删除；删除前再核 HEAD/状态/ignored/hash/mode/进程占用。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：180/180 目录及注册项移除；正式候选 fefab931c 及其分支/工作树保留、main 零 diff；全仓 lint 2760 文件 0/0/0、37 文档工具测试过、任务索引同步后文档检查 0 issues。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡含防复发 Cursor 提示词（五条：可捕获失败必清理不得 process.exit、不无界复制、精确删除、三类最小复现零残留证据、不录视频）；同轮用户另批的 Skyfire/SlideStack 清理不属本卡范围。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 授权、审计与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：180 树内容级审计+可恢复保存+精确删除收口，无产品源码变更。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+worktree-audit.json、removed-worktrees.jsonl、cleanup-result.json、恢复提交 870cc624、refs/archive/ops-cursor-temp-cleanup-20261002/*。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。清理事实与恢复入口以本卡记录为准；防复发约束由后续反控脚本遵循。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+无指定后继；运维回执归清理目录。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e841a7379c95c49712792a424f44ec73ea5c237ed6cc468ea152186005b7a98b`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e841a7379c95c49712792a424f44ec73ea5c237ed6cc468ea152186005b7a98b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPS-CURSOR-TEMP-CLEANUP-1 - Cursor 反控临时工作树去重清理
 >

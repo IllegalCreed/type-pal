@@ -1,40 +1,62 @@
 # TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-2 的 GLM 作者交付回执 r3 返工版（2026-09-26，生产冻结 51048353、分支 codex/glm-content-guards-wave2 自 ef19ae7e）：r1 候选 b8e037cb 被 intake counter（R1-R4）、r2 候选 99113d22 被 r2 复核 counter（仅 C1/C2）；本回执对应 C1/C2 窄返工后最终树；只含三份白名单叶测试+一个 typed fixture+本目录证据，产品/旧测试/scripts/配置/基线零 diff（Codex 反证工具不动）。
+
+## Scope
+
+C1 闭合：expectAcceptsUnchanged 七处改比较生产实际消费同一对象、helper 包 not.toThrow（正控意外抛出呈 AssertionError）；C2 闭合：G3 not 行同入口合法 turn 仅改 op、G6 参数表每行带同形状 good/bad；r2 三新针（exactKeys 改写/body splice/嵌套 turn 恒拒）从 MISSED 转 detected。R1 闭合：expectExactError 完整 message 全等（toThrow 子串被 when.in[1]→WRONG 证漏）+deepSnapshot 前后比较同一对象；R2 闭合：每拒绝先同 kind 同形状合法正控（wait/stopMusic 拆开、缺 ms 不再 stopMusic 顶替、真删 cue.rows）；R3：判据重写同一 judge（绝对文件+实际 fullName describe+title 空格连接、恰一红、entered.json 运行态见证、自测 10 例五反例）。六组 G1-G6（shapes 33/AI 叶 11/AI 组合 6/choreography 28/dialogue 委派 3/容器 10）合计 91 行。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 六针+覆盖对照+统一门 | shapes-trim/ai-difficulty-index/ai-of-recursion/choreo-tenths-bound/choreo-cue-path/choreo-once-gate 各恰好只红目标；官方全 content 79 文件 957/957、TC exit0、biome（含 evidence.json）0 error 仅 4 条变异字面量 warning 单列 | GLM（作者）→Codex r3 接收 | 同口径覆盖（作者 tmp）：shapes 15/16→16/16、battle-choreography 44/61→61/61、AI guard 35/36→36/36；Codex 未独立重跑不作验收统计 | 锁绿现状合同如实（all/any 空 of 仅形状、wait.ms 分数合法、growth delta 符号自由、exactKeys 只禁多余键） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+91 行+六针全过；未发现产品缺陷；三守卫行为与当前类型/正式 loader 合同一致。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；guard-leaf-mutants.mjs 与复跑命令在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM wave2 r3 回执 | 2026-09-26 | 三叶测试 91 行+六针+判据重写 | r3 接收（d1e99a0d done） | r1/r2 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-content-guards-wave2 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+91 行+六针全过；未发现产品缺陷；三守卫行为与当前类型/正式 loader 合同一致。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组表、六针表、同口径覆盖表与复跑命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。r3 接收见 guard-leaf-r3-review.md。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `441e02b82c5434ba8700cddb88a3b5a44874d85fc3e4fd5094640edd3e409e54`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `441e02b82c5434ba8700cddb88a3b5a44874d85fc3e4fd5094640edd3e409e54`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）
 >

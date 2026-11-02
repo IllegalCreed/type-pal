@@ -1,72 +1,58 @@
 # DOC-AUDIT-1 · 仓库文档与信息架构审计
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 DOC-AUDIT-1 仓库文档与信息架构审计的归档回执。审计基线、四类发现与治理建议在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前文档状态信用。
 
 ## 审计问题
 
-- DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：2026-09-06 main@4cbbf758 只读基线和未启动清理声明
+- 仓库 Markdown 文档是否存在会误导当前实现的过时事实、当前/历史分层缺失、导航不足与链接质量无门禁四类问题；首轮只读取证（清理、迁移与自动门禁均未开始）。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d`，全文 318 行 / 20409 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 审计基线 `main@4cbbf758`，2026-09-06；337 份 Markdown；只记录该基线可复现的事实与治理建议，未移动、删除或改写任何既有文档。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | 2026-09-06 main@4cbbf758 只读基线和未启动清理声明 | dated historical only |
-| 2 | 文档规模、判断优先级与 P1 当前误导问题 DOC-01~DOC-06 | dated historical only |
-| 3 | P2 历史边界/目录职责/自动保鲜 DOC-07~DOC-09 | dated historical only |
-| 4 | 32 次断链/27 个唯一目标与裸路径台账 | dated historical only |
-| 5 | 批次 A-D 整理顺序、保留项和可复跑探针 | dated historical only |
+- 会误导当前实现的过时事实：多份仍自称「当前」的文档写着 `contentVersion 19`，源码与当前工程已是 content20；二阶段入口页把已完成能力标成待办。
+- 当前与历史没有可靠分层：早期计划、审查候选和 Agent 执行提示与活规范同目录，部分文件无 historical/superseded 标识。
+- 导航与目录结构不足：任务卡 133 份约 7.8 万行；11 个含 Markdown 的子目录没有本地 README；`docs/phase2/README.md` 承担过多手工状态并已漂移。
+- 链接质量没有门禁：确认 32 次 Markdown 断链（27 个唯一 source-target）和 3 个失效裸路径引用。
 
 ## 结论
 
-DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度
+- 不批量删除旧文档；正确做法是修正当前真值、给历史加不可执行边界、补索引和自动检查，最后才评估是否移动文件。
 
 ## 整改与复核
 
-- 下一步：保留 2026-09-06 诊断与建议；当前治理应以实际树重新分类、当前 registry/catalog 和 check:docs 输出为准。
-- 未决与停止线：- 基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度
-- 建议批次未全部实施；文档明确清理、迁移、自动门禁均未开始
-- 部分历史建议与后续 current-only/模板治理规则需由新 governance index 和 task card 接管
-- 旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 本审计是后续文档治理批次（含本次历史卡迁移）的立项依据；整改以现行文档模型、模板注册表与 `check:docs` 门禁验收。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-09-06 首轮只读取证；基线 `4cbbf758`。
 
 ## 原始结论
 
-DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 四类发现与「先修真值、再加边界、后评估移动」的处置顺序为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 断链计数、目录统计与基线声明在 quote 保全。
 
 ## 当前有效性
 
-historical。基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度
+- historical。审计发现按 2026-09-06 基线时点解释；其中多数问题已由后续治理批次处理，当前状态以现行文档模型与门禁为准，不从本审计外推。
 
 ## 继任文档
 
-保留 2026-09-06 诊断与建议；当前治理应以实际树重新分类、当前 registry/catalog 和 check:docs 输出为准。
+- 现行[项目文档模型](../../guides/documentation-model.md)、模板注册表与文档检查门禁；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-AUDIT-1 · 仓库文档与信息架构审计
 >

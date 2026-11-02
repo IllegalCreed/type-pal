@@ -1,0 +1,205 @@
+{
+  "kind": "r65-r66-current-preservation-check",
+  "results": [
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/README.md",
+      "sourceSha256": "087e2ea3334d80a3f65de446b9cbe8be405a09b35ae9d2279f6e911fedf0869d",
+      "actualAfterSha256": "6002af586d00876d09a039669dd9726e28fb5bd0957309a98749b1ecc2a95c52",
+      "pinnedAfterSha256": "6002af586d00876d09a039669dd9726e28fb5bd0957309a98749b1ecc2a95c52",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/coverage-probe/README.md",
+      "sourceSha256": "0ed6b6b2acf443ca5bd69bd6a1206f66f58becd761bf62b24d715f63dabbbade",
+      "actualAfterSha256": "e3a60785bb909e3b48b74fb91c7ef03884a526200530d7dce86ec2cb19ac2bd4",
+      "pinnedAfterSha256": "e3a60785bb909e3b48b74fb91c7ef03884a526200530d7dce86ec2cb19ac2bd4",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/dedup-ledger.md",
+      "sourceSha256": "03ad8f1bd9b2c012799f5e3d539edff0b86f110f2d2f7138c71bae49585895e5",
+      "actualAfterSha256": "c7aa71518220dff5e21be381655af81773b486a94bef2ae6f2fd81dfaf529f6e",
+      "pinnedAfterSha256": "c7aa71518220dff5e21be381655af81773b486a94bef2ae6f2fd81dfaf529f6e",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/README.md",
+      "sourceSha256": "dc31aa880e7f08320d83b1ec1267e7d2e94abd3da1a288b3cd87915c03c5b51d",
+      "actualAfterSha256": "c1bd1e4c75c56108c7f8bfd37c6ae39fea3ca718875d108131490aa8393fa31e",
+      "pinnedAfterSha256": "c1bd1e4c75c56108c7f8bfd37c6ae39fea3ca718875d108131490aa8393fa31e",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-MENU-SAVE-IO-1/dedup-ledger.md",
+      "sourceSha256": "5b27483ba7ae2f4e782b05947cc603925a330a8df02ae707337f9706db9f67ca",
+      "actualAfterSha256": "9fa20d8b7f09ef1e8da4b75a12fe57d6d0ea1d64d435e30eb1301fefbe849c7c",
+      "pinnedAfterSha256": "9fa20d8b7f09ef1e8da4b75a12fe57d6d0ea1d64d435e30eb1301fefbe849c7c",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/README.md",
+      "sourceSha256": "0375206d17f1e6e7469fa6e561fdcc2fc0ebb4d4a04a3513d0642ef3af017919",
+      "actualAfterSha256": "ca9fc49eb0ed416fd22b2c37c3c7b5cdc2e8734ed84506adc974424bdcc33d93",
+      "pinnedAfterSha256": "ca9fc49eb0ed416fd22b2c37c3c7b5cdc2e8734ed84506adc974424bdcc33d93",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1/dedup-ledger.md",
+      "sourceSha256": "229ac441a4bcbc7c1ee0e395de89372cbca168a57764bbc0f93baba2b06b81fa",
+      "actualAfterSha256": "10e21ffaf940f0c56e194b49eb966c275fe173fdbb60d4e16e99e25d9eb999f0",
+      "pinnedAfterSha256": "10e21ffaf940f0c56e194b49eb966c275fe173fdbb60d4e16e99e25d9eb999f0",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/README.md",
+      "sourceSha256": "42c71675d1c9736fe1bcac5be6b5fe7de935883e35c1d984df318950e573d18d",
+      "actualAfterSha256": "db8b35f9ae25c3b43d8e340b7135a64a4417b01255136e66adda6ed486fc25cb",
+      "pinnedAfterSha256": "db8b35f9ae25c3b43d8e340b7135a64a4417b01255136e66adda6ed486fc25cb",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-GAME-SHELL-BOOTSTRAP-1/dedup-ledger.md",
+      "sourceSha256": "234fdab39555e450e637e811bb6797d4ec21364417226f93e1fb8b7e673658da",
+      "actualAfterSha256": "a0577f44630fb89f628b6692862584a1d95ce3dd0807e2c0503ab1a03f68b14e",
+      "pinnedAfterSha256": "a0577f44630fb89f628b6692862584a1d95ce3dd0807e2c0503ab1a03f68b14e",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 65,
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/README.md",
+      "sourceSha256": "e39b9790ff00e489d3e89ad77c102050c5e18f1e0d69c6d4c9e3a62ee1dff9dd",
+      "actualAfterSha256": "3c1e410f21338b8876259928f01e7ff24c529b9d76ad15762e53590d89438447",
+      "pinnedAfterSha256": "3c1e410f21338b8876259928f01e7ff24c529b9d76ad15762e53590d89438447",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/dedup-ledger.md",
+      "sourceSha256": "492abd9ee0335ed5e0bf86ef8426d67f84625102bed1bd95c89322cb987331ae",
+      "actualAfterSha256": "dd979ce634cdb31579fee97e3bfda202174317f6902e9f446bdfe2b68bea0f92",
+      "pinnedAfterSha256": "dd979ce634cdb31579fee97e3bfda202174317f6902e9f446bdfe2b68bea0f92",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/README.md",
+      "sourceSha256": "90fa1fea9dc30fa1816566943acfa51bbaabbca3fe99dd8e56994fdd48fd3d18",
+      "actualAfterSha256": "003e7c70ff31cfd3ef582ef6c332de53ed42e6d672d8b78799bb226ec0fdee19",
+      "pinnedAfterSha256": "003e7c70ff31cfd3ef582ef6c332de53ed42e6d672d8b78799bb226ec0fdee19",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/dedup-ledger.md",
+      "sourceSha256": "9934a9e704086765d5a28949c031134a0e5d9cb300c7b586dcaa54454501e01f",
+      "actualAfterSha256": "c405dbb4b2a576b046de57508fb2d7c12d3b3a178ab87e00bc5d133024e0c80c",
+      "pinnedAfterSha256": "c405dbb4b2a576b046de57508fb2d7c12d3b3a178ab87e00bc5d133024e0c80c",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1/gates/README.md",
+      "sourceSha256": "78fbabae1bfe11755b966ed6d25ad7d74efc19c99506cec7ece3d470a4d7b2d7",
+      "actualAfterSha256": "6045a0c607db80f456ce8467d9e0c2aac530fc84cea9fe3c388e3c34c0f0c73e",
+      "pinnedAfterSha256": "6045a0c607db80f456ce8467d9e0c2aac530fc84cea9fe3c388e3c34c0f0c73e",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/README.md",
+      "sourceSha256": "bf2310355750be965a3561ee2e9faad387fd1888b3a20785dd0fef882b774d62",
+      "actualAfterSha256": "207264fd0d669b7f25a2d073ca87d24c41df5ab3bf0b462c103a35167e32eee1",
+      "pinnedAfterSha256": "207264fd0d669b7f25a2d073ca87d24c41df5ab3bf0b462c103a35167e32eee1",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1/dedup-ledger.md",
+      "sourceSha256": "6cf55099e8b29501ab931e0c9fc08b033d1c686ec1ed105a3e600e09da446aa3",
+      "actualAfterSha256": "624f99b1715697fd26edd459685ad7ccc037d1aa93b40428f288d27bbcc4b9bb",
+      "pinnedAfterSha256": "624f99b1715697fd26edd459685ad7ccc037d1aa93b40428f288d27bbcc4b9bb",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/README.md",
+      "sourceSha256": "32dadd9e9f0dc5cedfe4782e2040143408a2f4721e3110eb4680306e908c34e8",
+      "actualAfterSha256": "a0e2098e044057d138061513bc81eebfb94d172d775123eb050a8ec49418c2c8",
+      "pinnedAfterSha256": "a0e2098e044057d138061513bc81eebfb94d172d775123eb050a8ec49418c2c8",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-ASSET-RESOLVER-1/dedup-ledger.md",
+      "sourceSha256": "4ec92c9c08fce1f8eb1ed527aebe9b4b2e569206252c9265bcd629fa79397e5c",
+      "actualAfterSha256": "8e38286a59985ba1d2a6f3e5112c6d2309794ffb51a68441c760ac2ecb2589ee",
+      "pinnedAfterSha256": "8e38286a59985ba1d2a6f3e5112c6d2309794ffb51a68441c760ac2ecb2589ee",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/README.md",
+      "sourceSha256": "16619d9296ae1865628193f12f0558d609bfbfd395287fba171ed95103179c72",
+      "actualAfterSha256": "4aff013080f7a583d718611b1737f4c39008ecec1fa83b744eac1088cdf05f45",
+      "pinnedAfterSha256": "4aff013080f7a583d718611b1737f4c39008ecec1fa83b744eac1088cdf05f45",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    },
+    {
+      "batch": 66,
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1/dedup-ledger.md",
+      "sourceSha256": "fdeeee94bb041ca11a3dd8986497b6eb762a9f7f27dc9014deee84566c035776",
+      "actualAfterSha256": "5b38c9302fea278016c70a267c7b75969e7677e20ff31daebaca738556df324a",
+      "pinnedAfterSha256": "5b38c9302fea278016c70a267c7b75969e7677e20ff31daebaca738556df324a",
+      "quoteInverseMatches": true,
+      "afterShaMatches": true,
+      "credit": "mechanical preservation only; semantic/independent acceptance withdrawn"
+    }
+  ]
+}

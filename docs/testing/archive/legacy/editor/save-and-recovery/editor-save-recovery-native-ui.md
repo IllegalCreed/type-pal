@@ -1,40 +1,62 @@
 # 作者保存恢复：原生目录与界面验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 的原生目录与界面验证（执行 Codex，2026-09-12；产品候选 1ba88755 本轮零产品改动；2026-09-13 closeout 已补真实 OS 目录整浏览器重启/恢复中撤权/中文指引）。
+
+## Scope
+
+范围：真实系统目录选择/授权→编辑器新增人物及场景引用→保存中断→关闭旧编辑页→新页面恢复→继续修改保存→从编辑器启动试玩；外部冲突拒绝恢复、授权拒绝不留半个新项目。浏览器为本机 Chrome 单独无痕窗口（CUA 操作）、专用 localhost:6011、真实 File System Access/IndexedDB/Web Locks（无 OPFS 替代）。故障注入：临时 Vite 配置只在 author-save-journal.ts writeBytes 入口插验证钩子（fail/hold/off 三态，条件含页面参数/目录名/路径），不入仓库。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - U1-U6 实测 | U1 原生创建/U2 保存中断（磁盘 pending、actors 仍 hero）/U3 新页恢复（maxHP=237、entity-1 关联保持）/U4 继续编辑试玩（play.html 实渲染）/U5 外部冲突（完整冲突提示、23 文件 36 项快照 cmp exit0）/U6 权限对照 | Codex | U3/U4 覆盖 SR-01/08/09/10 本地界面主链；U5/U6 补 SR-05/06 边界；不能据此把全部 SR 项打勾 | OS 目录整浏览器重启/恢复中撤权本轮无原生证据（closeout 后补） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+U1-U6 全通过；证据为会话 CUA 工具输出（截图/AX 已实际查看、带框截图未写源码不杜撰路径）；110 臂待核清单不因手工验证减少；试玩跳转提示裁切登记 R4 不顺手改。
+
+## Evidence
+
+- 证据路径：本验证正文（quote 保全）；/tmp/codex-save-ui.cPh552/ 配置 SHA 与快照文件在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 原生 UI 验证 | 2026-09-12 | U1-U6 真机链 | 通过（closeout 后补两项） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的原生 UI 验证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：原生目录与界面验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+U1-U6 全通过；证据为会话 CUA 工具输出（截图/AX 已实际查看、带框截图未写源码不杜撰路径）；110 臂待核清单不因手工验证减少；试玩跳转提示裁切登记 R4 不顺手改。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+U1-U6 表、故障注入边界、证据与复跑、遗留边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。本轮验证时点证据。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-closeout.md（原生 OS 目录补证节）。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5fb078aea72c466965c7fb2f2d34ddc9e44f15f56519cfcb3e5e61a152a1fed1`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5fb078aea72c466965c7fb2f2d34ddc9e44f15f56519cfcb3e5e61a152a1fed1`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：原生目录与界面验证
 >

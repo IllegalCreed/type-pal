@@ -1,0 +1,1628 @@
+{
+  "kind": "type-pal-script-preview",
+  "version": 1,
+  "states": [
+    {
+      "id": "e2e006-s002-e35-trigger-initial",
+      "sceneId": "s002",
+      "name": "006 洪大夫诊断 · initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e34",
+          "pos": {
+            "col": 92,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e35",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e36",
+          "pos": {
+            "col": 92,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e37",
+          "pos": {
+            "col": 91,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e38",
+          "pos": {
+            "col": 91,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e39",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s002-e36-trigger-initial",
+      "sceneId": "s002",
+      "name": "006 小虎子求药说明 · initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e34",
+          "pos": {
+            "col": 92,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e35",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e36",
+          "pos": {
+            "col": 92,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e37",
+          "pos": {
+            "col": 91,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e38",
+          "pos": {
+            "col": 91,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e39",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s002-e36-trigger-legacy-002",
+      "sceneId": "s002",
+      "name": "006 小虎子求药说明 · legacy-002（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e34",
+          "pos": {
+            "col": 92,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e35",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e36",
+          "pos": {
+            "col": 92,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e37",
+          "pos": {
+            "col": 91,
+            "row": -1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e38",
+          "pos": {
+            "col": 91,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e39",
+          "pos": {
+            "col": 90,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s003-e59-auto-initial",
+      "sceneId": "s003",
+      "name": "006 苗人头领指引 · auto/legacy-001/initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e57",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e58",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 137,
+            "row": 76,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e62",
+          "pos": {
+            "col": 137,
+            "row": 73,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e68",
+          "pos": {
+            "col": 139,
+            "row": 69,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e69",
+          "pos": {
+            "col": 141,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e70",
+          "pos": {
+            "col": 131,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e71",
+          "pos": {
+            "col": 132,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e72",
+          "pos": {
+            "col": 143,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s003-e59-trigger-initial",
+      "sceneId": "s003",
+      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e57",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e58",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 137,
+            "row": 72,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e62",
+          "pos": {
+            "col": 137,
+            "row": 73,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e68",
+          "pos": {
+            "col": 139,
+            "row": 69,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e69",
+          "pos": {
+            "col": 141,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e70",
+          "pos": {
+            "col": 131,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e71",
+          "pos": {
+            "col": 132,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e72",
+          "pos": {
+            "col": 143,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s003-e59-auto-legacy-002-routine",
+      "sceneId": "s003",
+      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态） / auto/legacy-002/routine",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e57",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e58",
+          "pos": {
+            "col": 0,
+            "row": 0,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 137,
+            "row": 72,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e62",
+          "pos": {
+            "col": 137,
+            "row": 73,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e68",
+          "pos": {
+            "col": 139,
+            "row": 69,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e69",
+          "pos": {
+            "col": 141,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e70",
+          "pos": {
+            "col": 131,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e71",
+          "pos": {
+            "col": 132,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e72",
+          "pos": {
+            "col": 143,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s005-e123-trigger-initial",
+      "sceneId": "s005",
+      "name": "006 码头张四 · initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e116",
+          "pos": {
+            "col": 126,
+            "row": 52,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e117",
+          "pos": {
+            "col": 124,
+            "row": 54,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e118",
+          "pos": {
+            "col": 137,
+            "row": 79,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e120",
+          "pos": {
+            "col": 140,
+            "row": 80,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 140.5,
+            "row": 80,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 141.75,
+            "row": 82,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e123",
+          "pos": {
+            "col": 122,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e124",
+          "pos": {
+            "col": 122,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e125",
+          "pos": {
+            "col": 112,
+            "row": 39,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e126",
+          "pos": {
+            "col": 114,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e127",
+          "pos": {
+            "col": 114,
+            "row": 67,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e128",
+          "pos": {
+            "col": 104,
+            "row": 72,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e129",
+          "pos": {
+            "col": 104,
+            "row": 68,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e130",
+          "pos": {
+            "col": 104,
+            "row": 62,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e131",
+          "pos": {
+            "col": 114,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e132",
+          "pos": {
+            "col": 115,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e133",
+          "pos": {
+            "col": 105,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e134",
+          "pos": {
+            "col": 96,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e135",
+          "pos": {
+            "col": 97,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e137",
+          "pos": {
+            "col": 98,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e138",
+          "pos": {
+            "col": 99,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s005-e116-trigger-initial",
+      "sceneId": "s005",
+      "name": "006 船只出航 · trigger/legacy-001/initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e116",
+          "pos": {
+            "col": 126,
+            "row": 52,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e117",
+          "pos": {
+            "col": 124,
+            "row": 54,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e118",
+          "pos": {
+            "col": 137,
+            "row": 79,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e120",
+          "pos": {
+            "col": 140,
+            "row": 80,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 142,
+            "row": 79,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 143,
+            "row": 82.5,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e123",
+          "pos": {
+            "col": 123,
+            "row": 51,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e124",
+          "pos": {
+            "col": 122,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e125",
+          "pos": {
+            "col": 112,
+            "row": 39,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e126",
+          "pos": {
+            "col": 114,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e127",
+          "pos": {
+            "col": 114,
+            "row": 67,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e128",
+          "pos": {
+            "col": 104,
+            "row": 72,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e129",
+          "pos": {
+            "col": 104,
+            "row": 68,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e130",
+          "pos": {
+            "col": 104,
+            "row": 62,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e131",
+          "pos": {
+            "col": 114,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e132",
+          "pos": {
+            "col": 115,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e133",
+          "pos": {
+            "col": 105,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e134",
+          "pos": {
+            "col": 96,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e135",
+          "pos": {
+            "col": 97,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e137",
+          "pos": {
+            "col": 98,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e138",
+          "pos": {
+            "col": 99,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s005-e117-auto-initial",
+      "sceneId": "s005",
+      "name": "006 张四划桨 · initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e116",
+          "pos": {
+            "col": 126,
+            "row": 52,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e117",
+          "pos": {
+            "col": 124,
+            "row": 54,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e118",
+          "pos": {
+            "col": 137,
+            "row": 79,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e120",
+          "pos": {
+            "col": 140,
+            "row": 80,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 142,
+            "row": 79.25,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 142.5,
+            "row": 82,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e123",
+          "pos": {
+            "col": 123,
+            "row": 51,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e124",
+          "pos": {
+            "col": 122,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e125",
+          "pos": {
+            "col": 112,
+            "row": 39,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e126",
+          "pos": {
+            "col": 114,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e127",
+          "pos": {
+            "col": 114,
+            "row": 67,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e128",
+          "pos": {
+            "col": 104,
+            "row": 72,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e129",
+          "pos": {
+            "col": 104,
+            "row": 68,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e130",
+          "pos": {
+            "col": 104,
+            "row": 62,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e131",
+          "pos": {
+            "col": 114,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e132",
+          "pos": {
+            "col": 115,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e133",
+          "pos": {
+            "col": 105,
+            "row": 75,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e134",
+          "pos": {
+            "col": 96,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e135",
+          "pos": {
+            "col": 97,
+            "row": 71,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e137",
+          "pos": {
+            "col": 98,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e138",
+          "pos": {
+            "col": 99,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e006-s014-scene-onEnter-initial",
+      "sceneId": "s014",
+      "name": "006 仙灵岛落地叮嘱 · initial（NPC显示初态）",
+      "entities": [
+        {
+          "entityId": "e201",
+          "pos": {
+            "col": 74,
+            "row": 30,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e203",
+          "pos": {
+            "col": 80,
+            "row": 37,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "entry": {
+        "sceneId": "s002",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e35"
+      },
+      "stateId": "e2e006-s002-e35-trigger-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s002",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e36"
+      },
+      "stateId": "e2e006-s002-e36-trigger-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s002",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002",
+        "entityId": "e36"
+      },
+      "stateId": "e2e006-s002-e36-trigger-legacy-002"
+    },
+    {
+      "entry": {
+        "sceneId": "s002",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003",
+        "entityId": "e36"
+      },
+      "stateId": "e2e006-s002-e36-trigger-legacy-002"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial",
+        "entityId": "e59"
+      },
+      "stateId": "e2e006-s003-e59-auto-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial",
+        "entityId": "e59"
+      },
+      "stateId": "e2e006-s003-e59-trigger-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "routine",
+        "entityId": "e59"
+      },
+      "stateId": "e2e006-s003-e59-auto-legacy-002-routine"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial",
+        "entityId": "e123"
+      },
+      "stateId": "e2e006-s005-e123-trigger-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial",
+        "entityId": "e116"
+      },
+      "stateId": "e2e006-s005-e116-trigger-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial",
+        "entityId": "e117"
+      },
+      "stateId": "e2e006-s005-e117-auto-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "stateId": "e2e006-s014-scene-onEnter-initial"
+    }
+  ]
+}

@@ -1,16 +1,23 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { reviewCreditIssues } from './document-integrity.mjs'
+import { loadDocumentRegistry } from './document-registry.mjs'
+import { readDocumentRetirements } from './document-retirements.mjs'
+import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
 const templateRegistryPath = resolve(repoRoot, 'docs/phase-governance/templates/registry.json')
 const strict = process.argv.includes('--strict')
-const registry = JSON.parse(readFileSync(registryPath, 'utf8'))
+const { registry } = loadDocumentRegistry({ manifestPath: registryPath })
 const templates = JSON.parse(readFileSync(templateRegistryPath, 'utf8'))
 const templateMap = new Map(templates.types.map((entry) => [entry.docType, entry]))
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
-const issues = []
+const retirements = readDocumentRetirements(repoRoot, registry)
+const issues = retirements.issues
+const retiredNative = new Set(retirements.nativeEntries.map((entry) => entry.path))
+const activeEntries = registry.entries.filter((entry) => !retiredNative.has(entry.path))
 const add = (message) => issues.push(message)
 
 for (const root of registry.structuralRoots ?? []) {
@@ -40,7 +47,7 @@ for (const template of templates.types)
   if (!existsSync(resolve(repoRoot, 'docs/phase-governance/templates', template.template)))
     add(`template missing: ${template.template}`)
 
-for (const entry of registry.entries ?? []) {
+for (const entry of activeEntries) {
   const template = templateMap.get(entry.docType)
   if (!template) add(`${entry.path}: unknown docType ${entry.docType}`)
   else if (entry.templateId !== template.templateId) add(`${entry.path}: templateId mismatch`)
@@ -53,10 +60,11 @@ for (const entry of registry.entries ?? []) {
     add(`${entry.path}: invalid templateCompliance`)
 }
 
+const reviewGroup = loadReviewRecords({ root: repoRoot })
 const reviewEntries = new Map()
 const reviewDir = resolve(repoRoot, 'docs/phase-governance/reviews')
 for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
-  const document = JSON.parse(readFileSync(resolve(reviewDir, file), 'utf8'))
+  const document = reviewGroup.records.get(`docs/phase-governance/reviews/${file}`)
   for (const entry of document.entries ?? []) {
     if (reviewEntries.has(entry.path)) add(`${entry.path}: duplicate content review record`)
     reviewEntries.set(entry.path, { ...entry, record: file })
@@ -89,12 +97,13 @@ const required = [
   'reviewedLines',
 ]
 const allowedStatuses = new Set(['content-reviewed', 'partial-review-unknown', 'unread', 'blocked'])
-for (const item of registry.entries ?? []) {
+for (const item of activeEntries) {
   const entry = reviewEntries.get(item.path)
   if (!entry) {
     add(`${item.path}: missing content review record`)
     continue
   }
+  for (const issue of reviewCreditIssues(item, entry)) add(`${item.path}: ${issue}`)
   for (const field of required)
     if (entry[field] === undefined || entry[field] === null || entry[field] === '')
       add(`${item.path}: missing ${field}`)
@@ -150,15 +159,30 @@ for (const path of reviewEntries.keys())
   if (!registry.entries.some((entry) => entry.path === path))
     add(`${path}: review record outside governed registry`)
 
+assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 const counts = {}
-for (const entry of registry.entries ?? []) {
+for (const entry of activeEntries) {
   const status = reviewEntries.get(entry.path)?.contentReviewStatus ?? 'missing'
   counts[status] = (counts[status] ?? 0) + 1
 }
+if (strict) {
+  const reviewPending = new Set()
+  const migrationPending = new Set()
+  for (const item of activeEntries) {
+    const entry = reviewEntries.get(item.path)
+    if (entry?.contentReviewStatus !== 'content-reviewed') reviewPending.add(item.path)
+    if (entry?.templateCompliance === 'needs-migration') migrationPending.add(item.path)
+  }
+  const affected = new Set([...reviewPending, ...migrationPending])
+  const both = [...reviewPending].filter((path) => migrationPending.has(path)).length
+  console.log(
+    `strict workload: ${affected.size} distinct documents; ${reviewPending.size} review pending; ${migrationPending.size} migration pending; ${both} in both groups; ${issues.length} diagnostics (not document count)`,
+  )
+}
 console.log(
-  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${registry.summary.total} documents; ${JSON.stringify(counts)})`,
+  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${activeEntries.length} active documents; ${retiredNative.size} retired native identities; ${registry.summary.total} registered identities; ${JSON.stringify(counts)})`,
 )
 for (const issue of issues) console.error(`- ${issue}`)
-if (strict && (issues.length || counts['content-reviewed'] !== registry.summary.total))
+if (strict && (issues.length || counts['content-reviewed'] !== activeEntries.length))
   process.exitCode = 1
 else if (!strict && issues.length) process.exitCode = 1

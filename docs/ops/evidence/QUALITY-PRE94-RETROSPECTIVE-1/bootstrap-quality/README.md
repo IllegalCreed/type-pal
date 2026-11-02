@@ -1,5 +1,38 @@
 # CODE57结构、测试、缩略图与地图ownership代码验收
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+2026-10-25，Codex单Owner，同一codex/code-quality-3y，基点624478c9ff。完整[review.json](review.json)、[prove-refactor.cjs](prove-refactor.cjs)与[approved-map-consistency-delta.json](approved-map-consistency-delta.json)；[static.json](static.json)单列。本窗九项代码范围接受：七文件新关闭，event-system与scene-identity两旧关闭刷新。CODE57代码接受、CODE3r/53因同一拒绝counter暂停的代码信用恢复；统一集成仍开放。固定80accept／3partial／0pending，剩余CODE1／3m／42，不扩94–102。
+
+## 来源与输入
+
+两旧专测保留3身份：256色与实际tuple修改核restore/black/source隔离；真实400×250 Canvas call-through+RGBA替代不完整ctx；共享clone tuple、共享black tuple、硬编码320×200三反控各旧3绿/新恰1业务红、源与测试精确恢复。纯重构740996efb把thumbnail缓存/在途/并发2/Canvas一起移出root，DOS序列仅借八个明确资源/端口；root持有GS、挂起、菜单与场景状态。用户批准细缝后，先真实血池640边缘像素红、自包含合法GOP→PNG红，再以两层共用coverage和现repair在降采样前修复；修后实际输出边缘[116,12,8,255]（[minimap-seam-after.png](minimap-seam-after.png)），只对已测map12/76与96/640样本下结论。
+
+## 断言与业务 oracle
+
+两项获批地图修复（call_6eeed1b6…／call_b5321581…）：其一，原main→raw0x99实际JSON500有未处理pageerror、blob500使活tile0消失（[map-before-failure.png](map-before-failure.png)／[map-after-failure.png](map-after-failure.png)）；用户批准后完整下载才同步发布、失败保留旧资源，revision阻止旧请求覆盖新请求或已离开又返回的scene；仅删除这一守卫恰好两个对应业务断言失败、随后精确恢复。其二，换到map76后工具身份仍12、重访把旧tilemap12与新tiles76混配；用户另批后成功发布同步当前身份和借用cache对象的mapNum/tilemap，首次scene fetch读取1-based现有override；两条正式合同在旧f454源重放恰2业务红、恢复候选后当前7合同绿（明确登记的后续旧版本回放，不伪造时序）。[map-fixed-after.png](map-fixed-after.png)与[map-fixed-before.png](map-fixed-before.png)已查看；两轮故障仅HTTP端点替代，核心/codec/主循环/真实Canvas不mock；每条故障准确一条平台500+一条应用原错误、没有未处理拒绝；普通成功/迟到/重访路径error/warning/pageerror均0。原三项getter绘图测试保留、K04旧2身份+1独立拒绝合同、新thumbnail5例；相邻11文件57例、地图相邻8文件391例、root3helper及game typecheck实际通过。
+
+## 结果
+
+九文件代码接受（bootstrap.ts/dos-cutscenes.ts/scene-thumbnail.ts/bootstrap-load/bootstrap.glm-next-wave/scene-thumbnail.test/event-system+K04/event-system.glm-event-k04/scene-identity注释级刷新）；CODE3r/53聚合代码信用恢复；首轮场景重装夹具被同scene guard跳过、sceneLoading应为undefined、早期截图仍有boot淡出层、map0资源不存在等失败如实保留并撤相关信用。[receipts.json.gz](receipts.json.gz)保留命令/cwd/time/exit/signal、完整stdout/stderr、原生结果、patch、producer与所有浏览器轮次。
+
+## 限制与复核
+
+只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/verify.mjs`核版本、原件、红绿、恢复、获批差异与静态回执；资源缺失/变化分别报告UNAVAILABLE/STALE，不能反写历史结果。重跑真实回归需先在治理树game包启动自有HTTP Vite（E2E=1 pnpm exec vite --host 127.0.0.1 --port 6005 --strictPort），再在根运行map-reload.browser.mjs到新的排他输出目录；没有Save或主树产物写入，不授完整剧情通过。完整原版DOS/剧情演出未重跑，不把结构验证当听感/美术验收。全仓check/official coverage/ratchet/protected及一个PR继续等全部pre94解决。风险卡按[GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md](../../../tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)读取，旧待批是修前历史。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5151B / SHA-256 c2b933024406bc64ef173f7a87348a97686ed11f6d1e7ed1470d79e1024dc27f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE57结构、测试、缩略图与地图ownership代码验收
+
 2026-10-25，Codex单Owner，同一codex/code-quality-3y，基点624478c9ff3554d51142214d4d7aef78d67922fb。完整[逐文件八维/版本/限制](review.json)、[源码逆变换](prove-refactor.cjs)与[明确获批行为差异](approved-map-consistency-delta.json)。本窗九项代码范围接受：七文件新关闭，event-system与scene-identity两旧关闭刷新。**CODE57代码接受、CODE3r/53因同一拒绝counter暂停的代码信用恢复；统一集成仍开放。**固定80accept／3partial／0pending，剩余CODE1／3m／42，不扩94–102。
 
 ## 质量整改与职责
@@ -29,3 +62,5 @@
 重跑真实回归需先在此治理树game包启动自有HTTP Vite：`E2E=1 pnpm exec vite --host 127.0.0.1 --port 6005 --strictPort`；再在根运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/map-reload.browser.mjs /绝对路径/新的输出目录`。新目录排他创建，7条、所有context/browser关闭；结束关闭自有server。没有Save或主树产物写入，不授完整剧情通过。
 
 全仓check/official coverage/ratchet/protected及一个PR继续等全部pre94解决；本窗不运行或声称这些门通过。风险卡按[当前交付](../../../tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md)读取，旧待批是修前历史。
+```
+<!-- incremental-original-source:end -->

@@ -54,7 +54,7 @@ historical。follow current repository routes and ownership; do not use historic
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.。
+- Current AGENTS/ops workflow, task cards and current project evidence.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

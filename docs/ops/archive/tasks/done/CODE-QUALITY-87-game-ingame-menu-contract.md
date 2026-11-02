@@ -1,6 +1,59 @@
 # CODE-QUALITY-87 — game in-game/system menu state contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验大世界主菜单与系统菜单四文件（`in-game-menu.ts` 141 行与三份测试）:按 SDLPal 真实 WORD id/label（主菜单 [3,4,5,6]、系统菜单 [11,12,13,14,15],label 统一经 `getWord` 且有 fallback）、环绕 cursor、跨次 cursor memory、系统保存/读取/音效开关/退出阶段推进;非法 cursor 或错 phase 不误触发子菜单、持久化或退出副作用。
+
+## 范围
+
+白名单仅四文件;开批基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`,分支 `codex/code-quality-3y`。CODE84/85/86 已收口;保存/读取/音乐/音效/退出实际副作用属 dispatcher/壳层,本批不代替相邻文件治理。
+
+## 前提与证据
+
+default cursor 只接受合法正索引,导航复用环绕 primitives,系统 confirm/switch 阶段只改变 state。primary:`uigame.c:878-919,922-1048,500-651`、`ui.c:401-585` PAL_ReadMenu 环绕与取消/确认输入。
+
+## 验收
+
+定向/相邻 7 个测试文件、74 tests 通过（早期检查点 72,测试合同补强后重新实测 74）;game typecheck、白名单 Biome 无诊断;全仓 `pnpm check`（lint 4010 0/0/0）、官方 ratchet（731/19857,覆盖率保持且仅记录两项合法的 in-game-menu 测试范围变化）、`pnpm check:fast`、docs/content-review、ledger 均通过。测试证据补强:确认框补齐已有 Yes 状态重置反例;choice mapping 改为重排合法菜单项后按 WORD id 解析;词表状态统一 before/after 清理;拆分开关初始化合同。源码头部菜单说明注释按真实菜单项修正。
+
+## 状态与交接
+
+done 保持原语义:四条记录关闭,账本 3270 files:closed 360、review 9、pending 2901。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点;原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现白名单实现或测试直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（74 定向/相邻、ratchet 指标、lint 4010 零诊断）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭 646c809 基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-83（菜单栈）与 CODE-QUALITY-91（一级 action 框）为相邻归属;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5890B / SHA-256 8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-87 — game in-game/system menu state contract
+
+Status: done
 Owner: Codex
 Phase: phase1 game core/menu
 Capability: overworld hub/system menu labels, cursor memory and confirm/switch phases
@@ -80,3 +133,5 @@ Codex：premise verified / build allowed。当前无实现改动；完成全部�
 
 - CODE-QUALITY-53/57/79/80/81 与其余 Q3 core/present/shell/analytics/tools 文件保持原状态；当前账本应为 3270 files：closed 360、review 9、pending 2901。
 - 无下一位 Agent 提示词；从最新 ledger 选择下一组不重叠的 2–4 个 pending 文件继续。
+```
+<!-- incremental-original-source:end -->

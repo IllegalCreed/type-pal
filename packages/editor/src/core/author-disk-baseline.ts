@@ -5,6 +5,8 @@ import {
   type LoadedCurrentProjectCore,
 } from '@type-pal/reforge/author-io'
 import { binarySnapshotSignature } from './binary-signature.js'
+import { beginSaveMeasurement } from './save-performance.js'
+import { readSaveFiles } from './save-read-pool.js'
 import { isWorkspaceIdentityPath, type WorkspaceContext } from './workspace-context.js'
 
 declare const authorBaselineBrand: unique symbol
@@ -107,8 +109,9 @@ export function observeAuthorSource(original: FileSource) {
     ): Promise<AuthorDiskBaseline> {
       // Canonical loader has already read the manifest, tables, catalog and scene index/bodies.
       // Maps remain unparsed/unhydrated: only their registered source bytes join the read evidence.
-      for (const map of project.mapIndex.maps)
+      await readSaveFiles(project.mapIndex.maps, async (map) => {
         if (!observed.has(map.path)) await readBytes(map.path)
+      })
       const state: BaselineState = {
         projectId: project.manifest.id,
         signatures: new Map(observed),
@@ -150,9 +153,14 @@ async function verifySignatures(
   signatures: ReadonlyMap<string, Signature>,
   afterWrite = false,
 ) {
-  for (const [path, expected] of signatures) {
-    if ((await readSignature(source, path)) !== expected)
-      throw new AuthorSaveConflictError(path, afterWrite)
+  const finishMeasurement = beginSaveMeasurement('verifySignatures')
+  try {
+    await readSaveFiles([...signatures], async ([path, expected]) => {
+      if ((await readSignature(source, path)) !== expected)
+        throw new AuthorSaveConflictError(path, afterWrite)
+    })
+  } finally {
+    finishMeasurement()
   }
 }
 

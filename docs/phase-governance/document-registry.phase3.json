@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "phase": "phase3",
+  "positions": [300, 301, 302, 303, 304],
+  "entries": [
+    {
+      "path": "docs/phase3/backlog.md",
+      "phase": "phase3",
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "phase": "phase3",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "phase": "phase3",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/phase3/reference/art-pipeline.md",
+      "phase": "phase3",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "phase": "phase3",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
+    }
+  ]
+}

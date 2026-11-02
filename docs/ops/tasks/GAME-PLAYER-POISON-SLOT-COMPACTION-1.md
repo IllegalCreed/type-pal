@@ -1,6 +1,41 @@
 # GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核修卸装备后毒列表压缩差异与毒入口槽位归属两项：(1)TS removePoisonLevel99原地清零高等级毒、幸存项不前移；原C（global.c:1413-1454 Wear分支）将低于99幸存毒前移、遇首空槽停止、清尾。(2)毒入口再次添加另一种毒会被覆盖：TS外层552覆盖同一空毒槽漏保留553；原C先登记ID再跑入口（O0/O2均保留两毒）。
+
+## 范围
+
+player-poison-state.ts及直接生命周期专测；不动role→party-slot、schema/save、生成物、装备永久buff。原盘寿葫芦39163与普通毒552/553真实同步入口复现：卸Wear后再施同级毒，旧TS颜色64、原C为33。
+
+## 前提与证据
+
+原2个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md) [primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。
+
+## 验收
+
+两项均获用户批准并实施：(1)Wear稳定压缩（call_4069993f'整理毒列表，保留不丢毒和不重复'）：全16槽扫描按原顺序复制幸存ID和脚本续点、尾槽清零；原C'首空槽丢后续毒/首空槽后加同毒可重复'两行为不复制（用户选TS安全边界）；正式2例先业务AssertionError再修复绿，相邻11文件486例、旧3处位置oracle迁移为完整packet。(2)毒入口归属（call_331f12c'修复毒入口槽位归属'）：ef012023a先占毒记录再执行入口、续点直接更新该record、Wear前移同一record、入口清毒后不复活、异常撤自己占位并原样传播；正式7例四业务红后绿，复制移动record变异恰一续点业务红。全16去重/洞后不丢毒、party-slot及Save保持。
+
+## 状态与交接
+
+Status保持review：技术结果已记录（两项正式红绿+相邻+TC），等待全部剩余pre94最终窗口统一集成门；原盘普通剧情嵌套可达未证；无新PR、未合main。2026-10-18'无build allowed/待裁决'是当时冻结记录，不覆盖后续批准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 10687B / SHA-256 8958f88fe23d45e528f77ad47262b76b5fc317180edcaad4ab38a7794809ddbd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3o / equipment poison lifecycle
 Coding Owner: Codex
@@ -112,3 +147,5 @@ Codex/3y单一Owner，仅只读核证已准入；物理差异verified、行为�
 ef012023a先占毒记录再执行入口；续点直接更新该record，Wear前移同一record，入口清毒后不复活；异常撤自己的占位并原样传播，不回滚其它效果。全16去重/洞后不丢毒、party-slot及Save保持。正式7例四业务红后绿，当前精确spec/旧源重放同四红并恢复7绿；复制移动record的变异恰一条续点业务红、源码还原完整。相邻11文件491例、game TC0，原盘普通剧情嵌套可达未证。
 
 [当前正式原件与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)、[3o原范围八维接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-closeout/README.md)。本卡仍review等待全部pre94统一集成门，不能把技术接受说成全门/视觉/合main完成；上方“复制幸存ID”是初次Wear修复记录，现记录移动身份另有正式反控。
+```
+<!-- incremental-original-source:end -->

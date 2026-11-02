@@ -1,40 +1,62 @@
 # Codex内容六模块边界补测
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 内容六模块边界补测回执（2026-09-22，基点 20272225、产品仍冻结 57dda7ed；用户要求覆盖率优先一次多补再统计；同 Owner 连续推进不开新签字卡）：六个新测试文件 **77 项**，不改产品/schema/公共接口/公式/旧测试/公共 fixture/GLM 准备稿。
+
+## Scope
+
+- 范围与去重表：actor-condition 19（精确坏形状/毒抗后置错误前 carrier 不变/选择性清除幂等）、project-map 24（放置组本地跨组独占/完整实参不变及深别名/可空组合碰撞）、battle-sprite 14（敌 ABI 空待机/偏移/段间隙/时长/身份拒绝/深隔离）、rewards 6（实例技能表首建与跨级去重/99 级不再成长/缺学习表不建空条目/隐藏经验取整顺序）、runtime-script 4（caller 不得覆盖词表/生命周期 guard/cue 实参转交——断言补强覆盖净增 0 不冒充未执行分支）、scene-index 10（非法形状/工程相对路径/fallback 冲突/防自覆盖）；旧测试基础成功链 46 项零改；六直接目标不在 GLM 第二波 25 模块清单不改 GLM 冻结账。
+
+## Execution and assertions
+
+- **合法性与边界**：地图/战斗形象/seed/奖励角色基线先过现行结构 guard；坏形状 unknown 输入单列；奖励用完整 ActorDef+validateActors+真实 instantiate 不再用空 baseStats 断言合法；奖励公式只测现行合同不改变 N6b 待办；快照比较真正交付受测函数的对象（复用 deepSnapshot 不用另一个自比较助手）；runtime 组直调正式包装器不宣称 cue 完成资源解析
+- **同口径统计**：content-boundaries-config 两侧官方 include/排除相同，before 仅排本批六文件；721→798 项均绿生产集合与分母完全相等；六模块覆盖表：battle-sprite 分支 60→70/70（100%）、scene-index 45→51/51（100%）、project-map 行 144→155/157、actor-condition 分支 117→132/137 等（全表在 quote）；整包 +23 行/54 语句/4 函数/66 分支全来自直接目标
+- **剩余分支登记**：actor-condition 5 臂（低层防御+空 seed/死亡施毒下轮状态边界）、project-map 10 臂（形状 guard 精确拒绝+isProjectMap 303 未发现消费者先审导出归属）、rewards 2 臂（超 99 钳位/恰 99 合法状态）、runtime-script 6 臂（私有 record 函数不绕模块访问刷计数+未知 kind 末端 throw 不可由普通 JSON 达到）——全部保留分母不加 coverage ignore 分类与后续在表
+- **鉴别力**：content-boundaries-mutants：1 个 77 项绿对照+13 单点变异均以精确测试名候选自身 AssertionError 判红（套件错/未捕获异常/超时/普通 Error 内嵌子串不采信）；每针唯一替换点零 skip/todo 六份产品 hash 每跑不变；13 针清单（状态清除取反/重复施毒误报/视觉槽与碰撞格点归属/地图 anchor 别名/段间隙与空待机/满级成长/取整次序/丢 caller 选项/restore 错误接受 ticks/身份忽略路径冲突/规范化污染 input）在 quote
+- **统一门**：全仓 check exit0 七包 8,118 项（47 既有 warning/6 info 无 error）；ratchet exit0+BASE_REF=20272225 单次 fast exit0 7,627 项/633 生产文件与 ratchet 逐维相同；相对基点恰 +77 测试身份；content 以外六包基线序列化完全相同；content 行 88.41%/分支 80.31%；全仓行 72.84%/分支 64.51%；旧版本兼容审查 pass 零 fallback 新增；视觉 N/A；E2E/full/Q1/Q2/GLM build 门不借本批关闭；开发无测试失败（一次 apply_patch 行形不匹配修正上下文不涉运行失败）
+
+## Results
+
+- 无下一位提示词；本批由 Codex 连续测试维护收口不要求用户手动重跑；重建命令四条在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；对照 config 与负控工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 六模块边界补测 | 2026-09-22 | 77 项+13 针+三门 | 完成（连续推进） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/authoring-and-runtime 的 Codex 六模块补测回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex内容六模块边界补测：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+77 项六模块（两目标分支 100%）+13 针+剩余 23 臂逐项分类；三门 exit0（check 8,118/fast 7,627 恰+77）；runtime 四项覆盖净增 0 如实登记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+去重表、覆盖表、剩余分支表、13 针清单与四条重建命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。补测按基点 20272225；覆盖数字按当时口径。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归官方覆盖账与后续批次。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `503634713ed409306454de887ba3bc10bc78f8813120485dbb27c6f77ea8e32b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `503634713ed409306454de887ba3bc10bc78f8813120485dbb27c6f77ea8e32b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex内容六模块边界补测
 >

@@ -9,6 +9,7 @@ import {
   ISLAND_ARRIVAL_ROWS,
   readBoatContract,
 } from './boat-contract.mjs'
+import { boatMediaEnabled, deliverBoatCheckpoint } from './boat-delivery.mjs'
 import { boatMotionEvidence } from './boat-motion-evidence.mjs'
 import { runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { installCommittedRoutePlayback, recordFacingInput } from './committed-route.mjs'
@@ -20,11 +21,7 @@ import { guardedEvidenceReader } from './evidence-diagnostics.mjs'
 import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { kitchenGrid, kitchenReady } from './kitchen-contract.mjs'
-import {
-  encodeLongEvidence,
-  readLongEvidenceArchive,
-  writeLongEvidenceArtifact,
-} from './long-evidence.mjs'
+import { encodeLongEvidence, readLongEvidenceArchive } from './long-evidence.mjs'
 import { npcStoryBoundary } from './npc-story-scope.mjs'
 import { producerExtraInputs } from './producer-inputs.mjs'
 import { storyInputPlan } from './story-input-plans.mjs'
@@ -32,6 +29,7 @@ import { storyInputPlan } from './story-input-plans.mjs'
 export async function runBoatJourney() {
   const options = boatArguments(process.argv.slice(2)),
     mode = options.headless ? '--headless' : '--headed'
+  const visualReviewVideo = boatMediaEnabled(process.env.TYPE_PAL_BOAT_MEDIA)
   const predecessorPath = options.from
   const predecessor = await readErrandReceipt(predecessorPath, await readErrandContract())
   assert.equal(predecessor.fragment, '005')
@@ -201,18 +199,25 @@ export async function runBoatJourney() {
         report.checks[label] = 'passed'
         report.core.rows = [...shown]
       }
-      try {
-        page = await newPage('006-real-005-saves')
+      const bootstrap = async (
+        bytes = checkpointBytes,
+        label = '006-real-005-saves',
+        expectedScene = 's004',
+      ) => {
+        page = await newPage(label, { visualReviewVideo })
         await page.route('**/__006-checkpoint.json', (route) =>
-          route.fulfill({ contentType: 'application/json', body: checkpointBytes }),
+          route.fulfill({ contentType: 'application/json', body: bytes }),
         )
         await page.goto(`${baseURL}/?e2e-load=${encodeURIComponent('/__006-checkpoint.json')}`)
         await until(
           snapshot,
-          (s) => s.boot?.checkpointLoad === 'loaded' && inScene(s, 's004') && ready(s),
-          '005 saves predecessor loaded',
+          (s) => s.boot?.checkpointLoad === 'loaded' && inScene(s, expectedScene) && ready(s),
+          'formal checkpoint loaded',
           60000,
         )
+      }
+      try {
+        await bootstrap()
 
         report.storyScope = {
           start: { afterOrder: (await drive()).order },
@@ -298,7 +303,7 @@ export async function runBoatJourney() {
         )
         assertErrandCollector(npcTrace, '006')
         report.storyScope.end = npcStoryBoundary(npcTrace)
-        report.contextTraces = [await writeLongEvidenceArtifact(out, '006-trace.json', npcTrace)]
+        report.contextTraces = []
         report.checks.island = 'passed'
         report.endWorld = {
           position: {
@@ -323,6 +328,28 @@ export async function runBoatJourney() {
             startOrder: boarding.startOrder,
             endOrder: report.storyScope.end.afterOrder,
           },
+        }
+
+        const storyActions = report.actions
+        report.actions = []
+        try {
+          await deliverBoatCheckpoint({
+            engine: 'reforge',
+            storyTrace: npcTrace,
+            getPage: () => page,
+            out,
+            report,
+            snapshot,
+            ready,
+            press,
+            until,
+            evidence,
+            begin,
+            restore: (bytes) => bootstrap(bytes, '006-fresh-formal-end-restore', 's014'),
+          })
+        } finally {
+          report.persistenceActions = report.actions
+          report.actions = storyActions
         }
         report.core.status = 'passed'
         report.route.status = 'passed'

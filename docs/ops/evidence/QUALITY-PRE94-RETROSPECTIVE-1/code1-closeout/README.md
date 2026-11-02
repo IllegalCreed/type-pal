@@ -1,5 +1,42 @@
 # CODE1 工程／Q1b质量收口与格式边界补证
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+CODE1工程清单/Q1b质量收口与RLE格式边界补证窗口（2026-10-25，同一codex/code-quality-3y，基点ea8651ce3f071e6ad04ac2eb042d28725c47eb7a，单Agent）。当前代码结论与来源修复见[README.md](pal-source-fix/README.md)；本页Q1b/格式停线记录保留原时点，原生与工程证据按新版本桥复用，统一门尚未完成。
+
+## 来源与输入
+
+当前project-reference.pal.test.ts全文八维接受（刷新原仅'过期数量oracle'的历史关闭），0新关闭。原964行测试把实体/场景/战斗数据/角色/物品/精灵/资源/行为/Worker九类合同塞入一个test，现按九个可定位身份组织：真实作者工程只在beforeAll加载和投影一次、各例只查询该快照、Worker例单独创建可变runtime；原30秒限制移到setup未增加。公共API、生产实现、工程JSON和断言值均未变。[review.json](review.json)；[split.json](split.json)记录原119条语句去向；[prove-split.cjs](prove-split.cjs)逐条检查setup和九组当前语句、全部84个matcher AST、imports/常量/输入表达式均保留，不以数量相同冒充等价。原工程清单/账本四文件复用CODE6a已接受的逐文件八维（SHA全部相同），不重做全文或工具回归。
+
+## 断言与业务 oracle
+
+- 验证：基点1/1、拆分9/9、seed20261025打乱顺序仍9/9（0skip、无诊断，setup未按九倍重复）；相邻4文件78/78；editor typecheck exit0/stderr0。没有行为修复，不伪造'先红后绿'；AST工具初次因仓库外临时目录找Git根失败属工具环境失败，不算业务反控。
+- 同核比较不是独立算法oracle：资源路径共享collectAssetReferences只支撑两适配路径一致；固定数量、剧情四处portrait和真实删除blocker另有直接断言。
+- [fixture-inputs.json](fixture-inputs.json)绑定当前census；它们不是'已全文读完539文件'或完整剧情E2E信用。
+- 格式前提新证据（归[QUALITY-RLE-COMMAND-TRUTH-1.md](../../../tasks/QUALITY-RLE-COMMAND-TRUTH-1.md)，无新产品build）：当前公开编码器用合法285×346和1×1两帧就生成第二偏移99396（WORD49698）；当前宽容/严格均正确返回两帧，未改SDL原取帧函数却会把它指向33860——无来源区别套用该规则会丢作者合法帧。真实MGO571仅在内存中改偏移表后严格/legacy入口都得两帧、坏尾0，两帧完整pixels/opaque SHA与上窗独立原生C输出一致；实际当前catalog经validateAssetCatalog的记录经真实Reforge公共decodeWorldSpriteAssetBytes仍读一帧。迁移器冻结571为1帧/1坏尾、全组4133帧/30坏尾需随最终获准方案校准。原盘、提取物和作者工程零写入。
+- 两文件B维窄修（shared/rle.ts及rle-encode.ts仅注释）：真实game重导出、legacy跳尾校验策略与原盘真值分开、编码器131070整体上限不冒称u16格式必然限制；[rle-comments.json](rle-comments.json)及只读AST证明[prove-rle-comments.cjs](prove-rle-comments.cjs)确认imports/类型/所有执行体逐字一致；59个RLE/52相邻及原类型结果复用不重跑，0新关闭。
+
+## 结果
+
+CODE1三个范围中工程清单与Q1b此窗收口，RLE测试六范围依上窗、RLE产品格式仍review、整卡partial；固定83卡80accept/3partial（另两卡3m/42未提前接受）。2026-10-25用户原盘读取裁决已收到，PAL来源修复与CODE1代码收口由pal-source-fix子窗取代本页旧format停止线。
+
+## 限制与复核
+
+低成本复验：在治理树根运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs`（默认只读、不联网、不跑tests/coverage），核候选上下文、539输入、119/84映射、真实native结果、原工程四文件及RLE代码版本桥；版本变化只使相关claim待核。旧RLE快检的历史static报告绑定当时父卡/看板，不能因进度文字改变伪称适用于今天。新证明工具初次格式门有两条useTemplate info（exit0也未记通过），手动修正后旧SHA被快检如实拒绝，核JSON语义未变后绑定最终字节，两次回放原件保留。[receipts.json.gz](receipts.json.gz)收完整stdout/stderr、native JSON、精确命令/cwd/时间/exit/signal与产生者。当前最终[static.json](static.json)单列，不复跑未变的125项docs工具测试。pendingDecisionAudit如实登记四项待用户裁决（CODE1来源修复、3m极端dex、3m正数防御转换、42姓名速度）；全仓check/官方coverage/protected/PR继续等全部pre94，不扩94–102。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7017B / SHA-256 26fcd38d886f09cbe0e80eab815e7c38835a8b8a6b0ca0b86d9feb08b5c73212；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE1 工程／Q1b质量收口与格式边界补证
+
 > 当前代码结论与来源修复见[PAL来源修复](pal-source-fix/README.md)。下方Q1b/格式停线记录保留原时点；原生与工程证据按新版本桥复用，统一门尚未完成。
 
 Status: current scoped receipt
@@ -59,3 +96,5 @@ node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs
 默认快检只对这两份已证明的注释delta采用新SHA，且必须先匹配原验收SHA并执行完整AST等价证明；其它旧context继续逐字节校验。原raw不改、不盲刷旧source hash，不继承格式正确或整文件新接受信用。rle.ts仍review，encoder历史代码接受只刷新本注释增量，0新关闭。
 
 2026-10-25当前：用户原盘读取裁决已收到，[PAL来源修复与CODE1代码收口](pal-source-fix/README.md)取代本页旧format停止线；原工程／Q1b及539fixture证据有效复用，旧原件不重写。整批统一门另记。
+````
+<!-- incremental-original-source:end -->

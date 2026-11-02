@@ -1,5 +1,38 @@
 # CODE3h/CODE71 fetch-retry 成果复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本片审计对象是旧[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)交付的fetch-retry实现与三测试:真实Node原生fetch/本机HTTP观察发现退避不响应取消、已取消Request带自定义reason仍被重试——与旧71『取消不等待backoff』的合同矛盾,故旧source关闭撤回rework、boundary关闭撤回review,产品修复转[QUALITY-FETCH-ABORT-LIFECYCLE-1.md](../../../../tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) draft,本片不实施产品修复。基点dfd03a811、main=f98d0ddd8,CODE71卡全文核清后当前partial,旧done≠本轮accept。
+
+## 范围与证据
+
+实际读取范围见[read-boundaries.json](read-boundaries.json)(fetch-retry.ts与三测试、main.ts、boot-loading.ts、audio-midi.ts、ending-avi-host相邻测试、CODE71卡、coverage inventory全读;真实caller=main.ts安装先于boot-loading包装、audio-midi曲目/音色库fetch与stop/dispose signal;SDLPal无该浏览器网络API,N/A)。判别力原件:[before-proof.json](before-proof.json)/[after-proof.json](after-proof.json)七变异七轮;身份链[collection.json](collection.json)(main=5/10/2缺AbortError例、before=6/10/2、after=6/11/2);快照差[snapshot-comparison.json](snapshot-comparison.json);测试域修正[scope-proof.json](scope-proof.json)与[README.md](initial-candidate/README.md);真实取消观察[real-abort-proof.json](real-abort-proof.json);全包诊断[game-diagnostics.json](game-diagnostics.json);门[test-gates.json](test-gates.json)/[gates.md](gates.md);重建脚本[verify.py](verify.py)。
+
+## 发现
+
+三个旧18绿盲点(新19例各被1条指定AssertionError抓出):留第一次网络错误→boundary『网络失败耗尽抛最后一次Error身份』;uninstall不恢复fetch→GLM『还原后同一错误直接抛』;删init.signal.aborted判断→新boundary『init.signal请求中取消用原始非AbortError原因拒绝』。三个转移诊断:终态503 Response clone(旧已保护,boundary红)、默认retries改1(耗尽例红,一对一转移)、404当瞬态重试(独立404例红)。collection证明族18→19=一弱例转移+混合503/404拆两独立轴+一独立取消域;fetch-retry.ts局部V8旧/新均100%(33 statements/41 branches),覆盖率不能替代判别力。scope-proof揭示初始候选bug:预检式取消断言底层必须被调1次会拒绝合法预检,最终改为请求确实开始后由真实controller取消。真实HTTP观察两未覆盖域:503 backoff中取消仍持有timer/Promise;已取消Request自定义reason走两次退避三次底层调用且0条HTTP请求。全包一次:320文件3605 passed/0pending但17块stderr涉14测试文件,包质量未过,转[QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md](../../../../tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) draft,不能静音过滤。
+
+## 结论
+
+本片0新增关闭;source/boundary旧关闭撤回,其它两测试仍review;全83卡14partial/69pending/0整卡accept。最终定向门:25文件156例、game typecheck、75覆盖工具全过、0失败/跳过/运行时诊断;完整包未在最终候选重复执行(全包原件保留于初始候选,不冒充最终源码收口)。已知未修:boundary POST例的『网关耗尽拒绝』旧括号注释与实际行为不符,留review随取消切片校正。统一check/official ratchet/protected未新跑,game 17块与editor诊断未清,不合main。
+
+## 整改与复核
+
+不重跑任何命令/测试;证据均为固定main原时点原件。第一阶段网络行为/音频UI、完整浏览器取消效果未验,不因包绿关闭这些域。下一片先以取消生命周期卡核失败反例与实现准入、恢复既有71合同;随后核game17块与editor余诊断。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8092B / SHA-256 9295ea028a5e95d400965c8ff2a81e4b4e2f2682974e88e1b2908706cd9c2621；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3h/CODE71 fetch-retry 成果复审
+
 基点dfd03a811，main=f98d0ddd8，唯一codex/code-quality-3y。三测试有限补证，生产源/接口/规则/baseline/精确退役表未改；0新增关闭。[CODE71原卡](../../../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)全文核清后当前partial，旧done不等于本轮accept。全83卡当前14partial/69pending/0整卡accept，94–102/editor继续。
 
 ## 逐文件、真实caller与停止线
@@ -60,3 +93,5 @@
 本片0新增关闭。source旧关闭撤回rework、boundary旧关闭撤回review，其它两测试仍review；全83卡14partial/69pending/0整卡accept。统一check/official ratchet/protected未新跑，game诊断与editor最近全包诊断均未清，不合main。
 
 下一有限片先以取消生命周期卡核失败反例与实现准入，恢复既有71合同；随后按2–4文件核game17块与editor余诊断，稳定窗口集中统一门和阶段集成。全部83卡及94–102/editor仍在范围内。无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->

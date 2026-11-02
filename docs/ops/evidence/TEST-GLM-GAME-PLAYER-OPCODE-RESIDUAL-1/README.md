@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 的交付证据：分支 `codex/glm-game-player-opcode-residual-r1`、base `053ae5bb4`（origin/main）；范围为 event-opcode-player.ts 玩家 opcode 残余合同。
 
 ## 证据身份
 
-- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 0375206d17f1e6e7469fa6e561fdcc2fc0ebb4d4a04a3513d0642ef3af017919。
+- 交付物：event-opcode-player.glm-opcode-residual.test.ts（6 条新合同 C1-C6）——0x18 换装撤效果层、0x23 单槽/全卸两臂、0x1c/0x1d applyAll 全队臂、0x29 抗性等值边界；dedup-ledger.md（逐 opcode 排重账 REG/NEW/防御守卫）；mutation-points/runner/results/logs（42 份）7 针三态反控 7/7 VALID；directed-vitest.json 身份集。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 合法输入：applyPlayerOpcode 公开 caller+typed Command；0x17 合法种入效果层后换装对照。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 判据八类全未命中（零执行/red-json-unparsable/red-pending>0/red-runtime-error/red-no-business-assertion/restored-not-green/restore-sha-mismatch/green-identity-drift）；恢复后源 sha 逐字节一致（cleanupRestored=true）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 质量门（最终树实测）：定向 1 文件 6/6；相邻 12 文件 469/469；game 全量 3466/3466；typecheck 0；lint 3354 文件 0/0/0；check:docs PASS（三处 after-SHA 外科刷新）；diff --check 0。
+- 环境备注：隔离 worktree 缺 gitignored data/extracted 与 data/raw MKF（软链补齐），不改 tracked 文件。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r1 已推 6172c0df4/9b184a01b（6 合同+7 针 VALID）待 Codex 验收；fScriptSuccess 不写须零改重复施放相位等判例在 ledger。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 r1 交付（6 合同+7 针）；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据：原始正文完整保留于下方 quote。
+- 0x18/0x23×2/0x1c/0x1d/0x29 六残余合同全绿；效果层合同种入用生产路径 0x17。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 交付物清单与质量门在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `0375206d17f1e6e7469fa6e561fdcc2fc0ebb4d4a04a3513d0642ef3af017919`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `0375206d17f1e6e7469fa6e561fdcc2fc0ebb4d4a04a3513d0642ef3af017919`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 交付证据
 >

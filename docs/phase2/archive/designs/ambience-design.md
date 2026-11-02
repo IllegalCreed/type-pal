@@ -1,84 +1,55 @@
 # 氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 W6 昼夜氛围系统设计的归档重写。原版语义考证、夜色拟合数据出处与数据模型在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：W6 只做昼/夜；以全帧乘法调色拟合原版，WorldState ambience 单值，setAmbience 脚本命令，300ms 渐变，编辑器预览和 12 场景手补迁移。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 目标（2026-07-10 用户拍板）：氛围系统只做昼夜——全帧乘法滤镜+氛围数据表；2026-09-03 用户进一步裁决真实时间流逝与天气的相关边界（quote 保全）。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def`；原文 98 行、5279 bytes。
-- 一手来源/正文锚点：docs/phase2/archive/designs/ambience-design.md:1-1；标题锚点：1:氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表, 7:0. 一句话, 13:1. 原版语义(考证), 23:2. 夜色拟合(数据出处,非拍脑袋), 37:3. 数据模型(content), 50:4. 脚本指令, 60:5. 渲染(引擎), 72:6. 迁移(不动迁移器 —— MG2 红线)。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- ambiences.json/自定义黄昏天气、真实时间流逝和天气明确是设计边界或后续阶段，不是现行合同。
-- 历史 contentVersion、脚本入口和滤镜实现需与当前 content22/视觉实现重新核对。
+- 夜色拟合给出数据出处（非拍脑袋）；原版语义按 sdlpal 考证（0x53/0x54 昼夜与夜间调色板真值，见一阶段 C 类收口）。
 
 ## 方案
 
-- 原始方案语义：W6 只做昼/夜；以全帧乘法调色拟合原版，WorldState ambience 单值，setAmbience 脚本命令，300ms 渐变，编辑器预览和 12 场景手补迁移。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- docs/phase2/specs/content-schema.md
-- docs/phase2/READ-FIRST.md
-- 当前 visual/runtime ambience 调用域（如存在）
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 五节：原版语义考证 → 夜色拟合数据出处 → 数据模型（content）→ 脚本指令 → 渲染（引擎）。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- ambiences.json/自定义黄昏天气、真实时间流逝和天气明确是设计边界或后续阶段，不是现行合同。
-- 历史 contentVersion、脚本入口和滤镜实现需与当前 content22/视觉实现重新核对。
-- 停止线：不得把天气/实时钟或旧 ambience 表当作当前功能，也不得以文档推断运行时或视觉通过。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- 只做昼夜是范围裁决；时间流逝/天气不在本设计内。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收以用户拍板为准；实现以现行 reforge/content 代码与测试为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-07-10（边界裁决至 2026-09-03）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表：这是 design-spec，当前文档状态为 historical。全文 99 行、11 个标题；摘要/首段为「> 2026-07-10 用户拍板。范围:**只做昼夜**。2026-09-03 用户进一步裁决：真实时间流逝与天气」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 全帧乘法滤镜+氛围数据表方案为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def`；全文 98 行 / 5279 bytes。
-- 原文标题/章节锚点：1:氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表, 7:0. 一句话, 13:1. 原版语义(考证), 23:2. 夜色拟合(数据出处,非拍脑袋), 37:3. 数据模型(content), 50:4. 脚本指令, 60:5. 渲染(引擎), 72:6. 迁移(不动迁移器 —— MG2 红线)。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 考证与数据出处各节在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得把天气/实时钟或旧 ambience 表当作当前功能，也不得以文档推断运行时或视觉通过。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：docs/phase2/specs/content-schema.md, docs/phase2/READ-FIRST.md, 当前 visual/runtime ambience 调用域（如存在）。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- 现行 reforge 渲染与 content schema；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `7fc897e7bb51fe2fa77d5b6c9c60998ef7c881be9b35c6f3c2fc0f6aa9451def`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表
 >

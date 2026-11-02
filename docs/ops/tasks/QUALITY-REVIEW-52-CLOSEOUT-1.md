@@ -1,6 +1,65 @@
 # QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+完成账本剩余52个review文件的收口：复用有效全文八维/caller/primary/反控/原生门证据，补缺口与必要返工，区分代码接受、统一门与发布三个层次。旧'等待覆盖率/act诊断'不直接当当前阻塞，卡片accept不自动授予整文件accept。
+
+## 范围
+
+固定基点PR23合并后0e14c184e；scope.json的52路径为唯一分母（首次live机器表枚举，不读历史comment表）：pal-extract19、game12、scripts6、editor5、shared4、reforge3、migrate2、content1；28产品/17测试/4工具/3fixture。52中纳入103–106遗留测试，不重开103+或已接受pre94/94-102文件；2870 pending、ED-ENTITY-STATE-PLAN-1与其它活动实现不抢写；主树只读。
+
+## 前提与证据
+
+review只表示已读或局部整改未完成整文件验收；全仓绿不能推定八维完整。推进次序：解析/文本链9→shared类型4→extract余10→game12→二阶段11→治理工具6。[唯一阶段证据入口](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)记录实际进度。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) [scope.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/scope.json) [documentation-model.md](../guides/documentation-model.md)。
+
+## 验收
+
+分模块推进（均各时点）：首组13→提取收口23/52（17文件110+4文件27=20文件131身份出现项不合称137）→game七文件30/52→BGM+第二阶段八文件38/52→启动/来源两文件40/52→magic重组（固定仍40/52）→呈现层41/52→coverage结构子提交→治理工具六文件47/52→工作台focus修复47/52→用户一次批准五项剩余边界→最后五文件与四专测52/52、0仍review（game 35文件795绿；物品11/迁移36/编辑器21不相加）。2026-10-26本地统一门：全仓20620产品+721工具/七包TC、lint6137文件0/0/0；唯一official 20185/809全绿、原旧比率拒绝如实保留，仅pal-extract两文件精确重计；同报告ratchet/protected重放exit0、三项精确退役匹配。PR25首轮Coverage真实失败（scene-thumbnail并发复合例5000ms超时）：拆两独立合同修复后6插桩绿+1去重业务AssertionError反控，官方game3754单包重采、组合20186/809且game四计数不变。
+
+## 状态与交接
+
+Status保持done：卡面done只记录'全部52实质处置+集中门零诊断'两个事实；本地冻结时尚未推送/PR/合并，实际发布以关联PR/main工作流为准，远端未通过不得宣布阶段集成完成。PR重试和main CI以GitHub为准。
+
+## 历史范围
+
+各模块窗口的中间计数（3453/544/39/2870→3462/597/0/2865）保留各自时点；工作台G零caller包装、bus空协议与两通知、脚本后live库存/flags、旧script index停托管等五项边界由用户2026-10-26一次明确批准后实施。
+
+## 原始结论
+
+原卡结论：代码/本地门准入=全部52有实质处置且集中门零诊断；卡面done只记录这两个事实，实际发布以关联PR/main工作流为准。
+
+## 当时证据
+
+docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/全套子模块回执（本批162/163已逐篇核读scope/extract-rework/phase2/entry-source/magic/uniform/ci-repair等）。
+
+## 当前有效性
+
+阶段收口按其时点有效；52外pending不随门通过升级。
+
+## 继任文档
+
+PR25与main CI以GitHub为准；后续94-102系列与ED-ENTITY-STATE按各自卡推进。原存活入口逐字保留：
+
+关联:[governance.md](../../testing/governance.md) [agent-workflow.md](../agent-workflow.md) [code-quality.md](../code-quality.md) [README.md](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md) [scope.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/scope.json) [documentation-model.md](../guides/documentation-model.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 16703B / SHA-256 250bb747901dd4108d49412f5f805043e509c3b6536f452a2997ac946ae49993；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口
+
+Status: done
 Phase: phase1 / phase2 / ops（逐文件区分）
 Capability: fixed-cohort code-quality closeout
 Coding Owner: Codex（单Agent）
@@ -112,3 +171,5 @@ Codex build allowed：限固定52的审查、证据校准、注释/测试/行为
 - 2026-10-26 本地统一门收口：52/52代码接受；全仓20620产品＋721工具／七包TC、lint6137文件0/0/0，完整stderr空；唯一official20185／809全部测试绿、原旧比率拒绝如实保留。按用户既有授权仅pal-extract的死包装与视频CLI保护两文件精确重计，六其它包收益保留；同一报告原policy重放ratchet/protected均exit0，三项精确退役匹配。完整原件与低成本复验见父52证据uniform.json；当前尚未推送/PR/合并，卡面done为代码与本地门，发布以真实GitHub状态另核。
 
 - 2026-10-26 PR25首轮Coverage真实失败：scene-thumbnail并发复合例在5000ms超时，Documentation通过。只修该已接受测试，保持合法大图/真PNG/默认5秒，拆两个独立合同并精确500清理未完成请求；四原正文不变。6插桩绿/一去重业务AssertionError反控/TC0，官方game3754单包重采、六包逐指纹复用，20186／809且生产四计数不变；原policy ratchet/protected0。原整仓20620＋721按单测试delta桥接，不重跑无变化六包，原失败完整保留；52分母与账本597／0／2865不变。此处为本地修复回执，PR重试和main CI尚待，未冒称发布成功。
+```
+<!-- incremental-original-source:end -->

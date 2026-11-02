@@ -1,55 +1,61 @@
 # C3 - 装备结构化编辑器 + 数值单一真相源(desc 去脱节)
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done(编辑器侧 ⚠️→✅;引擎详情框派生显示落地。整体 C3 引擎列仍留用户观感验收)
+Owner: Opus(用户拍板:装备说明回归风味,数值一律派生自 effects)
+Reviewer: 用户(方向拍板 + 观感待手动复验);Codex/GLM 补签可选
+Phase: phase2
+Capability: C3 装备(能力地图)
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是装备说明与数值脱节的根治历史卡：用户点破 desc 手写「+14 武术」与 equip.effects 脱节，定案说明只写风味、数值一律从 effects 派生，单一真相源=equip.effects；含编辑器结构化与运行时详情框同一文案源。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+desc 去脱节：content 唯一效果文案出处 describeEquipEffects（属性/上限/抗性并一行全角空格分隔、攻击全体/常驻/授技能/回合回复各一行、抗性照原版灵珠「避X率+N%」措辞，5 单测）；编辑器装备段 JSON→结构化+「玩家看到」只读派生预览；运行时详情框三处共用同一源；详情框 >3 行自动上滚。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：item.ts describeEquipEffects、ItemTab 结构化（可装备开关/槽位/角色勾选/效果链）、item-list.ts 详情框、pal 种子一次性剥 105 件装备 desc 手拼效果文本（土灵珠散文抗性单独手修，仅动 desc 字段）、>3 行 marquee 上滚。
+- 范围外：use/throw 结构化（另开）；迁移器 item 翻译仍把效果烘进 desc——种子洗了但迁移器未改，MG2 前严禁重跑。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+派生比旧 desc 更完整：长鞭「玩家看到」含旧 desc 漏掉的攻击全体。装备菜单绿色语义核对：绿=已装备件 id 仍在列表，木剑变绿截图为测试塞重复件假象非 bug。
+- 当前状态：done（历史终态；引擎列观感留用户）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：pnpm check 全绿（新增 content 5 测）；编辑器 6010 长鞭实测（风味+三行结构化+派生预览，截图 c3-editor-changbian.png）；运行时 6051 铁剑静态两行+土灵珠 5 行上滚滚出「避土率+50%」「习得·山神」（截图 c3-runtime-tiejian/c3-scroll-a,b.png）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+遗留：引擎 C3 列转 ✅ 仍待用户游戏内装备系统整体观感验收；迁移器待 MG2 时同步只出风味 desc。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+选择器铁律「先闭合半 done 格」窗口（原卡未单列日期，按其实测记录时点读取）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done(编辑器侧 ⚠️→✅;引擎详情框派生显示落地。整体 C3 引擎列仍留用户观感验收)`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：装备数值单一真相源（effects 派生）全链落地并实测；迁移器同步留 MG2。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+describeEquipEffects 5 单测、6010/6051 实测截图、种子 diff 仅 desc 字段。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。装备文案现行形态以当前 content/editor/reforge 代码为准；观感验收归用户当时。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+use/throw 结构化若需要另开卡；迁移器同步归 MG2 窗口。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `57744b1d07d54843600d5b95ae3423c9509e26187f9ac34c338506011afc3ea1`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `57744b1d07d54843600d5b95ae3423c9509e26187f9ac34c338506011afc3ea1`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # C3 - 装备结构化编辑器 + 数值单一真相源(desc 去脱节)
 >

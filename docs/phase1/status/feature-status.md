@@ -1,87 +1,57 @@
 # Feature Status · type-pal
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段玩家可感知功能总表的归档重写。状态词汇、14 章功能表、测试入口与 sdlpal 自身 bug 清单在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或 coverage 信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: Feature Status · type-pal; full source read for template classification.
-- 时间/版本范围：2026-06-16；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：玩家可感知功能总表，按「游戏里发生什么」分类（不按源码目录分类）；状态列写实现事实、测试列写覆盖事实，已修历史流水不堆叠表顶。
+- 时间范围：当前快照 2026-06-16；逐 opcode 明细归 [opcode-status](opcode-status.md)，逐资源归 [resource-status](resource-status.md)，物品/仙术/演出各有专表。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- 14 大章覆盖启动/结局、存读档、大世界、对话/演出、成长、物品/商店、仙术、战斗规则、战斗画面、菜单、视觉资源、音频、输入/运行时与开发工具；另维护五张明细表分工表。
+- 状态词汇：✅verified（user 已按 sdlpal 源/实机核过）/ ✅claimed（port 自认 1:1 待 user 拍板）/ ⚠️partial / ⬜todo / N/A；测试列 ✅unit / ✅regress / ✅partial / ⬜todo / N/A。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：表内没有玩家功能状态列标 ⚠️partial——`✅partial` 只表示测试、听验或长路线验收还不完整；战斗规则章 14 行主路径全接（五基础行动、出手顺序、普攻/法术公式、防御援护、状态、偷盗收妖召唤分裂吹飞、逃跑、胜利奖励、败战接回、R 键跨战斗记忆）。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 11:- **✅ claimed**:Claude port 自认 1:1,但还需要 user 最终拍板。
-- 正文信号 12:- **⚠️ partial**:主功能可用,但已知有表现、低频分支、像素 / 时序或听验残项。
-- 正文信号 13:- **⬜ todo**:未做。
-- 正文信号 20:- **✅ partial**:部分覆盖;常见于渲染 / 听验 / 长剧情 e2e。注意这是“测试覆盖不足”,不等于功能状态是 partial。
-- 正文信号 21:- **⬜ todo**:无测试。
-- 正文信号 31:### 当前状态列 partial
-- 正文信号 33:目前没有玩家功能状态列标为 `⚠️ partial`;表内 `✅ partial` 只表示测试、听验或长路线验收还不完整。
-- 正文信号 41:| 商标画面和标题前动画 | ✅ claimed | ✅ partial | WIN95 走 mp4, DOS fallback 走 palette/RNG/FBP 编排;`?skip-intro` 可跳过。 |
-- 正文信号 42:| 标题菜单:新的故事 / 读取存档 | ✅ claimed | ✅ partial | 选项文字、位置公式、键盘选择已接;读档入口接 IndexedDB。 |
-- 正文信号 43:| 新游戏开场影片 | ✅ claimed | ✅ partial | WIN95 播 `3.mp4`;DOS 无 AVI 时按原版直接返回。 |
-- 正文信号 44:| 通关动画和回标题 | ✅ claimed | ✅ partial | WIN95 播 `4/5/6.mp4`;DOS 结局走 RNG/FBP/EndingAnimation 编排。 |
-- 正文信号 51:| 新游戏初始场景、金钱、队伍、背包、毒 / 状态清空 | ✅ claimed | ✅ regress | 对齐 `PAL_LoadDefaultGame`;角色等级和 8 类经验等级初始化已补齐。 |
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- 当时当前重点四项：剧情演出实机验收、战斗表现细节（召唤/合击/变身/伤害数字时机/援护）、大世界长路线验收（跟随/明雷追击/驱魔香）、音频听验（最终音色、音量、每曲正确性）。
 
 ## 下一步
-- 下一项可执行工作：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 历史时点的剩余轴为听验与长路线验收；上线后新缺陷以 pre-E2E 审计与修复卡为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-06-16；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f`。
+- phase1 status 快照；冻结于 2026-06-16；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Feature Status · type-pal：这是 plan-status，当前文档状态为 historical。全文 231 行、20 个标题；摘要/首段为「> 玩家可感知功能总表。**本表按“游戏里发生什么”分类,不按源码目录分类**;源码路径、opcode 名和数据表名只作为备注里的依据。」。属于历史/归档材料，不能单独证明当前实现。
+- 「无玩家功能 ⚠️partial、✅partial 仅测试覆盖不足」与四项当前重点是原始结论本体；逐功能行状态在 quote 主表。
 
 ## 当时证据
 
-- 标题锚点：怎么读；当前重点；当前状态列 partial；1. 启动、标题和结局；2. 存档、读档和新游戏数据；3. 大世界走路、场景和 NPC；4. 对话、剧情脚本和演出；5. 角色成长、属性和经验；原始正文、状态词、表格和链接在 quote 保全。
+- 14 章功能表、测试入口表（game 包 unit/regression、event-system/battle/menu/present 路径）与 sdlpal 自身 bug 清单（Bug-1 全敌死 while 卡死 fight.c:4500-4517、Bug-2 偷死敌 underflow fight.c:5193+，ts port 显式规避）在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 11:- **✅ claimed**:Claude port 自认 1:1,但还需要 user 最终拍板。
-- 正文信号 12:- **⚠️ partial**:主功能可用,但已知有表现、低频分支、像素 / 时序或听验残项。
-- 正文信号 13:- **⬜ todo**:未做。
-- 正文信号 20:- **✅ partial**:部分覆盖;常见于渲染 / 听验 / 长剧情 e2e。注意这是“测试覆盖不足”,不等于功能状态是 partial。
-- 正文信号 21:- **⬜ todo**:无测试。
-- 正文信号 31:### 当前状态列 partial
-- 正文信号 33:目前没有玩家功能状态列标为 `⚠️ partial`;表内 `✅ partial` 只表示测试、听验或长路线验收还不完整。
-- 正文信号 41:| 商标画面和标题前动画 | ✅ claimed | ✅ partial | WIN95 走 mp4, DOS fallback 走 palette/RNG/FBP 编排;`?skip-intro` 可跳过。 |
-- 正文信号 42:| 标题菜单:新的故事 / 读取存档 | ✅ claimed | ✅ partial | 选项文字、位置公式、键盘选择已接;读档入口接 IndexedDB。 |
-- 正文信号 43:| 新游戏开场影片 | ✅ claimed | ✅ partial | WIN95 播 `3.mp4`;DOS 无 AVI 时按原版直接返回。 |
-- 正文信号 44:| 通关动画和回标题 | ✅ claimed | ✅ partial | WIN95 播 `4/5/6.mp4`;DOS 结局走 RNG/FBP/EndingAnimation 编排。 |
-- 正文信号 51:| 新游戏初始场景、金钱、队伍、背包、毒 / 状态清空 | ✅ claimed | ✅ regress | 对齐 `PAL_LoadDefaultGame`;角色等级和 8 类经验等级初始化已补齐。 |
+- historical。状态/测试格按 2026-06-16 快照解释；当前功能状态以现行代码、测试与新审计为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- pre-E2E 审计与修复任务卡、E2E 阶段报告；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Feature Status · type-pal
 >

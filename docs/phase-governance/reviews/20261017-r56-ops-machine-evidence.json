@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r56-ops-machine-evidence-20261017",
-  "reviewer": "Codex root full JSON structured migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R56: task evidence JSON remains byte-stable and machine-readable; registry/review add test-machine-evidence artifact envelope without wrapping or rewriting payload. Historical execution data grants no current runtime/E2E/visual/coverage credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
@@ -12,56 +12,52 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "branch-census.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
-      "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json:1"],
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "coverage85 r6缺口census:totals lines 29284/26997=92.19%、statements 89.99%、functions 89.39%、branches 83.2%;loclessTotal=504(v8无源码位置合成计数,note明示不作unreachable proof);perFile 40文件(首条MapMode.tsx miss390/locless58)。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json: top-level scalar field \"note\" (structural anchor)"
+      ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "branch-census",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
       "afterSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-        "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
+        "reviews/20261017-r56(29处)",
+        "FULL independent-r56(11处)",
+        "RECORD-INTEGRITY raw"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9d24f6334a377a49dd64459ac7f3af5d6f1f3876",
+          "sha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["total与coverage-summary完全一致(互证)", "locless仅合成计数(note自声明)"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
-          "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-          "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs"
-        ]
+        "result": "unique",
+        "against": ["coverage-summary(逐文件表)", "mutation-evidence(判别力轴)"]
       },
       "revision": {
         "currentSha": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
@@ -83,23 +79,28 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
-        "candidateSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
-        "afterSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
-        "lineCount": 2743,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 50855,
-          "sourceLines": 2743,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": ["note", "total", "loclessTotal", "perFile"]
-        }
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
+        "family": "counts-record",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["note", "string"],
+            ["total", "object"],
+            ["loclessTotal", "number"],
+            ["perFile", "array"]
+          ]
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"note\" (structural anchor)",
+            "pointer": "/note",
+            "value": "locless = v8 branchMap 无源码位置的合成计数。只说明缺口构成，不作为 unreachable proof。"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -113,25 +114,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 0,
+          "priorEntrySha256": "a2e396a687ecbc42098c5b9f57dc696dd0fe94b32d351dee7813251f14ead5ce",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 0,
+            "entryCanonicalSha256": "e3d4cc2b1397931b105d02ebedbdc681472fb94111820e49cbe03d4057060383"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-2743",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9d24f6334a377a49dd64459ac7f3af5d6f1f3876",
+          "sha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5"
         }
       ],
       "phaseAnchors": {
@@ -140,18 +182,51 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md; docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "r6(2026-10-04)隔离树cov85-editor",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":8,\"canonicalSha256\":\"748e500a5487136bf5d1f5adc76b3eb2c74a48cec2d5ce514062fa4498d194c8\"}"
+        ],
+        "priorReadDomainSha256": "7df32c02a3eac02421792696abb78c2ecc347bc852188324c3dd0ca84fa57e85",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/note"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/0"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
+        "contentSha256": "35cf69ad931799667a62822b14f2507ba24e9e1a77920304f428bce52b97fe3f",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
@@ -160,56 +235,48 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "coverage-summary.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
-      "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json:1"],
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "同轮逐文件覆盖表:total与branch-census一致(92.19/89.99/89.39/83.2%),按绝对路径…/type-pal-cov85-editor/…键控292个editor源文件四维计数,coverage85 r6机器事实源。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json: coverage summary: total lines 29284 with 26997 covered (92.19%), 0 skipped; statements 33513/30159 (89.99%)"
+      ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "coverage-summary",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
       "afterSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-        "scripts/coverage/metrics.mjs"
-      ],
+      "publicCallers": ["R56 review", "independent-r56", "RECORD-INTEGRITY raw"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9313b660c70dd017ce59f9ec113688871f3a871c",
+          "sha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["total与branch-census数值互证", "292文件键与editor树对应"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
-          "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-          "scripts/coverage/metrics.mjs"
-        ]
+        "result": "unique",
+        "against": ["branch-census(缺口轴)", "vitest-fresh(执行轴)"]
       },
       "revision": {
         "currentSha": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
@@ -231,317 +298,1197 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-        "candidateSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-        "afterSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-        "lineCount": 7626,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 150751,
-          "sourceLines": 7626,
-          "sourceFinalNewline": true,
-          "inverseSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "total",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/main.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/play.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-dialogue-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ambience-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-diagnostics.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-label-command.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-command-edit.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-disk-baseline.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-journal.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-plan.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-prefix.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-store.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-command-errors.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-field-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-library.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-state.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-import.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-trial-launch.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/binary-signature.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/clone.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-asset-record.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-catalog.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-contract.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-scene-state.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/composite-command.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/edit-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-reader.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-contract.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-core.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-store.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived.worker.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-coordinator.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-participant.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-team-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-address-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-display.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-placement.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/export-zip.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/file-system-access.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.worker.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-draft.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-images.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-worker-client.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/fsa-copy.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/handle-store.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/hit-test.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/image-import.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-brush.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-fill.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-alchemy.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-authoring.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/level-up-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/load-play-project.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/locale-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-asset-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-edit-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-patch.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-reference-facts.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-selection.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-transform.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-actions.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-local.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-url.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-workspace.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/playback.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/poison-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-copy-source.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-diagnostics.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-io.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-leave-guard.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-name-command.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-read-lock.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference-adapters.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/scene-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor-projection.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-flow-preview.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-movement-preview.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-reference-catalog.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed-assets.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/shop-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/skill-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-actions.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-assets.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-draft.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-command.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-transform.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-lifecycle.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-ownership.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-command.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-mutation.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-template.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-entries.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/static-image.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ui-review-samples.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/video-metadata.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-context.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-persistence.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-references.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/zip.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/DesignLab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/main.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ActorMode.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceScenePreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AudioAssetWorkbench.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorForms.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorWorkbench.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteLibrary.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpritePicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteUploader.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleTrialDialog.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CasualtyEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CommandForm.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ConnectedEditorPages.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CutsceneTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/DataMode.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorAppHeader.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorDiagnosticsBar.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EffectEditorCard.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyAnimPreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyBattleSpriteThumbnail.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTeamTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityFacingHelp.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityNameField.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityPageAnimationEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityStateSelect.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EventLibTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FireEffectPreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FrameAnimationEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageAssetPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorCanvas.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorSurface.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorToolbar.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricViewportStatus.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyEditors.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemUseEffectEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LayerStackControls.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelCurveEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelingEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapContentSelectionPreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapMode.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapSelectionInspector.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapStampPalette.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MediaAssetLifecycle.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ModuleNav.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/NamedIdPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PanelResizeHandle.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PoisonTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PortraitEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PreviewCanvas.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectAudioPreviewButton.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectLeaveDialog.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectSaveDialog.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectWorkbenchTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneCanvas.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneScriptWorkspace.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptBehaviorInspector.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptSceneHookInspector.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptTree.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SharedScriptTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ShopTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillAnimationEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundPicker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditorDialog.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrameWorkbench.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrames.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteResourceViewer.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteThumb.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteUploadWizard.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampContentEditor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampLibraryTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementInspector.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementSelectionInspector.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPreviewCanvas.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampTemplateDialog.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SummonPreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilePickerGrid.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilesetTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TrancePreview.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/VarsTab.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/WorldSpriteLibrary.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/add-picker-option-presentation.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-command-registry.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-layout-commands.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/battle-sprite-action-preview.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-controls-test-utils.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-workspace-test-utils.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-actor.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-contract.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-control.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-controls.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-dialogue.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-world.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-navigation.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-target.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/enemy-defeated-events.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/inspector-tabs-test-utils.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/isometric-map-render.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-pointer-gesture-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-selection-overlay.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-stamp-structure-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-transform-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-workspace-view-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/media-preview-viewport.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/object-workspace-test-utils.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/panel-layout.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/project-asset-roles.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/scene-stage.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/session-selector.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-overlay.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-selection-overlay.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-battle-trial-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-navigation-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-project-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-project-leave-guard.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-scene-workspace-session.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/world-sprite-action-preview.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/add-picker.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/buttons.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/card.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/choice-controls.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/collection-search.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-types.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-utils.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/controls.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-input-state.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-text-inputs.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/feedback.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-controls.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-layout.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/floating-layer.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/help-tips.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icon-button.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icons.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/index.ts",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/list-header.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/media.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/multi-select.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/native-inputs.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/navigation.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/number-inputs.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overflow-text.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overlays.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/recipes.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/reorder.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/select.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/status-values.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/tabs.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/text-inputs.tsx",
-            "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/virtual-list.tsx"
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
+        "family": "coverage-summary-map",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["total", "object"],
+            ["/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/main.tsx", "object"],
+            ["/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/play.ts", "object"],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-dialogue-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/actor-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ambience-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-diagnostics.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/asset-label-command.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/audio-preview.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-command-edit.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-disk-baseline.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-journal.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-plan.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-prefix.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/author-save-store.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-command-errors.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-data-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-field-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-library.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-simulator-state.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-sprite-import.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/battle-trial-launch.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/binary-signature.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/clone.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-asset-record.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-catalog.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-contract.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/command-scene-state.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/composite-command.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/edit-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-reader.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-asset-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-contract.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-core.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived-store.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-derived.worker.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-coordinator.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/editor-history-participant.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/enemy-team-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-address-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-display.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/entity-placement.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/export-zip.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/file-system-access.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-codec.worker.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-draft.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-images.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/frame-animation-worker-client.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/fsa-copy.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/handle-store.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/hit-test.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/image-import.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-brush.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/isometric-fill.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-alchemy.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-authoring.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/item-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/level-up-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/load-play-project.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/locale-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-asset-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-edit-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-patch.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-reference-facts.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-selection.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/map-transform.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-actions.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/open-local.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-url.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/play-workspace.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/playback.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/poison-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-copy-source.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-diagnostics.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-io.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-leave-guard.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-name-command.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-read-lock.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference-adapters.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/project-reference.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/scene-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor-projection.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-editor.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-flow-preview.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-movement-preview.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-reference-catalog.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/script-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed-assets.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/seed.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/shop-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/skill-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-actions.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-assets.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/sprite-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-draft.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-command.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-group-transform.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-lifecycle.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-ownership.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-command.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement-mutation.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-placement.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/stamp-template.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/startup-entries.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/static-image.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/tileset-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/ui-review-samples.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/video-metadata.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-context.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/workspace-persistence.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-sprite-behavior.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/world-variable-references.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/core/zip.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/DesignLab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/design-lab/main.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ActorMode.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceScenePreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AmbienceTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/App.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/AudioAssetWorkbench.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleFieldTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorForms.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSimulatorWorkbench.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteInlinePreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteLibrary.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpritePicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleSpriteUploader.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/BattleTrialDialog.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CasualtyEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CommandForm.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ConnectedEditorPages.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/CutsceneTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/DataMode.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorAppHeader.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EditorDiagnosticsBar.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EffectEditorCard.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyAnimPreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyBattleSpriteThumbnail.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EnemyTeamTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityFacingHelp.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityNameField.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityPageAnimationEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EntityStateSelect.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/EventLibTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FireEffectPreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/FrameAnimationEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageAssetPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ImageTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorCanvas.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorSurface.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricEditorToolbar.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/IsometricViewportStatus.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyEditors.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemAlchemyTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ItemUseEffectEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LayerStackControls.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelCurveEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/LevelingEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapContentSelectionPreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapMode.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapSelectionInspector.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MapStampPalette.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MediaAssetLifecycle.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ModuleNav.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/MusicTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/NamedIdPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PanelResizeHandle.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PoisonTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PortraitEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/PreviewCanvas.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectAudioPreviewButton.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectLeaveDialog.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectSaveDialog.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ProjectWorkbenchTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneCanvas.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SceneScriptWorkspace.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptBehaviorInspector.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptSceneHookInspector.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ScriptTree.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SharedScriptTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/ShopTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillAnimationEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SkillTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundPicker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SoundTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteActionEditorDialog.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteFrames.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteResourceViewer.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteThumb.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SpriteUploadWizard.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampContentEditor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampLibraryTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementInspector.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPlacementSelectionInspector.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampPreviewCanvas.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/StampTemplateDialog.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/SummonPreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilePickerGrid.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TilesetTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/TrancePreview.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/VarsTab.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/WorldSpriteLibrary.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/add-picker-option-presentation.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-command-registry.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/app-layout-commands.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/battle-sprite-action-preview.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-controls-test-utils.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/catalog-workspace-test-utils.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-actor.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-contract.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-control.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-controls.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-dialogue.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/command-form-world.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-navigation.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/editor-target.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/enemy-defeated-events.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/inspector-tabs-test-utils.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/isometric-map-render.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-pointer-gesture-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-selection-overlay.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-stamp-structure-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-transform-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/map-workspace-view-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/media-preview-viewport.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/object-workspace-test-utils.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/panel-layout.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/project-asset-roles.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/scene-stage.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/session-selector.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-overlay.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/stamp-placement-selection-overlay.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-battle-trial-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-navigation-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-editor-project-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-project-leave-guard.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/use-scene-workspace-session.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/world-sprite-action-preview.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/add-picker.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/buttons.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/card.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/choice-controls.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/collection-search.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-types.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/control-utils.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/controls.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-input-state.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/draft-text-inputs.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/feedback.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-controls.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/field-layout.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/floating-layer.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/help-tips.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icon-button.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/icons.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/index.ts",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/list-header.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/media.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/multi-select.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/native-inputs.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/navigation.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/number-inputs.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overflow-text.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/overlays.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/recipes.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/reorder.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/select.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/status-values.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/tabs.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/text-inputs.tsx",
+              "object"
+            ],
+            [
+              "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/virtual-list.tsx",
+              "object"
+            ]
           ]
-        }
+        },
+        "witnesses": [
+          {
+            "claim": "coverage summary: total lines 29284 with 26997 covered (92.19%), 0 skipped; statements 33513/30159 (89.99%)",
+            "pointer": "/total/lines/total",
+            "value": 29284
+          },
+          {
+            "claim": "coverage summary: total lines 29284 with 26997 covered (92.19%), 0 skipped; statements 33513/30159 (89.99%)",
+            "pointer": "/total/lines/pct",
+            "value": 92.19
+          },
+          {
+            "claim": "coverage summary: total lines 29284 with 26997 covered (92.19%), 0 skipped; statements 33513/30159 (89.99%)",
+            "pointer": "/total/statements/pct",
+            "value": 89.99
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -555,25 +1502,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 1,
+          "priorEntrySha256": "8dab67883ce4e550a8092dd504e418dd3712d188686d52feb21ca6993151d2bc",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 1,
+            "entryCanonicalSha256": "ba40bfee8263df447fbb370901c524849571617614276a59b809704417c85ae7"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-7626",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9313b660c70dd017ce59f9ec113688871f3a871c",
+          "sha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3"
         }
       ],
       "phaseAnchors": {
@@ -582,18 +1570,51 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md; scripts/coverage/metrics.mjs",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "r6隔离树(绝对路径键可见)",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":9,\"canonicalSha256\":\"7b1e0a47f35213ddbd612daae2478b3daa56862eec1963c3e5bb62d6422fcd8a\"}"
+        ],
+        "priorReadDomainSha256": "e2834074766a188368292e67209207e776f184e6c63da1b5d8796814241effa9",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/total/lines/total", "/total/lines/pct", "/total/statements/pct"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/1"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
+        "contentSha256": "39b4bfaede1e580efcc329d3d772612b5caea44468817a5eaa8285dcdffdc821",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
@@ -602,56 +1623,50 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "mutation-evidence.json：historical machine evidence artifact; original array shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
-      "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json:1"],
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "coverage85判别力证据:根数组6注入INJ-1..6(world-sprite-behavior/script-editor/ItemTab/SkillTab/MapMode/App),逐条anchor/mutant/testFile/businessClaim;INJ-1将`>= 100`变异`>`证『chance 100%恒命中』可红,与vitest-fresh 94新测构成闭环。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json: first of 6 recorded elements; identity field \"id\" (identity axis, verbatim)",
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json: last element identity closes the set (count axis: 6 elements, neither file nor test count)",
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json: verdict axis: first element verdict=\"[object Object]\" (complete multiset computable from carrier; 6 elements total)"
+      ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "mutation-evidence",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
       "afterSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-        "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
-      ],
+      "publicCallers": ["R56 review", "independent-r56", "RECORD-INTEGRITY raw"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "57db0cdda567ffd71ecce73c1210414a0b484df0",
+          "sha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["每注入四要素齐备(机械核)", "与vitest-fresh 94新测同轮互证"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
-          "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-          "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
-        ]
+        "result": "unique",
+        "against": ["AUTHORING-PANELS/DATA-BATTLE(不同卡集合)"]
       },
       "revision": {
         "currentSha": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
@@ -673,23 +1688,44 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-        "candidateSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-        "afterSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-        "lineCount": 794,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 101006,
-          "sourceLines": 794,
-          "sourceFinalNewline": true,
-          "inverseSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-          "exactRoundTrip": true,
-          "topLevelShape": "array",
-          "topLevelFields": []
-        }
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
+        "family": "mutation-definition-array",
+        "nativeShape": {
+          "type": "array",
+          "length": 6,
+          "itemTypes": ["object"]
+        },
+        "witnesses": [
+          {
+            "claim": "first of 6 recorded elements; identity field \"id\" (identity axis, verbatim)",
+            "pointer": "/0/id",
+            "value": "INJ-1"
+          },
+          {
+            "claim": "last element identity closes the set (count axis: 6 elements, neither file nor test count)",
+            "pointer": "/5/id",
+            "value": "INJ-5"
+          },
+          {
+            "claim": "verdict axis: first element verdict=\"[object Object]\" (complete multiset computable from carrier; 6 elements total)",
+            "pointer": "/0/verdict",
+            "value": {
+              "originalGreen": true,
+              "mutantRed": true,
+              "restoredGreen": true,
+              "hashTriple": {
+                "original": "a34712c042db6459bb13c8e5ef423b103d2ad0f8da121ed69bd7b2da99bfddab",
+                "mutant": "d78cb1cb9b81cc98ef45e427b90d3131c2b2c333d18474abb6ce1117afff3d99",
+                "restored": "a34712c042db6459bb13c8e5ef423b103d2ad0f8da121ed69bd7b2da99bfddab"
+              },
+              "uniqueAssertion": "AssertionError: expected { kind: 'variants', …(2) } to deeply equal { kind: 'cycle', …(3) }"
+            }
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -703,25 +1739,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 2,
+          "priorEntrySha256": "f7cb85351d6b1a43a9a7f9d3cfeaf246569a6790a25cfec2c4490593b14e486a",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 2,
+            "entryCanonicalSha256": "13df751e2b2aae01e74a794aceceb4884ee45d081bb8fc53204a2aa042849087"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-794",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "57db0cdda567ffd71ecce73c1210414a0b484df0",
+          "sha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e"
         }
       ],
       "phaseAnchors": {
@@ -730,18 +1807,51 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md; docs/ops/evidence/coverage85-glm-editor-r1/README.md",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "r6隔离树",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":10,\"canonicalSha256\":\"59476c18d5aa7a7d7370e48ccee73f84bd44747f5e198c17a5e467069dd6ce9f\"}"
+        ],
+        "priorReadDomainSha256": "cfb8ee26b9a7ba1bd7288c5f58592324ec74c8ab583217db89d9a0c3aa43f661",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/0/id", "/5/id", "/0/verdict"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/2"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
+        "contentSha256": "642b7acd7ea758c04fa1be98942dc57de7c04ba639ceb7af1fdbe6fe9d5b3289",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
@@ -750,56 +1860,48 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "vitest-fresh.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
-      "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json:1"],
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "editor fast全新跑(官方coverage参数,2026-10-04 r6):4694/4694通过;newFiles 9/newTests 94全过;0 act warnings/0 console.error;输出自钉sha256 e1811f28…;cases 94条逐条记录。",
+      "truthAnchors": [
+        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json: top-level scalar field \"suite\" (structural anchor)"
+      ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "vitest-fresh",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
       "afterSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-      "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-        "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
-      ],
+      "publicCallers": ["R56 review", "independent-r56", "RECORD-INTEGRITY raw"],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "f31df516674a852a904abd8191cb6395ea3d8118",
+          "sha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["4694/4694全绿(历史声明,未复跑)", "0警告与directedWarningCheck互证"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
-          "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-          "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
-        ]
+        "result": "unique",
+        "against": ["CONTROL-FORM fullsuite(不同轮含既有失败)"]
       },
       "revision": {
         "currentSha": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
@@ -821,34 +1923,34 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-        "candidateSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-        "afterSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-        "lineCount": 483,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 19928,
-          "sourceLines": 483,
-          "sourceFinalNewline": true,
-          "inverseSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "suite",
-            "directedWarningCheck",
-            "totalTests",
-            "passed",
-            "failed",
-            "newFiles",
-            "newTests",
-            "allNewPassed",
-            "sha256",
-            "cases"
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
+        "family": "run-counts-summary",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["suite", "string"],
+            ["directedWarningCheck", "string"],
+            ["totalTests", "number"],
+            ["passed", "number"],
+            ["failed", "number"],
+            ["newFiles", "number"],
+            ["newTests", "number"],
+            ["allNewPassed", "boolean"],
+            ["sha256", "string"],
+            ["cases", "array"]
           ]
-        }
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"suite\" (structural anchor)",
+            "pointer": "/suite",
+            "value": "editor fast (official coverage args, r6 narrow rework run 2026-10-04)"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -862,25 +1964,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 3,
+          "priorEntrySha256": "02f01f09c1ca4d4135844580cd9190a123a583543a425c78426809b2d28e7601",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 3,
+            "entryCanonicalSha256": "4edce93105f3a5b63539966c5378d0ca6c070f414a99af0b9567ad3360f80b2b"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-483",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "f31df516674a852a904abd8191cb6395ea3d8118",
+          "sha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1"
         }
       ],
       "phaseAnchors": {
@@ -889,18 +2032,51 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md; docs/ops/evidence/coverage85-glm-editor-r1/README.md",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "2026-10-04 r6;官方coverage参数",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":11,\"canonicalSha256\":\"6880ca8d593089d206c8433248dd83a7190c8dfc4e768da50ea038c89500f8e8\"}"
+        ],
+        "priorReadDomainSha256": "2fe3da8aa74031e13cdbfbfce75d535f0c7d3faeae74c40c9bd407511d6fbc18",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/suite"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/3"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
+        "contentSha256": "afe944b7ef4f6381024051771692e165e649b065ec9c9932f3a5f56624bd6eb2",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
@@ -909,58 +2085,53 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "counterproof.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "资产卡反控回执:三文件基线8 passed/0警告;7针N1 revision-invalidation…N7三态重放;相邻122 passed、新文件警告0(271全为旧kimi/cursor既有);全串行1 failed|4878 passed(project-reference.pal既有);r2段记r1拒收act警告后的返工。",
       "truthAnchors": [
-        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json:1"
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json: top-level scalar field \"card\" (structural anchor)"
       ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "counterproof",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
       "afterSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
-        "docs/ops/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/README.md"
+        "reviews/20261017-r45(13处)",
+        "R56(10处)",
+        "FULL files-06(18处)",
+        "raw inputs.log"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9cc55c7881e6f20972ed82d91c55a7728fe808a6",
+          "sha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["基线8/8绿0警告+7针三态(历史)", "122相邻通过且新文件警告0"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
-          "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
-          "docs/ops/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/README.md"
-        ]
+        "result": "unique",
+        "against": ["AUDIO(8针)/CONTROL-FORM(2针)"]
       },
       "revision": {
         "currentSha": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
@@ -982,33 +2153,33 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
-        "candidateSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
-        "afterSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
-        "lineCount": 169,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 7620,
-          "sourceLines": 169,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "card",
-            "suite",
-            "replay",
-            "baseline",
-            "needles",
-            "directedAdjacent",
-            "editorFullSerial",
-            "executionSet",
-            "r2"
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+        "family": "needle-adjudication",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["suite", "string"],
+            ["replay", "string"],
+            ["baseline", "object"],
+            ["needles", "array"],
+            ["directedAdjacent", "object"],
+            ["editorFullSerial", "object"],
+            ["executionSet", "object"],
+            ["r2", "object"]
           ]
-        }
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-EDITOR-ASSET-LIFECYCLE-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1022,25 +2193,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 4,
+          "priorEntrySha256": "0787ae2af767679b9cb5d2b05c095186ae31f15819a019f633ea2969f3e4d8d7",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 4,
+            "entryCanonicalSha256": "49b94c3e0c7ac99e8d80be5de9f43e64e5913f04dd3aa5e5d5905d0c430fc79b"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-169",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "9cc55c7881e6f20972ed82d91c55a7728fe808a6",
+          "sha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c"
         }
       ],
       "phaseAnchors": {
@@ -1049,18 +2261,51 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md; docs/ops/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/README.md",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "r2 2026-10-04返工轮",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":12,\"canonicalSha256\":\"0613f3fcf69a0091b07b88db34c634d8197b1dd4eba6ec08d59a510b7fb7c62a\"}"
+        ],
+        "priorReadDomainSha256": "7829a64cd3290a94d6a2b2eea7ec0e72f06e2e1356f6915519816350303f9c28",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/4"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
+        "contentSha256": "ba165a4420ffe84c7547680caa4c7a96873923028374c8407751b147e6e9acfb",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
@@ -1069,58 +2314,53 @@
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "mutation-evidence.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "readMethod": "Specific prior explanation reused plus fixed JSON pointer checks; candidate authoring, not independent acceptance",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "作者面板卡变异证据:generatedAt 2026-10-04T10:19:10.342Z、run-mutations.mjs、cwd authoring-panels-wt;original/restored双相位(pwt组exit0/4测);13注入(INJ-7 compound);5产品文件全clean;allMutantPhasesOk=true。",
       "truthAnchors": [
-        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json:1"
+        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json: top-level scalar field \"card\" (structural anchor)"
       ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "随全量治理逐篇晋升裁定",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "mutation-evidence",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "GLM contributor (source-specific prior explanations reused); fixed prior source-specific explanations reused",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
       "afterSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
       "publicCallers": [
-        "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-        "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
+        "reviews/20261017-r45(13处)",
+        "R56(5处)",
+        "归档卡(6处)",
+        "run-mutations.mjs(5处)"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
-        "corresponding task card/evidence consumer"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b6dda99e80f4c30ae250f2b064e56c4e8efdc0e4",
+          "sha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
-        "assertions": [
-          "original JSON parses",
-          "original top-level shape and fields remain",
-          "source and after bytes are identical",
-          "historical execution data is not current acceptance credit"
-        ]
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": ["双相位全过(历史)", "产品文件git全clean"]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
-          "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md",
-          "docs/ops/evidence/coverage85-glm-editor-r1/README.md"
-        ]
+        "result": "unique",
+        "against": ["DATA-BATTLE(12注入)/coverage85(6注入)"]
       },
       "revision": {
         "currentSha": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
@@ -1142,33 +2382,33 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r56-ops-machine-evidence-20261017.json",
-        "sourceSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
-        "candidateSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
-        "afterSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
-        "lineCount": 844,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 43609,
-          "sourceLines": 844,
-          "sourceFinalNewline": true,
-          "inverseSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "card",
-            "generatedAt",
-            "command",
-            "cwd",
-            "phases",
-            "injections",
-            "productFilesGitStatus",
-            "allMutantPhasesOk",
-            "productFilesAllClean"
+        "kind": "historical-native-artifact",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
+        "family": "mutation-phase-driver-bundle",
+        "nativeShape": {
+          "type": "object",
+          "fields": [
+            ["card", "string"],
+            ["generatedAt", "string"],
+            ["command", "string"],
+            ["cwd", "string"],
+            ["phases", "object"],
+            ["injections", "array"],
+            ["productFilesGitStatus", "array"],
+            ["allMutantPhasesOk", "boolean"],
+            ["productFilesAllClean", "boolean"]
           ]
-        }
+        },
+        "witnesses": [
+          {
+            "claim": "top-level scalar field \"card\" (structural anchor)",
+            "pointer": "/card",
+            "value": "TEST-GLM-EDITOR-AUTHORING-PANELS-1"
+          }
+        ],
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -1182,25 +2422,66 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "kind": "native-artifact-candidate",
+          "revision": "4b4a8f625c438acd7eedbc8821c981d90fe4e2f7",
+          "priorReviewRecord": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+          "priorReviewIndex": 5,
+          "priorEntrySha256": "6289cda653fc2f7210edfa998f0e32c759522e2a0925b5d94f23316047fc9db0",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0
+        },
+        {
+          "kind": "current-document-acceptance",
+          "date": "2026-10-28",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "candidate": "c948bb0bd8916aeacec89b0e84c146e9c32ef435",
+          "priorRecord": {
+            "logicalPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "index": 5,
+            "entryCanonicalSha256": "8862a7b85daa366b0d34ab49559e0ad5b5f9130ae95a671d68b3beae7aca0d67"
+          },
+          "priorReviewStatus": "partial-review-unknown",
+          "priorTemplateCompliance": "needs-migration",
+          "claimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "currentCreditOnly": true,
+          "oldClaimsRestored": false,
+          "runtimeCredit": false
         }
       ],
       "supersedes": [
         "governed-legacy machine JSON presentation; original fields and bytes retained"
       ],
-      "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
+      "stopLine": "不改状态/准入语义;不动quote尾",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-844",
-      "templateVersion": "1.5.0",
+      "reviewedLines": 0,
+      "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "c8854234deb63c16669413e29335929e6fff5232",
       "candidateSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
       "primarySource": [
         {
           "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
-          "revision": "c8854234deb63c16669413e29335929e6fff5232",
-          "sha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
-          "scope": "full JSON artifact"
+          "revision": "7ffb2b83e562d76ace19e2a6be8c41f41e661e6d",
+          "gitObject": "b6dda99e80f4c30ae250f2b064e56c4e8efdc0e4",
+          "sha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548"
         }
       ],
       "phaseAnchors": {
@@ -1209,18 +2490,62 @@
         "currentBoundary": "current machine consumer and fresh receipt own truth"
       },
       "dependencies": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-EDITOR-1.md; docs/ops/evidence/coverage85-glm-editor-r1/README.md",
-      "versionScope": {
-        "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
-      },
+      "versionScope": "2026-10-04隔离树authoring-panels-wt",
       "counterReworkBlocked": [
         {
           "id": "R56-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateVariant": "historical-test-machine-evidence-artifact-native-v1",
+      "artifactOnly": false,
+      "readDomain": {
+        "actual": "Fixed JSON parse and cited pointer checks; reuse prior source-specific explanations with disclosed reading limits. No new full-text or execution claim.",
+        "reusedFrom": [
+          "{\"kind\":\"S42-specific-seed\",\"artifact\":\"/tmp/s42-glm-remaining-683-completion/shard-01.json\",\"index\":13,\"canonicalSha256\":\"9fe3d0a2d7b6aef798c92d8e7816a64d67b3053dd5b4d73f804a59e8e7faa7e0\"}"
+        ],
+        "priorReadDomainSha256": "7829a64cd3290a94d6a2b2eea7ec0e72f06e2e1356f6915519816350303f9c28",
+        "notRead": [
+          "Historical commands, downstream runtime and old test suites were not reexecuted; long arrays retain the prior declared reading limits."
+        ]
+      },
+      "fieldRoles": {
+        "nativePointers": ["/card"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json#entries/5"
+        ]
+      },
+      "historyBoundary": "Original dates, claims, withdrawal and provenance limitations remain historical. Current carrier Git identity does not authenticate original execution; no withdrawn credit is restored.",
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
+        "reviewer": "Codex",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "afterSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
+        "contentSha256": "745ee4fafc90d1570b6223b8cbbcc5044a81c94e109a5975779793235f4d2d42",
+        "reportSha256": "5144e421bed9c890b938dd14539db4ee399c2d95e6b3fb1397c19c766a5b74e0",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S65",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  }
 }

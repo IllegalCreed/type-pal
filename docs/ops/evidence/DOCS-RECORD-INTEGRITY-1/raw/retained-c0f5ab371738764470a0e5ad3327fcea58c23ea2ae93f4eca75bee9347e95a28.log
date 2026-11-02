@@ -1,0 +1,1581 @@
+{
+  "schemaVersion": 1,
+  "kind": "derived-migration-progress",
+  "policy": "Read-only projection of explicit reviewed migrations, SHA and body contracts. Progress is not full acceptance or runtime/E2E/visual/coverage proof. require-complete also demands every current candidate; final semantic audit remains mandatory.",
+  "approvedCohort": 1838,
+  "cohortMigrated": 216,
+  "cohortPending": 1622,
+  "currentCandidates": 1979,
+  "currentPending": 1758,
+  "incrementalMigrated": 5,
+  "exercisedTemplates": [
+    "archive-record-v1",
+    "audit-report-v1",
+    "design-spec-v1",
+    "evidence-receipt-v1",
+    "governance-index-v1",
+    "guide-runbook-v1",
+    "narrative-idea-v1",
+    "plan-status-v1",
+    "quality-gate-v1",
+    "reference-canon-v1",
+    "task-card-v1",
+    "test-catalog-v1",
+    "test-contract-v1",
+    "test-domain-report-v1",
+    "test-e2e-stage-v1",
+    "test-machine-evidence-v1",
+    "test-run-report-v1"
+  ],
+  "pendingTemplates": [],
+  "completed": [
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "templateId": "guide-runbook-v1",
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "9b9de2b0234649c8102131840cf7128a4faff300e2896506953370c89df1f68a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "templateId": "design-spec-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "14755cb83ad6869922f3ffe8d7e31fb69d689a8708a30e4afdeb482a0ed7ca9f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "8dc99951d383d6d11e1b1a6e32c34384b61740bcf903ebc58dc3ebfcb49d5dec",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "be92f3170c3b024fe9bae055f483facdd459c4c73dcc83498d6b00a7a391a4de",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "b143ce41404af2602f176e8526620af4adb25337ecb35e5152b32cc010834c25",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "6a000cc0c8312712fb69769ebf4894b01427bb82139894925f579ccc35bca8ca",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "e790809b476356af3cb4908fa90ac52fb4fb2aaf9d8fd282a63a2a444c8b2738",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "dae64fdc34755fa051d1a26b6bb858128ca0b5a66e48c3ea4dc6860a867707b5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "4bdc0607abcac8ece3990ff1490a8b61bf2182d4547ca0e5d3a13133a909182c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "bde42f8583ef7e96445ce3d5d19eb4fb4d97ab0d1dc87d6fb91954393c74b99c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "9810ef92a6a621a317b4b5acd8dd6f58d264811dbb1d9a2f1759bb74001bed54",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "487c4588950c782a85286d20640d6016c53d636e25182c4bf79d52d80c91aff5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "bc9cb389c0565cc24c7efffad436265b13ca95f91bef23f85c07ae1ec1723b0f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "3b0c52c861fed49db68b46d929286e2d9f9ceed51076ea2487e149e01191270b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "13fdb3d3546068be4c241449a45d3be08253d958e64388de48665ff0907249be",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "fce5172cf29f07a7b9feac35ecd44911b0544934f2c63e654cbfaf2371e8af9f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "3d44dbebe3ed1323859de71a292f0e227cc36c5526880ebb01e7084cb311e287",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "ac15766941b3b5f4495b1aa90f075fcaf605d31afc3adb95efb2b906c180d988",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "17b6f1e69ccda41ec99876464d42b4acfd1227ebe380e585b7a48feeeffcb273",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "b317c47749715d0e57a50a0b6473b9e78b195fef19b6751aca412fa4d04354ce",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "87cc6ddc6d9efbb2841eaf94997237627c9736b2ed29082b51ae2a861689b42a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "c29c4481896da59bd01f1eef02a75ab205c0a28641e491370c33c9de798a4b10",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "d9be037f88e8e4d892a0a93a3aa13d04f5abc653e1a7cea9dd2989813f4c9bba",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "348fc7dfb7f95e827254f54ed52ff93002c23026b213f4b543d56bbc9e28fad5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "070684aa720d221aabad4ca89c91cfbb1ced91eec931632096191a6280771aa9",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "c168c2d29d5d74dceb64bf245027c186fe61456dd878bc34345fe0598af9830e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "a38be19d5fc6adb91245d928b16700c5b972d08c79bfe05d8376b5bcb8d27ee7",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "5f84e012897978cc842e66db61b84b8c3b37313fc91cbe9dfb3000b408dc0718",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "8d39ddab125c39c252561408f31163fe5d28fbe5984432d78d1361bb0d356f24",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "75b74ccab713fae46c9534dd6381df7b009904d9b2edfd8e056d9b8e927daba1",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "97223ae069b3e967b3b7c19c2f92526cc16a1ce9cabbab212d9194a2f8078d62",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-01.json",
+      "afterSha256": "5495d1a1165a52b4804b138f5bda8674704194a9c94b85a9bee5c97607fb7a12",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-02.json",
+      "afterSha256": "8b25ad467bf64a0ca6716a3439ea549eb8507d83c7a9bb1242eada5c3e903b9b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-02.json",
+      "afterSha256": "42508d7c7f134a919da9d8f4f4157653aa4b7d6ec0019f31c20950c1991ef0ab",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-03.json",
+      "afterSha256": "71a5aac98f39b8fed77206afcf4a20c1eb0bd2bc55453e2eb0e16df6b06d20ff",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "3a080be560d906817c43fd3ef7c309e6dfa06aaacb0b605f8b8335941fa77b98",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "456a8075818091950c9e3c59818ceaa27a07c5510c4b8411d38790fb6cd23323",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "4e4b68aa71316df0a04b5aa26058a35758c13e358776468f3c3b4df9a14e50cf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "82dbb7614edc517e37ac80765c4e8c354f9c32157b4ea35babe3d2db639d49b4",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "b176e7fec4bf4d1914b825800fc2b9d92c121a1c682358af74e9a139ac7b6ad8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "fd51c9d101955966cd52fade2aec70915e047a920dba347ab67da3f966a66536",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "7a2762b62042e05a40bde32c7a7dcb1f8e0abf48a70b88268e12aa96335b64ad",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261004-structured-content-ops-04.json",
+      "afterSha256": "1ededaca34d886171451d70676be3e947392fcd0feb673aedaa20a051c0baf84",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "4f22ae4482a6c9a28596ada40f043fde3827c9adee35279cc9922dc901b67044",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "templateId": "quality-gate-v1",
+      "reviewRecord": "20261004-structured-content-ops-05.json",
+      "afterSha256": "60ce576d95b5223badff7bc69cb987b963ab49975679d9e8c28d1f7a021f066a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "afterSha256": "5f5c8c221ff04e12317fd86bc0d19e1357fedaae29b911f0facb48fd622d24e2",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "afterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "templateId": "narrative-idea-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "280b1d7b5c3348e63c1a76837c022bc2506349cba17ca1785a492e43aee84fee",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/lore/narrative-workflow.md",
+      "templateId": "guide-runbook-v1",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "afterSha256": "de81e8894951eb64f41670288b6a99ca4d074e349722127c8d843d645a2b4aad",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/lore/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "afterSha256": "e482c029bc96f9d332aedc881fb6c4395a424e6014d60bca8322b68a06f2f614",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/lore/taboos.md",
+      "templateId": "reference-canon-v1",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "afterSha256": "6416f3ed775aaa4c01805272c27f3bc2f4a699b220a90685f3ab5c355fed51ec",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "templateId": "plan-status-v1",
+      "reviewRecord": "20261004-structured-content-phase1-01.json",
+      "afterSha256": "35356d3a17153bc212cb0a8eba307cb46c16dc8a971ed788e90c34e1f5020525",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "0979cba58b516a5ca791819f837e6a191182bacfa4880a28ee407ebe637fa69e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "feb49d62535fc27e49735f059d2488f310757b18676fccbbf1cd66e5b73a0f12",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "bfef9e9c1a135a92be3852e28838632bef3064e4a682b0782ef8d7ad8ef8316f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+      "templateId": "design-spec-v1",
+      "reviewRecord": "20261016-historical-cards-c.json",
+      "afterSha256": "7066419710b549a31306086c7746935fa437ac557f6bc47b9360d77a49b20424",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "templateId": "design-spec-v1",
+      "reviewRecord": "20261004-structured-content-phase2-02.json",
+      "afterSha256": "2fbfe42bc66a9a91e28563f4c22f5e04b8cab8be0e249409e9eebd55922ceaaf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "templateId": "narrative-idea-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "4d148006a37a4866c168807a44460a6a494d417be3777134e345ff01c320c9ef",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase3/map-reconstruction.md",
+      "templateId": "design-spec-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "257f6eb918784660557571d21ee6b1ec76e85c00484561c3561c97ebf7bfe7b0",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "71936aab0ddfc77e436fe2a1467035c43bcc17820d1d6b605974a917c99989a7",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase3/reference/art-pipeline.md",
+      "templateId": "reference-canon-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "4cb1d224133703d4ee4e9d8df5d235ac18cafb1a42fa9beb9163cdee07e8e6e8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase3/reference/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "afterSha256": "78c9259e5af0a4b74a57107a90b082c466046a05322cdc24da8fc7a68a4439d2",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-agent-first-routing-batch.json",
+      "afterSha256": "50d199f1915d9bcb4ef8e8979c00901981f960aebb0579b21c0ef946a688f883",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-agent-first-routing-batch.json",
+      "afterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-agent-first-routing-batch.json",
+      "afterSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "templateId": "guide-runbook-v1",
+      "reviewRecord": "20261015-agent-first-routing-batch.json",
+      "afterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+      "cohort": "incremental"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "c801ca7c3f5ba5b22972b59fd028476f6b38ce4e4adfc786566e8766d273d221",
+      "cohort": "incremental"
+    },
+    {
+      "path": "docs/ops/archive/protocols/three-sages-20261015.md",
+      "templateId": "archive-record-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "a0192946b3cd085846aa5f55e41193895035829b514736ecfe24e53eacb2706a",
+      "cohort": "incremental"
+    },
+    {
+      "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
+      "templateId": "archive-record-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "ee349f905cb175693e31035ecfaeae144bd7c6be1180ca85803cd4046a2bdaba",
+      "cohort": "incremental"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "c9b4e57dd1ba5243b9865a05bb2000f4afe23e9917a1a331a88b2532ef35e298",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "templateId": "test-run-report-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-001.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-protocol-and-e2e-pilot-batch.json",
+      "afterSha256": "153fa5ba821992796612537e161ea2693b8a10ed15d0c92332be4f467bf67397",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json",
+      "afterSha256": "5364d55e79e460aedf84d893457786d67e6c1ac347e27d8057c03cfa1cd488a6",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json",
+      "afterSha256": "5770b7aca6103de457ffcab806ea23e340822cfab82f52440ea0335076415730",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-historical-and-domain-pilot-batch.json",
+      "afterSha256": "2d530c4c6957618a54e8510520e482efd3f09a8fdb174def091e90a8805e1392",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "templateId": "test-contract-v1",
+      "reviewRecord": "20261015-contract-and-gate-pilot-batch.json",
+      "afterSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "templateId": "test-catalog-v1",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/_templates/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "afterSha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "afterSha256": "4a3729cdf7d0d75fb707baf579058765344795716db751a21e4b3d1539b23faf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "afterSha256": "845f6a3f2154710a2c1a40110fa3d4fce40569100e44aa0b159f6990851ddc6d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-catalog-pilot-batch.json",
+      "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "d5a248d2cb52d654e553b9b7c08a539f6dc9547f1474c7a1835ba6b43a5e9520",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "3c493312c5802ba649c5544b146c944d96b3f13400f5a01a35dcbdaa4a3097f4",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "402f4656f07d5a9fc4d2e229cae5e28da98058b8cc5c321a3453da6ade05bda5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "633bd701c18b3b9239e8df1247e9b40ff70f1ca64d559d64ff448eb66d2073b3",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "b10c81de0418f0315d3126cd54fb3a1d8ef39f7bcb35fcffff45a112ff062921",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "abee915958a189be894376bddb829bd6ec1fb7a770d6715b9b852e2ac689cf3c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
+      "templateId": "test-domain-report-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "ecab8d3fcd8802ba8f504f44ca09729544d89e20f23d64a0e36f0b551606cb23",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "dce75a48c24869a19d828b70e14e50cc89ada88b098cf74f4f69095a4c266610",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "95f38f49f8ee8cb8d348f45959b907ab9df4c04235dda5f97516e730203689d8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "7915f9ab42bce13f3de121bed2f99290f39a2090fd12a62a2134c8af4acca711",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "templateId": "archive-record-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "7e06102d1d3fea4f1a4de0a84b6e845544a31005d6e73914919682f252ed0e8a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "8580d623c62fe01806dc1e968241da9d3caaa963f3440e9905e90770a33aa7b5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "17845b833f879586ef0352b093c72f47f808741e3bc6aa2165325e5cd60f9c94",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "4c773a9bea9d252f6676e5684eaabb0dc518b470e35aa90264e3643ac22cc112",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-contract.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "e805d6ed04f2a6ff1ad2ba7b2793aa72fe4566edaa449ba01e884c89b5364756",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-route.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261015-domain-pairs-and-archive-cards.json",
+      "afterSha256": "ad61e852b7d428782d07a66464fbc240c75091b0d12813a97e504506b8eb74ef",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-architecture-receipts.json",
+      "afterSha256": "c3229cf1ceff863c7df7845c7d87623172fe8c20c8f90d028a763ae77f7e8427",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-architecture-receipts.json",
+      "afterSha256": "a42d93fce537a6fc37acc087a4c7f0c40da6bb212bde238e8ea50885b2a59409",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-architecture-receipts.json",
+      "afterSha256": "20426aaa906c429ce3230811f53352b967cc9e22c483f56d85bf77733691186c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-architecture-receipts.json",
+      "afterSha256": "b4791d6983cefbe9eaf73e53de19d6227de528423d709756e04e4fe6667f7a1e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-historical-architecture-receipts.json",
+      "afterSha256": "6447db247a5b85583cd215eef8f497867ca792f5ce430046de61325fc26c3dfb",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261016-historical-execution-pilot.json",
+      "afterSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "reviewRecord": "20261016-historical-execution-pilot.json",
+      "afterSha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "templateId": "test-run-report-v1",
+      "reviewRecord": "20261016-historical-execution-pilot.json",
+      "afterSha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "bd2bb972270f3c5c190a66ae408027215da1a3c3ba92aa1994a77120bc47bcdf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "f4e2de934be4d09d5acd3a56453f1b639c303bf6f8beda5f2529574ed81b7dfb",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "4f3439bb61d23fb2ea92fd60bada48f60bc090cc549d70df826a5c810f44f22b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "c2956aa6abd2ec27e1ee3c999698223412b7f6534bf7a14740313bf1e2f4e9e8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "7d9bc2efb97e2a8aee3a04cdc424e698a2816ce2f9d13d86174cb7611fff10d8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "a4459d150d5b1fa41b27ef9586d9ba33af6612bd5d853a94726b0768bac45a50",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "5f4fe740772567bb2f6b01e9e9192947f4ac7598db0621a632946d192f5b5081",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "f52056818d1e1d4eda726b2d6f5d2280e838acd91985d89221dd0c5a82698b6f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "902c5f79f99511e7db232a22520580f8d10e9475ffee1d4c35ec5c0686c445da",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "ac8d9a48798060952b8c4d24f0f30995b3db654acbc7c5fd8b768f9121b8896a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "26cf78983d6bd7ee633cf73fb5797d688273b00ca095f1881ffd1314427a8e9f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "cabe17fe5246e76c76602a9cc5f2f36f47ddb3061f39661f32db23aca982a276",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "d078ffc4ca504e32e0a4b7a786e838ffccde853d73fb1af0caf04f33b6f810d8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "606d327e8d5df5e593543aac3adb1df1f771bf814a9bd9b6e94cd778edcef745",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "678a803e729b95c526a7238cdbc30d32d488c30cfd4b82f2379e3ca999982755",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "89b6c3b23f4833442145cbba8c680e8d3306cf9ef1f3ac88e8c851d86a389ccc",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "476feafe7a315f89518765108742f6c73175b9ca5bb6577574aa2820714e9800",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "c5981ff41c5589eafeea57767a1dd1986ee95c1998cbc0e7e732ac2c871ede4b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-f.json",
+      "afterSha256": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-governance.md",
+      "templateId": "plan-status-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-historical-cards-d.json",
+      "afterSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "580784d36c8ca7e0df9cb4e41a39ed60281e50b2d8d5b8eac8f66183156c6111",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "3217004c2f5df83b294d7872eb1df61eb75612420d4f1b877bc020bc693a6133",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "templateId": "task-card-v1",
+      "reviewRecord": "20261016-historical-cards-h.json",
+      "afterSha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "916a501521f2a5695e845b54ae1b20250ae763d44eacc78cac5a95c972e8db1e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "1280e2959b36f6c49c7255c6cff4a0118ccb9661a73c3138da768b61886cff3a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "76d6b821c729fbc68ad1cf35cc125ef4c4e6f38f5bb9e107d03c42df71e33ae2",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "8cbb29415aef11490c675b41433a937cf1b4bb40ec2eb3dc72be7fae53c59bd5",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "d76d8fdef2ea95738b967a8e1c0e9ad0d33b1a63b8a658db9325a64ff000d2e8",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "92d3513cfae057426d5ee3127b2b8900ce8b786d8403850ae27060d98d16bf4c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "bc8012ce93495661083505b10a69573db204d7123614e88083c15ddaba0e9195",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "276a81a85068214cf0c3f297b3adb895fdd8ba7c051300360b48724f08460ddf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "f04071173b624afe72971e07b13903e9fabd79fd79a5b8a7e79d18b7a2667085",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "3ae2a44404ea2c35998ed0a5d91610da1b0d221602961b60e789b4cfdd5a5ca6",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "templateId": "audit-report-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "bcc98ded6ef058806ad4ce7c9a26a53b7e0ea59f964d42be01cae708ba8a8615",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "3ba61c72e65c8c919970a17761e25f9c396a0f44ba7d3b7b44f99ad603fda35a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "116009d9ef35787802921e5be4b11c652e1ba9be074e65511888f1a659ef9921",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261016-testing-lab-history.json",
+      "afterSha256": "7f6f2e5d9d8ec172472cae411839b8d44259090fcb6edce3ac54bb1305759bbf",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-continuation-integration-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "bac1d175c8d6d3c9d6607d820b8245af8e65decee8054bb27697810e03509175",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/testing-records/architecture-intake-completion-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "3bfa4249709b14dfabc8ce47607067fac970ef93087abfa71c91bdc9ae1c3c46",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration-evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "6658d23bbdd36dfde04ad65a6d769a77972286ed28fe7e6cd730c94db7a2ef28",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "134d46cee0c810757e03a5221a7af5906bc9e1282dc79640aa5d74c6f3296d79",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "f756bf1ffbfe4c3b1a12d0eb6e226924f9caeba714cf5f3cf781b2125ba32609",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "c1fddd55d01953861cc74ebf85a5d11ff78c621f82190f216d4a9796d65bfb43",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "92be12b33d157d1c4c4a0c366ce821aa5389f74f98bcd005f9e4f4e9321fa05c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/content/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "714cd44182f7e9229326d3672e50b278515ce1fee290f0893030f4221da9b1fc",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "9d5675f94294afcef32634ef849ad2d479920a1e31d1bc8ef62a3d1de8893667",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "dd4e573c6ea7d85f8e1a8d7b2f5d2c5127e8f9645a1cc8692d36ddc66c55166f",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/battle/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "77c9bea2640cd51b9258e74960b0e3c7bd273300f423722cda6548eaf9a68af9",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "367825041f192a044d01a4b2127e0a09d2bb473b5086e3b6482ead73542abe09",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "97a4b424e34ba9ac10b212764753d5fdc2a2a22818f0331bd0868fa36ecb1fbd",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "bc5382967fc1a917ab80edd39e5da52ef3bfbd757f9a570bc72200570be32929",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "7ab7772edf3a7f15990a4340458322a2048eeb9056903020d8333edfe4fc9135",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "69c091666c14e1bac7d663550f5396dbd495cbbb861783e7119a600cbb22719c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "111884ff0f9904074e97572714525fb2f44eade56600a7d618d469a934d7f555",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "05e1f44a8e87e7c1356b6f680621c5e4c0c5b16f03066034927ca2d1ffcdab9e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "e34262862029dd373832adcf98daf144954d597225c0932166c455c66631dad7",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "b9b1e84084858b14c9a4188d7b7338564695ee3e6ca7ac1e534f977d85100e8c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "a12e4461ca44555d08b606aa2a2db32e1cbffcc51fbf4cf306a4d0476cebfc92",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/ops/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "e80e9083c8cd4c6dacfe97491db469495b6f0f7fcee79d856191c977810003e4",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "705acdbd667a4fd97952c48ad7561d87a5343e7669623635d1108d57a6d1d22c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "40a57d9e28ee6fc6c4c500123944e536cc4d412d4064adf194f287fc4030b987",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "2f4d8499acc3547d3ed122f3efd330e4f2de3786d61a06beaf12c50a4617e9ce",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "76bb59db1dee3d704b3a12fc44231960d76fbbb5e84e3e2a28e2d2c7d02c84fe",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "05ffc390bc381ec461bec12cf30b94702603e521affcc1d278de3caa3ee201bb",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "d2595134c449d47fa189561d132f8bc4c85a1a7cf8c8a1ab8873351c11e06b06",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "a4ed4a8d93bb8897767b9a60e1a439166d1191fb75f8b0c82807e198e7d490cb",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "badcf0b0ca22a6944b9adf8828315f233a74e7c822b8e4a4fa7a7e3a930c54f3",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "0cbfd7de80027e10d27fdd299a05426c2d870081e89e4906c7c333e127132c05",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "58fd697092cf7f6a0f97641bb0bd3f899ac19a919ef106bb71f8b4b09d10fce3",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "f941852eefcbef0d68b2eb29fd41fc186cda9bb14b64def0ee2ad29ac962a666",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "140cafb897b5cb0c47a6bab6a68cd18cdc99f8cca0306a3fb7338410845bb25a",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "64b5738bf649cb93960478a4c9cbce2036fd1f9f39399526c6bb635c9cd23117",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "5a66f10ee8d10f39f7ee7ee0f086069edf2b2fa7d773bff38dca175084c76b57",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "71fc9383a92a8acac03f141e0a3097293c1520bb443fdbb61482daff7ac20821",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "0d77b35fddf3dfa56d6d4b9ba4137a6ee416b8fa2aea8dbc9a8eaa06c561471b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "cd9dfab8f5a3eaf39e6cd5ce560218902667eafcbc3a1fd84663c5789b51a120",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "0efbe71dbe9eb2216de1e1598aebfc8eb0d435b1ed334b76c5b1c580717b5002",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "b6f308841f5bd03e10de831ed9bbeb180ef7061937f7cdbe4bf6dae4f92a422d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "d22984bc58ce234cf8148f621e8357bb4e5296cb0a7b12c33f3358406fa19403",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "7c92505a0be297c30f9f05f386e4d77b14f72af1da625fa5776e66f9ecfae527",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "f81162062e45825b33bebc3389a92def7c9d2edb4808c422bfe88388bab46369",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "94a9acfc538552db5d1b2cc310a2b54b7631233f15ee495b1b22f7218c29fe7e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "ba01675e7be5e7b9ce99a5cb22097d83a4168e3cbb26acc714720bb5417acf6e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "dce555bfb73f3f8ab0c94e7817e55366a0ce5dbf5f5f0a1c21b857c9472c4338",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "5d350ca878ac9b5b2df21d63902cc28795e62d718809c3c8f78cfb80147e7273",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-1.json",
+      "afterSha256": "ea4861870dae7c7d56ec8f756d51f43b49bee883d721e32a03dfbbedb1dcec6c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "4bbaa3dbfffde142b6198d4fdea521dc1157d319a5198a8c318ee4fc76695918",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-3.json",
+      "afterSha256": "821245c0037f9dced6050b3dacf4ebe68934a6eace4dc9424c3ddf761af1d737",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-domain-navigation-records-2.json",
+      "afterSha256": "c23887a79849bec51c6b512c3ed28134896b0fac5476b99d768066c8a87a730b",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "268e13831b434f51a86197d10715434b23f9292569de7d82dc31f067a155bb9e",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "d3b38b61a59c0e44868388f046a6a29d6ca0e4c83aef6aa41bf1847602728833",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "templateId": "evidence-receipt-v1",
+      "reviewRecord": "20261016-architecture-integration-history.json",
+      "afterSha256": "87eae1d7510be2c764d619defd5e0138e53aba0a42d0154ec91c25e9ab7b4d5d",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/README.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "3489802dda76b58248f4c189adde86b6e78d6e114c90da76855150c8ee7c3958",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-domain.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "80147a5198ca61e6d36dc22a6b7ff1d027aac12a6133de89fa19c59a77f20b09",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-engine.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "54b5278d86ea9d660c95c2051e9e03ef9a66f39d1788be261208cbb76e6b9751",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-module.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "ddf07426a8b4aeaa78ea9641fa8975170fc5c157163f34722590d3fb8f2f6e10",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-owner.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "b8c0869f28392e61f5387f247610fd8f66db0e9d460d683072310a782ea32432",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-phase.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "64a4fc254321403b2d5fde77a3f1df49201a3026d8e0ededcb7fda86f3738092",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-stage.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-status.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "16b8b8490e89fe718e5d97c13093e66a75b4682550178e3ae7e8b40587826da0",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/by-tag.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "95ed50fc0b9d1bad4f45669c6d38de11e456dc015ab08830747b0736dc8549b9",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/indexes/legacy-by-domain.md",
+      "templateId": "governance-index-v1",
+      "reviewRecord": "20261016-testing-index-navigation.json",
+      "afterSha256": "e837dab12883d4b592646c75f72a76ff5417692f08d13553bee318937dadde3c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "afterSha256": "f6c1413aaf09c3a9e1ee50a5acf72fd297a476e1657776ea8f0f1e60e61d857c",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+      "templateId": "test-run-report-v1",
+      "reviewRecord": "20261016-e2e-stage-m.json",
+      "afterSha256": "a309227364ad10087b47b45de39f956faa1005d77555cdd6c9aec231388185e3",
+      "cohort": "approved-baseline"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "templateId": "test-catalog-v1",
+      "reviewRecord": "20261016-binding-baseline-contract.json",
+      "afterSha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d",
+      "cohort": "incremental"
+    }
+  ],
+  "issues": []
+}

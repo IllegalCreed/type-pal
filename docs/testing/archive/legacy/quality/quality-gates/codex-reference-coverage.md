@@ -1,40 +1,63 @@
 # Codex人物/命令引用补测
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 人物/命令引用补测回执（2026-09-22，基点 `0ba26a84`，生产与 `57dda7ed` 相同；同 Owner 连续推进不开新卡）：只新增两个 content 测试文件与隔离工具，不改产品/公共 fixture/schema/存档/资源合同；actor-reference 与 command-target-reference 两目标补强。
+
+## Scope
+
+- 范围与去重：actor-reference（exact actor+expression 改名/完整输出计数/实际输入保真/无命中深拷贝/canonical 战斗编排/默认缺席非人物肖像）+command-target-reference（两 hook 槽语义/visitor 每边恰一次/multi targets/空复制拒绝/unknown 防御）；既有 contracts 测试基础分类零改，本批首次直接命中 rename 不宣称首次拥有重命名测试。
+
+## Execution and assertions
+
+- **合法性**：合法命令先过 checkAuthorCommands；对话另过 assertAuthorDialogueReferences+真实 ActorDef 表，改名后再用对应新表验证；成长 delta 全部必填字段无 as unknown；残缺形状 unknown-input 防御单列不声称合法作者内容；快照复用既有 deepSnapshot，公共 fixture 零改
+- **覆盖对照**：对照 config 两侧官方 content 全生产范围+fast testSelection；before 只排除本批两新文件、after 纳入；709→721 项均绿；生产集合/各维分母不变；actor-reference 行 75/93→93/93、函数 10/14→14/14、分支 73/113→113/113（100%）；command-target 行 88/89→89/89、分支 83/94→92/94（97.87%，:119 exact EntityAddress 保证后不可达、:198 退役防御归 E-05 保留分母不复活）；content 整包净增 51 行/63 语句/9 函数/77 臂，两直接目标净增 19 行/49 臂不混记
+- **负控**：reference-mutants.mjs：1 个 12 项全绿对照+6 单点变异全钉名 AssertionError 红（去 actor 身份比较/污染 portrait/不累计改写数/漏 choreography/visitor 缓存不清空/copy 返回原值）；每针唯一源码点、实际测试数与标题唯一、零 skip/todo、产品 hash 前后不变；判据自测拒普通 Error 夹带/混合错误/超时/未执行；最终工具另拒 suite 级错误与未捕获运行时错误
+- **失败记录**：对照 config 初版未映射官方 --passWithNoTests 拒绝启动（显式转同义配置后 before 709 绿）；初版成长 fixture 漏 delta 被拒后补完整类型；初版假设 setAmbience 空串/learnSkill 非字符串必被拒绝实跑不成立已撤回（guard 完整准入归 GLM E02/后续审计）；不将坏形状登记为合法内容；UI/原生保存/七套预制资源/E2E/N6b 不借此关闭
+
+## Results
+
+- 间接命中与 GLM 重叠：author-script-core +15 行/14 臂、enemy-script +6 行/2 臂——接收 GLM 整包时按集成树并集复算，不把冻结 7,538 遗漏算成 GLM 新增。
+- 统一门：check exit0 七包 8,041 项（47 既有 warning/6 info 无 error）；ratchet exit0 fast 7,550 项/633 生产文件只升不降；受保护单次 strict（BASE_REF=0ba26a84）与新基线各维完全一致。
+- 后续节奏（用户 2026-09-22）：5–8 个相关模块或完整业务域为一批，日常定向+TC+单点反控，整批冻结才统一三门。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；对照 config/负控工具/复跑命令在 quote；/tmp 按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 引用补测 | 2026-09-22 | 两文件+6 针+三门 | 完成（连续推进） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的引用补测回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex人物/命令引用补测：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+两目标 100%/97.87% 分支（两保留臂登记归属）；间接命中与 GLM 重叠须并集复算；三门 exit0。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+覆盖对照表、负控六针、失败记录与后续节奏在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖数字按当时基点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前覆盖真值归官方 ratchet/fast。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `97310780b50e4c78f59ee53409987ae659cc6e252258aa894297d467442e69bb`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `97310780b50e4c78f59ee53409987ae659cc6e252258aa894297d467442e69bb`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex人物/命令引用补测
 >

@@ -1,55 +1,60 @@
 # TEST-CODEX-ENEMY-HOOKS-1 — 当前敌人钩子翻译六组边界
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（翻译与结构合同；不证明战斗演出观感）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 +5pp 队列对现行敌人钩子翻译链的纯测试批次历史记录（2026-09-26，基点 a73c0ffc）：migrate-content.ts:1753 → migrate-enemies.ts:96 → translate-enemy-scripts.ts:88 → translate-enemy-hook-flow.ts:149 生产链与 content/src/enemy-script.ts:248 产物守卫的六组合同测试；产品零改。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为公开入口的可构造输入补齐 canonical hook 翻译的六组边界测试：完整输出或精确错误、来源地址可追溯、实际源输入不被污染。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：六份新测试 translate-enemy-hook-flow.{cfg,dialog,media,effects,growth,errors}.test.ts、专属 enemy-hook-fixtures.ts 与[报告与反控](../../../../testing/archive/legacy/batches/codex-enemy-hooks/README.md)。
+- 范围外：产品/旧测试/资产/配置；旧 translate-enemy-scripts.test.ts 已证的 plain/advance/reset-root、chance 1/100/101、随机四选、基本角色分支与单 stage 奖励（不重复）；不构造私有状态追求 100%。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+四向依据中以当前生产调用链为一手锚点；解码语义参考现行 legacy-dialog.ts 与 source-facts.ts。最强替代解释（旧测试已覆盖/缺口为不可达防御臂）经读旧测试排除重复后收窄为畸形 source 防御合同单列。若合法结果过不了正式 guard 先诊断，不降 guard。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：六组 48 新增、相邻共 74、TC/Biome、六对照/六针通过；完整 check9188 → ratchet → 保护基点单次 strict8696 串行 exit0；全仓 44891/63178=71.05%，本批 +112B/+77L/+88S/+2F；首跑两处资源 ID 预期错误及正式来源纠正见报告，无产品缺陷被改成绿预期。以上为原卡时点结果，本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡明确无下一位 Agent 提示词，Codex 连续实施自验集成、不冒充独立第三方；母目标仍 build、差 1686B。本页治理不重授测试信用。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 准入与同日 accept/done；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b（S15 批次源快照）。2026-10-17 R42 泛化封套，2026-10-18 S15 逐篇改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组边界合同按纯测试批收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+生产链锚点与 enemy-script.ts:248 守卫；批回执含首跑错误与纠正记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。翻译链现行行为以当前代码与测试为准；71.05% 等覆盖数字为 2026-09-26 时点。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+队列母卡[TEST-COVERAGE-PLUS5-1](TEST-COVERAGE-PLUS5-1-continuous-batches.md)；同批系列见 codex-enemy-hooks 回执目录。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `88af1ceaffbf308c91d076a21657fa1c12c9db3d5795372c4e795d0dca896d39`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `88af1ceaffbf308c91d076a21657fa1c12c9db3d5795372c4e795d0dca896d39`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-ENEMY-HOOKS-1 — 当前敌人钩子翻译六组边界
 >

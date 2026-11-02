@@ -1,6 +1,6 @@
 # E2E-001 · 开场
 
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-29
 Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
@@ -21,7 +21,7 @@ canonicalReport: report.md
 
 ## 当前结论
 
-catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。本页此次只做文档迁移，没有新实跑；不能把 2026-09-28 或报告中的 10-07/10-08 结论外推到今天的完整 NPC 验收、capture-ready 或 001–006 连续链。
+catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。2026-10-29 已重新核读报告、配对JSON、7个源码SHA及行段、双runner/both入口；实际调用原生对白合同得到55行，并回放25项工具合同。reviewBy按这次真实文档续审设为2026-11-28；没有重新运行浏览器剧情、保存/恢复或视觉验收，不能把9-28或10-07/10-08结果外推为今天的完整NPC/capture-ready/连续链通过。
 
 ## 证据与状态
 
@@ -29,11 +29,9 @@ catalog 的 verified 与上方 lastVerified 保留原已发布记录的语义。
 
 ## 依赖与历史
 
-本阶段无前驱依赖，后续阶段必须使用同引擎且版本合法的真实 checkpoint。状态与适用版本以[测试 catalog](../../../catalog.json)和对应报告 revision 为准；静态迁移不改 lastVerified 或原历史 SHA；旧期限现已退休。下一步由当前 E2E 任务按真实缺口推进，不因本页模板通过重录或追认历史。
+本阶段无前驱依赖，后续阶段必须使用同引擎且版本合法的真实 checkpoint。状态与适用版本以[测试 catalog](../../../catalog.json)和对应报告 revision 为准；原模板迁移未更新审阅期限；本次有证据的文档续审只更新reviewBy和审阅说明，lastVerified、原candidate/版本/运行SHA仍保留。下一步由当前 E2E 任务按真实缺口推进，不因本页模板通过重录或追认历史。
 
-## 2026-10-30 发布复核
-
-本次完成001的文档/源码合同复核：[具体范围、原件与可复验回执](../../../../ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json)。七sourceRefs的当前SHA和区间锚点有效；实际作者内容55行对白顺序/正文与原始提取命令一致，64项opening工具及9项catalog测试通过。复核期限明确从10月28日调整为11月29日，沿用本条30天发布复核窗口；相关source/caller/合同变化时须提前复核受影响结论。
+## 2026-10-30 发布复核本次完成001的文档/源码合同复核：[具体范围、原件与可复验回执](../../../../ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json)。七sourceRefs的当前SHA和区间锚点有效；实际作者内容55行对白顺序/正文与原始提取命令一致，64项opening工具及9项catalog测试通过。复核期限明确从10月28日调整为11月29日，沿用本条30天发布复核窗口；相关source/caller/合同变化时须提前复核受影响结论。
 
 只解除本次出版复核到期，不授新的浏览器演出、两引擎checkpoint、视觉或编辑器预览验收。status、lastVerified、原revision/版本和runtimeExecution均保留其历史适用范围；日期不是当前E2E通过标记。006保持原条目，本次未重审或重跑。
 

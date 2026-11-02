@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 的证据索引（GLM r1）：交付物仅新增测试（产品零 diff）——deferred-trigger.world-lifecycle-1.test.ts（DT-CLEAR-1/DT-FIRE-DROP-1）、async-intent.world-lifecycle-1.test.ts（AI-CAPTURE-1）、gameplay-clock.world-lifecycle-1.test.ts（GC-REGRESS-1）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 证据索引（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 0bff274fd10f01068c3b83a973653f9122b16571882aadcc299f608a6a5ffe1b。
+- 配套：dedup-ledger.md（四家族逐轴排重，卡面绝大多数轴 existing-proof 不重复堆叠，仅补 4 条真实未证明合同；含 unreachable/blocked 登记与判例）；identity.json（4 合同 source/caller/输入/oracle/fullName/针位）；counterproof.json（4/4 针 VALID）+run-counterproof.mjs+四态 raw mutation-logs/（逐针产品文件原始/变异/恢复 sha256，mkdtemp finally 移除留清理证明）；门证据 adjacent.raw（38 文件 356/356）、typecheck.raw、lint.raw（3385 文件 0/0/0）、docs-gate.raw。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 反控口径：每针=产品源码变异（锚文本恰 1 次）→定向文件 -t 无括号唯一子串过滤（防 -t 零匹配假绿）→字节还原 sha256 复核→同过滤复跑全绿；四态 hash 按落盘字节（trimEof 恰一终止换行）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 四合同：DT-CLEAR-1 deferred trigger 清理；DT-FIRE-DROP-1 触发丢弃；AI-CAPTURE-1 async intent 捕获只读；GC-REGRESS-1 时钟回退钳（真值修正）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 产品真值修正记录（非放宽测试）：GC-REGRESS-1 初版预期回退后恢复帧按 16ms 真实间隔推进实测红——gameplay-clock.ts:21-22 真值为回退帧 dt 钳 0 且 lastReal 重锚回退值，恢复帧 dt 受 100ms 帧上限钳制；按实测真值改断言并在测试注释登记。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r1 已推 5d1d197a5/ee9bcaa93（四家族排重+4 合同）待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 r1 证据索引（4 合同+4 针）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 证据索引（GLM r1）：原始正文完整保留于下方 quote。
+- 四家族排重后仅 4 真实未证合同；GC-REGRESS-1 按真值修正。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 反控口径与修正记录在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `0bff274fd10f01068c3b83a973653f9122b16571882aadcc299f608a6a5ffe1b`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `0bff274fd10f01068c3b83a973653f9122b16571882aadcc299f608a6a5ffe1b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-WORLD-LIFECYCLE-1 证据索引（GLM r1）
 >

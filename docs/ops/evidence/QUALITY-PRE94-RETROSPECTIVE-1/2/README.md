@@ -1,5 +1,46 @@
 # CODE2 MKF/RNG逐文件复审
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+原审计「CODE2 MKF/RNG逐文件复审」的主题按原文时点保留(摘录:> 2026-10-21当前accept：shared逐文件A–H与完整门。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前)。
+
+## 范围与证据
+
+本审计的主题是 CODE2 MKF/RNG 五文件逐文件复审(mkf.ts/mkf.boundaries.test.ts/rng.ts/rng.boundaries.test.ts/rng.test.ts):在2026-10-16窗口补两份boundary测试、精简一份主测试并登记精确退役,生产MKF/RNG/YJ2字节未改;三份测试旧关闭精确撤回review、0新增关闭(机器3287/216closed/207review/2864pending)。顶部引言已注明后续事实:2026-10-21该卡经shared-codecs/evidence.json转为accept,归约/重复缺口闭合、O-5限支持域,以下partial/未跑/旧计数均为历史片段。存活入口原样保留：
+
+原报告含章节[CODE2 MKF/RNG逐文件复审、实际读取与文件结论、判别力、排重与身份、当前真实数据与native oracle、门、未修项与下一批]、13个链接;固定main源6982B(SHA 70893b26a06b)。当前存活入口:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) [evidence.json](../shared-codecs/evidence.json) [adjacent.json](adjacent.json) [final-tests.json](final-tests.json) [gates.md](gates.md) [new-counter-proof.json](new-counter-proof.json) [old-counter-proof.json](old-counter-proof.json) [raw-primary-probe.py](raw-primary-probe.py) [raw-primary-proof.json](raw-primary-proof.json) [retirement.json](retirement.json) [transfer-after.json](transfer-after.json) [transfer-before.json](transfer-before.json) [verification.json](verification.json)。
+
+## 发现
+
+本审计承载的具体发现(按原文时点)：
+
+- 反控对：删除Number.isInteger guard→MKF旧11绿/新10绿1预期AssertionError(只败于非法数值索引)；YJ2错误catch错误清空surface→RNG旧16绿/新15绿1预期AssertionError(只败于坏帧后基面保持)。
+- delta排重：退役'delta累加:第二次blit基于已有surface'一例(只核8字节零面前4字节的弱例),保留例核真实320×200 MARK面全部未触区域;变异op0x02错误清零下,退役前23例19绿4业务红→退役后22例19绿3业务红,失败集合恰少退休身份、无filter/skip。
+- 精确退役：rng.test.ts 7→6,digest经HEAD/origin/main/旧3y(d4cf7f57d)三份baseline一致;首次误用default root被旧digest校验拒绝,核实际runner后才登记(rejectedBeforeRegistration=true)。
+- native对拍：15个MKF(含小写mus.mkf,首轮只匹配大写漏mus后不区分大小写重跑)/2373 chunks逐chunk字节流SHA与独立原字节区间一致;SDLPal PAL_RNGBlitToSurface(ASan编译,函数未改)与shared YJ2 payload喂同一输入,12动画/1464帧index与64000像素逐字节一致。
+- 门:最终定向33例+shared130+typecheck、相邻game13/extract17(0fail/0skip/0act/环境/navigation)、coverage-tools68;相邻extract'首帧非黑'只核PNG size种类、game blob只核长度,不充当本片native oracle。
+
+## 结论
+
+原审计结论按其时点保留:整卡当时partial、三份测试旧关闭撤回review、0新增关闭;全仓check/official ratchet/protected未重跑、editor诊断未清、禁止合main。该结论后被2026-10-21 shared-codecs窗口升格(见顶部引言与all-cards.md CODE-QUALITY-2行),升格事实不由本页改写。
+
+## 整改与复核
+
+本治理候选只补语义,不重跑任何命令/测试,不改审计判定;native对拍边界(limits原文)明确:不验证YJ2自身、不是pal.exe/播放时序/生成资产全面验收,约94MB临时plane文件已清理。相邻完整文件的测试精度留给后续资源caller批次。候选待Owner接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6982B / SHA-256 70893b26a06bccf7ac25ff0da291affd2b98e096dcfbfab6ffa82eb37c0ac2fa；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE2 MKF/RNG逐文件复审
+
 > 2026-10-21当前accept：[shared逐文件A–H与完整门](../shared-codecs/evidence.json)。归约/重复缺口已闭合，O-5限支持域；以下partial/未跑/旧计数均为历史片段，保留原件，不作为当前门。
 归[全83卡复审](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)，起点c727bc81e/main=f98d0ddd8，单Agent、唯一3y分支。生产MKF/RNG/YJ2字节未改；本片补两份boundary测试、精简一份主测试、登记精确退役。整卡当前partial，0新增关闭。
 
@@ -38,3 +79,5 @@ approved-test-retirements仅加当前7→6/双digest/实际文件SHA条目；固
 最终定向33例，shared typecheck+16文件130例通过；相邻game13/extract17均0fail/0skip/0act/环境/navigation，覆盖工具68通过。详见[最终回执](final-tests.json)、[相邻](adjacent.json)、[静态门](gates.md)及同名raw.gz。相邻测试在生产字节相同的A段候选执行，B段仅测试精简/精确批准数据，未重复无变化的真实资源长测试。
 
 相邻extract的“首帧非黑”只核PNG size种类，game blob第一层仅核长度，不能单独充当本片native oracle；这些完整相邻文件未在本片accept，后续资源caller批次核测试精度。主测试与boundary仍有基础opcode正控重叠，但不同错误/未触区轴须逐项证明，未按名称批删。全仓check/official ratchet/protected fast未重跑，editor诊断未清，禁止合main。三份测试旧关闭精确撤回review；机器已确认3287/216closed/207review/2864pending，0新关闭。下一片CODE2b YJ2；RLE格式风险卡继续draft。
+```
+<!-- incremental-original-source:end -->

@@ -4,13 +4,16 @@ id: e2e-001
 evidence: e2e/evidence/e2e-001.json
 ---
 
+
 <!-- testing-meta
 {"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"21-29","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-114","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/opening-matrix-observer.mjs","lines":"11-125","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"527-642","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
 -->
 
+
+
 # 001 开场执行器：双引擎完整验证
 
-Last reviewed: 2026-10-30
+Last reviewed: 2026-10-29
 Owner: Codex
 Template: test-run-report-v1 / 1.0.0
 
@@ -164,8 +167,10 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 正文55行/正式存读档已在该次真实独立流程通过。本次未重新启动浏览器，使用统一冻结比较器另存
 `build/e2e/001-offline-frozen-20261008.json`：0未决差异，1项既有批准的匀速末步差异。
 终结、时钟、日志完整性反例21/21被拒绝；复用来源、独立复核与质量门见
-[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-当前结果基础设施离线收口001003统一判定通过)。
+[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。
 旧录制/判定原样保留，以下10-07早批次为历史结论，不与新录制混接。
+
+<a name="2026-10-07-当前验收独立流程与双轨比较通过"></a>
 
 ### 2026-10-07 历史验收：独立流程与双轨比较通过
 
@@ -212,6 +217,14 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 50ms轮询仅用于等待状态，不用于指定剧情持续时间。没有多数通过或自动重试放行策略。
 
 ## Revision history
+
+### 2026-10-29 当前源码与历史发布边界续审
+
+重新核读本报告与配对原件、7个sourceRefs行段及全文件SHA、两runner和both调用链；七个pin仍与声明相等，双入口仍调用readOpeningContract，both保留独立上下文及任一失败整体非零。实际对当前canonical/原版提取正文调用该合同，55个唯一textId与逐条原文一致；当前源常量为content22/minimumSAVE12，顶部原文档核读的22/11及2026-09-28执行发布日期保持原口径。
+
+opening-matrix、opening-handoff、opening-trace三工具文件真实回放25/25、零fail/skip，覆盖连续性/时钟/完整渲染、视频自然结束与真实绘制插桩的现有反例。该执行只验证工具合同，不是浏览器剧情、存读档或跨引擎实跑。未重录、未补造旧raw；配对e2e-001.json逐字节保留，runtimeExecution.performed仍false。
+
+catalog reviewHistory记录本次source-and-historical-publication-review；reviewBy从2026-10-28续至2026-11-28，lastVerified及原candidate/版本/history不动。新检查回执与S70独立接受共用DOCS-FULL-TEMPLATE-1既有单份封存，不新增执行sidecar；后续源码/原生正文/执行前提变化或到期须再次真实复核，不能自动滚动日期。
 
 ### 源码核读更新（原前置记录）
 

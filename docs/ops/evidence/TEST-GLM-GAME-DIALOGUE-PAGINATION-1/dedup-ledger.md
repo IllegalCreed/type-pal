@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-DIALOGUE-PAGINATION-1 的排重账（GLM r1）：排重域为 event-system.ts 公开分页/推进 caller（tickEventSystem 的 dialogBox 相位机；present/dialog-box.ts 为状态机实体）的旧测——event-dialogue-pagination.test.ts（家族）、event-system.test/cov85/glm-event-contracts、dialog-box*.test（单元层直调 caller 不同仅作参考）、narration/wait-key describe、已归档 Game 卡与全量 fullName grep（hex/中文轴名双查）。
 
 ## 证据身份
 
-- TEST-GLM-GAME-DIALOGUE-PAGINATION-1 排重账(GLM r1) 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 对话分页域：DM18 翻页等键/跳字键集、末页边界二分、$00 空行占位、L2 连锁停界与新页复位。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新增 6 合同（源锚/caller/输入/oracle/排重结论逐行）：C1 翻页等键吞任意键（event-system.ts:1708-1715，text.c:1433；旧测翻页释放全用 Confirm）；C2 恰 4 行遇 end 只等段末键（:1879-1890，script.c:3475；cov85:577 手搭 dialogBox 无按键无旅程）；C3 typing 中 Cancel/Up 不跳字（:1712-1714，text.c:1602）；C4 Menu≡Confirm 跳字（kKeyMenu 成员 tick 层无证）；C5 $00 段中空行占一页行位（:2017-2040，text.c:1745-1746；DM20/21 只证首行分支）；C6 跳字连锁停在翻页边界+新页 userSkip=false 复位逐字（:2053-2058/dialog-box.ts:594-595，text.c:1447/1607）。
+- 登记未证但不新增（同 caller/同 oracle 少而精）：Confirm 关闭回 explore、~收尾不等键、pendingStyle 等四轴、跨页续行三组、narration 1.4s、0x84 wait-key 键集、confirmDialog 单元层全族。
+
+## 来源与输入
+
+- 真实 tickEventSystem+InputSnapshot 输入序列；真实行数与 end 段构造（7 行 4+3、24 字长行、真行+$00+3 真行等）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 6 新增合同；观察登记（不测不判不改产品）：连续≥4 空行+第 5 真行链与 sdlpal（text.c:1649-1658 nCurrentDialogLine>3）存在计数分歧——shouldWaitPageKey 只计 line-done current，真实提取数据 $00 均为段首单行（死亡脚本 41078/41081）该形状不可达，留产品侧裁决如需修复另开卡。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（定向 6/6、六针恰一红、全量 3460/3460）。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-DIALOGUE-PAGINATION-1 r1 排重账；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-DIALOGUE-PAGINATION-1 排重账(GLM r1)：原始正文完整保留于下方 quote。
+- 6 未证轴新增+7 族登记不新增+1 观察分歧登记（不可达形状不钉合同）。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表/登记表/观察登记在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `69d3fcbbf8f442772d9bd6c0e871748f67bf42548fbdb8b139f7a4bb4271f97d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-DIALOGUE-PAGINATION-1 排重账(GLM r1)
 >

@@ -212,5 +212,67 @@
       "artifactOnly": false,
       "pass": true
     }
-  ]
+  ],
+  "recordIntegrityCorrection20261018": {
+    "schemaVersion": 1,
+    "kind": "record-only-source-anchor-and-credit-correction",
+    "date": "2026-10-18",
+    "authorTask": "/root/central_successor_independent",
+    "nonAuthorReviewer": false,
+    "currentAcceptanceCredit": "withdrawn",
+    "oldClaimedIndependentAcceptanceCredit": "withdrawn-unverified-same-actor",
+    "oldGateExecutionCredit": "withdrawn-unverified-summary",
+    "newSemanticCreditGranted": false,
+    "newExecutionCreditGranted": false,
+    "newCentralAcceptanceGranted": false,
+    "correctionIndependentlyAccepted": false,
+    "originalCandidateHead": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+    "actualCandidateHead": null,
+    "anchorStatus": "unanchored-anchor-trust-withdrawn",
+    "sourceGit": {
+      "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-candidate-acceptance-20261017.json",
+      "blob": "5c7fe44ec4cdbfe9146c1f75a68e185b4aff4bb1",
+      "sha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
+      "originalFirstReceiptCommit": "1fb3602fe6819c3b419e8955bc8182ebcfbb9d74",
+      "originalFirstReceiptBlob": "5c7fe44ec4cdbfe9146c1f75a68e185b4aff4bb1",
+      "originalFirstReceiptSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640"
+    },
+    "originalVerdict": "accept",
+    "originalCandidateReviewPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+    "actualLedger": {
+      "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+      "firstIntroductionCommit": "1fb3602fe6819c3b419e8955bc8182ebcfbb9d74",
+      "firstIntroductionBlob": "341646ce18018873a7287f512c9b09d4f4fca40c",
+      "firstIntroductionSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54"
+    },
+    "completeTargetAfterTupleCommit": null,
+    "factualBasis": {
+      "reportSha256": "c6a469c22d4dabcc82d02cf86eb8736e2118d4e2da2ce3eb1b3d7dd40a6f1b27",
+      "mapSha256": "b07e674249cc0fc9df8dd445f1a8c842b9cd52db955b83123a17ac265e48e9fd",
+      "sourceHead": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e"
+    },
+    "originalFieldPolicy": "Original verdict/date/documents/staticCommands/numeric claims remain historical values; this correction withdraws current trust and never certifies old execution or deep reading.",
+    "stopLine": "Record correction only; no content/runtime/E2E/visual/coverage/central/global/main/done credit. Root publishes only after review; a different Owner must independently accept the fixed correction.",
+    "unanchoredAfterEvidence": [
+      {
+        "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "declaredAfterSha256": "c10ee8609befa20db35a07267a076ded3b3c5f685306fb0f7ba1048e8f5a2b7e",
+        "matchingCommittedPathSnapshots": [],
+        "earliestMatchingCommit": null,
+        "allReachablePathChangeCommitsInspected": 6,
+        "distinctPathBlobsInspected": 6,
+        "note": "No match means unanchored in committed history for this path, not proof that no uncommitted intermediate bytes or unreachable object ever existed."
+      }
+    ],
+    "unknownPolicy": "Original candidateHead is retained as an old claim; complete after tuple has no truthful committed anchor. Do not infer or fill one from a nearby commit.",
+    "immutableOriginalRaw": {
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-receipt-correction-draft-C-d17/8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640.gz",
+      "encoding": "gzip",
+      "payloadSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
+      "payloadBytes": 8004,
+      "storedSha256": "711a5f1253a70adf63f21e2ff8a5a22a6db1e3117fc093e409ccd807b55b8eb6",
+      "storedBytes": 1877
+    }
+  }
 }

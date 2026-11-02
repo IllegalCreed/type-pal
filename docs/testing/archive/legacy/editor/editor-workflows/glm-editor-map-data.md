@@ -1,40 +1,62 @@
 # GLM地图选区与组合模板数据补测工作包（TB-06）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-MAP-DATA-1 TB-06 工作包合同与 GLM r1/r2/r3 回执：**当前 Codex 接收结论（2026-09-20）accept**——候选 `d2667b25`、统一候选 `256116ee`，check 7,709/ratchet/受保护单次严格 fast 7,220 通过，三席齐+用户授权，done 归档（详见[当前独立接收](../testing-records/glm-nine-final-review.md)）；旧 counter 仅留历史。
+
+## Scope
+
+- 对象=M01–M08 八族（map-selection/map-transform/map-patch/stamp-draft/stamp-placement/stamp-placement-mutation/stamp-group-transform/stamp-template）补测合同+冻结目标 8 文件+新增文件白名单（M06 按防御分类整族记已有、减 1 文件与 fixture）。
+
+## Execution and assertions
+
+- **合同族与去重**：每族列当前 caller、已有强断言（同名 test 精确标题）、允许新增候选（如 M01 :378/380 空 reset/:433-461 context 错配 no-op/:591-607 隐藏活动层；M02 失败 canApply=false 且双 patch 全空；M08 按 map 层序而非 selection 序）；持久化正控先过真实 validateProjectMap/validateStampTemplates+buildBlankProjectMap+真实 paint/capture；不续测无生产 caller 的 stampDraftPoint/moveStampDraft* 等；不强测构造已保证的重复目标/非法 action 默认分支；base+relative 限值只按实际控件与 D29 规则
+- **r1 回执**：2026-09-19 基点 41cc7cd9（三席 r1 齐用户拍板额度空窗先行实施）：7 新测试文件 18 项、定向 18/18、editor 全包 248 文件/2,536 项（2 项预存 world-sprite ENOENT 与基线同）、fast 2,359→2,377 双 exit0、8 文件 Biome rc=0；负控 3 对照+8 变异针全钉名 AssertionError、产品 hash 不变（全选隐藏层门/paste collision/patch 重复门/draft 层空值/模板 id 归一/placement 锁层/group capture 去重/模板 category）；覆盖对照逐族列（map-selection B201→211/228 等；全包 L22,346→22,359、B19,264→19,294）
+- **r2 返工**：针对统一接收 counter：C0 判据改 failureMessages 首行正则+四向自测（普通 Error 内嵌子串/纯超时拒绝）；C1 10 文件 Biome rc=0；R06-1 权限保真改同一 permission 对象传入前后比较；R06-2 混合目标失败（真实 capture 两源层，floor→floor 有效+extra→ghost 无效：整笔失败双 patch 全空+完整 issues）；复跑定向 5/5、全包 2,536、tc 0、fast 2,359→2,377
+- **r3 收窄返工**：针对 31c8703f：C0 pinned 判据精确唯一目标（全等+恰 1+failed+非空+首行业务错误）共用 AST 抽取块+后缀冒名反例；R06-2 完整 map/clipboard 保真（structuredClone 深快照，单点污染 map.layers[0].name 即红，对应 paste-mutates-layer-metadata 针）；复跑定向 18/18、3 对照+8 针绿、rework-witness 全绿
+
+## Results
+
+- 首轮接收（历史）counter：定向 18 项/原 3+8 跑/tc 通过但有公共 C0 与业务返工、Biome 10 文件 1 error；「生产零改」只指已列新增之外，不能写整个 packages diff 为空（该勘误在原文）。
+- GLM 不跑全仓 check/ratchet/strict-fast；Codex 独立接收集成后串行执行；机器账 glm-editor-map-data-evidence.json。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；[统一复核 TB-06](../../ops/testing-records/glm-nine-intake-review.md#tb-06)、[七批统一审核](../../quality/quality-gates/glm-coverage-remaining-review.md)。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1/r2/r3 回执 | 2026-09-19 | 18 项+8 针+两轮返工 | 2026-09-20 Codex accept（256116ee，done） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 TB-06 工作包+回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM地图选区与组合模板数据补测工作包（TB-06）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：M01–M08 合同（M06 归防御分类）+18 项+8 针两轮返工后 accept；覆盖对照逐族在账。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+合同族表、冻结目标/白名单、r1–r3 三轮回执与覆盖对照数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围；当前测试状态以官方套件为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-EDITOR-MAP-DATA-1 完成卡与 glm-nine-final-review。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6ba2847fa1a746cef95a41d8a82dd1cc6213fbff058d1f6ddd05c33aebe06c97`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6ba2847fa1a746cef95a41d8a82dd1cc6213fbff058d1f6ddd05c33aebe06c97`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM地图选区与组合模板数据补测工作包（TB-06）
 >

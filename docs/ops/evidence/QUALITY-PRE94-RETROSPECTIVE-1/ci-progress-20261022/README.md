@@ -1,5 +1,38 @@
 # pre94 收口 GitHub Documentation CI 返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+GitHub run39624843994（e8566c2c7）与run39600770046（0f6423ef）的完整job日志经GitHub connector取回，两次均check:docs成功、进度完整性失败7项、lint步骤因此跳过。平台action安装/Node弃用告警原样保留，不能写远端全日志零告警。
+
+## 范围与证据
+
+基点e8566c2c7，同一3y，当前为未提交候选；主树只读。机器记录与模板版次指针见[record.json](record.json)，完整未裁剪日志存github-docs-e856.raw.gz与github-docs-0f642.raw.gz。
+
+## 发现
+
+失败根因不是Linux专属：本地check:docs漏了CI单独存在的进度consumer；一张已声明任务卡缺必需标题/route；三份模板的2026-10-18授权内容修改替换了当时的保全封套。修复仅限：三个任务标题名与一条匹配route（正文/状态/历史执行保留）、当前已批准e856版次的逐字节pin（旧source/独立署名/history仍只属旧版，不冒称10-17旧源相同）、把真实进度consumer接回本地check:docs且不移除CI门。
+
+## 结论
+
+本地同入口原progress exit1/7项，修复后exit0/0 integrity issues；五文档consumer全0、lint5744文件0/0/0。首check:docs在工具测试通过后被新增目录缺导航拒绝，补真实父导航后复验五consumer，不把首跑写成成功。最新e856的Coverage ratchet远端已success；本修复f1e56的远端Documentation run39629198807已success（check:docs/进度完整性/lint三步均过）。不为文档修复重跑产品coverage。
+
+## 整改与复核
+
+不授产品、E2E、视觉或旧卡重新执行信用；不弱化校验器/不排除/不降级状态；模板源字节不变。快速核对record的三枚edition pin与Git show e856:<path>、当前字节一致；实际运行node scripts/docs/report-governance-progress.mjs应0 integrity issues，pnpm check:docs须包括此入口。原始失败不会因后续通过而改写。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2087B / SHA-256 3821a1a5dfc6fb52e3d836a809196f5ef305411f862357cb0f15f74b1ae48dd2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 收口 GitHub Documentation CI 返工
+
 Status: recorded
 Owner: Codex
 
@@ -22,3 +55,5 @@ GitHub run39624843994与39600770046的完整job日志，经GitHub connector取�
 ## 限制与复核
 
 不授产品、E2E、视觉或旧卡重新执行信用。快速核对record的三枚edition pin与Git show e856:<path>、当前字节一致；实际运行node scripts/docs/report-governance-progress.mjs应0 integrity issues，pnpm check:docs须包括此入口。原始失败不会因后续通过而改写。
+```
+<!-- incremental-original-source:end -->

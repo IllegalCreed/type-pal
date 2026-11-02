@@ -1,40 +1,61 @@
 # Codex 独立接收：ARCH-SUPPORT-GLM-1 / 3967a376
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 首轮独立接收（2026-09-25，候选 3967a376、起点 32704738、生产冻结 b11d4bc9）：**整包 counter；P1-P6、V1-V2 分别 counter（逐包理由），保持 draft 不开 build 不标 done**——这是对取证质量的裁决不是发现八个产品缺陷；GLM 是材料贡献者不算独立第三方。
+
+## Scope
+
+- 接受并冻结的有效证据：12 文件白名单零 diff；11 张 PNG 实物逐张目视哈希尺寸吻合（不把像素尺寸当 zoom/DPR 实测）；V0/V1/V2 截图作为对应有限观察接收；GLM 未把不确定折叠行为冒称产品缺陷是正确的。
+
+## Execution and assertions
+
+- **R0 账本**：summary:30 与 evidence:61-65 称 32 条实际 38 唯一 ID（covered12/risk18/blocked2/reproduced0/N/A6）；9 文件实际 12；逐条字段未闭合（anchor 多为「某文档§表」或省略号）——补静态事实/已读测试断言/本次执行三口径，不以 grep 计数写全绿；finalSha 占位词未回填；浏览器版本/zoom/DPR 缺席允许如实未记录并收窄视觉结论；evidence.json Biome exit1 由 GLM 自行格式化；README 无真实索引链接（Codex 只追加机械链接索引不修改原文）
+- **分包反证**：P1：derivedStore 实为 App useMemo 创建且 start() 返回 stop（App.tsx:422-426+editor-derived-store.ts:396-415）r1 写 props 传入无 stop 不实；导航测试误当 helper 实有 17 it；P2：MapMode:3075-3079 pointerCancel/lostcapture 均存在+:2292-2305 清全族+blur 同函数，r1「缺实现」不实；Vitest 收集 72 非 58；P3：50 旧 case 与 81 canonical 键混同（test:71-81 只核 RUNTIME_COMMAND_KINDS 与呈现表）；WorldVariablePicker 纯计算非两 effect；P4：:604 是 beginTurnPreparation 门 writeBackHp :2534-2540 无此门；93 非 87；跳过 pump/render 回避本包目标；P5：「6 文件两环」不成立——7 文件同一 SCC 15 条 runtime 边（含 r1 漏读回边 battle-opcodes:25/equip-effect:19/event-system:57/scene-system:12）；702 非 703；P6：漏 onLose/onFlee/onFail/onNo 与 author→enemy 方向（:710/:722/:726 递归+双向互调）；mapScenesStatic 6 参数非 5；V1：multi-select.tsx:119-121 有 aria-label+6010 实测 AX「搜索指定技能」过滤生效——a11y 缺名被源码和浏览器同时反证；离散多选与草稿替换是两类取消合同（DS-C.5a/DS-C.6）；V2（收窄）：:568 用例只调 verifyInspectorTabs 合同对象不同；折叠已由 Codex 6010 补验正常
+- **只读复算与执行**：codex-intake-probe.mjs（exit0 只表白名单/冻结/截图校验+普查完成不表 38 条被接受；含 7 节点/15 边 SCC 输出）；定向 39/39（derived-store 22+navigation 17）；Vitest list 收集未执行：MapMode72/ScriptEditor24/characterization13/SceneScriptWorkspace5/battle 93/一阶段七文件 702；浏览器 6010：对象列表原生 AX 点击 checked1→0、左分栏 194→0 再点恢复——Playwright DOM 核对仍是 button 不把 AX checkbox 归因 role 错误；模拟器搜索实测如 V1 反证；无统计并集/全仓门/产品修改
+- **反证基线**：main 86e928b5 与候选 editor/content 生产源码零 diff——6010 复核没有拿另一个已修过的编辑器反驳旧候选
+
+## Results
+
+- 视觉初审用 Web Interface Guidelines 方向，实际裁决依据项目 DS-C.4/DS-C.5a/DS-C.6 与现行控件不把外部建议变成新产品要求；GLM 返工提示词全文在 quote。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；codex-intake-evidence.json 与 probe 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 2026-09-25 | R0+八包逐项反证 | 整包 counter（八包分别） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex 独立接收：ARCH-SUPPORT-GLM-1 / 3967a376：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八包分别 counter（每包直接源码/浏览器反证）；R0 五项账本更正；39/39 定向+702/93/72 收集；折叠正常补验；反证基线零 diff。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R0 五项、分包裁决表、只读复算与浏览器执行在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r2/r3/f423 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `55d40efcd3f83ce3133a8999678d7de9729f9db4360003018c6e38b269a4193c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `55d40efcd3f83ce3133a8999678d7de9729f9db4360003018c6e38b269a4193c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex 独立接收：ARCH-SUPPORT-GLM-1 / 3967a376
 >

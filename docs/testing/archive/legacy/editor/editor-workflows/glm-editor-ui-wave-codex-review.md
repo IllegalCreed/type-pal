@@ -1,40 +1,63 @@
 # GLM 编辑器 UI 十二模块 · Codex 首轮独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM 编辑器 UI 十二模块首轮接收（候选 `codex/glm-editor-ui-wave-r1@a767c43f`，起点 `8254ce64`）的 Codex 回执：**counter / rework**——作者绿色与反控鉴别力（12 文件 39/39、typecheck 0、14 文件 Biome 0/0/0、判据自测 10 类+四针红）不替代合法前提。
+
+## Scope
+
+- 候选 a767c43f（相对起点仅新增白名单测试/fixture/工具/回执+必要 docs 导航，无产品/旧测试/官方统计改动）；对象=G1 正控项目/G2 场景链/G3 视觉证据。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| G1 | SkillTab.glm-ui-wave.test.tsx:55-93（manifest.content={}、scenes=[]、as unknown as 强转）等 | project-diagnostics.ts:823-842 assertProjectSaveValid | 入口场景+worldVariables 检查拒该输入 | 「提交成功/撤销/清理」只在不可保存内存对象上运行，不满足「当前合法项目、先过现行 guard」准入 |
+| G2 | SceneCanvas:68,141-146 场景强转 SceneDef、mapIndex.maps=[]、空 assetBase；PreviewCanvas:20,63,74,85-89 强制 loading、伪 Playback、stages as never | 源码核 | 可测局部委派 | 不能宣称正式工作区/试玩正控；须在当前 guard 下形成闭包或明列局部防御/委派测试 |
+| G3 | /tmp/ui-wave-u4-scene-canvas.png、/tmp/ui-wave-u2-sprite-library.png | 直看截图 | 中央显示 tileset.pal.020/sprite.pal.002 bytes 登记与实际 917 不符，无可核画面 | 两图是加载失败现场；回执「视觉 N/A 部分无」与现场矛盾，须补画面或标未证并撤回表述 |
+
+## Results
+
+- 返工不机械增加测试数/branch 比例：逐一保留合法正控断言，撤回/改造不过 guard 用例，更新十二行账、测试数、四针、退出码与截图证据；R1/R2/R3 同批整改后交最终 SHA。
+- Codex 未跑全仓 check/ratchet/strict-fast；候选不合 main、不标 done。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 原文时点 | G1/G2/G3 反证 | counter / rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 ui-wave 首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 编辑器 UI 十二模块 · Codex 首轮独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：正控项目在保存门前被拒（G1）、正式场景链不成立（G2）、截图为加载失败现场（G3）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+锚点行号与判别事实在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 仅指当时候选；r2/r3 后续见同目录。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST 卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `fc1cdae71158e714fa7f3cc812c7b503562ec15098f924e0f25afe49414c4a3c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `fc1cdae71158e714fa7f3cc812c7b503562ec15098f924e0f25afe49414c4a3c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 编辑器 UI 十二模块 · Codex 首轮独立接收
 >

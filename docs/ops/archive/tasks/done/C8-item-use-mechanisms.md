@@ -1,55 +1,63 @@
 # C8 - 物品用途机制、运行时与迁移闭环
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-06 用户联合验收确认 + N3-1 下游回归 accept；三方 done accept 齐）
+Phase: phase2
+Capability: C8（物品用途与机制）/ MG2
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Visual Verification Owner: Codex + User
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是物品用途机制历史功能卡（110KB）：物品用途机制/运行时/迁移闭环——use 效果结构化（EFFECT_KINDS 冻结集 20 项）、投掷 typed ThrowEffect、给队伍/金钱/经验奖励通道；记忆锚：8 轮返工至 26e7a269（required-witnesses gate、removeOwnedItems 原位 delta）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+物品用途全链（编辑器/运行时/迁移）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：use/throw 结构化+奖励+迁移。
+- 范围外：raw JSON 用途。
 
 ## 前提与证据
-- primary source：固定 source revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+ED-5J（use 私有脚本）依赖其模型。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方+用户联合验收收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+EFFECT_KINDS 冻结集为现行用途合同。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `4c0da02bee76c5616d0fda14a00f24bd7c8de621`；本轮为 2026-10-17 R53。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-06 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done（2026-08-06 用户联合验收确认 + N3-1 下游回归 accept；三方 done accept 齐）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：物品用途闭环经三方与用户联合验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+EFFECT_KINDS、奖励通道、八轮返工史。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。用途机制现行形态以当前 content/reforge 为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+ED-5J 与 ITEM-LOGIC 卡。
 
 ## 原文保全
-固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `ba8cbff33a5962c693b71face20dac7f98c5c1bbacf6eb49a497bcd1dd96c4cc`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `ba8cbff33a5962c693b71face20dac7f98c5c1bbacf6eb49a497bcd1dd96c4cc`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # C8 - 物品用途机制、运行时与迁移闭环
 >

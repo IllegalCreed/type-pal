@@ -326,23 +326,8 @@
       "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
+        "implementationSha": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
         "history": [
-          {
-            "revision": "291b7b59d4296650afb468a761ac269caba997b4",
-            "date": "2026-10-18",
-            "action": "Correct two reported SDLPal source bounds and six retirement authority attributions",
-            "previousAfterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
-            "scope": "Only scoped current notice/anchor metadata and board/ledger delta, or the named record SHA linkage. Historical original quote/source objects, native result counts, other verdicts and runtime/coverage credit remain unchanged. Human instruction provenance is distinguished from Codex execution decisions. No full 71-anchor or product re-acceptance.",
-            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md",
-            "notRun": [
-              "product tests",
-              "new whole-repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "E2E"
-            ]
-          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -357,7 +342,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
         "sourceSha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
         "candidateSha256": "3f1544d490f4f27a5b6facfb615d29ebddd6bc7cc4eef2ad4d1ca44294d04277",
-        "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
+        "afterSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
         "lineCount": 159,
         "exactOriginalBytes": 5022,
         "originalPreservation": {
@@ -396,7 +381,7 @@
         "after": "historical。原七文件审计不等于battle core/menu/dialog或全仓完成；缺资源降级、坐标/opaque边界仍需其当时caller解释，不能以文档模板认证当前产品行为、测试质量或视觉。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-161",
+      "reviewedLines": "1-159",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {
@@ -411,7 +396,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress.",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "54639b99ff3c8ef6ef6faa33334c5ddccf7f79313b6222dce95e3f36935e7a2a",
+          "afterSha256": "7cffbd63d85883e94d42d3a6e802f860be243af79b721c1f4bdb426e062b608b",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
@@ -1456,8 +1452,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Owned CODE57 map ownership scoped delta",
-      "coreConclusion": "CODE57 code accepted; unified gates deferred.",
+      "readMethod": "history_cards_c_tail full original/new prose/receipt and direct listed primary sources; root substantive new12 prose and source-object intake proof; precise separate reading scopes in integration.",
+      "coreConclusion": "保存2026-10-05 event-system解释器/脚本生命周期审计：原卡称5110行实现与5973行主测试核验，无新direct defect、无实现改动；global ip、waiting、异步owner与resume均按原caller，不移植为Reforge结构。",
       "documentStatus": "historical; original done",
       "owner": "Codex（当前文档治理；原Owner/CodingOwner/Reviewer字段各自原样保留）",
       "originalIdentity": {
@@ -1582,7 +1578,7 @@
       "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+        "implementationSha": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
         "history": [
           {
             "date": "2026-10-16",
@@ -1594,12 +1590,12 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-pre94-map-ownership-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/review.json",
+        "kind": "independent-semantic-review-and-strict-byte-integration",
+        "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
         "sourceSha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
         "candidateSha256": "611dcd2c390a3f8300b59b7f45b6a80976e7cb5e830275d7a458f32803c9ed79",
-        "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
-        "lineCount": 266,
+        "afterSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+        "lineCount": 256,
         "exactOriginalBytes": 14309,
         "originalPreservation": {
           "startMarker": "<!-- original-source-quote:start -->",
@@ -1637,7 +1633,7 @@
         "after": "historical。旧全绿和预期stderr不能代替当前零诊断/测试质量判断；未知fallback仍需真实caller而非静态删分支。尾draft不改变历史done，也不授本次实现或动态信用。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "Board/ledger and owned projections only",
+      "reviewedLines": "1-256",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {
@@ -1652,7 +1648,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress."
+      "historicalRecordDedupe": "Original product/test ledger counts are historical, not this docs migration progress.",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "c0b562db1f2f7057d89e5cf0b8fac4cccfc5fd9934a0d1d884740e101bb67e96",
+          "afterSha256": "d8bc75e72d088c4e18ee16013dee0ba71fd07d98e8bb22c4396b428368ad37c2",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
@@ -2002,23 +2009,8 @@
       "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
+        "implementationSha": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
         "history": [
-          {
-            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
-            "date": "2026-10-18",
-            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
-            "previousAfterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
-            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
-            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
-            "notRun": [
-              "whole-repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "browser visual",
-              "E2E"
-            ]
-          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -2033,7 +2025,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
         "sourceSha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
         "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
-        "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
+        "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
         "lineCount": 243,
         "exactOriginalBytes": 11798,
         "originalPreservation": {
@@ -2072,7 +2064,7 @@
         "after": "historical，canon1075旧90cap guarded。保留现有>=产品边界，不因C旧文本回改；其它固定命中率和脚本组合未核，不能宣称整招100%。原四测试全文是旧主张，不给本轮470测试或coverage信用。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-245",
+      "reviewedLines": "1-243",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {
@@ -2087,7 +2079,18 @@
         "executedThisMigration": false,
         "retention": "original producer argv/raw paths/candidate hashes preserved literally in full quote; no re-run, mutation or runtime credit"
       },
-      "historicalRecordDedupe": "original closeout5=1product+4test; 470 adjacent tests do not add470 ledger entries"
+      "historicalRecordDedupe": "original closeout5=1product+4test; 470 adjacent tests do not add470 ledger entries",
+      "maintenanceDeltas": [
+        {
+          "kind": "fixed-main-S75-integration-observation",
+          "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+          "beforeSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+          "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
+          "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",

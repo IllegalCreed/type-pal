@@ -1,5 +1,40 @@
 # 搜索注释与测试边界；队列/毒列表原C反证
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+core-comment-audit窗口（2026-10-18，基点78f8e3c79be8a89412e19986a1a1c54d645f2005，分支codex/code-quality-3y，Codex单Agent自审）：搜索（Search）注释与测试边界修复＋队列/毒列表两条原C反证风险登记，本提交不改队列/毒行为。id: QUALITY-PRE94-RETROSPECTIVE-1 / core-comment-audit，schemaVersion:1，status:recorded（卡面Status: review）。关联[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)、[GAME-ACTION-QUEUE-TIE-ORDER-1.md](../../../tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md)、[GAME-PLAYER-POISON-SLOT-COMPACTION-1.md](../../../tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)。完整/部分阅读、SHA、原C与caller范围见[read-boundaries.json](read-boundaries.json)，非grep即全文声明。
+
+## 来源与输入
+
+Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为scene-system Confirm→helper→视觉姿态/event装载。模式阈值为最大索引：1留0..2、2留0..8、3留全部13；旧头注与inline反向解释、3o'反直觉'定性撤回；未改helper运行逻辑/公开接口，去注释后执行代码另核（executable-equality）。测试使用完整typed NpcState工厂和正式helper；阈值场景party=(160,160),facing=right，13点(col,row,h)各异；完整13点down序列为按原C四排手算的静态oracle，未调用被测函数生成期望。旧测试五处缺陷（mode2标题实用mode1、far只放脚下、normal所谓cells10实际命中cells1、near拒绝点不在13点范围、first-hit无专属oracle）均不能作为原信用。
+
+## 断言与业务 oracle
+
+- 测试只10→12：原例改为near i2正/i3反、normal i8正/i9新增反、far i12正；补1例NPC数组倒置但较前检查点优先。六指定变异（near上界放宽、normal收窄/放宽、far截断、第二排单点坐标、误按NPC数组优先）均完整旧10绿、完整新12中恰1个业务AssertionError、0pending/skip/runtime error，源与spec恢复字节一致——详见search-controls.json 12行old/new对照。
+- [primary-counters.json](primary-counters.json)：原生clang -std=c99 -Wall -Wextra -Werror编译的两段原C body与真实TS公开叶的对照。队列：敌0/1同速30、玩家0速度100，原C 13槽得到玩家0→敌1→敌0，TS稳定sort为玩家0→敌0→敌1（实际排序完整尾括号在1585行，旧1584引用未含其尾）；用户本轮已批准SDL对齐，当前搜索提交不改队列，下一独立行为批先正式失败测试。毒列表：同一party[2]成员列表0为level99、列表1为普通毒，C清理前移普通毒到0（poison-c输出[[0,2,9]]），TS留在1（poison-ts输出[[1,2,9]]）；合成正ID1/2不是原盘身份，毒tick/save完整因果仍pending未授权实现。
+- [README.md](initial-compile/README.md)：提取1574–1584漏最外括号，C根本未执行，不计counter信用；补1585后的两程序才是有效对照。
+
+## 结果
+
+实际门以gates.json为准：direct 12过0败0诊断；相邻仅scene-system.test三条真实Confirm链（另107条未执行，不写成整文件/包绿）；六变异对照；typecheck/docs（125工具例、1559 md、9224链接、463任务、2345 content reviews全0 issue）；lint终版5131文件0/0/0（首轮两败1+3诊断为证据JSON格式问题，仅格式化修复、无规则变化，失败原件保留）。账本3314tracked/278closed/61review/2975pending：5旧closed转review（搜索源/测、队列源/测、毒实现）、0新closed；83卡仍50partial/33pending/0accept。全仓check、官方coverage ratchet、protected fast按用户要求留大任务收尾；未合main，不宣布专项完成。
+
+## 限制与复核
+
+左朝向专测、隐藏负状态、同点双NPC顺序、全scene/event测试及已有诊断不据本片接受；progression全文读过但锚纠正留有限批不重签。后续系列子窗在本目录延续：[README.md](queue-approved-fix/README.md)（独立行为提交先红后绿；本页'未改队列'仅适用于c3d943dde搜索批候选）、[README.md](poison-progression-comments/README.md)（CureKind/STAT_LIMIT事实注释、两生产JS不变）、[README.md](runtime-projection-comments/README.md)、[README.md](shop-layout-tests/README.md)（八枚旧绿新单红）、[README.md](formula-numeric-audit/README.md)（正常法术TS160/C161另开draft风险卡请用户裁决）、[README.md](palette-approach-tests/README.md)（原C正反同网格65次与TS一致，人工非网格64步往返不能登记原版缺陷）、[README.md](tools-thumbnail-hotkeys/README.md)（96/256/640及F10/F8坏注纠正，L18三旧绿新单红）、[README.md](minimap-classification-view/README.md)（22直接/36相邻、五旧绿新单红，83卡51/32/0）。毒压缩/去重差异只读，不据本片恢复旧整文件信用。本治理候选不重开任务、不重跑执行、不授新信用。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6892B / SHA-256 a880ca0ec432fd7a2193450c54a560c092341370c947af689270802a4ed37b59；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 搜索注释与测试边界；队列/毒列表原C反证
+
 Status: review
 Owner: Codex（单Agent；自身核证/修复，不冒充第三方）
 Date: 2026-10-18
@@ -54,3 +89,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 本片收尾发现L18的具体X320/原点精度谓词不能仅按主题判重复；已在同模块主测精确迁移，并一并修主测核心夹具，14例保持、第四枚旧14绿新13绿1指定红。最终20直接/36相邻与typecheck零诊断，早期只读待修声明为中间时点；当前两个minimap测仍review，分类/全域继续。
 
 2026-10-18：[minimap分类/缩放续核](minimap-classification-view/README.md)只修两注释、补独立视野/优先级与两真实widget键盘合同；22直接/36相邻、五旧绿新单红，三文件仍review。真实SSS425/401统计不外推地图宝箱；未知输入/生命周期与CODE57保持，0新增closed，83卡51/32/0accept。
+```
+<!-- incremental-original-source:end -->

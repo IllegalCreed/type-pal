@@ -1,5 +1,38 @@
 # CODE3r 事件作用域、主测与 E2E 依赖返工
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「CODE3r 事件作用域、主测与 E2E 依赖返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4924B,SHA 6ed4f38603f5)。本页语义:base bdbcb5c,commits纯重构99a0d8f/主测b0f4a12/E2E工具a82a73;本片只补3r实际变化及八维缺口,0新增closed、两个新产品路径仅review,固定83卡67accept/16partial/0pending;local technical review,统一pre94门延后。历史验收时点,不重开任务。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[README.md](../3r-event-system/README.md) [codex-final29.json](../glm-foundation/codex-final29.json) [README.md](../scene-quality/README.md)。复用3r全文与机制、GLM29逐文件结论和3q冻结原件;八文件逐项A-H、caller、oracle、版本指纹与324身份映射见review.json,不冒称重新全文通读5k解释器和6k测试;两个新叶模块及E2E插桩/自动批工具完整核读。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):原记录按其自身字段成立;空数组/exit0/成功字样不外推为零诊断或产品通过。本页真实oracle事实:(1)结构——self/当前场景/全局对象定位移入只依赖类型的叶模块(event-object-scope.ts/npc-walk-frame.ts),保持不同fallback与诊断合同,五函数体token一致、剩余解释器JS整体token一致;仅移除私有jump死GS参数、19实参与1void;185旧公共出口保持。(2)主测324→324两标题一一映射;真实hydrate+createBattleState取代空fighter/核心强转,setup缺失立即失败;17个本文件写入的服务/目录afterEach清理;补真实宿主dialog/style/死亡hold、goto跳过与命中效果、精确诊断参数与次数。(3)三枚单点变异(end错返回/raw错参数/误清宿主dialog)各旧单绿→新单业务AssertionError红,原始结果与恢复正文保存;之后仅3例追加(goto业务断言/字色默认0x4f/deathHold),只读快核其余正文与counter快照一致,不冒称新反控。(4)工具真缺陷:meal观察器读已退役参数,合法有库存Item进入真实分派时TDZ;正式fixture先AssertionError,采样移到有效OBJECT入口绑定之后、状态写入之前。(5)最终18相邻游戏文件546/546、6个Node工具80/80,stderr与可见诊断0;deathHold由同文件324/324刷新、Node格式由2/2刷新,不把重叠例数相加。(6)docs首轮125工具通过但命令exit1:两E2E配对报告4个sourceRef失配,116行world-pair逐字节不变仅行号区间+1,修复sourceRefs与2claim指针、保留历史quote/日期/revision;不存在check:docs原命令exit0的宣称。
+
+## 结果
+
+原文保全完整、模板符合、链接处置如实即本页治理结果;不产生新执行结果。批结论:0新增closed,ledger 3423/414/118/2891;game typecheck与8文件Biome零诊断,lint 5983文件0/0/0;Node工具执行不是浏览器004/视觉/剧情/编辑器预览验收;全仓check、官方coverage/ratchet/protected、新PR与main合并延后到剩余pre94完成。低成本复验入口node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-quality/verify.mjs(默认只读/不联网/不写报告/不跑测试,MATCH只证明机械事实;3q旧快检会因上下文变更报STALE,以原3q八成员不变和整解释器守恒承接,不把历史快检倒写成新通过)。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;历史结论保持原时点;候选待Owner非作者接收。原文明示:过程失误分别登记不冒称干净——最初parallel tsImport SyntaxError、两份中间红夹具不计产品红、首轮324带1palette日志、首TC缺类型、首546字色oracle错误、首Node76中7依赖失败、格式提示、proof producer wx EEXIST不覆盖冻结件、ledger-pre-summary漏3新文件FAIL保留;剩余广域事件装配、3s/3t及后续模块继续,不扩94–102;没有改变机制、schema/save、资产管线、旧公开签名或产品行为。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4924B / SHA-256 6ed4f38603f5b8b083bebbd3c7179b15813184c2f548f02b3ee596768b34c251；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3r 事件作用域、主测与 E2E 依赖返工
+
 Status: local technical review; unified pre94 gates deferred
 Owner: Codex（单Agent）
 Base: bdbcb5cec6b2a32e39fed4295a6ca0f075327808
@@ -21,3 +54,5 @@ receipts.json.gz按条目保存原件base64、字节数和SHA256，包括首次�
 本片0新增closed、两个新产品路径仅review，固定83卡仍67accept／16partial／0pending。全仓check、官方coverage/ratchet/protected、新PR和main合并全部延后到剩余pre94完成；剩余广域事件装配、3s/3t及后续模块继续，不扩94–102。没有改变机制、schema/save、资产管线、旧公开签名或产品行为。
 
 文档检查首轮125工具用例通过，但执行命令exit1：两E2E配对报告共4个sourceRef失配。其引用world-pass用例116行逐字节不变，仅515–630→516–631；仅同步当前绑定/两claim指针，保留历史quote、日期、revision、publication及执行信用。补跑实际文档消费者，不复跑未变125工具；中间两claim指针遗漏和producer原文标记假设错误分别保留。不存在“check:docs原命令exit0”的宣称。
+```
+<!-- incremental-original-source:end -->

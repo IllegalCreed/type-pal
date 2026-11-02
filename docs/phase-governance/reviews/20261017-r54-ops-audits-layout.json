@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r54-ops-audits-layout-20261017",
-  "reviewer": "Codex root full-text semantic migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R54: audit/index Markdown uses governed templates with reversible source quote; layout JSON remains byte-stable artifact-only. Static migration grants no runtime/E2E/visual/coverage credit and deletion remains gated by consumer/successor/SHA audit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/audits/architecture-debt.md",
@@ -12,57 +12,64 @@
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R54 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "architecture-debt.md：current ops architecture debt audit; preserve queue status, independent open items, source revision and static-only boundary.",
+      "readMethod": "Author full document/source review in S36; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "原13批按历史所有权与实际后继逐项可见导航；原630文件静态census不涵盖动态边，7文件SCC不等于7个bug。两项demo/s135观察只保留当时未知，不称今日故障或重开build。统一回执明确62 warning/6 info、109针沿用，历史13/13与exit0不构成今天全仓质量/运行完成。",
       "truthAnchors": [
-        "docs/ops/audits/architecture-debt.md:1",
-        "docs/ops/audits/architecture-debt.md:59",
-        "docs/ops/audits/architecture-debt.md:82"
+        "docs/ops/audits/architecture-debt.md#审计问题",
+        "docs/ops/audits/architecture-debt.md#结论",
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md"
       ],
       "unresolved": [
-        "Static audit conclusions remain bounded by their source revision; follow-up claims require current task cards and fresh evidence."
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
       ],
-      "nextStep": "由当前 task card、代码/test evidence 和 fresh review 复核仍开放的架构债项。",
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "audits",
       "capability": "architecture-debt",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S36作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
         {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S36",
+          "nonAuthorReviewer": false,
+          "base": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "scope": "three full Markdown documents; dependencies scoped, no product/old tool execution"
         }
       ],
       "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
-      "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
-      "publicCallers": [
-        "docs/ops/audits/README.md → architecture-debt.md",
-        "current task cards and testing evidence linked from the audit"
-      ],
-      "legalInputs": ["current repository documentation", "docs/ops/audits/architecture-debt.md"],
+      "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+      "publicCallers": ["docs/ops/audits/README.md", "CLAUDE.md"],
+      "legalInputs": ["固定516872a8原稿及13批/两独立观察", "当前任务范围/代码账本及原集成回执身份"],
       "businessOracle": {
-        "type": "static-architecture-audit",
+        "type": "document-content-and-scoped-navigation",
         "assertions": [
-          "source queue and status boundaries remain traceable",
-          "independent open items are not closed by migration",
-          "no runtime/E2E/visual/coverage credit"
+          "13批每项状态所有权与后继入口可追溯。",
+          "两独立观察不被架构收口关闭或冒认当前必现。",
+          "62/6非零诊断、109针沿用及动态边未证均不被静态封套清零。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "scoped-role-comparison",
         "against": [
-          "docs/ops/audits/architecture-debt.md",
+          "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+          "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
           "docs/ops/audits/README.md",
-          "docs/phase-governance/templates/audit-report.md"
-        ]
+          "docs/ops/evidence/README.md"
+        ],
+        "notes": "architecture queue, evidence-integrity correction and registry storage scopes distinct; no full downstream artifact dedupe or necessity verdict"
       },
       "revision": {
-        "currentSha": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+        "currentSha": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
         "implementationSha": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
         "history": [
           {
@@ -77,25 +84,25 @@
             "date": "2026-10-17",
             "action": "R54 ops audits/layout template migration",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S36 authored bytes separated from historical implementation and receipt claims",
+            "previousCurrentSha": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+            "currentSha": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871"
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
-        "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
-        "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
-        "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
-        "lineCount": 132,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 11911,
-          "sourceLines": 87,
-          "sourceFinalNewline": true,
-          "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
-          "exactRoundTrip": true
-        }
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -109,14 +116,146 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S36 authored semantic/navigation rewrite; non-author pending",
+          "beforeSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+          "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "truthAnchors": [
+              "docs/ops/audits/architecture-debt.md:1",
+              "docs/ops/audits/architecture-debt.md:59",
+              "docs/ops/audits/architecture-debt.md:82"
+            ],
+            "unresolved": [
+              "Static audit conclusions remain bounded by their source revision; follow-up claims require current task cards and fresh evidence.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "owner": "Codex（文档治理；不代签原执行）",
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "audits",
+              "currentBoundary": "current task cards and fresh evidence own truth"
+            },
+            "dependencies": "Current task cards, code/test evidence and the audit index.",
+            "versionScope": {
+              "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+              "date": "2026-10-17",
+              "validity": "open"
+            },
+            "publicCallers": [
+              "docs/ops/audits/README.md → architecture-debt.md",
+              "current task cards and testing evidence linked from the audit"
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/audits/architecture-debt.md"
+            ],
+            "businessOracle": {
+              "type": "static-architecture-audit",
+              "assertions": [
+                "source queue and status boundaries remain traceable",
+                "independent open items are not closed by migration",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": [
+                "docs/ops/audits/architecture-debt.md",
+                "docs/ops/audits/README.md",
+                "docs/phase-governance/templates/audit-report.md"
+              ]
+            },
+            "counterReworkBlocked": [
+              {
+                "id": "R54-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              }
+            ],
+            "userVisibleBeforeAfter": "原始 ops audit 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision"
+          }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S36 full before/current document review; scoped dependencies as declared; author self-check, independent acceptance pending",
+            "unresolved": [
+              "S36 document acceptance pending; preserved historical evidence credit boundaries unchanged."
+            ],
+            "nextStep": "由未参与者据本篇差异/读域/历史段与真实门裁定，不重做全部下游审计；S34/S35原候选保持冻结。",
+            "stopLine": "No current execution or global completion from old reports/navigation. No main/push/done or 212 publication.",
+            "counterReworkBlocked": [
+              {
+                "id": "S36-NONAUTHOR-PENDING",
+                "status": "pending",
+                "statement": "Author cannot grant semantic/template migration credit; independent content and navigation acceptance required."
+              }
+            ],
+            "templateConformance": {
+              "status": "needs-migration",
+              "scope": "S36 author writes existing template sections with document-specific content; independent acceptance pending"
+            },
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+              "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+              "candidateSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "lineCount": 132,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 11911,
+                "sourceLines": 87,
+                "sourceFinalNewline": true,
+                "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "do not promote static audit conclusions to runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops audit 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
-      "reviewedLines": "1-132",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
+      "userVisibleBeforeAfter": "三条概括封套 → 13队列/两独立观察的具体所有权、入口和原执行非零诊断边界；原quote不动。",
+      "reviewedLines": "full before 132 and candidate 142 lines; dependencies scoped below",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "open",
@@ -128,26 +267,163 @@
           "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
           "sha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
           "scope": "full UTF-8 source"
+        },
+        {
+          "path": "docs/ops/audits/architecture-debt.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+          "scope": "full before document and preserved history; prior source claim retained without forced recertification"
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "13fdb3d3546068be4c241449a45d3be08253d958e64388de48665ff0907249be",
+          "readScope": "target/acceptance/history boundary and related quote passages; not all implementation claims reverified"
+        },
+        {
+          "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "268e13831b434f51a86197d10715434b23f9292569de7d82dc31f067a155bb9e",
+          "readScope": "full document including original 50-line source"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-governance.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "readScope": "current prose before preserved original quote; route/authority only"
+        },
+        {
+          "path": "docs/ops/agent-workflow.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+          "readScope": "full current workflow"
+        },
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+          "readScope": "full current rules and preserved quote"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "audits",
-        "currentBoundary": "current task cards and fresh evidence own truth"
+        "currentBoundary": "governance/navigation only; no product or historical execution reauthentication"
       },
-      "dependencies": "Current task cards, code/test evidence and the audit index.",
+      "dependencies": [
+        "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+        "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
       "versionScope": {
-        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
-        "date": "2026-10-17",
-        "validity": "open"
+        "reviewBase": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "lastReviewed": "2026-10-24",
+        "historicalDates": "2026-09-24..09-26 architecture; 2026-10-18 evidence navigation; explicit original candidates retained"
       },
       "counterReworkBlocked": [
         {
-          "id": "R54-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S36-NONAUTHOR-PENDING",
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
         }
-      ]
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Existing audit-report-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+      },
+      "currentAuthoredReview": {
+        "task": "S36",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/audits/architecture-debt.md"],
+          "fixedBefore": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "staticSourceRefs": [
+            {
+              "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+              "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+              "sha256": "13fdb3d3546068be4c241449a45d3be08253d958e64388de48665ff0907249be",
+              "readScope": "target/acceptance/history boundary and related quote passages; not all implementation claims reverified"
+            },
+            {
+              "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+              "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+              "sha256": "268e13831b434f51a86197d10715434b23f9292569de7d82dc31f067a155bb9e",
+              "readScope": "full document including original 50-line source"
+            },
+            {
+              "path": "docs/ops/audits/code-quality-governance.md",
+              "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+              "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+              "readScope": "current prose before preserved original quote; route/authority only"
+            },
+            {
+              "path": "docs/ops/agent-workflow.md",
+              "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+              "sha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+              "readScope": "full current workflow"
+            },
+            {
+              "path": "docs/phase2/READ-FIRST.md",
+              "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+              "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+              "readScope": "full current rules and preserved quote"
+            }
+          ]
+        },
+        "preservation": {
+          "tailSha256": "22799a031efa64573558c6ad4bc2caf73e718f19d4e3f86fca340d6b8fe90ee7",
+          "tailByteEqual": true,
+          "inverseRule": "drop-exact-final-quoted-empty-line",
+          "inverseBytes": 11911,
+          "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
+          "sourceGitObject": "3878b5db8850d23fad881e98e5be9d6a11065602"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S36-audit-navigation",
+          "revision": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "scope": "S36 three actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Six explicitly owned after dependencies (three author/three administrative) only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+          "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871"
+        }
+      ],
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "9ecf809892d6b21aa1dda2fb0f0826f9a4018f7c",
+        "afterSha256": "f5743a8138eff171d68a52036bb7c6c24dca4784952f8d9376a1a7c89dddc871",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/4",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/audits/README.md",
@@ -156,53 +432,69 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R54 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "audits/README.md：current ops audit navigation index; preserve canonical links, ownership and execution boundary.",
-      "truthAnchors": ["docs/ops/audits/README.md:1", "docs/ops/audits/README.md:7"],
-      "unresolved": [
-        "Index links are navigation only; each target owns its current state and evidence boundary."
+      "readMethod": "Author full document/source review in S35; GLM non-author evidence acceptance with scoped source checks; S39 Owner applies only this accepted current SHA, no runtime/historical reexecution",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "ops审计导航用六个可见入口区分架构队列、代码治理路线、逐文件账本、pre-E2E只读发现、修复总览与历史归档；原四个分类目的地均在quote外，计数回到真实账本consumer。导航current不替旧审计续期、不把只读发现当修复，也不授新build或产品执行通过。",
+      "truthAnchors": [
+        "docs/ops/audits/README.md#目的",
+        "docs/ops/audits/README.md#原文保全",
+        "docs/ops/audits/architecture-debt.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/pre-e2e/README.md",
+        "docs/ops/audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation-model.md"
       ],
-      "nextStep": "继续按 source/after SHA 和 consumer 逐篇治理，并为无 consumer 候选建立可逆清理记录。",
+      "unresolved": [
+        "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+      ],
+      "nextStep": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims.",
       "phase": "ops",
       "module": "audits",
       "capability": "README",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S35正文作者；nonAuthorReviewer=false）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
         {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+          "date": "2026-10-24",
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S35",
+          "nonAuthorReviewer": false,
+          "base": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "four full Markdown documents and exact original sources; source dependencies scoped below"
         }
       ],
       "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-      "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+      "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
       "publicCallers": [
-        "docs/ops/README.md → audits/README.md",
-        "task cards and governance ledgers"
+        "docs/ops/README.md（当前导航）",
+        "docs/ops/evidence/README.md（当前审计入口）"
       ],
-      "legalInputs": ["current repository documentation", "docs/ops/audits/README.md"],
+      "legalInputs": ["审计问题/模块与当前任务范围", "指定原审计候选、发现ID、原件与后继任务入口"],
       "businessOracle": {
-        "type": "ops-audit-navigation",
+        "type": "document-content-and-navigation",
         "assertions": [
-          "canonical audit links remain reachable",
-          "index does not own linked document status",
-          "no execution credit is inferred from navigation"
+          "原四类入口均直接可见，修复总览/历史归档职责另分。",
+          "发现、修复、代码账本与任务授权的事实权不相互替代。",
+          "旧quote逐字节保留；本页不复制当前全仓审计/覆盖数字。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-migrated",
+        "result": "scoped-comparison",
         "against": [
-          "docs/ops/audits/README.md",
+          "docs/ops/guides/browser-verification.md",
+          "docs/ops/guides/dev-servers.md",
+          "docs/ops/evidence/README.md",
           "docs/ops/README.md",
-          "docs/phase-governance/templates/governance-index.md"
-        ]
+          "docs/ops/agent-workflow.md"
+        ],
+        "notes": "四篇正文已全文核读：浏览器输入/服务启动/证据定位/审计定位职责互斥；只对下游标题和路径作定位核验，不声称执行报告全部排重或当前运行通过。"
       },
       "revision": {
-        "currentSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+        "currentSha": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
         "implementationSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
         "history": [
           {
@@ -217,25 +509,26 @@
             "date": "2026-10-17",
             "action": "R54 ops audits/layout template migration",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-24",
+            "action": "S35 current document bytes separated from historical implementation/source",
+            "previousCurrentSha": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+            "currentSha": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
       "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
-        "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-        "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
-        "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
-        "lineCount": 54,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 657,
-          "sourceLines": 12,
-          "sourceFinalNewline": true,
-          "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
-          "exactRoundTrip": true
-        }
+        "kind": "independently-accepted-document-version",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+        "member": "S39/GLM-body-verdict.json",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+        "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false
       },
       "history": [
         {
@@ -249,14 +542,123 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S35 authored semantic rewrite; pending non-author acceptance",
+          "beforeSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "newCredit": 0,
+          "previousReviewFields": {
+            "phaseAnchors": {
+              "phase": "ops",
+              "module": "audits",
+              "currentBoundary": "linked documents and review records own truth"
+            },
+            "versionScope": {
+              "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+              "date": "2026-10-17",
+              "validity": "current"
+            },
+            "publicCallers": [
+              "docs/ops/README.md → audits/README.md",
+              "task cards and governance ledgers"
+            ],
+            "counterReworkBlocked": [
+              {
+                "id": "R54-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              }
+            ],
+            "unresolved": [
+              "Index links are navigation only; each target owns its current state and evidence boundary.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
+            "dedupe": {
+              "result": "reviewed-and-migrated",
+              "against": [
+                "docs/ops/audits/README.md",
+                "docs/ops/README.md",
+                "docs/phase-governance/templates/governance-index.md"
+              ]
+            }
+          }
+        },
+        {
+          "date": "2026-10-24",
+          "action": "S39 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+          "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+          "previousCurrentFields": {
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "readMethod": "S35全文核读本篇当前正文与固定Git原源；按声明范围核源码/依赖入口；作者自验，待非作者接受",
+            "unresolved": [
+              "S35候选等待未参与者对四篇正文、来源/quote及静态事实的证据验收；原R批撤信不由作者自验关闭。"
+            ],
+            "nextStep": "由未参与者按S35证据验收正文/保全/静态事实后再决定四篇语义及迁移信用；不等同S34接受或212发布。",
+            "stopLine": "作者不得自签独立接受；旧counter/source/quote保持，未跑runtime/E2E/视觉/coverage不授信用。",
+            "counterReworkBlocked": [
+              {
+                "id": "S35-INDEPENDENT-PENDING",
+                "status": "pending",
+                "statement": "四篇作者正文与字段级静态核验已做，未参与者尚未接受，不授迁移/审阅完成。"
+              },
+              {
+                "id": "S35-NO-EXECUTION",
+                "status": "not-in-scope",
+                "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
+              }
+            ],
+            "evidence": {
+              "kind": "document-template-migration",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+              "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+              "candidateSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+              "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+              "lineCount": 54,
+              "artifactPreserved": false,
+              "originalPreservation": {
+                "method": "line-by-line blockquote quote",
+                "sourceBytes": 657,
+                "sourceLines": 12,
+                "sourceFinalNewline": true,
+                "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+                "exactRoundTrip": true
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            }
+          },
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "historicalClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "do not treat navigation index or linked historical reports as current execution acceptance",
-      "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
-      "reviewedLines": "1-54",
+      "stopLine": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit.",
+      "userVisibleBeforeAfter": "必要入口多在历史quote、当前与旧候选易混 → 可见职责导航并回原任务/consumer裁定；原件及旧时点结论保留。",
+      "reviewedLines": "本篇before 54行与固定source 12行全文；候选 59行；依赖为下述限定读域",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -268,87 +670,269 @@
           "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
           "sha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
           "scope": "full UTF-8 source"
+        },
+        {
+          "path": "docs/ops/audits/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "scope": "S35 full before-document and preserved quote carrier"
+        },
+        {
+          "path": "docs/ops/audits/architecture-debt.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-governance.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/code-quality-file-ledger.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/README.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4f41a1844fad7acd110ca08698a4715baa245146ad740ad47d7c11f0417652a6",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/audits/pre-e2e/summary.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "4220a60cb3a2e6ff3448a17f951e396b023b0f7721d2c34fbce2c6344a4a7165",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+        },
+        {
+          "path": "docs/ops/guides/documentation-model.md",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "sha256": "6693436c5999ce131b539da9b7f84bf3d4572828b209b890b5f523701cbc5068",
+          "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "module": "audits",
-        "currentBoundary": "linked documents and review records own truth"
+        "appliesTo": ["cross-phase-navigation"],
+        "currentBoundary": "本页只维护静态操作/导航；各目标按自己的阶段与候选承担事实权，不代替产品执行。"
       },
-      "dependencies": "Architecture debt audit, pre-E2E audit, current task cards and evidence consumer.",
+      "dependencies": [
+        "docs/ops/audits/architecture-debt.md",
+        "docs/ops/audits/code-quality-governance.md",
+        "docs/ops/audits/code-quality-file-ledger.md",
+        "docs/ops/audits/pre-e2e/README.md",
+        "docs/ops/audits/pre-e2e/summary.md",
+        "docs/ops/guides/documentation-model.md"
+      ],
       "versionScope": {
-        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
-        "date": "2026-10-17",
-        "validity": "current"
+        "historicalSourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+        "historicalSourceDate": "2026-10-17",
+        "currentStaticSourceRevision": "b2f3d839297c1e68835db906b47eec609dd36870",
+        "lastReviewed": "2026-10-24",
+        "validity": "current instructions/navigation; static review only"
       },
       "counterReworkBlocked": [
         {
-          "id": "R54-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+          "id": "S35-INDEPENDENT-PENDING",
+          "status": "resolved",
+          "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+          "acceptedCandidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+          "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20"
+        },
+        {
+          "id": "S35-NO-EXECUTION",
+          "status": "not-in-scope",
+          "statement": "未启动服务、未运行publication或浏览器/产品/E2E/视觉/coverage；静态指南无需伪造这些结果。"
         }
-      ]
+      ],
+      "currentAuthoredReview": {
+        "task": "S35",
+        "date": "2026-10-24",
+        "nonAuthorReviewer": false,
+        "decision": "pending-independent-acceptance",
+        "readDomain": {
+          "fullDocuments": ["docs/ops/audits/README.md"],
+          "fixedSourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+          "dependencies": "Targeted code ranges and visible target headers/paths only; not a full product or downstream evidence audit",
+          "staticSourceRefs": [
+            {
+              "path": "docs/ops/audits/architecture-debt.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/code-quality-governance.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/README.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "4f41a1844fad7acd110ca08698a4715baa245146ad740ad47d7c11f0417652a6",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/audits/pre-e2e/summary.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "4220a60cb3a2e6ff3448a17f951e396b023b0f7721d2c34fbce2c6344a4a7165",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            },
+            {
+              "path": "docs/ops/guides/documentation-model.md",
+              "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+              "sha256": "6693436c5999ce131b539da9b7f84bf3d4572828b209b890b5f523701cbc5068",
+              "readScope": "target header/path or declared policy lookup only; not full downstream evidence review"
+            }
+          ]
+        },
+        "quote": {
+          "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
+          "sourceGitObject": "e93ae5d6b29c2e6593e925109b33e8c18e95d022",
+          "tailSha256": "012c9a46edeb532030d507290b187f5d4f329075fc7df677b1260a0ee94ab510",
+          "tailByteEqual": true,
+          "inverseRule": "drop-exact-final-quoted-empty-line",
+          "separatorCount": 0,
+          "quotedSeparatorCount": 1,
+          "inverseBytes": 657,
+          "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275"
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-24",
+          "task": "DOCS-FULL-TEMPLATE-1/S35-ops-guides",
+          "revision": "b2f3d839297c1e68835db906b47eec609dd36870",
+          "scope": "S35 four actual Markdown semantic author candidates, non-author acceptance pending; original source/statuses/provenance/history and all other rows preserved. Nine explicitly owned body/review after dependencies only; no S34 credit or 212 publication",
+          "newSemanticCredit": 0,
+          "newTemplateMigrationCredit": 0,
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false,
+          "beforeSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
+          "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a"
+        }
+      ],
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Existing governance-index-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "GLM",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "candidate": "601cd5af1e6db54a15144a94f9f63857b4c88050",
+        "afterSha256": "e97de34eb23bf84224f7fac622cdeeb16969c6326c9b09ed370f9e78d4bb662a",
+        "reportSha256": "42d7a490166f51f9dd2265d7dd548735106298d8b4b94ce8d00e65368f1fed20",
+        "readDomain": {
+          "authorRecordField": "currentAuthoredReview.readDomain",
+          "nonAuthorVerdictPointer": "/verdicts/3",
+          "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S39",
+          "date": "2026-10-24",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      }
     },
     {
       "path": "docs/ops/archive/ops-governance-layout-20261004.json",
       "contentReviewStatus": "content-reviewed",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "template": "evidence-receipt.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "ops-governance-layout-20261004.json：historical machine layout record; original fields and bytes remain unchanged and deletion is deferred pending consumer audit.",
+      "readMethod": "原生字段投影逐条语义核读（43条映射/双SHA）+同值政策去重阅读+旧review历史边界核读；非3170行逐字全文",
+      "reviewDepth": "partial-semantic",
+      "coreConclusion": "ops-governance-layout-20261004 保存 43 条历史路径归属：1 board-history、39 audit-tool、3 task-evidence，rootWhitelist 九项；sourceRevision=0438dcfd…与appliedRevision=working-tree-finalized 为其历史声明。当前保存的43条 from/to 均相等，是已收口映射形态，不应直接重放成新迁移计划。十条 entry.afterSha256 与嵌套 evidence.afterSha256 不同（indices 0/13/21/22/26/28/29/34/37/40），首条 fca8bf6e… 对 1c64a698…；两轴必须同时保留，不能刷新成相同或认证为当前磁盘SHA。",
       "truthAnchors": [
-        "docs/ops/archive/ops-governance-layout-20261004.json:1",
-        "docs/ops/archive/ops-governance-layout-20261004.json:2"
+        "docs/ops/archive/ops-governance-layout-20261004.json#/id",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/sourceRevision",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/appliedRevision",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/rootWhitelist",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/summary",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/policy",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/entries/0/afterSha256",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/entries/0/evidence/afterSha256",
+        "docs/ops/archive/ops-governance-layout-20261004.json#/entries/40"
       ],
       "unresolved": [
-        "Historical layout metadata is not a current routing or execution authorization; deletion requires consumer and successor proof."
+        "43目标当前字节及搬迁执行链未重验，双层SHA历史形成原因不在本轮推定；本稿保留差异。"
       ],
-      "nextStep": "保留机器字段和字节；完成 consumer、successor、retention deadline 审查后再决定归档或删除。",
+      "nextStep": "由未参与本稿的审者按固定载体与19键内容摘要独立复核；由Owner受控合成与状态裁定，本作者不发布、不自签接受。",
       "phase": "ops",
       "module": "archive",
       "capability": "ops-governance-layout-20261004",
-      "owner": "Codex（文档治理；不代签原执行）",
+      "owner": "Codex（S50 原生文档内容稿；不代签历史执行）",
       "provenance": [
         "source-document",
-        "full-json-structured-review",
         "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018",
         {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex contributor /root/s50_native_review_author",
+          "scope": "native carrier content proposal and declared reused evidence",
+          "contentSha256": "5980c28cd4ba70623c32f913aa9386c8b36604dcef5c38e78b136ed4ba45119e"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "actor": "Codex independent reviewer /root/s50_admission_review",
+          "nonAuthorReviewer": true,
+          "decision": "accept",
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "contentSha256": "5980c28cd4ba70623c32f913aa9386c8b36604dcef5c38e78b136ed4ba45119e"
         }
       ],
       "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
       "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
       "publicCallers": [
-        "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
-        "scripts/docs/build-ops-governance-plan.mjs",
-        "scripts/docs/enrich-ops-governance-plan.mjs",
-        "scripts/docs/finalize-ops-governance-plan.mjs"
+        "scripts/docs/historical-native-family.mjs#historicalNativeFamilyIssues（当前受控文档合同reader；固定路径准入，不是产品runtime caller）",
+        "docs/ops/archive/README.md（已读目录/父任务历史导航上下文；仅 D-map 为该 JSON 显式实链，其余不声称直接机器消费）"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/archive/ops-governance-layout-20261004.json"
+        {
+          "kind": "fixed-native-carrier",
+          "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "35e019c95185d37dcad6d2cb0515e4c46b0f92a4",
+          "sha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4"
+        }
       ],
       "businessOracle": {
-        "type": "json-artifact-envelope",
+        "type": "historical-native-document",
+        "currentExecution": false,
         "assertions": [
-          "original JSON parses",
-          "all original top-level fields remain",
-          "source and after bytes are identical",
-          "retention and consumer boundary remain explicit"
+          "43 = 1 board-history + 39 audit-tool + 3 task-evidence；根白名单9项。",
+          "43对from/to在本载体均相等，appliedRevision是working-tree-finalized字符串，不当真实Git执行提交。",
+          "10个顶层after与嵌套evidence.after差异逐值保留；不能择一改写另一轴。",
+          "policy明确 relocation 不认证 runtime/E2E/coverage；截止日期2026-11-01仅保留历史计划，不宣称完成当前留存裁决。"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-enveloped",
-        "against": [
-          "docs/ops/archive/ops-governance-layout-20261004.json",
-          "docs/ops/archive/README.md",
-          "scripts/docs/*ops-governance-plan.mjs"
-        ]
+        "result": "bounded-carrier-only-no-global-dedupe-claim",
+        "against": [],
+        "notes": "已核本载体内身份/字段结构；未全仓搜索等价证据，不声称全局无重复。"
       },
       "revision": {
         "currentSha": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
@@ -370,33 +954,513 @@
         ]
       },
       "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
-        "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
-        "candidateSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
-        "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
-        "lineCount": 3170,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable JSON artifact",
-          "sourceBytes": 136712,
-          "sourceLines": 3170,
-          "sourceFinalNewline": true,
-          "inverseSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
-          "exactRoundTrip": true,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "schemaVersion",
-            "id",
-            "generatedBy",
-            "sourceRevision",
-            "rootWhitelist",
-            "summary",
-            "entries",
-            "appliedRevision",
-            "policy"
+        "kind": "historical-native-family",
+        "family": "historical-path-map",
+        "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+        "nativeReading": {
+          "family": "historical-path-map",
+          "schemaVersion": 1,
+          "id": "ops-governance-layout-20261004",
+          "generatedBy": "scripts/docs/build-ops-governance-plan.mjs",
+          "sourceRevision": "0438dcfdd56df4c388f2ddff12a2a721c8806737",
+          "appliedRevision": "working-tree-finalized",
+          "rootWhitelist": [
+            "README.md",
+            "agent-workflow.md",
+            "archive",
+            "audits",
+            "board.md",
+            "evidence",
+            "guides",
+            "tasks",
+            "templates"
+          ],
+          "policy": "Every moved ops record keeps source/after SHA, domain/module/capability, provenance, caller, inputs, oracle, dedupe, revision, evidence, history, supersedes, deadline and stopline. Relocation does not certify runtime, E2E or coverage.",
+          "summary": {
+            "files": 43,
+            "boardHistory": 1,
+            "auditTools": 39,
+            "taskEvidence": 3
+          },
+          "entries": [
+            {
+              "from": "docs/ops/archive/board-history/board-20261004.md",
+              "to": "docs/ops/archive/board-history/board-20261004.md",
+              "kind": "board-history",
+              "sourceSha256": "b6f38aee77968f5fa7c05a22e4d16e04c6498d7a7b4353eacbf1313fcde70f16",
+              "afterSha256": "fca8bf6eb0aaf4745beb458fe1a0a1035585e4b7dbd5f2059572760a440ac4b3",
+              "evidence": {
+                "sourceSha256": "b6f38aee77968f5fa7c05a22e4d16e04c6498d7a7b4353eacbf1313fcde70f16",
+                "afterSha256": "1c64a698ee5fa1d696ff49f0274730492eeda68d1f02f38b61a160431c533c8f"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/measure-pal-save-recovery.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "6871be8f5540c3473bfe9f5450132618b73a3a32cd3891fb5f8989de3e41c022",
+              "afterSha256": "f5b3c651c9eb7e9d4bdd9d15c6f921a8f3f2a7be034ffb70a387f3e3e8e90841",
+              "evidence": {
+                "sourceSha256": "6871be8f5540c3473bfe9f5450132618b73a3a32cd3891fb5f8989de3e41c022",
+                "afterSha256": "f5b3c651c9eb7e9d4bdd9d15c6f921a8f3f2a7be034ffb70a387f3e3e8e90841"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+              "to": "docs/ops/audits/pre-e2e/tools/open-identity-probe.config.mts",
+              "kind": "audit-tool",
+              "sourceSha256": "e4b84e920644e57eb3166b5a56731682efb2040140cb23c4a70e48fa0ed36428",
+              "afterSha256": "920afb52b970877bc87cfa385cfb1cc19a10a3ecd951f0f93af54dda3530badc",
+              "evidence": {
+                "sourceSha256": "e4b84e920644e57eb3166b5a56731682efb2040140cb23c4a70e48fa0ed36428",
+                "afterSha256": "920afb52b970877bc87cfa385cfb1cc19a10a3ecd951f0f93af54dda3530badc"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-battle-core.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a",
+              "afterSha256": "1a223f7478a39bd5c5041428d99654d1d418bfb69d33763df38bd41bcef45e58",
+              "evidence": {
+                "sourceSha256": "6417b745505da51de6895dfac09fb9a2a1e3f856b47e3212277f99c5d24fd97a",
+                "afterSha256": "1a223f7478a39bd5c5041428d99654d1d418bfb69d33763df38bd41bcef45e58"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-battle-session.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "3d756cd694e53bc1874da799f2712a354d05d650096771ba571795087bc7b225",
+              "afterSha256": "e979375dfc1feb5730f2060eae0c7856413671374a777d78554114e85339c211",
+              "evidence": {
+                "sourceSha256": "3d756cd694e53bc1874da799f2712a354d05d650096771ba571795087bc7b225",
+                "afterSha256": "e979375dfc1feb5730f2060eae0c7856413671374a777d78554114e85339c211"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-canonical-async.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb",
+              "afterSha256": "d9d1ec96f06ce7887fcec593f634c54b1e4481d1c6f4f8e80fb45e9a6474a4e6",
+              "evidence": {
+                "sourceSha256": "5ef1d8cf385d954f527d4caab6bc3319adb06c10bda81e773506daab7d7231eb",
+                "afterSha256": "d9d1ec96f06ce7887fcec593f634c54b1e4481d1c6f4f8e80fb45e9a6474a4e6"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.config.mts",
+              "kind": "audit-tool",
+              "sourceSha256": "2939dba3070159b3dd49620207c6c29bd63b248407f930cd4b9834d871672693",
+              "afterSha256": "941cb1e27cc1b0155e0be22dc9bd73a1c273ca2d943d00e54e64f91e5e764c19",
+              "evidence": {
+                "sourceSha256": "2939dba3070159b3dd49620207c6c29bd63b248407f930cd4b9834d871672693",
+                "afterSha256": "941cb1e27cc1b0155e0be22dc9bd73a1c273ca2d943d00e54e64f91e5e764c19"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-coverage-timing.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "3163a898a0cd5d0597eca50fb04e2f2296dcab218e0cb5722172673f0e577fcf",
+              "afterSha256": "d45def810d3c4c60fc6c378e781b6230f01df33b1799731d43d4adf6f2bd34a6",
+              "evidence": {
+                "sourceSha256": "3163a898a0cd5d0597eca50fb04e2f2296dcab218e0cb5722172673f0e577fcf",
+                "afterSha256": "d45def810d3c4c60fc6c378e781b6230f01df33b1799731d43d4adf6f2bd34a6"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-history.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "64b5b494e1bc4548395c80e1622e06f4324353a081c60c177090171410b45feb",
+              "afterSha256": "080c912ee712b58618cb561cde0cfcaefbe16a17bdaaa0beaa0d79de4c766ed5",
+              "evidence": {
+                "sourceSha256": "64b5b494e1bc4548395c80e1622e06f4324353a081c60c177090171410b45feb",
+                "afterSha256": "080c912ee712b58618cb561cde0cfcaefbe16a17bdaaa0beaa0d79de4c766ed5"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-persistence.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "9584582499edd51b80eb6dbfa209d03e5f9d453e834c721ff93c24376ae16252",
+              "afterSha256": "c762a93f6c729c73612c56b2c1b83d6eb6504f0a328650bf5d8a4c08e0c8e140",
+              "evidence": {
+                "sourceSha256": "9584582499edd51b80eb6dbfa209d03e5f9d453e834c721ff93c24376ae16252",
+                "afterSha256": "c762a93f6c729c73612c56b2c1b83d6eb6504f0a328650bf5d8a4c08e0c8e140"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-reference-delete.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "9e39bd2a48d5eaa8771978d4b169cd1774565849bb13f749d579bff98bad32c6",
+              "afterSha256": "7099266fd8bffa78593e4e4746ac1df82e37f65db0cc2c5ff9ac6da6a1142c3c",
+              "evidence": {
+                "sourceSha256": "9e39bd2a48d5eaa8771978d4b169cd1774565849bb13f749d579bff98bad32c6",
+                "afterSha256": "7099266fd8bffa78593e4e4746ac1df82e37f65db0cc2c5ff9ac6da6a1142c3c"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-save-recovery.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "8f22fe939cc10d12b154b2678e7ca6bce31a3b5217aeede13b080ff488eff777",
+              "afterSha256": "a61bc9f779aa5e38319911415433de7dfa7df86cb6cc44e855f6b58d53a8399a",
+              "evidence": {
+                "sourceSha256": "8f22fe939cc10d12b154b2678e7ca6bce31a3b5217aeede13b080ff488eff777",
+                "afterSha256": "a61bc9f779aa5e38319911415433de7dfa7df86cb6cc44e855f6b58d53a8399a"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-sprite-upload.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "8ecfe851892648964e6baf6eb06b1b64df616cf5285c0dba305a5cbc10e4ea3a",
+              "afterSha256": "f74a4cd2ba592b8c7f7232b21944b9e0bd132c09c7c1e697c26303a10e2b9cc1",
+              "evidence": {
+                "sourceSha256": "8ecfe851892648964e6baf6eb06b1b64df616cf5285c0dba305a5cbc10e4ea3a",
+                "afterSha256": "f74a4cd2ba592b8c7f7232b21944b9e0bd132c09c7c1e697c26303a10e2b9cc1"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-editor-trial.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "9fdc2e53af01fdedd6518a900241050868dd4d27b616eb8e20487ccde9c1d89b",
+              "afterSha256": "2f7957946e41bf52852780d1a791dcf5baba8470d7af8210043dae2f90486c43",
+              "evidence": {
+                "sourceSha256": "9fdc2e53af01fdedd6518a900241050868dd4d27b616eb8e20487ccde9c1d89b",
+                "afterSha256": "f994df5156c2659eaef957a7055ab83f00294552099dbfccb743fa30fa5b87dd"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-cache-prep.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "f51fd9de243654e0d57925bd4e8a6c1838fdbfc5352197926dbfdb515b64c736",
+              "afterSha256": "561ca6e386f95da3e7d3b5c20daf49111ed8fc6f3e75344456735a0b91d2d0bc",
+              "evidence": {
+                "sourceSha256": "f51fd9de243654e0d57925bd4e8a6c1838fdbfc5352197926dbfdb515b64c736",
+                "afterSha256": "561ca6e386f95da3e7d3b5c20daf49111ed8fc6f3e75344456735a0b91d2d0bc"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-history-prep.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "636efcaee2f660c4ef12daefaf617915e84bc832461fae350e88b36c133777f7",
+              "afterSha256": "bb95c7b39a1ab4afc4fe14a7c0f146e87f8aa68f01366f07d55dd70769e8f570",
+              "evidence": {
+                "sourceSha256": "636efcaee2f660c4ef12daefaf617915e84bc832461fae350e88b36c133777f7",
+                "afterSha256": "bb95c7b39a1ab4afc4fe14a7c0f146e87f8aa68f01366f07d55dd70769e8f570"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-async.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "47df0255d8db7d94609b7aeab94214a164cdd93d4588d7a727d87395a76254b2",
+              "afterSha256": "ea2b757c2b235021f04c08a930e7c9e5e3dcc3fc4c115384db7a02fd10420f05",
+              "evidence": {
+                "sourceSha256": "47df0255d8db7d94609b7aeab94214a164cdd93d4588d7a727d87395a76254b2",
+                "afterSha256": "ea2b757c2b235021f04c08a930e7c9e5e3dcc3fc4c115384db7a02fd10420f05"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-barrier.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "61a1d9be48fb7ea2a0056bce87193103bfc24272ff0801fcff98f532d0e7fd89",
+              "afterSha256": "f8a9fd8c6222f15cbcfdcc7273abcac8dc7f36f6a7a72f652eb3b7e0b7673dfa",
+              "evidence": {
+                "sourceSha256": "61a1d9be48fb7ea2a0056bce87193103bfc24272ff0801fcff98f532d0e7fd89",
+                "afterSha256": "f8a9fd8c6222f15cbcfdcc7273abcac8dc7f36f6a7a72f652eb3b7e0b7673dfa"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-actions.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "30af29676c037988e1d724b1a8cc0c85ffc144f8df53aef1ea6f8002639cdade",
+              "afterSha256": "46e106184baee016325e4183277eae9811ed0af748e690ede9e122ef207aafad",
+              "evidence": {
+                "sourceSha256": "30af29676c037988e1d724b1a8cc0c85ffc144f8df53aef1ea6f8002639cdade",
+                "afterSha256": "46e106184baee016325e4183277eae9811ed0af748e690ede9e122ef207aafad"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-battle-result.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "0b0e28694bdd474b94e272149219a55f64a9532ba59fffb9dc19753ca3b386a1",
+              "afterSha256": "4b7d7de02cf87b498b1009fb8c1ef64fef86f26f32a120313b613e5ce1e7d0ec",
+              "evidence": {
+                "sourceSha256": "0b0e28694bdd474b94e272149219a55f64a9532ba59fffb9dc19753ca3b386a1",
+                "afterSha256": "4b7d7de02cf87b498b1009fb8c1ef64fef86f26f32a120313b613e5ce1e7d0ec"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-coverage.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "c32d0e2e93bf780435705d1ddc198f24eb67e498779ee4ed3bdcfcb27b922838",
+              "afterSha256": "2f715017aa4a9cbd61852d3bfabbe324767e795207b20a1f49ff6645473c973b",
+              "evidence": {
+                "sourceSha256": "c32d0e2e93bf780435705d1ddc198f24eb67e498779ee4ed3bdcfcb27b922838",
+                "afterSha256": "2f715017aa4a9cbd61852d3bfabbe324767e795207b20a1f49ff6645473c973b"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-migration.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "83626fcfc397bd63441f2185455a5a9e1f5bdd21a64274e3fc9ba324863918fc",
+              "afterSha256": "a9bcb0f0b2fe4685ce019955163ea4a6112f0c35e435a7995cf046bc5bddaa60",
+              "evidence": {
+                "sourceSha256": "83626fcfc397bd63441f2185455a5a9e1f5bdd21a64274e3fc9ba324863918fc",
+                "afterSha256": "8fb98e92b79c6b8ff898d637dc18f544ac9de8262e509ed93c31974d7964f196"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next-support.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "605779e24b708778decff766be299a7cb853c3b13c3f22b5744782812ffc9dd0",
+              "afterSha256": "83f977dc3af031ff69dc3fb760155e92c10cb419050d510152250d3d8986d470",
+              "evidence": {
+                "sourceSha256": "605779e24b708778decff766be299a7cb853c3b13c3f22b5744782812ffc9dd0",
+                "afterSha256": "bad75175a76c20e2adc303b949e71eb0226fcdbe6828c2c27dafe89e94bfe429"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-next.config.mts",
+              "kind": "audit-tool",
+              "sourceSha256": "52557eecf8d8f421f4e73d656c85de3b967acff18e36f9e7e005e7e90e3be4f4",
+              "afterSha256": "f0cf0450353e6de3acd61a927765d272c5802cfb70f30fd74fb64fe2e9b3dd31",
+              "evidence": {
+                "sourceSha256": "52557eecf8d8f421f4e73d656c85de3b967acff18e36f9e7e005e7e90e3be4f4",
+                "afterSha256": "f0cf0450353e6de3acd61a927765d272c5802cfb70f30fd74fb64fe2e9b3dd31"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-reference-prep.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "7eb838986fe2d1c6b36fe5517dbfd397137111078fd2a706a3709bad7875a036",
+              "afterSha256": "a084887f8928d26f576e4799059cec7aebe07a1034a7ee5389dcaaa812b3253d",
+              "evidence": {
+                "sourceSha256": "7eb838986fe2d1c6b36fe5517dbfd397137111078fd2a706a3709bad7875a036",
+                "afterSha256": "a084887f8928d26f576e4799059cec7aebe07a1034a7ee5389dcaaa812b3253d"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-glm-upload-prep.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "0b38d56b5732377b66248d56452e8311fea9772ceed18cc4a6ebd601a78e6061",
+              "afterSha256": "e1ab0dc564f2515a281b78986f9cbd069d8da5b1bc4b6942c9a8c2b7e096e7f7",
+              "evidence": {
+                "sourceSha256": "0b38d56b5732377b66248d56452e8311fea9772ceed18cc4a6ebd601a78e6061",
+                "afterSha256": "e1ab0dc564f2515a281b78986f9cbd069d8da5b1bc4b6942c9a8c2b7e096e7f7"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-migration-boundaries.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a",
+              "afterSha256": "4a2e7c67fae622e74f6d8845a91d4d37f56b40858c1c01dd0d6aaff964197921",
+              "evidence": {
+                "sourceSha256": "63bccc81b363e9654cac16c7654a7bcca9c77c9b3e034818b0c3a65767568a2a",
+                "afterSha256": "e410c18ac4ce4dda865a392f57b999bcc26af338bbb377c05ee0059738b9fea6"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-open-identity-boundaries.test.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "706a7fb6d14580e66f67f2fc8f5fc7a5594eb30677ee1584aa88a0fa29799ac6",
+              "afterSha256": "acfe43dc648494e15cd78af2ad9b08dde9ef4ef654cefb24191dbb484b8a35ac",
+              "evidence": {
+                "sourceSha256": "706a7fb6d14580e66f67f2fc8f5fc7a5594eb30677ee1584aa88a0fa29799ac6",
+                "afterSha256": "acfe43dc648494e15cd78af2ad9b08dde9ef4ef654cefb24191dbb484b8a35ac"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-battle.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68",
+              "afterSha256": "966a111af25ef388f9d1f7e052eb3ec7d13c42587c34f5a2ebe6fd451f85bc03",
+              "evidence": {
+                "sourceSha256": "774e12ecb1545e40c87ac5ad250039666ae2fb69fb133ada0c79f97af706db68",
+                "afterSha256": "44d92b83915bff1b490d2941cafc334dbf5fa5d4a1e3a18667a820d55bf0d668"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-phase1-world-lifecycle.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677",
+              "afterSha256": "b59a40c5b6874fad502ef0bd011142c94b51a714c119476e6c3c431a2e679f13",
+              "evidence": {
+                "sourceSha256": "a7741ea2787e8ca5ba741006cc0e8b12806a654ee11bd174f63ef30fd3eb2677",
+                "afterSha256": "5b6383605b43cf63e58dd34dec6d32df27f39149b4a2db87f31cdc529a899529"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-precache-progress.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766",
+              "afterSha256": "1218454a701f1f67625b7b478de61bd4ea9b483d72e50c396a371b1452edf250",
+              "evidence": {
+                "sourceSha256": "013a26905bd50a92a31c0dc257357e248e2cffa95f0d4d6a34b0a8a15e1ed766",
+                "afterSha256": "1218454a701f1f67625b7b478de61bd4ea9b483d72e50c396a371b1452edf250"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-preview-cache.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "b651829cb0ed3ba3cd89b1ffd876bc3fe53af832351f5014b3a7a2831085270e",
+              "afterSha256": "4cfbb0f4c84d8ebd2f24fc99ef98a53be44b755de79a6f709e832f0ebd3318da",
+              "evidence": {
+                "sourceSha256": "b651829cb0ed3ba3cd89b1ffd876bc3fe53af832351f5014b3a7a2831085270e",
+                "afterSha256": "4cfbb0f4c84d8ebd2f24fc99ef98a53be44b755de79a6f709e832f0ebd3318da"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-reforge-restore.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8",
+              "afterSha256": "9742ca9e2c91d151c92f7ced1c7cdf49b41f6fc6406b805ed93b16418934f601",
+              "evidence": {
+                "sourceSha256": "f188289d0972846ed28906138d7cba4f14bd2eb05cb1327fc2d2cf9c50f3b5c8",
+                "afterSha256": "9742ca9e2c91d151c92f7ced1c7cdf49b41f6fc6406b805ed93b16418934f601"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-save-barrier-family.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "dc9351e6b4031b1eb29e981d5197253b84c4490f15614a66b73f89ff3e66a5c6",
+              "afterSha256": "7c083ff3b0114abc0a62eca41708d541798017e2e083d3869588c493f6773164",
+              "evidence": {
+                "sourceSha256": "dc9351e6b4031b1eb29e981d5197253b84c4490f15614a66b73f89ff3e66a5c6",
+                "afterSha256": "7c083ff3b0114abc0a62eca41708d541798017e2e083d3869588c493f6773164"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-save-boundaries.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5",
+              "afterSha256": "5703d141b66d1b81507242c6ea456e67066d9a82c04f936abcd6f3b3ae715e85",
+              "evidence": {
+                "sourceSha256": "60b65efbb3ef49dd3ee02d3e22a8b25d8a98dda186389844d354a24dae4bc4c5",
+                "afterSha256": "ae6a40a0c5e4716cd003bc2c1ca48954c1b5209dfe53c73d020cc221d1840f00"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-scene-preflight.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9",
+              "afterSha256": "7526fd127538242dd77c18bd5dd482de401d81940384a3b76665d2d137a7e05a",
+              "evidence": {
+                "sourceSha256": "ca5a41d86e9e4dd49a4e96730f1b3fca5fa1b359f35d26b9f55ae5136d37ecb9",
+                "afterSha256": "7526fd127538242dd77c18bd5dd482de401d81940384a3b76665d2d137a7e05a"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.config.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "9f90a9b9fb893466ccfff02d99dc86bd3833108c108f49bd1a450dbaf0e34dfa",
+              "afterSha256": "c6e36e06d2b8723ec76a5f94638b7931af5a9d229d380063b4acb180375e47d1",
+              "evidence": {
+                "sourceSha256": "9f90a9b9fb893466ccfff02d99dc86bd3833108c108f49bd1a450dbaf0e34dfa",
+                "afterSha256": "c6e36e06d2b8723ec76a5f94638b7931af5a9d229d380063b4acb180375e47d1"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "9404582dd2f4f241108e3114b7ca4994ae9a63d063186a49a66ce1922bff6973",
+              "afterSha256": "676c2a0475899284ab4d70e90231856e6cf685a464a0fa029893afe04729b6d7",
+              "evidence": {
+                "sourceSha256": "9404582dd2f4f241108e3114b7ca4994ae9a63d063186a49a66ce1922bff6973",
+                "afterSha256": "54a94babdc34ec876f46c224f31751e026e43bb279a1f2cc0ea03cc62bd4b600"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+              "to": "docs/ops/audits/pre-e2e/tools/probe-test-gates.setup.ts",
+              "kind": "audit-tool",
+              "sourceSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+              "afterSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+              "evidence": {
+                "sourceSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae",
+                "afterSha256": "60f2b2e77a09004093af18cf8d6ebf238f9dae40832fda2b80719fe1f3f953ae"
+              }
+            },
+            {
+              "from": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+              "to": "docs/ops/audits/pre-e2e/tools/verify-pal-save-recovery.mjs",
+              "kind": "audit-tool",
+              "sourceSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+              "afterSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+              "evidence": {
+                "sourceSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb",
+                "afterSha256": "628f34baf12ae0e23149b3683956770912c8648874e33ce6e5c5d1af20faa6cb"
+              }
+            },
+            {
+              "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+              "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
+              "kind": "task-evidence",
+              "sourceSha256": "a98af3e02d40e990a2361b499197b2191de9406753fb5b98b4fd0c55bb3e6348",
+              "afterSha256": "d1d4f04edc42db69d8a7a7f753db77876dc3a42338e2a25c3214ba84e2a84d1c",
+              "evidence": {
+                "sourceSha256": "a98af3e02d40e990a2361b499197b2191de9406753fb5b98b4fd0c55bb3e6348",
+                "afterSha256": "b27a3473cd64ac3ef008ff01a3ad03d0ada4c5f8cc4a4de7548b0702d1160c8e"
+              }
+            },
+            {
+              "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+              "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/mutants.mjs",
+              "kind": "task-evidence",
+              "sourceSha256": "9222b427eb2c0ee53129141d8549f679a13da7fb86f91e9d9e7c3b51d5488523",
+              "afterSha256": "e8da773dcbfe3f331d4443dbaf0863d22758087d2e92312327fa29544d93f9d3",
+              "evidence": {
+                "sourceSha256": "9222b427eb2c0ee53129141d8549f679a13da7fb86f91e9d9e7c3b51d5488523",
+                "afterSha256": "e8da773dcbfe3f331d4443dbaf0863d22758087d2e92312327fa29544d93f9d3"
+              }
+            },
+            {
+              "from": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+              "to": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/gen-ledger.mjs",
+              "kind": "task-evidence",
+              "sourceSha256": "66eca8bd205d26b0d1f8c653e007fdfb7fe4f3cbb218671df42a979775cf8a95",
+              "afterSha256": "2ad877a41bbcacd67021d4084d67bbad8b9ef693d9cc82994082b3c89db9cff3",
+              "evidence": {
+                "sourceSha256": "66eca8bd205d26b0d1f8c653e007fdfb7fe4f3cbb218671df42a979775cf8a95",
+                "afterSha256": "2ad877a41bbcacd67021d4084d67bbad8b9ef693d9cc82994082b3c89db9cff3"
+              }
+            }
           ]
-        }
+        },
+        "runtimeExecutionPerformed": false,
+        "historicClaimsReexecuted": false,
+        "creditGranted": 0
       },
       "history": [
         {
@@ -410,17 +1474,137 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-25",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "action": "new native-document content acceptance; old withdrawn claims remain historical",
+          "sourceRevision": "52cc1bd530998990dbfeff18b347b854a37796ae",
+          "previousCurrentFields": {
+            "owner": "Codex（文档治理；不代签原执行）",
+            "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+            "truthAnchors": [
+              "docs/ops/archive/ops-governance-layout-20261004.json:1",
+              "docs/ops/archive/ops-governance-layout-20261004.json:2"
+            ],
+            "primarySource": [
+              {
+                "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+                "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+                "sha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+                "scope": "full JSON artifact"
+              }
+            ],
+            "legalInputs": [
+              "current repository documentation",
+              "docs/ops/archive/ops-governance-layout-20261004.json"
+            ],
+            "businessOracle": {
+              "type": "json-artifact-envelope",
+              "assertions": [
+                "original JSON parses",
+                "all original top-level fields remain",
+                "source and after bytes are identical",
+                "retention and consumer boundary remain explicit"
+              ]
+            },
+            "evidence": {
+              "kind": "json-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r54-ops-audits-layout-20261017.json",
+              "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+              "candidateSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+              "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+              "lineCount": 3170,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 136712,
+                "sourceLines": 3170,
+                "sourceFinalNewline": true,
+                "inverseSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+                "exactRoundTrip": true,
+                "topLevelShape": "object",
+                "topLevelFields": [
+                  "schemaVersion",
+                  "id",
+                  "generatedBy",
+                  "sourceRevision",
+                  "rootWhitelist",
+                  "summary",
+                  "entries",
+                  "appliedRevision",
+                  "policy"
+                ]
+              },
+              "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+            },
+            "versionScope": {
+              "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
+              "date": "2026-10-17",
+              "validity": "historical-artifact"
+            },
+            "publicCallers": [
+              "docs/ops/archive/README.md → ops-governance-layout-20261004.json",
+              "scripts/docs/build-ops-governance-plan.mjs",
+              "scripts/docs/enrich-ops-governance-plan.mjs",
+              "scripts/docs/finalize-ops-governance-plan.mjs"
+            ],
+            "dedupe": {
+              "result": "reviewed-and-enveloped",
+              "against": [
+                "docs/ops/archive/ops-governance-layout-20261004.json",
+                "docs/ops/archive/README.md",
+                "scripts/docs/*ops-governance-plan.mjs"
+              ]
+            },
+            "unresolved": [
+              "Historical layout metadata is not a current routing or execution authorization; deletion requires consumer and successor proof.",
+              "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+            ],
+            "stopLine": "do not delete or reinterpret historical layout JSON until all consumers, successor links, retention and SHA are independently closed",
+            "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+            "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+            "reviewDepth": "structured-content",
+            "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+            "contentReviewStatus": "partial-review-unknown",
+            "templateCompliance": "needs-migration",
+            "docType": "archive-record",
+            "templateId": "archive-record-v1",
+            "template": "docs/phase-governance/templates/archive-record.md",
+            "templateVersion": "1.0.0",
+            "historyOverlay": false,
+            "documentStatus": "historical-artifact",
+            "claimCorrection": {
+              "date": "2026-10-18",
+              "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+              "priorRecordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+              "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+              "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+              "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+            }
+          },
+          "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+          "runtimeExecutionPerformed": false,
+          "historicClaimsReexecuted": false
         }
       ],
       "supersedes": [
         "governed-legacy presentation; original source retained with SHA and successor boundary"
       ],
-      "stopLine": "do not delete or reinterpret historical layout JSON until all consumers, successor links, retention and SHA are independently closed",
+      "stopLine": "固定载体/Git来源/受保护review位置有任何漂移即停；不得改原生机器字段、补造缺失值、刷新历史SHA洗白或据本稿授runtime/迁移信用。",
       "userVisibleBeforeAfter": "原始 layout JSON 字段和字节保持 → registry/review 增加 archive-record artifact envelope、SHA、字段清单和清理边界。",
-      "reviewedLines": "1-3170",
+      "reviewedLines": 0,
       "templateVersion": "1.0.0",
       "historyOverlay": false,
-      "documentStatus": "historical-artifact",
+      "documentStatus": "historical",
       "sourceGitRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
       "candidateSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
       "primarySource": [
@@ -429,6 +1613,12 @@
           "revision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
           "sha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
           "scope": "full JSON artifact"
+        },
+        {
+          "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+          "revision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+          "gitObject": "35e019c95185d37dcad6d2cb0515e4c46b0f92a4",
+          "sha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4"
         }
       ],
       "phaseAnchors": {
@@ -438,9 +1628,13 @@
       },
       "dependencies": "Archive README, layout-plan consumers and retention ledger.",
       "versionScope": {
-        "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4",
-        "date": "2026-10-17",
-        "validity": "historical-artifact"
+        "contract": {
+          "templateId": "evidence-receipt-v1",
+          "variant": "historical-path-map-native-v1",
+          "templateVersion": "1.0.0"
+        },
+        "carrierRevision": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+        "scope": "仅上述固定原生载体与既有current review内容稿；准入/晋升由Owner另判；非当前运行结论"
       },
       "counterReworkBlocked": [
         {
@@ -448,7 +1642,64 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "readDomain": {
+        "actual": "全JSON机械解析；人工逐条核读43条from/to/kind/source/after与嵌套evidence SHA投影，核三类reason/resolution和共同oracle/legalInputs/retention政策、顶部9字段与全部能力名称；同值政策按去重值阅读。未逐字重读3170行中每条重复history/caller叙述，未逐篇读取43个被映射文件；reviewedLines=0明确不宣称连续全文行数。",
+        "reusedFrom": [
+          "S42 completion: /tmp/s42-glm-remaining-683-completion/shard-01.json#/entries/4; shardSHA256=a8e959dd076fe8bfe7518dffc976bc416c4590da946b29ec3292df4762e11d02; entryCanonicalSHA256=77c6cf20056eb5868e95ba34f7478b5ef3112f1c791dd3fa4551eb14bd757a60; reused as draft/design only, facts rechecked on fixed carrier",
+          "S46 design: /tmp/s46-glm-native-family-design/shard-01.json#/entries/0; shardSHA256=5648fbf775e60e5dc5639a091f326265df8ea37e1d0989e529dc19c26f7e6dfc; entryCanonicalSHA256=2803c9ccb7b55d346c88140df245a39712def7071a644a43da16615000975830; reused as draft/design only, facts rechecked on fixed carrier",
+          "S49冻结准入与纯投影定义@52cc1bd530998990dbfeff18b347b854a37796ae: scripts/docs/historical-native-family-admission.mjs、historical-native-family-reading.mjs；当前protected review docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json#entries/2 的撤信/历史字段已核读"
+        ],
+        "notRead": [
+          "未逐篇重读关联产品源码、旧测试或历史 raw stdout/stderr；未重新执行历史测试/变异/coverage/E2E。",
+          "旧S42/S46稿仅为线索，不能由其旧全文/consumer声明推定本轮读域。",
+          "未逐字重读43项重复history/caller原叙述；未读取43个目标正文和历史迁移执行日志。",
+          "43条旧八维治理声明的实际执行/排重/独立深审依据未重授；本轮只读这些字段的共同政策与映射角色，不逐条认证原历史claim或重读其下游证据。"
+        ]
+      },
+      "fieldRoles": {
+        "identity": ["/id", "/generatedBy", "/sourceRevision", "/appliedRevision"],
+        "results": ["/summary", "/entries", "/rootWhitelist", "/policy"],
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json#entries/2"
+        ]
+      },
+      "historyBoundary": "历史布局账语义可审、历史执行与当前文件一致性未新授；不将重复from/to或双SHA差异静默修正。 既有2026-10-18撤信、source/sourceGitRevision、claimCorrection与历史记录保持，不以本稿复活原deep-semantic或独立验收声明。",
+      "templateVariant": "historical-path-map-native-v1",
+      "artifactOnly": false,
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "reviewer": "Codex independent reviewer /root/s50_admission_review",
+        "nonAuthorReviewer": true,
+        "verdict": "accept",
+        "path": "docs/ops/archive/ops-governance-layout-20261004.json",
+        "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
+        "contentSha256": "5980c28cd4ba70623c32f913aa9386c8b36604dcef5c38e78b136ed4ba45119e",
+        "reportSha256": "4d7d7fab16bd1ac823a2b94cf04e953c0e1d6db94cb61a9fb5e7f698fc1863c2",
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S50",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false
+        }
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "scope": "Exact native variant plus accepted existing-review companion; original native bytes unchanged; no historical execution reauthentication."
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  }
 }

@@ -1,40 +1,62 @@
 # GLM编辑器命令与引用边界补测回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-LOGIC-COVERAGE-1 回执（r1/done；`5ca9dad2` 三席 accept，2026-09-18 用户授权 Codex 统一收口；起始产品 `c1cec3ad…9873`）：GLM 编辑器命令与引用边界补测 A1-A6/B1-B3/C1-C4/D1-D5 十七族 47 项（6/7/10/2/6/8/5/3），两轮 counter 返工后 Codex accept。
+
+## Scope
+
+- 原始回执 d531aa24、返工回执 a3687b75（分支相对 467a5f41/c82b0d28 只改白名单）；Q1 来自 27e605ef 不属 GLM 贡献（编辑器产品相对 c1cec3ad 零变、全仓因 Q1 合入非零 diff，来源单列）。
+
+## Execution and assertions
+
+- **第二轮残项闭合**：R1 残：shared cue 补 portrait.side、AddProjectMapLayer 用同一 legalL3() 构造；R2 残：B1 invert 半边补完整输入不变（invert 前独立 deepSnapshot(s1)、invert 后 s1 全状态不变+s2 与 apply 前全状态相等）、restore-input-mutation 见证转 detected；R4 残：enemy 重复 ID 默认合同撤下改合法唯一 ID、逐族表改精确已有测试名（item-commands:66/81/156/190/212、commands:709/749/769/2163/2191/2599、stamp-placement-command:160）、after 计数按最终树更正 2302
+- **R1-R4 返工总账**：R1 合法输入：actorCue 经 checkAuthorDialogueCue 正控、item 私有脚本固定 id:use/target:scene、stamp 旧 proof 改真实状态变化（真实 PaintTiles 使事实过期→旧 proof 被生产拒绝→重新取证放行）、Object.create 伪造用例删除；R2：B1 补 actor 目标表断言（新 key 指原 asset portrait.hero.angry）+apply/invert 后整状态深比较；R3：rename-rewrite-closure-removed(+99) 删除（其真实含义是合法操作被误拒证明守卫存在）替换为 rename-wrong-target-asset、负控判定收紧仅认 AssertionError 排 TypeError、closure 防御臂归类不可达（walker 同源保证）不伪强测；R4：诊断配置直接消费官方 testSelection(editor,'fast')、vitest list 核对 pal 0 项/mjs 边界 1 项；Codex 三见证复跑（rename/paint 输入污染+broken-rename-target）detected、control 绿；real-closure-removal 维持 MISSED 按防御臂分类
+- **覆盖对照**：before 2255 项/after 最终树实测 2302 项 exit0；五目标文件行 2572→2594（+22）/分支 1730→1776（+46）/语句 +48/函数 +7；旧正则口径 2256/2300 保留历史不再援引；相邻既有 8 文件 76/76（Codex 自选集 77/77 亦绿）；Codex 集成核：另命中 tileset-references 1 行/1 臂，官方全包增量 +23/+47；旧 editor 210 文件 identity/计数与其它六包基线不变
+- **统一门（Codex）**：集成 5ca9dad2 只订正新测试标题与 fixture 术语注释不改断言；首次 check 术语门失败保留，修正后完整 check 7,282、官方 ratchet 与受保护单次严格 fast 6,794/617 通过；三席同钉（GLM eacf0a8b/Kimi f82d60b9/Codex）；候选后产品/测试/基线零漂移无生效 counter；用户授权 done 归档
+
+## Results
+
+- 失败记录（不计证据）：map 校验首版 L2 tiles=0/sources=null 非法、stamp 旧 proof 首版模板构造失配、config 首版正则口径 2256/2300 选择漂移。
+- 负控总账：editor-logic-coverage-mutants.mjs 1 对照 exit0+10 针全部 exit1（每组≥2：A4/B2/C2/D2）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；独立复核见 editor-logic-coverage-review.md（历轮 counter 原文保留）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1+两轮返工 | 2026-09-18 | 47 项+10 针+覆盖对照 | accept→done（5ca9dad2） | 两轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的编辑器逻辑覆盖回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM编辑器命令与引用边界补测回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：十七族 47 项+10 负控+五目标 +22 行/+46 臂；Q1 单列；统一门 7,282/6,794。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+残项返工、R1-R4 总账、逐族分类表与四轮 Codex 接收记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-EDITOR-LOGIC-COVERAGE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd02c24d1675e264b3a10618bc58d512a43640da3bb306aee635f817ee82e306`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd02c24d1675e264b3a10618bc58d512a43640da3bb306aee635f817ee82e306`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM编辑器命令与引用边界补测回执
 >

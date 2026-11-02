@@ -1,6 +1,39 @@
 # pre94 ColorFade输入域与既有测试判别力返工
 
 Status: recorded
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是「pre94 ColorFade输入域与既有测试判别力返工」的治理候选页;证据原件即下方逐字节保全的固定main源(4450B,SHA f919c74b1a4f)。该证据片属 QUALITY-PRE94-RETROSPECTIVE-1 / core-comment-audit 第八组注释返工(base 9cc4b3fd,codex/code-quality-3y):palette-fade.ts 仅修事实注释,17例既有测试保持并加强判别力,产品执行不变。
+
+## 来源与输入
+
+两文件全文:palette-fade.ts(原328行)与原测(原235行);pal-extract decodePalette、历史3n卡全文及 event/present 生产caller分段的逐文件行界与SHA见[read-boundaries.json](read-boundaries.json);授权见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。原C完整 PAL_ColorFade 函数按真实body边界提取,typed SDL_Color与最小globals、合成palette源及video/delay stub,回执见[native-oracle.json](native-oracle.json):clang O0/O2 -Wall/-Wextra/-Werror均零诊断、两组方向各65次完整256色RGB提交与实际TS同网格helper步骤1..64+finalize逐字相同。
+
+## 断言与业务 oracle
+
+核心有限域结论:原C ColorFade直接±4,正常PAL_GetPalette用v<<2,任意两通道差为4倍数——每步到目标距离减4,0..252至多63步,无越过或BYTE环绕,64步后另提交终值;『任意8位moveToward等价』错误,『原版永久振荡』也不能从非网格人工输入推出。C被人工喂101→40时末两步41/37、随后补40,只有64步内往返,不当正常原版缺陷。真实decodePalette吃合法768字节6位合成palette(25/20/10→101/81/40),TS饱和收敛给40/101/40;此输入是TS生产域而非C正常getPalette字节域,跨包调用只在隔离取证程序。源码仅修注释(离散量化非连续lerp、ColorFade等价域与FadeToRed显式clamp区分、撤销视觉1:1/夜色/GetPalette99-104错锚),双基点parsed TS与去注释JS相同验证见[emit-identity.json](emit-identity.json),控制之后只去掉一处错误行号。测试17例保持:ColorFade两方向补上升/下降/不变通道、中间帧、非网格饱和与同时间重绘快照ownership;RGB最大255仅验证边界公式,唯一标题映射见[test-title-mappings.json](test-title-mappings.json)。
+
+## 结果
+
+[四精确反控](controls.json):行别名、非网格仿C无clamp循环、上升红通道冻结、错误从工作色表累积——各完整未过滤旧17绿→新16绿1指定业务AssertionError,0skip/pending/unhandled。17恢复、86相邻、game typecheck零诊断;docs125/全部消费者、lint(5269文件)与ledger以[门回执](gates.json)为准。两个原closed转review(palette-fade.ts、palette-fade.test.ts),0新增closed;265closed/77review/2973pending,83卡50partial/33pending/0accept;mergeAllowed=false,未合main。
+
+## 限制与复核
+
+同网格对照是两具体正反palette×65次提交,非全数值域或原EXE/视觉验收;人工非网格输入在PAL_GetPalette正常域之外,不证生产C缺陷。整色域、其它fade数学、invalid delay、资源库存/视觉与完整异步生命周期仍未接受;共享moveToward提取未证多owner同域必要,不加新接口;全仓check、official coverage ratchet、protected fast、视觉/E2E未运行。未重跑原命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4450B / SHA-256 f919c74b1a4f31f1748c0314f96bc9823ff2724a42c1af33ffb24aaad58f472e；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# pre94 ColorFade输入域与既有测试判别力返工
+
+Status: recorded
 Owner: Codex（单Agent，自身源码核证，不冒充第三方）
 Date: 2026-10-18
 Base: `9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2`
@@ -35,3 +68,5 @@ id: QUALITY-PRE94-RETROSPECTIVE-1 / palette-approach-tests；schemaVersion:1；s
 ## 交接与下一步
 
 同一3y治理分支提交推送，fetch确认0behind；未合main。下一有限范围核minimap/tools-panel/bootstrap尺寸与真实speedrun hotkey。无下一位Agent提示词，Codex单Agent继续94前全部复审。
+```
+<!-- incremental-original-source:end -->

@@ -1,70 +1,55 @@
 # TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账（GLM r1）
 
 Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把测试合同排重账接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始合同、NEW/REG 分类、source:line、caller、合法输入、oracle、排重结论、计数和判例在 quote 中保全；本页不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 TEST-GLM-GAME-TURN-BOUNDARIES-1 的排重账（GLM r1）：排重域=packages/game/src/core/battle 的 turn-queue/battle-finalization/battle-system/battle-state 旧测（四文件+cov85+glm-next-wave 四文件）与 battle 全目录其余旧测（actions/battle-dialog/death-fade/coop-magic/casualty-sounds/runscript-rearm/status/battle-anim-integration 等）及全量 fullName grep。
 
 ## 证据身份
 
-- `id`：TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账（原始身份与 r1/r2 标记保留于 quote）。
-- `schemaVersion`：原文未声明机器 schema；本页不补造执行 schema。
-- `status`：historical receipt；不把排重账的 NEW/REG 或“全绿”文字改写为当前 verified。
-- candidate/source SHA：source `aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b`；after 见本批 review record。
-
-## 来源与输入
-
-- caller/source refs（file:line）：turn-queue.ts、battle-finalization.ts、battle-system.ts、battle-state.ts 及旧测/cov85/glm-next-wave/fullName census（以 quote 为准）；其余一手锚点和旧测路径由 quote 逐条保留。
-- 合法输入与版本：以原 ledger 记载的 typed 输入、公开 caller、源码版本、旧测/cov85/fullName census 为准；本次迁移不重跑测试。
-- 执行时间和环境：原始任务卡、identity、mutation 和 raw 证据目录；本次只做静态内容迁移。
+- 回合边界域：finalizeBattle 归类、行动倍率、濒死减速、死敌/死员跳过、逃跑中止/位移、毒回写/跳毒门、合击/围攻/隐身门。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：每条合同必须保持 source:line × caller × 合法输入 × 可观察业务结果 × fullName 的对应关系。
-- 原子断言：原文 NEW 合同、REG 已证锚点、未证项、unreachable/defensive 边界和判例保持原样。
-- 排重对象：对应 task card、旧测/cov85、同任务 evidence、fullName identity 与后续 fresh receipt。
+- 新增 15 合同（源锚/caller/oracle 逐行）：C1 finalizeBattle lost 归类（battle-finalization.ts:14-34；旧测仅 fled/terminated/won）；C2 forced 归类 won（:26-27 stall 兜底；cov85 只证 explore+console.error）；C3 flee×0.5 floor（battle-system.ts:620,755；旧测只证 defend×5）；C4 item×3（:617-618）；C5 濒死÷2（:757-758；battle-anim-integration 只借濒死态证动画）；C6 行动项死亡敌人跳过（:2505-2507；旧测只证死亡队员与全敌死早退）；C7 flee 成功即中止剩余队列（:430,2099-2124；旧逃跑测均单人队）；C8 fleeAnim 只挪活队员（:2105-2114）；C9 enemyEscapeAnim 死敌槽不位移（:2152-2157）；C10 毒回写 wPoisonScript（:3046）；C11 DM12 毒 HP 变化门（:3128）；C12 跳毒门（:3032）；C13 合击吞并门（:2586）；C14 围攻粘性门（:2593）；C15 隐身 turnStart（:2183）。
+
+## 来源与输入
+
+- 真实 tickBattle/tickSelectAction/tickPerformAction 公开入口与 BattleState 状态构造；行动序 oracle（actionQueue 全序）与副作用计数主体核对。
 
 ## 结果
 
-- 逐步结果、退出码、产物：本页只记录原始排重账内容；不把历史“全绿”、计数或 mutation 摘要升格为当前通过。
-- 失败：原始未证、rework、blocked、空转反例和合法输入缺口继续保留于 quote。
+- 登记未测项：support-magic×3/coop×10 同函数未测臂等如实；判例：副作用计数 oracle 须核计数主体（敌等级伤害打死预期掷骰者→pendingSounds 空转绿）。
 
 ## 限制与复核
 
-- 未执行/未覆盖：本次不执行 runtime、E2E、视觉或 coverage，也不重新认证原始测试合同。
-- 不得外推的结论：排重账不能单独证明产品行为、完整 caller 可达性、全包覆盖或当前任务 done。
-- 复核条件：当前 task card 状态、真实合法输入、business oracle、反控三态 raw/JSON、执行集和独立验收重新齐全。
+- 与 README.md 索引配套（15/15+15 针恰一红）。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `7ea529ab5a3f2be583ae02909066824913eee66a`；其具体 r1/r2 时间、状态和候选分支保留于 quote；本轮为 R55。
-- 归档原因：排重账是任务时点证据，保留原合同边界，避免把历史合同清单变成当前验收授权。
+- TEST-GLM-GAME-TURN-BOUNDARIES-1 r1 排重账（15 新增合同）；固定源 revision 7ea529ab5a3f…。
 
 ## 原始结论
 
-- 原始 battle turn/finalization 排重账：15 个未证合同、登记未测项、真实 caller/oracle、空转绿反例与死亡队列双词 grep 判例。
+- C1-C15 十五未证回合边界轴；同函数未测臂登记不新增。
 
 ## 当时证据
 
-- 原始测试文件、旧测/cov85、source:line、caller、oracle、fullName、反控与判例保留于 quote。
+- 合同表逐行在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、fresh evidence 和独立验收仍是事实权；TEST-GLM-GAME-TURN-BOUNDARIES-1 当前 rework 状态不因本页迁移改变。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、当前 evidence README、identity/mutation consumer 与重新生成的 receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原始 ledger 不删除。
-- 若重新启用的复核条件：合法输入重跑、排重账与实际执行集一致、业务反控可证伪、SHA/清理证据和 Codex 独立验收齐全。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定源 revision `7ea529ab5a3f2be583ae02909066824913eee66a`，source SHA `aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7ea529ab5a3f2be583ae02909066824913eee66a`，source SHA `aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账(GLM r1)
 >

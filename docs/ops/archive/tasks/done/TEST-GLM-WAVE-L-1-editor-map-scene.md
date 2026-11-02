@@ -1,55 +1,64 @@
 # TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Phase: phase2
+Capability: editor-authoring / test-coverage
+Coding Owner: GLM L（仅新增测试、专属 fixture/证据）
+Reviewer: Codex（独立验收、集成和正式覆盖结算）
+Visual Verification: GLM 实操取最小证据，Codex 最终复核
+Branch: `codex/glm-wave-l-editor-map-r1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM L 波（编辑器地图/场景/精灵/印章 L01-L06 六组 24 互异生产源，与 A-K/M/N 零交集）的历史测试卡（2026-09-30 准入，基础 f70db722）：地图选择检查器/场景画布命令/图块地图编辑资源/世界精灵动作/印章草稿模板选择器/印章组命令所有权；r3 69b56cc3 经三审接收（13 日志 EOF 已剥、区间 diff-check 清零）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+从当前合法作者操作观察公开 UI、命令结果、撤销/取消和资源边界；不测剧情/碰撞/战斗，不从源码臆造新形态（铁律 8）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：冻结源同目录 *.glm-l.test.ts(x)、__tests__/glm-l/**、wave-L/** 证据+两条功能视觉。
+- 范围外：EDITOR-SCENE-FACING-1 产品修复、E2E-R4-1 剧情路线、历史 A 表单/B 会话/F 主壳预览已证域。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+1155 未命中臂只是选题池；existing-proof/unreachable/blocked 登记制；e2b3f437 候选的 wave-L 截图曾支撑 MAP-SELECTION-NOTICE 与 SPRITE-DEEP-PREVIEW 两卡缺陷发现（跨卡证据链）。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：r3 69b56cc3 三审通过（13 日志 EOF 剥离、区间 diff-check 清零；负载下 adoption 门超时随机漂移如实记录）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位实现 Agent。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-30 准入、r1-r3 返工与接收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：L 波六组经三轮返工（EOF/diff-check/adoption 漂移）后接收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+glm-next-triple/targets.json、wave-L/** 回执（含 functional-visual 与 defect-report）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。编辑器创作面合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同批 M/N 波；wave-L 证据链延伸至 MAP-SELECTION-NOTICE/SPRITE-DEEP-PREVIEW 两卡。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `a060bad5b59e8ce79ca8a0c03a04391aa0d17906f5c4c056222b95f595092c0f`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `a060bad5b59e8ce79ca8a0c03a04391aa0d17906f5c4c056222b95f595092c0f`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-WAVE-L-1 — 地图、场景、精灵与印章创作大包
 >

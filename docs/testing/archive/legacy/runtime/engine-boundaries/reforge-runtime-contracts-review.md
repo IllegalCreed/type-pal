@@ -1,40 +1,63 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-RUNTIME-CONTRACTS-1 三轮接收复合复核（首轮 75c9cfe8 counter R1-R4 四见证全 MISSED→收窄 a9e1d4f1 counter 仅 R2-D1 输入保真+R4 看板回退→**2026-09-19 三席 accept 候选 62a18137 done 归档**：D1 输入保真闭环、集成统一门通过、Codex/Kimi/GLM 三席 accept 用户确认收口）。
+
+## Scope
+
+- 当前结论独立验证：候选本地/origin/ls-remote 三者一致相对 4678650a 只有原 17 文件白名单；D1:76-83 包装 source.readJson 先读真实 value 立即记录同一 value 及 deepSnapshot 后原样 return（注册在 boot 后 loadAllScenes 前消费路径断言精确 s001/s002 非空集合假通过；loadAuthorScene 与 validateAuthorScenes 不另造副本故 value 即投影实际消费对象）；输入见证实际 project 角色污染由 MISSED 变 detected；本席补临时反控（loadScene 生成正确 output 后 input.entry.pos.col += 17 再返回）恰新「实际输入保真」测试业务红其余 6 绿；定向 10 文件 60/60+全 reforge 116 文件 1,190+Biome 14 文件过。
+
+## Execution and assertions
+
+- **集成与统一门**：main/b99ec6cf 合并 3dfec190 无冲突（11 测试/fixture/诊断与源逐字一致；主线 E-01/editor 修复/guard 归档保持）；完整 check 7,538 项+lint exit0 既有 48w/11i；ratchet+BASE_REF=b99ec6cf 单次严格 fast 7,049 项/617 通过；原 106 fast 文件 identity/计数原样现 116 文件/1,190 只新增十文件 60 项；Reforge 56.15%/48.27% 分支；纯补测净增 74 行/84 语句/13 函数/73 臂与候选对照一致（百分比官方四舍五入非 Vitest 局部截断 56.14/48.26 漂移）；其它六包基线逐字相同
+- **非阻断后续**：BGM initP 初始化失败重试政策归 Codex 后续音频生命周期核验（不把当前拒绝缓存固化为正确）；旧版本兼容审查 pass；收口文档检查首次因未同步索引失败机械登记修正不归因 GLM
+- **首轮 R1 音频交错**：bgm:119-126 初始化结束前连续 play(b)/play(a) 随后断言 reads 仅 a——b 从未开始读取 resolve 未使用 gate 不产生迟到结果（只证初始化期 last 接管非 C2 读取乱序）；:129 expect.any(ArrayBuffer) 未核完整字节身份；删 post-read gate 仍 3/3 绿；midi:111-114 B 完成后才释放 A 证旧结果拒收不证旧 finally 清仍在途 B；同 key 去重例无 A/B 交错；删 finally promise 身份门 7 项仍绿；返工：真实已初始化 player+旧读取 entered 挂起→新请求成功→旧读取完成（两资源字节不同核 backend 载入字节/asset/loop/次数）；MIDI A 挂起 B entered→A 结束→同 B/key 只读一次→释放 B 提交
+- **首轮 R2 投影/resolver**：project-loader:26-34 只验 IDs/kind/数组非同对象——没读真实 cue identity/speaker/portrait/rows 全部投影被绕过仍 6/6 绿；:36-41 快照原始 files 而 memoryFileSource.readJson 先 structuredClone——原文件表不变不能代替实际输入与输出完整树；asset-resolver:55-71 只测 urlFor 成功缺 role/asset 后两项在 record/role 层提前拒不经 :64 IO 错误包装；:38-48 恢复对照换了 resolver/source 应同 reader 故障修复重试；本席独立调 validateAssetCatalog/validateItems 均 accepted 不指控结构非法
+- **首轮 R3 不变性**：equip-menu:45-52 快照 world 却用 open() 内部另一份 multiWorld 构造 s0（真正用 world 的 equipBackToList 在 :56 位于唯一比较之后）——改实际输入 money 仍 3/3 绿；use-menu-state:132-133 只看 items 长度；:62-77 手造 origin=pick-item 但全部 u-* 都是 oneAlly（真实 useConfirm(cursor4) 返回 pick-target）；:108 换 itemId 不换 selectedItemId；返工：真实函数收到的对象就是被快照对象最后一次调用后比较全部状态
+- **收窄轮 R2-D1 与 R4**：D1 :75-87 只比较 manifest/sceneIndex/authorContent 没比较实际传入 project 的 actorsById 纯数据——本席独立输入污染见证 loadAllScenes 批读后返回前改第一个 actor.name 保留正确返回 6/6 绿 MISSED；:27/:43/:64-67 authors 是另一次读取数组非实际消费 lazy scene（fixture 每次 readJson structuredClone 重读自然得原值）——「实际进入 loader」声明过度；R4 候选把 board-20261004 EDITOR-SCENE-REF-GUARD-1 review 行改回 build（越界看板回退）check:docs exit1——主线已 done 集成不能带回旧行
+
+## Results
+
+- 四独立见证表（首轮全 MISSED）：bgm-post-read-ownership（删 doPlay 后 isCurrent 检查 BGM 3/3 绿）/midi-stale-finally（旧 load finally 无条件清 loadPromise 7/7 绿）/loader-projection-bypassed（直接返回 loadAuthorScene 跳过对话投影 6/6 绿）/equip-input-pollution（openEquipMenu 改传入 world.money +=17 3/3 绿）——测试交付的鉴别力问题非四个现存产品缺陷；工具 exit0 指取证完成应读 verdict。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；两见证工具/日志根/原 15 跑重建命令在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 三轮接收 | 2026-09-18/19 | R1-R4 四见证→收窄 D1→闭环 | accept→done（62a18137 三席） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的 reforge 运行合同三轮复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：三轮递进（四见证 MISSED→D1 实际输入保真闭环+看板回退修正）；统一门 check 7,538/fast 7,049；BGM initP 政策留后续。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+当前验证、四见证表、R1-R4 反证与集成门在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-REFORGE-RUNTIME-CONTRACTS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3c554445444e4440295822e076a4c0b1c160a58c06705fd5c63383c229961337`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3c554445444e4440295822e076a4c0b1c160a58c06705fd5c63383c229961337`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-RUNTIME-CONTRACTS-1 · Codex接收复核
 >

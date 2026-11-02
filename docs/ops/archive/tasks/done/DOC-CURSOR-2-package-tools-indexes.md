@@ -1,55 +1,66 @@
 # DOC-CURSOR-2 — 十二组包说明、CLI与索引核对
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Contribution Owner: Cursor（机械核对与修订建议）
+Reviewer: Codex
+Phase: ops
+Capability: 文档维护准备；不改变能力格
+Visual Verification Timing: N/A
+Branch: codex/cursor-docs-wave2-r1
+Revision: r1
+Evidence freeze: dab017e7
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是十二组包说明/CLI/索引只读核对历史卡：只核能由文件、脚本定义、导入和目录直接证明的事实，不重审架构/不写产品/不启动服务；正文 4b75d1c3/登记 cc2720c5 独立 accept，NB1/NB2 非阻断观察以接收报告锚点为准；建议未因 done 自动实施。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补机器检查外的围栏命令/行内路径/标题锚点/明确叙述核对；前批教训（字符串存在≠UI 使用、命令写法不互证）沿用。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：十二组固定工作（包 README/CLI/索引）；证据固定 dab017e7 防后续重构行号混入。
+- 范围外：架构评判、产品、服务启动、前批指南改写、政策冲突裁决（列待裁决不让文档迁就代码）。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+最强替代解释（历史快照/设计目标/占位/gitignored/dev-only）逐项排除后才报确定不符。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-25 收口）：审计材料 accept 且 main 逐字一致、审过即集成、done 归档；修订建议按具体文档范围另核。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+W2-C03-1/W2-C07-1/W2-C11-1 三确定不符由 DOC-CURSOR-5 窄修、game README H1 由 REVISION-1；NB1/NB2 留接收报告。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 派发与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：十二组只读审计经 accept 集成；后续修订分流至 DOC-CURSOR-3..6。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-docs-wave2.md 与接收报告。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。包说明现行内容以当前树为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+DOC-CURSOR-3/4/5/6 与 DOC-GUIDE-REVISION-1。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `50e782c6e6becd0a80bf767c58e7d19294bbb8939c2c431bb73aeb848b509ca8`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `50e782c6e6becd0a80bf767c58e7d19294bbb8939c2c431bb73aeb848b509ca8`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-2 — 十二组包说明、CLI与索引核对
 >

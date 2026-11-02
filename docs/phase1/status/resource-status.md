@@ -1,65 +1,59 @@
 # Resource Status · type-pal
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段资源提取覆盖状态表的归档重写。14 个 MKF 与非 MKF 资源逐 chunk 表、byte-level 覆盖率自检与打包格式变更记录在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前数据或 runtime 信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: Resource Status · type-pal; full source read for template classification.
-- 时间/版本范围：2026-05-29；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：MKF + 非 MKF（WORD.DAT / M.MSG / Musics / AVI / BDF）逐 chunk 提取覆盖率——资源提取的单一真值源（冻结快照时点）；与 [feature-status](feature-status.md)（runtime 功能）、[opcode-status](opcode-status.md)（逐 opcode）三表分工。
+- 时间范围：覆盖率自检 2026-05-30 byte-level 复核；sprite 打包格式变更 2026-06-22。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- 14 个 MKF 文件全覆盖（上列文件名即 quote 逐文件小节的 14 个独立身份；另有 mus.mkf 88 chunk 同源冗余、STUFF/SAVE 不存在不计入）：DATA 13/13（总 15，空 7、8）、SSS 5/5（总 5）、MGO 636/636（总 637，空 0）、MAP 223/223（总 226，空 0、168、171）、GOP 223/223（总 226，空 0、168、171）、F 19/19（总 19）、ABC 153/153（总 154，空 0）、FBP 76/76（总 78，空 5、58）、PAT 9/9（总 9）、RNG 12/12（总 12）、RGM 88/88（总 92，空 0、20、78、79）、BALL 251/251（总 252，空 0）、FIRE 55/55（总 55）、SOUNDS 363/363（总 505，空 142）。x/y 口径为「非空已抽/非空总数」——空 chunk 逐个列明跳过原因，不计入分母。
+- 非 MKF：WORD 565 词、M.MSG 13513 条、Musics 86 mid + 8 ogg、6 avi→mp4、unifont BDF 57083 glyph、asset-manifest 派生清单。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：结论「无真实数据 gap」；mus.mkf 与 Musics 同源冗余无需解码；STUFF.MKF/SAVE.MKF 在 `data/raw/` 不存在（DOS/WIN95 以 `.RPG` 存档）不计入；2026-06-22 sprite 打包改 `.rle` blob（GOP/RNG/FIRE 等替代此前逐帧 PNG，RNG 1464 帧/FIRE 837 帧）。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 6:> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- RNG PNG runtime mirror 原备注已订正：软链 + vite fs.allow 已服务全帧，非 gap。
+- 剩余项为 per-track 听验/音量音色确认（非数据缺口），归 [feature-status](feature-status.md) 音频章。
 
 ## 下一步
-- 下一项可执行工作：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 历史时点数据侧已闭合；当前资源管线以现行提取器与 asset-manifest 为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-05-29；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e`。
+- phase1 status 快照；自检 2026-05-30、打包变更 2026-06-22；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Resource Status · type-pal：这是 plan-status，当前文档状态为 historical。全文 263 行、19 个标题；摘要/首段为「> MKF + 非 MKF 资源(WORD.DAT / M.MSG / Musics / AVI / BDF)逐 chunk 提取覆盖率。**资源提取的单一真值源。**」。属于历史/归档材料，不能单独证明当前实现。
+- 14 个 MKF 非空 chunk 全抽、非 MKF 全覆盖、「无真实数据 gap」与 2026-06-22 打包变更为原始结论本体（原表未写「13」总数；13 为本页上一版封套自撰错误计数，本版按 quote 逐文件小节订正为 14）。
 
 ## 当时证据
 
-- 标题锚点：DATA.MKF；SSS.MKF；MGO.MKF；MAP.MKF；GOP.MKF；F.MKF；ABC.MKF；FBP.MKF；原始正文、状态词、表格和链接在 quote 保全。
+- 逐 MKF chunk 表（含 sdlpal 引用行号与输出路径）、覆盖率自检表与打包格式变更说明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 6:> **图例**:✅ done(已抽,byte-level 确认)· ⚠️ partial · ⬜ todo · N/A · ⬛ 空 chunk(0 字节,引擎从不加载,非 gap)· 🎵 同源冗余(已有其他格式覆盖)
+- historical。覆盖率按冻结时点解释；表内由源码与原始数据背书的资源条目按目录 README 规则继续作专题真值。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 现行提取管线、asset-manifest 与后续资源任务卡；[目录导航](README.md)。
+
 
 ## 原文保全
 
-固定源 SHA `24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Resource Status · type-pal
 >

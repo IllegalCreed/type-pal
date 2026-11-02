@@ -1,40 +1,60 @@
 # CURSOR-WAVE-2-1 · Codex 二轮独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 CURSOR-WAVE-2-1 二轮接收（2026-09-25，返工候选 0d475c12…18d7 已与主线合流）：W1/W5 accept 并选择性接入；W3/W4 保持窄 counter，整卡仍 rework（W2 已于首轮接入 cbac3ca0）。候选白名单只有三份指南、editor/game/docs 工具测试、专属回执与索引，生产/资产/配置/官方基线零 diff。
+
+## Scope
+
+- W1：shared-script-author-guide.md:35 改为另建脚本后在统一指令树重写正文（不再虚构整段粘贴入口），接入 4bf28bef/00d98974；W5：无效路径/目的地覆盖真实 validateMoves 与 applyRelocation、临时树 finally 清理、重复围栏例撤销按 existing-proof 登记，接入 1c164125/720633ad（main 复跑 docs-tools 37/37+check.mjs+Biome/diff PASS）。
+
+## Execution and assertions
+
+- **W3 反证**：binary-signature.test.ts:1 新增 @ts-nocheck 绕过类型门；:42-64「单点负控」只在测试中另写 sha256HexWholeBuffer 仿写函数再断言它抛 AssertionError，未把变异加载进实际被测模块；最小修正：去掉 @ts-nocheck；隔离 Vite load 只改生产函数一处，同一偏移视图测试变异树 exit1 业务红、原树 exit0、产品 hash 不变；不把自导自演反例放进正式绿套件
+- **W4 反证**：fps-overlay.test.ts:102-116 正则提阈值+测试内另写 className 模拟「>=49」；真正 tickFps/渲染模块未在变异下执行（:80,87,98 精确显示值已修保留）；隔离单点阈值 >=49 同一 49/50 正式断言真实业务红；移除或如实标记自写公式演示
+- **复跑**：editor 49/49、game 21/21、双包 typecheck、文档定向 24/24 均绿；绿测证明常态运行不证明变异鉴别力；不跑全仓门，待 W3/W4 收敛统一执行
+
+## Results
+
+- Cursor 工作树最终干净，自建依赖软链接已删。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 二轮接收 | 2026-09-25 | W1/W5 接入；W3/W4 反证 | 窄 counter，整卡 rework | 首轮 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 cursor-wave2 二轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- CURSOR-WAVE-2-1 · Codex 二轮独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+W1 指南纠偏+W5 真实守卫覆盖接入；W3/W4 自导自演负控（仿写函数/正则模拟）不自证变异鉴别力。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+W3/W4 反证表与接入 SHA 在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由三轮接收闭合（整卡 done）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 CURSOR-WAVE-2-1 后续三轮回执。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `e9554feea1f8effa4a0b919b2754e76a594a4baf025c4cee8e0bb91f9004c0e8`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `e9554feea1f8effa4a0b919b2754e76a594a4baf025c4cee8e0bb91f9004c0e8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # CURSOR-WAVE-2-1 · Codex 二轮独立接收
 >

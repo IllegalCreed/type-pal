@@ -1,40 +1,64 @@
 # 剩余条件分支与呈现问题族核查
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: design-spec-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是剩余条件分支与呈现问题族核查记录（供 SCRIPT-GOV-3 实现者与独立验收者使用；基线 8efe04861、content22/SAVE11，只读作者工程/原始事件/第一阶段实现未修改产品未走后期剧情；步骤结构已统一不等于条件失败/画面恢复/持久外观旧遗漏已消除；候选数量用于界定核查范围不作为 E2E 缺陷总数或已修数量）。
+
+## 问题与目标
+
+- 发现可批量修复的条件终止与淡出收尾，另核局部接管绕过点：条件失败后仍执行成功副作用、淡出无明确恢复人、自动职责与局部接管公共缺口、持久外观可泛化范围。
+
+## 真值与约束
+
+- 取证口径：遍历 294 场景实体行为与 hooks.*.variants 得 5492 步骤正文（递归进条件/确认/循环/固定重复/战斗结果分支；只扫实体会漏 313 个 hook 步骤）；观察表：39 条余额-HP-库存-拥有装备条件分支（无 hook 命中；还须查完全没条件的扣钱）、自动正文对白/奖励/切场 0、自动方案选择 25（15 方案）、同数组尾无直接恢复淡出 143（93 精确消怪模板+50 须分场景事务与同场恢复）、外观叶 4340（4202 定帧+121 临时精灵+11 持久外观+6 页选择）；探针 build/script-governance-residual-family-probe.mjs 输出路径与指令种类不生产正文。
+- 条件失败仍执行成功副作用（第一阶段 OP_ADD_CASH :3673 不足跳失败目标不扣钱/:3718 REMOVE_ITEM 区分/:4288/:4325 库存装备门；当前 branch then 返回后顺序执行共同尾部无隐式退出；giveMoney :2317 只 clamp 不代购买资格）：原始全表 19 条负金额 0x1E（17 世界剧情 2 法术输入 43062/43068 应按当前法术费用模型验证不向场景步骤插 finishStep）；11 个绑定 17 条执行路径直接失败控制遗漏表在 quote（s005 水果 25 文失败仍扣钱给水果/s029 赌鬼 50 文部分余额清零仍安装返程/s100 乞丐 10 文余额 1-9 清零/s127 算命仙 500 文失败仍付款/s131 老鸨 2000 文失败仍切 s133/s023 小豆子三食品缺项仍移除播成功/s064 玉佛珠门禁推退后仍隐藏/s100/e1838 酒剑仙四材料任一缺项仍四移除切场/s172 老婆婆 36 傀儡虫不足仍交虫切 s174/s247 巫后无天蛇杖仍交杖切 s253/s266 木剑空失败臂仍给水灵珠切场）；最强替代解释（失败台词后故意继续成功剧情）被原始 end/reset/advance 与成功副作用另一路直接反驳；治愈族仅 3 处 HP 检查 s010 已互斥无新命中。
+- 淡出须有明确恢复人（四向证据）：原输入大量 0x50 只写淡出不单独提供恢复（第一阶段把下次 MakeScene 的 needToFadeIn 当恢复 :691/:703 tickSceneAutoFadeIn 600ms）；当前 Reforge fade 是保持终态显式命令（main.ts:1351 hostFade 推至 1、:1954 仅取消 reset、:4366 正常 finally 不 reset、:4950 每帧继续盖幕）——作者正文须明确恢复或把过渡合入场景事务，不给 clearDialog 或全局结束加旧隐式职责。
+- 93 个消怪正文（全部独立核过静态 trigger 输入均 OP07→goto L_41127 无例外；公共尾 41127 hide+41128 0x50+41129 end）：当前均为 startBattle→hideEntity→fade(out,600) 后结束，正常获胜留 alpha=1；战败 onLose 红幕/loadLastSave 属另一分支不应为消黑删死亡流程；最小修复=消怪尾加明确淡入；逃跑退出共同尾须实际 battle result 控制回归核定不能只测胜利；93 个全量绑定表（s040-s292 四十余场景）在 quote。
+- 50 个其它尾部候选：10 条已先切场后 out 应调整场景事务不能错误尾部加 in（s084/e1609、s145、四 portal、s186/e3133、s128 成交切场、s268）；其余 40 条同场景黑幕后仍有动作对白（完整路径表在 quote；恢复插入点由 Content Owner 对完整原顺序逐项核定不能凭扫描大批量 replace）；s011 RNG 当前 fade 在 Cinematic Layer 之上单纯播放前淡入会露旧世界——2026-10-03 实施前反控更正：先前「仅用既有 frame range 足够」判断不成立（finishPlayback 首段返回后 buffered 末帧不可见随后 fade in 露旧世界、连续片段间声效同边界），需显式保持/清除 Cinematic Layer 通用合同 Core 正独立核定；不以假 dialog 或隐式 fade 耦合绕过；无需 parallel 结论不变；001-005 已改写方案保持保护，将这些原始 out 全部从引擎结束回调撤掉会破坏黑幕持有与场景事务属不合格替代修复。
+- 动态安装切场方案：原始直接入口 loadScene→pos→out→end 有 21 条安装边 20 唯一绑定；6 个同实体 default 带 source transition 而实际安装 legacy-001 相同落点没有（6989→6519/s025-e492 等 6 项表在 quote）——默认 260ms 与同源 600ms 明显不同，最小修复给实际被选方案补已核 source transition 并在真实切场宿主断言来源冻结/目标首帧/600ms 两段过渡；default 正确不等于动态绑定正确；其余 13 个直接绑定有正确证据（s023/e423 6203 等清单在 quote）；入口前先定位同族 3 条位于保护场景须按实际后期 caller 单独验收；机械词法扫描 41 个切场命中不是完整可触达分母（含 operand=0 无操作）不能拿 13 项无问题关闭其余未知。
+- 自动职责与局部接管：1329 自动方案均一步无关键对白/奖励/切场；25 个选择中 5 个指令切 trigger（s003/e56 动作完成后开放/s048/e797 两条条件复制路径/s213/e3606 两条变骑乘入口）本身不证明主剧情藏错入口；名字写清「动作完成后开放交互」不把每个 select 改成立即 run；局部接管公共可证伪边界：E6a 拍板「仅被 take 的实体 auto 暂停、位移才隐式 take」（e6-position-authority-design.md:58 release 后恢复），当前 main.ts:2804 autoHost 继承 host 定帧转向只有 nudge/move/step 过位置权威、:1080 自动安全点检查无 authority 条件——主链 take 一个实体后其 pose auto 仍能写姿态是公共执行路径缺口不能再每 NPC 停全局 auto 掩盖；目标=已接管目标保持当前自动指令 release 后继续、不新增「转向就隐式接管」不暂停无关实体；35 个跨 NPC pose 候选数量不作 35 缺陷。
+- 持久外观可泛化范围：第一阶段角色换精灵写 rgwSpriteNum（:4214）全局事件对象状态随存档（game-state:1215）；当前 setEntityFrame 只存 WorldScenePresentation Map、临时精灵存 actorSpriteOverrides 两者不进 world；读档强停 main:4423/:4425 清、:4860 读回不重跑 onEnter——跨交互外观用现有持久页/appearance 表达；可直接沿用门页做法的 11 实体三组表（s003/e70-e71 两扇门/s093 四对门/s047 石钥匙三帧完成锁 3 不重启）；不是全部 4202 定帧叶（s154 书中仙开闭/普通站立是瞬时演出不能机械永久化）；角色临时精灵 27 个未改回本体根中两个明确需保存维持（s144 七星磐龙柱水中三人/s252 巫后逍遥水遁）——仅改 appearance 会留新错误（后继 setActorSprite 只清临时覆盖不清旧 appearance 游泳形象可能粘陆地）须同族入口和离开入口一起改编以存读/离场恢复证明；121 条临时精灵不判错须核 caller。
+- 时间调用域：对话打开 :1921 与渲染 :5060 都 performance.now；fade :1358 gameplay frames；shake :2353/:5028 frames.now；dither :5185/:5194/:738 performance.now；唯一 Date.now 是保存时间戳 :4720——不是因有两种时间就判架构缺陷；本有限核查不覆盖 battle 驱动；普通 wait/帧序列时间单位归 Motion Owner。
+- 站点命名：来自直接正文与动作（水果贩 25 文/赌鬼 50/乞丐 10/算命仙 500/老鸨 2000/小豆子索食/玉佛珠门禁/酒剑仙材料/老婆婆 36 虫/巫后天蛇杖/小孩换木剑/石门/消怪收尾）；名字覆盖方案和步骤稳定 ID 不改；未知房客不猜；不将全游戏逐段命名扩大为开始 006 前置。
+
+## 方案
+
+- Root 核准后按文件分配 Content 与 Core Owner：条件失败保留本步结束；场景事务与同场恢复分开；局部接管修在公共宿主（take A→A 的 auto 定帧→B 的 auto 正常继续→release A 恢复，另覆盖跨 owner/取消/切场/快照恢复）；持久外观连同恢复链一起改。
+
+## 边界与风险
+
+- 未获授权不顺便把随机购买彩票、原输入自带收费顺序或交付资格改成统一购买模板；s266 ownsItem 判定是特意保留的作者选择改成「只准交库存木剑」须另交用户决定；当前仅只读取证无产品写入授权；不得标 done 不得改主工程不得关 6012。
+
+## 验收
+
+- 条件族反控走真实 ProjectRuntime：取消/不足/恰好足额/成功/再次激活/SAVE11 读回；物品族每缺项独立覆盖失败后物品/实体状态/场景/游标均未提前推进；93 消怪尾加淡入须胜利+逃跑两态；动态切场断言来源冻结/目标首帧/600ms 两段过渡；局部接管公共门五场景；持久外观存读/离场恢复链；后期视觉仅登记代表入口（s053 姜婉/s153 出塔/s195 背景动作）未实跑。
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy batches/script-governance 的剩余条件分支与呈现问题族核查；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 剩余条件分支与呈现问题族核查：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 11 绑定 17 路径条件失败遗漏+93 消怪淡出+50 尾部候选（10 事务+40 同场）+6 动态切场缺 transition+局部接管公共缺口（autoHost 继承无 authority 门）+11 持久外观实体+2 临时精灵保存代表；s011 RNG 判断实施前反控更正（frame range 不足需 Cinematic Layer 通用合同）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 取证口径表、11 绑定表、93 消怪全量绑定表、40 尾部路径表、6 动态切场表、持久外观三组表与时间调用域清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。核查按 8efe04861 时点；修复归 SCRIPT-GOV-3 各 Owner。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归 SCRIPT-GOV-3 任务卡与修复台账。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `40d26a2e3fdc741e88c8ad5c523e05017449c79b8ede887e41ce8ece5fbc5f90`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `40d26a2e3fdc741e88c8ad5c523e05017449c79b8ede887e41ce8ece5fbc5f90`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 剩余条件分支与呈现问题族核查
 >

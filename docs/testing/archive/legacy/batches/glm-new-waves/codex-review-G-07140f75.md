@@ -1,40 +1,61 @@
 # TEST-GLM-NEW-G-1 · Codex 独立审核 r1
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-NEW-G-1 首轮审核（2026-09-29，HEAD 07140f75…033a、基点 2948810f）：**rework，未合 main，未运行官方门**。
+
+## Scope
+
+- 已独立验证：工作树干净、12 冻结目标各有同目录新测；定向 12 文件 47/47、Reforge typecheck 零诊断；四张截图 SHA 一致实际看图（试打/停止恢复）；派发校验器缺陷已在 main 修复不归责 GLM。
+
+## Execution and assertions
+
+- **返工 1-2**：完整 lint 失败 7 errors（browser-host drive.mjs/main.ts import+格式、needle-judge 格式、两 JSON 格式）——局部 12 新测 Biome 0 不等于全仓零诊断；render:103/117 与 world-scene-presentation:58 三处 as unknown as CanvasRenderingContext2D——卡面禁双强转「旧测试同型」不是豁免；改真正可类型化 Canvas 端口不以另一层强转或规则排除掩盖
+- **返工 3**：needle-judge:83-156 直接 writeFileSync 改四个正式生产源码再还原越过产品只读白名单（进程中断可能留突变）；-t 过滤其它 skipped 却注释称正常；matchingRun 只核 fullName 不核绝对 test file/执行总数；复用固定 /tmp needle-last.json 缺新鲜性；改隔离副本/loader 注入不写正式生产路径；判据核基线 exit0/注入恰 exit1/唯一失败/绝对 file-fullName/执行数/无混错-skip-timeout-零执行-exit2/产品 hash；同一判据反例自测+重跑四针
+- **返工 4**：screen-fx:62-90 把「同 srcTag 换 source 返回旧缓存」与「同缓存实例改 w/h 保留旧尺寸」钉为正合同——生产 battle-session:2299-2322 用 srcTag 表背景身份且固定 320×200，两输入无现行消费者依据旧缓存可能是缺陷；保留可证 wave/shift 轴；两例须给直接合法调用锚与政策证据否则移除登记未证，不为覆盖率冻结陈旧结果（S15 wave-G 判例：console 标未证+陈旧缓存断言删）
+- **返工 5**：视觉回执 9 条 404 console error 只记通用文本未记 URL——不能断言全是 save-state.json 预期 NotFound；补每条失败 URL/status 与 readProjectSaveState 处理，无法归因标未证；候选改了 GLM 只读的共享 README 导航请恢复，Codex 集成时负责索引
+
+## Results
+
+- 返工回执固定本候选及返工候选完整 SHA、新鲜 file/fullName/status；只改 Wave G 原白名单；复跑定向+相邻+typecheck+完整 lint 0/0/0+docs/diff。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 审核 | 2026-09-29 | lint 7 错+双强转+写盘 runner+陈旧断言+console URL | rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-new-waves 的 Wave G r1 审核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-NEW-G-1 · Codex 独立审核 r1：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+rework 五项：lint 7 错+三处双强转+runner 直接写生产源（越只读白名单）+两条陈旧缓存断言无消费者依据+console 未记 URL；共享 README 越界恢复。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五项返工在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。rework 由 r2 accept 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 Wave G r2 验收回执。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `c348c073c90aa1dc1ce430d8bae58a6d14fd732b497da6bc2591465acb37b1b2`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `c348c073c90aa1dc1ce430d8bae58a6d14fd732b497da6bc2591465acb37b1b2`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-NEW-G-1 · Codex 独立审核 r1
 >

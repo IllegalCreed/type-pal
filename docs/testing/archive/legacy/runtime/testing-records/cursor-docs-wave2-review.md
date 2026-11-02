@@ -1,40 +1,62 @@
 # DOC-CURSOR-2 — Codex独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-2 的 Codex 独立接收复核（2026-09-25）：accept（仅审计材料接收含两条非阻断文字观察）；后续收口——回执 cc2720c5 已在 main 与原候选逐字一致、按「审过即集成推送」归档 done；NB1/NB2 观察仍有效、源文档修订建议须另卡处理。
+
+## Scope
+
+窄返工接收（4b75d1c3 正文/cc2720c5 tip/证据冻结 dab017e7）：R1 C01 补 Reforge 消费者撤断链结论、C12 两短名导航撤误报；R2 C07 替换句只指 PAL 发布入口不再承诺烘焙细节；R3 五包代表锚点纠正（shared test :14 非 :15、pal-extract extract :10 非 :11、game dev :7/test :10、editor typecheck :12/test :13、migrate migrate:content :16/test:fast :9/check :11）+C09 补 cwd 轴（grep-sdlpal-chunks/extract-videos/check.mjs/relocate.mjs 按模块位置或进程 cwd）+preview 相对 out 区别；R4 未执行移出未核输入、16 ID 去向唯一（13 分类+3 撤回）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 机械核对+资源复算 | 候选原树 check.mjs PASS（549 Markdown/2994 links/181 tasks）、diff exit0；UI 资源复算直接读 dab017e7 Git blob（85 文件/48629 字节 aggregate 5e5315f8…、title/dialog-icons/许可证/BDF hash 与 PROVENANCE 一致） | Codex | NB1 pal-extract test/typecheck 实为 :8/:7（:9 是 check）；NB2 preview-fbp 行 6 格对 7 格表头——两条非阻断，正式引用必须用准确版本 | 未运行 bake/未下载上游/未验观感；C05 保持待确认（dev 中间件提供 extracted 不证产品加载器读它） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+accept 仅审计材料；R1-R4 首轮反证保留历史；C03 禁止架构演进与 CLAUDE.md 现行授权冲突判断成立。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；argv/cwd 事实表与 R1-R4 首轮反证在 quote 全文。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| DOC-CURSOR-2 复核 | 2026-09-25 | R1-R4 闭合+两非阻断 | accept→后续集成 done | 首轮反证 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/testing-records 的文档二波复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-CURSOR-2 — Codex独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept 仅审计材料；R1-R4 首轮反证保留历史；C03 禁止架构演进与 CLAUDE.md 现行授权冲突判断成立。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+锚点校正表、cwd 轴、资源复算算法与 NB1/NB2 表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。复核时点材料。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-GUIDE-REVISION-1（五份修订收口）。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `601bda41db8bc06a85ad2f11246b984d6aba6933ae96564fd510838f571b969f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `601bda41db8bc06a85ad2f11246b984d6aba6933ae96564fd510838f571b969f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-2 — Codex独立接收复核
 >

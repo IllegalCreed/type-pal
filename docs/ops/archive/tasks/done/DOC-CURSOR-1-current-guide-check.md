@@ -1,55 +1,66 @@
 # DOC-CURSOR-1 — 十二份现行文档的轻量核对
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Contribution Owner: Cursor（文档只读取证，不占三贤人席位）
+Reviewer: Codex
+Phase: ops
+Capability: 文档维护准备；不改变能力格
+Visual Verification Timing: N/A
+Branch: codex/cursor-docs-hygiene-r1
+Revision: r1
+Evidence freeze: a3ceaf05
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 文档核对系列首包历史卡（2026-09-25）：十二份现行文档的命令/引用/准备说明轻量只读核对（C1 命令/C2 引用/C3 准备说明等四组），交可直接据以修改的建议表；H1-H6/N1/T1 由 DOC-GUIDE-REVISION-1 纠错、H7 由 DOC-CURSOR-4 收口。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补既有检查器不覆盖的静态人工核对（代码围栏内命令、行内路径、标题锚点、叙述真实性）；不重造文档检查器。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：固定十二份清单（根 README、docs README、dev-servers/browser-verification/documentation、coverage 现行操作段、phase2 README/editor-architecture/debug-tools/content-publication/shared-script/scene-entry）；只读。
+- 范围外：产品/测试/视觉；与 GLM 十二组回归实验重叠；文件本机缺席/旧行号漂移/历史版本数字直接报缺陷。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+核到脚本存在只能写“静态对齐”不能写“启动/业务通过”；最强替代解释（历史快照/未来计划/示例占位/gitignored 生成物）必须先判时效。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：正文 65193a84/登记 320800ec 独立 accept、cursor-docs-hygiene.md 与 main 逐字一致；用户“审过即集成推送”规则下 Codex 核定 done 归档。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+H7 因把未渲染 ScriptTree 文案当用户可见事实改判待核（后续 DOC-CURSOR-4 教训源头）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 开卡与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：十二份只读核对材料经独立 accept 集成；后续纠错分流至 REVISION-1/DOC-CURSOR-4。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-docs-hygiene.md 与接收记录；package.json/Vite 配置/真实符号定义为命令证据源。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。十二份文档现行内容以当前树为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+DOC-GUIDE-REVISION-1 与 DOC-CURSOR-2..6 系列。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `3d5f540bbc4b8a1c0297914b702ea6f0eed459ea8123ad564f66743d30f477b4`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `3d5f540bbc4b8a1c0297914b702ea6f0eed459ea8123ad564f66743d30f477b4`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-1 — 十二份现行文档的轻量核对
 >

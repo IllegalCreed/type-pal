@@ -1,0 +1,32 @@
+{
+  "session": "6325bba0-f6ec-47b4-950f-b735c305a288",
+  "inputSnapshot": "raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
+  "inputSnapshotSha256": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
+  "capturedBody": {
+    "path": "docs/phase2/READ-FIRST.md",
+    "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be"
+  },
+  "postCaptureDifferences": [
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+      "capturedSha256": "fb95b63dc215e4cb0df58a246ba8928e63f055239bf67a73b710eb1ac14daafa",
+      "currentSha256": "db6841ba2a71d34830b58da4f8a4a9d98f769c9d66adf22248fc47d906312e34"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "capturedSha256": "0a6e56fa5849ab1045061bce086c923647827ecdc32ca4c35a86130dbfc733d7",
+      "currentSha256": "c3ba1d75f7ef64ef09ae9ed2dc0964b129851180f6c591506923e36202390abe"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "capturedSha256": "e0774a91da3ae44da9f73a120f2994e20d12ffab6a6ee4b5b21889c6d84e1977",
+      "currentSha256": "870e9ae0040badc0c21c5e6467f7befb4160b757809195c35e2b578e0cea2037"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+      "capturedSha256": "18114cff199cb1c35b584763c51e6ac43ea1f777e979b9c4c31b402567dfe583",
+      "currentSha256": "dae6e1af96255f0b5bbc470b05770162b85fe5f5f4f58e6b2b570dc41f8a1d58"
+    }
+  ],
+  "meaning": "Later control registration differs; capture is not claimed to certify later full checkout. Independent current commands cover the frozen8ef0 candidate."
+}

@@ -1,65 +1,100 @@
 # 本地开发服务器 · 端口与启动命令
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Validity: current
+Owner: Codex（操作指南；服务由对应任务Owner负责）
+Last reviewed: 2026-10-24
 Template: guide-runbook-v1 / 1.0.0
-
-本页把历史材料接入 `guide-runbook-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 目的
 
-- 读者和完成后得到的结果：按当前 ops guide/runbook 完成 Current ops guide/runbook; preserve purpose, prerequisites, steps, failure handling, stop line and completion evidence.。
+从仓库根目录选择正确的engine、project和origin，复用已运行实例，区分日常开发、编辑器同源试玩、局域网文件访问与独立运行时。端口表来自当前package脚本；本文静态核命令，不证明服务此刻正在运行。
 
 ## 前置条件
 
-- 权限、输入、版本和安全边界：以当前 AGENTS、ops workflow、任务卡和仓库入口为准。
-- 当前执行前必须确认：工具、版本、数据路径、Owner 和用户授权。
+- 先核[当前任务范围](../board.md)和[协作流程](../agent-workflow.md)，Reforge/编辑器工作另读[READ-FIRST](../../phase2/READ-FIRST.md)。启动前探测对应端口/进程，已有正确实例时复用；不要停掉其他Owner的进程。
+- 完成仓库依赖安装。PAL原始资源和ignored物化目录由当前任务的供应责任管理；demo可用于自包含演示，不把缺PAL资产时启动demo当PAL验证。
+- 当前package脚本显式传入端口和`--strictPort`。game Vite配置中仍有旧5173/5174与Playwright注释；当前6005入口以package脚本为准，不沿旧注释恢复已退役L2实例。未显式设PAL的脚本按应用默认选demo；若调用环境另设了`VITE_PROJECT_ID`，须核实际project身份。
 
 ## 步骤
 
-1. 先读取当前入口、前置条件和本页适用范围。
-2. 按步骤执行并把结果写回当前 task/evidence 入口。
-3. 对失败、边界和人工接管保留可复核证据。
+### 1. 从根目录选定服务
+
+| 目标 | 命令 | URL / 用途 |
+|---|---|---|
+| 一阶段game | `pnpm --filter @type-pal/game run dev` | `https://localhost:6005/`，默认basicSsl自签证书 |
+| 一阶段HTTP开发 | `E2E=1 pnpm --filter @type-pal/game run dev` | `http://localhost:6005/`；该环境变量只关闭basicSsl插件 |
+| 编辑器PAL | `pnpm --filter @type-pal/editor run dev` | `http://localhost:6010/`，脚本设置`VITE_PROJECT_ID=pal` |
+| 编辑器demo | `pnpm --filter @type-pal/editor run dev:demo` | `http://localhost:6011/` |
+| Reforge demo | `pnpm --filter @type-pal/reforge run dev` | `http://localhost:6050/` |
+| Reforge PAL | `pnpm --filter @type-pal/reforge run dev:pal` | `http://localhost:6051/`，脚本设置`VITE_PROJECT_ID=pal` |
+
+当前game没有`e2e` package脚本或6001专用实例；`E2E=1`本身不运行Playwright、剧情、Service Worker或离线验收。真实E2E执行使用[现行合同](../../testing/e2e/contract.md)对应命令。
+
+### 2. 区分工程正文与资产供应
+
+`data/raw/`是原版输入，`pnpm extract`生成一阶段提取数据。PAL当前场景/脚本等作者正文维护权按READ-FIRST与作者真源裁决，不因缺图片就重建或覆盖整份作者工程。
+
+若任务要求核当前PAL publication或补齐ignored二进制，先确认原始资源、current baseline、供应分区和任务IO范围。当前命令启动时会先恢复待处理事务：不带`--write`也可能因journal恢复而写盘，不能当作严格只读探测。没有待恢复事务时才进入仅构建/验证计划的路径：
+
+```bash
+pnpm --filter @type-pal/migrate run migrate:content
+# 核对计划；任务允许发布写盘时：
+pnpm --filter @type-pal/migrate run migrate:content --write
+```
+
+`projects/pal/assets/index.json`是入库索引；`assets/migrated/`、`runtime/`可有未物化的ignored产物。不带`--write`不等于已物化；`--write`会将当前content、assets与baseline作为可恢复事务发布，不是只写图片。缺current baseline时命令拒绝，不从旧工程bootstrap；不要为首次clone自行复活旧epoch流程。`bake`只重建bundler-owned默认UI等，不是补PAL工程缺图的替代命令。`data/baked/`不作为当前项目或引擎输入。
+
+### 3. 本地编辑与同源试玩
+
+从编辑器“引擎试玩”打开同源play页，保留当前工程来源与句柄。协议、主机名和端口的任何变化都会改变origin；不能把另一个端口中缺少“最近工程”句柄当作数据丢失。独立6051与编辑器6010的用途不同。
+
+### 4. 局域网需要文件夹读写时
+
+普通`http://<局域网IP>:6010`不等同localhost的开发期安全来源。当前提供专门命令：
+
+```bash
+pnpm --filter @type-pal/editor run dev:lan
+```
+
+该脚本启用`EDITOR_LAN_HTTPS=1`、绑定`0.0.0.0:6010`，由editor Vite配置挂basicSsl。使用`https://<编辑器电脑的局域网IP>:6010/`；自签证书只用于可信开发网络，首次按本机浏览器流程处理。切换origin后重新选择工程文件夹。LAN模式会暴露开发源码/资源；多人长期使用应配置客户端信任的开发证书。
 
 ## 失败处理
 
-- 可预期失败：- 正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
-- 停止线：follow current repository routes and ownership; do not use historical instructions as current authorization
-- 回滚/人工接管：停止当前操作，保留日志并交当前 Owner 裁决。
+- `strictPort`报占用：核现有实例的Owner、engine与project，正确则复用；未知实例先联系其Owner，不改端口绕开冲突。
+- 页面仍在但请求`Failed to fetch`：核服务是否已退出/休眠中断，再核请求origin；保留原错误，不只凭旧SPA画面认定服务正常。
+- 索引存在但PAL二进制404：核实际资产路径和物化计划；`bake`或dry-run均不等于物化成功。
+- 显示demo却预期PAL：核是否使用指定`dev`/`dev:pal`脚本与project身份，尤其手写裸`vite`命令时。
+- 局域网缺文件API：核HTTPS、安全上下文、证书与origin；缺权限、缺资产来源或任务范围外写盘时停止对应验证，不改产品/版本合同凑通过。
 
 ## 完成定义
 
-- 可观察的完成条件：步骤结果、证据路径、Owner 和下一步均已写回。
-- 证据路径与复核人：本页、当前 task card、evidence receipt 和 Codex 独立复核。
+操作记录应说明实际命令、端口/协议、engine/project、起停Owner、工程/资产来源与可达性。由[浏览器实测指南](browser-verification.md)继续核实际输入和画面；服务启动不替代功能、E2E、SW、视觉或coverage通过。本轮仅核package与Vite等源码，未启动或停用任何服务。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-07-04；固定来源 `f4c664a8cf0dd564f68857b393861f553e35c73f`；source SHA `448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368。
+下方保留`f4c664a8cf0dd564f68857b393861f553e35c73f`的旧端口/供应说明与2026-07-04决策。R35把现行指南标为historical并写入通用三步，无法支撑CLAUDE的当前启动路由；本次按真实脚本恢复具体操作正文，旧封套由Git保存。
 
 ## 原始结论
 
-- 本地开发服务器 · 端口与启动命令：这是 guide-runbook，当前文档状态为 current。全文 104 行、8 个标题；摘要/首段为「> 端口规划(2026-07-04 拍板):**避开 vite 默认 517x 段**(容器/其他工程常撞)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+原稿明确6005/6010/6011/6050/6051、strictPort、PAL/demo区分、LAN HTTPS与ignored资产供应。旧默认端口或旧Playwright注释的存在不恢复旧测试入口。原稿“只跑dry-run不会写”的早期简写不能覆盖当前启动先恢复journal的真实调用顺序。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原稿命令不是本轮运行回执。本次全文读本页及固定原源，核三package脚本、game/editor Vite相关段、migrate package命令、publication入口/恢复顺序、bake输出与当前维护权规范；未install/extract/migrate、未浏览器执行、未跑产品测试。
 
 ## 当前有效性
 
-historical。follow current repository routes and ownership; do not use historical instructions as current authorization
-- 历史冲突/未决：
-- 正文信号 20:# 可选：确认同源再迁移已经稳定，无待写、待删或冲突
+current指当前package脚本与静态核实的配置说明。实际端口占用、资产可达性、浏览器API和SW行为仍须在指定现场验证；脚本或供应维护权变化须同步本页。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+本页取代R35泛化正文；[CLAUDE](../../../CLAUDE.md)继续引用本页为端口速查，[READ-FIRST](../../phase2/READ-FIRST.md)定义供应维护权，[E2E合同](../../testing/e2e/contract.md)与实际任务保存执行结果。
 
 ## 原文保全
 
-固定源 SHA `448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368`；下方 quote 可逆回原始 UTF-8 字节。
+固定source revision `f4c664a8cf0dd564f68857b393861f553e35c73f`、SHA `448edbe18ae46164d0f81b6094ca453dabf25f1fdeeae23afee14651c787b368`。下方marker到文件末尾字节保留。
+
 <!-- original-source-quote:start -->
 > # 本地开发服务器 · 端口与启动命令
 >

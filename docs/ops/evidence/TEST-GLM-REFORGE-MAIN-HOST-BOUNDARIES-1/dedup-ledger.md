@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 的家族排重账：口径=fullName×公开 caller×合法输入×业务 oracle；基线 origin/main cb12a63e2；审计域=packages/reforge/src/main.ts 公开宿主编排（场景进入/离开、script continuation/abort、save/readback、world mutation、battle trial 公开回执、stale async 与 cleanup），四个相邻模块只在 main 的真实组合流缺口处纳入。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main orchestration family ledger 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 5f90bc4fe0342726cf5317ac3e27fd859da225891470b4603f5c72ff8f6e45dd。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- main.ts 宿主编排域：入场事务、脚本错误回执、试打全链/失败、存档失败回执。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新交付 5 合同（source:line/caller/输入/oracle 逐行）：MHB-ENTRY-REVEAL-1（main.ts:2105-2191+1412-1442）；MHB-SCRIPT-ERR-1（:4501-4536）；MHB-TRIAL-DONE-1（:5842-5890）；MHB-TRIAL-ERROR-1（:5887-5889）；MHB-SAVE-FAIL-1（:4850-4901）。
+- existing-proof+unreachable/缺陷登记分列（quote 详）。
+
+## 来源与输入
+
+- runtime-shell 真实 IDB/fixture 项目、外部 IO 边界失败注入（fixture read 钩子抛错）、URL 参数公开入口。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- D-1 产品缺陷：?battle-scene= 遭遇演出接线在投影视图永找不到 startBattle 命令（一手锚点+实证靴记录）。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（5/5+五门）。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 家族排重账；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main orchestration family ledger：原始正文完整保留于下方 quote。
+- 5 新合同逐行锚点；D-1 缺陷披露。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表与登记在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 cb12a63e2 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `5f90bc4fe0342726cf5317ac3e27fd859da225891470b4603f5c72ff8f6e45dd`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `5f90bc4fe0342726cf5317ac3e27fd859da225891470b4603f5c72ff8f6e45dd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — main orchestration family ledger
 >

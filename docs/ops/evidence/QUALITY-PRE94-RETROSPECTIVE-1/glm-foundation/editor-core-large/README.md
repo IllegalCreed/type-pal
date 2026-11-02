@@ -1,5 +1,38 @@
 # 批53:editor core 大件 13 文件（零整改批,core 包收口）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本页审计主题:packages/editor/src/core/ 600+ 行生产文件 13 件的八维审查(A–H),兼 editor core 包收口批。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
+
+## 范围与证据
+
+范围 13 件(item-references 690/project-io 774/map-selection 778/author-save-journal 871/edit-session 876/project-diagnostics 921/playback 972/workspace-persistence 999/command-catalog 1009/project-reference 1341/world-sprite-behavior 1581/project-reference-adapters 1886/script-editor 2153,共 14.85k 行)全文读毕;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/core 全量 2331/2331、numFailedTestSuites=0(与批52 同一冻结回执),原回执超 1MiB,现以 [directed.json.gz](directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
+
+## 发现
+
+author-save-journal(871):崩溃安全作者保存日志——stage 逐 blob 持久化/封存计划全文重读校验/planHash 哈希互锁;published committed 标记后的失败只作 cleanup warning 绝不重放;recoverOwn 只允许原页面(WorkspaceContext 身份+ownerNonce+baseline 三验)。workspace-persistence(999):不透明单次写入 capability(brand 类型+WeakMap);target/mutation 相位机;PAL 开发基线受控 JSON 指纹;沙盒 marker 作为首个 mutation 在双锁内提交;恢复基线只采纳原封存计划目标字节。project-io(774):writeProject 点击时冻结输出集;staged→final catalog 两段;manifest 最后写;copy-through 不 JSON.parse 不全量物化;preflight 逐资源 bytes/sha/gzip 魔数/三类 sprite 真解码。edit-session(876):不可变工作副本+undo/redo+两段防中间态;mapRevision 单调封过期窗口;地图引用事实扫描 6 并发 worker。script-editor(2153):canonical 脚本作者态唯一真值;一次命令遍历材料化(visits);SnapshotCommand 基类;重命名跨记录改写;getAffectedRecordsSince 增量 patch。project-reference(1341)+adapters(1886):五表编码快照+默认值折叠 0 哨兵;deletionScope 防自删除死锁;canonical/legacy 双通道建边严格分流。world-sprite-behavior(1581):有界视觉投影,三预算(4096 命令/48 tick/16 深度)。playback(972):双运行时,演出态全 overlay 不触编辑器数据。map-selection(778):W8 纯选择状态 reducer 表驱动,像素命中优先于逻辑格。item-references/project-diagnostics/command-catalog:物品全项目闭包、诊断唯一 orchestrator、指令目录与 AuthorCommand 词表全对齐。
+
+## 结论
+
+八维审查(A–H)作者主张全部通过,零源码改动、零 diff;登记移交无新清理候选;至此 editor core 包 125 文件全量收口(批51-53,作者阶段主张)。定向全量 2331/2331 为该时点机器事实。
+
+## 整改与复核
+
+本批零整改,无整改记录;未重跑测试;计数与 gzip 附件为原时点记录。Codex 2026-10-19 勘误/接管以 codex-stage2-rework.json 为准;候选待 Owner 接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4698B / SHA-256 a5aa1053d78368bdd877e25512a370d42cc9440112427e5f012692ebeaa5cfd7；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 批53:editor core 大件 13 文件（零整改批,core 包收口）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 范围:`packages/editor/src/core/` 600+ 行生产文件 13 件(item-references 690/project-io 774/map-selection 778/author-save-journal 871/edit-session 876/project-diagnostics 921/playback 972/workspace-persistence 999/command-catalog 1009/project-reference 1341/world-sprite-behavior 1581/project-reference-adapters 1886/script-editor 2153,共 14.85k 行)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。至此 editor core 包 125 文件全量收口(批51-53)。
@@ -28,3 +61,5 @@
 ## 原生附件无损迁移（Codex，2026-10-19）
 
 原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。
+```
+<!-- incremental-original-source:end -->

@@ -1,563 +1,2204 @@
 {
   "schemaVersion": 1,
   "id": "r58-task-template-sources-20261017",
-  "reviewer": "Codex root full-text canonical template-source review",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R58: reusable task templates remain copyable canonical sources. They are governed as reference-canon template-source artifacts with byte-stable preservation rather than wrapped Markdown bodies; registry/review/consumer links provide governance without changing template syntax.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "path": "docs/ops/templates/TASK-template.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved. Current canonical edition frozen at e8566c2c7 with exact Git blob/byte proof; this does not restore historical byte-equality credit for authorized 2026-10-18 edits.",
-      "truthAnchors": [
-        "docs/ops/code-quality.md",
-        "AGENTS.md:操作与必读",
-        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
-      ],
-      "unresolved": [
-        "Historical product/coverage/unified gates remain outside this documentation-only integration."
-      ],
-      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
-      "phase": "ops",
-      "module": "templates",
-      "capability": "full-task-card-template",
-      "owner": "Codex（文档治理）",
-      "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r58_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
-        }
-      ],
-      "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
-      "publicCallers": [
-        "docs/ops/templates/README.md",
-        "docs/ops/tasks/README.md",
-        "scripts/docs/cursor-task-index.test.mjs",
-        "scripts/docs/check.mjs"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/ops/templates/TASK-template.md",
-        "task-card-v1 registry and consumer tests"
-      ],
-      "businessOracle": {
-        "type": "authorized-document-content-and-real-route-template-consumers",
-        "assertions": [
-          "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
-          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
-          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
-        ]
-      },
-      "dedupe": {
-        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
-        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
-      },
-      "revision": {
-        "currentSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "implementationSha": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
-        "history": [
+      "coreConclusion": "Ops完整任务卡模板源（reference-canon current，Last reviewed 2026-10-24）：task-card-v1完整变体的模板说明页，保全块内嵌基点3ed87f73的5997B完整骨架原件（blob 807bf63f、逐行核读）；正文说明完整卡结构（真值矩阵/反证/用户偏离/build与done独立准入/分派容量/资源生成/视觉验证记录等）并接入main 72db4172的代码任务现行质量扩展（八维/命名组织/Codex证据验收记录提示，不预填通过）。相对upstream 5e66fa6b（3800字符裸骨架）的差异是整页reference-canon包裹+质量扩展；document-quality.md虽不在main基点，却已在整合base及候选树存在，终稿保留本地链接。",
+      "semanticAssessment": {
+        "perFileChecked": true,
+        "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
+        "claims": [
           {
-            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
-            "date": "2026-10-18",
-            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
-            "previousAfterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
-            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "scope": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved.",
-            "notRun": [
-              "product tests",
-              "whole repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "runtime/E2E/visual"
-            ],
-            "previousCoreConclusion": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
-            "previousEvidence": {
-              "kind": "authorized-engineering-quality-contract-content-review",
-              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-              "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
-              "lineCount": 212,
-              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
-            }
+            "claim": "本页是task-card-v1完整变体的模板说明，自身使用reference-canon不新增类型。",
+            "sourceQuote": "这是`task-card-v1`的模板说明，本页自身使用reference-canon，不新增类型。完整卡保留前提真值矩阵"
           },
           {
-            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-            "date": "2026-10-18",
-            "action": "User-authorized permanent engineering-quality standard integration",
-            "previousAfterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-            "scope": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
-            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "notRun": [
-              "product runtime",
-              "whole repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "E2E",
-              "visual"
-            ],
-            "previousCoreConclusion": "TASK-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
-            "previousEvidence": {
-              "kind": "template-source-artifact-envelope",
-              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
-              "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-              "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-              "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-              "lineCount": 198,
-              "artifactPreserved": true,
-              "originalPreservation": {
-                "method": "byte-stable Markdown template source",
-                "sourceBytes": 5757,
-                "sourceLines": 198,
-                "sourceFinalNewline": true,
-                "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-                "exactRoundTrip": true
-              }
-            },
-            "previousBusinessOracle": {
-              "type": "canonical-template-source",
-              "assertions": [
-                "original reusable template bytes remain unchanged",
-                "template consumer links remain reachable",
-                "template source is not mistaken for a task card or execution evidence",
-                "no runtime/E2E/visual/coverage credit"
-              ]
-            },
-            "previousDedupe": {
-              "result": "reviewed-and-preserved",
-              "against": [
-                "docs/ops/templates/TASK-template.md",
-                "docs/ops/templates/README.md",
-                "docs/ops/tasks/README.md",
-                "scripts/docs/cursor-task-index.test.mjs",
-                "scripts/docs/check.mjs",
-                "docs/phase-governance/templates/registry.json"
-              ]
-            },
-            "previousTruthAnchors": [
-              "docs/ops/templates/TASK-template.md:1",
-              "docs/ops/templates/TASK-template.md:8"
-            ],
-            "previousUnresolved": [
-              "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
-            ],
-            "previousNextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。"
+            "claim": "保全块为基点3ed87f73的5997B完整原件并本轮逐行核读。",
+            "sourceQuote": "blob `807bf63fcf1d24b4c6a1c5ba1b2d5c2a51f148dc`，SHA-256 `522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d`，5997B，本轮逐行核读"
           },
           {
-            "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-            "date": "2026-10-17",
-            "action": "full-text template-source review",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
+            "claim": "代码质量扩展接入main 72db4172且不预填通过。",
+            "sourceQuote": "本节接入 main `72db417255d8ca4227522420e9185ef468462aa7` 的质量提示"
           },
           {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R58 byte-stable canonical template source envelope",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-31",
-            "action": "User-authorized semantic naming policy and acceptance prompt",
-            "previousAfterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-            "previousEvidence": {
-              "kind": "current-canonical-template-source-snapshot",
-              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-              "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-              "lineCount": 212,
-              "artifactPreserved": true,
-              "originalPreservation": {
-                "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
-                "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
-                "sourceGitObject": "dc742a340415a657372edc60677b07514a1c1470",
-                "sourceSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-                "sourceBytes": 6916,
-                "sourceLines": 212,
-                "sourceFinalNewline": true,
-                "inverseSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-                "exactRoundTrip": true
-              }
-            },
-            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
-            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
+            "claim": "完整卡与lite同属task-card，lite不能减免前提门。",
+            "sourceQuote": "完整卡和lite都属于task-card，按[AGENTS](../../../AGENTS.md)选择风险相符的变体，不能以lite减免前提门"
           }
         ]
       },
-      "evidence": {
-        "kind": "authorized-current-canonical-template-source-snapshot",
-        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
-        "afterSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
-        "lineCount": 213,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "Current authorized canonical edition saved byte-for-byte in native member; one added acceptance prompt inverse restores the committed previous edition. This is an authorized revision,not equality of old and new editions.",
-          "sourceGitRevision": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
-          "sourceGitObject": "dc742a340415a657372edc60677b07514a1c1470",
-          "sourceSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-          "currentMember": "naming-policy-template-envelope/TASK-template.md.current",
-          "currentSha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d",
-          "currentBytes": 7154,
-          "sourceFinalNewline": true,
-          "inverseSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-          "exactRoundTrip": true,
-          "proofMember": "naming-policy-template-envelope/proof.json"
-        }
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "完整固定源10626B全文读取；核对：适用范围/一手来源（基点3ed87f73、blob/SHA、旧source pin仅复核身份）/当前真值（源结构清单、三Owner职责、三贤人退休不豁免事实门）/代码质量扩展九条记录提示/未知与冲突/使用边界/保全块完整性（template-source-example标记、外层fence）；7条原源链接已读；终稿处置由Owner另核为全部本地live；与upstream 5e66fa6b（3800字符裸骨架）和priorAccepted 511c59b13比对确认差异为包裹与质量扩展。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "reusedFrom": [],
+        "notRead": [
+          "未读取基点3ed87f73的保全块原件字节（按卡内SHA复核身份）；未运行模板消费脚本；未审全部使用者文档。"
+        ]
       },
-      "history": [
+      "truthAnchors": [
+        "这是`task-card-v1`的模板说明，本页自身使用reference-canon，不新增类型。完整卡保留前提真值矩阵",
+        "5997B，本轮逐行核读",
+        "本节接入 main `72db417255d8ca4227522420e9185ef468462aa7` 的质量提示",
+        "不能以lite减免前提门"
+      ],
+      "owner": "Codex",
+      "provenance": [
+        "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
         {
-          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R58 template source artifact envelope",
-          "reviewer": "r58_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-22",
-          "action": "Freeze-current-approved-template-edition-with-actual-Git-byte-proof",
-          "previousEvidence": {
-            "kind": "user-authorized-evidence-first-acceptance-protocol",
-            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
-            "lineCount": 212
-          },
-          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-          "scope": "Current e856 canonical bytes only; authorized 2026-10-18 edits are historical deltas, NOT unchanged against 2026-10-17 original."
+          "kind": "accepted-rollforward-content-planning",
+          "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "productionPublication": false
         }
       ],
-      "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
-      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
-      "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-212",
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "本页是task-card-v1完整变体的模板说明（reference-canon）：保全块字节等于基点3ed87f73原件，结构通过不授执行信用。",
+          "代码任务现行质量扩展为记录提示：逐文件八维、命名与组织、Codex证据验收等九类字段建立卡时填写，不预填通过、不改任务状态机。",
+          "空字段/示例ID/命令/日期是待填输入；旧source pin仅复核身份，不冒称原执行或原深审已重认证。",
+          "静态导航oracle：上述目标在整合base及候选Git树实际存在，候选可见正文保持本地源链接；不因目标未入作者白名单而判失效，不把本检查当运行通过。"
+        ]
+      },
+      "dedupe": {
+        "result": "本页（完整卡模板说明）与TASK-lite模板源互为同型变体说明（完整/lite选择、不可互免前提门），与phase-governance统一注册表（决定版本/章节/词表）分工：本页只说明task-card-v1骨架不改注册表合同。",
+        "against": [
+          "docs/ops/templates/TASK-lite-template.md",
+          "docs/phase-governance/templates/registry.json",
+          "docs/ops/templates/README.md"
+        ]
+      },
+      "dependencies": [
+        "模板注册表registry.json（task-card-v1/reference-canon合同）",
+        "固定源=integration 43403a82当前正文；upstream=5e66fa6b裸骨架；priorAccepted=511c59b13",
+        "docs/phase-governance/templates/registry.json与README.md（被本页引用的统一合同）"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/index.md与任务卡作者（按AGENTS选择完整/lite变体的入口）",
+        "docs/phase-governance/templates/README.md 模板入口导航"
+      ],
+      "unresolved": [
+        "候选待非作者验收与Owner中央接入",
+        "保全块原件（基点3ed87f73）未重读；模板consumer未实跑。"
+      ],
+      "historyBoundary": "固定源=integration 43403a82时点正文（Last reviewed 2026-10-24）；upstream=5e66fa6b（裸骨架）、priorAccepted=511c59b13，骨架/扩展内容以源时点为准。",
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本候选；中央扩容/授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "phaseAnchor": "Ops任务卡模板域（Phase ops模板说明，不承载执行事实）。",
+      "applicability": "仅本页模板说明与保全骨架事实；不外推实际任务卡的执行或验收。",
+      "versionScope": "仅本页模板说明与保全骨架事实；不外推实际任务卡的执行或验收。",
+      "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
+      "templateChoiceRationale": "本页是既有模板说明/reference-canon保全页（适用范围/一手来源/当前真值/未知与冲突/使用边界五节+保全块），符合reference-canon-v1目的而非新执行报告。",
+      "templateConformance": "候选按reference-canon-v1五必需章节自检：保全块前后缀标记完整、H1/Status/Owner保持源值、除1处失效链接外prefix与源逐字节一致。",
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/ops/templates/TASK-template.md",
+          "acceptedBodySha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+          "acceptedContentSha256": "ebc0a223f77a5482ce6a16c5720f6ad99dcb1e295db22acc5a474cf26035fc16",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
+      "supersedes": [],
+      "counterReworkBlocked": {
+        "counter": [],
+        "rework": [],
+        "blocked": ["本候选待非作者文档接受和中央接入"]
+      },
+      "linkDisposition": [
+        {
+          "source": "../../../AGENTS.md",
+          "target": "../../../AGENTS.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../phase-governance/templates/README.md",
+          "target": "../../phase-governance/templates/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../phase-governance/templates/registry.json",
+          "target": "../../phase-governance/templates/registry.json",
+          "kind": "live"
+        },
+        {
+          "source": "../code-quality.md",
+          "target": "../code-quality.md",
+          "kind": "live"
+        },
+        {
+          "source": "../code-quality.md#文件与目录的语义组织硬性要求",
+          "target": "../code-quality.md#文件与目录的语义组织硬性要求",
+          "kind": "live"
+        },
+        {
+          "source": "../document-quality.md",
+          "target": "../document-quality.md",
+          "kind": "live"
+        }
+      ],
+      "fieldRoles": {
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r58-task-template-sources.json#entries/0"
+        ],
+        "nativePointers": []
+      },
+      "ownerCorrections": [
+        {
+          "kind": "owner-limited-link-erratum/1.0.0",
+          "actor": "Codex",
+          "date": "2026-11-01",
+          "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
+          "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
+          "beforeFields": {
+            "coreConclusion": "Ops完整任务卡模板源（reference-canon current，Last reviewed 2026-10-24）：task-card-v1完整变体的模板说明页，保全块内嵌基点3ed87f73的5997B完整骨架原件（blob 807bf63f、逐行核读）；正文说明完整卡结构（真值矩阵/反证/用户偏离/build与done独立准入/分派容量/资源生成/视觉验证记录等）并接入main 72db4172的代码任务现行质量扩展（八维/命名组织/Codex证据验收记录提示，不预填通过）。相对upstream 5e66fa6b（3800字符裸骨架）的差异是整页reference-canon包裹+质量扩展；正文live链接document-quality.md在main无文件，prefix已最小换成43403a82固定Git地址。",
+            "semanticAssessment.method": "固定源10626B全文逐字节读取（<32KiB直接全读，amend_prefix.py起点=源剥front matter/testing-meta的全文）；以git cat-file比对integration 43403a82源与upstream 5e66fa6b/priorAccepted 511c59b13三元差异；links.py列全6条源链接并逐条核liveness。",
+            "readDomain.actual": "完整固定源10626B全文读取；核对：适用范围/一手来源（基点3ed87f73、blob/SHA、旧source pin仅复核身份）/当前真值（源结构清单、三Owner职责、三贤人退休不豁免事实门）/代码质量扩展九条记录提示/未知与冲突/使用边界/保全块完整性（template-source-example标记、外层fence）；6条live链接与1条已转固定地址链接核liveness；与upstream 5e66fa6b（3800字符裸骨架）和priorAccepted 511c59b13比对确认差异为包裹与质量扩展。",
+            "businessOracle.assertions": [
+              "本页是task-card-v1完整变体的模板说明（reference-canon）：保全块字节等于基点3ed87f73原件，结构通过不授执行信用。",
+              "代码任务现行质量扩展为记录提示：逐文件八维、命名与组织、Codex证据验收等九类字段建立卡时填写，不预填通过、不改任务状态机。",
+              "空字段/示例ID/命令/日期是待填输入；旧source pin仅复核身份，不冒称原执行或原深审已重认证。",
+              "正文document-quality.md链接目标不在main树，prefix已最小换43403a82固定Git地址。"
+            ],
+            "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零结构改动；仅1处live失效链接（document-quality.md）最小换43403a82固定Git地址并在linkDisposition记录；源字节保全在固定Git对象。"
+          },
+          "targets": [
+            {
+              "target": "../document-quality.md",
+              "path": "docs/ops/document-quality.md",
+              "occurrencesAdded": 1,
+              "gitObject": "647353d58236fbb6806c9c8e88247fc5c1ba1579",
+              "sha256": "daa883faaa764297179d3052725a582a5f582908b556e0f3648047cdd74136b6"
+            }
+          ],
+          "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
+          "newSemanticCredit": 0,
+          "runtimeCredit": 0
+        }
+      ],
+      "path": "docs/ops/templates/TASK-template.md",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
       "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "artifactOnly": true,
       "documentStatus": "current",
-      "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+      "sourceGitRevision": "43403a826edcaf40509f55b51e6f6214723252ed",
+      "sourceSha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+      "afterSha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-template.md",
-          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-          "sha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-          "scope": "full UTF-8 template source"
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "53aac788dc04b2720f4693fe5f0decc541f6da01",
+          "sha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f"
         }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "templates",
-        "currentBoundary": "template registry and direct consumers own canonical source truth"
-      },
-      "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
-      "versionScope": {
-        "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R58-TEMPLATE-BYTE-STABILITY",
-          "status": "closed-for-migration-open-for-source-change",
-          "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
-        },
-        {
-          "id": "R58-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.\n2026-10-31 envelope repair: first unified check rejected missing artifact preservation metadata for both templates. Authorized one-line delta proves exact inverse to Git and exact current frozen bytes; historical snapshot remains in revision.history. No policy or checker relaxation."
-    },
-    {
-      "path": "docs/ops/templates/TASK-lite-template.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "reference-canon",
-      "templateId": "reference-canon-v1",
-      "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved. Current canonical edition frozen at e8566c2c7 with exact Git blob/byte proof; this does not restore historical byte-equality credit for authorized 2026-10-18 edits.",
-      "truthAnchors": [
-        "docs/ops/code-quality.md",
-        "AGENTS.md:操作与必读",
-        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
-      ],
-      "unresolved": [
-        "Historical product/coverage/unified gates remain outside this documentation-only integration."
-      ],
-      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
-      "phase": "ops",
-      "module": "templates",
-      "capability": "light-task-card-template",
-      "owner": "Codex（文档治理）",
-      "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r58_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
-        }
-      ],
-      "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
-      "publicCallers": [
-        "docs/ops/templates/README.md",
-        "docs/ops/tasks/README.md",
-        "scripts/docs/cursor-task-index.test.mjs",
-        "scripts/docs/check.mjs"
       ],
       "legalInputs": [
-        "current repository documentation",
-        "docs/ops/templates/TASK-lite-template.md",
-        "task-card-v1 registry and consumer tests"
+        {
+          "kind": "fixed-markdown-source",
+          "path": "docs/ops/templates/TASK-template.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "53aac788dc04b2720f4693fe5f0decc541f6da01",
+          "sha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f"
+        }
       ],
-      "businessOracle": {
-        "type": "authorized-document-content-and-real-route-template-consumers",
-        "assertions": [
-          "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
-          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
-          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
-        ]
-      },
-      "dedupe": {
-        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
-        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
+      "evidence": {
+        "kind": "incremental-existing-template-amendment",
+        "originalBytes": 10626,
+        "originalSha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+        "preservedSpans": [
+          {
+            "marker": "<!-- incremental-original-source:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-quote:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-fenced:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- template-source-example:start -->",
+            "blocks": 1,
+            "sha256": "600d3c1779510936259db60fef7aeddd8dd68827e2e1312a38362e4008930854"
+          }
+        ],
+        "fullSourcePreservedIn": "pinned-git-blob",
+        "path": "docs/ops/templates/TASK-template.md"
       },
       "revision": {
-        "currentSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "implementationSha": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
+        "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
         "history": [
           {
-            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
-            "date": "2026-10-18",
-            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
-            "previousAfterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
-            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "scope": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved.",
-            "notRun": [
-              "product tests",
-              "whole repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "runtime/E2E/visual"
-            ],
-            "previousCoreConclusion": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
-            "previousEvidence": {
-              "kind": "authorized-engineering-quality-contract-content-review",
-              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-              "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
-              "lineCount": 75,
-              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
-            }
-          },
-          {
-            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-            "date": "2026-10-18",
-            "action": "User-authorized permanent engineering-quality standard integration",
-            "previousAfterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-            "scope": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
-            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "notRun": [
-              "product runtime",
-              "whole repository check",
-              "official coverage ratchet",
-              "protected fast",
-              "E2E",
-              "visual"
-            ],
-            "previousCoreConclusion": "TASK-lite-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
-            "previousEvidence": {
-              "kind": "template-source-artifact-envelope",
-              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
-              "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-              "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-              "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-              "lineCount": 61,
-              "artifactPreserved": true,
-              "originalPreservation": {
-                "method": "byte-stable Markdown template source",
-                "sourceBytes": 2312,
-                "sourceLines": 61,
-                "sourceFinalNewline": true,
-                "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-                "exactRoundTrip": true
-              }
-            },
-            "previousBusinessOracle": {
-              "type": "canonical-template-source",
-              "assertions": [
-                "original reusable template bytes remain unchanged",
-                "template consumer links remain reachable",
-                "template source is not mistaken for a task card or execution evidence",
-                "no runtime/E2E/visual/coverage credit"
-              ]
-            },
-            "previousDedupe": {
-              "result": "reviewed-and-preserved",
-              "against": [
-                "docs/ops/templates/TASK-lite-template.md",
-                "docs/ops/templates/README.md",
-                "docs/ops/tasks/README.md",
-                "scripts/docs/cursor-task-index.test.mjs",
-                "scripts/docs/check.mjs",
-                "docs/phase-governance/templates/registry.json"
-              ]
-            },
-            "previousTruthAnchors": [
-              "docs/ops/templates/TASK-lite-template.md:1",
-              "docs/ops/templates/TASK-lite-template.md:8"
-            ],
-            "previousUnresolved": [
-              "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
-            ],
-            "previousNextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。"
-          },
-          {
-            "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-            "date": "2026-10-17",
-            "action": "full-text template-source review",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R58 byte-stable canonical template source envelope",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-31",
-            "action": "User-authorized semantic naming policy and acceptance prompt",
-            "previousAfterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-            "previousEvidence": {
-              "kind": "current-canonical-template-source-snapshot",
-              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-              "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-              "lineCount": 75,
-              "artifactPreserved": true,
-              "originalPreservation": {
-                "method": "Exact current canonical edition versus committed source; not equality to the pre-2026-10-18 template",
-                "sourceGitRevision": "e8566c2c7ea1fbdccdbc782bd54216f94cd0823e",
-                "sourceGitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
-                "sourceSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-                "sourceBytes": 3471,
-                "sourceLines": 75,
-                "sourceFinalNewline": true,
-                "inverseSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-                "exactRoundTrip": true
-              }
-            },
-            "scope": "2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.",
-            "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json"
+            "value": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+            "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
           }
         ]
       },
-      "evidence": {
-        "kind": "authorized-current-canonical-template-source-snapshot",
-        "path": "docs/ops/evidence/QUALITY-PENDING-100-3/review.json",
-        "afterSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
-        "lineCount": 76,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "Current authorized canonical edition saved byte-for-byte in native member; one added acceptance prompt inverse restores the committed previous edition. This is an authorized revision,not equality of old and new editions.",
-          "sourceGitRevision": "e94098f949452bc3bf8d028f21bdc0a4e400ea22",
-          "sourceGitObject": "7a4aef174d3db4c75b7a55e3cee47d857fcc63d8",
-          "sourceSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-          "currentMember": "naming-policy-template-envelope/TASK-lite-template.md.current",
-          "currentSha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5",
-          "currentBytes": 3709,
-          "sourceFinalNewline": true,
-          "inverseSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-          "exactRoundTrip": true,
-          "proofMember": "naming-policy-template-envelope/proof.json"
-        }
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "proposedBinding": {
+        "docType": "reference-canon",
+        "templateId": "reference-canon-v1",
+        "templateVersion": "1.0.0",
+        "productionRoutingChanged": false
       },
-      "history": [
-        {
-          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
+      "rollforward": {
+        "kind": "amendment",
+        "upstream": {
+          "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+          "gitObject": "f4d81a811ccf9afc02a055c4af91c5424073c056",
+          "sha256": "a1e93ca6d37126176f5bf901b4116845925edbfd4e06e6454a9a3a901f9b116d"
         },
-        {
-          "revision": "working-tree",
-          "action": "R58 template source artifact envelope",
-          "reviewer": "r58_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "priorAccepted": {
+          "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
+          "gitObject": "74adfced6062fb0ca1076f53396d3e81eb84a618",
+          "sha256": "9e605824ca61d87a7fb21aa94c5e19e94cb6671869734808f2e5641a7c976bbb"
         },
-        {
-          "date": "2026-10-22",
-          "action": "Freeze-current-approved-template-edition-with-actual-Git-byte-proof",
-          "previousEvidence": {
-            "kind": "user-authorized-evidence-first-acceptance-protocol",
-            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-            "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
-            "lineCount": 75
+        "priorCreditReusedForUnchangedContentOnly": true,
+        "currentPublicationOrExecutionStatusUnchanged": true
+      },
+      "readMethod": "contributor-declared-scope-and-Owner-evidence-verification",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "完整固定源10626B全文读取；核对：适用范围/一手来源（基点3ed87f73、blob/SHA、旧source pin仅复核身份）/当前真值（源结构清单、三Owner职责、三贤人退休不豁免事实门）/代码质量扩展九条记录提示/未知与冲突/使用边界/保全块完整性（template-source-example标记、外层fence）；7条原源链接已读；终稿处置由Owner另核为全部本地live；与upstream 5e66fa6b（3800字符裸骨架）和priorAccepted 511c59b13比对确认差异为包裹与质量扩展。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
+      },
+      "phaseAnchors": ["Ops任务卡模板域（Phase ops模板说明，不承载执行事实）。"],
+      "rollforwardIntake": {
+        "keys": [
+          "coreConclusion",
+          "semanticAssessment",
+          "readDomain",
+          "truthAnchors",
+          "owner",
+          "provenance",
+          "businessOracle",
+          "dedupe",
+          "dependencies",
+          "publicCallers",
+          "unresolved",
+          "historyBoundary",
+          "stopLine",
+          "nextStep",
+          "runtimeExecutionPerformed",
+          "phaseAnchor",
+          "applicability",
+          "versionScope",
+          "userVisibleBeforeAfter",
+          "templateChoiceRationale",
+          "templateConformance",
+          "history",
+          "supersedes",
+          "counterReworkBlocked",
+          "linkDisposition",
+          "fieldRoles",
+          "ownerCorrections",
+          "path",
+          "docType",
+          "templateId",
+          "templateVersion",
+          "documentStatus",
+          "sourceGitRevision",
+          "sourceSha256",
+          "afterSha256",
+          "primarySource",
+          "legalInputs",
+          "evidence",
+          "revision",
+          "historyOverlay",
+          "artifactOnly",
+          "contentReviewStatus",
+          "templateCompliance",
+          "nonAuthorReviewer",
+          "creditGranted",
+          "proposedBinding",
+          "rollforward"
+        ],
+        "sha256": "1d71d13417072045ff9b66a84cad3f761ff4ce596d028b8167e9e28e1ea10f2a",
+        "fields": [
+          {
+            "key": "provenance",
+            "present": true,
+            "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
           },
-          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/ci-progress-20261022/record.json",
-          "scope": "Current e856 canonical bytes only; authorized 2026-10-18 edits are historical deltas, NOT unchanged against 2026-10-17 original."
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": "适用integration 43403a82正文相对upstream 5e66fa6b的reference-canon包裹+质量扩展；不回溯改写priorAccepted 511c59b13旧接受。"
+          },
+          {
+            "key": "fieldRoles",
+            "present": true,
+            "value": {
+              "governance": ["external-candidate-bundle#entries/185"],
+              "nativePointers": []
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "incremental-existing-template-amendment",
+              "originalBytes": 10626,
+              "originalSha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+              "preservedSpans": [
+                {
+                  "marker": "<!-- incremental-original-source:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-quote:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-fenced:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- template-source-example:start -->",
+                  "blocks": 1,
+                  "sha256": "600d3c1779510936259db60fef7aeddd8dd68827e2e1312a38362e4008930854"
+                }
+              ],
+              "fullSourcePreservedIn": "pinned-git-blob"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+              "history": []
+            }
+          },
+          {
+            "key": "readMethod",
+            "present": false
+          },
+          {
+            "key": "reviewDepth",
+            "present": false
+          },
+          {
+            "key": "reviewedLines",
+            "present": false
+          },
+          {
+            "key": "phaseAnchors",
+            "present": false
+          }
+        ]
+      },
+      "rollforwardPrior": {
+        "keys": [
+          "path",
+          "contentReviewStatus",
+          "docType",
+          "templateId",
+          "template",
+          "templateCompliance",
+          "readMethod",
+          "reviewDepth",
+          "coreConclusion",
+          "truthAnchors",
+          "unresolved",
+          "nextStep",
+          "phase",
+          "module",
+          "capability",
+          "owner",
+          "provenance",
+          "sourceSha256",
+          "afterSha256",
+          "publicCallers",
+          "legalInputs",
+          "businessOracle",
+          "dedupe",
+          "revision",
+          "evidence",
+          "history",
+          "supersedes",
+          "stopLine",
+          "userVisibleBeforeAfter",
+          "reviewedLines",
+          "templateVersion",
+          "historyOverlay",
+          "documentStatus",
+          "sourceGitRevision",
+          "candidateSha256",
+          "primarySource",
+          "phaseAnchors",
+          "dependencies",
+          "versionScope",
+          "counterReworkBlocked",
+          "maintenanceDeltas",
+          "templateConformance",
+          "currentAuthoredReview",
+          "currentIndependentAcceptance"
+        ],
+        "sha256": "1fcf6cc58918e1e5624033637a7b385a8d1a92ba4db7f443a1df51d24f9044b2",
+        "fields": [
+          {
+            "key": "contentReviewStatus",
+            "present": true,
+            "value": "content-reviewed"
+          },
+          {
+            "key": "template",
+            "present": true,
+            "value": "docs/phase-governance/templates/reference-canon.md"
+          },
+          {
+            "key": "templateCompliance",
+            "present": true,
+            "value": "template-compliant"
+          },
+          {
+            "key": "readMethod",
+            "present": true,
+            "value": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution"
+          },
+          {
+            "key": "coreConclusion",
+            "present": true,
+            "value": "Ops完整任务卡模板源：完整卡保留前提真值矩阵、反证/用户偏离、上下文、build/done独立准入、设计风险、实施、资源/视觉记录和交接提示词。Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unknown保持blocked，固定三贤人退休不豁免事实门或用户产品裁决。"
+          },
+          {
+            "key": "truthAnchors",
+            "present": true,
+            "value": [
+              "docs/ops/templates/TASK-template.md#适用范围",
+              "docs/ops/templates/TASK-template.md#当前真值",
+              "docs/ops/templates/TASK-template.md#使用边界"
+            ]
+          },
+          {
+            "key": "unresolved",
+            "present": true,
+            "value": [
+              "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+            ]
+          },
+          {
+            "key": "nextStep",
+            "present": true,
+            "value": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims."
+          },
+          {
+            "key": "phase",
+            "present": true,
+            "value": "ops"
+          },
+          {
+            "key": "module",
+            "present": true,
+            "value": "templates"
+          },
+          {
+            "key": "capability",
+            "present": true,
+            "value": "full-task-card-template"
+          },
+          {
+            "key": "owner",
+            "present": true,
+            "value": "Codex（文档治理）"
+          },
+          {
+            "key": "provenance",
+            "present": true,
+            "value": [
+              "source-document",
+              "repository-history",
+              "structured-mechanical-envelope-only",
+              "semantic-and-non-author-credit-withdrawn-20261018",
+              {
+                "task": "DOCS-FULL-TEMPLATE-1/S41",
+                "actor": "Codex",
+                "role": "author",
+                "nonAuthorReviewer": false,
+                "creditGranted": 0,
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+              }
+            ]
+          },
+          {
+            "key": "sourceSha256",
+            "present": true,
+            "value": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2"
+          },
+          {
+            "key": "afterSha256",
+            "present": true,
+            "value": "9e605824ca61d87a7fb21aa94c5e19e94cb6671869734808f2e5641a7c976bbb"
+          },
+          {
+            "key": "publicCallers",
+            "present": true,
+            "value": ["docs/phase-governance/templates/README.md", "docs/ops/templates/README.md"]
+          },
+          {
+            "key": "legalInputs",
+            "present": true,
+            "value": [
+              "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/ops/templates/TASK-template.md",
+              "registered task-card-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+            ]
+          },
+          {
+            "key": "businessOracle",
+            "present": true,
+            "value": {
+              "type": "template-source-reference",
+              "assertions": [
+                "完整卡保留前提真值矩阵、反证/用户偏离、上下文、build/done独立准入、设计风险、实施、资源/视觉记录和交接提示词。",
+                "Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unknown保持blocked，固定三贤人退休不豁免事实门或用户产品裁决。",
+                "outer reference-canon explanation is separate from produced document type",
+                "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+              ]
+            }
+          },
+          {
+            "key": "dedupe",
+            "present": true,
+            "value": {
+              "result": "template source and usage responsibility only; no duplicate type or result ledger",
+              "against": [
+                "docs/phase-governance/templates/registry.json",
+                "docs/phase-governance/templates/README.md",
+                "docs/ops/document-quality.md"
+              ]
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "implementationSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+              "history": [
+                {
+                  "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                  "date": "2026-10-17",
+                  "action": "full-text template-source review",
+                  "contentReviewStatus": "content-reviewed",
+                  "reviewDepth": "deep-semantic"
+                },
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-17",
+                  "action": "R58 byte-stable canonical template source envelope",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                },
+                {
+                  "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                  "date": "2026-10-24",
+                  "action": "S41 current source usage explanation and raw preservation",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "independently-accepted-document-version",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+              "member": "S43/GLM-body-verdict.json",
+              "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+              "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+              "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+              "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+              "runtimeExecutionPerformed": false,
+              "historicClaimsReexecuted": false
+            }
+          },
+          {
+            "key": "history",
+            "present": true,
+            "value": [
+              {
+                "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "deep-semantic"
+              },
+              {
+                "revision": "working-tree",
+                "action": "R58 template source artifact envelope",
+                "reviewer": "r58_readonly_review + Codex root",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-18",
+                "action": "withdraw-unsupported-semantic-and-independent-credit",
+                "task": "DOCS-RECORD-INTEGRITY-1",
+                "contentReviewStatus": "partial-review-unknown",
+                "reviewDepth": "structured-content",
+                "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+              },
+              {
+                "date": "2026-10-24",
+                "action": "S41 full current template-source read and specific usage guidance; frozen example bytes preserved; no completion grant",
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                "previousAfterSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+                "previousCurrentFields": {
+                  "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+                  "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+                  "reviewDepth": "structured-content",
+                  "truthAnchors": [
+                    "docs/ops/templates/TASK-template.md:1",
+                    "docs/ops/templates/TASK-template.md:8"
+                  ],
+                  "unresolved": [
+                    "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks.",
+                    "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+                  ],
+                  "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+                  "legalInputs": [
+                    "current repository documentation",
+                    "docs/ops/templates/TASK-template.md",
+                    "task-card-v1 registry and consumer tests"
+                  ],
+                  "businessOracle": {
+                    "type": "canonical-template-source",
+                    "assertions": [
+                      "original reusable template bytes remain unchanged",
+                      "template consumer links remain reachable",
+                      "template source is not mistaken for a task card or execution evidence",
+                      "no runtime/E2E/visual/coverage credit"
+                    ]
+                  },
+                  "dedupe": {
+                    "result": "reviewed-and-preserved",
+                    "against": [
+                      "docs/ops/templates/TASK-template.md",
+                      "docs/ops/templates/README.md",
+                      "docs/ops/tasks/README.md",
+                      "scripts/docs/cursor-task-index.test.mjs",
+                      "scripts/docs/check.mjs",
+                      "docs/phase-governance/templates/registry.json"
+                    ]
+                  },
+                  "versionScope": {
+                    "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                    "date": "2026-10-17",
+                    "validity": "canonical-template-source"
+                  },
+                  "documentStatus": "canonical-template-source",
+                  "publicCallers": [
+                    "docs/ops/templates/README.md",
+                    "docs/ops/tasks/README.md",
+                    "scripts/docs/cursor-task-index.test.mjs",
+                    "scripts/docs/check.mjs"
+                  ],
+                  "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
+                  "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+                  "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
+                  "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision"
+                },
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false
+              },
+              {
+                "date": "2026-10-24",
+                "action": "S43 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+                "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+                "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+                "previousCurrentFields": {
+                  "contentReviewStatus": "partial-review-unknown",
+                  "templateCompliance": "needs-migration",
+                  "readMethod": "S41 manual full current Markdown source read and specific role/constraint explanation; original pinned source identity only verified, no claim of full historical review",
+                  "unresolved": [
+                    "S41 non-author document acceptance pending; original example and historical execution/source claims not reauthenticated.",
+                    "No migrated route or artifactOnly retirement in this authored candidate; current registry/model completion remains unchanged."
+                  ],
+                  "nextStep": "GLM与S40合计22篇集中据证验收；Owner按逐篇accept显式接入reference-canon路由/registry并处置旧artifactOnly，不从作者结构检查授信用。",
+                  "stopLine": "Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unknown保持blocked，固定三贤人退休不豁免事实门或用户产品裁决。 Original claims withdrawn remain invalid; no rule/config/product/old-test/coverage edits or runtime credit.",
+                  "counterReworkBlocked": [
+                    {
+                      "id": "R58-TEMPLATE-BYTE-STABILITY",
+                      "status": "closed-for-migration-open-for-source-change",
+                      "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+                    },
+                    {
+                      "id": "R58-NO-EXECUTION-CREDIT",
+                      "status": "closed-for-migration-open-for-product",
+                      "statement": "No runtime/E2E/visual/coverage credit."
+                    },
+                    {
+                      "id": "S41-NONAUTHOR-PENDING",
+                      "status": "open",
+                      "statement": "specific template-source body awaiting non-author evidence review; no current completion grant"
+                    }
+                  ],
+                  "templateConformance": {
+                    "status": "author-checked-pending-independent",
+                    "templateId": "reference-canon-v1",
+                    "templateVersion": "1.0.0",
+                    "historyOverlay": false,
+                    "scope": "reference five sections plus byte-preserved existing source; actual intended checker required, routing unchanged"
+                  },
+                  "evidence": {
+                    "kind": "template-source-artifact-envelope",
+                    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+                    "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                    "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                    "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                    "lineCount": 198,
+                    "artifactPreserved": true,
+                    "originalPreservation": {
+                      "method": "byte-stable Markdown template source",
+                      "sourceBytes": 5757,
+                      "sourceLines": 198,
+                      "sourceFinalNewline": true,
+                      "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                      "exactRoundTrip": true
+                    },
+                    "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+                  }
+                },
+                "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false,
+                "historicalArtifactOnly": true,
+                "historicalClaimCorrection": {
+                  "date": "2026-10-18",
+                  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+                  "priorRecordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+                  "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+                  "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+                  "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+                }
+              }
+            ]
+          },
+          {
+            "key": "supersedes",
+            "present": true,
+            "value": ["governed-legacy presentation; reusable template source retained byte-stably"]
+          },
+          {
+            "key": "stopLine",
+            "present": true,
+            "value": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit."
+          },
+          {
+            "key": "userVisibleBeforeAfter",
+            "present": true,
+            "value": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。"
+          },
+          {
+            "key": "reviewedLines",
+            "present": true,
+            "value": "1-243"
+          },
+          {
+            "key": "sourceGitRevision",
+            "present": true,
+            "value": "ba60e9dccc2833b30be349213b86593260f4f66c"
+          },
+          {
+            "key": "candidateSha256",
+            "present": true,
+            "value": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2"
+          },
+          {
+            "key": "primarySource",
+            "present": true,
+            "value": [
+              {
+                "path": "docs/ops/templates/TASK-template.md",
+                "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                "sha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                "scope": "full UTF-8 template source"
+              }
+            ]
+          },
+          {
+            "key": "phaseAnchors",
+            "present": true,
+            "value": {
+              "phase": "ops",
+              "module": "templates",
+              "currentBoundary": "template registry and direct consumers own canonical source truth"
+            }
+          },
+          {
+            "key": "dependencies",
+            "present": true,
+            "value": [
+              "docs/phase-governance/templates/registry.json",
+              "docs/ops/document-quality.md",
+              "AGENTS.md"
+            ]
+          },
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": {
+              "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "templateId": "reference-canon-v1",
+              "templateVersion": "1.0.0",
+              "producedDocumentType": "task-card-v1",
+              "registryVersionUnchanged": true
+            }
+          },
+          {
+            "key": "counterReworkBlocked",
+            "present": true,
+            "value": [
+              {
+                "id": "R58-TEMPLATE-BYTE-STABILITY",
+                "status": "closed-for-migration-open-for-source-change",
+                "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+              },
+              {
+                "id": "R58-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              },
+              {
+                "id": "S41-NONAUTHOR-PENDING",
+                "status": "resolved",
+                "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+                "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+                "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
+              }
+            ]
+          },
+          {
+            "key": "maintenanceDeltas",
+            "present": true,
+            "value": [
+              {
+                "date": "2026-10-18",
+                "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+                "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+                "previousAfterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                "afterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
+                "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "date": "2026-10-18",
+                "task": "Canonical document-quality contract at ops root; explicit section migration",
+                "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+                "previousAfterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
+                "afterSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+                "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "date": "2026-10-24",
+                "task": "DOCS-FULL-TEMPLATE-1/S41",
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                "beforeSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+                "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+                "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
+                "newSemanticCredit": 0,
+                "newTemplateMigrationCredit": 0,
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false
+              },
+              {
+                "kind": "fixed-main-S75-integration-observation",
+                "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+                "beforeSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+                "afterSha256": "9e605824ca61d87a7fb21aa94c5e19e94cb6671869734808f2e5641a7c976bbb",
+                "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+                "newSemanticCredit": 0,
+                "runtimeCredit": false
+              }
+            ]
+          },
+          {
+            "key": "templateConformance",
+            "present": true,
+            "value": {
+              "status": "template-compliant",
+              "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+            }
+          },
+          {
+            "key": "currentAuthoredReview",
+            "present": true,
+            "value": {
+              "task": "DOCS-FULL-TEMPLATE-1/S41",
+              "author": "Codex",
+              "nonAuthorReviewer": false,
+              "creditGranted": 0,
+              "baseRevision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+              "producedDocumentType": "task-card-v1",
+              "readDomain": {
+                "currentRawSource": {
+                  "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                  "gitObject": "807bf63fcf1d24b4c6a1c5ba1b2d5c2a51f148dc",
+                  "sha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+                  "bytes": 5997,
+                  "lines": 200,
+                  "read": "manual full source, all lines"
+                },
+                "oldSourcePin": "Git byte identity checked only; no original historical execution or full historical semantic read claimed",
+                "notRead": [
+                  "all documents using this template",
+                  "all producer implementations",
+                  "product/runtime/E2E/visual/coverage evidence"
+                ]
+              },
+              "preservation": {
+                "method": "fenced-source-exact",
+                "prefix": "<!-- template-source-example:start -->\n````markdown\n",
+                "suffix": "\n````\n<!-- template-source-example:end -->\n",
+                "sourceBytes": 5997,
+                "sourceSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+                "noTrimOrReplacement": true
+              },
+              "legacyArtifactOnlyGrantsNoCredit": true,
+              "runtimeExecutionPerformed": false,
+              "historicClaimsReexecuted": false
+            }
+          },
+          {
+            "key": "currentIndependentAcceptance",
+            "present": true,
+            "value": {
+              "protocol": "document-delivery-acceptance/1.0.0",
+              "reviewer": "GLM",
+              "nonAuthorReviewer": true,
+              "verdict": "accept",
+              "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+              "afterSha256": "040eb196ac8549b0e1daa44e423567c45109989d8dbf5b762b9b85d12c19e877",
+              "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+              "readDomain": {
+                "authorRecordField": "currentAuthoredReview.readDomain",
+                "nonAuthorVerdictPointer": "/verdicts/20",
+                "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+              },
+              "ownerDecision": {
+                "actor": "Codex",
+                "task": "DOCS-FULL-TEMPLATE-1/S43",
+                "date": "2026-10-24",
+                "currentBodyReview": true,
+                "currentTemplateMigration": true,
+                "oldClaimRestored": false,
+                "runtimeCredit": false
+              }
+            }
+          },
+          {
+            "key": "semanticAssessment",
+            "present": false
+          },
+          {
+            "key": "readDomain",
+            "present": false
+          },
+          {
+            "key": "historyBoundary",
+            "present": false
+          },
+          {
+            "key": "runtimeExecutionPerformed",
+            "present": false
+          },
+          {
+            "key": "phaseAnchor",
+            "present": false
+          },
+          {
+            "key": "applicability",
+            "present": false
+          },
+          {
+            "key": "templateChoiceRationale",
+            "present": false
+          },
+          {
+            "key": "linkDisposition",
+            "present": false
+          },
+          {
+            "key": "fieldRoles",
+            "present": false
+          },
+          {
+            "key": "ownerCorrections",
+            "present": false
+          },
+          {
+            "key": "artifactOnly",
+            "present": false
+          },
+          {
+            "key": "nonAuthorReviewer",
+            "present": false
+          },
+          {
+            "key": "creditGranted",
+            "present": false
+          },
+          {
+            "key": "proposedBinding",
+            "present": false
+          },
+          {
+            "key": "rollforward",
+            "present": false
+          },
+          {
+            "key": "rollforwardIntake",
+            "present": false
+          }
+        ]
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "accepted-rollforward-publication/1.0.0",
+        "path": "docs/ops/templates/TASK-template.md",
+        "contentSha256": "ebc0a223f77a5482ce6a16c5720f6ad99dcb1e295db22acc5a474cf26035fc16",
+        "acceptedBodySha256": "e31b951f8dfd81565910df827385cf08308254ab0eb8c5293f8b0eed1062fc9f",
+        "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "nonAuthorReviewer": true,
+        "basis": {
+          "author": "GLM",
+          "reviewer": "Codex",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S85",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      }
+    },
+    {
+      "coreConclusion": "Ops轻量任务卡模板源（reference-canon current，Last reviewed 2026-10-24）：task-card-v1轻量变体说明，保全块内嵌基点3ed87f73的2552B骨架原件（blob ffb37d41、逐行核读）；lite压缩上下文与交接但保留直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决，涉机制/schema/save/资产管线/大规模改写或主动改用户行为必须升级完整卡；同TASK-template接入代码质量扩展；document-quality.md公共规范在整合base及候选树实际存在，终稿保留本地链接。",
+      "semanticAssessment": {
+        "perFileChecked": true,
+        "method": "原作者固定源阅读及claims保持不变，原方法详本条Owner勘误保留原值；Codex本轮仅据固定base/candidate Git对象补核终态链接，不将main加作者清单当作完整终树，不扩展原作者全文读域或新增运行信用。",
+        "claims": [
+          {
+            "claim": "lite保留核心门槛不减免。",
+            "sourceQuote": "轻量卡压缩上下文和交接，但仍写直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决"
+          },
+          {
+            "claim": "高风险场景必须升级完整卡。",
+            "sourceQuote": "必须升级完整卡；lite不是绕高风险门或第二种模板类型"
+          },
+          {
+            "claim": "保全块为基点3ed87f73的2552B原件。",
+            "sourceQuote": "blob `ffb37d41bbd994dab7ebae4895396a75c5d42f0e`，SHA-256 `350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87`，2552B，本轮逐行核读"
+          }
+        ]
+      },
+      "readDomain": {
+        "coverage": "full-file",
+        "actual": "完整固定源6985B全文读取；核对：适用范围/一手来源（基点、blob/SHA、旧pin仅复核身份）/当前真值（lite源结构与升级完整卡条件）/质量扩展九条/未知与冲突/使用边界/保全块完整性；7条原源链接已读；终稿处置由Owner另核为全部本地live；与upstream（2552字符裸骨架）比对确认差异为包裹与扩展。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "reusedFrom": [],
+        "notRead": ["未读取基点3ed87f73原件字节；未运行模板consumer；未审全部使用者文档。"]
+      },
+      "truthAnchors": [
+        "轻量卡压缩上下文和交接，但仍写直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决",
+        "必须升级完整卡；lite不是绕高风险门或第二种模板类型",
+        "2552B，本轮逐行核读"
+      ],
+      "owner": "Codex",
+      "provenance": [
+        "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受",
+        {
+          "kind": "accepted-rollforward-content-planning",
+          "candidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "productionPublication": false
         }
       ],
-      "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
-      "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
-      "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-75",
+      "businessOracle": {
+        "type": "historical-native-document",
+        "currentExecution": false,
+        "assertions": [
+          "本页是task-card-v1轻量变体模板说明：保全块字节等于基点原件；lite必须保留直接证据/反证与独立验收记录。",
+          "机制/碰撞、schema/save/migration/资产管线、大规模生成改写或主动改变用户行为必须升级完整卡。",
+          "代码质量扩展与完整卡同构，不预填通过、不改状态机。",
+          "静态导航oracle：上述目标在整合base及候选Git树实际存在，候选可见正文保持本地源链接；不因目标未入作者白名单而判失效，不把本检查当运行通过。"
+        ]
+      },
+      "dedupe": {
+        "result": "与TASK-template互为完整/lite变体说明（同型分工：升级条件与保留门槛），统一版本/词表归phase-governance注册表，本页不改其合同。",
+        "against": [
+          "docs/ops/templates/TASK-template.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "dependencies": [
+        "模板注册表registry.json（task-card-v1/reference-canon合同）",
+        "固定源=integration 43403a82正文；upstream=5e66fa6b裸骨架；priorAccepted=511c59b13"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/ 各轻量任务卡（按本模板建立）",
+        "docs/phase-governance/templates/README.md 模板入口"
+      ],
+      "unresolved": ["候选待非作者验收与Owner中央接入", "保全块原件未重读；模板consumer未实跑。"],
+      "historyBoundary": "固定源=integration 43403a82时点正文（Last reviewed 2026-10-24）；upstream=5e66fa6b（2552字符裸骨架）、priorAccepted=511c59b13。",
+      "stopLine": "源字节变化、见证矛盾或需要新产品取舍时阻断本篇并交Owner。",
+      "nextStep": "Owner非作者接收本候选；中央扩容/授信由Owner执行。",
+      "runtimeExecutionPerformed": false,
+      "phaseAnchor": "Ops任务卡模板域（轻量变体说明，不承载执行事实）。",
+      "applicability": "仅本页轻量模板说明与保全骨架事实；不外推实际任务卡执行。",
+      "versionScope": "仅本页轻量模板说明与保全骨架事实；不外推实际任务卡执行。",
+      "userVisibleBeforeAfter": "候选正文与固定源逐字节相同；终态本地链接保持源目标，历史span逐字节保全。本次Owner只修审阅记录，不改作者正文、任务状态、版本或产品行为。",
+      "templateChoiceRationale": "本页是轻量模板说明/保全页，reference-canon-v1五必需章节齐备。",
+      "templateConformance": "候选按reference-canon-v1自检：保全标记完整、H1/Status/Owner保持源值、除1处失效链接外prefix与源一致。",
+      "history": [
+        {
+          "kind": "rollforward-publication-history-repair/1.0.0",
+          "publicationRevision": "f6a956529cfa5efdb79a72af89feef08a21cab60",
+          "recordedOn": "2026-11-01",
+          "path": "docs/ops/templates/TASK-lite-template.md",
+          "acceptedBodySha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+          "acceptedContentSha256": "a63d1378e5000fa294307c761bb43c4c37e2ac9d8de26d771c367be5a3346ff0",
+          "normalizedChangesSha256": "41d487a99cebda708c577efac7e1a87acb753a62d7128ad1413321437b464c48",
+          "originalHistory": [],
+          "originalIndependentAcceptanceUnchanged": true,
+          "newSemanticCredit": 0,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
+        }
+      ],
+      "supersedes": [],
+      "counterReworkBlocked": {
+        "counter": [],
+        "rework": [],
+        "blocked": ["本候选待非作者文档接受和中央接入"]
+      },
+      "linkDisposition": [
+        {
+          "source": "../../../AGENTS.md",
+          "target": "../../../AGENTS.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../phase-governance/templates/README.md",
+          "target": "../../phase-governance/templates/README.md",
+          "kind": "live"
+        },
+        {
+          "source": "../../phase-governance/templates/registry.json",
+          "target": "../../phase-governance/templates/registry.json",
+          "kind": "live"
+        },
+        {
+          "source": "../code-quality.md",
+          "target": "../code-quality.md",
+          "kind": "live"
+        },
+        {
+          "source": "../code-quality.md#文件与目录的语义组织硬性要求",
+          "target": "../code-quality.md#文件与目录的语义组织硬性要求",
+          "kind": "live"
+        },
+        {
+          "source": "../document-quality.md",
+          "target": "../document-quality.md",
+          "kind": "live"
+        }
+      ],
+      "fieldRoles": {
+        "governance": [
+          "docs/phase-governance/reviews/20261017-r58-task-template-sources.json#entries/1"
+        ],
+        "nativePointers": []
+      },
+      "ownerCorrections": [
+        {
+          "kind": "owner-limited-link-erratum/1.0.0",
+          "actor": "Codex",
+          "date": "2026-11-01",
+          "authorCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+          "authorDraftSha256": "1e919f962112b0797c26b1670315da31309ad80e82ab2b7374434d8dfddff4e4",
+          "scope": "Final link disposition only; no prose/native/source/status/seed changes or author-read expansion",
+          "beforeFields": {
+            "coreConclusion": "Ops轻量任务卡模板源（reference-canon current，Last reviewed 2026-10-24）：task-card-v1轻量变体说明，保全块内嵌基点3ed87f73的2552B骨架原件（blob ffb37d41、逐行核读）；lite压缩上下文与交接但保留直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决，涉机制/schema/save/资产管线/大规模改写或主动改用户行为必须升级完整卡；同TASK-template接入代码质量扩展；正文document-quality.md失效链接已最小换43403a82固定地址。",
+            "semanticAssessment.method": "固定源6985B全文逐字节读取（<32KiB直接全读，amend_prefix.py起点=源剥front matter/testing-meta的全文）；以git cat-file比对integration 43403a82源与upstream 5e66fa6b/priorAccepted 511c59b13三元差异；links.py列全6条源链接并逐条核liveness。",
+            "readDomain.actual": "完整固定源6985B全文读取；核对：适用范围/一手来源（基点、blob/SHA、旧pin仅复核身份）/当前真值（lite源结构与升级完整卡条件）/质量扩展九条/未知与冲突/使用边界/保全块完整性；6条live链接与1条已转固定地址链接核liveness；与upstream（2552字符裸骨架）比对确认差异为包裹与扩展。",
+            "businessOracle.assertions": [
+              "本页是task-card-v1轻量变体模板说明：保全块字节等于基点原件；lite必须保留直接证据/反证与独立验收记录。",
+              "机制/碰撞、schema/save/migration/资产管线、大规模生成改写或主动改变用户行为必须升级完整卡。",
+              "代码质量扩展与完整卡同构，不预填通过、不改状态机。",
+              "正文document-quality.md链接目标不在main树，prefix已最小换43403a82固定Git地址。"
+            ],
+            "userVisibleBeforeAfter": "amendment复用amend_prefix.py起点零结构改动；仅1处失效链接最小换43403a82固定Git地址；源字节保全在固定Git对象。"
+          },
+          "targets": [
+            {
+              "target": "../document-quality.md",
+              "path": "docs/ops/document-quality.md",
+              "occurrencesAdded": 1,
+              "gitObject": "647353d58236fbb6806c9c8e88247fc5c1ba1579",
+              "sha256": "daa883faaa764297179d3052725a582a5f582908b556e0f3648047cdd74136b6"
+            }
+          ],
+          "independentAcceptance": "accepted-by-Owner-as-non-author-evidence-correction",
+          "newSemanticCredit": 0,
+          "runtimeCredit": 0
+        }
+      ],
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
       "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "artifactOnly": true,
       "documentStatus": "current",
-      "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+      "sourceGitRevision": "43403a826edcaf40509f55b51e6f6214723252ed",
+      "sourceSha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+      "afterSha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-lite-template.md",
-          "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-          "sha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-          "scope": "full UTF-8 template source"
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "6ffdc795ad7db6a3c554d77bb4da74df6f88f1c9",
+          "sha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7"
         }
       ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "templates",
-        "currentBoundary": "template registry and direct consumers own canonical source truth"
-      },
-      "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
-      "versionScope": {
-        "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-        "date": "2026-10-17",
-        "validity": "canonical-template-source"
-      },
-      "counterReworkBlocked": [
+      "legalInputs": [
         {
-          "id": "R58-TEMPLATE-BYTE-STABILITY",
-          "status": "closed-for-migration-open-for-source-change",
-          "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+          "kind": "fixed-markdown-source",
+          "path": "docs/ops/templates/TASK-lite-template.md",
+          "revision": "43403a826edcaf40509f55b51e6f6214723252ed",
+          "gitObject": "6ffdc795ad7db6a3c554d77bb4da74df6f88f1c9",
+          "sha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7"
+        }
+      ],
+      "evidence": {
+        "kind": "incremental-existing-template-amendment",
+        "originalBytes": 6985,
+        "originalSha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+        "preservedSpans": [
+          {
+            "marker": "<!-- incremental-original-source:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-quote:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- original-source-fenced:start -->",
+            "blocks": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "marker": "<!-- template-source-example:start -->",
+            "blocks": 1,
+            "sha256": "be32a61d13c2ab35ee05b2b3802ddcde1fdd697b9aab14d70e1e81139346d8ae"
+          }
+        ],
+        "fullSourcePreservedIn": "pinned-git-blob",
+        "path": "docs/ops/templates/TASK-lite-template.md"
+      },
+      "revision": {
+        "currentSha": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "history": [
+          {
+            "value": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+            "meaning": "Prior candidate value retained verbatim; currentSha now names the real tree containing the accepted carrier."
+          }
+        ]
+      },
+      "historyOverlay": false,
+      "artifactOnly": false,
+      "contentReviewStatus": "content-reviewed",
+      "templateCompliance": "template-compliant",
+      "nonAuthorReviewer": true,
+      "creditGranted": 0,
+      "proposedBinding": {
+        "docType": "reference-canon",
+        "templateId": "reference-canon-v1",
+        "templateVersion": "1.0.0",
+        "productionRoutingChanged": false
+      },
+      "rollforward": {
+        "kind": "amendment",
+        "upstream": {
+          "revision": "5e66fa6b6291f94330fb5d7fc9828062e0eb8a51",
+          "gitObject": "b6b3fb5b6e26a1d2b066c252c2fb21b98bf38aee",
+          "sha256": "4e62a86970953e4be3debc89643d82d4428d9d05887025f66d7e42e7806e4ff5"
         },
-        {
-          "id": "R58-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
+        "priorAccepted": {
+          "revision": "511c59b13fec67839b9f6fb7dcfd109d42a747dd",
+          "gitObject": "fde2e0459c46b9c88647ce0726f1bfd8147ccb75",
+          "sha256": "d438b916a40bb18d0f91db05822b0ea5ccf40a306f704cfb8b6eb7f5e6b2c7fd"
+        },
+        "priorCreditReusedForUnchangedContentOnly": true,
+        "currentPublicationOrExecutionStatusUnchanged": true
+      },
+      "readMethod": "contributor-declared-scope-and-Owner-evidence-verification",
+      "reviewDepth": "partial-semantic",
+      "reviewedLines": {
+        "scope": "完整固定源6985B全文读取；核对：适用范围/一手来源（基点、blob/SHA、旧pin仅复核身份）/当前真值（lite源结构与升级完整卡条件）/质量扩展九条/未知与冲突/使用边界/保全块完整性；7条原源链接已读；终稿处置由Owner另核为全部本地live；与upstream（2552字符裸骨架）比对确认差异为包裹与扩展。；Codex 2026-11-01仅补核本候选Git树中的链接终态及此次处置勘误；原作者全文读域不因此扩展，未新增执行或目标全文审查。",
+        "boundary": "Preserves the declared reading domain; not a second full-text, code or execution audit."
+      },
+      "phaseAnchors": ["Ops任务卡模板域（轻量变体说明，不承载执行事实）。"],
+      "rollforwardIntake": {
+        "keys": [
+          "coreConclusion",
+          "semanticAssessment",
+          "readDomain",
+          "truthAnchors",
+          "owner",
+          "provenance",
+          "businessOracle",
+          "dedupe",
+          "dependencies",
+          "publicCallers",
+          "unresolved",
+          "historyBoundary",
+          "stopLine",
+          "nextStep",
+          "runtimeExecutionPerformed",
+          "phaseAnchor",
+          "applicability",
+          "versionScope",
+          "userVisibleBeforeAfter",
+          "templateChoiceRationale",
+          "templateConformance",
+          "history",
+          "supersedes",
+          "counterReworkBlocked",
+          "linkDisposition",
+          "fieldRoles",
+          "ownerCorrections",
+          "path",
+          "docType",
+          "templateId",
+          "templateVersion",
+          "documentStatus",
+          "sourceGitRevision",
+          "sourceSha256",
+          "afterSha256",
+          "primarySource",
+          "legalInputs",
+          "evidence",
+          "revision",
+          "historyOverlay",
+          "artifactOnly",
+          "contentReviewStatus",
+          "templateCompliance",
+          "nonAuthorReviewer",
+          "creditGranted",
+          "proposedBinding",
+          "rollforward"
+        ],
+        "sha256": "4cfafc03d4004493f837f608d5df24d113fbfbdf8ff131c38ff6709b9fea25d5",
+        "fields": [
+          {
+            "key": "provenance",
+            "present": true,
+            "value": "GLM作者候选；固定Git源逐字节读取与逐项语义核对；作者自验，非独立接受"
+          },
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": "适用integration 43403a82正文相对upstream 5e66fa6b的包裹+质量扩展；不回溯改写priorAccepted旧接受。"
+          },
+          {
+            "key": "fieldRoles",
+            "present": true,
+            "value": {
+              "governance": ["external-candidate-bundle#entries/184"],
+              "nativePointers": []
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "incremental-existing-template-amendment",
+              "originalBytes": 6985,
+              "originalSha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+              "preservedSpans": [
+                {
+                  "marker": "<!-- incremental-original-source:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-quote:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- original-source-fenced:start -->",
+                  "blocks": 0,
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                {
+                  "marker": "<!-- template-source-example:start -->",
+                  "blocks": 1,
+                  "sha256": "be32a61d13c2ab35ee05b2b3802ddcde1fdd697b9aab14d70e1e81139346d8ae"
+                }
+              ],
+              "fullSourcePreservedIn": "pinned-git-blob"
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+              "history": []
+            }
+          },
+          {
+            "key": "readMethod",
+            "present": false
+          },
+          {
+            "key": "reviewDepth",
+            "present": false
+          },
+          {
+            "key": "reviewedLines",
+            "present": false
+          },
+          {
+            "key": "phaseAnchors",
+            "present": false
+          }
+        ]
+      },
+      "rollforwardPrior": {
+        "keys": [
+          "path",
+          "contentReviewStatus",
+          "docType",
+          "templateId",
+          "template",
+          "templateCompliance",
+          "readMethod",
+          "reviewDepth",
+          "coreConclusion",
+          "truthAnchors",
+          "unresolved",
+          "nextStep",
+          "phase",
+          "module",
+          "capability",
+          "owner",
+          "provenance",
+          "sourceSha256",
+          "afterSha256",
+          "publicCallers",
+          "legalInputs",
+          "businessOracle",
+          "dedupe",
+          "revision",
+          "evidence",
+          "history",
+          "supersedes",
+          "stopLine",
+          "userVisibleBeforeAfter",
+          "reviewedLines",
+          "templateVersion",
+          "historyOverlay",
+          "documentStatus",
+          "sourceGitRevision",
+          "candidateSha256",
+          "primarySource",
+          "phaseAnchors",
+          "dependencies",
+          "versionScope",
+          "counterReworkBlocked",
+          "maintenanceDeltas",
+          "templateConformance",
+          "currentAuthoredReview",
+          "currentIndependentAcceptance"
+        ],
+        "sha256": "db4b5b10a206a63aba7ade12671cbde67c92658d93695fc7932e1e5b289d5160",
+        "fields": [
+          {
+            "key": "contentReviewStatus",
+            "present": true,
+            "value": "content-reviewed"
+          },
+          {
+            "key": "template",
+            "present": true,
+            "value": "docs/phase-governance/templates/reference-canon.md"
+          },
+          {
+            "key": "templateCompliance",
+            "present": true,
+            "value": "template-compliant"
+          },
+          {
+            "key": "readMethod",
+            "present": true,
+            "value": "Author full document/source review in S41; GLM non-author evidence acceptance with scoped source checks; S43 Owner applies only this accepted current SHA, no runtime/historical reexecution"
+          },
+          {
+            "key": "coreConclusion",
+            "present": true,
+            "value": "Ops轻量任务卡模板源：轻量卡压缩上下文和交接，但仍写直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决。涉及机制/碰撞、schema/save/migration/资产管线、大量生成改写或主动改变用户行为，必须升级完整卡；lite不是绕高风险门或第二种模板类型。"
+          },
+          {
+            "key": "truthAnchors",
+            "present": true,
+            "value": [
+              "docs/ops/templates/TASK-lite-template.md#适用范围",
+              "docs/ops/templates/TASK-lite-template.md#当前真值",
+              "docs/ops/templates/TASK-lite-template.md#使用边界"
+            ]
+          },
+          {
+            "key": "unresolved",
+            "present": true,
+            "value": [
+              "Full runtime/E2E/visual/coverage and downstream implementation/report reauthentication are outside this document acceptance; all preserved historical conflicts retain their original status."
+            ]
+          },
+          {
+            "key": "nextStep",
+            "present": true,
+            "value": "Use this accepted body and fixed source/read domain; new body/template/dependency changes invalidate the affected acceptance. Continue other pending documents; do not restore old R-wave claims."
+          },
+          {
+            "key": "phase",
+            "present": true,
+            "value": "ops"
+          },
+          {
+            "key": "module",
+            "present": true,
+            "value": "templates"
+          },
+          {
+            "key": "capability",
+            "present": true,
+            "value": "light-task-card-template"
+          },
+          {
+            "key": "owner",
+            "present": true,
+            "value": "Codex（文档治理）"
+          },
+          {
+            "key": "provenance",
+            "present": true,
+            "value": [
+              "source-document",
+              "repository-history",
+              "structured-mechanical-envelope-only",
+              "semantic-and-non-author-credit-withdrawn-20261018",
+              {
+                "task": "DOCS-FULL-TEMPLATE-1/S41",
+                "actor": "Codex",
+                "role": "author",
+                "nonAuthorReviewer": false,
+                "creditGranted": 0,
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14"
+              }
+            ]
+          },
+          {
+            "key": "sourceSha256",
+            "present": true,
+            "value": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4"
+          },
+          {
+            "key": "afterSha256",
+            "present": true,
+            "value": "d438b916a40bb18d0f91db05822b0ea5ccf40a306f704cfb8b6eb7f5e6b2c7fd"
+          },
+          {
+            "key": "publicCallers",
+            "present": true,
+            "value": ["docs/phase-governance/templates/README.md", "docs/ops/templates/README.md"]
+          },
+          {
+            "key": "legalInputs",
+            "present": true,
+            "value": [
+              "current fixed template source 3ed87f734df357799c4d9a44205781d3deba5c14:docs/ops/templates/TASK-lite-template.md",
+              "registered task-card-v1 usage contract; fields must be supplied by actual task/evidence, not placeholder output"
+            ]
+          },
+          {
+            "key": "businessOracle",
+            "present": true,
+            "value": {
+              "type": "template-source-reference",
+              "assertions": [
+                "轻量卡压缩上下文和交接，但仍写直接证据/反证、独占Owner、build准入、贡献者自验、Codex独立验收与用户裁决。",
+                "涉及机制/碰撞、schema/save/migration/资产管线、大量生成改写或主动改变用户行为，必须升级完整卡；lite不是绕高风险门或第二种模板类型。",
+                "outer reference-canon explanation is separate from produced document type",
+                "preserved example exact bytes and source pin do not grant reviewed/compliant/runtime credit"
+              ]
+            }
+          },
+          {
+            "key": "dedupe",
+            "present": true,
+            "value": {
+              "result": "template source and usage responsibility only; no duplicate type or result ledger",
+              "against": [
+                "docs/phase-governance/templates/registry.json",
+                "docs/phase-governance/templates/README.md",
+                "docs/ops/document-quality.md"
+              ]
+            }
+          },
+          {
+            "key": "revision",
+            "present": true,
+            "value": {
+              "currentSha": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "implementationSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+              "history": [
+                {
+                  "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                  "date": "2026-10-17",
+                  "action": "full-text template-source review",
+                  "contentReviewStatus": "content-reviewed",
+                  "reviewDepth": "deep-semantic"
+                },
+                {
+                  "revision": "working-tree",
+                  "date": "2026-10-17",
+                  "action": "R58 byte-stable canonical template source envelope",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                },
+                {
+                  "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                  "date": "2026-10-24",
+                  "action": "S41 current source usage explanation and raw preservation",
+                  "notRun": ["runtime", "E2E", "visual", "coverage"]
+                }
+              ]
+            }
+          },
+          {
+            "key": "evidence",
+            "present": true,
+            "value": {
+              "kind": "independently-accepted-document-version",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz",
+              "member": "S43/GLM-body-verdict.json",
+              "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+              "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+              "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+              "scope": "Specific body semantics, preservation and actual template contract; no runtime or old R-wave claim restoration",
+              "runtimeExecutionPerformed": false,
+              "historicClaimsReexecuted": false
+            }
+          },
+          {
+            "key": "history",
+            "present": true,
+            "value": [
+              {
+                "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                "action": "read-and-reviewed",
+                "contentReviewStatus": "content-reviewed",
+                "reviewDepth": "deep-semantic"
+              },
+              {
+                "revision": "working-tree",
+                "action": "R58 template source artifact envelope",
+                "reviewer": "r58_readonly_review + Codex root",
+                "notRun": ["runtime", "E2E", "visual", "coverage"]
+              },
+              {
+                "date": "2026-10-18",
+                "action": "withdraw-unsupported-semantic-and-independent-credit",
+                "task": "DOCS-RECORD-INTEGRITY-1",
+                "contentReviewStatus": "partial-review-unknown",
+                "reviewDepth": "structured-content",
+                "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+              },
+              {
+                "date": "2026-10-24",
+                "action": "S41 full current template-source read and specific usage guidance; frozen example bytes preserved; no completion grant",
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                "previousAfterSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+                "previousCurrentFields": {
+                  "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+                  "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+                  "reviewDepth": "structured-content",
+                  "truthAnchors": [
+                    "docs/ops/templates/TASK-lite-template.md:1",
+                    "docs/ops/templates/TASK-lite-template.md:8"
+                  ],
+                  "unresolved": [
+                    "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks.",
+                    "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+                  ],
+                  "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+                  "legalInputs": [
+                    "current repository documentation",
+                    "docs/ops/templates/TASK-lite-template.md",
+                    "task-card-v1 registry and consumer tests"
+                  ],
+                  "businessOracle": {
+                    "type": "canonical-template-source",
+                    "assertions": [
+                      "original reusable template bytes remain unchanged",
+                      "template consumer links remain reachable",
+                      "template source is not mistaken for a task card or execution evidence",
+                      "no runtime/E2E/visual/coverage credit"
+                    ]
+                  },
+                  "dedupe": {
+                    "result": "reviewed-and-preserved",
+                    "against": [
+                      "docs/ops/templates/TASK-lite-template.md",
+                      "docs/ops/templates/README.md",
+                      "docs/ops/tasks/README.md",
+                      "scripts/docs/cursor-task-index.test.mjs",
+                      "scripts/docs/check.mjs",
+                      "docs/phase-governance/templates/registry.json"
+                    ]
+                  },
+                  "versionScope": {
+                    "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                    "date": "2026-10-17",
+                    "validity": "canonical-template-source"
+                  },
+                  "documentStatus": "canonical-template-source",
+                  "publicCallers": [
+                    "docs/ops/templates/README.md",
+                    "docs/ops/tasks/README.md",
+                    "scripts/docs/cursor-task-index.test.mjs",
+                    "scripts/docs/check.mjs"
+                  ],
+                  "dependencies": "docs/ops/templates/README.md; docs/ops/tasks/README.md; scripts/docs/cursor-task-index.test.mjs; scripts/docs/check.mjs",
+                  "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
+                  "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
+                  "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision"
+                },
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false
+              },
+              {
+                "date": "2026-10-24",
+                "action": "S43 new accepted document version qualifies independently; old R-wave claims remain withdrawn",
+                "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+                "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+                "previousCurrentFields": {
+                  "contentReviewStatus": "partial-review-unknown",
+                  "templateCompliance": "needs-migration",
+                  "readMethod": "S41 manual full current Markdown source read and specific role/constraint explanation; original pinned source identity only verified, no claim of full historical review",
+                  "unresolved": [
+                    "S41 non-author document acceptance pending; original example and historical execution/source claims not reauthenticated.",
+                    "No migrated route or artifactOnly retirement in this authored candidate; current registry/model completion remains unchanged."
+                  ],
+                  "nextStep": "GLM与S40合计22篇集中据证验收；Owner按逐篇accept显式接入reference-canon路由/registry并处置旧artifactOnly，不从作者结构检查授信用。",
+                  "stopLine": "涉及机制/碰撞、schema/save/migration/资产管线、大量生成改写或主动改变用户行为，必须升级完整卡；lite不是绕高风险门或第二种模板类型。 Original claims withdrawn remain invalid; no rule/config/product/old-test/coverage edits or runtime credit.",
+                  "counterReworkBlocked": [
+                    {
+                      "id": "R58-TEMPLATE-BYTE-STABILITY",
+                      "status": "closed-for-migration-open-for-source-change",
+                      "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+                    },
+                    {
+                      "id": "R58-NO-EXECUTION-CREDIT",
+                      "status": "closed-for-migration-open-for-product",
+                      "statement": "No runtime/E2E/visual/coverage credit."
+                    },
+                    {
+                      "id": "S41-NONAUTHOR-PENDING",
+                      "status": "open",
+                      "statement": "specific template-source body awaiting non-author evidence review; no current completion grant"
+                    }
+                  ],
+                  "templateConformance": {
+                    "status": "author-checked-pending-independent",
+                    "templateId": "reference-canon-v1",
+                    "templateVersion": "1.0.0",
+                    "historyOverlay": false,
+                    "scope": "reference five sections plus byte-preserved existing source; actual intended checker required, routing unchanged"
+                  },
+                  "evidence": {
+                    "kind": "template-source-artifact-envelope",
+                    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+                    "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                    "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                    "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                    "lineCount": 61,
+                    "artifactPreserved": true,
+                    "originalPreservation": {
+                      "method": "byte-stable Markdown template source",
+                      "sourceBytes": 2312,
+                      "sourceLines": 61,
+                      "sourceFinalNewline": true,
+                      "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                      "exactRoundTrip": true
+                    },
+                    "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+                  }
+                },
+                "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false,
+                "historicalArtifactOnly": true,
+                "historicalClaimCorrection": {
+                  "date": "2026-10-18",
+                  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+                  "priorRecordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+                  "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+                  "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+                  "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+                }
+              }
+            ]
+          },
+          {
+            "key": "supersedes",
+            "present": true,
+            "value": ["governed-legacy presentation; reusable template source retained byte-stably"]
+          },
+          {
+            "key": "stopLine",
+            "present": true,
+            "value": "This new document-version acceptance grants only scoped document review/template migration; no runtime/E2E/visual/coverage or withdrawn historical execution credit."
+          },
+          {
+            "key": "userVisibleBeforeAfter",
+            "present": true,
+            "value": "原有源骨架/说明→具体填写指南+完全保全的原源块；模板合同、示例字段与产品行为不改。"
+          },
+          {
+            "key": "reviewedLines",
+            "present": true,
+            "value": "1-106"
+          },
+          {
+            "key": "sourceGitRevision",
+            "present": true,
+            "value": "ba60e9dccc2833b30be349213b86593260f4f66c"
+          },
+          {
+            "key": "candidateSha256",
+            "present": true,
+            "value": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4"
+          },
+          {
+            "key": "primarySource",
+            "present": true,
+            "value": [
+              {
+                "path": "docs/ops/templates/TASK-lite-template.md",
+                "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
+                "sha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                "scope": "full UTF-8 template source"
+              }
+            ]
+          },
+          {
+            "key": "phaseAnchors",
+            "present": true,
+            "value": {
+              "phase": "ops",
+              "module": "templates",
+              "currentBoundary": "template registry and direct consumers own canonical source truth"
+            }
+          },
+          {
+            "key": "dependencies",
+            "present": true,
+            "value": [
+              "docs/phase-governance/templates/registry.json",
+              "docs/ops/document-quality.md",
+              "AGENTS.md"
+            ]
+          },
+          {
+            "key": "versionScope",
+            "present": true,
+            "value": {
+              "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "templateId": "reference-canon-v1",
+              "templateVersion": "1.0.0",
+              "producedDocumentType": "task-card-v1",
+              "registryVersionUnchanged": true
+            }
+          },
+          {
+            "key": "counterReworkBlocked",
+            "present": true,
+            "value": [
+              {
+                "id": "R58-TEMPLATE-BYTE-STABILITY",
+                "status": "closed-for-migration-open-for-source-change",
+                "statement": "Template source remains byte-stable for direct copy/consumer compatibility."
+              },
+              {
+                "id": "R58-NO-EXECUTION-CREDIT",
+                "status": "closed-for-migration-open-for-product",
+                "statement": "No runtime/E2E/visual/coverage credit."
+              },
+              {
+                "id": "S41-NONAUTHOR-PENDING",
+                "status": "resolved",
+                "statement": "GLM accepted this specific new body version; old withdrawn claims remain invalid.",
+                "acceptedCandidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+                "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd"
+              }
+            ]
+          },
+          {
+            "key": "maintenanceDeltas",
+            "present": true,
+            "value": [
+              {
+                "date": "2026-10-18",
+                "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+                "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+                "previousAfterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                "afterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
+                "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "date": "2026-10-18",
+                "task": "Canonical document-quality contract at ops root; explicit section migration",
+                "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+                "previousAfterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
+                "afterSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+                "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+                "grantsNewSemanticAcceptance": false
+              },
+              {
+                "date": "2026-10-24",
+                "task": "DOCS-FULL-TEMPLATE-1/S41",
+                "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                "beforeSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+                "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+                "scope": "Twenty template-source usage bodies and existing task admission; no routing/registry/contract or completion grant.",
+                "newSemanticCredit": 0,
+                "newTemplateMigrationCredit": 0,
+                "runtimeExecutionPerformed": false,
+                "historicClaimsReexecuted": false
+              },
+              {
+                "kind": "fixed-main-S75-integration-observation",
+                "sourceRevision": "b2437cec97c1f7354dccfe8f856fc762395d4ec6",
+                "beforeSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+                "afterSha256": "d438b916a40bb18d0f91db05822b0ea5ccf40a306f704cfb8b6eb7f5e6b2c7fd",
+                "interpretation": "Earlier accepted semantic scope retained; fixed-source integration delta observed separately, not new runtime acceptance.",
+                "newSemanticCredit": 0,
+                "runtimeCredit": false
+              }
+            ]
+          },
+          {
+            "key": "templateConformance",
+            "present": true,
+            "value": {
+              "status": "template-compliant",
+              "scope": "Existing reference-canon-v1 body and any declared history overlay passed the actual current route; new accepted SHA only; no historical/runtime credit."
+            }
+          },
+          {
+            "key": "currentAuthoredReview",
+            "present": true,
+            "value": {
+              "task": "DOCS-FULL-TEMPLATE-1/S41",
+              "author": "Codex",
+              "nonAuthorReviewer": false,
+              "creditGranted": 0,
+              "baseRevision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+              "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+              "producedDocumentType": "task-card-v1",
+              "readDomain": {
+                "currentRawSource": {
+                  "revision": "3ed87f734df357799c4d9a44205781d3deba5c14",
+                  "gitObject": "ffb37d41bbd994dab7ebae4895396a75c5d42f0e",
+                  "sha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+                  "bytes": 2552,
+                  "lines": 63,
+                  "read": "manual full source, all lines"
+                },
+                "oldSourcePin": "Git byte identity checked only; no original historical execution or full historical semantic read claimed",
+                "notRead": [
+                  "all documents using this template",
+                  "all producer implementations",
+                  "product/runtime/E2E/visual/coverage evidence"
+                ]
+              },
+              "preservation": {
+                "method": "fenced-source-exact",
+                "prefix": "<!-- template-source-example:start -->\n````markdown\n",
+                "suffix": "\n````\n<!-- template-source-example:end -->\n",
+                "sourceBytes": 2552,
+                "sourceSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+                "noTrimOrReplacement": true
+              },
+              "legacyArtifactOnlyGrantsNoCredit": true,
+              "runtimeExecutionPerformed": false,
+              "historicClaimsReexecuted": false
+            }
+          },
+          {
+            "key": "currentIndependentAcceptance",
+            "present": true,
+            "value": {
+              "protocol": "document-delivery-acceptance/1.0.0",
+              "reviewer": "GLM",
+              "nonAuthorReviewer": true,
+              "verdict": "accept",
+              "candidate": "83743275bb560a4ea4bbbd2a15baf7f138f9145b",
+              "afterSha256": "4b3b4d973d48f8f3d52ea9dacf7d1066c6ff214b67b3fa8fad7064f3d4359248",
+              "reportSha256": "bda37c3c7f7b221b3f29d164207308302a7b46f71021a46a4b9dcf2018c34bdd",
+              "readDomain": {
+                "authorRecordField": "currentAuthoredReview.readDomain",
+                "nonAuthorVerdictPointer": "/verdicts/21",
+                "scope": "Specific candidate body/preservation/template and declared static source checks; no full downstream runtime/code/report audit."
+              },
+              "ownerDecision": {
+                "actor": "Codex",
+                "task": "DOCS-FULL-TEMPLATE-1/S43",
+                "date": "2026-10-24",
+                "currentBodyReview": true,
+                "currentTemplateMigration": true,
+                "oldClaimRestored": false,
+                "runtimeCredit": false
+              }
+            }
+          },
+          {
+            "key": "semanticAssessment",
+            "present": false
+          },
+          {
+            "key": "readDomain",
+            "present": false
+          },
+          {
+            "key": "historyBoundary",
+            "present": false
+          },
+          {
+            "key": "runtimeExecutionPerformed",
+            "present": false
+          },
+          {
+            "key": "phaseAnchor",
+            "present": false
+          },
+          {
+            "key": "applicability",
+            "present": false
+          },
+          {
+            "key": "templateChoiceRationale",
+            "present": false
+          },
+          {
+            "key": "linkDisposition",
+            "present": false
+          },
+          {
+            "key": "fieldRoles",
+            "present": false
+          },
+          {
+            "key": "ownerCorrections",
+            "present": false
+          },
+          {
+            "key": "artifactOnly",
+            "present": false
+          },
+          {
+            "key": "nonAuthorReviewer",
+            "present": false
+          },
+          {
+            "key": "creditGranted",
+            "present": false
+          },
+          {
+            "key": "proposedBinding",
+            "present": false
+          },
+          {
+            "key": "rollforward",
+            "present": false
+          },
+          {
+            "key": "rollforwardIntake",
+            "present": false
+          }
+        ]
+      },
+      "currentIndependentAcceptance": {
+        "protocol": "document-delivery-acceptance/1.0.0",
+        "kind": "accepted-rollforward-publication/1.0.0",
+        "path": "docs/ops/templates/TASK-lite-template.md",
+        "contentSha256": "a63d1378e5000fa294307c761bb43c4c37e2ac9d8de26d771c367be5a3346ff0",
+        "acceptedBodySha256": "803f7581f14fc4476a4c19372b59112c04339b60fb0f0a9ee2be7c0b6abecbc7",
+        "reviewedCandidate": "7273d7aa5a8bbe96ddebcb437765e2e8f7f3e911",
+        "nonAuthorReviewer": true,
+        "basis": {
+          "author": "GLM",
+          "reviewer": "Codex",
+          "reportSha256": "1521a721e6839ba87916ddd0f789a125c3bffc681def1c0e44446ea4b1f385ae",
+          "scope": "Declared source-specific content and Owner final-link errata; not a second full product audit."
+        },
+        "ownerDecision": {
+          "actor": "Codex",
+          "task": "DOCS-FULL-TEMPLATE-1/S85",
+          "currentBodyReview": true,
+          "currentTemplateMigration": true,
+          "oldClaimRestored": false,
+          "runtimeCredit": false,
+          "childSemanticCredit": false
         }
-      ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-22 CI repair: current source compared byte-for-byte to committed e856 edition. Original sourceSha256/history/provenance remain original; current preservation source is explicitly the new pin in evidence.originalPreservation.\n2026-10-31 user clarification: code files organize by module/function/responsibility, never author/model/task IDs; names without semantic responsibility fail F/G. Full clauses only in code-quality; workflow/templates route and prompt evidence. Traceability artifacts and real domain vendor/protocol names are distinct. No product, source algorithm, test or historical acceptance credit.\n2026-10-31 envelope repair: first unified check rejected missing artifact preservation metadata for both templates. Authorized one-line delta proves exact inverse to Git and exact current frozen bytes; historical snapshot remains in revision.history. No policy or checker relaxation."
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  }
 }

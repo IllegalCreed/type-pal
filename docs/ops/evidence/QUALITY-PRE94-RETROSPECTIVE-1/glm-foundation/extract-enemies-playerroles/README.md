@@ -1,5 +1,38 @@
 # extract enemies + player-roles 复审（glm-foundation 模块 3 批 5）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本页审计主题:pal-extract 的 parsers/enemies.ts(250 行)、parsers/player-roles.ts(275 行)复审,连带 shared/tables.ts PlayerRole docblock;基点 53db76bbb 线,body-invariance 基准=批4提交 c596dc89f(即三文件整改前状态)。原文 Status: review(候选待 Codex 据证验收)。Codex 当前裁定(2026-10-19):本页保留作者阶段证据,未获整包/全维收口验收;可复用范围与逐文件依据见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
+
+## 范围与证据
+
+改动 4 处仅注释。验证证据:同目录 body-invariance.json(typescript@6.0.3 打印 AST 对照 base c596dc89f,enemies.ts/player-roles.ts/shared/tables.ts 三文件 printedEqual 全真、titleCallCount 0→0、allEqual=true);定向回执 directed.json:10 套件 9 过 1 败——tables.test.ts 套件因缺 data/raw/WORD.DAT 加载失败(0 断言,ENOENT),其余三文件 14/14 断言绿(misc-mkf 8 真盘例+player-roles boundaries 4+event-boundaries 2);scoped biome 0/0/0;diff --check 干净;未跑全仓门。
+
+## 发现
+
+整改逐项:①②enemies.ts 两处引用不存在的 EnemyTeam.slots 字段(Codex C2 登记『生产未改』的直接 counter)改为现行 enemyObjectIndexes(翻译前 OBJECT 绝对 index)与 enemies(翻译后 id)双字段表述;③player-roles.ts docblock『M3 子集、跳过 equipment/magic 等』与下方 M4 全字段 dump 实现矛盾,按 M4 全量现状改写;④shared/tables.ts PlayerRole 大 docblock 同款 M3 过时同步更正。八维要点:enemies %70 整除守卫 throw、signed/unsigned 与 fight.c:4634 锚一致、_name 反查 first-wins、parseEnemyObjects 界内 throw;player-roles 900B 精确尺寸守卫+cursor 走完 sizeof 校验(自证布局)、装备行序 2026-07-02 逐位核验注、rgwName 3/4 对调坑文档化(用户报障溯源)。登记两项:buildEnemyObjectNameMap/buildObjectIndexToEnemyIdMap 短输入静默返空 Map(与 parseEnemyObjects throw 不一致,O-2 族);extract 本地 EnemyObject 接口与 shared/tables.ts 同名同形并存(同 LevelUpMagicEntry 双类型模式)。
+
+## 结论
+
+注释整改批,body-invariance 三文件 AST 一致见证行为零变。定向结果两态如实:14/14 为其余三文件断言计数;tables 套件当时加载失败未计入。2026-10-18 勘误:补链后 tables 全量 89/89 已在批6 回执实测通过,两态均保留。Codex 2026-10-19 接管:本片不能写完整门通过,tables 恢复由后继回执支持,word 漏跑另由 Codex 补 8 例;旧原件与后续回执分别保留,不追溯清零。
+
+## 整改与复核
+
+Codex 2026-10-20 有限返工见 [codex-enemy-role.json](../codex-enemy-role.json):作者布局事实按既有域保留;补齐两解析实现/两专测设计与测试合同;纠正剩余名字参数注释、带版本行号及首末槽说明;原用例保留,仅补强 OBJECT 四字段与全零非空合同,更正 1 标题;两旧产品关闭撤 review、0 新关闭;整阶段门、短输入策略及本地同形类型仍未收口,不能把该节当整包 accept。复验入口(原页给出,此处概述):git log c596dc89f..HEAD 对三文件;prove-body-invariance.mjs --base c596dc89f0…;定向跑 tables.test.ts 与 player-roles.boundaries.test.ts。失效条件:三文件实现变化→重证;PLAYERROLES 布局/EnemyTeam 字段变化→注释复核。本轮治理未重跑任何命令;候选待 Owner 接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4362B / SHA-256 497630a0a694aeb6fdb9507c7e089aac91ec6bb97b6aba687deffccef8a170c0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# extract enemies + player-roles 复审（glm-foundation 模块 3 批 5）
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 Status: review（候选待 Codex 据证验收）
@@ -47,3 +80,5 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 ## Codex 2026-10-20 有限返工
 
 [当前四文件八维及原件](../codex-enemy-role.json)：作者布局事实按既有域保留；补齐两解析实现/两专测设计与测试合同。纠正剩余名字参数注释、带版本行号及首末槽说明；原用例保留，仅补强OBJECT四字段与全零非空合同，更正1标题。两旧产品关闭撤review；0新关闭。整阶段门、短输入策略及本地同形类型仍未收口，不能把本节当整包accept。
+````
+<!-- incremental-original-source:end -->

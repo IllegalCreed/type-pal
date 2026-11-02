@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict'
+import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { spawnSync } from 'node:child_process'
+import { pathToFileURL } from 'node:url'
+const root='/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal'
+const out='/tmp/type-pal-receipt-independent-20261018-58e899bf'
+const fixture=out+'/counterprobe-fixture'
+mkdirSync(fixture)
+const hash=(x)=>createHash('sha256').update(x).digest('hex')
+const modulePath=root+'/scripts/docs/document-integrity.mjs'
+const original=readFileSync(modulePath,'utf8')
+const changed=original.replace(/export function generatedTextIssues\(text\) \{[\s\S]*?\n\}/,'export function generatedTextIssues(text) { return [] }')
+assert.notEqual(changed,original)
+writeFileSync(fixture+'/document-integrity.mjs',changed)
+const check=readFileSync(root+'/scripts/docs/check.mjs','utf8').replace(/from '\.\/([^']+)'/g,(_,p)=>`from '${pathToFileURL(p==='document-integrity.mjs'?fixture+'/'+p:root+'/scripts/docs/'+p).href}'`)
+writeFileSync(fixture+'/check.mjs',check)
+const assertion=`import assert from 'node:assert/strict';
+const {auditDocuments}=await import(process.argv[2]);
+const text='# Probe\\n\\n## 继任文档\\n\\n- '+[...'docs/phase1/status/feature-status.md'].join('；');
+const r=auditDocuments({documents:new Map([['docs/README.md',text]]),exists:()=>true,expectedVersions:{content:22,save:12},sectionRules:[],exceptions:[]});
+assert(r.issues.some(i=>i.message.includes('semicolon corruption')),'live separator damage must be rejected by real auditDocuments caller');
+console.log('real caller rejected generated separator damage');`
+writeFileSync(fixture+'/assertion.mjs',assertion)
+const rows=[]
+for(const [label,mod] of [['baseline',root+'/scripts/docs/check.mjs'],['mutant',fixture+'/check.mjs'],['restored',root+'/scripts/docs/check.mjs']]){
+ const startedAt=new Date().toISOString();const args=[fixture+'/assertion.mjs',pathToFileURL(mod).href]
+ const r=spawnSync('node',args,{cwd:root,env:process.env,timeout:30000,encoding:'buffer'})
+ const raw=[]
+ for(const [stream,bytes] of [['stdout',r.stdout],['stderr',r.stderr]]){const path=out+'/counterprobe-'+label+'.'+stream+'.raw';writeFileSync(path,bytes);raw.push({path,stream,sha256:hash(bytes),bytes:bytes.length})}
+ rows.push({label,argv:['node',...args],cwd:root,startedAt,finishedAt:new Date().toISOString(),exitCode:r.status,signal:r.signal,spawnError:r.error?.message??null,raw})
+}
+assert.equal(rows[0].exitCode,0);assert.equal(rows[1].exitCode,1);assert.equal(rows[2].exitCode,0)
+const red=readFileSync(out+'/counterprobe-mutant.stderr.raw','utf8')
+assert.equal((red.match(/AssertionError \[ERR_ASSERTION\]/g)||[]).length,1)
+assert(red.includes('live separator damage must be rejected by real auditDocuments caller'))
+const report={scope:'docs governance regression only; no product mutation or test quality credit',sourceSha256:hash(original),mutantSha256:hash(changed),copiedRealCallerSha256:hash(check),assertionSha256:hash(assertion),commands:rows,redAssertions:1,productSourceUntouched:readFileSync(modulePath,'utf8')===original,cleanupExactTree:fixture}
+rmSync(fixture,{recursive:true})
+writeFileSync(out+'/counterprobe.json',JSON.stringify(report,null,2)+'\n')
+console.log(JSON.stringify({exits:rows.map(r=>r.exitCode),redAssertions:1,fixtureRemoved:true}))

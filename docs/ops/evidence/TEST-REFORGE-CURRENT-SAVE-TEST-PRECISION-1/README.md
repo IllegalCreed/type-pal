@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的证据：r3 固定候选 `1d09128fe` 已获 Codex 独立 accept，串行全仓 check、官方 ratchet、受保护 fast 全部通过，有限 S1–S9 收口 done；GitHub 新 CI 按实际推送 HEAD 另核不将本地门冒充托管通过。
 
 ## 证据身份
 
-- 当前存档校验测试精简与输入边界证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 9f4e7dad8b43d61e86d79ef895ad21e9964d8cb4ad0087c98a897704cc77f66b。
+- 沿革：贡献者 GLM 新对话 B、基点 d84b3db23（产品冻结 ce808b42e）、分支 codex/glm-reforge-save-test-precision-r1；r2 按一审 counter（B-R1-01 四条独立接线合同归还+容器缺席拆身份、B-R1-02 共享文档恢复派发值）；r3 按二审 counter（B-R2-01 归还 maxMP/extraStatuses 空洞/poisons 空洞三原合同并对齐反控入口）。
+- 改动面（白名单内）：current-structure.test.ts 旧测重铸（双桥/假枚举清零；坏形状经 unknown 视图直传公开 guard；跨合同用例原子拆分；r1 61→60、r2 归还四接线→64、r3 再归还→67 例）等三文件（quote 表内逐文件）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 口径：三文件 81 次执行、80 个唯一标题（两个既有 null 标题有重数）；80 行合同账按唯一标题分组，完整多重集合以 native JSON 为准；作者 r3 全包 8793 是隔离旧基点数，集成 A/C 后实跑 8798/8798；main 正式并集分支 83.26%（50132/60209）不与作者私有增量相加。
+- 托管首跑：b836ad5d4 Documentation 通过；Coverage 在质量台账 tracked 清单 3084/实际 3085 登记差异处拒收（CI 登记修复另存 ci-tracked-inventory-refresh.json）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- Codex 集成修正：generate-before-after.mjs 默认读取目录内基线与 r3 绿态 JSON 不依赖固定 /tmp；默认重建 69 条旧执行映射及 80 个唯一标题组；完整执行重数由反控 native JSON 判据核验。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 三审闭合原 counter：四接线、两容器缺席原子身份、maxMP/extraStatuses/poisons 三原合同归还；17 针全 VALID+81 行绿+46 原件 hash 核验。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 三审/二审/一审全文见同目录 codex-review-r3/r2/r1.md；memory 补充：判据库被后续多卡只读复用（save-precision r2 定稿库）。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 r1→r3 证据（三轮回执+终审 accept）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- 当前存档校验测试精简与输入边界证据：原始正文完整保留于下方 quote。
+- S1-S9 有限清单收口 done；81 次执行/80 唯一标题口径如实。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 改动面表与集成修正说明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。done 时点；CI 另核。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归 codex-review-r3.md 与集成门回执。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `9f4e7dad8b43d61e86d79ef895ad21e9964d8cb4ad0087c98a897704cc77f66b`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `9f4e7dad8b43d61e86d79ef895ad21e9964d8cb4ad0087c98a897704cc77f66b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 当前存档校验测试精简与输入边界证据
 >

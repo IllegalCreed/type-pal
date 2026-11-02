@@ -16,5 +16,32 @@
       "kind": "attachment",
       "sha256": "4ca13e066a54545ce2e5b0204adb7924e9c3e8b3e503afced40d1a5955ae7160"
     }
-  ]
+  ],
+  "_governance": {
+    "templateId": "evidence-receipt-v1",
+    "templateVersion": "1.0.0",
+    "variant": "historical-document-relocation-v1",
+    "lifecycle": "historical",
+    "lastReviewed": "2026-10-21",
+    "owner": "Codex",
+    "sourceGitRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+    "sourceGitObject": "60537dc33d3005f8c693a1d0bcefb36db681d091",
+    "sourceSha256": "22a0b13c28c16d5089af9a0608a449bc78724706e113da59a68060b123479839",
+    "reviewRecord": "20261017-r37-ops-json-evidence.json",
+    "currentAudit": {
+      "identity": "两张对话截图的中间移动计划",
+      "sourceAndInputs": "33cc固定purpose/directories与两条from/to/kind/sha256；原输入是历史计划，不是当前搬迁命令。",
+      "oracle": [
+        "两项SHA与最终退役清单相同；两张图的恢复Git字节均匹配。",
+        "源路径与计划目标均已退出当前树；按原卡追加清理解释，不恢复旧图。"
+      ],
+      "result": "2条计划在最终回执转为退役；当前只核原件、对应关系及恢复字节，没有执行搬迁。",
+      "limits": "原purpose的retained描述属于中间时点；不代表两图最终保留，也不证明旧移动曾按计划实跑。",
+      "runtimeExecutionPerformed": false,
+      "historicClaimsReexecuted": false,
+      "unverifiedClaims": []
+    },
+    "stopLine": "原生字段/固定源/未知项变化即停止；不以结构通过重授旧执行信用。",
+    "nextStep": "本原生候选待证据验收；needs-migration保持，未通过全部硬门不合main、不标done。"
+  }
 }

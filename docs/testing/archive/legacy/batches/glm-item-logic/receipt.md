@@ -1,40 +1,62 @@
 # TEST-GLM-ITEM-LOGIC-1 · GLM 作者交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 的 GLM 作者交付回执（2026-09-27；生产冻结 a95618fc，分支 codex/glm-item-logic-r1 自 6c66619e 新建）：只新增六份 .background.test.ts+薄 fixture+本目录证据+卡内作者交付块；产品/旧测试/配置/官方 baseline 零 diff；作者自验不替代 Codex 独立验收。
+
+## Scope
+
+六组交付：I1 derived（effectiveStat 全函数同名累加/异 stat 不串扰/map 外回退等 8 项）；I2 inventory（旧件回包合并/无关保留/装备独有正控等 8 项）；I3 preflight（四种失败+menu 提前成形+豁免+所有权正控 6 项）；I4 ownership（floor+max 语义/供给不足/跨队员/空键负数非整数恰抛前后快照/removeOwnedItems 原地合同 8 项）；I5 effects（invalid-chain 两形态/gate 1% 失败/revive/curePoison/levelUp 固定 rng 8 项成长精确值 10 项）；I6 external（completeExternalWorldItemUse 零直测族+引用合同 6 项）；合计 46 行。池内不可达臂如实不测（assertNever 防御两处/preflight 后物品消失/档位越界等）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 六针负控+定向+全包 | derived-stat-assign（v += 改 v =）/equippable-count-filter（>0 改 >=0）/ownership-floor-ceiling/resolve-stopped-skip（if false continue）/external-drop-consume/external-world-identity——各自恰好只红目标 fullName；定向 46/46、相邻 item.test 51+executor 17、全 content 98 文件 1178/1178、TC/biome 九文件 0/0/0、docs PASS | GLM（作者自验） | 同一 judge 判据（恰 exit/恰一红/绝对文件+实际 fullName/拒混错 timeout/load 命中见证/生产 sha 不变/判据自测 10 例） | 披露：docs 门禁要求新目录入导航，README 仅追加一行索引是否保留交 Codex 裁定 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+六组 46 项交付+六针负控全绿；未发现产品疑似缺陷；锁绿现状合同如实登记；后续 Codex r1-r8 多轮复核链以各 review 文档为准。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；item-logic-mutants.mjs、evidence.json 与 /var/folders 机账目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM 作者回执 | 2026-09-27 | 六组 46 项+六针 | 交 Codex（后续多轮 counter/accept 链见各 review） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-item-logic 的作者交付回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-ITEM-LOGIC-1 · GLM 作者交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六组 46 项交付+六针负控全绿；未发现产品疑似缺陷；锁绿现状合同如实登记；后续 Codex r1-r8 多轮复核链以各 review 文档为准。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组表、六针表、统一门数字与边界观察在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验时点；多轮链见 item-logic-r2/r3/r5/r7/r8-review。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1-world-use-residuals 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `945b100c6adc42a291066b8952ea9dad808b89791e39e3ce6b56cddde8d573fb`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `945b100c6adc42a291066b8952ea9dad808b89791e39e3ce6b56cddde8d573fb`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-ITEM-LOGIC-1 · GLM 作者交付回执
 >

@@ -1,55 +1,61 @@
 # ED-5J - 物品私有脚本新建入口（use 能力卡）
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-06 用户验收通过；实现审查齐）
+Owner: Kimi
+Reviewer: GLM（异步抽审）
+Phase: phase2
+Capability: ED-5I / C8（依赖）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是物品私有脚本新建入口的历史功能卡：「使用」能力卡一键新建归当前物品的内联脚本（canonical itemPrivateScript，id 恒 'use'、每物品至多一条、重复 fail-loud），双会话写入（v5 追加 itemPrivateScript + shell 追加 runScript(item:<itemId>:<scriptId>)），立即编辑/排序/删除/撤销重做，保存重开以 canonical 落盘。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补齐 N3-1 终态（单调用方脚本内联私有）的作者侧新建闭环；不改 schema/SAVE/迁移与既有 14 条迁移私有脚本。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：AddItemPrivateScriptV5Command（scriptId 唯一性 fail-loud）、shell 侧同构追加、ItemTab「＋添加私有脚本」按钮（已存在时禁用）、命令单测+ItemTab 集成+保存重开测试。
+- 范围外：throw 槽私有脚本、共享脚本创建、EFFECT_KINDS 冻结集、v5 孤儿清理策略变化、形态互转 UI。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+battlePlayers 式双写回冲教训：只写一层会被投影回冲，必须双会话各入一笔；scriptId 冲突会令 mergeItemEffectsV5 两行映射同一正文，须唯一性 fail-loud。锚点：script-v5-editor.ts:1301 同位、project-io-v5.ts:154-182 merge、ItemTab.tsx:780-830/:910-953 先例。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：2026-08-06 用户验收通过、实现审查齐（命令单测/ItemTab 集成/保存重开全绿）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡常规迭代免三方必审（无 schema/save/migration 变更）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-06 实现与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done（2026-08-06 用户验收通过；实现审查齐）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：物品私有脚本新建入口经双会话写入与用户验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+item-v5.ts:5-9（id='use'）、merge 先例与 ItemTab 测试位锚点。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。物品私有脚本现行行为以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+依赖 ED-5I（item-tree collector）；SCRIPT-AUTHOR-2 命名治理为后续。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `bac2ae58e0a84ccbc3b5ed96a626c7018019ace79faaa8772739f6d9af90aa91`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `bac2ae58e0a84ccbc3b5ed96a626c7018019ace79faaa8772739f6d9af90aa91`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-5J - 物品私有脚本新建入口（use 能力卡）
 >

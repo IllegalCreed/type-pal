@@ -1,6 +1,39 @@
 # CODE-QUALITY-108 — game magic-script warning ownership
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+清理magic-script.test.ts两个真实预期warning的stderr泄漏：两个warning都来自测试主动传入缺失L_99999，生产runner应返回false并报告warning（fail-closed），不能静音或改成成功。primary锚为SDLPal uigame.c:740-873、script.c:867-1102、global.c:1254-1330与全局label ownership。
+
+## 范围
+
+白名单仅magic-script.test.ts；相关实现与caller（magic-script.ts、in-game-magic-menu、menu-driver、script-catalog、event-system、战斗actions/magic、player-poison-state）只读核验不修改。
+
+## 前提与证据
+
+固定源全文核读。实施：两个既有测试各自vi.spyOn(console,'warn')捕获并精确断言warning、finally恢复spy；业务断言unchanged——缺失label返回false、scriptOnSuccess不执行、HP不变。修复前1file/37tests PASS但2条缺失L_99999 stderr；修复后同37tests PASS 0 stderr；game menu相邻40files/377tests PASS 0 stderr；game typecheck过。2026-10-17收口：全仓check exit0（lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/30review/3046pending；official ratchet与protected fast保留真实失败（shared 447/466 statements、203/218 branches，pal-extract 1068/1546 statements、461/593 branches、111/140 functions、943/1367 lines及总量回退），本批未调baseline。
+
+## 验收
+
+生产magic-script.ts未修改；magic-script.ts与magic-script.test.ts保持review、整卡不标done；相邻包新诊断须另开卡。
+
+## 状态与交接
+
+review保持原语义；shared/pal-extract baseline回退若仍存在保持review不降门槛。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3040B / SHA-256 d8d67c83e52ceefc09433921c075e4b7f550c27fd483021cc7a4073c026a85d6；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-108 — game magic-script warning ownership
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -58,3 +91,5 @@ fail-closed 诊断和业务反例：
   461/593 branches、111/140 functions、943/1367 lines，以及总量回退；本批未调 baseline。
 - 生产 `magic-script.ts` 未修改；schema/save、公共接口、第一阶段行为和生成物均未触碰。
   `magic-script.ts` 与 `magic-script.test.ts` 保持 `review`，整卡不标 `done`。
+```
+<!-- incremental-original-source:end -->

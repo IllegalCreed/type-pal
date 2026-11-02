@@ -1,55 +1,62 @@
 # TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM 第三对话（测试贡献者）
+Reviewer: Codex（独立验收与集成）
+Phase: phase1
+Capability: coverage / menu / presentation / tools
+Visual Verification Timing: dev-functional（隔离菜单/工具样本，不走剧情）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM 第三条并行队列（2026-09-28 用户要求）的 24 组/A–F 六批历史卡：菜单（primitives/in-game-magic-menu）、呈现（draw-menu/battle-inspect）、工具（state-dump/precache-client）等 51 个 game 目标，与另两条 GLM 队列及 Kimi 零交集；A–F 候选及修订 f5601381 经 Codex 2026-09-29 accept。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为冻结 51 目标（targets.json，冻结 4a9ad67f）补当前公开合同与功能样本；分支缺口（1,721/2,416）只是选题线索。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：targets.json 的 51 个 newTest、__tests__/glm-phase1-leaves/** fixture、glm-phase1-leaves/** 证据、四个短视觉样本（不走剧情/不接正常存档/不联网）。
+- 范围外：E2E001/002 的事件/场景/移动/总壳、主绘制/对话管线、battle 公式、menu-driver/magic-script、真实 Save API；第三阶段地图重建只规划不借本卡动瓦片模型。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+一阶段规则：原始数据/已核原版行为优先、sdlpal 按来源标注、合成 fixture 不称原版实测；Grok 两批 25+19 先去重；绘制着色不冒称菜单建表/物品效果已执行；菜单原地变化按合同断言、读投影/绘制实际输入深快照。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：每批定向/相邻、game TC、新文件 Biome 零诊断、docs/diff；约 12–18 针共用严判据（对照 exit0、恰 exit1 候选 AssertionError、拒 timeout/混错/skip/exit2）；A–F 及修订 f5601381 于 2026-09-29 accept，Codex 技术收口 done allowed。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位实现 Agent 提示词（实施阶段历史提示词保留）。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-28 派发、A–F 六批实施、2026-09-29 accept；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：24 组六批按测试-only 条件经 Codex accept 收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+targets.json 冻结表、工作包 README、A–F 批回执。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。菜单/呈现/工具合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+第一/二对话对应卡为 LEAVES-1/2 系列。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e029ad42d11060c6e84063804f503e7738d4a9aa5729513f3b3d708f3ed0c6d9`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e029ad42d11060c6e84063804f503e7738d4a9aa5729513f3b3d708f3ed0c6d9`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-PHASE1-LEAVES-3 — 第三对话一阶段菜单、呈现与工具六批补测
 >

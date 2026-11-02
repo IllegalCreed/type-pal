@@ -1,5 +1,58 @@
 # CODE-QUALITY-55 — game draw menu wave member
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验大世界菜单统一绘制入口 `drawMenuStack` 及两份专属测试,确认 menu stack 从底到顶投影、主菜单/系统菜单/存档槽/库存动作/商店卖出叠层、缺资源占位（Missing menu data）、颜色闪烁、cash 与数字绘制及额外资源转发与 SDLPal（`uigame.c:42-242,430-620,878-919,990-1010,1503-1777`、`ui.c:458`）及状态机合同一致;绘制层不写 GameState/Save/IDB。只读审计,不改变产品形态或公共接口。
+
+## 范围
+
+三文件:`draw-menu.ts`、`draw-menu.test.ts`、`draw-menu.glm-phase1-leaves.test.ts`;只读相邻 caller/oracle 含 `present.ts:679-690` 资源注入与 P05 menu-stack 测试。
+
+## 前提与证据
+
+2026-10-18 波次门勘误置顶:本卡引用的 47–52 统一门回执 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回"通过/收口"信用,不得沿用为验收或合并依据;原逐文件/定向结果按各自证据保留。历史收口:draw-menu/P05 定向 15/15,tilemap+menu+present 波次 93 tests,全仓门通过,账本 3266/281 closed。
+
+## 验收
+
+历史 accept:3 文件全文、primary/caller/oracle、定向 15+波次相邻 93、全仓质量门通过,未发现直接缺陷。2026-10-18 Codex 独立复审为 partial（非整卡 accept）:纯重构删除文件尾无实际用途的 `SelectionMenuState` 导入与 `void (null as unknown as SelectionMenuState)` 伪防 lint 表达式;lint 5002 files 0/0/0;波次级 coverage 沿用 53-wave-gates 不重复运行。2026-10-21 renderer 八维统一门收口:按原三文件逐项 A–H 接受——MissingMenuData 命名、未读常量与重复 clock 清理;栈顺序反控旧 15 全绿→新恰一业务红;extra 转发/IO ownership 不改;生产默认短 slot 标签成立,长自定义标签 dx=0 限制明确保留。逐文件记录见 [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json),完整集中门与原件见 [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)（同时披露 check 之后唯一 baseline 授权数据条目及其 86 consumer 复验）。
+
+## 状态与交接
+
+done 保持原历史语义,但历史 done 不等于后续轮次验收:2026-10-18 复审 partial、2026-10-21 renderer 收口按原范围接受且不附带广域文件接受;无产品行为/schema/save/管线/调用接口变化,视觉/E2E 仍延后。
+
+## 历史范围
+
+原卡属 2026-10-13 波次时点;原始范围、推进记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现 draw-menu 直接缺陷;最强替代解释"主菜单五个 happy path 不能推断全部分支"由 word table 宽度/非默认 state/缺 catalog 资源反例域界定。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（定向/波次测试、lint、账本 3266/281）属原时点证据;53-wave-gates 信用已撤回的部分不再作为通过依据。本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;2026-10-21 renderer 收口结论以 renderer-local/renderer-gates 原件为准,不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+renderer 八维收口与集中门原件见上方链接;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9840B / SHA-256 5b33d878ef81dded1b5dd04b506b28575ca9da151cac682ddf22abea01587677；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-55 — game draw menu wave member
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 Status: done
@@ -86,3 +139,5 @@ Visual Verification Timing: e2e-deferred（剧情/观感留集中 E2E；本批�
 只按draw-menu原三文件：MissingMenuData命名、未读常量与重复clock清理；栈顺序反控旧15全绿→新恰一业务红，主框/cash和系统本体合同仍在。extra转发/IO ownership不改；生产默认短slot标签成立，长自定义标签dx=0限制明确保留。
 
 [完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。
+````
+<!-- incremental-original-source:end -->

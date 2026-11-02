@@ -1,40 +1,62 @@
 # GLM TB-02～TB-10：Codex统一接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TB-02～TB-10 九批统一接收复核（2026-09-19 首轮，接收 main 基点 41cc7cd9、生产冻结 e58834f6；用户批准额度空窗期九批先行实施——排期例外不泛化）：**九批分别 counter**（未合并新测试/产品、官方基线仍 7,049、不转 Kimi 不标 done）；问题是断言鉴别力/夹具/回执与格式，不是认定 205 项全部无价值或九个产品 bug；文末附 GLM 返工回执（九批推送，208 项）与 Codex 复核提示词。
+
+## Scope
+
+- 实际执行总账：66 新测试文件 205/205 定向；原九工具 27 对照+73 变异=100 跑符合自身预期（本席逐一复算 73 个钉名用例失败首行均 AssertionError）；独立七针坏实现全部被候选漏掉；九批 typecheck 过但 Biome 除 TB-02 外均失败（合计 28 errors/8 warnings/2 infos）不得称全仓门已绿。
+
+## Execution and assertions
+
+- **公共 C0**：九份 mutants 工具用 /AssertionError；^expect\(/ 对整条 failureMessages 匹配；AST 抽取实际运行时判据喂 Error: decoder rejected input\nCaused by AssertionError: nested detail——九份都接受（已拒 STACK_TRACE_ERROR 旧反例但普通 Error 含子串仍偷过）；修复：同一判据函数用于真实运行与自测+精确唯一目标标题已执行+逐条首行业务 AssertionError+自测加内嵌子串/纯超时+别例红/未执行反例
+- **公共 C1**：GLM 多数 Biome 回执未含全部新增 JSON/诊断文件；按 git 新增清单一次检查所有 TS/TSX/MJS/MTS/JSON，保存命令/退出码/最终 SHA；不能先跑后又编辑文件沿用旧结果
+- **逐批残项**：TB-02 真实坏 JSON 漏检（反而断言成功）+soundItem 被 validateItems 拒；TB-03 量化实参保真（比较外面的 input）+输出 transfer 未证+图片摘要被 stub 掩蔽；TB-04 SSS 比较新造 fixture+越过已签 msg 倒序排除+P07 names 轴缺交付；TB-05 缺 label 默认 0 被保活+标题 126/127/128 实际只构造 128；TB-06 权限保真三次创建 permission+混合目标失败未建立；TB-07 三个正控被正式 guard 拒（退役 dialogue/hooks 数组/缺 consuming）+两个排除轴反向写绿（空 rewards fallback/authorScripts 缺席退 library）+S02 三轴留本卡；TB-08 done 相位无断言+无 caller pageUp/Down 保活；TB-09 method 优先级无鉴别力（总 200）+GA 未设 fail-fast；TB-10 baseline 浅别名+E05 chunks 保活+journal 反例不精确+T08 勘误（zone:true 不误判非法，两 root 独立链≠同 root 菱形）；每项均单点反证候选仍绿独立 oracle 红
+- **独立见证与裁决**：nine-intake-witnesses.mjs 七对照全绿、七坏实现独立 oracle 业务红候选自身仍绿（吞坏 JSON/量化污染/SSS 污染/权限污染/done 污染/忽略 init.method/baseline JSON 污染——故意注入反证非声称产品 bug）；实际 factory AST 读取（TB-02 soundItem 被拒、TB-07 三个被拒、TB-10 场景 guard 接受）；预存环境失败裁决：editor world-sprite 两例缺 044/035.rle、game 缺 enemy-teams.json、pal-extract 缺四 MKF——具体 ENOENT 认可属资源未就绪非测试逻辑回归；audit-performance 并行 15s 超时不能仅凭隔离绿判无关，合并后完整 check 须实跑；Mimosa 用户裁决归 GLM 私有 MCP 不作接收门
+- **GLM 返工回执（九批推送）**：TB-02 d4d79026/TB-03 9fe3a07f/TB-04 a87652fd/TB-05 4cf2f2e8/TB-06 d8b02958/TB-07 b86f235d/TB-08 9cef33cb/TB-09 1620ab24/TB-10 76bafede；公共项与逐批残项全部闭环：C0 首行判据/fsa 坏 JSON 真实到达/quantize 同一 buffer/SSS 同一 view/撤缺 label 默认 0/同一权限对象/三 fixture 过 guard/S02 三轴（hooks-session 3 项）/done 相位完整相等/method 同条件失败对照/baseline 深快照/撤 chunks+journal 精确+菱形；本席见证复跑：9/9 判据拒绝内嵌子串、5/5 factory accepted、7 对照绿 7 针全 detected；定向最终树 208 项（07:20 含 S02 新 3）；全包/tc/Biome/私有覆盖双时点记录于机账 rework 节
+
+## Results
+
+- 本席工具初跑 /var→/private/var jsdom 找不到 oracle 未作产品证据（realpath 修正后重跑）；未恢复任何 stash/未放宽 timeout/exclude/基线。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；根日志 /tmp/codex-nine-intake.4NRQ0e 与机账 glm-nine-intake-evidence.json 链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 九批统一接收 | 2026-09-19 | 205 项/100 跑总账+C0/C1+逐批反证 | 九批 counter→GLM 返工待复核 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy ops/testing-records 的 TB-02~10 统一接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM TB-02～TB-10：Codex统一接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+九批分别 counter（公共 C0 判据整条匹配误收内嵌子串+C1 文件面与回执不符+逐批单点反证）；七针独立见证；预存环境失败分类裁决；GLM 返工回执同文闭环。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+执行总账表、逐批残项、见证工具、环境裁决与两份提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 rework-review 与 final-review 递进闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 glm-nine-rework/final-review 与各卡完成卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `3a025dd17da895e11f777fae011498bb1a33ce0cc7259c1a8596b145824f6eae`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `3a025dd17da895e11f777fae011498bb1a33ce0cc7259c1a8596b145824f6eae`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM TB-02～TB-10：Codex统一接收复核
 >

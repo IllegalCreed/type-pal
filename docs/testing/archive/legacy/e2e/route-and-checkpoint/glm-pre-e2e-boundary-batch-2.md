@@ -1,40 +1,58 @@
 # GLM 大批工作包（二）：剩余边界取证与回归准备
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是大批工作包（二）（r1；原材料 GLM，修正/复跑/集成 Codex 接手——2026-09-14 用户明确「你来做吧，glm额度用完了」，GLM unavailable）：六组 72 个检查点卡前取证与回归准备，不是 72 个 bug 也不是修复授权；产品冻结 70e3f627；当前状态 Codex 已完成 S1-S6 取证返工与归类：34 covered/23 reproduced/15 risk；旧候选 a5b7cd89 counter 保留为历史。
+
+## Scope
+
+六组：A 世界异步提交与取消 12 项（换图成功/预载失败/entered 后取消/显式覆写/entry 等待期改目标/无关变化对照/selectSceneHooks await 后 abort 等）；B 保存等待/旧活动收尾/检查点导出 12 项（confirm→保存→开战 lineage、B07 U-02 detached 入口 census、B08 合法旧链取消→新权威反例、B11 真实 dumpSave 注册对象零参调用）；C 战果写回与回合末终态 12 项（偷取胜/逃写回、消耗到零、连偷合并、养蛊到期、毒杀结算、同轮双死）；D 目标/附带/菜单可达性 12 项（两道概率门 applyPoison、全队复活混合生死、仅投掷路由、预占最后一件）；E 迁移防护与旧接口退役 12 项（E02 快照后 journal 前修改、E06 父目录 symlink 本人临时根、E09 dense enemies 全 caller census）；F 七包覆盖缺口 12 项（不混两阶段、F12 分流不发明「先补到 90% 才准跑 E2E」门槛）。
+
+## Execution and assertions
+
+- **白名单+质量合同**：仅 report.md+evidence.json 72 行机器账+六个 probe-glm-next-*.mjs+可选 config；packages/scripts/projects/data/reference 零 diff；observe；contract 双模式共用 fixture；A-E 每组至少一个最高优先已证动态项验证鉴别力（隔离内存单点反控/最小修复见证）；GLM→Codex 接手（S1-S6 完成）；72 唯一 ID 机械复算 A-F 各 12 无重复缺号；文档工具 20/20 过；「不可达」不当 N/A 需一手证据否则 risk 保留分母；每个ID最终分类 reproduced；covered；risk；blocked；N/A 之一不得藏 pending
+
+## Results
+
+- GLM 额度耗尽后 Codex 接手 S1-S6 完成：最终 34 covered/23 reproduced/15 risk；121 次原树诊断+13 次隔离见证全符合预期；六探针 Biome exit0。23 个业务红非 23 个独立根因。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；整批回执与机器账另存 batch-2-report/evidence 两文件。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 工作包二 | 2026-09-14 | 72 检查点六组+S1-S6 返工 | Codex 接手完成（34/23/15） | 旧候选 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy e2e/route-and-checkpoint 的大批工作包二；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 大批工作包（二）：剩余边界取证与回归准备：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+卡前取证只读：不实现产品、不增正式测试/覆盖率、不宣称缺陷已修；Codex 接手部分为本人实现自验不冒称 GLM 独立终审。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组清单、一手证据/测试质量要求、数据/文件安全、白名单与 GLM 提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证时点材料。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 glm-pre-e2e-boundary-batch-2-report.md。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `b4e5edc923a13d4ff8317aa06212e254fa212812ad6b7108365f4226bb537dae`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `b4e5edc923a13d4ff8317aa06212e254fa212812ad6b7108365f4226bb537dae`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 大批工作包（二）：剩余边界取证与回归准备
 >

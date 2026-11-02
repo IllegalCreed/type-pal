@@ -1,6 +1,59 @@
 # CODE-QUALITY-92 — protected fast 命令误标纠正
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:纠正 CODE83–89、CODE91 将 `pnpm check:fast` 误标为 protected fast 的门禁结论——一手证据 `scripts/coverage/run.mjs:403-462,526-558`:只有设置 `TYPE_PAL_COVERAGE_BASE_REF` 的 coverage fast 才保护目标 baseline 的比例和存量生产/测试范围;正确命令为 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`。范围限本卡、账本、导航、审查增量及 evidence/CODE-QUALITY-92;不改 30 条关联文件、测试断言或产品。
+
+## 范围
+
+30 条关联记录由已验证转 review 建立 counter（当时 ledger 3271,closed 340/review 42/pending 2889）;错误原件保留命令、计数与先前结论,不追溯伪造 protected 运行。CODE90 两文件及 event-system 独立未闭合项不因本卡恢复。
+
+## 前提与证据
+
+反证条款:若旧原件可直接证明执行了带 origin/main 保护的 coverage fast,相应记录可单独复核恢复,不能从 check:fast exit0 推断。2026-10-14 源快照核对:30/30 当前文件与各自关闭提交源码字节一致（closureCommit/双 SHA256 见 source-snapshot-comparison.json）。
+
+## 验收
+
+第一次真实 protected fast 在治理提交 `06839866f` 执行:7 包 731 files/19,864 tests 原生测试通过,但门禁 exit1——失败为"候选 baseline 删除仍存在文件中的 fast tests: event-rng-scene-restore.test.ts"（候选 baseline 仍是 d7 旧快照,主线已新增 RNG 测试）;coverage 汇总亦有 ratchet floor 精确回退。官方 ratchet 在 `edbcad970` 更新 baseline（纳入 RNG test 与本批 6 条 runner 合同）后,重跑 protected fast:7 包 731 files/19,870 tests 全部通过,exit0;30/30 源码字节一致,恢复 30 条账本记录为已验证。
+
+## 状态与交接
+
+done 保持原历史语义。2026-10-16 当前候选复审（历史 done 保留）:完整读取工程门与原件,核两份 rawCombinedOutput SHA/exit 与同一收口 commit 的 full check 原件——历史执行有直接支持,不能因"待补写"文案认定未跑;但 30 源码当前 20 字节相同/10 变化,旧 30/30 不能沿用,全部再转 review,本轮不恢复关闭;成功输出未记录结构化环境,后续真实门须保存环境/refs/SHA。本轮 partial,非当前统一门或整卡 accept。详见 [README.md](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。
+
+## 历史范围
+
+原卡属 2026-10-14 纠错时点;原始记录（protected-fast-current/after-ratchet 原件）在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:门命令纠错完成、30 条曾恢复;2026-10-16 复审后 30 条实际保持 review。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（两次 protected fast 的 exit 与汇总数字、源快照比对）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;30 条当前状态以最新 ledger 与 92 复审为准。
+
+## 继任文档
+
+QUALITY-PRE94-RETROSPECTIVE-1/92 复审证据为继任载体;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6953B / SHA-256 4896334335a6187df758fd55456e959e4775ac30d6848fa43dd4e0e73cf54f1d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-92 — protected fast 命令误标纠正
+
+Status: done
 Phase: engineering
 Capability: 全仓代码治理质量门
 Coding Owner: Codex
@@ -69,3 +122,5 @@ Branch: codex/code-quality-3y
 ## 2026-10-16 当前候选复审（历史done保留）
 
 本轮完整读取工程门与原件，核两份rawCombinedOutput SHA/exit以及同一收口commit中的full check真实原件；历史执行有直接支持，不能因“待补写”文案认定未跑。30源码当前20字节相同/10变化，旧30/30不能沿用；全部仍review，本轮不恢复关闭。成功输出未记录结构化环境，后续真实门须保存环境/refs/SHA，不能追补伪造旧捕获。详见[当前92复审](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md)。本轮partial，非当前统一门或整卡accept。
+```
+<!-- incremental-original-source:end -->

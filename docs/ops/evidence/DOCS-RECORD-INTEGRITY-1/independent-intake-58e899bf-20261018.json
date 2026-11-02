@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-report-byte-ingestion-not-new-review",
+  "reviewedCommit": "58e899bf000e0d3bbeafb5c4a7ecb478b07ac656",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "report": {
+    "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/independent-review.json",
+    "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json",
+    "sha256": "06c482cda4cd56705a72d15e36a763c5ccc62ca609e83a744878000083b6dacf",
+    "bytes": 49686
+  },
+  "artifacts": [
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/independent-mechanical-audit-v3.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-mechanical-audit-v3.json.log",
+      "sha256": "3d70e807e6fb460f43e15c9b78348a1f89d0285022480bae9f24ee02e9785c24",
+      "bytes": 940261,
+      "originalFormat": ".json",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit-v2.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/supplemental-audit-v2.json.log",
+      "sha256": "b942d9f70b4b2ded7f45526034a458f57b5775a037e8702098877ee496b7571e",
+      "bytes": 31026,
+      "originalFormat": ".json",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/independent-command-receipts.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-command-receipts.json.log",
+      "sha256": "e3e4caa1f8541bbfbca2d0bf0d63ab1fe0b689917eaca3d337cfd914200edab3",
+      "bytes": 9256,
+      "originalFormat": ".json",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-command-receipts.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/supplemental-command-receipts.json.log",
+      "sha256": "3e644886d87c74e522dee3e7e58aaf92a050e5f24407fab9df7865f980d679db",
+      "bytes": 3866,
+      "originalFormat": ".json",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe.json.log",
+      "sha256": "e3b883ce8de8369950a40518c9fe9ccc1ee1d9e27824bf62f1e6b4a8494d948f",
+      "bytes": 3866,
+      "originalFormat": ".json",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/independent-audit-v3.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-audit-v3.py.log",
+      "sha256": "bd63da766084d875a0496368cf8fb1374d047a9680d67c714c251145f67ae9be",
+      "bytes": 14510,
+      "originalFormat": ".py",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit-v2.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/supplemental-audit-v2.py.log",
+      "sha256": "c03a9d626da3dcbee774baa1094ca99cc3823ea59665745312dc21a2f3d32c97",
+      "bytes": 4775,
+      "originalFormat": ".py",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe.mjs",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe.mjs.log",
+      "sha256": "a7552d19c27781d3289614e92d08193d25938c57cc2f6d5f46ef4280e3113669",
+      "bytes": 3374,
+      "originalFormat": ".mjs",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/run-checks.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/run-checks.py.log",
+      "sha256": "6a67fdbcfe64da0e8b999de6f821c96ddc00cc261710a6d65914cf418bdbccfc",
+      "bytes": 2491,
+      "originalFormat": ".py",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/capture-syntax.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/capture-syntax.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/capture-syntax.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/capture-syntax.stdout.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/check-docs.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stderr.raw.log",
+      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+      "bytes": 477084,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/check-docs.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stdout.raw.log",
+      "sha256": "b6d84345dcd4a9a3488214c935e27497a3798fbb6e0b58b21ff41323f4157ad1",
+      "bytes": 31371,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-integrity.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-integrity.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-integrity.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-integrity.stdout.raw.log",
+      "sha256": "2a1d248760e349e02011dbc09a390dec474e5dbe637ffd73e3e4c9261efeaa1c",
+      "bytes": 94,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-strict.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stderr.raw.log",
+      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+      "bytes": 477084,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-strict.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stdout.raw.log",
+      "sha256": "010b353aff33a72bacec43e5d987a4370ad1a94df10a01c7c0ccc20508071f40",
+      "bytes": 94,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-baseline.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-baseline.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-baseline.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-baseline.stdout.raw.log",
+      "sha256": "950aefd83e5f90818c203281b165999c338bd864c8838195b5fa5b30fa1dbe1e",
+      "bytes": 48,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-mutant.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-mutant.stderr.raw.log",
+      "sha256": "a0a26ac635c601d67039f54592cea4c7207a1e3e4e9553dd1806c512b54d26cc",
+      "bytes": 430,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-mutant.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-mutant.stdout.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-restored.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-restored.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-restored.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/counterprobe-restored.stdout.raw.log",
+      "sha256": "950aefd83e5f90818c203281b165999c338bd864c8838195b5fa5b30fa1dbe1e",
+      "bytes": 48,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/diff-base-head.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/diff-base-head.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/diff-base-head.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/diff-base-head.stdout.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/docs-tools.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/docs-tools.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/docs-tools.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/docs-tools.stdout.raw.log",
+      "sha256": "934379b009e270a142fbb56c103af598f570e80bb212856ca447dd48a62c3abf",
+      "bytes": 30292,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/lint.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/lint.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/lint.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/lint.stdout.raw.log",
+      "sha256": "c69a36d4d79a7e2cf7212eee38e29d0249efb673c64b4d4d1d6878b9fe82298c",
+      "bytes": 197,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/mechanical-audit.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/mechanical-audit.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/mechanical-audit.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/mechanical-audit.stdout.raw.log",
+      "sha256": "980efe9ed8f4a7337ae78c044055c3eda3a43db9aba229f1d4be60713721515a",
+      "bytes": 621,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/python-syntax.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/python-syntax.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/python-syntax.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/python-syntax.stdout.raw.log",
+      "sha256": "349caa23b51ece82ee21adb23133ebdece5a8c76df142abafcf211e5ff40dc9f",
+      "bytes": 47,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/r65-r66.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/r65-r66.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/r65-r66.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/r65-r66.stdout.raw.log",
+      "sha256": "9c72a32c3ec105d2c345cb0229b682365db3d736d457eeb02a55a94414699659",
+      "bytes": 11101,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/require-complete.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stderr.raw.log",
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "bytes": 89,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/require-complete.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stdout.raw.log",
+      "sha256": "873882606b847ea08732f7bdabe8ddafff085b717a2d8c634e82d151a3564c51",
+      "bytes": 137638,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/supplemental-audit.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/supplemental-audit.stdout.raw.log",
+      "sha256": "d24d6a38f438ef55fc0b70048705e83f3133f12f817e96f8a99d225a72e3b40d",
+      "bytes": 93,
+      "originalFormat": ".raw",
+      "ownership": "independent-reviewer-generated; exact byte copy; not a fresh command execution"
+    }
+  ],
+  "policy": "Original absolute paths and relative names inside the reviewer report are retained verbatim; use this explicit path map after temporary files retire. No original stream, verdict, count or historical receipt is rewritten. This intake index grants no semantic or execution credit."
+}

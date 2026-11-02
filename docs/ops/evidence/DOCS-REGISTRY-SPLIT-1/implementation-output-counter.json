@@ -1,0 +1,204 @@
+{
+  "kind": "implementation-IO-counter",
+  "id": "REGISTRY-MIGRATION-OUTPUT-PREFLIGHT",
+  "createdAt": "2026-10-17T21:20:02.228642+00:00",
+  "state": "author-fixed-pending-frozen-nonauthor-retest",
+  "author": "/root/registry_storage_author",
+  "reviewer": "/root",
+  "nonAuthorReviewer": true,
+  "observed": {
+    "kind": "missing-output-parent-real-CLI-observation",
+    "startedAt": "2026-10-17T21:17:43.582517+00:00",
+    "endedAt": "2026-10-17T21:17:44.123823+00:00",
+    "command": [
+      "node",
+      "scripts/docs/migrate-document-registry.mjs",
+      "--manifest",
+      "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.json",
+      "--mapping",
+      "/tmp/type-pal-registry-root-output-parent-6f53q847/absent-parent/mapping.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal",
+    "cliSha256AtStart": "607ca0ccd0617b21849773f3108215f25b8bdd4f1c24ebd02ee23d6f797568db",
+    "exitCode": 1,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "637a74c8a2a5fd371cb46766d52fa167eaa781aed9e932db763083dea4c3b840",
+    "sourceBeforeSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+    "manifestAfterSha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+    "manifestSchemaAfter": 2,
+    "mappingExists": false,
+    "createdShards": 7,
+    "scope": "owned /tmp actual public CLI only; no canonical repository writes; unfinished source not final verdict"
+  },
+  "failure": "A missing mapping parent caused CLI exit1 only after schema2 manifest and seven shards had been published, with no mapping. The existing-output refusal control already passed and is not misreported as a failing case.",
+  "sourceLimit": "Unfrozen implementation observation; probe captured CLI start SHA and real streams/effects, not a complete Git-frozen module snapshot. A later source read found the CLI changed, and that limitation is retained. Final acceptance must use a frozen full input snapshot.",
+  "artifacts": [
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/command.stderr",
+      "payloadSha256": "637a74c8a2a5fd371cb46766d52fa167eaa781aed9e932db763083dea4c3b840",
+      "payloadBytes": 787,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/command.stderr.gz",
+      "encoding": "gzip",
+      "storedSha256": "cf34a311a6526411a8d92eef9dfa9ec51bb84816e123446372edc75c0728a643",
+      "storedBytes": 439
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/command.stdout",
+      "payloadSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "payloadBytes": 0,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/command.stdout.gz",
+      "encoding": "gzip",
+      "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "storedBytes": 20
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.json",
+      "payloadSha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+      "payloadBytes": 4745,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "b11f5dd761a22058f9095552fd729dc61f31bb74e53d450ee094844a99956d8b",
+      "storedBytes": 1794
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.lore.json",
+      "payloadSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "payloadBytes": 4980,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.lore.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "74c3f11c89f25ef7b47b15beea3e575172dd4473a2b63502c57bff087d91660e",
+      "storedBytes": 526
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.ops.json",
+      "payloadSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+      "payloadBytes": 590511,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.ops.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "ea03f789b7757313a99293c36e58a868ae944a58f838400e58b4ac3abd0d6e58",
+      "storedBytes": 22115
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.phase-governance.json",
+      "payloadSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+      "payloadBytes": 70224,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase-governance.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "f01b4acdb6304b715a76e43706906af92e5c3d386aa4a5dc07917fd8b96ba1f6",
+      "storedBytes": 2135
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.phase1.json",
+      "payloadSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "payloadBytes": 23584,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase1.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "7b12e288b5fd80642b3a4dbbc005a35a285804c10d01806a5e10c17d779c7ec1",
+      "storedBytes": 1295
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.phase2.json",
+      "payloadSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "payloadBytes": 42462,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase2.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "04712e6a2b9c7e81649a1a8cfc66c38a25a9ce55b18b4e422fbd6659c83c4369",
+      "storedBytes": 2101
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.phase3.json",
+      "payloadSha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "payloadBytes": 1860,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.phase3.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "c47b8ca3028d0df8179f426a7f874fbc42946cc1979ebcb598f7bed1f6448e21",
+      "storedBytes": 374
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/document-registry.testing.json",
+      "payloadSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "payloadBytes": 325266,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/document-registry.testing.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "a0519cb881ff79c798845eee2d57777cf003f7074409e6a3555a72ce5d9f21ee",
+      "storedBytes": 10218
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/observation.json",
+      "payloadSha256": "6a73ac83413974f68382e121cdccec655dcfe856b8bb2dfd7ddb9dbe9440e491",
+      "payloadBytes": 1176,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/observation.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "4316cde17f610d835100937fa7c94728d878f713b97068e6c87399f3f16b5fbe",
+      "storedBytes": 676
+    },
+    {
+      "originalPath": "/tmp/type-pal-registry-root-output-parent-6f53q847/source-retention-note.json",
+      "payloadSha256": "cabab113b7e6fabbac1bd9ab59a02c674e247a3ba05ab47311461fc70982bae6",
+      "payloadBytes": 407,
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/output-parent-counter/source-retention-note.json.gz",
+      "encoding": "gzip",
+      "storedSha256": "bcb184aec8696eb6229f429e80cb5dc28bc942b4ddeaad12a011f666829423f4",
+      "storedBytes": 313
+    }
+  ],
+  "existingOutputControl": {
+    "observed": {
+      "kind": "existing-mapping-path-preflight-observation",
+      "startedAt": "2026-10-17T21:14:06.562038+00:00",
+      "endedAt": "2026-10-17T21:14:06.590901+00:00",
+      "command": [
+        "node",
+        "scripts/docs/migrate-document-registry.mjs",
+        "--manifest",
+        "/tmp/type-pal-registry-root-mapping-counter-gu5a6cdk/document-registry.json",
+        "--mapping",
+        "/tmp/type-pal-registry-root-mapping-counter-gu5a6cdk/existing-mapping.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal",
+      "cliSha256AtStart": "607ca0ccd0617b21849773f3108215f25b8bdd4f1c24ebd02ee23d6f797568db",
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "66836411a0a8c31dc74d36ed4b81e5766ea26049f56feb4b0e720056bf43ba6d",
+      "sourceBeforeSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+      "manifestAfterSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+      "manifestSchemaAfter": 1,
+      "existingMappingUnchanged": true,
+      "createdShardFiles": 0,
+      "scope": "isolated /tmp real public CLI probe; no author repository/product/central changes; unfinished source observation, not frozen candidate verdict"
+    },
+    "artifacts": [
+      {
+        "originalPath": "/tmp/type-pal-registry-root-mapping-counter-gu5a6cdk/observation.json",
+        "payloadSha256": "71039ce99e681bc778901e8a013937e6bc95bc7072f4c6724599b91023115372",
+        "payloadBytes": 1230,
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/observation.json.gz",
+        "encoding": "gzip",
+        "storedSha256": "6649a962f9716d8505e76beb8bd072f508f9398bd2fa5858f253ce9bf315c87f",
+        "storedBytes": 659
+      },
+      {
+        "originalPath": "/tmp/type-pal-registry-root-mapping-counter-gu5a6cdk/command.stdout",
+        "payloadSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "payloadBytes": 0,
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/command.stdout.gz",
+        "encoding": "gzip",
+        "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+        "storedBytes": 20
+      },
+      {
+        "originalPath": "/tmp/type-pal-registry-root-mapping-counter-gu5a6cdk/command.stderr",
+        "payloadSha256": "66836411a0a8c31dc74d36ed4b81e5766ea26049f56feb4b0e720056bf43ba6d",
+        "payloadBytes": 680,
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/existing-output-control/command.stderr.gz",
+        "encoding": "gzip",
+        "storedSha256": "56f2006acc42a98c4b3e70b523497e3869b92cf6345899038b7271a25b96319f",
+        "storedBytes": 335
+      }
+    ]
+  },
+  "authorResponse": "Owner acknowledged and reports reserving a writable exclusive/no-follow output fd under a verified existing /tmp parent before migration; actual fixed candidate/retest still pending.",
+  "stopLine": "Do not accept storage implementation until actual final frozen missing-parent/existing-output/valid-output controls and all other counter requirements are checked. No main/done/global or semantic credit.",
+  "fullTaskComplete": false,
+  "mainMerged": false
+}

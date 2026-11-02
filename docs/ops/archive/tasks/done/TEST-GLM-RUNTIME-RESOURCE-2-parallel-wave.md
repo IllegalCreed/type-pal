@@ -1,55 +1,62 @@
 # TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM 第二对话（受委派测试贡献者）
+Reviewer: Codex（独立验收与集成）
+Phase: ops（shared/pal-extract 编解码；reforge/migrate 当前二阶段接口）
+Capability: coverage / runtime-presentation / resource-leaves
+Visual Verification Timing: dev-functional（隔离固定输入绘制，不走剧情）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM 第二对话 28 组/A-G 七批历史测试卡（2026-09-28 双对话并行授权，生产冻结 f6878b3c）：运行时呈现/资源叶层合同（menu/item-list 320 逻辑坐标、settlement 屏幕构造、trial 三人上限、project-map 纯构造、迁移纯函数、RLE 编解码、ball 头部帧处理）；115 断言+四项返工后候选 27271232 接收。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补当前公开合同回归；拆分"新合同"与"已有合同自包含接入 fast"不假称新业务。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：targets.json 的 62 个 newTest+glm-runtime-resource/** fixture+专属证据目录。
+- 范围外：第一对话 LEAF-WORKFLOWS 与 Kimi 20 目标（并行互斥）；迁移写盘；合成样本称原版实测。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+R28 判例：源码全文件 353 未命中臂不归全包，只准入 collectSourceEntrySites:545-651 函数范围；wholeFileTotals 不等于授权增量。第一阶段编解码调真实解码器不自写模拟算法。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：七批 115 断言+四项返工（详见卡内），候选 27271232 经 Codex 二次验收。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+两对话 60 组不互相审签（并行纪律）。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-28 授权、七批实施、四返工与接收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：第二对话 28 组经四项返工后验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+glm-runtime-resource-wave/targets.json 与批回执。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。编解码/接口合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+第一对话 LEAF-WORKFLOWS-1 为并行姐妹卡。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `bdf3465c0b5164052018adaa6a9f4c62d40aa6a4692c97fcd0cd7746e4a2d251`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `bdf3465c0b5164052018adaa6a9f4c62d40aa6a4692c97fcd0cd7746e4a2d251`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-RUNTIME-RESOURCE-2 — 第二对话运行时与资源七批补测
 >

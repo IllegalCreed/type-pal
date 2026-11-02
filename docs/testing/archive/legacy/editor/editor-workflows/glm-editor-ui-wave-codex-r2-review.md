@@ -1,40 +1,63 @@
 # GLM 编辑器十二模块 · G1–G3 返工独立复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GLM 编辑器 UI 十二模块 r2 复核（候选 `codex/glm-editor-ui-wave-r1@89d1be36…b01c`）的 Codex 回执：**G1/G3 已闭，G2 仍有一项同根 counter；卡保持 rework**。未合 main、未跑全仓 check/官方 ratchet/strict-fast，不计正式覆盖率。
+
+## Scope
+
+- 候选 89d1be36fb41c4f12fd02d33816736f6d74ab01c；对象=G1（会话状态合法性）/G2（正式输入交接）/G3（视觉证据）三项返工复核。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| G1 闭 | glm-ui-wave-kit.ts:40-48 blank seed→loader→全量场景→toEditorState→assertProjectSaveValid | 独立复跑 | 十二文件 39/39、editor typecheck exit0、14 代码文件 Biome 零诊断、check:docs PASS、diff 干净；判据自测 10 类+四针钉名业务红全过 | 首轮「空 manifest/入口场景缺席」根因撤回；只证测试会话状态，不证每个下层 UI asset prop 真实例 |
+| G3 闭 | /tmp/ui-wave-u2-sprite-library.png、/tmp/ui-wave-u4-scene-canvas.png | 直看截图 | 12 帧网格+活体预览、场景素材可见，无资源字节不符横幅 | 作为隔离环境可加载的最小视觉证据；不宣称内容观感/全地图/录制链验收；两图 SHA-256 d1297b12…/3e80f13f… |
+| G2-R2 残 | PreviewCanvas.glm-ui-wave.test.tsx:73-75/:106/:117-122；SceneCanvas.glm-ui-wave.test.tsx:68-83/:158-163 | 源码核 | legalStages 构造检查但实参是 stages=[{id:s0,body:[]} as never]；SceneCanvas 实际 props 空 assetCatalog/tilesets、{} 强转 assetBase/assetReader，useSceneAssets mock 绕过 | 回执「正式对话舞台/场景资产闭包正控」不成立；当前绿例只证局部委派/防御 |
+
+## Results
+
+- 返工只处理两处：U4b 把经守卫核过的舞台真正作为 stages 实参（或撤回未消费舞台证明语句）；U4a 给组件真实同源 catalog/tilesets/reader/base（几何 hook 可隔离）或明确降为局部 pointer 测试撤回资产闭包声称；不可空 props+ready mock 冒充正式输入。
+- 其它 U1–U3 与 G3 不重开；修后重跑定向、U4 单点针、typecheck、Biome 与 docs，再交一个 SHA。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；两张 /tmp 截图按原文时点（SHA 在 quote）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 复核 | 原文时点 | G1–G3 返工核 | G1/G3 闭、G2 counter；卡保持 rework | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 ui-wave r2 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 编辑器十二模块 · G1–G3 返工独立复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+G1/G3 闭（39/39+判据自测+两截图）；G2 同根 counter（声明正式输入未交给被测组件）；后续轮次见同目录 r2 接收与 memory。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+锚点行号、截图 SHA 与返工口径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 仅指当时候选；最终状态见任务卡与后续接收。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST 卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `2a5c274b742ce96136afb394b12484158f9c0322b62759b9ac1693a435cc2408`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `2a5c274b742ce96136afb394b12484158f9c0322b62759b9ac1693a435cc2408`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 编辑器十二模块 · G1–G3 返工独立复核
 >

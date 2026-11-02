@@ -1,40 +1,62 @@
 # 帧动画首帧揭示与显式清层合同
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: design-spec-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+SCRIPT-GOV-3 s011 恢复核查证明现有指令不能在独立淡入和声音指令之间保持帧动画可见；Root 核准增加 playFrameAnimation.holdLastFrame、initialFadeInMs 与 clearFrameAnimation 显式能力——作者正文仍只有步骤和指令，无新增并行/播放器指针/存档状态/隐含淡入职责。
+
+## 问题与目标
+
+- SCRIPT-GOV-3 s011 恢复核查证明现有指令不能在独立淡入和声音指令之间保持帧动画可见；Root 核准增加 playFrameAnimation.holdLastFrame、initialFadeInMs 与 clearFrameAnimation 显式能力——作者正文仍只有步骤和指令，无新增并行/播放器指针/存档状态/隐含淡入职责。
+
+## 真值与约束
+
+- 四向证据：原始内容 all.json:2235 out、2238 RNG0..112、声音与后续 RNG 分段、2249 out 后回世界；第一阶段 event-system.test:5285 证 0x50 后 RNG 首帧消费 needToFadeIn、rng-player.ts:165 fadeInFirstFrame 先画首帧再保持该帧完成 600ms 淡入；当前二阶段 finishPlayback 把成功帧设 buffered、visibleFrame 只接受 playing/dialogue、main play finally 无请求 token 旧请求结束可改变新请求模式；目标=成功且本次实际收到帧时可显式保持最后帧可见穿过 sound/wait/fade
+- 更小方案排除：现有 0..0→fadein→1..112 被 buffered 不可见直接反例推翻（首帧命令完成后淡入露出世界、分段间声音可能露世界）；holdScreen 只控黑幕不控 CG 层；借 enterDialogue 显示需伪对白；给播放器新增声音时间线更大且把作者正文搬进第三种编排——均不采纳
+- 精确显示：省略 holdLastFrame 保持现有 buffered 合同；传 true 只在成功且本次收到帧时进入 held（无帧/失败/abort 不能把旧 fallback 变持久 CG）；正常声效/等待/淡入淡出/clearDialog 不改变 held；clearFrameAnimation 明确中止当前请求丢弃缓存及可见层立即回世界
+- initialFadeInMs 非负有限省略不产生 fade；首个本次帧先同步 present 并核 owner，随后宿主执行显式淡入再等待该帧正常时长才进下一帧；通用 decoder 只增可选 onFirstFrameReady 异步回调；s011 直接播 0..112 保留首帧 600ms 淡入后 62.5ms 帧等待不拆首帧不故意接受先黑等 62.5ms 次序偏差；传参时宿主在加载首帧前先取得黑幕 owner 并同一 gameplay 时间同步完成零时长黑幕设置（初始 alpha=0 真正从黑揭示）
+- 所有权：每次播放独立临时 owner/token 与取消域，新播放 supersede 旧播放，旧 decode/onFrame/finally 先核 token；最后一次「检查 owner→写帧/模式」在同一同步提交点；统一 reset invalidates token 并取消在途播放（abort/场景 commit/读档复位/退出复用）；token/buffer/source 均在呈现实例不进 World/SAVE11；teleportParty 当前不清 CG 作者需先 clear 不偷偷加职责
+- 修改路径：Content 命令联合/strict 字段 guard/执行安全表新增 optional bool+显式首帧淡入毫秒+无参清层叶；共享编译器/宿主接口/适配器/Cutscene intent/controller/main 播放请求/presentation owner 闭环；Editor 菜单/摘要/参数表单+预览日志明确保持/清层；业务 JSON 归 Content Owner 本包不并写
+- 验收反控：首帧保持下独立 fade/多 segment 与 sound-wait 可见层连续/明确 clear/无本次帧不保持 fallback/读失败 abort/旧 decode 新请求后返回/旧 finally 新请求后返回/clear 同场重载场景 commit SAVE11 读回使旧帧失效；取源时长单列（首帧 62.5ms 与淡入 600ms 先淡入再停留，不能用「首帧接上了」掩盖总时间或次序漂移）
+- 交付验证：Reforge 10 文件 66 项+Editor 12 文件 149 项+Content 5 文件 85 项；三包 typecheck 与 58 相关文件 Biome 零诊断；真实主壳反控含初始透明/慢解码清层/播放淡入中替换/正式作者清层/场景 commit/SAVE11 读回/不越权收普通黑幕；公共能力验收不冒称 s011 已走过剧情视觉（正文由 Content Owner 接续）；Root 已记 build allowed 版本统一随 content23 冻结 SAVE11 不变
+
+## 方案
+
+- 见真值与约束各条：合同/所有权/修改路径按原文时点冻结；本页只接治理模板，不改变设计结论。
+
+## 边界与风险
+
+- 替代解释的排除与「不冒称」边界见真值与约束各条；业务 JSON 归 Content Owner，本包不并写。
+
+## 验收
+
+- 反控与回归清单见真值与约束末条与原文验收节；交付验证数字按原文时点。
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy batches/script-governance 的前提/合同设计记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 帧动画首帧揭示与显式清层合同：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 本记录为 SCRIPT-GOV-3 系列设计准入证据（四向证据+替代解释排除+精确合同）；实现与测试按此执行。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 四向证据表、反例与验收清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。设计合同按冻结时点；当前行为以现行实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归 SCRIPT-GOV 系列任务卡与现行 canonical 实现。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f4803ca08752997b68c5438f1520487ae10d2898b81f44f08b22e6452449251b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f4803ca08752997b68c5438f1520487ae10d2898b81f44f08b22e6452449251b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 帧动画首帧揭示与显式清层合同
 >

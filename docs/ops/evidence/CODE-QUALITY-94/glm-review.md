@@ -1,5 +1,38 @@
 # CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本篇是 GLM 对 CODE94/95 的作者逐文件复核报告：对象为 source-manifest 30 条候选（9 生产实现 + 21 测试），分支 codex/code-quality-menu-integration，基 origin/main=cddf65557。回答的问题：30 条是否达到用户 2026-10-15 设定的"好代码"四维（注释真值/复用/测试质量/内聚耦合），CODE95 三份夹具修复是否合法，独立门是否干净通过。它是作者自验；Codex 随后独立验收（codex-review.md）与三验（codex-r3-review.md）提出 counter，30 条终局保持 review，本报告不构成 accept。
+
+## 范围与证据
+
+方法：9 个生产实现全文读取+真实 caller（menu-driver/scene-system/draw-menu）接线核对，22 个测试文件全文/差异读取，manifest SHA 逐条机械复核。机械核验结论：candidate/main SHA 30/30 字节一致；closure 身份经 R2-R4/C5 返工后 candidate==closure 20/30（旧 27/30 断言作废，布尔按 manifest booleanRevision 重算）；无 CODE53/57/79/80/81/90 导入、无新增 as never/as unknown as。CODE95 三份裁定合法：空角色旧断言本就期望 use-target+selectedItemId=200 仅标题误导并补空 targetMenu 断言；boundaries 伪 roles 改 6 元素真 roleId 数组且 party[2,0] 返回 roleId 0 非 cursor；shop 夹具 id 400/401 改真域 105/110，恰等门 oracle 不变；makeRole 纯工厂无顶层状态/IO。21 份测试逐文件证据表（R3 版）六列齐全，强转账=0，余 3 处空数组类型标注非掩盖。
+
+## 发现
+
+主要发现与登记：E-1 equip-menu.confirmEquipItem 死参属公共签名另卡；E-2 五个测试文件内联全字段工厂是否统一到 harness 须按真实共享语义比对（Codex R3 更正"重复≥3必须提取"非用户规则）；E-3 已在 R3 修复。R1-R4 返工（响应 Codex counter 8c951cd7a）：三门 exit0 的报告更正为带存量诊断非干净通过，act 警告 3,489-3,527 条全部归属 editor 包 139 个 .tsx（Top WorldSpriteLibrary.c01 153 条），game 域零贡献；inventory-menu.ts 两处过时注释更正（:22 stub log → startOverworldItemScript 真链；:126-127 id0"观音符" → wObjectID 61..294 且 0 为空哨兵，一手核 resources/parsers/items.ts）；item-magic-select makeItem 改显式 Partial flags 参数域并删 6 处强转；物品 200 由 applyToAll=true 改单体检伤合成 fixture（真实 caller menu-driver:711-717 对 applyToAll 直接跑脚本 return，:720 才进选人，play.c:268-323 同），202 风灵珠保留 applyToAll=true。
+
+## 结论
+
+独立门实际结果：定向 24 files/241 tests（VITEST_MAX_WORKERS=1）、game typecheck 0 错、check:docs PASS、lint-zero 4012 files 0/0/0、ledger PASS 3267=229 closed/35 review/3003 pending 均通过；protected fast 首跑按设计 fail-closed（范围审计 game 测试 4 文件/+2 测试+执行 digest 变化）→官方 ratchet exit 0 基线合法更新→终跑 exit 0 无回退；但 check/ratchet/protected 三门各带 React act 存量警告（3,489/3,527/3,499）+jsdom 导航 2 条，R1 更正为"非干净通过"。30 条交 Codex 独立验收不标 done 不合 main；Codex counter 后 CODE94/95 转 rework，本报告结论按历史保留。
+
+## 整改与复核
+
+本页治理正文承载该报告真实目标/方法/发现/结论与限制；原件逐字节保全于下方。限制：所有门禁数字为 2026-10-15 时点，未重跑；21 份测试本体未在治理轮逐个打开；本报告部分结论（三门门状态表述、合并测试结论）已被 Codex counter 纠正，后续以 codex-review.md、codex-r3-review.md 与 approved-closeout 为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 15674B / SHA-256 1320afeff9ef913e27b8d8e9152c42a938dc3de7c20768b789ebca0c109f7f63；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-94 — GLM 逐文件复核结论（2026-10-14/15）
+
 Owner: GLM（按 CODE94/95 卡提示词接手）；Reviewer: Codex 独立验收。
 对象：`source-manifest.json` 30 条候选，分支 `codex/code-quality-menu-integration`（基 `origin/main=cddf65557`）。
 方法：9 个生产实现全文读取 + 真实 caller（menu-driver/scene-system/draw-menu）接线核对；22 个测试文件全文/差异读取；manifest SHA 逐条机械复核；CODE95 三份相对各自 closure 增量复核。质量维度按用户 2026-10-15 指令补齐：注释质量、可复用提取、测试用例质量、高内聚低耦合。
@@ -117,3 +150,5 @@ glm-check.txt 3,489 条 React act 警告归属：**全部 editor 包**——src/
 ### 返工验证
 
 定向（含返工 5 文件+相邻 driver 双测试）109/109、menu-mode+shop 17/17、game typecheck 0 错；完整门禁（定向 241/typecheck/docs/lint/ledger/ratchet/protected fast）重跑回执见同目录 glm-r2-*.txt。受影响 manifest SHA 已更新并附 reworkCounter 标注。
+```
+<!-- incremental-original-source:end -->

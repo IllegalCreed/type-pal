@@ -1,6 +1,30 @@
 # Lore / 三阶段文档索引
 
+Status: current
+Owner: Codex（catalog维护）；本页由生成器投影
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+按阶段查找真实文档身份、模块、成熟度和责任人，避免把跨阶段知识混为同一实现方针。
+
+## 范围
+
+覆盖catalog登记的184份lore/phase1/phase2/phase3 Markdown；不含ops/testing、物理review分片或全1838冻结cohort。以下四组各列一个阶段，组内按path稳定排序。
+
+## 当前状态
+
+本页current仅指导航有效。成员的draft/current/historical/archived标签取catalog原值，不能用目录名或本页状态覆盖成员状态；生成和模板通过不授语义/runtime信用。
+
+## 入口与责任
+
+权威入口是[catalog manifest](catalog.json)及其四个phase分片；另一视图为[相位索引](by-phase.md)和[状态索引](by-status.md)。成员正文与review保留各自来源、Owner及接受边界，存储descriptor由loader核对。
+
+## 证据与下一步
+
 由 `scripts/docs/build-phase-lore-governance.mjs` 从现有 catalog 生成；只投影已登记字段，不判定内容真值或授予 reviewed。
+修改成员登记须先核正文与来源，再运行生成器；check-phase-lore-governance同时核完整目录集合、after SHA、两视图逐字节和本五章合同。未解释冲突停止对应成员，不从生成结果自动授信。
 
 ## lore
 
@@ -33,58 +57,58 @@
 | [06 · 测试策略](../phase1/06-testing.md) | governance | current | Codex |
 | [Engineering Notes · type-pal(第一阶段)](../phase1/engineering-notes.md) | governance | current | Codex |
 | [Game Mechanics · 原版底层机制真值](../phase1/game-mechanics.md) | governance | current | Codex |
-| [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) | plans | draft | Codex |
-| [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) | plans | draft | Codex |
-| [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) | plans | draft | Codex |
-| [M2 · 运行时垂直切片(探索)Design](../phase1/plans/2026-05-23-m2-runtime-slice-design.md) | plans | draft | Codex |
-| [M2 · 运行时垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m2-runtime-slice.md) | plans | draft | Codex |
-| [M3 · 战斗垂直切片 Design](../phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md) | plans | draft | Codex |
-| [M3 · 战斗垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m3-battle-vertical-slice.md) | plans | draft | Codex |
-| [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design](../phase1/plans/2026-05-24-m3-5-scene-encounter-design.md) | plans | draft | Codex |
-| [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan](../phase1/plans/2026-05-24-m3-5-scene-encounter.md) | plans | draft | Codex |
-| [M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design](../phase1/plans/2026-05-24-m4-pal-extract-complete-design.md) | plans | draft | Codex |
-| [M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan](../phase1/plans/2026-05-24-m4-pal-extract-complete.md) | plans | draft | Codex |
-| [M5 · 系统补全 Design Doc](../phase1/plans/2026-05-25-m5-systems-complete-design.md) | plans | draft | Codex |
-| [M5 · 系统补全 Implementation Plan](../phase1/plans/2026-05-25-m5-systems-complete.md) | plans | draft | Codex |
-| [M4 pal-extract 实际提取清单 audit](../phase1/plans/2026-05-27-m4-extract-audit.md) | plans | draft | Codex |
-| [M5.5 · sdlpal 全源 audit(deviation report)](../phase1/plans/2026-05-27-m5-5-sdlpal-audit.md) | plans | draft | Codex |
-| [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) | plans | draft | Codex |
-| [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) | plans | draft | Codex |
-| [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) | plans | draft | Codex |
+| [M0 · 项目骨架与工具链 Implementation Plan](../phase1/plans/2026-05-23-m0-project-skeleton.md) | plans | historical | Codex |
+| [M1 · pal-extract Design](../phase1/plans/2026-05-23-m1-pal-extract-design.md) | plans | historical | Codex |
+| [M1 · pal-extract Implementation Plan](../phase1/plans/2026-05-23-m1-pal-extract.md) | plans | historical | Codex |
+| [M2 · 运行时垂直切片(探索)Design](../phase1/plans/2026-05-23-m2-runtime-slice-design.md) | plans | historical | Codex |
+| [M2 · 运行时垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m2-runtime-slice.md) | plans | historical | Codex |
+| [M3 · 战斗垂直切片 Design](../phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md) | plans | historical | Codex |
+| [M3 · 战斗垂直切片 Implementation Plan](../phase1/plans/2026-05-23-m3-battle-vertical-slice.md) | plans | historical | Codex |
+| [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Design](../phase1/plans/2026-05-24-m3-5-scene-encounter-design.md) | plans | historical | Codex |
+| [M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan](../phase1/plans/2026-05-24-m3-5-scene-encounter.md) | plans | historical | Codex |
+| [M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design](../phase1/plans/2026-05-24-m4-pal-extract-complete-design.md) | plans | historical | Codex |
+| [M4 · pal-extract 补全 + 资产分层 + 全 295 scene + 字体真渲染 Implementation Plan](../phase1/plans/2026-05-24-m4-pal-extract-complete.md) | plans | historical | Codex |
+| [M5 · 系统补全 Design Doc](../phase1/plans/2026-05-25-m5-systems-complete-design.md) | plans | historical | Codex |
+| [M5 · 系统补全 Implementation Plan](../phase1/plans/2026-05-25-m5-systems-complete.md) | plans | historical | Codex |
+| [M4 pal-extract 实际提取清单 audit](../phase1/plans/2026-05-27-m4-extract-audit.md) | plans | historical | Codex |
+| [M5.5 · sdlpal 全源 audit(deviation report)](../phase1/plans/2026-05-27-m5-5-sdlpal-audit.md) | plans | historical | Codex |
+| [M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design](../phase1/plans/2026-05-27-m5-6-playability-design.md) | plans | historical | Codex |
+| [M5.6 · 基础玩法接通 Implementation Plan](../phase1/plans/2026-05-27-m5-6-playability.md) | plans | historical | Codex |
+| [2026-05-28 · 全功能逐条核对 + 开发计划重置](../phase1/plans/2026-05-28-feature-audit-and-replanning.md) | plans | historical | Codex |
 | [② 零散 opcode 剩余实现规格(0x4D / 0x4E / 0xA0)](../phase1/plans/2026-05-30-opcode-2-remaining.md) | plans | archived | Codex |
-| [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) | plans | draft | Codex |
-| [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) | plans | draft | Codex |
-| [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) | plans | draft | Codex |
-| [B6 — 数值精度 + 装备(D3残 / D14残)详细 plan](../phase1/plans/2026-05-31-d-batch6-numeric-equip.md) | plans | draft | Codex |
-| [D 系列(战斗系统)完工 roadmap](../phase1/plans/2026-05-31-d-series-completion-roadmap.md) | plans | draft | Codex |
-| [中毒机制 + 战斗头像颜色 实现规划(2026-05-31)](../phase1/plans/2026-05-31-poison-and-portrait-color.md) | plans | draft | Codex |
-| [D 系列真机手测用例表(2026-06-01)](../phase1/plans/2026-06-01-d-series-test-cases.md) | plans | draft | Codex |
-| [feature-status.md 重审报告(2026-06-01)](../phase1/plans/2026-06-01-feature-status-audit.md) | plans | draft | Codex |
-| [gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)](../phase1/plans/2026-06-01-gameoveractive-refactor.md) | plans | draft | Codex |
-| [type-pal 剩余工作执行计划(2026-06-01)](../phase1/plans/2026-06-01-remaining-work-plan.md) | plans | draft | Codex |
-| [SDLPal 功能面覆盖审计](../phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md) | plans | draft | Codex |
-| [物品功能实现完整性审计(type-pal vs sdlpal)](../phase1/plans/2026-06-02-item-audit.md) | plans | draft | Codex |
-| [2026-06-06 Battle System Current Audit](../phase1/plans/2026-06-06-battle-system-current-audit.md) | plans | draft | Codex |
-| [type-pal × sdlpal 差异审查报告](../phase1/plans/2026-06-07-sdlpal-diff-audit.md) | plans | draft | Codex |
-| [type-pal × sdlpal 第二轮深挖差异审查报告](../phase1/plans/2026-06-10-sdlpal-deep-audit.md) | plans | draft | Codex |
-| [游戏分辨率(canvas 显示尺寸)设置 Implementation Plan](../phase1/plans/2026-06-13-canvas-resolution-setting.md) | plans | draft | Codex |
-| [离线资源预缓存(Service Worker)Implementation Plan](../phase1/plans/2026-06-13-offline-precache-sw.md) | plans | draft | Codex |
-| [生产增强工具面板(Production Tools Panel)Implementation Plan](../phase1/plans/2026-06-13-prod-tools-panel.md) | plans | draft | Codex |
-| [统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan](../phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md) | plans | draft | Codex |
-| [统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec](../phase1/plans/2026-06-14-unified-precache-progress-gate.md) | plans | draft | Codex |
-| [速通计时器 设计方案（Speedrun Timer）](../phase1/plans/2026-06-18-speedrun-timer-design.md) | plans | draft | Codex |
-| [速通计时器 Implementation Plan](../phase1/plans/2026-06-18-speedrun-timer.md) | plans | draft | Codex |
-| [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) | plans | draft | Codex |
-| [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) | plans | draft | Codex |
+| [丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)](../phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md) | plans | historical | Codex |
+| [B1 — 玩家状态行为正确性(D8 / D21)实施 plan](../phase1/plans/2026-05-31-d-batch1-status-behavior.md) | plans | historical | Codex |
+| [B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan](../phase1/plans/2026-05-31-d-batch2-enemy-ai.md) | plans | historical | Codex |
+| [B6 — 数值精度 + 装备(D3残 / D14残)详细 plan](../phase1/plans/2026-05-31-d-batch6-numeric-equip.md) | plans | historical | Codex |
+| [D 系列(战斗系统)完工 roadmap](../phase1/plans/2026-05-31-d-series-completion-roadmap.md) | plans | historical | Codex |
+| [中毒机制 + 战斗头像颜色 实现规划(2026-05-31)](../phase1/plans/2026-05-31-poison-and-portrait-color.md) | plans | historical | Codex |
+| [D 系列真机手测用例表(2026-06-01)](../phase1/plans/2026-06-01-d-series-test-cases.md) | plans | historical | Codex |
+| [feature-status.md 重审报告(2026-06-01)](../phase1/plans/2026-06-01-feature-status-audit.md) | plans | historical | Codex |
+| [gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)](../phase1/plans/2026-06-01-gameoveractive-refactor.md) | plans | historical | Codex |
+| [type-pal 剩余工作执行计划(2026-06-01)](../phase1/plans/2026-06-01-remaining-work-plan.md) | plans | historical | Codex |
+| [SDLPal 功能面覆盖审计](../phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md) | plans | historical | Codex |
+| [物品功能实现完整性审计(type-pal vs sdlpal)](../phase1/plans/2026-06-02-item-audit.md) | plans | historical | Codex |
+| [2026-06-06 Battle System Current Audit](../phase1/plans/2026-06-06-battle-system-current-audit.md) | plans | historical | Codex |
+| [type-pal × sdlpal 差异审查报告](../phase1/plans/2026-06-07-sdlpal-diff-audit.md) | plans | historical | Codex |
+| [type-pal × sdlpal 第二轮深挖差异审查报告](../phase1/plans/2026-06-10-sdlpal-deep-audit.md) | plans | historical | Codex |
+| [游戏分辨率(canvas 显示尺寸)设置 Implementation Plan](../phase1/plans/2026-06-13-canvas-resolution-setting.md) | plans | historical | Codex |
+| [离线资源预缓存(Service Worker)Implementation Plan](../phase1/plans/2026-06-13-offline-precache-sw.md) | plans | historical | Codex |
+| [生产增强工具面板(Production Tools Panel)Implementation Plan](../phase1/plans/2026-06-13-prod-tools-panel.md) | plans | historical | Codex |
+| [统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan](../phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md) | plans | historical | Codex |
+| [统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec](../phase1/plans/2026-06-14-unified-precache-progress-gate.md) | plans | historical | Codex |
+| [速通计时器 设计方案（Speedrun Timer）](../phase1/plans/2026-06-18-speedrun-timer-design.md) | plans | historical | Codex |
+| [速通计时器 Implementation Plan](../phase1/plans/2026-06-18-speedrun-timer.md) | plans | historical | Codex |
+| [瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）](../phase1/plans/2026-06-22-tileset-atlas-packing.md) | plans | historical | Codex |
+| [docs/plans/ — 开发过程历史档案(索引)](../phase1/plans/README.md) | plans | current | Codex |
 | [docs/phase1/ — 第一阶段（忠实还原）文档](../phase1/README.md) | governance | current | Codex |
 | [sdlpal Build / 启动 / Headless 参考](../phase1/sdlpal-runbook.md) | governance | current | Codex |
-| [演出状态表](../phase1/status/cutscene-status.md) | status | current | Codex |
-| [Feature Status · type-pal](../phase1/status/feature-status.md) | status | current | Codex |
-| [物品状态表](../phase1/status/item-status.md) | status | current | Codex |
-| [仙术状态表](../phase1/status/magic-status.md) | status | current | Codex |
-| [Opcode Status · type-pal](../phase1/status/opcode-status.md) | status | current | Codex |
+| [演出状态表](../phase1/status/cutscene-status.md) | status | historical | Codex |
+| [Feature Status · type-pal](../phase1/status/feature-status.md) | status | historical | Codex |
+| [物品状态表](../phase1/status/item-status.md) | status | historical | Codex |
+| [仙术状态表](../phase1/status/magic-status.md) | status | historical | Codex |
+| [Opcode Status · type-pal](../phase1/status/opcode-status.md) | status | historical | Codex |
 | [docs/phase1/status/ — 第一阶段覆盖快照](../phase1/status/README.md) | status | current | Codex |
-| [Resource Status · type-pal](../phase1/status/resource-status.md) | status | current | Codex |
+| [Resource Status · type-pal](../phase1/status/resource-status.md) | status | historical | Codex |
 
 ## phase2
 
@@ -116,61 +140,61 @@
 | [渲染地基三方逐函数审计(瓦片 / 精灵 / 场景合成)](../phase2/archive/audits/w-render-audit.md) | archive | archived | Codex |
 | [壳层 / 主循环 / 音频 / 过场 / 场景 / 存档 · 三方逐函数审计](../phase2/archive/audits/x-shell-audit.md) | archive | archived | Codex |
 | [X3-1 场景入场迁移审计](../phase2/archive/audits/x3-scene-entry-migration-audit.md) | archive | archived | Codex |
-| [角色(Actor)与精灵动画模型设计](../phase2/archive/designs/actor-model-design.md) | archive | archived | Codex |
-| [氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表](../phase2/archive/designs/ambience-design.md) | archive | archived | Codex |
-| [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) | archive | archived | Codex |
-| [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) | archive | archived | Codex |
-| [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) | archive | archived | Codex |
+| [角色(Actor)与精灵动画模型设计](../phase2/archive/designs/actor-model-design.md) | archive | historical | Codex |
+| [氛围系统(W6 昼夜)设计 — 全帧乘法滤镜 + 氛围数据表](../phase2/archive/designs/ambience-design.md) | archive | historical | Codex |
+| [migrate 资产管线 — UI box 首切片（design + plan）](../phase2/archive/designs/asset-pipeline.md) | archive | historical | Codex |
+| [M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）](../phase2/archive/designs/battle-model-m4-design.md) | archive | historical | Codex |
+| [内容 Schema（现行契约 + 历史设计）](../phase2/archive/designs/content-schema.md) | archive | historical | Codex |
 | [过场资源工作台与工程闭包设计](../phase2/archive/designs/cutscene-asset-workbench-design.md) | archive | archived | Codex（文档治理；不代签历史执行） |
-| [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) | archive | archived | Codex |
-| [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) | archive | archived | Codex |
-| [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) | archive | archived | Codex |
-| [敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)](../phase2/archive/designs/enemy-ai-design.md) | archive | archived | Codex |
-| [物品 / 装备数据架构设计(item & equipment data)](../phase2/archive/designs/item-data-design.md) | archive | archived | Codex |
-| [菜单系统设计（menu design）](../phase2/archive/designs/menu-design.md) | archive | archived | Codex |
-| [对话系统结构化数据模型 · 设计](../phase2/archive/designs/model-design.md) | archive | archived | Codex |
-| [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) | archive | archived | Codex |
-| [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) | archive | archived | Codex |
-| [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) | archive | archived | Codex |
+| [E6 · 实体定位权威 设计方案（2026-07-05 · **已评审**:决策①仅被接管实体暂停 auto/②位移指令才隐式接管;③④留 E7/C7 期再拍）](../phase2/archive/designs/e6-position-authority-design.md) | archive | historical | Codex |
+| [E7 · 大世界跟随者 + 显式骑乘 —— 设计(2026-07-07)](../phase2/archive/designs/e7-follower-riding-design.md) | archive | historical | Codex |
+| [编辑器整体架构设计(第二阶段 · 内容编辑器)](../phase2/archive/designs/editor-design.md) | archive | historical | Codex |
+| [敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)](../phase2/archive/designs/enemy-ai-design.md) | archive | historical | Codex |
+| [物品 / 装备数据架构设计(item & equipment data)](../phase2/archive/designs/item-data-design.md) | archive | historical | Codex |
+| [菜单系统设计（menu design）](../phase2/archive/designs/menu-design.md) | archive | historical | Codex |
+| [对话系统结构化数据模型 · 设计](../phase2/archive/designs/model-design.md) | archive | historical | Codex |
+| [毒系统设计（P2·2026-07-06）](../phase2/archive/designs/poison-system-design.md) | archive | historical | Codex |
+| [工程化架构设计(engine project / 「一工程一游戏」)](../phase2/archive/designs/project-design.md) | archive | historical | Codex |
+| [项目生命周期设计(新建 / 打开 / 保存本地 · 工程完全自包含)](../phase2/archive/designs/project-lifecycle-design.md) | archive | historical | Codex |
 | [历史设计与规范快照](../phase2/archive/designs/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
-| [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) | archive | archived | Codex |
-| [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) | archive | archived | Codex |
-| [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) | archive | archived | Codex |
-| [剧情脚本系统](../phase2/archive/designs/script-system-design.md) | archive | archived | Codex |
-| [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) | archive | archived | Codex |
-| [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) | archive | archived | Codex |
+| [存档系统设计(save-system)](../phase2/archive/designs/save-system-design.md) | archive | historical | Codex |
+| [M2 场景模型设计(全场景静态迁移 + 引擎多场景)](../phase2/archive/designs/scene-model-m2-design.md) | archive | historical | Codex |
+| [M3 · 剧情脚本系统 — 翻译器 + 解释器设计(v1)](../phase2/archive/designs/script-model-m3-design.md) | archive | historical | Codex |
+| [剧情脚本系统](../phase2/archive/designs/script-system-design.md) | archive | historical | Codex |
+| [技能数据架构设计(skill data)](../phase2/archive/designs/skill-data-design.md) | archive | historical | Codex |
+| [对话框外观 · ② 实现设计(Canvas2D 适配 + 完整技术点覆盖)](../phase2/archive/designs/visual-design.md) | archive | historical | Codex |
 | [历史界面草案](../phase2/archive/mockups/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
-| [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) | archive | archived | Codex |
-| [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) | archive | archived | Codex |
-| [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) | archive | archived | Codex |
-| [编辑器 B1 · 逻辑层实现计划(给 GLM)](../phase2/archive/plans/editor-b1-logic-plan.md) | archive | archived | Codex |
-| [装备面板 实现计划(替占位面板)](../phase2/archive/plans/equip-menu-plan.md) | archive | archived | Codex |
-| [装备地基 实现计划(item.ts + 6 槽 + inventory + 有效属性)](../phase2/archive/plans/equipment-foundation-plan.md) | archive | archived | Codex |
-| [仙术菜单 实现计划(接技能地基)](../phase2/archive/plans/magic-menu-plan.md) | archive | archived | Codex |
-| [菜单系统实现计划（menu plan）](../phase2/archive/plans/menu-plan.md) | archive | archived | Codex |
-| [M1 · 数据表批量迁移器 实现计划](../phase2/archive/plans/migrator-m1-plan.md) | archive | archived | Codex |
-| [对话结构化 · ① 数据模型 + 状态机 实现计划](../phase2/archive/plans/model-plan.md) | archive | archived | Codex |
-| [Palette → RGBA 改造计划(运行时去调色板)](../phase2/archive/plans/palette-to-rgba-plan.md) | archive | archived | Codex |
-| [工程地基实施计划(A 期)—— 给 GLM 开工](../phase2/archive/plans/project-foundation-plan.md) | archive | archived | Codex |
-| [P1 · FileSource 地基 实现计划](../phase2/archive/plans/project-lifecycle-p1-filesource-plan.md) | archive | archived | Codex |
-| [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) | archive | archived | Codex |
-| [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) | archive | archived | Codex |
-| [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) | archive | archived | Codex |
+| [角色模型 C0 · 实现计划(给 GLM)](../phase2/archive/plans/actor-c0-plan.md) | archive | historical | Codex |
+| [金钱横卷轴 实现计划](../phase2/archive/plans/cash-box-plan.md) | archive | historical | Codex |
+| [编辑器 B0 地基 · 实现计划(给 GLM 开工)](../phase2/archive/plans/editor-b0-plan.md) | archive | historical | Codex |
+| [编辑器 B1 · 逻辑层实现计划(给 GLM)](../phase2/archive/plans/editor-b1-logic-plan.md) | archive | historical | Codex |
+| [装备面板 实现计划(替占位面板)](../phase2/archive/plans/equip-menu-plan.md) | archive | historical | Codex |
+| [装备地基 实现计划(item.ts + 6 槽 + inventory + 有效属性)](../phase2/archive/plans/equipment-foundation-plan.md) | archive | historical | Codex |
+| [仙术菜单 实现计划(接技能地基)](../phase2/archive/plans/magic-menu-plan.md) | archive | historical | Codex |
+| [菜单系统实现计划（menu plan）](../phase2/archive/plans/menu-plan.md) | archive | historical | Codex |
+| [M1 · 数据表批量迁移器 实现计划](../phase2/archive/plans/migrator-m1-plan.md) | archive | historical | Codex |
+| [对话结构化 · ① 数据模型 + 状态机 实现计划](../phase2/archive/plans/model-plan.md) | archive | historical | Codex |
+| [Palette → RGBA 改造计划(运行时去调色板)](../phase2/archive/plans/palette-to-rgba-plan.md) | archive | historical | Codex |
+| [工程地基实施计划(A 期)—— 给 GLM 开工](../phase2/archive/plans/project-foundation-plan.md) | archive | historical | Codex |
+| [P1 · FileSource 地基 实现计划](../phase2/archive/plans/project-lifecycle-p1-filesource-plan.md) | archive | historical | Codex |
+| [P2 · 素材加载改经 FileSource 实现计划](../phase2/archive/plans/project-lifecycle-p2-assets-source-plan.md) | archive | historical | Codex |
+| [P3 · FSA 本地读写原语 实现计划](../phase2/archive/plans/project-lifecycle-p3-fsa-io-plan.md) | archive | historical | Codex |
+| [P4 · 新建 / 打开本地 / 启动屏 / 种子克隆 实现计划](../phase2/archive/plans/project-lifecycle-p4-clone-picker-plan.md) | archive | historical | Codex |
 | [历史实施计划](../phase2/archive/plans/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
-| [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) | archive | archived | Codex |
-| [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) | archive | archived | Codex |
-| [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) | archive | archived | Codex |
-| [技能数据地基 实现计划](../phase2/archive/plans/skill-data-plan.md) | archive | archived | Codex |
-| [状态面板完整还原 实现计划](../phase2/archive/plans/status-page-plan.md) | archive | archived | Codex |
-| [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) | archive | archived | Codex |
-| [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) | archive | archived | Codex |
-| [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) | archive | archived | Codex |
+| [D16 渲染地基改造计划（格坐标 + 物理 1280 + UI 高清化）](../phase2/archive/plans/render-foundation-plan.md) | archive | historical | Codex |
+| [第二阶段早期决策与推进快照](../phase2/archive/plans/roadmap-early-history.md) | archive | historical | Codex |
+| [存档系统 实现计划（「现在能做」阶段）](../phase2/archive/plans/save-system-plan.md) | archive | historical | Codex |
+| [技能数据地基 实现计划](../phase2/archive/plans/skill-data-plan.md) | archive | historical | Codex |
+| [状态面板完整还原 实现计划](../phase2/archive/plans/status-page-plan.md) | archive | historical | Codex |
+| [系统菜单面板 实现计划(替"系统·开发中"占位)](../phase2/archive/plans/system-menu-plan.md) | archive | historical | Codex |
+| [使用面板 实现计划(替"使用·开发中"占位)](../phase2/archive/plans/use-menu-plan.md) | archive | historical | Codex |
+| [对话外观 ② 实现计划(Canvas2D 适配 + 完整技术点仪表盘)](../phase2/archive/plans/visual-plan.md) | archive | historical | Codex |
 | [第二阶段历史归档](../phase2/archive/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
-| [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) | archive | archived | Codex |
-| [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) | archive | archived | Codex |
-| [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) | archive | archived | Codex |
+| [切片 1（重定 · 小版）· 鬼界民居 demo](../phase2/archive/slices/indoor/guijie-minju.md) | archive | historical | Codex |
+| [切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)](../phase2/archive/slices/indoor/npc-collision-plan.md) | archive | historical | Codex |
+| [切片 1「室内场景跑通」实现计划（slice 1 plan）](../phase2/archive/slices/indoor/plan.md) | archive | historical | Codex |
 | [室内切片历史](../phase2/archive/slices/indoor/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
-| [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) | archive | archived | Codex |
+| [P1 · 切片 1：室内场景跑通（slice 1 spec）](../phase2/archive/slices/indoor/spec.md) | archive | historical | Codex |
 | [历史垂直切片](../phase2/archive/slices/README.md) | archive | current | Codex current integration; receipt_review fixed121ff writer; history_cards_a independent source reviewer |
 | [能力地图（Capability Map）— 第二阶段的进度真值表](../phase2/capability-map.md) | governance | current | Codex |
 | [第二阶段 · 决策记录（decisions）](../phase2/decisions.md) | governance | current | Codex |

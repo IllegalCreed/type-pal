@@ -1,40 +1,62 @@
 # 编辑器保存中断恢复：最终候选收口
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 最终候选收口（起点 7087dbad、实现候选 cd3de679、执行 Codex 2026-09-13 连续完成旧保存链清理+两项原生补证+性能核验+候选冻结）：2026-09-13 三席对 cd3de679 均 accept、用户明确免手动复审通过、父卡 done，实现无后续漂移。
+
+## Scope
+
+范围：清理旧作者脚本存储（project-loader 188-191 已拒 content.scripts、旧 ScriptDrawer 无正常启动域——独立子代理复核静态 caller 与 undo 路径非仅 grep）；移除 ScriptDrawer 及四独占模块/旧七命令/无 caller 的 writeFile 与 copyDirRecursive；保留跨包 ScriptChunk 模型（world-sprite-behavior lowering 与迁移器仍用）；退役 38 项旧模型测试（commands 12 迁为当前模型、fsa-copy 6 改 10）。原生 OS 目录补证：独立 Edge 持久资料整进程重启恢复（磁盘 maxHP=237 committed）、恢复中撤权（前后快照逐字相同）、中文指引修订（最终文案收窄为「目录访问权限已失效…」）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 负控+性能+统一门 | 三文件 15 项对照绿+三单点各 1 红（去旧字段拒绝/去 isSameEntry/去 recovering 前提）；性能 84.480s 克隆（1934 资源/69MB、输出 146,895,754B、CDP 峰值采样）；IDB 连接复用原型 3.8% 差异未纳入生产；完整 check 6873 项 exit0、ratchet+严格 fast 6385 项/613 生产文件（源码显式退休） | Codex | 失败记录全文保留（第一轮 ratchet 全仓加权行回退被拒、中间 baseline 计数保护、CSS 初稿误删三共享规则、lostpointercapture 新接线四业务失败）；核心模块行/函数≥95% 分支≥90% 达标 | 终审限制保留：约 80-85 秒大克隆成本、未覆盖防御分支、原探针适用性、跨浏览器/断电限制 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+A-03 按本卡约定范围标记修复并归档；Kimi e36aadc8/GLM 855c676f 签字核对、packages/scripts 零 diff；视觉验证由 Codex 执行不重复。
+
+## Evidence
+
+- 证据路径：本收口正文（quote 保全）；/tmp/codex-save-closeout.tEOvxV/ 与 reconcile.mjs/reconciled.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 最终收口 | 2026-09-13 | 旧链清理+原生补证+性能+统一门 | done（三席 accept cd3de679，用户免复审） | r1/r2 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的最终收口；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 编辑器保存中断恢复：最终候选收口：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+A-03 按本卡约定范围标记修复并归档；Kimi e36aadc8/GLM 855c676f 签字核对、packages/scripts 零 diff；视觉验证由 Codex 执行不重复。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+五步原生补证、性能数字、失败日志清单、核心模块覆盖表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-13 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-SAVE-RECOVERY-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c52e38260c6b269a9c3860bf817c7201d333cb94855c93d96f0ed69de4b16f1b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c52e38260c6b269a9c3860bf817c7201d333cb94855c93d96f0ed69de4b16f1b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 编辑器保存中断恢复：最终候选收口
 >

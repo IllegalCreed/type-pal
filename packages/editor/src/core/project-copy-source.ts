@@ -1,3 +1,4 @@
+import { readSaveFiles } from './save-read-pool.js'
 /** Optimistic source evidence for staging a copy. Retains hashes, never the whole asset set. */
 
 import { validateAssetCatalog } from '@type-pal/content'
@@ -56,7 +57,7 @@ export async function observeProjectCopySource(original: FileSource) {
     source,
     async verify() {
       await verifyState()
-      for (const [path, expected] of signatures) {
+      await readSaveFiles([...signatures], async ([path, expected]) => {
         let current: string | null
         try {
           current = await binarySnapshotSignature(await original.readBytes(path))
@@ -65,7 +66,7 @@ export async function observeProjectCopySource(original: FileSource) {
           current = null
         }
         if (current !== expected) throw new AuthorSaveConflictError(path)
-      }
+      })
       await verifyState()
     },
   }

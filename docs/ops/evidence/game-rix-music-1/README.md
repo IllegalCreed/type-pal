@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GAME-RIX-MUSIC-1 的验证证据（2026-10-15 日本时间；Git 分支 codex/game-rix-music）：实现阶段候选的文件摘要、执行命令、退出码和映射见 verification-manifest.json；后续正式发布以 production-release.json 为准；原始机器输出保留字节不修改失败记录（含终端尾随空格原件用 .raw.gz 无损压缩）。
 
 ## 证据身份
 
-- GAME-RIX-MUSIC-1 验证证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831。
+- 真源与编译：原始 mus.mkf 331284 bytes、88 槽 86 非空（0 与 29 空）；提取文件与原始逐字节相同、重生成两次均资源版本 7b0cf09680554792、2906 文件（仅新增 music/mus.mkf）。
+- 来源清单固定 SDLPAL 树 ee2301394；适配补丁与编译说明可重建 24294-byte WASM（Emscripten4.0.23、-Wall -Wextra -Werror 零诊断、无主机 imports/SDL/文件系统/共享内存）。
+- native-reference.cpp 用未适配上游 rix/player/Nuked 源生成独立 PCM（本仓作者编写单音 fixture 非原游戏音乐）；44100/48000Hz 循环/非循环四 PCM 摘要 WASM 逐字节匹配。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- all-tracks.json：全部 86 首两采样率各渲染 10 秒实测原件全部非零 PCM（pnpm exec tsx scan-tracks.mjs 复核）；证明可解码与输出不证明每首听感。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 本地真实浏览器与缓存（发布前）：browser-smoke.mjs 独立 HTTP preview 6007 finally 清理+已安装 Chrome 真实 Audio（quote 详）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 用户授权的合并、CI 与阿里云部署已完成（发布源码 588790383）；不据此声称 1995 硬件逐比特还原。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 线上复验回执与生产发布记录见 quote 与 production-release.json。
 
 ## 历史范围
 
-- 源 revision 381cab90f8d6cc26171bd4bc8c2b025c15bc6f36；本轮 R70。历史 ops evidence 只作时点回执，不授权当前操作。
+- GAME-RIX-MUSIC-1 验证证据（真源/WASM/native 对照/全曲目实测）；固定源 revision 381cab90f8d6…。
 
 ## 原始结论
 
-- GAME-RIX-MUSIC-1 验证证据：原始正文完整保留于下方 quote。
+- 提取逐字节相同+WASM 零诊断编译+86 首非零 PCM+浏览器 smoke。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 编译命令、golden 对照与清单在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。2026-10-15 时点；发布另见 production-release.json。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 production-release.json。
 
 ## 原文保全
 
-固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `465caf6e585718d437affadcfc33761c89f2387116e059a03fc823f18010b831`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GAME-RIX-MUSIC-1 验证证据
 >

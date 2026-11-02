@@ -1,48 +1,43 @@
 # 一阶段知识测绘（Phase 1 Knowledge Harvest）
 
-Status: historical
-Validity: historical
+Status: current
+Validity: current
 Owner: Codex（文档治理；不代签原执行）
 Last reviewed: 2026-10-17
 Template: reference-canon-v1 / 1.0.0
+
+本页的 current 仅指现行导航、长期决定或按领域读取的参考职责，依据现行 READ-FIRST 的范围与铁律9；不是将 quote 内按日期记载的能力/排期/实现或历史执行重新授为当前事实。原始 source、旧复核和 quote 均保全。
 
 本页把历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 适用范围
 
-- 阶段、版本、受众和使用场景：历史 phase2/lore 资料，仅用于日期化回顾。
+- 历史参考真值：一阶段知识向 reforge 迁移的一次性全局测绘，作为「动该领域任何格之前的前置必读」；仅用于日期化回顾，各域「reforge 现状」标记为 2026-07 时点，不代表当前实现。
 
 ## 一手来源
 
-- source/primary refs：`docs/phase2/reference/phase1-knowledge-harvest.md` 原始全文及其中列出的文件/数据来源。
-- 证据等级：source quote、Git SHA 和原文引用；无本轮执行信用。
+- 缘起（2026-07-05）：作者批评——reforge 重写各子系统时不读一阶段实现与踩坑史，「谈何优化」；一阶段 792 commit / 432 fix 散落在代码注释、git message、`engineering-notes` 里。
+- ★★★ 一等参考：`docs/phase1/game-mechanics.md`（1218 行）为作者亲自逐行核对的底层机制真值；凡本文涉及战斗/数值/机制真值以它为准，冲突时 game-mechanics 赢。
+- 纪律五条：三源交叉（engineering-notes / 代码注释 / git fix message）；每条必须有锚点（commit hash 或 文件:行号）；A 原版真值 / B 通用工程教训 / C 旧架构特有 三分类；按 reforge 领域归类；每条标 ✅/⚠️/❌/— 移植状态。
 
 ## 当前真值
 
-- 已确认：原文语义、日期、状态词和引用关系可由 quote inverse 重建。
-- 仅为历史/候选：当前实现状态和产品结论。
+- quote 正文实际结构：索引（按 reforge 领域 W/E/C/N/B/X/MG/A 八域，全测绘完成；B 域见 battle-audit）、优先行动清单（全领域测绘后提炼 8 项：场景资产 LRU 三件套、setPalette 同帧同步预载、跟随者渲染整组、瓦片接缝漏黑、migrate 原版数据 bug 补丁台账、palette-fade/screen-wave 色效移植、SW 预缓存 5 坑、卸装备清除授出状态）、逐域正文与「跨领域通用教训（B 类）」。
+- 已确认：原文语义、日期、状态词和引用关系可由 quote inverse 重建。仅为历史/候选：当前实现状态和产品结论。
 
 ## 未知与冲突
 
-- 未知：- 正文信号 7:> **★★★ 一等参考（2026-07-06 补）**：[`docs/phase1/game-mechanics.md`](../../phase1/game-mechanics.md)（1218 行）= **作者亲自逐行核对原版+sdlpal 后总结的底层机制真值**，带源出处行号 + 原版早期 bug vs 后期修复考证 + ts 实现状态。覆盖 20+ 专题：隐藏经验/伤害公式/暴击/防御援护护体/队友阵亡台词/群体递减/战后恢
-- 正文信号 14:> 5. **标记移植状态**：每条标 ✅ 已移植 / ⚠️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。
-- 正文信号 64:- **reforge 现状**: ⚠️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。
-- 正文信号 94:- **reforge 现状**: ❌ **未实现，高危**。`getPalette` 是 async（`main.ts:226-231`），接 RNG/演出调色板时确定性偏色。**必须开机预载**。
-- 正文信号 111:- **reforge 现状**: ⚠️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。
-- 正文信号 117:- **reforge 现状**: ❌ **未实现**（`main.ts:549` "现阶段队伍渲染只有队长"）。**E 域最大待补**，一阶段 5 个 fix + `follower-pos.ts` 直接可参考。
-- 正文信号 209:> **背景**：reforge **完全没有合击实现**——菜单第 4 项（合击）`mainActionValid` 恒 `false`（`battle-session.ts:247-251` 注释"2合击未实现"；`:440` "2 合击:valid 恒 false,到不了"）。一阶段有 38 case 的 `coop-magic.test.ts`（`packages/game/src/core/battle/__tests__/c
-- 正文信号 218:- **reforge 现状**: ❌ 未实现。实现时务必扣 HP 不是 MP（字段名 costMP 有迷惑性）。
-- 冲突双方与待裁决问题：由当前 primary source、代码、测试和用户裁决重新确认。
+- 来源勘误边界：原前缀保留的2026-10-11“普通脚本确认结束…committed与settled”是既有集成注记；固定Git原源quote不含该句。本轮只保全该历史注记，不据它认证本知识测绘、当前脚本语义或新执行。
+
+- 未知/冲突（quote 原文，2026-07 时点）：E 域跟随者渲染 ❌（`main.ts:549` 现阶段只有队长）；X 域 `getPalette` async 确定性偏色高危，必须开机预载；合击完全未实现（`battle-session.ts:247-251`）；施法扣 HP 不是 MP（costMP 字段名有迷惑性）。冲突双方与待裁决问题由当前 primary source、代码、测试和用户裁决重新确认。
 
 ## 使用边界
 
-- 可以支持的结论：历史背景、原版约束和当时工程判断。
-- 不得推出的结论：当前 runtime、E2E、视觉、coverage 或产品完成。
-- 复核/升格条件：带版本/日期引用，并由当前 Owner 复核。
+- 可以支持的结论：历史背景、原版约束和当时工程判断。不得推出的结论：当前 runtime、E2E、视觉、coverage 或产品完成。复核/升格条件：带版本/日期引用，并由当前 Owner 复核。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-07-05；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4。
+- phase2/lore archive；日期：2026-07-05；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4`。
 
 ## 原始结论
 
@@ -54,20 +49,11 @@ Template: reference-canon-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 7:> **★★★ 一等参考（2026-07-06 补）**：[`docs/phase1/game-mechanics.md`](../../phase1/game-mechanics.md)（1218 行）= **作者亲自逐行核对原版+sdlpal 后总结的底层机制真值**，带源出处行号 + 原版早期 bug vs 后期修复考证 + ts 实现状态。覆盖 20+ 专题：隐藏经验/伤害公式/暴击/防御援护护体/队友阵亡台词/群体递减/战后恢
-- 正文信号 14:> 5. **标记移植状态**：每条标 ✅ 已移植 / ⚠️ 部分移植 / ❌ 未移植 / — 不适用（新架构免疫）。
-- 正文信号 64:- **reforge 现状**: ⚠️ bake 阶段固化。`render.ts:116` bakeFrame 烘 RGBA；PNG alpha 天然区分（免疫），但 migrate bake 时须确保 palette-0 实色像素 alpha=255。
-- 正文信号 94:- **reforge 现状**: ❌ **未实现，高危**。`getPalette` 是 async（`main.ts:226-231`），接 RNG/演出调色板时确定性偏色。**必须开机预载**。
-- 正文信号 111:- **reforge 现状**: ⚠️ 需核 migrate 是否烘帧数进 EntityDef；idle 取模是否用真实帧数。
-- 正文信号 117:- **reforge 现状**: ❌ **未实现**（`main.ts:549` "现阶段队伍渲染只有队长"）。**E 域最大待补**，一阶段 5 个 fix + `follower-pos.ts` 直接可参考。
-- 正文信号 209:> **背景**：reforge **完全没有合击实现**——菜单第 4 项（合击）`mainActionValid` 恒 `false`（`battle-session.ts:247-251` 注释"2合击未实现"；`:440` "2 合击:valid 恒 false,到不了"）。一阶段有 38 case 的 `coop-magic.test.ts`（`packages/game/src/core/battle/__tests__/c
-- 正文信号 218:- **reforge 现状**: ❌ 未实现。实现时务必扣 HP 不是 MP（字段名 costMP 有迷惑性）。
+current（入口/参考职责）；quote和旧复核的具体实现、时间、计数仍为历史材料，不重授旧执行信用。历史冲突/未决见上方「未知与冲突」；quote 各域正文为唯一措辞来源。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

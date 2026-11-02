@@ -1,55 +1,63 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Cursor
+Reviewer / Integration Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（纯函数/真实patch，不宣称浏览器拖拽或布局）
+Production Base: `a95618fc`
+Branch: `codex/cursor-map-logic-r2`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 地图/组合块六组纯逻辑（M1 stamp-draft/M2 map-selection/M3 map-transform/M4 stamp-group-transform/M5 stamp-placement/M6 stamp-ownership）三轮接收历史卡：070d3bf3 counter（保真两针与组合丢失针候选仍绿）→4dc8fb75 counter（仅剩 CM1 计划/patch 实参保真——两个 Command 偷改 plan.mapRevision 的变异 4/4 绿被独立 oracle 抓住）→be9a8636 accept（最后两 plan 污染针候选自身红），以 70d0ae91 集成。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+补 MapMode.tsx:644/651 真实调用的 planMapPaste/planStampGroupMove 等规划器纯逻辑合同：精确层/点/id、失败全空 patch 及输入保真、原成员及非目标哨兵、通过公开查询比前后不反射 WeakMap。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：六模块 *.background.test.ts、cursor-map-logic-fixtures.ts、cursor-map-logic-r2/** 证据；构造走 buildBlankProjectMap/实际绘制，适用 guard 先过。
+- 范围外：产品/旧测试/共享配置/MapMode/Canvas/6010；计划器返回新对象≠已提交。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+126 未命中分支只是选题池；第一/原版 N/A（仅当前编辑器模型）；既有 boundaries 套件必须先精确去重。三轮接收显示独立 oracle（实际 plan/patch/权限数组快照）对“judge 绿但实参被污染”类缺陷的必要性。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：be9a8636 代码复核 accept、CM1–CM4 全闭合；29 新增/117 定向相邻/TC/15 文件零诊断；29 新测+六作者针与 17 自测独立复跑过；以 70d0ae91 集成基点完整 check9741/官方 ratchet/受保护单次 strict9249 过、七包 TC 与全仓 lint 零诊断；+21 分支/+19 行/+27 语句/+5 函数、生产清单/分母/其它六包基线不变。后台 worker 清理经用户确认后完成。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位 Agent 提示词；不借本卡恢复 Codex 主动补测。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-27 用户授权、三轮接收与集成同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组地图/组合块合同经两轮 counter 返工后按统一门集成。原卡全文（含三轮接收记录）在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-map-logic-r1/r2-review.md 与 cursor-map-integration.md；六组目标表。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。规划器现行合同以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗 Cursor 批见 command-boundaries 系列。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `980a59095b09a2736e71d9266021245c8b770cbd8bc548b2462ef8eb96914fc4`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `980a59095b09a2736e71d9266021245c8b770cbd8bc548b2462ef8eb96914fc4`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组补测
 >

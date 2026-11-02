@@ -2,38 +2,47 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「L4 四篇 lore 迁移设计与 characters 首篇准入」的冻结设计归档：四篇真实源 1,578 行（characters 321/beat-sheet 390/brainstorm 386/timeline 481）按用途核定 2 reference-canon＋2 narrative-idea（brainstorm 沿用既有 archive overlay）；当前只准 characters＋单一 native 回执两路径 pilot。完整 v2 提案与 C01–C16 冲突清单在三层 quote 中保全；设计冻结不算正文迁移。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- L4 四篇 lore 迁移设计与 characters 首篇准入：原始正文完整保留于下方 quote。
+- 绑定：characters（reference-canon candidate）、timeline（reference-canon candidate）、beat-sheet（narrative-idea draft）、brainstorm（narrative-idea draft＋既有 archive overlay）；17 类注册表与 1.0 版本不变。
+- 关键冲突轴（C01–C16）：采集日期与页尾不同步；回魂珠执行者三说并列；外站/官方/硬红线成熟度混轴；早期父母等待被 6/29「已轮回/假背影」与 7/02 决议继任；Claude「绝不动摇」被作者「嘴硬但动摇」覆盖；七章认知剧透与旧自查全过分轴；待落 beat 与已有落位并存；玉碎被「玉不碎/残魂归玉」否决；月如伏笔两机制并列不擅合并；小鬼死亡顺序/年代算术待核；timeline 006 叙事 state3 与当前 caller 期待 2 双轴保留（不静默改数）；Oct11 连续卡 accept 不取代 006 publication rework；旧 21 章与滚动流程分轴；两处 GFM 渲染缺陷（blockquote 切表/镜像表吞正文）仅修 live 显示；昼夜创意不恢复 phase2 真时间。
+- 保真：1,578 行全字节入长 text 围栏；131 原标题/131 href/60 表 304 数据行逐项映射（characters 104→105 与 beat 59→58 两修复单列）。
+- 矩阵边界：未来接入只准修改现有唯一 lore 关系，其余 39 整对象/MD 行锁定（40 是时点值非永久分母）；Q 新增关系对象锁定 native JSON SHA。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 固定源 `c3bb4096…` 四 blob 与已接受后继 `655b8c68…` 相同；根全文读 v2 MD 230/独立 MD 90/closure JSON 248；JSON 2,081 行完整身份/字段对比非全文人工读；三 /tmp 证据 JSON（设计/物理 prior/图）。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。其余三篇按 characters→brainstorm→beat→timeline 顺序另授。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-lore-remaining-l4.json`（同目录）：仅首 characters 加 native 两路径 pilot 准入；后续逐篇依实际独立接收。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647`（blob `d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`，32531B。
+- 第 2 层：SHA `79a77d7eaaf4aa0108ddb9243a615f57c5af884e7335b31dda3f2233ce3b8ce5`，30472B。
+- 第 3 层：SHA `655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647`，28289B。
+
 <!-- original-source-quote:start -->
 > # L4 四篇 lore 迁移设计与 characters 首篇准入
 >

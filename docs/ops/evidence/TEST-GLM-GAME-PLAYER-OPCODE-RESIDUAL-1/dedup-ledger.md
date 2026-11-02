@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 的逐 opcode 排重账：对照集=event-opcode-player 全族/event-system 全族/equip-effect/equipment-state.glm-next-wave/magic-script/stats e2~e5/menu-driver/equip-menu/battle 侧（battle-opcodes 为 BattleState 快照接线不同模块）；判例=hex+OP_* 双 grep、同 caller+同 oracle 只登记、换数字/换敌人/换包装不算新合同。
 
 ## 证据身份
 
-- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — 逐 opcode 排重账 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 229ac441a4bcbc7c1ee0e395de89372cbca168a57764bbc0f93baba2b06b81fa。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- event-opcode-player.ts 玩家 opcode 全表（0x8d/0x17/0x18/0x19/0x1a/0x1b/0x1c/0x1d/0x21 族/0x23/0x29 等）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- NEW 6 条（opcode/source:line/caller/合同轴/针逐行）：C1 0x18 换装先撤旧部位效果层（:96，script.c:768-775；0x17 种入→换装后清 0、有效攻击回落 base）；C2 0x23 单槽卸下有物槽撤效果层空槽残留不动（:227，script.c:1122-1131）；C3 0x23 全卸循环无条件清每部位含无物槽（:221，与单槽臂不对称）；C4 0x1c applyAll 全队 MP 活人改动+钳制死人跳过 fScriptSuccess 不写（:161,346，与 0x1b anyChanged 相异）；C5 0x1d applyAll 全队 HP+MP 双轨（:173）；C6 0x29 抗性等值边界 roll<=resist inclusive（:244，50 掷对 50 抗被挡 51 命中）。
+- REG 逐 opcode：0x8d 无残余（cov85 r1/r3+旧测+sdlpal global.c:2347-2400 对齐）；0x17 无残余；0x18 装备行四臂均未断言效果层→C1 残余；0x19/0x1a 负向与路由由 E3 合成证明；0x1b 无残余；0x1c/0x1d applyAll 臂零覆盖→C4/C5；0x21/0x28/0x2a/0x2e 战斗保留族与 battle 侧不重复（表内逐行）。
+
+## 来源与输入
+
+- applyPlayerOpcode 公开 caller；typed Command 数组；0x17 生产路径种入效果层。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 防御守卫（如 :98 eqRow）登记不伪造；效果层残余六个 NEW 合同已逐条登记；执行闭合以配对回执为准。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（7 针三态 VALID+门禁全绿）。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 逐 opcode 排重账；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — 逐 opcode 排重账：原始正文完整保留于下方 quote。
+- 6 NEW（效果层三臂/applyAll 两臂/抗性边界）；0x8d 等无残余逐 opcode 证明。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- NEW 表与逐 opcode REG 账在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `229ac441a4bcbc7c1ee0e395de89372cbca168a57764bbc0f93baba2b06b81fa`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `229ac441a4bcbc7c1ee0e395de89372cbca168a57764bbc0f93baba2b06b81fa`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-PLAYER-OPCODE-RESIDUAL-1 — 逐 opcode 排重账
 >

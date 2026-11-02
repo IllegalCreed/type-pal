@@ -1,6 +1,65 @@
 # CODE-QUALITY-102 — 快存快读工具审核（quick-save）
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+快存快读工具审核（quick-save.ts 61行+测试52行+相邻toast）：纯快捷键工具，存/读机制经QuickSaveDeps注入（bootstrap接线Save/loadGameFromSlot），本文件只做键绑定+时机门+toast反馈；F5/F9固定槽1、快存限explore防战斗/剧情脏档、preventDefault拦浏览器刷新——第一阶段工程自有工具，不冒充原版机制。
+
+## 范围
+
+1生产+1测试+1相邻。登记E-13（exploreGs用as never部分对象伪装完整GameState，合法工厂createInitialGameState存在且全仓惯用）。
+
+## 前提与证据
+
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+## 验收
+
+返工：quick-save.test重写（E-13修复）——真实createInitialGameState替代as never、fake timers+afterEach清toast容器DOM与计时器、补F5/F9 preventDefault（cancelable:true判例）/解绑后键无效/save reject/load false/load reject三条反馈路径。R3 counter：8条绿测后残留1个匿名keydown监听器（隔离反证复现）→接手修复移除监听、真实事件oracle与收支探针恢复全绿。2026-10-17两文件进账本'已验证'但卡保持review（全局15块运行时诊断与coverage门阻塞）。2026-10-25增量：当前字节与main 8eb相同，复用save-v1-local八维与真实KeyboardEvent/Save注入/成功失败反馈/解绑toast相邻13文件147例——证明工具功能和监听清理，不证明解绑取消在途存储、不赋任意并发点击新产品保证。终态并入94-102统一门（official 20168/807）。
+
+## 状态与交接
+
+Status保持done（并入94-102统一门收口；done仅指本卡有限代码/质量门收口，远端发布由关联Git/PR与main CI记录）。
+
+## 历史范围
+
+2026-10-15各时点保留：R2（partial GameState as never/DOM计时器隔离未完成）、R3（残留1匿名keydown监听）、最终窗口bb94ad8e2；2026-10-17定向2文件12tests+typecheck通过。
+
+## 原始结论
+
+原卡结论：quick-save.ts通过——canQuickSave三条件门（explore+无对话+无菜单）注释写明'防脏档读回乱'的why、SSR守卫、返回解绑函数、四类反馈齐全；无死面。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-102/codex-current-review.md与CODE-QUALITY-94全套。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+历史任务卡（done有限语义）。
+
+## 继任文档
+
+CODE-QUALITY-94母卡承接；并发在途存储边界由后续专项处理。原存活入口逐字保留：
+
+关联:[codex-current-review.md](../evidence/CODE-QUALITY-102/codex-current-review.md) [README.md](../evidence/CODE-QUALITY-94/approved-closeout/README.md) [codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md) [codex-r3-review.md](../evidence/CODE-QUALITY-94/codex-r3-review.md) [codex-takeover.md](../evidence/CODE-QUALITY-94/codex-takeover.md) [README.md](../evidence/CODE-QUALITY-94/current-review/README.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 10083B / SHA-256 956c7cff431fca2682cd825bc0bb5fd70f15e8c94a67f2c39bd37bf5f33bec41；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-102 — 快存快读工具审核（quick-save）
+
+Status: done
 Owner: Codex（2026-10-15用户授权接手本批返工；GLM原交付保留为历史）
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -121,3 +180,5 @@ counter：partial GameState as never、DOM/计时器隔离及错误/解绑oracle
 ## 下一步
 
 Codex 独立验收；E-13 并入 E-批。后续候选：tools 剩余（display-scale/fps-overlay/map-names 已 3j 闭合、speedrun 已闭合、analytics 待核）或 game present 剩余 pending。无用户裁决需求。
+```
+<!-- incremental-original-source:end -->

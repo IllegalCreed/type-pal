@@ -23,6 +23,21 @@ const proof = (approval) => ({
 })
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
+  const boatFile = 'packages/reforge/src/pal-unified-steps-content.test.ts'
+  const historical = approvedTestRetirements.filter((entry) => entry.file !== boatFile)
+  assert.deepEqual(
+    approvedTestRetirements.filter((entry) => entry.file === boatFile),
+    [
+      {
+        file: boatFile,
+        previous: 5414,
+        current: 5410,
+        previousIdentityDigest: '1952a3f8f7cb645ee161bbae45050334a83094c44796bd2d9072faba4e55855b',
+        currentIdentityDigest: '00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450',
+        fileSha256: '6dc2404d5fac5ea54fd62ec4101d830405842a352395ce9f32b47f8707ca1523',
+      },
+    ],
+  )
   // CODE94 C5 +3；C01精确退役3条；C02合并1条undo和1条草稿回流用例；C03去掉1条纯宿主占位；接收3y的sell精确退役1条；CODE2退役1条重复delta；CODE2b转移4条YJ2合同；CODE3主文件转移3条注释合同；C1精简一条同输入BALL弱重复；C10合并G07两弱子集。
   // CODE3h 两个坏 PNG 弱摘要并入完整上下文与真实 cause oracle。
   // CODE3h 启动主测试的 glyph 降级并入保留的独立屏障例。
@@ -45,10 +60,10 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // Recent200: two new snapshots; map15→8 replaced by current8→6. Active snapshot sum remains255.
   // Naming/organization: eleven current snapshots replace six old entries; transfers retain their contracts.
   // Localization: messages13→3 moves all old cases to their consumers; +10 is a per-file delta.
-  assert.equal(approvedTestRetirements.length, 95)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 95)
+  assert.equal(historical.length, 95)
+  assert.equal(new Set(historical.map((entry) => entry.file)).size, 95)
   assert.equal(
-    approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
+    historical.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
     378,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)

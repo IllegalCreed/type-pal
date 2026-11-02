@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 的交付证据：产品冻结 `2f0fe6d2f`、派发基 `a2447b5c9`、分支 `codex/glm-reforge-battle-preview-binding-r1`；产品/旧测/共享 fixture/配置/baseline/真实数据零改动；零新增正常合同——七轴（B1–B7）排重后不存在既未证、又真实满足且不编码缺陷的正常合同，按卡面以准确诊断闭环而非测试数验收，故无变异反控。
 
 ## 证据身份
 
-- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 960e98063defac3996c601fc39ed1b7dc7901fa0b16fbed836fb7fd279410865。
+- 交付物：dedup-ledger.md（读取域双轨事实+B1–B7 逐轴裁决+一手源锚点+r2/r3 返工记录）；contract-ledger.tsv（逐轴源条件/caller/合法输入/旧 file-fullName/oracle/处置）；run-d1-repro.mjs（D-1 隔离正向红反例 repro 工具 r3：仓库外复制树、唯一严格判据含同次全局错误诊断+21 例拒收自测、真实污染样本拒收、清理演练）；d1-repro.json+d1-repro.vitest.json+raw+stderr（D-1 主诊断同次双份）；d1-pollution.*（真实污染样本同次两份）；gates/。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- r3（B-R2-01 二审唯一剩余项）：判据纳入同次子进程完整全局错误诊断（JSON reporter 对异步 uncaught 静默二审实证）——judgeReproRun 增耗同一子进程完整 raw（同次双 reporter），命中 Unhandled Errors 段/Unhandled Rejection/Uncaught Exception/Errors N error(s) 汇总行任一即 global-error:* 拒收；真实 Vitest 污染样本实测 native JSON 干净两例一绿一目标红、判据拒收且唯一拒收原因即 global-error。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 七轴裁决：B1/B7 existing-proof；B2/B3 同根因产品缺陷 D-1（现行读取域=投影视图 stage 正文恒空）交最小隔离正向红反例（CONTROL 绿+REPRO 恰一红）；B4 源码域证据（boot 期全场景预载使按 caller 的读取归因运行期结构上不可能）；B5 三前提均无既有产品承诺可入绿测只登记诊断与产品点；B6 多匹配/搜索域策略未定 blocked 交产品裁决。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 不为过门把「演出永远丢失」写成正常绿合同，也不造反控数量。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r3 已推 bd5f115b5（B-R2-01 闭合）待 Codex 终审；boot references() 预载全场景使 reads 归因不可能判例。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 r3 交付（零新增正常合同+诊断闭环）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 交付证据：原始正文完整保留于下方 quote。
+- B1-B7 七轴全裁决；D-1 投影视图读取域缺陷；B4/B5/B6 降级/blocked 如实。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 交付物清单与 r3 判据在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r3 时点待终审。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 终审记录。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `960e98063defac3996c601fc39ed1b7dc7901fa0b16fbed836fb7fd279410865`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `960e98063defac3996c601fc39ed1b7dc7901fa0b16fbed836fb7fd279410865`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 交付证据
 >

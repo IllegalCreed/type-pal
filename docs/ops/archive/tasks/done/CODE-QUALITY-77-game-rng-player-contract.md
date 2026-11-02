@@ -1,6 +1,59 @@
 # CODE-QUALITY-77 — game RNG player contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验 RNG.MKF 播放器三文件（`rng-player.ts` 与主/GLM 边界测试）:资源 manifest/frame window、缓存并发、失败重试、帧 blit、淡入、skip、shake ownership 与 SDLPal `PAL_RNGPlay`（`rngplay.c:372-448`、`main.c:197-203`、`video.c:571-616`）一致;按起止帧、帧间隔、首帧淡入、逐帧屏幕更新和 shake 计数消费 RNG 数据,失败输入 fail-soft 且不污染后续播放。
+
+## 范围
+
+三文件;只读相邻 io-lifecycle/rng-window/trademark-fallback/bootstrap handlers/event-system opcode 0x37;不修改 RNG 资源、manifest、schema/save、公共接口或剧情 E2E 画面。
+
+## 前提与证据
+
+C 先 `PAL_RNGReadFrame`/blit 再 `VIDEO_UpdateScreen`、fade-in、delay;video.c shake 对视频帧消费 `g_wShakeTime`。不得重新引入:同 chunk 并发 stampede、失败 Promise 永久缓存、窗口外帧请求、shake 计数泄漏、dev skip 默认污染正式 PAL 行为。历史批:定向 33 tests、game 全包 3528、全仓门通过,账本 3267/337 closed。
+
+## 验收
+
+历史 accept 后 2026-10-21 shell 生命周期五卡收口:原三文件接受——复用作者源码/E 与 Codex 既有真实 2D/typed palette/跳过单红,不重复整套复审;纠正默认 PNG、无显式跳过 caller、单帧失败结束等错注;缓存/帧窗口/全帧/RAF 及 shake 责任保持,无新资产或剧情结论。逐文件 A–H、迁移、完整原件及集中门见 [shell-lifecycle-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-21 收口只接受原卡及明确迁移范围,广域 caller/听感/剧情 E2E 不附带接受。
+
+## 历史范围
+
+原卡属 2026-10-13 核验时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现直接缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（33 定向、全仓门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;当前结论以 shell-lifecycle 原件为准。
+
+## 继任文档
+
+shell-lifecycle-local.json 为 2026-10-21 继任载体;CODE-QUALITY-78（AVI 播放器）为相邻卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4721B / SHA-256 7ad974f79ad10889a3c6bc5d54832f3703f23d5ea82438b7228afd218f77902f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-77 — game RNG player contract
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -66,3 +119,5 @@ Visual Verification Timing: e2e-deferred（DOS/RNG 演出集中验证；本批�
 原三文件接受；复用作者源码/E与Codex既有真实2D/typed palette/跳过单红，不重复整套复审。纠正默认PNG、无显式跳过caller、单帧失败结束等错注；缓存/帧窗口/全帧/RAF及shake责任保持，无新资产或剧情结论。
 
 [当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。
+````
+<!-- incremental-original-source:end -->

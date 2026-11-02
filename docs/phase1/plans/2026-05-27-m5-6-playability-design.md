@@ -1,85 +1,57 @@
 # M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M5.6 基础玩法接通设计的归档重写。触发背景、Wave 划分与验收清单在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M5.6 design: close three observed playability bugs (menu input, edge scene transition, trigger label); W0 menu/input/box, W1 trigger/search/labels, W2 dev panel and audit close; risks, boundaries and completion.
-- 日期：2026-05-27；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae`。
+- 触发：M5.5 audit 完工后用户实测 3 个基础 bug（ESC 开主菜单无反应/走地图边缘不切场景/调查物品报 triggerLabel L_38592 不在 labelMap），根因是 audit 把「数据层 ✓，runtime 接入 ✗」的项标 ⚠️ 过于宽松；M6 大块 follow-up 推迟，先插一道 M5.6 把基础玩法闭合。
+- 目标：把 audit 标 ⚠️ 但 runtime 实际不工作的项实修（2026-05-27）。
 
 ## 里程碑
 
-- 原始章节：全局不变量(沿 M5)；测试 / 验证；Scope 边界(in vs out)；IN — M5.6 修；OUT — 留 M6+；Wave 划分 + 顺序；W0 · 菜单输入路由层 + box 渲染(blocking M5.6 后续)；W1 · Search/Confirm 触发 + Trigger zone + shared label 解析(后端 task parallel with W0;UI-验证 task blocks by W0 input router 初版)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Wave 划分：W0 菜单输入路由层+box 渲染（blocking 后续）、W1 Search/Confirm 触发+Trigger zone+shared label 解析（后端 task 与 W0 并行）、W2 dev-panel 整理+全功能 manual checkpoint+收口。
+- Scope 边界 IN（M5.6 修）/OUT（留 M6+）显式分列；全局不变量沿 M5。
 
 ## 当前状态
 
-- historical；M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design：这是 design-spec，当前文档状态为 historical。全文 135 行、12 个标题；摘要/首段为「> **触发**:M5.5 audit 完工后,用户实测 3 个基础 bug(ESC 开主菜单无反应 / 走地图边缘不切场景 / 调查物品报 `triggerLabel L_38592 不在 labelMap`),根因都指向 audit 把"数据层 ✓,runtime 接入 ✗"的项标成 ⚠️ 过于宽松 — 实际"按键打不开菜单 / 跨 scene 共享 label 没解析 / 自动 trigger zone 漏一路"。M6 大块 follow-up 推迟,先插一道 M5.6 把基础玩法闭合。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：验收清单含 `pnpm -w check` 不退基线（729+2 skip 单测+31 e2e）、用户跑通完整流程（新游戏→scene1→scene2→主菜单→背包/装备/状态/法术→触发战斗→选攻击→战斗结束→继续探索）、audit 表 48 个 UI 函数+scene-trigger 路径 ⚠️→✓（quote 保全）。
 
 ## 阻塞与决策
 
-- 正文信号 1:# M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design
-- 正文信号 3:> **触发**:M5.5 audit 完工后,用户实测 3 个基础 bug(ESC 开主菜单无反应 / 走地图边缘不切场景 / 调查物品报 `triggerLabel L_38592 不在 labelMap`),根因都指向 audit 把"数据层 ✓,runtime 接入 ✗"的项标成 ⚠️ 过于宽松 — 实际"按键打不开菜单 / 跨 scene 共享 l
-- 正文信号 5:**Goal:** 把 audit 标 ⚠️ 但 runtime 实际不工作的项实修到"基础玩法可闭合可玩":主菜单 / 物品菜单 / 装备菜单 / 法术菜单 / 状态 / 存档 / 调查物品 / 走边缘切场景全可用。**不**做 M6 follow-up(audio / palette cycle / levelup / 装备 effect / poiso
-- 正文信号 13:**Design 溯源:** M5.5 audit [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](2026-05-27-m5-5-sdlpal-audit.md) ⚠️ 反思 + 用户实测 bug 反馈
-- 正文信号 45:| 大世界菜单输入路由 + box 渲染 | uigame.c 23 函数 ⚠️ | 数据 state machine ✓ runtime ✗ | ESC → InGameMenu hub + 上下 Confirm 进子菜单 + Menu 返回(对照 sdlpal `input.c:66 SDLK_ESCAPE → kKeyMenu`) |
-- 正文信号 46:| 战斗 UI 菜单 | uibattle.c 12 函数 ⚠️ | 简版 uiState 字段 | 战斗主菜单 + 物品/法术子菜单 box + 输入路由真做 |
-- 正文信号 47:| 物品/法术选择菜单 | itemmenu.c 3 + magicmenu.c 3 ⚠️ | 数据层 ✓ | 渲染 + 输入路由接通 |
-- 正文信号 48:| menu box 渲染原语 | ui.c CreateBox / DrawNumber 等 7 函数 ⚠️ | render-text 有 | 边框 / 阴影 / 标题真做 |
-- 正文信号 49:| Search/Confirm 触发 | play.c PAL_Search ⚠️ | scene-system 简版 | F/Space Confirm 触发 NPC search,跨 shared label 解析通 |
-- 正文信号 50:| 自动 trigger zone | play.c PAL_GameUpdate fTrigger ⚠️ | scene-system 缺一路 | wTriggerMode >= kTriggerTouchNear 自动跑 trigger script,边缘切场景通 |
-- 正文信号 51:| shared.json label 解析 | event-system label runtime | 未接入 | runtime label 查表跨 per-scene + shared 两段 |
-- 正文信号 107:- README 更新 M5.6 完工节点 + 完成度数字(audit ⚠️ → 实 ✓ 的项数)
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：以用户实测 bug 为触发、以 manual checkpoint 为验收，不以 audit 表自查收口。
 
 ## 下一步
 
-- 后继入口：M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点完工（目录索引 ✅）；当前玩法行为以现行代码与状态表为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-27；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae`。
+- phase1 plans M5.6 设计；时点 2026-05-27；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design：这是 design-spec，当前文档状态为 historical。全文 135 行、12 个标题；摘要/首段为「> **触发**:M5.5 audit 完工后,用户实测 3 个基础 bug(ESC 开主菜单无反应 / 走地图边缘不切场景 / 调查物品报 `triggerLabel L_38592 不在 labelMap`),根因都指向 audit 把"数据层 ✓,runtime 接入 ✗"的项标成 ⚠️ 过于宽松 — 实际"按键打不开菜单 / 跨 scene 共享 label 没解析 / 自动 trigger zone 漏一路"。M6 大块 follow-up 推迟,先插一道 M5.6 把基础玩法闭合。」。属于历史/归档材料，不能单独证明当前实现。
+- 三 bug 触发定性与 W0–W2 划分为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design; 17:全局不变量(沿 M5); 29:测试 / 验证; 39:Scope 边界(in vs out); 41:IN — M5.6 修; 54:OUT — 留 M6+; 65:Wave 划分 + 顺序; 67:W0 · 菜单输入路由层 + box 渲染(blocking M5.6 后续)；原始正文、代码、表格、状态词在 quote 保全。
+- Scope 边界、Wave 顺序依赖与验收清单在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 1:# M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design
-- 正文信号 3:> **触发**:M5.5 audit 完工后,用户实测 3 个基础 bug(ESC 开主菜单无反应 / 走地图边缘不切场景 / 调查物品报 `triggerLabel L_38592 不在 labelMap`),根因都指向 audit 把"数据层 ✓,runtime 接入 ✗"的项标成 ⚠️ 过于宽松 — 实际"按键打不开菜单 / 跨 scene 共享 l
-- 正文信号 5:**Goal:** 把 audit 标 ⚠️ 但 runtime 实际不工作的项实修到"基础玩法可闭合可玩":主菜单 / 物品菜单 / 装备菜单 / 法术菜单 / 状态 / 存档 / 调查物品 / 走边缘切场景全可用。**不**做 M6 follow-up(audio / palette cycle / levelup / 装备 effect / poiso
-- 正文信号 13:**Design 溯源:** M5.5 audit [`docs/plans/2026-05-27-m5-5-sdlpal-audit.md`](2026-05-27-m5-5-sdlpal-audit.md) ⚠️ 反思 + 用户实测 bug 反馈
-- 正文信号 45:| 大世界菜单输入路由 + box 渲染 | uigame.c 23 函数 ⚠️ | 数据 state machine ✓ runtime ✗ | ESC → InGameMenu hub + 上下 Confirm 进子菜单 + Menu 返回(对照 sdlpal `input.c:66 SDLK_ESCAPE → kKeyMenu`) |
-- 正文信号 46:| 战斗 UI 菜单 | uibattle.c 12 函数 ⚠️ | 简版 uiState 字段 | 战斗主菜单 + 物品/法术子菜单 box + 输入路由真做 |
-- 正文信号 47:| 物品/法术选择菜单 | itemmenu.c 3 + magicmenu.c 3 ⚠️ | 数据层 ✓ | 渲染 + 输入路由接通 |
-- 正文信号 48:| menu box 渲染原语 | ui.c CreateBox / DrawNumber 等 7 函数 ⚠️ | render-text 有 | 边框 / 阴影 / 标题真做 |
-- 正文信号 49:| Search/Confirm 触发 | play.c PAL_Search ⚠️ | scene-system 简版 | F/Space Confirm 触发 NPC search,跨 shared label 解析通 |
-- 正文信号 50:| 自动 trigger zone | play.c PAL_GameUpdate fTrigger ⚠️ | scene-system 缺一路 | wTriggerMode >= kTriggerTouchNear 自动跑 trigger script,边缘切场景通 |
-- 正文信号 51:| shared.json label 解析 | event-system label runtime | 未接入 | runtime label 查表跨 per-scene + shared 两段 |
-- 正文信号 107:- README 更新 M5.6 完工节点 + 完成度数字(audit ⚠️ → 实 ✓ 的项数)
+- historical。
 
 ## 继任文档
 
-- M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m5-6-playability](2026-05-27-m5-6-playability.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae`；下方 quote 逆回读规则：终端编码声明：quote 内 1 处 U+2420(e290a0) 逐处解码为 ASCII 空格(20) 后与原源逐字节相等；无 U+2460。
 <!-- original-source-quote:start -->
 > # M5.6 · 基础玩法接通(audit ⚠️ → 实修)Design
 >

@@ -1,6 +1,39 @@
 # CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+独立复核CODE-QUALITY-97/98中仍未进现行账本的menu基础切片，白名单7文件：core/menu/primitives.ts、item-select.ts及其五个专属测试（primitives.test/boundaries/glm-phase1-leaves、item-select.glm-phase1-leaves、item-magic-select）。本批只写复核证据与账本，不改生产代码、schema/save、公共接口、生成物或测试断言。
+
+## 范围
+
+primitives.ts：SelectionMenu/Confirm/Triple/Switch均为纯数据操作无DOM/IO，空表/单项/默认cursor clamp/环绕/disabled停留/pageOffset视窗/identity透传有测试；E-4（pageUp/pageDown/findNextSelectable无生产caller）为公共出口删除候选未删。item-select.ts：matchesFilter的potion/battle/important/sellable/usable/all分支与SDLPal入口有直接锚（play.c:266 usable、uigame.c:1777 sellable），important近似明确标注工程分类不冒称原版位；createItemSelectMenu只生成typed状态、目录外id剔除、缺名item#id回退、sell price floor有oracle；E-5（createItemSelectMenu/ItemDisplayMode无生产caller，真实菜单走InventoryMenu/Shop）为删除候选未删。测试无恒真/无业务执行/与真实caller完全重复用例。
+
+## 前提与证据
+
+固定源全文核读。真实caller已读：inventory-menu（全库存/target menu/使用装备卖出过滤/cursor委托）、sell-menu/equip-menu（matchesFilter sellable/equipable与确认no-op）、magic-select/in-game-magic-menu（createSelectionMenu/disabled光标/法术排序）、menu-driver（目录注入/runtime投影/确认取消dispatch）、battle-system战斗选择caller、draw-inventory filter命中颜色oracle；primary为SDLPal ui.c:510-572逐项光标、itemmenu.c物品列表/确认/价格。验证：定向7files/78tests PASS 0 stderr；相邻40files/377tests PASS但magic-script.test.ts有2条预期缺失labelMap stderr（不在白名单不静音）；game typecheck PASS；全仓pnpm check exit0、lint 4962 files 0/0/0、check:docs通过；official coverage:ratchet与protected fast均因origin/main的shared、pal-extract及总量baseline回退失败——未降低规则、未刷新baseline。账本3307tracked/231closed/28review/3048pending，本批7文件继续review不因定向或包级全绿关闭。
+
+## 验收
+
+本批复核证据完整（真实caller/oracle/排重/反例覆盖空表越界负cursor全disabled过滤否决位目录外id缺名奇数卖价MP disabled），但E-4/E-5删除需独立caller census与准入裁决，magic-script.test.ts两条运行时诊断须先处理；coverage回退阻塞未解前保持review。
+
+## 状态与交接
+
+review保持原语义；下一批候选先处理magic-script.test.ts两条诊断，再为E-4/E-5建caller census；不与本批实现文件重叠。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5943B / SHA-256 e36333f52885b8bfb561259b45411409bf22e6464fe3766f1e28ac21495ee9c4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1
@@ -99,3 +132,5 @@ fixture 为 typed `Item`、`PlayerRoles`、`Spell`、`Magic`、`InventoryEntry`�
 
 先完成本批相邻/全仓质量门并写入 receipt；E-4/E-5 与 CODE-QUALITY-94/95 中的其它死面候选
 另开实现/删除准入卡，不在本批扩大公共接口或产品行为。
+```
+<!-- incremental-original-source:end -->

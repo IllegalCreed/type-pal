@@ -1,6 +1,59 @@
 # GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+补齐大世界仙术页PlayerInfoBox状态显示：基线drawPlayerInfoBox只绘frame18、头像、HP/MP与slash并注释明确省略；SDLPal uibattle.c:31-269的PAL_PlayerInfoBox按rgPoisonStatus毒色重染头像、死亡改黑白，并绘confused/paralyzed/sleep/silence四类状态字。用户2026-10-20批准“按SDLPal补齐”（只补显示，不改状态机制或存档）。
+
+## 范围
+
+draw-magic.ts的PlayerInfoBox显示与配套专测；死亡头像、装备授予>999状态和phase2 grantedStatuses不在本卡；由Codex核定party-slot poison mapper/status只读适配，不重复知识、不roleId误作poison key。
+
+## 前提与证据
+
+固定源全文核读。build allowed基点b7fc0524a：先保留真实drawMenuStack→drawInGameMagicMenu三个像素红例（非canonical队序party-slot毒色、四状态字、已批准HP0防御显示）；允许提取独立present PlayerInfoBox叶，角色状态由world/battle adapter只读投影，保留battle computePlayerFaceColor既有出口。2026-10-21完成：31文件163定向/相邻通过、无运行诊断、game typecheck通过；全仓check/official ratchet/protected待集中收尾，浏览器视觉/E2E未新跑，framebuffer原件不泛化为观感验收。锚点:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 验收
+
+done授本卡显示合同与明确文件结论：HP0为批准的防御显示，未声称完整逃跑生产路径已测；本卡不授48/49/50整卡信用。
+
+## 状态与交接
+
+done保持原语义；治理不重开。Codex唯一Coding Owner。
+
+## 历史范围
+
+原卡属固定main时点；范围为draw-magic PlayerInfoBox显示子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-21完成裁定，显示范围完成、质量门见集中回执。
+
+## 当时证据
+
+当时回执属原时点证据：三像素红例先行、31文件163定向/相邻零诊断；本页不重跑、不复授。关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 当前有效性
+
+仅历史任务归属有效；50卡只能保持partial；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+与GAME-PRE94-MENU-PIXEL-PARITY-1共用present窗口；父卡QUALITY-PRE94-RETROSPECTIVE-1继续。 关联:[present-speedrun-local.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json) [present-speedrun-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5022B / SHA-256 3746cdeb115ebea33bf9802d94c6f4abdfe1c2ccd2a2ab35a5c16df247049a5f；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界
+
+Status: done
 Phase: phase1
 Capability: Q3 present/menu / first-phase user-visible behavior
 Coding Owner: Codex
@@ -52,3 +105,5 @@ Codex唯一Coding Owner；基点b7fc0524a，与origin/main同点且主树干净�
 ## 2026-10-21 完成裁定
 
 批准显示范围已完成；共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见[集中回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。只授本卡显示合同与明确文件结论；HP0为批准的防御显示，未声称完整逃跑生产路径已测；浏览器观感/E2E仍沿原卡集中延后，不改状态机制/存档/资产或跨包公共接口。
+```
+<!-- incremental-original-source:end -->

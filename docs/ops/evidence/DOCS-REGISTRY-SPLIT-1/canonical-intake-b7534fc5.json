@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "kind": "root-canonical-storage-intake-mechanical-verification",
+  "createdAt": "2026-10-17T21:46:05.857Z",
+  "author": "/root",
+  "nonAuthorReviewer": false,
+  "source": {
+    "revision": "3fae68aec8f448bf83d1d85e61da35c94d5200ae",
+    "path": "docs/phase-governance/document-registry.json",
+    "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+    "total": 2374
+  },
+  "canonicalSnapshotCommit": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+  "acceptedImplementationCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+  "nonAuthorStorageReport": {
+    "path": "independent-storage-review-95def601-scoped-accept.json",
+    "sha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d",
+    "scope": "fixed code and original2374 only; not future central additions"
+  },
+  "originalPerEntryMapping": {
+    "originalPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration-mapping.json",
+    "sha256": "40399f4dd454c7edc01714d4ae0c6109c68db176d2426482f55249cd047b9b7f",
+    "bytes": 781649,
+    "retainedBy": "intake-author-37-late-snapshot.json; originalPath row gives exact gzip payload decoder",
+    "rowsActuallyVerified": 2374,
+    "policy": "Original target paths are not rewritten. These eight explicit translations connect its per-entry shard/local/global locations to this frozen canonical snapshot."
+  },
+  "nativeEntrySerializationIncludingOrderAndKeysEqual": true,
+  "nativeMetadataKeysEqual": [
+    "id",
+    "generatedBy",
+    "policy",
+    "roots",
+    "extensions",
+    "structuralRoots",
+    "summary",
+    "scopeNote"
+  ],
+  "optionalVersionAbsentPreserved": 1632,
+  "targetTranslations": [
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.json",
+      "canonical": "docs/phase-governance/document-registry.json",
+      "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+      "bytes": 4745
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.ops.json",
+      "canonical": "docs/phase-governance/document-registry.ops.json",
+      "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+      "bytes": 590511
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.lore.json",
+      "canonical": "docs/phase-governance/document-registry.lore.json",
+      "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "bytes": 4980
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase1.json",
+      "canonical": "docs/phase-governance/document-registry.phase1.json",
+      "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "bytes": 23584
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase2.json",
+      "canonical": "docs/phase-governance/document-registry.phase2.json",
+      "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "bytes": 42462
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase3.json",
+      "canonical": "docs/phase-governance/document-registry.phase3.json",
+      "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "bytes": 1860
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase-governance.json",
+      "canonical": "docs/phase-governance/document-registry.phase-governance.json",
+      "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+      "bytes": 70224
+    },
+    {
+      "originalGeneratedTarget": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.testing.json",
+      "canonical": "docs/phase-governance/document-registry.testing.json",
+      "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "bytes": 325266
+    }
+  ],
+  "newEntries": 0,
+  "statusPromotions": 0,
+  "semanticAcceptanceGranted": false,
+  "globalHardGatePassed": false,
+  "boundary": "Subsequent pending registrations and S03/S04 bindings are separate named deltas. Do not reinterpret these snapshot SHA values as hashes of later modified registry files. Public writer is cooperative locked publication, not a cross-file filesystem transaction."
+}

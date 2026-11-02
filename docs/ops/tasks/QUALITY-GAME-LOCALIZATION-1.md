@@ -1,6 +1,8 @@
 # QUALITY-GAME-LOCALIZATION-1 — 第一阶段语言资源与展示合同治理
 
 Status: done
+Last reviewed: 2026-11-01
+Template: task-card-v1 / 1.0.0
 Owner: Codex
 Coding Owner: Codex（单 Agent）
 Reviewer: Codex（证据及差异复核；不计第三方签字）
@@ -20,7 +22,7 @@ Branch: codex/code-quality-94-102
 - 只读相邻：英文提取/SLF、UI字典/地图名/字体、bootstrap、实际菜单/事件/战斗消费者及既有证据。相邻未全文验收者不领取关闭信用。
 - 不改译文、资源格式、生成物、存档、玩法或已批准的显示取舍；不进入 GLM 回合测试、E2E、editor 实体任务。若发现行为缺陷先保留反例、另卡裁决。
 
-## 前提真值门
+## 前提与证据
 
 本批准入是行为不变的代码/测试治理。语言展示合同取已完成的 [GAME-ENGLISH-1](GAME-ENGLISH-1.md)，不以 SDLPal 代替原版证据；相同修正脚本与存档、按连续消息范围匹配语言包、译文行数不能改原脚本 IP。调用或 primary source 冲突须停止相应关闭。
 
@@ -30,7 +32,7 @@ Branch: codex/code-quality-94-102
 - [CLAUDE](../../../CLAUDE.md)、[第一阶段工程记录](../../phase1/engineering-notes.md)、[机制记录](../../phase1/game-mechanics.md)。
 - [英文功能卡](GAME-ENGLISH-1.md)及其 text/dialog/shell/integration review；实际运行入口为 shell/bootstrap.ts，消息消费为 core/event-system.ts 与 core/menu/script-desc.ts。
 
-## 验证
+## 验收
 
 - 逐输出完整读域、真实 caller/公共出口/类型/生命周期；A–H 各项具体结论与命名拆合依据写同一证据包。不因短文件或旧功能测试通过自动关闭。
 - 测试按合同映射、合法输入、独立 oracle、重复/反例、隔离与有效反控核验；迁移保留实际用例身份，不以重新命名增加数量。
@@ -46,13 +48,13 @@ Branch: codex/code-quality-94-102
 - 初始机器账：3459 tracked / 827 closed / 0 review / 2632 pending；本卡当前关闭 0。
 - 逐文件八维及整改已记录于[本批证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。两个既有 closed 主测 word-lookup/map-names 接收同职责合同，已全文补核；七产品可执行 AST 不变。本地完整门已通过；Git发布由同一治理分支PR执行并记录。
 
-## 交接
+## 状态与交接
 
 - 2026-11-01 Codex：完成 main CI 与 Owner 核对，开始实际读域/合同核验。外部 main 原始日志在 `/Users/zhangxu/.codex/quality-evidence/type-pal/localization-20261101/`；模块证据在本卡范围稳定后集中落盘。
 
 ## 下一位 Agent 提示词
 
-无新委派。Codex 在同一治理树继续；先读本卡当前准入和已落证据，不重复旧功能全剧情验收，不运行重型门直到模块切片稳定。
+本卡已done，无新委派。旧切片和集中门指令保留其原窗口含义；后续同职责工作须另核当前Owner与任务准入，不据本历史提示重开任务或重复全剧情验收。
 
 ## 集中收口
 

@@ -1,40 +1,62 @@
 # 场景删除引用保护 · 实现与验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SCENE-REF-GUARD-1（r1/done）实现与验证：实现前基线 830db139（与设计冻结 3bc20273 一致）、Owner Codex；候选 83598cc4 单文件 adapter 修复+22 项正式回归+最小真实 App 功能验证；三席 accept 无返工，2026-09-19 done 归档。
+
+## Scope
+
+唯一生产文件 project-reference-adapters.ts：command 白名单接入 selectSceneHooks（收 inherit/disabled scene 边；复合边→父 scene 桶映射不双收）；transitionVisits 每 state.next 根交现有 typed collector（只转 scene 目标、复用 source/where/deletePolicy/locator）。回归：scene-guards 12 项（六 command owner、混合/双 use 去重、四类状态机 owner、输入保真、删除集合内部豁免）+deletion-workflow 10 项（三类拒删不变、去引用→删除→真实 serializer→loader 重开→undo/redo、三类自引用可删、冷暖 guard 一致）。先红后绿：未修复 14 业务红/3 正控绿。三针反控（漏 selectSceneHooks 准入/漏 transition 接线/重复 use-hook 边）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+反控+真机+统一门 | 22 项+相邻 8 文件 108/108、typecheck；三针各 exit1 指定 AssertionError；真实 App 浏览器操作（6010、1280×720：3 处阻断→删除两条正文指令+改条件→0 处→删除 2→1→撤销恢复）；完整 check 7442 项、ratchet 6954 项/617 源、保护 830db139 单次严格 fast 提升 0 | Codex | 实现令分母 +6 行/+6 语句/+4 函数/+3 臂、命中 +15/+17/+6/+21，不把全部增长叫纯补测 | 失败记录如实：fixture not/of 误写、locator 期望 stage→step、PAL rows 25188→25189 census 联动（s172 双 disabled s182 依赖）正确修复非抖动 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：只关闭 D-02 三漏边；D-06/D-07、G-R06、缓存、技能试玩、GLM 补测与完整 E2E 保持各自归属。
+
+## Evidence
+
+- 证据路径：本验证正文（quote 保全）；/tmp/type-pal-scene-ref-build.CyLL0V/ 与生成脚本在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 场景引用保护 | 2026-09-18/19 | adapter+22 项+3 针+真机+统一门 | done（三席 accept 83598cc4） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/authoring-and-runtime 的场景引用保护；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 场景删除引用保护 · 实现与验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：只关闭 D-02 三漏边；D-06/D-07、G-R06、缓存、技能试玩、GLM 补测与完整 E2E 保持各自归属。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+真机四步操作、失败记录、质量门数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为收口时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-SCENE-REF-GUARD-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `1026169f5d5465514d34b4f41961786b9eda625ad3a74b2772874bac53967405`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `1026169f5d5465514d34b4f41961786b9eda625ad3a74b2772874bac53967405`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 场景删除引用保护 · 实现与验证
 >

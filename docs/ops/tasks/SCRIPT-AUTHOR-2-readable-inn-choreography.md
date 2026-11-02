@@ -5,41 +5,31 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原目标与范围、前提真值门、上下文锚点、验收条件与 E2E 登记、实现批次与原始失败记录、本批交付收据、单步骤续修与保存 counter 闭合在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 将已核客栈脚本从编号/机械状态暴露为用途语义名与可解释路线，并修正通用直线走位的速度/到点边界；不改变稳定 ID、schema/save 或原版转换。
-- 当前状态：`Status: build`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 用户 2026-10-01 要求所有脚本采用能说明实际用途的名字。全 PAL 命名治理不收窄为 e56：294 场景共 4664 方案、4602 个严格编号模板名、另有 20 个物品私有脚本；本实现批次先覆盖有直接正文及调用方证据的客栈李大娘、道士方案，不改稳定 ID。
+- 下楼是六段有真实转折点的路线，不是 46 拍剧情状态（原版 `all.json:2635–2743` 仅作演出参考）；修正 `entity-walk.ts:65-83` 任一轴接近即整体 snap 的 48px 吸附反例，改为每拍有界、沿目标直线、到点提交安全点后正式 complete。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：将已核客栈脚本从编号/机械状态暴露为用途语义名与可解释路线，并修正通用直线走位的速度/到点边界；不改变稳定 ID、schema/save 或原版转换。
-- 一手证据：docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:1；docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:34；docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:75；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：build。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：projects/pal/content/scenes/s001.json；projects/pal/content/scenes/s003.json；packages/reforge/src/script/entity-walk.ts；scripts/e2e/inn-contract.mjs；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 全PAL语义命名目标与本批客栈有限实现分开；本批保留稳定ID、走位边界和单步骤保存裁决，不扩大schema/save或parallel/join范围。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。
-- 下一步：本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- build。全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。
+- 单步骤保存 counter 经 SAVE-AUTO-CHECKPOINT-1（用户 2026-10-01 裁决单步骤合并后）独立闭合；发布校验补核 `migrate-content.mts:81–94` 与 `pal-current-publication.ts:298` 的强制生成名问题。不改新 schema/save、parallel/join、原版转换或供应源。
 
-## 当前有效性
+## 前提与证据
 
-build。本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `projects/pal/content/scenes/s001.json`、`s003.json`；`packages/reforge/src/script/entity-walk.ts`；`scripts/e2e/inn-contract.mjs`。
+- 本批收据：migrate 452 绿、全包 10746 项、lint 2722 零（quote 2026-10-01 交付收据节，历史时点声明）。
+
+## 验收
+
+- 全局命名覆盖、真实caller含义、坐标走位与保存counter分别核；客栈有限批与历史452/10746/lint2722不等于全工程done。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 

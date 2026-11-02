@@ -1,7 +1,7 @@
 # 协作与工程维护
 
 Status: current
-Last reviewed: 2026-11-01
+Last reviewed: 2026-11-02
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -28,6 +28,7 @@ Template: governance-index-v1 / 1.0.0
 
 工作分类、依赖与执行下一步集中维护在看板；本页只导航，不再复制一份状态表。
 
+- [文档质量与验收规范](document-quality.md)：跨任务长期合同、贡献者交付与Codex证据验收。
 - [工程代码质量与验收规范](code-quality.md)：两阶段所有开发与审查的八维标准、低成本复验和完成定义。
 - [现行协作工作流](agent-workflow.md)、[当前任务看板](board.md)。
 - [活动任务与生成索引](tasks/README.md)：状态从卡顶部读取。

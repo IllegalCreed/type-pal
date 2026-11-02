@@ -1,67 +1,57 @@
 # 游戏分辨率(canvas 显示尺寸)设置 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是游戏分辨率设置实施计划的归档重写。设计要点、五个 Task 与 Self-Review 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Canvas display scale, integer sizing, persistence/window adaptation and decisions.
-- 日期：2026-06-13；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd`。
+- Goal：让玩家自选 canvas 显示大小（2×–6× 整数缩放/适应窗口/全屏），解决大屏上固定 960×600 可读性问题。
+- 面向 agentic workers 的 task-by-task 实施计划（checkbox 跟踪），时点 2026-06-13。
 
 ## 里程碑
 
-- 原始章节：设计要点(实现前必读)；File Structure；Task 1: 缩放核心(计算 + 套用 + 持久化)；Task 2: 控制器 + 全屏 + resize 重算；Task 3: 左上角控件 UI；Task 4: 接入 main.ts 与 index.html；Task 5: 浏览器验证；Self-Review。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 1 缩放核心（计算+套用+持久化）、Task 2 控制器+全屏+resize 重算、Task 3 左上角控件 UI、Task 4 接入 main.ts 与 index.html、Task 5 浏览器验证。
+- 配套 Self-Review 与 Execution Handoff 节。
 
 ## 当前状态
 
-- historical；游戏分辨率(canvas 显示尺寸)设置 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 461 行、10 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：功能已上线多年演进；设计要点（实现前必读）与 File Structure 在 quote 保全。
 
 ## 阻塞与决策
 
-- 正文信号 377:/* 显示尺寸由 display-scale.ts(initDisplayScale)按持久化档/适应窗口设;此处仅 JS 未就绪时的兜底 3×。 */
-- 正文信号 396:.catch((err: unknown) => {
-- 正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用"左上角常驻 DOM 控件"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用"最大整数倍(锐利,留黑边)"——也可做"分数铺满(填满但像素略不均)"。两点都易调,确认后再实现。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 整数缩放优先（保像素完美）、适应窗口与全屏为补充形态。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点计划；当前分辨率行为以现行 shell 代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-13；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd`。
+- phase1 plans 实施计划；时点 2026-06-13；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 游戏分辨率(canvas 显示尺寸)设置 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 461 行、10 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- 五 Task 结构与缩放形态决策为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:游戏分辨率(canvas 显示尺寸)设置 Implementation Plan; 13:设计要点(实现前必读); 21:File Structure; 31:Task 1: 缩放核心(计算 + 套用 + 持久化); 162:Task 2: 控制器 + 全屏 + resize 重算; 254:Task 3: 左上角控件 UI; 360:Task 4: 接入 main.ts 与 index.html; 425:Task 5: 浏览器验证；原始正文、代码、表格、状态词在 quote 保全。
+- 设计要点与 File Structure 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 377:/* 显示尺寸由 display-scale.ts(initDisplayScale)按持久化档/适应窗口设;此处仅 JS 未就绪时的兜底 3×。 */
-- 正文信号 396:.catch((err: unknown) => {
-- 正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用"左上角常驻 DOM 控件"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用"最大整数倍(锐利,留黑边)"——也可做"分数铺满(填满但像素略不均)"。两点都易调,确认后再实现。
+- historical。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 现行 shell/渲染代码；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 游戏分辨率(canvas 显示尺寸)设置 Implementation Plan
 >

@@ -1,40 +1,61 @@
 # GLM资源读取、缓存与音效准备工作包（TB-02）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-ASSET-IO-1 工作包与 GLM r1/r2/r3 复合回执（r2/rework；生产对照 e58834f6；GLM 只写新测试 Codex 接收 Kimi 终审；不听音/不做视觉/不改保存稳定读门/不碰技能试放接线）。**当前 Codex 接收结论（2026-09-20）**：候选 ea276956 accept，统一候选 256116ee，check 7,709/ratchet/受保护单次严格 fast 7,220 通过，三席齐用户授权 done 归档（定向 24 项/原负控/tc/Biome 全绿；旧首轮 counter 留历史）。
+
+## Scope
+
+- 冻结快照与去重（r2 Codex 直读六模块 39 项）：sfx（既有 12 项——:110 decode 失败重试/:198 read 失败聚合/:245 play 恢复/:259-311 resume dispose 旧 prepare 错误上下文；B2 实际 browserAdapter 生命周期与 bytes.slice 复制 :63-85 注入自写 adapter 不享有该合同；B3 assertWave 只 ≥12 字节/RIFF/WAVE 三轴 :90-94 非 PCM 解析器）；sfx-readiness（:125 递归去环/:146 additionalRoots/:187 动作 cue/:281 缺复合引用——B4 不能把 pages[0] 等同当前活动页，main:774-789 传 canonicalScene 无 additionalRoots，页选择政策单列待证）；project-image-cache（B5 工程身份隔离/B6 pending 复用与错误重试/B7 已完成 load 后 dispose 关闭与重读——在途回填政策待证不固化）；file-source（B8 signal 原样透传/网络 Response 错误原身份/urlFor 零 IO——HTTP 不含逐 await 主动取消门不发明 JSON 错误包装）；fsa-source（B9 取消窗口进入时序与 JSON 错误路径）；registry（B10 pending 共享/槽位隔离/blob decode 失败/非 Error 错误独立余轴；真实 caller 为 menu-box.ts:363/main.ts:628 非 project-loader）。
+
+## Execution and assertions
+
+- **GLM r1 回执**：6 新测试文件 24 项（5+5+6+3+3+2）；定向 24/24+reforge 全包 122 文件 1,214+tc rc0+9 新文件 Biome rc0；负控 rc=0：判据自测+3 对照+8 变异针全钉名 AssertionError 首行产品 hash 不变；覆盖对照 sfx L+13/B+7 等（全包 L7927→7943/B5329→5340）；待证保持（在途 dispose 回填/collector pages[0] vs world 活动页）；未发现新产品缺陷
+- **GLM r2 返工（统一接收 counter）**：C0 判据改 failureMessages 首行匹配 /^AssertionError(\b；:)；^expect\(/+四向自测新增内嵌子串与纯超时拒绝反例；C1 全部 10 新文件（含 JSON/config）Biome rc0；R02-1 坏 JSON 用例重写（text 真实返回 {bad，readText 成功 readJson 拒绝 SyntaxError+完整 op 访问序——吞掉 JSON 解析错误的单点被检出）；R02-2 soundItem 过正式 validateItems（use.effects=[healHp]/throw.effects=[applyPoison] 非空）非战斗声音集合/页政策隔离不变；复跑定向 8/8+全包 1,214+私有覆盖 before 1190/after 1214 双 exit0
+- **GLM r3 收窄返工（31c8703f）**：C0 pinned 判据精确且唯一目标：title 全等 filter+命中恰 1（后缀冒名与重名双 target 拒绝）+failed+非空+首行业务错误；运行态块与自测共用 AST 抽取两块拼接执行；C1 回填后 10 文件完整白名单 Biome rc0；复跑 3 对照+8 针全绿；glm-nine-rework-witnesses 9/9 判据双反例拒绝 3 针 detected；计数更正按 Codex 实测（定向 24/原工具 3+8）
+- **已知边界**：在途 ProjectImageCache.dispose 回填待证不默认固化；SfxPlayer 无 AbortSignal 或通用自动重试（原稿此归属删除）；页选择疑点（collector:168 固定 pages[0].animation，main 传 canonicalScene 无 world 页选择信息——旧 :309 玩具 SceneDef 不能证 initialPage 非首项正确预载）由 Codex 另核，GLM 可记只读证据不把忽略非首项固化为正确；不改稳定读/锁/save 门；真实 FSA 授权/听感/视觉归 Codex 本包只用内存宿主；与模拟器 main 接线零交叠；唯一新增白名单 10 条在 quote
+
+## Results
+
+- TB-02 done（256116ee 三席 accept）：B1-B10 十族 24 项+8 针；三轮判据演进（首行匹配→精确唯一 title+恰 1）；B4 页选择/B7 在途回填待证如实登记。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；当前独立接收见 glm-nine-final-review；设计收口见 glm-coverage-queue-design-review。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-02 工作包+r1-r3 | 2026-09-19/20 | 24 项+8 针+三轮返工 | accept→done（256116ee） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的 TB-02 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM资源读取、缓存与音效准备工作包（TB-02）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：B1-B10 十族（B3 assertWave 三轴/B4 页选择待证/B7 在途回填待证如实登记）；24 项+8 针三轮判据演进（首行匹配→精确唯一目标）；soundItem 过正式 validateItems。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六模块去重表、白名单、r1-r3 返工与已知边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-REFORGE-ASSET-IO-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `a7c7d4e8b911f817bbc358a321bde5d54b3154615ad285e3a39d146656bbffac`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `a7c7d4e8b911f817bbc358a321bde5d54b3154615ad285e3a39d146656bbffac`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM资源读取、缓存与音效准备工作包（TB-02）
 >

@@ -1,40 +1,61 @@
 # EDITOR-ITEM-AUTHORING-1 GLM 只读取证包（G1～G5）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-ITEM-AUTHORING-1 的 GLM 只读取证包（G1–G5，冻结产品 `1e0388b0`，分支 codex/glm-item-authoring-audit）：全部结论来自冻结树直读一手源码（sed/grep，锚点 file:line 本人复核）；未运行 Codex 探针、未读 Kimi 结论、未改产品/正式测试/基线、未做视觉；静态分类按 reproduced/covered/risk/N/A。结论：**无 counter**——前提四行全部一手复证，r1 方案与现行结构无冲突。
+
+## Scope
+
+- 任务卡 draft/r1 时点；G1 调用者与两会话所有权 / G2 共享私有引用全链与前缀猜身份 / G3 validateReferences 三个生产输入 / G4 合法输入矩阵 / G5 旧测试去重。
+
+## Execution and assertions
+
+- **G1**：grep 普查：唯一生产入口 ItemTab.tsx——新建 :1072-1077（仅主会话，不写脚本会话 canonical=D-06 根因）、复制 :1079-1084（structuredClone 保源私有 ref）、删除 :1086-1113（引用阻断保留、脚本 canonical 不随删）、新建私有脚本 :1117-1170（唯一配对路径，缺 coordinator :1149-1150 显式 throw）；命令语义直读：AddItemCommand :2046-2064 id 冲突 fail-loud；DeleteItemCommand :2087-2132 blockers 每次重验+invert 原 index 恢复；AddItemPrivateScriptCommand :2007-2036 要求 canonical 存在（:2022-2023 D-06 抛点）、每物品至多一条、replaceDetached；配对 caller 共七处（P12 源码快照断言）；dirty 各会话自持；保存走 App.tsx:2148-2157 serializeEditorSnapshot→merge→serializeProject→assertProjectSaveValid
+- **G2**：前缀猜身份全量 sweep 6 站点：projection:95-106/ItemTab:1139-1143/ItemUseEffectEditor:883-886（startsWith item:<itemId>:）、main.ts:5393-5395（startsWith+split 取段）、item-use-executor:46-55（全等）、构造侧 ItemTab:1157/runtime-project-view:51-53/ItemUseEffectEditor:878（模板拼接）；私有投影 chunk=__author-script-runtime id=item:<ItemId>:use（拼接）；无 body 私有 ref 投影丢弃仅保存边界拒绝；方案 2 显式 tag __author-item-private-runtime 与站点清单对齐无遗漏；区分维度移到 chunk 后 item:<id>:use 形共享 ID 不再碰撞
+- **G3**：validate-refs.ts:1565-1572 按**旧分片 chunk/id 形态**取值；三个生产输入（实时诊断 project-diagnostics:676-692、保存 project-io:229、PAL publication pal-current-publication:338-361 as never）全部喂错形态；scriptChunks 生产供给普查：toEditorState 默认 {}、open-local {}，无生产装配器填真实 chunk ⇒ item-runScript chunk/id 分支无当前生产 caller 能合法喂入；任何带共享脚本物品保存应报「共享脚本 undefined 不在脚本库」（静态证+Codex 动态证一致）；方案 3 退役旧分支有据但须逐 caller 改造三个域
+- **G4/G5**：合法输入矩阵 10 行（复制私有 ref 前缀属源→保存报共享不存在/runtime 语义串用；共享 ID 恰为 item:<本物品>:use 碰撞四面；ItemId 含冒号→split 取错段私有脚本不可执行；坏共享 ID 报 undefined 而非原 ID）；旧测试去重五族（TB07 复制语义/item-commands/P01-P20/projection boundaries/350da702+ccc67dcc）；实施缺口：新增两会话/私有语义用例、跨会话成对注册、新 tag 投影不碰撞、诊断与保存两处报错面同钉
+
+## Results
+
+- 非阻断备注：①G3 诊断域 undefined 未动态复现，回归应同钉实时诊断与保存两处；②ItemId 冒号建议入方案 2 验收矩阵；③复制后 main 路由源私有脚本（语义串用）建议入负控。
+
+## Evidence
+
+- 证据路径：本取证正文（quote 保全）；全部锚点为冻结树 1e0388b0 行号。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| G1–G5 取证 | 原文时点（draft/r1） | 只读一手源码 sweep | 无 counter（前提复证+方案对齐） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 GLM 只读取证包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- EDITOR-ITEM-AUTHORING-1 GLM 只读取证包（G1～G5）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+无 counter：D-06/D-07 根因一手复证（ItemTab 三单会话入口+前缀猜身份 6 站点+三分支喂错形态）；r1 四方案与结构对齐；6 站点「完整」由本人 sweep 确认（实施记录补充普查又发现 validate.ts 前缀消费者第 7 站点，见 item-authoring-implementation）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+G1 普查表、G2 六站点表、G3 三输入表、G4 十行矩阵、G5 去重表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结树 1e0388b0；实施后状态见 item-authoring-implementation（done）。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 EDITOR-ITEM-AUTHORING-1 完成卡与实施记录。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `f08b335eb7481d323d82fc8e29f392de95733ea52f352756e46222bceb66db6e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `f08b335eb7481d323d82fc8e29f392de95733ea52f352756e46222bceb66db6e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # EDITOR-ITEM-AUTHORING-1 GLM 只读取证包（G1～G5）
 >

@@ -1,5 +1,38 @@
 # C1 逐文件 A–H 索引 — 40-60 存档+analytics(9 条 fullReads)
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+承载「C1 逐文件 A–H 索引 — 40-60 存档+analytics」的逐文件结论索引:4 个生产文件与 5 个测试文件的 A/E 维判定、caller 锚与 2026-10-20 返工补读标注,供四卡 pending→partial 建议与后续缺口补审使用。
+
+## 范围
+
+原文含章节[C1 逐文件 A–H 索引、生产文件(4)、测试文件(5,E 为主)、Codex接收边界(2026-10-20)]。生产文件结论要点:save-io.ts(format 严格等+version===1 严格等、必要字段门、caller=tools-panel.ts:625-663)、quick-save.ts(快存门防脏档、QuickSaveDeps 全注入、caller=bootstrap.ts:1110-1118)、install-analytics.ts(UI 先挂+GA 失败回滚、四端口注入)、analytics-consent-ui.ts(unset 才弹、坏存储保持面板、幂等重挂)。测试文件要点:save-io.test(version=2 拒)、msio 与 quick-save.test 为【返工补读】(原审查仅标题级/前 100 行,C5 重写后真实 GameState+fake timers+解绑 oracle)、install.test(DNT/GPC 默认关+无 GA script)、consent-ui.test(拒绝/允许/preferences 全环+坏存储)。
+
+## 当前状态
+
+historical(治理候选);原文时点状态与日期在保全块。Codex 接收边界原文保留:测试条目多为 E 维,不能读成 69 文件全部八维已验收;各文件 A–H 已陈述/尚缺依据状态列于验收记录;未单列论据的维度保持 review-unknown,文件不关闭。
+
+## 入口与责任
+
+当前存活入口:[per-file-index.md](../73-78-shell-lifecycle/per-file-index.md) [codex-pending27-acceptance.json](../codex-pending27-acceptance.json) [read-boundaries.json](read-boundaries.json)。 指纹勘误(SHA-1 OID 改名/真实 SHA-256 新增/input.ts 例外)以 read-boundaries.json 为准。Codex 已撤回'save-io 主测 as never 残缺成功输入合法'的原判:三处改用 createInitialGameState 生成完整 typed 状态,损坏 JSON 仍只用于明确 IO 拒绝反例,四条测试身份/合同不增删。
+
+## 证据与下一步
+
+固定main源SHA 0f5fa81aaede;定向 21 绿原件在同目录 directed-final.json;下一步=Owner非作者接收,后续只补具体缺口维度,不重复已成立的 E/primary。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4214B / SHA-256 0f5fa81aaedecab139397e2f1184ba1ae885abb63e72ffa9fdee06619bfa1fbf；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# C1 逐文件 A–H 索引 — 40-60 存档+analytics(9 条 fullReads)
+
 读域标注同 [73-78 索引](../73-78-shell-lifecycle/per-file-index.md)。指纹勘误见 [`read-boundaries.json`](read-boundaries.json)。共享论据引用本目录 README。
 
 ## 生产文件(4)
@@ -22,3 +55,5 @@
 本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
 
 Codex已撤回“save-io主测as never残缺成功输入合法”的原判：三处改用createInitialGameState生成完整typed状态；损坏JSON仍只用于明确IO拒绝反例。测试身份和四条合同保留。
+```
+<!-- incremental-original-source:end -->

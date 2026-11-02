@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "kind": "current-rerun-index-not-historical-execution-proof",
+  "status": "review-rework; hard acceptance not passed",
+  "sessions": [
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
+      "sha256": "70a59e69c2ebc4b3cdd8f4c577f9cf65c7ef3b8c325bdd2bdd93b21e2405919d",
+      "startedAt": "2026-10-17T19:41:03.190Z",
+      "inputSnapshot": "raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "975516c7cc0d190fed282c6a881ea352a7c60e1e203da2e6396c542813ffdba9",
+      "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
+      "sha256": "aac40373f71f4f79c516d4661a1a29de07cfed6152b6e8cc3b0f7fc9867d0027",
+      "startedAt": "2026-10-17T19:43:49.608Z",
+      "inputSnapshot": "raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
+      "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
+      "sha256": "df1dbb15952ad8fa9da99ebc10113253602286063d2edfea0ac24045b11beeeb",
+      "startedAt": "2026-10-17T19:46:35.304Z",
+      "inputSnapshot": "raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
+      "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
+      "sha256": "d1ff0092f4eade52f92bb2fa44088023ade2cd8358b7e6a43064138c8d494abd",
+      "startedAt": "2026-10-17T20:10:45.666Z",
+      "inputSnapshot": "raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "52058c1f76b79f471037df7f22c4afa231db23c4cdd821bc9594ce715eb9d327",
+      "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json",
+      "sha256": "cc83c95478faea208fd9c1396258d7be53a01d300f20edeb6170ca18dae88e75",
+      "startedAt": "2026-10-17T20:25:30.052Z",
+      "inputSnapshot": "raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "b47e151ff685ae4f4e4de5e78c1cd49fa539a884d9d6f66fd5ee9d9add8cd76e",
+      "role": "S01 author candidate execution; lint failed on two authored JSON format diagnostics (routing and semantic-review ledger), preserved unchanged; later repair requires new execution."
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
+      "sha256": "74520857bd27a67edba49f2ad40e0d0f85b7cb1cc3cb38ea79bdffa174d760ee",
+      "startedAt": "2026-10-17T20:27:12.456Z",
+      "inputSnapshot": "raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
+      "role": "S01 repaired author candidate actual capture; lint/diff0, strict/check-docs/require-complete1. Claims apply to its input manifest, not later index registration."
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json",
+      "sha256": "7f0bbb0abefb1a47f65ce7b6d014a63bf287b5ee9d610930714f720d94381680",
+      "startedAt": "2026-10-17T20:31:52.641Z",
+      "inputSnapshot": "raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
+      "role": "S01-LAYER-BLIT author fix new actual capture; lint/diff0, strict/check-docs/require-complete1; fixed input manifest, not later control registration"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json",
+      "sha256": "b517d90b82ecbd35ea37728a2c67e899d30d1cb68f91de0e4e5ace5a40191d04",
+      "startedAt": "2026-10-17T20:38:08.677Z",
+      "inputSnapshot": "raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "5f95c182f82b667d237969443f254268a85d1e9fb6a37cb4dfa70cc47bfed49e",
+      "role": "S02 actual runbook author candidate plus S01 exact receipt intake; lint/diff0, strict/check-docs/require-complete1; commands bind captured inputs, not later control registration"
+    }
+  ],
+  "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
+  "artifactOwnership": {
+    "scope": "All raw files are owned by this task; UUID captures, retained old artifacts, and independent-reviewer byte copies are separate producers, never interchangeable executions.",
+    "owner": "Codex",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "callers": [
+      "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+      "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+    ],
+    "timeAndVersion": "Each UUID execution has its own time/sourceHead/input hashes. Retained artifacts use fixed Git receipt source and observedAt/mtime caveat; no new command execution is inferred.",
+    "retention": "Git-tracked raw bytes are immutable; re-execution creates a new UUID, never overwrites.",
+    "exitCondition": "No automatic deletion during rework; any retirement requires an explicit reviewed replacement and provenance mapping.",
+    "producers": [
+      {
+        "path": "scripts/docs/capture-governance-rerun.mjs",
+        "scope": "UUID command streams, journals and input hash manifests"
+      },
+      {
+        "path": "scripts/docs/inspect-receipt-candidates.py",
+        "scope": "retained-SHA.log copies only; declared original paths/SHA/observed mtime in receipt-candidate-observations-20261018.json"
+      },
+      {
+        "path": "/root/receipt_integrity_independent",
+        "scope": "raw/independent-58e899bf exact reviewer report artifacts; intake map pins original paths/SHA/bytes, not fresh root command output"
+      },
+      {
+        "path": "raw/s02-probes-v2-*.source.log",
+        "scope": "Root authored, retained source publication-IO probes via real check-testing public validators; v1 harness failure retained separately, no product-test/coverage execution"
+      },
+      {
+        "path": "/root/receipt_integrity_independent S01",
+        "scope": "raw/independent-s01-8ef0 exact reviewer artifacts and original counter; intake map resolves45 original paths, not fresh root execution"
+      },
+      {
+        "path": "/root/receipt_integrity_independent S02",
+        "scope": "raw/independent-s02-fe54 lossless47 gzip payloads; map gives original paths/decoder and dual SHA/bytes; no new root execution"
+      },
+      {
+        "path": "/root S03",
+        "scope": "raw/semantic-s03 immutable author/independent payloads; independent-intake-S03-f9fbf0c7.json gives exact original/repository paths and dual hashes. No root new execution or unrelated semantic credit."
+      },
+      {
+        "path": "/root/receipt_integrity_independent S04",
+        "scope": "raw/semantic-s04 immutable author/independent payloads; independent-intake-S04-c8715c2c.json gives exact original/repository paths and dual hashes. No root new execution or unrelated semantic credit."
+      },
+      {
+        "path": "S05 author /root/e2e_entry_semantic_author and non-author /root/central_intake_guard_review",
+        "scope": "independent-intake-S05-b87a2397.json lists236 exact original payload/stored identities; flat raw gzip containers live under DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads, no new execution credit."
+      },
+      {
+        "path": "S06 /root/e2e_entry_semantic_author, /root/receipt_integrity_independent and root preflight",
+        "scope": "independent-intake-S06-71d74b4d.json lists480 exact original/stored identities under existing raw ownership. Original880 rework/source counter, author52 and root explicit delimiter-error replay remain separate and do not grant runtime. Final body receipt stays plain under legacy route."
+      }
+    ]
+  },
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json"
+}

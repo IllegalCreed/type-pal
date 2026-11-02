@@ -1,85 +1,56 @@
 # M1 · pal-extract Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M1 pal-extract 实施计划的归档重写。约 40 节 Task 明细（gbk/MKF/YJ1/RLE/SSS/M.MSG/WORD.DAT/调色板/精灵/瓦片/数据表…）与完成 checklist 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M1 implementation plan: GBK, MKF/YJ1/RLE/SSS/M.MSG/WORD; shared types; palette/sprite/map/table resources; opcode registry/disassembly/recompile/round-trip/slicing/annotation; CLI, sdlpal harness and README closeout.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab`。
+- 目标：落实 [M1 设计稿](2026-05-23-m1-pal-extract-design.md)——最小提取链路（io 层 MKF/YJ1/RLE/SSS/msg/word + resources 层 palette/sprite/map/tables + shared 类型扩充 + cli 总装），task-by-task TDD（2026-05-23）。
 
 ## 里程碑
 
-- 原始章节：File Structure(M1 末态)；Test Strategy 概览；Task 1: 加入第三方依赖 + utils/gbk.ts；Task 2: io/mkf.ts —— MKF 归档 reader；Task 3: io/yj1.ts —— YJ1 解压；Task 4: io/rle.ts —— RLE 精灵解码；Task 5: io/sss.ts —— SSS.MKF 5 chunk 切片；Task 6: io/msg.ts —— M.MSG → string[]。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 链自底向上：第三方依赖+utils/gbk → io/mkf → io/yj1 → io/rle → io/sss → io/msg → io/word → @type-pal/shared 类型 → palette → sprite→索引位图 PNG → map 瓦片 → tables 全解全产 → …（40 节全列于 quote）。
+- 完成 checklist 全勾：`data/extracted/` 在 .gitignore、`reference/sdlpal/` 未被改动、shared 的 Command/Tilemap/Palette/Item 类型 M2 可直接 import。
 
 ## 当前状态
 
-- historical；M1 · pal-extract Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 2764 行、43 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M1 完工；提取范围后由 [m4-extract-audit](2026-05-27-m4-extract-audit.md) byte-level 对账、[resource-status](../status/resource-status.md) 承接信源。
 
 ## 阻塞与决策
 
-- 正文信号 293:YJ1 流头(16 字节):4 字节 magic `"YJ_1"` + 4 字节 uncompressed length(LE)+ 4 字节 compressed length(LE)+ 4 字节 unknown / flags。后面是位流。
-- 正文信号 568:const EVENT_OBJECT_SIZE_BYTES = /* TODO 查 global.h EVENTOBJECT */ 0
-- 正文信号 569:const SCENE_SIZE_BYTES = /* TODO 查 SCENE */ 0
-- 正文信号 786:const OFFSET_PERSONS = /* TODO */ 0
-- 正文信号 787:const OFFSET_ITEMS = /* TODO */ 0
-- 正文信号 788:const OFFSET_SPELLS = /* TODO */ 0
-- 正文信号 789:const OFFSET_ENEMIES = /* TODO */ 0
-- 正文信号 790:const OFFSET_SCENES = /* TODO */ 0
-- 正文信号 791:const COUNT_PERSONS = /* TODO */ 0
-- 正文信号 792:const COUNT_ITEMS = /* TODO */ 0
-- 正文信号 793:const COUNT_SPELLS = /* TODO */ 0
-- 正文信号 794:const COUNT_ENEMIES = /* TODO */ 0
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- Test Strategy 概览与 Conventions 为全程纪律（quote 保全）。
 
 ## 下一步
 
-- 后继入口：M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由 M2 承接；当前提取管线以现行实现为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab`。
+- phase1 plans M1 实施计划；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M1 · pal-extract Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 2764 行、43 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- Task 分层结构与完成 checklist 为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M1 · pal-extract Implementation Plan; 17:File Structure(M1 末态); 64:Test Strategy 概览; 74:Task 1: 加入第三方依赖 + utils/gbk.ts; 162:Task 2: io/mkf.ts —— MKF 归档 reader; 285:Task 3: io/yj1.ts —— YJ1 解压; 390:Task 4: io/rle.ts —— RLE 精灵解码; 503:Task 5: io/sss.ts —— SSS.MKF 5 chunk 切片；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M1 末态）、Test Strategy 与逐 Task 步骤在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 293:YJ1 流头(16 字节):4 字节 magic `"YJ_1"` + 4 字节 uncompressed length(LE)+ 4 字节 compressed length(LE)+ 4 字节 unknown / flags。后面是位流。
-- 正文信号 568:const EVENT_OBJECT_SIZE_BYTES = /* TODO 查 global.h EVENTOBJECT */ 0
-- 正文信号 569:const SCENE_SIZE_BYTES = /* TODO 查 SCENE */ 0
-- 正文信号 786:const OFFSET_PERSONS = /* TODO */ 0
-- 正文信号 787:const OFFSET_ITEMS = /* TODO */ 0
-- 正文信号 788:const OFFSET_SPELLS = /* TODO */ 0
-- 正文信号 789:const OFFSET_ENEMIES = /* TODO */ 0
-- 正文信号 790:const OFFSET_SCENES = /* TODO */ 0
-- 正文信号 791:const COUNT_PERSONS = /* TODO */ 0
-- 正文信号 792:const COUNT_ITEMS = /* TODO */ 0
-- 正文信号 793:const COUNT_SPELLS = /* TODO */ 0
-- 正文信号 794:const COUNT_ENEMIES = /* TODO */ 0
+- historical。
 
 ## 继任文档
 
-- M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M1 设计稿](2026-05-23-m1-pal-extract-design.md)、[resource-status](../status/resource-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M1 · pal-extract Implementation Plan
 >

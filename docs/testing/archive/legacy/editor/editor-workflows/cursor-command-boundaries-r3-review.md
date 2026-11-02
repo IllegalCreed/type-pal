@@ -1,40 +1,64 @@
 # Cursor 八组命令残项：独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-COMMAND-BOUNDARIES-3 首轮独立接收（2026-09-26，候选 `b6bcc9b4`，基点 `7d64de13`）的 Codex 回执：**counter / 窄返工**——原文已注明当前结论：返工 `a732f7d2` 的 R1–R3 已闭合（见[接收与集成](cursor-command-boundaries-r3-integration.md)），本反证保留为历史。
+
+## Scope
+
+- 候选 b6bcc9b4；对象=R1 成功输入合法性/R2 完整保真与共享资源哨兵/R3 回执准确收窄；独立见证工具+隔离配置（只改内存加载不写候选源码）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 已核 | diff 限七测试一 fixture 专属证据；C1/C4/C7 已核合同、C8 existing-proof 接受 | Codex 自跑七文件 29/29、editor typecheck exit0；五针 runner exit0 目标 AssertionError 检出 | C4 针仍被后层资产引用守卫拒绝=重叠保护非错误放行 | 不要求扩任务补完所有缺口 |
+| R1 | entity-commands.residual.test.ts:19-22,81-84 crate/vase 未在 fixture seed/loader 登记（仅 hero）；battle-sprite:36-41,89-99 敌人绑 player-fighter starter-fighter 再设非法 profile | 正式 assertProjectSaveValid | 首次 apply 即拒「精灵 crate 不在 sprites」；原四测试绿不证明成功输入合法 | 须从真实有效 enemy profile/定义/字节建初态、先证保存门通过再单轴拒绝；故意畸形输入保留为防御测试但不混称合法工程 |
+| R2 | map-asset:39-61 只比宽高/layer id/collision 长度；单点反控改 layers[0].name=CORRUPTED-LAYER-NAME 仍 2/2 绿；tileset:81-129 catalog 预期与输入共享引用、共享路径无 pending blob（缺席与缺席比较） | 单点变异+共享别名分析 | 加载命中、源码 hash 不变、候选仍绿 | 构造前完整 map/def 深快照作 apply/undo/redo 完整预期（含 manifest/索引/旁对象）；共享路径放非空真实字节+独立预期，不与 state.assetCatalog/Blobs 自比较 |
+| R3 | 八行表「无法公开到达」混入 UpdateActor 缺目标、缺 scene/entity、未 apply invert 等公开可调用路径 | 回执核 | 无证明不得宣称不可达 | 改「本批未覆盖/已有证明/真不可达」分列逐条注明；C4 记重叠保护；标题/计数与新鲜 JSON 对齐 |
+
+## Results
+
+- 独立见证复跑：三未注入对照 4/4、4/4、2/2 绿；两正式保存门检查各 1 AssertionError 红；map 错误实现仍 2/2 绿。
+- 给 Cursor 提示词：只闭 R1–R3、产品/旧测试/配置/基线零改、不跑全仓门、不合 main 不标 done（全文在 quote）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；[见证工具](../../../../domains/editor/editor-workflows/tools/command-boundaries-r3-review-witnesses.mjs)；/tmp 与 /var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 2026-09-26 | R1–R3 反证 | counter / 窄返工 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 cursor-command-boundaries-r3 首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor 八组命令残项：独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：R1 非法初态冒充成功输入、R2 图层名污染 2/2 绿+共享别名自比较、R3 不可达声明与公开路径不符；后续 a732f7d2 已闭合（见 integration）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+锚点行号、单点反控与见证复跑数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 已由后续返工闭合；当前状态见 integration 回执与任务卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-COMMAND-BOUNDARIES-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `37985a86b55c0be9f2a75ade873953d71080f70bc05e6656436a0d531706efd0`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `37985a86b55c0be9f2a75ade873953d71080f70bc05e6656436a0d531706efd0`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor 八组命令残项：独立接收
 >

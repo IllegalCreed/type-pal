@@ -1,6 +1,39 @@
 # GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+补齐工具面板导出失败提示：CODE58发现“导出”按钮直接启动异步函数未捕获loadSlot或序列化/下载异常，而Save.loadSlot等待IndexedDbSave.loadSlot、数据库open/request失败会拒绝不兜底null。隔离定向探针经既有ToolsPanelDeps IO边界注入SecurityError（实际setupToolsPanel/系统页/首槽导出按钮/toast均不mock）：一个业务AssertionError（缺少错误toast）另有未处理拒绝。用户2026-10-24答复“批准补齐导出失败提示（推荐）”。
+
+## 范围
+
+白名单tools-panel.ts导出处理与专测；空槽/成功路径与合法V1内容、槽位、数据库版本不变；不重试、不新增兼容路径；FileReader无onerror未证明可达不顺带修改。
+
+## 前提与证据
+
+固定源全文核读。实施：用户批准后实际先红（导出拒绝缺toast一个AssertionError+一个未处理拒绝），随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob/文件名可核；真实Chrome的Save/IDB readonly平台失败显示原因、恢复后再次读取正常、未写任何槽位。原件unhandledErrors派生字段是suite差值不能当诊断计数，实际拒绝以raw全文为准。完整证据见[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。
+
+## 验收
+
+代码修复已接受，整卡review等全部pre94的统一零诊断门与PR；不以本次340例或已有toast视觉代替统一门。
+
+## 状态与交接
+
+review保持原语义；属CODE58发现的必要返工候选，完成定向和证据验收前CODE58保持partial。无下一位Agent提示词。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2836B / SHA-256 10a2399ccb529828363d96e4b66f5d2125b3a464c37fb035381e584c38bfc406；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示
+
+Status: review
 Owner: Codex
 Reviewer: Codex
 Phase: phase1 game
@@ -29,3 +62,5 @@ CODE58当前读取发现：工具面板“导出”按钮直接启动异步函�
 ## 2026-10-24 实施与独立核验
 
 用户批准后实际先红：导出拒绝缺toast一个AssertionError，并有一个未处理拒绝；随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob／文件名可核。真实Chrome的Save/IDB readonly平台失败显示原因，恢复后再次读取正常，未写任何槽位。两次功能图及原件边界、八维／类型纠正和失败记录见[唯一证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。代码修复已接受，整卡review等全部pre94的统一零诊断门与PR；不以本次340例或已有toast视觉代替统一门。
+```
+<!-- incremental-original-source:end -->

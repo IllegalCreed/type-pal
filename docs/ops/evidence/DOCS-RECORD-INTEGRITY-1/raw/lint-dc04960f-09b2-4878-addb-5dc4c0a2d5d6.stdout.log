@@ -1,0 +1,6 @@
+
+> type-pal@ lint /Users/zhangxu/illegal/type-pal-docs-audit-rework
+> node scripts/quality/lint-zero.mjs
+
+ ELIFECYCLE  Command failed with exit code 1.
+ WARN   Local package.json exists, but node_modules missing, did you mean to install?

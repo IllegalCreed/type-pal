@@ -1,55 +1,65 @@
 # OPS-0001 - 建立三贤人系统协作工作流
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops
+Capability: agent workflow
+Coding Owner: Codex
+Generation Owner: Codex
+Reviewer: GLM + Opus + Codex
+Visual Verification Owner: N/A
+Unavailable Agents: none
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是建立三贤人系统协作工作流的历史奠基卡：AGENTS.md 根协议、agent-workflow.md、看板、完整/轻量任务卡模板、Codex 唯一 Generation Owner、额度代班与补审规则、draft→build→review→done 四态。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+形成让 Codex、Claude Opus、GLM 和用户围绕角色分工、轻量看板、任务卡、单 Owner 编码、按需审查、额度代班、资源生成和用户验收协同的仓库内持久协作机制。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：AGENTS.md、agent-workflow.md、board、两套任务卡模板、Generation Owner 与代班规则、上下文锚点强制。
+- 范围外：下一个产品功能、历史计划迁移、自动化看板更新。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+四态流程+全流程只留给不可逆/高风险任务+常规迭代 Coding Owner 自测收口；看板只留进行中/阻塞；无锚点不得 build。该三贤人体系后被 2026-09-25 用户裁决临时退休（固定三签暂停，Codex 分派/贡献者执行/Codex 验收模式），历史快照存 archive/protocols/three-sages-20261015.md。
+- 当前状态：done（历史终态；体系已被后续模式取代）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按当时签字收口（GLM+Opus+Codex reviewer）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+本卡建立的文件仍为现行协作载体；固定三签规则已被 AGENTS 当前临时模式取代，以现行 AGENTS 为准。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+协作体系奠基期（原卡未单列日期，按签字记录时点读取）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：三贤人协作机制建立并收口；其固定签字部分后被现行模式取代。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+AGENTS/工作流/看板/模板文件本体；三席签字。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。协作规则以现行 AGENTS.md 与 agent-workflow.md 为准；本卡固定三签部分已退休（快照在 archive）。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+现行[协作流程](../../../agent-workflow.md)与[三贤人历史快照](../../protocols/three-sages-20261015.md)。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `54565b09e7a96c84ded7e8e5bbac817051371349f20650778361c1ecb6eda221`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `54565b09e7a96c84ded7e8e5bbac817051371349f20650778361c1ecb6eda221`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPS-0001 - 建立三贤人系统协作工作流
 >

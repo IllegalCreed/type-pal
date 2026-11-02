@@ -122,7 +122,7 @@
               "docs/phase2/guides/content-publication.md",
               "docs/phase2/specs/content-schema.md"
             ],
-            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+            "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve \u26a0/❓ and version boundaries.",
             "status": "guarded",
             "evidence": [
               "docs/lore/README.md:1-63",
@@ -203,7 +203,7 @@
                     "docs/phase2/guides/content-publication.md",
                     "docs/phase2/specs/content-schema.md"
                   ],
-                  "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve ⚠/❓ and version boundaries.",
+                  "relationship": "Lore is source-labelled author reference; Phase2 may consume only confirmed claims and must preserve \u26a0/❓ and version boundaries.",
                   "status": "guarded",
                   "evidence": [
                     "docs/lore/README.md:1-63",
@@ -310,7 +310,28 @@
           ],
           "scope": "Original limited-registry statement retained; not whole-docs proof."
         }
-      ]
+      ],
+      "currentAcceptedBoundary": {
+        "task": "DOCS-FULL-TEMPLATE-1/S65",
+        "date": "2026-10-28",
+        "bodyScope": "Current accepted content for473 immutable historical native source documents, with470 new review credits and473 template migrations;3 DOC-IA receipts already reviewed. Specific pilot guards retained;12 source pins and2435 after pins exact.",
+        "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s65-s64非作者接受与473原生文档正式接入2026-10-28",
+        "excluded": "Old R-wave and historical execution remain withdrawn or unverified; DOC-IA entries1/58 remain unverified. No new product/runtime/E2E/visual/coverage/main/done credit.135 controlJSON and9Markdown remain pending.",
+        "priorBoundary": {
+          "task": "DOCS-FULL-TEMPLATE-1/S61",
+          "date": "2026-10-28",
+          "bodyScope": "Prior S57 accepted195+44 retained. Additional15 historical HTML source documents accepted under two unchanged1.0.0 contracts; no host/browser/script execution certified.",
+          "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s61-s59接收与s60十五html统一接入准入2026-10-28",
+          "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant.",
+          "priorBoundary": {
+            "task": "DOCS-FULL-TEMPLATE-1/S57",
+            "date": "2026-10-27",
+            "bodyScope": "S56 independent acceptance retained:195 integrated historical receipts plus27 corrected metadata and17 existing Owner conclusions. Exact44 current document versions promoted only; unchanged source/native/current semantic content reused.",
+            "source": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md#s57-s56非作者accept接收与44项当前版本接入准入2026-10-27",
+            "excluded": "Original R-wave/old execution claims stay withdrawn or unverified. 006 technical/user acceptance remains a separate fixed boundary; no new runtime/E2E/visual/coverage or overall completion/main grant."
+          }
+        }
+      }
     },
     {
       "id": "historical-cooperation-vs-current-ops",
@@ -1382,6 +1403,624 @@
         "未知后继UI、完整prepare安全门、required-self全保存发布与未实现N6b/DFS须另任务事实核验；指南不授权补产品。"
       ],
       "stopLine": "不得以模板/源码窄域/操作说明证明产品完整通过；保留原413行及失败、历史与未知，不将静态正文审查升级执行信用。"
+    },
+    {
+      "id": "record-integrity-withdrawal-20261018",
+      "from": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md"
+      ],
+      "to": [
+        "docs/lore/README.md",
+        "docs/phase1/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase3/README.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "R39–R94 mechanical envelope records cannot establish current semantic/template or non-author completion across any document family. Historical facts and runtime claims retain their source boundaries.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json"
+      ],
+      "unresolved": [
+        "1896 bindings withdrawn;8 fixed affected bodies separately accepted/1888 without reacceptance. S01/incrementaldesign and nonwithdrawn006 are outside;006enrichment adds0 affectedcredit. Current successor central pending; fivequarantines/globalFAIL remain.",
+        "58e899bf纠错包获非作者限定接收；全量语义及统一零诊断门未完成，五项隔离不解除。"
+      ],
+      "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
+    },
+    {
+      "id": "read-first-current-authority-20261018",
+      "from": ["AGENTS.md", "docs/ops/guides/documentation-model.md"],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md"
+      ],
+      "relationship": "Mandatory current L1 phase admission cannot be demoted to an archive-only wrapper. Actual11-rule rewrite distinguishes phase1 knowledge, clean phase2 architecture, full-frame intent comparison, current asset convention and author-versus-source maintenance. Original55-line quote remains immutable.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/phase2/READ-FIRST.md:1",
+        "AGENTS.md:21",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json"
+      ],
+      "unresolved": [
+        "S01 fixed READ-FIRST body/template accepted by non-author after sLayer counter rework; other current entry points are not renewed.",
+        "Whole-docs strict and require-complete remain FAIL; no runtime/E2E/visual/coverage reacceptance."
+      ],
+      "stopLine": "Do not treat original quote preservation or current status alone as completed semantic migration; do not revive retired PAL conversion for canonical author scripts."
+    },
+    {
+      "id": "testing-publication-authority-s02-20261018",
+      "from": ["docs/testing/governance.md", "AGENTS.md", "docs/ops/agent-workflow.md"],
+      "to": [
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/generate-testing-index.mjs",
+        "docs/testing/catalog.json",
+        "docs/testing/legacy-flat.json"
+      ],
+      "relationship": "Publication schema2 requires front matter/meta/evidence equality and source ranges; execution and semantic migration credit remain separate. Expiry covers all statuses except archived/superseded; current nine projections and frozen legacy identity follow actual consumers, not old four-view prose.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/testing/governance.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
+      ],
+      "unresolved": [
+        "S02 fixedfe54 runbook accepted by non-author; no other R83 or referenced whole-document semantic renewal.",
+        "Product/old-test/coverage quality and full1896 semantic rework are not completed by publication-validator probes."
+      ],
+      "stopLine": "No metadata pass, old verified or source-backed claim can fabricate runtime/full semantic acceptance; no append to frozen legacy census to admit a new flat file."
+    },
+    {
+      "id": "e2e-navigation-s03-20261018",
+      "from": ["docs/testing/e2e/README.md", "docs/testing/catalog.json"],
+      "to": [
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "projects/pal/e2e-checkpoints/README.md"
+      ],
+      "relationship": "Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json"
+      ],
+      "unresolved": [
+        "Frozen65 body/binding/transport intake accepted by a non-author; later additions and the full-docs gate remain outside that scoped verdict.",
+        "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
+      ],
+      "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
+    },
+    {
+      "id": "e2e-navigation-s04-20261018",
+      "from": ["docs/testing/e2e/cross-stage/README.md", "docs/testing/catalog.json"],
+      "to": [
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "projects/pal/e2e-checkpoints/README.md"
+      ],
+      "relationship": "Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json"
+      ],
+      "unresolved": [
+        "Frozen65 body/binding/transport intake accepted by a non-author; later additions and the full-docs gate remain outside that scoped verdict.",
+        "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
+      ],
+      "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
+    },
+    {
+      "id": "e2e-route-design-s05-20261018",
+      "from": [
+        "docs/testing/e2e/route-proposal.md",
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/evidence/e2e-route.json"
+      ],
+      "to": [
+        "docs/testing/e2e/contract.md",
+        "projects/pal/e2e-checkpoints/README.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md"
+      ],
+      "relationship": "Seven user route rules and two native checkpoint chains remain proposed; Q1/Q2/editor and verify/visual/capture are distinct axes. Native historical22/min11 and publication/source/IO acceptance cannot prove present execution or current SAVE12 compatibility.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json"
+      ],
+      "unresolved": [
+        "Fixed4ddd actual S05 central intake accepted by non-author; later confirmation/design/body additions and full hard gate remain outside scope.",
+        "No authentic game raw, full route/sibling/preview/capture/coverage acceptance; two cold CLI probes failed before capture guard."
+      ],
+      "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit."
+    },
+    {
+      "id": "native-e2e002-s06-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-002.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "scripts/e2e/inn-contract.mjs"
+      ],
+      "relationship": "Native16/prefix and source/publication/historical versions remain unchanged; source first-hidden/last-hidden predicate is narrower than all-frame nonreappearance, with real counter-driven correction.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "unresolved": [
+        "Fixed67data/fixed88navigation/fixed157originalcounter-versus-rootalias mapping independently accepted. Current successor metadata composition separate.",
+        "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
+      ],
+      "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit.",
+      "independentCentralDataReview": {
+        "sourceRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+        "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04",
+        "additionalBodyCredit": 0
+      },
+      "counterAliasCorrection": {
+        "independentOriginal": {
+          "id": "RECEIPT-DESIGN-NAVIGATION-MISSING",
+          "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04"
+        },
+        "rootHelperAlias": {
+          "id": "RECEIPT-DESIGN-MISSING-INDEX",
+          "reportPayloadSha256": "159e674199306c5940657cd0d3622141798ef78ccf2f86ea2952c1aa637cd8f5"
+        },
+        "sameUnderlyingPath": "docs/phase-governance/reviews/README.md",
+        "originalReportsUnmodified": true,
+        "navigationClosedByFixed88ReportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
+        "newMetadataCounter": "RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH",
+        "mappingCorrectionActualIndependentAcceptancePending": false,
+        "additionalBodyCredit": 0,
+        "mappingCorrectionAcceptedByReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b"
+      }
+    },
+    {
+      "id": "governance-receipt-design-v1-20261018",
+      "from": ["docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md"],
+      "to": ["docs/ops/guides/documentation-model.md", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
+      "relationship": "Datedproposed1.0 body/template and soleS07/v5 actualcentral accepted at157; exactv6/v7 tuple consumers separately accepted, present successor combination pending. No existingcandidate migration or cohort/ignore change.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "unresolved": [
+        "Original missing-date failure and withdrawal retained; exact0d16 body/template now regranted on separate evidence, not retrospective pass.",
+        "Only fixed157 actualpilot accepted; current successor central combination remains pending, no global/main/done.",
+        "Other affected documents, global hard gates and all execution remain separate; five quarantines retained."
+      ],
+      "stopLine": "Do not compress/reclassify existing candidates, adopt an unverified gzip consumer/pilot, self-review the report or claim runtime/global/main/done from design freeze."
+    },
+    {
+      "id": "native-e2e003-s07-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-003.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "scripts/e2e/kitchen-contract.mjs",
+        "scripts/e2e/kitchen-journey.mjs"
+      ],
+      "relationship": "Native16/7refs/5301B prefix unchanged; actual 12 stair movements and interval draw/step/frame,14 dialogue rows,speakers,enablement and handoff partial orders are distinct source obligations. First/last hidden subpredicate does not establish whole-interval nonreappearance.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz"
+      ],
+      "unresolved": [
+        "Fixed157 actual S07/v5 centralpilot independently accepted; later exacttuples and actual successor combination separately reviewed.",
+        "Source-backed/performedfalse/history and old/current versions remain distinct; authentic raw/full frames/preview/runtime not accepted."
+      ],
+      "stopLine": "No automatic other R60/1896 regrant, old-report mutation, native-path migration, denominator shrink, runtime/global/main/done credit.",
+      "actualCentralAcceptance": {
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+        "encoding": "gzip",
+        "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+        "payloadBytes": 49141,
+        "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+        "storedBytes": 13471,
+        "producerTask": "/root/central_intake_guard_review",
+        "authorTask": "/root",
+        "reviewerTask": "/root/central_intake_guard_review",
+        "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+        "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+        "owner": "Codex documentation governance evidence",
+        "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+        "associatedTask": "DOCS-FULL-TEMPLATE-1",
+        "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+        "exitCondition": "Retain original for replay/audit; no automatic deletion."
+      }
+    },
+    {
+      "id": "native-e2e004-s08-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-004.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "scripts/e2e/meal-contract.mjs"
+      ],
+      "relationship": "004原16字段/7短ref与5686B现前缀保持，原115行5679B仅native有序等值、不虚称原字节逆回。verified/10-02出版、d022 source审计、9a488六case与本轮源码三时点分开。实际40=2取菜+13端菜+25送酒；story/items/saves每轨互斥，取消0/错误1/库存绑定/拒绝提示各有业务oracle；静态25行/loseItem272不等运行25次。仅saves正式208中档/末档fresh restore可成为005前驱；003消费者只核自己的core/route/hash/world，不继承额外choreography/Canvas。动态扣酒/隐藏偏序不证全程未再现；Game差异拒指定路径、RF仅记。纯IO和模板/出版通过，真实六case原件/完整帧/preview/当前运行仍未验。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original six game-case/raw/children/save/pixels/audio/Owner-retention validation; [] artifacts remains native.",
+        "Only canonical0041-78/98-125/159-190 read, not whole319 or full003/005/capture/visual/task bodies; no dependent-document renewal.",
+        "Historical browser warnings/comparison failure/receipt-only and21/min10→22/min11→22/min12 remain at separate times.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance."
+    },
+    {
+      "id": "native-e2e005-s09-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-005.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "scripts/e2e/errand-contract.mjs"
+      ],
+      "relationship": "005原16字段/8短ref/6015B现前缀和旧治理、原日期保持；verified出版与source-backed/performedfalse不改。004完整saves admission与离线generic checkpoint多层分开，不能把同轨hash/world串都称完整producer。40/49/40与1/1/2静态行数分域，215后500→550唯一奖励不虚构217前上界；select565到515、arm522到282偏序与到家需不止一次实际commit。news同visit draw>=control且clear>control，不改成draw>clear；背景只证实际移动与最后control、不证五处全程；动态Canvas不强迫整hash相等。seq/globalOrder非atMs，384MiB物理预算和pool128不同；原wrapper失败/后续case复验/警告/版本按时点保留，不把后继结果倒回整轮。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original005raw/save/trace/pixels/producer/retention/full production save or complete canonical249 read; canonical only1-84/120-137/181-189/199-231.",
+        "Shared meal927/1082/895/plugin275 read by B inherited at exact hashes, not fresh root reads; full006business not granted by observer sharedprojection.",
+        "Current version22/min12 separate from9a48821/min10 and d02222/min11; no runtime/visual/preview/coverage renewal.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance."
+    },
+    {
+      "id": "native-e2e006-s10-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-006.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "scripts/e2e/boat-contract.mjs"
+      ],
+      "relationship": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "Original data/extracted events1513/1516/1517 absent in isolated checkout; original95text/speakers/operands or game equivalence not established.",
+        "Actual raw/slot/rider resources and full SAVE12 boat chain/fullframes/visual/preview/coverage not executed or accepted.",
+        "Historicalstate3/offset-facing conflicts remain date-bounded unknown; no false choice of one historicalvalue.",
+        "Other withdrawn bindings/fivequarantines/global hardgates remain open."
+      ],
+      "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done."
+    },
+    {
+      "id": "common-issues-s12-20261018",
+      "from": ["docs/testing/e2e/cross-stage/common-issues.md"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "scripts/e2e/errand-contract.mjs",
+        "scripts/e2e/npc-transition-contract.mjs"
+      ],
+      "relationship": "七类共性问题与24个D/R/T历史ID现在给出具体实例、责任层、业务判据、来源和停止线，24不是闭合bug数。current只为001–005发布轴，006历史/rework不增依赖；六refs只授其窄域，nonspan明确不做screenProjection，17k/60k及draw stub均为源码而非本轮执行。10-10撤回项/局部用户取舍与10-11固定批次按时点保留；八raw、后期原指令及producer保留Owner未知。原metadata/52736B quote保全，direct inverse只经明确末尾1LF处理相等。固定1f25正文和既有1.1模板获非作者限定接收，两旧fragment由752接受的兼容锚恢复；不授当前runtime/E2E/视觉/preview/coverage、目标/邻篇新深审或全量完成。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604.gz"
+      ],
+      "unresolved": [
+        "Historical eight raw/event1513/1516/1517/late entries, producer/retention ownership and current reproduction remain unknown; no fabricated source or run.",
+        "All linked stage report/task bodies and transitive helpers were not newly read in full; no dependent-document renewal.",
+        "S12 fixed body/template acceptance and two target navigation acceptance are separate from exact v8 intake mechanism and final fixed-central non-author review.",
+        "Full1838+incremental governance and five quarantines remain unresolved; no main/done."
+      ],
+      "stopLine": "Do not rewrite native machine/history/status, regrant old execution or adjacent/full/main/done from this one body."
+    },
+    {
+      "id": "expanded-record-integrity-20261018",
+      "from": ["docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"],
+      "to": [
+        "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+        "docs/phase-governance/reviews/20261017-phase2-designs-r24.json",
+        "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
+        "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+        "docs/phase-governance/reviews/20261017-r27-phase1-plans.json",
+        "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+        "docs/phase-governance/reviews/20261017-r29-phase1-status.json",
+        "docs/phase-governance/reviews/20261017-r31-ops-archive-records.json",
+        "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+        "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+        "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+        "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+        "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "relationship": "R23–R36的152条旧模板式声明与原1896条撤回无交集；只撤仍旧绑定151，S01真实后继保留。70原candidateHead缺可靠迁移后锚，68按完整after集合纠正、R92/R93未知；六复制counter撤回、四旧gate组隔离。九设计Git真源与两层复合体分轴，N3明确单行编码，R27已声明289行尾空格编码不冒直接相等；无新业务、执行或相邻文档信用。",
+      "status": "guarded",
+      "evidence": ["docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"],
+      "unresolved": [
+        "New fixed corrective candidate still requires non-author acceptance.",
+        "Unanchored R92/R93 receipts and old execution summaries remain untrusted.",
+        "Full1838 plus actual incremental semantic/template governance remains incomplete."
+      ],
+      "stopLine": "No blanket semantic restore, guessed historical candidate/output, product/test/coverage change, main merge or done."
+    },
+    {
+      "id": "S13-archive-navigation-current-boundaries",
+      "from": [
+        "docs/ops/archive/tasks/README.md",
+        "docs/ops/archive/tasks/done/README.md",
+        "docs/ops/archive/tasks/cancelled/README.md"
+      ],
+      "to": ["docs/ops/tasks/index.md", "docs/ops/board.md", "docs/ops/agent-workflow.md"],
+      "relationship": "Three current navigation pages retain each historical card top-status/date/evidence authority. Classification/done-evidence/cancelled-boundary roles individually accepted; ops navigation is not phase1 task acceptance or any lore/phase2/phase3/testing runtime renewal.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz"
+      ],
+      "unresolved": [
+        "Whole docs and historical task body review remain incomplete; no runtime/E2E/visual/coverage credit."
+      ],
+      "stopLine": "Navigation current does not reopen historical work or grant product/main/done acceptance."
+    },
+    {
+      "id": "S14-historical-task-claims-vs-current-testing",
+      "from": [
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+        "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+        "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+        "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+        "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+        "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+        "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+        "docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md",
+        "docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md",
+        "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md",
+        "docs/ops/board.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "relationship": "S14 twelve archived task cards retain original done/date/counter/source authority. GLM full-document governance plus Codex evidence/risk acceptance governs document semantics only; O472/470/2 and1b/8efe, I06 vs external image IO, OPQ net16 are distinct historical boundaries. Current testing/product/lore/phase1/phase2/phase3 acceptance is not renewed.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz"
+      ],
+      "unresolved": [
+        "Old seven receipt inputs remain unauthenticated; overwritten first manifest not recovered.",
+        "Whole docs governance and current runtime/E2E/visual/coverage remain separate and incomplete."
+      ],
+      "stopLine": "Do not convert historical done/CI/test counts or source-preserving document acceptance into current product, main or whole-goal completion."
+    },
+    {
+      "id": "S15-historical-card-source-and-current-boundaries",
+      "from": [
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+        "docs/ops/archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md",
+        "docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md",
+        "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"
+      ],
+      "to": [
+        "docs/ops/tasks/index.md",
+        "docs/ops/board.md",
+        "docs/testing/governance.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/lore/timeline.md"
+      ],
+      "relationship": "273 historical document bodies individually accepted through GLM full contribution and Codex evidence/risk review, no old signatures/current product/test/lore/phase1/phase2/phase3 credit renewed. Six cancelled statuses are authoritative from actual original/candidate, not erroneous author metadata. TB256116ee and W7E veto are historical; N3 exact existing codec does not complete its full document governance.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz"
+      ],
+      "unresolved": [
+        "N3 full semantic/body rewrite unfinished, remains blocked; single U2420 byte map is known.",
+        "Intermediate author incident raw not recovered or retroactively authenticated; whole docs hard gate remains incomplete."
+      ],
+      "stopLine": "Do not turn original done or byte-preserved static document acceptance into current runtime/E2E/visual/coverage, main or whole-goal completion."
+    },
+    {
+      "id": "S16-history-MD-evidence-rework-boundary",
+      "date": "2026-10-19",
+      "relationship": "ops historical navigation/evidence ↔ phase1 status/plans ↔ phase2 archived designs/plans; historical assertions do not refresh current business truth",
+      "scope": "Fixed76dd exact123 S16 candidate; mechanical/source/quote/six-gate evidence accepted only.99 selective-read documents,8 wrong-family navigations and2 concrete semantic errors remain rework;14 other bodies retained pending actual read-record clarification.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-owner-fixed76dd-evidence-and-counters/a2b2cc1631a6e648e1669443b83aac502f979d5f36b593a11b851d20ff81dd06.gz"
+      ],
+      "unresolved": [
+        "99 remaining full-text semantic read obligations, including N3 history sections.",
+        "8 current directory roles require governance-index rather than old archive/evidence bindings.",
+        "B10 empty-slot vs team units and checklist15/7/8 historical scope require correction.",
+        "Missing original failed raw and stale shard bytes require qualified correction; no retroactive certification."
+      ],
+      "stopLine": "No S16 new content-reviewed binding, current product/runtime/E2E/visual/coverage, main merge/push or whole-goal done from byte preservation/structural success."
+    },
+    {
+      "id": "S16-fixed347-individual-114-body-only-decisions",
+      "date": "2026-10-19",
+      "relationship": "ops historical navigation/evidence ↔ phase1 status/plans ↔ phase2 historical specs/plans; per-body credit and actual central intake remain separate",
+      "scope": "Fixed347 individual114 accepted body/template decisions retained;9 affected bodies/read scopes remain rework. No new native completed binding or actual8routing adoption yet.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-correction-fixed347-owner-114-and-counters/ade0619ba055502fc018f99329a80808cbd15afdccbfac96b0733548f804ca3d.gz"
+      ],
+      "supersedes": [
+        "S16-history-MD-evidence-rework-boundary (fixed76dd assessment only; original retained)"
+      ],
+      "unresolved": [
+        "6 current evidence navigations lack visible child/artifact entry links.",
+        "N3 source9631-11269 prompt-body full read not established; codec already proven.",
+        "Deep-audit81 equation/scope and13-vs14MKF new summary need correction.",
+        "UTF8 byte-index bug and unsupported lost-G2 candidate label need separate correction."
+      ],
+      "stopLine": "No historical test/coverage/runtime/product credit, main merge/push or whole-goal done from114 body-only decisions or in-memory routing projection."
+    },
+    {
+      "id": "S16-historical-document-vs-current-credit",
+      "from": [
+        "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+        "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+        "docs/phase1/status/resource-status.md",
+        "docs/phase2/archive/README.md"
+      ],
+      "to": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "S16 historical task/plan/design evidence retains original dates, numbers and unknown relationships; current navigation does not renew historical signatures or runtime results.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz"
+      ],
+      "unresolved": [
+        "Historical81vs80 category inclusion is not specified by the original table.",
+        "Whole governance and current product/runtime acceptance remain incomplete."
+      ],
+      "stopLine": "No old prompt execution, product/schema compatibility, runtime/E2E/visual or coverage credit from document-only acceptance."
+    },
+    {
+      "id": "S17-testing-history-navigation-vs-current-evidence",
+      "from": [
+        "docs/testing/archive/README.md",
+        "docs/testing/archive/legacy/quality/quality-gates/coverage.md",
+        "docs/testing/archive/legacy/runtime/battle/battle-simulator-r2-design.md"
+      ],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+      ],
+      "relationship": "Historical testing navigation is current only as an entry; previous241 and corrected124 fixed body/template acceptances are distinct from all365 preserved sources and historical executions. Owner18 derivative corrections are self-verified maintenance, not a second nonauthor review.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz"
+      ],
+      "unresolved": [
+        "124 prior report-body counters closed by corrected delivery plus18 explicit Owner repairs; historical execution credit remains ungranted.",
+        "Historical/manual author timestamps and lost/placeholder identities are not current execution authentication."
+      ],
+      "stopLine": "No coverage/E2E/runtime credit or resurrection of old signatures/product scope from document governance."
+    },
+    {
+      "id": "S18-ops-historical-evidence-vs-current-test-credit",
+      "from": [
+        "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md",
+        "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/dedup-ledger.md",
+        "docs/ops/evidence/TEST-COVERAGE85-GLM-REFORGE-1/README.md"
+      ],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/document-quality.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md"
+      ],
+      "relationship": "Historical task evidence and dedup contract registration remain separate from execution acceptance, current catalog publication, coverage targets and nonauthor identity.73 documentary body/template decisions plus6 Owner narrow corrections grant no old runtime credit.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz"
+      ],
+      "unresolved": [
+        "Prior run-meta anchors a pre-final candidate; only fresh Owner fixed-candidate replay authenticates this round.",
+        "Owner metadata mapping and six derivative repairs are self-verified maintenance, not a second nonauthor review."
+      ],
+      "stopLine": "No restored historical deep-review, independence, test/runtime/E2E/visual/coverage credit from document receipt migration."
+    },
+    {
+      "id": "S19-history-preservation-vs-expanded-withdrawal",
+      "from": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-review-20261017.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r43-ops-archive-task-readonly-review-20261017.md"
+      ],
+      "to": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "relationship": "Preserved historical receipts remain original claims. Expanded152 old target-review depth withdrawals and six invalid copied counters coexist with original1896scope; qualified successors retained. S19 fixed039 has40 body counters and61 metadata-core defects, with21 other bodies retained and no central promotion. Fixed actuala13 closes27 expanded-boundary corrections and preserves61 source bytes;48 bodies/core fields retained. Known13 readonly paths still need two-sentence/source-claim and stale-core correction; no new central promotion. Final4e closes the same13 paths; all61 documentary bodies accepted, old execution/depth/independence not restored. Native review routing moves61 entries into two bounded successor ledgers; those two Owner-authored JSON documents remain partial/needs-migration.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-final61-evidence-led-acceptance/609b738c276b75c83a4a7916029afba3c6d000f2eae2c856ff8728f7e5f5e06b.gz"
+      ],
+      "unresolved": [
+        "Two newly generated native review ledgers await machine-document semantic/template review; S19 source-body acceptance does not certify them.",
+        "Historical independent/full-depth/execution claims stay withdrawn or unverified exactly as canonical correction states."
+      ],
+      "stopLine": "No new deep semantics, old execution or independent identity from source-byte preservation; no whole-goal/main/done credit."
+    },
+    {
+      "id": "S20-historical-findings-vs-current-review-authority",
+      "from": [
+        "docs/ops/audits/pre-e2e/battle.md",
+        "docs/testing/domains/runtime/battle/battle-host/history/report.md",
+        "docs/phase-governance/reviews/README.md"
+      ],
+      "to": [
+        "docs/phase-governance/document-registry.json",
+        "docs/ops/document-quality.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md"
+      ],
+      "relationship": "Historical audit/test/design figures remain dated source claims. Current review validity follows unique native registry-selected records and qualified receipts, not old status/depth labels.27 bodies accepted with explicitly self-checked Owner navigation/source declarations; current ledger native document remains partial.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s20-fixed27-evidence-led-with-owner-clarifications/83b5b8d6f4df6e1398f6656fea2616a53d09266c864a4dc0d25b01e5fd09bf76.gz"
+      ],
+      "unresolved": [
+        "Historical execution/authenticity not restored.",
+        "S21 JSON structural intake does not grant semantic/template completion; contract gaps must be designed before build."
+      ],
+      "stopLine": "No history promotion or full-governance/main/done from static body preservation or machine parsing."
+    },
+    {
+      "id": "S29-native-results-vs-document-credit",
+      "date": "2026-10-23",
+      "from": [
+        "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
+        "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
+        "docs/ops/tasks/DOCS-NATIVE-VITEST-269-1.md"
+      ],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/document-quality.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase1/game-mechanics.md"
+      ],
+      "relationship": "Qualified269 historical native Vitest document reviews reuse accepted S26 source-field reading, S29 delta and independently accepted Owner corrections.143counterexample-red/30baseline-green/27restored-green/4final-replay-green/53green-run/8gate-run-green/3green-with-pending/1timing-probe-green remain distinct. Document/source/template acceptance does not authenticate original run/candidate/oracle, restore withdrawnB5/B10, equate suite/file axes, or elevate first/second-phase historical observations into current stage truth. Current governance fields occupy original8review rows;330otherrows/native302/source8pins unchanged.",
+      "status": "guarded",
+      "evidence": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz"],
+      "unresolved": [
+        "Original runtime/counterproof execution and original legal inputs are not rerun or authenticated.",
+        "Cross-family unknown dedupe remains unknown;30source/format exceptions and original3pilot pending states are outside this269credit.",
+        "Publication is Owner-authored and remains subject to independent result review; full strict gate incomplete."
+      ],
+      "stopLine": "No product/runtime/E2E/visual/coverage or unsupported oldR-wave/deep-semantic/non-author credit from document migration."
     }
   ],
   "acceptance": {
@@ -1390,6 +2029,6 @@
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
   },
-  "lastReviewed": "2026-10-16",
+  "lastReviewed": "2026-10-21",
   "acceptanceScope": "Only relationships registered in rows; not an exhaustive census of all docs and not product/runtime or full-governance acceptance."
 }

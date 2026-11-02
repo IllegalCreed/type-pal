@@ -7,6 +7,8 @@ Template: governance-index-v1 / 1.0.0
 
 本页是全量文档治理的证据与回执导航入口。它记录清单、pilot、批次回执、SHA、保护边界和未执行限制；本页不把静态接入升级为 runtime/E2E/视觉/coverage 通过。
 
+> 2026-10-18 当前勘误：[记录可信度返工](../DOCS-RECORD-INTEGRITY-1/README.md)优先于下方历史R39–R96的接受、深审和完成声明；同主体自验不称非作者独立复核，原receipt只作历史证据。
+
 ## 目的
 
 - 为 DOCS-FULL-TEMPLATE-1 的清单、review record、template migration、history 和 cleanup boundary 提供唯一证据索引。
@@ -460,3 +462,7 @@ Template: governance-index-v1 / 1.0.0
 
 - [R83 readonly](independent-r83-testing-current-readonly-review-20261017.json)：4/4 当前 testing README、治理指南与 legacy machine catalog 全文读取。
 - [R83 acceptance](independent-r83-testing-current-candidate-acceptance-20261017.json)：4/4 接收；README/governance 使用 current templates，JSON 保留 native schema 与 retired entries，不授执行信用。
+
+## R38 未使用编号（2026-10-18 补记）
+
+R37 a32a087a0 后为a1ac53bbe工具改动，再到R39 170d97c7f；没有R38文档批次，无迁移/审查/完成信用。

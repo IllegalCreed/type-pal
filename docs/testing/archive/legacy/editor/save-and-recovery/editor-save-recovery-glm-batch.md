@@ -1,40 +1,62 @@
 # 作者保存恢复：GLM 大批测试工作包
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 的 GLM 大批测试工作包附件（batch-r1，2026-09-10；非新任务卡非产品设计；父卡保持 build 继承已签 r2；2026-09-11 续作：21 项已由 Codex 接收修订集成、后续在原分支同步父卡当前接收提交再追加）：43 个核验条目+SR-01～12 总对账，不是 43 个已确认 bug、不要求机械新增 43 条测试。
+
+## Scope
+
+G1-G6 六组：打开权限与身份 8 项（O1-O8：非安全上下文/NotAllowedError/目录身份/HTTP proof 变化/PAL 成功链等）、序列化与实际写入 10 项（W1-W10：stamps 注册/pending 资源/copies 优先级/catalog 前滚/格式坏资源等）、工作区保护矩阵 10 项（P1-P10：旁车读取/marker 矩阵/首存时点/sandbox/PAL proof/一次性授权等）、作者基线与恢复跨会话 8 项（B1-B8）、持久存储与保存入口状态 7 项（S1-S7：IDB request vs transaction/Web Locks 调用序/ensurePermission 等）、一次性总对账（43 项四分类+SR-01~12 逐条）。产品基线固定 aa87c305；白名单仅六个 save-batch-*.test.ts+fixture；测哪个 store 不得 mock 掉那个 store。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 验证纪律十条 | 先冻结树跑旧测试/同口径 editor-fast；每失败 fixture 先证同 kind 正控；拒绝不等于不动（快照/creates-closes/凭据 phase/planHash 分别核）；异步注错放真实 entered/gate；至少 6 组单点负控覆盖至少 4 工作组；不跑 ratchet 不手改 baseline；真实缺陷红用例保留可执行 | GLM（测试贡献者）→Codex 接收清单 | Codex 接收重点抽审 PAL proof/基线推进/真实 IDB abort/每组负控；复跑全部新增+相邻+关键单点变体；真红修产品或裁决前提后统一全仓门 | 整批回执归 persistence/save-and-recovery/editor-save-recovery-glm-batch-report.md |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+工作包计划与分工文档；实际交付与验收以整批回执及父卡为准。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；aa87c305 模块覆盖基线表在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM 大批工作包 | 2026-09-10/11 | 43 条目+SR 对账+纪律十条 | 21 项已接收；整批归 batch-report | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的 GLM 工作包计划；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：GLM 大批测试工作包：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+工作包计划与分工文档；实际交付与验收以整批回执及父卡为准。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六组 43 项表、白名单、验证纪律十条、Codex 接收清单在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。计划时点文档。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-glm-batch-report.md 与父卡。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6f4436556cd551acf2831ea3b48bdedbaa1aff8b1ad8103bd535764242c50446`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6f4436556cd551acf2831ea3b48bdedbaa1aff8b1ad8103bd535764242c50446`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：GLM 大批测试工作包
 >

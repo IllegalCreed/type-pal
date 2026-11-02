@@ -1,65 +1,57 @@
 # 仙术状态表
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段仙术状态表的归档重写。收录边界、分类摘要、分角色/敌方法术与主表在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: 仙术状态表; full source read for template classification.
-- 时间/版本范围：2026-06-07；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：真·法术对象段 object id 296–397（spells.json 全段）共 102 个仙术的逐条状态；该段完整覆盖玩家可学、敌人施放、道具施放（灵符/卵/镖/蛊经 `0x42 SimulateMagic`）三方引用。
+- 时间范围：落盘 2026-06-07；2026-06-16 复核三处机制精确化（0x2E 命中改 `>=` 过巫抗、逃跑抵抗改敌吉运 fleeRate、大世界单体治疗仅活人且无变化不扣 MP），逐仙术状态不变。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- 分类：攻击 67 · 治疗 5 · 复活 2 · 解毒/解状态 3 · 增益 5 · 控制 2 · 中毒 5 · 秒杀 1 · 偷取 1 · 收集 1 · 召唤 9 · 其他 1；类型/元素分布见 quote 摘要。
+- 状态：✅可用 96 · 🗑残留 6（火龙 331、心剑合一 347、斩魔刀 350、御剑伏魔1·362、气吞天下 369、投掷 391——未被任何使用者引用）。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：「状态」列语义=效果机制（伤害公式/状态施加/治疗/召唤等 opcode 级行为）实现度；相关 opcode 已在 [opcode-status](opcode-status.md) 逐条收口并单测，故有引用法术全 ✅。
 
 ## 阻塞与决策
 
-- 阻塞：- （无新增；历史边界保持开放）
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- 收录边界决策（quote 保全）：398–550 敌人对象、551–564 毒对象按 magic-union 解读是垃圾数据不收；大咒蛇 395/腥风血雨 396/群魔乱舞 397 由敌方 `0x67` 直接施放不走 `magic` 字段；梦蛇（item 295 变身）在 item 表。
 
 ## 下一步
-- 下一项可执行工作：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 逐法术视觉/动画/音效真档验收不在本表范围（归 [feature-status](feature-status.md) 战斗画面章与 [cutscene-status](cutscene-status.md)）；当前法术行为以现行代码与测试为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-06-07；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a`。
+- phase1 status 快照；落盘 2026-06-07、复核 2026-06-16；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 仙术状态表：这是 plan-status，当前文档状态为 historical。全文 230 行、19 个标题；摘要/首段为「> 自动审计落盘:2026-06-07(2026-06-16 复核:0x2E 命中改 `>=` 过巫抗、逃跑抵抗改敌吉运 fleeRate、大世界单体治疗仅活人且无变化不扣 MP——均机制精确化,逐仙术状态不变,详见 `game-mechanics.md`)· 数据来源 `data/extracted/data/spells.json`(= OBJECT_MAGIC 命名段 id 296–397)+ `magic.json`(MAGIC stats,经 `magicNumber` 关联)+ 各 `scriptOnSuccess` 反汇编(`/tmp/dump-magic.mjs`)+ `reference/sdlpal/*.c` 逐 opcode 核对,非臆测。」。属于历史/归档材料，不能单独证明当前实现。
+- 102 全段、✅96/🗑6、分类分布与三处机制精确化为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：收录边界；摘要；图例；类型(MAGIC_TYPE · global.h:340-347)；元素(magic.elemental · global.h:373)；状态(kStatus · PAL_CLASSIC global.h:40-56 / battle-opcodes.ts:209)；分类(本表自定,据 `scriptOnSuccess` 行为聚合)；分角色仙术；原始正文、状态词、表格和链接在 quote 保全。
+- 收录边界、图例（MAGIC_TYPE global.h:340-347/元素/状态映射）、分角色与敌方专属法术、主表与待核说明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
+- historical。状态格按冻结时点解释；法术公式类条目按目录 README 规则继续作专题真值。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- pre-E2E 审计、修复任务卡与现行法术测试；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 仙术状态表
 >

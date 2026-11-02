@@ -1,40 +1,62 @@
 # TEST-EDITOR-LOGIC-COVERAGE-1 · Codex接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-LOGIC-COVERAGE-1 的 Codex 三轮接收复合复核（2026-09-18；首轮候选 `d531aa24` counter R1-R4→返工 `a3687b75` 收窄 counter 仅 R1/R2/R4 残项→`8e8ae831` 残项闭合 **accept 并 done 收口**，终审集成候选 `5ca9dad2`，三席同钉：Codex 集成复核、GLM 自验 eacf0a8b、Kimi 终审 f82d60b9，用户授权后统一推进 done 归档）。
+
+## Scope
+
+- 接收主线 5552b2a9（Q1 检查点 17 项已在主线不计入本包）；本轮只核 R1/R2/R4 残项，R3 与已闭环项不重开、r1 设计不重签。
+
+## Execution and assertions
+
+- **最终收口**：残项证据：R1 shared other-actor cue 补 portrait.side、tinyMap 正控与原 AddLayer 用例同一 legalL3()（Codex 从实际文件 AST 抽取受测输入以 checkAuthorDialogueCue/validateAuthorItemCore/validateProjectMap 独立验证——不是另造 fixture 背书；局部命令输入合法≠整份 EditorState 可保存）；R2 invert 前独立 s1Before=deepSnapshot(s1)、invert 后整个 s1 与快照比较（四条独立见证全 detected，closure 移除仍 MISSED 按同源 walker 防御臂分类不伪造强测）；R4 enemy-y 唯一 ID 追加+undo 断言、locale 同值/新键断言、落点/碰撞/物品/敌队/战场已有测试锚点对齐、更正 2302 与 Q1 来源；后续归属不扩大：A3 技能 Update 下一批候选、D4 异步 provider 归 Codex D-02 修复回归、D5 删除→保存→重开归 R4 E2E
+- **集成验证**：隔离树 /private/tmp/type-pal-editor-integration.zWSLHH（主线 5552b2a9+merge 8e8ae831，offline frozen install）；首次完整 check exit1（design-system 术语门拒新增 fixture 头注释「工程」→仅订正注释不动门禁），修正后 check exit0 七包 7,282 项；全仓 Biome 48 warning/11 info exit0 不称全仓零诊断；集成树重跑 10 负控+四见证与来源候选相同；ratchet exit0 新增恰 8 文件/47 项：fast 6,794/617、editor 2,302；210 旧文件 identity/计数与所有分母不变；editor +23 行/+47 臂（五目标 +22/+46、全包另命中 tileset-references 1 行/1 语句/1 臂不混称）；受保护单次 strict 6,794/617 精确等于 ratchet
+- **首轮 counter（d531aa24）**：R1 正控输入非法（actorCue 缺 portrait.side/rows 字符串数组、tinyMap tiles=0 sources=null、私有脚本缺 id:use、Object.create(realProof) 伪造）；R2 深快照未钉住（s1SnapshotSafe 只返回原对象；错误 asset 见证 expressions[to]=wrong-portrait-asset B 组 6/6 绿、输入污染 A/B 组全绿）；R3 负控语义（closure-removed 针实为 rewritten!==expected+99 强拒合法操作非移除 guard、判据 /AssertionError；Error: / 不排 TypeError）；R4 覆盖口径（诊断正则猜配置多 2 漏 1——修为直接消费官方 testSelection；回执 A 组 22 误计实 24；标题声明与断言不符多处）；独立见证工具四针（正常 B 对照+错误 asset+输入污染+closure 移除）；本报告是测试包缺陷非产品缺陷宣布
+- **返工复核（a3687b75）**：已闭环：47/47+相邻 76/76+tsc+11 文件 Biome 0/0、10 负控全 AssertionError 红、三见证 detected、C4 改真实 EditSession→PaintTiles→旧 proof 拒绝→重取证、官方选择口径恢复（PAL=0/mjs 边界=1）、before 2255→after 2302；残项：R1 :96-106 shared cue 仍缺 side、:138-148 原 AddLayer 用例仍 L3 tile=2/source=null（新正控 :70 另一对象不能替原用例背书）；R2 :182-190 只查 fury key 存在（restore-input-mutation 针 MISSED）；R4 回执「已修」与提交树不符（enemy 重复 ID 原样、A4 落点引用错文件实为 commands.test:2163/2191/2228、A5 碰撞 commands.test:2599 已有独立用例）；Q1 版本归属分清：编辑器产品相对 c1cec3ad 零变、全仓并非零 diff
+
+## Results
+
+- 辅助核对两次口径错误如实登记（strict 清理期单包 summary ENOENT；fast-forward 后清单脚本误把 Sprite 上传 WIP 算进提交 diff 10≠9——WIP 另按接收前 SHA-256 核验）不算正式门失败。
+- GLM 是 47 项测试贡献者，自验不作为独立第三方结论；无浏览器/视觉验收项；本卡完成不代表全仓覆盖率或 E2E 达标。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；常驻重建工具 editor-logic-coverage-mutants.mjs 与 review-witnesses.mjs；/tmp 与 /var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 三轮接收 | 2026-09-18 | R1-R4→收窄→闭合 | accept→done（5ca9dad2） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 editor-logic 三轮接收复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-EDITOR-LOGIC-COVERAGE-1 · Codex接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：三轮递进（counter→收窄 counter→accept）；四见证 detected+closure MISSED 防御臂分类；三门 exit0（check 7,282/fast 6,794）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+残项证据、集成验证、首轮 R1-R4 反证、返工残项与口径勘误在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。done 按当时任务范围。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-EDITOR-LOGIC-COVERAGE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ffff87e1c2b6ae248f414585380301315aeb3789784d46512ad6a33839d21c6b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ffff87e1c2b6ae248f414585380301315aeb3789784d46512ad6a33839d21c6b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-EDITOR-LOGIC-COVERAGE-1 · Codex接收复核
 >

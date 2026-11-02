@@ -3,7 +3,7 @@
   "id": "independent-r36-ops-evidence-candidate-acceptance-20261017",
   "reviewDate": "2026-10-17",
   "reviewer": "Codex root independent post-migration audit",
-  "candidateHead": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+  "candidateHead": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
   "verdict": "accept",
   "verdictScope": "candidate documentation reception only; not full-goal done and no product credit",
   "scope": {
@@ -19,7 +19,7 @@
     {
       "id": "R36-CANDIDATE-B01",
       "count": 11,
-      "status": "closed-for-receipt-open-for-product",
+      "status": "withdrawn-invalid-copied-scope",
       "statement": "All 8 phase1 status/plan documents preserve historical boundary and successor/stopLine."
     },
     {
@@ -289,5 +289,68 @@
       "coverage": 0,
       "pass": true
     }
-  ]
+  ],
+  "recordIntegrityCorrection20261018": {
+    "schemaVersion": 1,
+    "kind": "record-only-source-anchor-and-credit-correction",
+    "date": "2026-10-18",
+    "authorTask": "/root/central_successor_independent",
+    "nonAuthorReviewer": false,
+    "currentAcceptanceCredit": "withdrawn",
+    "oldClaimedIndependentAcceptanceCredit": "withdrawn-unverified-same-actor",
+    "oldGateExecutionCredit": "withdrawn-unverified-summary",
+    "newSemanticCreditGranted": false,
+    "newExecutionCreditGranted": false,
+    "newCentralAcceptanceGranted": false,
+    "correctionIndependentlyAccepted": false,
+    "originalCandidateHead": "1cfb47719fd36122d73b3d1ac7642cec192ccc15",
+    "actualCandidateHead": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+    "anchorStatus": "corrected-to-complete-committed-after-tuple",
+    "sourceGit": {
+      "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r36-ops-evidence-candidate-acceptance-20261017.json",
+      "blob": "3aa4c785add58809896be11f1a015c0191aaa305",
+      "sha256": "ecaa6d15eba868870fa2ac566bb4e0f4c2246f67f04125d2a7d958376d15d60f",
+      "originalFirstReceiptCommit": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "originalFirstReceiptBlob": "3aa4c785add58809896be11f1a015c0191aaa305",
+      "originalFirstReceiptSha256": "ecaa6d15eba868870fa2ac566bb4e0f4c2246f67f04125d2a7d958376d15d60f"
+    },
+    "originalVerdict": "accept",
+    "originalCandidateReviewPath": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+    "actualLedger": {
+      "path": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+      "firstIntroductionCommit": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+      "firstIntroductionBlob": "4b149bd45005af686b81dc8d31edc3cb8b3f09ad",
+      "firstIntroductionSha256": "9d15c483279af11186a6b8534830cb973427a571ed2fb74d035d56527fe57a23"
+    },
+    "completeTargetAfterTupleCommit": "cff101a03102f05e0f83fde27e6e580597ec6d7e",
+    "factualBasis": {
+      "reportSha256": "c6a469c22d4dabcc82d02cf86eb8736e2118d4e2da2ce3eb1b3d7dd40a6f1b27",
+      "mapSha256": "b07e674249cc0fc9df8dd445f1a8c842b9cd52db955b83123a17ac265e48e9fd",
+      "sourceHead": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e"
+    },
+    "originalFieldPolicy": "Original verdict/date/documents/staticCommands/numeric claims remain historical values; this correction withdraws current trust and never certifies old execution or deep reading.",
+    "stopLine": "Record correction only; no content/runtime/E2E/visual/coverage/central/global/main/done credit. Root publishes only after review; a different Owner must independently accept the fixed correction.",
+    "copiedCounterCorrection": {
+      "jsonPointer": "/blockingCounters/0",
+      "originalCounter": {
+        "id": "R36-CANDIDATE-B01",
+        "count": 11,
+        "status": "closed-for-receipt-open-for-product",
+        "statement": "All 8 phase1 status/plan documents preserve historical boundary and successor/stopLine."
+      },
+      "actualBatchScope": "11 ops archive evidence documents",
+      "actualTargetCount": 11,
+      "status": "withdrawn-invalid-copied-scope",
+      "replacementPassedCounterCreated": false
+    },
+    "immutableOriginalRaw": {
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-receipt-correction-draft-C-d17/ecaa6d15eba868870fa2ac566bb4e0f4c2246f67f04125d2a7d958376d15d60f.gz",
+      "encoding": "gzip",
+      "payloadSha256": "ecaa6d15eba868870fa2ac566bb4e0f4c2246f67f04125d2a7d958376d15d60f",
+      "payloadBytes": 10145,
+      "storedSha256": "1b54ea24335629e7789b2d5587cdc4cefb2b1c6ad346e77d406429f1587171cf",
+      "storedBytes": 2229
+    }
+  }
 }

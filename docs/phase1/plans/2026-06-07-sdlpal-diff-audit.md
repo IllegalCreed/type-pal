@@ -1,85 +1,57 @@
 # type-pal × sdlpal 差异审查报告
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一轮 sdlpal 逐函数差异审计（差异审查报告）的归档回执。统计、🔴/🟠/🟡 分级清单、误报区与二次复核记录在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：First diff audit: statistics, M/L fixes, rejected false positives.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- type-pal 对 sdlpal 的逐函数对照差异审查（第一轮，2026-06-07 修复落地）；第二轮回顾指认本轮方法盲区为跨函数执行顺序/副作用时机/状态生命周期（见 [第二轮深挖](2026-06-10-sdlpal-deep-audit.md)）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414`；2147 行槽 / 320221 bytes。
-- 标题/章节锚点：1:type-pal × sdlpal 差异审查报告; 6:统计; 19:修复进度(2026-06-07 落地); 30:M级修复审查; 52:L级修复审查(已标 ✅); 106:速查索引; 177:🔴 High（2）; 179:✅ H1 · 🔴 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局)。
+- 统计与速查索引在 quote；GPT 第二模型独立二次复核记录完整保留。
 
 ## 发现
 
-- 正文信号 12:| ❌ 复核否决(误报) | 6 |
-- 正文信号 13:| ❓ 待定 | 0 |
-- 正文信号 25:- **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。
-- 正文信号 28:下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
-- 正文信号 41:| M7 | ✅ 通过 | `fForce/fRepeat` 已变成整队粘滞标志,剩余待选队员自动提交,全员动作填完后清标志。 |
-- 正文信号 54:> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 47 条 Low 修改(全部),按实现消费链 + 回归测试锚点复核。结论:47 条已完整收口,未发现新的遗漏。
-- 正文信号 70:| L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
-- 正文信号 78:| L21 | ✅ 通过 | `attack.ts` 群攻 sweep 续跳条件删 `be.e.health<=0`,只判 `!be \|\| be.defeated`(对齐 fight.c:3698 `wObjectID==0 \|\| idx>wMaxEnemyIndex`)。首 sweep 打死但本 action 内未清槽(`defeated=fals
-- 正文信号 87:| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定"冻结不变"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |
-- 正文信号 103:| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |
-- 正文信号 114:| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |
-- 正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |
+- 🔴 High 2 条（均 ✅ 修复）：H1 新游戏不重置游戏状态（金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局）；H2 大世界用物品选目标时 TS 把阵亡队员标灰跳过，原版可对死人用药（复活类物品因此无法使用）。
+- 🟠 Medium 15 条（M1 姓名牌识别漏 nCurrentDialogLine==0 限制——段中第 2+ 行冒号结尾被误当姓名牌…）与 🟡 Low 全套分级清单、误报区（含 FP6 专核 scene.c）在 quote 保全。
+- 复核纪律：GPT 二次复核确认主体结论，并指出 M9/L17/L27/L40 四条「条目正文与复核论证不一致」已回填（结论与严重度不变）；同模式自查另回填 10 条（M2/L3/L4/L7/L20/L22/L28/L31/L46/L47，均只收窄被原始描述夸大的影响面）。
 
 ## 结论
 
-- type-pal × sdlpal 差异审查报告：这是 audit-report，当前文档状态为 historical。全文 2147 行、81 个标题；摘要/首段为「> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 修复进度：2026-06-07 M 级落地代码审查后 14 条完整收口（除 M5 外）。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；c；o；d；e； ；p；l；u；s； ；n；e；w； ；s；o；u；r；c；e；-；a；n；c；h；o；r；e；d； ；d；i；f；f； ；a；u；d；i；t；.。
+- 修复后由第二轮深挖审计接力（执行路径视角）。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-07；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414`。
+- phase1 plans 第一轮差异审计；时点 2026-06-07；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- type-pal × sdlpal 差异审查报告：这是 audit-report，当前文档状态为 historical。全文 2147 行、81 个标题；摘要/首段为「> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。」。属于历史/归档材料，不能单独证明当前实现。
+- 分级清单、误报区与回填纪律记录为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:type-pal × sdlpal 差异审查报告; 6:统计; 19:修复进度(2026-06-07 落地); 30:M级修复审查; 52:L级修复审查(已标 ✅); 106:速查索引; 177:🔴 High（2）; 179:✅ H1 · 🔴 新游戏不重置游戏状态(金钱/背包/毒/场景/经验/队伍/采集值/菜单光标全沿用上一局)；原始正文、代码、表格、状态词在 quote 保全。
+- 统计表、速查索引与逐条论证在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 12:| ❌ 复核否决(误报) | 6 |
-- 正文信号 13:| ❓ 待定 | 0 |
-- 正文信号 25:- **未修**:无 —— **64 条 confirmed(2 high + 15 medium + 47 low)已 100% 修复**。
-- 正文信号 28:下方速查索引与各 finding 标题前缀:**✅ 已修**、**⏸ 暂缓**、无前缀=未修。
-- 正文信号 41:| M7 | ✅ 通过 | `fForce/fRepeat` 已变成整队粘滞标志,剩余待选队员自动提交,全员动作填完后清标志。 |
-- 正文信号 54:> 审查日期:2026-06-07。范围:速查索引中已标 ✅ 的 47 条 Low 修改(全部),按实现消费链 + 回归测试锚点复核。结论:47 条已完整收口,未发现新的遗漏。
-- 正文信号 70:| L13 | ✅ 通过 | 群攻每个 sweep 后补 `4 * BATTLE_FRAME_TIME` 收势延迟;单体攻击路径未被误加尾延。 |
-- 正文信号 78:| L21 | ✅ 通过 | `attack.ts` 群攻 sweep 续跳条件删 `be.e.health<=0`,只判 `!be \|\| be.defeated`(对齐 fight.c:3698 `wObjectID==0 \|\| idx>wMaxEnemyIndex`)。首 sweep 打死但本 action 内未清槽(`defeated=fals
-- 正文信号 87:| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定"冻结不变"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |
-- 正文信号 103:| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |
-- 正文信号 114:| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |
-- 正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |
+- historical。修复按 06-07 时点解释；当前行为以现行代码为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；o；d；e； ；p；l；u；s； ；n；e；w； ；s；o；u；r；c；e；-；a；n；c；h；o；r；e；d； ；d；i；f；f； ；a；u；d；i；t；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [第二轮深挖审计](2026-06-10-sdlpal-deep-audit.md) 与 [feature-status](../status/feature-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # type-pal × sdlpal 差异审查报告
 >

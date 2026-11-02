@@ -1,6 +1,39 @@
 # QUALITY-PENDING-100-1 — 约百文件代码治理窗口
 
 Status: done
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+按用户2026-10-26指令继续代码治理：约100个实际主体文件完成后再集中跑重型 check、集中覆盖率与提交，不把每个2–4文件子批当独立重门或PR窗口。
+
+## 范围
+
+从机器账本 pending 中选择不重叠模块切片，逐文件八维、必要整改与定向验证；依赖补读、哈希枚举和未核文件不计已完成审查，不为凑100强关。此卡不授权任意产品行为、schema/save、资产管线或公共接口变化。调度规则见[总纲](../audits/code-quality-governance.md)，逐文件状态见[实时账本](../audits/code-quality-file-ledger.md)，第一子批为[工具专测卡](QUALITY-TOOLS-CONTRACT-TESTS-1.md)。
+
+## 前提与证据
+
+八维/测试质量/停止线按[长期规范](../code-quality.md)；治理分支基点123595ac3a651957b36061eacced329369c495e5，初始3462 tracked／597 closed／0 review／2865 pending，不是固定100路径的已审声明。交接序列记录17→21→42→55→69→70→100主体的累计口径：含外部校验78路径备份按stash 29fe53386d0c24ffca52c2b2f65744b301d7ba43恢复与治理分支快进72db4172，MKF重复专测与两PNG重复路径退役均不凑数。
+
+## 验收
+
+2026-10-28本地统一门收口：20536包测试＋732工具测试全部通过、七包typecheck与whole lint error/warning/info为0；唯一official 20,188fast/809src，有限计数调整后原报告ratchet/protected为0。PR30 CI环境合同返工：远端40529517328唯一ENOENT，原盘合同逐字节迁.pal、fast改自足真实writer夹具，当前official 20188/809 ratchet0/protected0；两次不同候选采集因真实CI失败重采，不伪称一次。原件见[统一原件与只读复验](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md)与[CI增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
+
+## 状态与交接
+
+Status done指本地审查/整改/验收与统一门完成；本次提交时远端PR/CI/合并尚待，发布以受保护PR实际结果为准，不是预先完成声明。文件关闭只来自本卡既有逐文件证据（入口见[证据目录](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md)），未扩大到其它pending。无下一位Agent提示词，Codex持续在本分支补齐相关切片。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6054B / SHA-256 743d3012e437256193f6658f23cc132009d476c11f983be455e29f0fde1b1f01；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-PENDING-100-1 — 约百文件代码治理窗口
+
+Status: done
 Owner: Codex
 Reviewer: Codex（单 Agent；不冒称外部审查）
 Phase: ops
@@ -60,3 +93,5 @@ Branch: codex/code-quality-94-102
 Codex build allowed：只修animation-assets.rng两测试的fast/full原盘路由与对应证据/精确source pin。远端40529517328唯一ENOENT；原盘合同逐字节迁.pal，fast使用自足真实writer夹具，配置/规则/机制不改。无data红→绿、五定向、extract413/TC0与一个有效业务反控已完成；新官方采集与远端复验仍待。见[CI增量](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/ci-rng/README.md)。
 
 CI返工本地收口：原盘源码逐字节保留，当前extract413/TC0、无data单绿、原生EOS与单点反控成立；当前official20188/809 ratchet0/protected0。实际七包逐文件覆盖计数等于首候选；共两次不同候选采集，因真实CI失败而重采，不伪称一次。全仓20536/732仅作未变包的原件复用。远端PR30复验与合并当前仍待。
+```
+<!-- incremental-original-source:end -->

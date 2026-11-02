@@ -1,85 +1,57 @@
 # feature-status.md 重审报告(2026-06-01)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 feature-status 重审报告的归档回执。105 行五档裁定分布与唯一真高估结论在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：feature-status three-way audit of TS, sdlpal and tests; correct overclaims and TODO statuses.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 重审 [feature-status.md](../status/feature-status.md) 全表：状态列是否诚实（有无高估/低估/漏项），并把结论并入该表。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d`；84 行槽 / 6245 bytes。
-- 标题/章节锚点：1:feature-status.md 重审报告(2026-06-01); 8:总览; 23:⭐ 唯一真高估(必须改); 25:D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`; 33:低估 6 处(表标低了 —— 正向偏差,顺带修); 45:还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo); 52:简版 22 行 —— 表几乎全已自标 ⚠️,诚实(无需大改); 58:cannot-verify 13 行 —— **不是缺口,是验证受限**。
+- 2026-06-01 对 105 行逐条裁定；工具 I/O 间歇故障导致部分行 cannot-verify（quote 声明）。
 
 ## 发现
 
-- 正文信号 12:| **done-1to1** | 57 | 核对 ts 与 sdlpal 真值一致忠实(待 user 真机核) |
-- 正文信号 13:| **simplified** | 22 | 能跑但近似/简版/缺真值分支(表几乎全已自标 ⚠️) |
-- 正文信号 15:| **not-done** | 8 | stub/缺失(全部 = 音频 3 + 外设 3 + 炼丹蛊 2,**全是明确 todo,无意外**) |
-- 正文信号 25:### D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`
-- 正文信号 28:- **矛盾点**:表 `✅ claimed` 按定义 = "Claude 自认**1:1**",且备注还写"逃跑公式对齐 fight.c" —— 但公式输入恰恰没对齐。这是自知的简化,按表自身规则该归 ⚠️ partial。
-- 正文信号 29:- **修**:状态 `✅ claimed` → `⚠️ partial`;备注补"flee str 用 raw fleeRate 非装备感知 getPlayerFleeRate(M3 简化,装备逃跑加成被忽略)"。
-- 正文信号 37:| **D9** 敌 AI 选 target | ⚠️ partial / 测试 ⬜ | **已 1:1**:enemy-ai.ts 对齐 fight.c:4540-4545(RandomLong(0,wMaxPartyMemberIndex)+while HP==0 重摇);enemy-ai.test.ts **13 用例**。B2 c10 已坐实 sdl
-- 正文信号 38:| **D17** 战斗动画 | 备注嵌"⚠️ Summon 召唤神演出未做" | **召唤神演出已做**(commit 94cc1e0):anim-timeline.ts:782 buildSummonGodSequence(port fight.c:3072-3187)+ magic.ts:317 dispatch + magic-sprite 已提取
-- 正文信号 39:| **B3 / E3** autoScript | 测试 ⬜ todo | event-system.test.ts 有 autoScript 断言,实现 1:1 对 script.c:3482 | 测试列 ⬜ → ✅ partial |
-- 正文信号 40:| **B7** 明雷怪 | 测试 ⬜ todo | event-system.test.ts:1501 有 0x4C 用例;实现 1:1。**另:备注 ts 行号 :4035 过时,真实 :4475-4569** | 测试 ⬜ → ✅ partial;修行号 |
-- 正文信号 41:| **B12** camera 0x7F | ⚠️ partial,备注"平滑移镜 no-op(:2606)" | **平滑 pan 已实现**(event-system.ts:2865 相对 pan + :1866 多帧)。备注引的 :2593/:2606 是 item-script 代码,**行号全错** | 升 ✅ claimed;备注重写(真实现在
-- 正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)
+- 五档分布：done-1to1 57（待 user 真机核）、simplified 22（表几乎全已自标 ⚠️，诚实）、cannot-verify 13（静态对齐多有单测，非缺口是验证受限）、not-done 8（音频 3+外设 3+炼丹蛊 2，全是已知 todo 无意外）、by-design-NA 5。
+- 唯一真高估：D12 战斗逃跑——str 用 raw fleeRate 却标 ✅claimed/1:1，应降 ⚠️partial。
+- 低估 6 处（D9/D17/B12 等已做却标 ⚠️/⬜，备注过时）。
 
 ## 结论
 
-- feature-status.md 重审报告(2026-06-01)：这是 audit-report，当前文档状态为 historical。全文 84 行、9 个标题；摘要/首段为「> 方法:13 组并行 agent 逐行核 **ts 实际实现 + sdlpal 源 + 测试文件三方**,再对"标签不准"的行派独立对抗复核(防误告)。」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 「这张表没说谎」：105 行里只有 1 处真高估，其余全部诚实或正向偏差。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；s；o；u；r；c；e； ；c；h；e；c；k；s；.。
+- 结论已并入 feature-status 表（原索引注明）；D12 降级与 6 处低估随表更新。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d`。
+- phase1 plans 审计快照；时点 2026-06-01；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- feature-status.md 重审报告(2026-06-01)：这是 audit-report，当前文档状态为 historical。全文 84 行、9 个标题；摘要/首段为「> 方法:13 组并行 agent 逐行核 **ts 实际实现 + sdlpal 源 + 测试文件三方**,再对"标签不准"的行派独立对抗复核(防误告)。」。属于历史/归档材料，不能单独证明当前实现。
+- 五档计数 57/22/13/8/5、唯一高估 D12 与「没说谎」结论为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:feature-status.md 重审报告(2026-06-01); 8:总览; 23:⭐ 唯一真高估(必须改); 25:D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`; 33:低估 6 处(表标低了 —— 正向偏差,顺带修); 45:还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo); 52:简版 22 行 —— 表几乎全已自标 ⚠️,诚实(无需大改); 58:cannot-verify 13 行 —— **不是缺口,是验证受限**；原始正文、代码、表格、状态词在 quote 保全。
+- 逐档行清单与给 user 的结论在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 12:| **done-1to1** | 57 | 核对 ts 与 sdlpal 真值一致忠实(待 user 真机核) |
-- 正文信号 13:| **simplified** | 22 | 能跑但近似/简版/缺真值分支(表几乎全已自标 ⚠️) |
-- 正文信号 15:| **not-done** | 8 | stub/缺失(全部 = 音频 3 + 外设 3 + 炼丹蛊 2,**全是明确 todo,无意外**) |
-- 正文信号 25:### D12 战斗逃跑 —— 状态列 `✅ claimed` 应降 `⚠️ partial`
-- 正文信号 28:- **矛盾点**:表 `✅ claimed` 按定义 = "Claude 自认**1:1**",且备注还写"逃跑公式对齐 fight.c" —— 但公式输入恰恰没对齐。这是自知的简化,按表自身规则该归 ⚠️ partial。
-- 正文信号 29:- **修**:状态 `✅ claimed` → `⚠️ partial`;备注补"flee str 用 raw fleeRate 非装备感知 getPlayerFleeRate(M3 简化,装备逃跑加成被忽略)"。
-- 正文信号 37:| **D9** 敌 AI 选 target | ⚠️ partial / 测试 ⬜ | **已 1:1**:enemy-ai.ts 对齐 fight.c:4540-4545(RandomLong(0,wMaxPartyMemberIndex)+while HP==0 重摇);enemy-ai.test.ts **13 用例**。B2 c10 已坐实 sdl
-- 正文信号 38:| **D17** 战斗动画 | 备注嵌"⚠️ Summon 召唤神演出未做" | **召唤神演出已做**(commit 94cc1e0):anim-timeline.ts:782 buildSummonGodSequence(port fight.c:3072-3187)+ magic.ts:317 dispatch + magic-sprite 已提取
-- 正文信号 39:| **B3 / E3** autoScript | 测试 ⬜ todo | event-system.test.ts 有 autoScript 断言,实现 1:1 对 script.c:3482 | 测试列 ⬜ → ✅ partial |
-- 正文信号 40:| **B7** 明雷怪 | 测试 ⬜ todo | event-system.test.ts:1501 有 0x4C 用例;实现 1:1。**另:备注 ts 行号 :4035 过时,真实 :4475-4569** | 测试 ⬜ → ✅ partial;修行号 |
-- 正文信号 41:| **B12** camera 0x7F | ⚠️ partial,备注"平滑移镜 no-op(:2606)" | **平滑 pan 已实现**(event-system.ts:2865 相对 pan + :1866 多帧)。备注引的 :2593/:2606 是 item-script 代码,**行号全错** | 升 ✅ claimed;备注重写(真实现在
-- 正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)
+- historical。裁定按 2026-06-01 表版本解释；当前功能状态以现行 feature-status 与新审计为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；s；o；u；r；c；e； ；c；h；e；c；k；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [feature-status](../status/feature-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # feature-status.md 重审报告(2026-06-01)
 >

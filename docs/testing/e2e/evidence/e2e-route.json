@@ -70,7 +70,7 @@
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "document-audit-v2",
-    "lastReviewed": "2026-10-20",
+    "lastReviewed": "2026-10-15",
     "owner": "Codex（本次文档治理；原发布/执行身份不变）",
     "provenance": [
       "complete original JSON field reading",
@@ -91,12 +91,125 @@
     "originalFieldPolicy": "Every preexisting key/value remains at top level; no renaming, payload move, execution update or date extension.",
     "reviewLimits": [
       "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
-      "2026-10-15原迁移范围（历史保留）：只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。",
-      "2026-10-20已全文核读路线方案与所列现行caller/合同；publicationReviews列明范围与输入SHA。仍未实跑浏览器路线、重建检查点或授予阶段/视觉通过。"
+      "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
     ],
     "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
     "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
-    "nextStep": "Route proposal publication review next due 2026-11-03; actual stage/runtime/visual work remains with its own current task and evidence."
+    "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
+    "publicationReviews": [
+      {
+        "date": "2026-10-19",
+        "owner": "Codex /root",
+        "kind": "scoped-publication-review",
+        "previousReviewBy": "2026-10-18",
+        "nextReviewBy": "2026-10-26",
+        "rationale": "Full current route-design body and paired document-audit evidence reviewed; proposal remains useful as a route-admission design. Seven-day editorial recheck is bounded to continued publication applicability, earlier on source/contract/admission changes. No implementation or execution acceptance.",
+        "actuallyRead": [
+          "route-proposal.md: complete current five-section design and preservation declaration, not a renewed full historical-quote audit",
+          "evidence/e2e-route.json: complete object",
+          "catalog unique e2e-route entry and testing governance publication-expiry rules",
+          "inn-contract.mjs:67-116; character.ts:155-173; reforge save version declaration",
+          "opening-both/inn-both caller and checkpoint/revision excerpts",
+          "e2e/contract.md: current common-contract/input and save-isolation excerpts",
+          "R4/005/006 task current status/prerequisite headers"
+        ],
+        "findings": [
+          "Current content22/minimumSave12 and SAVE12 source constants match the design; historical publication revision remains content22/minimumSave11.",
+          "validatePredecessor checks passed same-engine 001 input, exact checkpoint byte hash and RF SAVE12/content22/pal, but only validates revision syntax; it does not establish actual execution or current HEAD.",
+          "Route plan remains proposed/catalog proposal; R4 build, 005 review and 006 rework do not grant complete route or presentation acceptance.",
+          "Unknown routes, unclassified battles, missing actual-draw or editor-preview evidence remain stop lines; source review does not close them."
+        ],
+        "sourcePins": [
+          {
+            "path": "scripts/e2e/inn-contract.mjs",
+            "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+            "scopeRead": "67-111"
+          },
+          {
+            "path": "packages/content/src/character.ts",
+            "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+            "scopeRead": "168-170"
+          }
+        ],
+        "unchangedExecutionIdentity": {
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          }
+        },
+        "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
+        "semanticMigrationCreditAdded": 0
+      },
+      {
+        "date": "2026-10-27",
+        "owner": "Codex /root",
+        "kind": "scoped-publication-review",
+        "candidate": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+        "previousReviewBy": "2026-10-26",
+        "nextReviewBy": "2026-11-03",
+        "rationale": "Actual current route-design and complete paired evidence review; proposal remains a route-admission plan, not execution status. Existing7day publication policy retained; source/caller/contract changes trigger earlier review.",
+        "actuallyRead": [
+          "route-proposal: complete current five sections and preservation contract; historical quote retained, not reawarded deep review",
+          "paired e2e-route evidence: complete native object and earlier publication review",
+          "catalog e2e-route entry and testing-governance expiry/status/source contracts",
+          "inn-contract.validatePredecessor: exact byte hash/same engine/currentRF12 checks and revision-syntax limitation",
+          "content22/minimumSave12, RF SAVE_VERSION12 constants",
+          "opening-both and inn-both argv/child execution/same-revision/comparison paths",
+          "E2E common contract: admission/profiles/minimum rerun/user visual boundaries; R4/005/006 current status headers"
+        ],
+        "findings": [
+          "Proposal remains proposed/catalog proposal; no full-route completion or product build is granted.",
+          "Both route callers and predecessor restrictions remain accurate; syntactically valid revision alone does not prove execution or currentHEAD.",
+          "Current version22/12 and original publication22/11 remain separate, with original d022 identity and performed=false preserved.",
+          "006 current user visual acceptance does not imply fullQ1/Q2 or current same-revision dual route acceptance.",
+          "Refuse unknown routes/unclassified battle/missing actualdraw or preview; no checker rule changed."
+        ],
+        "sourcePins": [
+          {
+            "path": "scripts/e2e/inn-contract.mjs",
+            "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+            "scopeRead": "67-111"
+          },
+          {
+            "path": "packages/content/src/character.ts",
+            "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+            "scopeRead": "168-170"
+          }
+        ],
+        "unchangedExecutionIdentity": {
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          },
+          "evidenceCandidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "runtimePerformed": false
+        },
+        "notRun": ["route execution", "new E2E chain", "visual", "coverage"],
+        "semanticMigrationCreditAdded": 0
+      }
+    ]
   },
   "publicationReviews": [
     {

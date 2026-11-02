@@ -1,5 +1,42 @@
 # 第二个百文件窗口：冻结审查回执
 
+Status: current
+Last reviewed: 2026-10-30
+Owner: Codex
+Template: governance-index-v1 / 1.0.0
+
+## 目的
+
+本页导航第二个百文件质量窗口的逐文件审查、身份承接与统一门原件。current 仅指本治理入口的导航职责，不新增执行、coverage 或远端发布信用。
+
+## 范围
+
+治理分支 `codex/code-quality-94-102`，成功 fetch 基点 `f47f052fa1e732f7e574e70b268790d301dada3d`、0 ahead / 0 behind，主工作树未写。实际新增主体 **100**：present 2（沿用[完整present证据](../QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md)）、stats 7、RIX 10、controls 17、content surfaces 15、content values 9、author dialogue 5、enemy AI 5、index/locale/diagnostic 6、配置与测试夹具 9、battle sprite 专测 3、TPFS/地图专测 5、cutscene 专测/boot 夹具 7；[逐文件A–H与指纹](review.json)列后 98 个。冻结时机器账本为 3463 tracked / 695 closed / 101 review / 2667 pending（101 review＝100 主体＋1 新增 Canvas 宿主）；统一门通过后 101 条转 closed，现 3463／796 closed／0 review／2667 pending。
+
+## 当前状态
+
+冻结核数勘误：migration-diagnostic.ts 原已关闭，全文补读保留但不计新增，早期 77/101 草稿多计 1、勘误为 100；四退役专测、依赖补读与新增宿主不凑主体。敌AI `any → false` 单点反控：旧文件 9 绿、新文件 8 绿/1 AssertionError（身份 `evalAiCond 组合子 all/any/not`），临时副本已清理、产品源未变；变异失败是预期判别实验，不写成质量门通过。未关闭风险：`battle-sprite.ts` 声明 200000 帧仍通过 guard，FrameDemand(definition,1) 构造集合后 spread Math.max 抛 RangeError，风险卡为 draft、未证明普通工程/UI 可达；两个无生产 caller 的 battle-field/enemy-team leaf collector 及两专测仍 pending；splash 的 rAF/fadeout/skip 注释与死 helper 仍 pending，本窗不把软件像素证据写成整段原版视觉验收。
+
+## 入口与责任
+
+- [父卡](../../tasks/QUALITY-PENDING-100-2.md)：窗口准入与 done 收口；[battle-sprite 需求边界风险卡](../../tasks/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) 保持 draft。
+- [逐文件A–H与指纹](review.json)与[原身份与当前承接](identities.json)：98＋2 主体审查账与 375 条 baseline 身份映射。
+- [native 索引](native-index.json)与无损 [native 包](native.json.gz)：定向/相邻运行原件，不声明整门通过。
+- [统一原件回执](uniform/README.md)：冻结后全仓门、中断边界与发布前提。
+- 仓库根 `node docs/ops/evidence/QUALITY-PENDING-100-2/verify.mjs` 只读复验主体身份/A–H/当前字节与正常运行、故意反控分离；不代替语义审查，不重跑测试或 coverage。
+
+## 证据与下一步
+
+本窗仅测试、注释与零 caller 测试 helper 整理，无产品可执行体、资产格式、存档、公共运行时接口或游戏行为修改。全仓 20503 包测试、typecheck/lint 零诊断，official 20154/809、同报 ratchet/protected 通过且指标不降；早先 TLS 故障已恢复，04:11Z fetch 确认 main 仍 f47、提交前 0 behind，推送、受保护 PR 与 main CI 由 goal 跟踪，本回执不提前声称远端通过。2026-10-28 后的夹具移动、共享构造及获批产品修复由[两百文件抽核](../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)承接，旧 raw 不回填、当前源码复验走该入口。源字节变化、见证矛盾或需要新产品取舍时停线交 Owner。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5078B / SHA-256 969a40f64bbbdbf96ff18b12e8d61bd4c01c853254390723e5c8be1405cf6ad2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# 第二个百文件窗口：冻结审查回执
+
 ## 身份与范围
 
 [父卡](../../tasks/QUALITY-PENDING-100-2.md)，唯一治理分支 `codex/code-quality-94-102`，最近成功 fetch 基点 `f47f052fa1e732f7e574e70b268790d301dada3d`，0 ahead / 0 behind。主工作树未写。70条改动路径的外部恢复包已逐字节校验；这些备份不构成审查信用。
@@ -35,3 +72,5 @@
 ## 2026-10-28 后续核验边界
 
 原件和verify证明原冻结候选。后续夹具移动、共享构造及获批产品修复由[两百文件抽核](../QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md)承接，旧raw不回填；当前源码复验改用该入口。
+```
+<!-- incremental-original-source:end -->

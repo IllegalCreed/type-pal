@@ -1,0 +1,1060 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-S02-single-runbook-semantic-review-and-S01-lossless-intake-verification",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "nonAuthorReviewer": true,
+  "identityAndRelationship": {
+    "S02": "本逻辑任务未编写S02正文、账本、工具或作者probes；只读冻结候选，全部报告/脚本/fixture写入自己的新/tmp。对S02是非作者独立审查，同属Codex平台，不假称不同组织或供应商。",
+    "S01Storage": "我编写了原S01独立报告与45项原产物，因此本轮不是重新独立审自己的旧语义结论；这里独立核root完成的接入/容器变换是否等于原payload，并验证0bac来源和当前完整交付范围。"
+  },
+  "reviewedCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+  "sourceCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+  "originalSourceCommit": "97af63389174bbb35629d98d90c9c4de460a729a",
+  "document": "docs/testing/governance.md",
+  "bodySha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+  "sourceBodySha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+  "originalBodySha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+  "createdAt": "2026-10-17T20:48:18.123509+00:00",
+  "scopedSemanticVerdict": "accept-S02-fixed-governance-body-and-runbook-template-only",
+  "singleDocumentSemanticAcceptance": true,
+  "templateConformanceAccepted": true,
+  "S01StorageVerdict": "accept-six-explicit-lossless-gzip-containers-and45-exact-payload-intake-only",
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "newBlockingCounters": [],
+  "actualReadScope": {
+    "bodies": "原97af的73行、8ef前108行、新fe54的83行全部实际读完；固定blob原字节另存。",
+    "admissionAndLedger": "读DOCS-FULL-TEMPLATE-1的S02 build allowed/白名单/停止线及完整S02 entry；S01接入和0bac存储披露另读。",
+    "primaryPins": [
+      {
+        "path": "docs/testing/governance.md",
+        "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+        "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+        "scopeActuallyRead": "all73 pre-R83 source lines"
+      },
+      {
+        "path": "AGENTS.md",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "scopeActuallyRead": "full45 current lines; zero diagnostics and testing quality boundary"
+      },
+      {
+        "path": "docs/ops/guides/documentation-model.md",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "scopeActuallyRead": "full current model; source ownership, writeback, immutable raw and migration mapping"
+      },
+      {
+        "path": "docs/ops/agent-workflow.md",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+        "scopeActuallyRead": "35-66 current testing quality and independent acceptance only"
+      },
+      {
+        "path": "docs/testing/_templates/README.md",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+        "scopeActuallyRead": "full template routing and publication/execution distinction; not all referenced template variant sources"
+      },
+      {
+        "path": "scripts/docs/check-testing.mjs",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+        "scopeActuallyRead": "1-605 canonical/catalog/sourceRef/claim/index/legacy validators; final CLI tail not claimed as full-file semantic read"
+      },
+      {
+        "path": "scripts/docs/generate-testing-index.mjs",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42",
+        "scopeActuallyRead": "full generator; all nine projections and two-input parse-before-write"
+      },
+      {
+        "path": "scripts/docs/relocate.mjs",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "75e6b03db1d859aac87a8459eb7a0aab703cca77bae360b41a5ab2d365268468",
+        "scopeActuallyRead": "full source; explicit plan/SHA, dry-run default, collision and path checks; not executed on repo"
+      },
+      {
+        "path": "scripts/docs/finalize-testing-migration.mjs",
+        "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "sha256": "1bea1e207856899b3ae7f72208dee6ba6f9bc82711ef8958c9e9e3247656bb38",
+        "scopeActuallyRead": "full source; link reconciliation/retired metadata only; not executed on repo"
+      }
+    ],
+    "consumerScope": "实际读check-testing.mjs:1-616（包括作者列1-605外的CLI尾部）、generate-testing-index.mjs全文、relocate.mjs全文、finalize-testing-migration.mjs全文、测试模板入口全文及协作流程35-66。AGENTS/文档模型已在此前全文读过，本轮核相同固定SHA并回读测试质量、事实权、迁移与immutable raw边界。",
+    "notClaimed": [
+      "未逐项深审18份测试记录的业务合同或全部catalog/report/raw真实性。",
+      "未续期全部模板变体、依赖文档或历史原生JSON。",
+      "未运行或修改产品、旧产品测试、coverage、E2E或视觉。完整check:docs内的128项是文档工具测试，不能计作产品业务验收。",
+      "机械核1896路径状态/历史不等于读完1896篇正文；本篇接受不能恢复其他R83或全量信用。"
+    ]
+  },
+  "sixStepSemanticConclusions": [
+    {
+      "step": 1,
+      "lines": "21-35",
+      "source": "原73行的3-10、17-50；checker134-184、459-479；generator76起",
+      "verdict": "accept",
+      "finding": "稳定ID、返工不换身份、工程域语义路径、阶段用途命名、canonical/index/evidence不用Agent名均保住；历史原路径与owner/provenance身份被保留。目录表按唯一职责组织，报告与工具分开，archive不再充当当前canonical，冻结legacy不因追加登记而扩容。"
+    },
+    {
+      "step": 2,
+      "lines": "37-43",
+      "source": "原12-15；checker187-334",
+      "verdict": "accept",
+      "finding": "完整保留catalog字段和报告/evidence配对，并据真实consumer补上schema2 front matter与testing-meta并存。来源、caller、输入、oracle、排重、revision需与catalog相等；evidence的发布status、候选SHA、版本、history配对。source-backed不得引用未声明来源；runtime-backed还需实际执行形状和真实artifact hash，但字段通过不等于业务验收。历史原生格式的适用范围独立，没有强塞schema2。"
+    },
+    {
+      "step": 3,
+      "lines": "45-51",
+      "source": "原52-58；checker10-20、43-47、414-549；模板入口publication说明",
+      "verdict": "accept",
+      "finding": "发布状态、原执行结果与文档审查状态分开。日期门精确覆盖所有非archived/superseded状态，默认UTC且当日不算过期；archived/superseded仍需合法日期。依赖必须存在、无环且为current/verified。续期必须真实核读；mutable发布字段不能倒改immutable执行原件，sidecar须已有批准合同并验consumer。"
+    },
+    {
+      "step": 4,
+      "lines": "53-57",
+      "source": "协作流程46-54；AGENTS36-41",
+      "verdict": "accept",
+      "finding": "按原子业务合同、真实typed caller、合法输入、oracle、生命周期、隔离和排重判断质量；不以数量/覆盖率/速度/旧测试存在决定accept或删除。反控的指定业务AssertionError、完整执行身份与恢复/精确清理要求保住。文档治理明确不能授权旧测试、产品或官方coverage改动。"
+    },
+    {
+      "step": 5,
+      "lines": "59-63",
+      "source": "原66-73；relocate.mjs全文；finalize-testing-migration.mjs全文；文档模型的迁移/附件规则",
+      "verdict": "accept",
+      "finding": "先核原文/consumer/维护权，再决定唯一目标与保留理由。显式from→to、源SHA、重算引用和consumer验证先于移动；relocate真实默认dry-run并拒绝SHA漂移/路径冲突。finalizer只做机械改链和manifest收退，不写分类账的语义结论；正文要求随后核分类账、保留retired身份/源SHA/计划。归档、删除和raw退役都有引用与替代映射停止线。"
+    },
+    {
+      "step": 6,
+      "lines": "65-70",
+      "source": "原60-73；generator全文；AGENTS和文档模型零诊断/写回规则",
+      "verdict": "accept",
+      "finding": "同提交同步源、配对证据、catalog、任务和引用；九个视图由真实producer生成。实际命令、cwd、输入、时间、退出及全部诊断留存，不把exit0当零诊断；补充staged和固定基点完整范围diff，不能以空workdiff替代交付范围。新临时trace与已承载验收的历史raw分开，非作者结论与作者自验分开。"
+    }
+  ],
+  "sourceCounterexamplesAndAlternatives": [
+    {
+      "id": "S02-FRONT-MATTER",
+      "alternative": "保留合法testing-meta和evidence，就能省掉front matter。",
+      "source": "check-testing.mjs:193-207；v2 frontmatter-required-alongside-meta probe",
+      "judgment": "拒绝该替代解释。实际public consumer同时读两种metadata；仅删front matter会精确产生canonical missing testing front matter，恢复原字节后为零。新正文41正确补齐，不要求不受catalog管理的普通runbook也冒充schema2 canonical。"
+    },
+    {
+      "id": "S02-EXPIRY",
+      "alternative": "proposal/draft/active不在旧三种状态之列，可以不受reviewBy过期门约束。",
+      "source": "check-testing.mjs:414-418、473-476；v1/v2 expiry probe",
+      "judgment": "拒绝。consumer对所有非archived/superseded记录检查过期，日期取ISO UTC。v1把被依赖的contract改成proposal后还触发合法dependency拒绝，说明应修fixture而非放宽规则；v2选择本来就是proposal的叶，只改日期，得到恰一过期诊断并恢复为零。"
+    },
+    {
+      "id": "S02-PUBLICATION-EXECUTION",
+      "alternative": "把catalog改成current/verified或提供存在且hash匹配的日志，就能宣布当次运行通过。",
+      "source": "check-testing.mjs:261-331；测试模板README publication/execution说明；原12-15",
+      "judgment": "拒绝。status投影与实际执行形状、claim来源是不同合同；runtime-backed需要runtime-execution/performed/artifacts，source-backed只可引用已声明来源。即便机器字段/哈希齐备，仍须独立核业务和真实执行，不能补造历史运行。正文15、43、47、51、70表达了这一边界。"
+    },
+    {
+      "id": "S02-NINE-PROJECTIONS",
+      "alternative": "只更新stage/status/tag/owner四页即可代表当前所有生成索引。",
+      "source": "generate-testing-index.mjs:76至renderIndexes返回对象及writeIndexes",
+      "judgment": "拒绝。真实返回九页：by-stage、by-status、by-tag、by-owner、by-domain、by-module、by-phase、by-engine、legacy-by-domain。前八以catalog为源，最后一页以classification为源；两份输入先parse再写。重生成不更新审查日期，不授正文或运行信用。"
+    },
+    {
+      "id": "S02-FROZEN-CENSUS",
+      "alternative": "新增平面文件并追加一条未来migrateBy的manifest记录即可合法接入。",
+      "source": "check-testing.mjs:565-595；v2 frozen-legacy-identity probe",
+      "judgment": "拒绝。active+retired原路径集合必须匹配冻结count/SHA；该probe只追加登记而保留原frozenCensus，真实consumer精确拒绝，恢复后为零。这不声称工具能防止有权限者同时篡改冻结根；新正文禁止未经授权改写身份，保留原Git来源与迁移映射。"
+    },
+    {
+      "id": "S02-NATIVE-JSON",
+      "alternative": "为了统一格式，把历史九字段/集成回执都改为schema2/id/status或移到payload。",
+      "source": "docs/testing/_templates/README.md历史原生变体；文档模型机器证据规则；check-testing.mjs:187-193",
+      "judgment": "拒绝。schema2配对规则针对当前catalog canonical，而已批准历史原生变体有自己的consumer/顶层字段和诊断范围。正文16、43不把所有JSON当同一合同，也不重新认证这些历史变体的全部内容。"
+    },
+    {
+      "id": "S02-RETIREMENT",
+      "alternative": "任务done或旧材料重复，就可以直接搬目录、删除raw，或者把finalizer执行当语义验收。",
+      "source": "relocate.mjs:validateMoves/applyRelocation；finalize-testing-migration.mjs全文；原66-73",
+      "judgment": "拒绝。源SHA漂移、目的冲突和重叠移动在实际工具中拒绝；finalizer只机械改Markdown与legacy manifest。分类账、旧身份、计划、引用和后继均须保留，未知待核不自动删。文档授权不能外推产品/旧测试/coverage。"
+    },
+    {
+      "id": "S01-GZIP-TRANSPORT",
+      "alternative": "给有尾空格的证据换gzip只是隐藏失败，或者说明0bac当时已通过。",
+      "source": "S01 intake storageMigration；0bac原Git blob；45原payload；独立full-base/staged/old-0bac命令",
+      "judgment": "限定区分。0bac真实失败且候选检查点仍被保存，当前迁移不追认其静态门。六个容器的解压字节与原/tmp及0bac Git均相等，payload与stored双pin、from→to/decoder明确，原报告/原counter未改；没有trim、ignore、gitattributes或规则降低。当前完整范围diff为零，因此可接收本次无损附件存储变换，但不能普遍用压缩绕过产品源码或可编辑文档质量检查。"
+    }
+  ],
+  "formatAndAuthority": {
+    "currentGuide": "本页作为发布/迁移runbook承担实际步骤，catalog拥有测试索引发布状态，原receipt拥有某次执行，document-registry拥有文档治理覆盖；不存在新增平行状态源。",
+    "templateSections": {
+      "目的": "稳定身份、真实来源与业务质量边界。",
+      "前置条件": "规范、任务/Owner、类型、caller/input/oracle、来源和日期。",
+      "步骤": "六步真实工作流，具体字段与公开工具相连。",
+      "失败处理": "精确consumer错误、模板/原生格式不适配、raw缺失和维护权冲突的停止线。",
+      "完成定义": "单项配对一致、必要consumer/静态门零诊断与非作者结论；全量另核1838与增量。"
+    },
+    "preservation": "旧73行规范与R83封套以固定Git/SHA可回读；改写没有要求历史raw/机器字段变形，也未靠泛化封套冒充新正文。"
+  },
+  "bindingAndScope": {
+    "oneActiveSuccessor": "20261018-semantic-rework.json；S02在冻结时仍partial-review-unknown/needs-migration。",
+    "R83": "原四条移出这一条到后继，其他三条完整对象相同；supersededBindings与新entry history保留8ef原记录SHA及28fd撤回裁定。",
+    "historicalAffectedCohort": 1896,
+    "affectedPathStatusAtFreeze": "所有1896当前仍partial/needs-migration，包括S02新后继；本篇若后续授信只绑定新SHA，原撤回cohort历史不删除。",
+    "fiveQuarantines": "与8ef逐对象相同，未解除。",
+    "S01": "原正文70a835不变，只按既有288a报告恢复其独立接受；本轮不外推其他R33。",
+    "matrix": "S02关系guarded且有未决/无执行信用说明。",
+    "protectedInputs": "docs/testing相对8ef仅governance.md变化，catalog/原evidence/模板未动；scripts/docs自58e未改，产品、旧测试、coverage与规则未在本轮改动。"
+  },
+  "S01StorageVerification": {
+    "originalReportSha256": "288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303",
+    "exactOriginalPayloadCount": 45,
+    "gzipContainerCount": 6,
+    "payloadVerification": "45个payload均与原报告pin、我原/tmp文件逐字节相等。六份另与0bac原Git blob相等，含尾空格；所有stored/payload双SHA和bytes及from→to吻合。",
+    "counterUnchanged": "原0ec6 counter SHA5f00a7d33902660261ef512ca85279cabf5f14ad5a2db3278924d66499264704保持。",
+    "failurePreserved": "0bac完整范围diff在本轮独立复现exit2，stdout与root留存新复现完全相同（7e223518c4924da207992de8d779fd37ca511661a1d52a3fcd8cb235ef7ccded），涉及恰六个旧文本路径。该回执明确不是第一次staged调用stdout，不补造未捕获的原输出。",
+    "currentTransport": "仅容器和明确路径/decoder映射变化；不追认0bac通过，不授模板/语义新信用，不改变Git空白规则。",
+    "boundary": "该接受只针对immutable附件的无损存储。产品源码/应编辑的治理正文不能借此逃避质量规则；后续搬移仍需显式来源、映射、decoder与consumer复核。"
+  },
+  "publicationIOProbes": {
+    "sourceAndRaw": "作者v1/v2 receipt、脚本SHA、全部stdout/stderr SHA/bytes已核。原脚本按同SHA复制到本轮/tmp，从实际公开validator重放，原脚本不改。",
+    "v1": "独立重放exit1；改contract status产生过期与真实dependency两项拒绝，预期单项的harness断言失败。保留为错误fixture/失败，不能计有效业务反控。",
+    "v2": "独立重放exit0；选已有proposal叶只改过期日期，另在临时真实文件分别去front matter、追加legacy身份；每项均baseline0→指定一个诊断→恢复0。",
+    "scope": "这是文档publication/IO consumer判别力，不是产品业务测试、业务AssertionError反控、历史运行或覆盖率信用。",
+    "cleanup": "probe自身两棵mkdtemp树由finally删除；本轮TMPDIR全部在自己的目录。稍后完整工具套件留下的两个relocate fixture与Node缓存另作精确清理并披露。"
+  },
+  "commandEvidence": {
+    "commands": [
+      {
+        "name": "docs",
+        "argv": ["node", "scripts/docs/check.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:32.139311+00:00",
+        "finishedAt": "2026-10-17T20:43:32.728214+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/docs.stdout.raw",
+            "sha256": "3c78e062fa5b11d6dbaf4a271b30b0af543fc0b0bc06e10d012359dd74382eb9",
+            "bytes": 92
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/docs.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "testing",
+        "argv": ["node", "scripts/docs/check-testing.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:32.728401+00:00",
+        "finishedAt": "2026-10-17T20:43:32.834910+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/testing.stdout.raw",
+            "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+            "bytes": 30
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/testing.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "model",
+        "argv": ["node", "scripts/docs/check-document-model.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:32.835164+00:00",
+        "finishedAt": "2026-10-17T20:43:33.935101+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/model.stdout.raw",
+            "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+            "bytes": 79
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/model.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "phase-lore",
+        "argv": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:33.935367+00:00",
+        "finishedAt": "2026-10-17T20:43:33.982073+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/phase-lore.stdout.raw",
+            "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+            "bytes": 44
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/phase-lore.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "content-integrity",
+        "argv": ["node", "scripts/docs/check-content-review.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:33.982355+00:00",
+        "finishedAt": "2026-10-17T20:43:34.348352+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/content-integrity.stdout.raw",
+            "sha256": "ec060757a40e3768b91c08357cc76a54bf73a57dcb937877b902e39f5ea43b9a",
+            "bytes": 94
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/content-integrity.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "strict",
+        "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:34.348595+00:00",
+        "finishedAt": "2026-10-17T20:43:34.634619+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/strict.stdout.raw",
+            "sha256": "21fa16527f8d865a90d680fa1546aec345030124b52d709338ce3300cb0681bd",
+            "bytes": 94
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/strict.stderr.raw",
+            "sha256": "e6dd60b2e596027dbcc1aeef2914d711aac4623e3a36d5b0aad6f9d49e4f082f",
+            "bytes": 479152
+          }
+        ]
+      },
+      {
+        "name": "require-complete",
+        "argv": [
+          "node",
+          "scripts/docs/report-governance-progress.mjs",
+          "--json",
+          "--require-complete"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:34.635120+00:00",
+        "finishedAt": "2026-10-17T20:43:36.467711+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/require-complete.stdout.raw",
+            "sha256": "d3ab42ca809eef9bae1a72f07d274ca43fcd73a8848aaa548afcc267748de0c5",
+            "bytes": 137638
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/require-complete.stderr.raw",
+            "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+            "bytes": 89
+          }
+        ]
+      },
+      {
+        "name": "lint",
+        "argv": ["pnpm", "lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:36.467984+00:00",
+        "finishedAt": "2026-10-17T20:43:38.941905+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/lint.stdout.raw",
+            "sha256": "d59d859683de9b4fad101f4a35841c899b3438ccce5f415c0289e07edf542dcc",
+            "bytes": 197
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/lint.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "full-base-diff",
+        "argv": ["git", "diff", "--check", "28fd9013e09e8792decbff2fa117aae14c36b196..HEAD"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:38.942280+00:00",
+        "finishedAt": "2026-10-17T20:43:39.187070+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/full-base-diff.stdout.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/full-base-diff.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "staged-diff",
+        "argv": ["git", "diff", "--cached", "--check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:39.187444+00:00",
+        "finishedAt": "2026-10-17T20:43:39.196725+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/staged-diff.stdout.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/staged-diff.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "old-0bac-diff",
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "28fd9013e09e8792decbff2fa117aae14c36b196..0bac72c231cfe52d07359aa26bc2764b4b55df64"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:39.197130+00:00",
+        "finishedAt": "2026-10-17T20:43:39.357513+00:00",
+        "exitCode": 2,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/old-0bac-diff.stdout.raw",
+            "sha256": "7e223518c4924da207992de8d779fd37ca511661a1d52a3fcd8cb235ef7ccded",
+            "bytes": 6883
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/old-0bac-diff.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "probe-v1-replay",
+        "argv": ["node", "/tmp/type-pal-s02-independent-20261018-fe546c7e/author-probe-v1.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:39.357884+00:00",
+        "finishedAt": "2026-10-17T20:43:39.392550+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v1-replay.stdout.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v1-replay.stderr.raw",
+            "sha256": "004be6687ab798a4550e185cb574f0d7c41897e8c49faeb40427afdadcbb8e4e",
+            "bytes": 738
+          }
+        ]
+      },
+      {
+        "name": "probe-v2-replay",
+        "argv": ["node", "/tmp/type-pal-s02-independent-20261018-fe546c7e/author-probe-v2.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:39.392965+00:00",
+        "finishedAt": "2026-10-17T20:43:39.435737+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v2-replay.stdout.raw",
+            "sha256": "41417ee24a971d97c2bcdde9a26f5a5747006c2978e6df427a4ec3b6676fdbb2",
+            "bytes": 1027
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v2-replay.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "check-docs",
+        "argv": ["pnpm", "check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules",
+          "TMPDIR": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-fixtures"
+        },
+        "startedAt": "2026-10-17T20:43:39.436154+00:00",
+        "finishedAt": "2026-10-17T20:44:21.000391+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/check-docs.stdout.raw",
+            "sha256": "f6f30cc9575f93b216c13aca21b1ab41f89d49afed6253149e56b336604f826d",
+            "bytes": 31368
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/check-docs.stderr.raw",
+            "sha256": "e6dd60b2e596027dbcc1aeef2914d711aac4623e3a36d5b0aad6f9d49e4f082f",
+            "bytes": 479152
+          }
+        ]
+      },
+      {
+        "argv": ["python3", "/tmp/type-pal-s02-independent-20261018-fe546c7e/verify-s02-frozen.py"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "startedAt": "2026-10-17T20:46:19.553607+00:00",
+        "finishedAt": "2026-10-17T20:46:19.957054+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical.stdout.raw",
+            "sha256": "f1f725de7a29854e4d22019188afb4b0a1fbe11b402b7fc33435333b62b657c5",
+            "bytes": 165
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      }
+    ],
+    "actualResults": {
+      "docs": "exit0；1297 Markdown/8080 links；零issue",
+      "testing": "exit0；零issue",
+      "model": "exit0；7 routes/1263 body contracts；零issue；结构范围",
+      "phaseLore": "exit0；184 documents",
+      "contentIntegrity": "exit0；2372登记对象，1924 partial/448 reviewed；不是本轮逐篇接受",
+      "strict": "真实exit1",
+      "requireComplete": {
+        "exitCode": 1,
+        "approvedCohort": 1838,
+        "inheritedCohortMigrated": 437,
+        "inheritedIncrementalMigrated": 5,
+        "currentCandidates": 2372,
+        "currentPending": 1930,
+        "integrityIssues": []
+      },
+      "lint": "exit0；4448文件；0 errors/0 warnings/0 infos",
+      "fullBaseDiff": "git diff --check 28fd9013..HEAD真实exit0，空输出",
+      "stagedDiff": "git diff --cached --check真实exit0；与完整范围证据分开",
+      "old0bacDiff": "固定28fd..0bac真实exit2；不改旧结果",
+      "checkDocs": "当前fe54完整实跑exit1；128文档工具pass/0fail/0skip/0todo，随后docs/model/testing/phase通过，strict失败。pnpm还打印本只读checkout缺本地node_modules的warning，原输出保留，不称全门零诊断。"
+    },
+    "authorCapture": {
+      "session": "aaee99c8-86e5-4bdc-8c7a-0d904fdd5273",
+      "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+      "inputSnapshotSha256": "5f95c182f82b667d237969443f254268a85d1e9fb6a37cb4dfa70cc47bfed49e",
+      "exits": {
+        "r65-r66-preservation": 0,
+        "docs": 0,
+        "model": 0,
+        "testing": 0,
+        "phase-lore": 0,
+        "content-integrity": 0,
+        "content-strict": 1,
+        "progress": 1,
+        "check-docs": 1,
+        "lint": 0,
+        "diff": 0
+      },
+      "postCaptureDifferences": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S01-8ef07ca7.json",
+          "capturedSha256": "d4d744c4da64a4fb522a52b7ea055ed1aa759dfbf0a6010fbec65ac02a3c8f53",
+          "currentSha256": "f0d91e0a346fd884ca003e5d6c18390c8dfa4e6453c3502cfe435054263e398d"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+          "capturedSha256": "ddbb58a8f20933cbd7608a8de6ab80eb2842661d68b960b1e0e72f39b625bfe4",
+          "currentSha256": "cf70c45cdcbaf0ed8309dba76920b9b6b1da058bf49dc24e524b95eba1f75290"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
+          "capturedSha256": "776714d903f9c37693a452cfb1f0bdebcd71e8850e2b9db8ab29a383e1e57d68",
+          "currentSha256": "424361d9de670f13266dd10b1cb447925edb104188bedfccb9b0d24c5cb41640"
+        },
+        {
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "capturedSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
+          "currentSha256": "33c61ba062d7a14d59d4502f6175c42db0440325225d1df46173096a0c5d8959"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.json",
+          "capturedSha256": "152c7634fcd8bce01757a5874ac44d0b07cc5d7591abc5642cb558d1843aef8c",
+          "currentSha256": "2d722fc7d4690fd5bd5e007676c8838ed504b05f29505a85ba478db0c37a35cc"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "capturedSha256": "cc1348846fe5fbbac37f275c651e360e22eca5d2347d262a3410d9316aac56e4",
+          "currentSha256": "4b64678e6f87eaee7f113739d56f76f18e571c5122ee5752c24304129e287fd0"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "capturedSha256": "2a08ea42fa57279ecd2ccbdc7164adce8d7ac7ce868c0bcd998b586259b24986",
+          "currentSha256": "d86ed390bdd3f9fde6fde0d0c335d874c66cbf569426fed885077d14f8b1c4a4"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+          "capturedSha256": "0a7196a41b16d8abd2e5c4ef54cda9b341b38403109e8fd886ee17967fc52d81",
+          "currentSha256": "7bca719a2ee167c1634286d7e50154d25bfb541d546355a5476312d338828201"
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "capturedSha256": "356567e207aa13cf77c8ff8e2ac360dfafe0b6e76b975fbef17e28bacf87fdfa",
+          "currentSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9"
+        }
+      ],
+      "interpretation": "Only the immutable captured input is certified by this author capture; current fe54 consumers and hard failure checks were independently rerun."
+    },
+    "captureBoundary": "作者aaee正文pin为旧356567…，不是最终dbd68…，并有九个输入相对当前发生变化。本报告按manifest限制其信用；对最终fe54的当前consumer/完整门/lint/full-base-diff已独立运行。"
+  },
+  "reviewerHarnessDisclosure": {
+    "outerCapture": "run-checks.py在全部14条child命令及原raw写入后，其末尾过宽的TMPDIR全空断言失败。原脚本保持，工具输出观察另存并明确不是原stderr文件；没有把这个失败归为候选counter或重写14条命令退出码。",
+    "actualCauseAndCorrection": "publication probe finally树已删除；后运行的完整文档工具套件在同一个reviewer TMPDIR留下两个relocate fixture和Node compile cache。精确清理前文件清单/SHA及完成记录另存；未改仓库或旧测试。",
+    "receiptIntegrity": "commands.json仍保留原14条命令的实际时间/exit/signal和各stream SHA；机械复核另起新命令回执，不修改旧数字。"
+  },
+  "nextAllowed": [
+    "按原SHA接入本报告与证据，并仅将docs/testing/governance.md@dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9登记为本次非作者正文/模板接受。",
+    "root可据此更新这一个binding，原R83/28fd撤回历史保留；后续候选仍逐篇审，其他R83条目不自动恢复。",
+    "接入本报告的原始0bac stdout等含有尾空格的附件时，保持payload字节；若用gzip，须像S01一样另记显式路径/decoder、payload/stored双pin，不改原报告与执行raw内容。"
+  ],
+  "stopLines": [
+    "全仓硬门未通过，不合main、不整卡done、不称全量语义完成。",
+    "不把2372当前登记对象换成固定1838分母，不把继承437+5当本轮认证。",
+    "不以本runbook/文档授权修改产品、旧测试、官方coverage或不可逆退役；真实产品取舍仍归用户。",
+    "不把probe或匹配日志授为业务测试反控、历史执行、runtime/E2E/视觉/coverage通过。",
+    "新正文SHA、核心consumer合同或source前提变化须重新限定审查；raw、原失败、原counter与历史withdrawal不可覆盖。"
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/S01-intake-verification.json",
+      "sha256": "9887edab853729ad8bd8da77dc93a94e4f4ee2247cac5f9a4c8a8bb2bd5ccbbc",
+      "bytes": 25794,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical-verification-v2.json",
+      "sha256": "fe7dce74a60daae1b9bf8b8801d36d6b3a27addf7ac079b8b6cac828437a5b89",
+      "bytes": 372636,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical-command.json",
+      "sha256": "8832f598033a8a7fddbc2c46e2615953af4879fa68c48ea168788b75ba18b295",
+      "bytes": 818,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical.stdout.raw",
+      "sha256": "f1f725de7a29854e4d22019188afb4b0a1fbe11b402b7fc33435333b62b657c5",
+      "bytes": 165,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/mechanical.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/author-aaee-capture-verification.json",
+      "sha256": "735f83b19833ebcef1e07490a177edc07af16accf3cff3ce38800657f55930be",
+      "bytes": 3054,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/cleanup-and-harness-disclosure.json",
+      "sha256": "a5955367851096a2abc11e187660fdbe9f4cd8c56dc63d9f1038dc57d1999ab3",
+      "bytes": 2064,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/outer-capture-failure-observation.txt",
+      "sha256": "e4e5d9732ad8d8cf234f7ee3b68c30ab3655af12541604dfb913016b142216e9",
+      "bytes": 649,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/commands.json",
+      "sha256": "5a88d29dfa906e31475e69e2364d920da0715ed1bea714805f8529fe261c4264",
+      "bytes": 15614,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/run-checks.py",
+      "sha256": "6467f090d57333dc2cd715d9fbc402ca1be619001061bbaad96934ba07eb0626",
+      "bytes": 2818,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/verify-s02-frozen.py",
+      "sha256": "7e42aec000d949fbe954e794e16a21ded4c36777b8567724e7ffcb5f5c212c32",
+      "bytes": 6579,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/original-governance.md",
+      "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+      "bytes": 5232,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/before-governance.md",
+      "sha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "bytes": 6802,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/candidate-governance.md",
+      "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+      "bytes": 10574,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/author-probe-v1.mjs",
+      "sha256": "e2482b15d9885b8065d98f37b3bc1c0cb244c9fb440b0170efa51009157684dc",
+      "bytes": 3596,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/author-probe-v2.mjs",
+      "sha256": "9d422ac4ad98c80492ae13694360669bd738d7e1cd9580187f172569548792e8",
+      "bytes": 3689,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/transport-reproduction-author.stdout.raw",
+      "sha256": "7e223518c4924da207992de8d779fd37ca511661a1d52a3fcd8cb235ef7ccded",
+      "bytes": 6883,
+      "containsTrailingWhitespace": true
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/transport-reproduction-author.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/check-docs.stderr.raw",
+      "sha256": "e6dd60b2e596027dbcc1aeef2914d711aac4623e3a36d5b0aad6f9d49e4f082f",
+      "bytes": 479152,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/check-docs.stdout.raw",
+      "sha256": "f6f30cc9575f93b216c13aca21b1ab41f89d49afed6253149e56b336604f826d",
+      "bytes": 31368,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/content-integrity.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/content-integrity.stdout.raw",
+      "sha256": "ec060757a40e3768b91c08357cc76a54bf73a57dcb937877b902e39f5ea43b9a",
+      "bytes": 94,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/docs.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/docs.stdout.raw",
+      "sha256": "3c78e062fa5b11d6dbaf4a271b30b0af543fc0b0bc06e10d012359dd74382eb9",
+      "bytes": 92,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/full-base-diff.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/full-base-diff.stdout.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/lint.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/lint.stdout.raw",
+      "sha256": "d59d859683de9b4fad101f4a35841c899b3438ccce5f415c0289e07edf542dcc",
+      "bytes": 197,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/model.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/model.stdout.raw",
+      "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+      "bytes": 79,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/old-0bac-diff.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/old-0bac-diff.stdout.raw",
+      "sha256": "7e223518c4924da207992de8d779fd37ca511661a1d52a3fcd8cb235ef7ccded",
+      "bytes": 6883,
+      "containsTrailingWhitespace": true
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/phase-lore.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/phase-lore.stdout.raw",
+      "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+      "bytes": 44,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v1-replay.stderr.raw",
+      "sha256": "004be6687ab798a4550e185cb574f0d7c41897e8c49faeb40427afdadcbb8e4e",
+      "bytes": 738,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v1-replay.stdout.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v2-replay.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/probe-v2-replay.stdout.raw",
+      "sha256": "41417ee24a971d97c2bcdde9a26f5a5747006c2978e6df427a4ec3b6676fdbb2",
+      "bytes": 1027,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/require-complete.stderr.raw",
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "bytes": 89,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/require-complete.stdout.raw",
+      "sha256": "d3ab42ca809eef9bae1a72f07d274ca43fcd73a8848aaa548afcc267748de0c5",
+      "bytes": 137638,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/staged-diff.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/staged-diff.stdout.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/strict.stderr.raw",
+      "sha256": "e6dd60b2e596027dbcc1aeef2914d711aac4623e3a36d5b0aad6f9d49e4f082f",
+      "bytes": 479152,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/strict.stdout.raw",
+      "sha256": "21fa16527f8d865a90d680fa1546aec345030124b52d709338ce3300cb0681bd",
+      "bytes": 94,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/testing.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/testing.stdout.raw",
+      "sha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+      "bytes": 30,
+      "containsTrailingWhitespace": false
+    },
+    {
+      "path": "/tmp/type-pal-s02-independent-20261018-fe546c7e/collateral-path-verification.json",
+      "sha256": "bf654a66e9c3a163fee4ca88833ebb42464083a2c1678403d81368d5e233fb4c",
+      "bytes": 11310,
+      "containsTrailingWhitespace": false
+    }
+  ]
+}

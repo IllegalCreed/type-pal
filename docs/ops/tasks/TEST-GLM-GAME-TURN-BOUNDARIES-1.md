@@ -5,41 +5,30 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原当前裁决、目标、独占范围、硬约束与交付、GLM r1 交付回执、Codex 独立验收与收口（历史裁决，2026-10-12 撤回）与返工提示词在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 补齐战斗回合队列、行动倍率、毒结算、终局分类和恢复边界的真实业务合同，所有新增测试必须有合法输入、公开 caller、oracle、排重和三态反控证据。
-- 当前状态：`Status: rework`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 补齐战斗回合队列、行动倍率、毒结算、终局分类和恢复边界的真实业务合同；所有新增测试必须有合法输入、公开 caller、oracle、排重和三态反控证据。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：补齐战斗回合队列、行动倍率、毒结算、终局分类和恢复边界的真实业务合同，所有新增测试必须有合法输入、公开 caller、oracle、排重和三态反控证据。
-- 一手证据：docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:1；docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11；docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:44；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：rework。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：packages/game/src/core/battle/turn-queue.ts；packages/game/src/core/battle/battle-finalization.ts；packages/game/src/core/battle/battle-system.ts；docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 范围为战斗回合/毒结算/终局恢复测试合同及其证据缺口；历史15针和撤回accept不重新获得信用，不修改产品/旧测试。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。
-- 下一步：当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- rework（quote 2026-10-12 当前裁决）。r1 交付 15 合同 + 15 针（mutation-results 15/15 VALID）；2026-10-11 的 accept/done（b75d6d792 在 main 祖先链）已撤回：62 份 stdout/stderr 仅路径或空串、31 次原生 JSON 未入库、`:128 items=[]` 与 `:224` 提交 item 矛盾、`:447/:468` 同回合前序可达性待核。
+- 原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。
 
-## 当前有效性
+## 前提与证据
 
-rework。当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `packages/game/src/core/battle/turn-queue.ts`；`battle-finalization.ts`；`battle-system.ts`。
+- `docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md`（排重登记）与 quote 内 2026-10-12 裁决节。
+
+## 验收
+
+- 原始raw/31次原生JSON、合法物品输入与同回合前序可达性缺口须逐项闭合；2026-10-12撤回保持，不以15/15计数重授accept。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 

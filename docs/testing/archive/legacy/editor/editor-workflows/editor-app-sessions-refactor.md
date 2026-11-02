@@ -1,40 +1,62 @@
 # B1 编辑器总壳会话所有权候选
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 B1 编辑器总壳会话所有权候选（Owner Codex；切片基点 `ae989b9b`，实现 `4101926d/93e4a9c4/6181d7eb/52112d86`，同步 `7d64de13` 后合并候选 `f7f46c32`）的分项验证快照：四个会话 owner hook 拆分，App.tsx 5170→4688 行；后续统一门与集成状态见[统一回执](../../ops/testing-records/architecture-continuation-integration.md)。
+
+## Scope
+
+- 对象=App.tsx 会话所有权拆分（useEditorNavigationSession/useSceneWorkspaceSession/useBattleTrialSession/useEditorProjectSession）；所属 ARCH-CONTINUATION-1；机账 editor-app-sessions-refactor-evidence.json。
+
+## Execution and assertions
+
+- **所有权边界**：URL/location/位置记忆/scroll 捕获恢复归 Navigation；场景选择/deep-link 归 Scene；试玩草稿/discard/beforeunload/单 popup 归 BattleTrial；目录绑定/保存编排归 ProjectSession；代码核；四 owner 接收窄输入不接收整个编辑器上下文；ProjectLeaveGuard 仍是唯一 leave admission/lease owner；主/脚本历史各自拥有 dirty/revision/undo/redo；公共包出口、content20/SAVE8、schema、生成资产、玩法、公式和 UI 形态零改
+- **保存/离开合同**：native picker 等待期持 revision lease；export 读取失败也 finally 释放；既有 37 项 conflict/checkpoint 测试只把锚点适配到真 owner；未复制保存算法或 mock guard/history；试玩草稿仅实际 changed 才占 beforeunload；revision 失效不回写旧结果
+- **回归与反控**：新增 18 项（导航 5/场景 7/试玩 3/总壳 3）；定向组合 6 文件/54 项+37 项保存冲突；同步后 Editor 整包 328 文件/2847 项+production build；二十针反控 control 50/50、20 坏实现各由指定候选测试单一 AssertionError 检出（判据 1 正 9 反、产品文件 hash 不变）；App.tsx 仍有 3 条既有无用 Fragment info
+- **隔离功能核验**：6054、VITE_PROJECT_ID=pal 直达 scene/workspace/s135；console error/warning=0；回退准确恢复 s135 URL/选择/三栏；未调用保存/打开/目录选择，未读写正常工程/存档
+
+## Results
+
+- 未证项：未运行全仓 check、官方 ratchet、受保护 strict、full/Q1/Q2 或远端 CI；原生 File System Access picker 真实落盘视觉未执行；720/900 横向裁切、隐藏 outliner separator、boot 首屏失败矩阵、原生 125%/150% zoom 按既有后续矩阵保留。
+- B1 只在候选树四个 owner 齐备，须原接收对话统一门并合 main 后才正式完成。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；[二十针工具](../../../../domains/editor/editor-workflows/tools/editor-app-sessions-mutants.mjs)；临时机账 /var/folders/…/summary.json。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| B1 候选 | 原文时点 | 四 owner 拆分+18 项+二十针 | 候选快照（未合 main） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 B1 会话所有权候选回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- B1 编辑器总壳会话所有权候选：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+四 owner 齐备+App.tsx 5170→4688 行；二十针反控全检出；隔离核验 s135/map-122 干净；统一门留后续。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+行数、hook 职责边界、针清单与未证项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。候选未合 main；当前集成状态见统一回执与现行 App.tsx。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前状态见 architecture-continuation-integration.md 与现行编辑器实现。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `ed7445ff799a452ff67a0187231ce1306783de6ef8301c9a312a1feac9fd8811`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `ed7445ff799a452ff67a0187231ce1306783de6ef8301c9a312a1feac9fd8811`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # B1 编辑器总壳会话所有权候选
 >

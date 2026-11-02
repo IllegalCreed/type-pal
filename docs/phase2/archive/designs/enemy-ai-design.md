@@ -1,84 +1,55 @@
 # 敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 M4c 敌人 AI 设计的归档重写。策略/演出分层定调、schema 与迁移映射在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：M4c 用声明式条件/动作规则列表做敌人策略，纯函数选行动、确定性 RNG、迁移映射；玩家/敌人施法共用结算；战斗内 say、onDefeated 和 difficulty 扩展口。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 方向（2026-07-04 用户定调）：战斗策略与剧情演出分开——策略/演出分层×条件规则列表。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2`；原文 152 行、9063 bytes。
-- 一手来源/正文锚点：docs/phase2/archive/designs/enemy-ai-design.md:1-1；标题锚点：1:敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调), 11:0. 目标 / 非目标, 20:1. Schema(content/enemy.ts), 80:2. 引擎执行语义(battle-core), 91:3. 迁移映射(migrate-enemies M4c 段), 109:4. 施法结算(与玩家共用的管线), 115:5. 战斗内对话条(say 的 UI), 120:6. 战后剧情钩(onDefeated)。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- fallback AI、规则优先级、条件语义和动作覆盖在设计/迁移阶段，不能替代当前 battle runtime oracle。
-- say/onDefeated 与剧情脚本边界需以当前 canonical script/战斗接口复核。
+- 目标/非目标显式分列；施法结算与玩家共用一条管线。
 
 ## 方案
 
-- 原始方案语义：M4c 用声明式条件/动作规则列表做敌人策略，纯函数选行动、确定性 RNG、迁移映射；玩家/敌人施法共用结算；战斗内 say、onDefeated 和 difficulty 扩展口。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- 当前 packages/game/packages/reforge battle AI code
-- docs/phase2/specs/script-system.md
-- 当前 enemy/content data 与 tests
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 五节：Schema（content/enemy.ts）→ 引擎执行语义（battle-core）→ 迁移映射（migrate-enemies M4c 段）→ 施法结算（共用管线）→ 战斗内对话条（say 的 UI）。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- fallback AI、规则优先级、条件语义和动作覆盖在设计/迁移阶段，不能替代当前 battle runtime oracle。
-- say/onDefeated 与剧情脚本边界需以当前 canonical script/战斗接口复核。
-- 停止线：不得以规则表或“fallback”文字宣称敌人 AI 已全量迁移/运行；任何实现先补当前 source/engine 证据。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- 演出与策略耦合是设计要消除的根因（对应一阶段 ready hook 语义教训）。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收以用户定调为准；实现以现行 battle-core/migrate 为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-07-04；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)：这是 design-spec，当前文档状态为 historical。全文 153 行、10 个标题；摘要/首段为「> 方向(用户拍板):**战斗策略与剧情演出分开**——」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 分层×条件规则列表方案为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2`；全文 152 行 / 9063 bytes。
-- 原文标题/章节锚点：1:敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调), 11:0. 目标 / 非目标, 20:1. Schema(content/enemy.ts), 80:2. 引擎执行语义(battle-core), 91:3. 迁移映射(migrate-enemies M4c 段), 109:4. 施法结算(与玩家共用的管线), 115:5. 战斗内对话条(say 的 UI), 120:6. 战后剧情钩(onDefeated)。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 五节设计与非目标清单在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得以规则表或“fallback”文字宣称敌人 AI 已全量迁移/运行；任何实现先补当前 source/engine 证据。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：当前 packages/game/packages/reforge battle AI code, docs/phase2/specs/script-system.md, 当前 enemy/content data 与 tests。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- [battle-model-m4-design](battle-model-m4-design.md) 与现行敌人实现；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `ad1523b980f64ec88bf6a45aa961e82f3d65a388584ff9618d7daaec8d85a2a2`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 敌人 AI 设计(M4c)—— 策略/演出分层 × 条件规则列表(2026-07-04 用户定调)
 >

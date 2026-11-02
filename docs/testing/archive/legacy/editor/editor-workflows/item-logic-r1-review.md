@@ -1,40 +1,62 @@
 # GLM物品六组：705eb161独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 r1 独立接收（2026-09-27，候选 `705eb161…632`）的 Codex 回执：**counter / R1–R4**。不合候选、不改贡献者测试语义、不运行全仓 check/coverage。
+
+## Scope
+
+- 候选 705eb16151796f4baa8a44a5ed9206337e37a632；对象=六新增测试+薄 fixture+专属证据+作者块；白名单外仅 testing/README 一行导航（作者已披露，机械导航例外接收）。
+
+## Execution and assertions
+
+- **R1**：__tests__/glm-item-logic-fixtures.ts:64-93 heroActor 把敌侧字段交 validateActors 后直接采信 ActorDef 返回类型；本席真实 instantiate(heroActor()) 得 hp/maxHP/attack 均 undefined；走 buildWorld 再 assertCurrentSaveStructure 拒「party[0].hp 必须为有限数」；当前 guard 不深查 baseStats 故通过，不能证明字段正确；对象字面量先 ActorDef/satisfies 约束再过 guard；用生产 instantiate/buildWorld 构造基线；移除 preflight:104 as never；guard 深查缺口仅作一手观察不授权改 validateActors
+- **R2**：装备侧入列（talisman 已在背包只有去重）、beadRing beforeOther=undefined 比较、exp 原本 0 changed=true 可无升级、消费后仅看库存（默认 money=0）；四个单点变异：删 equippedUsable.push/丢非目标库存/applyLevelGrowth 零 delta/消费 clone 钱清零——候选各 7/7、8/8、10/10、6/6 仍绿；同输入族独立 oracle 各对照 8/9/11/7 绿、变异恰 1 红；装备独有正控+非空旁对象深快照+固定 rng 完整成长+消费后完整世界保真
+- **R3**：effectiveSkills:128-147 匿名 ['100'] 只对 char 快照（learned 修改后返回仍对、候选 8/8 绿）；worldResourceValue:102-126 抛错无前快照（原错前污染 money 候选仍绿）；独立 oracle 各 9 绿/变异 1 红；同族纯读取入口 items/ActorDef/poisonDefs 统一具名 tuple/object 快照、调用前拍每次后即比；不要求新增业务矩阵；非法拒绝输入用完整错误 message 断言
+- **R4**：item-logic-mutants.mjs:27 多余空行令九文件 Biome exit1（作者回执称 0 不成立）；相邻 item.test 实际 51 项非 96（96=51+45）；第四针实为 resolve-stopped-skip/stoppedTargets；derived-stat-assign 是派生数值错误非输入污染；external-world-identity 只测引用选择；runtime-script.ts:146 是既有 warning/exit0；最终提交与回执不一致；按最终树勘误；清理已撤回的标题/注释声明
+
+## Results
+
+- 独立证据：六组×四跑=24 次（候选原实现全绿、六变异候选仍全绿；六独立 oracle 原实现全绿、变异各恰一业务红）；脚本只用 Vite load 隔离替换、源/test/fixture hash 不变。
+- 给 GLM 窄返工提示词：R1–R4 逐项修、只修已点名合同不堆例、各单点变异须候选自身业务红（全文在 quote）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；[独立见证](../../../../domains/content/editor-workflows/tools/item-logic-review-witnesses.mjs)（复跑命令在 quote）；/tmp 与 /var/folders 日志按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 接收 | 2026-09-27 | R1–R4 反证 | counter | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 item-logic r1 接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：705eb161独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：typed fixture 敌侧字段前提不成立（R1）、四业务合同被空哨兵/弱断言掩蔽（R2）、纯函数漏实参保护（R3）、回执与最终树不一致（R4）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四变异表、锚点行号与 24 次独立跑数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r2–r8/integration 闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6c919cc04a4fb823b5baafc9ea20aeb3427f2513d6e9c9d095233509ce81a39f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `6c919cc04a4fb823b5baafc9ea20aeb3427f2513d6e9c9d095233509ce81a39f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：705eb161独立接收
 >

@@ -1,55 +1,62 @@
 # TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Kimi（受委派测试贡献者）
+Reviewer: Codex（独立验收、统一质量门与集成）
+Phase: phase2
+Capability: editor / coverage
+Visual Verification Timing: dev-functional（隔离浏览器；非剧情 E2E）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Kimi 编辑器十二组（A/B/C 三批每组四组、20 目标源、2401 未命中臂选题底数）历史测试卡（2026-09-28 用户授权+视觉多模态确认）：DataMode/ConnectedEditorPages/SoundTab/MusicTab/ActorMode/App 等真实调用域工作流合同。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+现有行为合同与公开入口上补可证伪业务回归+最小界面取证；未命中臂非可达性证明或承诺增量。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：targets.json 20 个 newTest+专属 fixture+证据目录。
+- 范围外：产品机制/资源格式/用户行为；旧引擎结构当二阶段合同；伪造非法输入触达。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+逐族先核旧断言（旧测试标题不证明其断言覆盖该合同）；推翻条件=无当前调用方/只能伪造非法输入/与既有用户决定冲突，停该族继续其它组。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三批连续交付+Codex 逐批验收收口（回执见 kimi-editor-workflows/**）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡固定三签暂休、作者自验不冒充独立证明。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-28 授权、三批实施与验收（冻结 29e76fe6）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：Kimi 十二组经逐批验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+targets.json 冻结表+工作包 README+批回执。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。编辑器工作流合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗 GLM 双对话/Kimi 三队列并行互斥。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `b3e2ccd65f1cf485a5554bf626c035bead2d22b2530e449e19ff0e192cf1b716`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `b3e2ccd65f1cf485a5554bf626c035bead2d22b2530e449e19ff0e192cf1b716`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-KIMI-EDITOR-WORKFLOWS-1 — 编辑器十二组真实工作流补测
 >

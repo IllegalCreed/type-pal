@@ -1,0 +1,36 @@
+{
+  "executionId": "progress-baac39b4-8b40-4c0f-88b3-f09acf03372c",
+  "binary": "node",
+  "args": [
+    "scripts/docs/report-governance-progress.mjs",
+    "--require-complete"
+  ],
+  "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/",
+  "startedAt": "2026-10-17T19:43:51.994Z",
+  "finishedAt": "2026-10-17T19:43:54.128Z",
+  "exitCode": 1,
+  "signal": null,
+  "spawnError": null,
+  "sourceHead": "b0d5b9c167fa16b6558fc0e3422ae9784af308aa",
+  "inputSnapshot": "raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
+  "inputSnapshotSha256": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
+  "trackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "environment": {
+    "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+  },
+  "files": [
+    {
+      "stream": "stdout",
+      "path": "raw/progress-baac39b4-8b40-4c0f-88b3-f09acf03372c.stdout.log",
+      "sha256": "22be58ade5c3033775827834f07e3b6451fb2ce531551f8b5c08d30b65fae327",
+      "bytes": 155
+    },
+    {
+      "stream": "stderr",
+      "path": "raw/progress-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log",
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "bytes": 89
+    }
+  ],
+  "reviewerRelationship": "author self-check; not independent acceptance"
+}

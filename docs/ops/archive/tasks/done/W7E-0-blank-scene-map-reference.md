@@ -1,55 +1,61 @@
 # W7E-0 - 空白工程新场景地图引用止血
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Reviewer: Opus + GLM
+Phase: phase2
+Capability: W3 / W7 / E1
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 W7E schema 改造前最小止血的历史卡（2026-07-14 三方签字齐）：修空白工程从自有地图场景新建场景被错误写成 { reuseOriginalMap: 0 } 的断链——AddSceneCommand 改收完整 SceneMap 判别联合+防御性复制，App.tsx 不再 reuseMapNum??0 兜底。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+新场景完整保留当前场景地图引用类型与参数，保存/重开/撤销后一致；不引入 map index、不改公开 schema。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：AddSceneCommand(id, map: SceneMap, entry)、App.tsx 传当前 scene.map、apply/invert/save/reload 测试两支（自有/原版复用+room）。
+- 范围外：独立地图库/稳定 map id/选择器/复制删除（全归 W7E）；原版地图 0 兜底、按字段缺失猜类型、提前造第二套 registry。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+错误链：seed.ts:130 空白种子用自有地图、App.tsx:580 reuseMapNum??0 回退、commands.ts:1734 固定生成原版引用；SceneMap 真值 content/index.ts:121。三方 agree+accept：Opus 四项复验（structuredClone 深复制、全 editor 零 ??0 残留、79 项测试、6012 实测新建场景→start.json 显示/亮度 101 非黑→撤销重做一致）；GLM 覆盖复验四支矩阵（类型保留/参数保留/撤销一致/持久化一致无漏环）。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：fb86b23a 实现+1f677d19 复验签；三方 accept+用户授权收口 done allowed。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+本卡完整联合传递可自然迁移至 W7E 的 map-id（不形成永久兼容分支）；W7E 后被取消，其承接关系以该卡为准。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-07-14 三签与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：SceneMap 完整传递止血经三方 accept 与用户授权收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+App.tsx:580/commands.ts:1734 错误锚、seed.ts:130、四支测试矩阵与 6012 实测。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。场景地图引用现行行为以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后继 W7E（已取消，见 cancelled/）与其承接卡 W7F。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `d3ac01bb4480a24d95127843146cece07ad1e9cf4be8402edeb97f8b4f3ad274`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `d3ac01bb4480a24d95127843146cece07ad1e9cf4be8402edeb97f8b4f3ad274`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # W7E-0 - 空白工程新场景地图引用止血
 >

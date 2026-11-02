@@ -1,6 +1,39 @@
 # QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+清理两条native导航诊断：jsdom29.1.1的Location-impl.js reload→navigation.js navigateFetch明确报notImplemented（两vendor源码全文/SHA/行锚见jsdom-primary.json）；目标为链接测试用真实React事件并在测试router接管默认导航、无档测试观察真实reload调用。真实caller：DsMenuBar:207-211先交onNavigate再收菜单、EditorAppHeader:47透传到App:2194-2206普通点击preventDefault、reforge main2232-2242真实listMeta无档后调location.reload。
+
+## 范围
+
+仅两份现存测试源码（navigation.glm-leaf-wave.test.tsx、main.host-lifecycle-1.test.ts）；不改产品、公共接口、主线、其它活跃任务、schema/save/资产管线或规则。
+
+## 前提与证据
+
+固定源全文核读。作者检查点：定向6+8例与相邻34+19例通过；两个native诊断均按独立基线1→0实证（非最近stderr猜归因）；真实reload oracle反控旧8绿/现恰1红/恢复8绿，完整0skip、无timeout/启动失败；键盘事件强转改真实React事件、回收act全局环境、测试身份/计数未改；两包typecheck通过。最强替代解释（其它caller或测试结束后迟到工作）由分别运行基线、替换真实端口后核完整stdout排除。联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
+
+## 验收
+
+本卡只清native边界，AudioContext与相邻故障日志仍在；统一门与其它runtime诊断未清不标done、不合main；0文件关闭、账本3284/229closed/58review/2997pending。
+
+## 状态与交接
+
+review保持原语义；无下一位Agent提示词，由Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4019B / SHA-256 d92be91707b8fc1101c0f2319068296e673ab30c7a11b6f0b090fca464a361ed；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者自验与独立验收分开）
 Phase: phase2
@@ -45,3 +78,5 @@ Codex premise verified / design agree，build allowed，仅上述两文件。
 ## 联合窗口复核
 
 C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。
+```
+<!-- incremental-original-source:end -->

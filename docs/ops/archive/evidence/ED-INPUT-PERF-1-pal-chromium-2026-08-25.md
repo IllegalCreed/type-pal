@@ -1,69 +1,35 @@
 # ED-INPUT-PERF-1 PAL Chromium 性能与功能证据
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 ED-INPUT-PERF-1 PAL Chromium 输入性能与功能证据的回执。测量方法、逐字段原始样本与功能验证在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前性能或 coverage 信用。
 
 ## 证据身份
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- ED-INPUT-PERF-1 输入性能与功能证据，最终统一采样 `2026-08-25T12:56:10.133Z`；本地 Vite production implementation + Google Chrome headless（1440×1000）+ Codex in-app Chromium（1280×720，DPR 2）。
 
 ## 来源与输入
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 工程 `projects/pal`（294 scenes、5077 entities、701 entries、234 items、1934 assets）；每字段 2 次 warmup + 20 次真实 DOM `input -> requestAnimationFrame -> focusout -> requestAnimationFrame -> derived snapshot current`；`PerformanceObserver` 统计 ≥50ms Long Task；覆盖项目显示名、角色当前体力、物品说明、毒名称、共享脚本说明五类字段。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- 判据：input p95 ≤16ms、commit max <50ms、派生诊断 p95 <1s、urgent 区间无 Long Task。
 
 ## 结果
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- 五类字段全部满足（input p95 6.8–8.2ms、commit p95 8.5–15.7ms、worker p95 392.1–432.1ms、Long Task 0/0）；基线角色「当前体力」四次 warm commit 1050–1134ms，分段 trace 已解释约 914ms 来自同步 diagnostics/projection；完整 20 次原始样本逐字段保留在 quote。
 
 ## 限制与复核
 
-- 未执行/未覆盖：- （无新增；历史边界保持开放）
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：2026-08-25；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1。
-
-## 原始结论
-
-- ED-INPUT-PERF-1 PAL Chromium 性能与功能证据：这是 evidence-receipt，当前文档状态为 historical。全文 84 行、10 个标题；摘要/首段为「日期：2026-08-25」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
-
-## 继任文档
-
-- C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- historical。功能验证时点结论：blur 只生成一条可撤销历史、撤销恢复原文；1280 与 1024×576 真实 device metrics 下均无全局横向溢出；reload 后派生状态先「检查中」约 0.4s 转当前、PAL 既有 186 诊断保留未伪装 0 项；浏览器会话最终 reload，未保存样本、临时共享脚本或字段修改未写入工程；临时 CDP harness 已删除不进仓库。当前性能以现行基准为准。目录导航见[历史证据回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `c6c8b7e556a30c358e1b5cbeead7adc30c69738a2ff051b65a52ba59ee9ca3d1`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ED-INPUT-PERF-1 PAL Chromium 性能与功能证据
 >

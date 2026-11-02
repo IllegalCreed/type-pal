@@ -1,6 +1,41 @@
 # QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复GET重试等待期的取消生命周期：旧实现只在底层reject后核init.signal.aborted或错误名AbortError；真实HTTP/原生fetch原件（Node22本机503、独立观测只拦截本任务独有的314159ms退避timer并显式放行）证明——退避中取消时Promise未结局、1底层调用/1条HTTP、1个backoff仍持有；传已取消Request（reason普通Error）时两次放行后3次底层调用才拒绝且HTTP始终0条（'底层调用'不等于发出HTTP）。按既有CODE71合同与WHATWG Fetch（先核Request.signal、abort以原reason拒绝），取消时立即以原reason终结、清退避/监听器、不进下一attempt。
+
+## 范围
+
+仅fetch-retry.ts私有可取消退避+新增cancellation.test+boundaries注释；不改公开签名、GET/状态码/次数/HTTP结果合同、音频状态机、其它包。有效signal=显式init.signal（含null覆盖）或Request.signal；首次调用仍交底层fetch处理Request构造与输入校验。
+
+## 前提与证据
+
+原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[CODE-QUALITY-71-game-fetch-retry-abort-boundary.md](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) [README.md](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md) [real-abort-proof.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)。
+
+## 验收
+
+C1准入（8f5a9af5d）：最终先红原生六例三通过、三个取消合同AssertionError；流程纠正保留（首次写入准入的Python命令编码失败致补丁误执行，已用精确反向补丁撤回并以git diff --exit-code确认逐字节回HEAD）。C1实现结果：旧实现23通过/3失败→26例最终0失败，完整file×fullName与源/临时树SHA；退避abort立即以原reason拒绝、清timer/监听器、正常完成也移除监听器。合并main后质量门：定向4文件26tests零诊断、全仓pnpm check通过（docs 1466 Markdown/8693 local links、game 321/3612、lint 4956全0）；coverage:ratchet与protected fast均失败于既有shared/pal-extract baseline回退（447/466、1068/1535等），未改基线未堆测试。
+
+## 状态与交接
+
+Status保持build：fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done只保留历史。全仓coverage回退与game 17块stderr/editor诊断未清，不合main；全部83卡与94-102/editor原目标继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9689B / SHA-256 7976f2ed5fa85716801a1a368db795c24a37fcf2f6f95e581d2f6f5dc05cdad8；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前源码与真实IO复核，不冒充第三方）
 Phase: phase1 game / network lifecycle
@@ -70,3 +105,5 @@ fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done�
 准入时main为f98d0ddd8；之后已在提交 `89bf84e16` 合并最新main，当前相对main为0 behind。看板未有其它Owner占用fetch-retry实现，Codex单Owner。先仅允许新增`packages/game/src/shell/fetch-retry.cancellation.test.ts`，从公开install/fetch入口验证已有71取消合同；只读三既有测试、main/boot-loading/audio-midi，已全文复核。
 
 补核Fetch Request构造步骤26/29/30：init.signal存在时覆盖Request.signal，显式null表示脱离原signal，不能用空值回退重新绑定已取消Request。六个输入场景分别核已取消Request（自定义Error/默认原因且零重试）、退避中init/Request取消、显式signal/null覆盖与正常恢复释放。Node原生fetch已取消正控不发网络，退避IO用typed fetch替身；timer与真实AbortSignal监听器独立检查。先红可有多项合同失败，不冒充恰一AssertionError的精确反控。
+```
+<!-- incremental-original-source:end -->

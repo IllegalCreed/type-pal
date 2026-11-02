@@ -1,59 +1,55 @@
 # TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)
 
 Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史 ops evidence 接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知、任务状态和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 TEST-GLM-GAME-TURN-BOUNDARIES-1 的证据索引（GLM r1）：交付物 battle-turn-boundaries.glm-turn.test.ts 单文件 15 合同+排重账+身份集+反控 15/15 VALID。
 
 ## 证据身份
-- `id`：原始证据记录或任务证据目录身份（保留于 quote）。
-- `schemaVersion`：若原文提供则保留于 quote。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：source `845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438`；after 见本批 review record。
+
+- 交付物：15 合同（单文件）；dedup-ledger.md（15 新增轴+登记未测项+判例）；identity.json（15/15 passed）；mutation-results.json 15/15 VALID；mutation-logs（15 针×红/恢复+共享原始绿）。
 
 ## 来源与输入
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/README.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+
+- 反控口径：每针源码单点变异（find 恰命中 1 次）→定向全量跑；红相位 exit≠0 且目标合同 failed 且业务 AssertionError；恢复后源 sha 逐字节一致；所有 15 针红相位 failed-total 均恰 1。
 
 ## 断言与业务 oracle
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：对应 task card、同批 evidence 和 successor receipt。
+
+- 十五针（源行/变异/目标）：MUT-01/02 battle-finalization.ts:29/:27 归类串改（C1 lost/C2 forced）；MUT-03/04 battle-system.ts:620/:618 倍率改（C3 flee×0.5/C4 item×3）；MUT-05 :758 dex÷2 删（C5 濒死）；MUT-06 :2507 死敌跳过（C6）；MUT-15 :430 fleeAnim hold 早退（C7 中止队列）；MUT-07 :2109 活员门（C8 fleeAnim）；MUT-08 :2154 敌逃死槽（C9）；MUT-09 :3046 毒回写（C10）；MUT-10 :3128 DM12 门（C11）；MUT-11 :3032 跳毒门（C12）；MUT-12 :2586 合击吞并门（C13）；MUT-13 :2593 围攻粘性门（C14）；MUT-14 :2183 隐身门（C15 turnStart）。
 
 ## 结果
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+
+- 质量门：定向 15/15；相邻 battle 全目录 35 文件 906/906；game 全量/typecheck/lint 0-0-0/docs/diff 见任务卡回执数值。
 
 ## 限制与复核
-- 未执行/未覆盖：本次不执行 runtime、E2E、视觉或 coverage。
-- 不得外推的结论：不得外推当前产品完成、当前 runtime、E2E、视觉或 coverage。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
+
+- memory 补充：r1 已推 b8dc938d0（15 合同/15 针全 VALID 每针恰 1 红）待 Codex 验收；副作用计数 oracle 须核计数主体判例在 ledger。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`；本轮为 2026-10-17 R39。
-- 归档原因：历史 ops evidence 只作为时点回执保留，避免把旧执行记录当作当前事实。
+
+- TEST-GLM-GAME-TURN-BOUNDARIES-1 r1 证据索引（15 合同+15 针）；固定源 revision a1ac53bbea78…（direct 规则）。
 
 ## 原始结论
-- `- 交付物:`packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts`(15 合同,单文件)`；原文完整语义保留于下方 quote。
+
+- C1-C15 十五回合边界合同全绿；每针恰一红。
 
 ## 当时证据
-- 原始标题、章节、任务状态、命令、产物、SHA 和链接保留于 quote。
+
+- 十五针表与质量门指针在 quote 保全。
 
 ## 当前有效性
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 consumer 和 fresh receipt 仍待重新核对。
+
+historical。r1 时点待验收（后续 dispatch 记录其证据未接收待复核）。
 
 ## 继任文档
-- 当前 canonical 文档：对应 task card、当前 evidence consumer 和重新生成的 receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；不删除原始历史证据。
-- 若重新启用的复核条件：以合法输入重跑，核对业务 oracle、artifact SHA 和独立 review。
+
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
-固定源 revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定 source revision `a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb`，source SHA `845aeefbf769a2976ccb480a5339cdca39fc230122b301ff54b25a109d004438`；下方 quote 逆回读规则：剥引用后与固定原源逐字节相等（direct，不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-TURN-BOUNDARIES-1 证据索引(GLM r1)
 >

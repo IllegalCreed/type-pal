@@ -5,41 +5,31 @@ Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原目标、范围、前提真值、owner、状态、证据、counter、返工和交接内容在 quote 中保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决。
+本页把当前 ops task card 接入 `task-card-v1`。原缺陷登记迁入说明、有限范围与未决项在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
 
 ## 目标
 
-- 核实标题读档入口如何承接真实存储 Promise rejection，避免悬空拒绝、误报读档成功，并在重新核定前提后决定是否进入产品 build。
-- 当前状态：`Status: draft`；状态由本卡顶部和任务看板共同解释，本次迁移不推进状态。
+- 核实标题读档入口如何承接真实存储 Promise rejection：真实存储读 Promise 允许拒绝，但标题菜单 `void enterLoad()` 未承接读取 meta/thumb 与缩略图解码异常。目标是失败由菜单生命周期显式承接，不悬空、不误报读档成功。
+- 本卡是 2026-10-01 已登记的 D-Q01-1 迁入当前 main 的现行入口摘要，不是 O/P/Q 收口追加的新任务；O/P/Q 测试卡关闭不关闭这个产品缺陷。
 
 ## 范围
 
-- 当前包含：原卡声明的实现/测试/E2E/视觉/文档范围及其一手锚点。
-- 明确不包含：本次不扩大产品范围、不补造执行证据、不改历史任务状态、不把静态文档迁移当 runtime/E2E/视觉/coverage 验收。
-
-## 前提与证据
-
-- 行为/工程前提：核实标题读档入口如何承接真实存储 Promise rejection，避免悬空拒绝、误报读档成功，并在重新核定前提后决定是否进入产品 build。
-- 一手证据：docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:1；docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:11；docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:21；对应代码、内容、E2E 或测试 consumer 由 quote 与原卡链接保留。
-- 最强替代解释与可证伪观察：若当前 consumer、合法输入或最新源码推翻上述边界，必须回到本卡重新核前提；不能用旧回执数字补齐缺口。
-- 当前状态：draft。本页治理检查口径要求 contentVersion=22 / SAVE12；源卡中较早版本标记只属于其日期范围，未被本次迁移重新认证。
-
-## 验收
-
-- 功能/文档：按原卡验收条件、source:line、caller、合法输入和 business oracle 执行；本次迁移只验 source/after SHA、模板章节、链接和 quote 可逆性。
-- 测试与证据：packages/reforge/src/save/store.ts:116-139；packages/reforge/src/opening-menu.ts:113-121,138；packages/reforge/src/main.ts:460-518；历史回执、数量、覆盖率和旧 accept 不能单独证明当前通过。
-- 视觉或 E2E（如适用）：遵守原卡的 deferred/functional 约束；未在本批重新执行的 runtime、E2E、视觉、coverage 信用均为 0。
+- 只记录标题读档真实IO拒绝的产品缺陷与设计前提；不借测试卡关闭或文档治理授权修改菜单、存档格式或错误交互。
 
 ## 状态与交接
 
-- 当前 Owner：按原卡 Owner/贡献者与当前看板；文档治理 Owner 为 Codex。
-- 阻塞/决策：当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。
-- 下一步：当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。 由当前 task card、fresh evidence 和独立验收闭合后再推进状态。
+- draft，无产品 build 准入。原独立诊断以合法 typed 存档、m01 meta、有效 PNG 经真实 MemorySaveStore 写读，仅让 getThumb 外部 IO 拒绝，结果 1 断言绿 + 1 未处理拒绝 exit1（当时 content20/SAVE8）；本次迁移未重新运行该产品诊断或实现修复，Kimi 7faa9e7b 短审在当前 21/10 为静读证据。
+- 错误通知/画屏/重试与迟到 ImageBitmap 释放方案仍待独立设计与必要用户取舍；未授权修改 opening-menu/store、save schema、公共接口或真实存档/PAL 数据。
 
-## 当前有效性
+## 前提与证据
 
-draft。当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。
-- 文档治理只证明结构、来源和状态边界；不授产品实现、runtime、E2E、视觉或 coverage 信用。
+- `packages/reforge/src/save/store.ts:116-139`（IndexedDB 错误分支）；`packages/reforge/src/opening-menu.ts:113-121,138`；`packages/reforge/src/main.ts:460-518`。
+- 原完整卡、真值矩阵、诊断与交接固定于 `9ae1116e…`（quote 内链接保留）；最强替代解释（非法旧档/坏 PNG）已被原合法输入排除。
+
+## 验收
+
+- 合法typed档、meta与有效PNG背景下的getThumb拒绝必须被生命周期承接；原1断言通过加1未处理拒绝是失败诊断，不是修复通过。
+- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
 
 ## 原文保全
 

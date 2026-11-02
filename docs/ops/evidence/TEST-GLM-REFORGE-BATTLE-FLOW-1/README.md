@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-BATTLE-FLOW-1 的证据索引（GLM r1）：交付物仅新增测试与证据（产品零 diff）——battle-finalization.world-result.test.ts（BF-01..07）、battle-host.finalization.test.ts（BF-08..10）、battle-session.flow-residual.test.ts（BF-11..12）。卡面 battle-finalization.ts 不存在，终局真源=battle-world-result.ts。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-BATTLE-FLOW-1 证据索引（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 59c30452f6a2ed34b35762d07b7d7557250e5525d394e0930686eb9b8a23bf2f。
+- 配套：dedup-ledger.md（卡面九文件家族对账+12 合同+不设针登记+U-1 零活敌 target 输入死区产品发现+判例）；identity.json（定向 3 文件 12 测试全绿）；counterproof.json（12/12 针 VALID）+run-counterproof.mjs+mutation-logs（四态）；门证据 adjacent.raw（56 文件 510/510）、reforge-full.raw（343 文件 8760/8760）、typecheck.raw、lint.raw（3365 文件 0/0/0）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 反控口径：每针=产品源码变异（battle-world-result×7/battle-host×3/battle-core×2；锚文本恰 1 次）→定向 -t BF-xx 过滤→字节还原→复跑全绿；四态 hash 按落盘字节（trimEof）；变异直接落跟踪文件立即还原，清理证明=porcelain 无 M/D。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 12 合同：BF-01 胜利结算经验门（money+7 恰入账/onExpReward 恰 1/首屏 exp-cash 精确值/party.exp+15/HP=writeBack+半恢复）；BF-02 零经验胜利（回调 0 次/空屏/money 照 +7）；BF-03 升级链结算；BF-04..07（quote 表内）；BF-08..10 宿主终局流（defeat/playerFled 终局分配三端口取舍、胜利曲经验门、boss 旗）；BF-11 毒杀计奖；BF-12 逃失败续战。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- U-1 产品发现（非本卡范围）：零活敌 target 相位输入死区（battle-command-selection.ts:353）——BF-11 以防御直提绕开该路径完成 victory 断言，修复需产品裁决并连带更新 G02 既有断言。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r1 已推 16cefbe62（12 合同/12 针四态、U-1 发现）待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-BATTLE-FLOW-1 r1 证据索引（12 合同+12 针）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-BATTLE-FLOW-1 证据索引（GLM r1）：原始正文完整保留于下方 quote。
+- battle-world-result 全仓零直接测试主缺口闭合；U-1 死区发现。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 十二合同表与反控口径在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `59c30452f6a2ed34b35762d07b7d7557250e5525d394e0930686eb9b8a23bf2f`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `59c30452f6a2ed34b35762d07b7d7557250e5525d394e0930686eb9b8a23bf2f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-BATTLE-FLOW-1 证据索引（GLM r1）
 >

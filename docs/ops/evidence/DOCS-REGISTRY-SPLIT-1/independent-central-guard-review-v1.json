@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-central-intake-guard-review",
+  "reviewer": "/root/central_intake_guard_review",
+  "author": "/root",
+  "nonAuthorReviewer": true,
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T21:38:26.949335+00:00",
+  "scope": "Frozen private /tmp maintenance runner and plan builder only; no document-body semantic review or source-code storage implementation acceptance.",
+  "sources": {
+    "authorHead": "db814e3cfecc51b8226453f6930b8ec4c22a0743",
+    "rootHead": "29ad7d7f1ffc63a9f674ca1581c2673b659e7a60",
+    "sources": {
+      "/tmp/maintain-registry-v2-intake.mjs": "f68193a3b3c3350820645b1a54b9929b4527e9dad1ef61b960897de5b9f75eab",
+      "/tmp/build-v2-central-plan.py": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/document-registry.mjs": "5d50872b3a02853661a42412a5bb307a8e7b083a4661e66600eff0a4e153d0d8",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/terminal-json.mjs": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965",
+      "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal/scripts/docs/document-registry.test-support.mjs": "b4095b5de7b4875142e43e1fac74e54974113acaee5d814b088cfe9674f60665"
+    }
+  },
+  "sourceCopies": {
+    "runner": {
+      "path": "/tmp/type-pal-central-guard-independent-1a17z3s9/maintain-registry-v2-intake.mjs",
+      "sha256": "f68193a3b3c3350820645b1a54b9929b4527e9dad1ef61b960897de5b9f75eab"
+    },
+    "planBuilder": {
+      "path": "/tmp/type-pal-central-guard-independent-1a17z3s9/build-v2-central-plan.py",
+      "sha256": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b"
+    }
+  },
+  "verdict": "counter; do not execute frozen first revision against a repository",
+  "findings": [
+    {
+      "id": "CENTRAL-OUTPUT-PREFLIGHT",
+      "severity": "high",
+      "sourceLines": [85, 91, 119, 133],
+      "observations": [
+        "existing-output/observation.json",
+        "missing-output-parent/observation.json"
+      ],
+      "statement": "Existing output and nonexistent output-parent are rejected only at final receipt write after successful public registry publication and review mutations. Both actual probes exited 1 while entry total changed 1 -> 2 and manifest/shard/control changed. No retained publication lock remained.",
+      "requiredFix": "Validate owned output location and parent and reserve a new ordinary output fd before any repo mutation; preserve failed/incomplete capture rather than claiming a cross-file transaction."
+    },
+    {
+      "id": "CENTRAL-DAG-PREFLIGHT",
+      "severity": "high",
+      "sourceLines": [74, 77, 91, 95, 100],
+      "observations": ["review-cycle/observation.json"],
+      "statement": "A review cycle in explicitly supplied edits passes current preflight and is rejected after the registry has published; actual entry total 1 -> 2 despite exit 1. Automatic allReviews membership exemption also defers unexplained review-target drift until post-publication.",
+      "requiredFix": "Compute and validate the full edited review graph/topological order and planned transitive closure before writer; permit only exact explicitly edited child nodes and their planned pin dependencies, not every review file."
+    },
+    {
+      "id": "CENTRAL-SEMANTIC-GRANT-AUTHORITY",
+      "severity": "high",
+      "sourceLines": [32, 36, 51, 61, 65, 66],
+      "observations": ["unapproved-semantic-grant/observation.json"],
+      "statement": "A made-up boolean evidence.nonAuthorReviewer=true in a replacement binding is enough to upgrade an arbitrary docs/ops/a.md to reviewed/compliant. Actual probe exited 0 with no independent report file, report hash or approved fixed body. Whole-file reviewEdits can also replace unrelated entries/history/top-level fields. This is a guard-adversarial plan counter, not a claim that root supplied such a plan.",
+      "requiredFix": "Restrict this maintenance intake to fixed approved S03/S04 path/body/report SHA triplets, verify actual report bytes and identity/scope fields, enforce same entry identity and exact binding location, preserve every other entry and top-level native/history field, and limit superseded bindings to append-only explicit known objects."
+    },
+    {
+      "id": "CENTRAL-PIN-TARGET-RACE",
+      "severity": "high",
+      "sourceLines": [90, 91, 105, 107, 114, 127, 128],
+      "observations": ["target-drift-during-publication/race-observation.json"],
+      "statement": "After prepublish input recheck a separately owned watcher observed the real public-writer lock and replaced docs/ops/a.md. Runner exited 0 and pinned this new unreviewed hash 02abd24e... although its plan fixed the original 9d0cc50e... . A string allowedPinDeltas reason silently authorizes any later bytes.",
+      "requiredFix": "Each non-storage target pin must equal its exact planned accepted after SHA; storage pins must equal the exact published loadedSource bytes; child review pins must equal exact bytes prepared/formatted by this run. Reject unexpected bytes instead of refreshing. Revalidate fixed body and receipt SHA after publication and before writing review bytes. State the non-transaction boundary and retain failure evidence."
+    }
+  ],
+  "positiveObservations": [
+    {
+      "observation": "valid-pending-registration/valid-observation.json",
+      "actualExitCode": 0,
+      "statement": "Real public loader/writer in one process accepts an explicit pending addition. Existing two native entries remained equal, new entry stays partial-review-unknown/needs-migration, total 2 -> 3. This confirms no stub replaced the API."
+    },
+    {
+      "statement": "Frozen runner obtains loadedSource directly from public loadDocumentRegistry and uses the branded object in the same process. Existing structuralRoots are not directly modified by this runner. Per-review formatting precedes parent hashing under the topological loop. These correct pieces do not close the reported counters."
+    }
+  ],
+  "limits": [
+    "Only the frozen first /tmp revisions identified by their SHA were tested; live root edits were not followed.",
+    "Owned /tmp git fixtures and real public API copied from author commit db814e3cfecc51b8226453f6930b8ec4c22a0743 were used. No repository files, task cards, central JSON or shared /tmp author scripts were edited.",
+    "No product, runtime, E2E, visual, coverage, historical receipt execution, global gate or full semantic credit is granted.",
+    "The output failure and cycle probes demonstrate partial mutation, not corruption of native storage or a public-writer locking counter.",
+    "The race probe deliberately supplies a concurrent direct edit outside the registry protocol; it demonstrates that the maintenance pin guard should reject it, not that a registry lock must prevent arbitrary filesystem edits.",
+    "The plan builder was fully read; its forwarding of arbitrary registryUpdates/reviewEdits does not supply the missing authority, preservation or exact-sha checks. The real negative probes execute the frozen runner with explicit plans, not the Python builder."
+  ],
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "cardDoneAllowed": false,
+  "mergeToMainAllowed": false,
+  "writesAllowedByThisReport": false
+}

@@ -1,6 +1,65 @@
 # GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+核清战后Extra角色域静态差异能否被真实生产caller触发，并按用户批准清理。可达性证明：将存档OBJECT398敌人回合脚本改为原盘已有20557，真实V1解析/内存Save读写接受；队伍[0,4]开实际0号敌队，两次tick执行0x75后GS在队[0]、BattleState仍[0,4]——实际performItem给旧战斗槽1的阿奴用大蒜，Extra由0变30且只扣一件；真实performFlee(seed7)及18tick释放资源后getter与再次导出仍为30。这是'接受的改动V1输入→真实core链'，非普通原盘剧情（可达性unknown）。
+
+## 范围
+
+battle-finalization.ts清理owner+一份真实导入/开战/物品/逃跑回归。保留毒的队伍位置规则、装备部位0..5、>999装备状态、schema/save、资产与公共接口；更大GS/BattleState队伍快照同步不在本卡。
+
+## 前提与证据
+
+primary：battle.c:1822-1830 ClearAllPlayerStatus后对0..MAX_PLAYER_ROLES-1调CurePoisonByLevel(3)/RemoveEquipmentEffect(Extra)；global.c:1567-1614解毒先role→party查找、离队role直接return——不能把Extra差异混成解毒角色域bug。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+用户2026-10-22批准'清除所有角色的战斗临时加成（推荐）'。先正式红：旧实现逃跑并释放资源后Extra末列仍30（最后角色role5补六角色上界+仙女剑脚本真实授8武术/32760双攻作保护边界，恰一业务AssertionError，default+JSON原件）；修复finalizeBattleCleanup保留party解毒、单独按六角色清Extra（复用removeEquipmentEffect(role,6)，角色域来自canonical六列runtime）。当前236实际定向/相邻+game typecheck通过；模块收口完整check20443/七包TC/工具684、官方20045项/保护同报告零诊断（首轮12超时及重跑原件未删）。
+
+## 状态与交接
+
+Status保持done（模块验收收口）：已批有限行为与五文件A–H据证收口；仅core原合同，不冒充视觉或整个解释器验收。普通原盘剧情可达性未证明；更大队伍快照ownership单列3s风险不借一个清理循环宣称已修。
+
+## 历史范围
+
+2026-10-22写入域增量：371b00c7d含用户批准的战斗物品目标角色传递（原盘大蒜84的0x17经真实performItem→runScript给选中role写30毒抗）；runScript原头注'不会写party'等不变量失实（battleCtx.gs经raw fallback可执行0x75）已纠正。库存3356/373closed/114review/2869pending、3w保持partial时点保留。
+
+## 原始结论
+
+原卡结论：新文件与原实现继续review等待模块收口；后模块收口完成（check20443/official 20045零诊断）。
+
+## 当时证据
+
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/（extra-cleanup-fix/extra-reachability/ownership-current/module-closeout）与3u-3w-finalization。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+done有限范围；普通剧情影响unknown。
+
+## 继任文档
+
+3s风险（GS/BattleState队伍快照分叉）单列；父卡QUALITY-PRE94-RETROSPECTIVE-1承接。原存活入口逐字保留：
+
+关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md) [extra-cleanup-fix.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-cleanup-fix.json) [extra-reachability.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/extra-reachability.json) [module-closeout.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json) [ownership-current.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/ownership-current.json) [verify-extra-reachability.mjs](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/verify-extra-reachability.mjs) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 9285B / SHA-256 a7ae112838757edb49d064c2c7587d1fd4a8d10e11d72a79f47988cfee7cbaf3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性
+
+Status: done
 Owner: Codex
 Phase: phase1
 Capability: battle / equipment effect lifecycle
@@ -91,3 +150,5 @@ Branch: codex/code-quality-3y
 当前236实际定向/相邻测试及game typecheck通过。两个不存在的初始CLI过滤路径不授执行信用，native分别证明实际4文件28与2文件39；真实opcodes路径核存在后另跑3文件169。default+JSON完整原件含旧单红，未隐藏失败；测试从正式红到绿字节一致。全仓check/官方coverage/protected在本次产品变化后均未新跑，不合main；先提交推送同一3y保存进度。61accept/22partial不变，不把新测试登记review当专项完成。
 
 - 2026-10-22 Codex模块验收：已批有限行为与五文件A–H均据证收口。完整check20443/七包TC/工具684，官方20045项/保护同报告均零诊断；首轮12超时及重跑原件未删。见[模块收口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/module-closeout.json)。仅core原合同，不冒充视觉或整个解释器验收。
+```
+<!-- incremental-original-source:end -->

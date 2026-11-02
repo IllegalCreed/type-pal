@@ -1,6 +1,39 @@
 # GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复第一阶段同速行动排序分叉：SDLPal PAL_BattleStartFrame(fight.c:1451-1585)双循环交换会间接反转相同dex项，基线TS稳定sort保持初始顺序，“严格小于才交换等价稳定排序”的推论被证伪。已证反例：敌0=30、敌1=30、玩家0=100均非dualMove时，真实公开buildActionQueue返回玩家0→敌0→敌1，原生C排序段返回玩家0→敌1→敌0。用户2026-10-18裁决“批准对齐 SDLPal（推荐）”。
+
+## 范围
+
+turn-queue.ts、其专测与必要真实battle caller反例；RNG、动作倍率、毒槽、schema/save、二阶段与公开签名排除。全员同速输入可同序，此类旧用例不能推广为C全域等价oracle。
+
+## 前提与证据
+
+固定源全文核读：直接反例段、前提真值门（13槽、WORD dex、SHORT比较、消费遇wDexterity=0xffff结束而非查wIndex）、实施回执。正式修前7条均指定业务AssertionError；初版3条边界把高WORD速度放队员侧超TS玩家速度域，不保留其生产caller信用。最终实现：原C双循环交换、速度WORD→SHORT比较、补齐13槽并以0xffff截取前缀供tick按长度消费；dualMove的fIsSecond按原两抽比较标记。真实caller两敌一玩家seed5抖动31/31/94，按键后队列P0→E1→E0，RNG state 1199730148。专测6条静态oracle逐项匹配原生C片段输出，另1条走公开startBattle→真实Confirm→tickBattle；六变异各恰1业务AssertionError。9条旧专测保留断言，仅改两条过强稳定性标题。2文件16定向及38文件942相邻绿零stderr，game typecheck零诊断。原件:[primary-counters.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/primary-counters.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)。
+
+## 验收
+
+排序方向已获用户批准且先红后修完成；但用户观感/实际动作动画（两同速敌/更快队员的动画先后与dualMove第二动标记）与统一check/official ratchet/protected fast按成本留大窗口未执行。超过3玩家/5敌容量、非整数/NaN/无穷、caller极端SHORT/浮点→WORD转换、缺省dex2近似均不据本片自动接受。
+
+## 状态与交接
+
+review保持原语义：任务review、done blocked；无下一位Agent提示词，Codex单Agent继续；本卡证据是原C片段最小上下文原生执行，不是完整SDLPal或浏览器实跑。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8671B / SHA-256 7565da243e18ff4a347b68c61a243eee496e4e3ccd26a2041cdc2c9d9faa2666；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉
+
+Status: review
 Phase: phase1
 Capability: pre-94 CODE3m / battle action ordering
 Coding Owner: Codex
@@ -95,3 +128,5 @@ Visual Verification Timing: e2e-deferred
 剩余：超过原3玩家/5敌容量、非整数/NaN/无穷、caller极端SHORT结果/浮点→WORD转换、缺省dex2既有近似均不据本片自动接受；未增加非法输入兼容/校验策略，也未改公开签名。新parity测试与H fixture登记review，队列源/旧测继续review，0新closed。用户观感/实际动作动画与统一check/official ratchet/protected fast未执行，任务review、done blocked。两条旧测试fullName勘误映射保存，baseline/退役payload本片均未改，身份门待大窗口实际核对。
 
 下一步回pre94剩余8组注释与两UI差异核证；毒列表压缩保持只读。无需再次询问本卡已经批准的排序方向。
+```
+<!-- incremental-original-source:end -->

@@ -1,85 +1,58 @@
 # type-pal × sdlpal 第二轮深挖差异审查报告
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 sdlpal 第二轮深挖差异审计的归档回执。统计表、🔴/🟠/🟡 分级与已核对无差异摘要在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：Second deep audit: lifecycle/order/side-effect/system handoff/frame findings.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 背景：2026-06-07 第一轮逐函数对照审计（70 候选/64 confirmed）全部修复后实玩仍持续冒 bug；根因集中在上一轮方法盲区——跨函数执行顺序、副作用时机、状态生命周期（进入/退出/重入/读档）、系统间交接、帧级编排。
+- 方法：按执行路径切分 14 个范围（战斗 5+脚本/场景 4+菜单/存档/表现/输入 5），每范围一个 agent 沿 C 真实执行顺序逐步追踪对照 TS（2026-06-10）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b`；289 行槽 / 38486 bytes。
-- 标题/章节锚点：1:type-pal × sdlpal 第二轮深挖差异审查报告; 7:统计; 21:修复进度(2026-06-11/12 全部落地); 44:审计期间用户已修(与本报告交叠); 51:🔴 HIGH(9 条,全部对抗复核 confirmed); 53:DH1 敌队 0 占位槽被压缩——68/380 队站位错排,0x9E 召唤永远没有空槽; 60:DH2 CLASSIC 下 wDualMove=1 敌人应每轮必双动,TS 错用非 CLASSIC 的 50% 掷骰; 66:DH3 perform 期缺 PAL_BattlePlayerValidateAction 降级链——封魔照常施法、MP/物品不足吞回合。
+- 对抗复核覆盖 50 条：confirmed 38 / revised 12 / refuted 0。
 
 ## 发现
 
-- 正文信号 14:| 🟡 low | 39(其中 8 条已对抗复核,31 条未复核) |
-- 正文信号 18:> low 级中标 `[未复核]` 的条目未做对抗复核,修复前请先按行号核对 C 源。
-- 正文信号 33:对象建 rgObject overlay 机制,latent 零收益 —— 待真实数据出现再做。
-- 正文信号 37:- DL19(0x73 等键豁免):与"fade backup 须含对话像素"的视觉机制直接冲突,且全数据 0 相邻实例。
-- 正文信号 39:flFadeTime(audio.c)—— **忠实不做** gain ramp;计算保留注释供未来 OGG/RIX 后端。
-- 正文信号 42:2 个测试 fixture 缺陷(e2e flee 未同步 runtime fleeRate、casualty 阈值锁旧行为)。
-- 正文信号 68:- C 真值: fight.c:3611 perform 起手必跑 validate(fight.c:3286-3358):法术未学 / `kStatusSilence>0` / `MP<wCostMP` → 攻击系法术降普攻(target -1→0)、辅助系降 Defend;投掷数量 0 → 降普攻(:3418-3422);UseItem 数量 0 → 降
-- 正文信号 100:- TS 现状: present-battle.ts:229-232 仅 `animFrame.screenWave>0`(法术帧)才 applyScreenWave;待机/菜单/普攻帧不施波。
-- 正文信号 101:- 影响: 5 个战场(水下/幻境类)原版全程荡漾,TS 静止、法术时突然波动。复核另发现更宽:anim-timeline.ts:908 法术帧 wave **未叠加 baseScreenWave**(仅用于 keepEffect 判定)——带常驻波战场连法术期间的波幅都偏小。
-- 正文信号 118:**DM2 战斗结束未清大世界持久 rgPlayerStatus——金刚符等 buff 永久化** [confirmed]
-- 正文信号 124:**DM4 逃跑成功率 def 累加未跳过已死敌** [confirmed]
-- 正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224
+- 统计：原表分列候选（去重合并后）81、🔴 high 9、🟠 medium 32、🟡 low 39（其中 8 条已对抗复核、31 条未复核）、审计期间已被修复 1（0x90，commit 935969b）。原表未写 81 的分解式；分级三行相加为 80，与总数行 81 存在 1 的历史口径差，原表以「审计期间已被修复 1」单独成行、未声明其与总数或分级的包含/互斥关系——本页不替原始口径补造分解，总数与各分级值一律以 quote 原表为准。
+- 🔴 HIGH 代表：DH1 敌队 0 占位槽被压缩（68/380 队站位错排、0x9E 召唤永无空槽）、DH2 CLASSIC 下 wDualMove=1 敌人应每轮必双动（TS 错用非 CLASSIC 50% 掷骰）、DH3 perform 期缺 PAL_BattlePlayerValidateAction 降级链（封魔照常施法、MP/物品不足吞回合）等 9 条全部对抗复核 confirmed。
 
 ## 结论
 
-- type-pal × sdlpal 第二轮深挖差异审查报告：这是 audit-report，当前文档状态为 historical。全文 289 行、26 个标题；摘要/首段为「> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 修复进度：2026-06-11/12 全部落地；各范围「已核对无差异」摘要合计 200+ 条路径（含 SAVEDGAME 逐字段勾验表：除 DH7/DM25/DM26/DLg 外保存/读回/新游戏三列语义等价）。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.。
+- 修复后回归复查（对 L1-L47/M1-M15/H1-H2）全部通过。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-10；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b`。
+- phase1 plans 第二轮深挖审计；时点 2026-06-10（修复至 06-12）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- type-pal × sdlpal 第二轮深挖差异审查报告：这是 audit-report，当前文档状态为 historical。全文 289 行、26 个标题；摘要/首段为「> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。」。属于历史/归档材料，不能单独证明当前实现。
+- 81 候选分布、9 条 🔴 与对抗复核统计为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:type-pal × sdlpal 第二轮深挖差异审查报告; 7:统计; 21:修复进度(2026-06-11/12 全部落地); 44:审计期间用户已修(与本报告交叠); 51:🔴 HIGH(9 条,全部对抗复核 confirmed); 53:DH1 敌队 0 占位槽被压缩——68/380 队站位错排,0x9E 召唤永远没有空槽; 60:DH2 CLASSIC 下 wDualMove=1 敌人应每轮必双动,TS 错用非 CLASSIC 的 50% 掷骰; 66:DH3 perform 期缺 PAL_BattlePlayerValidateAction 降级链——封魔照常施法、MP/物品不足吞回合；原始正文、代码、表格、状态词在 quote 保全。
+- DH/DM/DL 分级清单与已核对无差异摘要在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 14:| 🟡 low | 39(其中 8 条已对抗复核,31 条未复核) |
-- 正文信号 18:> low 级中标 `[未复核]` 的条目未做对抗复核,修复前请先按行号核对 C 源。
-- 正文信号 33:对象建 rgObject overlay 机制,latent 零收益 —— 待真实数据出现再做。
-- 正文信号 37:- DL19(0x73 等键豁免):与"fade backup 须含对话像素"的视觉机制直接冲突,且全数据 0 相邻实例。
-- 正文信号 39:flFadeTime(audio.c)—— **忠实不做** gain ramp;计算保留注释供未来 OGG/RIX 后端。
-- 正文信号 42:2 个测试 fixture 缺陷(e2e flee 未同步 runtime fleeRate、casualty 阈值锁旧行为)。
-- 正文信号 68:- C 真值: fight.c:3611 perform 起手必跑 validate(fight.c:3286-3358):法术未学 / `kStatusSilence>0` / `MP<wCostMP` → 攻击系法术降普攻(target -1→0)、辅助系降 Defend;投掷数量 0 → 降普攻(:3418-3422);UseItem 数量 0 → 降
-- 正文信号 100:- TS 现状: present-battle.ts:229-232 仅 `animFrame.screenWave>0`(法术帧)才 applyScreenWave;待机/菜单/普攻帧不施波。
-- 正文信号 101:- 影响: 5 个战场(水下/幻境类)原版全程荡漾,TS 静止、法术时突然波动。复核另发现更宽:anim-timeline.ts:908 法术帧 wave **未叠加 baseScreenWave**(仅用于 keepEffect 判定)——带常驻波战场连法术期间的波幅都偏小。
-- 正文信号 118:**DM2 战斗结束未清大世界持久 rgPlayerStatus——金刚符等 buff 永久化** [confirmed]
-- 正文信号 124:**DM4 逃跑成功率 def 累加未跳过已死敌** [confirmed]
-- 正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224
+- historical。修复按 06-12 时点解释；当前行为以现行代码为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 第一轮审计、[feature-status](../status/feature-status.md) 与后续 E2E 报告；[目录导航](README.md)。
+
 
 ## 原文保全
 
-固定源 SHA `4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # type-pal × sdlpal 第二轮深挖差异审查报告
 >

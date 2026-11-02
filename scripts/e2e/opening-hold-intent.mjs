@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import bedroom from '../../projects/pal/content/scenes/s001.json' with { type: 'json' }
+import { verifyReplacedAutomaticWait } from './cancelled-auto-wait.mjs'
 import { verifyDialoguePresentation } from './dialogue-presentation-contract.mjs'
 import { verifyFiniteScriptRuns } from './script-execution-contract.mjs'
 import { authoredTerminalCursor, verifyScriptTerminalReceipt } from './script-terminal-intent.mjs'
@@ -405,15 +406,32 @@ export function verifyOpeningWaitReceipt(
     )
   }
   const after = worldRenders.find((draw) => draw.order > end.order)
+  let replacement
   if (resumed?.phase === 'run-ended') {
     assert.equal(start.engine, 'reforge', 'unclassified cancelled continuation')
     assert.equal(start.occurrence.timing, 'auto', 'only scene-owned auto can cancel at exit')
     assert.equal(resumed.aborted, true, 'missing normal stage settlement')
     assert.deepEqual(resumed.occurrence, start.occurrence, 'cancelled continuation command changed')
-    assert(
-      after && after.sceneVisit !== start.sceneVisit && after.scene !== start.scene,
-      'cancelled auto still has same-scene draw',
-    )
+    assert(after, 'cancelled auto lacks a following draw')
+    if (after.sceneVisit === start.sceneVisit && after.scene === start.scene) {
+      assert(
+        events.some(
+          (event) =>
+            event.phase === 'command' &&
+            event.order > end.order &&
+            event.order < resumed.order &&
+            leaf(event)?.kind === 'selectEntityBehavior' &&
+            leaf(event).channel === 'auto' &&
+            same(leaf(event).target, start.occurrence.self),
+        ),
+        'cancelled auto still has same-scene draw',
+      )
+      replacement = verifyReplacedAutomaticWait(start, end, resumed, after, events)
+    } else
+      assert(
+        after.sceneVisit !== start.sceneVisit && after.scene !== start.scene,
+        'cancelled auto still has same-scene draw',
+      )
     assert.equal(
       resumed.clock.frameId,
       end.clock.frameId,
@@ -425,7 +443,7 @@ export function verifyOpeningWaitReceipt(
     resumed.order < after.order
       ? null
       : verifySettledWaitGate(start, end, resumed, events, worldRenders)
-  return { start, end, firstDraw, resumed, after: wakeGate?.after ?? after, wakeGate }
+  return { start, end, firstDraw, resumed, after: wakeGate?.after ?? after, wakeGate, replacement }
 }
 
 /** A cold portrait load can span frames; only the actual matching IO lifetime permits it. */

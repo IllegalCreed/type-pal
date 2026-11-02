@@ -1,6 +1,39 @@
 # QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复真实仓库路径清单超1MiB后任务索引生成与代码库存枚举的ENOBUFS：Node child_process.execFileSync默认maxBuffer约1MiB（实际Node22.23.2），真实check --print-task-index抛spawnSync git ENOBUFS，子命令为git ls-files --cached --others --exclude-standard -z；必须完整消费原NUL路径清单，不裁范围、不忽略文件。
+
+## 范围
+
+只改scripts/docs/check.mjs:327–333与scripts/quality/code-quality-inventory.mjs:18–22及现有inventory测试；ledger的32MiB外层缓冲不能修复inventory内部1MiB；docs/terminal-git.mjs固定4MiB是不同边界不改。
+
+## 前提与证据
+
+固定源全文核读。方案为两个完整枚举指定有限16MiB缓冲（与既有docs Git读取容量一致），终态namespace的4MiB固定安全门原样保留；不为复用一个数引入跨docs/quality生产依赖，测试共用真实Git夹具分别核两消费者。Build：先红1绿/2指定AssertionError，修后3绿；两枚必要性反控旧1绿→新2绿/1指定红且恢复。反证边界：给真实临时Git造>1MiB路径，尾部合法task/source必须仍可见、非法尾部task仍须拒绝，不能通过filter/ignore/删除证据或吞trace过门。本片回执：quality40、docs工具125/实际五消费者与lint-zero5365零诊断、ledger3316/259closed/92review/2965pending；0新关闭、2旧工具重开review/1原pending测试转review。原件:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+
+## 验收
+
+缓存/输出文件本身坏掉不能由抛错推出——ENOBUFS发生在Git路径响应、还没读文档payload；16MiB仍可能被更大合法仓库触发，届时继续明确失败不能截断成通过。未验收，不以修复计划或历史全绿收口；完整check/coverage/protected未跑、不合main。
+
+## 状态与交接
+
+review保持原语义；无下一位Agent提示词，Codex完成后恢复保存的3u/3w WIP及其精确SHA。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4639B / SHA-256 a43a6dd3bb082351962ee70d329ab72865e1799b3e6ec9d447bf04efb16f27f3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界
+
+Status: review
 Owner: Codex
 Phase: cross-phase engineering tooling
 Capability: docs / quality / Git inventory
@@ -71,3 +104,5 @@ N/A，纯CLI修复且不改变产品行为；无新的产品取舍。
 无下一位Agent提示词，Codex完成后恢复保存的3u/3w WIP及其精确SHA，再继续原全部83卡目标。
 
 本片回执：quality40、docs工具125/实际五消费者与lint-zero5365零诊断、ledger3316/259closed/92review/2965pending；0新关闭，2旧工具重开review/1原pending测试转review，原pre94队列53/30/0不变。MJS实际Node解析通过，package typecheck N/A。fresh fetch0behind，完整check/coverage/protected未跑、不合main；同3y提交推送后恢复十文件WIP并按新HEAD重基文档计数，不丢工具补证。
+```
+<!-- incremental-original-source:end -->

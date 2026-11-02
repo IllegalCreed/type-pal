@@ -1,5 +1,38 @@
 # CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+本片审计CODE-QUALITY-3i五白名单文件(dialog-assets/precache-client/precache-ui/audio-volume/trademark-fallback)的实现与直接测试质量。核心发现:precache-ui公共进度入口不拒绝NaN——setNecessaryProgress(NaN)把单调状态写成NaN、setFullProgress(NaN)把文案写成NaN/MB且合法进度此后无法恢复;先加宿主反例确认旧实现失败(『加载必要资源 NaN%』『已缓存 NaN/0MB』),再在UI边界统一拒绝非有限/负字节、超总量字节做上限归一,合法零总量保留0/0MB语义,正常进度/阶段转移/widget生命周期不变。
+
+## 范围与证据
+
+基点f2ebb196f,分支codex/code-quality-3y(0 behind/190 ahead)。完整读取五实现+直接测试+bootstrap-resources及其资源屏障测试+bootstrap-audio;调用链按实际使用读取(main.ts SW/可玩门、bootstrap.ts装配与三路音量、present.ts dialog消费、tools-panel音量、public/sw.js:112-151进度消息),清单SHA见[read-boundaries.json](read-boundaries.json)。primary=reference/sdlpal/main.c:197-203 DOS商标顺序+extracted manifest/shared解码器+sw.js协议。2026-10-23后续收口见[README.md](quality-closeout/README.md)。
+
+## 发现
+
+dialog-assets的portrait/icon失败隔离、真实PNG尺寸/opaque、shared RLE入口与空map降级与caller一致;precache-client的onPlayable后启动、ready race的start缓冲、pause/resume消息与SW端协议一致,模块级worker生命周期无生产caller证据保留review;audio-volume NaN到0修复与三路独立音量/共享mute一致;trademark-fallback按chunk 6、25fps、1000ms延迟、600ms淡出,skipKeys只显式注入。修复后定向12文件/79 tests passed、game typecheck passed。后续2026-10-18 counter:当前[README.md](../72-boot-loading/README.md)证真实boot/UI组合失败文案被迟到进度覆盖,precache-ui整文件旧已验证精确撤回rework,生产未修按[QUALITY-BOOT-FAILURE-PROGRESS-1.md](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)继续;窄修见[README.md](../72-boot-loading/approved-fix/README.md):三生产文件按批准修复失败进度与计数ownership,boot-loading.ts新增闭合,不把整卡升格accept。
+
+## 结论
+
+本切片整卡仍partial,不把切片当整项accept;按用户成本约束未运行coverage/official ratchet/protected fast/全仓check(留到大模块收口)。修复后门均定向绿;不把包级绿灯当全仓完成,本批不改94-102优先级。
+
+## 整改与复核
+
+未重跑任何命令/测试;历史时点记录不覆盖后续回执;『阶段/失败生命周期保持』不得扩张成当前失败终态accept(已被72反例与窄修更新)。候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 5061B / SHA-256 27e349b102df9ecf6df64e35f01c892d1c2394e32929a756a825b91aaa54ebc4；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE3i 对话资源 / 预缓存 / 音量 / 商标复审切片
+
 2026-10-23 当前补八维及测试质量：[UI／客户端／商标窗口](quality-closeout/README.md)。复用本页与72已有有效证据，补生命周期隔离、真实消息/渲染oracle和三份有效反控；源码仅注释与私有同合同formatter合并。本窗集中门已零项目诊断通过，原五源范围接受、固定83为64accept/19partial；平台提示清零与PR发布待真实远端核。下文是历史时点，不覆盖当前回执。
 
 基点：`f2ebb196f`；分支：`codex/code-quality-3y`，复核前已 `git fetch origin --prune`，相对 `origin/main` 为 `0 behind / 190 ahead`。本切片继续只处理 94 之前的 CODE-QUALITY-3i；94–102 与 103+ 未触碰。整卡仍 `partial`，不把本切片当作整项 `accept`。
@@ -30,3 +63,5 @@ primary source 为 `reference/sdlpal/main.c:197-203` 的 DOS 商标顺序，资�
 ## 2026-10-18 用户批准后的窄修
 
 [批准修复证据](../72-boot-loading/approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。
+```
+<!-- incremental-original-source:end -->

@@ -3,65 +3,71 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: audit-report-v1 / 1.0.0
 
-本页把历史材料接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 PRE-E2E-AUDIT-1 D 批（编辑器工作流）只读审计报告：基线 `50ed0f0f`，确认 5 项（4 功能缺陷家族＋1 试玩隔离/告知缺口），后补 D-06/D-07 两项；其中 6 项已由独立修复卡收口。反例与 16 文件/247 条测试记录在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 审计问题
 
-- 要回答的具体问题：Current pre-E2E audit report: preserve confirmed findings, counterexamples, boundaries, evidence and remediation ownership.
+- D 批范围：主/脚本两会话与全局撤销重做、成对命令、作者数据合并/序列化、统一引用图与冷删除守卫、场景/商店生命周期、地图/组合/精灵草稿边界、上传向导、同源试玩身份及技能试放接线。
+- 要回答的具体问题：跨会话历史顺序、引用删除、异步上传与试玩承诺的可复现缺陷及其触发/反证。
 
 ## 范围与证据
 
-- 版本/时间范围：2026-09-13；source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049`。
-- 一手来源与命令：原文列出的代码、测试、命令和审计输入；本轮不重跑产品流程。
-- 排除项：不穷举全部技能、敌队、随机种子或绘制帧，不宣称真实音画或完整 E2E。
+- 版本/时间范围：2026-09-18；基线 `50ed0f0f`（产品代码与 A–C 批一致）。
+- 一手来源与命令：四探针 probe-editor-history / reference-delete / sprite-upload / trial（主 Agent 独立复跑）；真实 UI 入路（ItemTab/ScriptEditor/App）由 AST 原样执行。
+- 既有测试复跑：主 Agent 6 文件/48 + 历史 3/51 + 引用 3/37 + 创作 4/111，共 16 文件/247 条通过。
+- 排除项：非全编辑器逐控件审美检查；无浏览器键盘事件/FSA 写盘现场。
 
 ## 发现
 
-| ID | 发现 | 证据 | 影响 | 状态 |
-|---|---|---|---|---|
-| AUDIT-001 | 原始审计发现与反例 | source quote / primary refs | 见原始审计边界 | open / current-audit |
-- 未决信号：- 正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。
+| ID | 级别 | 确认内容 | 状态（源内时点） |
+|---|---|---|---|
+| D-01 | P2 | 全局撤销走错栈并拆开配对动作，错误半状态仍可通过序列化 | 已修：EDITOR-HISTORY-ORDER-1（候选 `70e3f627`，63 新增/check6,981/fast6,493）done |
+| D-02 | P2 | disabled/inherit/transition 三类场景依赖未入删除守卫，删后保存校验拒绝 | 已修：EDITOR-SCENE-REF-GUARD-1（候选 `83598cc4`，22 回归/check7,442/fast6,954）done |
+| D-03 | P2 | 快速切换上传图片，迟到旧解码覆盖最新选择并入库 | 已修：EDITOR-SPRITE-PICK-1（候选 `a88ab18d`，22 定向/check7,302/fast6,814）done |
+| D-04 | P2 | 技能试放写死 s001/敌队 0，新工程无该敌队返回桩胜没试放 | 已修：EDITOR-SKILL-TRIAL-1（主体 `fe0fee84`+列宽 `d394eccc`，7895/7404）done |
+| D-05 | P2 条件性 | 试放承诺「不改存档」但主动保存会写入临时授技与 999 真气上限 | 已随 D-04 按用户 2026-09-19 裁决（独立临时试玩）done |
+| D-06 | P2（补充） | 新建物品后立即添加私有脚本缺作者记录，报「物品不存在」 | 已修：EDITOR-ITEM-AUTHORING-1（候选 `451cbbb7`，check7,909/strict7,418）done |
+| D-07 | P2（补充） | 共享 ScriptId 与私有引用前缀相同时无法保存 | 已修：同候选 `451cbbb7`（内存 tag 区分私有 owner）done |
 
 ## 结论
 
-- 当前能证明：原文报告的审计观察、反例和覆盖边界可由 quote 与 SHA 追溯。
-- 当前不能证明：产品已修复、全程序无遗漏、runtime/E2E/视觉/coverage 已通过。
+- 当前能证明：各缺陷的真实调用链复现、正向/恢复对照（配对 redo 可恢复、删除可 undo、序列化拦截）与修复状态可由 quote 追溯。
+- 当前不能证明：全部领域 Command 逐项 apply/invert、每个资源类型全部引用、真实地图手势/浏览器交互覆盖；未做本批功能的浏览器视觉验收。
 
 ## 整改与复核
 
-- 修复 Owner：由后续 task card 和当前 Owner 明确。
-- 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 修复 Owner：D-01/D-02/D-03/D-04+D-05/D-06+D-07 各自独立卡均已三席/用户收口；A-02/03/07 保存类复用 A 批不重复计数。
+- 复核条件：修复回执含真实回归/负控与最小界面验证；综合创作工作流 E2E 前完成闭环。
+- 继任/supersedes：当前编辑器事实由继任规范、代码、测试和新的 review 决定。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-09-13；固定来源 `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`；source SHA `52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049。
+- ops/audits/pre-e2e 历史审计层；日期：2026-09-18（D-06/D-07 于 2026-09-13 补充）；固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- D批 · 编辑器工作流审计：这是 audit-report，当前文档状态为 draft。全文 218 行、12 个标题；摘要/首段为「基线：`50ed0f0f`，产品代码与A–C批一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+- D 批原文（5+2 项逐项一手证据/触发/反证/修复方向、对照与未覆盖范围、四探针与测试记录）完整保留于下方 quote；修复状态行为原文后续追加时点。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+- 四探针均断言未修复输出；Vite 仅作模块转换（hmr=false、ws 显式禁用），拒绝 fetch 与既有 IndexedDB。
+- 16 文件/247 条既有测试通过但未覆盖上述交错/引用边/乱序反例。
 
 ## 当前有效性
 
-historical。do not promote static audit or in-memory boundary evidence to runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。
+historical。修前取证不表示新候选仍有缺陷；修复状态以各卡与回执为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 各修复卡与实施回执（quote 内链接）；综合 R4/编辑器 E2E 另行集中。
 
 ## 原文保全
 
-固定源 SHA `52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 source revision `348620bf3c68aa77a7ef7e1abef9b8eda08530d9`，source SHA `52c57bed29bbd9e1d080836beb703782558285a33367947a91e3d34fd02c0049`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # D批 · 编辑器工作流审计
 >

@@ -1,6 +1,59 @@
 # GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复场景渐变后的方向重算：before把每个方向键分别压入抑制集，松右仍不能恢复左；after用当前方向的抑制标志，下一有效方向事件恢复仍按住的方向及其顺序。primary为input.c:163–288的PAL_GetCurrDirection/KeyDown/KeyUp保留按键顺序、非repeat方向keydown及方向keyup重算dir，palette.c的PAL_SceneFade清dir/pressed不清物理顺序。用户2026-10-21批准“按 SDLPal 修复（推荐）”。
+
+## 范围
+
+白名单input.ts和直接测试；只读main-loop.ts、scene-system.ts及SDLPal input/palette；键位、Replay/Recording接口、fade调用时序和非方向键消费模型不扩展。
+
+## 前提与证据
+
+固定源全文核读。抽取三个原C函数编译运行支持五个边界，仅证函数合同及fade清dir赋值，不冒充整个SDL runtime。Build：先新增三例，原实现17通过/3个指定业务断言失败；窄修方向抑制ownership后三输入文件34/34，保留原17例及键表/clear/detach/快照隔离/record-replay合同；repeat、非方向、未知事件不解除抑制，未按住方向的keyup仍依C重算。相邻主循环/场景/menu锁/AVI七文件157/157，game typecheck与局部Biome零诊断。真实浏览器受控KeyboardEvent下松右后held=Left、pressed空，下一世界tick从(320,240)走到(304,232)；首次隔离页误用(5,5)世界坐标被真实边界拒绝走步，原件保留，修正为合法坐标后通过。2026-10-21输入音频模块收口：CODE73四文件八维收口、完整原件见父卡input-audio-closeout.json。
+
+## 验收
+
+done为获批范围收口：dev-functional观察完成；统一check/ratchet/protected在输入/音频模块窗口通过，Git发布结果由父卡回执承载，不把旧包绿当文件关闭。
+
+## 状态与交接
+
+done保持原语义；治理不重开。无下一位Agent，Codex继续同一3y模块收尾。
+
+## 历史范围
+
+原卡属固定main时点；范围为input.ts方向抑制ownership子切片。
+
+## 原始结论
+
+原卡结论按其Status(done)原样：2026-10-21输入音频模块收口，CODE73四文件八维完成。
+
+## 当时证据
+
+当时回证属原时点证据：17+3指定红→34/34、相邻157/157、浏览器(320,240)→(304,232)；本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效；不是完整剧情E2E；不凭旧基点授权新产品取舍。
+
+## 继任文档
+
+父卡input-audio-closeout.json承载模块门；CODE73收口完成。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3603B / SHA-256 108721ccb724e75028553a905d26f92cb1f1d3a3dbe53cf9daca85221c6481c3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算
+
+Status: done
 Phase: phase1
 Capability: keyboard input lifecycle
 Coding Owner: Codex
@@ -55,3 +108,5 @@ Codex继续同一3y模块收尾；不新增分支，不扩94–102，不把其�
 ## 2026-10-21 输入音频模块收口
 
 本卡获批范围整改与CODE73四文件八维收口；完整原始失败/绿结果、命令/诊断、精确baseline和只读快检见父卡input-audio-closeout.json。Git发布另核实际ancestry，不由本段推定。
+```
+<!-- incremental-original-source:end -->

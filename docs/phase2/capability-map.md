@@ -1,49 +1,43 @@
 # 能力地图（Capability Map）— 第二阶段的进度真值表
 
-Status: historical
-Validity: historical
+Status: current
+Validity: current
 Owner: Codex（文档治理；不代签原执行）
 Last reviewed: 2026-10-17
 Template: governance-index-v1 / 1.0.0
+
+本页的 current 仅指现行导航、长期决定或按领域读取的参考职责，依据现行 READ-FIRST 的范围与铁律9；不是将 quote 内按日期记载的能力/排期/实现或历史执行重新授为当前事实。原始 source、旧复核和 quote 均保全。
 
 本页把历史材料接入 `governance-index-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 目的
 
-- 历史索引/治理入口：governance-index historical document full-text review: 能力地图（Capability Map）— 第二阶段的进度真值表.
+- 现行治理导航入口，保留日期化原表：第二阶段「8 领域 63 格」能力活账的进度真值表，取代旧 roadmap §8「复刻覆盖矩阵」；一格 done = 引擎能跑 AND 编辑器能编。
+- quote 正文实际结构：§0 一句话定位、§1 北极星（现代化引擎 + 编辑器）、§2 原版的三条用法、§3 能力地图 8 领域 63 格（含议题 15/18 落格与「先开格再开工」纪律）、§4 阶梯依赖图与当前唯一队列（2026-09-05 九项）、§5 下一步选择器（三规则 + 一轮一承诺）、§6 回归沙盒体检表（不是验收表）、§7 与 M1–M4 的关系、§8 能力格发现协议、§9 每次开工标准动作。
+- 关键判据（quote 顶部原文）：「能编」严格判据（2026-07-05 立）——真实创建/修改、改动能保存（dispatch Command → session → 工程文件）、引擎能消费；纯展示按钮、`soon` 占位、假 toggle、空壳标签都不算。「创作闭环」补充判据（2026-07-14 ED-1）——发现/选择、创建、引用/绑定、编辑、预览/运行、保存/重开、删除约束七环。
 
 ## 范围
 
-- 当前包含：历史入口、职责、阶段和下游导航。
-- 明确不包含：当前缺陷台账、runtime/E2E/视觉/coverage 结论。
+- 8领域63格与当时的能力判据、依赖及排期；原时点的done/半done和content22/SAVE12声明不认证当前产品。
 
 ## 当前状态
 
-- `status`: historical
-- `lastReviewed`: 2026-10-17
+- `status`: current（入口/参考职责）；原文对账和实现数字按其历史日期使用。`lastReviewed`: 2026-10-17。对账时点：最近全表对账 2026-09-05、统一步骤局部对账 2026-10-03；当前唯一格式 content22 / SAVE12。
+- 未决/冲突（措辞以 quote §3–§5 原文为准）：真实 `⚠️` 只剩 B5（并入 Q2 专项）；真实 `❌` 只剩 A1（用户冻结为最终发布前收口）；X4/A7 已随 `ARCH-CURRENT-ONLY-1` 收口 ✅；2026-09-03 用户将 W6 真实时间/天气、A6、X5 世界状态预设、W7 随机笔刷/自动拼接、D13 时间旅行调试、无障碍与 C1/C2 内容补标移交第三阶段。
+- 2026-10-11 集成增量：content22 / SAVE12 下 001–006 新批次已验收，旧批次不升级，局部主线不替代完整 Q1/Q2 或全表复核。
 
 ## 入口与责任
 
-- canonical 入口：当前 phase2/lore 文档、代码、测试和任务台账。
-- Owner：Codex（文档治理；不代签原执行）。
-- 下游使用者：实现、审计和测试维护者。
+- 历史入口：本页与 quote；当前 canonical 入口为现行 phase2/lore 文档、代码、测试和任务看板。
+- Owner：Codex（文档治理；不代签原执行）。下游使用者：实现、审计和测试维护者。
 
 ## 证据与下一步
 
-- 关键来源：`docs/phase2/capability-map.md`；source revision `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702`。
-- 未决/阻塞：- 正文信号 15:> 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
-- 正文信号 17:> **「能编」严格判据**(2026-07-05 立):编辑器侧标 ✅ 必须满足——能在编辑器里**真实创建/修改**该能力所需数据,**改动能保存**(dispatch Command → session → 工程文件)、**引擎能消费**。纯展示按钮、灰色 `soon` 占位、`defaultChecked` 假 toggle、空壳标签(点进去"待做")**都不算**——判据同 W1/W2「能开菜单 ≠ 系统能编」。「有 UI 入
-- 正文信号 122:| B5 | 战斗动画/法术 | ⚠️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godId+10`/数字路径双轨，active appearance 统一 base→p
-- 正文信号 138:| X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工
-- 正文信号 229:> 以上队列同时包含能力格、迁移正确性、编辑器生命周期、E2E 与发布收口，不能再只扫表内 `⚠️/❌`
-- 正文信号 237:1. 扫地图,找所有 ⚠️ 半done格 → 有?
-- 正文信号 239:   无 ⚠️ ↓
-- 正文信号 249:1. **先闭合半done(⚠️),而非开新格** —— 半done格回报最高(已有投入兑现成完整能力)。
-- 下一步：带日期引用并以当前 canonical 文档复核。
+- 下方固定Git quote与原始结论分轴保留；用现行任务/规范核新决定。此页历史导航与内容结论不授runtime或历史执行复核信用。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-07-04；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702。
+- phase2/lore archive；日期：2026-07-04；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702`。
 
 ## 原始结论
 
@@ -55,20 +49,11 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 15:> 状态符号:`✅done` `⚠️半done(一边done一边缺)` `❌缺(两边都缺)` `—不适用`。
-- 正文信号 17:> **「能编」严格判据**(2026-07-05 立):编辑器侧标 ✅ 必须满足——能在编辑器里**真实创建/修改**该能力所需数据,**改动能保存**(dispatch Command → session → 工程文件)、**引擎能消费**。纯展示按钮、灰色 `soon` 占位、`defaultChecked` 假 toggle、空壳标签(点进去"待做")**都不算**——判据同 W1/W2「能开菜单 ≠ 系统能编」。「有 UI 入
-- 正文信号 122:| B5 | 战斗动画/法术 | ⚠️ | ✅ | 施法演出 | M4d-2/2b:物攻双向/死亡淡出/施法+fire特效+音效。召唤全链落地(2026-07-05):9 召唤补翻+summon 效果+神将演出。**A7-3B done(2026-07-21)**：三方审查和用户验收完成；`BattleSpriteDef.profile` 已退役 `godId+10`/数字路径双轨，active appearance 统一 base→p
-- 正文信号 138:| X2 | 音频(BGM/SFX) | ✅ | ✅ | 场景音乐 | **done（A7-0/A7-0A + A7-1，2026-07-18）**：MIDI、soundfont 与 SFX 均为稳定 AssetId 和工程资产，运行与编辑试听只经 AssetResolver/FileSource；标题菜单曲、战斗提示音、角色/敌人/技能/召唤音效全部数据化。编辑器支持音乐/音效导入、替换、改名、试听、选择、引用保护删除、保存重开与旧工
-- 正文信号 229:> 以上队列同时包含能力格、迁移正确性、编辑器生命周期、E2E 与发布收口，不能再只扫表内 `⚠️/❌`
-- 正文信号 237:1. 扫地图,找所有 ⚠️ 半done格 → 有?
-- 正文信号 239:   无 ⚠️ ↓
-- 正文信号 249:1. **先闭合半done(⚠️),而非开新格** —— 半done格回报最高(已有投入兑现成完整能力)。
+current（入口/参考职责）；quote和旧复核的具体实现、时间、计数仍为历史材料，不重授旧执行信用。历史冲突/未决见上方「当前状态与未决」；quote §3–§5 原文为唯一措辞来源，本页摘要不替代 quote。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

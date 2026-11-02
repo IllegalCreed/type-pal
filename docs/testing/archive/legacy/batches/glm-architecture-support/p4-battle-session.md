@@ -1,40 +1,62 @@
 # P4 · battle-session.ts 阶段与 Promise 所有权取证（ARCH-SUPPORT-GLM-1）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-SUPPORT-GLM-1 P4 取证（2026-09-25，冻结 3270473862；对象 battle-session.ts 3022 行+enemy-hook-runtime；边界：不碰 main.ts/BattleHost/A3、不改公式，只读静态取证+既有测试精确标题——本席是 battle-workflows 卡贡献者其 46 项属贡献者证据不充独立审查）。含 r2 三条更正：门归属更正（:604 preparing 早退属 beginTurnPreparation 逐回合 SFX 屏障，writeBackHp :2534-2541 无 preparing 门——r1 混写并误提防护方向一并撤回）；测试计数 93=43+46+4（r1 误写 87）；补会话内 pump→render 耦合边界（P4-003）。
+
+## Scope
+
+- 阶段转换双轴：core 相位 selectAction→performAction→won|lost|fled（grep 5 值）与 UI 层 this.ui 约 29 处赋值（menu/preparing/skill/.../readinessError）独立；tick 入口 :1192 closed 先决。
+
+## Execution and assertions
+
+- **所有权图**：done Promise 唯一构造 :414-417（resolve 仅 :641 complete、reject 仅 :659 cancel AbortError 兜底）；终态收口 complete :637-643 doneSettled/closed 双闸+preparationSerial++ 幂等迟到 token 失效；取消收口 cancel :646-661 双闸+serial+++musicSerial+++pendingTerminal/pendingHookActivations 清空——cancel 语义=整会话作废与 enemyFled/terminated 终态不同（test :1314/:1424 实证）；两级资源屏障 beginTurnPreparation :603-632（token=preparationSerial，:604 门属此）+settleTurnPreparation :575-601 五重守卫；会话内定时 actTimer/overTimer 数值累计非 setTimeout 无 OS 泄漏面；写回三方法 writeBackInventory/writeBackPersistentEffects（幂等门）/writeBackHp（无 preparing 门）幂等由 r4/r5 独立快照钉住
+- **拆分先后与不可跨 await 区**：不可跨区三处（当前同步 tick 天然安全拆分须保持）：token 分配→pending.then 同帧配对、submit→submitOrder/lastActs/pendingActions 三写（Esc 回退 :1357 依赖原子）、complete/cancel 三连写；拆分顺序依赖最少优先：render/输入路由→脚本泵→屏障与资源→写回三方法→终态/结算屏；core 相位 stepBattle 保持单核；每步回归门=37+46 条标题
+- **测试对账 93 条**：battle-session.test 收集 43（37 静态+2 test.each 展开）：屏障 token/迟到 resolve 不推进/终态/hook/逃跑/成长写回 fail-loud :1526；六 flows 46 条：victory 真实击杀 settlement 恰一次 300ms 边界/cancel AbortError 精确拒绝零推进/writeBackHp 钳制 [1,100]/合击消费；hook-runtime 4 条：continue 同 activation advance 只结束提交 cursor；确实证明：token 失效/迟到不推进/取消语义/终态精确 resolve/消费门/写回幂等
+- **P4-003 共享状态小表（入口级）**：dialogBox（pump :1033-1069 开启推进 render 绘制）；casualtyDialogueShown（pump 置位复位 :1063+cancel :653 区间清）；choreoBanner/choreoWaitUntil（置 null 收口）；scriptAnimation/anim 三处清理语义不同——pump :1077-1081 复位双标志、终态 :1220-1224 只收 anim、performAction :1565-1573 anim.tick 后 anim=null（不并成一条）；nowMs/screenShake/floats 等 tick 写 render :2543+ 读（floats 按寿命过滤 :1200）；非穷尽但覆盖 pump 直接处理家族不以三字段冒充全齐
+- **证据条目**：P4-001 covered（93 条 r2 更正）；P4-002 covered（门归属更正：:604 属 beginTurnPreparation、writeBackHp 无门两概念区分；附注 ui 状态机 29 处赋值无集中转移表实施期可先建 transitionUi 单点——非本条内容）；P4-003 covered（pump/render 边界入口级对照）；P4-004 risk（resolveDone/rejectDone 实例字段构造期 :414 赋值前窗口 TypeError——当前构造顺序安全无早调路径证据，拆分时隐式顺序约束须显式化）；P4-005 N/A（两级屏障与取消已 93 条钉住无新增反证）
+
+## Results
+
+- 未证风险：拆分建议未经实施验证仅依赖图推断。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| P4 取证 | 2026-09-25 | 所有权图+拆分区+93 对账+r2 更正 | 5 条目（3 covered/1 risk/1 N/A） | intake counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-support 的 P4 取证报告；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P4 · battle-session.ts 阶段与 Promise 所有权取证（ARCH-SUPPORT-GLM-1）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done Promise 唯一构造+双闸收口+两级屏障；writeBackHp 无 preparing 门更正；93=43+46+4 对账；pump/render 共享状态入口级小表；不可跨 await 区三处。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+所有权图、拆分建议、去重表与五条目在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。取证按冻结 3270473862 静态读取。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-SUPPORT-GLM-1 任务卡。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `926a951ef2cc6761013f88a56116487cae61f55157c7e52585678701233d5f25`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `926a951ef2cc6761013f88a56116487cae61f55157c7e52585678701233d5f25`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # P4 · battle-session.ts 阶段与 Promise 所有权取证（ARCH-SUPPORT-GLM-1）
 >

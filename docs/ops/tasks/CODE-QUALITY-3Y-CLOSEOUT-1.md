@@ -1,5 +1,38 @@
 # CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
 
+Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+按用户指令把多条治理分支统一为唯一codex/code-quality-3y并复审集成：3y tip d4cf7f57d对最新main f98d0ddd8为5behind/86ahead，含65个packages/scripts增量与58张非index任务卡待逐项复审；保全a9be8ab9验收线全部成果后删除别名分支，main只读。当前推进到代码接受、PR22待远端CI零诊断后合并。
+
+## 范围
+
+保全式合并、文档/账本一致性与只读复审；不授权未经事实核验的产品实现。唯一生产冲突audio-midi全文读main与3y差异后保持main字节（main自有generation/AbortController/parser串行/stop/dispose）。147条新增历史closed声称暂降review，与验收线按更保守状态合并。
+
+## 前提与证据
+
+固定源全文核读各检查点。统一分支手术：66376bf51保全两线、临时closeout与重复menu-integration分支已删、旧managed worktree归档可恢复、32855a267统一推送且两原tip均为祖先。机器账本3288/223closed/198review/2867pending，0新增关闭。Y01片CODE75 MIDI测试排重：旧audio-midi.boundaries.test.ts两例只断言plays列表、1字节MIDI/强转Response/不可恢复全局fetch/定时猜完成，与main 12例同合同重复且协议过期，删除后main测试原字节；定向12、相邻6文件44、game typecheck通过；隔离stop代际反控12绿→11绿1指定AssertionError→恢复12绿。coverage runner run.mjs:429-433只拦仍存在文件的test删除，官方ratchet需原生allow-scope-removal。2026-10-25最终门：a76881ec Docs完整日志0诊断、Coverage 20180例及protected通过，但实际4条act告警致集成拒绝，只修CutsceneTab专测等待边界（2文件9例，断言与生产不变）。原件:[README.md](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。
+
+## 验收
+
+固定pre94原83范围代码已accept，但同一3y/PR22未合并：需新远端CI零诊断；不重跑本地全仓coverage。首次同步git diff --check检出的历史raw尾空格已用17份原件无损gzip+SHA索引证实仅规范差异，未把失败改写为通过。
+
+## 状态与交接
+
+build保持原语义：58卡复审与逐文件门未全部收口前不合main；无下一位Agent提示词，Codex单Agent继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8245B / SHA-256 7f94bdba59b3ace9d1a95b418e6fe421f27fb690415843466bede465136aa02d；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
+
 > 2026-10-25发布：固定pre94原83范围代码accept；同一3y／PR22未合并。a76881ec的Docs完整日志0诊断，Coverage20180例及protected通过，但实际4条act告警导致集成拒绝。只修CutsceneTab专测等待边界，2文件9例／editorTC0、断言与生产不变；完整原件和当前差异见[最终回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)。不重跑本地全仓coverage，新远端CI零诊断后合并。
 
 Status: build
@@ -61,3 +94,5 @@ coverage runner实际合同：run.mjs:429-433只拦仍存在文件中的test-fil
 2026-10-16：已删除旧测试文件，原件无损gzip与两条file×fullName转移关系留证；main产品/12例测试均原字节。定向12、相邻6文件44、game typecheck通过且无运行时诊断。临时副本stop代际反控12绿→11绿1指定AssertionError→恢复12绿，清理后另进程重建recipe、SHA与实际runner身份核对通过；首次准备缺shared/node_modules未跑测试，失败记录保留。详见[本片证据](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)。
 
 机器3287/223closed/198review/2866pending，0新关闭；CODE75只收本片排重，不恢复历史产品closed，余57卡未复审。完整check/official ratchet/两父protected fast仍待稳定模块窗口集中，不合main。继续只用codex/code-quality-3y；fetch核main未前进，0behind，分支整合所有旧tip可达。
+```
+<!-- incremental-original-source:end -->

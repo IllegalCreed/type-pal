@@ -1,6 +1,65 @@
 # QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复第一阶段PROD+SW必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调按本轮ownership释放。修前真实公开模块组合红例：必要资源并行加载一项失败而另一项稍后完成时，'启动失败:主资源加载失败'被覆写成'加载必要资源 50%'。
+
+## 范围
+
+main.ts失败分支清理、shell/precache-ui.ts失败进度终态、shell/boot-loading.ts本轮计数/包装释放；只读caller为bootstrap/bootstrap-resources/loader的并行资源屏障与onPlayable时序。范围外：SW cache/manifest/版本、进入游戏门、重试策略、资源请求取消、UI形态、公共API。
+
+## 前提与证据
+
+项目自有浏览器启动能力（SDLPal无同形UI）。反例无mock bootstrap或进度状态核心，仅typed fetch IO替身控制请求完成并使用真实boot-loading/precache-ui——证明模块组合与DOM文本，不是完整main运行或真实HTTP失败。原6个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
+
+## 验收
+
+用户2026-10-18批准'失败提示保持，同时停止本轮fetch计数和进度回调；正常启动、进入游戏和其它网络请求保持原行为'。实现最小修复：main失败释放本轮计数、UI失败进度终态、fetch释放保留后来Owner且迟到请求不污染新轮次；四条旧实现指定单红→正式相邻6文件58绿、原组合红例精确重放1绿、game typecheck通过。真实PROD入口受控HTTP404/迟到200前后对照、正常onPlayable按钮/进场均实跑并查看截图。2026-10-23收口：以原291b7b59d完整SHA的当前版本桥核PROD catch清理顺序、fetch所有权/代次及UI失败终态；上游本地化新增语言订阅另核；当前52定向/61相邻与完整check20601+692、official20172/774及同报告strict/protected项目零诊断。
+
+## 状态与交接
+
+Status保持done（2026-10-23收口）：原批准窄缺陷闭合；不授新英文/离线/intro视觉或main/bootstrap整文件信用；远端PR发布按实际后继回执。47–52旧通过信用已撤回不能沿用。
+
+## 历史范围
+
+2026-10-18准入时点保留：基点308f517e6、白名单三源+相邻测试；逻辑测试不冒充真实PROD功能/视觉通过。
+
+## 原始结论
+
+原卡结论：失败文案保持、只释放本轮拥有的包装/回调、成功/未进入/进入后状态分别保留。
+
+## 当时证据
+
+docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/（failure-repro/approved-fix）与3i-dialog-precache/quality-closeout。原链接与当时回执属原时点证据。
+
+## 当前有效性
+
+done按其时点有效；SW/离线不在本卡。
+
+## 继任文档
+
+CODE-QUALITY-72（原卡）与QUALITY-FETCH-ABORT-LIFECYCLE-1（网络重试取消域分开）关联。原存活入口逐字保留：
+
+关联:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md) [failure-repro.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8966B / SHA-256 c34d5011d797a9a255b0d7201c45b8b429dfc7f8d02f4d0d126725efd6a84bc2；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
+
+Status: done
 Owner: Codex
 Phase: phase1 game / boot lifecycle
 Capability: PROD boot failure progress ownership
@@ -99,3 +158,5 @@ Branch: codex/code-quality-3y
 无下一位 Agent 提示词；Codex单Agent按当前准入继续，旧冻结描述不覆盖本轮明确批准。
 
 - 2026-10-18 Codex：收到用户明确批准后按当前准入完成三源窄修与四反例；原生相邻58绿、精确原红重放1绿、实际PROD失败/正常进场和截图核验完成。状态review，统一门/合并仍未收口；源码头注释另提交cee6cee69，未混入主工作树。
+```
+<!-- incremental-original-source:end -->

@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { basename, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -8,6 +7,8 @@ import {
   historicalStatusFiles,
   linkExceptions,
 } from './config.mjs'
+import { generatedTextIssues } from './document-integrity.mjs'
+import { gitInventory } from './git-inventory.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
@@ -17,6 +18,12 @@ const archivedTaskDirectories = ['docs/ops/archive/tasks/done', 'docs/ops/archiv
 const taskIndex = `${taskDirectory}index.md`
 const statuses = new Set(['draft', 'build', 'review', 'done', 'blocked', 'rework', 'cancelled'])
 const terminal = new Set(['done', 'cancelled'])
+
+export function checkoutFiles(root) {
+  // Apply the original existence filter after cleanup, including when TMPDIR
+  // happens to be inside the checkout and Git observed our temporary file.
+  return gitInventory(root).filter((file) => existsSync(resolve(root, file)))
+}
 
 export function isTaskDocument(file) {
   return (
@@ -164,6 +171,7 @@ export function auditDocuments({
   expectedVersions,
   sectionRules = currentSections,
   exceptions = linkExceptions,
+  historicalTarget = () => false,
 }) {
   const issues = []
   const add = (file, line, message) => issues.push({ file, line, message })
@@ -171,8 +179,9 @@ export function auditDocuments({
   const usedExceptions = new Set()
   let linkCount = 0
   for (const [file, text] of documents) {
+    for (const issue of generatedTextIssues(text)) add(file, 1, issue)
     const destinations = new Set()
-    for (const link of markdownLinks(text)) {
+    for (const link of markdownLinks(text, { positions: true })) {
       let target
       try {
         target = localTarget(file, link.target)
@@ -190,7 +199,10 @@ export function auditDocuments({
         usedExceptions.add(exception)
         if (!exceptions[exception].reason?.trim()) add(file, link.line, '链接例外缺少理由')
         if (exists(target)) add(file, link.line, `链接已恢复，应删除过期例外：${link.target}`)
-      } else if (target.startsWith('../') || !exists(target)) {
+      } else if (
+        (target.startsWith('../') || !exists(target)) &&
+        !historicalTarget(file, text, link, target)
+      ) {
         add(file, link.line, `本地目标不存在或无法随仓库检出：${link.target} → ${target}`)
       }
     }
@@ -308,7 +320,7 @@ export function auditDocuments({
   return { issues, tasks, expectedIndex, linkCount }
 }
 
-function main(args) {
+async function main(args) {
   if (args.some((arg) => !['--print-task-index', '--json'].includes(arg)))
     throw new Error('用法：node scripts/docs/check.mjs [--json | --print-task-index]')
   const namespace = inspectTerminalNamespace(repoRoot)
@@ -324,14 +336,7 @@ function main(args) {
     process.exitCode = 1
     return
   }
-  const files = execFileSync(
-    'git',
-    ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
-    // Complete checkout paths can exceed Node's default 1MiB; keep a finite IO bound.
-    { cwd: repoRoot, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 },
-  )
-    .split('\0')
-    .filter((file) => file && existsSync(resolve(repoRoot, file)))
+  const files = checkoutFiles(repoRoot)
   const available = checkoutTargets(files)
   const paths = files.filter((file) => /\.md$/i.test(file))
   const documents = new Map(
@@ -344,11 +349,33 @@ function main(args) {
   )
   if (!Number.isInteger(content) || !Number.isInteger(save))
     throw new Error('无法读取 canonical 版本常量，停止检查')
+  let retirements = { issues: [], historicalTarget: () => false }
+  const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
+  if (
+    existsSync(registryPath) &&
+    JSON.parse(readFileSync(registryPath, 'utf8')).documentRetirements !== undefined
+  ) {
+    // Navigation-only fixtures need no registry; declared retirements require
+    // the real validated package and frozen sources, not an ignore list.
+    const [{ loadDocumentRegistry }, { readDocumentRetirements }] = await Promise.all([
+      import('./document-registry.mjs'),
+      import('./document-retirements.mjs'),
+    ])
+    retirements = readDocumentRetirements(repoRoot, loadDocumentRegistry().registry)
+  }
   const result = auditDocuments({
     documents,
     exists: (path) => available.has(path) && existsSync(resolve(repoRoot, path)),
     expectedVersions: { content, save },
+    historicalTarget: retirements.historicalTarget,
   })
+  result.issues.push(
+    ...retirements.issues.map((message) => ({
+      file: 'docs/phase-governance/document-registry.json',
+      line: 1,
+      message,
+    })),
+  )
   if (args.includes('--print-task-index')) {
     const invalid = result.tasks.filter((task) => !statuses.has(task.status))
     if (invalid.length)
@@ -380,4 +407,4 @@ if (
   existsSync(process.argv[1]) &&
   realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
 )
-  main(process.argv.slice(2))
+  await main(process.argv.slice(2))

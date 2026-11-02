@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 的交付证据：基线 origin/main `cb12a63e2`、分支 `codex/glm-reforge-main-host-boundaries-r1`；产品/schema/API/旧测/config/baseline/真实数据零改动（diff 仅本卡测试/脚本/证据/卡面/导航行）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 99643333e77f17ca4080daf38d73280c4ec80d94fa20d0fdc82ce2383caad4e5。
+- 交付物：main.host-boundaries-1.test.ts（5 条公开宿主编排合同，bootGame 级经 runtime-shell 真实 IDB/fixture 项目+外部 IO 边界失败注入；无产品 mock/强转/skip）；mhb1-mutation-counterproof.mjs（mt1 r2 口径）；counterproof.json+counterproof-raw（全量执行集 identity 与原文）；gates/（五门原始输出）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 反控 5/5 PASS：baseline 全量 8778 测试/778 文件（identity 集合 sha256 fb7c2a9a…）；每针红相位 exit1、全量恰 1 failed 且 fullName 精确等于目标、唯一指定 AssertionError；恢复绿与 final-replay identity 与 baseline 一致；runner 自测 11 例先行。
+- 针选择披露：MHB-SAVE-FAIL 首选写队列毒化变异会把 checkpoint-export.chain 两条既有合同一并打红（3 failed 不满足恰一红），预核确认本卡测试同样业务红后正式针换为独占的存档失败回执移除（main.ts:4906）；首轮 raw 已被二轮重生成覆盖，换针理由以 runner 内注释为准。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 5 合同：MHB-ENTRY-REVEAL-1 场景入场事务（fade-out 至全黑/onEnter runner fade-in 收口/揭幕后入账/槽释放）；MHB-SCRIPT-ERR-1 脚本错误回执（40 字符截断/槽同步释放/世界保持/重试成功）；MHB-TRIAL-DONE-1 ?battle= 试打全链（跳过入口 onEnter/真实战斗/试打结束:victory/结算恰一次）；MHB-TRIAL-ERROR-1 试打失败回执（敌队没有有效敌人/零战斗/宿主可操作）；MHB-SAVE-FAIL-1 存档失败回执（main.ts:4850-4901 doSave）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 环境清理：每测试 afterEach 收口真实战斗会话 host.close()；反控 try/finally 字节恢复+mkdtemp 删除+clean-tree 断言。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 产品缺陷披露 D-1（不修产品交裁决）：?battle-scene= 遭遇演出接线在投影视图上永找不到 startBattle 命令（一手锚点+实证靴记录见 ledger 第三节）。memory 补充：r1 已推 b0a458809/c48b4a4bd 待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 r1 交付（5 合同+5 针）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — 交付证据：原始正文完整保留于下方 quote。
+- 五宿主编排合同；针选择换针披露；D-1 遭遇演出接线缺陷登记。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 反控结果与环境清理在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `99643333e77f17ca4080daf38d73280c4ec80d94fa20d0fdc82ce2383caad4e5`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `99643333e77f17ca4080daf38d73280c4ec80d94fa20d0fdc82ce2383caad4e5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1 — 交付证据
 >

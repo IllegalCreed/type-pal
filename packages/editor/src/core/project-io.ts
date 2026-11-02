@@ -1,3 +1,4 @@
+import { beginSaveMeasurement } from './save-performance.js'
 /**
  * 项目 IO(D-B1 布置模式 · 逻辑层 L3)。
  *
@@ -143,6 +144,11 @@ export function toEditorState(
   }
 }
 
+export type ProjectWriteActivity =
+  | { phase: 'staging'; completed: number; total: number }
+  | { phase: 'validating' }
+  | { phase: 'writing'; completed: number; total: number }
+
 export interface ProjectWriteResult {
   snapshot: Map<string, string>
   cleanupWarning?: string
@@ -196,55 +202,59 @@ async function validateAuthorProjectContents(
   previousCatalog?: AssetCatalogV1,
   auditMaps = false,
 ): Promise<AuthorProjectCheckReport> {
-  const project = await loadCurrentProjectFrom(source)
-  assertBattleSimulatorPathAvailable(project)
-  assertScriptPreviewPathAvailable(project)
-  const [scenes, stamps, battleSimulator, scriptPreview] = await Promise.all([
-    loadAllAuthorScenes(project),
-    loadStampTemplates(project),
-    loadBattleSimulatorLibrary(source),
-    loadScriptPreviewLibrary(source),
-  ])
-  await serializeProjectWithMapCopies(
-    toEditorState(project, scenes, {}, {}, stamps, battleSimulator, scriptPreview),
-    source,
-  )
-  if (auditMaps) {
-    const tilesets = new Set(project.tilesets.map((tileset) => tileset.id))
-    // Save copy-through deliberately does not parse maps. Audit each indexed map with the
-    // current loader sequentially, without retaining the complete map set in editor state.
-    for (const asset of project.mapIndex.maps) {
-      const map = await loadProjectMapById(project, asset.id)
-      for (const id of map.tilesetRefs)
-        if (!tilesets.has(id)) throw new Error(`地图 ${asset.id} 引用不存在的瓦片集：${id}`)
-    }
-  }
-  const checked = new Set<string>()
-  for (const [id, record] of Object.entries(project.assetCatalog.assets)) {
-    if (
-      checked.has(record.path) ||
-      JSON.stringify(previousCatalog?.assets[id]) === JSON.stringify(record)
+  const finishMeasurement = beginSaveMeasurement('validateAuthorProjectContents')
+  try {
+    const project = await loadCurrentProjectFrom(source)
+    assertBattleSimulatorPathAvailable(project)
+    assertScriptPreviewPathAvailable(project)
+    const [scenes, stamps, battleSimulator, scriptPreview] = await Promise.all([
+      loadAllAuthorScenes(project),
+      loadStampTemplates(project),
+      loadBattleSimulatorLibrary(source),
+      loadScriptPreviewLibrary(source),
+    ])
+    await serializeProjectWithMapCopies(
+      toEditorState(project, scenes, {}, {}, stamps, battleSimulator, scriptPreview),
+      source,
     )
-      continue
-    checked.add(record.path)
-    let bytes: ArrayBuffer
-    try {
-      bytes = await source.readBytes(record.path)
-    } catch (cause) {
-      throw new Error(`保存目标资源缺失或不可读：${record.path}`, { cause })
+    if (auditMaps) {
+      const tilesets = new Set(project.tilesets.map((tileset) => tileset.id))
+      // Save copy-through deliberately does not parse maps. Audit each indexed map with the
+      // current loader sequentially, without retaining the complete map set in editor state.
+      for (const asset of project.mapIndex.maps) {
+        const map = await loadProjectMapById(project, asset.id)
+        for (const id of map.tilesetRefs)
+          if (!tilesets.has(id)) throw new Error(`地图 ${asset.id} 引用不存在的瓦片集：${id}`)
+      }
     }
-    // Stream one changed resource at a time through the SAME bytes/hash/format preflight.
-    await preflightProjectWriteSet({
-      'manifest.json': project.manifest,
-      [project.manifest.assets.catalog]: project.assetCatalog,
-      [record.path]: bytes,
-    })
-  }
-  return {
-    projectId: project.manifest.id,
-    scenes: scenes.length,
-    maps: project.mapIndex.maps.length,
-    assets: Object.keys(project.assetCatalog.assets).length,
+    const recordsByPath = assetRecordsByPath(project.assetCatalog)
+    const checked = new Set<string>()
+    for (const [id, record] of Object.entries(project.assetCatalog.assets)) {
+      if (
+        checked.has(record.path) ||
+        JSON.stringify(previousCatalog?.assets[id]) === JSON.stringify(record)
+      )
+        continue
+      checked.add(record.path)
+      let bytes: ArrayBuffer
+      try {
+        bytes = await source.readBytes(record.path)
+      } catch (cause) {
+        throw new Error(`保存目标资源缺失或不可读：${record.path}`, { cause })
+      }
+      // The canonical loader validated the whole catalog once. Retain the exact hash/format
+      // preflight for EVERY changed resource and ALL its aliases without reparsing that full
+      // catalog and rebuilding its index for every individual file.
+      await preflightAssetBytes(record.path, bytes, recordsByPath.get(record.path)!)
+    }
+    return {
+      projectId: project.manifest.id,
+      scenes: scenes.length,
+      maps: project.mapIndex.maps.length,
+      assets: Object.keys(project.assetCatalog.assets).length,
+    }
+  } finally {
+    finishMeasurement()
   }
 }
 
@@ -492,6 +502,7 @@ export async function writeProject(
     prevSnapshot?: Map<string, string>
     removePaths?: readonly string[]
     onProgress?: (progress: { completed: number; total: number }) => void
+    onActivity?: (activity: ProjectWriteActivity) => void
     copies?: readonly ProjectCopyInput[]
     directories?: readonly string[]
     verifySource?: () => Promise<void>
@@ -600,10 +611,14 @@ export async function writeProject(
             : serializeOne(value)),
       )
     }
+    const notifyWrite = (progress: { completed: number; total: number }): void => {
+      opts?.onProgress?.(progress)
+      opts?.onActivity?.({ phase: 'writing', ...progress })
+    }
     const advance = (size: number): void => {
       completed += size
       // 100% 只在删除也落定后报告；避免 manifest close 后、函数返回前 UI 先宣告完成。
-      if (completed < total) opts?.onProgress?.({ completed, total })
+      if (completed < total) notifyWrite({ completed, total })
     }
     const inputs: AuthorSaveInput[] = []
     const completions: Array<() => Promise<void>> = []
@@ -681,24 +696,33 @@ export async function writeProject(
     }
     const scope = authorizedSaveScope(mutation)
     const workspace = scope.workspace
+    const stagingTotal = inputs.filter((input) => input.kind === 'write').length
+    let stagedFiles = 0
+    opts?.onActivity?.({ phase: 'staging', completed: 0, total: stagingTotal })
     const prepared = await prepareAuthorSave(
       mutation,
       inputs,
-      (source) => validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog),
+      (source) => {
+        opts?.onActivity?.({ phase: 'validating' })
+        return validatePreparedProject(source, scope.firstSave ? undefined : previousCatalog)
+      },
       {
         catalogPath,
         beforeSeal: verifySource,
-        onStaged: opts?.onStaged,
+        onStaged: (bytes) => {
+          opts?.onStaged?.(bytes)
+          opts?.onActivity?.({ phase: 'staging', completed: ++stagedFiles, total: stagingTotal })
+        },
       },
     )
     interruptedSnapshots.set(workspace, new Map(snapshot))
-    opts?.onProgress?.({ completed, total })
+    notifyWrite({ completed, total })
     let appliedIndex = 0
     const result = await commitAuthorSave(prepared, async (step) => {
       if (step.kind !== 'mkdir') await completions[appliedIndex++]!()
     })
     interruptedSnapshots.delete(workspace)
-    opts?.onProgress?.({ completed: total, total })
+    notifyWrite({ completed: total, total })
     return { snapshot, ...(result.cleanupWarning ? { cleanupWarning: result.cleanupWarning } : {}) }
   })
 }
@@ -726,49 +750,65 @@ export async function preflightProjectWriteSet(
       if (!(rel in files) && Object.values(catalog.assets).some((record) => record.path === rel))
         throw new Error(`保存不能删除当前 catalog 仍引用的资源：${rel}`)
     }
-    const recordsByPath = new Map<string, (typeof catalog.assets)[string][]>()
-    for (const record of Object.values(catalog.assets))
-      recordsByPath.set(record.path, [...(recordsByPath.get(record.path) ?? []), record])
+    const recordsByPath = assetRecordsByPath(catalog)
     for (const [rel, value] of Object.entries(files)) {
       if (!(value instanceof ArrayBuffer)) continue
       const records = recordsByPath.get(rel)
       if (!records) continue // 非 catalog 管理的项目附属二进制不参与资源记录校验。
-      const hash = await sha256Hex(value)
-      for (const record of records)
-        if (record.bytes !== value.byteLength || record.sha256 !== hash)
-          throw new Error(`资源二进制与 catalog 不符: ${rel}`)
-      if (records.some((record) => record.kind === 'tileset')) {
-        const bytes = new Uint8Array(value)
-        if (bytes[0] !== 0x1f || bytes[1] !== 0x8b)
-          throw new Error(`瓦片集资源不是 canonical gzip: ${rel}`)
-        try {
-          parseSpriteChunkStrict(await decompressGzip(new Blob([value])))
-        } catch (cause) {
-          throw new Error(
-            `瓦片集资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
-          )
-        }
-      }
-      for (const record of records)
-        if (record.kind === 'sprite') {
-          try {
-            await decodeWorldSpriteAssetBytes(record, value, `精灵资源 ${rel}`)
-          } catch (cause) {
-            throw new Error(
-              `精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
-            )
-          }
-        }
-      for (const record of records)
-        if (record.kind === 'battle-sprite') {
-          try {
-            await decodeBattleSpriteAssetBytes(record, value, `战斗精灵资源 ${rel}`)
-          } catch (cause) {
-            throw new Error(
-              `战斗精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
-            )
-          }
-        }
+      await preflightAssetBytes(rel, value, records)
     }
   }
+}
+
+/** Complete alias groups are built once from the already validated catalog, never from disk caches. */
+function assetRecordsByPath(catalog: AssetCatalogV1) {
+  const byPath = new Map<string, AssetCatalogV1['assets'][string][]>()
+  for (const record of Object.values(catalog.assets)) {
+    const group = byPath.get(record.path)
+    if (group) group.push(record)
+    else byPath.set(record.path, [record])
+  }
+  return byPath
+}
+async function preflightAssetBytes(
+  rel: string,
+  value: ArrayBuffer,
+  records: readonly AssetCatalogV1['assets'][string][],
+): Promise<void> {
+  const hash = await sha256Hex(value)
+  for (const record of records)
+    if (record.bytes !== value.byteLength || record.sha256 !== hash)
+      throw new Error(`资源二进制与 catalog 不符: ${rel}`)
+  if (records.some((record) => record.kind === 'tileset')) {
+    const bytes = new Uint8Array(value)
+    if (bytes[0] !== 0x1f || bytes[1] !== 0x8b)
+      throw new Error(`瓦片集资源不是 canonical gzip: ${rel}`)
+    try {
+      parseSpriteChunkStrict(await decompressGzip(new Blob([value])))
+    } catch (cause) {
+      throw new Error(
+        `瓦片集资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+      )
+    }
+  }
+  for (const record of records)
+    if (record.kind === 'sprite') {
+      try {
+        await decodeWorldSpriteAssetBytes(record, value, `精灵资源 ${rel}`)
+      } catch (cause) {
+        throw new Error(
+          `精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+        )
+      }
+    }
+  for (const record of records)
+    if (record.kind === 'battle-sprite') {
+      try {
+        await decodeBattleSpriteAssetBytes(record, value, `战斗精灵资源 ${rel}`)
+      } catch (cause) {
+        throw new Error(
+          `战斗精灵资源 RLE 损坏: ${rel}(${cause instanceof Error ? cause.message : String(cause)})`,
+        )
+      }
+    }
 }

@@ -1,6 +1,59 @@
 # CODE-QUALITY-84 — game inventory menu state / target contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验物品菜单状态机四文件（`inventory-menu.ts` 276 行与三份测试）:全库存列表复制、过滤着色、3 列×7 行非环绕 clamp 光标、`confirmInventoryItem` 只接受可用且 `count-inUse>0`（死人不禁选,符合复活药入口）、`confirmInventoryTarget` 返回真实 role id 并记忆 party slot、cancel 不写回真实库存;与 SDLPal `itemmenu.c:24-460`、`uigame.c:1289-1510` 的 `PAL_ItemUseMenu` 目标 slot 记忆/运行时数量/role 映射及 `play.c:244-325` 消耗循环对齐。本治理页只承载历史任务语义。
+
+## 范围
+
+白名单仅 inventory-menu 四文件;开批基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`,分支 `codex/code-quality-3y`。CODE53/57/79/80/81 不占用白名单;menu-driver live refresh、item script resume 与 draw-inventory 像素合同由相邻/历史卡负责。
+
+## 前提与证据
+
+关键合同:usable 大世界入口追加已装备可用物（`count=0,inUse=-1`）;模块级 target slot 记忆对应 SDLPal static,不进入存档;`[2,0]` 非顺序队伍返回 role id 边界 oracle 直接验证 role identity。最强替代解释"party member 数组与角色 catalog id 在某些迁移输入中不一致"由 PlayerRoles/party callers 与 SDLPal 均以 role id 作数组索引反证;观察到 save hydrate 写入负 cursor 时前提失效须停线。
+
+## 验收
+
+定向与相邻 9 个测试文件、413 tests 通过（event-system negative-control stderr 为受测反例输出,非新增诊断）;game typecheck 与白名单 Biome 无诊断;全仓 `pnpm check`（content149/1498、game314/3550 等 7 包）、官方 `pnpm coverage:ratchet`（731 files/19855 tests,statements 89.93%、branches 83.65%、functions 89.50%、lines 91.81%,基线未放宽）、`pnpm check:fast`、lint-zero 4010 files 0/0/0、docs/content-review strict、ledger、`git diff --check` 均通过。四条账本记录关闭后归档。
+
+## 状态与交接
+
+done 保持原语义:未发现可直接修复缺陷,无实现改动;账本 3270 files:closed 348、review 9、pending 2913。未知项（负持久化 cursor、背包与装备追加同 item 去重）保持不猜测关闭。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点;原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:输入、边界、role identity、错误传播、异步取消、资源清理或公共接口均未发现缺陷;测试无恒真或弱覆盖。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执(413 定向/相邻、ratchet 指标、lint 4010 零诊断)属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭 646c809 基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-91（一级 action 框）与 CODE-QUALITY-86（装备菜单）为相邻已收口卡;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 8810B / SHA-256 db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-84 — game inventory menu state / target contract
+
+Status: done
 Owner: Codex
 Phase: phase1 game core/menu
 Capability: inventory menu navigation and item-use target lifecycle
@@ -94,3 +147,5 @@ Codex：premise verified / build allowed。无实现改动；本批只在完成�
 - CODE-QUALITY-53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件保持原状态，继续 pending/review/draft；未知的负 cursor、装备重复展示和迁移 id 假设不在本批猜测关闭。
 - 当前账本应为 3270 files：closed 348、review 9、pending 2913；全仓专项仍未完成。
 - 无下一位 Agent 提示词；从最新 ledger 选择下一组不重叠的 2–4 个 pending 文件继续。
+```
+<!-- incremental-original-source:end -->

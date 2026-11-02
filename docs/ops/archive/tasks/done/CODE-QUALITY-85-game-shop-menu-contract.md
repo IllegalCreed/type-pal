@@ -1,6 +1,59 @@
 # CODE-QUALITY-85 — game shop menu state / transaction contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验商店买/卖菜单状态机四文件（`shop-menu.ts` 103 行与三份测试）:SDLPal 商品索引、环绕导航、买卖条件、金额/库存原子更新与取消/返回生命周期;确认只返回意图,cash/inventory 由 menu-driver 所有;无钱、无货、边界商品、重复确认和脚本失败不能产生部分交易或把菜单快照误写回真实 GameState。
+
+## 范围
+
+白名单仅 shop-menu 四文件;开批基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`,分支 `codex/code-quality-3y`。CODE53/57/79/80/81 不占用白名单;CODE84 inventory menu 已收口;卖出侧（sell-menu）明确留给 CODE-QUALITY-93。menu-driver 交易应用、inventory-state 容量/装备占用、draw-shop 相邻文件不因本批关闭。
+
+## 前提与证据
+
+primary source:`uigame.c:1615-1791`、`itemmenu.c:287-310`、`play.c:289-320` 买卖/选择/成功门。逐文件:`createBuyMenu` 保留 store 注入后的商品顺序和价格快照,list/confirm 两阶段、非环绕选择由相邻 primitives 提供,买不起或空/不匹配目录不进入确认;取消在 confirm 回 list、list 返回 close。
+
+## 验收
+
+定向与相邻 11 个测试文件、408 tests 通过（event-system skip/goto/setObjectPos 输出为已有 negative-control oracle,非新增诊断）;game typecheck 与白名单 Biome 无诊断;全仓 `pnpm check`（7 包,lint 4010 files 0/0/0）、官方 `pnpm coverage:ratchet`（731 files/19855 tests,statements 89.93% 等指标基线不变）、`pnpm check:fast`、docs/content-review strict、ledger、`git diff --check` 均通过。测试质量修正两处:移除主测试无业务效果的 dead import/expression;把 boundaries 中对新 clone 的恒真自比改为对实际 `ITEMS` catalog 的不变性断言。
+
+## 状态与交接
+
+done 保持原语义:四条账本记录关闭,账本 3270 files:closed 352、review 9、pending 2909。未修改生产实现、公共接口、schema/save、资源、生成物或用户可见行为。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点;原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现 shop 状态机直接缺陷;恒真弱测试已替换为真实 catalog 不变性 oracle。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（408 定向/相邻、ratchet 指标、lint 4010 零诊断）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭 646c809 基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-93（sell-menu 四文件）与 CODE-QUALITY-52（draw-shop 绘制）为相邻归属;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7773B / SHA-256 60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-85 — game shop menu state / transaction contract
+
+Status: done
 Owner: Codex
 Phase: phase1 game core/menu
 Capability: shop buy/sell menu navigation and transaction lifecycle
@@ -91,3 +144,5 @@ Codex：premise verified / build allowed。未开始实现；若无直接缺陷�
 - `menu-driver.ts` 交易应用、`inventory-state.ts` 容量/装备占用差异、`sell-menu.ts` 与 `draw-shop.ts` 相邻文件仍不因本批自动关闭；如需修复必须另开不重叠卡并先核真实 runtime/save 证据。
 - CODE-QUALITY-53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件保持原状态；当前账本应为 3270 files：closed 352、review 9、pending 2909。
 - 无下一位 Agent 提示词；从最新 ledger 选择下一组不重叠的 2–4 个 pending 文件继续。
+```
+<!-- incremental-original-source:end -->

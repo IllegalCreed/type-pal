@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+C03上传向导（SpriteUploadWizard）测试改为等待真实IO：初始/换scope读实际标准色表、PNG异步解码后才设草稿、真实gzip/SHA/命令提交后调onDone、退出selection释放位图；故意挂起的读取由测试显式放行。诊断治理与已证重复精简并行，不关闭环境检查、不伪造成功。
+
+## 范围
+
+build allowed四源：upload-harness.tsx/upload-ui.ts的Wizard分段、G02、G07测试；Viewer/Uploader分段只做相邻回归；产品、schema/save、资产管线、公共接口与规则不改。
+
+## 前提与证据
+
+固定源全文核读各检查点。首窗实测推翻“只改mount即可清除”的解释：宿主消融30例仍57act；补真实色表/位图/回调等待后30例通过仍2act（G02-10点击后以act外DOM轮询等错误，gzip/SHA的catch/finally两更新逃出act）。恢复C10轮：G02-10改为显式等待真实crypto.subtle.digest Promise，同30身份先清2act；G07-03（body为02取消/一次回调/历史合同弱子集）与G07-09（无错误恢复，改第二id后成功由04两次回调/历史合同覆盖）经验证退役10→8，05标题改首次编辑；最终Wizard 28零诊断。两业务反控（取消后迟到位图释放、重复提交锁）各恰一指定AssertionError；两退役oracle转移及原生绿但2act的诊断反控单列；27项/net62退役账重建。相邻78通过仍Uploader 6act；editor整包631文件/4943通过仍624act/243环境/1表单告警，统一验收拒绝。首轮静态unused import告警保留，删除唯一未用binding后按最终字节回归。证据:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
+
+## 验收
+
+Wizard侧30→28身份清零诊断并有双反控/退役转移证据成立；但统一零诊断门（全仓）未过：相邻与整包仍存act/环境/表单告警，0文件关闭、不合main、不把局部结果当独立验收。
+
+## 状态与交接
+
+build保持原语义：本片待续，完整门留稳定模块窗口；用户优先级转前94全83卡复审，本片不缩成诊断治理。无下一位Agent提示词，Codex单Agent继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 7723B / SHA-256 66ddcf636b80892d26d5427b0cb70f55a892a47bdfa21fe1aa05969c98f104ea；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简
+
+Status: build
 Owner: Codex
 Reviewer: Codex（作者自验与另进程证据核对分记）
 Phase: phase2
@@ -54,3 +87,5 @@ Codex premise verified/design agree/build allowed此次四文件：upload-ui.ts�
 [恢复证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)：同30身份先清2act；G07两弱子集有转移反控后10→8，最终Wizard28零诊断。两业务反控各恰一指定AssertionError；两oracle转移及原生绿但2act的诊断反控单列，完整十二轮/真实模块图与精确27项/net62退役已重建。产品/配置/基线不变，四测试/驱动文件仅review；初次静态unused import告警保留，删除唯一未用binding后按最终字节回归。
 
 相邻78通过仍Uploader6act；editor实际631文件/4943通过仍624act、243环境和1表单告警，拒绝统一验收；editor typecheck/72工具通过，reforge及静态门按恢复gates原件。0新增关闭；全仓check/官方ratchet/protected尚未新跑，不合main。用户再次明确前94全部83卡成果复审，本检查点提交后回3d/3g，editor余项保留，不将范围缩成诊断治理。83卡仍10partial/73pending/0整卡accept；无下一位Agent提示词，Codex单Agent继续。
+```
+<!-- incremental-original-source:end -->

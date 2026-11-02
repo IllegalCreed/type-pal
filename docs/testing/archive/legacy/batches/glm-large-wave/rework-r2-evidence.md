@@ -1,40 +1,61 @@
 # TEST-GLM-LARGE-WAVE-4 · R2 返工逐项证据（对 codex-review-8cb0af0a.md）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LARGE-WAVE-4 R2 返工逐项证据（R2 候选 031b3e47、R3 窄返工本次推送、基点 R1 8cb0af0a；范围仅原卡白名单未触产品/旧测试/官方基线/F-J）。
+
+## Scope
+
+- 五项逐项：1. 完整 lint 15/2/1→PASS 2,666 files 0/0/0（JSON/mjs/tsx biome check --write；drive-a 去未用 createHash；host-b 补 type=button；needle-judge 重写消除 useTemplate/unused/organize）。2. 24 处非法强转→0（assetBase 一律 loadLegalUiProject、assetReader createEditorAssetReader、EnemyDef validateEnemies 同形状、canvas 2d 走 canvas-2d-port.ts 真原型派生替身 Object.create(prototype)+vi.fn 成员无类型断言；DataMode 子组件 vi.mock 全移除改真实挂载——真实 DsTabs 页签+真实 ShopTab 独立试买弹窗 4/4 绿，测试文件零 vi.mock）。3. 两后缀修正（command-form-world .ts→.tsx git mv；use-editor-project-session .tsx→.ts createElement）其余 15 复核；新鲜 JSON 重生成。4. needle-judge R2 严格判据（整体运行无 -t、基线 executed>0 零 skip、注入点唯一、恰 exit1 恰 1 FAIL、FAIL 为被注入绝对临时文件、完整失败名含 --name、AssertionError、executed 前后一致、hash 漂移即 INVALID；Test Files 行不污染计数只解析 Tests 汇总行、FAIL [tag] migrate |unit| 标签可解析）+selftest 8 项（好针/hash 漂移/skip/混错/零执行/timeout/错名/注入点非唯一 INVALID）；五批代表针 11/11 重跑 VALID。5. 并集 17/43+五份回执补完整 SHA（A 1429e1b1/B 1af7883b/C 0e05c346/D 623aa49c/E 8cb0af0a）+README 恢复 ced193f4 原样（docs/check.mjs 7 条未链接留 Codex）。
+
+## Execution and assertions
+
+- R3 判据（命令表 11 针在 quote）：INVALID/异常路径先删除 .needle-tmp 再退出（selftest 逐例断言零遗留）、FAIL 文件 resolve 全等、失败名与 --name 完整相等、汇总 failed 恰 1；R3 复跑 11/11 VALID+selftest 9 项全过。
+
+## Results
+
+- 复跑门（R2）：定向 editor 50/50（13 文件）/reforge 7/7/migrate 9/9；三包 typecheck 0；完整 lint PASS 0/0/0；diff 干净；verify-targets exit0。
+
+## Evidence
+
+- 原 R2 的 lint 18 诊断整改、判据与去重依据见 [needle-judge.mjs](needle-judge.mjs)、[判据自测](needle-judge.selftest.mjs)和[五批并集](five-batch-union.md)；它们是原时点证据，当前未执行。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| R2 返工证据 | 原文时点 | lint 18→0/24 强转→0 零 vi.mock/两后缀一致/judge 严格判据+8 自测/17-43 更正+README 恢复 | 交 Codex（R3 窄返工接续） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+本页是 TEST-GLM-LARGE-WAVE-4 R2 返工逐项证据（R2 候选 031b3e47、R3 窄返工本次推送、基点 R1 8cb0af0a；范围仅原卡白名单未触产品/旧测试/官方基线/F-J）。 本节仅描述固定原源及其候选时点。
 
 ## 原始结论
 
-- TEST-GLM-LARGE-WAVE-4 · R2 返工逐项证据（对 codex-review-8cb0af0a.md）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+R2 五项闭合（lint 18→0/24 强转→0 零 vi.mock/两后缀/judge 严格+8 selftest/17-43+README 恢复）；R3 INVALID 先清理+完整失败名精确相等+selftest 9；11 针命令表。以上是原卡时点陈述，本页未复跑。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 原 R2 的 lint 18 诊断整改、判据与去重依据见 [needle-judge.mjs](needle-judge.mjs)、[判据自测](needle-judge.selftest.mjs)和[五批并集](five-batch-union.md)；它们是原时点证据，当前未执行。
+
+原始执行、反例和后续处理按固定 quote 保留，不由本次静态治理重授。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。R2 五项闭合（lint 18→0/24 强转→0 零 vi.mock/两后缀/judge 严格+8 selftest/17-43+README 恢复）；R3 INVALID 先清理+完整失败名精确相等+selftest 9；11 针命令表是固定原源时点的记录；本页不代表当前产品、E2E、视觉或覆盖率通过。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+后续状态以 TEST-GLM-LARGE-WAVE-4 原任务卡及其明确验收链为准；本历史页不新授信用。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `3086e674b9e66a5dbf1bb5b2a79d4c5f350be58d0d5b167bfecf1f9dc6e31a66`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `3086e674b9e66a5dbf1bb5b2a79d4c5f350be58d0d5b167bfecf1f9dc6e31a66`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
+
 <!-- original-source-quote:start -->
 > # TEST-GLM-LARGE-WAVE-4 · R2 返工逐项证据（对 codex-review-8cb0af0a.md）
 >

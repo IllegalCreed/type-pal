@@ -1,6 +1,39 @@
 # QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流
 
 Status: review
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+Kimi战斗精灵测试改真实工作流：BattleSpriteLibrary.kimi-workflows.test.tsx六条工作流撤掉重复宿主/轮询点击/空Promise，复用C02真实宿主与完成信号；battle-sprite-fixtures.ts仅头注明确编辑器测试复用、不改fixture实现。目标口径：六条合法输入与业务oracle保留、同字节复用检查真实准备结果（append arrange改写prepare返回值不能作为真实复用证据）。
+
+## 范围
+
+仅两份测试源码；不改产品、公开接口、schema/save/资产管线、生成物与规则；旧Kimi十二组任务已done归档，不改其历史accept。
+
+## 前提与证据
+
+固定源全文核读。作者检查点：六例完整398→0诊断（此前kimi-workflows为398条告警最高文件之一）；实际复用真实C02宿主与完成信号，复制的宿主及空Promise/轮询点击已移除，六例名称/计数不变。两项旧绿/新红反控证DnD小数与真实复用oracle改进，缩帧反控仍准确红；所有新红均完整六例、恰一指定业务AssertionError、0skip/0诊断、恢复六绿。当前注释声称pending拒绝但只在proof就绪后点击，已撤回虚假声明。相邻11文件90例、editor typecheck、coverage工具65通过；联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md](../archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) [window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。
+
+## 验收
+
+机器3284/229closed/56review/2999pending（联合窗口后62review/2993pending）、0新关闭；统一门未过不合main。
+
+## 状态与交接
+
+review保持原语义；下一候选为剩余native导航两测试或World资源工作流。无下一位Agent提示词，Codex继续。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 4641B / SHA-256 441b61c927de3d0d9edbd57c676f95d09f28b403b3554cc0254deced976983fd；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流
+
+Status: review
 Owner: Codex
 Reviewer: Codex（作者实测与独立验收分开）
 Phase: phase2
@@ -49,3 +82,5 @@ Codex：premise verified / design agree，build allowed，仅上述范围。
 ## 联合窗口复核
 
 C04/C05/C06八源冻结候选cae26b1c7已完成check、普通ratchet、protected fast，退出码均0；硬静态零诊断，coverage范围/指标无删降。仍有act/环境诊断，严格统一门未过，不标done、不合main。详细原始计数、caller边界和剩余风险见[联合记录](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md)。0文件关闭，账本3284/229closed/62review/2993pending。无下一位Agent提示词，Codex继续。
+```
+<!-- incremental-original-source:end -->

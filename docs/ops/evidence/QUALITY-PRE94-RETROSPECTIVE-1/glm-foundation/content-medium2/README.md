@@ -1,5 +1,38 @@
 # content-medium2(中件七文件)八维复审批
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 pre-94 foundation 模块 12 批 32(content 包批 3)的八维复审批回执:对象为 packages/content 中件七文件,Coding Owner GLM 逐文件全文读毕(rewards 253/command-target-reference 323/battle-formulas 324/actor-reference 341/character 351/actor-condition 368/project-map 394 行),裁定为零整改批(B–H 全维通过,零代码/注释改动,工作树零 diff)。证据原件即下方逐字节保全的固定main源(2231B,SHA ba155166198a)。
+
+## 来源与输入
+
+基线 origin/codex/code-quality-3y @ 53db76bbbb(候选线 66+ 提交)。本批零整改依据逐文件:rewards.ts 带 B7a/B7c 全套原版考证(battle.c:991-1372 逐行锚:满级续扣 exp :1110/升级回满 :1115-1116/学技 :1300-1321/半恢复 :1342-1372;隐藏经验 WORD 截断+无属性 cap 与主升级差异声明);battle-formulas.ts 逐式与一阶段 formulas/turn-queue/status 三件一致,SHORT 逐步截断、magicDefenseDivisor 乘加结构、applyPlayerStatus 坏状态已有不刷新修正史全部准确;actor-reference.ts 19 kind typed policy 表(seedStats 双重身份注释)与 canonical 单命令访问不进嵌套 arm 边界;character.ts reserve 暂存区 D22 拍板、appearance 持久换形象 vs 0x65 临时演出区分、CONTINUE/CURRENT_PROJECT_MINIMUM_SAVE_VERSION 两版本轴独立声明;actor-condition.ts carryable 状态闭集(傀儡 dead-only 不可携带)、坏不刷新/好取长的唯一叠加规则、seed 物化不跑相克链声明;command-target-reference.ts openShop sell 分支不读 shops 的非引用声明、复制场景只重写显式 source SceneId;project-map.ts 错排 lattice 2×height 行、sources 单来源可省略冗余矩阵的 canonical 序列化、authoring 放置组视觉/碰撞槽全局唯一所有权校验。Codex 当前裁定(2026-10-19)与可复用范围见 [codex-stage2-rework.json](../codex-stage2-rework.json)。
+
+## 断言与业务 oracle
+
+定向 12 文件 43 套件 125/125、0 failed suites,机器回执 [directed.json](directed.json);`tsc --noEmit -p packages/content` exit 0 且工作树零 diff。125 例真实主轴:battle-formulas 25 例逐式对齐 fight.c(含毒系走 poisonRes、dualMove 回退 dex-1、status 10 种逐回合-1、加速↔迟缓互斥标注为非 CLASSIC 引擎超集);character 25 例覆盖 buildWorld 入口 startWorld 数据化与 applySetParty C7 reserve 暂存区(离队状态不丢、学习进度不被出厂技能覆盖、失败不留半提交);actor-condition 四件覆盖 seed/物化/宿主命令轴与死者 apply confused 残差;rewards 覆盖 B7a 99 级上界钳 999 与 B7c 隐藏经验比例分配;project-map 覆盖 tiles/sources lockstep 与旧开发版本拒绝。绿结果为该时点定向事实,不外推整包收口。
+
+## 结果
+
+零整改批:B–H 八维全过,零代码/注释改动,工作树零 diff;登记项无新增。本页治理层面原文保全完整、链接处置如实,不产生新执行结果。
+
+## 限制与复核
+
+未重跑任何命令/测试;行号锚与七文件行数为原时点记录未重新丈量;Codex 2026-10-19 裁定本页保留作者阶段证据、未获整包/全维收口验收;历史结论保持原时点。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 2231B / SHA-256 ba155166198a6926b8c31b2453a7119ab9e34ab0d5140f2024ca13157e713893；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# content-medium2(中件七文件)八维复审批
+
 > Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
 
 - 批次:pre-94 foundation 模块 12 批 32(content 包批 3)
@@ -25,3 +58,5 @@
 ## 登记项
 
 无新增。
+```
+<!-- incremental-original-source:end -->

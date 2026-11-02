@@ -1,69 +1,57 @@
 # gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 gameOverActive 自造字段重构设计的归档重写。数据真值、标记拆分与逐 consumer 改法在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：deathHoldActive/gameOverActive split, consumers, tick timing and focused tests.
-- 日期：2026-06-01；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160`。
+- 背景：`gameOverActive` 是 ts 自造字段（sdlpal 0 命中），判据 `outcome === 'lost'` 无 sdlpal 出处——石长老鬼阴山必败续剧情战（0x07[34,0,0] lostJump=0）被误置错误红屏；user 实测石长老战败应直接回大世界续剧情。
+- 方法：2 轮 workflow（穷尽映射+收窄难点）+ 对抗验证 5 反例全 CORRECT；判据收敛到「脚本是否真执行 0x4F」（2026-06-01）。
 
 ## 里程碑
 
-- 原始章节：Design: 过渡帧 hold + 0x4F 点亮死亡视觉；0. 数据真值(已 byte-level 核实,data/extracted/events/all.json)；1. 标记拆分:`deathHoldActive`(过渡帧)+ `gameOverActive`(0x4F 后)；2. 逐 consumer 改法；(a) `game-state.ts` resumePostBattleScript(set 点)— 用预判替换无条件置位；(b) `present.ts` presentFrame(read 点)— hold 分支并入 deathHoldActive；(c) `event-system.ts` 0x4F handler(点亮 + 移交)；(d) `event-system.ts:1647` showDialog(不动 + 验证不误清)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 标记拆分：`deathHoldActive`（过渡帧）+ `gameOverActive`（0x4F 后）。
+- 逐 consumer 改法六处：game-state resumePostBattleScript 预判替换无条件置位、present hold 分支并入 deathHoldActive、0x4F handler 点亮+移交、showDialog 不误清、bootstrap isDeathReload 双标记、scene-system clear 双标记。
 
 ## 当前状态
 
-- historical；gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)：这是 plan-status，当前文档状态为 historical。全文 216 行、15 个标题；摘要/首段为「> **背景**:`gameOverActive` 是 ts 自造字段(sdlpal 0 命中),判据 `outcome === 'lost'` 无 sdlpal 出处 →」。属于历史/归档材料，不能单独证明当前实现。
+- historical：byte-level 数据真值已核实（0x4F 唯一在 41076；死亡 run 41075-41083；team21 6186-6190 goto L_41075 唯一来自 6189；team29 无 0x4F）；全套 set/read/handler/clear 锚点行号在 quote 保全。
 
 ## 阻塞与决策
 
-- 正文信号 11:>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,
-- 正文信号 50:> 为何不只挪判据到 0x4F、不加新标记?Q6 已证:T0 末 onPresent 时 0x4F 尚未跑(在 ip 41076,前面 41075 是 0x43 `break` 续跑),`gameOverActive=false` → 走 `present.ts:162 fb.clear()` 露大世界 1 帧。必须有 T0 同步点亮的过渡标记补这一帧。`d
-- 正文信号 99:return   // 纯 hold:此刻无死亡 dialog,palette 也还没 ramp(0x4F 未跑)
-- 正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：以脚本是否真执行 0x4F 为唯一死亡判据，废弃 outcome==='lost' 推断。
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点重构已实施；当前死亡/战败行为以现行 event-system 与测试为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160`。
+- phase1 plans 重构设计；时点 2026-06-01；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)：这是 plan-status，当前文档状态为 historical。全文 216 行、15 个标题；摘要/首段为「> **背景**:`gameOverActive` 是 ts 自造字段(sdlpal 0 命中),判据 `outcome === 'lost'` 无 sdlpal 出处 →」。属于历史/归档材料，不能单独证明当前实现。
+- 标记拆分与 0x4F 判据收敛为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工); 18:Design: 过渡帧 hold + 0x4F 点亮死亡视觉; 20:0. 数据真值(已 byte-level 核实,data/extracted/events/all.json); 41:1. 标记拆分:`deathHoldActive`(过渡帧)+ `gameOverActive`(0x4F 后); 54:2. 逐 consumer 改法; 56:(a) `game-state.ts` resumePostBattleScript(set 点)— 用预判替换无条件置位; 93:(b) `present.ts` presentFrame(read 点)— hold 分支并入 deathHoldActive; 109:(c) `event-system.ts` 0x4F handler(点亮 + 移交)；原始正文、代码、表格、状态词在 quote 保全。
+- all.json 逐地址真值与六处 consumer 行号锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 11:>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,
-- 正文信号 50:> 为何不只挪判据到 0x4F、不加新标记?Q6 已证:T0 末 onPresent 时 0x4F 尚未跑(在 ip 41076,前面 41075 是 0x43 `break` 续跑),`gameOverActive=false` → 走 `present.ts:162 fb.clear()` 露大世界 1 帧。必须有 T0 同步点亮的过渡标记补这一帧。`d
-- 正文信号 99:return   // 纯 hold:此刻无死亡 dialog,palette 也还没 ramp(0x4F 未跑)
-- 正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und
+- historical。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 现行 event-system/game-state 实现；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)
 >

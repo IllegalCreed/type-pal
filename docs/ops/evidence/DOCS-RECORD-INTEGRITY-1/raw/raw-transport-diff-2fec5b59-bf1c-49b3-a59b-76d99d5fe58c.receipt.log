@@ -1,0 +1,36 @@
+{
+  "kind": "actual-diff-failure-before-lossless-evidence-transport",
+  "command": [
+    "git",
+    "diff",
+    "--check",
+    "28fd9013e09e8792decbff2fa117aae14c36b196..HEAD"
+  ],
+  "cwd": "/Users/zhangxu/illegal/type-pal-docs-audit-rework",
+  "sourceHead": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+  "startedAt": "2026-10-17T20:40:21.200047+00:00",
+  "finishedAt": "2026-10-17T20:40:21.486915+00:00",
+  "exitCode": 2,
+  "signal": null,
+  "files": [
+    {
+      "stream": "stdout",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/raw-transport-diff-2fec5b59-bf1c-49b3-a59b-76d99d5fe58c.stdout.log.gz",
+      "encoding": "gzip",
+      "payloadSha256": "7e223518c4924da207992de8d779fd37ca511661a1d52a3fcd8cb235ef7ccded",
+      "payloadBytes": 6883,
+      "storedSha256": "e2ee28e2172c60f1acf504aef020190de70e00bdc5f1230bb7a3db60def7fc52",
+      "storedBytes": 454
+    },
+    {
+      "stream": "stderr",
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/raw-transport-diff-2fec5b59-bf1c-49b3-a59b-76d99d5fe58c.stderr.log.gz",
+      "encoding": "gzip",
+      "payloadSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "payloadBytes": 0,
+      "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "storedBytes": 20
+    }
+  ],
+  "notClaimed": "This is a new actual reproduction of the failure against frozen0bac, not reconstructed stdout from the earlier staged invocation."
+}

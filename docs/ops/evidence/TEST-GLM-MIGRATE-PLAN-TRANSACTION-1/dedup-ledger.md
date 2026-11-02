@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 的排重账：7 文件逐轴 source:line×public caller×input×oracle×fullName 判定。基线 origin/main cb12a63e2，unit 定向 v8 覆盖（migration-plan 100%/97.91B、transaction 99.52/99.45B、write-plan 100/95B、project-io 97.36/93.47B、current-publication 98.07/92.5B、store-boundary 100/95.87B、files 类型模块）；既有 fullName 域含四套件×7 模块+Kimi extract/migrate+GLM-O+asset-supply 归档卡；v8 locless/纯类型行不作 unreachable 依据（判例沿用）。
 
 ## 证据身份
 
-- TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 排重账 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 9934a9e704086765d5a28949c031134a0e5d9cb300c7b586dcaa54454501e01f。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- migration-plan/transaction/write-plan/project-io/files/current-publication/store-boundary 七文件。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 节选判定：migration-plan :30-43 snapshotOf existing-proof；:75 missing 臂 unreachable（typed-input——hashes Map 无 undefined 值）；:103 第一处 add-add unreachable（逻辑矛盾推导）；:134-217 createMigrationPlan existing-proof（test 16+boundaries 8+glm-o 12）。
+- migration-transaction 既有四套件已覆盖路径域/scope 目标域/symlink/journal 全单轴/TOCTOU；:198 提交排序门（两 manifest scope 不同目标）净新（修正 kimi unreachable 判断——该证明仅对恢复路径成立）。
+- migration-write-plan :91 false 臂净新（退役 baseline 不在磁盘不产生幻影 delete）；其余段 existing-proof（quote 表内逐行六主题映射）。
+
+## 来源与输入
+
+- typed 合法 manifest/snapshot/baseline 构造；同 fixture 正控（在场臂旧证）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 2 净新合同+1 账目修正；locless 不作 unreachable 依据。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（2/2+2 针三态+final-replay）。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 排重账（7 文件逐轴）；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 排重账：原始正文完整保留于下方 quote。
+- 排序门与幻影 delete 两净新；多处以一手逻辑推导证 unreachable。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 cb12a63e2 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `9934a9e704086765d5a28949c031134a0e5d9cb300c7b586dcaa54454501e01f`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `9934a9e704086765d5a28949c031134a0e5d9cb300c7b586dcaa54454501e01f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-MIGRATE-PLAN-TRANSACTION-1 排重账
 >

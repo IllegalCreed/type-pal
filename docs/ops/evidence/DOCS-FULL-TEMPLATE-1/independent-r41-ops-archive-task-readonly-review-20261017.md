@@ -1,40 +1,42 @@
 # R41 ops archive task readonly review
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原回执作者与声称保留于 quote，本轮不代签）
+Last reviewed: 2026-10-20
 Template: archive-record-v1 / 1.0.0
 
-本页把 ops evidence historical artifact 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 R41 轮的独立只读评审回执：verdict accept-readonly-proposal；对象为 ops archive task 文件（两 README 导航索引+已完成卡历史记录）。本页按 archive-record 接入，原文（含逐篇 source/after SHA 清单）在 quote 保全。
 
 ## 历史范围
 
-- 源 revision 2dd1768c675dd7cd694a00d803dac0c7b1375071；本轮 R90。此文件属于 ops evidence historical artifact 历史层，不能单独授权当前测试或发布。
+- 2026-10-17 R41 轮只读评审；S15 R90 迁移层封套。
 
 ## 原始结论
 
-- R41 ops archive task readonly review：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 原文声称：10/10 文件 fully read；原始任务状态/日期/证据/链接保留为源材料；不提当前 runtime/E2E/视觉/coverage 信用；逐篇行给出 task-card-v1+archive-record-v1 overlay 分类、行数与 source/after SHA（本轮源清单实际首两条为 README.md（7 行，ebe989d4500d…）与 README.md（10 行，9ea8bfd6be0b…），实际行数范围 7–37；本批实际 10 条=2 个 README 导航索引+8 张已完成卡，分组与原文 boilerplate 一致）。
+- 原文核对（不改 quote）：原文正文 boilerplate 「Two README files are navigation indexes; eight completed cards are historical task records」 与本轮清单 10 条（2 个 README+8 张卡）一致，无复制矛盾；上一修正版曾误引真源中不存在的英文总数句，本轮终修更正。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 有保全支持：quote 逐字节保全逐篇清单。
+- 已撤回（本篇关联批次在撤信范围）：correction-scope.json（2026-10-18，kind=withdrawal-scope-not-semantic-review）对 batch 39-94 的 review 记录撤回深审/全文/独立接受信用；本页所引该轮评审深度信用属撤回范围，不恢复。
+- 尚未认证：接收回执本身的「独立」身份与通过口径亦未经当前中央评审认证。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
+当前信用边界见 DOCS-RECORD-INTEGRITY-1/correction-scope.json。
 
 ## 停止线
 
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 本页不证明 runtime、E2E、视觉/coverage 或当前产品行为；历史「独立/深审/全绿/完成」仅按 quote 原文声称保留，本轮不认证。
 
 ## 原文保全
 
-固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `adb3f347e04dd0b2a802e815cd8631c7116f07ff130a44bc911060e189c6fa01`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `adb3f347e04dd0b2a802e815cd8631c7116f07ff130a44bc911060e189c6fa01`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # R41 ops archive task readonly review
 >

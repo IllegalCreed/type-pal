@@ -1,40 +1,61 @@
 # GLM 八组同步守卫第三批：独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-3 首轮独立接收（2026-09-26，候选 `a00f12c2…f55e`，基点 `4c1c5038`）：**counter / 窄返工**；当前结论以 r2 复核为准——16e647a1 返工部分闭合仍有 R1/R2 残项（已修八个非法正控与 initial 污染不再重开）。
+
+## Scope
+
+- diff 只有八新测试/专属回执/机账/runner/任务卡作者块；四生产目标及 scripts 对 8add8c66 零 diff；已验证项：runner 110 对照绿+八针各唯一 AssertionError+判据自测 10 项、全 content 92 文件/1,132 项、typecheck 0、11 文件 Biome 零错误。
+
+## Execution and assertions
+
+- **R1**：author-command:65-68 loop mode 坏输入缺 cond（对实际表驱动实参只改回 while 仍被拒 commands[0].cond 期望对象）；record-items:110-139 runSceneHook 两项/craftRecipe 空配方/modifyHostileAwareness 倍率全由 useEffects 包 target: oneAlly（修字段后仍被 validate.ts:1270-1271 items[0].use.target 场景效果必须使用 scene 拒）；:294-348 投掷三项修正后仍被 validate.ts:1041/1050-1058 拒（缺 strength/min/max/multiplier）；独立见证 loop/use/throw-one-axis 在候选 table callback 内克隆实际坏输入只修所测字段：未注入 11/39/39 绿、注入 1/4/3 AssertionError 红；各族用当前真实类型构造合法基线先过同一 guard 再单字段破坏；不把防御输入冒称合法同型
+- **R2**：author-flow:80-86 badInitial 无调用前后快照；next.kind、commandOutcome.outcome 第二次调用无独立快照；同型缺口见 author-command badAuto/badField/badMusic、script-command cue 与递归后续、enemy-hook badEnemyId/badOnce/badValue/badFlag、record-skills-poisons 后续效果；独立单点变异在 author-script-core.ts:978 initial 未命中分支抛原消息前把 machine.label 改 MUTATED-ON-REJECTION，候选仍 9/9 绿；独立 oracle（同 legalMachine 工厂+同坏 initial+完整快照）原实现 10/10、突变 9 绿/1 红；所有对象/数组拒绝调用统一「调用前快照→执行→立即比同一实参」薄助手；复用输入再校验时重新取快照
+- **R3**：负控表 effect-id-dup 声称「重复消息改写」实际 runner 删了重复门（独立复跑错误接受红）；item-status-dup 实际为 if (false) 非表内 if (false) void status；回执/机账按最终树勘误，不改判据凑叙述；去重表继续用真实旧标题/差异
+
+## Results
+
+- 不合入、不计覆盖、不是产品缺陷裁决；不要求补齐 427 臂或增加用例数。
+- 复现命令与给 GLM 提示词全文在 quote；全部反证仅内存替换不写候选。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp 与 /var/folders 按原文时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮接收 | 2026-09-26 | R1/R2/R3 反证 | counter / 窄返工 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy quality/quality-gates 的 guard-wave3 首轮接收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 八组同步守卫第三批：独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：三处正控不同型（loop 缺 cond/use target=scene/投掷缺完整字段）+后续调用无快照+负控表两条与实际 runner 不符；独立见证注入后 1/4/3 红。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1 三反例、R2 变异细节、R3 两条勘误与提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 由 r2/r3/integration 逐步闭合。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-CONTENT-GUARDS-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `74e7c1dc29c78883d74d2d6b3f977d41d2dc0b0e850438144b020c4c6037a699`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `74e7c1dc29c78883d74d2d6b3f977d41d2dc0b0e850438144b020c4c6037a699`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 八组同步守卫第三批：独立接收
 >

@@ -1,6 +1,59 @@
 # CODE-QUALITY-54 — game draw tilemap narrow batch
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验大世界瓦片绘制三文件（`draw-tilemap.ts` 与 test、draw-tilemap-pixels.grok-r1 两测试）:生产 tilemap 固定为 extractor 产出的 64×128 MAP,底层与顶层均先完整绘制,精灵之后按 `PAL_CalcCoverTiles` 重画可遮挡精灵的上层瓦片;layer 0/1、h 子行坐标、缺帧回落、透明/opaque coverage、cover 候选与 SDLPal `map.c:197-259,301-352,355-418`、`scene.c:77-178,180-362,452-491` 真值一致。只读审计。
+
+## 范围
+
+三文件;只读相邻 present.ts 两层/seam coverage 与 party/follower/NPC cover caller、bootstrap 缩略图、pal-extract `parseMap`（exact 65536B→64×128）。`repairTilemapSeams` 是 type-pal 每帧 clear 后用 coverage 邻居 dilation 模拟 SDLPal 持久 `gpScreen` 的工程补偿,不能称为 SDLPal 逐像素真值;bootstrap 缩略图未调用 seam repair 是独立审计项,本批不改。
+
+## 前提与证据
+
+可证伪边界:若真实 MAP 输入存在非 64×128、空 cells 或 TileImage 形状不一致,直接索引可能抛错;extractor exact size 与 223 个 tileset 资源约束未证明 hostile JSON loader 输入,故本批不新增运行时 guard。
+
+## 验收
+
+历史批:直接定向 2 files/20 tests、相邻 present.test 58 tests、波次统一门（check、ratchet、protected fast、lint 3994 0/0/0、docs/content、ledger）全部通过;账本 3266/281 closed。2026-10-21 renderer 八维与统一门收口:按原三文件逐项 A–H 接受——纠正 base 层顺序、h/l、缺图防御与补缝等价性错注;仅退役测试包装 `blitTileAt`,其普通写像素合同由公开 `drawTilemap` 承接;223 本地地图通过生产 decoder 核零缺帧/错误;SDL 缺图回退差异限当前输入域,不承诺原盘/浏览器等价,不改地图或补缝算法。逐文件记录见 [renderer-local.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json),完整集中门与原件见 [renderer-gates.json](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)（同时披露 check 之后唯一 baseline 授权数据条目及其 86 consumer 复验）。
+
+## 状态与交接
+
+done 保持原历史语义;2026-10-21 renderer 收口按原范围接受且不附带广域文件接受。无产品行为/schema/save/管线/调用接口变化;视觉/E2E 仍按原卡延后。
+
+## 历史范围
+
+原卡属 2026-10-13 波次时点;原始记录与历史提示词在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:坐标、layer、height、cover 候选与 SDLPal 公式一致,未发现直接缺陷;seam repair 与 bootstrap 缩略图边界不误计为本批缺陷。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（20+58 定向/相邻、波次门）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;renderer 收口结论以 renderer-local/renderer-gates 原件为准。
+
+## 继任文档
+
+renderer 八维收口与集中门原件见上方链接;CODE-QUALITY-57（bootstrap seam repair）为独立归属;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6770B / SHA-256 c97e9a1feeb1045ac2349e42a795c75e3f11953abd42051f83fd8c0deab9f46b；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+````markdown
+# CODE-QUALITY-54 — game draw tilemap narrow batch
+
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
@@ -75,3 +128,5 @@ Visual Verification Timing: e2e-deferred（地图观感留集中 E2E；本批核
 只按tilemap原三文件：纠正base层顺序、h/l、缺图防御与补缝等价性错注；仅测试包装blitTileAt退役，其普通写像素合同由公开drawTilemap承接。223本地地图通过生产decoder核零缺帧/错误；SDL缺图回退差异限当前输入域，不承诺原盘/浏览器等价，不改地图或补缝算法。
 
 [完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。
+````
+<!-- incremental-original-source:end -->

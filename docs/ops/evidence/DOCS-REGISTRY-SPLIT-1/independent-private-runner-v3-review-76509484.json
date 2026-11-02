@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-author-private-intake-runner-v3-guard-review",
+  "reviewerTask": "/root/central_intake_guard_review",
+  "authorTask": "/root",
+  "nonAuthorReviewer": true,
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T22:12:38.894285+00:00",
+  "scope": "Root-owned private maintenance tool change only. This is not S05 body re-review, report-document review, public storage-code acceptance or actual future central intake.",
+  "fixedSources": {
+    "runnerV3Sha256": "7650948490b2efe4ec5ae56b41426afc4fd80fcf05e793f54e8c1fb9c4f106bb",
+    "runnerV2Sha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+    "builderSha256": "4c780a6b0843d791a511b18d6f0e486c92e739d6c134fdcd9a135945c623182b",
+    "apiSourceCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+    "apiFileSha256": {
+      "document-registry.mjs": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
+      "document-registry.test-support.mjs": "b4095b5de7b4875142e43e1fac74e54974113acaee5d814b088cfe9674f60665",
+      "terminal-json.mjs": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965"
+    },
+    "S05nativeAndReviewSourceCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+    "S05fullNativeEntries": 2414,
+    "S05DonorEntriesBefore": 6,
+    "S05SemanticRootEntriesBefore": 4,
+    "scope": "Exact root-owned runner extension guards only; complete native registry with selected complete review roots in owned fixture, not actual root central application, storage code acceptance or S05 report-document semantic acceptance."
+  },
+  "sourceDiff": {
+    "path": "v2-v3-diff.stdout.raw",
+    "sha256": "8dd1f14552ed2b2f27ad767b5a4db5178db2810cf48b7340c2cdf1af15433cde",
+    "actualDiffExitCode": 1,
+    "meaning": "Expected differing-files status, not a failed candidate gate.",
+    "readConclusion": "Only one fixed S05 path/body/report/type tuple is added. The old single hard-coded governance-index template assertion now reads docType/templateId from that fixed tuple, with identical governance-index defaults for the original S03/S04 tuples. No other statement changes.",
+    "oldV2AndBuilderOriginalFilesPreserved": true,
+    "registryStorageSchemaVersion": 2,
+    "newTemplateKindOrVersionIntroduced": false
+  },
+  "verdict": {
+    "limitedGuardAcceptance": true,
+    "newBlockingCounters": [],
+    "applicableRunnerSha256": "7650948490b2efe4ec5ae56b41426afc4fd80fcf05e793f54e8c1fb9c4f106bb",
+    "approvedNewCase": {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "bodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+      "reportPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+      "reportSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1"
+    },
+    "meaning": "Explicit fixed-case guard extension; no template-standard or semantic-approval weakening."
+  },
+  "actualCases": [
+    {
+      "label": "S05",
+      "case": "positive",
+      "exitCode": 0,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-positive",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S05-positive/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:49.508574+00:00",
+      "finishedAt": "2026-10-17T22:09:50.220470+00:00",
+      "allInputBytesUnchanged": false,
+      "outputExists": true,
+      "sourceNativeEntryTotal": 2414,
+      "afterNativeEntryTotal": 2414,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-positive/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-positive/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-positive/v3-stderr.raw",
+      "changedExpectedInputs": [
+        "docs/phase-governance/document-registry.json",
+        "docs/phase-governance/document-registry.testing.json",
+        "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "donorBefore": 6,
+      "donorAfter": 5,
+      "allOtherDonorEntriesPreserved": true,
+      "fullPreviousBindingPreserved": true,
+      "priorSupersededPrefixPreserved": true,
+      "allOtherSuccessorEntriesPreserved": true,
+      "newAcceptedRecordPreserved": true,
+      "otherNativeEntriesEqualIncludingKeyOrder": true,
+      "otherNativeObjectsCount": 2413,
+      "structuralRootsUnchanged": true,
+      "reportDocumentReviewCreditGranted": false,
+      "reportDocumentRegistered": false
+    },
+    {
+      "label": "S05",
+      "case": "wrong-body",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-body",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-body/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:50.324266+00:00",
+      "finishedAt": "2026-10-17T22:09:50.472229+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 2414,
+      "afterNativeEntryTotal": 2414,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-body/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-body/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-body/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed body docs/testing/e2e/route-proposal.md"
+    },
+    {
+      "label": "S05",
+      "case": "wrong-report",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-report",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-report/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:50.569474+00:00",
+      "finishedAt": "2026-10-17T22:09:50.720395+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 2414,
+      "afterNativeEntryTotal": 2414,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-report/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-report/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-report/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed non-author report docs/testing/e2e/route-proposal.md"
+    },
+    {
+      "label": "S05",
+      "case": "wrong-template",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-template",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-template/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:50.820950+00:00",
+      "finishedAt": "2026-10-17T22:09:50.973835+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 2414,
+      "afterNativeEntryTotal": 2414,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-template/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-template/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-wrong-template/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: unexpected accepted body template"
+    },
+    {
+      "label": "S05",
+      "case": "unapproved-path",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-unapproved-path",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S05-unapproved-path/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.069372+00:00",
+      "finishedAt": "2026-10-17T22:09:51.167378+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 2414,
+      "afterNativeEntryTotal": 2414,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-unapproved-path/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-unapproved-path/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S05-unapproved-path/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: unapproved binding update: docs/testing/e2e/cross-stage/common-issues.md"
+    },
+    {
+      "label": "S03",
+      "case": "positive",
+      "exitCode": 0,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-positive",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S03-positive/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.216890+00:00",
+      "finishedAt": "2026-10-17T22:09:51.425590+00:00",
+      "allInputBytesUnchanged": false,
+      "outputExists": true,
+      "sourceNativeEntryTotal": 1,
+      "afterNativeEntryTotal": 1,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-positive/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-positive/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-positive/v3-stderr.raw",
+      "changedExpectedInputs": [
+        "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/phase-governance/document-registry.json",
+        "docs/phase-governance/document-registry.testing.json"
+      ],
+      "donorBefore": 2,
+      "donorAfter": 1,
+      "allOtherDonorEntriesPreserved": true,
+      "fullPreviousBindingPreserved": true,
+      "priorSupersededPrefixPreserved": true,
+      "allOtherSuccessorEntriesPreserved": true,
+      "newAcceptedRecordPreserved": true,
+      "otherNativeEntriesEqualIncludingKeyOrder": true,
+      "otherNativeObjectsCount": 0,
+      "structuralRootsUnchanged": true,
+      "reportDocumentReviewCreditGranted": false,
+      "reportDocumentRegistered": false
+    },
+    {
+      "label": "S03",
+      "case": "wrong-body",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-body",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-body/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.475253+00:00",
+      "finishedAt": "2026-10-17T22:09:51.538534+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 1,
+      "afterNativeEntryTotal": 1,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-body/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-body/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-body/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed body docs/testing/e2e/README.md"
+    },
+    {
+      "label": "S03",
+      "case": "wrong-report",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-report",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-report/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.587503+00:00",
+      "finishedAt": "2026-10-17T22:09:51.650152+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 1,
+      "afterNativeEntryTotal": 1,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-report/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-report/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-report/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed non-author report docs/testing/e2e/README.md"
+    },
+    {
+      "label": "S03",
+      "case": "wrong-template",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-template",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-template/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.698008+00:00",
+      "finishedAt": "2026-10-17T22:09:51.759125+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 1,
+      "afterNativeEntryTotal": 1,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-template/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-template/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S03-wrong-template/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: unexpected accepted body template"
+    },
+    {
+      "label": "S04",
+      "case": "positive",
+      "exitCode": 0,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-positive",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S04-positive/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:51.811089+00:00",
+      "finishedAt": "2026-10-17T22:09:52.050112+00:00",
+      "allInputBytesUnchanged": false,
+      "outputExists": true,
+      "sourceNativeEntryTotal": 10,
+      "afterNativeEntryTotal": 10,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-positive/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-positive/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-positive/v3-stderr.raw",
+      "changedExpectedInputs": [
+        "docs/phase-governance/document-registry.json",
+        "docs/phase-governance/document-registry.phase2.json",
+        "docs/phase-governance/document-registry.testing.json",
+        "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "donorBefore": 7,
+      "donorAfter": 6,
+      "allOtherDonorEntriesPreserved": true,
+      "fullPreviousBindingPreserved": true,
+      "priorSupersededPrefixPreserved": true,
+      "allOtherSuccessorEntriesPreserved": true,
+      "newAcceptedRecordPreserved": true,
+      "otherNativeEntriesEqualIncludingKeyOrder": true,
+      "otherNativeObjectsCount": 9,
+      "structuralRootsUnchanged": true,
+      "reportDocumentReviewCreditGranted": false,
+      "reportDocumentRegistered": false
+    },
+    {
+      "label": "S04",
+      "case": "wrong-body",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-body",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-body/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:52.104228+00:00",
+      "finishedAt": "2026-10-17T22:09:52.169756+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 10,
+      "afterNativeEntryTotal": 10,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-body/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-body/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-body/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed body docs/testing/e2e/cross-stage/README.md"
+    },
+    {
+      "label": "S04",
+      "case": "wrong-report",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-report",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-report/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:52.223477+00:00",
+      "finishedAt": "2026-10-17T22:09:52.289089+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 10,
+      "afterNativeEntryTotal": 10,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-report/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-report/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-report/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: not approved fixed non-author report docs/testing/e2e/cross-stage/README.md"
+    },
+    {
+      "label": "S04",
+      "case": "wrong-template",
+      "exitCode": 1,
+      "cwd": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-template",
+      "command": [
+        "node",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/maintain-registry-v3-intake.mjs",
+        "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-template/v3-plan.json",
+        "--apply"
+      ],
+      "startedAt": "2026-10-17T22:09:52.341251+00:00",
+      "finishedAt": "2026-10-17T22:09:52.406916+00:00",
+      "allInputBytesUnchanged": true,
+      "outputExists": false,
+      "sourceNativeEntryTotal": 10,
+      "afterNativeEntryTotal": 10,
+      "observation": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-template/v3-observation.json",
+      "stdout": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-template/v3-stdout.raw",
+      "stderr": "/tmp/type-pal-central-v3-independent-vw43kti4/S04-wrong-template/v3-stderr.raw",
+      "changedExpectedInputs": [],
+      "actualError": "Error: unexpected accepted body template"
+    }
+  ],
+  "S05Preservation": {
+    "sourceCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+    "completeNativeEntries": 2414,
+    "otherNativeObjectsPreservedIncludingKeysOrderAndAbsentFields": 2413,
+    "completeDonorBefore": 6,
+    "completeDonorAfter": 5,
+    "otherFiveDonorEntriesPreserved": true,
+    "oldSemanticEntriesPreserved": 4,
+    "oldFullBindingAndPriorSupersededHistoryPreserved": true,
+    "nativeMetadataPreservation": "s05-native-metadata-preservation.json",
+    "allOtherSixPhysicalShardsByteIdentical": true,
+    "structuralRootsUnchanged": true,
+    "reportDocumentCreditGranted": false,
+    "meaning": "Every native object except this exact S05 binding stays identical. Only testing shard/manifest and the two review roots change as planned; receipt/body input bytes stay unchanged."
+  },
+  "negativeDiscriminants": [
+    "Wrong body: plan expected input and successor afterSha both follow the deliberately wrong bytes; fixed approved body SHA still rejects before output reservation or publication.",
+    "Wrong report: plan input SHA and evidence.reportSha256 both follow the deliberately wrong bytes; hard-coded independent receipt identity still rejects before mutation.",
+    "Wrong template: accepted S05 body/report stay exact, only successor docType/templateId switch to governance-index; tuple-specific design template guard rejects. S03/S04 reverse mutation to design-spec also rejects, preserving their governance-index-only contract.",
+    "Unapproved path: real other pending catalog path is supplied as the update; path whitelist rejects before loader mutation/publication.",
+    "Each of ten deliberate negative cases exits1 with all planned input bytes unchanged and no output file created."
+  ],
+  "priorCaseRegression": {
+    "S03": {
+      "legalCaseExitCode": 0,
+      "wrongBodyReportTemplateExitCodes": [1, 1, 1],
+      "scope": "Reconstructed original frozen S03 subset input images with their expected review SHA checked; one selected native entry. Not a new full real donor/central acceptance."
+    },
+    "S04": {
+      "legalCaseExitCode": 0,
+      "wrongBodyReportTemplateExitCodes": [1, 1, 1],
+      "scope": "Original owned seven-donor/three-semantic/ten-native prerequisite fixture copied without changing its sealed package."
+    },
+    "newFixtureSetupFailures": [],
+    "timedOutOrSignalledSubprocesses": [],
+    "meaning": "All thirteen runner subprocesses returned0/1 normally; intentional guard rejection raw is retained, no failure output was edited."
+  },
+  "unchangedGuardCode": [
+    "Same-process public branded load/write.",
+    "Complete review inventory, edited metadata/unrelated entry preservation and superseded history-prefix checks.",
+    "Prepublish DAG and /tmp exclusive output FD reservation.",
+    "Exact expected input checks and postpublish target SHA rules; no arbitrary drift refresh."
+  ],
+  "unchangedGuardLimits": [
+    "Output/race/cycle guards were not newly re-executed in this small addendum because their source bytes outside the two shown edits are unchanged; their original v2 counter/fix evidence remains applicable only within its stated scope.",
+    "Private runner is a trusted explicit-plan tool, not an automatic reviewer of every semantic claim or old history. Actual S05 successor record contents and complete root ledger/pins need separate verification.",
+    "Multi-file registry/review/output publication remains nontransactional. An unexpected postpublication exception may leave already published registry bytes and an incomplete output; external command capture remains required."
+  ],
+  "priorPackageIntegrity": [
+    {
+      "manifest": "/tmp/type-pal-central-guard-v2-independent-sgkawtne/artifact-manifest.json",
+      "manifestSha256": "c3cbd709b170253d6c69dadc60c7357f21163aadf6f556e8e0c9bc4076339e41",
+      "allOriginalArtifactsUnchanged": true,
+      "filesVerified": 200
+    },
+    {
+      "manifest": "/tmp/type-pal-s04-guard-addendum-v4zpsg0r/artifact-manifest.json",
+      "manifestSha256": "2304b4dda1878cccc17b2be3447a3bee5e976bb4b3ea4e04a70eddb36b407ac6",
+      "allOriginalArtifactsUnchanged": true,
+      "filesVerified": 107
+    },
+    {
+      "manifest": "/tmp/type-pal-s05-independent-_4zlmxx2/artifact-manifest.json",
+      "manifestSha256": "2f068b70d943f2ce7f77a832976becf86a0d9348bf91b7ef0158d5bf91354177",
+      "allOriginalArtifactsUnchanged": true,
+      "filesVerified": 97
+    }
+  ],
+  "publicApiIdentity": {
+    "sourceCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+    "all48CopiedModuleFilesExact": true,
+    "evidence": "public-module-copies-identity.json",
+    "meaning": "Real unmodified public API is used, not a stub. This proves guard behavior with it and does not replace the separately assigned independent storage implementation review."
+  },
+  "noSelfReviewBoundary": "The reviewer previously authored the referenced S05 fixed-body review report. Here its approved hash is only an immutable input to the root-owned tool guard. No report artifact, including that4fd report or this new report, is marked content-reviewed/template-compliant or counted as a newly governed completed document.",
+  "readonlyState": {
+    "observedAt": "2026-10-17T22:11:39.703283+00:00",
+    "mainHead": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "mainStatus": "",
+    "apiHead": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+    "apiStatus": "",
+    "anyRepositoryFilesWrittenByReviewer": false
+  },
+  "remainingWork": [
+    "Freeze and independently verify the actual central S05 plan/data/history/pin/application result; this package changed only owned /tmp fixtures.",
+    "Keep original body report97 artifacts and old v2/S04 evidence intact; original200+107+97 file identities have been recomputed unchanged.",
+    "Whole docs hard acceptance, historical quarantines and remaining semantic review continue; no main/done credit."
+  ],
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "bodySemanticAcceptanceGrantedByThisReport": false,
+  "reportDocumentSemanticAcceptanceGranted": false,
+  "actualCentralIntakeAccepted": false,
+  "cardDoneAllowed": false,
+  "mergeToMainAllowed": false
+}

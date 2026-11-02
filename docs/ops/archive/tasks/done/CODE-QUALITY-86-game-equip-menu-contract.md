@@ -1,6 +1,59 @@
 # CODE-QUALITY-86 — game equip menu state / role swap contract
 
 Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+原卡目标:逐文件核验装备菜单状态机四文件（`equip-menu.ts` 与三份测试）:SDLPal 装备物品过滤、角色 ID 映射、环绕选人、确认/取消阶段和换装链;`createEquipMenu` list 复用 `createInventoryMenu(..., 'equip')` 并保存 party role ID 快照,确认使用 live snapshot 的 itemId/inUse 门,角色确认返回真实 roleId,swap/effect 由 dispatcher 所有,取消分层回 list 或 done,角色 cursor 按 party 快照环绕。primary:`itemmenu.c:287-310,331-377`、`uigame.c:1793-2056`、`play.c:328-359`、`script.c:768-811,1090-1145`（0x18 swap 与 `wLastUnequippedItem` 链）。
+
+## 范围
+
+白名单仅 equip-menu 四文件;开批基线 `origin/main=646c8097034e4bd30a3ebde86cd61d46a2382e8a`,分支 `codex/code-quality-3y`。CODE53/57/79/80/81 不占用白名单;CODE84/85 已收口。相邻 dispatcher/equip-effect/inventory-state 风险保持独立 pending/review,未被本批关闭。
+
+## 前提与证据
+
+不可装备、耗尽、空槽、未知目录或错 phase 不能写入真实装备/库存/属性状态;测试覆盖 grid/filter、全显示/红色不可装备、party 快照、确认/取消、role cursor 环绕、inUse 耗尽、非顺序 party `[2,0]`、意图零副作用、目录缺 item、done/no-op、单人环绕。
+
+## 验收
+
+测试质量清理仅涉及 typed input:主/边界测试不再使用 `as never` 或空 party,改用 `PlayerRoles` typed fixture 与真实 `gs.partyMembers`,业务 oracle 不变。定向/相邻 12 个测试文件、127 tests 通过（E2 缺失 label 与 E2/E4 未知 row 输出为已有安全负控诊断）;game typecheck、白名单 Biome 无诊断;全仓 `pnpm check`（lint 4010 files 0/0/0）、官方 ratchet（731/19855,statements 89.93% 基线不变）、`pnpm check:fast`、docs/content-review strict、ledger、`git diff --check` 均通过。账本 3270 files:closed 356、review 9、pending 2905。
+
+## 状态与交接
+
+done 保持原语义:未发现白名单实现直接缺陷,无生产改动。装备脚本缺失、catalog 与 runtime 不一致、属性/毒状态写回或存档 schema 需改变时须停线升级高风险卡。无下一位 Agent 提示词。
+
+## 历史范围
+
+原卡属固定 main 时点;原始范围与日期在保全块内逐字保留。
+
+## 原始结论
+
+原卡结论按 Status(done) 原样:未发现白名单生产实现直接缺陷;typed 输入清理完成。治理不撤销/不恢复旧信用。
+
+## 当时证据
+
+当时回执（127 定向/相邻、ratchet 指标、lint 4010 零诊断）属原时点证据;本页不重跑、不复授。
+
+## 当前有效性
+
+仅历史任务归属有效;不凭 646c809 基点认定当前实现或授权新产品取舍。
+
+## 继任文档
+
+CODE-QUALITY-48（draw-equip 绘制侧）与 CODE-QUALITY-84（inventory-menu,本卡复用其列表工厂）为相邻归属;当前任务导航以看板为准。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 6883B / SHA-256 3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-86 — game equip menu state / role swap contract
+
+Status: done
 Owner: Codex
 Phase: phase1 game core/menu
 Capability: equipment menu item selection, role selection and swap lifecycle
@@ -82,3 +135,5 @@ Codex：premise verified / build allowed。当前只清理测试输入质量，�
 
 - CODE-QUALITY-53/57/79/80/81 与其余 Q3 core/present/shell/analytics/tools 文件保持原状态；当前账本应为 3270 files：closed 356、review 9、pending 2905。
 - 无下一位 Agent 提示词；从最新 ledger 选择下一组不重叠的 2–4 个 pending 文件继续。
+```
+<!-- incremental-original-source:end -->

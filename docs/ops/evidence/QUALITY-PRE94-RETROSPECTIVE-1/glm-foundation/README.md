@@ -1,5 +1,38 @@
 # GLM foundation阶段交付与Codex接收入口
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: evidence-receipt-v1 / 1.0.0
+
+## 证据身份
+
+本页是 GLM foundation 阶段交付与 Codex 接收入口(固定main源30462B,SHA 03dbc00ad8ae)的治理候选页。原页记录的阶段性真实语义:用户2026-10-19改由Codex接手本批返工,GLM的5af1b6372/93提交作为作者冻结点保留在同一3y线;页面Status为build,只记有限模块结果,不声明全专项完成——0新文件关闭、83卡0accept。页面同时是本目录55+模块作者原件的活索引与Codex增量裁决层:正文逐批给出模块台账(模块2至批56的一行摘要与真实测试计数),并分别指向[返工与逐文件矩阵](codex-stage2-rework.json)(当前修正/14类型用例去向/实际门与未解项)、[首次审查](codex-stage2-review.json)(保留原始失败)、[WORD/GBK五文件返工](codex-stage3-word.json)(真实结构/测试整改和20合同)、CODE82与CODE6a两增量裁决(两文件A-H快检;65365e514纯重构+95a0a8218隐藏账本修复,账本234closed/121review/2961pending)。
+
+## 来源与输入
+
+来源为固定Git载体,非本次运行;原78个链接处置见作者review的linkDisposition。当前存活入口:[glm-pre94-foundation-goal.md](../glm-pre94-foundation-goal.md) [codex-code6a.json](codex-code6a.json) [codex-code82.json](codex-code82.json) [codex-dead-removals.json](codex-dead-removals.json) [codex-enemy-role.json](codex-enemy-role.json) [codex-pre94-scope.json](codex-pre94-scope.json) [codex-stage1.json](codex-stage1.json) [codex-stage2-review.json](codex-stage2-review.json) [codex-stage2-rework.json](codex-stage2-rework.json) [codex-stage3-word.json](codex-stage3-word.json) [README.md](content-authorcore/README.md) [README.md](content-core5/README.md) [README.md](content-domain/README.md) [README.md](content-item/README.md) [README.md](content-medium1/README.md) [README.md](content-medium2/README.md) [README.md](content-script-asset/README.md) [README.md](content-small/README.md) [README.md](content-validators/README.md) [README.md](editor-core-large/README.md) [README.md](editor-core-medium/README.md) [README.md](editor-core-small/README.md) [README.md](editor-ui-large/README.md) [README.md](editor-ui-medium/README.md) [README.md](editor-ui-small/README.md) [README.md](extract-cli-tail/README.md) [README.md](extract-enemies-playerroles/README.md) [README.md](extract-events-core/README.md) [README.md](extract-font-scene-map/README.md) [README.md](extract-io-word-gbk/README.md) [README.md](extract-parsers-small/README.md) [README.md](extract-spells-teams-items/README.md) [README.md](game-actions-batch1/README.md) [README.md](game-actions-batch2/README.md) [README.md](game-animtimeline/README.md) [README.md](game-assets-batch1/README.md) [README.md](game-assets-batch2/README.md) [README.md](game-battlecore-misc/README.md) [README.md](game-battleopcodes/README.md) [README.md](game-battlestate-ctx/README.md) [README.md](game-battlesystem/README.md) [README.md](game-core-batch3/README.md) [README.md](game-core-batch4/README.md) [README.md](game-core-gamestate/README.md) [README.md](game-core-residual/README.md) [README.md](game-core-scenesystem/README.md) [README.md](game-dev/README.md) [README.md](game-eventsystem/README.md) [README.md](game-inspect-save-analytics/README.md) [README.md](game-menu-driver/README.md) [README.md](game-menu-large/README.md) [README.md](game-menu-small/README.md) [README.md](game-present-battledraw/README.md) [README.md](game-present-core/README.md) [README.md](game-present-menu/README.md) [README.md](game-present-root/README.md) [README.md](game-shell-audio/README.md) [README.md](game-shell-bootstrap/README.md) [README.md](game-shell-loop/README.md) [README.md](game-shell-players/README.md) [README.md](game-tools/README.md) [README.md](migrate-all/README.md) [README.md](mkf/README.md) [README.md](reforge-audio/README.md) [README.md](reforge-battle/README.md) [README.md](reforge-debug-tools/README.md) [README.md](reforge-dialogbox-menu/README.md) [README.md](reforge-main/README.md) [README.md](reforge-medium-tail/README.md) [README.md](reforge-project/README.md) [README.md](reforge-root-small/README.md) [README.md](reforge-save-dialog-menu/README.md) [README.md](reforge-script/README.md) [README.md](reforge-world-render/README.md) [README.md](rng/README.md) [README.md](shared-types/README.md) [verify-stage2.mjs](verify-stage2.mjs) [README.md](yj2/README.md)。。
+
+## 断言与业务 oracle
+
+文档事实核对(currentExecution=false):(1)页面明示verify-stage2.mjs补查当时漏验的wordRecovery源码绑定,旧包预期报这三项stale,不能刷新旧SHA消警——旧包其它来源与14编译身份仍分别有效;(2)各模块批的"0 failed suites"/"exit 0"按原时点记录,不外推为当前门或零诊断;(3)mkf/rng/yj2的"34/34、41/41已据证核对"与"未重跑"并记,作者审查与Codex实际核过的差异/证明/原件分开,不把摘要当日志。
+
+## 结果
+
+治理结果=原文保全+本页真实索引语义+78链接处置如实;不产生新执行结果,不把build状态倒填为整包验收。
+
+## 限制与复核
+
+未重跑原命令/浏览器/测试;模块批的真实测试计数与账本数字保持在原时点,后续轮次的演进不在本页;候选待Owner非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 30462B / SHA-256 03dbc00ad8ae6dcbe4987e06c1666a1d1e8e1de62a6a14a0c1af8ef60db0dfb0；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# GLM foundation阶段交付与Codex接收入口
+
 Owner: Codex（当前返工/据证验收/集成）；GLM（冻结交付作者）
 Status: build；以下只记有限模块结果，不声明全专项完成
 
@@ -101,3 +134,5 @@ Codex继续本批缺失维度与83卡/测试成果映射，不再要求用户转
 当前GLM解析器增量：[敌人/角色四文件八维与两业务反控](codex-enemy-role.json)。仅更正文案和补强原9测试中的断言/1标题；解析实现不变，11定向/89原盘相邻无stderr。GLM实际41个改动源码中已有7个详细矩阵、34个待补；该口径不包含未改动文件的作者包级主张，0新关闭。累计23个源码/测试矩阵也不等于GLM23/41。
 
 当前GLM正文增量：[五处删除/八维依据与复活缺陷返工](codex-dead-removals.json)。文案与行为分提交；308当前定向/相邻0stderr、game tsc0，旧console缺口不补造。实际改动源码12/41有详细记录，剩29均为注释；0新关闭、228closed/130review/2958pending。当前只完成GLM返工，不推进其它83卡/94–102；已知统一门阻塞仍保留。
+```
+<!-- incremental-original-source:end -->

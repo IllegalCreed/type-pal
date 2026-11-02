@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 coverage 实证探针说明：两次 vitest v8 statement 级 coverage，只收 src/core/event-system.ts 本卡疑点区段（1254-1469/1499-1513/1814-1824/1879-1991/2381-2419/3435-3453/4387-4413）的逐 statement 命中数，作为 NEW/unreachable 判定的直接证据；JSON 见同目录 statement-hits.json。
 
 ## 证据身份
 
-- coverage 实证探针(排重账 §判例的数据源) 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f。
+- run1-3files：event-system.test+cov85+glm-event-contracts（374 tests）；run2-10files：run1+k01/k02/k04/k06+dialogue-pagination(.glm-contracts)+mode（415 tests）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 复现命令（worktree packages/game 下）：pnpm exec vitest run <files> --coverage --coverage.include=src/core/event-system.ts --coverage.reportsDirectory=/tmp/ecov --coverage.reporter=json。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 关键读数（run2）：3443-3449（fail-closed 块内 7 条）命中 0→resolveConfirmGoto 目标缺失臂零证 NEW it1；2389 clearDialogBoxes 体命中 0→0x7F 清屏体零证 NEW it2 两臂一并补；1815/1819/1822（ip 越界链内）各 1→mode.test 单 op fixture 已证 REG（判例：3 文件子集曾误判 UNHIT）；1934-1946（DL17 idleFrames 臂）2-3→REG；1985-1991（goto 缺失终止）≥1→旧测 1432 已证 REG。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 探针数据直接支撑排重账 NEW×2/unreachable 判定。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 只读探针：不改变产品/测试；覆盖率口径仅限两目标文件。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 coverage 探针说明（两轮 v8 statement 实证）；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- coverage 实证探针(排重账 §判例的数据源)：原始正文完整保留于下方 quote。
+- 3443-3449 与 2389 零命中→两 NEW；1815 族各 1→REG（3 文件子集误判判例）。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 复现命令与读数表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。探针时点数据。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 dedup-ledger.md。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `14566f1e1c7e05b8d4e65672d1a48952bfd23117c35f275ffec32141c5c8047f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # coverage 实证探针(排重账 §判例的数据源)
 >

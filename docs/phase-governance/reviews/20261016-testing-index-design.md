@@ -2,38 +2,46 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-21
 Template: archive-record-v1 / 1.0.0
 
-本页将 phase-governance 历史设计/回执接入 archive-record-v1；原始日期、结论、冲突、机器字段、链接和未执行项保留于 quote。本次不授 runtime/E2E/视觉/coverage 信用。
+本页是「Testing 十份索引正文与公开 producer 治理设计」（L）的冻结设计归档：冻结 docs/testing/indexes 十篇（921 行，README 15＋九派生视图 906）沿用 governance-index-v1/1.0.0、0 overlay、不增第 17 类模板；K49 已在 `77b5829e` 独立接收并通过最终零门，L 中央覆盖当时 0/10。根冻结决定 16 条与完整原提案在三层 quote 中保全。
 
 ## 历史范围
 
-- 源 revision bff13f74a4f95bbba05a8353651b5997fea7fc95；本轮 R93。历史 phase-governance 材料只作时点回执，不是当前事实源。
+- phase-governance 20261016 冻结设计；日期：2026-10-16；Version L-index-governance / 1.0.0（frozen）；固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629`；本轮 S20 全文核读真源后重写封套，quote 与分层逆回规则不变。
 
 ## 原始结论
 
-- Testing 十份索引正文与公开 producer 治理设计：原始正文完整保留于下方 quote。
+- 十篇源 pin 固定于 `9e3fb825…`（逐篇 blob/SHA/行数表在 quote）；九派生页不重复 quote 实时表，保真靠固定 Git＋source→after 映射；README 人工维护不进 writer 返回表。
+- 关键决定：列名「深审状态」→「旧分类账 reviewStatus」（359 原值不变，reviewed=movedTo/closeout 成员关系非本轮语义 accept）；两 SSOT（catalog.json＋legacy-flat-classification.json）禁止第三来源；Last reviewed 固定 2026-10-16 且不随重生续期；writer 写前必须读两 SSOT、缺分类账不得 fallback 空（旧 writer 空表缺陷为真实反例）；validateIndexes 整文件比较不放宽。
+- 白名单 13 文件（generator＋新 test＋十篇＋回执）；作者 history_cards_a 隔离分支、单一 Owner 避免 writer/body 双 Owner 竞态。
 
 ## 当时证据
 
-- 原始命令、字段、SHA、counter、链接、状态和未执行项由 quote 保全。
+- 根在 `77b5829e` 实际核十篇 blob/SHA、writer/checker/双 SSOT 与固定源一致；作者 MD 89 行/逐篇 JSON 394 行/非作者独立设计 60 行（design agree）；85 原标题/572 出链/11 入链机械图与 six-stage/18 ID/legacy 359/11 域/227 目标 oracle 计划。
 
 ## 当前有效性
 
-historical。当前事实由 phase/lore catalog、registry、routing、任务卡和 fresh review 决定。
+historical（设计冻结时点）。正文迁移与中央 10 条接入以继任记录为准。
 
 ## 继任文档
 
-- 当前入口：对应 phase/lore canonical 文档、review record、task card 和 source consumer。
+- `20261016-testing-index-navigation.json`（同目录）：保留固定 738d 作者候选和独立读域；当前中央/路由/矩阵按实际受审快照与记录核验；不授 359 来源或 runtime 信用。
 
 ## 停止线
 
-- 不得将历史 review/design/receipt 升格为 current runtime/E2E/visual/coverage acceptance。
+- 不得将历史设计/回执升格为 current runtime/E2E/视觉/coverage acceptance；设计的允许/接受只指当时，不重授当前 build 或产品信用。
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a`；下方 quote 可逆回原始 UTF-8 字节。
+- 固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629`（blob `8cfe419330af23f614254748a9106df4cdda5d79`）。下方直接 quote 是另含两层既有封套的复合体，其首层解码 SHA 为 `3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a`，不等于该 revision 的 Git 原文。逐层解除引用后，每层仅移除末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
+
+逐层字节核验（每层仅排除已知的一个分隔 LF）：
+- 第 1 层：SHA `3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a`，34508B。
+- 第 2 层：SHA `f6c2c6c481a1551c14b7ce7ee6096765b99e862cfae37510aa980518108e4dde`，32619B。
+- 第 3 层：SHA `46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629`，30520B。
+
 <!-- original-source-quote:start -->
 > # Testing 十份索引正文与公开 producer 治理设计
 >

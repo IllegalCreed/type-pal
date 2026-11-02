@@ -1,85 +1,57 @@
 # 物品功能实现完整性审计(type-pal vs sdlpal)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是物品功能完整性审计的归档回执。四维+装备维审计、14 处历史 gap 与 2026-06-06 复核订正在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：Item opcode gaps, per-item findings, data labels and severity fixes.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 范围：type-pal 对 sdlpal 物品系统四维（大世界使用/战斗使用/战斗投掷/技能消耗）+装备维+标注/数据层的完整性审计（2026-06-02）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568`；169 行槽 / 20916 bytes。
-- 标题/章节锚点：1:物品功能实现完整性审计(type-pal vs sdlpal); 19:1. 摘要; 36:2. opcode-gap 表(未实现 / stub / 边界偏差); 53:3. 逐物品 gap 表(仅列含非 ok finding 的物品 / opcode); 55:3.1 大世界使用维(overworld-use); 69:3.2 战斗使用维(battle-use)—— 核心 bug:item.ts 不传 eventObjectId 致单目标失效; 81:3.3 战斗投掷维(throw); 89:3.4 技能消耗维(skill-consume)。
+- 数据规模：235 物品（wObjectID 61..295）——usable 100、throwable 83（7 件 scriptOnThrow==0 走默认路径）、equipable 107；物品脚本涉及 51 个 unique opcode。
 
 ## 发现
 
-- 正文信号 10:> - 0x34 紫金葫芦炼丹已弹 `item-box` dialog,并有等待/按键关闭单测。
-- 正文信号 14:> - 0x47 PlaySound 已入 `gs.pendingSounds`;0x31 ChangeBattleSprite 已写 `BattlePlayer.spriteNumOverride`。
-- 正文信号 28:- **战斗使用**:原列 4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现),当前这些已修或重判;0x73 战斗 raw fallback 可达性另行低优核验。
-- 正文信号 31:- **音频/演出**:原列 0x47/0x31/0x73 多为 stub;当前 0x47 已走 pendingSounds、0x31 已接 sprite override、0x73 大世界 dither fade 已接。
-- 正文信号 36:## 2. opcode-gap 表(未实现 / stub / 边界偏差)
-- 正文信号 46:| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | yes | yes | 所有带音效的物品脚本 | event-system.ts pushes `gs.pendingSounds`;battle-opcodes.ts fallback 同队列 | ✅ 不再是 c
-- 正文信号 66:| 大世界用 | partial | 0xA1:cutscene 队伍聚拢 | trail 聚拢效果对,但未逐字段设 `rgParty[1..].y=party[0].y-1`、未显式 UpdatePartyGestures(功能等价,非 1:1) | script.c:2998-3014 | event-system.ts:2973-2983 |
-- 正文信号 73:| 战斗用 | partial | 0x29:寿葫芦/净衣符类(战斗施毒/正向毒) | 战斗 `item.ts performItem` 调 runScript **不传 opts.eventObjectId** → 单目标(op0==0)时 `currentEventObjectId=undefined` → targets=[] → **不施毒**;另
-- 正文信号 100:| 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |
-- 正文信号 107:| partial | 0x61 jump if not poisoned | 两实现都未排除 level>=99 装备毒(sdlpal global.c:1669-1675 显式 skip);role 仅带装备毒时 type-pal 误判"已中毒"不跳。常规毒一致 | script.c:1957-1965 / global.c:1616 | event-s
-- 正文信号 109:| 可达性风险 | 0x5A halve player HP | handler 正确,但 performBattleAction 现强制 item→enemy 目标,无影毒-use 选队员 UI 路由可能未通(handler 就绪,触发链待验) | script.c:1887-1893 | battle-opcodes.ts:693-711 |
-- 正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。
+- 任务前置 3 个「已知确认 gap」经 Read 核实为误报剔除：0x81（event-system.ts:4031-4063 已实现，仅 scene-bounds+g_fScriptSuccess 边界偏差）、0x84（:3905-3925 已实现）、0x5D（:3826-3832+isPlayerPoisoned@2776 两维 ok）。
+- 历史确认 gap 总数 14 处（opcode 级 5+逐物品/路由级若干+标注 1+装备维 1）；核心 bug=item.ts 不传 eventObjectId 致战斗使用单目标失效。
+- 2026-06-06 复核订正多项：大世界使用原 5 处底层项已修或重判、战斗使用 4 处已修（0x50 战斗 raw fallback 可触发 palette fade、0x62/63 tickChaseTimer 到期复位）、0x47/0x31/0x73 stub 已接。
 
 ## 结论
 
-- 物品功能实现完整性审计(type-pal vs sdlpal)：这是 audit-report，当前文档状态为 historical。全文 169 行、18 个标题；摘要/首段为「日期:2026-06-02」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 投掷维 0 确认 gap（7 件 scriptOnThrow==0 为真值数据非 bug）、技能消耗维 0；结论已并入 [item-status](../status/item-status.md)。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；i；t；e；m； ；s；c；r；i；p；t；/；o；p；c；o；d；e； ；c；o；d；e； ；a；n；d； ；f；o；c；u；s；e；d； ；t；e；s；t；s；.。
+- 修复以逐项行号锚点复核；页首复核订正覆盖历史分布。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-02；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568`。
+- phase1 plans 物品审计；时点 2026-06-02（复核 06-06）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 物品功能实现完整性审计(type-pal vs sdlpal)：这是 audit-report，当前文档状态为 historical。全文 169 行、18 个标题；摘要/首段为「日期:2026-06-02」。属于历史/归档材料，不能单独证明当前实现。
+- 14 处历史 gap 分布与 06-06 订正表为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:物品功能实现完整性审计(type-pal vs sdlpal); 19:1. 摘要; 36:2. opcode-gap 表(未实现 / stub / 边界偏差); 53:3. 逐物品 gap 表(仅列含非 ok finding 的物品 / opcode); 55:3.1 大世界使用维(overworld-use); 69:3.2 战斗使用维(battle-use)—— 核心 bug:item.ts 不传 eventObjectId 致单目标失效; 81:3.3 战斗投掷维(throw); 89:3.4 技能消耗维(skill-consume)；原始正文、代码、表格、状态词在 quote 保全。
+- 逐物品 gap 表（3.1–3.5 五维）与复核订正表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 10:> - 0x34 紫金葫芦炼丹已弹 `item-box` dialog,并有等待/按键关闭单测。
-- 正文信号 14:> - 0x47 PlaySound 已入 `gs.pendingSounds`;0x31 ChangeBattleSprite 已写 `BattlePlayer.spriteNumOverride`。
-- 正文信号 28:- **战斗使用**:原列 4 处(0x29/0x2B/0x2C 单目标因 item.ts 不传 eventObjectId 失效、0x50 战斗淡屏未实现),当前这些已修或重判;0x73 战斗 raw fallback 可达性另行低优核验。
-- 正文信号 31:- **音频/演出**:原列 0x47/0x31/0x73 多为 stub;当前 0x47 已走 pendingSounds、0x31 已接 sprite override、0x73 大世界 dither fade 已接。
-- 正文信号 36:## 2. opcode-gap 表(未实现 / stub / 边界偏差)
-- 正文信号 46:| **0x47** PlaySound | `AUDIO_PlaySound(op0)` 播音效 | script.c:1704-1709 | yes | yes | 所有带音效的物品脚本 | event-system.ts pushes `gs.pendingSounds`;battle-opcodes.ts fallback 同队列 | ✅ 不再是 c
-- 正文信号 66:| 大世界用 | partial | 0xA1:cutscene 队伍聚拢 | trail 聚拢效果对,但未逐字段设 `rgParty[1..].y=party[0].y-1`、未显式 UpdatePartyGestures(功能等价,非 1:1) | script.c:2998-3014 | event-system.ts:2973-2983 |
-- 正文信号 73:| 战斗用 | partial | 0x29:寿葫芦/净衣符类(战斗施毒/正向毒) | 战斗 `item.ts performItem` 调 runScript **不传 opts.eventObjectId** → 单目标(op0==0)时 `currentEventObjectId=undefined` → targets=[] → **不施毒**;另
-- 正文信号 100:| 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |
-- 正文信号 107:| partial | 0x61 jump if not poisoned | 两实现都未排除 level>=99 装备毒(sdlpal global.c:1669-1675 显式 skip);role 仅带装备毒时 type-pal 误判"已中毒"不跳。常规毒一致 | script.c:1957-1965 / global.c:1616 | event-s
-- 正文信号 109:| 可达性风险 | 0x5A halve player HP | handler 正确,但 performBattleAction 现强制 item→enemy 目标,无影毒-use 选队员 UI 路由可能未通(handler 就绪,触发链待验) | script.c:1887-1893 | battle-opcodes.ts:693-711 |
-- 正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。
+- historical。gap 修复状态按 06-06 复核时点解释；当前物品行为以现行代码为准。
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；i；t；e；m； ；s；c；r；i；p；t；/；o；p；c；o；d；e； ；c；o；d；e； ；a；n；d； ；f；o；c；u；s；e；d； ；t；e；s；t；s；.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [item-status](../status/item-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 物品功能实现完整性审计(type-pal vs sdlpal)
 >

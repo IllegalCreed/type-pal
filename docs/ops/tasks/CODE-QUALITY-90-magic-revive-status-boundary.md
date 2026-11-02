@@ -1,5 +1,64 @@
 # CODE-QUALITY-90 — magic revive status clearing boundary
 
+Status: done
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+按 SDLPal 修复大世界单体/全体复活的状态清除边界：复活时清 rgPlayerStatus 的 <=999 临时状态、保留 >999 武器/装备永久效果（用户2026-10-14批准对齐SDLPal并明确保留武器双攻类buff）。旧实现 revivePlayerSingle/All 只写复活HP并清毒，不触碰 rgPlayerStatus；既有测试只断言HP/毒/MP门、无status oracle。
+
+## 范围
+
+packages/game/src/core/menu/magic-script.ts 的 revivePlayerSingle/revivePlayerAll 及专属测试。范围外：战斗复活、save/schema/migration、CODE53/79毒键寻址、其它opcode。明确不清 >999、不改status schema、不恢复旧upgrader。
+
+## 前提与证据
+
+primary：script.c:1052-1102 单/全体复活分支均调 PAL_CurePoisonByLevel(...,3) 并遍历kStatusAll调PAL_RemovePlayerStatus；global.c:2279-2344 该函数只清<=999、保留>999装备效果（梦蛇DualAttack=9复活清除见game-mechanics.md:1517-1539，32760装备实例见game-state.ts:1082-1085）。修复前13229f476的magic-script.ts:91-111无status写入。原2个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+## 验收
+
+实现（2026-10-14）：仅已确认HP==0的单体复活臂追加<=999清除、全体复用同一函数；活人不清、>999/毒level>3/MP ownership不变。先红后绿2失败/29通过→31/31；相邻8文件518tests；4枚精确mutation（漏清理/999误留/1000误清/错按party position）各恰1业务AssertionError。追加四条真实runner合同（0x1C/0x1D applyAll与单体无变化失败）后magic-script覆盖110/110语句。ratchet三阶段：初版因pal-extract五个CLI 5000ms超时失败（原件保留）→重试通过731源/19860tests→边界合同后exit0并只升不降更新baseline（aabca727…）。最终workspace check exit0（七包全绿）、lint-zero 4041文件。
+
+## 状态与交接
+
+Status保持done（2026-10-20正式收口：七条大世界spell链/完整runner与真实menu caller已核，35最终例通过；三个文件八维接受，合法WORD/Spell夹具、双单例清理、七退役/三更名/一use阶段合同有映射与反控）。done只覆盖原卡范围，magic-script全script-chain/input/unsupported-op/step-limit整文件合同与两文件的完整审查按各自记录推进；毒槽压缩归CODE53。
+
+## 历史范围
+
+2026-10-14主线同步d7e9831f4提交推送后，主线新增579cdf668/d24981591/5116cd5bb合入治理分支；旧基点全门回执不冒充新基点。check:fast历史误标protected fast已撤回；workers2导致editor 1例业务失败（BattleSpriteLibrary apply.disabled）与默认并发4个CLI超时均保留exit1原件，根因未明。新增反例初用77779超WORD域，已改合法合成入口504并重测（旧原件保留）。
+
+## 原始结论
+
+原卡结论：第一阶段<=999清除/>999保留的用户裁决与四项历史精确反控仍成立；公共cost/caster参数按既有接口冻结要求保留；不把一阶段回合数规则套到二阶段装备来源字段。
+
+## 当时证据
+
+docs/ops/evidence/CODE-QUALITY-90/（mutation原件、gate-ratchet-timeouts、gate-protected-fast-workers2-editor-failure、mutation-legal-script-id等）。原链接与当时回执属原时点证据，本页不重跑、不复授。
+
+## 当前有效性
+
+历史任务卡（done有限范围）；复活边界行为按其时点核验有效。
+
+## 继任文档
+
+CODE-QUALITY-53（毒槽party-slot寻址）与QUALITY-REVIEW-52-CLOSEOUT-1（52收口阶段对magic模块的后续重组）承接相关机制邻域。原存活入口逐字保留：
+
+关联:[completion.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 21673B / SHA-256 c3282d5a6cea4303e8606c8206eb0847e40a4bda96ea819937aabc925272d181；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE-QUALITY-90 — magic revive status clearing boundary
+
 > 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
 Status: done
@@ -177,3 +236,5 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 保留范围：公共cost/caster参数按既有接口冻结要求保留，可选参数精简不阻断本卡。毒槽压缩与其它机制问题仍归CODE53及对应候选；不把一阶段回合数规则套到二阶段装备来源字段。
 
 Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
+```
+<!-- incremental-original-source:end -->

@@ -1,40 +1,60 @@
 # 一阶段画面合成与战斗呈现补测 — 正式接入
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Grok 一阶段画面合成与战斗呈现补测的正式接入回执（2026-09-25：隔离候选 7a49d651…211e 经独立复核闭合 P15/P16 三项 counter 后，Codex 选择性移入 packages/game/src/present/__tests__/grok-composition/，不合旧候选分支树；候选基点 bf4c51c4 落后 main）。
+
+## Scope
+
+- 19 项均走真实 presentFrame、BattlePresent.draw、drawBattleUI 或 drawDialogBox：P11 两项/P12 四项/P13 两项/P14 三项/P15 五项（roleId99 一项明确防御输入——预填 disabled 只证绘制着色，MP 不足真实建表由既有 battle-system.test 覆盖不在本包冒称）/P16 三项（无 UI 帧数字字形有正像素断言和只漏该 fallback 的业务红）。
+
+## Execution and assertions
+
+- **移植与验证**：只改相对导入与 Biome 排版；候选 vitest.setup 的 Date.now=0 移到 P15 文件 beforeEach/afterEach 局部桩防墙钟闪烁；像素预期/业务断言/产品实现均不改；正式定向 19/19+game typecheck+9 文件 Biome 通过；五针候选反控 Codex 复跑目标标题业务 AssertionError 源 hash 不变
+- **统一门**：env -u NODE_COMPILE_CACHE 完整 check exit0（game 2,445/editor 2,754/reforge 1,610/migrate 534）；官方受保护 ratchet exit0：相对 origin/main 只新增六文件 19 个 fast 身份旧测试无改删、641 生产文件与七包分母不变；单次受保护严格 fast exit0 8,109/8,109 与新基线未下降
+- **覆盖增量**：相对上一基线 8,090/641：语句 +65/分支 +67/函数 +1/行 +49；game 分支 7,731→7,798；全仓行 78.00%/语句 75.83%/函数 75.57%/分支 68.28%；正式 fast 同分母增量非候选局部数字
+
+## Results
+
+- 没有改产品/旧测试/官方排除阈值超时/资源格式；PAL full/浏览器剧情视觉/Q1/Q2/完整 E2E 未随本卡运行；原候选保远端标签 archive/grok-present-composition-r1；干净 worktree 与分支已清理。
+
+## Evidence
+
+- 证据路径：本报告正文（quote 保全）；统一检查表在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 正式接入 | 2026-09-25 | 19 项+五针+三门 | 完成（正式测试贡献与验证入口） | P15/P16 counter 闭合 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/engine-boundaries 的 Grok 合成接入回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 一阶段画面合成与战斗呈现补测 — 正式接入：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：19 项四真实调用链+五针+三门 exit0（fast 8,109）；时钟桩局部化；四维增量分列。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+19 项分组、统一检查表与覆盖增量在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。接入按当时 main。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归官方覆盖账。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `be820f7a58d3053a6eb26d8b826a05aeab2ad770c712d3498d32b9409bf696ac`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `be820f7a58d3053a6eb26d8b826a05aeab2ad770c712d3498d32b9409bf696ac`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 一阶段画面合成与战斗呈现补测 — 正式接入
 >

@@ -10,689 +10,708 @@
       "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:1",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:1 切片 1（重定 · 小版）· 鬼界民居 demo",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:7 0. 一句话",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:11 1. 范围",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:17 2. 内容来源（不画新图 / 不做新美术 / 不碰编辑器）",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:26 3. demo 台词（我定，demo 级别）",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:38 4. 最小数据模型（P0 schema 的切片子集，够用即可）",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:49 5. 架构红线（这刀的真正目的：在真内容上证明干净架构）",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md:57 6. 构建顺序（按这尺寸，不是 21 任务）"
-      ],
-      "unresolved": [
-        "正文信号 20:- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
-        "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
-        "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
-        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
-      ],
-      "nextStep": "以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-indoor-guijie-minju",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r26_independent_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
-        }
-      ],
-      "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
-      "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
-      "publicCallers": [
-        "docs/phase2/archive/slices/indoor/guijie-minju.md → spec.md",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../../lore/dlc-ideas.md",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md → 0 走 / 1 挡"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/guijie-minju.md"
-      ],
-      "businessOracle": {
-        "type": "historical-slice-template-migration",
-        "assertions": [
-          "historical semantics traceable",
-          "quote inverse exact",
-          "no current promotion",
-          "no execution credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/archive/slices/indoor/guijie-minju.md"]
-      },
-      "revision": {
-        "currentSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
-        "implementationSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
-            "date": "2026-10-17",
-            "action": "R26 historical slice migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
-        "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
-        "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
-        "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
-        "lineCount": 111,
-        "originalPreservation": {
-          "method": "line-by-line quote",
-          "sourceBytes": 4647,
-          "sourceLines": 70,
-          "inverseSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
-          "action": "R26 root migration",
-          "reviewer": "r26_independent_review + Codex root"
-        }
-      ],
-      "supersedes": ["legacy presentation only"],
-      "stopLine": "Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.",
-      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
-      "reviewedLines": "1-111",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM actual per-document full reading across original/correction/final rounds as explicitly evidenced; Codex evidence-led identity/preservation/diff audit, prior114 reuse and nine targeted final checks. Codex did not repeat full123 source reading.",
+      "coreConclusion": "切片 1（重定·小版）鬼界民居 demo spec：取代旧 spec.md（WebGL/MMO/通用房间已暂缓）；硬约束=不画新图/不做新美术/不碰编辑器；demo 台词作者定；最小数据模型=P0 schema 切片子集；架构红线=在真内容上证明干净架构。",
+      "truthAnchors": ["quote 一句话/范围/内容来源五节", "quote 取代旧版声明"],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "phase2",
+      "owner": "GLM S16 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate abffb0166d98572945e22f60eb49475bc41901e2",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "sha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
-          "scope": "full source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+          "revision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "sha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "archive/slices/indoor"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
         "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "date": "unknown",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+          "inverseRule": "direct",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "切片 1（重定·小版）鬼界民居 demo spec：取代旧 spec.md（WebGL/MMO/通用房间已暂缓）；硬约束=不画新图/不做新美术/不碰编辑器；demo 台词作者定；最小数据模型=P0 schema 切片子集；架构红线=在真内容上证明干净架构。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r26-indoor-slices.json", "DOCS-FULL-TEMPLATE-1 prior S16 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R26-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation."
-        },
-        {
-          "id": "R26-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here."
-        },
-        {
-          "id": "R26-3",
-          "status": "preserved-open-for-product-work",
-          "statement": "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
-        },
-        {
-          "id": "R26-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution."
+          "status": "closed-fixed-document-only",
+          "statement": "S16 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "historical；spec/plan 按写作时点解释，重定范围与现行架构以 specs/capability-map 为准。"
         }
       ],
+      "revision": {
+        "currentSha": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S16 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+            "beforeSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+            "afterSha256": "5293519d2845e122123b1ad4b0ec1dac92ffcebf97f805fc43bc2318d17240b7"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S16-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+          "encoding": "gzip",
+          "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+          "payloadBytes": 320521,
+          "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+          "storedBytes": 77310,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S16-manual-delivery",
+          "sourceRevision": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "scope": "123 fixed individual S16 body/template decisions: reuse114 unchanged, nine focused final decisions; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S16 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S16-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "5293519d2845e122123b1ad4b0ec1dac92ffcebf97f805fc43bc2318d17240b7",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S16 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r26-indoor-slices.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+          "reviewRecord": "20261017-r26-indoor-slices.json",
+          "revision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+      "afterSha256": "5293519d2845e122123b1ad4b0ec1dac92ffcebf97f805fc43bc2318d17240b7",
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd"
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+        "afterSha256": "5293519d2845e122123b1ad4b0ec1dac92ffcebf97f805fc43bc2318d17240b7",
+        "summary": "Generic envelope replaced by specific template body; entire quote tail remains byte-equal to base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "direct",
+        "sourceBytes": 4647,
+        "inverseBytes": 4647,
+        "scope": "Equality only under the explicitly declared inverse mapping; direct byte equality separately recorded."
+      },
+      "directInverseEqual": true,
+      "ownerActualReadScope": "Fixed Git scope/source/before/after/quote/inverse audit, all accepted per-path core conclusions, original/correction raw receipts, and10 source-domain risk samples plus targeted current navigation and numeric-counter checks. No Owner repeated full114source read.",
+      "authorActualReadRecord": {
+        "ts": "2026-10-19T05:51:34.576Z",
+        "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+        "round2": "full-quote 8KB(2reads)",
+        "verdict": "head-claims-verified-no-correction",
+        "checks": "范围(走/撞/对话翻页)+内容来源(裁一间原版民居验证D3可变尺寸·复用鬼精灵)+demo台词5句(游魂飘忽·埋南盗侠李三思/女飞贼伏笔)+最小数据模型(Scene/Map/Entity/Dialogue)+架构红线"
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20"
     },
     {
       "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
-      "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:1",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:5 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:17 Global Constraints",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:25 Task 1: collision.ts 加 sameTile(纯函数 + TDD)",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:79 Task 2: main isBlocked 接 entity collide + 浏览器验",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:120 Note(可选,本计划不强制)",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md:124 Self-Review(计划作者自查,已过)"
-      ],
-      "unresolved": [
-        "正文信号 2:> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与",
-        "正文信号 9:**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188",
-        "正文信号 13:**Architecture:** `collision.ts` 加纯函数 `sameTile`(复用已有菱形 `pixelToTile`);`main` 的 `isBlocked` 包一层(tile 挡 ‖ 某 `collide` 实体与目标同格)。`movement.resolveMove` **不动**——它的语义本就是「目标被挡即原地停」,isBlo",
-        "正文信号 54:Expected: FAIL(`sameTile` 未定义)",
-        "正文信号 58:`collision.ts` 加(`pixelToTile` 文件内已有,直接复用;放在 `buildIsBlocked` 附近):",
-        "正文信号 79:## Task 2: main isBlocked 接 entity collide + 浏览器验",
-        "正文信号 83:- [ ] **Step 1: isBlocked 包一层读 entity collide**",
-        "正文信号 86:- import 改:`import { buildIsBlocked, sameTile } from './collision.js'`。",
-        "正文信号 87:- `const isBlocked = buildIsBlocked(map)`(line ~188)改为:",
-        "正文信号 89:const tileBlocked = buildIsBlocked(map)",
-        "正文信号 92:const isBlocked = (x: number, y: number): boolean =>",
-        "正文信号 93:tileBlocked(x, y) ||",
-        "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
-        "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
-        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
-      ],
-      "nextStep": "以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-indoor-npc-collision-plan",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r26_independent_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
-        }
-      ],
-      "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
-      "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
-      "publicCallers": [
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L188",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L190",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/npc-collision-plan.md"
-      ],
-      "businessOracle": {
-        "type": "historical-slice-template-migration",
-        "assertions": [
-          "historical semantics traceable",
-          "quote inverse exact",
-          "no current promotion",
-          "no execution credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/archive/slices/indoor/npc-collision-plan.md"]
-      },
-      "revision": {
-        "currentSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
-        "implementationSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
-            "date": "2026-10-17",
-            "action": "R26 historical slice migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
-        "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
-        "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
-        "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
-        "lineCount": 191,
-        "originalPreservation": {
-          "method": "line-by-line quote",
-          "sourceBytes": 6612,
-          "sourceLines": 130,
-          "inverseSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
-          "action": "R26 root migration",
-          "reviewer": "r26_independent_review + Codex root"
-        }
-      ],
-      "supersedes": ["legacy presentation only"],
-      "stopLine": "Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.",
-      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
-      "reviewedLines": "1-191",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM actual per-document full reading across original/correction/final rounds as explicitly evidenced; Codex evidence-led identity/preservation/diff audit, prior114 reuse and nine targeted final checks. Codex did not repeat full123 source reading.",
+      "coreConclusion": "切片 1 补漏静态 NPC 碰撞：Task1 collision.ts sameTile 纯函数 TDD、Task2 main isBlocked 接 entity collide；Self-Review 四条全过（范围只静态碰撞移动避让归 backlog 议题15/纯函数单测/resolveMove 语义不动/INTERACT_RANGE 可选先问）。",
+      "truthAnchors": ["quote Task 1-2", "quote Self-Review 四条"],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "phase2",
+      "owner": "GLM S16 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate abffb0166d98572945e22f60eb49475bc41901e2",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "sha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
-          "scope": "full source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+          "revision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "sha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "archive/slices/indoor"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
         "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "date": "2026-09-06",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+          "inverseRule": "direct",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "切片 1 补漏静态 NPC 碰撞：Task1 collision.ts sameTile 纯函数 TDD、Task2 main isBlocked 接 entity collide；Self-Review 四条全过（范围只静态碰撞移动避让归 backlog 议题15/纯函数单测/resolveMove 语义不动/INTERACT_RANGE 可选先问）。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r26-indoor-slices.json", "DOCS-FULL-TEMPLATE-1 prior S16 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R26-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review."
-        },
-        {
-          "id": "R26-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope."
-        },
-        {
-          "id": "R26-3",
-          "status": "preserved-open-for-product-work",
-          "statement": "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
-        },
-        {
-          "id": "R26-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution."
+          "status": "closed-fixed-document-only",
+          "statement": "S16 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "historical；spec/plan 按写作时点解释，重定范围与现行架构以 specs/capability-map 为准。"
         }
       ],
+      "revision": {
+        "currentSha": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S16 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+            "beforeSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+            "afterSha256": "272e7826150b43732d8d65d936aafa43252768a5e7e68c22bcb51b5614d0f4f2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S16-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+          "encoding": "gzip",
+          "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+          "payloadBytes": 320521,
+          "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+          "storedBytes": 77310,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S16-manual-delivery",
+          "sourceRevision": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "scope": "123 fixed individual S16 body/template decisions: reuse114 unchanged, nine focused final decisions; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S16 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S16-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "272e7826150b43732d8d65d936aafa43252768a5e7e68c22bcb51b5614d0f4f2",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S16 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r26-indoor-slices.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+          "reviewRecord": "20261017-r26-indoor-slices.json",
+          "revision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+      "afterSha256": "272e7826150b43732d8d65d936aafa43252768a5e7e68c22bcb51b5614d0f4f2",
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727"
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+        "afterSha256": "272e7826150b43732d8d65d936aafa43252768a5e7e68c22bcb51b5614d0f4f2",
+        "summary": "Generic envelope replaced by specific template body; entire quote tail remains byte-equal to base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "direct",
+        "sourceBytes": 6612,
+        "inverseBytes": 6612,
+        "scope": "Equality only under the explicitly declared inverse mapping; direct byte equality separately recorded."
+      },
+      "directInverseEqual": true,
+      "ownerActualReadScope": "Fixed Git scope/source/before/after/quote/inverse audit, all accepted per-path core conclusions, original/correction raw receipts, and10 source-domain risk samples plus targeted current navigation and numeric-counter checks. No Owner repeated full114source read.",
+      "authorActualReadRecord": {
+        "ts": "2026-10-19T05:51:34.577Z",
+        "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+        "round2": "full-quote 10KB(2reads)",
+        "verdict": "head-claims-verified-no-correction",
+        "checks": "Goal(collide死字段玩家穿鬼)+范围硬边界(只静态·议题15绝不碰)+架构(sameTile复用pixelToTile·isBlocked包一层·resolveMove不动)+Task1 TDD(鬼pos 1280,832实算)"
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20"
     },
     {
       "path": "docs/phase2/archive/slices/indoor/plan.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
-      "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/phase2/archive/slices/indoor/plan.md:1",
-        "docs/phase2/archive/slices/indoor/plan.md:4 切片 1「室内场景跑通」实现计划（slice 1 plan）",
-        "docs/phase2/archive/slices/indoor/plan.md:18 Global Constraints",
-        "docs/phase2/archive/slices/indoor/plan.md:34 阶段 0 · workspace 接线",
-        "docs/phase2/archive/slices/indoor/plan.md:36 Task 0：起两个空包并接进 workspace",
-        "docs/phase2/archive/slices/indoor/plan.md:137 阶段 A · @type-pal/content（纯数据/解码，node 可测）",
-        "docs/phase2/archive/slices/indoor/plan.md:139 Task A1：schema 类型",
-        "docs/phase2/archive/slices/indoor/plan.md:259 Task A2：indexed PNG → RGBA 解码（纯函数）",
-        "docs/phase2/archive/slices/indoor/plan.md:341 Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）"
-      ],
-      "unresolved": [
-        "正文信号 6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
-        "正文信号 171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
-        "正文信号 303:Expected: FAIL（`decodeIndexedPng` 未定义）",
-        "正文信号 350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
-        "正文信号 362:collision: { width: 2, height: 1, blocked: [0, 1] },",
-        "正文信号 375:expect(scene.map.collision.blocked).toBeInstanceOf(Uint8Array)",
-        "正文信号 402:function asRecord(v: unknown, what: string): Record<string, unknown> {",
-        "正文信号 404:return v as Record<string, unknown>",
-        "正文信号 407:export function parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable } {",
-        "正文信号 411:const layers = (map.layers as Array<Record<string, unknown>>).map((L) => {",
-        "正文信号 417:const blocked = col.blocked as number[]",
-        "正文信号 418:if (blocked.length !== w * h) throw new Error(`parseScene: collision.blocked 长度 ${blocked.length} != ${w * h}`)",
-        "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
-        "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
-        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
-      ],
-      "nextStep": "以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-indoor-plan",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r26_independent_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
-        }
-      ],
-      "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
-      "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
-      "publicCallers": [
-        "docs/phase2/archive/slices/indoor/plan.md → README.md",
-        "docs/phase2/archive/slices/indoor/plan.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/plan.md → spec.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/plan.md"
-      ],
-      "businessOracle": {
-        "type": "historical-slice-template-migration",
-        "assertions": [
-          "historical semantics traceable",
-          "quote inverse exact",
-          "no current promotion",
-          "no execution credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/archive/slices/indoor/plan.md"]
-      },
-      "revision": {
-        "currentSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
-        "implementationSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
-            "date": "2026-10-17",
-            "action": "R26 historical slice migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
-        "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
-        "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
-        "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
-        "lineCount": 1413,
-        "originalPreservation": {
-          "method": "line-by-line quote",
-          "sourceBytes": 61042,
-          "sourceLines": 1352,
-          "inverseSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
-          "action": "R26 root migration",
-          "reviewer": "r26_independent_review + Codex root"
-        }
-      ],
-      "supersedes": ["legacy presentation only"],
-      "stopLine": "Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.",
-      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
-      "reviewedLines": "1-1413",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM actual per-document full reading across original/correction/final rounds as explicitly evidenced; Codex evidence-led identity/preservation/diff audit, prior114 reuse and nine targeted final checks. Codex did not repeat full123 source reading.",
+      "coreConclusion": "切片 1「室内场景跑通」实现计划（旧版范围，已被取代）：Task 0 起空包+A1-A4 纯逻辑（schema/PNG→RGBA/场景解析 fail-loud/手写内容+vendored 资产）+B/C 阶段；2026-09-06 标注=暂缓裁决仍有效、旧 WebGL/MMO 范围未按此完成、后来切片用重聚焦范围不能视为本计划全部实施。",
+      "truthAnchors": ["quote 已被取代声明", "quote Task 0/A 链与执行交接"],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "phase2",
+      "owner": "GLM S16 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate abffb0166d98572945e22f60eb49475bc41901e2",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/phase2/archive/slices/indoor/plan.md",
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "sha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
-          "scope": "full source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/plan.md",
+          "revision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "sha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "archive/slices/indoor"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
         "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "date": "2026-06-25 / 2026-09-06",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/plan.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+          "inverseRule": "direct",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "切片 1「室内场景跑通」实现计划（旧版范围，已被取代）：Task 0 起空包+A1-A4 纯逻辑（schema/PNG→RGBA/场景解析 fail-loud/手写内容+vendored 资产）+B/C 阶段；2026-09-06 标注=暂缓裁决仍有效、旧 WebGL/MMO 范围未按此完成、后来切片用重聚焦范围不能视为本计划全部实施。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r26-indoor-slices.json", "DOCS-FULL-TEMPLATE-1 prior S16 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R26-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave."
-        },
-        {
-          "id": "R26-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented."
-        },
-        {
-          "id": "R26-3",
-          "status": "preserved-open-for-product-work",
-          "statement": "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
-        },
-        {
-          "id": "R26-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution."
+          "status": "closed-fixed-document-only",
+          "statement": "S16 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "historical；spec/plan 按写作时点解释，重定范围与现行架构以 specs/capability-map 为准。"
         }
       ],
+      "revision": {
+        "currentSha": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S16 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+            "beforeSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+            "afterSha256": "20a6120349ed17f0cf030f0586411bc224bf7bdd9d75c30d79468ade00faea04"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S16-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+          "encoding": "gzip",
+          "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+          "payloadBytes": 320521,
+          "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+          "storedBytes": 77310,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S16-manual-delivery",
+          "sourceRevision": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "scope": "123 fixed individual S16 body/template decisions: reuse114 unchanged, nine focused final decisions; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S16 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S16-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "20a6120349ed17f0cf030f0586411bc224bf7bdd9d75c30d79468ade00faea04",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S16 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r26-indoor-slices.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/plan.md",
+          "reviewRecord": "20261017-r26-indoor-slices.json",
+          "revision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+      "afterSha256": "20a6120349ed17f0cf030f0586411bc224bf7bdd9d75c30d79468ade00faea04",
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4"
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+        "afterSha256": "20a6120349ed17f0cf030f0586411bc224bf7bdd9d75c30d79468ade00faea04",
+        "summary": "Generic envelope replaced by specific template body; entire quote tail remains byte-equal to base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "plan-status-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "direct",
+        "sourceBytes": 61042,
+        "inverseBytes": 61042,
+        "scope": "Equality only under the explicitly declared inverse mapping; direct byte equality separately recorded."
+      },
+      "directInverseEqual": true,
+      "ownerActualReadScope": "Fixed Git scope/source/before/after/quote/inverse audit, all accepted per-path core conclusions, original/correction raw receipts, and10 source-domain risk samples plus targeted current navigation and numeric-counter checks. No Owner repeated full114source read.",
+      "authorActualReadRecord": {
+        "ts": "2026-10-19T05:51:34.577Z",
+        "path": "docs/phase2/archive/slices/indoor/plan.md",
+        "round2": "full-quote 66KB(3reads)",
+        "verdict": "head-claims-verified-no-correction",
+        "checks": "Goal/Architecture(content纯数据GPU无关+reforge运行时)+Global Constraints 10条(TS严格.js扩展·稳定id·零模块单例·content GPU无关·text id查表·reforge干净方格不移植32×16·resolveMove纯函数·镜像shared包形)+Task 0起两空包+后续阶段结构"
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20"
     },
     {
       "path": "docs/phase2/archive/slices/indoor/spec.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
-      "truthAnchors": [
-        "docs/phase2/archive/slices/indoor/spec.md:1",
-        "docs/phase2/archive/slices/indoor/spec.md:1 P1 · 切片 1：室内场景跑通（slice 1 spec）",
-        "docs/phase2/archive/slices/indoor/spec.md:12 0. 目标与范围",
-        "docs/phase2/archive/slices/indoor/spec.md:25 1. 决策映射（本刀如何兑现 D1–D9）",
-        "docs/phase2/archive/slices/indoor/spec.md:39 2. 包与目录",
-        "docs/phase2/archive/slices/indoor/spec.md:91 3. 内容数据模型（content schema 切片子集）",
-        "docs/phase2/archive/slices/indoor/spec.md:164 4. 资产与解码（复用原版 / 运行期解码）",
-        "docs/phase2/archive/slices/indoor/spec.md:174 5. 三层状态（[P0§1](../../designs/content-schema.md) / [D2](../../../decisions.md)）",
-        "docs/phase2/archive/slices/indoor/spec.md:182 6. 实体 + 子系统（轻量组件袋，非 ECS 框架）"
-      ],
-      "unresolved": [
-        "正文信号 3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
-        "正文信号 119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
-        "正文信号 162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
-        "正文信号 204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
-        "正文信号 222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
-        "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。",
-        "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
-        "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
-        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
-      ],
-      "nextStep": "以当前 canonical 文档或代码复核。",
-      "phase": "phase2",
-      "module": "archive",
-      "capability": "phase2-archive-slices-indoor-spec",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r26_independent_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
-        }
-      ],
-      "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
-      "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
-      "publicCallers": [
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → guijie-minju.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../roadmap.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../audits/engine-debt-audit.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
-        "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md"
-      ],
-      "legalInputs": [
-        "current repository documentation",
-        "docs/phase2/archive/slices/indoor/spec.md"
-      ],
-      "businessOracle": {
-        "type": "historical-slice-template-migration",
-        "assertions": [
-          "historical semantics traceable",
-          "quote inverse exact",
-          "no current promotion",
-          "no execution credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/archive/slices/indoor/spec.md"]
-      },
-      "revision": {
-        "currentSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
-        "implementationSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
-            "date": "2026-10-17",
-            "action": "R26 historical slice migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
-        "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
-        "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
-        "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
-        "lineCount": 319,
-        "originalPreservation": {
-          "method": "line-by-line quote",
-          "sourceBytes": 19111,
-          "sourceLines": 278,
-          "inverseSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
-          "exactRoundTrip": true
-        }
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
-          "action": "R26 root migration",
-          "reviewer": "r26_independent_review + Codex root"
-        }
-      ],
-      "supersedes": ["legacy presentation only"],
-      "stopLine": "Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.",
-      "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
-      "reviewedLines": "1-319",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "historical",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM actual per-document full reading across original/correction/final rounds as explicitly evidenced; Codex evidence-led identity/preservation/diff audit, prior114 reuse and nine targeted final checks. Codex did not repeat full123 source reading.",
+      "coreConclusion": "切片 1 旧版 spec（重新聚焦前，2026-06-25 标注暂缓/待重写）：含 WebGL2/MMO 碰撞留口/内容无关通用房间；重聚焦后改 Canvas 2D 起步+真实 DLC 内容+不留 MMO 口；正文保留 D1–D9 决策映射/包目录/数据模型/资产解码/三层状态章节作沿革证据。",
+      "truthAnchors": ["quote 暂缓裁决头部", "quote 决策映射与设计章节"],
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
+      "phase": "phase2",
+      "owner": "GLM S16 body contributor; Codex documentation governance Owner",
+      "provenance": [
+        "Fixed candidate abffb0166d98572945e22f60eb49475bc41901e2",
+        "Original author nonAuthorReviewer=false retained",
+        "Owner report 565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "Prior binding retained under supersededBindings in the same existing partition"
+      ],
       "primarySource": [
         {
           "path": "docs/phase2/archive/slices/indoor/spec.md",
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "sha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
-          "scope": "full source"
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
+        },
+        {
+          "path": "docs/phase2/archive/slices/indoor/spec.md",
+          "revision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "sha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "phase2",
-        "module": "archive/slices/indoor"
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
-      "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.",
+      "dependencies": [
+        "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/phase-governance/templates/registry.json"
+      ],
       "versionScope": {
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
         "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "date": "2026-06-24 / 2026-06-25",
-        "validity": "historical"
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "historical",
+        "noCurrentExecutionCredit": true
+      },
+      "publicCallers": [
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
+      ],
+      "legalInputs": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/spec.md",
+          "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "sha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+          "inverseRule": "direct",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
+      ],
+      "businessOracle": {
+        "type": "document-governance-not-product-runtime",
+        "assertions": [
+          "切片 1 旧版 spec（重新聚焦前，2026-06-25 标注暂缓/待重写）：含 WebGL2/MMO 碰撞留口/内容无关通用房间；重聚焦后改 Canvas 2D 起步+真实 DLC 内容+不留 MMO 口；正文保留 D1–D9 决策映射/包目录/数据模型/资产解码/三层状态章节作沿革证据。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
+        ]
+      },
+      "dedupe": {
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r26-indoor-slices.json", "DOCS-FULL-TEMPLATE-1 prior S16 counters"]
       },
       "counterReworkBlocked": [
         {
-          "id": "R26-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave."
-        },
-        {
-          "id": "R26-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision."
-        },
-        {
-          "id": "R26-3",
-          "status": "preserved-open-for-product-work",
-          "statement": "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
-        },
-        {
-          "id": "R26-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution."
+          "status": "closed-fixed-document-only",
+          "statement": "S16 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "historical；spec/plan 按写作时点解释，重定范围与现行架构以 specs/capability-map 为准。"
         }
       ],
+      "revision": {
+        "currentSha": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "history": [
+          {
+            "date": "2026-10-20",
+            "action": "S16 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+            "beforeSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+            "afterSha256": "7da766fae4cc22b2807dc465eee2413a65bd0a22ddeb710228aef8a4c6f8c529"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S16-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+          "encoding": "gzip",
+          "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+          "payloadBytes": 320521,
+          "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+          "storedBytes": 77310,
+          "producerTask": "/root",
+          "reviewerTask": "/root",
+          "authorTask": "GLM/S16-manual-delivery",
+          "sourceRevision": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "scope": "123 fixed individual S16 body/template decisions: reuse114 unchanged, nine focused final decisions; no global/main/done/product execution credit.",
+          "owner": "Codex documentation governance",
+          "caller": "DOCS-FULL-TEMPLATE-1 S16 existing partition central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
+        },
+        "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S16-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "7da766fae4cc22b2807dc465eee2413a65bd0a22ddeb710228aef8a4c6f8c529",
+        "historicalExecutionAuthenticityGranted": false
+      },
+      "history": [
+        {
+          "date": "2026-10-20",
+          "action": "Fresh fixed S16 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r26-indoor-slices.json"
+        }
+      ],
+      "supersedes": [
+        {
+          "path": "docs/phase2/archive/slices/indoor/spec.md",
+          "reviewRecord": "20261017-r26-indoor-slices.json",
+          "revision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
+        }
+      ],
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
+      "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+      "afterSha256": "7da766fae4cc22b2807dc465eee2413a65bd0a22ddeb710228aef8a4c6f8c529",
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6"
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
+      "beforeAfter": {
+        "beforeSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+        "afterSha256": "7da766fae4cc22b2807dc465eee2413a65bd0a22ddeb710228aef8a4c6f8c529",
+        "summary": "Generic envelope replaced by specific template body; entire quote tail remains byte-equal to base."
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "archive-record-v1",
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
+      },
+      "preservationRule": {
+        "rule": "direct",
+        "sourceBytes": 19111,
+        "inverseBytes": 19111,
+        "scope": "Equality only under the explicitly declared inverse mapping; direct byte equality separately recorded."
+      },
+      "directInverseEqual": true,
+      "ownerActualReadScope": "Fixed Git scope/source/before/after/quote/inverse audit, all accepted per-path core conclusions, original/correction raw receipts, and10 source-domain risk samples plus targeted current navigation and numeric-counter checks. No Owner repeated full114source read.",
+      "authorActualReadRecord": {
+        "ts": "2026-10-19T05:51:34.577Z",
+        "path": "docs/phase2/archive/slices/indoor/spec.md",
+        "round2": "full-quote 22KB(2reads)",
+        "verdict": "head-claims-verified-no-correction",
+        "checks": "技术验证刀定位+目标范围表(WebGL2+Canvas2D叠层·复用原版资产运行期解码)+决策映射D1-D9逐条落地+包与目录(schema/load/ids branded)"
+      },
+      "authorOriginalNonAuthorReviewer": false,
+      "currentReviewDate": "2026-10-20"
     }
   ],
   "independentReadOnlyReceipt": {
@@ -714,12 +733,1027 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-candidate-acceptance-20261017.json",
     "sha256": "23f27fcf57bc93608789ad3a5d4a18b687a0f6225482e19c600e8826332c1d65",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "4/4 Markdown candidate reception; HTML 3 deferred",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "docs/phase2/archive/slices/indoor/plan.md",
+      "docs/phase2/archive/slices/indoor/spec.md"
+    ],
+    "entryCount": 4,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+      "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+      "reason": "Fresh S16 evidence-led document acceptance; previous withdrawn or N3 blocked binding preserved in full. Old batch credit not restored.",
+      "originalEntry": {
+        "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "template": "docs/phase-governance/templates/archive-record.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+        "truthAnchors": [
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:1",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:1 切片 1（重定 · 小版）· 鬼界民居 demo",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:7 0. 一句话",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:11 1. 范围",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:17 2. 内容来源（不画新图 / 不做新美术 / 不碰编辑器）",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:26 3. demo 台词（我定，demo 级别）",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:38 4. 最小数据模型（P0 schema 的切片子集，够用即可）",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:49 5. 架构红线（这刀的真正目的：在真内容上证明干净架构）",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md:57 6. 构建顺序（按这尺寸，不是 21 任务）"
+        ],
+        "unresolved": [
+          "正文信号 20:- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
+          "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
+          "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
+          "The “browser can really play” acceptance is a proposal, not evidence from this readonly read.",
+          "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        ],
+        "nextStep": "以当前 canonical 文档或代码复核。",
+        "phase": "phase2",
+        "module": "archive",
+        "capability": "phase2-archive-slices-indoor-guijie-minju",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "full-text-structured-review",
+          "repository-history",
+          {
+            "nonAuthorReviewer": "r26_independent_review",
+            "verdict": "accept-readonly-proposal",
+            "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+          }
+        ],
+        "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+        "afterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+        "publicCallers": [
+          "docs/phase2/archive/slices/indoor/guijie-minju.md → spec.md",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../../lore/dlc-ideas.md",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md → 0 走 / 1 挡"
+        ],
+        "legalInputs": [
+          "current repository documentation",
+          "docs/phase2/archive/slices/indoor/guijie-minju.md"
+        ],
+        "businessOracle": {
+          "type": "historical-slice-template-migration",
+          "assertions": [
+            "historical semantics traceable",
+            "quote inverse exact",
+            "no current promotion",
+            "no execution credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/phase2/archive/slices/indoor/guijie-minju.md"]
+        },
+        "revision": {
+          "currentSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+          "implementationSha": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+          "history": [
+            {
+              "revision": "working-tree",
+              "date": "2026-10-04",
+              "action": "full-text-structured-content-review",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
+              "date": "2026-10-17",
+              "action": "R26 historical slice migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+          "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+          "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+          "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+          "lineCount": 111,
+          "originalPreservation": {
+            "method": "line-by-line quote",
+            "sourceBytes": 4647,
+            "sourceLines": 70,
+            "inverseSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        },
+        "history": [
+          {
+            "revision": "working-tree",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
+            "action": "R26 root migration",
+            "reviewer": "r26_independent_review + Codex root"
+          },
+          {
+            "date": "2026-10-18",
+            "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "586a5b57f27ed22a5e8ec4f3f56db0920b0ee48c2bd780cdf7c8ecbc86c5f401"
+            },
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "templateCompliance": "needs-migration",
+            "bodyReadPerformed": false,
+            "nonAuthorReviewer": false
+          }
+        ],
+        "supersedes": ["legacy presentation only"],
+        "stopLine": "Do not cite this archive as current canonical truth or runtime proof; re-enable only through a current slice spec/code review with fixed source asset and scope decisions.",
+        "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+        "reviewedLines": "1-111",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "documentStatus": "historical",
+        "primarySource": [
+          {
+            "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "sha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
+            "scope": "full source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "phase2",
+          "module": "archive/slices/indoor"
+        },
+        "dependencies": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.",
+        "versionScope": {
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "date": "unknown",
+          "validity": "historical"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R26-1",
+            "status": "preserved-open-for-product-work",
+            "statement": "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation."
+          },
+          {
+            "id": "R26-2",
+            "status": "preserved-open-for-product-work",
+            "statement": "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here."
+          },
+          {
+            "id": "R26-3",
+            "status": "preserved-open-for-product-work",
+            "statement": "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+          },
+          {
+            "id": "R26-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No product execution."
+          }
+        ],
+        "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "correctiveDelta": {
+          "date": "2026-10-18",
+          "previousAfterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+          "afterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+          "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "task": "DOCS-RECORD-INTEGRITY-1"
+        },
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+          "originalCoreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
+          "originalReviewDepth": "deep-semantic",
+          "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+          "originalContentReviewStatus": "content-reviewed",
+          "originalTemplateCompliance": "template-compliant",
+          "originalAfterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "586a5b57f27ed22a5e8ec4f3f56db0920b0ee48c2bd780cdf7c8ecbc86c5f401"
+          },
+          "originalEntryLocator": {
+            "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+            "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+            "entryIndex": 0,
+            "path": "docs/phase2/archive/slices/indoor/guijie-minju.md"
+          },
+          "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "authorCanonicalTask": "/root/s12_semantic_author",
+          "nonAuthorReviewer": false,
+          "noNewSemanticOrTemplateOrRuntimeCredit": true
+        }
+      }
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+      "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+      "reason": "Fresh S16 evidence-led document acceptance; previous withdrawn or N3 blocked binding preserved in full. Old batch credit not restored.",
+      "originalEntry": {
+        "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "template": "docs/phase-governance/templates/plan-status.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+        "truthAnchors": [
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:1",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:5 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:17 Global Constraints",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:25 Task 1: collision.ts 加 sameTile(纯函数 + TDD)",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:79 Task 2: main isBlocked 接 entity collide + 浏览器验",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:120 Note(可选,本计划不强制)",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md:124 Self-Review(计划作者自查,已过)"
+        ],
+        "unresolved": [
+          "正文信号 2:> 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与",
+          "正文信号 9:**Goal:** 切片 1 当前 `collide` 是**死字段**——`EntityDef` 定义了 `collide?: boolean`、鬼填了 `collide: true`,但 reforge 的 `isBlocked`([main.ts:188](../../../../../packages/reforge/src/main.ts#L188",
+          "正文信号 13:**Architecture:** `collision.ts` 加纯函数 `sameTile`(复用已有菱形 `pixelToTile`);`main` 的 `isBlocked` 包一层(tile 挡 ‖ 某 `collide` 实体与目标同格)。`movement.resolveMove` **不动**——它的语义本就是「目标被挡即原地停」,isBlo",
+          "正文信号 54:Expected: FAIL(`sameTile` 未定义)",
+          "正文信号 58:`collision.ts` 加(`pixelToTile` 文件内已有,直接复用;放在 `buildIsBlocked` 附近):",
+          "正文信号 79:## Task 2: main isBlocked 接 entity collide + 浏览器验",
+          "正文信号 83:- [ ] **Step 1: isBlocked 包一层读 entity collide**",
+          "正文信号 86:- import 改:`import { buildIsBlocked, sameTile } from './collision.js'`。",
+          "正文信号 87:- `const isBlocked = buildIsBlocked(map)`(line ~188)改为:",
+          "正文信号 89:const tileBlocked = buildIsBlocked(map)",
+          "正文信号 92:const isBlocked = (x: number, y: number): boolean =>",
+          "正文信号 93:tileBlocked(x, y) ||",
+          "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
+          "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
+          "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence.",
+          "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        ],
+        "nextStep": "以当前 canonical 文档或代码复核。",
+        "phase": "phase2",
+        "module": "archive",
+        "capability": "phase2-archive-slices-indoor-npc-collision-plan",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "full-text-structured-review",
+          "repository-history",
+          {
+            "nonAuthorReviewer": "r26_independent_review",
+            "verdict": "accept-readonly-proposal",
+            "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+          }
+        ],
+        "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+        "afterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+        "publicCallers": [
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L188",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L190",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md"
+        ],
+        "legalInputs": [
+          "current repository documentation",
+          "docs/phase2/archive/slices/indoor/npc-collision-plan.md"
+        ],
+        "businessOracle": {
+          "type": "historical-slice-template-migration",
+          "assertions": [
+            "historical semantics traceable",
+            "quote inverse exact",
+            "no current promotion",
+            "no execution credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/phase2/archive/slices/indoor/npc-collision-plan.md"]
+        },
+        "revision": {
+          "currentSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+          "implementationSha": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+          "history": [
+            {
+              "revision": "working-tree",
+              "date": "2026-10-04",
+              "action": "full-text-structured-content-review",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
+              "date": "2026-10-17",
+              "action": "R26 historical slice migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+          "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+          "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+          "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+          "lineCount": 191,
+          "originalPreservation": {
+            "method": "line-by-line quote",
+            "sourceBytes": 6612,
+            "sourceLines": 130,
+            "inverseSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        },
+        "history": [
+          {
+            "revision": "working-tree",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
+            "action": "R26 root migration",
+            "reviewer": "r26_independent_review + Codex root"
+          },
+          {
+            "date": "2026-10-18",
+            "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "86e93b58e07fd7d588563d93f84fc4ad18b6b48a1de0f802516ef9fd49daff1b"
+            },
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "templateCompliance": "needs-migration",
+            "bodyReadPerformed": false,
+            "nonAuthorReviewer": false
+          }
+        ],
+        "supersedes": ["legacy presentation only"],
+        "stopLine": "Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.",
+        "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+        "reviewedLines": "1-191",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "historical",
+        "primarySource": [
+          {
+            "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "sha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
+            "scope": "full source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "phase2",
+          "module": "archive/slices/indoor"
+        },
+        "dependencies": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.",
+        "versionScope": {
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "date": "2026-09-06",
+          "validity": "historical"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R26-1",
+            "status": "preserved-open-for-product-work",
+            "statement": "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review."
+          },
+          {
+            "id": "R26-2",
+            "status": "preserved-open-for-product-work",
+            "statement": "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope."
+          },
+          {
+            "id": "R26-3",
+            "status": "preserved-open-for-product-work",
+            "statement": "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+          },
+          {
+            "id": "R26-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No product execution."
+          }
+        ],
+        "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "correctiveDelta": {
+          "date": "2026-10-18",
+          "previousAfterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+          "afterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+          "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "task": "DOCS-RECORD-INTEGRITY-1"
+        },
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+          "originalCoreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
+          "originalReviewDepth": "deep-semantic",
+          "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+          "originalContentReviewStatus": "content-reviewed",
+          "originalTemplateCompliance": "template-compliant",
+          "originalAfterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "86e93b58e07fd7d588563d93f84fc4ad18b6b48a1de0f802516ef9fd49daff1b"
+          },
+          "originalEntryLocator": {
+            "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+            "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+            "entryIndex": 1,
+            "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md"
+          },
+          "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "authorCanonicalTask": "/root/s12_semantic_author",
+          "nonAuthorReviewer": false,
+          "noNewSemanticOrTemplateOrRuntimeCredit": true
+        }
+      }
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+      "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+      "reason": "Fresh S16 evidence-led document acceptance; previous withdrawn or N3 blocked binding preserved in full. Old batch credit not restored.",
+      "originalEntry": {
+        "path": "docs/phase2/archive/slices/indoor/plan.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "plan-status",
+        "templateId": "plan-status-v1",
+        "template": "docs/phase-governance/templates/plan-status.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+        "truthAnchors": [
+          "docs/phase2/archive/slices/indoor/plan.md:1",
+          "docs/phase2/archive/slices/indoor/plan.md:4 切片 1「室内场景跑通」实现计划（slice 1 plan）",
+          "docs/phase2/archive/slices/indoor/plan.md:18 Global Constraints",
+          "docs/phase2/archive/slices/indoor/plan.md:34 阶段 0 · workspace 接线",
+          "docs/phase2/archive/slices/indoor/plan.md:36 Task 0：起两个空包并接进 workspace",
+          "docs/phase2/archive/slices/indoor/plan.md:137 阶段 A · @type-pal/content（纯数据/解码，node 可测）",
+          "docs/phase2/archive/slices/indoor/plan.md:139 Task A1：schema 类型",
+          "docs/phase2/archive/slices/indoor/plan.md:259 Task A2：indexed PNG → RGBA 解码（纯函数）",
+          "docs/phase2/archive/slices/indoor/plan.md:341 Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）"
+        ],
+        "unresolved": [
+          "正文信号 6:> ⚠ **暂缓 / 勿照此执行（2026-06-25）**：本计划是「重新聚焦」**之前**的版本（WebGL2 渲染、MMO 留口、内容无关的通用房间）。第二阶段已改走 **Canvas 2D 起步 + 真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md)）。保留作参考；切片重启时会",
+          "正文信号 171:export interface CollisionLayer { width: number; height: number; blocked: Uint8Array }",
+          "正文信号 303:Expected: FAIL（`decodeIndexedPng` 未定义）",
+          "正文信号 350:- Produces：`parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable }`。磁盘 JSON 的 `tiles`/`blocked` 是 `number[]`，转 `Int16Array`/`Uint8Array`。坏引用/越界/缺字段 → `",
+          "正文信号 362:collision: { width: 2, height: 1, blocked: [0, 1] },",
+          "正文信号 375:expect(scene.map.collision.blocked).toBeInstanceOf(Uint8Array)",
+          "正文信号 402:function asRecord(v: unknown, what: string): Record<string, unknown> {",
+          "正文信号 404:return v as Record<string, unknown>",
+          "正文信号 407:export function parseScene(rawScene: unknown, rawText: unknown): { scene: Scene; texts: TextTable } {",
+          "正文信号 411:const layers = (map.layers as Array<Record<string, unknown>>).map((L) => {",
+          "正文信号 417:const blocked = col.blocked as number[]",
+          "正文信号 418:if (blocked.length !== w * h) throw new Error(`parseScene: collision.blocked 长度 ${blocked.length} != ${w * h}`)",
+          "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
+          "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
+          "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist.",
+          "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        ],
+        "nextStep": "以当前 canonical 文档或代码复核。",
+        "phase": "phase2",
+        "module": "archive",
+        "capability": "phase2-archive-slices-indoor-plan",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "full-text-structured-review",
+          "repository-history",
+          {
+            "nonAuthorReviewer": "r26_independent_review",
+            "verdict": "accept-readonly-proposal",
+            "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+          }
+        ],
+        "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+        "afterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+        "publicCallers": [
+          "docs/phase2/archive/slices/indoor/plan.md → README.md",
+          "docs/phase2/archive/slices/indoor/plan.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/plan.md → spec.md"
+        ],
+        "legalInputs": [
+          "current repository documentation",
+          "docs/phase2/archive/slices/indoor/plan.md"
+        ],
+        "businessOracle": {
+          "type": "historical-slice-template-migration",
+          "assertions": [
+            "historical semantics traceable",
+            "quote inverse exact",
+            "no current promotion",
+            "no execution credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/phase2/archive/slices/indoor/plan.md"]
+        },
+        "revision": {
+          "currentSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+          "implementationSha": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+          "history": [
+            {
+              "revision": "working-tree",
+              "date": "2026-10-04",
+              "action": "full-text-structured-content-review",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
+              "date": "2026-10-17",
+              "action": "R26 historical slice migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+          "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+          "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+          "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+          "lineCount": 1413,
+          "originalPreservation": {
+            "method": "line-by-line quote",
+            "sourceBytes": 61042,
+            "sourceLines": 1352,
+            "inverseSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        },
+        "history": [
+          {
+            "revision": "working-tree",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
+            "action": "R26 root migration",
+            "reviewer": "r26_independent_review + Codex root"
+          },
+          {
+            "date": "2026-10-18",
+            "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "571ac569ef3668caac9e031eb32e00d3515bf01507146ad2d17780bf71dacaeb"
+            },
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "templateCompliance": "needs-migration",
+            "bodyReadPerformed": false,
+            "nonAuthorReviewer": false
+          }
+        ],
+        "supersedes": ["legacy presentation only"],
+        "stopLine": "Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.",
+        "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+        "reviewedLines": "1-1413",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "historical",
+        "primarySource": [
+          {
+            "path": "docs/phase2/archive/slices/indoor/plan.md",
+            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "sha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
+            "scope": "full source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "phase2",
+          "module": "archive/slices/indoor"
+        },
+        "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.",
+        "versionScope": {
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "date": "2026-06-25 / 2026-09-06",
+          "validity": "historical"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R26-1",
+            "status": "preserved-open-for-product-work",
+            "statement": "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave."
+          },
+          {
+            "id": "R26-2",
+            "status": "preserved-open-for-product-work",
+            "statement": "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented."
+          },
+          {
+            "id": "R26-3",
+            "status": "preserved-open-for-product-work",
+            "statement": "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+          },
+          {
+            "id": "R26-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No product execution."
+          }
+        ],
+        "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "correctiveDelta": {
+          "date": "2026-10-18",
+          "previousAfterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+          "afterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+          "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "task": "DOCS-RECORD-INTEGRITY-1"
+        },
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+          "originalCoreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
+          "originalReviewDepth": "deep-semantic",
+          "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+          "originalContentReviewStatus": "content-reviewed",
+          "originalTemplateCompliance": "template-compliant",
+          "originalAfterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "571ac569ef3668caac9e031eb32e00d3515bf01507146ad2d17780bf71dacaeb"
+          },
+          "originalEntryLocator": {
+            "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+            "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+            "entryIndex": 2,
+            "path": "docs/phase2/archive/slices/indoor/plan.md"
+          },
+          "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "authorCanonicalTask": "/root/s12_semantic_author",
+          "nonAuthorReviewer": false,
+          "noNewSemanticOrTemplateOrRuntimeCredit": true
+        }
+      }
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+      "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+      "reason": "Fresh S16 evidence-led document acceptance; previous withdrawn or N3 blocked binding preserved in full. Old batch credit not restored.",
+      "originalEntry": {
+        "path": "docs/phase2/archive/slices/indoor/spec.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "archive-record",
+        "templateId": "archive-record-v1",
+        "template": "docs/phase-governance/templates/archive-record.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
+        "truthAnchors": [
+          "docs/phase2/archive/slices/indoor/spec.md:1",
+          "docs/phase2/archive/slices/indoor/spec.md:1 P1 · 切片 1：室内场景跑通（slice 1 spec）",
+          "docs/phase2/archive/slices/indoor/spec.md:12 0. 目标与范围",
+          "docs/phase2/archive/slices/indoor/spec.md:25 1. 决策映射（本刀如何兑现 D1–D9）",
+          "docs/phase2/archive/slices/indoor/spec.md:39 2. 包与目录",
+          "docs/phase2/archive/slices/indoor/spec.md:91 3. 内容数据模型（content schema 切片子集）",
+          "docs/phase2/archive/slices/indoor/spec.md:164 4. 资产与解码（复用原版 / 运行期解码）",
+          "docs/phase2/archive/slices/indoor/spec.md:174 5. 三层状态（[P0§1](../../designs/content-schema.md) / [D2](../../../decisions.md)）",
+          "docs/phase2/archive/slices/indoor/spec.md:182 6. 实体 + 子系统（轻量组件袋，非 ECS 框架）"
+        ],
+        "unresolved": [
+          "正文信号 3:> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 20",
+          "正文信号 119:blocked: Uint8Array                    // 长度 w*h，0=可走 1=挡。形状留长大成 per-cell 地形记录",
+          "正文信号 162:> 磁盘 `scene.json` 用 `number[]` 存 tiles/blocked，载入时转 typed array（`Int16Array`/`Uint8Array`）；`CollisionLayer` 宽高 = `TileMap` 宽高，`validate` 校验一致。",
+          "正文信号 204:- **碰撞两类分开**（[D5](../../../decisions.md)）：世界几何（CollisionLayer.blocked）/ 实体（CollisionComponent.solid，经 spatial-index）。",
+          "正文信号 222:> ⚠ 此条是「可以」放行时按推荐采纳的假设。若要 100% 原版地板观感，改为移植 32×16 偏移拼贴，其余设计不变。",
+          "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。",
+          "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
+          "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
+          "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here.",
+          "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+        ],
+        "nextStep": "以当前 canonical 文档或代码复核。",
+        "phase": "phase2",
+        "module": "archive",
+        "capability": "phase2-archive-slices-indoor-spec",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "full-text-structured-review",
+          "repository-history",
+          {
+            "nonAuthorReviewer": "r26_independent_review",
+            "verdict": "accept-readonly-proposal",
+            "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee"
+          }
+        ],
+        "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+        "afterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+        "publicCallers": [
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → guijie-minju.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../roadmap.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../audits/engine-debt-audit.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../READ-FIRST.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../designs/content-schema.md",
+          "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md"
+        ],
+        "legalInputs": [
+          "current repository documentation",
+          "docs/phase2/archive/slices/indoor/spec.md"
+        ],
+        "businessOracle": {
+          "type": "historical-slice-template-migration",
+          "assertions": [
+            "historical semantics traceable",
+            "quote inverse exact",
+            "no current promotion",
+            "no execution credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/phase2/archive/slices/indoor/spec.md"]
+        },
+        "revision": {
+          "currentSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+          "implementationSha": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+          "history": [
+            {
+              "revision": "working-tree",
+              "date": "2026-10-04",
+              "action": "full-text-structured-content-review",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            },
+            {
+              "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
+              "date": "2026-10-17",
+              "action": "R26 historical slice migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r26-indoor-slices-20261017.json",
+          "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+          "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+          "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+          "lineCount": 319,
+          "originalPreservation": {
+            "method": "line-by-line quote",
+            "sourceBytes": 19111,
+            "sourceLines": 278,
+            "inverseSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
+        },
+        "history": [
+          {
+            "revision": "working-tree",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "structured-content"
+          },
+          {
+            "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
+            "action": "R26 root migration",
+            "reviewer": "r26_independent_review + Codex root"
+          },
+          {
+            "date": "2026-10-18",
+            "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "4158fb4b4db9f6610e6939ef51902e22367de78fbe17ce9063f26d32314b77dd"
+            },
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "templateCompliance": "needs-migration",
+            "bodyReadPerformed": false,
+            "nonAuthorReviewer": false
+          }
+        ],
+        "supersedes": ["legacy presentation only"],
+        "stopLine": "Do not execute or cite this draft as current canonical spec; rewrite/review from current decisions and the successor slice before any implementation.",
+        "userVisibleBeforeAfter": "原文保持并加入具体模板章节、SHA、继任入口。",
+        "reviewedLines": "1-319",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "documentStatus": "historical",
+        "primarySource": [
+          {
+            "path": "docs/phase2/archive/slices/indoor/spec.md",
+            "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+            "sha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
+            "scope": "full source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "phase2",
+          "module": "archive/slices/indoor"
+        },
+        "dependencies": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.",
+        "versionScope": {
+          "sourceRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+          "date": "2026-06-24 / 2026-06-25",
+          "validity": "historical"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R26-1",
+            "status": "preserved-open-for-product-work",
+            "statement": "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave."
+          },
+          {
+            "id": "R26-2",
+            "status": "preserved-open-for-product-work",
+            "statement": "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision."
+          },
+          {
+            "id": "R26-3",
+            "status": "preserved-open-for-product-work",
+            "statement": "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+          },
+          {
+            "id": "R26-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No product execution."
+          }
+        ],
+        "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
+        "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "correctiveDelta": {
+          "date": "2026-10-18",
+          "previousAfterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+          "afterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+          "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "task": "DOCS-RECORD-INTEGRITY-1"
+        },
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+          "originalCoreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+          "originalReviewDepth": "deep-semantic",
+          "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+          "originalContentReviewStatus": "content-reviewed",
+          "originalTemplateCompliance": "template-compliant",
+          "originalAfterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "4158fb4b4db9f6610e6939ef51902e22367de78fbe17ce9063f26d32314b77dd"
+          },
+          "originalEntryLocator": {
+            "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+            "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+            "entryIndex": 3,
+            "path": "docs/phase2/archive/slices/indoor/spec.md"
+          },
+          "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "authorCanonicalTask": "/root/s12_semantic_author",
+          "nonAuthorReviewer": false,
+          "noNewSemanticOrTemplateOrRuntimeCredit": true
+        }
+      }
+    }
+  ],
+  "currentIntake": {
+    "date": "2026-10-20",
+    "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+    "sourceHead": "cd455765256ccef1d59513d0429e9121857fa5f9",
+    "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+    "acceptedDocuments": [
+      "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "docs/phase2/archive/slices/indoor/plan.md",
+      "docs/phase2/archive/slices/indoor/spec.md"
+    ],
+    "blockedDocuments": [],
+    "scope": "Fresh per-entry S16 current intake; inherited top-level policy/date/receipts are historical, not whole-batch acceptance."
   }
 }

@@ -1,6 +1,41 @@
 # QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线
 
 Status: build
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-31
+Template: task-card-v1 / 1.0.0
+
+## 目标
+
+修复提取器共享输出目录被清理的风险并建立输出所有权边界：用户2026-10-16裁决方案A「拒绝共享输出」——本仓库data或data/extracted节点为symlink时，任何输出创建/清理前立即报错退出；正常自有输出与只读data/raw链接保持原行为，不增加force开关。2026-10-18用户独立复查追加三项：视频转码绕过已批准拒绝、CLI绝对路径含链接组件时main静默跳过、raw被caller检查的失实注释。
+
+## 范围
+
+白名单cli.ts清理前guard→抽出output-boundary.ts共享守卫（prepareOutputRoot）→extract-videos.ts复用assertOwnedOutputRoot（guard置于ffmpeg及任何输出IO前）→cli-entrypoint-paths.test.ts真实进程入口合同。不改提取格式、生成物、argv、转码参数/增量策略、资源路径或公共游戏接口；只核data与data/extracted两个已批准节点。
+
+## 前提与证据
+
+起点是3g反证：OUT清理仅有字符串suffix guard后readdir/rm子项；四场景隔离原件证明OUT根链接或data父链接都能通过guard并删除链接目标marker（之后因缺SSS退出1、videos保留）；对照普通OUT照常清理、OUT内子项链接仅unlink——不能把根/父链接风险扩张为「rm一定跟随每个子链接」。实现史勘误：拒绝策略由cc8971760内联实现，dd341e5f3实为可测性重构（抽出守卫+prepareOutputRoot+三条单测），非首次引入。原5个链接处置见作者review，存活入口逐字保留：
+
+当前存活入口:[README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md) [README.md](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md) [output-boundary.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/output-boundary.json) [README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
+
+## 验收
+
+C1红回执：未改生产临时树上原7例通过、两共享输出场景各指定AssertionError，证明旧实现确实删共享目标marker；实现后2文件12tests、pal-extract全包72files/434tests、lint 0/0/0；删guard临时变异7绿/2指定红、源逐字节恢复。入口补审：先冻结三旧实现/新测试，实跑2文件8例5绿/3指定业务AssertionError，修复后7文件41绿+typecheck零诊断——旧视频入口能经链接覆盖六mp4、旧CLI绝对路径带目录链接静默exit0、raw确无声明中的独立caller检查三项均成立。2026-10-22三登记缺口纯测试补齐（data根缺失抛原生ENOENT、ENOTDIR原样传播、无参prepareOutputRoot核模块推导路径）；集中门：整合后check20430、official ratchet/protected同报告20032全部0诊断，原两次拒绝保留。
+
+## 状态与交接
+
+Status保持build：获准切片完成并入CLI IO统一窗口（六明确IO路径接受），但CLI旧ledger关闭因直接counter保持rework；视频编码、所有外部失败路径、内部文件链接/并发换链不在切片验收。2026-10-22集中门后卡面维持build，待大窗口统一门与独立收口。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 12940B / SHA-256 5c454bd711fc9874d86f45daf8bad762d4c8495436022900babdddbc00b07a45；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线
+
+Status: build
 Owner: Codex
 Reviewer: Codex（当前源码与隔离原件自核，不冒充第三方）
 Phase: phase1 pal-extract / asset pipeline ownership
@@ -85,3 +120,5 @@ Codex单Owner，白名单output-boundary.test.ts、cli-entrypoint-paths.test.ts�
 ### 2026-10-22 集中门结果
 
 相关CLI IO/事件/输出边界统一窗口已实跑整合后check20430，official ratchet/protected同报告20032，全部0诊断；原两次拒绝保留，最新主线移动端统计未覆盖。仅本窗六明确IO路径接受，卡内其它余项与P3停止线保持，详见父卡与cli-io-closeout/review.json。推送/合main以实际Git refs为准。
+```
+<!-- incremental-original-source:end -->

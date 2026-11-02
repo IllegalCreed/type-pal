@@ -1,5 +1,38 @@
 # CODE58 tools-panel 当前复审切片
 
+Status: historical
+Owner: GLM(治理候选作者;原文作者/状态见保全块)
+Last reviewed: 2026-10-30
+Template: audit-report-v1 / 1.0.0
+
+## 审计问题
+
+历史 CODE-QUALITY-58 的生产工具面板需重新核验:基点 e03c191d6、分支 codex/code-quality-3y,不改 DOM 形态/公共接口/存档 schema/save-io 版本边界(归 CODE59);整卡复审为 partial。2026-10-18 三则勘误叠加:53-wave-gates 统一门信用撤回;头注两处事实错误;夹具/隔离结论由后续返工片替代。
+
+## 范围与证据
+
+完整读取 tools-panel.ts、tools-panel.test.ts、tools-panel.glm-phase1-leaves.test.ts;读取 bootstrap setupToolsPanel caller、minimap controller、save-io/quick-save/battle-inspect 与当前依赖控制器。核验范围:根节点/样式幂等、六个 tab、Backquote 冒泡与游戏输入隔离、战斗签名 250ms 刷新、场景/minimap rAF 委托、音量/静音/音乐源/缩放/FPS/fullscreen 委托、对话搜索、计时器设置、导入导出调用和 quick-save 边界提示。工具面板为 type-pal 新增工具 UI,SDLPal 无对应 primary;phase1 约束是只读投影与显式委托。统一门原件 [README.md](../53-wave-gates/README.md)(信用已撤回);夹具返工片 [README.md](../58-tools-panel-fixtures/README.md);工具缩略图返工片 [README.md](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。
+
+## 发现
+
+两份测试 2 files/18 tests passed,覆盖 setup 幂等、开关/关闭、面板内 Backquote、tab 切换、场景/对话 DOM、战斗状态签名刷新、音频三路/主静音/音乐失败重试、计时器、缩放/FPS/fullscreen 委托;当时未发现重复、恒真或无业务执行用例;typecheck passed。事实勘误:头注把小地图写成 96 而 bootstrap 实际传 640;battleSig 只拼选定字段,不能当完整实时 checksum;源事实注释已修并保持 AST/JS 相同,旧源关闭转 review。
+
+## 结论
+
+本页 18 绿与'测试只验证真实注入依赖'的陈述后被判定不足以认证主测试合法性或隔离:核心 as never 伪造不完整状态、body/timer 清理遗漏 window 监听器。该两项精确由 58-tools-panel-fixtures 返工片替代:新片正式 19 例、相邻 199 例通过,跨例旧单红新绿;53 波次不能认证新候选;CODE58 整卡仍 partial。
+
+## 整改与复核
+
+save/import version 与 payload 合同继续由 CODE-QUALITY-59 处理;tools panel 无独立 disposer,生产 bootstrap 只安装一次且 setup 有根节点幂等门,本片不扩张生命周期 API。未重跑任何命令;历史结论保持原时点;候选待 Owner 非作者接收。
+
+## 原文保全
+
+固定 Git 原文如下；代码块仅保全原时点内容，不授当前执行信用。原源 3364B / SHA-256 5510f886dc67cbb45c82abaab6ca5420590ff880369f7c985b30251dfa8be96a；原字节不 trim、不替换、不解码。
+
+<!-- incremental-original-source:start -->
+```markdown
+# CODE58 tools-panel 当前复审切片
+
 > 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AST/JS相同，旧源关闭转review；已有58测试宿主修复保留原范围，不新授save/完整UI信用。详见[当前有限返工](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。旧原件保留，历史门不恢复。
 
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
@@ -24,3 +57,5 @@
 ## 2026-10-18 夹具/隔离结论勘误
 
 本页18绿和“测试只验证真实注入依赖”的陈述不足以认证主测试合法性或隔离：后续发现核心`as never`伪造不完整状态、body/timer清理遗漏window监听器。上述两项精确由[58夹具勘误](../58-tools-panel-fixtures/README.md)替代，旧raw和当时结论保留。新片已改正式构造器/hydrate与共用宿主；跨例旧单红新绿、正式19例和相邻199例通过。新片无全仓/coverage/protected门，不能用本页53波次认证新候选；整卡仍partial。
+```
+<!-- incremental-original-source:end -->

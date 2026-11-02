@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-MOTION-TRANSITION-1 的交付证据：基线 origin/main `7a9157ac5`、分支 `codex/glm-reforge-motion-transition-r1`；产品/schema/API/旧测/config/baseline/真实数据零改动；8 文件中 7 文件全轴 existing-proof 饱和，world-motion-runtime.ts 补 3 条真实残余合同，唯一新增测试文件 world-motion-runtime.motion-transition-1.test.ts。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 df34991d7969fa8e5a91cc126d5f39ccd23febd84e194944c9111097501d30e0。
+- 文件：dedup-ledger.md（8 文件逐轴+U 账 4 条防御臂+候选不设针账）；counterproof.json（r2 反控：runner 自测 11 例全过+每针四态+argv/cwd/env+JSON 计数+exit/signal/spawnError+源文件四态 sha256）；counterproof-raw/（每相位完整 file×fullName×status 执行集 TSV artifact 字节流即 identitySha256+红相位 console 原文；红相位硬门 exit≠0/signal/spawnError null/numFailedTests=1/pending·todo=0/唯一失败 fullName 精确相等/failureMessages 含指定 AssertionError；绿相位硬门全 passed 且 identitySha256 集合级一致）；gates/ 五门 raw；复现 node packages/reforge/scripts/mt1-mutation-counterproof.mjs（约 15 分钟）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- r2 返工说明（2026-10-05，Codex 一审反控证据门）：r1 回执只存计数摘要、failed 用 includes 前缀匹配、绿相位无执行集比较——r2 按返工令重铸完整 TSV+集合级比较+严格硬门+精确 fullName+自测反例族；三针三态与全部门禁由最终脚本字节重出。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 三条新合同：MT-CADENCE-CLAMP-1 停顿帧（dt≥2×stepMs）真积压被钳掉（一帧至多一拍、余数不结转）；另两条（quote 详，world-motion-runtime.ts 残余轴）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 定向/相邻/全包/typecheck/lint/docs 门禁 raw 齐（gates/）。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r2 已推 b6273e4f6（TSV identity artifact+严格相位门）待 Codex 二审。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-MOTION-TRANSITION-1 r1/r2 交付（3 合同+3 针）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据：原始正文完整保留于下方 quote。
+- 7/8 文件饱和+world-motion-runtime 三残余；r2 反控证据重铸。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 文件清单与 r2 返工说明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r2 时点待二审。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `df34991d7969fa8e5a91cc126d5f39ccd23febd84e194944c9111097501d30e0`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `df34991d7969fa8e5a91cc126d5f39ccd23febd84e194944c9111097501d30e0`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MOTION-TRANSITION-1 交付证据
 >
