@@ -41,7 +41,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|---|---|---|---|
 | 代码治理 | [逐文件账本](audits/code-quality-file-ledger.md)、[质量规范](../engineering/guides/code-quality.md) | 持续；当前批次与存量分开 | 跨第一/二阶段及工程工具 | 真实 caller、风险与单一 Owner；不等覆盖率目标才推进 | 核下表旧卡收口义务；新批从实际 pending 选有限模块，复用有效证据 |
 | 文档治理 | [质量与验收](../engineering/guides/document-quality.md)、[生成任务索引](cards/index.md) | 本全量批次done；日常增量持续 | ops / 跨阶段 | 原固定接受/来源及真实变更范围 | 新增或变更按公共合同接入；不重复治理已接受正文 |
-| 仓库瘦身 | [瘦身总纲](cards/REPO-SLIM-PLAN-1.md) | build；文档树与证据去重 | 全仓 / 本批文档与工具 | 文档治理已收口；固定原件与路径消费者闭合 | 目录、薄索引、当前账本与17份重复执行集已完成本地验收；净变化与长期余项见总纲，全部收齐后再提交PR |
+| 仓库瘦身 | [产物退出流程](../engineering/guides/agent-workflow.md#任务产物收口用户-2026-11-02-固化)、[任务索引](cards/index.md) | 本轮存量done；日常流程持续 | 全仓 / 文档与工具 | 读取、恢复、独立接受与必要本地门已通过 | 本轮REPO-SLIM-PLAN-1从索引追溯；新任务按退出条件清理，远端集成结果取对应PR |
 | 测试与覆盖率 | [测试治理](../testing/governance.md)、[官方 fast 基线](../../scripts/coverage/baseline.fast.json)、[测试目录](../testing/indexes/README.md) | 持续；基线已有，按真实业务缺口补强 | 跨第一/二阶段 | 合法输入、真实 caller/oracle、排重；集中窗口核官方门 | 结合当前模块补关键未覆盖分支、精简弱测试；不以例数/总比例替代质量 |
 
 ### 文档治理：已完成批次
