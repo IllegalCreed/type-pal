@@ -386,34 +386,34 @@
       "gitObject": "eba5c8346cad3c5d39ed863ccdc223e9daedddf9",
       "sha256": "c6abadaa7f66a7c51882396f6363c3eb32282d9deac75e1adb1c0b257099ae3e"
     },
-    "logicalSha256": "9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530",
+    "logicalSha256": "6f0a6de31b1f08d771cba431ad34b22dc85b8c84e17043056e95b9f0c3dce788",
     "totalEntries": 91,
     "entryOrderSha256": "412f7dec37c4e7547af6ea17537da1f9f4289b5730130f89b1fea476e3511486",
-    "orderedEntriesSha256": "15e19cb275e4090c032b982637bb7d7f222e5c6915cdfd9b301e575aa74f462f",
+    "orderedEntriesSha256": "8db2809c8ce03194e27fa246551bf26b7237dfb8ddbfb13a069832c38d7bd2f5",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r93-phase-governance-artifacts/9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530/part-001.json",
+        "path": "shards/20261017-r93-phase-governance-artifacts/6f0a6de31b1f08d771cba431ad34b22dc85b8c84e17043056e95b9f0c3dce788/part-001.json",
         "total": 21,
-        "sha256": "561c4803c95106176c1fc362bcd361df3a2a8a05fe5062c2d0b4af2fc85545ae"
+        "sha256": "ab174b0fd0a39a1b213601c18f681dfd08ea0e876b0863b5b5df3fba11b25e92"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r93-phase-governance-artifacts/9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530/part-002.json",
+        "path": "shards/20261017-r93-phase-governance-artifacts/6f0a6de31b1f08d771cba431ad34b22dc85b8c84e17043056e95b9f0c3dce788/part-002.json",
         "total": 27,
-        "sha256": "5862364d498d078438f8e75199fa910a224d4d0908c55f1cb046938394b9fe0c"
+        "sha256": "57e90d7b03fc62358a8dbf92fcadccdcf4e4d7d657463047afa902b70806dceb"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r93-phase-governance-artifacts/9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530/part-003.json",
+        "path": "shards/20261017-r93-phase-governance-artifacts/6f0a6de31b1f08d771cba431ad34b22dc85b8c84e17043056e95b9f0c3dce788/part-003.json",
         "total": 24,
-        "sha256": "5c39398c1041a2bc780e6ce846c95a18fabdde44f728b56558b9922059028887"
+        "sha256": "8299724d87a8009073e7027dc5379315bd9378281eda5bfa80025d696dde8608"
       },
       {
         "key": "part-004",
-        "path": "shards/20261017-r93-phase-governance-artifacts/9139fe1d885f05798887ee68d69ee470c23f0cced169b61f1b2351d2e25b8530/part-004.json",
+        "path": "shards/20261017-r93-phase-governance-artifacts/6f0a6de31b1f08d771cba431ad34b22dc85b8c84e17043056e95b9f0c3dce788/part-004.json",
         "total": 19,
-        "sha256": "ee6e9e015e1cc9aca0d424340f89f09bb464c994b5c3e5bebc4419aab67157f2"
+        "sha256": "78f516645b611d935b159deb7e3d195dd322a8d8fdedf668f8c1e5bd5e697165"
       }
     ]
   }

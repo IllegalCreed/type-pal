@@ -1202,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e375c90c6cbeaf6578989182c9e813220ff1704c93fe70027124c09c65b2e090",
+      "afterSha256": "82e6b5d322fbc97e7600bb9d3da9ff736aee6a62f310f6ea12a5545f58805d46",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2700,6 +2700,13 @@
           "kind": "main37-board-table-consumer/1.0.0",
           "beforeSha256": "f7a462cb53ccfa9f8f05d1472afdbf40f3aba483ffb3d3dbe9a60f8480ed5b15",
           "afterSha256": "e375c90c6cbeaf6578989182c9e813220ff1704c93fe70027124c09c65b2e090",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S88-final-local-evidence-and-receipt-acceptance/1.0.0",
+          "beforeSha256": "e375c90c6cbeaf6578989182c9e813220ff1704c93fe70027124c09c65b2e090",
+          "afterSha256": "82e6b5d322fbc97e7600bb9d3da9ff736aee6a62f310f6ea12a5545f58805d46",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

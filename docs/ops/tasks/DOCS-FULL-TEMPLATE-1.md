@@ -36,7 +36,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review/rework；S87四域及16篇已获非作者accept，S88已真实授信16篇并补录205观察；原R波撤信保持。最新main导航整合后的全量门、远端CI和主线集成尚未通过，不宣布整体done。
+- 当前状态：review；S87/S88非作者接受、16篇正式授信及205条真实出版补史均已接入，4542注册身份精确；本地完整门、严格审阅与迁移完整性均零诊断。远端受保护CI和主线集成尚未闭合，不宣布整体done，原R波撤信保持。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -47,7 +47,7 @@ Template: task-card-v1 / 1.0.0
 ## 状态与交接
 - 当前 Owner：Codex。
 - 历史S75基点：当时2435合规/0待办、1835基线迁移+3批准退役及600增量迁移。此为S75时点结果；后续main滚动新增与变更以S80–S86记录为准，不能沿用为当前完成数字。
-- 下一步：闭合02a67c5主线导航整合的现行引用与控制pin，再跑全量硬门及受保护CI，满足前提后按PR集成。006技术/用户接受与原附件按原范围复用，不新增runtime信用；旧撤信不恢复，硬门未过不推main、不标done。
+- 下一步：以本候选执行受保护documentation/fast-coverage远端CI，再按PR集成与真实结果收口。006技术/用户接受及原附件直接复用，不新增runtime信用；当前文档待办为0，远端门和集成未完成前不合main、不标done。
 
 ## 历史实施与交接记录的适用边界
 
@@ -3078,3 +3078,14 @@ S88主线导航合并裁定：保留本树已发布的四份canonical review（�
 导航控制维护补线仅将两个既有README加入后继层的行政输入名单；原四项rollforward合同、16篇source/接受表和任何文档分母均不改。这两行是Owner整合PR37的有限名单调整，不声称属于GLM对7f045e96的旧代码接受；实际同一公开守卫正向只返回两导航+看板/父卡四输入，注入未准入docs/README.md即拒绝且原记录不变。既有受控事务负责全部pin重建与读回，最终整套工具和零诊断门另实跑；不新增产品测试或代码关闭信用。
 
 普通 Git clone 复验首轮395项为394绿/1红：native-artifact-retirements 第六例把`.git`当作文件读取，普通clone下为目录而报EISDIR；这是夹具布局假设，不改生产守卫或删原断言。最小适配已在仓外分别对worktree/clone六测全绿，待用户对这一处旧测试明确授权，未获准前不写回。独立后段导航门另实测暴露主线分类漏链接五张活动子卡；本轮补回看板明确入口及真实卡面状态，不伪造子卡done。两次失败各保留真实命令、输入与输出，后续结果不覆盖首轮。
+
+
+### S88 非作者接收、获准夹具适配与完整本地门（2026-11-02）
+
+GLM对生产检查点c30af68bb93afef30f03cc29708906e9933be7c7四轴accept、零counter；verdict SHA-256 d4772bba1ee42efcc2a57aff053ad12b994a213f013df5c85792ec1c28d75b8d，HANDBACK 905e2a4920c972c788ee2cc6a10f5e9f0186bb005f1f145a766a0e57066669b0。16签名逐项绑定其S87报告711ca81f，生产96写/75旧片退出、205补史、三轮有限导航维护均按原范围接受；两文件代码增量为16接受表与两个既有README行政路径。旧4351/1916及15 source pins直接复用，不重授原R波信用。
+
+轴C原为未应用条件接受。用户本轮明确授权文档工具第六例，原断言/source pin不改；Owner只应用既定补丁8e1266174259b0de88693a8bdf2467d9683f7fd05758ab5f9e88e0e374d06212，实际文件由9cc337bc变为72d99c2e，提交561a3401b73386a6ef34628b32e3b7373f1e7c80。只新增execFileSync import，并通过只读git rev-parse --absolute-git-dir生成夹具gitdir指针；六例原断言、生产代码、source pin、coverage均未改变，工作树实际六测6/6。普通clone中原EISDIR不再出现。
+
+第一次完整复跑为393/395，两红均是固定Git/格式化子进程ETIMEDOUT；同一运行窗口系统日志明确记录合盖及深度休眠，原失败原样保留。唤醒后受影响两文件44/44，再以临时防空闲休眠的caffeinate运行原pnpm check:docs --require-complete，正式395/395、零skip，七段全exit0；没有放宽时限、断言或修改并发/检查图。lint6679文件0E/0W/0I；workspace typecheck按未变产品/编译输入的既有真实结果复用，远端还须实跑。
+
+本地实测：4536活动合同+6历史退役=4542注册身份；strict0文档/0诊断，1835/1838基线迁移+3批准退役、2701增量迁移+6原生退役，current pending0、integrity0、17/17模板已行使；phase/lore184、testing0问题。完整命令及原失败、授权、两份GLM回执各保留一次于既有统一gzip的新有界追加，压缩字节前缀与解压前缀均保全；不复制原生载体、整树或旧二进制patch。这里只完成本地门与接收条件，不预签远端CI、main集成或done；006已验收成果直接复用，runtime/child新增信用0。
