@@ -1,12 +1,12 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（S88接收与本地硬门已闭合；S89修复远端夹具依赖并优化完整检查的执行，受保护CI仍待通过）
+Execution: review/rework（正文与严格待办0；S89完整文档门及编辑器620文件4802测试通过，覆盖率范围登记待授权，受保护CI与集中非作者接受未闭合）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
 Reviewer: GLM（S80五seed、S82退役、S84–S85公共实现/完整演练非作者accept）；Codex（S81内容据证接收、中央接入Owner）
-Branch: codex/docs-s88-successor-publication
+Branch: codex/docs-final-quality
 Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
@@ -3121,3 +3121,14 @@ GitGuardian的13条报告位置逐条与三个原生授权字段核对，都是c
 同一2f5候选的fast-coverage最终在编辑器三例另存为断言失败；此前reforge实际367文件/8993测试全绿，不能把新失败误指为已修船体auto或覆盖率比例下降。共享memoryAuthorDirectory把跨realm的真实ArrayBuffer当JSON编码，合法种子素材字节被破坏，新增生产哈希校验正确拦截。用户本轮明确授权仅适配packages/editor/src/core/__tests__/author-save-fixture.ts的缓冲区识别/原字节复制，旧断言、产品校验、source pin、coverage和时限不改。先提Node types.isArrayBuffer方案，运行通过但类型门TS2591拒Node依赖，未提交该失败方案或修改类型配置；Owner在同一已授权编码器内改用标准ArrayBuffer.byteLength内建getter验真实品牌，再复制到当前realm，避免原型或toStringTag误判。最终实际59直接调用文件/754测试全绿零告警，编辑器两阶段typecheck零诊断；远端新候选全门仍待实跑。本地测试依赖软链曾解析到另一检出目录，最终正反与实跑均显式绑定本树workspace exports，未改依赖软链或共享配置；32例原断言的有效反控为29绿3红→32全绿，其余58文件722例不变。原两份失败CI与作者验证保留各自身份；仅现有统一gzip追加独有输出，既有接受和006不重授信用。
 
 按远端同一选择范围扩展核验为619文件/4798测试全绿，但第一次完整运行仍有六条React act警告，进程exit0不算质量接受，原输出不改。用户另行明确授权仅把App.leave-guard.test.tsx三个另存为轴共用的一处entered.promise等待纳入已导入act；原32项断言、I/O门和时限不改。派生整套同范围619/4798零告警后，按获准补丁SHA70a86fc8精确应用；实际UI源码与派生输入SHA逐字节相等，应用后本树32例与两阶段typecheck再次零诊断。据此有范围复用该整套结果，不冒称又在修改后的原树重跑了全部619文件；新的受保护远端终态与本轮新增范围非作者接受仍待实取。当前已知修正统一纳入PR38，不另开正文治理批次，父卡继续review。
+
+### S89 官方完整采集后的性能观测合同补证（2026-11-02，build allowed）
+
+干净隔离检出afe487353的原始官方coverage:fast实际20218项测试全部通过，但覆盖率门exit1：editor语句30857/34210低于30537/33847、分支24826/29737低于24578/29435、行27600/29883低于27319/29570；total对应三轴亦未过。原生完整采集保持输入不变，未修改baseline、阈值、排除、provider或比较器，不能以测试全绿代替覆盖率通过。该检出的完整文档单作业实际395/395+来源14/14+编排6/6+lint6679零诊断，strict/迁移/integrity均0；006八附件恢复及原接受直接复用，不重授运行信用。
+
+Codex单一Owner，在用户已授权的保存性能整改与完整门收口范围，新增且仅新增packages/editor/src/core/save-performance.test.ts，验证既有性能观测模块的双条件启用、无请求静默、真实计时汇总与逐次另存重置、事务日志节流；不改生产模块或旧断言，不为比例堆重复用例。以公开beginSaveMeasurement入口、控制时钟和日志IO作独立可观察oracle；补可证伪反例及类型/lint/官方采集。原新增三个保存性能模块及原测试保留，基线scope接入另按明确授权，未授权前不写baseline或精确退役表。GLM在afe冻结树先审已交12文件，后继仅审新增差异及回执，原接受不重做；全门/非作者接受前不合main、不推main、不标done。
+
+
+实际补证：新增四项观测测试与编辑器两阶段typecheck均零诊断；隔离副本绕过URL opt-in后恰三绿一指定业务AssertionError、零pending，恢复原源后四绿，未改生产模块。首个反控驱动因macOS /var与/private/var路径身份未归一而收集失败（0测试），如实保留且不作有效业务反控；驱动改用物理规范路径后完成上述正反链，测试体和oracle未改。完整编辑器按官方同参数/同精确V8环境、仅报告目录改仓外实跑620文件/4802断言全绿、stderr0；四轴分别30873/34210、24842/29737、7823/8716、27615/29883均不低于原基线。六个未改包复用本次官方完整采集，与新编辑器结果的组合比较同样不降；组合是提案依据，不冒称官方ratchet或新远端CI已通过。
+
+覆盖率范围提案仅两文件：baseline.fast.json由官方ratchet重采集登记816→819源码/20205→20222测试，approved-test-retirements.mjs仅加已授权船体旧auto的5414→5410精确身份/SHA行；旧条目、门槛、include/exclude、provider及比较器保持。受初始coverage须另行明确授权约束，提案已备于仓外而本仓两文件仍未写；等待用户裁定，不借旧夹具许可扩权。GLM持续队列首包仍固定afe，后继只有本新增观测测试及有界行政/封存差异，原4536正文/6历史退役/006接受不重做；父卡继续review，不能以本次局部补证宣称主线或完整质量门已完成。
