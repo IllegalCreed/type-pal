@@ -61,7 +61,13 @@ class SnapshotCache(unittest.TestCase):
                 env=self.env, stderr=subprocess.PIPE,
             ).decode().strip()
         content = b"".join(b"100644 " + name + b"\0" + bytes.fromhex(oid) for name, oid in entries)
-        docs = run(["hash-object", "-w", "-t", "tree", "--stdin"], content)
+        # Only this owned corruption fixture bypasses Git's object-write checks.
+        # Git 2.56 rejects duplicate tree entries before the readers can see them.
+        docs = run(["hash-object", "--literally", "-w", "-t", "tree", "--stdin"], content)
+        self.assertEqual(subprocess.check_output(
+            ["git", "-C", str(self.root), "cat-file", "tree", docs],
+            env=self.env, stderr=subprocess.PIPE,
+        ), content)
         tree = run(["hash-object", "-w", "-t", "tree", "--stdin"], b"40000 docs\0" + bytes.fromhex(docs))
         return run(["commit-tree", tree], b"Owned malformed-tree boundary fixture\n")
 

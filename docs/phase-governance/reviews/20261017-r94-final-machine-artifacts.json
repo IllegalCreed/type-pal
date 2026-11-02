@@ -208,28 +208,28 @@
       "gitObject": "848c95762b95102e62b72a781566f5762cbc2bb4",
       "sha256": "74f0d95c6a34cd8fc43ddc8cedc95c42e16dea88ba3550b3b9f6cc29f8d1dd58"
     },
-    "logicalSha256": "26390e0253a4893edb53be6958f64bf9787afd3506e0e3d94ea3448f3db15522",
+    "logicalSha256": "fd70bc4ae1cf996158ec98027c8c6414d18b3c17a7ff1412df7b2249d0a9b582",
     "totalEntries": 37,
     "entryOrderSha256": "0174f70af24dfd959daf3be38d49dfd5fc55d32a977d2c211f338e6eefbbf9e7",
-    "orderedEntriesSha256": "4a3999639dc7e90cd710b3dc7c0a08503011ff2bd37bb8411de0ce580f2fed74",
+    "orderedEntriesSha256": "19e0fba082c0822630ac6262c77be257c7e114f0126330472ba06c39cbd56914",
     "shards": [
       {
         "key": "part-001",
-        "path": "shards/20261017-r94-final-machine-artifacts/26390e0253a4893edb53be6958f64bf9787afd3506e0e3d94ea3448f3db15522/part-001.json",
+        "path": "shards/20261017-r94-final-machine-artifacts/fd70bc4ae1cf996158ec98027c8c6414d18b3c17a7ff1412df7b2249d0a9b582/part-001.json",
         "total": 16,
-        "sha256": "705577c842e6a3eef229b3bff4805f47a162b89fde7d94e7f767201794117723"
+        "sha256": "ff20a2c028ee0e7addcee073e7c703bb31114fccafb20932399fa6cc3c4db2cc"
       },
       {
         "key": "part-002",
-        "path": "shards/20261017-r94-final-machine-artifacts/26390e0253a4893edb53be6958f64bf9787afd3506e0e3d94ea3448f3db15522/part-002.json",
+        "path": "shards/20261017-r94-final-machine-artifacts/fd70bc4ae1cf996158ec98027c8c6414d18b3c17a7ff1412df7b2249d0a9b582/part-002.json",
         "total": 17,
-        "sha256": "5e1a74ec99031f72c20b1f04e29302b2defd7b9260c55503119043ba4408560c"
+        "sha256": "607e49bf708a61dfca9297e10fb0f96282c2d94b3b2bea81efa87912630d6640"
       },
       {
         "key": "part-003",
-        "path": "shards/20261017-r94-final-machine-artifacts/26390e0253a4893edb53be6958f64bf9787afd3506e0e3d94ea3448f3db15522/part-003.json",
+        "path": "shards/20261017-r94-final-machine-artifacts/fd70bc4ae1cf996158ec98027c8c6414d18b3c17a7ff1412df7b2249d0a9b582/part-003.json",
         "total": 4,
-        "sha256": "14da585af40548827c33c0338b0469d67c017022ea87cac511808fa16a3a086d"
+        "sha256": "2db757036653ade24300c9863acabf8df2e029664e808ca580fca91158b34929"
       }
     ]
   }
