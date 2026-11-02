@@ -50,7 +50,11 @@ export function priorSuccessorRecord(record, cohort) {
     if (!row.successorIntake) return [row]
     const item = cohort.byPath.get(row.path)
     assert(item, 'unknown successor identity')
-    return row.successorPrior ? [restorePlannedReview(row, 'successorPrior')] : []
+    // Restore from the signed candidate view; later administrative pins and grants
+    // are not new content. The sparse inverse still checks every original key/hash.
+    return row.successorPrior
+      ? [restorePlannedReview(pendingSuccessorRow(row), 'successorPrior')]
+      : []
   })
   return prior
 }

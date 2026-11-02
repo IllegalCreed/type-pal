@@ -3152,7 +3152,7 @@
       "documentStatus": "current",
       "sourceGitRevision": "5c8e596bcb01a50cadd2e8b7f99b6b50aa99c4bb",
       "sourceSha256": "324c16c27c7c174ba406eb82c3349123115cc93b13776a847199e2bb94561c0f",
-      "afterSha256": "324c16c27c7c174ba406eb82c3349123115cc93b13776a847199e2bb94561c0f",
+      "afterSha256": "69fa2d1dc66d6264dc7a7afc0f6d10edf83ccc0651350ce28dc3a3ace121f367",
       "primarySource": [
         {
           "path": "docs/ops/audits/code-quality-file-ledger.md",
@@ -6396,7 +6396,16 @@
           "runtimeCredit": false,
           "childSemanticCredit": false
         }
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "kind": "S89-single-job-and-final-evidence/1.0.0",
+          "beforeSha256": "324c16c27c7c174ba406eb82c3349123115cc93b13776a847199e2bb94561c0f",
+          "afterSha256": "69fa2d1dc66d6264dc7a7afc0f6d10edf83ccc0651350ce28dc3a3ace121f367",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        }
+      ]
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

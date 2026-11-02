@@ -12,7 +12,10 @@ import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { mainSuccessorAdmission as admission } from './main-successor-admission.mjs'
 import { projectMainSuccessorControls } from './main-successor-control.mjs'
-import { readMainSuccessorSources } from './main-successor-document.mjs'
+import {
+  matchesMaintainedCodeLedgerInventory,
+  readMainSuccessorSources,
+} from './main-successor-document.mjs'
 import {
   grantMainSuccessorReviews,
   inspectMainSuccessor,
@@ -79,7 +82,12 @@ export function inspectMainSuccessorPublication({ root }) {
   const source = readMainSuccessorSources(root, cohort)
   for (const { row } of cohort.byPath.values())
     assert(
-      readBuffer(row.path).equals(source(row.primarySource[0]).buffer),
+      readBuffer(row.path).equals(source(row.primarySource[0]).buffer) ||
+        matchesMaintainedCodeLedgerInventory(
+          row,
+          readBuffer(row.path),
+          source(row.primarySource[0]),
+        ),
       'successor fixed body changed',
     )
   assertReviewRecordSourceUnchanged(group.loadedSource)

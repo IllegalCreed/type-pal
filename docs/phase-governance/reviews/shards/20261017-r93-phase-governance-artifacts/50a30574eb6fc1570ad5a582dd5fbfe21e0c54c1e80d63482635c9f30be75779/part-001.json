@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "17dc4197e12c7382715c394cd682946ae332231c6f47e53980bb3e2fa654de29",
+  "generation": "50a30574eb6fc1570ad5a582dd5fbfe21e0c54c1e80d63482635c9f30be75779",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -1770,7 +1770,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "2e543436daa318255d7e5c08f6c3de163715b422811d9c25054bc5f8a99d280e",
+      "afterSha256": "ef6f98d9e92c14912cf53d80b25daef730306bb3159dbf825ab269eaec890304",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -3054,6 +3054,13 @@
           "kind": "S89-single-job-and-final-evidence/1.0.0",
           "beforeSha256": "a40f5305dded698419613e68ed4fac32f27aae9c9fedc6ee54028dc0ab838ddd",
           "afterSha256": "2e543436daa318255d7e5c08f6c3de163715b422811d9c25054bc5f8a99d280e",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S89-single-job-and-final-evidence/1.0.0",
+          "beforeSha256": "2e543436daa318255d7e5c08f6c3de163715b422811d9c25054bc5f8a99d280e",
+          "afterSha256": "ef6f98d9e92c14912cf53d80b25daef730306bb3159dbf825ab269eaec890304",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

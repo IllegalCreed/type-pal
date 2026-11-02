@@ -28,6 +28,71 @@ export function readMainSuccessorSources(root, cohort) {
   return readPinnedGitDocuments(root, pins)
 }
 
+// Only the two current machine-summary lines may vary. Real inventory/status
+// truth remains enforced by the unchanged quality-ledger audit in the required CI.
+export function isCodeLedgerInventoryProjection(path, bytes, accepted) {
+  if (
+    path !== 'docs/ops/audits/code-quality-file-ledger.md' ||
+    !Buffer.isBuffer(bytes) ||
+    !Buffer.isBuffer(accepted)
+  )
+    return false
+  try {
+    const decoder = new TextDecoder('utf-8', { fatal: true })
+    const current = decoder.decode(bytes),
+      original = decoder.decode(accepted)
+    const pattern =
+      /^起始基点机器清单：2,962。当前 tracked 清单：([\d,]+)。\n当前已闭合核验：([\d,]+)；已读但待审：([\d,]+)；尚未逐文件核验：([\d,]+)；合计未闭合：([\d,]+)。$/gm
+    const oldMatches = [...original.matchAll(pattern)],
+      newMatches = [...current.matchAll(pattern)]
+    if (oldMatches.length !== 1 || newMatches.length !== 1) return false
+    const before = oldMatches[0],
+      after = newMatches[0]
+    const numbers = after.slice(1).map((value) => Number(value.replaceAll(',', '')))
+    if (
+      numbers.some(
+        (value, index) =>
+          !Number.isSafeInteger(value) || value.toLocaleString('en-US') !== after[index + 1],
+      ) ||
+      after[2] !== before[2] ||
+      after[3] !== before[3] ||
+      numbers[0] !== numbers[1] + numbers[2] + numbers[3] ||
+      numbers[4] !== numbers[2] + numbers[3]
+    )
+      return false
+    return (
+      current.slice(0, after.index) + before[0] + current.slice(after.index + after[0].length) ===
+      original
+    )
+  } catch {
+    return false
+  }
+}
+
+export function matchesMaintainedCodeLedgerInventory(row, bytes, source) {
+  // The already verified primary Git carrier must also be the accepted body.
+  // No wider source reader or caller-supplied replacement identity is admitted.
+  if (
+    !Buffer.isBuffer(source?.buffer) ||
+    !Buffer.isBuffer(bytes) ||
+    hash(bytes) !== row.afterSha256 ||
+    hash(source.buffer) !== row.successorIntake.acceptedBodySha256
+  )
+    return false
+  let previous = row.successorIntake.acceptedBodySha256
+  for (const event of row.maintenanceDeltas ?? []) {
+    if (
+      event.beforeSha256 !== previous ||
+      !/^[a-f\d]{64}$/u.test(event.afterSha256 ?? '') ||
+      event.newSemanticCredit !== 0 ||
+      event.runtimeCredit !== false
+    )
+      return false
+    previous = event.afterSha256
+  }
+  return previous === hash(bytes) && isCodeLedgerInventoryProjection(row.path, bytes, source.buffer)
+}
+
 /** An exact successor member is handled before legacy cohorts. All other
  * documents still traverse their existing source and acceptance contracts. */
 export function mainSuccessorDocumentIssues(doc, template, read, options, checkBody) {
@@ -80,7 +145,8 @@ export function mainSuccessorDocumentIssues(doc, template, read, options, checkB
     assert(
       Buffer.isBuffer(bytes) &&
         hash(bytes) === row.afterSha256 &&
-        hash(bytes) === row.successorIntake.acceptedBodySha256 &&
+        (hash(bytes) === row.successorIntake.acceptedBodySha256 ||
+          matchesMaintainedCodeLedgerInventory(row, bytes, source)) &&
         read(doc.path) === bytes.toString('utf8'),
       'successor body identity differs',
     )

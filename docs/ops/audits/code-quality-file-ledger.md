@@ -365,8 +365,8 @@ Template: governance-index-v1 / 1.0.0
 
 2026-11-01语言资源与展示模块：12原pending按四片核验，2混装测试退役为语义去向，形成19新关闭当前路径；2旧closed消费者补核不重复计数。54旧身份全部有去向、10新增合同，description no-op旧绿新单红；全check与官方20205完成，同报告精确fixture重算及protected通过。初次合盖超时、严格比例拦截和快照计数漏同步均保留。下一候选为SLF/语言包生产端，须核Owner；其它2620pending不继承信用。见[统一证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。
 
-起始基点机器清单：2,962。当前 tracked 清单：3,621。
-当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,775；合计未闭合：2,775。
+起始基点机器清单：2,962。当前 tracked 清单：3,623。
+当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,777；合计未闭合：2,777。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 

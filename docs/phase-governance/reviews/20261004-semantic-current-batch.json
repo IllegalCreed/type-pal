@@ -1202,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "651a47c68658eb2d1bb3d1f36e8e1c84de291d5d7e9e5ddc7a11254fa4e47720",
+      "afterSha256": "d4310346c1a871e273f8973b7da8a859f340a0bb8c0f8ae8710dc77d71d5b1a1",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2728,6 +2728,13 @@
           "kind": "S89-single-job-and-final-evidence/1.0.0",
           "beforeSha256": "f68bbb07ecbca276184909314e80cd829e086fca40a592fde1e3cb0d3f0e539b",
           "afterSha256": "651a47c68658eb2d1bb3d1f36e8e1c84de291d5d7e9e5ddc7a11254fa4e47720",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S89-single-job-and-final-evidence/1.0.0",
+          "beforeSha256": "651a47c68658eb2d1bb3d1f36e8e1c84de291d5d7e9e5ddc7a11254fa4e47720",
+          "afterSha256": "d4310346c1a871e273f8973b7da8a859f340a0bb8c0f8ae8710dc77d71d5b1a1",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }
