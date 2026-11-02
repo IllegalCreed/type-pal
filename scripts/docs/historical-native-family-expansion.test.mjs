@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import {
@@ -17,7 +18,8 @@ import { nativeFamilyReading } from './historical-native-family-reading.mjs'
 import { loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const readBuffer = (path) => readFileSync(new URL(`../../${path}`, import.meta.url))
+const readBuffer = (path) =>
+  readFileSync(new URL(`../../${currentDocumentPath(path)}`, import.meta.url))
 const source = (pin) => readGitDocumentSnapshot(root, pin)
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const templates = JSON.parse(readBuffer('docs/phase-governance/templates/registry.json'))

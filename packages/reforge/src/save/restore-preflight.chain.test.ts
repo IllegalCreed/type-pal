@@ -3,7 +3,7 @@
  *
  * 通过 AST 抽出 main.ts 的原函数体（doLoad/quickLoad/restorePayload/prepare/commit 等），
  * 只替换场景/资产 I/O、canvas 与自动脚本边界——与只读审计探针
- * docs/ops/audits/pre-e2e/probe-reforge-restore.mjs 同一技术；探针保持历史证据不动，
+ * docs/tasks/audits/pre-e2e/probe-reforge-restore.mjs 同一技术；探针保持历史证据不动，
  * 本文件断言修复后的正确行为，替代其发布门禁角色。
  *
  * 返工轮（R1–R4）新增：三阶段旧失败提示不覆盖新成功（读/normalize/prepare）、

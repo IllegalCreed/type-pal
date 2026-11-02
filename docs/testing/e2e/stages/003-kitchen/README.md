@@ -41,7 +41,7 @@ canonicalReport: report.md
 
 `dependsOn=e2e-002`；本段不取菜，不提前搬入送酒后dlg207，后继[004端菜](../004-meal/README.md)独立核验。14行、12楼梯提交、16固定wait/6对白消费不叠加成新执行量；46/56反控、90/92工具和两批draw数各归旧候选。当前窄源22/12不改原d022的22/11。
 
-后继事实权：[连续卡撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日另轮](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)各守候选。静态模板不授runtime/E2E/视觉/coverage。完整原16行由回执span或固定5a Git blob恢复；固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。
+后继事实权：[连续卡撤信](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日另轮](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)各守候选。静态模板不授runtime/E2E/视觉/coverage。完整原16行由回执span或固定5a Git blob恢复；固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。
 
 ## 2026-10-30 版本适用性规则
 

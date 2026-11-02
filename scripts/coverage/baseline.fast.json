@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-02T04:58:57.125Z",
+  "generatedAt": "2026-11-02T15:03:28.151Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 819,
-  "testCount": 20222,
+  "testCount": 20243,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2233,13 +2233,14 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8993,
-        "testFileCount": 367,
+        "testCount": 9014,
+        "testFileCount": 368,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
           "packages/reforge/scripts/battle-trial-session.test.ts",
           "packages/reforge/scripts/battle-trial-workflow.test.ts",
+          "packages/reforge/scripts/counterproof-output.test.mjs",
           "packages/reforge/src/__tests__/main-api-fixture.test.ts",
           "packages/reforge/src/__tests__/runtime-shell/dom-host.test.ts",
           "packages/reforge/src/active-scene.test.ts",
@@ -2624,6 +2625,11 @@
             "file": "packages/reforge/scripts/battle-trial-workflow.test.ts",
             "testCount": 14,
             "identityDigest": "b27056adb870356ab7753efbd2a0b2f284c661f30e514171e7f65de7c82fafcf"
+          },
+          {
+            "file": "packages/reforge/scripts/counterproof-output.test.mjs",
+            "testCount": 21,
+            "identityDigest": "372ba58f0dbe38459c6db2bdea168f474d6ddc3e1a547507440c65d0dd87ba32"
           },
           {
             "file": "packages/reforge/src/__tests__/main-api-fixture.test.ts",
@@ -4441,9 +4447,9 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "2bc1ba5db96117e29ac2afe5be856a3f9aa17cf1ef24f79ec253c2ef15ec47a0",
+        "identityDigest": "2de6ad9a137a2e2cb4b66bf457946be80b65c09c1c79e1758baddfc2de0d9e96",
         "duplicateIdentityCount": 3,
-        "executionDigest": "052e3d4fc51fd594778b0d48b6836bb97ac1a0b8df158409bd112312c920b921"
+        "executionDigest": "ee03bdc767998381236b60319cebebef023c4027777ca24df5176c26baa15187"
       },
       "metrics": {
         "statements": {

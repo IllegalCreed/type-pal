@@ -61,4 +61,4 @@ historical。本次接受对象是文档语义、结构和来源保留；原产�
 
 ## 继任文档
 
-[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。
+[配对历史任务卡](../../../../../tasks/archive/done/ARCH-F2-DS-LABELS-1.md)拥有该历史任务收口；[当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

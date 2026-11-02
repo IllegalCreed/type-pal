@@ -155,7 +155,7 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 
 ## 2026-10-30 发布复核（非新实跑）
 
-用户要求一并处理001的到期复核。全文核本报告/配对evidence及stage/catalog，核当前公开三入口和七sourceRefs（SHA/锚点均有效）；实际readOpeningContract读取当前作者场景/词表/人物与原始提取脚本，55行的身份、顺序及正文仍相等。opening判定/采集相关64工具测试、catalog9测试通过；完整原始输出和读域见[本次回执](../../../../ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json)。这些工具结果不替代浏览器、NPC演出或存读档实跑。
+用户要求一并处理001的到期复核。全文核本报告/配对evidence及stage/catalog，核当前公开三入口和七sourceRefs（SHA/锚点均有效）；实际readOpeningContract读取当前作者场景/词表/人物与原始提取脚本，55行的身份、顺序及正文仍相等。opening判定/采集相关64工具测试、catalog9测试通过；完整原始输出和读域见[本次回执](../../../../tasks/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json)。这些工具结果不替代浏览器、NPC演出或存读档实跑。
 
 当前常量仍为content22/minimumSave12，配对历史candidate/versions22/11与lastVerified2026-09-28保持原语义；原raw未由本次补录或修改。下文10-07/10-08“当前”只指原日期；不能把后来的对白显隐、编辑器预览等义务追认成已完成。catalog的reviewBy10-28→11-29是有范围依据的30天出版复核窗口，并非新runtime有效期或capture-ready。
 
@@ -167,7 +167,7 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 正文55行/正式存读档已在该次真实独立流程通过。本次未重新启动浏览器，使用统一冻结比较器另存
 `build/e2e/001-offline-frozen-20261008.json`：0未决差异，1项既有批准的匀速末步差异。
 终结、时钟、日志完整性反例21/21被拒绝；复用来源、独立复核与质量门见
-[当前任务结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。
+[当前任务结果](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。
 旧录制/判定原样保留，以下10-07早批次为历史结论，不与新录制混接。
 
 <a name="2026-10-07-当前验收独立流程与双轨比较通过"></a>
@@ -185,7 +185,7 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 回头不再先画错误朝向，接管对白站定，释放后延续步态；密道机关往返保留每次位移与等待。
 末步出屏采用真实相机/精灵几何解释，隐藏边界仍须完整连续，不把裁剪当作姿态豁免。
 
-修前反例、修法、只读独立复核和全量回归见[本轮任务卡](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#001-本轮收敛清单与验证边界)。
+修前反例、修法、只读独立复核和全量回归见[本轮任务卡](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#001-本轮收敛清单与验证边界)。
 本次没有完成002–006重验或连续演示。下列旧批次报告保留当时状态，不回填成当前版本通过。
 
 冻结后复跑仍通过：`both-001-2026-10-07T10-03-36-945Z/comparison.json`；Game/RF分别为

@@ -41,7 +41,7 @@ story40行、唯一50文500→550及报信因果；guards49行含复读不重给
 
 `dependsOn=e2e-004`；本阶段止丁香兰报信、恢复控制及后台返程，不求药、不出海，后继[006](../006-doctor-boat/README.md)另核；只有005 saves产下一段前驱。40/49/40行、两轨三case、416输入/413Git/8trace/两档分职责排重；最终自然case未触发replan，不补称该巡逻相位已验。
 
-后继事实权：[连续卡撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日另轮](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)各守候选。静态模板不授runtime/E2E/视觉/coverage。完整原16行由回执span或固定5a Git blob恢复；固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。
+后继事实权：[连续卡撤信](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)与[10月11日另轮](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)各守候选。静态模板不授runtime/E2E/视觉/coverage。完整原16行由回执span或固定5a Git blob恢复；固定777正文及完整回执语义已获非作者接收；后续根行政与中央接入范围见[专属治理记录](../../../../phase-governance/reviews/20261016-e2e-stage-m.json)，不自授新的运行信用。
 
 ## 2026-10-30 版本适用性规则
 

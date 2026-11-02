@@ -60,7 +60,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/designs/README.md`，blob `5bc12cea51cbac4d8a47a636662928ea43fae72b`，SHA256 `52c007f8b6f1a57716e56cfba39e55471eff4bd7c64c387169939ccdf821541a`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：不得将 E6旧评审或旧Schema标签升格为今天批准；本页全文阅读不等22篇设计全文重审。
 

@@ -8,7 +8,7 @@ import { decompressYj2 } from './yj2.js'
 // Win9x 的 MAP/MGO/F/FBP 等资源由 caller 指定 YJ2 解压；DATA/SSS/PAT 表直接读取。
 // 此 oracle 来自 CODE2b 复审中未改 SDLPal YJ2_Decompress 的 native 输出，非 TS 回算。
 // Digest 输入逐 chunk 为 index u32LE + output length u32LE + 完整解压字节，按 1..20 顺序。
-// 原函数/输入 SHA 与生成步骤见 docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/native-proof.json。
+// 原函数/输入 SHA 与生成步骤见 docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/native-proof.json。
 const MGO_MKF = resolve(__dirname, '../../../../data/raw/MGO.MKF')
 const MGO_FIRST_20_NATIVE_DIGEST =
   'a11bddbf05f34665269fe77d72411c28db45b44878d0ab8ead36d13aa5f924c1'

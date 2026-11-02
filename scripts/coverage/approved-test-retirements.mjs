@@ -2,7 +2,7 @@
 // QUALITY-OPQ-RETIREMENT-1 (2026-10-03) covers only its original five snapshots.
 // Later rows need their own authority; the old five-file approval does not extend.
 // Six snapshots used by f544b9b94: see receipt-audit/retirement-authorizations.json
-// under docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates.
+// under docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates.
 // Those instruction sources are not individual user signatures or a general waiver.
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
@@ -526,7 +526,7 @@ export const approvedTestRetirements = Object.freeze(
     // User2026-10-20 complete pre94 + standing test-quality/dedup authority.
     // CODE51 weak cursor subset -> precise L12 colors; CODE54 test-only wrapper
     // -> public drawTilemap subrow/A01/A04 pixel contracts. Exact maps/native:
-    // docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json
+    // docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json
     {
       file: 'packages/game/src/present/menu/draw-opening-menu.test.ts',
       previous: 7,
@@ -576,7 +576,7 @@ export const approvedTestRetirements = Object.freeze(
     // CODE90 seven weaker/invalid cases map to stronger retained tests;three names corrected.
     // CODE80 fake-mode party case maps to realstartBattle DOM lifecycle tests.
     // Exact native old/new identities,assertion transfers and business counters:
-    // docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json
+    // docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json
     {
       file: 'packages/game/src/dev/dev-panel.glm-next-wave.test.ts',
       previous: 4,
@@ -589,7 +589,7 @@ export const approvedTestRetirements = Object.freeze(
     // to the stronger main case, including source mutation/isolation. Both old
     // and retained tests reject the missing-scriptPrevHp mutant. Standing user
     // test-quality authority; 2026-10-20 closeout forbids restoring weak tests.
-    // Proof directory: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/
+    // Proof directory: docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/
     // Files: assertion-transfers.json and snapshot-conservation.json.
     {
       file: 'packages/game/src/core/battle/battle-state.glm-next-wave.test.ts',

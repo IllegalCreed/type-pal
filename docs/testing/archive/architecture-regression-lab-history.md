@@ -23,7 +23,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 入口与责任
 
-原review入口集中于[历史原文目录](architecture-regression-lab/README.md)；最终准备包事实指向[最终接收回执](architecture-regression-lab/architecture-regression-lab-completion.md)，任务状态/授权以[原任务卡](../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)与现行工作流分别承担。本页不再复制一张当前逐组结论表。
+原review入口集中于[历史原文目录](architecture-regression-lab/README.md)；最终准备包事实指向[最终接收回执](architecture-regression-lab/architecture-regression-lab-completion.md)，任务状态/授权以[原任务卡](../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)与现行工作流分别承担。本页不再复制一张当前逐组结论表。
 
 ## 证据与下一步
 
@@ -115,4 +115,4 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 继任文档
 
-[直接继任](architecture-regression-lab/architecture-regression-lab-completion.md)承接后续时点；[历史原文目录](architecture-regression-lab/README.md)与本合并索引只负责导航。历史授权/最终范围回到[原任务卡](../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../ops/agent-workflow.md)另核准入；无本次产品执行授权。
+[直接继任](architecture-regression-lab/architecture-regression-lab-completion.md)承接后续时点；[历史原文目录](architecture-regression-lab/README.md)与本合并索引只负责导航。历史授权/最终范围回到[原任务卡](../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../engineering/guides/agent-workflow.md)另核准入；无本次产品执行授权。

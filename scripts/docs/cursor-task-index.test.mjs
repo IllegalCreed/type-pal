@@ -2,23 +2,23 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { isTaskDocument, renderTaskIndex, taskInfo } from './check.mjs'
 
-const historicalFile = 'docs/ops/archive/tasks/done/ED-DS-3-editor-design-system-adoption-gate.md'
+const historicalFile = 'docs/tasks/archive/done/ED-DS-3-editor-design-system-adoption-gate.md'
 
 test('task documents are only cards in the active, done, and cancelled directories', () => {
-  assert.equal(isTaskDocument('docs/ops/tasks/T.md'), true)
-  assert.equal(isTaskDocument('docs/ops/archive/tasks/done/T.md'), true)
-  assert.equal(isTaskDocument('docs/ops/archive/tasks/cancelled/T.md'), true)
+  assert.equal(isTaskDocument('docs/tasks/cards/T.md'), true)
+  assert.equal(isTaskDocument('docs/tasks/archive/done/T.md'), true)
+  assert.equal(isTaskDocument('docs/tasks/archive/cancelled/T.md'), true)
   for (const name of ['README.md', 'index.md', 'TASK-template.md', 'TASK-lite-template.md']) {
-    assert.equal(isTaskDocument(`docs/ops/tasks/${name}`), false)
-    assert.equal(isTaskDocument(`docs/ops/archive/tasks/done/${name}`), false)
+    assert.equal(isTaskDocument(`docs/tasks/cards/${name}`), false)
+    assert.equal(isTaskDocument(`docs/tasks/archive/done/${name}`), false)
   }
-  assert.equal(isTaskDocument('docs/ops/tasks/nested/T.md'), false)
-  assert.equal(isTaskDocument('docs/ops/templates/TASK-template.md'), false)
-  assert.equal(isTaskDocument('docs/ops/board.md'), false)
+  assert.equal(isTaskDocument('docs/tasks/cards/nested/T.md'), false)
+  assert.equal(isTaskDocument('docs/tasks/templates/TASK-template.md'), false)
+  assert.equal(isTaskDocument('docs/tasks/board.md'), false)
 })
 
 test('a missing top title falls back to the file name and later status text does not replace Status', () => {
-  const untitled = 'docs/ops/tasks/NO-TITLE.md'
+  const untitled = 'docs/tasks/cards/NO-TITLE.md'
   assert.deepEqual(
     taskInfo(untitled, 'Status: draft\n\n## History\n# Later title\nStatus: done\n'),
     {
@@ -39,10 +39,10 @@ test('a missing top title falls back to the file name and later status text does
 
 test('a mixed task index sorts, escapes title pipes, and does not mutate the input array', () => {
   const tasks = [
-    { file: 'docs/ops/tasks/B.md', title: 'Build | name', status: 'build' },
-    { file: 'docs/ops/archive/tasks/done/A.md', title: 'Done', status: 'done' },
-    { file: 'docs/ops/archive/tasks/cancelled/C.md', title: 'Cancel', status: 'cancelled' },
-    { file: 'docs/ops/tasks/A.md', title: 'Draft', status: 'draft' },
+    { file: 'docs/tasks/cards/B.md', title: 'Build | name', status: 'build' },
+    { file: 'docs/tasks/archive/done/A.md', title: 'Done', status: 'done' },
+    { file: 'docs/tasks/archive/cancelled/C.md', title: 'Cancel', status: 'cancelled' },
+    { file: 'docs/tasks/cards/A.md', title: 'Draft', status: 'draft' },
   ]
   const before = structuredClone(tasks)
   assert.equal(
@@ -69,14 +69,14 @@ test('a mixed task index sorts, escapes title pipes, and does not mutate the inp
       '- `lastReviewed`: 2026-10-17',
       '',
       '## 入口与责任',
-      '- canonical 入口：`docs/ops/tasks/index.md` 与当前任务卡。',
+      '- canonical 入口：`docs/tasks/cards/index.md` 与当前任务卡。',
       '- Owner：Codex 维护生成器与治理账本；任务 Owner 维护卡内状态。',
       '- 下游使用者：看板、任务卡检查器和文档治理 registry。',
       '',
       '## 证据与下一步',
-      '- 关键来源：`scripts/docs/check.mjs`、`docs/ops/board.md`、各任务卡顶部 `Status`。',
+      '- 关键来源：`scripts/docs/check.mjs`、`docs/tasks/board.md`、各任务卡顶部 `Status`。',
       '- 未决/阻塞：历史任务的产品验收和证据缺口仍以各卡为准。',
-      '- 下一步：每次任务状态或入口变化后重新生成索引并刷新 review SHA。',
+      '- 下一步：每次任务状态或入口变化后重新生成索引并核验本轮变更；旧评审与原始来源保持不变。',
       '',
       '## 活动任务',
       '',
@@ -89,13 +89,13 @@ test('a mixed task index sorts, escapes title pipes, and does not mutate the inp
       '',
       '| 任务 | 顶部状态 | 说明 |',
       '|---|---|---|',
-      '| [Done](../archive/tasks/done/A.md) | done | 完成证据、历史签字与交接见原卡。 |',
+      '| [Done](../archive/done/A.md) | done | 完成证据、历史签字与交接见原卡。 |',
       '',
       '## 已取消（superseded / historical）',
       '',
       '| 任务 | 顶部状态 | 说明 |',
       '|---|---|---|',
-      '| [Cancel](../archive/tasks/cancelled/C.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |',
+      '| [Cancel](../archive/cancelled/C.md) | cancelled | 取消原因与替代项见卡内终态裁决。 |',
       '',
     ].join('\n'),
   )

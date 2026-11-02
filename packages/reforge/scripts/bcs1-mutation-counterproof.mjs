@@ -4,7 +4,7 @@
 // 口径沿用 mt1 r2（Codex 已验收标准）：
 //   - 每个 phase（baseline / 每针 mutant / 每针 restored / final）以 vitest JSON reporter
 //     解析完整 file×fullName×status 执行集，排序后落盘 identity artifact
-//     （counterproof-raw/*.identity.tsv），回执记录 artifact 路径/字节/sha256 与集合
+//     （counterproof-raw/*.identity.tsv.gz（解压为原TSV）），回执记录 artifact 路径/字节/sha256 与集合
 //     sha256（identitySha256）。
 //   - 红相位硬门：exitCode!==0、signal===null、spawnError===null、numFailedTests===1、
 //     numPendingTests===0、numTodoTests===0、success===false、无空断言集失败 suite
@@ -20,18 +20,27 @@
 // 判例沿用：cwd=pkgRoot 裸 pnpm exec（--filter 递归形态红相位污染 JSON stdout）；
 // 运行期不并发编辑任何 tracked 交付文件（clean 前置会拦截）。
 //
-// 干净 checkout 重建：node packages/reforge/scripts/bcs1-mutation-counterproof.mjs。
+// 干净 checkout 新执行：node packages/reforge/scripts/bcs1-mutation-counterproof.mjs --output-dir /absolute/new-run
+// 输出父目录必须已存在且无 symlink；已有历史目录不会覆盖（macOS 用真实 /private/tmp）。
+// 新执行集载体为gzip：artifact.path/bytes/sha256描述实际压缩字节，
+// decodedBytes/decodedSha256与identitySha256描述原TSV；每个相位仍独立执行。
 import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { counterproofDirtyPaths, prepareCounterproofOutput } from './counterproof-output.mjs'
 
 const pkgRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = path.resolve(pkgRoot, '..', '..')
-const evidenceDir = path.join(repoRoot, 'docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1')
-const rawDir = path.join(evidenceDir, 'counterproof-raw')
+const historicalEvidenceDir = path.join(
+  repoRoot,
+  'docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
+)
+// Output admission precedes git checks, test processes and all product mutations.
+const output = prepareCounterproofOutput({ defaultDir: historicalEvidenceDir })
+const evidenceDir = output.directory
 
 // 本卡交付改动（新文件 + 卡面回执/证据导航等 tracked 编辑）不参与 clean 判定；
 // 变异目标源文件必须在运行前 clean 且恢复后逐字节等于原始。运行期间不得并发编辑。
@@ -40,10 +49,18 @@ const ownNewPaths = [
   'packages/reforge/src/battle/battle-session.enemy-flee-residual.test.ts',
   'packages/reforge/scripts/bcs1-mutation-counterproof.mjs',
   'packages/reforge/scripts/bcs1-identity-status.mjs',
-  'docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
-  'docs/ops/tasks/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md',
-  'docs/ops/evidence/README.md',
+  'docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
+  'docs/tasks/cards/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1.md',
+  'docs/tasks/evidence/README.md',
 ]
+// Only this newly admitted output directory is excluded; product paths remain in the clean gate.
+const outputRelative = path.relative(repoRoot, evidenceDir)
+if (
+  outputRelative &&
+  !outputRelative.startsWith(`..${path.sep}`) &&
+  !path.isAbsolute(outputRelative)
+)
+  ownNewPaths.push(outputRelative)
 
 const CORE = 'packages/reforge/src/battle/battle-core.ts'
 const SESSION = 'packages/reforge/src/battle/battle-session.ts'
@@ -393,15 +410,6 @@ const runVitest = (args) => {
   return { argv, proc }
 }
 
-const writeRaw = async (file, text) => {
-  const normalized = `${text.replace(/[\r\n \t]+$/, '')}\n`
-  await writeFile(file, normalized)
-  return {
-    bytes: Buffer.byteLength(normalized, 'utf8'),
-    sha256: sha256(Buffer.from(normalized, 'utf8')),
-  }
-}
-
 const parseJson = (proc, label) => {
   let parsed
   try {
@@ -413,7 +421,7 @@ const parseJson = (proc, label) => {
 }
 
 // 以 JSON reporter 解析完整 file×fullName×status 执行集；排序后写 identity artifact。
-const identityPhase = async (label, args, artifactName) => {
+const identityPhase = async (label, args) => {
   const { argv, proc } = runVitest([...args, '--reporter=json'])
   const parsed = parseJson(proc, label)
   const rows = []
@@ -441,8 +449,8 @@ const identityPhase = async (label, args, artifactName) => {
   const identityText = `${rows.map((r) => `${r.file}\t${r.fullName}\t${r.status}`).join('\n')}\n`
   const identityBytes = Buffer.from(identityText, 'utf8')
   const identitySha256 = sha256(identityBytes)
-  const artifactPath = path.join(rawDir, artifactName)
-  await writeFile(artifactPath, identityBytes)
+  // Every phase ran above; only identical output bytes share a physical artifact.
+  const artifact = output.writeIdentity(identityBytes)
   const counts = {
     numTotalTests: parsed.numTotalTests,
     numPassedTests: parsed.numPassedTests,
@@ -466,12 +474,7 @@ const identityPhase = async (label, args, artifactName) => {
       rows: rows.length,
       identitySha256,
       failedRows,
-      artifact: {
-        path: path.relative(evidenceDir, artifactPath),
-        format: 'tsv: file<TAB>fullName<TAB>status per row, sorted by (file, fullName)',
-        bytes: identityBytes.length,
-        sha256: identitySha256,
-      },
+      artifact,
     },
   }
 }
@@ -480,15 +483,14 @@ const identityPhase = async (label, args, artifactName) => {
 const consolePhase = async (label, args) => {
   const { argv, proc } = runVitest(args)
   const text = `${proc.stdout?.toString('utf8') ?? ''}\n${proc.stderr?.toString('utf8') ?? ''}`
-  const base = path.join(rawDir, label)
-  const stat = await writeRaw(`${base}.console`, text)
+  const artifact = output.writeConsole(label, text)
   return {
     label,
     argv: ['pnpm', ...argv],
     exitCode: proc.status,
     signal: proc.signal,
     spawnError: proc.error ? String(proc.error.message) : null,
-    artifacts: { console: { ...stat, path: path.relative(evidenceDir, `${base}.console`) } },
+    artifacts: { console: artifact },
     text,
   }
 }
@@ -503,19 +505,15 @@ function assertTreeClean(tag) {
     [
       'status',
       '--porcelain',
+      '-z',
+      '--untracked-files=all',
       '--',
       'packages/reforge',
-      'docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
+      'docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
     ],
-    { cwd: repoRoot, encoding: 'utf8' },
+    { cwd: repoRoot, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
   )
-  const rows = out
-    .split('\n')
-    .filter((row) => row.trim().length > 3)
-    .filter((row) => {
-      const p = row.slice(3).split(' -> ')[0]
-      return !ownNewPaths.some((own) => p === own || p.startsWith(`${own}/`))
-    })
+  const rows = counterproofDirtyPaths(out, ownNewPaths)
   if (rows.length) throw new Error(`[${tag}] 工作树非 clean: ${JSON.stringify(rows)}`)
 }
 
@@ -529,9 +527,6 @@ try {
       `runner 自测未过: ${JSON.stringify(selfTestResults.filter((c) => !c.ok).map((c) => c.case))}`,
     )
 
-  // 重建 phase 全套 identity artifact:先清旧 raw,避免新旧口径混存。
-  await rm(rawDir, { recursive: true, force: true })
-  await mkdir(rawDir, { recursive: true })
   here = await mkdtemp(path.join(tmpdir(), 'bcs1-counterproof-'))
 
   const sources = new Map()
@@ -542,12 +537,12 @@ try {
   }
 
   // 基线绿（第一态）:全量套件完整执行集。
-  const baseline = await identityPhase('baseline', [], 'baseline.identity.tsv')
+  const baseline = await identityPhase('baseline', [])
   const baselineIssues = validateGreenPhase(baseline, baseline.identity.identitySha256)
   if (baselineIssues.length) throw new Error(`[baseline] 基线非绿: ${baselineIssues.join('; ')}`)
 
   // 目标合同精确 fullName 取自基线执行集（恰一匹配），红相位按全名精确相等判。
-  const baselineTsv = await readFile(path.join(rawDir, 'baseline.identity.tsv'), 'utf8')
+  const baselineTsv = output.readIdentity(baseline.identity.artifact).toString('utf8')
   const expectedFullNames = {}
   for (const injection of injections) {
     const matches = baselineTsv
@@ -577,11 +572,7 @@ try {
     let redConsole = null
     try {
       await writeFile(src.abs, mutant)
-      redJson = await identityPhase(
-        `${injection.id}.mutant`,
-        [],
-        `${injection.id}.mutant.identity.tsv`,
-      )
+      redJson = await identityPhase(`${injection.id}.mutant`, [])
       redConsole = await consolePhase(`${injection.id}.mutant`, [])
     } finally {
       await writeFile(src.abs, src.original)
@@ -596,11 +587,7 @@ try {
     // 第三态:字节恢复绿（完整执行集与 baseline 集合级一致）。
     const restoredHash = sha256(Buffer.from(await readFile(src.abs, 'utf8'), 'utf8'))
     if (restoredHash !== src.hash) throw new Error(`[${injection.id}] 恢复字节与原始不一致`)
-    const restored = await identityPhase(
-      `${injection.id}.restored`,
-      [],
-      `${injection.id}.restored.identity.tsv`,
-    )
+    const restored = await identityPhase(`${injection.id}.restored`, [])
     const restoredIssues = validateGreenPhase(restored, baseline.identity.identitySha256)
 
     // 第四态:磁盘重读 hash（恢复即当前源）。
@@ -629,7 +616,7 @@ try {
   }
 
   // 末次全套重放:identity 集合与 baseline 完全一致。
-  const finalReplay = await identityPhase('final-replay', [], 'final-replay.identity.tsv')
+  const finalReplay = await identityPhase('final-replay', [])
   const finalIssues = validateGreenPhase(finalReplay, baseline.identity.identitySha256)
 
   const allPass = receipts.every((r) => r.pass) && finalIssues.length === 0 && selfTestAllOk
@@ -646,16 +633,27 @@ try {
     tmpTree: { created: here, removedInFinally: true },
   }
   const outPath = path.join(evidenceDir, 'counterproof.json')
-  await writeFile(outPath, `${JSON.stringify(receipt, null, 2)}\n`)
-  // 判例（runtime-session/coverage85）：证据 JSON 须生成→format→不回跑；落盘尾步统一
-  // biome 格式化，保证单命令再生即过全仓 lint（内容零变化，仅布局）。
+  // Format in memory before exclusive publication; never rewrite an existing receipt.
+  const receiptText = `${JSON.stringify(receipt, null, 2)}\n`
   const fmt = spawnSync(
     'pnpm',
-    ['exec', 'biome', 'check', '--write', path.relative(repoRoot, outPath)],
-    { cwd: repoRoot, encoding: 'utf8', timeout: 120_000 },
+    ['exec', 'biome', 'format', '--stdin-file-path', path.join(repoRoot, 'counterproof.json')],
+    {
+      cwd: repoRoot,
+      encoding: 'utf8',
+      input: receiptText,
+      timeout: 120_000,
+      maxBuffer: 64 * 1024 * 1024,
+    },
   )
-  if (fmt.status !== 0)
-    throw new Error(`counterproof.json biome 格式化失败: ${fmt.stdout ?? ''}${fmt.stderr ?? ''}`)
+  if (fmt.status !== 0 || fmt.signal !== null || fmt.error || fmt.stderr.trim()) {
+    // Preserve this run's execution facts even when the presentation step fails.
+    output.writeReceipt(receiptText)
+    throw new Error(
+      `counterproof.json biome 格式化失败: ${fmt.error ?? ''}${fmt.stdout ?? ''}${fmt.stderr ?? ''}`,
+    )
+  }
+  output.writeReceipt(fmt.stdout)
   if (!allPass)
     throw new Error(
       `反控存在未过项: ${JSON.stringify(

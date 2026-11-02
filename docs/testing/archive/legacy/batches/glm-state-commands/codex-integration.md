@@ -9,7 +9,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ## Scope
 
-- 候选：`2a41d168`（受保护基线 `5921cb34` 合并）；对象=16 个目标生产源（SHA-256 逐项等于冻结账）、四批测试 A34/B32/C35/D25；完成卡见 [TEST-GLM-STATE-COMMANDS-1](../../../../../ops/archive/tasks/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md)。
+- 候选：`2a41d168`（受保护基线 `5921cb34` 合并）；对象=16 个目标生产源（SHA-256 逐项等于冻结账）、四批测试 A34/B32/C35/D25；完成卡见 [TEST-GLM-STATE-COMMANDS-1](../../../../../tasks/archive/done/TEST-GLM-STATE-COMMANDS-1-sixteen-leaf-modules.md)。
 
 ## Execution and assertions
 

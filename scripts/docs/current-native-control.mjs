@@ -65,7 +65,11 @@ export const currentNativeContract = (binding) =>
   binding.role === 'template-example' ? currentExampleContract : currentControlContract
 
 /** The read set is returned to the caller for exit revalidation, never used as write authority. */
-export function inspectCurrentNativeControl(path, readBuffer) {
+export function inspectCurrentNativeControl(
+  path,
+  readBuffer,
+  { currentRouting, retiredDocuments } = {},
+) {
   const binding = currentNativeControlAdmissions.find((b) => b.path === path)
   demand(binding, 'unadmitted native control/reference path')
   const captured = new Map()
@@ -242,7 +246,7 @@ export function inspectCurrentNativeControl(path, readBuffer) {
         Array.isArray(v.forwardingEntries),
       'routing authority',
     )
-    for (const r of v.routes)
+    for (const r of currentRouting?.routes ?? v.routes)
       demand(
         texts(r.required) && r.required.every((p) => Buffer.isBuffer(readBuffer(p))),
         'operation target missing',
@@ -304,7 +308,14 @@ export function inspectCurrentNativeControl(path, readBuffer) {
         )
       } else {
         demand(texts(r.from) && texts(r.to), 'matrix endpoints missing')
-        for (const p of [...r.from, ...r.to]) bytes(directoryWitnesses[p.replace(/\/$/, '')] ?? p)
+        for (const p of [...r.from, ...r.to]) {
+          // A retired entry is an historical relationship endpoint. Its admitted
+          // replacement must exist now; the location contract verifies recovery
+          // of the old Git object separately instead of inventing a live file.
+          bytes(
+            retiredDocuments?.get(p)?.replacement ?? directoryWitnesses[p.replace(/\/$/, '')] ?? p,
+          )
+        }
       }
     }
     demand(
@@ -474,13 +485,23 @@ export function currentNativeControlIssues(doc, template, contract, read, option
       states = new Map()
     const nativeRead = (path) => {
       if (!states.has(path)) {
-        const state = fileState(options.root, path, parents, '')
+        const state = fileState(
+          options.root,
+          options.locations?.currentPath(path) ?? path,
+          parents,
+          '',
+        )
         demand(Buffer.isBuffer(state.buffer), `native input unavailable: ${path}`)
         states.set(path, state)
       }
       return options.readBuffer(path)
     }
-    const view = inspectCurrentNativeControl(doc.path, nativeRead),
+    const inspectControl = (path, reader) =>
+      inspectCurrentNativeControl(path, reader, {
+        currentRouting: options.locations?.manifest.routing,
+        retiredDocuments: options.locations?.retired,
+      })
+    const view = inspectControl(doc.path, nativeRead),
       raw = view.captured.get(doc.path)
     demand(read(doc.path) === raw.toString('utf8'), 'text/byte native view mismatch')
     const pin = options.readSourceBuffer(b.source)
@@ -543,7 +564,7 @@ export function currentNativeControlIssues(doc, template, contract, read, option
       parseTerminalJson(nativeRead(`${base}document-registry.json`)).shards.length !== 7
     const administrative =
       (!unchangedProjection || requiresIncremental) &&
-      incrementalControlProjection(doc.path, options, inspectCurrentNativeControl)
+      incrementalControlProjection(doc.path, options, inspectControl)
     const projectionMatches =
       (unchangedProjection && !requiresIncremental) ||
       incrementalControlMaintenanceMatches(row, view, administrative)
@@ -576,7 +597,7 @@ export function currentNativeControlIssues(doc, template, contract, read, option
     for (const [p, bytes] of view.captured)
       demand(options.readBuffer(p)?.equals(bytes), `native input changed during inspection: ${p}`)
     for (const [p, before] of states) {
-      const after = fileState(options.root, p, parents, '')
+      const after = fileState(options.root, options.locations?.currentPath(p) ?? p, parents, '')
       demand(
         same(before.identity, after.identity) && before.buffer.equals(after.buffer),
         `native physical input changed: ${p}`,

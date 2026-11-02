@@ -97,4 +97,4 @@ GLM候选贡献与Codex当轮复核按原文分工。相邻轮与[最终回执](
 
 ## 继任文档
 
-[直接继任](architecture-regression-lab-codex-r7-review.md)承接后续时点；[历史原文目录](README.md)与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../ops/agent-workflow.md)另核准入；无本次产品执行授权。
+[直接继任](architecture-regression-lab-codex-r7-review.md)承接后续时点；[历史原文目录](README.md)与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../engineering/guides/agent-workflow.md)另核准入；无本次产品执行授权。

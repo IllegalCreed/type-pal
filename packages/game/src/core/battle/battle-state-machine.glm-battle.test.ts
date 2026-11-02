@@ -6,7 +6,7 @@
  * enemy-ai.test.ts / turn-queue.test.ts / battle-state 两个文件 / battle-runtime-context.test.ts /
  * battle-finalization.test.ts / battle-settlement.glm-next-wave / battle-progression.glm-next-wave /
  * battle-levelup / battle-turn-boundaries.glm-turn(已归档 Game 卡)。
- * 只覆盖上述文件未证明的独立业务轴;同形臂见 docs/ops/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md。
+ * 只覆盖上述文件未证明的独立业务轴;同形臂见 docs/tasks/evidence/TEST-GLM-GAME-BATTLE-STATE-1/dedup-ledger.md。
  *
  *  1. haste 状态进队列 wiring(公式单测已有,queue 构建接线未证;battle-system.ts:748-751)
  *  2. DH3 未学法术降级(rgwMagic 有数据但查无该 spell;silence/MP 臂已测,known 臂未证;:2634-2644)

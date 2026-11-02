@@ -43,7 +43,7 @@ historical。完成横幅覆盖当时未完计划语气，不关闭今天的任�
 
 ## 继任文档
 
-一阶段方针见[CLAUDE](../../../CLAUDE.md)，当前缺陷入口见[Ops 审计](../../ops/audits/pre-e2e/summary.md)；不存在本次新指定的产品继任实现。
+一阶段方针见[CLAUDE](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/CLAUDE.md)，当前缺陷入口见[Ops 审计](../../tasks/audits/pre-e2e/summary.md)；不存在本次新指定的产品继任实现。
 
 ## 原始结论
 

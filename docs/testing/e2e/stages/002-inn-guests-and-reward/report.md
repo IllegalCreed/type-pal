@@ -38,9 +38,9 @@ Template: test-run-report-v1 / 1.0.0
 
 - **原失败不抹除**：09-30首轮RF locale key、Game blocker/narration采集缺口使两report failed；这不是产品修复通过。10-01 RF `15-07-24-839Z`路线/核心通过，但fresh后晚dump等待553ms时e62正常推进，整体failed；工具`9d15218b`把真实成功提交点单独取证，不伪造世界。`15-29-25-294Z`持久世界相等仍因Canvas门frame1→0失败，不能过滤门像素或改阈值。
 - **门后正式窄通过**：Game `0869a707`与RF冻结`4fc15826`各自真实001前驱→正常28步→20行/0→500/三人真实编排→正式存读。RF32/53停读3045/3024ms、生产屏障195ms、门结束恢复open/frame1；原runtime errors0及可选save-state.json的404 warning原样保留。`3feb5a77`编辑器引用followup不改49个冻结E2E源。原10648/10655/10658包测试、57/56/71工具、首census失败及ENOENT失败分别是旧轮记录，本次没有重跑或相加。
-- **反馈与后继**：原10月1日仅队长主动透视/未集成/体验pending是当时记录；[10月2日反馈卡](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)记`fd2cd083→04eb9331`队伍局部透视及NPC正常遮挡、21项像素/独立43项/正式RF002技术收口，继任旧描述。没有由本治理补用户逐项体验签名；held输入也不证明60fps平滑。
-- **10月8日局部与完整链撤信**：10-07 14:25两轨录制的离线比较曾0未决finding、10项合理差异、35/35反例拒。后来001真实记录删除initial/57接管、initial/36转向、initial/37定帧仍0finding，反证完整作者链漏检；被撤的是“完整执行链/基础设施收口”，不是自动判定002每项局部断言失败。详见[被撤信的前批结果](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。35不是本轮新产品测试或完整形式化证明。
-- **10月11日另轮**：[连续卡最终重录/headed验收](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)记录段内对白残留反例后的显式clear与新六份固定输入/正式连续回执，属于后继批次；不倒签10月8日，也不因连续卡done更改006现有出版rework。原卡后续main/CI接线与coverage失败/修复仍归其各自范围，本轮不授信用。
+- **反馈与后继**：原10月1日仅队长主动透视/未集成/体验pending是当时记录；[10月2日反馈卡](../../../../tasks/archive/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md#2026-10-02清账收口当前结论)记`fd2cd083→04eb9331`队伍局部透视及NPC正常遮挡、21项像素/独立43项/正式RF002技术收口，继任旧描述。没有由本治理补用户逐项体验签名；held输入也不证明60fps平滑。
+- **10月8日局部与完整链撤信**：10-07 14:25两轨录制的离线比较曾0未决finding、10项合理差异、35/35反例拒。后来001真实记录删除initial/57接管、initial/36转向、initial/37定帧仍0finding，反证完整作者链漏检；被撤的是“完整执行链/基础设施收口”，不是自动判定002每项局部断言失败。详见[被撤信的前批结果](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。35不是本轮新产品测试或完整形式化证明。
+- **10月11日另轮**：[连续卡最终重录/headed验收](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)记录段内对白残留反例后的显式clear与新六份固定输入/正式连续回执，属于后继批次；不倒签10月8日，也不因连续卡done更改006现有出版rework。原卡后续main/CI接线与coverage失败/修复仍归其各自范围，本轮不授信用。
 
 当前raw、截图/像素、用户观感、capture音轨、完整Q1/Q2与产品源码全量差异均未新验；静态文档通过不能关闭这些项目。本报告停止002首次核心及恢复，003楼梯/厨房、004–006不借此通过。
 
@@ -82,7 +82,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ### 离场启动与说话者：已证差异，按一阶段编排修正
 
-原首轮时序、局部take/release和32/53停读属已记录候选，[窄作者卡](../../../../ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md)保留其编排边界，不泛化新对白耦合。
+原首轮时序、局部take/release和32/53停读属已记录候选，[窄作者卡](../../../../tasks/archive/done/E2E-002-CHOREO-1-trio-dialogue-authority.md)保留其编排边界，不泛化新对白耦合。
 
 ### 李大娘 46 状态：重复展开，不等于可机械替换
 
@@ -90,7 +90,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ### 开门表达：改用持久页面意图
 
-瞬态frame恢复丢失后改open page/action，失败与正式恢复分别见[结果](#results)及[门卡](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)。
+瞬态frame恢复丢失后改open page/action，失败与正式恢复分别见[结果](#results)及[门卡](../../../../tasks/archive/done/E2E-002-DOOR-1-persistent-open-presentation.md)。
 
 ### 等待、零位移与奖励边界
 
@@ -102,7 +102,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ### 当前正式链（2026-10-01；历史失败不改写）
 
-RF首轮晚dump与第二轮门Canvas失败原样保留；工具取真实提交点不等关闭门问题，[门卡](../../../../ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md)记录其后持久页面修复。
+RF首轮晚dump与第二轮门Canvas失败原样保留；工具取真实提交点不等关闭门问题，[门卡](../../../../tasks/archive/done/E2E-002-DOOR-1-persistent-open-presentation.md)记录其后持久页面修复。
 
 ### 最终正式回执（2026-10-01）
 
@@ -110,7 +110,7 @@ Game0869a707/RF4fc15826及followup3feb5a77是原正式轮，见[结果](#results
 
 ### 演示反馈后续：主角遮挡与连续输入（2026-10-01）
 
-仅主角主动透视/未集成是旧时点；10月2日队伍局部透视技术收口继任，见[结果](#results)及[反馈卡](../../../../ops/archive/tasks/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md)。
+仅主角主动透视/未集成是旧时点；10月2日队伍局部透视技术收口继任，见[结果](#results)及[反馈卡](../../../../tasks/archive/done/E2E-002-FEEDBACK-1-player-occlusion-and-held-input.md)。
 
 ### 冻结原始正文（source 5a125c37）
 

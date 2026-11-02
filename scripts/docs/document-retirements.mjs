@@ -7,8 +7,8 @@ import { markdownLinks } from './markdown.mjs'
 import { readNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import {
   assertReviewRecordSourceUnchanged,
-  loadReviewRecord,
   loadReviewRecordFromGit,
+  loadReviewRecords,
   readReviewRecordObject,
 } from './review-record-storage.mjs'
 
@@ -278,10 +278,11 @@ export function inspectDocumentRetirements(
   }
 }
 
-function readEmptyReviewRetirements(root, registry) {
+function readEmptyReviewRetirements(root, registry, locations) {
   if (registry.documentRetirements === undefined)
     return { entries: [], issues: [], historicalTarget: () => false }
   const readBuffer = (path) => {
+    if (locations) return locations.readBuffer(path)
     try {
       return readFileSync(resolve(root, path))
     } catch {
@@ -291,7 +292,7 @@ function readEmptyReviewRetirements(root, registry) {
   const readSourceBuffer = (pin) => readGitDocumentSnapshot(root, pin)
   const present = (path) => {
     try {
-      lstatSync(resolve(root, path))
+      lstatSync(resolve(root, locations?.currentPath(path) ?? path))
       return true
     } catch (error) {
       if (error.code === 'ENOENT') return false
@@ -305,10 +306,19 @@ function readEmptyReviewRetirements(root, registry) {
   if (baseline.issues.length)
     return { entries: [], issues: baseline.issues, historicalTarget: () => false }
   const reviewReads = []
+  const requestedReviews = new Set()
+  let reviewGroup
   const reviewReader = (logicalPath) => {
-    const loaded = loadReviewRecord({ root, logicalPath })
-    reviewReads.push(loaded.loadedSource)
-    return loaded.record
+    if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
+    requestedReviews.add(logicalPath)
+    if (!reviewGroup?.records.has(logicalPath))
+      reviewGroup = loadReviewRecords({ root, logicalPaths: [...requestedReviews] })
+    // Reuse only this call's private parsed objects. Every lookup still checks the
+    // complete live group, and prior snapshots remain in the repeated exit checks.
+    reviewReads.push(reviewGroup.loadedSource)
+    const record = structuredClone(reviewGroup.records.get(logicalPath))
+    assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
+    return record
   }
   const result = inspectDocumentRetirements(registry, {
     reviewReader,
@@ -323,9 +333,9 @@ function readEmptyReviewRetirements(root, registry) {
   return result
 }
 
-export function readDocumentRetirements(root, registry) {
-  const emptyLedgers = readEmptyReviewRetirements(root, registry)
-  const native = readNativeArtifactRetirements(root, registry)
+export function readDocumentRetirements(root, registry, locations) {
+  const emptyLedgers = readEmptyReviewRetirements(root, registry, locations)
+  const native = readNativeArtifactRetirements(root, registry, undefined, locations)
   return {
     ...emptyLedgers,
     nativeEntries: native.entries,

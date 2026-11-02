@@ -3,7 +3,7 @@
  *
  * 范围:turn-queue.ts / battle-finalization.ts / battle-system.ts / battle-state.ts
  * 中尚未被 __tests__ 旧测、cov85、glm-next-wave 系列证明的回合队列、结算归类、
- * 回合末毒结算与恢复合同。排重账见 docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/。
+ * 回合末毒结算与恢复合同。排重账见 docs/tasks/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/。
  *
  * 全部走公开 caller(tickBattle / startBattle);fixture 直填 pendingActions 为
  * 既有测试认可的注入方式(battle-system.test.ts 头注释)。

@@ -64,7 +64,7 @@ projects/pal是仍随E2E修订的开发快照，PAL克隆只创建local工程，
 
 ## 边界与风险
 
-这不是文件夹级事务，不锁其他浏览器/OS写入，检查后非合作写不保证原子CAS；PAL关键proof也不等全工程字节相等。规则与实现缺口分开，原[冲突保护卡](../../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)、[恢复卡](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)和[A-07回执](../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)只承载当时范围。
+这不是文件夹级事务，不锁其他浏览器/OS写入，检查后非合作写不保证原子CAS；PAL关键proof也不等全工程字节相等。规则与实现缺口分开，原[冲突保护卡](../../tasks/archive/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)、[恢复卡](../../tasks/archive/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)和[A-07回执](../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)只承载当时范围。
 
 本轮核context/marker/关键proof、单次mutation和作者读源baseline切片，未完整审所有FSA/IDB/恢复/ZIP/UI分支，未选真实目录或写用户数据。遇新事实冲突先停相关claim，不由文档改产品、放宽policy或恢复旧compat。
 
@@ -94,7 +94,7 @@ manifest.id不是工作区写权，三mode矩阵、一次capability、关键proo
 
 ## 继任文档
 
-[内容格式](content-schema.md)、[作者脚本](script-system.md)、[存档](save-system.md)各有唯一职责；[原设计快照](../archive/designs/project-lifecycle-design.md)只查历史，当前缺陷回[审计汇总](../../ops/audits/pre-e2e/summary.md)与获准任务。
+[内容格式](content-schema.md)、[作者脚本](script-system.md)、[存档](save-system.md)各有唯一职责；[原设计快照](../archive/designs/project-lifecycle-design.md)只查历史，当前缺陷回[审计汇总](../../tasks/audits/pre-e2e/summary.md)与获准任务。
 
 ## 原文保全
 

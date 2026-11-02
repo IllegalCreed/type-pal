@@ -51,7 +51,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 继任文档
 
-[阶段报告](../testing/e2e/stages/006-doctor-boat/report.md)持运行事实，[碎片目录](../../projects/pal/e2e-checkpoints/README.md)持起止/前驱，[活动任务](../ops/board.md)持授权；本页保持叙事和待核知识的唯一入口。
+[阶段报告](../testing/e2e/stages/006-doctor-boat/report.md)持运行事实，[碎片目录](../../projects/pal/e2e-checkpoints/README.md)持起止/前驱，[活动任务](../tasks/board.md)持授权；本页保持叙事和待核知识的唯一入口。
 
 ## 原文保全
 

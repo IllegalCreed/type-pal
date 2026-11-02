@@ -266,15 +266,15 @@ test('both report and source audit must project the unique catalog publication s
 })
 
 test('closing a task keeps its stable path while still removing its active-board authorization', () => {
-  const path = 'docs/ops/tasks/T.md'
+  const path = 'docs/tasks/cards/T.md'
   const body = '# T\nStatus: done\n'
   const documents = new Map([
-    ['docs/README.md', '[ops](ops/README.md)'],
-    ['docs/ops/README.md', '[tasks](tasks/README.md) [board](board.md)'],
-    ['docs/ops/tasks/README.md', '[index](index.md)'],
-    ['docs/ops/tasks/index.md', renderTaskIndex([taskInfo(path, body)])],
+    ['docs/README.md', '[tasks](tasks/README.md)'],
+    ['docs/tasks/README.md', '[cards](cards/README.md) [board](board.md)'],
+    ['docs/tasks/cards/README.md', '[index](index.md)'],
+    ['docs/tasks/cards/index.md', renderTaskIndex([taskInfo(path, body)])],
     [path, body],
-    ['docs/ops/board.md', '# No active tasks'],
+    ['docs/tasks/board.md', '# No active tasks'],
   ])
   const run = () =>
     auditDocuments({
@@ -285,7 +285,7 @@ test('closing a task keeps its stable path while still removing its active-board
       exceptions: [],
     }).issues
   assert.deepEqual(run(), [])
-  documents.set('docs/ops/board.md', '[T](tasks/T.md)')
+  documents.set('docs/tasks/board.md', '[T](cards/T.md)')
   assert.match(
     run()
       .map((issue) => issue.message)
@@ -301,7 +301,7 @@ test('a historical task must satisfy both task chapters and the explicit archive
   const template = registry.types.find((type) => type.docType === 'task-card')
   const history = registry.types.find((type) => type.docType === 'archive-record')
   const text = readFileSync(
-    new URL('../../docs/ops/archive/tasks/done/E2-patrol-templates.md', import.meta.url),
+    new URL('../../docs/tasks/archive/done/E2-patrol-templates.md', import.meta.url),
     'utf8',
   )
   const options = { additionalSections: history.requiredSections }

@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url'
 import { deflateRawSync, gunzipSync } from 'node:zlib'
 import { biomeCli, runLintZero } from '../quality/lint-zero.mjs'
 import { renderTaskIndex } from './check.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { decodeTerminalArchive, encodeTerminalArchive, terminalCrc32 } from './terminal-codec.mjs'
 import {
   terminalFixedBaseline,
@@ -907,6 +908,15 @@ function entryFixture(t) {
   for (const path of [
     'scripts/docs/check.mjs',
     'scripts/docs/document-integrity.mjs',
+    'scripts/docs/document-location.mjs',
+    'scripts/docs/artifact-compression.mjs',
+    'scripts/docs/artifact-content-alias.mjs',
+    'scripts/docs/document-location-admission.mjs',
+    'scripts/docs/markdown-source-spans.mjs',
+    'scripts/docs/relocate.mjs',
+    'scripts/docs/review-record-storage-io.mjs',
+    'scripts/docs/review-record-storage.mjs',
+    'scripts/docs/git-document-snapshot.mjs',
     'scripts/docs/git-inventory.mjs',
     'scripts/docs/config.mjs',
     'scripts/docs/markdown.mjs',
@@ -921,14 +931,16 @@ function entryFixture(t) {
     mkdirSync(dirname(join(fixture.root, path)), { recursive: true })
     copyFileSync(join(repository, path), join(fixture.root, path))
   }
+  installHistoricalLocationFixture(fixture.root)
   put(fixture.root, '.gitignore', 'node_modules\n')
   symlinkSync(join(repository, 'node_modules'), join(fixture.root, 'node_modules'), 'dir')
   const docs = {
-    'docs/README.md': '# Owned entry fixture\n\n[ops](ops/README.md) [phase2](phase2/README.md)\n',
-    'docs/ops/README.md': '# Ops\n\n[tasks](tasks/README.md) [board](board.md)\n',
-    'docs/ops/board.md': '# Board\n',
-    'docs/ops/tasks/README.md': '# Tasks\n\n[index](index.md)\n',
-    'docs/ops/tasks/index.md': renderTaskIndex([]),
+    'docs/README.md':
+      '# Owned entry fixture\n\n[tasks](tasks/README.md) [phase2](phase2/README.md)\n',
+    'docs/tasks/README.md': '# Tasks\n\n[cards](cards/README.md) [board](board.md)\n',
+    'docs/tasks/board.md': '# Board\n',
+    'docs/tasks/cards/README.md': '# Tasks\n\n[index](index.md)\n',
+    'docs/tasks/cards/index.md': renderTaskIndex([]),
     'docs/phase2/README.md': '# Phase2\n\n[guides](guides/README.md) [specs](specs/README.md)\n',
     'docs/phase2/guides/README.md': '# Guides\n\n[shared](shared-script-author-guide.md)\n',
     'docs/phase2/guides/shared-script-author-guide.md': '# Shared\n\ncontent22 SAVE12\n',

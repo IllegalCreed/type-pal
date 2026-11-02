@@ -1,0 +1,3833 @@
+{
+  "schemaVersion": 1,
+  "kind": "document-location-migration",
+  "baseRevision": "159cd0e2f8753536800ba4635e896020a897fddc",
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "mode": "reviewed",
+      "afterSha256": "3e2f6299becf51476c7c183bd82482fbf8362c9c71aec3e3dc47fc3d354522c1",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留新主线质量/瘦身/协作约定，单根11类操作与领域路由；第一阶段、lore、phase3按需进入，不恢复历史授权。",
+        "reviewedLines": 47,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "mode": "reviewed",
+      "afterSha256": "464753766ea387ccd9044a11f9b1e7572815634fad5ba972484d848ae71ec52a",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 189,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "docs/lore/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9f2d15ff5d80a73821b1b8d766fed7d7e91e51438ee252f0a7dad3b62d390dbc",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留主题入口、女娲来源冲突、版本取舍及四种证据边界；创意与已定约束分开，未重验外站/剧情。",
+        "reviewedLines": 42,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "mode": "reviewed",
+      "afterSha256": "e560e887aa3388ae393463bd8979c31b4c852373815ac946f59b13919234c859",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
+        "reviewedLines": 147,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/three-sages-20261015.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/README.md",
+      "mode": "reviewed",
+      "afterSha256": "83567ff0870694ecc0fb91a0595a53e2b032ee249269c16e2fb1c4c0fe7ed7cf",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "原稿贡献者；/root（导航delta）",
+        "reviewer": "/root（原稿）；/root/thin_indexes（导航delta）",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 31,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。 本次根编写的有限导航delta由/root/thin_indexes独立复核：显式同目录索引、旧ops根分路与done/cancelled入口；不授产品信用。"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/GAME-PLAYER-POISON-KEY-DOMAIN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-ENEMY-HOOKS-1-current-translation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-MIGRATE-SCENES-1-current-scenes.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-PAL-ASSETS-1-loader-and-ownership.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-TRANSLATE-EVENTS-1-current-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "mode": "reviewed",
+      "afterSha256": "01598cbc2368304313d6a82518c7a06feaa563c16afeba0174ef621c15da3086",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "有限正文差异据证接受；现行职责、历史事实与counter边界保持。",
+        "reviewedLines": 57,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      },
+      "templateId": "audit-report-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "mode": "reviewed",
+      "afterSha256": "84331ba89c0e373ec37d41a00ed916925fc83fdd9c4c430bb7cb06156ac3629b",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "候选：本轮有限完成出口与保留理由、12新增工具/1历史JSON退役的库存对账，846行原live表不改；必要质量门尚待稳定窗口。",
+        "reviewedLines": 889,
+        "acceptanceScope": "贡献者全文核读/治理；根核新正文、真实consumer及固定Git源变换后live表的完整字节相等，不重新授产品/代码质量信用。"
+      }
+    },
+    {
+      "path": "docs/ops/audits/code-quality-governance.md",
+      "mode": "reviewed",
+      "afterSha256": "3c54b1913aa5ad7f823002fb37b63271531e6030961319baee2bb815be063f3e",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "有限正文差异据证接受；现行职责、历史事实与counter边界保持。",
+        "reviewedLines": 67,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      },
+      "templateId": "plan-status-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "mode": "reviewed",
+      "afterSha256": "cc1833eea9b0b32c8acfa57cb9c6195561024b0db08bbf9e67bc1eadc5fb97bc",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 38,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "mode": "reviewed",
+      "afterSha256": "27ceb01bca503f86598ac68729d948d8d1773d799d1ec67629a3a454dccb7861",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "本轮候选完成、真实本地门与净量有限复核；总纲done、看板及确定性任务索引同步，远端集成另核，不授新产品执行信用。",
+        "reviewedLines": 153,
+        "acceptanceScope": "只核已接受正文后的收口差异、原始完整门日志、按固定源测量与归档成员；不重复产品审核，不授远端CI或新运行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "mode": "reviewed",
+      "afterSha256": "62c0bf1edfdac50205eb5eb6d587371e58862a780290636523dd5a79343758d9",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "全部现行条款原样保留，只有可见路径迁移；重复历史全文改从固定Git读取，不减少八维或零诊断要求。",
+        "reviewedLines": 176,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/document-quality.md",
+      "mode": "reviewed",
+      "afterSha256": "c50b3ba9231f36027a3c5f78354e167aedc0369b2011171a823f2386a6cf2a1f",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "规范位置统一engineering/guides；既有文档交付、独立验收和零诊断要求保留。",
+        "reviewedLines": 76,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-100/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-101/codex-current-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-101/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-102/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-window.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-97/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-98/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-99/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "008fc33d4130bd1a56b3ad0b7747915b23a514e63f8066de68138988bbad9b76",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行done回到原卡；固定批次/已关闭调查工具仅在固定旧树隔离回放，不将旧路径重定向后覆盖原件。",
+        "reviewedLines": 110,
+        "acceptanceScope": "原稿既有接受复用；/root/thin_indexes独立核本次实际delta、done卡与锚点、固定159来源和README8376字节旧尾段一致，不授新执行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/c2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-formulas-magic/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/50-draw-magic/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "mode": "reviewed",
+      "afterSha256": "94c4e3096212a52222a60c08907958a763733b98fec4922decb151e3e14af878",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "原稿贡献者；/root（导航delta）",
+        "reviewer": "/root（原稿）；/root/thin_indexes（导航delta）",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 39,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。 本次根编写的有限导航delta由/root/thin_indexes独立复核：显式同目录索引、旧ops根分路与done/cancelled入口；不授产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "mode": "reviewed",
+      "afterSha256": "8c90d34db7b70fc29b1b77a0fa3617b1058aeda899c1f4833eff054c33a29501",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "现行键盘/DOM/观察/失败/完成规则保持，旧工具与席位原文改固定Git；未重新实跑浏览器。",
+        "reviewedLines": 66,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "mode": "reviewed",
+      "afterSha256": "025c5dfa3ffaec67ee834fed859014bf5fd29ceeef0aa409c5fed51e5f9c0661",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "现行端口/命令/前置/失败处理保持，原静态核验注明时点；历史旧全文改固定Git，不冒称本次启动服务。",
+        "reviewedLines": 76,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "mode": "reviewed",
+      "afterSha256": "d372187f5990ebd55b0959319444e37e24573eaf1f5699be8cc96d55884388a4",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
+        "reviewedLines": 136,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "mode": "reviewed",
+      "afterSha256": "2f2820c7fe0e5b5fa3255c45ce51f80245a58ada7a188eb691b0c32318398a8d",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
+        "reviewedLines": 63,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "mode": "reviewed",
+      "afterSha256": "2046def9f56179c9a16166fdb969500816d4e7e49dba1c6c51d0e75baf727b8b",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "工程父索引只路由现行指南、历史协议和机器存储，具体工作选择由guides索引负责。",
+        "reviewedLines": 31,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/README.md",
+      "mode": "reviewed",
+      "afterSha256": "faa5f6d81a442b8f70f55d115aceeabe6662dca3381154fafeda22e961ef98b8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "任务薄索引只分活动分工、卡片、审计、证据和历史，规范归工程，状态回原卡。",
+        "reviewedLines": 33,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ENGLISH-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-INPUT-ROTATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-NANZHAO-ROOM-EXIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-UI-ASSET-FRAME-IDENTITY-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "mode": "reviewed",
+      "afterSha256": "c620aef57e4575f4ade7510c32f13f2dab4c98f63bd60bbf2a0cc0677a6f61f8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "本轮候选完成、真实本地门与净量有限复核；总纲done、看板及确定性任务索引同步，远端集成另核，不授新产品执行信用。",
+        "reviewedLines": 574,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-4.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-EVENT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-FONT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-MANIFEST-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-TABLE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-ASSET-RENDER-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-LOCALIZATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-PRESENT-HOST-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-INITIALIZER-FIXTURES-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-LINT-ZERO-TEST-CONTRACT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-LOCALE-DEFINITION-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-ASSET-TAKEOVER-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-NAMING-ORGANIZATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-3.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RECENT-200-CONTENT-AUDIT-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-TOOLS-CONTRACT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4ef8251b1b75d1d4a1e3efff7a39cc9c0c4dab094a7e16de83c422e737bd2711",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 45,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "mode": "reviewed",
+      "afterSha256": "021a25e35831abd75801688bccbbe68374c51d9e4a0078f863d2b6651cfa400f",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 32,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      }
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "mode": "reviewed",
+      "afterSha256": "6659e9b7d25da22e5868f507ddb10ac7f842c03c44f47e2c54e3c7297a75d238",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
+        "reviewedLines": 136,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "mode": "reviewed",
+      "afterSha256": "9bedeca4e6d382d25f472209afd485f7555ead99e45c8770859ea32d65f77bd5",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
+        "reviewedLines": 273,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "mode": "reviewed",
+      "afterSha256": "032912f276491816a68eb861282229fa0fe28672d188e61e3d3b7a72f5024048",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory + /root integration",
+        "reviewer": "/root for contributor body; /root/thin_indexes for integration delta",
+        "date": "2026-11-02",
+        "conclusion": "治理已由PR39/母卡done收口，纠正入口旧rework；旧撤信继续保留，登记只供按需消费。 当前字面索引/路由入口按实际迁移合同核正；原routing JSON保持不变。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/reviews/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/archive-record.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/audit-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/design-spec.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/evidence-receipt.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/governance-index.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/guide-runbook.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/narrative-idea.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/plan-status.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/reference-canon.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "mode": "reviewed",
+      "afterSha256": "2e7ff3481e96bc53277d11a893952cd9f8b09cb785d614f9c781aebef260f219",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "统一卡模板引用唯一写回流程；历史示例保全，不把占位当执行结果。",
+        "reviewedLines": 84,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "85e8d5dd09a0eb89da9f2780ac1044b4767d44578d4d6373c55280e063b80d1d",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "当前导航承接根知识入口，按问题定位包/机制/经验，冻结状态和规划仅追溯；不把下游历史标签升格为产品完成。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/designs/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/mockups/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/plans/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/slices/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/guides/debug-tools.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/guides/README.md",
+      "mode": "reviewed",
+      "afterSha256": "ea7a023cd4ac7103cc536446c7160732d4f798293ce56166895ff966431be3f2",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "六个操作入口全部保留，字段合同回specs，执行结果回任务；退出重复治理原文。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "mode": "reviewed",
+      "afterSha256": "6f03f1dff877b3d3348d3b907460a9699ae96c1c7e9f962e66e607f1560f3e91",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "十一条现行规则及停止线保留，旧CLAUDE入口改阶段知识；重复历史全文和已过期治理rework退出默认阅读。",
+        "reviewedLines": 58,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4ba14774a3e23e20675166e0e15f03e39cba00c1f299db6bed2b5529e75eac0e",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "阶段薄索引保留规则/规范/指南/知识/能力/决策/历史入口，不复制治理流水。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/reference/README.md",
+      "mode": "reviewed",
+      "afterSha256": "17f2d56b1e4eb8e3b507d5d6298ccc421c24d3becaf5a8752bbd6aa052d8edcd",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "两个知识入口保留，区分参考、阶段方针和当前字段合同，不据旧标题恢复模型席位。",
+        "reviewedLines": 32,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/specs/project-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/specs/README.md",
+      "mode": "reviewed",
+      "afterSha256": "6dd17f39d7953f848182b99b5b02a9cbf2fd08ba12f0aa2813bf828b90a17306",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "六个现行规范入口全部保留，和操作/历史分工；薄索引不承诺实现符合。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "mode": "reviewed",
+      "afterSha256": "27c92371f4e34f02dbd042990dcf41268205ce699470b37637fa53ece01afbec",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留二阶段收口前提、A1归属、D32无build边界，按候选/设计/参考路由，不授第三阶段实施。",
+        "reviewedLines": 34,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b37e26aff62e2050a3369055c3ff87f3ff5946b9c356fcec33a1ec3a20711ae4",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes + /root integration",
+        "reviewer": "/root for contributor body; /root/thin_indexes for integration delta",
+        "date": "2026-11-02",
+        "conclusion": "AGENTS下目录地图按tasks/engineering/阶段/testing/lore分工；治理存储只供工程维护按需进入。",
+        "reviewedLines": 45,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/testing/_templates/e2e-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/e2e-stage-README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/script-corrections/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/battle/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/README.md",
+      "mode": "reviewed",
+      "afterSha256": "84f8a50de5de633ef4d8a557634e97dec706ca1101425d7928b85bd43783c6a8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "测试合同/catalog/域报告/E2E/模板/历史分流，退出340行中的旧批次流水；原报告和测试状态不变。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "packages/editor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "packages/game/README.md",
+      "mode": "reviewed",
+      "afterSha256": "10fdf6c97da34327649161ff2753e5f8821f9285340cf09d4f62b8ba182e2967",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "承接CLAUDE已有第一阶段知识及来源边界，按当前Vite和测试路径纠正资源映射与命令；未重跑原版。",
+        "reviewedLines": 70,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "packages/migrate/README.md",
+      "mode": "reviewed",
+      "afterSha256": "79e970b6276ee76d5b12580156cef10f07d5430f7639ced401258aac4efc0248",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "退役N3历史生成物的固定Git/字节恢复说明已接受；现行baselines/pal读链与315源文件保持，原33及恢复原件已核。",
+        "reviewedLines": 97,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "packages/pal-extract/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b278116972065a8919cadd7fdc8c6d558df342798db582289fbbd03e7e2e46cf",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "原版考证引用转到承接后的game知识小节，不改变真源/提取边界。",
+        "reviewedLines": 27,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "patches/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "projects/pal/e2e-checkpoints/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "README.en.md",
+      "mode": "reviewed",
+      "afterSha256": "5b66a71a674a487a3a879116f582df48ddde460c9e05571d780672b4654d03dc",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 172,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "README.md",
+      "mode": "reviewed",
+      "afterSha256": "a05b65fd98d1f880578144c5f4aedb4ed7f2f7ee554c6b21b997417a4ce36af2",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 171,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9de0c4c95862608a8cbad19944355ee5053067cb98d8ba9e5ead19cd2dbb5dda",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 112,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "3ad556d5ef4e6e98432ca14ded0f0f3694e462c2a668daff35fe9c5cca9f2ce7",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9b0d29e20e42a0c42143e34b6dcb4a79eab05390ff3b9bf60aa1664048829e1b",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 117,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "reference/README.md",
+      "mode": "reviewed",
+      "afterSha256": "d81f74f3ce9d37f0549acf2950da3911a3e93d17381c50901371905cfc511b88",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 43,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "projects/e2e-own/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4620807a24195630c9374ff4147d830811d77c5460ea6ba7c65a00cf1ca3eeb8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 13,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "docs/phase2/capability-map.md",
+      "mode": "reviewed",
+      "afterSha256": "5d7d8bae6f53a5ade68fa4ebbd0309261f0b20ad62d6cccfced7946e7553b84a",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "治理封套有限精简；完整原文保全标题、源SHA前言和quote按固定159原字节保持，独有能力格/原则/时点边界不改。",
+        "reviewedLines": 385,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "mode": "reviewed",
+      "afterSha256": "acb7196e1eae9ad19f59f15a4dc17c6966e528d2d7945dd11f874e4f9d2c80da",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "治理封套有限精简；完整原文保全标题、源SHA前言和quote按固定159原字节保持，独有能力格/原则/时点边界不改。",
+        "reviewedLines": 353,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      },
+      "templateId": "plan-status-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/README.md",
+      "mode": "reviewed",
+      "afterSha256": "036cefd9095929dfd9ba2e464e1b3df7dff3fad1fa2c3b61113e5dbeee40506e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
+        "reviewedLines": 70,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-104/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-105/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-106/README.md",
+      "mode": "links"
+    }
+  ],
+  "additions": [
+    {
+      "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "2792bb0d00e27938b75aa27acf89163e984fd995367db0df9b1ca52023db4b19",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-03",
+        "conclusion": "本地446项与全量门零诊断；保留首CI范围失败、文档20分钟取消及修复原件；四源码独立接受，现行校验与时限不变，最新远端结果取PR。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只核根编写卡面、固定源净量和有限归档增量；四源码由Codex另据作者原件独立接受。不重复产品审核，不由本地通过授远端CI或新运行信用。"
+      }
+    },
+    {
+      "path": "docs/engineering/guides/README.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "e7dcf02a1b001eb382a556162b2dda58e732080d692f4bb468dcfd9316c13fb4",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "工程指南薄索引按开发/文档/环境选择七份正文，与父页三分支分工，链接存在且不复制规则或状态。",
+        "reviewedLines": 31,
+        "acceptanceScope": "作者编写有限总纲或薄索引；/root/thin_indexes独立核全文、范围、真实路由与模板；行数仅标候选范围，不授运行信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/index.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "36efc5272183c980751ec7d8a9413181f638f90ac616a924ac6eceb682f9256a",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "109入口覆盖108可检出目录及1同层文档；无README目录直接链接，零漏项/失效目标，状态仍取原卡。",
+        "reviewedLines": 135,
+        "acceptanceScope": "独立核完整候选与实际Git可检出目录，补10遗漏后逐目标核；默认README只按需转入本表，不复制执行状态。"
+      }
+    }
+  ],
+  "retired": [
+    {
+      "path": "CLAUDE.md",
+      "replacement": "docs/phase1/README.md"
+    }
+  ],
+  "routing": {
+    "entry": "AGENTS.md",
+    "entrySection": "操作与必读",
+    "forwardingEntries": [],
+    "routes": [
+      {
+        "operation": "新建、修改或治理文档",
+        "required": [
+          "docs/engineering/guides/document-quality.md",
+          "docs/engineering/guides/documentation-model.md"
+        ]
+      },
+      {
+        "operation": "开发、修改、重构或审查代码",
+        "required": [
+          "docs/engineering/guides/code-quality.md",
+          "docs/engineering/guides/agent-workflow.md"
+        ]
+      },
+      {
+        "operation": "仓库清理与精简（长期）",
+        "required": [
+          "docs/engineering/guides/agent-workflow.md",
+          "docs/engineering/guides/code-quality.md",
+          "docs/engineering/guides/document-quality.md"
+        ]
+      },
+      {
+        "operation": "开始或接手非小改",
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
+      },
+      {
+        "operation": "写、改或审查测试",
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
+      },
+      {
+        "operation": "第一阶段机制或缺陷",
+        "required": ["docs/phase1/README.md"]
+      },
+      {
+        "operation": "第二阶段引擎、编辑器或内容",
+        "required": ["docs/phase2/READ-FIRST.md"]
+      },
+      {
+        "operation": "世界观查证、剧情设定或创作",
+        "required": ["docs/lore/README.md"]
+      },
+      {
+        "operation": "第三阶段规划、储备或参考",
+        "required": ["docs/phase3/README.md"]
+      },
+      {
+        "operation": "E2E、剧情回写或编辑器预览起点",
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+      },
+      {
+        "operation": "封板、合并或发布回执",
+        "required": [
+          "docs/engineering/guides/documentation-model.md",
+          "docs/engineering/guides/documentation.md"
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
+      "sha256": "e2ea12530f5db0f89ccc154c5af058fab57aac80ed08a20ced9aeb09b162555b",
+      "bytes": 1566283,
+      "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
+    }
+  ],
+  "artifactAliases": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/3/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/4/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/3/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/4/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/5/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    }
+  ],
+  "compressedArtifacts": [
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "cfafba1a61e0d3f49bc13d730c35d19c92f2cab2",
+      "bytes": 1999934,
+      "sha256": "7e8c3974af0fab2b5159e542590b576fd6d2cf0a3575bce6b891a6a6fcfd13d9",
+      "storedBytes": 113714,
+      "storedSha256": "20d48f62e3524307301a86eea29ae9282afa72c19f66a0d7f4ce972b63586bcc"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "80591070c95b6b675651e140f32a65a609398c29",
+      "bytes": 1977180,
+      "sha256": "2c3e0c55282d9548bdd08a5281fbb5b565333bd6e2455189e9c47d7cbafad23d",
+      "storedBytes": 109797,
+      "storedSha256": "ca0989ecfd47336d64452960ae9b3e27c8d6eb6e3b99eb3b96f1292f3d6c3ede"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "8841f703e80fcfb3a6ef3bdd4c7da58d85672d31",
+      "bytes": 1940707,
+      "sha256": "b8d9b95eedca4326a2c7dfb27e6cf6d14498d27229d64afada8211134f39eddf",
+      "storedBytes": 108178,
+      "storedSha256": "d9aa116882e7023c1c6b5c434532fffc611e572af0ffffece65dc8189280680e"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-protected.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-r2-protected.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "e9e8a8e99f6299e39ab743c0db0d6a578893b5df",
+      "bytes": 1862659,
+      "sha256": "69d7e1b0d825477d5ea2581b36c3f66efc5cd45237f7abccd8e1d0a0ceb40985",
+      "storedBytes": 82994,
+      "storedSha256": "fbe87ebc64cc6a32f647e3e74af21bc41658bb5ad20af998fdbaa4f6da44c5ee"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-ratchet.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-ratchet.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "f0b1f1dda8e6a71a58a308a78f64f3ba0037babf",
+      "bytes": 1844106,
+      "sha256": "ec763fc89acf00d01b0aaf4f06d7e6a05510ddd69899297d71b9bf52618f2c57",
+      "storedBytes": 82253,
+      "storedSha256": "c32f66f0a9f9af66152c2002e3650f87debc3cdaa6228a7ca65808598e04fa88"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-protected.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-protected.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "2746c960ecf96b21b57047c7c057c44bc99794a7",
+      "bytes": 1825128,
+      "sha256": "6dccfcd03a5f8e920ecbd3411f2749101572fdbfd03c332bcd65d432d793dd80",
+      "storedBytes": 79033,
+      "storedSha256": "3230578931fb88722f73fa675c0fb6a3d3d797cacbde064048b7e6ab7007c1f5"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-protected.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-protected.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "a41688ed7ae237dbb84c1c82dca6f7712fce2c23",
+      "bytes": 1807130,
+      "sha256": "350e04c08e8331d4d726684c4f5484fc48120c3f85e731fa087c98c6d8404446",
+      "storedBytes": 80637,
+      "storedSha256": "45f6004252fe4e53986dc949b128cbfde3ede2362b96f646f152fa7e56b570a5"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-ratchet.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-ratchet.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "6f2989bd796304a51f02734bdcc7971defeb896c",
+      "bytes": 1805090,
+      "sha256": "e2b0eebfeb39860aa98c4d55e9d9b88d9fb739b1ee356a4f61febd99d06c631a",
+      "storedBytes": 78756,
+      "storedSha256": "7118a67103fa1fd9d2720bfa95f969e13c7b735043d2844810f4101ee3efb5dc"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast2.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-protected-fast2.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "1eca195e1003d304cff58b8423d08452e522c864",
+      "bytes": 1792741,
+      "sha256": "f8f4778b641b05448e19879713d6ed03f2ced8f5a67c1d1194475fd550bfa0b2",
+      "storedBytes": 78337,
+      "storedSha256": "409884cb565945828f975db344862094099463a2e3937d533c2ab2dde3fac24d"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-ratchet.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-r2-ratchet.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "fece843517c9d4ce9703a3f1f5eea877f62b2108",
+      "bytes": 1789683,
+      "sha256": "e13f75273a907c65f70339dcf46fedea6557ddd28ea7230016bf9a4df2248d99",
+      "storedBytes": 78417,
+      "storedSha256": "2cb19060cbd3947905de7d9b4b61ddcfc470f37213ee34e9f69398e34deb3f14"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-ratchet.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-merge-ratchet.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "c87104e95b801d62406a7cb8e26f8d67ca12c26b",
+      "bytes": 1787800,
+      "sha256": "68d7c257fccdd6fca7ef3ba3d747cb4b8659a87ca57413e8ea46045be4039ea9",
+      "storedBytes": 78528,
+      "storedSha256": "acf897fb5f9b0e4c1ea6033b71c7115c78548d1f9235169ae4f734ba14c3ba00"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-protected.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-merge-protected.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "ccda6190bd70a2c2443f7f40e7d0b60c78cd4523",
+      "bytes": 1784215,
+      "sha256": "08e3a258872cc95dbcd90d22d392c48113ebfce48ed3a55a0dee382a460f55d2",
+      "storedBytes": 77890,
+      "storedSha256": "78a2ff168d0c36f877763670de5a5a2ef8947c5bb41095443c1bfe8f8d07b72d"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-ratchet.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-ratchet.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "7277ff0c86443e73fe2ed54384e80ab7866633bd",
+      "bytes": 1779292,
+      "sha256": "5e306071f9adf664e2a9f5e16a5aa53f604525234854cf83f8519f3cbcb9f48a",
+      "storedBytes": 78576,
+      "storedSha256": "470a97cf50d6105c9dec9bc1cbd90166c4ed91f01ad31c0372bf3b23b28c41ed"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-protected-fast.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "23bd47f8853735324720c30240e1126b9524fba9",
+      "bytes": 1777632,
+      "sha256": "22a57d33702cdaa9ebee602f8b117a4b84d8e6e466274e99f98ad6c39f7d0e55",
+      "storedBytes": 80327,
+      "storedSha256": "3e8c90e6617c6d112e484f11ddbbbd0b35705f7f5df91fde8a5b83795bfe7920"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw",
+      "stored": "docs/tasks/cards/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "6946103ba1829143802ad202affc7db4eaa87af2",
+      "bytes": 1615944,
+      "sha256": "f2c0bce8a81da38bc49dbd0a083012e3a76e1cff0326e1e415ec41473de6a034",
+      "storedBytes": 46769,
+      "storedSha256": "17abdcd5c894bbb5520b8154ad5f85f38d759f846ee99b3551a14c12405da392"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139",
+      "bytes": 1696096,
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "storedBytes": 130558,
+      "storedSha256": "5fc7fbef8eea4cd38f3ba1d11e2a2b9e83ef4db8d73466988e8182d3dbff56bf"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "343ff67059f7a54348d9c33387948f04ceb51a0c",
+      "bytes": 1696096,
+      "sha256": "d83410443c2c868f427ba8125fdc890351c904234dd24404d3310ef1c643b42b",
+      "storedBytes": 130561,
+      "storedSha256": "ed470ed3670de0cb687a000bf6caf73e26c12109661f8fbd9aaeb49470945322"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "2db163ad7cc31dfae60a9c1740f72ad45053a4c6",
+      "bytes": 1696096,
+      "sha256": "74e5fd1bf5a48f5774fca0df5d2d04cabacf1bb7a14f9f7ef5d108b0942287ae",
+      "storedBytes": 130565,
+      "storedSha256": "df835974c8799a16a294c4eddab69f59bf14de60c8d645cd01b27df4422a2baa"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "1cd51b4df745886e195936cb73b929cd665d1121",
+      "bytes": 1696096,
+      "sha256": "4f53d18439b7860b6bc22b8ebdecd85691986543712afd5a151c29b248e90d47",
+      "storedBytes": 130568,
+      "storedSha256": "848a0f8c7c9675d78a10b72e4e09fe24082dab153b7811596b4a7db5c5eecfd6"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/full-test.raw",
+      "stored": "docs/tasks/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/full-test.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "74251927d13305220fb5dd072d1567bd2b95e41c",
+      "bytes": 1572633,
+      "sha256": "ac5e429fbe88904bc3de7f2749d42ebf5f613b97446e469b6fc0a581c0b712a3",
+      "storedBytes": 44130,
+      "storedSha256": "96f8b729e9e59311aebcb601842cc31c08825371441810c842f01f14d5515911"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580",
+      "bytes": 1645857,
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "storedBytes": 130758,
+      "storedSha256": "06bcdd14eddb06071cee52e163b921e302e0a2135bb8c3d0464fe2bb5995ac57"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "694965e32b78b327cfac693807ffbd6918600ba8",
+      "bytes": 1645857,
+      "sha256": "23d07e2fcc895c22fece25c7e0b3860d33fd98889da4f0fb0241af3a51139ebb",
+      "storedBytes": 130764,
+      "storedSha256": "adecc127ab1c6198ed2c2df8f56df51d9a7b24ca3bd6fa14febbfa74ee00cacf"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "a2c376b3b091e368a0c8137718d67dd6d7ab8edf",
+      "bytes": 1645857,
+      "sha256": "ba4d35779d6ebe4d95c6f6700ee8ec0f645835dc234415f054d202bafa8251be",
+      "storedBytes": 130764,
+      "storedSha256": "a491c200273de46617089d362762e65d897749fb3f6d4b7b0ed387ea6c9782ee"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "c886c401e40c6acd7cc0d43d3fa8649aaccd8110",
+      "bytes": 1645857,
+      "sha256": "7ca40b440a32e43467248d75663e904dcfe29411e5d410355f1be98dd2eb598e",
+      "storedBytes": 130765,
+      "storedSha256": "e2ae47c9c269742d9ba1153162b3e3843d0293f0adc43d3688cab30e34f0d997"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "0cfb46481d9669f3174457262376e81a0d21d9ae",
+      "bytes": 1645857,
+      "sha256": "7210b60c12d1c6feab105977db45d09c156da55b97efa2c59d4919d6faca74fb",
+      "storedBytes": 130765,
+      "storedSha256": "74ee2e5fdfab9905380e928ae467312d589d3696ba6896edd7b9cb061b1acfe3"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "fbd602859ca9e765401afc4238907a9a5df3401e",
+      "bytes": 1645857,
+      "sha256": "cbe74d246e61808b42f2c18adcbe09091f1752edde2d0c3a47fac110d2d39c51",
+      "storedBytes": 130766,
+      "storedSha256": "ab2cc8897c4b03fd87f3a1a78fc3a4be256d26ec240dc36269a738ad1c99583f"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24",
+      "bytes": 1627159,
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "storedBytes": 130395,
+      "storedSha256": "57b8496509ac311c23a7362cafcb91a67188d80b0573aadf9957600cc8a6a8ec"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "3efea5653478671ae81d5e1d3b1f7a8d5503727d",
+      "bytes": 1627159,
+      "sha256": "c0d38dc1727f26fac69b2886200c1345a3a53e4b1f4e1cff26a8f5282088413e",
+      "storedBytes": 130396,
+      "storedSha256": "093a90e994fd263ed8ba2260d79ecb2b9d7721d29554f7d73759cf0f10944ebb"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "4314d42bf1ab9d0b3da59980417b4b62c45bfa0e",
+      "bytes": 1627159,
+      "sha256": "665c729f463bfb8ca6d48ad518d65fd939f6d832809cfce7ca73222b764fa1f0",
+      "storedBytes": 130398,
+      "storedSha256": "1860efbfa8f1b3d3ca0baa6fe24d603204dced0fa12f39af1c6188367583407f"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "992ad530180e65cd86ed895bfeed3df762bbfcdd",
+      "bytes": 1627159,
+      "sha256": "cd051aba70c5a1692ec6e059d0a12aa3ae49f1d8abe112098b83e758b60229a1",
+      "storedBytes": 130398,
+      "storedSha256": "dfad81f6c18eccd413741fc8c7b44e604e025f88932eeafbfe91d503f3a9e367"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "a35e77f9879e3906761d3829e4330c5cec9c3c32",
+      "bytes": 1627159,
+      "sha256": "a2199dc080adf8fa9c48ad3b2147b71f25499390f95b1fede3efa8d80d29b4eb",
+      "storedBytes": 130400,
+      "storedSha256": "3adc22e92cb0eaa8ea27020547c63292cbabac2ec995d192673cc44ba1ecd095"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "18e1a00867dbaaca93d1574c0b5af39888aeab31",
+      "bytes": 1627159,
+      "sha256": "a417344aeb2fb26b2d10f5a1e717f2e52db81c73c64d9c3d387cbf998125ea17",
+      "storedBytes": 130401,
+      "storedSha256": "07537c67767bbcbddcb8205c03c601b5fd9153bd1c18b476565c9327f63125ab"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.mutant.identity.tsv",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.mutant.identity.tsv.gz",
+      "codec": "gzip",
+      "sourceBlob": "7407d75031ad581f5b4fd5ff8a103891a1393238",
+      "bytes": 1627159,
+      "sha256": "efd152e7d57dbd06323220adee6d422c29d48c7b21b14db6a5854c424c795c69",
+      "storedBytes": 130406,
+      "storedSha256": "2f45d2dae2b8a753bce0f32068f2ca7371a12c8e11cd7c387de542156adabb86"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-mechanical-audit-v3.json.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-mechanical-audit-v3.json.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "96759a2979160e3727f224adf1ba9d90850da786",
+      "bytes": 940261,
+      "sha256": "3d70e807e6fb460f43e15c9b78348a1f89d0285022480bae9f24ee02e9785c24",
+      "storedBytes": 45905,
+      "storedSha256": "1a20a869f318ff0d381daf8e2c6c853c4e22cb2fc7b2645ea73aa7a4eee41be5"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/adjacent.raw",
+      "stored": "docs/tasks/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/adjacent.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "de4e58858a0cbfbaed54f78d36008aaea3653dc1",
+      "bytes": 771960,
+      "sha256": "9c6fc40aa1be4e4aeb5d4d17fad612e132b8f9d525de9f79b19529658bfb04af",
+      "storedBytes": 11327,
+      "storedSha256": "338ea6ff043a7bd99061c9655be6a82f53a69ce733dc1fa5f848a0c5b3e5cd71"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "19239ad76b015a3a7053dfd1dfe70cd7cbbb7110",
+      "bytes": 789155,
+      "sha256": "5f95c182f82b667d237969443f254268a85d1e9fb6a37cb4dfa70cc47bfed49e",
+      "storedBytes": 198388,
+      "storedSha256": "b22826db4679c707f63e47cd4d9cbee71f1c2de76a65259bcb3abf51c56769db"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "10e4f3660e9bb5c836188a96828c2f0d610d571b",
+      "bytes": 788592,
+      "sha256": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
+      "storedBytes": 198181,
+      "storedSha256": "0e19d8a3ec7c492e703b7cffd8315fff2546f1c34134204bb8bb26f845f312cd"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "3626bb346de3b3509d571e086b92bd8de0839efa",
+      "bytes": 788397,
+      "sha256": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
+      "storedBytes": 198174,
+      "storedSha256": "20f27c9ab90273ecc1cc4c85a7d3a1288c3a956ca931322b537ef18fa64bd678"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "b58c114ffb9ba65abf0b627d0341b86a1914dfcc",
+      "bytes": 788202,
+      "sha256": "b47e151ff685ae4f4e4de5e78c1cd49fa539a884d9d6f66fd5ee9d9add8cd76e",
+      "storedBytes": 198070,
+      "storedSha256": "bba8ecdecc409ddf76c369adb8f0942f0655f3fc797cf9293b739df3be46e7a9"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "28dce7901a7e5fe596a06845e1733675bee164a5",
+      "bytes": 787464,
+      "sha256": "52058c1f76b79f471037df7f22c4afa231db23c4cdd821bc9594ce715eb9d327",
+      "storedBytes": 197866,
+      "storedSha256": "aef8e8ca3be2ff20f446717626fcca80a503d1962431c7faac46c600897b8df0"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "27082f0ec6e2356ee238b4dbb3ca87f038486d13",
+      "bytes": 786550,
+      "sha256": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
+      "storedBytes": 197576,
+      "storedSha256": "8000f90fd4217ad5656347f8e428c25f481685bc318b7ff6ffdbf80b045041f2"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "6e82121f82883ae63b86f165cf5b9e934e2d87ca",
+      "bytes": 786355,
+      "sha256": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
+      "storedBytes": 197468,
+      "storedSha256": "8c8e242cdc5be97fe8d47e6b5ddf07e5d514f69b082df55709f70938c89e0735"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "98da16669d31055cc7156d5947f2d85655096733",
+      "bytes": 786160,
+      "sha256": "975516c7cc0d190fed282c6a881ea352a7c60e1e203da2e6396c542813ffdba9",
+      "storedBytes": 197415,
+      "storedSha256": "bd9b7fc24a8fdb378dd07ecf5dabc0fb9adfd829f1acad2861c638b187237ffa"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-regression.txt",
+      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/author-regression.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "b7556209805e91ccca65f6127431f3ceb550db0e",
+      "bytes": 545386,
+      "sha256": "be0652175d99132d23a87a5067a93988c302ce441159433067d7a27c4b0f7fc2",
+      "storedBytes": 19710,
+      "storedSha256": "bc67e30181f1b1afd589256854fdddbc790a7741c587ab68467a6a8884c7f549"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "8c674d36531bf528051b15bf69182cda0690c434",
+      "bytes": 478885,
+      "sha256": "287b5ff2b8c1ba5fdc8a85be662d2c1a84d05b121a014d4f77f6374d3531a3de",
+      "storedBytes": 25907,
+      "storedSha256": "cb7a6e768d7d8d433783d046b55b05c213e7c1ff0332c39f1da97f645dd90445"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "8c674d36531bf528051b15bf69182cda0690c434",
+      "bytes": 478885,
+      "sha256": "287b5ff2b8c1ba5fdc8a85be662d2c1a84d05b121a014d4f77f6374d3531a3de",
+      "storedBytes": 25907,
+      "storedSha256": "cb7a6e768d7d8d433783d046b55b05c213e7c1ff0332c39f1da97f645dd90445"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stderr.raw.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stderr.raw.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "14ef06d409f0435e119d56e68e74b70d08b7a5ab",
+      "bytes": 478534,
+      "sha256": "e76f03cfa2ce130cfe43879cb17cfaf1f1223ac9dfef19da54b216055d884d06",
+      "storedBytes": 25896,
+      "storedSha256": "dd47464b955179389bdb3466cb35d5d89eafb47cd2701618df23c806a55c7b0f"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "c306e6d9b75ac7de3b2729558e6f642486adef20",
+      "bytes": 478267,
+      "sha256": "04f285577d49d2020bbdd7117889bf515b675c9f137fd8d564e28c9b1b4ee2a9",
+      "storedBytes": 25860,
+      "storedSha256": "8af1c709266b97d268a601a85e42b74207826235b411a719128e2793bf174ada"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "c306e6d9b75ac7de3b2729558e6f642486adef20",
+      "bytes": 478267,
+      "sha256": "04f285577d49d2020bbdd7117889bf515b675c9f137fd8d564e28c9b1b4ee2a9",
+      "storedBytes": 25860,
+      "storedSha256": "8af1c709266b97d268a601a85e42b74207826235b411a719128e2793bf174ada"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "421a747733c9cc3b2021e8f6a4a6c3705d423cc5",
+      "bytes": 478000,
+      "sha256": "d3d63e3e44fb532963876c70f6dd7fb98f1c527cbd37c0518ccc4d669b4708e1",
+      "storedBytes": 25824,
+      "storedSha256": "7959b32ef405e4c503cdb0141d3127a23875b76caa25dc13787341aa4ddc6344"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "421a747733c9cc3b2021e8f6a4a6c3705d423cc5",
+      "bytes": 478000,
+      "sha256": "d3d63e3e44fb532963876c70f6dd7fb98f1c527cbd37c0518ccc4d669b4708e1",
+      "storedBytes": 25824,
+      "storedSha256": "7959b32ef405e4c503cdb0141d3127a23875b76caa25dc13787341aa4ddc6344"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "246661cfeb9b452b2f2eccb810585507a3a4b249",
+      "bytes": 477733,
+      "sha256": "bd2b0d0db667607eb62e85ab17c6f82ac1afd8c22bcd01cd752b3e09659d6378",
+      "storedBytes": 25787,
+      "storedSha256": "f6f562a84b645de750274c701391220017a8249860e79b9523a92465e4dd9334"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "246661cfeb9b452b2f2eccb810585507a3a4b249",
+      "bytes": 477733,
+      "sha256": "bd2b0d0db667607eb62e85ab17c6f82ac1afd8c22bcd01cd752b3e09659d6378",
+      "storedBytes": 25787,
+      "storedSha256": "f6f562a84b645de750274c701391220017a8249860e79b9523a92465e4dd9334"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stderr.raw.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stderr.raw.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "bacf22a1c960958f2d19b9c2ffc9c678152fc240",
+      "bytes": 477084,
+      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+      "storedBytes": 25742,
+      "storedSha256": "523731cc5d1801a6151f93d7c8eb0c18633bbad63fe83cb71688a623fcfd5a69"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stderr.raw.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stderr.raw.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "bacf22a1c960958f2d19b9c2ffc9c678152fc240",
+      "bytes": 477084,
+      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+      "storedBytes": 25742,
+      "storedSha256": "523731cc5d1801a6151f93d7c8eb0c18633bbad63fe83cb71688a623fcfd5a69"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "64a941642d46bfcd09a1465fdeaded0e89c07de0",
+      "bytes": 476817,
+      "sha256": "75f0d07e7febd13b195699e1289c2c4d5a2202a4510901a8dc78ea52fa52cb1a",
+      "storedBytes": 25705,
+      "storedSha256": "a30bf57118e747d106a71e70e90edc029e5ddf00087dcacbdaf971c6c9913466"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "64a941642d46bfcd09a1465fdeaded0e89c07de0",
+      "bytes": 476817,
+      "sha256": "75f0d07e7febd13b195699e1289c2c4d5a2202a4510901a8dc78ea52fa52cb1a",
+      "storedBytes": 25705,
+      "storedSha256": "a30bf57118e747d106a71e70e90edc029e5ddf00087dcacbdaf971c6c9913466"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "2a9ca15d8dea7e40565f0dc3adb083a0b072440f",
+      "bytes": 475777,
+      "sha256": "fcf9f7bd0e1ee1287ab839bb68519df744be23b81966a63e058c8b316a799e6c",
+      "storedBytes": 25614,
+      "storedSha256": "fd5e7cc1f8ab94c34e2c57ce226a39b54e3969d929767375da3661563496c7c4"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "2a9ca15d8dea7e40565f0dc3adb083a0b072440f",
+      "bytes": 475777,
+      "sha256": "fcf9f7bd0e1ee1287ab839bb68519df744be23b81966a63e058c8b316a799e6c",
+      "storedBytes": 25614,
+      "storedSha256": "fd5e7cc1f8ab94c34e2c57ce226a39b54e3969d929767375da3661563496c7c4"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "f780cf95cfe001e0ceb47f17dea957fe05720efc",
+      "bytes": 474976,
+      "sha256": "49faa0ff01711a26b26153c506dfe508514f0344dc3c0a519ff8ed93d0597d9d",
+      "storedBytes": 25487,
+      "storedSha256": "79e603c50570213c05359755d2111b6829ab5d28ccf294d6c1ffaa4b9f5f7529"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "f780cf95cfe001e0ceb47f17dea957fe05720efc",
+      "bytes": 474976,
+      "sha256": "49faa0ff01711a26b26153c506dfe508514f0344dc3c0a519ff8ed93d0597d9d",
+      "storedBytes": 25487,
+      "storedSha256": "79e603c50570213c05359755d2111b6829ab5d28ccf294d6c1ffaa4b9f5f7529"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "0256dd08ef2250eac9b23f04227ab4df54e5b452",
+      "bytes": 474709,
+      "sha256": "ca1d164d94e00716205cb05a5caad762b0012fe3865e647f449c6152ecbff8d7",
+      "storedBytes": 25448,
+      "storedSha256": "4deeabfd2f342abeb192ebff92a65a68b3625556c6e42e747d60fe3d05198389"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "0256dd08ef2250eac9b23f04227ab4df54e5b452",
+      "bytes": 474709,
+      "sha256": "ca1d164d94e00716205cb05a5caad762b0012fe3865e647f449c6152ecbff8d7",
+      "storedBytes": 25448,
+      "storedSha256": "4deeabfd2f342abeb192ebff92a65a68b3625556c6e42e747d60fe3d05198389"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-8ef0.json.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-8ef0.json.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "2c797d86cc2f7be76791a4fd9236d022a5867c14",
+      "bytes": 350642,
+      "sha256": "ae93814138dd9b36016055acf00c360f85cc206626fadbc5b50280ec9f1380b8",
+      "storedBytes": 20657,
+      "storedSha256": "d12ca78d0d7e8023194702e263e673fcdd81adf9e141afe4a5b9d56a2c17544a"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-0ec6.json.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-0ec6.json.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "9a3aed8a7bb8e14f9fdb903bca2b1a90a5c66dd1",
+      "bytes": 344426,
+      "sha256": "0bf744d77362098356b520a324f62e80e366deb82642322e00c26f33104f101a",
+      "storedBytes": 20227,
+      "storedSha256": "713c021236f027019d4624268d8a28a0c710e0b199846b2901b448a1ba97283f"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/premerge-full-check.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/premerge-full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "551411b3dda4761168d0a7cf27c62a23b9d7c978",
+      "bytes": 372847,
+      "sha256": "238101cc50284796227736f386d092b1245e8dc86b0b97642004d8dd65e15198",
+      "storedBytes": 72907,
+      "storedSha256": "aed3e0fb7b078ff3483d7178b461f4c8334223a5cf75eb6510b57b8133dcab8e"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "e15be4f3db4008a7a52c7aac7f671e17ef856db0",
+      "bytes": 212740,
+      "sha256": "3756b2d30225f10b4cec5e2490e62348f754de2f158a773e5f3baeb4d0a2f6da",
+      "storedBytes": 44442,
+      "storedSha256": "7a3c6763828763fe710380a8593741321a0581cff25f3251656d0072c1203869"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-keyboard-surface-contract.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-keyboard-surface-contract.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "afa7c4adcd6c749838bc765f8169d5a09e39009e",
+      "bytes": 205107,
+      "sha256": "8d05c65e0ef2b4ec3044e78bd1f7dea15f39f40d0813b325dca58e4613afcb80",
+      "storedBytes": 40833,
+      "storedSha256": "fbbc05eaf2288099e56e96d7d0f84444380bbb4b02dbcb6c3013c240ba3a5a79"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "716f69e86d3e75679f88804d90d58558b0c6dabb",
+      "bytes": 205400,
+      "sha256": "911f35aca10a6e5c68b9608ca7e0cbd044245a174e99dcc5ecec3ac43d1a1101",
+      "storedBytes": 41274,
+      "storedSha256": "e7a1a1eee2037389bc0976246d0cac2c0f3d502bbca6714f6ac173450502d690"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "0d73251525ca53d0dabf237ca2d45a0aece616ef",
+      "bytes": 204543,
+      "sha256": "e954028cf1380fec4d07559d95ab7df0aef2c95c248f0dc1678f55e3dde28c53",
+      "storedBytes": 40738,
+      "storedSha256": "609ebb08a4a340306e581aca8bb735dd58c3c1d25c2941b3efce36fb3326dcd2"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-live-tools-fix.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-live-tools-fix.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "99031d83d3315af15b5c9676ef91f712c2b913e2",
+      "bytes": 204049,
+      "sha256": "d123eea4f98db0d7d76abd54abbbcbcab3bfa55ddfd35f478acb066da11c18fd",
+      "storedBytes": 40386,
+      "storedSha256": "df2200006e22934e7b9aeed0d97193b42cc45aeefbaf131afaa3faa572da3d96"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt",
+      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "825524e958a02103ec8eea3ff62834f812289418",
+      "bytes": 203709,
+      "sha256": "1377392e143fab82521276bf76f59f131cc32eceb6d0f980f65c7148bb05d649",
+      "storedBytes": 40072,
+      "storedSha256": "1d59cc7a3c7a18a2c0c6742571f5ca152e41335b8cd3b40456822b0f8497f910"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-104/check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-104/check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "90f644036b1fd3bb6a498e20752d88b7b1effb33",
+      "bytes": 180292,
+      "sha256": "b9b66674b73fe7d30ab44b09dbdc305bc6d014bfc034a81d2e5c4a755b9594d2",
+      "storedBytes": 34528,
+      "storedSha256": "f9e0c67ad30c7aa23a910a42fbfd0db73a07b3c9c6b7736f329be25cde9d6cd4"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-108/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-108/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "28e54909f30e21861524895b950600528865c132",
+      "bytes": 180319,
+      "sha256": "4b96187d69f0f95ee99996893210d56e79803ca928b2b2014f7908f87c06d879",
+      "storedBytes": 34563,
+      "storedSha256": "2a4fb445c66544dd038179a68e9eec0fb4e61abdb9b4175478736d86469df3df"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-105/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-105/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "865deb305d26fec3940abe0e8b1b1cf31cac3d01",
+      "bytes": 180318,
+      "sha256": "ded2231cdd20cb18168ebf8ec4cdba37179f4126bbfa171a2620673d8e360c56",
+      "storedBytes": 34574,
+      "storedSha256": "5403b29ef44af53564cfe55c2093a7d9f863eacc17a01b48cd067cf0421c65d8"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-106/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-106/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "23c719b8618c92c52248c6cabdc6b99967f04888",
+      "bytes": 180273,
+      "sha256": "d566d64b4ae5b255251a7e552b37c70767df930613b3dd7d18fb6a9917ff200c",
+      "storedBytes": 34530,
+      "storedSha256": "7c891e801252a4576ddd0f2c13ab5761b71f2703973cd14d0a1acc593515a4ef"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-109/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-109/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "bdcc98a45ab37b24f4cbb9e02bfc1343b0dbaced",
+      "bytes": 180284,
+      "sha256": "96823b7c34af965e52e0d3924929bddee017c86472d47c42626db4624f3e95dd",
+      "storedBytes": 34551,
+      "storedSha256": "3369e3b4303d1c917f772974e155babbc629091cd218d40a03ae8595be1d0066"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-107/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-107/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "7f46bb75888c4ef5cc4444b5dec7caecf1ddcc9c",
+      "bytes": 180328,
+      "sha256": "5a674bc4714d1775412e938e6c85a099fc404645bbcb40b8d23dc171cb72444e",
+      "storedBytes": 34603,
+      "storedSha256": "c6165e7a97821f88c3dbb44fd78cf231e1388dd61265bef1add28e305922eb3e"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-110/full-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-110/full-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "81eeca7e8f5e2b0d0b8efb2ff9f0171b28b61f6d",
+      "bytes": 180265,
+      "sha256": "7c521bcd6a31687b58a21bdf4fcebe660a9d0669955b6952144e04c1da9720a2",
+      "storedBytes": 34542,
+      "storedSha256": "b5ea5da2631010e76540554c547cc45c4279a767cf5c7eb9e23a3ee2d4833368"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover-pre-product-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-takeover-pre-product-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "0daf41177872e12fb568a4b510fca81af7ad935d",
+      "bytes": 169346,
+      "sha256": "bccef66a1f93930e1fdead4da02e9b370b509e11a1f985f0b2491f2eca2c51a4",
+      "storedBytes": 32742,
+      "storedSha256": "1ac1b07e0ce45eb2e9b79ee0907c96f827000ad00b45ac0f7b15438014cf75ac"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
+      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "858db9b5f2e8879c7492cdf1a2e9c790edc83f82",
+      "bytes": 167014,
+      "sha256": "eb1330fac7af05557ec2b3836b6c9d598f78e548656aa62dfd6893b6adffb2ac",
+      "storedBytes": 33458,
+      "storedSha256": "e23bb7782c2e1a3faeae9ab7c8f1c061f32368687f885916c01d08c60a3d536b"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts-2.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts-2.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "97674f159518087d26f2bf307052673f7d50e739",
+      "bytes": 159272,
+      "sha256": "c1805e3b689a4c088022d3371b614c10d944e0697d3679c70bbca19ad91dd7a3",
+      "storedBytes": 31463,
+      "storedSha256": "927c3301f7c97964f7ec6830c1071f5376027cb3dc815e61f5467bd8eaf23f25"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "abfddb39c1b0c45e3f9967955492c62b97dc0d46",
+      "bytes": 158672,
+      "sha256": "cc4de15bab3166c09e6389092531a9e38a29c511a59c8e20354088709a07a277",
+      "storedBytes": 31390,
+      "storedSha256": "147d03170621be4ff41d6b6dda5f079dbb517f8bb82c0d801c530b35c114bd38"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-96/gate-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-96/gate-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "42ea8d0b9cfe6003a4cfaeec0221b2b810254757",
+      "bytes": 157187,
+      "sha256": "391f602e0bc6b259c49425315fc4369028d712de8e62f1a619a533b74c8c206b",
+      "storedBytes": 30324,
+      "storedSha256": "7c12c05c44890b256ad3535ffad732845657553603b9affd524d1fb41629b7d0"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-53/gate-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-53/gate-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "f148fe8d74183fcce134f93b79671e887028dc4e",
+      "bytes": 157080,
+      "sha256": "1736750e9beae885539cbd0d7ca9c235aa30da50c220b354a6dff2ee292d5a87",
+      "storedBytes": 30317,
+      "storedSha256": "232ec6b1d396704bcedbd919639311ab0c6cee83311f94410ea34ebb8be4c638"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/gate-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-91/gate-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "aa15f80fe39274a799f7f72f734ff55cdfc58070",
+      "bytes": 156934,
+      "sha256": "d87a9af83165a0cdb617ce640a22eb0367136d0abdde96a0ccec05b9511ab5f3",
+      "storedBytes": 30224,
+      "storedSha256": "f99eba2ce7dbef5232928023d5a4c668fded07aa8c5f5e99d92aa444ad74d7b8"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-check-latest-main.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-check-latest-main.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "852461d0a5ed539fc401b0b4e51609075bcd472e",
+      "bytes": 156955,
+      "sha256": "6271d70a2babdbae50978242c4727ee60c6a3423b24be31b0450b1813d4a3e86",
+      "storedBytes": 30254,
+      "storedSha256": "edb0c9cb51ff47f9de34a022c74f03f12d05edaf30f0a2ac2af1acc7ce57d9ec"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-check-after-boundary.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-check-after-boundary.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "b6188a23314876e87a53a1d1eca8c9dc755a0081",
+      "bytes": 156873,
+      "sha256": "de61f39bde0f9a552fc93e2d380c0aac12e53b9d361191b37f1887f97d516f66",
+      "storedBytes": 30213,
+      "storedSha256": "efc371ac4cc69539b453cd2587d1206034f003b66cb06ac31061ab0da359234a"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-80/gate-check-final.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-80/gate-check-final.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "4c280f6f02ad8a2cf3085b4ac6f7fea2c92a3f1f",
+      "bytes": 156924,
+      "sha256": "5516de15e428772db6719d0111da0ee8692e2bc8b4a942060739036796b8616e",
+      "storedBytes": 30272,
+      "storedSha256": "2eff6606f5f55e1508beedca05a338bbc45fba07279db00bba4b280bc17580c2"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-93/gate-check.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-93/gate-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "221df63250fdc25e8481c8544520989c22cad76e",
+      "bytes": 156923,
+      "sha256": "7dfb47fc98880d1b3b968e58e3c498794b170b922e326320fc9e566dbd3c0ee6",
+      "storedBytes": 30300,
+      "storedSha256": "bc407abb09e504f83145dbdbebc3eb25b87379a345b899c7e255a860d873c11b"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-workers2-editor-failure.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-workers2-editor-failure.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "87c7970eb93cef9212bea981b934b57a6059eca5",
+      "bytes": 156657,
+      "sha256": "da575282e379e570984be8cab7eaed1c6f42a7dd30f4da3bd2e25cab5a17d114",
+      "storedBytes": 30758,
+      "storedSha256": "45cf80e8193e3283db208c50cdd3b88ef5af01de277e2ab2bec220bb90122e33"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-91/gate-protected-fast.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-91/gate-protected-fast.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "d4c3d32720ba875633c1b6f04a5a134bbdb5949d",
+      "bytes": 155863,
+      "sha256": "34001f277c55978091ca7d77f9f15b6904dd92b2a8312e6e96eff3b81eb8ec60",
+      "storedBytes": 30189,
+      "storedSha256": "3849b99616332460939cc0a097c1b9ddffcc160c06952d98b1113dd93223330f"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-pre-sync-cancelled.txt",
+      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-pre-sync-cancelled.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "a470494e25932cc25534c962afe82561a3eb6212",
+      "bytes": 155515,
+      "sha256": "a97ca8a0638412b033741e8ba5e39a068a898dde56dfafca60bbbd1eba1d5b0d",
+      "storedBytes": 30160,
+      "storedSha256": "bf86d35cb07c9cb5fd998b9cadece58a1a4511aa8c765758f2c832dbf291bc30"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/reforge-full.raw",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/reforge-full.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "661de78bd9ff3214be9408daec01fb0bb1fdbab1",
+      "bytes": 135518,
+      "sha256": "a593ba5045af4cfc5e62a05ac8c115c1488f2d8220bb0e2584e1f4113af293ed",
+      "storedBytes": 18180,
+      "storedSha256": "0f6024ec00293d307dd52f8b25cf1a47c589753d2b8369a3f13e7e300a220470"
+    },
+    {
+      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw",
+      "stored": "docs/tasks/cards/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "618de9d66353773339973354164a49e689464040",
+      "bytes": 119196,
+      "sha256": "d6662397f71cfbad5de1d7feca28ed3f917a2919a7b69967be116fb409d02a6e",
+      "storedBytes": 4326,
+      "storedSha256": "a9926d795721e7d19919a2c87c281d4fefef1f5b96cb29ed5937a141ca6a23e3"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
+      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "c8d918c8d6a330aa7066ac5839209956b368cfba",
+      "bytes": 135494,
+      "sha256": "43fdc3c8c05d86a0f712e9d15b3c3b261b813e56a4247c6dc055a595b79ff753",
+      "storedBytes": 21597,
+      "storedSha256": "0d481dd6d72e44b00c8a93f2634e29c9e292cab3b976349086516a7b36a179ba"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
+      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "8d8723bb9ec7d634947279150724123c1528be7c",
+      "bytes": 135510,
+      "sha256": "391d0ec69a741c2cd903f99a32d1e2b6f7694ca01af829f72adb8e414a77d3a7",
+      "storedBytes": 21648,
+      "storedSha256": "1687e3021f8098c5dab98192d8115333fa589793ac07f3d58788744bd2efbefa"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stdout.raw.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stdout.raw.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "c18801c018a32fa18b21c42b0d873b070219688f",
+      "bytes": 137638,
+      "sha256": "873882606b847ea08732f7bdabe8ddafff085b717a2d8c634e82d151a3564c51",
+      "storedBytes": 25199,
+      "storedSha256": "374649343d002becde31a75b5e6de2114736d73fdf747daf59427ec9e3bf869d"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stdout.raw.log",
+      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stdout.raw.log.gz",
+      "codec": "gzip",
+      "sourceBlob": "359ffab26850d6e0cd70cf731625da999ce1e42f",
+      "bytes": 137359,
+      "sha256": "3cbcb99d601d778f8f73fd858f57a1dc71ce175f50828202b40e5ea91aa77553",
+      "storedBytes": 25145,
+      "storedSha256": "e90033899b9b5c6696a9d5c814a913c2a71377937989396afd7d0cbc34338b67"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check.txt",
+      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "05f04e9c8d0a688dd844f6a6c2c2eebb3c2f8462",
+      "bytes": 138659,
+      "sha256": "53237c4bc89c0fb491b1842973fef335943fb239ca23f4cb28e6725bbdc47454",
+      "storedBytes": 26685,
+      "storedSha256": "155d37d5b942f3c955cb07e7aa38f4e3e1b849a0d3f03bee5788ee5e96a02437"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/full-test.raw",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/full-test.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "5def87a9a5b0fb4b238f6fb8c7329709e9c2220c",
+      "bytes": 124095,
+      "sha256": "6a33747570a64edd614366b43a5e736bf7057405af488f36ac869221a594dd72",
+      "storedBytes": 17890,
+      "storedSha256": "79ca1e7f5139735f0b4890c964fe6b6bc3c1b5cd44527481967465e426911584"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/full-package-test.raw",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/full-package-test.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "ed1060e4bf3ad2cd979623e876260fbe234442cc",
+      "bytes": 119895,
+      "sha256": "34e3ac08e563f42cd4ec1806eade02d4c089887fbe636d24ec8eb8d7a6bcacdf",
+      "storedBytes": 16802,
+      "storedSha256": "5f9ce2da93d5b03708e36dcf0f75f322d0b589139b285ca61ce0da4e563932cc"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.raw.txt",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.raw.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "778b54f1d0b531ebf9c67ec284e2c6d107c452bf",
+      "bytes": 119774,
+      "sha256": "5f867a0263357cc24f4b6fa799def0f32edfc6a886306d7d99468a272476fc31",
+      "storedBytes": 17302,
+      "storedSha256": "ec6b43e137729b41afbf88fadc48ec7f4c4cf399257dc2d4f9fa17d7addb0ede"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates/full-test.raw",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates/full-test.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "7eb84e0464283af43affb889ccd4973959526830",
+      "bytes": 119116,
+      "sha256": "38f0280048c4cea098b81bd526530252e93ce7dcbb0f3dc36d1005495a5beef6",
+      "storedBytes": 16881,
+      "storedSha256": "8dfd77c257451cd8856f6f8d54750fa90b00898c4cb18f42b622675048d0c1a0"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/full-test.raw",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/full-test.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "351a816e60f306e9be4008bb94d59e1a7312e19b",
+      "bytes": 118823,
+      "sha256": "3c97cd797560ad3f757e685b11a3f2cd59c2f040c02ea980f975af641ce22ad0",
+      "storedBytes": 16756,
+      "storedSha256": "a09d740c184cc5175c6cb4e97b748cfaf42921c8d8e6838e21a32cfa2ef555d7"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/reforge-full.raw",
+      "stored": "docs/tasks/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/reforge-full.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "9e8666be4ac534f9cfae178694077e0c2523326d",
+      "bytes": 118155,
+      "sha256": "e8daf10d3cccd35b387811b32906505b44edbe47812ac35da3fb890f6144c96a",
+      "storedBytes": 16663,
+      "storedSha256": "61e18c3865fcd2fa7b5e09fd3d27c87ca67a2c419d65e7f97bb2c7d07675716a"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/gates/reforge-full.raw",
+      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/gates/reforge-full.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "ecfa377d3d309614890412a4d4af124f0ed11db8",
+      "bytes": 112427,
+      "sha256": "958152a8465fb17e8ceefb9ba4de22055d6460c4c08d051efc6ef242965b4fe0",
+      "storedBytes": 15563,
+      "storedSha256": "5c2f6c37c237d1e381da57da97efa97b1011abd344387bdab3dbe9806b2c2a10"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/e2e-tools.txt",
+      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/e2e-tools.txt.gz",
+      "codec": "gzip",
+      "sourceBlob": "484b0eab84eb73988be62ab5550b1135732af781",
+      "bytes": 117460,
+      "sha256": "03576467f529ea7cbf1d0da2f1b62db00e41752998a65654e086dc9a15961b92",
+      "storedBytes": 22153,
+      "storedSha256": "6300ffe278c9c5108c4887004f264bda41fe869b92f8837aad9ddbf42d7ecd6e"
+    },
+    {
+      "path": "docs/ops/evidence/game-rix-music-1/e2e-tools-final.raw",
+      "stored": "docs/tasks/evidence/game-rix-music-1/e2e-tools-final.raw.gz",
+      "codec": "gzip",
+      "sourceBlob": "0d051f18a32fef7f750c21d4a2255f2c039c30e3",
+      "bytes": 117479,
+      "sha256": "375c51d948417c8b4c7256247a7d0a749d8a74a839e771fa22f10e4a70a9a16f",
+      "storedBytes": 22188,
+      "storedSha256": "b6ee58b7a7a8593297f27dac33230ade372e812b19a1abca1e1468c401612339"
+    }
+  ]
+}

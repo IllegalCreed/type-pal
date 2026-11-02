@@ -89,13 +89,14 @@ export function runRollforwardReviewPlan(argv) {
   }
   assert.equal(values.size, 2, '--input and --out required')
   const out = external(values.get('--out'), false)
+  // Reject an invalid fixed intake before reading a potentially large repository diff.
+  const rows = readAcceptedRows(values.get('--input'))
   const before = {
     head: git('rev-parse', 'HEAD').toString().trim(),
     status: git('status', '--porcelain', '--untracked-files=all').toString(),
     diff: hash(git('diff', '--binary', 'HEAD')),
   }
   git('merge-base', '--is-ancestor', rollforwardReviewContract.acceptedBase, before.head)
-  const rows = readAcceptedRows(values.get('--input'))
   const group = loadReviewRecords({ root })
   const collected = collectRollforwardSources()
   // Compare all207 real fixed Git objects and the adopted tree, including a

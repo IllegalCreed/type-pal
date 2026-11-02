@@ -9,7 +9,10 @@ import { fileURLToPath } from 'node:url'
 
 const pkgRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = path.resolve(pkgRoot, '..', '..')
-const evidenceDir = path.join(repoRoot, 'docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1')
+const evidenceDir = path.join(
+  repoRoot,
+  'docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1',
+)
 
 const DIRECTED = [
   'src/battle/battle-core.enemy-cast-residual.test.ts',

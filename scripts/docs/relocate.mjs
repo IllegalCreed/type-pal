@@ -27,9 +27,11 @@ export function validateMoves(entries) {
   }
 }
 
-export function rewriteLinks(markdown, from, to, mapping) {
+export function rewriteLinks(markdown, from, to, mapping, { protectedRanges = [] } = {}) {
   const changes = new Map()
   for (const link of markdownLinks(markdown, { positions: true })) {
+    if (protectedRanges.some((range) => link.start >= range.start && link.end <= range.end))
+      continue
     if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(link.target)) continue
     const index = link.target.search(/[?#]/)
     const path = index < 0 ? link.target : link.target.slice(0, index)
@@ -39,7 +41,11 @@ export function rewriteLinks(markdown, from, to, mapping) {
       ? posix.normalize(decodeURIComponent(path.slice(1)))
       : posix.normalize(posix.join(posix.dirname(from), decodeURIComponent(path)))
     const target = mapping.get(oldTarget.replace(/\/$/, '')) ?? oldTarget
-    let newPath = path.startsWith('/') ? `/${target}` : posix.relative(posix.dirname(to), target)
+    let newPath = /^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(target)
+      ? target
+      : path.startsWith('/')
+        ? `/${target}`
+        : posix.relative(posix.dirname(to), target)
     if (!newPath) newPath = '.'
     // Preserve angle destinations; elsewhere encode spaces and delimiters so a
     // valid path cannot turn into a title or truncate a balanced destination.

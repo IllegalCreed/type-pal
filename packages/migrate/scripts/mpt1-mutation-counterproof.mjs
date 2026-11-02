@@ -27,7 +27,7 @@ import { fileURLToPath } from 'node:url'
 
 const pkgRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = path.resolve(pkgRoot, '..', '..')
-const evidenceDir = path.join(repoRoot, 'docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1')
+const evidenceDir = path.join(repoRoot, 'docs/tasks/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1')
 const rawDir = path.join(evidenceDir, 'counterproof-raw')
 
 const directedArgs = ['--project', 'unit', 'src/migration-plan-transaction.glm-r1.test.ts']
@@ -35,14 +35,14 @@ const directedArgs = ['--project', 'unit', 'src/migration-plan-transaction.glm-r
 const ownNewPaths = [
   'packages/migrate/src/migration-plan-transaction.glm-r1.test.ts',
   'packages/migrate/scripts/mpt1-mutation-counterproof.mjs',
-  'docs/ops/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1',
-  'docs/ops/tasks/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md',
-  'docs/ops/evidence/README.md',
+  'docs/tasks/evidence/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1',
+  'docs/tasks/cards/TEST-GLM-MIGRATE-PLAN-TRANSACTION-1.md',
+  'docs/tasks/evidence/README.md',
 ]
 
 // 并行 Agent 同树在途交付：非本卡改动、与本卡 2 个目标源无交集，从 clean 判定按前缀豁免，
 // 但逐相位快照披露；若出现前缀外意外脏路径仍 fail-loud。
-const foreignPrefixes = ['packages/reforge/', 'docs/ops/evidence/TEST-GLM-REFORGE-']
+const foreignPrefixes = ['packages/reforge/', 'docs/tasks/evidence/TEST-GLM-REFORGE-']
 const branchName = 'codex/glm-migrate-plan-transaction-r1'
 const gateExclusions = []
 

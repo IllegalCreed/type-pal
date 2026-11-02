@@ -21,7 +21,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 
-phase1/game输入外壳域：一个默认关闭、可记忆的"虚拟方向键 / 左摇杆顺时针旋转45°"开关，共同控制手机虚拟方向键和标准手柄左摇杆；键盘、硬件十字键、确认/取消、窗口相对透明叠加布局和引擎移动语义保持。任务状态取任务卡[GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md)，测试出版状态取 [catalog.json](../../../catalog.json)。实现候选0b0ce187e70f540ec2de198d671afd82ddaa99c5已本地集成ae9e3226c并经根Codex独立接收有限功能，接收事实源为[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json)；本报告verified：用户已接受，统一门与实际部署完成。
+phase1/game输入外壳域：一个默认关闭、可记忆的"虚拟方向键 / 左摇杆顺时针旋转45°"开关，共同控制手机虚拟方向键和标准手柄左摇杆；键盘、硬件十字键、确认/取消、窗口相对透明叠加布局和引擎移动语义保持。任务状态取任务卡[GAME-INPUT-ROTATION-1.md](../../../../tasks/cards/GAME-INPUT-ROTATION-1.md)，测试出版状态取 [catalog.json](../../../catalog.json)。实现候选0b0ce187e70f540ec2de198d671afd82ddaa99c5已本地集成ae9e3226c并经根Codex独立接收有限功能，接收事实源为[review.json](../../../../tasks/evidence/GAME-INPUT-ROTATION-1/review.json)；本报告verified：用户已接受，统一门与实际部署完成。
 
 ## Claim matrix
 
@@ -33,13 +33,13 @@ phase1/game输入外壳域：一个默认关闭、可记忆的"虚拟方向键 /
 
 ## Results and gaps
 
-复用原生9文件60项：保留51旧合同、新增9（偏好2、手柄3、触控2、shell1、设置重建1）、退役0；旧touch-slide仅提取建pad夹具、6个原快照断言及file/fullName不变，English既有用例只补新标签断言。正式反控在完整手柄10例中令左上错发Right：恰1指定业务AssertionError、9通过、0skip；按字节恢复后60全绿。早期按名称过滤的反控1红/9filtered skips完整保留不计正式反控信用。根浏览器另核默认关闭、开启四按钮视觉、两viewport、真实NE输入、刷新记忆、关闭恢复与双语；未执行实物触屏/手柄与完整自然剧情E2E。用户已确认本地体验；有限功能验收不增加整文件治理关闭数。2026-10-27发布：本地官方20,203例/812源与全仓静态零诊断，PR#28受保护两门通过后合并，应用与资源部署、源站/CDN与有限网页设置烟测通过，第一阶段v1.1.0发布，原件与限制见[release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。
+复用原生9文件60项：保留51旧合同、新增9（偏好2、手柄3、触控2、shell1、设置重建1）、退役0；旧touch-slide仅提取建pad夹具、6个原快照断言及file/fullName不变，English既有用例只补新标签断言。正式反控在完整手柄10例中令左上错发Right：恰1指定业务AssertionError、9通过、0skip；按字节恢复后60全绿。早期按名称过滤的反控1红/9filtered skips完整保留不计正式反控信用。根浏览器另核默认关闭、开启四按钮视觉、两viewport、真实NE输入、刷新记忆、关闭恢复与双语；未执行实物触屏/手柄与完整自然剧情E2E。用户已确认本地体验；有限功能验收不增加整文件治理关闭数。2026-10-27发布：本地官方20,203例/812源与全仓静态零诊断，PR#28受保护两门通过后合并，应用与资源部署、源站/CDN与有限网页设置烟测通过，第一阶段v1.1.0发布，原件与限制见[release.json](../../../../tasks/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)。
 
 ## Quality gate
 
 贡献者game typecheck无诊断、14文件完整Biome JSON的error/warning/info/skipped/truncation均0；显式default+json reporter保留stdout/stderr，恢复测试stderr为空。精确命令、cwd、UTC起止、exit/signal/spawn、原件SHA与恢复链由接收回执native索引及配对evidence提供。失效条件：方向消费/接触Owner/adapter生命周期、偏好序列化/事件或设置caller变化时定向重核相应合同；pad几何/箭头/CSS变化须真实浏览器复验；runner/reporter/规则变化须复核原生结果和日志可见性；GameShell没有destroy API，新监听沿既有page lifetime，若引入shell重建/销毁当前生命周期结论须重核。原始历史执行与非自然剧情/非实物手柄边界保留，不重复授予旧测试次数或整文件关闭信用。
 
-2026-10-28源码绑定桥接：game-shell专测仅新增临时页面移除后的语言订阅释放及原语言恢复，原旋转用例从143行移至157行且其正文逐字节不变。当前13文件81例/空stderr支持接线未退步；更新这一sourceRef，不重做或扩大原浏览器/真机/部署信用。见[第二窗口](../../../../ops/evidence/QUALITY-PENDING-100-2/README.md)。
+2026-10-28源码绑定桥接：game-shell专测仅新增临时页面移除后的语言订阅释放及原语言恢复，原旋转用例从143行移至157行且其正文逐字节不变。当前13文件81例/空stderr支持接线未退步；更新这一sourceRef，不重做或扩大原浏览器/真机/部署信用。见[第二窗口](../../../../tasks/evidence/QUALITY-PENDING-100-2/README.md)。
 
 
 ## 原文保全

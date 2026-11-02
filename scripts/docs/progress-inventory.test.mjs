@@ -14,6 +14,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 
@@ -47,7 +49,11 @@ test('progress CLI consumes a large docs census without changing deleted, suffix
       cpSync(join(repoRoot, 'scripts/docs', name), join(root, 'scripts/docs', name), {
         recursive: true,
       })
-  write(frozenDocumentBaseline.path, readFileSync(join(repoRoot, frozenDocumentBaseline.path)))
+  installHistoricalLocationFixture(root)
+  write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(repoRoot, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
   write('AGENTS.md', '# Fixture\n\n## Routes\n\nNo live operations.\n')
   write(
     'docs/phase-governance/routing.json',

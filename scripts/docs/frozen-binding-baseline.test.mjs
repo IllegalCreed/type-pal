@@ -7,6 +7,8 @@ import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { validateCatalog } from './check-testing.mjs'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import {
@@ -24,7 +26,7 @@ const beforeRevision = 'ec2a87735435b409ff2c5b5e01bfb681af1e5c35'
 const registryPath = 'docs/phase-governance/templates/registry.json'
 const baselinePath = frozenDocumentBaseline.path
 const hash = (value) => createHash('sha256').update(value).digest('hex')
-const json = (path) => JSON.parse(readFileSync(join(root, path), 'utf8'))
+const json = (path) => JSON.parse(readFileSync(join(root, currentDocumentPath(path)), 'utf8'))
 const original = execFileSync(
   'git',
   ['show', `${frozenDocumentBaseline.revision}:${baselinePath}`],
@@ -75,6 +77,7 @@ function fixture(t) {
     )
   }
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const registry = json(registryPath)
   const route = { ...document }
   const routing = {
@@ -350,7 +353,7 @@ test('catalog default1.2 preserves the original18 plus correction and input publ
     const read = (path) =>
       path === 'docs/testing/catalog.json'
         ? JSON.stringify(value)
-        : readFileSync(join(root, path), 'utf8')
+        : readFileSync(join(root, currentDocumentPath(path)), 'utf8')
     const oldRead = (path) =>
       path === 'docs/testing/catalog.json' ? JSON.stringify(before) : read(path)
     const doc = { path: 'docs/testing/catalog.json', templateId: 'test-catalog-v1' }

@@ -77,7 +77,7 @@ Template: evidence-receipt-v1 / 1.0.0
 > 分支仍为47,637/63,361=75.18%。此次不宣称覆盖率提升。
 >
 > 保护基点1529f97e的单次strict-fast 9,715项/730文件同样通过，零回退。
-> Codex独立核定[任务收口](../../../../../ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md)。原始日志位于
+> Codex独立核定[任务收口](../../../../../tasks/archive/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md)。原始日志位于
 > `/tmp/codex-script-card-ui-{check-final,ratchet,strict}.log`；首次失败保留于
 > `/tmp/codex-script-card-ui-check.log`。
 
@@ -93,4 +93,4 @@ Template: evidence-receipt-v1 / 1.0.0
 
 任务收口和当时独立判断取配对归档卡；当前治理进度取全量任务卡。没有把旧UI回执替换为新的当前产品规范。
 
-[配对历史收口卡](../../../../../ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md) · [当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)
+[配对历史收口卡](../../../../../tasks/archive/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md) · [当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)

@@ -35,7 +35,7 @@ Template: audit-report-v1 / 1.0.0
 
 > # 全仓测试质量审计（2026-10-03）
 >
-> 任务卡：[AUDIT-TEST-QUALITY-1](../../../../../ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md)。本审计以保护基线 `8efe048610fab7aa4a257a716b91ece30194eba8` 与有限测试接入后的冻结候选为对象；不以测试数量或覆盖率增长作为保留理由。
+> 任务卡：[AUDIT-TEST-QUALITY-1](../../../../../tasks/archive/done/AUDIT-TEST-QUALITY-1.md)。本审计以保护基线 `8efe048610fab7aa4a257a716b91ece30194eba8` 与有限测试接入后的冻结候选为对象；不以测试数量或覆盖率增长作为保留理由。
 >
 > ## 机器清点
 >
@@ -106,4 +106,4 @@ Template: audit-report-v1 / 1.0.0
 
 有限队列最终接收取统一封板卡；原审计任务和本批README仍保留导航。新的文档/测试质量结论须有对应真实候选与授权。
 
-[配对历史收口卡](../../../../../ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md) · [当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)
+[配对历史收口卡](../../../../../tasks/archive/done/TEST-FROZEN-CLOSE-1.md) · [当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)

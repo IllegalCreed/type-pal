@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { after, before, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -283,7 +284,7 @@ test('explicit Owner in-place mode works on a new isolated Git/object-sharing re
 })
 
 test('real native/model fixture reaches and obeys a rejecting protected reader', () => {
-  const actualRead = (p) => read(p, root)
+  const actualRead = (p) => read(currentDocumentPath(p), root)
   const document = {
     path: Object.keys(historicalVitestPilots)[0],
     templateId: 'test-machine-evidence-v1',

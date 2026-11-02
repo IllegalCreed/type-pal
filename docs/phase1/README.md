@@ -1,120 +1,35 @@
-# docs/phase1/ — 第一阶段（忠实还原）文档
+# 第一阶段：忠实还原
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Last reviewed: 2026-11-02
+Owner: Codex
 Template: governance-index-v1 / 1.0.0
-
-本页把 phase1 历史材料接入 `governance-index-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 目的
 
-- 历史 phase1 索引与导航：phase1 foundation document full-text review: docs/phase1/ — 第一阶段（忠实还原）文档.
+这是 [AGENTS](../../AGENTS.md#操作与必读)下的第一阶段薄索引；按任务选下表一项，不默认全文读取所有知识或历史材料。
 
 ## 范围
 
-- 当前包含：原始章节入口、阶段边界、历史决策或 status 导航。
-- 明确不包含：当前缺陷台账、runtime/E2E/视觉/coverage 结论和未复核实现状态。
+第一阶段包括 `packages/game`、原版资源提取及相应机制考证。玩法与可见表现受忠实还原约束，代码结构允许治理；第二阶段引擎、编辑器与迁移内容按[Reforge规则](../phase2/READ-FIRST.md)，不能把第一阶段架构当成其合同。
 
 ## 当前状态
 
-- `status`: historical
-- `lastReviewed`: 2026-10-17
+current 仅表示本导航和阶段边界有效。产品能力、已验行为和未完缺陷分别查原任务及证据；下游历史文档保留其日期与有效范围，不因被本索引引用而升级为现行事实。
 
 ## 入口与责任
 
-- canonical 入口：当前 phase1 canonical 文档、代码、测试和审计台账。
-- Owner：Codex（文档治理；不代签原执行）。
-- 下游使用者：实现、审计和测试维护者。
+| 需要解决的问题 | 按需阅读 |
+|---|---|
+| 运行时结构、开发命令、资源链与原版考证 | [game 包说明](../../packages/game/README.md)；提取细节查 [pal-extract](../../packages/pal-extract/README.md) |
+| 战斗公式、脚本或游戏机制 | [机制资料](game-mechanics.md)，按专题核来源、版本及待证项 |
+| 调试经验、渲染/脚本/音频陷阱 | [工程记录](engineering-notes.md)，按症状查对应小节，再核当前实现 |
+| sdlpal 构建、运行与原版分析工具 | [参考运行记录](sdlpal-runbook.md)，执行旧命令前核当前工具与路径 |
+| 已定取舍与事件格式的由来 | [决策记录](04-decisions.md)、[事件格式记录](05-events-schema.md) |
+| 正在做什么、某缺陷是否关闭 | [活动看板](../tasks/board.md)及原任务；问题背景见[审计汇总](../tasks/audits/pre-e2e/summary.md) |
+
+仅追溯时进入：[冻结状态快照](status/README.md)、[历史规划](plans/README.md)、[可行性](01-feasibility.md)、[架构](02-architecture.md)、[开发计划](03-development-plan.md)、[测试方案](06-testing.md)。这些目录不充当当前任务状态源。
 
 ## 证据与下一步
 
-- 关键来源：`docs/phase1/README.md` 原始全文；source revision `d62602284cbfe2d9306f4acb006d15d944d1f6e2`；source SHA `1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae`。
-- 未决/阻塞：- （无新增；历史边界保持开放）
-- 下一步：引用时带日期，并以当前 canonical 文档、代码和测试复核。
-
-## 历史范围
-
-- phase1 foundation archive；日期：2026-06-07；固定来源 `d62602284cbfe2d9306f4acb006d15d944d1f6e2`；source SHA `1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae`。
-
-## 原始结论
-
-- The Phase1 index frames the stage as faithful restoration, distinguishes status snapshots/design/engineering/history, and warns that plans are historical and later defects belong to audit ledgers.
-
-## 当时证据
-
-- 标题锚点：索引；覆盖快照（v1.0 冻结时点；当前缺陷见审计台账）；设计 / 决策（主线，编号有序）；工程经验 / 运维；历史归档；怎么用；目录文件索引；原始正文、表格、状态词和链接在 quote 保全。
-
-## 当前有效性
-
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
-
-## 继任文档
-
-- Current phase1 canonical docs/code/tests and a fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
-
-## 原文保全
-
-固定源 SHA `1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae`；下方 quote 可逆回原始 UTF-8 字节。
-<!-- original-source-quote:start -->
-> # docs/phase1/ — 第一阶段（忠实还原）文档
->
-> > v1.0.0 已上线、运行时冻结（根 README）。真值锚 = 大宇原版 `pal.exe` / 原始数据，
-> > sdlpal C 源为参考实现。
-> > **第二阶段（重制）**文档在 [`../phase2/`](../phase2/README.md)，两阶段世界观不混。
->
-> > **状态表口径（2026-09-06 标注）**：下列 status 表是 **v1.0 冻结时点的覆盖快照**
-> > （feature-status 2026-06-16、cutscene-status 2026-06-07 等），用于了解冻结时的完成度，
-> > **不是当前缺陷台账**——上线后新发现的存档/切场景/战斗调用/离线缓存等问题以
-> > [pre-E2E 审计](../ops/audits/pre-e2e/summary.md) 与后续修复卡为准。表中资源、公式等
-> > 仍由源码与原始数据背书的条目继续作为专题真值。
->
-> ## 索引
->
-> ### 覆盖快照（v1.0 冻结时点；当前缺陷见审计台账）
->
-> [状态快照目录](status/README.md) 统一说明各表的记录时点和有效范围。
-> | 文件 | 内容 |
-> |---|---|
-> | [status/feature-status](status/feature-status.md) | 功能完成度总表 |
-> | [status/opcode-status](status/opcode-status.md) | 事件 opcode 实现状态 |
-> | [status/cutscene-status](status/cutscene-status.md) | 过场 / 演出状态 |
-> | [status/item-status](status/item-status.md) · [status/magic-status](status/magic-status.md) | 物品 / 仙术状态 |
-> | [status/resource-status](status/resource-status.md) | MKF 资源解析状态 |
-> | [game-mechanics](game-mechanics.md) | 战斗 / 机制考证（标注 sdlpal 验证 vs pal.exe 推断） |
->
-> ### 设计 / 决策（主线，编号有序）
-> | 文件 | 内容 |
-> |---|---|
-> | [01-feasibility](01-feasibility.md) → [06-testing](06-testing.md) | 可行性 / 架构 / 开发计划 / **决策(04)** / 事件 schema(05) / 测试(06) |
->
-> ### 工程经验 / 运维
-> | 文件 | 内容 |
-> |---|---|
-> | [engineering-notes](engineering-notes.md) | 跨会话踩坑 + 方法论（CLAUDE.md「工程经验速查」节的展开版） |
-> | [sdlpal-runbook](sdlpal-runbook.md) | sdlpal 参考 / 反汇编工具链 |
->
-> ### 历史归档
-> | 文件 | 内容 |
-> |---|---|
-> | [plans/](plans/README.md) | per-milestone 计划 / 审查快照（m0–m5 / d-series）——**过程记录，不反映现状**；查现状看上面的 status 表 |
->
-> ## 怎么用
-> - **冻结时的覆盖情况** → status 表；后续问题 → [审计台账](../ops/audits/pre-e2e/summary.md)
-> - **为什么这么定** → [04-decisions](04-decisions.md)
-> - **踩过的坑** → [engineering-notes](engineering-notes.md)
-> - **当年怎么一步步做的** → [plans/](plans/README.md)（历史，慎用）
->
-> ## 目录文件索引
->
-> - [02-architecture.md](02-architecture.md)
-> - [03-development-plan.md](03-development-plan.md)
-> - [05-events-schema.md](05-events-schema.md)
->
-> 历史计划的完整索引统一维护在 [plans/README](plans/README.md)。
-
-<!-- original-source-quote:end -->
+按根入口选择开发、测试或 E2E 规则；变更确认的知识写回对应唯一正文，历史观察保留来源边界。原版数据、sdlpal 参考、本项目实现及用户观察分别记录，证据冲突按当前任务核验与裁决。本页不重复存放旧索引和已退役根入口的全文；需要追溯时读取固定主线的[旧索引](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/phase1/README.md)或[旧知识入口](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/CLAUDE.md)。

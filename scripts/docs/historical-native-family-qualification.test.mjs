@@ -7,6 +7,8 @@ import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -30,7 +32,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url))
 const beforeRevision = '52cc1bd530998990dbfeff18b347b854a37796ae'
 const templatePath = 'docs/phase-governance/templates/registry.json'
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const readBuffer = (path) => readFileSync(join(root, path))
+const readBuffer = (path) => readFileSync(join(root, currentDocumentPath(path)))
 const source = (pin) => readGitDocumentSnapshot(root, pin)
 const templates = () => JSON.parse(readBuffer(templatePath))
 // Independent statement of the accepted proposal's nineteen-field digest schema.
@@ -227,6 +229,7 @@ function publicFixture(t) {
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', root, directory])
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const write = (path, bytes) => {
     mkdirSync(dirname(join(directory, path)), { recursive: true })
     writeFileSync(join(directory, path), bytes)

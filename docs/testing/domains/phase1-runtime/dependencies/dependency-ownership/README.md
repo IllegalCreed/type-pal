@@ -29,7 +29,7 @@ Game依赖所有权报告/evidence与原历史导航；二阶段SAVE常量不证
 
 ## 证据与下一步
 
-本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `f3d0dd6341a3cb08874898a457423109cedd5073`，SHA256 `5e9fcc490c35702a6eb4ffeb6bf41615b1599c83060df3627207292e113e1994`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
+本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `f3d0dd6341a3cb08874898a457423109cedd5073`，SHA256 `5e9fcc490c35702a6eb4ffeb6bf41615b1599c83060df3627207292e113e1994`。逐篇来源、after 和限制见[本包作者回执](../../../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)。
 
 K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 

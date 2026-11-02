@@ -30,7 +30,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 原实际功能为Enter/blur/undo、Escape、数值步进、图标过滤/同AssetId导入/替换/undo、非空900×700脚本与resize/scroll。720裁切、隐藏separator节点与8px命中区仍在，不得泛化响应式完成；A3主线WIP/用户存档/full/Q1Q2、原生zoom与boot/options等不在接收范围。原整体F2仍有剩余，不把本篇完成变成架构队列全部完成。
 
-本轮只做文档模板化，不执行原命令、旧测试、产品、浏览器、raw或coverage。已知36条明确原raw路径在J源审exists-only均缺席，只限逐篇关联的明确路径；其余raw可用性仍unknown，不泛化全部缺失或伪造内容hash。现行[工作流](../../../../../ops/agent-workflow.md)与[测试治理](../../../../governance.md)约束新任务，历史exit0/原accept不满足今天零诊断或运行验收。
+本轮只做文档模板化，不执行原命令、旧测试、产品、浏览器、raw或coverage。已知36条明确原raw路径在J源审exists-only均缺席，只限逐篇关联的明确路径；其余raw可用性仍unknown，不泛化全部缺失或伪造内容hash。现行[工作流](../../../../../engineering/guides/agent-workflow.md)与[测试治理](../../../../governance.md)约束新任务，历史exit0/原accept不满足今天零诊断或运行验收。
 
 ## 原标题入口
 
@@ -97,4 +97,4 @@ historical。本文历史正文与完整候选记录已获非作者history_cards
 
 ## 继任文档
 
-配对[原生机账](../../editor/testing-records/architecture-intake-completion-evidence.json)保原字段；当前新工作从[任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)及[工作流](../../../../../ops/agent-workflow.md)重新核准入。supersedes只覆盖本路径文档阅读结构，不替代原执行或撤掉历史counter；再启用旧流程须另核真实caller、合法输入、业务oracle与当前版本。
+配对[原生机账](../../editor/testing-records/architecture-intake-completion-evidence.json)保原字段；当前新工作从[任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)及[工作流](../../../../../engineering/guides/agent-workflow.md)重新核准入。supersedes只覆盖本路径文档阅读结构，不替代原执行或撤掉历史counter；再启用旧流程须另核真实caller、合法输入、业务oracle与当前版本。

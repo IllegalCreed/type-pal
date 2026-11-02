@@ -24,7 +24,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 [横向索引](README.md)负责导航，[E2E 总览](../README.md)路由阶段；各正式报告持有指定候选的结果、输入和检查点。 [配对 evidence](../evidence/e2e-common-issues.json) 是 `document-audit`，`runtimeExecution.performed=false`、`artifacts=[]`，其 `source-backed` 不代表本轮执行。catalog 管发布状态、日期和依赖，原任务卡管 Owner、准入及 counter，本页管跨阶段归因与缺口，四者不能互相代授信用。
 
-当前工作从 [R4 原卡](../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[005 原卡](../../../ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md)与 [006 原卡](../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)核准入；[连续任务归档](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)保存旧批次，不能作今天的 build 授权。演出按[意图优先合同](../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)判断；第一阶段也是待归因的对照，双轨差异数量不能单独证明二阶段缺陷。
+当前工作从 [R4 原卡](../../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)、[005 原卡](../../../tasks/cards/E2E-005-1-shrimp-errand-and-xianglan-news.md)与 [006 原卡](../../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md)核准入；[连续任务归档](../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md)保存旧批次，不能作今天的 build 授权。演出按[意图优先合同](../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)判断；第一阶段也是待归因的对照，双轨差异数量不能单独证明二阶段缺陷。
 
 ## Claim matrix
 
@@ -114,8 +114,8 @@ Template: test-domain-report-v1 / 1.1.0
 | 2026-10-04 / d022、content22/SAVE11 | 文档发布/source审计，配对performed=false | 不构成新游戏执行或当前版本续期 |
 | 2026-10-06至07 / 原正文诊断 | 实际draw、时钟、story窗口、恢复边界和有界阶段修复的当时声明；曾有未决数变化 | 减少初始化/帧索引误报不等于修掉同数量产品bug，独立流程passed不等帧差异全闭合 |
 | 2026-10-08至09 / 连续任务各批 | 工具补强、partial/冻结与逐批重录各自时点；纯oracle变更可依影响证据离线重比 | 较早“冻结”或局部工具绿不能压过后续新counter，也不能用旧日志缺字段证明新义务 |
-| 2026-10-10 / [合理性复核](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#全量改动范围与合理性审计2026-10-10当前) | 撤回只为复制旧引擎而加的party+4、无entry补600ms、e203对白冻结等候选；保留暂停站立取舍 | 后文旧“当前party assembly +4”只是更早诊断，不能复活为今日修复；合理差异仍须有具体证据 |
-| 2026-10-11 / [固定批次accept](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept) | 当时六份acceptance、headed、对白动作前clear及其失败/重跑记录；原回执保留RF浏览器404/Canvas消息 | 归档中的“当前”只属该候选，不覆盖今天catalog的006 rework或R4未完；浏览器消息不改写为零 |
+| 2026-10-10 / [合理性复核](../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#全量改动范围与合理性审计2026-10-10当前) | 撤回只为复制旧引擎而加的party+4、无entry补600ms、e203对白冻结等候选；保留暂停站立取舍 | 后文旧“当前party assembly +4”只是更早诊断，不能复活为今日修复；合理差异仍须有具体证据 |
+| 2026-10-11 / [固定批次accept](../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept) | 当时六份acceptance、headed、对白动作前clear及其失败/重跑记录；原回执保留RF浏览器404/Canvas消息 | 归档中的“当前”只属该候选，不覆盖今天catalog的006 rework或R4未完；浏览器消息不改写为零 |
 
 当前明确保留：用户选择接管期间站立；已批准001/003大娘局部匀速末步，不改精确端点和必需姿态。party screenOffsetY4、无entry额外补旧600ms、s014/e203全局式冻结、e84/e127初始朝向及e87初始手势候选按归档裁定撤回。本次没有重验其产品实现，也不把第一阶段相同值当作二阶段唯一合理答案。
 
@@ -135,7 +135,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 | 原fragment（历史字节保留） | 已核实际标题与当前替代入口 |
 |---|---|
-| `2026-10-08-当前推进语义适配与统一关系仍非完整双轨证明` | [2026-10-08 前批冻结：语义适配与统一关系（仍非完整双轨证明）](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批冻结语义适配与统一关系仍非完整双轨证明) |
+| `2026-10-08-当前推进语义适配与统一关系仍非完整双轨证明` | [2026-10-08 前批冻结：语义适配与统一关系（仍非完整双轨证明）](../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批冻结语义适配与统一关系仍非完整双轨证明) |
 | `2026-10-07-当前验收独立流程与双轨比较通过` | [2026-10-07 历史验收：独立流程与双轨比较通过](../stages/001-opening/report.md#2026-10-07-历史验收独立流程与双轨比较通过) |
 
 后续root固定候选`752708a42db05a9901d0f7bcb3478283db5a521c`在两个目标的现行说明层加入稳定兼容锚。非作者`/root/central_successor_independent`的导航回执SHA为`39344a9f7826e316aef9fb0abc12e572f67e103d7892634a59cdebf74127c91b`：实际组合固定`1c23ddde`正文（SHA `61bb76dfd5de68fad02337ab95e6451c8f0e0e1d520140d328a48873abfc5747`）与固定`752708a4`目标，核44条链接/11个fragment为0问题；删除单锚各产生1项、删除双锚产生原2项失败，只限定闭合这两项导航counter。
@@ -151,7 +151,7 @@ Template: test-domain-report-v1 / 1.1.0
 | 正文与配对 | 五章有实际内容；单篇完整模板consumer、真实`validateCanonicalEvidence`核唯一catalog身份/发布字段/sourceRefs；错publication应被拒 | 形状/配对不证明问题全部闭合或runtime |
 | 原文保全 | frontmatter/testing-meta与完整quote原字节不变；精确source逆回及损坏反例能区分 | 字节保真不等于语义接受，也不倒改旧回执 |
 | 导航 | 新旧每条链接、fragment与catalog实际canonical核验，不能只猜目录或仅核文件存在 | 不代替链接目标全文审查 |
-| 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 作者nonAuthor=false；全量任务仍[rework](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)，不借本篇合main或done |
+| 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 作者nonAuthor=false；全量任务仍[rework](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)，不借本篇合main或done |
 
 本次没有产品、旧产品测试、E2E、视觉或coverage执行。文档/lint/全量门须按实际候选、命令、原始诊断分别记录，任何error/warning/info不算通过；没有执行的门不沿用旧数字。下一步先完成本篇独立验收，再由root核source/after和回执接入中央唯一binding、R60迁出及矩阵；其它待审文档与全量硬验收仍独立排队。
 

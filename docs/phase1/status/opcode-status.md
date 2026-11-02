@@ -48,7 +48,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 继任文档
 
-- pre-E2E 审计、修复任务卡与 phase2 语义审计（[历史审计回执](../../ops/archive/audits/README.md)）；[目录导航](README.md)。
+- pre-E2E 审计、修复任务卡与 phase2 语义审计（[历史审计回执](../../tasks/archive/audits/README.md)）；[目录导航](README.md)。
 
 ## 原文保全
 

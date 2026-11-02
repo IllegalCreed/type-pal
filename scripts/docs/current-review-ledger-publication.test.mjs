@@ -230,7 +230,8 @@ test('the real CLI rejects an author plan with the Owner publication flag withou
   const directory = mkdtempSync(join(tmpdir(), 'type-pal-ledger-publication-cli-'))
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   const input = join(directory, 'plan.json'),
-    git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }),
+    git = (...args) =>
+      execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 }),
     before = git('status', '--porcelain', '--untracked-files=all')
   writeFileSync(
     input,

@@ -7,7 +7,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
 
-为 DEV 排错提供状态观察、命令、脚本触发、战斗预设和帧步进的使用顺序。D13-1/G1/G4/K2–K5 是原落地与验证记录；[D13-1 任务卡](../../ops/archive/tasks/done/D13-1-debug-tools-first-batch.md)的构建、手测和单测结论保留其历史范围，本轮没有重做 dist 或 UI 验证。
+为 DEV 排错提供状态观察、命令、脚本触发、战斗预设和帧步进的使用顺序。D13-1/G1/G4/K2–K5 是原落地与验证记录；[D13-1 任务卡](../../tasks/archive/done/D13-1-debug-tools-first-batch.md)的构建、手测和单测结论保留其历史范围，本轮没有重做 dist 或 UI 验证。
 
 ## 前置条件
 

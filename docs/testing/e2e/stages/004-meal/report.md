@@ -17,7 +17,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ## Scope
 
-本报告限定004正常取菜、送菜和在NPC身上编辑/预览的桂花酒赠道士正文。[E2E-004-2](../../../../ops/archive/tasks/done/E2E-004-2-continuous-story-and-presentation-clock.md)保留用户复验后分case与UI时钟返工的一手时序。Game/phase1与Reforge/phase2按各自真实003输入；story/items/saves是三个独立case，不把功能专项塞进连续演示。原六case候选9a488c02、早期独立候选和d02222/11审计分时点，当前窄源22/12不倒签历史。
+本报告限定004正常取菜、送菜和在NPC身上编辑/预览的桂花酒赠道士正文。[E2E-004-2](../../../../tasks/archive/done/E2E-004-2-continuous-story-and-presentation-clock.md)保留用户复验后分case与UI时钟返工的一手时序。Game/phase1与Reforge/phase2按各自真实003输入；story/items/saves是三个独立case，不把功能专项塞进连续演示。原六case候选9a488c02、早期独立候选和d02222/11审计分时点，当前窄源22/12不倒签历史。
 
 原frontmatter/testing-meta是唯一live声明，candidate d02278dc0154dd73b5db24388a35c30bb096cc81/content22/SAVE11/10月4日notRun原样不动。原报告无独立Owner/Last reviewed，新增只属本次治理；verified仅出版，不是今天的实跑或期限续期。
 
@@ -35,7 +35,7 @@ Template: test-run-report-v1 / 1.0.0
 - **原正式独立轮**：RF e5b43268实际003档进入，慢读3013ms、40行、208中途恢复及末档同引擎Canvas；Game6ac57440正式05:39重跑、3192ms、401项源和fresh存读各记原轮。更早4e1a5ab79/391源首份通过仍留史，不改工具revision。各完整world/save/Canvas hash原样在冻结原文。
 - **失败和后继**：厨房持久域undefined比较、save前auto转向、touch足迹/接管窗口、held整traceRPC、送菜已启动误读active、两次golden计数滞后失败不删；后续工具窄修或receipt-only不另算演出。10957/10971包测试、126/136工具、各lint文件数分轮不相加。录屏音轨、6012命名/可编辑性与用户连续观感未由本治理签完。
 
-完整链强结论的后继：[10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
+完整链强结论的后继：[10月8日撤信](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
 
 ## Evidence
 

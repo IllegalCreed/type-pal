@@ -37,7 +37,7 @@ cb1cb26d后继远端轮询失败不是原本地门失败；ad16ba94独立驱动�
 
 ### A3首段：帧调度、时钟与输入仲裁
 
-卡：[ARCH-REFORGE-FRAME-1](../../../../../ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)。
+卡：[ARCH-REFORGE-FRAME-1](../../../../../tasks/archive/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)。
 冻结b11d4bc9；实现8eb93bb7，本段已done，由Codex按用户全架构队列单席授权实施自验，不代签。
 A2同b11d4bc9远端Coverage36014078975与Documentation36014078953均已核success。
 **这是A3-a，不代表A3整批完成**；场景事务、移动协调、绘制组装仍是后续段。
@@ -142,4 +142,4 @@ historical。本次接受对象是文档语义、结构和来源保留；原产�
 
 ## 继任文档
 
-[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。
+[配对历史任务卡](../../../../../tasks/archive/done/ARCH-REFORGE-FRAME-1-clock-and-input.md)拥有该历史任务收口；[当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

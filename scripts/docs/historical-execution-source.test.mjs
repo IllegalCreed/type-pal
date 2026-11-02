@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
@@ -161,6 +162,7 @@ function fixture(t, target) {
 
 function runProgress(f) {
   cpSync(join(root, 'scripts/docs'), join(f.directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(f.directory)
   const result = spawnSync(
     process.execPath,
     ['scripts/docs/report-governance-progress.mjs', '--json'],
@@ -375,6 +377,7 @@ function nativeFixture(t) {
 
 function runModel(f) {
   cpSync(join(root, 'scripts/docs'), join(f.directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(f.directory)
   return spawnSync(process.execPath, ['scripts/docs/check-document-model.mjs'], {
     cwd: f.directory,
     encoding: 'utf8',

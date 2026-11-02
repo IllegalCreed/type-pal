@@ -7,6 +7,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 import {
@@ -266,7 +268,11 @@ test('progress lists only verified physical artifacts; ordinary JSON stays pendi
     for (const name of fs.readdirSync(join(root, 'scripts/docs')))
       if (name.endsWith('.mjs') && !name.includes('.test'))
         fs.copyFileSync(join(root, 'scripts/docs', name), join(f.dir, 'scripts/docs', name))
-    f.write(frozenDocumentBaseline.path, fs.readFileSync(join(root, frozenDocumentBaseline.path)))
+    installHistoricalLocationFixture(f.dir)
+    f.write(
+      frozenDocumentBaseline.path,
+      fs.readFileSync(join(root, currentDocumentPath(frozenDocumentBaseline.path))),
+    )
     f.write('AGENTS.md', Buffer.from('# Fixture\n\n## Routes\n'))
     f.write(
       'docs/phase-governance/routing.json',
@@ -335,6 +341,7 @@ test('flat marker text is ordinary data; CLI dry-run derives the real fixed grou
     // This S28 contract runs against its fixed original source in an owned tree;
     // later central semantic updates are not the initial flat migration fixture.
     fs.cpSync(join(root, 'scripts/docs'), join(f.dir, 'scripts/docs'), { recursive: true })
+    installHistoricalLocationFixture(f.dir)
     fs.symlinkSync(join(root, 'node_modules'), join(f.dir, 'node_modules'), 'dir')
     const common = git(root, 'rev-parse', '--path-format=absolute', '--git-common-dir')
     f.write('.git/objects/info/alternates', Buffer.from(`${join(common, 'objects')}\n`))

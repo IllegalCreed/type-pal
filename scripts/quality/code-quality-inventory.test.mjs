@@ -120,7 +120,7 @@ function largePathFixture(t) {
   git(['init', '-q'])
   const first = 'packages/shared/src/first.ts'
   const last = 'packages/shared/src/zz space-末尾.ts'
-  const task = 'docs/ops/tasks/Z-LATE.md'
+  const task = 'docs/tasks/cards/Z-LATE.md'
   put(first, 'export const value = 1\n')
   put(last, "import { value } from './first.js'\nexport const twice = value * 2\n")
   put(task, '# Z-LATE — actual tail task\n\nStatus: draft\n')
@@ -167,8 +167,17 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
     'scripts/docs/check.mjs',
     'scripts/docs/config.mjs',
     'scripts/docs/document-integrity.mjs',
+    'scripts/docs/document-location.mjs',
+    'scripts/docs/artifact-compression.mjs',
+    'scripts/docs/artifact-content-alias.mjs',
+    'scripts/docs/document-location-admission.mjs',
+    'scripts/docs/relocate.mjs',
+    'scripts/docs/review-record-storage-io.mjs',
+    'scripts/docs/review-record-storage.mjs',
+    'scripts/docs/git-document-snapshot.mjs',
     'scripts/docs/git-inventory.mjs',
     'scripts/docs/markdown.mjs',
+    'scripts/docs/markdown-source-spans.mjs',
     'scripts/docs/terminal-codec.mjs',
     'scripts/docs/terminal-json.mjs',
     'scripts/docs/terminal-git.mjs',
@@ -177,6 +186,11 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
   ]) {
     fixture.copyFromRepository(path)
   }
+  // This isolated Git fixture exercises inventory, not this repository's admitted migration.
+  fixture.put(
+    'scripts/docs/document-location-admission.mjs',
+    'export const documentLocationAdmission = { baseRevision: null, manifestSha256: null }\n',
+  )
   fixture.put(
     'packages/content/src/character.ts',
     'export const CONTENT_VERSION = 22 as const\nexport const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 12 as const\n',
@@ -193,7 +207,7 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
   assert.equal(rejected.signal, null)
   assert.equal(rejected.status, 1)
   assert.equal(rejected.stdout, '')
-  assert.match(rejected.stderr, /任务状态无效：docs\/ops\/tasks\/Z-LATE\.md/)
+  assert.match(rejected.stderr, /任务状态无效：docs\/tasks\/cards\/Z-LATE\.md/)
 })
 
 test('actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers', (t) => {

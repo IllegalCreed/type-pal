@@ -41,7 +41,7 @@ Template: test-run-report-v1 / 1.0.0
 
 原Game摘要hash本身不足以证明完整持久域，本轮从同一字节钉定原件独立重消费78键，仅按真实loadGameFromSlot归一needToFadeIn，其余77键相等；保存捕获也全域比对。原报告/摘要/终档字节不改，两个原生正例、五合法单字段反例和四新增Save API回归通过。没有实际丢档或新增剧情重录，不将新验证方法倒写成旧执行器已有能力。
 
-构建保留500k默认门，以模块拆分到最大268055B且零warning；正常/独立外部布局分别实测生产公开restore、菜单及原帧像素相同。409工具、272文档工具、全工作区typecheck/lint及Testing门通过；route方案经实际正文/caller复核续期，三个旧main caller范围与525原源逐字节相等后更新当前索引，历史执行/版本/source pin不变。完整质量封存与两个独立裁定见[任务卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)及`build/evidence-archive/e2e006-technical-20261027/technical-closeout.tar.gz`；全docs严格1346待办仍阻塞，不合main/推送/done，不授全量文档或新runtime信用。
+构建保留500k默认门，以模块拆分到最大268055B且零warning；正常/独立外部布局分别实测生产公开restore、菜单及原帧像素相同。409工具、272文档工具、全工作区typecheck/lint及Testing门通过；route方案经实际正文/caller复核续期，三个旧main caller范围与525原源逐字节相等后更新当前索引，历史执行/版本/source pin不变。完整质量封存与两个独立裁定见[任务卡](../../../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md)及`build/evidence-archive/e2e006-technical-20261027/technical-closeout.tar.gz`；全docs严格1346待办仍阻塞，不合main/推送/done，不授全量文档或新runtime信用。
 
 ## Execution and assertions
 
@@ -69,7 +69,7 @@ Game终档SHA `f7fcd30690bbef4a5aa60db73b5d1672f98adef80f7de2ed84c6397ff0798d5d`
 - 全比较 `build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json`。E2E工具405/405；新增离线反例只证消费者判别力，不冒充产品反控；旧测试未改。
 - 实际静音短片 `build/e2e/006-visual-review-20261027/game-boat-and-arrival.mp4`、`reforge-boat-and-arrival.mp4`，原始视频65秒起截取、原速、无合成帧，非capture-ready/音频验收。
 - 持久原件 `build/evidence-archive/e2e006-20261027/e2e006-20261027.tar.gz`，SHA `25b6587094406374d3ffa26a8af3d508a0e86fd4d8dcb79bbe2740e4076cea66`，346成员逐件读回；源路径/恢复位置见inventory。旧10-26归档完整保留。
-- [当前回执](../../evidence/e2e-006-current.json)、[历史回执](../../evidence/e2e-006.json)、[阶段入口](README.md)、[catalog](../../../catalog.json)、[任务卡](../../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)配对。
+- [当前回执](../../evidence/e2e-006-current.json)、[历史回执](../../evidence/e2e-006.json)、[阶段入口](README.md)、[catalog](../../../catalog.json)、[任务卡](../../../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md)配对。
 
 ## Revision history
 

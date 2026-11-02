@@ -44,7 +44,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/README.md`，blob `59f9fc6e22ce16b08e59dadd83eeb0c42464cb12`，SHA256 `99aef19cd9eccbdded896b9269aea1c244cf30f51ffc98e0416a9d1f32fe4dc2`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：旧提示、历史签字或旧状态不能因当前导航而恢复授权。未核目标正文、raw或执行结果时，不登记新的 reviewed/completed。
 

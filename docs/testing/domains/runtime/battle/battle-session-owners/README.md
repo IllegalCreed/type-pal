@@ -29,7 +29,7 @@ BattleSession报告/evidence/历史导航；10-06源审计与10-04出版11及旧
 
 ## 证据与下一步
 
-本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `4b22faaadad49f606bbf82541aa3ac2c92679644`，SHA256 `49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
+本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `4b22faaadad49f606bbf82541aa3ac2c92679644`，SHA256 `49c0317371a0f59fe59226f037b162f6e8d59f2b080a485be2f47b10bb73fda8`。逐篇来源、after 和限制见[本包作者回执](../../../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)。
 
 K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 

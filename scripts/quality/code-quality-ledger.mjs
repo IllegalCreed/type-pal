@@ -176,7 +176,10 @@ function main() {
       maxBuffer: 32 * 1024 * 1024,
     }),
   )
-  const source = readFileSync(resolve(root, 'docs/ops/audits/code-quality-file-ledger.md'), 'utf8')
+  const source = readFileSync(
+    resolve(root, 'docs/tasks/audits/code-quality-file-ledger.md'),
+    'utf8',
+  )
   const { issues, counts } = auditCodeQualityLedger(source, inventory)
   if (issues.length > 0) {
     process.stderr.write(`code-quality ledger: FAIL\n${issues.join('\n')}\n`)

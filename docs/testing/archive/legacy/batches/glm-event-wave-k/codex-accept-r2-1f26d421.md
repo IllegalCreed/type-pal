@@ -56,7 +56,7 @@ historical。覆盖率与测试计数为 2026-09-29 时点。
 
 ## 2026-10-31 历史链接去向
 
-K04 原文件已按职责拆分；本轮只把 quote 内唯一 K04 链接改为固定 Git 地址，其他原字节不改；直接逆回已不相等，不能沿用旧无条件保全声明。历史代码可从[原候选冻结文件](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)核读，当前去向见[事件转换重组记录](../../../../../ops/evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)。精确逆回须先将上面 Git 地址替换为 `../../../../../../packages/game/src/core/event-system.glm-event-k04.test.ts`（恰一次）再剥 quote；不 trim、不换行归一化。原接受版本仍可从固定 S79 Git blob 回读；本次变更待独立验收。后续模板迁移以固定 Git 原文围栏保全。
+K04 原文件已按职责拆分；本轮只把 quote 内唯一 K04 链接改为固定 Git 地址，其他原字节不改；直接逆回已不相等，不能沿用旧无条件保全声明。历史代码可从[原候选冻结文件](https://github.com/IllegalCreed/type-pal/blob/1f26d421ab81090c83b704968973e369473d563a/packages/game/src/core/event-system.glm-event-k04.test.ts)核读，当前去向见[事件转换重组记录](../../../../../tasks/evidence/QUALITY-PENDING-100-3/organization-event-transitions.json)。精确逆回须先将上面 Git 地址替换为 `../../../../../../packages/game/src/core/event-system.glm-event-k04.test.ts`（恰一次）再剥 quote；不 trim、不换行归一化。原接受版本仍可从固定 S79 Git blob 回读；本次变更待独立验收。后续模板迁移以固定 Git 原文围栏保全。
 
 
 ## 原文保全

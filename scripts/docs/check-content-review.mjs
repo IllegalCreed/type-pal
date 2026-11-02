@@ -2,11 +2,14 @@ import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
+import { loadDocumentLocations } from './document-location.mjs'
+import { checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
+const locations = loadDocumentLocations(repoRoot)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
 const templateRegistryPath = resolve(repoRoot, 'docs/phase-governance/templates/registry.json')
 const strict = process.argv.includes('--strict')
@@ -14,7 +17,7 @@ const { registry } = loadDocumentRegistry({ manifestPath: registryPath })
 const templates = JSON.parse(readFileSync(templateRegistryPath, 'utf8'))
 const templateMap = new Map(templates.types.map((entry) => [entry.docType, entry]))
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
-const retirements = readDocumentRetirements(repoRoot, registry)
+const retirements = readDocumentRetirements(repoRoot, registry, locations)
 const issues = retirements.issues
 const retiredNative = new Set(retirements.nativeEntries.map((entry) => entry.path))
 const activeEntries = registry.entries.filter((entry) => !retiredNative.has(entry.path))
@@ -51,7 +54,8 @@ for (const entry of activeEntries) {
   const template = templateMap.get(entry.docType)
   if (!template) add(`${entry.path}: unknown docType ${entry.docType}`)
   else if (entry.templateId !== template.templateId) add(`${entry.path}: templateId mismatch`)
-  if (!existsSync(resolve(repoRoot, entry.path))) add(`${entry.path}: registry path missing`)
+  if (!existsSync(resolve(repoRoot, locations?.currentPath(entry.path) ?? entry.path)))
+    add(`${entry.path}: registry path missing`)
   if (
     !['template-compliant', 'governed-legacy', 'legacy-canonical', 'needs-migration'].includes(
       entry.templateCompliance,
@@ -119,10 +123,15 @@ for (const item of activeEntries) {
     )
   )
     add(`${item.path}: invalid review templateCompliance`)
-  const absolute = resolve(repoRoot, item.path)
+  const absolute = resolve(repoRoot, locations?.currentPath(item.path) ?? item.path)
   if (existsSync(absolute)) {
-    const current = digest(absolute)
-    if (entry.afterSha256 !== current) add(`${item.path}: after SHA drift`)
+    if (locations) {
+      try {
+        locations.assertCurrent(item.path, entry.afterSha256)
+      } catch (error) {
+        add(`${item.path}: ${error.message}`)
+      }
+    } else if (entry.afterSha256 !== digest(absolute)) add(`${item.path}: after SHA drift`)
     if (!/^[a-f\d]{64}$/.test(entry.sourceSha256) || !/^[a-f\d]{64}$/.test(entry.afterSha256))
       add(`${item.path}: invalid content review SHA`)
   }
@@ -159,6 +168,11 @@ for (const path of reviewEntries.keys())
   if (!registry.entries.some((entry) => entry.path === path))
     add(`${path}: review record outside governed registry`)
 
+for (const doc of locations?.additions.values() ?? [])
+  for (const issue of checkMigratedDocument(doc, templates, locations.read, { locations }))
+    add(`${doc.path}: ${issue}`)
+locations?.assertUnchanged()
+
 assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 const counts = {}
 for (const entry of activeEntries) {
@@ -180,7 +194,7 @@ if (strict) {
   )
 }
 console.log(
-  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${activeEntries.length} active documents; ${retiredNative.size} retired native identities; ${registry.summary.total} registered identities; ${JSON.stringify(counts)})`,
+  `content review: ${issues.length ? 'FAIL' : 'PASS'} (${activeEntries.length} inherited active documents; ${locations?.additions.size ?? 0} independently reviewed additions; ${retiredNative.size} retired native identities; ${registry.summary.total} registered identities; ${JSON.stringify(counts)})`,
 )
 for (const issue of issues) console.error(`- ${issue}`)
 if (strict && (issues.length || counts['content-reviewed'] !== activeEntries.length))

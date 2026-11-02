@@ -68,7 +68,7 @@ Phase 1 features, from the [v1.1.0 release notes](https://github.com/IllegalCree
 - An on-screen direction pad and OK / Back on a phone, a narrow window, or a short wide window. That layout’s System page can show or hide them. A normal desktop window leaves them hidden.
 - Standard gamepad support. System offers an optional clockwise 45° rotation for the on-screen direction pad and left stick, off by default and remembered locally. Keyboard and hardware D-pad mappings stay unchanged.
 
-Phase 2 pieces that are already in the tree (live detail is the [capability map](docs/phase2/capability-map.md) and the [task board](docs/ops/board.md)):
+Phase 2 pieces that are already in the tree (live detail is the [capability map](docs/phase2/capability-map.md) and the [task board](docs/tasks/board.md)):
 
 - Edit scenes, maps, scripts, characters, items, battles, assets, and project settings.
 - Open and save a local project, undo/redo, reference diagnostics, in-editor play, and a standalone battle simulator.
@@ -137,7 +137,7 @@ Capability cells, task state, and the content-format version move. This page doe
 | Phase 2 progress | [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md) |
 | Phase 2 roadmap | [`docs/phase2/roadmap.md`](docs/phase2/roadmap.md) |
 | Phase 3 | [`docs/phase3/README.md`](docs/phase3/README.md) |
-| Current tasks | [`docs/ops/board.md`](docs/ops/board.md) |
+| Current tasks | [`docs/tasks/board.md`](docs/tasks/board.md) |
 
 ## How it is built
 

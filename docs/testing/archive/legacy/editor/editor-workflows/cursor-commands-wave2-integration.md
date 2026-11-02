@@ -30,7 +30,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 其它命令族依既有测试与五针，非每个保存/导入/原生文件入口浏览器全流程。原UI/CSS/形态未变，截图只原会话内联；未跑full/Q1Q2/剧情E2E，也未证远端CI。原F2组织性收口不关闭A3/B1/B2/B3/C1/D2/E1/F1；旧lease删除/资产链接清理均为已发生旧事件，不恢复当前删除或push授权。
 
-本轮只做文档模板化，不执行原命令、旧测试、产品、浏览器、raw或coverage。已知36条明确原raw路径在J源审exists-only均缺席，只限逐篇关联的明确路径；其余raw可用性仍unknown，不泛化全部缺失或伪造内容hash。现行[工作流](../../../../../ops/agent-workflow.md)与[测试治理](../../../../governance.md)约束新任务，历史exit0/原accept不满足今天零诊断或运行验收。
+本轮只做文档模板化，不执行原命令、旧测试、产品、浏览器、raw或coverage。已知36条明确原raw路径在J源审exists-only均缺席，只限逐篇关联的明确路径；其余raw可用性仍unknown，不泛化全部缺失或伪造内容hash。现行[工作流](../../../../../engineering/guides/agent-workflow.md)与[测试治理](../../../../governance.md)约束新任务，历史exit0/原accept不满足今天零诊断或运行验收。
 
 ## 原标题入口
 
@@ -129,4 +129,4 @@ historical。本文历史正文与完整候选记录已获非作者history_cards
 
 ## 继任文档
 
-配对[原生机账](cursor-commands-wave2-integration-evidence.json)保原字段；当前新工作从[任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)及[工作流](../../../../../ops/agent-workflow.md)重新核准入。supersedes只覆盖本路径文档阅读结构，不替代原执行或撤掉历史counter；再启用旧流程须另核真实caller、合法输入、业务oracle与当前版本。
+配对[原生机账](cursor-commands-wave2-integration-evidence.json)保原字段；当前新工作从[任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)及[工作流](../../../../../engineering/guides/agent-workflow.md)重新核准入。supersedes只覆盖本路径文档阅读结构，不替代原执行或撤掉历史counter；再启用旧流程须另核真实caller、合法输入、业务oracle与当前版本。

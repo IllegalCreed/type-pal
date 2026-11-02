@@ -334,6 +334,76 @@ function bindingBaselineIssues(doc, template, contract, options) {
 
 /** The same complete per-document checks serve routing and completion accounting. */
 export function checkMigratedDocument(doc, registry, read, options = {}) {
+  const locations = options.locations
+  const addition = locations?.additions.get(doc.path)
+  const change = addition ?? locations?.changes.get(doc.path)
+  if (!change) return checkDocumentBody(doc, registry, read, options)
+  try {
+    const historicalRows = addition
+      ? []
+      : [...options.reviewGroupReader().records.values()].flatMap((record) =>
+          record.entries.filter((row) => row.path === doc.path),
+        )
+    if (!addition && historicalRows.length !== 1)
+      return ['relocated document requires one original review identity']
+    // Verify the ACTUAL current bytes first. The separate provenance call below
+    // checks the original accepted document; its result never accepts new prose.
+    const { current, previous } = locations.assertCurrent(doc.path, historicalRows[0]?.afterSha256)
+    const issues = []
+    if (!addition) {
+      const originalRead = (path) => (path === doc.path ? previous.toString('utf8') : read(path))
+      const originalOptions = {
+        ...options,
+        readBuffer: (path) => (path === doc.path ? previous : options.readBuffer(path)),
+      }
+      issues.push(
+        ...checkDocumentBody(doc, registry, originalRead, originalOptions).map(
+          (issue) => `historical acceptance: ${issue}`,
+        ),
+      )
+    }
+    const currentDoc = {
+      ...doc,
+      ...(change.templateId
+        ? {
+            templateId: change.templateId,
+            variant: change.variant,
+            historyOverlay: Boolean(change.historyOverlay),
+          }
+        : {}),
+      ...(Object.hasOwn(change, 'historyOverlay') ? { historyOverlay: change.historyOverlay } : {}),
+    }
+    const template = registry.types.find((type) => type.templateId === currentDoc.templateId)
+    if (!template) return [...issues, `unknown current template ${currentDoc.templateId}`]
+    const overlay = registry.types.find(
+      (type) => type.templateId === registry.historyOverlayTemplateId,
+    )
+    const text = current.toString('utf8')
+    issues.push(
+      ...checkTemplateBody(text, template, {
+        variant: currentDoc.variant,
+        additionalSections: currentDoc.historyOverlay ? (overlay?.requiredSections ?? []) : [],
+      }),
+    )
+    const contract = currentDoc.variant ? template.variants?.[currentDoc.variant] : template
+    if (!contract) return [...issues, 'current body variant missing']
+    issues.push(...publicationIssues(text, contract, read, doc.path))
+    const visible = withoutFences(text)
+    if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible))
+      issues.push('current review date missing')
+    if (
+      !visible.includes(
+        `Template: ${template.templateId} / ${contract.templateVersion ?? template.templateVersion}`,
+      )
+    )
+      issues.push('current template declaration mismatch')
+    return issues
+  } catch (error) {
+    return [`document location: ${error.message}`]
+  }
+}
+
+function checkDocumentBody(doc, registry, read, options) {
   const text = read(doc.path)
   const template = registry.types.find((type) => type.templateId === doc.templateId)
   if (text === undefined) return ['migrated document missing']
@@ -418,11 +488,16 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
 }
 
 export function checkDocumentModel(config, registry, read, options = {}) {
-  const issues = checkRouting(config, read)
+  const issues = checkRouting(options.locations?.manifest.routing ?? config, read)
   const paths = new Set()
   for (const doc of config.migratedDocuments) {
     if (paths.has(doc.path)) issues.push(`${doc.path}: duplicate migrated document`)
     paths.add(doc.path)
+    for (const issue of checkMigratedDocument(doc, registry, read, options))
+      issues.push(`${doc.path}: ${issue}`)
+  }
+  for (const doc of options.locations?.additions.values() ?? []) {
+    if (paths.has(doc.path)) issues.push(`${doc.path}: addition duplicates original identity`)
     for (const issue of checkMigratedDocument(doc, registry, read, options))
       issues.push(`${doc.path}: ${issue}`)
   }

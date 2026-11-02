@@ -29,7 +29,7 @@ Template: governance-index-v1 / 1.0.0
 | 公开身份与配对证据 | [catalog](../../catalog.json) 的 `e2e-common-issues` 与[配对 evidence](../evidence/e2e-common-issues.json)：核 publication、sourceRefs、revision 与实际执行范围；其 catalog `index` 仍指向 E2E 总览 |
 | 受影响片段的正式结论 | [E2E 总览](../README.md)：按稳定 `e2e-NNN` 进入阶段页、canonical 报告与检查点链 |
 | 共用验收义务 | [E2E 合同](../contract.md)：演出差异先归因，逐段核两阶段证据与编辑器预览起点，录像另核 capture 准入 |
-| 公共批次与本次授权 | [E2E-R4-1 原卡](../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)和[当前看板](../../../ops/board.md)：核当前 Owner、范围、counter 与准入；旧批次结论不代替当前卡顶部 |
+| 公共批次与本次授权 | [E2E-R4-1 原卡](../../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)和[当前看板](../../../tasks/board.md)：核当前 Owner、范围、counter 与准入；旧批次结论不代替当前卡顶部 |
 
 Codex 维护本页导航；具体问题族与阶段报告由当前任务指定的单一 Owner 写回，按[测试治理](../../governance.md)配对 catalog、报告和 evidence，再由非作者复核。这里的目录 README 不替代 catalog 的正式 `index`，不另建一套阶段状态账。
 

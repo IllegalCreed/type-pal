@@ -8,7 +8,7 @@ const approvedAdjustments = [
     id: 'language-test-ownership-20261101',
     authority:
       'User2026-11-01 authorizes responsibility-based pending-module quality work, reusable fixtures and standing exact baseline adjustment for justified restructuring. All seven product executable ASTs unchanged. New language.test-fixtures.ts alone adds10/12 statements,3/5 branches,2/2 functions,8/10 lines under unchanged selection. Rebase only game statement/branch/line floors; function floor and all six other packages unchanged. No ignored source, weakened test or runner/predicate change.',
-    evidence: 'docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-GAME-LOCALIZATION-1/coverage-recount.json',
     baselineSha256: '008796b4ad32174df536cdcac9f868018e2c8b05c5cf4bd082969fb2e8c07977',
     sources: [
       {
@@ -141,7 +141,7 @@ const approvedAdjustments = [
     id: 'responsibility-test-organization-20261031',
     authority:
       'User2026-10-29/31 authorizes responsibility-based restructuring, precise deduplication, approved migration/input repairs and justified exact baseline adjustments instead of restoring dead code or adding weak tests. One official20199-test collection:10 per-source metric deltas are fully attributed. Recount only game statements to15493/17150 and branch denominator12233->12248 while retaining old9927 covered floor; the actual10 covered-branch gain remains for ratcheting. New/shared fixtures and approved own-key guard add finite denominator; dead magic arguments remove two statements. Existing selection counts these fixture modules; no new exclusion. All other game floors and all six other package floors are unchanged, including migration whose ratio improves after authorized removals/guards. Eleven exact file-count snapshots primarily represent responsibility transfers, not blanket case retirement. First draft over-rebased improved migration floors and was correctly rejected before writing baseline; this revision narrows adjustment to the two necessary game floors. Runner/comparator/predicate/selection and zero-diagnostic rules unchanged.',
-    evidence: 'docs/ops/evidence/QUALITY-PENDING-100-3/coverage-recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PENDING-100-3/coverage-recount.json',
     baselineSha256: '1e33ba8339591862422fdb61a98918d97feff4befa9af9432bde06cc7fc5f44b',
     sources: [
       {
@@ -1346,7 +1346,7 @@ const approvedAdjustments = [
     id: 'recent200-owned-definitions-path-extraction-20261028',
     authority:
       'User2026-10-28 requests full remaining200 recheck; standing explicit authorization permits justified exact baseline adjustments after quality refactors, never weak tests/dead code restoration. Content-only recount: two fully covered duplicate path policies share one internal14-branch policy; preserve public wrappers/errors. Statement -10/-10, branch -11/-10, line -8/-8. Added shop guard is fully covered; locale own-key guard adds2 branches, with3/4 covered: inner nullish fallback for an owned undefined value is outside legal Locale string inputs; do not fabricate an invalid typed fixture. Retain old function floor812/827 so the actual813/828 gain stays real. Other six package floors remain unchanged. Full main artifact member versus current per-file report has exactly five deltas, archived untrimmed with pinned CI artifact source. No runner/comparator/selection/threshold/deadline/ignore changes.',
-    evidence: 'docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/coverage-recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/coverage-recount.json',
     baselineSha256: '6fe5297747ce54c3902809f704c03d5f1044c510bc30ab9949692feaa74b4f8c',
     sources: [
       {
@@ -1459,7 +1459,7 @@ const approvedAdjustments = [
     id: 'quality-window100-exact-test-migration-20261027',
     authority:
       'User2026-10-27 explicitly approved three unused extractor APIs retirement and test migration; standing instructions permit justified exact baseline adjustment after code/test quality improvements, never dead code restoration or weak tests. Only pal-extract branch floor changes673/796→661/790:12 removed covered branches (6 from retired adapters,6 from stronger legally parsed inputs/test transfers into existing fast-excluded files),6total branches removed. Keep4 real animation-writer branch gains. Other metrics and six packages retain old floors. Ten per-file deltas and six exact test-retirement identities are independently pinned; one official collection reused. No runner, comparator, selection, predicate, threshold, timeout or ignore changes.',
-    evidence: 'docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/recount.json',
     baselineSha256: 'f569c4c715ad0031c70c9e6bf4f359d8460f423b588da0cb0fa72887d857ac1c',
     sources: [
       {
@@ -1584,7 +1584,7 @@ const approvedAdjustments = [
     id: 'review52-approved-video-guards-and-sprite-retirement-20261026',
     authority:
       'User2026-10-26 explicitly approved output symlink rejection/atomic publish and zero-caller sprite-wrapper retirement; standing instruction permits justified exact baseline changes without dead-code restoration or weak tests. This finite adjustment includes behavioral CLI guards, not just pure restructuring: CLI subprocess byte/error regressions pass but the standalone script is outside in-process V8 execution. Its new uncovered denominators stay visible. Exactly two per-file deltas explain the pal-extract package change; other six packages and their real gains are not rebased. One official collection reused; no metric tolerance, exclusion, rule or predicate change.',
-    evidence: 'docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json',
+    evidence: 'docs/tasks/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/uniform.json',
     baselineSha256: '8851d8d5b176469254e5504a3971917f1f02aa5541f6fba62983d91a49469c4a',
     sources: [
       {
@@ -1677,7 +1677,7 @@ const approvedAdjustments = [
     id: 'quality94-102-unused-menu-api-removal-20261025',
     authority:
       'User explicitly approved unused old-menu API deletion and the corresponding test retirement; standing authority permits justified exact structural rebaselining. Only the three unchanged-active-body helpers are recounted from old/current per-file official data. No uncovered-count increase in those files. Driver, Save API and IDB gains are excluded from the adjustment and retained; all other packages/scope/threshold algorithms unchanged. One official collection, original rejection retained, no recollection.',
-    evidence: 'docs/ops/evidence/CODE-QUALITY-94/approved-closeout/review.json',
+    evidence: 'docs/tasks/evidence/CODE-QUALITY-94/approved-closeout/review.json',
     baselineSha256: '3bc57dac8baa099e65b84b43becfc25c4edba186a21e6e97659bf70989873ff8',
     sources: [
       {
@@ -1794,7 +1794,7 @@ const approvedAdjustments = [
     id: 'pre94-cli-stage-structural-recount-20261025',
     authority:
       'User standing authority: justified structural refactoring may update exact baseline; no dead-code restoration, weak tests or metric tolerance. Nine-file CLI stage split has whole-body reconstruction proofs, unchanged 39 real CLI contracts/child execution and byte-identical 809 output files. Parent V8 does not instrument CLI child processes. Only structural statement/function/line deltas rebased; events/slice behavioral gains and branch floor are preserved. One original official collection retained, no recollection.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/recount.json',
     baselineSha256: '251bd24327f3fd792aaa706e49a8325dea990e4b50f1d4d78def03a48dc3394a',
     sources: [
       {
@@ -1923,7 +1923,7 @@ const approvedAdjustments = [
     id: 'pre94-number-shared-blit-recount-20261024',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring. Only draw-number source coverage changes: shared existing blit replaces byte-equivalent private body; approved nonfinite guard offsets part of removed covered code. Source remains100% (statements37→32, branches11 unchanged, functions2→1, lines33→29). No tests retired; all13 existing identities retained and4 meaningful cases added. Only game statements/functions/lines rebased to measured counts; all other metrics/packages/scopes/rules unchanged. Full original policy rejection and same single official collection retained.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/review.json',
     baselineSha256: '1bcc9268a3d062cd2348ecd2191d1894650fe0d338f0828dd35ff0a538255f84',
     sources: [
       {
@@ -2000,7 +2000,8 @@ const approvedAdjustments = [
     id: 'pre94-battle-present-dedup-recount-20261023',
     authority:
       'Standing user authority permits exact baseline adjustment for justified refactoring and proven weak-test retirement. Two identical blits become one; unused idle helper and always-false target-arrow path removed. Six-person unsupported smoke and the incorrectly ignored showBattleMessage input no longer receive incidental branch credit. Remaining message lifecycle stays review. Exact old/new contracts, six-file coverage deltas, original rejection and single official collection retained. Only game branches/functions comparison rebased; statements/lines still ratchet from the old value. No rule, exclusion, tolerance or behavior change.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json',
+    evidence:
+      'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/review.json',
     baselineSha256: '04adac41f64db1d1906942c601dc28e89768f3f50c2f02a56fd62f50906cb31d',
     sources: [
       {
@@ -2122,7 +2123,7 @@ const approvedAdjustments = [
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring. Current3k removes a redundant walking test after the nonwalking branch returns; sole production collision callback does not mutate walking. Same16 retained tests before/current V8: covered statement -1, branches covered -1/total -2 (the unreachable nonwalking arm), functions/lines unchanged. No thresholds, tolerance, scope, or formulas changed.',
     evidence:
-      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json',
+      'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/review.json',
     baselineSha256: '9d3d6ab2358d23faa7399097486f1b817706839a57edad8de18670575a3da890',
     sources: [
       {
@@ -2163,7 +2164,7 @@ const approvedAdjustments = [
     id: 'pre94-time-format-private-default-recount-20261023',
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring without restoring dead code or weak tests. Current3j removes only unexported pad width default; all six callers pass one argument and fixed width2 is unchanged. Same14 unchanged strong tests before/current V8 prove only one covered default-arg branch removed (line2,37hits); all other branch locations/hits and statements/functions/lines unchanged. Pin complete old baseline and four source/test bytes. No tolerance, scope/comparator/timeout or behavior change.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/review.json',
     baselineSha256: '4fdc2286c5338060524aaf6c160f08797cbbd681f23c0499318ead4027171187',
     sources: [
       {
@@ -2229,7 +2230,7 @@ const approvedAdjustments = [
     authority:
       'User standing authority permits exact baseline adjustment for justified refactoring; current3i scope includes reuse, test quality and concentrated final coverage. Consolidate two byte-for-byte same-input MiB formatter arrows into one private named formatter. Frozen same35 strong tests old/current V8 independently measure only covered counters removed:3statements/1function/1line, zero branch delta, all uncovered counters unchanged. TS normalized full-body proof checks the shared expression against both old arrows. Only these game counters rebased against this complete baseline; no tolerance, scope, comparator or project behavior changed.',
     evidence:
-      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json',
+      'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/review.json',
     baselineSha256: '63e37d95e612ff31b62749f16c1673e27a242c893cfb13906dd7e10d6809e162',
     sources: [
       {
@@ -2330,7 +2331,7 @@ const approvedAdjustments = [
     id: 'pre94-ui-frame-index-main-sync-recount-20261022',
     authority:
       'User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged. Latest main6a29 contains separate script fixes and a measured baseline; repeat only the same already measured loader structural delta against this exact full baseline. No other counter adjusted.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/main-sync.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/main-sync.json',
     baselineSha256: 'ac88089bea8aeeff7a7451b84a9215a5cd910a3b866357a11cae4855d43b2c6c',
     sources: [
       {
@@ -2416,7 +2417,7 @@ const approvedAdjustments = [
     authority:
       'User standing authority allows exact coverage recount for justified cleanup, without restoring dead code or weak tests. Approved UI original-index fix removes success-only packing, 1 function/2 statements/2 branches/1 line; all removed counters were covered. Existing three uncovered diagnostic lines are unchanged. Only game counters rebased by the measured single-source delta; all other baseline floors, scope, predicates and configuration unchanged.',
     evidence:
-      'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json',
+      'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/assets-quality/fixture-refresh.json',
     baselineSha256: 'a2beab0a46435a9bd17c877f2e858a787295a1b621689a1d3502d967f07eda3f',
     sources: [
       {
@@ -2501,7 +2502,7 @@ const approvedAdjustments = [
     id: 'pre94-basic-typed-fixture-recount-20261022',
     authority:
       '用户2026-10-20/21允许合理重构与测试质量整改的覆盖率下降精确调整baseline，禁止恢复死代码/堆弱测试。原7例用合法typed BattleState代替三字段强转；protect未定义回退与缺动画锚的即时数字分支不再被旧伪fixture偶然覆盖。仅game已覆盖branch9557→9555，其它旧指标下限保持；无规则/谓词/范围/超时变化。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/recount.json',
     baselineSha256: '33dd8c7315460e96caca0632fe24080f656935e6f0a11f8944f8b9af21d5c97d',
     sources: [
       {
@@ -2602,7 +2603,7 @@ const approvedAdjustments = [
     id: 'pre94-extract-control-and-io-recount-20261022',
     authority:
       'User2026-10-20/21 authorizes exact baseline adjustment for reasonable refactor,never dead-code restoration or weak tests;2026-10-22 approves the two slice control fixes. Standing authorization permits file reorganization. This finite recount covers deduplicated BFS and unchanged moved IO/music bodies only; no rule/selection/threshold relaxation.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/review.json',
     baselineSha256: '131f7ec3de15f966fcddb4f218b971861b2b1f95282a27245687ddb77c3ad692',
     sources: [
       {
@@ -3316,7 +3317,7 @@ const approvedAdjustments = [
     id: 'pre94-sss-raw-copy-20261021',
     authority:
       'User permits exact baseline adjustment after reasonable refactor;four covered temporary copy/view declarations removed,not tests or live behavior. User2026-10-21 requires multiple cards per expensive gate window;native first failure retained and final gates deferred to that window.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/evidence.json',
     baselineSha256: 'aa096be5d236d60f9f673eb850f3ed296021fceda212e28ab810b6a38562c898',
     sources: [
       {
@@ -3390,7 +3391,7 @@ const approvedAdjustments = [
     id: 'pre94-input-ogg-retirement-20261021',
     authority:
       'User2026-10-21 explicitly approves unused OGG retirement and SDLPal direction fix; standing2026-10-20 authorization permits exact measured baseline adjustment after reasonable cleanup,never weak tests/dead code restoration.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/input-audio-closeout.json',
     baselineSha256: 'b85f8a6a5e4dc684f220c704103a6d83f54b968a074a7a89111614ecfa2cbdae',
     sources: [
       {
@@ -3496,7 +3497,7 @@ const approvedAdjustments = [
     id: 'pre94-shell-dead-dump-20261021',
     authority:
       'User2026-10-20 permits exact baseline adjustment after reasonable refactor; this removes one private unreachable dump branch,not tests or live behavior.',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json',
     baselineSha256: '800d61d3cefe3b3795ef3ccaf5d6146d02698fbb493b691feaa19531948c0f18',
     sources: [
       {
@@ -3582,7 +3583,7 @@ const approvedAdjustments = [
     id: 'pre94-present-glyph-shadow-20261021',
     authority:
       '用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline；本项仅font同体字形阴影共享及confirm委托既有色规则，不恢复死代码或堆弱测试。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-recount.json',
     baselineSha256: '6a101c82be5991859d874e283d38d19b37a5ec9e1a8ad16a23918033210425ca',
     sources: [
       {
@@ -3708,7 +3709,7 @@ const approvedAdjustments = [
     id: 'pre94-renderer-shared-primitives-20261021',
     authority:
       '用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline，不恢复死代码或堆弱测试；本项仅同体opaque/颜色共享与测试专用包装退役。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-recount.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-recount.json',
     baselineSha256: 'd7817bb742c761a31bd029a88fbd1d6edf1405fbd6cbde10bcec3bcc24b2bbdf',
     sources: [
       {
@@ -3825,7 +3826,7 @@ const approvedAdjustments = [
     id: 'pre94-menu-valid-dialog-fixture-20261020',
     authority:
       '用户授权合理代码/测试质量整改造成覆盖率变化可精确调整baseline，不恢复死代码或堆弱测试。Codex冻结旧测试全包复现原floor，LCOV仅旧非法对话夹具引起的越界/旧fallback计数减少。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-diagnostics.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-diagnostics.json',
     baselineSha256: 'eb186a03856b7d7b4788dc3de8750b119ef816054149063c91cc451e570971b9',
     sources: [
       {
@@ -4003,7 +4004,7 @@ const approvedAdjustments = [
     id: 'pre94-five-card-game-recount-20261020',
     authority:
       '用户已授权合理结构/测试质量整改造成比例变化可调整baseline，不恢复死代码或堆弱测试；2026-10-20明确完成53/79/80/81/90必要返工。Codex按原件/合同映射裁定本次精确game计数。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json',
     baselineSha256: 'b8adadb70945ecb0be91f83f1b70c5a00c3a488d286c808aecfde75e4ac4477d',
     sources: [
       {
@@ -4144,7 +4145,7 @@ const approvedAdjustments = [
     id: 'glm-foundation-branch-20261020',
     authority:
       '用户2026-10-20：合理重构造成的覆盖率下降可以调整baseline；不得恢复死代码或堆弱测试。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json',
     baselineSha256: '4e15beba8673f80876ab03238e59f7912ac90da80041e952047fe7d2c0f26a30',
     sources: [
       {
@@ -4243,7 +4244,7 @@ const approvedAdjustments = [
     id: 'glm-foundation-protected-main-20261020',
     authority:
       '用户2026-10-20：合理重构造成的覆盖率下降可以调整baseline；不得恢复死代码或堆弱测试。',
-    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json',
+    evidence: 'docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json',
     baselineSha256: 'b96ee9b9c20766e5c45150a425118e69a7fc43b6cc90581874c01c69c67328eb',
     sources: [
       {

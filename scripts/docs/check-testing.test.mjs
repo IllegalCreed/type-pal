@@ -280,3 +280,24 @@ test('orphan stage/evidence files and old semantic paths are rejected', () => {
     rmSync(root, { recursive: true, force: true })
   }
 })
+
+test('runtime artifact descriptors retain historical identity while checking only relocated bytes', (t) => {
+  const f = pairedFixture(t)
+  const bytes = 'real execution output\n'
+  const old = 'docs/ops/evidence/CASE/output.log'
+  const current = 'docs/tasks/evidence/CASE/output.log'
+  for (const path of [old, current]) mkdirSync(join(f.root, path, '..'), { recursive: true })
+  writeFileSync(join(f.root, current), bytes)
+  f.evidence.kind = 'runtime-execution'
+  f.evidence.runtimeExecution.performed = true
+  f.evidence.artifacts = [{ path: old, sha256: createHash('sha256').update(bytes).digest('hex') }]
+  f.evidence.claims = [{ id: 'purchase', result: 'runtime-backed', evidence: [old] }]
+  f.publish()
+  assert.deepEqual(f.issues(), [])
+  assert.equal(f.evidence.artifacts[0].path, old)
+  writeFileSync(join(f.root, current), 'changed output')
+  assert(f.issues().some((issue) => issue.includes('runtime artifact hash mismatch')))
+  rmSync(join(f.root, current))
+  writeFileSync(join(f.root, old), bytes)
+  assert(f.issues().some((issue) => issue.includes('runtime artifact lacks file/hash')))
+})
