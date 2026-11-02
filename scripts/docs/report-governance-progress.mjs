@@ -7,7 +7,7 @@ import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
-import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { cacheGitSnapshots, readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { gitInventory } from './git-inventory.mjs'
@@ -54,9 +54,9 @@ const sourceOptions = {
   reviewReader,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
-  readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
-  readIncrementalSourceBuffer: (pin) => readIncrementalGitSource(root, pin),
-  readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
+  readSourceBuffer: cacheGitSnapshots((pin) => readGitDocumentSnapshot(root, pin)),
+  readIncrementalSourceBuffer: cacheGitSnapshots((pin) => readIncrementalGitSource(root, pin)),
+  readHtmlSourceBuffer: cacheGitSnapshots((pin) => readGitHtmlSnapshot(root, pin)),
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
 const cohort = new Set(baseline.entries.map((entry) => entry.path))

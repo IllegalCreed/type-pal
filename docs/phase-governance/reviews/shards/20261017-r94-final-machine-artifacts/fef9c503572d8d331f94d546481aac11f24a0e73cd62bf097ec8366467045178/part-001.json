@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "e24a22d3caccc0621e5d3fd182dd1f137ff6e4dfbd2a1db16cdfaae9d76c8b1c",
+  "generation": "fef9c503572d8d331f94d546481aac11f24a0e73cd62bf097ec8366467045178",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
   "entries": [
@@ -2588,7 +2588,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3820ee55a1efa2d2274454d6bd0876edc0ec2b2c4e11f465da8242c2f8b71444",
+      "afterSha256": "21d1ca34026684e1abc0921fbf4bbd7520ff704aff490827dbda1ce32c8a76fe",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -4173,6 +4173,13 @@
           "kind": "S88-final-local-evidence-and-receipt-acceptance/1.0.0",
           "beforeSha256": "7371706c5ef169d8ba8ec1886b5bc4e238563e4a7bfe05e73672fb45dd907f66",
           "afterSha256": "3820ee55a1efa2d2274454d6bd0876edc0ec2b2c4e11f465da8242c2f8b71444",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S89-remote-gate-execution-boundary/1.0.0",
+          "beforeSha256": "3820ee55a1efa2d2274454d6bd0876edc0ec2b2c4e11f465da8242c2f8b71444",
+          "afterSha256": "21d1ca34026684e1abc0921fbf4bbd7520ff704aff490827dbda1ce32c8a76fe",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "e24a22d3caccc0621e5d3fd182dd1f137ff6e4dfbd2a1db16cdfaae9d76c8b1c",
+  "generation": "fef9c503572d8d331f94d546481aac11f24a0e73cd62bf097ec8366467045178",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "8b732282d215245ba04d9edbef215836a2073c0bd9edd0d07fb7270016f054ef",
+      "afterSha256": "e8b6dced42fef74c3b29ce1f4d98b6fd90e9103578ed63d24b425ee96ddd8d76",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1608,6 +1608,13 @@
           "kind": "S88-final-local-evidence-and-receipt-acceptance/1.0.0",
           "beforeSha256": "2c2b974a22db0b5f1fad0220f4523a8b9d9cf16af8774cd6e672bd1927fd35ff",
           "afterSha256": "8b732282d215245ba04d9edbef215836a2073c0bd9edd0d07fb7270016f054ef",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S89-remote-gate-execution-boundary/1.0.0",
+          "beforeSha256": "8b732282d215245ba04d9edbef215836a2073c0bd9edd0d07fb7270016f054ef",
+          "afterSha256": "e8b6dced42fef74c3b29ce1f4d98b6fd90e9103578ed63d24b425ee96ddd8d76",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

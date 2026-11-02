@@ -1,7 +1,7 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（S87四域与16篇已获非作者accept；S88执行205补史、16授信与硬门，最新main导航差异另核）
+Execution: review/rework（S88接收与本地硬门已闭合；S89修复远端夹具依赖并优化完整检查的执行，受保护CI仍待通过）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
@@ -3089,3 +3089,13 @@ GLM对生产检查点c30af68bb93afef30f03cc29708906e9933be7c7四轴accept、零c
 第一次完整复跑为393/395，两红均是固定Git/格式化子进程ETIMEDOUT；同一运行窗口系统日志明确记录合盖及深度休眠，原失败原样保留。唤醒后受影响两文件44/44，再以临时防空闲休眠的caffeinate运行原pnpm check:docs --require-complete，正式395/395、零skip，七段全exit0；没有放宽时限、断言或修改并发/检查图。lint6679文件0E/0W/0I；workspace typecheck按未变产品/编译输入的既有真实结果复用，远端还须实跑。
 
 本地实测：4536活动合同+6历史退役=4542注册身份；strict0文档/0诊断，1835/1838基线迁移+3批准退役、2701增量迁移+6原生退役，current pending0、integrity0、17/17模板已行使；phase/lore184、testing0问题。完整命令及原失败、授权、两份GLM回执各保留一次于既有统一gzip的新有界追加，压缩字节前缀与解压前缀均保全；不复制原生载体、整树或旧二进制patch。这里只完成本地门与接收条件，不预签远端CI、main集成或done；006已验收成果直接复用，runtime/child新增信用0。
+
+### S89 远端门的执行优化准入（2026-11-02，build allowed）
+
+PR38头e43018060bca6cb780aa4e655fb3f7e4076c19b8的首次远端结果不通过：fast-coverage在原质量夹具缺两项文档CLI依赖时44/45失败；用户单处授权后仅补复制清单，五例原断言/source pin/时限不改，实际5/5，提交0bbdf1028bccbd3c61cd5f740bc7f7c8f4a78955。Documentation三作业均在五分钟预算内未完成而取消，汇总正确拒绝；三组8/8附件恢复约4–5秒即完成，实际耗时在工具测试及模板/完整性检查，不能归因下载或冒称通过。
+
+Codex单一Owner，沿用户继续处理完整门/远端CI的既定授权实施：只改git-document-snapshot.mjs、check-document-model.mjs、report-governance-progress.mjs的固定Git快照复用，restore-e2e-evidence.py的CI分配及docs.yml矩阵；新增git-document-snapshot-cache.test.py与documentation-ci-plan.test.py作对应真实Git/原生Node分片反控，既有测试源不再修改。既有快照读取函数的路径、commit/mode/大小拒绝保持，缓存只在一次验证中复用已成功读取的完整commit/path，返回独立buffer并设内存/条目界限；当前文件、锁、source-group完整性和最终读回不缓存。须有实际Git对象、错误输入/不可达对象不缓存、不同版本/路径、返回值篡改隔离和预算边界的可证伪证据。
+
+CI保留原七命令图与五分钟上限；工具按文件以Node原生分片覆盖完整集合，所有分片及每个原门都必须成功，新增/删除/重排原命令或改变测试命令形状时拒绝。各作业恢复全部8项锁定附件，strict/require-complete/lint及最终汇总不降门；新Python测试接入正式CI。先比较同一数据树优化前后的完整JSON输出逐字节相等，再实测门与远端执行；模板/分母/授信表/原生载体、产品、coverage均不改，不借调度或缓存授新语义/runtime信用。实现与反控准备后由未参与者集中核新增范围，S88原接受不重做；最终仍须受保护CI实际全绿，不合main、不标done。
+
+实现期实测新增缓存七测与分片六测均通过、原恢复十三测仍通过；包装字符串revision命中已暖缓存的真实AssertionError反例先红，显式primitive类型守卫后七测恢复全绿，原Git读取器正文不改。全质量工具45/45、lint6679零诊断。首次在尚有本卡/代码未提交变化的作者树跑完整文档工具为394/395：唯一红为旧CLI反例先触发“tracked working tree must be clean”，未进入其原期待的flag拒绝；不删断言或扩大许可，冻结提交后补核该文件并由远端三分片重验完整集合。原命令/失败/修复输入保持独立，未称本轮全工具已绿。

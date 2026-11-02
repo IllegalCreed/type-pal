@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
 import { checkDocumentModel } from './document-model.mjs'
-import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { cacheGitSnapshots, readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
@@ -54,9 +54,9 @@ const issues = checkDocumentModel(config, registry, read, {
   root,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
-  readSourceBuffer: (pin) => readGitDocumentSnapshot(root, pin),
-  readIncrementalSourceBuffer: (pin) => readIncrementalGitSource(root, pin),
-  readHtmlSourceBuffer: (pin) => readGitHtmlSnapshot(root, pin),
+  readSourceBuffer: cacheGitSnapshots((pin) => readGitDocumentSnapshot(root, pin)),
+  readIncrementalSourceBuffer: cacheGitSnapshots((pin) => readIncrementalGitSource(root, pin)),
+  readHtmlSourceBuffer: cacheGitSnapshots((pin) => readGitHtmlSnapshot(root, pin)),
   reviewReader,
   reviewGroupReader,
 })

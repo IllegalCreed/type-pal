@@ -29,6 +29,9 @@ CHECK_COMMANDS = (
     "node scripts/docs/check-content-review.mjs --strict",
     "node scripts/docs/report-governance-progress.mjs",
 )
+CI_MATRIX_STAGES = ("tools-1", "tools-2", "tools-3", "navigation", "model", "review", "progress", "lint")
+CI_STAGES = ("tools", "structure", "completeness") + CI_MATRIX_STAGES
+DOCS_TEST_SCRIPT = "node --test scripts/docs/*.test.mjs"
 
 
 def demand(ok, message):
@@ -363,12 +366,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument("--archive", type=Path)
-    parser.add_argument("--ci-stage", choices=("tools", "structure", "completeness"))
+    parser.add_argument("--ci-stage", choices=CI_STAGES)
     args = parser.parse_args()
     commands = None
     if args.ci_stage:
         package = json.loads((args.root / "package.json").read_text(encoding="utf8"))
-        commands = ci_commands(package["scripts"], args.ci_stage)
+        commands = ci_commands(package["scripts"], args.ci_stage, args.root)
     result = restore_set(args.root, contract(args.root), local=args.archive)
     print(json.dumps(result, sort_keys=True), flush=True)
     if commands is not None:
@@ -379,10 +382,29 @@ def main():
         print(json.dumps({"ciStage": args.ci_stage, "status": "passed", "newRuntimeCredit": 0}), flush=True)
 
 
-def ci_commands(scripts, stage):
+def ci_commands(scripts, stage, root=None):
     """Refuse an unassigned gate when check:docs changes; never silently omit it."""
     demand(scripts.get("check:docs") == " && ".join(CHECK_COMMANDS), "documentation command graph changed; explicit stage ownership required")
-    demand(stage in ("tools", "structure", "completeness"), "unknown documentation CI stage")
+    demand(stage in CI_STAGES, "unknown documentation CI stage")
+    if stage.startswith("tools-"):
+        demand(scripts.get("test:docs-tools") == DOCS_TEST_SCRIPT, "documentation test command changed; explicit shard ownership required")
+        demand(root is not None, "test shard root required")
+        paths = sorted(str(path.relative_to(root)) for path in root.glob("scripts/docs/*.test.mjs"))
+        demand(paths, "empty documentation test inventory")
+        demand(len(paths) >= 3, "every documentation shard requires a test file")
+        # Every matrix shard gets the same complete inventory. Node assigns
+        # disjoint files; no test-name filter, skip flag or timeout override.
+        return [["node", "--test", "--test-shard=" + stage[-1] + "/3", *paths]]
+    if stage in ("navigation", "model", "review", "progress", "lint"):
+        selected = {"navigation": [CHECK_COMMANDS[1], CHECK_COMMANDS[4]],
+                    "model": [CHECK_COMMANDS[2], CHECK_COMMANDS[3]],
+                    "review": [CHECK_COMMANDS[5]], "progress": [CHECK_COMMANDS[6]],
+                    "lint": ["python3 -B scripts/docs/git-document-snapshot-cache.test.py",
+                             "python3 -B scripts/docs/documentation-ci-plan.test.py", "pnpm lint"]}[stage]
+        commands = [shlex.split(command) for command in selected]
+        if stage == "progress":
+            commands[-1].extend(["--json", "--require-complete"])
+        return commands
     selected = {"tools": CHECK_COMMANDS[:1], "structure": CHECK_COMMANDS[1:5],
                 "completeness": CHECK_COMMANDS[5:]}[stage]
     commands = [shlex.split(command) for command in selected]

@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        stage: [tools, structure, completeness]
+        stage: [tools-1, tools-2, tools-3, navigation, model, review, progress, lint]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
