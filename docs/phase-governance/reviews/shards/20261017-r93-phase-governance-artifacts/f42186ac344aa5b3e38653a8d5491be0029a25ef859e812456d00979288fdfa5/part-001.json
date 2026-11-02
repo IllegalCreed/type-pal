@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "60fa72bf7a6f1b6b3a23df42932e037828c6ff7e9c4ecc19005492f08bdf87a5",
+  "generation": "f42186ac344aa5b3e38653a8d5491be0029a25ef859e812456d00979288fdfa5",
   "key": "part-001",
   "positions": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
   "entries": [
@@ -1770,7 +1770,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f34484f1fec8627add6a554bfc8282f589e564d942f06be6738d531c71da2615",
+      "afterSha256": "a40f5305dded698419613e68ed4fac32f27aae9c9fedc6ee54028dc0ab838ddd",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -3040,6 +3040,13 @@
           "kind": "S89-remote-gate-execution-boundary/1.0.0",
           "beforeSha256": "8b1550903591657e31ebe0e5cbe4f7f5c3c2051f6e3435c5c761eab7d3eb573c",
           "afterSha256": "f34484f1fec8627add6a554bfc8282f589e564d942f06be6738d531c71da2615",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "S89-single-job-and-final-evidence/1.0.0",
+          "beforeSha256": "f34484f1fec8627add6a554bfc8282f589e564d942f06be6738d531c71da2615",
+          "afterSha256": "a40f5305dded698419613e68ed4fac32f27aae9c9fedc6ee54028dc0ab838ddd",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

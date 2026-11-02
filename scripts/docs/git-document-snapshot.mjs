@@ -84,7 +84,7 @@ function readSnapshot(root, pin, state) {
     typeof pin?.revision !== 'string' ||
     !/^[a-f\d]{40}$/.test(pin.revision) ||
     typeof pin.path !== 'string' ||
-    !/^docs\/[^:\\\0\r\n]+\.json$/.test(pin.path) ||
+    !/^docs\/[^:\\\0\r\n\u2028\u2029]+\.json$/.test(pin.path) ||
     pin.path.split('/').some((part) => !part || part === '.' || part === '..')
   )
     return undefined

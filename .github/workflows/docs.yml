@@ -14,13 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  documentation-gates:
+  documentation:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    strategy:
-      fail-fast: false
-      matrix:
-        stage: [tools-1, tools-2, tools-3, navigation, model, review, progress, lint]
+    # Full sequential suite; per-test deadlines and all failure criteria stay fixed.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -39,21 +36,7 @@ jobs:
             .github/workflows/*.yml
       - run: pnpm install --frozen-lockfile
       - name: Restore the pinned retained evidence and run the complete assigned gates
-        run: python3 -B scripts/docs/restore-e2e-evidence.py --ci-stage "${{ matrix.stage }}"
+        run: python3 -B scripts/docs/restore-e2e-evidence.py --ci-stage all
         env:
           GH_TOKEN: ${{ github.token }}
 
-  documentation:
-    if: ${{ always() }}
-    needs: [documentation-gates]
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    steps:
-      - name: Require every documentation stage to succeed
-        env:
-          GATES_RESULT: ${{ needs['documentation-gates'].result }}
-        run: |
-          if [ "$GATES_RESULT" != "success" ]; then
-            printf '%s\n' "Documentation stage failed, skipped or cancelled: $GATES_RESULT" >&2
-            exit 1
-          fi

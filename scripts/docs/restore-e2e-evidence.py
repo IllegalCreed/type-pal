@@ -29,8 +29,7 @@ CHECK_COMMANDS = (
     "node scripts/docs/check-content-review.mjs --strict",
     "node scripts/docs/report-governance-progress.mjs",
 )
-CI_MATRIX_STAGES = ("tools-1", "tools-2", "tools-3", "navigation", "model", "review", "progress", "lint")
-CI_STAGES = ("tools", "structure", "completeness") + CI_MATRIX_STAGES
+CI_STAGES = ("tools", "structure", "completeness", "all")
 DOCS_TEST_SCRIPT = "node --test scripts/docs/*.test.mjs"
 
 
@@ -375,10 +374,7 @@ def main():
     result = restore_set(args.root, contract(args.root), local=args.archive)
     print(json.dumps(result, sort_keys=True), flush=True)
     if commands is not None:
-        for command in commands:
-            print(json.dumps({"ciStage": args.ci_stage, "argv": command}), flush=True)
-            completed = subprocess.run(command, cwd=args.root, check=False)
-            demand(completed.returncode == 0, "documentation CI child failed with exit " + str(completed.returncode))
+        run_ci_commands(args.root, commands, args.ci_stage)
         print(json.dumps({"ciStage": args.ci_stage, "status": "passed", "newRuntimeCredit": 0}), flush=True)
 
 
@@ -386,25 +382,13 @@ def ci_commands(scripts, stage, root=None):
     """Refuse an unassigned gate when check:docs changes; never silently omit it."""
     demand(scripts.get("check:docs") == " && ".join(CHECK_COMMANDS), "documentation command graph changed; explicit stage ownership required")
     demand(stage in CI_STAGES, "unknown documentation CI stage")
-    if stage.startswith("tools-"):
-        demand(scripts.get("test:docs-tools") == DOCS_TEST_SCRIPT, "documentation test command changed; explicit shard ownership required")
-        demand(root is not None, "test shard root required")
-        paths = sorted(str(path.relative_to(root)) for path in root.glob("scripts/docs/*.test.mjs"))
-        demand(paths, "empty documentation test inventory")
-        demand(len(paths) >= 3, "every documentation shard requires a test file")
-        # Every matrix shard gets the same complete inventory. Node assigns
-        # disjoint files; no test-name filter, skip flag or timeout override.
-        return [["node", "--test", "--test-shard=" + stage[-1] + "/3", *paths]]
-    if stage in ("navigation", "model", "review", "progress", "lint"):
-        selected = {"navigation": [CHECK_COMMANDS[1], CHECK_COMMANDS[4]],
-                    "model": [CHECK_COMMANDS[2], CHECK_COMMANDS[3]],
-                    "review": [CHECK_COMMANDS[5]], "progress": [CHECK_COMMANDS[6]],
-                    "lint": ["python3 -B scripts/docs/git-document-snapshot-cache.test.py",
-                             "python3 -B scripts/docs/documentation-ci-plan.test.py", "pnpm lint"]}[stage]
-        commands = [shlex.split(command) for command in selected]
-        if stage == "progress":
-            commands[-1].extend(["--json", "--require-complete"])
-        return commands
+    if stage == "all":
+        demand(scripts.get("test:docs-tools") == DOCS_TEST_SCRIPT, "documentation test command changed; explicit ownership required")
+        demand(root is not None and any(root.glob("scripts/docs/*.test.mjs")), "complete nonempty documentation test inventory required")
+        commands = [shlex.split(command) for command in CHECK_COMMANDS]
+        commands[-1].append("--require-complete")
+        return commands + [["python3", "-B", "scripts/docs/git-document-snapshot-cache.test.py"],
+                           ["python3", "-B", "scripts/docs/documentation-ci-plan.test.py"], ["pnpm", "lint"]]
     selected = {"tools": CHECK_COMMANDS[:1], "structure": CHECK_COMMANDS[1:5],
                 "completeness": CHECK_COMMANDS[5:]}[stage]
     commands = [shlex.split(command) for command in selected]
@@ -413,6 +397,14 @@ def ci_commands(scripts, stage, root=None):
     if stage == "completeness":
         commands[-1].extend(["--json", "--require-complete"])
     return commands
+
+
+def run_ci_commands(root, commands, stage="all"):
+    """One environment and evidence restore; any assigned gate failure aborts the job."""
+    for command in commands:
+        print(json.dumps({"ciStage": stage, "argv": command}), flush=True)
+        completed = subprocess.run(command, cwd=root, check=False)
+        demand(completed.returncode == 0, "documentation CI child failed with exit " + str(completed.returncode))
 
 
 if __name__ == "__main__":

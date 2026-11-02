@@ -154,6 +154,22 @@ assert.equal(readGitDocumentSnapshot(c.root,pin),undefined);
 console.log('{}');
 """, badTree=revision)
 
+    def test_unicode_line_separator_paths_keep_the_original_reader_rejection(self):
+        for marker in ["\u2028", "\u2029"]:
+            (self.root / "docs" / ("line" + marker + ".json")).write_bytes(b'{}\n')
+        self.git("add", "docs")
+        self.git("commit", "--no-gpg-sign", "-qm", "owned original path-domain boundary")
+        revision = self.git("rev-parse", "HEAD").strip()
+        self.run_node("""
+const read=createGitDocumentSnapshotReader(c.root);
+for(const path of ['docs/line\\u2028.json','docs/line\\u2029.json']){
+ const pin={path,revision:c.separators};
+ assert.equal(readGitDocumentSnapshot(c.root,pin),undefined);
+ assert.equal(read(pin),undefined);
+}
+console.log('{}');
+""", separators=revision)
+
     def test_real_git_trace_indexes_a_commit_once_but_reads_every_requested_blob(self):
         binary = self.root / "trace-bin"
         binary.mkdir()
