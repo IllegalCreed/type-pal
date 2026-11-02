@@ -1,11 +1,11 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: review
-Execution: review/rework（正文与严格待办0；S89完整文档门及编辑器620文件4802测试通过，覆盖率范围登记待授权，受保护CI与集中非作者接受未闭合）
+Execution: review/rework（正文与严格待办0；S89完整文档门、官方ratchet20222项及登记后工具158项通过，受保护CI与集中非作者接受未闭合）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S80五seed、S82退役、S84–S85公共实现/完整演练非作者accept）；Codex（S81内容据证接收、中央接入Owner）
+Reviewer: GLM（S87/S88及既有明确范围accept；S89新增实现、适配和封存待集中非作者接收）；Codex（贡献者据证接收、中央接入Owner）
 Branch: codex/docs-final-quality
 Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
@@ -29,14 +29,14 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 - 范围内：docs 物理树分类；Markdown/JSON/HTML 的逐篇语义审查；testing 专用类型；artifact/evidence 归属；registry、cross-phase matrix、review records；模板 pilot 后的分批迁移。
-- 范围外：产品源码、旧测试、coverage、运行时/E2E/视觉结论；正文仅在用户批准合同及对应真实pilot后分批迁移。
+- 默认范围外：产品源码、旧测试、coverage及运行时/E2E/视觉结论；后续用户逐处授权的例外只按各节固定范围执行，不能扩为通用许可。正文仅在用户批准合同及对应真实pilot后分批迁移。
 - 明确不做：不删除历史，不将历史结论升格当前事实，不用路径启发式替代全文阅读，不覆盖主工作树四项改动。
 
 ## 前提与证据
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review；S87/S88非作者接受、16篇正式授信及205条真实出版补史均已接入，4542注册身份精确；本地完整门、严格审阅与迁移完整性均零诊断。远端受保护CI和主线集成尚未闭合，不宣布整体done，原R波撤信保持。
+- 当前状态：review；S87/S88非作者接受、16篇正式授信及205条真实出版补史均已接入，4542注册身份精确。S89本地完整文档门、官方ratchet20222项、登记后工具158项与lint通过，严格审阅/迁移待办及完整性均0；新增范围非作者接受、当前候选远端受保护CI和主线集成尚未闭合，不宣布整体done，原R波撤信保持。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -3131,4 +3131,11 @@ Codex单一Owner，在用户已授权的保存性能整改与完整门收口范�
 
 实际补证：新增四项观测测试与编辑器两阶段typecheck均零诊断；隔离副本绕过URL opt-in后恰三绿一指定业务AssertionError、零pending，恢复原源后四绿，未改生产模块。首个反控驱动因macOS /var与/private/var路径身份未归一而收集失败（0测试），如实保留且不作有效业务反控；驱动改用物理规范路径后完成上述正反链，测试体和oracle未改。完整编辑器按官方同参数/同精确V8环境、仅报告目录改仓外实跑620文件/4802断言全绿、stderr0；四轴分别30873/34210、24842/29737、7823/8716、27615/29883均不低于原基线。六个未改包复用本次官方完整采集，与新编辑器结果的组合比较同样不降；组合是提案依据，不冒称官方ratchet或新远端CI已通过。
 
-覆盖率范围提案仅两文件：baseline.fast.json由官方ratchet重采集登记816→819源码/20205→20222测试，approved-test-retirements.mjs仅加已授权船体旧auto的5414→5410精确身份/SHA行；旧条目、门槛、include/exclude、provider及比较器保持。受初始coverage须另行明确授权约束，提案已备于仓外而本仓两文件仍未写；等待用户裁定，不借旧夹具许可扩权。GLM持续队列首包仍固定afe，后继只有本新增观测测试及有界行政/封存差异，原4536正文/6历史退役/006接受不重做；父卡继续review，不能以本次局部补证宣称主线或完整质量门已完成。
+准备阶段的覆盖率范围提案仅两登记文件：baseline.fast.json由官方ratchet重采集登记816→819源码/20205→20222测试，approved-test-retirements.mjs仅加船体旧auto的5414→5410精确身份/SHA行；旧条目、门槛、include/exclude、provider及比较器保持。当时受初始coverage须另行明确授权约束，两文件未写且等待用户裁定；后继实际授权与执行如下，不把此前等待状态当作当前状态。GLM持续队列首包仍固定afe，后继只有本新增观测测试及有界行政/封存差异，原4536正文/6历史退役/006接受不重做；父卡继续review，不能以本次局部补证宣称主线或完整质量门已完成。
+
+
+### S89 已授权覆盖率登记与最终CI候选（2026-11-02）
+
+用户明确批准两登记文件且原门槛不降，并另行批准approved-test-retirements.test.mjs的最小集合夹具适配：原95条/378计数差与不可变、全部拒绝反控保留，新增船体条目单独精确核对，通用正例遍历全部96条。前述原提案patch头含临时绝对路径，git apply include未命中、源字节断言早退；Owner未检查该失败便启动官方采集，属执行次序错误。源文件当时未改，因此保留这轮有效固定输入的官方采集；路径头校准只改变目标表示、原提案与错误记录均保留，采集结束后再接入精确条目和获准测试适配，未用重复采集掩盖顺序错误。
+
+实际官方pnpm coverage:ratchet --allow-scope-removal（protected base=02a67c5a）exit0，819源码/20222断言、编辑器620文件/4802断言通过，11项指标提升、无下降；baseline由正式producer落盘，非提案复制或手改计数。后置验真确认baseline与本次summary逐字段一致，源码新增恰连接/性能观测/读池三件，唯一计数退役恰pal-unified-steps-content的5414→5410，原95条批准记录逐字段保留、判据函数本体不变，真文件字节正例接受而篡改SHA拒绝。接入后完整coverage工具158/158、零skip/todo及诊断，lint6680文件零诊断；未另称又重跑了一次完整coverage:fast。当前候选的受保护远端CI及S89集中非作者接受仍待实际取得；既有4536正文/6历史退役/006接受复用，未新增文档语义、child或runtime信用，不合main、不标done。

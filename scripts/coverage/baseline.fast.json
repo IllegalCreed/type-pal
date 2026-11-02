@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-01T02:09:08.353Z",
+  "generatedAt": "2026-11-02T04:58:57.125Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 816,
-  "testCount": 20205,
+  "sourceFileCount": 819,
+  "testCount": 20222,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2233,8 +2233,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 8995,
-        "testFileCount": 366,
+        "testCount": 8993,
+        "testFileCount": 367,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2420,6 +2420,7 @@
           "packages/reforge/src/main.party-nudge-flows.test.ts",
           "packages/reforge/src/main.presentation-clock-root.test.ts",
           "packages/reforge/src/main.presentation-clock.test.ts",
+          "packages/reforge/src/main.ride-presentation.test.ts",
           "packages/reforge/src/main.save-flows.test.ts",
           "packages/reforge/src/main.scene-flows.test.ts",
           "packages/reforge/src/menu-state.navigation-boundaries.test.ts",
@@ -3525,6 +3526,11 @@
             "identityDigest": "69a7e2c372c441ccefe8aadd7c365a08484a6feb828c18e19fa9138aca9059c4"
           },
           {
+            "file": "packages/reforge/src/main.ride-presentation.test.ts",
+            "testCount": 2,
+            "identityDigest": "e626d4d0b824c1bcd9224b3bfed742ab61bb6b9ffa78f28d97f7f4c3355c74ea"
+          },
+          {
             "file": "packages/reforge/src/main.save-flows.test.ts",
             "testCount": 6,
             "identityDigest": "e37aa5fca5602b5d6f3e8a519d2f48c073f4372c146f37f10ca719f1b3c1842e"
@@ -3841,8 +3847,8 @@
           },
           {
             "file": "packages/reforge/src/pal-unified-steps-content.test.ts",
-            "testCount": 5414,
-            "identityDigest": "1952a3f8f7cb645ee161bbae45050334a83094c44796bd2d9072faba4e55855b"
+            "testCount": 5410,
+            "identityDigest": "00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450"
           },
           {
             "file": "packages/reforge/src/project-image-cache.decode-lifecycle.test.ts",
@@ -4435,26 +4441,26 @@
             "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
           }
         ],
-        "identityDigest": "59c657187f5b094cbe610587597085172fcb2ae291b1aa0db261a0f728602674",
+        "identityDigest": "2bc1ba5db96117e29ac2afe5be856a3f9aa17cf1ef24f79ec253c2ef15ec47a0",
         "duplicateIdentityCount": 3,
-        "executionDigest": "9c238730cb8427b4e85c8e86cb04fe3a105d782859e574bff68b4a79c6709021"
+        "executionDigest": "052e3d4fc51fd594778b0d48b6836bb97ac1a0b8df158409bd112312c920b921"
       },
       "metrics": {
         "statements": {
-          "covered": 17041,
-          "total": 18888
+          "covered": 17045,
+          "total": 18892
         },
         "branches": {
-          "covered": 10825,
-          "total": 13095
+          "covered": 10832,
+          "total": 13102
         },
         "functions": {
           "covered": 2779,
           "total": 3075
         },
         "lines": {
-          "covered": 15251,
-          "total": 16483
+          "covered": 15254,
+          "total": 16486
         }
       }
     },
@@ -6700,7 +6706,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 294,
+      "sourceFileCount": 297,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6713,6 +6719,7 @@
         "packages/editor/src/core/audio-preview.ts",
         "packages/editor/src/core/author-command-edit.ts",
         "packages/editor/src/core/author-disk-baseline.ts",
+        "packages/editor/src/core/author-save-connection.ts",
         "packages/editor/src/core/author-save-journal.ts",
         "packages/editor/src/core/author-save-plan.ts",
         "packages/editor/src/core/author-save-prefix.ts",
@@ -6789,6 +6796,8 @@
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
+        "packages/editor/src/core/save-performance.ts",
+        "packages/editor/src/core/save-read-pool.ts",
         "packages/editor/src/core/scene-commands.ts",
         "packages/editor/src/core/script-editor-projection.ts",
         "packages/editor/src/core/script-editor.ts",
@@ -6997,10 +7006,10 @@
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "714747a53e2a4641a7b8c1099aa9a962b2012de0217f2d05a2ccb979350489a4",
+      "scopeDigest": "4788e2d6abc52799043e42cdafbfc8faabb6c17c103ae05105cb591142d32c5f",
       "fastTests": {
-        "testCount": 4783,
-        "testFileCount": 615,
+        "testCount": 4802,
+        "testFileCount": 620,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7038,7 +7047,9 @@
           "packages/editor/src/core/author-command-edit.test.ts",
           "packages/editor/src/core/author-project-check.test.ts",
           "packages/editor/src/core/author-save-conflict.test.ts",
+          "packages/editor/src/core/author-save-copy-batch.test.ts",
           "packages/editor/src/core/author-save-journal.test.ts",
+          "packages/editor/src/core/author-save-performance.test.ts",
           "packages/editor/src/core/author-save-plan.test.ts",
           "packages/editor/src/core/author-save-prefix.test.ts",
           "packages/editor/src/core/author-save-store.test.ts",
@@ -7182,6 +7193,7 @@
           "packages/editor/src/core/project-reference.boundaries.test.ts",
           "packages/editor/src/core/project-reference.test.ts",
           "packages/editor/src/core/project-reference.wave2.test.ts",
+          "packages/editor/src/core/project-save-progress.test.ts",
           "packages/editor/src/core/project-save-route.test.ts",
           "packages/editor/src/core/project-serialization-boundaries.test.ts",
           "packages/editor/src/core/project-transfer-validation.test.ts",
@@ -7192,6 +7204,7 @@
           "packages/editor/src/core/save-batch-recovery.test.ts",
           "packages/editor/src/core/save-batch-storage.test.ts",
           "packages/editor/src/core/save-batch-writer.test.ts",
+          "packages/editor/src/core/save-performance.test.ts",
           "packages/editor/src/core/save-preflight-boundaries.test.ts",
           "packages/editor/src/core/save-readback-boundaries.test.ts",
           "packages/editor/src/core/scene-commands.glm-l.test.ts",
@@ -7447,6 +7460,7 @@
           "packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
           "packages/editor/src/ui/ProjectPicker-recovery.test.tsx",
+          "packages/editor/src/ui/ProjectSaveDialog.progress.test.tsx",
           "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
           "packages/editor/src/ui/ProjectWorkbenchTab.glm-authoring.test.tsx",
           "packages/editor/src/ui/ProjectWorkbenchTab.glm-m.test.tsx",
@@ -7800,9 +7814,19 @@
             "identityDigest": "2ef765d494395b0352764bb3244ff5f38015b74c5f2a9cc0eb19ee3fc84998cf"
           },
           {
+            "file": "packages/editor/src/core/author-save-copy-batch.test.ts",
+            "testCount": 7,
+            "identityDigest": "f31bdcd6986fb2f8fa750db8eda2b309c046a21cffb0acee33884eebb8011da2"
+          },
+          {
             "file": "packages/editor/src/core/author-save-journal.test.ts",
             "testCount": 79,
             "identityDigest": "111d5fc46be709fea6d1f53b80e91c968361d49ff6f20697b625e786e0853ca9"
+          },
+          {
+            "file": "packages/editor/src/core/author-save-performance.test.ts",
+            "testCount": 6,
+            "identityDigest": "dc4156e0565f70cd02c1625b27c201b6705b1b2a251c6fe9bd10fa58887cf736"
           },
           {
             "file": "packages/editor/src/core/author-save-plan.test.ts",
@@ -8520,6 +8544,11 @@
             "identityDigest": "ca49e4aa8c20f93ce4aa27917e7e656e2a66c0d9196b4e6e8f2523f26cb62757"
           },
           {
+            "file": "packages/editor/src/core/project-save-progress.test.ts",
+            "testCount": 1,
+            "identityDigest": "c8241bfe69fccb2c54fbdca62332bd4b9f142d80932e9e6c170079fcc8b88753"
+          },
+          {
             "file": "packages/editor/src/core/project-save-route.test.ts",
             "testCount": 36,
             "identityDigest": "e1cedf5f6445a01462fd8dd2871555bfbc30b251ff77fadf430a18368b792f12"
@@ -8568,6 +8597,11 @@
             "file": "packages/editor/src/core/save-batch-writer.test.ts",
             "testCount": 11,
             "identityDigest": "761a9091e5861b4003e94172f206bd5ae4b5d81a5264d4df9cd5862411dd8675"
+          },
+          {
+            "file": "packages/editor/src/core/save-performance.test.ts",
+            "testCount": 4,
+            "identityDigest": "89dea55b6bba8c9ae982d7948f31176f243206a8ba0353056b107aa0aaee1103"
           },
           {
             "file": "packages/editor/src/core/save-preflight-boundaries.test.ts",
@@ -9845,6 +9879,11 @@
             "identityDigest": "b25dee0651d6f0ff7f1d15dc1b4501d0192198387e51c97a5ea60e15384b9e98"
           },
           {
+            "file": "packages/editor/src/ui/ProjectSaveDialog.progress.test.tsx",
+            "testCount": 1,
+            "identityDigest": "db80c5a8a041ba8dcfad4650f79e409fcf848fc030150aff471a1bf1e1d14975"
+          },
+          {
             "file": "packages/editor/src/ui/ProjectSaveDialog.test.tsx",
             "testCount": 2,
             "identityDigest": "56b9711e06879a1e76fe687fe18b82c5957e724f79b0d77f54e80ff55bb8d364"
@@ -10695,46 +10734,46 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "262b1dc92a4601bd2994c1215e46fd5ad851afcf98052dce36e56c5622cd0f40",
+        "identityDigest": "056a6085f94464001ce5e42cd58ef6117732b965d562493b69958c4e9a184967",
         "duplicateIdentityCount": 8,
-        "executionDigest": "63b1c4d7f84c00296554115971bd1d6ad79c019d04009245d101c63eeddfa49c"
+        "executionDigest": "4b6586aece82f3d220b97c27b846fc0a774e7595730cdebbd31ca5e412f55279"
       },
       "metrics": {
         "statements": {
-          "covered": 30537,
-          "total": 33847
+          "covered": 30873,
+          "total": 34210
         },
         "branches": {
-          "covered": 24578,
-          "total": 29435
+          "covered": 24842,
+          "total": 29737
         },
         "functions": {
-          "covered": 7772,
-          "total": 8665
+          "covered": 7823,
+          "total": 8716
         },
         "lines": {
-          "covered": 27319,
-          "total": 29570
+          "covered": 27615,
+          "total": 29883
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 72920,
-      "total": 80608
+      "covered": 73260,
+      "total": 80975
     },
     "branches": {
-      "covered": 52672,
-      "total": 62708
+      "covered": 52943,
+      "total": 63017
     },
     "functions": {
-      "covered": 13806,
-      "total": 15362
+      "covered": 13857,
+      "total": 15413
     },
     "lines": {
-      "covered": 65130,
-      "total": 70545
+      "covered": 65429,
+      "total": 70861
     }
   }
 }
