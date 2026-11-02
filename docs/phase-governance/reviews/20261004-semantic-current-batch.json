@@ -1202,7 +1202,7 @@
         }
       ],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "d4310346c1a871e273f8973b7da8a859f340a0bb8c0f8ae8710dc77d71d5b1a1",
+      "afterSha256": "d5d368e6d643f43edc4c0448c09db840a74035edb299beeb0523c1899b891575",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -2737,6 +2737,13 @@
           "afterSha256": "d4310346c1a871e273f8973b7da8a859f340a0bb8c0f8ae8710dc77d71d5b1a1",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "d4310346c1a871e273f8973b7da8a859f340a0bb8c0f8ae8710dc77d71d5b1a1",
+          "afterSha256": "d5d368e6d643f43edc4c0448c09db840a74035edb299beeb0523c1899b891575",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",
@@ -3045,7 +3052,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "9bbf8db4227469e20cbc146ebeedc0aae4980634edb34c07ea23795053aa894b",
+      "afterSha256": "bb46870e73f845d586c1f5bdd037726a54e79e0df1a698b66dcb09b360f04ea5",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -3646,6 +3653,13 @@
           "afterSha256": "9bbf8db4227469e20cbc146ebeedc0aae4980634edb34c07ea23795053aa894b",
           "newSemanticCredit": 0,
           "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "9bbf8db4227469e20cbc146ebeedc0aae4980634edb34c07ea23795053aa894b",
+          "afterSha256": "bb46870e73f845d586c1f5bdd037726a54e79e0df1a698b66dcb09b360f04ea5",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ]
     },
@@ -4137,7 +4151,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-      "afterSha256": "de745afcf40477391e1af91b9eec933e8924913c75a367874657c5ba2a9462bd",
+      "afterSha256": "6b3e5eaffb6825ab981c688cc5c2eef75e5fe98f22a9c47291fbcb2b06dab663",
       "publicCallers": [
         "docs/ops/board.md",
         "docs/ops/tasks/index.md",
@@ -4304,6 +4318,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "manifest+四phase分片+统一loader和184条目录期望集合已沿后继接受保留；最终远端phase/lore consumer为184/184，全部合同与SHA门通过。只关闭结构迁移及后继硬门义务，2026-10-17同主体独立声明仍撤回，不改写成当日通过。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "de745afcf40477391e1af91b9eec933e8924913c75a367874657c5ba2a9462bd",
+          "afterSha256": "6b3e5eaffb6825ab981c688cc5c2eef75e5fe98f22a9c47291fbcb2b06dab663",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "counterReworkBlocked": [],
@@ -4447,7 +4484,7 @@
         }
       ],
       "sourceSha256": "168f9b3c32dbb4c5bfb12096f5426841cf0e2be2a73cf65e196f7daa072f2b64",
-      "afterSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+      "afterSha256": "045923e2c71a4decb51652900b5a0fdda3c21cc8fa5d29b8c882fbff7841b9e1",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
@@ -5176,6 +5213,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "269 Vitest与212历史交付回执及其余原生族已在父卡后继逐篇接入，当前全库partial/needs待办0；原生字节、固定source与两项历史来源unverified边界继续保留，不把本卡S38时点的零信用发布当成当时已晋升。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "74d25d61e10847d916d2a9a5dae397df378ca6b0d587e2b10722eb0035a53281",
+          "afterSha256": "045923e2c71a4decb51652900b5a0fdda3c21cc8fa5d29b8c882fbff7841b9e1",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "historicalDeliveryDraftIntake": {
@@ -5444,7 +5504,7 @@
         "2026-10-23 Codex accepts supported GLM evidence, directly handles bounded new-assessment/summary errors under prior user authorization. Original269 source draft/Owner209/current storage untouched; Owner patch acceptance remains separate."
       ],
       "sourceSha256": "43b136aec7676e5fba18fcf45ec637ff434214087ebd15d5ff82f5185a4899f2",
-      "afterSha256": "ff2cab187cda3bba2aa158e9be40ae612d1cd65dd6c2200072b8c90d0c55cf6f",
+      "afterSha256": "40f577eaacefa6e6e50d9ec931598ee944266f1186ed4e8a254fcc665bf5ed16",
       "primarySource": [
         {
           "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
@@ -5687,6 +5747,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "S29正式269发布及既有非作者接收复用，原三pilot/330非目标与302原生的当轮保全不重做；旧1848待办已由后继逐篇裁定消除，当前全库待办0。B5/B10撤回、pending/probe与suite计数边界保留，不重授历史执行。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "ff2cab187cda3bba2aa158e9be40ae612d1cd65dd6c2200072b8c90d0c55cf6f",
+          "afterSha256": "40f577eaacefa6e6e50d9ec931598ee944266f1186ed4e8a254fcc665bf5ed16",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "ownerImplementation": {

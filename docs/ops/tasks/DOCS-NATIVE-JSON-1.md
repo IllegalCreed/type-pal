@@ -1,15 +1,19 @@
 # DOCS-NATIVE-JSON-1 — 原生JSON历史证据逐篇治理
 
-Status: rework
-Execution: rework（S34准入/writer已获GLM非作者accept；S38已发布212条零信用内容，状态晋升与迁移接入未做）
+Status: done
+Execution: done（已接受范围复用；PR38已通过受保护双门并合入main，行政收口不授新运行信用）
 Phase: ops
 Capability: native historical evidence governance
 Coding Owner: Codex（用户2026-10-22授权接手S28剩余返工；GLM候选与已核成果保全）
 Owner: Codex（合同、准入、独立证据验收与中央接入）
 Reviewer: GLM（35a与3eec两次Codex delta非作者复验）/ Codex（贡献者据证验收）/ 未参与者（Owner勘误与发布复核；作者不自签）
-Branch: codex/docs-s50-native-pilot-admission
-Last reviewed: 2026-10-25
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-02 完成裁定
+
+269 Vitest与212历史交付回执及其余原生族已在父卡后继逐篇接入，当前全库partial/needs待办0；原生字节、固定source与两项历史来源unverified边界继续保留，不把本卡S38时点的零信用发布当成当时已晋升。 共同依据见[父卡最终验收](DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)；旧执行/自验/等待文字按原日期保存，不覆盖本次现行裁定。
 
 ## 目标
 

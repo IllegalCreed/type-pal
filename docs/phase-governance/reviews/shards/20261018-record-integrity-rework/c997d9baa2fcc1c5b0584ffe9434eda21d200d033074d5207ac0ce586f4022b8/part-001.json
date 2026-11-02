@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
-  "generation": "8deef564470dbf9250e7a974dea78f880610573502bcd709dca27aad24b43774",
+  "generation": "c997d9baa2fcc1c5b0584ffe9434eda21d200d033074d5207ac0ce586f4022b8",
   "key": "part-001",
   "positions": [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -5419,7 +5419,7 @@
       "supersedes": [],
       "stopLine": "Document semantics/template only; not task done, product implementation passed, historical R-wave trust restoration, native212 migration, runtime/E2E/visual/coverage.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "d4233dabab8e86756f20d79edfdc78e217775d7737cc6ca8002f4bfa822bb2f8",
+      "afterSha256": "1ab4b941ce2c1261ccf1660b09553f48fc91435ff0d4c61118e07de79930de10",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -5577,6 +5577,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "R23起扩大撤信、文本损坏修复、真实锚勘误、原件丢失与未认证声明均沿已接收后继保留；全量当前语义已另行逐篇验收。原始记录不改成通过，本卡done只关闭纠错与当前治理义务，不认证遗失原执行、不声明历史全仓清白。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "d4233dabab8e86756f20d79edfdc78e217775d7737cc6ca8002f4bfa822bb2f8",
+          "afterSha256": "1ab4b941ce2c1261ccf1660b09553f48fc91435ff0d4c61118e07de79930de10",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVersion": "1.0.0",
@@ -5772,7 +5795,7 @@
       "supersedes": [],
       "stopLine": "Document semantics/template only; not task done, product implementation passed, historical R-wave trust restoration, native212 migration, runtime/E2E/visual/coverage.",
       "sourceSha256": "0bc86f0a4c0273fffcd393a922aa029e079223283574a8b8698941e7283ec1e8",
-      "afterSha256": "72d8a3d281e83846940e51eb0c431bde40d764aba399f9e0ede745ed44867ce9",
+      "afterSha256": "e7f49910463456db7d19f1dd80c9497873c6543deba853d238f222a1132a85e9",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "Root actual full card and own new implementation/guard history delta; pending-document registration only; registration only",
       "beforeAfter": {
@@ -5822,6 +5845,29 @@
           "newTemplateMigrationCredit": 0,
           "runtimeExecutionPerformed": false,
           "historicClaimsReexecuted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "原2374对象/顺序保全及原设计/存储非作者限定接受复用；后继容量扩展已到4542注册、11 registry片与114 review owner，最终公开consumer/完整性0问题，未放宽原flat上限。关闭存储与后继硬门义务，不把原构造失败倒改为成功。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "72d8a3d281e83846940e51eb0c431bde40d764aba399f9e0ede745ed44867ce9",
+          "afterSha256": "e7f49910463456db7d19f1dd80c9497873c6543deba853d238f222a1132a85e9",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "currentIndependentAcceptance": {

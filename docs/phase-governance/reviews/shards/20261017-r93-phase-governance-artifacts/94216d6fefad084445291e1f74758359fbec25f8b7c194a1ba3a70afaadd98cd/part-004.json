@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
-  "generation": "50a30574eb6fc1570ad5a582dd5fbfe21e0c54c1e80d63482635c9f30be75779",
+  "generation": "94216d6fefad084445291e1f74758359fbec25f8b7c194a1ba3a70afaadd98cd",
   "key": "part-004",
   "positions": [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
   "entries": [
@@ -912,7 +912,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6846b0be6f3f9b0047abfd656c2b76d34b30c8c91f03117d703a45b2c5d5972",
-      "afterSha256": "3e43dd4d7dd8a6ebc69e335d76e1726c16d8f1630e3b441494951e84f1881c79",
+      "afterSha256": "912f9fef216b84d1237caa5a91669da2f430546d078c99e71b814d269637cd75",
       "publicCallers": [
         "scripts/docs/check-content-review.mjs via review-record-storage.mjs materialization",
         "scripts/docs/check-document-model.mjs via currentReviewLedgerIssues",
@@ -1213,6 +1213,13 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "3e43dd4d7dd8a6ebc69e335d76e1726c16d8f1630e3b441494951e84f1881c79",
+          "afterSha256": "912f9fef216b84d1237caa5a91669da2f430546d078c99e71b814d269637cd75",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "templateVariant": "current-review-ledger-native-v1",
