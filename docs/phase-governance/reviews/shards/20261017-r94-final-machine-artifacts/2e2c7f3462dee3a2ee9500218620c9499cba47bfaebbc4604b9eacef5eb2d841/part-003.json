@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "logicalPath": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
-  "generation": "e973b5c27d0974345fc8dc484d725ee1d645e090c0f7c695cda6083706275ce7",
+  "generation": "2e2c7f3462dee3a2ee9500218620c9499cba47bfaebbc4604b9eacef5eb2d841",
   "key": "part-003",
   "positions": [33, 34, 35, 36],
   "entries": [
@@ -42,7 +42,7 @@
         }
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "913d1034c65d49f2dd2cd3aa4d554be79f47ee15a90eb0d783d05c71e863b696",
+      "afterSha256": "e64a7f915034e0b2958dd95ec346886909a0af3500a600521cce241cf8df4420",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "固定eeba候选的本路径原件和当前明确作者差异；原历史与来源轴保持。",
@@ -1664,6 +1664,29 @@
           "kind": "S89-single-job-and-final-evidence/1.0.0",
           "beforeSha256": "d9e4e21236b5853139f11307250aab1d80a69f28ee7f18a24f4fe96a46b41402",
           "afterSha256": "913d1034c65d49f2dd2cd3aa4d554be79f47ee15a90eb0d783d05c71e863b696",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "1838冻结cohort按1835迁移+3批准退役闭合，增量2701迁移+6原生退役；4536活动/4542注册、17模板、严格待办及完整性均0。逐篇接受、模板/原生合同、中央pin与最终代码增量均有对应限定非作者接受，撤回的R波信用不恢复。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "913d1034c65d49f2dd2cd3aa4d554be79f47ee15a90eb0d783d05c71e863b696",
+          "afterSha256": "e64a7f915034e0b2958dd95ec346886909a0af3500a600521cce241cf8df4420",
           "newSemanticCredit": 0,
           "runtimeCredit": false
         }

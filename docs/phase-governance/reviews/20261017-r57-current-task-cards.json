@@ -389,7 +389,7 @@
         }
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
-      "afterSha256": "c057d5e3161533bc3f61d59b63495163a8fb315da1f925c2bc2c5cb3d091ba3f",
+      "afterSha256": "40d53c5470c1b502f02252d8c315e2fd5e54b98c84a25126d587e0c67f467ee0",
       "publicCallers": [
         "node scripts/docs/check-testing.mjs",
         "node scripts/docs/check-document-model.mjs",
@@ -855,6 +855,29 @@
           "newSemanticCredit": 0,
           "newTemplateMigrationCredit": 0,
           "runtimeAcceptanceGranted": false
+        },
+        {
+          "kind": "owner-task-lifecycle-decision/1.0.0",
+          "currentTaskStatus": "done",
+          "currentConclusion": "既有技术非作者接受、C1闭合及用户“没问题了都”的视觉判断直接复用；最后的文档/受保护集成停止线已由PR38解除。本轮不重跑E2E、不扩音频/后期剧情/多人/连续链，不将本任务done当成新的catalog运行发布或刷新lastVerified。",
+          "originalCoreConclusionScope": "Unchanged signed snapshot; current task lifecycle is the top of the actual card, not its old pending count.",
+          "basis": {
+            "acceptedCandidate": "a02cc92562842e128b6454748b1ddb5c6055b75f",
+            "reviewer": "GLM",
+            "reviewReportSha256": "0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed",
+            "mergedRevision": "7592931004eeaedd2f27881a7f51a982ecb00d52",
+            "documentationRun": 41399029195,
+            "fastCoverageRun": 41399029064
+          },
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
+        },
+        {
+          "kind": "accepted-governance-closeout-after-pin/1.0.0",
+          "beforeSha256": "c057d5e3161533bc3f61d59b63495163a8fb315da1f925c2bc2c5cb3d091ba3f",
+          "afterSha256": "40d53c5470c1b502f02252d8c315e2fd5e54b98c84a25126d587e0c67f467ee0",
+          "newSemanticCredit": 0,
+          "runtimeCredit": false
         }
       ],
       "applicability": "Current author-produced E2E006 technical evidence, not non-author/user acceptance. Real95-row dual story/control, zero-finding comparison, formal terminal saves/fresh restores and12 saved static NPC entry Play/Reset proofs exist; no audio/continuous/full-runtime-preview/downstream or full-doc completion credit.",

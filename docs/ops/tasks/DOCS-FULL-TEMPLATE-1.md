@@ -1,16 +1,16 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
-Status: review
-Execution: review/rework（正文与严格待办0；S89完整文档门、官方ratchet20222项及登记后工具158项通过，受保护CI与集中非作者接受未闭合）
+Status: done
+Execution: done（逐篇治理、非作者接受与受保护PR38集成已完成；本次仅同步终态与证据）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: GLM（S87/S88及既有明确范围accept；S89新增实现、适配和封存待集中非作者接收）；Codex（贡献者据证接收、中央接入Owner）
-Branch: codex/docs-final-quality
+Reviewer: GLM（PR38四包合并非作者accept，verdict 0715706d；既有逐篇限定接受复用）；Codex（据证裁定与中央接入）
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
 Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
-> 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
+> 2026-10-18 历史裁定：当轮全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
 
 ## S80 最新 main 滚动整合与整包准入（2026-10-31，build allowed）
 
@@ -24,6 +24,18 @@ Template: task-card-v1 / 1.0.0
 - 作者只写白名单MD与仓外证据，不改中央registry/routing/review/catalog/规则，不自授信用；中央扩容、控制pin级联和退休由Owner在交付接受后按实执行。现有公共模板可复用；确有新格式只停受影响项，不将整包退回设计小包。
 - 完整check:docs、lint和三口径diff-check须零error/warning/info。新增/变更未接入前如实保留红与待办，不改旧签名或刷新hash洗白；静态结果不授产品/runtime/E2E/视觉/coverage信用。受保护main集成另据真实最新CI。
 
+## 最终验收与主线收口
+
+1838冻结cohort按1835迁移+3批准退役闭合，增量2701迁移+6原生退役；4536活动/4542注册、17模板、严格待办及完整性均0。逐篇接受、模板/原生合同、中央pin与最终代码增量均有对应限定非作者接受，撤回的R波信用不恢复。
+
+GLM非作者四包合并验收accept、零counter，verdict SHA-256 `0715706d1ca7cb6b59778ead88c675fa1926c4a0d786c2108f5bbad87dfe55ed`；HANDBACK SHA-256 `b58622c6b8f48ac81e775bf6001aed56615474e9caf22c1cde53c2384fbd5cfb`。三旧包按各自范围复用，inventory-a02四工程文件单独实质接受；工作树临时清空事件已通过独立clone及用户恢复后的双验证处理，Owner本次核20工程输入与候选Git字节相等。
+
+固定候选 `a02cc92562842e128b6454748b1ddb5c6055b75f` 的[documentation](https://github.com/IllegalCreed/type-pal/actions/runs/41399029195)与[fast-coverage](https://github.com/IllegalCreed/type-pal/actions/runs/41399029064)均success：399工具、来源14/编排6、七文档门、typecheck与lint6681零诊断；819源码/20222测试，覆盖率相对基线无下降、精确船体退役保护通过。原始日志实际诊断行核为0，不以测试标题里的失败反例计成真实诊断，也不凭exit0忽略警告。
+
+[PR #38](https://github.com/IllegalCreed/type-pal/pull/38)于2026-11-02 15:54 JST依保护规则合并，main提交 `7592931004eeaedd2f27881a7f51a982ecb00d52`，其树与a02完全相等，固定Git来源历史通过merge commit保留。未绕过App15368双检查、未force push；006原接受和附件复用，不重授运行/视觉。当前七张关联卡只同步终态；中央仍114逻辑owner/227物理/15manifest+113片，旧签名/撤信、原生与来源不改。
+
+本次行政收口只同步卡/看板/公开生成索引、在既有事务名单登记六个精确终态卡路径并追加既有gzip；事务校验算法、旧四路径profile、旧测试、阈值与其它输入拒绝域不改，真实CI/非作者/merge原件每份保全一次；收口提交自身仍走受保护PR，不把此前CI冒称本次新头结果。后续长期清理在用户另一会话推进，原主工作树21份未提交/未跟踪文件保持，不在这里做全仓删除。
+
 ## 目标
 在不覆盖共享工作树改动、不把静态治理冒充运行时验收的前提下，核定 docs 全树的文件归属，冻结可审查的统一模板注册表，再按批次把正文迁移为模板合规并为每篇保留可追溯 review record。
 
@@ -36,7 +48,7 @@ Template: task-card-v1 / 1.0.0
 - 行为/工程前提：模板迁移只改变文档结构与导航，保留原始语义、机器字段、SHA、状态范围和停止线。
 - 一手证据：`docs/ops/evidence/DOCS-FULL-TEMPLATE-1/inventory.json`、`binding-baseline.json`、`protection.json`、最新 registry/routing 与本卡批次回执。
 - 最强替代解释与可证伪观察：若发现源/after SHA 漂移、机器字段改变、历史状态升格或 protected delta 被覆盖，当前迁移结论立即失效并转 rework/blocked。
-- 当前状态：review；S87/S88非作者接受、16篇正式授信及205条真实出版补史均已接入，4542注册身份精确。S89本地完整文档门、官方ratchet20222项、登记后工具158项与lint通过，严格审阅/迁移待办及完整性均0；新增范围非作者接受、当前候选远端受保护CI和主线集成尚未闭合，不宣布整体done，原R波撤信保持。
+- 当前状态：done；本轮独立接受与全部硬门已取得并合入main，范围/来源/未知与历史撤信按下方最终记录保留，不产生新runtime或child信用。
 
 ## 验收
 - 功能/文档：1838 基线候选逐篇绑定 docType/templateId/templateVersion 并有独立 review record。
@@ -47,7 +59,7 @@ Template: task-card-v1 / 1.0.0
 ## 状态与交接
 - 当前 Owner：Codex。
 - 历史S75基点：当时2435合规/0待办、1835基线迁移+3批准退役及600增量迁移。此为S75时点结果；后续main滚动新增与变更以S80–S86记录为准，不能沿用为当前完成数字。
-- 下一步：以本候选执行受保护documentation/fast-coverage远端CI，再按PR集成与真实结果收口。006技术/用户接受及原附件直接复用，不新增runtime信用；当前文档待办为0，远端门和集成未完成前不合main、不标done。
+- 下一步：本全量批次完成；后续新增/变更按长期文档合同另行治理。用户另开清理会话的未提交内容不在本次固定PR38范围，未合入本收口，不覆盖或代签。
 
 ## 历史实施与交接记录的适用边界
 

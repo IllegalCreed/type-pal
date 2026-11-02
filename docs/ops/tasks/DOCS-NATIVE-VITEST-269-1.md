@@ -1,7 +1,7 @@
 # DOCS-NATIVE-VITEST-269-1 — S29 原生 Vitest 269篇语义接入
 
-Status: review
-Execution: review（269发布数据与两处获准夹具适配已非作者accept；238工具项全绿，全量严格1848项仍未过）
+Status: done
+Execution: done（已接受范围复用；PR38已通过受保护双门并合入main，行政收口不授新运行信用）
 Phase: ops
 Capability: native historical document governance
 Coding Owner: Codex（通用合同、受控写入与中央接入）
@@ -9,11 +9,15 @@ Owner: Codex
 Contributor: GLM（获准后的逐篇内容与证据；不写中央账本）
 Reviewer: Codex（贡献者交付据证独立验收；Codex实现另交未参与者复验）
 Visual Verification Timing: N/A（只处理历史文档）
-Branch: codex/docs-s29-native-vitest（Owner）；GLM从ADMISSION固定提交创建codex/docs-s29-glm-native-vitest
-Last reviewed: 2026-10-23
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
 > 用户2026-10-23明确批准本卡草案。准入覆盖设计冻结、通用实现、pilot、269篇贡献者包和据证中央接入；不再逐小批申请。GLM本轮仓库只读，正式写入在合同和pilot独立接受之后由Codex执行。
+
+## 2026-11-02 完成裁定
+
+S29正式269发布及既有非作者接收复用，原三pilot/330非目标与302原生的当轮保全不重做；旧1848待办已由后继逐篇裁定消除，当前全库待办0。B5/B10撤回、pending/probe与suite计数边界保留，不重授历史执行。 共同依据见[父卡最终验收](DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)；旧执行/自验/等待文字按原日期保存，不覆盖本次现行裁定。
 
 ## 目标
 

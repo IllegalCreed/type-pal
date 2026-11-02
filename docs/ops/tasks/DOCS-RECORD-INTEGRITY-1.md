@@ -1,14 +1,18 @@
 # DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救
 
-Status: rework
+Status: done
 Phase: ops
 Capability: documentation evidence integrity
 Coding Owner: Codex
 Contributor: Codex
 Reviewer: 固定58e899bf及23b62e97纠错包获非作者限定接收；全量语义与硬门仍未完成
-Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-20
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-02 完成裁定
+
+R23起扩大撤信、文本损坏修复、真实锚勘误、原件丢失与未认证声明均沿已接收后继保留；全量当前语义已另行逐篇验收。原始记录不改成通过，本卡done只关闭纠错与当前治理义务，不认证遗失原执行、不声明历史全仓清白。 共同依据见[父卡最终验收](DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)；旧执行/自验/等待文字按原日期保存，不覆盖本次现行裁定。
 
 ## 目标
 

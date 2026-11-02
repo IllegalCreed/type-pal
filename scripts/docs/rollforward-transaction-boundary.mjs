@@ -86,6 +86,12 @@ export function successorInputRepairs(before, after, readBuffer) {
     'docs/ops/evidence/DOCS-FULL-TEMPLATE-1/s22-validation.log.gz',
     'docs/ops/README.md',
     'docs/ops/tasks/README.md',
+    'docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md',
+    'docs/ops/tasks/DOCS-NATIVE-JSON-1.md',
+    'docs/ops/tasks/DOCS-NATIVE-VITEST-269-1.md',
+    'docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md',
+    'docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md',
+    'docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md',
   ])
   const repairs = []
   for (const [owner, record] of before)

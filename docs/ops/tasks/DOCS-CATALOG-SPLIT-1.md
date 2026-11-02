@@ -1,6 +1,6 @@
 # DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移
 
-Status: rework
+Status: done
 Phase: ops
 Capability: documentation governance / generated catalog schema
 Coding Owner: Codex
@@ -9,13 +9,17 @@ Reviewer: 待非作者复核；Codex 作者自验不计独立接受
 Visual Verification Owner: N/A（纯文档/机器索引迁移）
 Visual Verification Timing: N/A
 Contributor: Codex
-Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-17
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
 
 > 当前采用 AGENTS.md 的“Codex 分派—贡献者执行—Codex 独立验收”临时模式。本卡只授权设计、pilot 和迁移验证；不改变产品源码、旧测试或 coverage。
 
 > 2026-10-18 记录勘误：分片实现与consumer/结构结果保留；此前“独立验收”和在完整check:docs未完成时的done撤回。作者自验不能代替非作者复核。本卡rework，不恢复旧巨型catalog。
+
+## 2026-11-02 完成裁定
+
+manifest+四phase分片+统一loader和184条目录期望集合已沿后继接受保留；最终远端phase/lore consumer为184/184，全部合同与SHA门通过。只关闭结构迁移及后继硬门义务，2026-10-17同主体独立声明仍撤回，不改写成当日通过。 共同依据见[父卡最终验收](DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)；旧执行/自验/等待文字按原日期保存，不覆盖本次现行裁定。
 
 ## 目标
 

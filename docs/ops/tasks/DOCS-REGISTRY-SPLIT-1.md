@@ -1,13 +1,17 @@
 # DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分
 
-Status: build
+Status: done
 Phase: ops
 Capability: documentation registry storage
 Coding Owner: /root/registry_storage_author（隔离实现唯一写入者）
 Reviewer: Codex（不得验收自己编写的实现）
-Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-18
+Branch: codex/docs-governance-closeout（终态同步；实现候选见各历史节）
+Last reviewed: 2026-11-02
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-02 完成裁定
+
+原2374对象/顺序保全及原设计/存储非作者限定接受复用；后继容量扩展已到4542注册、11 registry片与114 review owner，最终公开consumer/完整性0问题，未放宽原flat上限。关闭存储与后继硬门义务，不把原构造失败倒改为成功。 共同依据见[父卡最终验收](DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)；旧执行/自验/等待文字按原日期保存，不覆盖本次现行裁定。
 
 ## 目标
 
