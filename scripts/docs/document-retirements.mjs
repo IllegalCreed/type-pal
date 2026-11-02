@@ -7,8 +7,8 @@ import { markdownLinks } from './markdown.mjs'
 import { readNativeArtifactRetirements } from './native-artifact-retirements.mjs'
 import {
   assertReviewRecordSourceUnchanged,
-  loadReviewRecord,
   loadReviewRecordFromGit,
+  loadReviewRecords,
   readReviewRecordObject,
 } from './review-record-storage.mjs'
 
@@ -306,10 +306,19 @@ function readEmptyReviewRetirements(root, registry, locations) {
   if (baseline.issues.length)
     return { entries: [], issues: baseline.issues, historicalTarget: () => false }
   const reviewReads = []
+  const requestedReviews = new Set()
+  let reviewGroup
   const reviewReader = (logicalPath) => {
-    const loaded = loadReviewRecord({ root, logicalPath })
-    reviewReads.push(loaded.loadedSource)
-    return loaded.record
+    if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
+    requestedReviews.add(logicalPath)
+    if (!reviewGroup?.records.has(logicalPath))
+      reviewGroup = loadReviewRecords({ root, logicalPaths: [...requestedReviews] })
+    // Reuse only this call's private parsed objects. Every lookup still checks the
+    // complete live group, and prior snapshots remain in the repeated exit checks.
+    reviewReads.push(reviewGroup.loadedSource)
+    const record = structuredClone(reviewGroup.records.get(logicalPath))
+    assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
+    return record
   }
   const result = inspectDocumentRetirements(registry, {
     reviewReader,

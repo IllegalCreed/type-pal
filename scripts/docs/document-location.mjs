@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readdirSync } from 'node:fs'
 import { join, posix } from 'node:path'
@@ -124,28 +124,125 @@ function currentInventory(root, directories) {
   return paths.sort()
 }
 
-function gitTree(root, revision) {
+function gitTree(root, revision, requiredPaths) {
   assert(/^[a-f\d]{40}$/u.test(revision), 'document location: fixed commit required')
   const run = (args) => execFileSync('git', args, { cwd: root, maxBuffer: 32 * 1024 * 1024 })
-  assert.equal(run(['cat-file', '-t', revision]).toString().trim(), 'commit')
+  assert.equal(
+    run(['cat-file', '-t', revision]).toString().trim(),
+    'commit',
+    'document location: source revision is not a commit',
+  )
   const entries = new Map()
-  for (const row of run(['ls-tree', '-rz', '--full-tree', revision]).toString().split('\0')) {
+  for (const row of run(['ls-tree', '-rlz', '--full-tree', revision]).toString().split('\0')) {
     if (!row) continue
-    const match = /^(\d{6}) (\w+) ([a-f\d]{40})\t(.+)$/u.exec(row)
+    const match = /^(\d{6}) (\w+) ([a-f\d]{40}) +(-|\d+)\t(.+)$/u.exec(row)
     assert(match, 'document location: invalid fixed tree')
-    entries.set(match[4], { mode: match[1], type: match[2], object: match[3] })
+    entries.set(match[5], {
+      mode: match[1],
+      type: match[2],
+      object: match[3],
+      bytes: match[4] === '-' ? undefined : Number(match[4]),
+    })
   }
   const cache = new Map()
+  const blobLimit = 32 * 1024 * 1024,
+    cacheLimit = 128 * 1024 * 1024,
+    cacheCountLimit = 4096,
+    batchCountLimit = 512
+  let cachedBytes = 0
+  const remember = (object, bytes) => {
+    while (cache.size >= cacheCountLimit || cachedBytes + bytes.length > cacheLimit) {
+      const oldest = cache.keys().next().value
+      cachedBytes -= cache.get(oldest).length
+      cache.delete(oldest)
+    }
+    cache.set(object, bytes)
+    cachedBytes += bytes.length
+  }
+  const batch = (wanted) => {
+    if (!wanted.length) return
+    const result = spawnSync('git', ['cat-file', '--batch'], {
+      cwd: root,
+      input: `${wanted.map((entry) => entry.object).join('\n')}\n`,
+      stdio: ['pipe', 'pipe', 'pipe'],
+      maxBuffer: blobLimit + batchCountLimit * 128,
+    })
+    assert(
+      !result.error && !result.signal && result.status === 0 && result.stderr.length === 0,
+      'document location: fixed Git batch failed or emitted diagnostics',
+    )
+    let offset = 0
+    for (const entry of wanted) {
+      const end = result.stdout.indexOf(10, offset)
+      const header =
+        end >= 0 &&
+        /^([a-f\d]{40}) blob (0|[1-9]\d*)$/u.exec(result.stdout.subarray(offset, end).toString())
+      assert(
+        header && header[1] === entry.object,
+        'document location: fixed Git batch framing/object differs',
+      )
+      const length = Number(header[2])
+      assert(
+        Number.isSafeInteger(length) && length <= blobLimit && length === entry.bytes,
+        'document location: fixed Git batch extent differs',
+      )
+      const bytes = result.stdout.subarray(end + 1, end + 1 + length)
+      assert(
+        bytes.length === length && result.stdout[end + 1 + length] === 10,
+        'document location: fixed Git batch payload truncated',
+      )
+      assert.equal(
+        blobHash(bytes),
+        entry.object,
+        'document location: fixed Git batch content drift',
+      )
+      remember(entry.object, Buffer.from(bytes))
+      offset = end + 2 + length
+    }
+    assert.equal(offset, result.stdout.length, 'document location: trailing Git batch payload')
+  }
+  // Only this admitted manifest's mandatory reads are prefetched. Bound both
+  // retained bytes and each subprocess; unrelated paths still use the lazy read.
+  const wanted = new Map()
+  let prefetchedBytes = 0
+  for (const path of requiredPaths) {
+    const entry = entries.get(path)
+    if (
+      entry?.mode !== '100644' ||
+      entry.type !== 'blob' ||
+      wanted.has(entry.object) ||
+      wanted.size >= cacheCountLimit ||
+      !Number.isSafeInteger(entry.bytes) ||
+      entry.bytes < 0 ||
+      entry.bytes > blobLimit ||
+      prefetchedBytes + entry.bytes > cacheLimit
+    )
+      continue
+    wanted.set(entry.object, entry)
+    prefetchedBytes += entry.bytes
+  }
+  let pending = [],
+    pendingBytes = 0
+  for (const entry of wanted.values()) {
+    if (pending.length === batchCountLimit || pendingBytes + entry.bytes > blobLimit) {
+      batch(pending)
+      pending = []
+      pendingBytes = 0
+    }
+    pending.push(entry)
+    pendingBytes += entry.bytes
+  }
+  batch(pending)
   const read = (path) => {
     const entry = entries.get(path)
     if (!entry) return undefined
     assert(entry.mode === '100644' && entry.type === 'blob', `nonordinary source: ${path}`)
-    if (!cache.has(path)) {
+    if (!cache.has(entry.object)) {
       const bytes = run(['cat-file', 'blob', entry.object])
       assert.equal(blobHash(bytes), entry.object, `fixed source object drift: ${path}`)
-      cache.set(path, bytes)
+      remember(entry.object, bytes)
     }
-    return Buffer.from(cache.get(path))
+    return Buffer.from(cache.get(entry.object))
   }
   return { entries, read }
 }
@@ -174,7 +271,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       (manifest.compressedArtifacts === undefined || Array.isArray(manifest.compressedArtifacts)),
     'document location: invalid contract or frozen source revision',
   )
-  const source = gitTree(root, manifest.baseRevision)
+  const source = gitTree(root, manifest.baseRevision, [
+    ...manifest.documents.map((row) => row.path),
+    ...manifest.retired.map((row) => row.path),
+    ...(manifest.compressedArtifacts ?? []).map((row) => row.path),
+    ...(manifest.artifactAliases ?? []).flatMap((row) => [row.path, row.receipt]),
+  ])
   const changes = new Map()
   const additions = new Map()
   const artifacts = new Map()

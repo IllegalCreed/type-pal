@@ -22,6 +22,7 @@ import { inspectDocumentRetirements, readDocumentRetirements } from './document-
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { markdownLinks } from './markdown.mjs'
+import { buildSmallShardedRecord } from './review-record-storage.test-support.mjs'
 
 const repo = fileURLToPath(new URL('../../', import.meta.url))
 const retiredPath = 'docs/phase-governance/reviews/20261004-lore-guijie-batch2.json'
@@ -30,7 +31,7 @@ const previousRegistry = 'docs/phase-governance/document-registry.phase-governan
 const quotePath = 'docs/phase-governance/reviews/README.md'
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
-function fixture(t) {
+function fixture(t, replacements = [{ path: replacement, reviewRecord: 'current.json' }]) {
   const root = mkdtempSync(join(tmpdir(), 'type-pal-document-retirement-'))
   t.after(() => rmSync(root, { recursive: true, force: true }))
   const write = (path, value) => {
@@ -53,7 +54,7 @@ function fixture(t) {
     return git('rev-parse', 'HEAD')
   }
   git('init', '-q')
-  json(retiredPath, { schemaVersion: 1, entries: [{ path: replacement }] })
+  json(retiredPath, { schemaVersion: 1, entries: replacements.map(({ path }) => ({ path })) })
   const before = commit()
   json(retiredPath, { schemaVersion: 1, id: 'empty-carrier', entries: [] })
   json(previousRegistry, {
@@ -86,11 +87,14 @@ function fixture(t) {
     }
   }
   rmSync(join(root, retiredPath))
-  write(replacement, '# Current document\n')
+  for (const row of replacements) write(row.path, '# Current document\n')
   write('docs/ops/tasks/RETIRE.md', '# Task\n\n### Approved empty carrier\n\nOwner decision.\n')
-  json('docs/phase-governance/reviews/current.json', {
-    entries: [{ path: replacement, contentReviewStatus: 'partial-review-unknown' }],
-  })
+  for (const name of new Set(replacements.map((row) => row.reviewRecord)))
+    json(`docs/phase-governance/reviews/${name}`, {
+      entries: replacements
+        .filter((row) => row.reviewRecord === name)
+        .map(({ path }) => ({ path, contentReviewStatus: 'partial-review-unknown' })),
+    })
   json('docs/phase-governance/routing.json', {
     entry: 'AGENTS.md',
     entrySection: 'Routes',
@@ -101,7 +105,7 @@ function fixture(t) {
   const quote = `<!-- original-source-quote:start -->\n> [old ledger](20261004-lore-guijie-batch2.json)\n<!-- original-source-quote:end -->\n`
   write(quotePath, `# Current index\n\n${quote}`)
   const registry = {
-    entries: [{ path: replacement, reviewRecord: 'current.json' }],
+    entries: replacements.map((row) => ({ ...row })),
     documentRetirements: {
       schemaVersion: 1,
       kind: 'empty-review-ledger-retirement',
@@ -115,7 +119,7 @@ function fixture(t) {
           reason: 'Empty carrier; original document now has one separate binding.',
           source: pin(retiredPath, source),
           predecessor: pin(retiredPath, before),
-          replacements: [{ path: replacement, reviewRecord: 'current.json' }],
+          replacements: replacements.map((row) => ({ ...row })),
         },
       ],
       historicalQuotes: [{ path: quotePath, sha256: hash(quote) }],
@@ -134,7 +138,57 @@ function fixture(t) {
     readSourceBuffer: (p) => readGitDocumentSnapshot(root, p),
   }
   const inspect = () => inspectDocumentRetirements(registry, options)
-  return { root, registry, options, inspect, write, json, quote }
+  return { root, registry, options, inspect, write, json, quote, commit }
+}
+
+const secondReplacement = 'docs/ops/second.md'
+function installBaselineSource(f) {
+  const common = execFileSync('git', ['rev-parse', '--git-common-dir'], {
+    cwd: repo,
+    encoding: 'utf8',
+  }).trim()
+  f.write('.git/objects/info/alternates', `${resolve(repo, common, 'objects')}\n`)
+  f.write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(repo, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
+}
+
+function protectedFixture(t, secondOwner = 'current.json') {
+  const f = fixture(t, [
+    { path: replacement, reviewRecord: 'current.json' },
+    { path: secondReplacement, reviewRecord: secondOwner },
+  ])
+  installBaselineSource(f)
+  const sharded = buildSmallShardedRecord(1, 'unrelated-current')
+  f.json(sharded.logicalPath, sharded.logical)
+  const revision = f.commit()
+  const source = readGitDocumentSnapshot(f.root, { path: sharded.logicalPath, revision })
+  for (const [path, bytes] of sharded.files) {
+    if (path !== sharded.logicalPath) f.write(path, bytes)
+    else {
+      const manifest = JSON.parse(bytes)
+      manifest._reviewStorage.source = {
+        revision,
+        path,
+        gitObject: source.gitObject,
+        sha256: hash(source.buffer),
+      }
+      f.json(path, manifest)
+    }
+  }
+  return {
+    ...f,
+    shard: sharded.files.find(([path]) => path.includes('/shards/'))[0],
+    read: (beforeSecondRead = () => {}) =>
+      readDocumentRetirements(f.root, f.registry, {
+        currentPath: (path) => path,
+        readBuffer: (path) => {
+          if (path === secondReplacement) beforeSecondRead()
+          return f.options.readBuffer(path)
+        },
+      }),
+  }
 }
 
 test('verified empty carrier retires without upgrading its replacement review', (t) => {
@@ -149,6 +203,69 @@ test('verified empty carrier retires without upgrading its replacement review', 
       .contentReviewStatus,
     'partial-review-unknown',
   )
+})
+
+for (const [name, mutate, message] of [
+  [
+    'the reused owner bytes',
+    (f) => {
+      const path = 'docs/phase-governance/reviews/current.json'
+      f.write(path, `${f.options.readBuffer(path)} `)
+    },
+    /input bytes or identity changed/,
+  ],
+  [
+    'an unrelated already-loaded shard',
+    (f) => f.write(f.shard, `${f.options.readBuffer(f.shard)} `),
+    /input bytes or identity changed/,
+  ],
+  [
+    'a publication lock',
+    (f) => f.write('docs/phase-governance/reviews/.storage.lock', 'active'),
+    /publication lock/,
+  ],
+  [
+    'the loaded directory inventory',
+    (f) => f.write(`${dirname(f.shard)}/unexpected.json`, '{}'),
+    /directory inventory changed/,
+  ],
+]) {
+  test(`retirement parsed-group reuse still rejects ${name} between replacement lookups`, (t) => {
+    const f = protectedFixture(t)
+    assert.deepEqual(f.read().issues, [])
+    let mutations = 0
+    assert.throws(
+      () =>
+        f.read(() => {
+          mutations++
+          mutate(f)
+        }),
+      message,
+    )
+    assert.equal(mutations, 1)
+  })
+}
+
+test('retirement lookup expands its protected group for a previously unloaded flat owner', (t) => {
+  const f = protectedFixture(t, 'second-owner.json')
+  const result = f.read()
+  assert.deepEqual(result.issues, [])
+  assert.equal(result.entries.length, 1)
+  rmSync(join(f.root, 'docs/phase-governance/reviews/second-owner.json'))
+  const missing = f.read()
+  assert.equal(missing.entries.length, 0)
+  assert.ok(missing.issues.some((issue) => issue.includes('second-owner.json')))
+})
+
+test('retirement parsed groups are private to one call and the next call observes current records', (t) => {
+  const f = protectedFixture(t)
+  assert.deepEqual(f.read().issues, [])
+  f.json('docs/phase-governance/reviews/current.json', {
+    entries: [{ path: replacement, contentReviewStatus: 'partial-review-unknown' }],
+  })
+  const result = f.read()
+  assert.equal(result.entries.length, 0)
+  assert.ok(result.issues.some((issue) => issue.includes('replacement review not unique')))
 })
 
 for (const [name, mutate, message] of [
@@ -283,15 +400,7 @@ test('progress consumer keeps denominator 1838, reports retirement separately an
   const f = fixture(t)
   cpSync(join(repo, 'scripts/docs'), join(f.root, 'scripts/docs'), { recursive: true })
   installHistoricalLocationFixture(f.root)
-  const common = execFileSync('git', ['rev-parse', '--git-common-dir'], {
-    cwd: repo,
-    encoding: 'utf8',
-  }).trim()
-  f.write('.git/objects/info/alternates', `${resolve(repo, common, 'objects')}\n`)
-  f.write(
-    frozenDocumentBaseline.path,
-    readFileSync(join(repo, currentDocumentPath(frozenDocumentBaseline.path))),
-  )
+  installBaselineSource(f)
   f.write('AGENTS.md', '# Fixture\n\n## Routes\n\nNo operations.\n')
   f.write(
     'docs/phase-governance/templates/registry.json',

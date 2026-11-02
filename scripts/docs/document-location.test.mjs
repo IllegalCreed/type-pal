@@ -11,7 +11,7 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs'
-import { join } from 'node:path'
+import { delimiter, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
@@ -630,5 +630,237 @@ test('compression storage cannot take the location of a different fixed source',
   assert.throws(
     () => loadDocumentLocations(f.root, f.save()),
     /fixed source or storage identity differs/u,
+  )
+})
+
+// Exercise the public reader against actual Git, with only one batch response
+// changed by the child-local wrapper. The parent test runner's PATH is untouched.
+function batchGitFixture(t, f) {
+  const directory = mkdtempSync('/tmp/type-pal-location-git-')
+  t.after(() => rmSync(directory, { recursive: true, force: true }))
+  const realGit = execFileSync('which', ['git'], { encoding: 'utf8' }).trim()
+  const trace = join(directory, 'trace.jsonl')
+  const wrapper = join(directory, 'git')
+  writeFileSync(
+    wrapper,
+    `#!${process.execPath}
+const {spawnSync} = require('node:child_process')
+const {appendFileSync,readFileSync,writeFileSync} = require('node:fs')
+const args = process.argv.slice(2), batch = args[0] === 'cat-file' && args[1] === '--batch'
+const input = batch ? readFileSync(0) : undefined
+appendFileSync(${JSON.stringify(trace)}, JSON.stringify({args,objects:input?.toString().trim().split('\\n')})+'\\n')
+const result = spawnSync(${JSON.stringify(realGit)},args,{input,maxBuffer:64*1024*1024})
+if (result.error) throw result.error
+let output = result.stdout, status = result.status
+if (batch && status === 0) {
+  const end = output.indexOf(10), header = output.subarray(0,end).toString()
+  const mode = process.env.LOCATION_GIT_TEST_MODE
+  if (mode === 'object') output = Buffer.concat([Buffer.from(header.replace(/^[a-f0-9]{40}/,process.env.LOCATION_GIT_OTHER_OBJECT)),output.subarray(end)])
+  if (mode === 'type') output = Buffer.concat([Buffer.from(header.replace(' blob ',' tree ')),output.subarray(end)])
+  if (mode === 'extent') output = Buffer.concat([Buffer.from(header.replace(/ [0-9]+$/,' 9007199254740992')),output.subarray(end)])
+  if (mode === 'extent-limit') output = Buffer.concat([Buffer.from(header.replace(/ [0-9]+$/,' 33554433')),output.subarray(end)])
+  if (mode === 'extent-mismatch') output = Buffer.concat([Buffer.from(header.replace(/ [0-9]+$/,' 123456')),output.subarray(end)])
+  if (mode === 'content') {output=Buffer.from(output);output[end+1]^=1}
+  if (mode === 'truncated') output = output.subarray(0,output.length-1)
+  if (mode === 'trailing') output = Buffer.concat([output,Buffer.from('!')])
+  if (mode === 'stderr') writeFileSync(2,'owned Git diagnostic\\n')
+  if (mode === 'exit') status = 7
+}
+writeFileSync(1,output)
+writeFileSync(2,result.stderr)
+process.exitCode = status ?? 1
+`,
+    { mode: 0o755 },
+  )
+  const run = (body, { mode = 'pass', admission = f.save(), otherObject } = {}) => {
+    writeFileSync(trace, '')
+    return spawnSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        `import assert from 'node:assert/strict'
+import {readFileSync} from 'node:fs'
+import {loadDocumentLocations} from ${JSON.stringify(new URL('./document-location.mjs', import.meta.url).href)}
+const root=${JSON.stringify(f.root)}, admission=${JSON.stringify(admission)}
+const trace=()=>readFileSync(${JSON.stringify(trace)},'utf8').trim().split('\\n').filter(Boolean).map(line=>JSON.parse(line))
+${body}`,
+      ],
+      {
+        cwd: f.root,
+        env: {
+          ...process.env,
+          PATH: `${directory}${delimiter}${process.env.PATH}`,
+          LOCATION_GIT_TEST_MODE: mode,
+          ...(otherObject ? { LOCATION_GIT_OTHER_OBJECT: otherObject } : {}),
+        },
+        encoding: 'utf8',
+        maxBuffer: 1024 * 1024,
+      },
+    )
+  }
+  return { run, trace }
+}
+
+test('fixed Git batching shares only bytes and retains independent paths, copies and lazy reads', (t) => {
+  const paths = ['docs/ops/evidence/CASE/one.raw', 'docs/ops/evidence/CASE/two.raw']
+  const lazy = 'docs/phase1/lazy.raw'
+  const binary = Buffer.concat(Array.from({ length: 1000 }, () => Buffer.from([0, 255, 10, 65])))
+  const f = fixture(t, { seedFiles: { [paths[0]]: binary, [paths[1]]: binary, [lazy]: 'lazy\n' } })
+  f.manifest.compressedArtifacts = paths.map((path) => {
+    const packed = gzipSync(binary),
+      stored = `${currentDocumentPath(path)}.gz`
+    f.write(stored, packed)
+    rmSync(join(f.root, currentDocumentPath(path)))
+    return {
+      path,
+      stored,
+      codec: 'gzip',
+      bytes: binary.length,
+      sha256: hash(binary),
+      sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+        cwd: f.root,
+        encoding: 'utf8',
+      }).trim(),
+      storedBytes: packed.length,
+      storedSha256: hash(packed),
+    }
+  })
+  const expected = execFileSync('git', ['show', `HEAD:${paths[0]}`], { cwd: f.root })
+  const lazyObject = execFileSync('git', ['rev-parse', `HEAD:${lazy}`], {
+    cwd: f.root,
+    encoding: 'utf8',
+  }).trim()
+  const wrapped = batchGitFixture(t, f)
+  const result = wrapped.run(`
+const locations=loadDocumentLocations(root,admission), expected=Buffer.from(${JSON.stringify(expected.toString('base64'))},'base64')
+const paths=${JSON.stringify(paths)}, lazy=${JSON.stringify(lazy)}
+const initial=trace(), batches=initial.filter(x=>x.args[1]==='--batch')
+assert.equal(batches.length,1)
+assert.equal(batches[0].objects.filter(x=>x===${JSON.stringify(f.manifest.compressedArtifacts[0].sourceBlob)}).length,1)
+assert(!batches[0].objects.includes(${JSON.stringify(lazyObject)}))
+const first=locations.sourceBuffer(paths[0]);assert.deepEqual(first,expected);first.fill(0)
+for(const path of paths){assert.deepEqual(locations.sourceBuffer(path),expected);assert.equal(locations.identity(locations.currentPath(path)),path)}
+assert.equal(locations.sourceBuffer('docs/phase1/unknown.raw'),undefined)
+assert.deepEqual(trace(),initial)
+assert.equal(locations.sourceBuffer(lazy).toString(),'lazy\\n')
+const after=trace();assert.equal(after.length,initial.length+1)
+assert.deepEqual(after.at(-1).args,['cat-file','blob',${JSON.stringify(lazyObject)}])
+locations.sourceBuffer(lazy).fill(0)
+assert.equal(locations.sourceBuffer(lazy).toString(),'lazy\\n');assert.deepEqual(trace(),after)
+locations.assertUnchanged()
+`)
+  assert.ifError(result.error)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stderr, '')
+})
+
+test('fixed Git batch rejects changed framing, content, extent, incomplete output and diagnostics', async (t) => {
+  const f = fixture(t),
+    wrapped = batchGitFixture(t, f)
+  const positive = wrapped.run('loadDocumentLocations(root,admission).assertUnchanged()')
+  assert.ifError(positive.error)
+  assert.equal(positive.status, 0, positive.stderr)
+  assert.equal(positive.stderr, '')
+  const otherObject = execFileSync('git', ['rev-parse', 'HEAD:docs/ops/evidence/raw.log'], {
+    cwd: f.root,
+    encoding: 'utf8',
+  }).trim()
+  for (const [mode, message] of [
+    ['object', 'framing/object differs'],
+    ['type', 'framing/object differs'],
+    ['extent', 'extent differs'],
+    ['extent-limit', 'extent differs'],
+    ['extent-mismatch', 'extent differs'],
+    ['content', 'content drift'],
+    ['truncated', 'payload truncated'],
+    ['trailing', 'trailing Git batch payload'],
+    ['stderr', 'batch failed or emitted diagnostics'],
+    ['exit', 'batch failed or emitted diagnostics'],
+  ]) {
+    await t.test(mode, () => {
+      const result = wrapped.run(
+        `assert.throws(()=>loadDocumentLocations(root,admission),error=>error.code==='ERR_ASSERTION'&&error.message.includes(${JSON.stringify(message)}))`,
+        { mode, otherObject },
+      )
+      assert.ifError(result.error)
+      assert.equal(result.status, 0, result.stderr)
+      assert.equal(result.stderr, '')
+      assert(
+        JSON.parse(readFileSync(wrapped.trace, 'utf8').trim().split('\n').at(-1)).args.includes(
+          '--batch',
+        ),
+      )
+    })
+  }
+})
+
+test('a mandatory source set larger than one batch keeps bounded requests and every fixed byte', (t) => {
+  const seeds = Object.fromEntries(
+    Array.from({ length: 513 }, (_, index) => [
+      `docs/ops/tasks/batch/${index}.md`,
+      `# Fixed source ${index}\n`,
+    ]),
+  )
+  const empty = 'docs/ops/tasks/batch/empty.md'
+  seeds[empty] = ''
+  const f = fixture(t, { seedFiles: seeds })
+  f.manifest.documents.push(...Object.keys(seeds).map((path) => ({ path, mode: 'links' })))
+  const wrapped = batchGitFixture(t, f)
+  const result = wrapped.run(`
+const locations=loadDocumentLocations(root,admission), batches=trace().filter(x=>x.args[1]==='--batch')
+assert.equal(batches.length,2)
+assert(batches.every(x=>x.objects.length<=512))
+assert.equal(new Set(batches.flatMap(x=>x.objects)).size,515)
+for(const [path,text] of Object.entries(${JSON.stringify(seeds)})) assert.equal(locations.sourceBuffer(path).toString(),text)
+assert.equal(trace().filter(x=>x.args[1]==='blob').length,0)
+locations.assertUnchanged()
+`)
+  assert.ifError(result.error)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stderr, '')
+})
+
+test('source batching cannot turn real tags, executable files or symlinks into ordinary fixed sources', (t) => {
+  const f = fixture(t, {
+    seedFiles: { 'docs/phase1/executable.raw': 'exe\n', 'docs/phase1/link.raw': 'target\n' },
+  })
+  const git = (...args) => execFileSync('git', args, { cwd: f.root, encoding: 'utf8' }).trim()
+  // Both forbidden modes deliberately share the already prefetched card OID;
+  // an OID cache hit must not bypass the requested path's actual tree mode.
+  const cached = git('rev-parse', 'HEAD:docs/ops/tasks/T.md')
+  git('update-index', '--cacheinfo', `100755,${cached},docs/phase1/executable.raw`)
+  git('update-index', '--cacheinfo', `120000,${cached},docs/phase1/link.raw`)
+  const commit = git(
+    '-c',
+    'user.name=Fixture',
+    '-c',
+    'user.email=fixture@example.invalid',
+    'commit-tree',
+    git('write-tree'),
+    '-m',
+    'mode boundaries',
+  )
+  f.manifest.baseRevision = commit
+  const locations = loadDocumentLocations(f.root, { ...f.save(), baseRevision: commit })
+  for (const path of ['docs/phase1/executable.raw', 'docs/phase1/link.raw'])
+    assert.throws(() => locations.sourceBuffer(path), /nonordinary source/u)
+  git(
+    '-c',
+    'user.name=Fixture',
+    '-c',
+    'user.email=fixture@example.invalid',
+    'tag',
+    '-a',
+    'not-a-commit',
+    commit,
+    '-m',
+    'owned tag boundary',
+  )
+  const tag = git('rev-parse', 'not-a-commit')
+  f.manifest.baseRevision = tag
+  assert.throws(
+    () => loadDocumentLocations(f.root, { ...f.save(), baseRevision: tag }),
+    /source revision is not a commit/u,
   )
 })

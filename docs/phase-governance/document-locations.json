@@ -2468,14 +2468,14 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "003d776668c0081a1683351f9d35a9edc94c76c74ccf313895d360c4b6dc9984",
+      "afterSha256": "2792bb0d00e27938b75aa27acf89163e984fd995367db0df9b1ca52023db4b19",
       "review": {
         "author": "/root",
         "reviewer": "/root/thin_indexes",
         "date": "2026-11-03",
-        "conclusion": "首轮受保护CI仅fast范围漏同步失败；官方ratchet唯一21测试增量，32组指标原样；原始失败、新执行与有限净量独立复核，最新远端结果取PR。",
-        "reviewedLines": 95,
-        "acceptanceScope": "只核已接受正文后的收口差异、原始完整门日志、按固定源测量与归档成员；不重复产品审核，不授远端CI或新运行信用。"
+        "conclusion": "本地446项与全量门零诊断；保留首CI范围失败、文档20分钟取消及修复原件；四源码独立接受，现行校验与时限不变，最新远端结果取PR。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只核根编写卡面、固定源净量和有限归档增量；四源码由Codex另据作者原件独立接受。不重复产品审核，不由本地通过授远端CI或新运行信用。"
       }
     },
     {
@@ -2578,9 +2578,9 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
-      "sha256": "218e4dc33f474835738ab0c846e73772588071958e9dd4642c26b44c440d049c",
-      "bytes": 705520,
-      "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；固定253前166条和ed957前265条载荷原样，新增首CI范围失败及官方ratchet记录，执行身份不合并；fast实测不替代E2E、视觉或发布。"
+      "sha256": "e2ea12530f5db0f89ccc154c5af058fab57aac80ed08a20ced9aeb09b162555b",
+      "bytes": 1566283,
+      "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
     }
   ],
   "artifactAliases": [
