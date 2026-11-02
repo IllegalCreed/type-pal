@@ -1,6 +1,22 @@
 import { fsaSource, type LoadedCurrentProjectCore } from '@type-pal/reforge'
 import { observeAuthorSource } from '../author-disk-baseline.js'
 
+const arrayBufferByteLength = Object.getOwnPropertyDescriptor(
+  ArrayBuffer.prototype,
+  'byteLength',
+)?.get
+
+/** Check the intrinsic brand across realms without trusting a spoofable toStringTag. */
+function isArrayBuffer(value: unknown): value is ArrayBuffer {
+  if (!arrayBufferByteLength) throw new Error('ArrayBuffer byteLength getter is unavailable')
+  try {
+    arrayBufferByteLength.call(value)
+    return true
+  } catch {
+    return false
+  }
+}
+
 export function memoryAuthorDirectory(initial: Record<string, unknown> = {}) {
   const files = new Map<string, ArrayBuffer>()
   const directories = new Set([''])
@@ -12,8 +28,8 @@ export function memoryAuthorDirectory(initial: Record<string, unknown> = {}) {
     beforeRemove?: (path: string) => void | Promise<void>
   } = {}
   const encode = (value: unknown): ArrayBuffer =>
-    value instanceof ArrayBuffer
-      ? value.slice(0)
+    isArrayBuffer(value)
+      ? new Uint8Array(new Uint8Array(value)).buffer
       : new TextEncoder().encode(
           typeof value === 'string' ? value : `${JSON.stringify(value, null, 2)}\n`,
         ).buffer
