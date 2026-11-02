@@ -1,6 +1,31 @@
+import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
+import { readPinnedGitDocuments } from './git-document-batch.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { incrementalReviewAdmission } from './incremental-review-admission.mjs'
+
+/** Batch only the protected caller's closed fixed-main pool; unknown paths keep the old reader. */
+export function createIncrementalGitSourceReader(root, getSourcePins) {
+  assert.equal(typeof getSourcePins, 'function', 'protected source-pool provider required')
+  let batch
+  return (pin) => {
+    if (pin?.revision !== incrementalReviewAdmission.sourceRevision || typeof pin.path !== 'string')
+      return readIncrementalGitSource(root, pin)
+    if (!batch) {
+      const pins = getSourcePins()
+      if (!pins) return readIncrementalGitSource(root, pin)
+      assert(
+        Array.isArray(pins) &&
+          pins.length > 0 &&
+          pins.length <= incrementalReviewAdmission.entryCount &&
+          pins.every((source) => source?.revision === incrementalReviewAdmission.sourceRevision),
+        'bounded fixed-main source pool required',
+      )
+      batch = readPinnedGitDocuments(root, pins)
+    }
+    return batch(pin) ?? readIncrementalGitSource(root, pin)
+  }
+}
 
 /** Fixed-main Markdown companion; existing JSON readers keep their narrower contract. */
 export function readIncrementalGitSource(root, pin) {

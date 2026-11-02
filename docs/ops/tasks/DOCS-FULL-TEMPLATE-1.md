@@ -3099,3 +3099,5 @@ Codex单一Owner，沿用户继续处理完整门/远端CI的既定授权实施�
 CI保留原七命令图与五分钟上限；工具按文件以Node原生分片覆盖完整集合，所有分片及每个原门都必须成功，新增/删除/重排原命令或改变测试命令形状时拒绝。各作业恢复全部8项锁定附件，strict/require-complete/lint及最终汇总不降门；新Python测试接入正式CI。先比较同一数据树优化前后的完整JSON输出逐字节相等，再实测门与远端执行；模板/分母/授信表/原生载体、产品、coverage均不改，不借调度或缓存授新语义/runtime信用。实现与反控准备后由未参与者集中核新增范围，S88原接受不重做；最终仍须受保护CI实际全绿，不合main、不标done。
 
 实现期实测新增缓存七测与分片六测均通过、原恢复十三测仍通过；包装字符串revision命中已暖缓存的真实AssertionError反例先红，显式primitive类型守卫后七测恢复全绿，原Git读取器正文不改。全质量工具45/45、lint6679零诊断。首次在尚有本卡/代码未提交变化的作者树跑完整文档工具为394/395：唯一红为旧CLI反例先触发“tracked working tree must be clean”，未进入其原期待的flag拒绝；不删断言或扩大许可，冻结提交后补核该文件并由远端三分片重验完整集合。原命令/失败/修复输入保持独立，未称本轮全工具已绿。
+
+5b9a8b1d7冻结后该文件实际6/6；远端三工具分片、导航、模型、strict及lint共七作业通过，唯progress仍超过原五分钟预算，documentation汇总正确拒绝；fast-coverage当时仍在真实执行，不预签结果。同一5b9数据树的诊断显示JSON缓存已到32MiB，838次热来源因饱和而未复用，1916固定main来源的首读还逐件启动Git。Codex在既定执行优化范围增加incremental-git-source.mjs一项：复用已接受readPinnedGitDocuments，对受保护cohort给出的完整固定pool批读，仍逐件核Git commit/mode/OID/SHA及完整framing；未知路径走原读取器，错误pool不退回忽略。原单篇读取器正文及全部source pin不改；JSON缓存仅在同一32MiB/4096条界限内淘汰冷来源，未缓存miss、活动文件或锁。新增/调整的新测试为缓存与真实固定pool10/10、原incremental回归10/10；同数据完整输出对比与远端重验另按实际结果收口，不以七绿一超时冒全门通过。

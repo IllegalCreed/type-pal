@@ -7,7 +7,7 @@ import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
-import { cacheGitSnapshots, readGitDocumentSnapshot } from './git-document-snapshot.mjs'
+import { cacheGitSnapshots, createGitDocumentSnapshotReader } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 import { readGitHtmlSnapshot } from './git-html-snapshot.mjs'
 import { gitInventory } from './git-inventory.mjs'
@@ -19,7 +19,8 @@ import { historicalHtmlAdmissions } from './historical-html-admission.mjs'
 import { nativeArtifactBindings } from './historical-native-artifact-admission.mjs'
 import { nativeFamilyAdmissions } from './historical-native-family-admission.mjs'
 import { historicalVitestContract } from './historical-vitest-native.mjs'
-import { readIncrementalGitSource } from './incremental-git-source.mjs'
+import { createIncrementalGitSourceReader } from './incremental-git-source.mjs'
+import { inspectIncrementalCohort } from './incremental-review.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
@@ -45,17 +46,20 @@ const reviewReader = (path) => {
   })
   return reviewGroup.records.get(path)
 }
+const reviewGroupReader = () => {
+  reviewGroup ??= loadReviewRecords({ root })
+  return reviewGroup
+}
 const sourceOptions = {
   root,
-  reviewGroupReader: () => {
-    reviewGroup ??= loadReviewRecords({ root })
-    return reviewGroup
-  },
+  reviewGroupReader,
   reviewReader,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
-  readSourceBuffer: cacheGitSnapshots((pin) => readGitDocumentSnapshot(root, pin)),
-  readIncrementalSourceBuffer: cacheGitSnapshots((pin) => readIncrementalGitSource(root, pin)),
+  readSourceBuffer: cacheGitSnapshots(createGitDocumentSnapshotReader(root)),
+  readIncrementalSourceBuffer: createIncrementalGitSourceReader(root, () =>
+    inspectIncrementalCohort(reviewGroupReader().records)?.rows.map((row) => row.primarySource[0]),
+  ),
   readHtmlSourceBuffer: cacheGitSnapshots((pin) => readGitHtmlSnapshot(root, pin)),
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
