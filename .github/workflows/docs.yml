@@ -39,4 +39,3 @@ jobs:
         run: python3 -B scripts/docs/restore-e2e-evidence.py --ci-stage all
         env:
           GH_TOKEN: ${{ github.token }}
-
