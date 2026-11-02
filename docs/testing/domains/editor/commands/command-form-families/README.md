@@ -29,7 +29,7 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 证据与下一步
 
-本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `fc88b85c2d8e5efee76abf76b6ebc4c6d6fa1846`，SHA256 `636aa9ad5109640e4faa17097f83ad1696222838a0384ac64bd9ab951df916bc`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
+本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `fc88b85c2d8e5efee76abf76b6ebc4c6d6fa1846`，SHA256 `636aa9ad5109640e4faa17097f83ad1696222838a0384ac64bd9ab951df916bc`。逐篇来源、after 和限制见[本包作者回执](../../../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)。
 
 K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 

@@ -1,0 +1,2651 @@
+{
+  "schemaVersion": 1,
+  "kind": "document-location-migration",
+  "baseRevision": "159cd0e2f8753536800ba4635e896020a897fddc",
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "mode": "reviewed",
+      "afterSha256": "3e2f6299becf51476c7c183bd82482fbf8362c9c71aec3e3dc47fc3d354522c1",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留新主线质量/瘦身/协作约定，单根11类操作与领域路由；第一阶段、lore、phase3按需进入，不恢复历史授权。",
+        "reviewedLines": 47,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "mode": "reviewed",
+      "afterSha256": "464753766ea387ccd9044a11f9b1e7572815634fad5ba972484d848ae71ec52a",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 189,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "docs/lore/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9f2d15ff5d80a73821b1b8d766fed7d7e91e51438ee252f0a7dad3b62d390dbc",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留主题入口、女娲来源冲突、版本取舍及四种证据边界；创意与已定约束分开，未重验外站/剧情。",
+        "reviewedLines": 42,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "mode": "reviewed",
+      "afterSha256": "66e369e612fcd10d133d3d9f16a21342b0235fc10b58b419ccc01fd79807bb00",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留新文档验收协议并接续已授权通用约定；开发全流程同提交写回受影响规范/知识/状态，无影响给具体理由。",
+        "reviewedLines": 131,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/audits/worktree-retirement-2026-09-24.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/three-sages-20261015.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/protocols/workflow-snapshot-20261015.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/README.md",
+      "mode": "reviewed",
+      "afterSha256": "83567ff0870694ecc0fb91a0595a53e2b032ee249269c16e2fb1c4c0fe7ed7cf",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "原稿贡献者；/root（导航delta）",
+        "reviewer": "/root（原稿）；/root/thin_indexes（导航delta）",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 31,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。 本次根编写的有限导航delta由/root/thin_indexes独立复核：显式同目录索引、旧ops根分路与done/cancelled入口；不授产品信用。"
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/GAME-PLAYER-POISON-KEY-DOMAIN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A5-project-export-zip.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-1-sfx-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3B-battle-sprite-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ACTOR-CONDITION-SEED-1-entry-and-story-actor-conditions.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-1-domain-modules.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-CURSOR-BATCH-2-remaining-commands.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-LABELS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-DS-OVERFLOW-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-BATTLE-1-host-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-FRAME-1-clock-and-input.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-MENU-1-session-controller.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/ARCH-SUPPORT-GLM-1-eight-audit-packages.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/AUDIT-TEST-QUALITY-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/B10-poison-structured-editor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-1-governance.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2-shared-codec-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-2b-shared-yj2-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3-pal-extract-event-types.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3b-pal-extract-io-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3d-pal-extract-png-inputs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3f-pal-extract-symbols-input.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3g-pal-extract-cli-io.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3h-game-assets-shell.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3p-event-opcode-player.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3q-game-scene-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3r-game-event-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3s-game-battle-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3v-game-battle-actions-basic.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-44-game-font.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-45-game-follower-render.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-IA-2-repository-documentation-structure.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/DOC-TESTING-ARCH-1-testing-document-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2-patrol-templates.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-001-CLOSE-1-dialogue-and-actors.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/E2E-002-CHOREO-1-trio-dialogue-authority.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCRIPT-CARD-UI-1-step-selection.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-0001-agent-workflow-bootstrap.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-ENEMY-HOOKS-1-current-translation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-MIGRATE-SCENES-1-current-scenes.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-PAL-ASSETS-1-loader-and-ownership.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-TRANSLATE-EVENTS-1-current-boundaries.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-ASSET-UI-LARGE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CURSOR-SCRIPT-PREVIEW-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-ENV-STABILITY-1-cache-and-host-load.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-FROZEN-CLOSE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-BOOT-RESOURCES-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GROK-RENDER-HOST-LARGE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-CURRENT-CONTINUATION-MEDIUM-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-KIMI-SCRIPT-LIFECYCLE-MEDIUM-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TESTING-DOC-LAYOUT-1-clean-root.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/architecture-debt.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "mode": "reviewed",
+      "afterSha256": "0617b3f31d52b7d0e92347bfea7fb1533b1d0d75005aacff78d0f89b0f57219e",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "唯一846行live表329591字节逐字节保持；汇总同步3634/846/0/2788，11新增只pending。旧日志、35非live追加及双snapshot从固定Git恢复，counter未自动结案。",
+        "reviewedLines": 889,
+        "acceptanceScope": "贡献者全文核读/治理；根核新正文、真实consumer及固定Git源变换后live表的完整字节相等，不重新授产品/代码质量信用。"
+      }
+    },
+    {
+      "path": "docs/ops/audits/code-quality-governance.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/quality-gate-remediation.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/audits/README.md",
+      "mode": "reviewed",
+      "afterSha256": "cc1833eea9b0b32c8acfa57cb9c6195561024b0db08bbf9e67bc1eadc5fb97bc",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 38,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "mode": "reviewed",
+      "afterSha256": "50650ae3d324ee6ca9a9fdab2f552e75d8dafe632911d2a27e43d8985d4fa867",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "最终状态、真实门与净变化有限复核；本地批次完成而长期卡保持build，未PR/推送/合main；保留旧失败、历史counter及未执行范围。",
+        "reviewedLines": 153,
+        "acceptanceScope": "只核已接受正文后的收口差异、原始完整门日志、按固定源测量与归档成员；不重复产品审核，不授远端CI或新运行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "mode": "reviewed",
+      "afterSha256": "62c0bf1edfdac50205eb5eb6d587371e58862a780290636523dd5a79343758d9",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "全部现行条款原样保留，只有可见路径迁移；重复历史全文改从固定Git读取，不减少八维或零诊断要求。",
+        "reviewedLines": 176,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/document-quality.md",
+      "mode": "reviewed",
+      "afterSha256": "c50b3ba9231f36027a3c5f78354e167aedc0369b2011171a823f2386a6cf2a1f",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "规范位置统一engineering/guides；既有文档交付、独立验收和零诊断要求保留。",
+        "reviewedLines": 76,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-100/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-101/codex-current-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-101/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-102/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-window.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-r2-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-97/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-98/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-99/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "008fc33d4130bd1a56b3ad0b7747915b23a514e63f8066de68138988bbad9b76",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行done回到原卡；固定批次/已关闭调查工具仅在固定旧树隔离回放，不将旧路径重定向后覆盖原件。",
+        "reviewedLines": 110,
+        "acceptanceScope": "原稿既有接受复用；/root/thin_indexes独立核本次实际delta、done卡与锚点、固定159来源和README8376字节旧尾段一致，不授新执行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/c2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/blob-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-formulas-magic/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/50-draw-magic/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/92/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "mode": "reviewed",
+      "afterSha256": "94c4e3096212a52222a60c08907958a763733b98fec4922decb151e3e14af878",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "原稿贡献者；/root（导航delta）",
+        "reviewer": "/root（原稿）；/root/thin_indexes（导航delta）",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 39,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。 本次根编写的有限导航delta由/root/thin_indexes独立复核：显式同目录索引、旧ops根分路与done/cancelled入口；不授产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "mode": "reviewed",
+      "afterSha256": "8c90d34db7b70fc29b1b77a0fa3617b1058aeda899c1f4833eff054c33a29501",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "现行键盘/DOM/观察/失败/完成规则保持，旧工具与席位原文改固定Git；未重新实跑浏览器。",
+        "reviewedLines": 66,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "mode": "reviewed",
+      "afterSha256": "025c5dfa3ffaec67ee834fed859014bf5fd29ceeef0aa409c5fed51e5f9c0661",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "现行端口/命令/前置/失败处理保持，原静态核验注明时点；历史旧全文改固定Git，不冒称本次启动服务。",
+        "reviewedLines": 76,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/documentation-model.md",
+      "mode": "reviewed",
+      "afterSha256": "1983f1e05fb7cf26bfd9b8c20d03bb0e68b1b9890096efdeaf784ec83dde685f",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes + /root integration",
+        "reviewer": "/root for contributor body; /root/thin_indexes for integration delta",
+        "date": "2026-11-02",
+        "conclusion": "单AGENTS根、按需薄索引、tasks/engineering职责与同提交写回明确；固定历史身份和当前文件位置分开。 当前字面索引/路由入口按实际迁移合同核正；原routing JSON保持不变。",
+        "reviewedLines": 134,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "mode": "reviewed",
+      "afterSha256": "5cbf51a9c11c679f6f994b9713d4e4917db657bc712503591543174c1b21d876",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "有限当前存储/恢复或总纲/路由更新独立接受；17副本实际退役与原回执保全已核，最终统一门及归档仍按实录收口。",
+        "reviewedLines": 57,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "mode": "reviewed",
+      "afterSha256": "2046def9f56179c9a16166fdb969500816d4e7e49dba1c6c51d0e75baf727b8b",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "工程父索引只路由现行指南、历史协议和机器存储，具体工作选择由guides索引负责。",
+        "reviewedLines": 31,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/README.md",
+      "mode": "reviewed",
+      "afterSha256": "faa5f6d81a442b8f70f55d115aceeabe6662dca3381154fafeda22e961ef98b8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "任务薄索引只分活动分工、卡片、审计、证据和历史，规范归工程，状态回原卡。",
+        "reviewedLines": 33,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-ENGLISH-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-INPUT-ROTATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-NANZHAO-ROOM-EXIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-UI-ASSET-FRAME-IDENTITY-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/index.md",
+      "mode": "reviewed",
+      "afterSha256": "4cc81a0c5fd431c6b1a886248fc8b69dc2ead1ec471a90d566cb20994cac5232",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "生成投影保持原528卡标题/状态/说明，仅加入REPO-SLIM-PLAN-1 build；全部529卡顶部独立匹配。",
+        "reviewedLines": 574,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-4.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-EVENT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-FONT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-MANIFEST-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-TABLE-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-ASSET-RENDER-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-LOCALIZATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-PRESENT-HOST-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-INITIALIZER-FIXTURES-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-LINT-ZERO-TEST-CONTRACT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-LOCALE-DEFINITION-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-ASSET-TAKEOVER-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-NAMING-ORGANIZATION-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PENDING-100-3.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RECENT-200-CONTENT-AUDIT-2.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-TOOLS-CONTRACT-TESTS-1.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4ef8251b1b75d1d4a1e3efff7a39cc9c0c4dab094a7e16de83c422e737bd2711",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 45,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      },
+      "historyDisposition": "fixed-git-source"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "mode": "reviewed",
+      "afterSha256": "021a25e35831abd75801688bccbbe68374c51d9e4a0078f863d2b6651cfa400f",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
+        "reviewedLines": 32,
+        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。"
+      }
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "mode": "reviewed",
+      "afterSha256": "0fe38cbf1577bcbc31c60759230552dd041726f51bc9a362fda7883aa145a833",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "轻量卡增加现行文档/知识同步填写与具体无影响理由；模板源块逐字节保全。",
+        "reviewedLines": 135,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "mode": "reviewed",
+      "afterSha256": "56f871d40595e3f8b493a35f6bb5a98be9ff9ab9f02f6cc6fa355bd5ecdf236b",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "完整卡增加现行文档/知识同步填写与具体无影响理由；模板源块逐字节保全。",
+        "reviewedLines": 272,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase-governance/cross-phase-matrix.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/README.md",
+      "mode": "reviewed",
+      "afterSha256": "032912f276491816a68eb861282229fa0fe28672d188e61e3d3b7a72f5024048",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory + /root integration",
+        "reviewer": "/root for contributor body; /root/thin_indexes for integration delta",
+        "date": "2026-11-02",
+        "conclusion": "治理已由PR39/母卡done收口，纠正入口旧rework；旧撤信继续保留，登记只供按需消费。 当前字面索引/路由入口按实际迁移合同核正；原routing JSON保持不变。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/reviews/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/archive-record.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/audit-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/design-spec.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/evidence-receipt.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/governance-index.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/guide-runbook.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/narrative-idea.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/plan-status.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/reference-canon.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "mode": "reviewed",
+      "afterSha256": "2e7ff3481e96bc53277d11a893952cd9f8b09cb785d614f9c781aebef260f219",
+      "templateId": "reference-canon-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "统一卡模板引用唯一写回流程；历史示例保全，不把占位当执行结果。",
+        "reviewedLines": 84,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "85e8d5dd09a0eb89da9f2780ac1044b4767d44578d4d6373c55280e063b80d1d",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "当前导航承接根知识入口，按问题定位包/机制/经验，冻结状态和规划仅追溯；不把下游历史标签升格为产品完成。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-0-music-resource-closure-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-2-static-images-engine-chrome-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/a7-resource-closure-audit.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/audits/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/designs/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/mockups/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/plans/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/archive/slices/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/guides/debug-tools.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/guides/README.md",
+      "mode": "reviewed",
+      "afterSha256": "ea7a023cd4ac7103cc536446c7160732d4f798293ce56166895ff966431be3f2",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "六个操作入口全部保留，字段合同回specs，执行结果回任务；退出重复治理原文。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "mode": "reviewed",
+      "afterSha256": "6f03f1dff877b3d3348d3b907460a9699ae96c1c7e9f962e66e607f1560f3e91",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "十一条现行规则及停止线保留，旧CLAUDE入口改阶段知识；重复历史全文和已过期治理rework退出默认阅读。",
+        "reviewedLines": 58,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4ba14774a3e23e20675166e0e15f03e39cba00c1f299db6bed2b5529e75eac0e",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "阶段薄索引保留规则/规范/指南/知识/能力/决策/历史入口，不复制治理流水。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/reference/README.md",
+      "mode": "reviewed",
+      "afterSha256": "17f2d56b1e4eb8e3b507d5d6298ccc421c24d3becaf5a8752bbd6aa052d8edcd",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "两个知识入口保留，区分参考、阶段方针和当前字段合同，不据旧标题恢复模型席位。",
+        "reviewedLines": 32,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/specs/project-lifecycle.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase2/specs/README.md",
+      "mode": "reviewed",
+      "afterSha256": "6dd17f39d7953f848182b99b5b02a9cbf2fd08ba12f0aa2813bf828b90a17306",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "六个现行规范入口全部保留，和操作/历史分工；薄索引不承诺实现符合。",
+        "reviewedLines": 36,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/phase2/specs/save-system.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase3/backlog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/phase3/README.md",
+      "mode": "reviewed",
+      "afterSha256": "27c92371f4e34f02dbd042990dcf41268205ce699470b37637fa53ece01afbec",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "保留二阶段收口前提、A1归属、D32无build边界，按候选/设计/参考路由，不授第三阶段实施。",
+        "reviewedLines": 34,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b37e26aff62e2050a3369055c3ff87f3ff5946b9c356fcec33a1ec3a20711ae4",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "review": {
+        "author": "/root/thin_indexes + /root integration",
+        "reviewer": "/root for contributor body; /root/thin_indexes for integration delta",
+        "date": "2026-11-02",
+        "conclusion": "AGENTS下目录地图按tasks/engineering/阶段/testing/lore分工；治理存储只供工程维护按需进入。",
+        "reviewedLines": 45,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "docs/testing/_templates/e2e-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/e2e-stage-README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/quality-gate.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-catalog.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-domain-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-e2e-stage.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/_templates/test-run-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab-history.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r10-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r2-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r3-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r4-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r5-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r6-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r7-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r8-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-r9-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-codex-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/architecture-regression-lab-completion.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/architecture-regression-lab/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/audit-report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/editor/editor-workflows/script-card-ui.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-integration.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow-review.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/content/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/script-corrections/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/battle/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/command-form-families/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/commands/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/map-workspace-sessions/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/map/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/supply-and-import/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/editor/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/migration/supply-and-import/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-governance/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/ops/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/persistence/save-and-recovery/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/quality/quality-gates/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-session-owners/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/editor-workflows/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/engine-boundaries/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/menu-session/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/menu/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/save-and-recovery/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/testing-records/tools/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/history/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/contract.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/001-opening/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/004-meal/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "mode": "links"
+    },
+    {
+      "path": "docs/testing/README.md",
+      "mode": "reviewed",
+      "afterSha256": "84f8a50de5de633ef4d8a557634e97dec706ca1101425d7928b85bd43783c6a8",
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source",
+      "review": {
+        "author": "/root/inventory",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "测试合同/catalog/域报告/E2E/模板/历史分流，退出340行中的旧批次流水；原报告和测试状态不变。",
+        "reviewedLines": 37,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "packages/editor/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "packages/game/README.md",
+      "mode": "reviewed",
+      "afterSha256": "10fdf6c97da34327649161ff2753e5f8821f9285340cf09d4f62b8ba182e2967",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "承接CLAUDE已有第一阶段知识及来源边界，按当前Vite和测试路径纠正资源映射与命令；未重跑原版。",
+        "reviewedLines": 70,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "packages/migrate/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "packages/pal-extract/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b278116972065a8919cadd7fdc8c6d558df342798db582289fbbd03e7e2e46cf",
+      "review": {
+        "author": "/root/thin_indexes",
+        "reviewer": "/root",
+        "date": "2026-11-02",
+        "conclusion": "原版考证引用转到承接后的game知识小节，不改变真源/提取边界。",
+        "reviewedLines": 27,
+        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+      }
+    },
+    {
+      "path": "patches/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "projects/pal/e2e-checkpoints/README.md",
+      "mode": "links"
+    },
+    {
+      "path": "README.en.md",
+      "mode": "reviewed",
+      "afterSha256": "5b66a71a674a487a3a879116f582df48ddde460c9e05571d780672b4654d03dc",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 172,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "README.md",
+      "mode": "reviewed",
+      "afterSha256": "a05b65fd98d1f880578144c5f4aedb4ed7f2f7ee554c6b21b997417a4ce36af2",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 171,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "fec5b386a2d6308fa5c61bbc68f31870f04c98f78f9ba813cd9dabfb787327d6",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "有限当前存储/恢复或总纲/路由更新独立接受；17副本实际退役与原回执保全已核，最终统一门及归档仍按实录收口。",
+        "reviewedLines": 112,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "95e6c911caf474eb7ce15da45fcf956436c5dd35b98b6b8d40e19d11331da9e8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "有限当前存储/恢复或总纲/路由更新独立接受；17副本实际退役与原回执保全已核，最终统一门及归档仍按实录收口。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "a9df51fa2e9bfb9cf034bd70e40c2062c17799b6989533ae178c272648a79302",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "有限当前存储/恢复或总纲/路由更新独立接受；17副本实际退役与原回执保全已核，最终统一门及归档仍按实录收口。",
+        "reviewedLines": 117,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "reference/README.md",
+      "mode": "reviewed",
+      "afterSha256": "d81f74f3ce9d37f0549acf2950da3911a3e93d17381c50901371905cfc511b88",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 43,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
+      "path": "projects/e2e-own/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4620807a24195630c9374ff4147d830811d77c5460ea6ba7c65a00cf1ca3eeb8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 13,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    }
+  ],
+  "additions": [
+    {
+      "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "f98b9851a04d9228e42f86facf46adb9e6ec12f64cd9a7fb8bb3ff401288ca78",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "最终状态、真实门与净变化有限复核；本地批次完成而长期卡保持build，未PR/推送/合main；保留旧失败、历史counter及未执行范围。",
+        "reviewedLines": 135,
+        "acceptanceScope": "只核已接受正文后的收口差异、原始完整门日志、按固定源测量与归档成员；不重复产品审核，不授远端CI或新运行信用。"
+      }
+    },
+    {
+      "path": "docs/engineering/guides/README.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "e7dcf02a1b001eb382a556162b2dda58e732080d692f4bb468dcfd9316c13fb4",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "工程指南薄索引按开发/文档/环境选择七份正文，与父页三分支分工，链接存在且不复制规则或状态。",
+        "reviewedLines": 31,
+        "acceptanceScope": "作者编写有限总纲或薄索引；/root/thin_indexes独立核全文、范围、真实路由与模板；行数仅标候选范围，不授运行信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/index.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "36efc5272183c980751ec7d8a9413181f638f90ac616a924ac6eceb682f9256a",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "109入口覆盖108可检出目录及1同层文档；无README目录直接链接，零漏项/失效目标，状态仍取原卡。",
+        "reviewedLines": 135,
+        "acceptanceScope": "独立核完整候选与实际Git可检出目录，补10遗漏后逐目标核；默认README只按需转入本表，不复制执行状态。"
+      }
+    }
+  ],
+  "retired": [
+    {
+      "path": "CLAUDE.md",
+      "replacement": "docs/phase1/README.md"
+    }
+  ],
+  "routing": {
+    "entry": "AGENTS.md",
+    "entrySection": "操作与必读",
+    "forwardingEntries": [],
+    "routes": [
+      {
+        "operation": "新建、修改或治理文档",
+        "required": [
+          "docs/engineering/guides/document-quality.md",
+          "docs/engineering/guides/documentation-model.md"
+        ]
+      },
+      {
+        "operation": "开发、修改、重构或审查代码",
+        "required": [
+          "docs/engineering/guides/code-quality.md",
+          "docs/engineering/guides/agent-workflow.md"
+        ]
+      },
+      {
+        "operation": "仓库清理与精简（长期）",
+        "required": [
+          "docs/engineering/guides/agent-workflow.md",
+          "docs/engineering/guides/code-quality.md",
+          "docs/engineering/guides/document-quality.md"
+        ]
+      },
+      {
+        "operation": "开始或接手非小改",
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
+      },
+      {
+        "operation": "写、改或审查测试",
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
+      },
+      {
+        "operation": "第一阶段机制或缺陷",
+        "required": ["docs/phase1/README.md"]
+      },
+      {
+        "operation": "第二阶段引擎、编辑器或内容",
+        "required": ["docs/phase2/READ-FIRST.md"]
+      },
+      {
+        "operation": "世界观查证、剧情设定或创作",
+        "required": ["docs/lore/README.md"]
+      },
+      {
+        "operation": "第三阶段规划、储备或参考",
+        "required": ["docs/phase3/README.md"]
+      },
+      {
+        "operation": "E2E、剧情回写或编辑器预览起点",
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
+      },
+      {
+        "operation": "封板、合并或发布回执",
+        "required": [
+          "docs/engineering/guides/documentation-model.md",
+          "docs/engineering/guides/documentation.md"
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
+      "sha256": "a80f6c43004e0dd0fa696778a663dfd2122d107ac0f99de4672d26d0ab930586",
+      "bytes": 362058,
+      "purpose": "目录迁移、当前账本瘦身与有限执行集去重的独立接受、必要中间失败及恢复原件；内容去重而保留执行身份和限制，不授产品运行信用。"
+    }
+  ],
+  "artifactAliases": [
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
+      "bytes": 1696096,
+      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/3/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/injections/4/restored/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
+      "bytes": 1645857,
+      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/0/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/1/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/2/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/3/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/4/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.restored.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/injections/5/restored/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/final-replay.identity.tsv",
+      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
+      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
+      "pointer": "/finalReplay/phase/identity/artifact",
+      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
+      "bytes": 1627159,
+      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
+    }
+  ]
+}

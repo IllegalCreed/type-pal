@@ -1,9 +1,11 @@
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import { isTaskDocument, taskInfo } from './check.mjs'
+import { currentDocumentPath } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { nativeArtifactReviewIssues, nativeArtifactShape } from './historical-native-artifact.mjs'
 import { nativeArtifactContracts } from './historical-native-artifact-admission.mjs'
+import { preservedMarkerPairs } from './markdown-source-spans.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 export const incrementalCandidateProtocol = 'document-incremental-candidates/1.0.0'
@@ -59,13 +61,6 @@ export function assertIncrementalPreservation(candidate, source) {
     'source boundary or suffix changed',
   )
 }
-
-const preservedMarkerPairs = [
-  [incrementalSourceMarker, endMarker],
-  ['<!-- original-source-quote:start -->', '<!-- original-source-quote:end -->'],
-  ['<!-- original-source-fenced:start -->', '<!-- original-source-fenced:end -->'],
-  ['<!-- template-source-example:start -->', '<!-- template-source-example:end -->'],
-]
 
 /** Amend a current template in place, retaining its existing historical blocks.
  * The full pre-amendment document is a pinned Git blob, not another inline copy.
@@ -215,7 +210,7 @@ export function prepareIncrementalCandidate({
         /^# (.+)$/mu.exec(draft.prefix)?.[1] === originalTitle,
         'original title must remain verbatim',
       )
-    if (isTaskDocument(draft.path)) {
+    if (isTaskDocument(currentDocumentPath(draft.path))) {
       demand(draft.templateId === 'task-card-v1', 'task consumer requires the task-card template')
       const oldStatus = taskInfo(draft.path, source.toString('utf8')).status
       const newStatus = taskInfo(draft.path, draft.prefix).status

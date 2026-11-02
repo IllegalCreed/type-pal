@@ -19,6 +19,7 @@ import { basename, dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { setTimeout } from 'node:timers/promises'
 import { fileURLToPath } from 'node:url'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import {
   documentRegistryLimit,
   frozenRegistrySource,
@@ -76,6 +77,7 @@ function actualConsumers(f) {
   }
   assert(rejection, 'the corrupted package must itself be rejected')
   cpSync(join(root, 'scripts/docs'), join(f.directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(f.directory)
   execFileSync('git', ['init', '-q'], { cwd: f.directory })
   for (const name of ['check-content-review', 'report-governance-progress']) {
     const result = spawnSync(process.execPath, [`scripts/docs/${name}.mjs`], {

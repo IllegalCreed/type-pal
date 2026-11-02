@@ -45,7 +45,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/slices/indoor/README.md`，blob `2adc8a8909e2280892f2b85a937fdd6bcace921f`，SHA256 `a4e45da2eae8559e3881470a72342851a58117c41873a6468cd10577446f5cd1`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：不能把后来的切片通过当作 WebGL/MMO旧方案全部实施，也不能把原泛称当作今天对旧图/验收提交的复核。
 

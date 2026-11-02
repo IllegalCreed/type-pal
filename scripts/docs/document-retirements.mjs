@@ -278,10 +278,11 @@ export function inspectDocumentRetirements(
   }
 }
 
-function readEmptyReviewRetirements(root, registry) {
+function readEmptyReviewRetirements(root, registry, locations) {
   if (registry.documentRetirements === undefined)
     return { entries: [], issues: [], historicalTarget: () => false }
   const readBuffer = (path) => {
+    if (locations) return locations.readBuffer(path)
     try {
       return readFileSync(resolve(root, path))
     } catch {
@@ -291,7 +292,7 @@ function readEmptyReviewRetirements(root, registry) {
   const readSourceBuffer = (pin) => readGitDocumentSnapshot(root, pin)
   const present = (path) => {
     try {
-      lstatSync(resolve(root, path))
+      lstatSync(resolve(root, locations?.currentPath(path) ?? path))
       return true
     } catch (error) {
       if (error.code === 'ENOENT') return false
@@ -323,9 +324,9 @@ function readEmptyReviewRetirements(root, registry) {
   return result
 }
 
-export function readDocumentRetirements(root, registry) {
-  const emptyLedgers = readEmptyReviewRetirements(root, registry)
-  const native = readNativeArtifactRetirements(root, registry)
+export function readDocumentRetirements(root, registry, locations) {
+  const emptyLedgers = readEmptyReviewRetirements(root, registry, locations)
+  const native = readNativeArtifactRetirements(root, registry, undefined, locations)
   return {
     ...emptyLedgers,
     nativeEntries: native.entries,

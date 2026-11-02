@@ -39,5 +39,5 @@ Template: archive-record-v1 / 1.0.0
 ## 继任文档
 
 当前publication规则见[测试治理](../../../../governance.md)，全量逐篇迁移见
-[DOCS-FULL-TEMPLATE-1](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。原审计/counter路径稳定保留；
+[DOCS-FULL-TEMPLATE-1](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)。原审计/counter路径稳定保留；
 本页没有替代它们的业务结论或新增执行结果。

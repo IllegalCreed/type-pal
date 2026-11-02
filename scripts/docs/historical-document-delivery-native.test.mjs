@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -24,7 +26,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url))
 const carrierRevision = 'd9a3a0a0a7c45fc75f922ae3dffd13a68ca29a5e'
 const templatePath = 'docs/phase-governance/templates/registry.json'
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const json = (path) => JSON.parse(readFileSync(join(root, path), 'utf8'))
+const json = (path) => JSON.parse(readFileSync(join(root, currentDocumentPath(path)), 'utf8'))
 const sourceCache = new Map()
 function source(pin) {
   const key = `${pin.revision}:${pin.path}`
@@ -163,7 +165,7 @@ function memory(pilot = historicalDeliveryPilots[0]) {
   )
   const readBuffer = (path) => {
     if (path === pilot.reviewRecord) return Buffer.from(JSON.stringify(review))
-    return documents.get(path) ?? readFileSync(join(root, path))
+    return documents.get(path) ?? readFileSync(join(root, currentDocumentPath(path)))
   }
   const read = (path) => readBuffer(path)?.toString('utf8')
   const options = {
@@ -426,6 +428,7 @@ function publicFixture(t) {
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', root, directory])
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const write = (path, bytes) => {
     mkdirSync(dirname(join(directory, path)), { recursive: true })
     writeFileSync(join(directory, path), bytes)
@@ -433,7 +436,10 @@ function publicFixture(t) {
   const save = (path, value) => write(path, `${JSON.stringify(value, null, 2)}\n`)
   write('AGENTS.md', '# Fixture\n\n## Routes\n\nOwned native receipt fixture.\n')
   write(templatePath, readFileSync(join(root, templatePath)))
-  write(frozenDocumentBaseline.path, readFileSync(join(root, frozenDocumentBaseline.path)))
+  write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(root, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
   const routes = historicalDeliveryPilots.map((pilot) => ({
     path: pilot.path,
     templateId: 'evidence-receipt-v1',

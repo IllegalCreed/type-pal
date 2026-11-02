@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -488,6 +489,7 @@ function publicFixture(t) {
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', root, directory])
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const write = (path, bytes) => {
     mkdirSync(dirname(join(directory, path)), { recursive: true })
     writeFileSync(join(directory, path), bytes)

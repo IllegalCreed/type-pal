@@ -1372,7 +1372,7 @@ type DataStateProps`,
       verification: '静态 AST 必须发现 selector 已不存在。',
       removalCondition: '本记录必须保持不存在。',
       debtCard:
-        'docs/ops/archive/tasks/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md',
+        'docs/tasks/archive/done/ED-WORKSPACE-ADOPTION-DEBT-1-editor-workspace-owner-adoption.md',
     })
     expect(validateAdoption(staleLegacy)).toContain(
       'workspace legacy selector VarsTab.tsx#main.ds-object-workspace expected 1, rendered 0',

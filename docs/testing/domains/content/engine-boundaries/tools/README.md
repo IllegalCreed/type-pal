@@ -31,7 +31,7 @@ runtime-state-review-witnesses历史工具导航；旧caller含源码片段，�
 
 ## 证据与下一步
 
-本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `f3f43dd89814b17be5844e615cb2655818960a99`，SHA256 `7e4f57850dfb89db19e3392509a810eb5570a0c9d71eb11c0ec66897babb0f6e`。逐篇来源、after 和限制见[本包作者回执](../../../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)。
+本页原源为 7 行，冻结读取基点 `2aebe7efd8cc8dea750bc0f05c5519ed74081b7d`，Git blob `f3f43dd89814b17be5844e615cb2655818960a99`，SHA256 `7e4f57850dfb89db19e3392509a810eb5570a0c9d71eb11c0ec66897babb0f6e`。逐篇来源、after 和限制见[本包作者回执](../../../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-domain-navigation-k-20261016.json)；任务范围取[全量治理任务卡](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)。
 
 K0 已在本基点使两个旧批次正文 writer 主动退休，不能再用它们重生成本页。正文/模板与链接自验不能替代非作者验收或恢复旧工具执行。作者候选已由 history_cards_c_tail 逐篇核读并接收；根 Codex 维护当前中央记录和路由。这是导航文档验收，不授旧工具或产品执行信用。
 

@@ -63,7 +63,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/audits/README.md`，blob `1496f91e41e6830a4e3e45265964ff7414032a12`，SHA256 `b60863e6f6bd6c7cc02075047be4af5a36f3c8ad9dc64a82a5158aeaba97063f`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：未核子报告或raw不得登记源码/执行新信用；本页治理不能替代实际审计、质量门或产品通过。
 

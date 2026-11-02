@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -18,13 +20,14 @@ const paths = Object.keys(historicalDocumentReceipts)
 const relocation = paths.find((path) => path.endsWith('/relocation.json'))
 const templatePath = 'docs/phase-governance/templates/registry.json'
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
-const json = (path) => JSON.parse(readFileSync(join(root, path)))
+const json = (path) => JSON.parse(readFileSync(join(root, currentDocumentPath(path))))
 
 function memory(path = paths[0]) {
   const registry = json(templatePath)
   const candidate = json(path)
   const documents = new Map()
-  const readBuffer = (name) => documents.get(name) ?? readFileSync(join(root, name))
+  const readBuffer = (name) =>
+    documents.get(name) ?? readFileSync(join(root, currentDocumentPath(name)))
   const read = (name) => readBuffer(name).toString('utf8')
   const options = {
     readBuffer,
@@ -157,6 +160,7 @@ function cliFixture(t) {
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', root, directory])
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const write = (path, value) => {
     mkdirSync(dirname(join(directory, path)), { recursive: true })
     writeFileSync(join(directory, path), value)
@@ -164,7 +168,10 @@ function cliFixture(t) {
   const save = (path, value) => write(path, `${JSON.stringify(value)}\n`)
   const registry = json(templatePath)
   write(templatePath, JSON.stringify(registry))
-  write(frozenDocumentBaseline.path, readFileSync(join(root, frozenDocumentBaseline.path)))
+  write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(root, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
   write('AGENTS.md', '## Routes\n')
   const routes = paths.map((path) => ({
     path,
@@ -193,9 +200,9 @@ function cliFixture(t) {
     path: entry.path,
     contentReviewStatus: 'content-reviewed',
     templateCompliance: 'template-compliant',
-    afterSha256: hash(readFileSync(join(root, entry.path))),
+    afterSha256: hash(readFileSync(join(root, currentDocumentPath(entry.path)))),
   }))
-  for (const path of paths) write(path, readFileSync(join(root, path)))
+  for (const path of paths) write(path, readFileSync(join(root, currentDocumentPath(path))))
   const publish = () => {
     save('docs/phase-governance/routing.json', routing)
     save('docs/phase-governance/reviews/pilot.json', { entries: reviews })

@@ -128,4 +128,4 @@ V01真实提交/undo/焦点、V02非空工作区resize/滚动/恢复、V03持续
 
 ## 继任文档
 
-[直接继任](../../../ops/archive/tasks/done/ARCH-CONTINUATION-1-remaining-queue.md)承接后续时点；[历史原文目录](README.md)与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../ops/agent-workflow.md)另核准入；无本次产品执行授权。
+[直接继任](../../../tasks/archive/done/ARCH-CONTINUATION-1-remaining-queue.md)承接后续时点；[历史原文目录](README.md)与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../engineering/guides/agent-workflow.md)另核准入；无本次产品执行授权。

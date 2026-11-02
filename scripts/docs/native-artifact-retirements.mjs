@@ -101,9 +101,10 @@ export function inspectNativeArtifactRetirements(registry, options) {
 }
 
 /** Filesystem adapter refuses symlinks, including dangling retired leaves and replacement parents. */
-export function readNativeArtifactRetirements(root, registry, group) {
+export function readNativeArtifactRetirements(root, registry, group, locations) {
   if (registry.nativeArtifactRetirements === undefined) return { entries: [], issues: [] }
   const state = (path) => {
+    if (locations) return locations.readBuffer(path)
     const parts = path.split('/')
     demand(
       parts[0] === 'docs' && parts.every((p) => p && p !== '.' && p !== '..'),

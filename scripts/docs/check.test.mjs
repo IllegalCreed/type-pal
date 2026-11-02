@@ -78,7 +78,7 @@ test('task status comes only from the top, preserving historical alternate spell
   assert.equal(taskInfo('T.md', '# Task\n> **状态**：done').status, undefined)
   assert.equal(
     taskInfo(
-      'docs/ops/tasks/ED-DS-3-editor-design-system-adoption-gate.md',
+      'docs/tasks/cards/ED-DS-3-editor-design-system-adoption-gate.md',
       '# Task\n> **状态**：done',
     ).status,
     'done',
@@ -118,13 +118,16 @@ test('current versions are checked in a bounded contract, leaving historical for
 function fixture() {
   const task = '# T - test\n\nStatus: build\n\n## Evidence\nStatus: done\n'
   const documents = new Map([
-    ['docs/README.md', '[ops](ops/README.md)'],
-    ['docs/ops/README.md', '[board](board.md) [tasks](tasks/README.md)'],
-    ['docs/ops/board.md', '[T](tasks/T.md)'],
-    ['docs/ops/tasks/README.md', '[index](index.md)'],
-    ['docs/ops/tasks/T.md', task],
+    ['docs/README.md', '[tasks](tasks/README.md)'],
+    ['docs/tasks/README.md', '[board](board.md) [cards](cards/README.md)'],
+    ['docs/tasks/board.md', '[T](cards/T.md)'],
+    ['docs/tasks/cards/README.md', '[index](index.md)'],
+    ['docs/tasks/cards/T.md', task],
   ])
-  documents.set('docs/ops/tasks/index.md', renderTaskIndex([taskInfo('docs/ops/tasks/T.md', task)]))
+  documents.set(
+    'docs/tasks/cards/index.md',
+    renderTaskIndex([taskInfo('docs/tasks/cards/T.md', task)]),
+  )
   return documents
 }
 
@@ -140,15 +143,15 @@ const run = (documents, exceptions = []) =>
 test('clean document tree and task index pass without generated assets or node_modules', () => {
   assert.deepEqual(run(fixture()).issues, [])
   const documents = fixture()
-  const index = 'docs/ops/tasks/index.md'
+  const index = 'docs/tasks/cards/index.md'
   documents.set(index, documents.get(index).trimEnd())
   assert.deepEqual(run(documents).issues, [])
 })
 
 test('missing files, unindexed documents and active task absent from board fail independently', () => {
   const documents = fixture()
-  documents.set('docs/ops/board.md', '[missing](../../missing.md)')
-  documents.set('docs/ops/forgotten.md', '# Forgotten')
+  documents.set('docs/tasks/board.md', '[missing](../../missing.md)')
+  documents.set('docs/tasks/forgotten.md', '# Forgotten')
   documents.set('docs/new-topic/note.md', '# Note')
   const messages = run(documents)
     .issues.map((issue) => issue.message)
@@ -159,9 +162,36 @@ test('missing files, unindexed documents and active task absent from board fail 
   assert.match(messages, /缺少 README/)
 })
 
+test('explicit same-directory index delegation retains complete navigation coverage', () => {
+  const documents = fixture()
+  documents.set('docs/tasks/evidence/README.md', '[directory](index.md)')
+  documents.set('docs/tasks/evidence/index.md', '[note](note.md) [case](case/README.md)')
+  documents.set('docs/tasks/evidence/note.md', '# Note')
+  documents.set('docs/tasks/evidence/case/README.md', '# Case')
+  documents.set(
+    'docs/tasks/README.md',
+    '[board](board.md) [cards](cards/README.md) [evidence](evidence/README.md)',
+  )
+  assert.deepEqual(run(documents).issues, [])
+  documents.set('docs/tasks/evidence/index.md', '[case](case/README.md)')
+  assert.match(
+    run(documents)
+      .issues.map((issue) => issue.message)
+      .join('\n'),
+    /目录索引未链接：note/u,
+  )
+  documents.set('docs/tasks/evidence/index.md', '[note](note.md) [case](case/README.md)')
+  documents.set('docs/tasks/evidence/README.md', '# No explicit delegation')
+  const issues = run(documents)
+    .issues.map((issue) => issue.message)
+    .join('\n')
+  assert.match(issues, /目录索引未链接：note/u)
+  assert.match(issues, /子目录未进入导航：docs\/tasks\/evidence\/case/u)
+})
+
 test('closed card left on board and stale generated index fail', () => {
   const documents = fixture()
-  documents.set('docs/ops/tasks/T.md', '# T - test\nStatus: done\n')
+  documents.set('docs/tasks/cards/T.md', '# T - test\nStatus: done\n')
   const messages = run(documents)
     .issues.map((issue) => issue.message)
     .join('\n')
@@ -171,9 +201,9 @@ test('closed card left on board and stale generated index fail', () => {
 
 test('board row and top-level card state must agree', () => {
   const documents = fixture()
-  documents.set('docs/ops/board.md', '| T | Test | review | Owner | [T](tasks/T.md) |')
+  documents.set('docs/tasks/board.md', '| T | Test | review | Owner | [T](cards/T.md) |')
   assert.match(run(documents).issues[0].message, /看板状态 review/)
-  documents.set('docs/ops/board.md', '| T | Test | build | Owner | [T](tasks/T.md) |')
+  documents.set('docs/tasks/board.md', '| T | Test | build | Owner | [T](cards/T.md) |')
   assert.deepEqual(run(documents).issues, [])
 })
 
@@ -198,22 +228,21 @@ test('exceptions are exact and require reasons; stale exceptions fail', () => {
 
 test('archived task remains indexed and cannot silently disappear from the census', () => {
   const documents = fixture()
-  const old = 'docs/ops/tasks/T.md'
-  const archived = 'docs/ops/archive/tasks/done/T.md'
+  const old = 'docs/tasks/cards/T.md'
+  const archived = 'docs/tasks/archive/done/T.md'
   const body = '# T - test\nStatus: done\n'
   documents.delete(old)
   documents.set(archived, body)
-  documents.set('docs/ops/board.md', '# No active tasks')
+  documents.set('docs/tasks/board.md', '# No active tasks')
   documents.set(
-    'docs/ops/README.md',
-    '[board](board.md) [tasks](tasks/README.md) [archive](archive/README.md)',
+    'docs/tasks/README.md',
+    '[board](board.md) [cards](cards/README.md) [archive](archive/README.md)',
   )
-  documents.set('docs/ops/archive/README.md', '[tasks](tasks/README.md)')
-  documents.set('docs/ops/archive/tasks/README.md', '[done](done/README.md)')
-  documents.set('docs/ops/archive/tasks/done/README.md', '[index](../../../tasks/index.md)')
+  documents.set('docs/tasks/archive/README.md', '[done](done/README.md)')
+  documents.set('docs/tasks/archive/done/README.md', '[index](../../cards/index.md)')
   const index = renderTaskIndex([taskInfo(archived, body)])
-  documents.set('docs/ops/tasks/index.md', index)
-  assert.match(index, /\.\.\/archive\/tasks\/done\/T\.md/)
+  documents.set('docs/tasks/cards/index.md', index)
+  assert.match(index, /\.\.\/archive\/done\/T\.md/)
   assert.deepEqual(run(documents).issues, [])
   documents.set(archived, '# T - test\nStatus: build\n')
   assert.match(
@@ -256,7 +285,7 @@ test('rejecting an old content version is not a declaration of the current versi
 
 test('a local OS metadata file cannot make a non-checkout document link pass', () => {
   const documents = fixture()
-  documents.set('docs/README.md', '[ops](ops/README.md) [metadata](.DS_Store)')
+  documents.set('docs/README.md', '[tasks](tasks/README.md) [metadata](.DS_Store)')
   const diskFiles = new Set([...documents.keys(), 'docs/.DS_Store'])
   const available = checkoutTargets([...documents.keys()])
   const result = auditDocuments({
@@ -266,7 +295,7 @@ test('a local OS metadata file cannot make a non-checkout document link pass', (
     sectionRules: [],
     exceptions: [],
   })
-  assert.equal(available.has('docs/ops'), true)
+  assert.equal(available.has('docs/tasks'), true)
   assert.equal(result.issues.length, 1)
   assert.match(result.issues[0].message, /无法随仓库检出.*DS_Store/)
 })

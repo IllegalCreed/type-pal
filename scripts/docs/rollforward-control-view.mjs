@@ -116,7 +116,8 @@ export function rollforwardControlProjection(path, options, inspect) {
   if (!expected.buffers.has(path)) return undefined
   // Only immutable expected buffers are cached. Validate the six physical
   // retirements and their unchanged replacements on every caller invocation.
-  const ordinary = (p) => fileState(options.root, p, undefined, 'docs/').buffer
+  const ordinary = (p) =>
+    fileState(options.root, options.locations?.currentPath(p) ?? p, undefined, 'docs/').buffer
   const view = (p) => expected.buffers.get(p) ?? options.readBuffer(p)
   const life = inspectNativeArtifactRetirements(expected.registry, {
     readBuffer: (p) => expected.buffers.get(p) ?? ordinary(p),

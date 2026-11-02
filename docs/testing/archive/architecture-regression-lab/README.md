@@ -39,7 +39,7 @@ History overlay: archive-record-v1 / 1.0.0
 - [准备包最终接收](architecture-regression-lab-completion.md)
 - [历次复核合并索引](../architecture-regression-lab-history.md)
 
-合并入口为[历次复核合并索引](../architecture-regression-lab-history.md)，历史最终范围由[completion](architecture-regression-lab-completion.md)及[原任务卡](../../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)负责；GLM贡献与Codex复核身份来自各原文，不由目录授予今天的执行权。
+合并入口为[历次复核合并索引](../architecture-regression-lab-history.md)，历史最终范围由[completion](architecture-regression-lab-completion.md)及[原任务卡](../../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)负责；GLM贡献与Codex复核身份来自各原文，不由目录授予今天的执行权。
 
 ## 证据与下一步
 
@@ -88,4 +88,4 @@ History overlay: archive-record-v1 / 1.0.0
 
 ## 继任文档
 
-[直接继任](../architecture-regression-lab-history.md)承接后续时点；本目录与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../ops/archive/tasks/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../ops/agent-workflow.md)另核准入；无本次产品执行授权。
+[直接继任](../architecture-regression-lab-history.md)承接后续时点；本目录与[合并索引](../architecture-regression-lab-history.md)只负责导航。历史授权/最终范围回到[原任务卡](../../../tasks/archive/done/ARCH-REGRESSION-LAB-GLM-1-twelve-packs.md)，当前新工作依[现行工作流](../../../engineering/guides/agent-workflow.md)另核准入；无本次产品执行授权。

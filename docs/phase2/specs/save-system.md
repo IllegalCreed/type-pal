@@ -10,7 +10,7 @@ Template: design-spec-v1 / 1.0.0
 保存当前唯一 SAVE12/content22 合同、恢复边界和来源；现行规范整理不代表修复所有已知实现缺陷，也不改变 codec 或产品保存行为。
 
 类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
-本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../ops/audits/pre-e2e/summary.md) 跟踪。
+本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../tasks/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/save-system-design.md)，不作为当前执行入口。
 
 ## 真值与约束
@@ -142,5 +142,5 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
   fail-loud 回归。
 - `packages/content/src/character.ts`：`CONTENT_VERSION = 22`、
   `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 12`。
-- [后台脚本快照修复任务](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)：前提、反控和当前交付状态。
-- [001–006连续验证任务](../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)：SAVE12现场恢复修复及新版本E2E待验证状态；历史收据不改写为当前版本通过。
+- [后台脚本快照修复任务](../../tasks/archive/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)：前提、反控和当前交付状态。
+- [001–006连续验证任务](../../tasks/archive/done/E2E-CONTINUOUS-001-006.md)：SAVE12现场恢复修复及新版本E2E待验证状态；历史收据不改写为当前版本通过。

@@ -1,7 +1,7 @@
 /**
  * TEST-GLM-REFORGE-MOTION-TRANSITION-1：world-motion-runtime.ts 残余公开合同。
  *
- * 排重结论（逐轴账见 docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md）：
+ * 排重结论（逐轴账见 docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/dedup-ledger.md）：
  * - cadence 主链（carry 余数、frozen 复位不 aging）由 world-motion-runtime.test.ts:8-22 证明；
  *   本文件只补「真积压钳」臂——旧测最大非冻结 dt 恰为 stepMs，钳行（余数 > stepMs 归零）
  *   从未触达。host 锚点：main.ts 走位循环注释「至多 1 拍/rAF，真积压丢弃(DM31 永不补帧)」。

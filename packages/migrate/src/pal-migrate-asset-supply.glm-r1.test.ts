@@ -27,7 +27,7 @@
  * - pal-current-publication：glm-o 覆盖分区替换/census/manifest/资产闭包拒绝，glm-next-wave
  *   覆盖 palAssetPreconditions；本卡补 validateReferences error 汇总门（:358-365）。
  *
- * ledger（不设针/不可达，详见 docs/ops/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/
+ * ledger（不设针/不可达，详见 docs/tasks/evidence/TEST-GLM-MIGRATE-ASSET-SUPPLY-1/
  * dedup-ledger.md）：pal-assets :340/:412（冻结常量闭包）、:533（parseSpriteChunkStrict
  * 对 sentinel-only 块先抛「offset 越界」，一手实探）、:559-571（零初始化 surface +
  * readPalette 256 色校验后 colors[i] 恒存在）、:793（parseWorldSpriteChunk 对全 sentinel

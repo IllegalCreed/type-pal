@@ -62,7 +62,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/plans/README.md`，blob `59bbfabb33788d8f4f6ea87b7530e5141e13d189`，SHA256 `1241f077b68e3c5b3e80f13ad261cc1128a35dbb2ec2aa272a55e28b52f7f6e2`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：旧 Agent提示或计划状态不能替代本轮范围、Owner和验收证据；导航迁移不提供新运行或coverage通过。
 

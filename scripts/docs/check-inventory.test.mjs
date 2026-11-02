@@ -71,11 +71,11 @@ test('real Git census exceeds 1 MiB without losing tail, NUL-delimited Unicode o
   write(target)
   const navigation = new Map([
     ['README.md', `[docs](docs/README.md) [tail](${encodeURI(target)})`],
-    ['docs/README.md', '[ops](ops/README.md)'],
-    ['docs/ops/README.md', '[board](board.md) [tasks](tasks/README.md)'],
-    ['docs/ops/board.md', '# Board'],
-    ['docs/ops/tasks/README.md', '[index](index.md)'],
-    ['docs/ops/tasks/index.md', renderTaskIndex([])],
+    ['docs/README.md', '[tasks](tasks/README.md)'],
+    ['docs/tasks/README.md', '[board](board.md) [cards](cards/README.md)'],
+    ['docs/tasks/board.md', '# Board'],
+    ['docs/tasks/cards/README.md', '[index](index.md)'],
+    ['docs/tasks/cards/index.md', renderTaskIndex([])],
   ])
   for (const [file, text] of navigation) write(file, text)
   const expectedRaw = [

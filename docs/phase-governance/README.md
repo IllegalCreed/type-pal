@@ -1,34 +1,36 @@
-# 全 docs 文档治理
+# 文档治理入口
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-11-02
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-按文档职责管理入口、模板、内容深审与阶段一致性；从这里定位治理事实，不读取整个证据树来猜当前结论。
+选择文档模板、核审查身份或排查跨阶段事实权时，从这里进入治理合同和对应记录；日常内容阅读从[文档总入口](../README.md)选领域。
 
 ## 范围
 
-全 docs 包括 ops、lore、三个阶段、testing、本治理目录和 docs 总入口；脚本、日志、raw、截图及压缩包也须登记 artifact/evidence 归属。用户批准的正文必审基线为 1838 份 Markdown/JSON/HTML，新增或变化的材料单列增量。
+本目录维护全docs的模板、路由、文档注册与深审记录。任务状态取原任务卡，测试状态取testing catalog，治理registry不能替代它们；日志、raw、截图等仍按产生者和任务登记归属。
 
 ## 当前状态
 
-2026-10-18：[记录可信度返工](../ops/tasks/DOCS-RECORD-INTEGRITY-1.md)已撤回R39–R94受影响绑定的语义、模板与独立接受信用；全量卡处于rework。仅保真/结构通过不能恢复完成状态，逐篇清单见[纠错证据入口](../ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md)。
-
-全量治理进行中。旧 [document registry](document-registry.json)覆盖部分历史范围；其中 content-reviewed 和 governed-legacy 不代表全量模板迁移完成。[按阶段索引](by-phase.md)、[按状态索引](by-status.md)及[阶段 catalog](catalog.json)仍只表达其已登记范围。
+[全量治理母卡](../tasks/cards/DOCS-FULL-TEMPLATE-1.md)已done并完成主线收口（[PR39](https://github.com/IllegalCreed/type-pal/pull/39)）。旧R波撤信及返工原件仍保留，不能用后继完成恢复被撤回的历史信用。后续新增、修改和清理继续按长期合同逐批验收。
 
 ## 入口与责任
 
-- [项目文档模型](../ops/guides/documentation-model.md)：L0–L3、事实权、稳定路径、写回与完成条件。
-- [路由检查投影](routing.json)：对应 AGENTS 的操作表，不保存任务或测试状态。
-- [统一文档类型与模板](templates/README.md)：17 类模板合同及有效 pilot 门。
-- [内容深审记录](reviews/README.md)：结论、适用范围、SHA 和历史，不代替执行证据。
-- [跨阶段真值矩阵](cross-phase-matrix.md)：检查 ops、lore、阶段和 testing 之间的依赖与冲突。
-- [治理任务](../ops/tasks/DOCS-FULL-TEMPLATE-1.md)：当前 Owner、实施事实、进度、counter 和下一步。
-- 内容入口：[Lore](../lore/README.md)、[Phase 1](../phase1/README.md)、[Phase 2](../phase2/README.md)、[Phase 3](../phase3/README.md)、[Testing](../testing/README.md)、[Ops](../ops/README.md)。
+| 要做什么 | 下一跳 |
+|---|---|
+| 定位置、事实权和写回路径 | [文档模型](../engineering/guides/documentation-model.md) |
+| 交付正文或独立验收证据 | [文档质量合同](../engineering/guides/document-quality.md) |
+| 选类型、模板与原生格式 | [模板入口](templates/README.md) |
+| 核文档分类、审查范围与SHA | [注册表](document-registry.json)、[审查记录](reviews/README.md) |
+| 查阶段/状态投影或阶段依赖冲突 | [阶段索引](by-phase.md)、[状态索引](by-status.md)、[阶段catalog](catalog.json)、[真值矩阵](cross-phase-matrix.md) |
+| 核当前AGENTS路由、文件位置与本轮变更 | [当前迁移合同](document-locations.json)；[routing](routing.json)保留原接受身份与历史路由 |
+| 查全量治理的最终范围、历史counter与原件 | [母卡](../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[证据入口](../tasks/evidence/DOCS-FULL-TEMPLATE-1/README.md) |
+
+Codex负责中央接入和独立裁定；贡献者在获准范围交付，不自授接受。生成投影只表达已登记范围，不扩大证据结论。
 
 ## 证据与下一步
 
-[1838 基线与接入证据](../ops/evidence/DOCS-FULL-TEMPLATE-1/README.md)区分自动枚举、真实阅读、保真样本和已验迁移。下一步按该任务的 pilot 和正文批次推进；未知内容不标 reviewed，静态治理不宣称 runtime/E2E/视觉/coverage 通过。
+需要追溯入口旧rework表述时读取[固定Git原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/phase-governance/README.md)；当前完成依据回母卡最终验收。新增差异进入自己的任务和review，静态治理不授runtime、E2E、视觉或coverage信用。

@@ -107,7 +107,7 @@ function assertTreeClean(tag) {
     .filter((row) => {
       const p = row.slice(3).split(' -> ')[0]
       if (p.startsWith('packages/reforge/src/__tests__/host-lifecycle-1')) return false
-      if (p.startsWith('docs/ops/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1')) return false
+      if (p.startsWith('docs/tasks/evidence/TEST-GLM-REFORGE-HOST-LIFECYCLE-1')) return false
       return !foreignDirty.includes(p)
     })
   if (rows.length) throw new Error(`[${tag}] 工作树非 clean: ${JSON.stringify(rows)}`)

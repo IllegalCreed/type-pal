@@ -8,13 +8,14 @@ import {
   linkExceptions,
 } from './config.mjs'
 import { generatedTextIssues } from './document-integrity.mjs'
+import { loadDocumentLocations } from './document-location.mjs'
 import { gitInventory } from './git-inventory.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
-const taskDirectory = 'docs/ops/tasks/'
-const archivedTaskDirectories = ['docs/ops/archive/tasks/done', 'docs/ops/archive/tasks/cancelled']
+const taskDirectory = 'docs/tasks/cards/'
+const archivedTaskDirectories = ['docs/tasks/archive/done', 'docs/tasks/archive/cancelled']
 const taskIndex = `${taskDirectory}index.md`
 const statuses = new Set(['draft', 'build', 'review', 'done', 'blocked', 'rework', 'cancelled'])
 const terminal = new Set(['done', 'cancelled'])
@@ -91,14 +92,14 @@ export function renderTaskIndex(tasks) {
     '- `lastReviewed`: 2026-10-17',
     '',
     '## 入口与责任',
-    '- canonical 入口：`docs/ops/tasks/index.md` 与当前任务卡。',
+    '- canonical 入口：`docs/tasks/cards/index.md` 与当前任务卡。',
     '- Owner：Codex 维护生成器与治理账本；任务 Owner 维护卡内状态。',
     '- 下游使用者：看板、任务卡检查器和文档治理 registry。',
     '',
     '## 证据与下一步',
-    '- 关键来源：`scripts/docs/check.mjs`、`docs/ops/board.md`、各任务卡顶部 `Status`。',
+    '- 关键来源：`scripts/docs/check.mjs`、`docs/tasks/board.md`、各任务卡顶部 `Status`。',
     '- 未决/阻塞：历史任务的产品验收和证据缺口仍以各卡为准。',
-    '- 下一步：每次任务状态或入口变化后重新生成索引并刷新 review SHA。',
+    '- 下一步：每次任务状态或入口变化后重新生成索引并核验本轮变更；旧评审与原始来源保持不变。',
     '',
   ]
   const ordered = [...tasks].sort((a, b) => a.file.localeCompare(b.file, 'en'))
@@ -231,7 +232,7 @@ export function auditDocuments({
     if (
       terminal.has(task.status) &&
       dirname(task.file) !== taskDirectory.slice(0, -1) &&
-      dirname(task.file) !== `docs/ops/archive/tasks/${task.status}`
+      dirname(task.file) !== `docs/tasks/archive/${task.status}`
     )
       add(task.file, 1, '已归档终态任务的目录必须匹配 done/cancelled；原位关闭不强制移动')
     if (!terminal.has(task.status) && dirname(task.file) !== taskDirectory.slice(0, -1))
@@ -240,7 +241,7 @@ export function auditDocuments({
   const expectedIndex = renderTaskIndex(tasks)
   if (documents.get(taskIndex)?.trimEnd() !== expectedIndex.trimEnd())
     add(taskIndex, 1, '任务索引与卡片顶部状态不一致，请重新生成')
-  const board = 'docs/ops/board.md'
+  const board = 'docs/tasks/board.md'
   if (!documents.has(board)) add(board, 1, '当前任务看板不存在')
   for (const task of tasks) {
     const onBoard = linked.get(board)?.has(task.file)
@@ -263,6 +264,15 @@ export function auditDocuments({
         )
     }
   }
+  // A thin README may explicitly delegate the complete same-directory listing
+  // to index.md. Coverage and link validation still apply; no implicit recursion.
+  const navigation = (readme) => {
+    const direct = linked.get(readme) ?? new Set()
+    const index = `${dirname(readme)}/index.md`
+    return direct.has(index) && documents.has(index)
+      ? new Set([...direct, ...(linked.get(index) ?? [])])
+      : direct
+  }
   // Every immediate topic document must be reachable from its README. Large
   // historical task folders use the mechanically verified dedicated index.
   for (const file of documents.keys()) {
@@ -274,7 +284,7 @@ export function auditDocuments({
     )
       continue
     const readme = `${dirname(file)}/README.md`
-    if (documents.has(readme) && !linked.get(readme)?.has(file))
+    if (documents.has(readme) && !navigation(readme).has(file))
       add(readme, 1, `目录索引未链接：${basename(file)}`)
   }
   if (!linked.get(`${taskDirectory}README.md`)?.has(taskIndex))
@@ -285,8 +295,8 @@ export function auditDocuments({
     const parentIndex = `${dirname(directory)}/README.md`
     if (
       documents.has(parentIndex) &&
-      !linked.get(parentIndex)?.has(directory) &&
-      !linked.get(parentIndex)?.has(`${directory}/README.md`)
+      !navigation(parentIndex).has(directory) &&
+      !navigation(parentIndex).has(`${directory}/README.md`)
     ) {
       add(parentIndex, 1, `子目录未进入导航：${directory}`)
     }
@@ -336,8 +346,20 @@ async function main(args) {
     process.exitCode = 1
     return
   }
+  if (args.includes('--print-task-index')) {
+    const tasks = checkoutFiles(repoRoot)
+      .filter(isTaskDocument)
+      .map((file) => taskInfo(file, readFileSync(resolve(repoRoot, file), 'utf8')))
+    const invalid = tasks.filter((task) => !statuses.has(task.status))
+    if (invalid.length)
+      throw new Error(`无法生成索引，任务状态无效：${invalid.map((task) => task.file).join(', ')}`)
+    // Candidate generation grants no document, link or migration acceptance.
+    process.stdout.write(renderTaskIndex(tasks))
+    return
+  }
   const files = checkoutFiles(repoRoot)
   const available = checkoutTargets(files)
+  const locations = loadDocumentLocations(repoRoot)
   const paths = files.filter((file) => /\.md$/i.test(file))
   const documents = new Map(
     [...new Set(paths)].sort().map((file) => [file, readFileSync(resolve(repoRoot, file), 'utf8')]),
@@ -361,13 +383,15 @@ async function main(args) {
       import('./document-registry.mjs'),
       import('./document-retirements.mjs'),
     ])
-    retirements = readDocumentRetirements(repoRoot, loadDocumentRegistry().registry)
+    retirements = readDocumentRetirements(repoRoot, loadDocumentRegistry().registry, locations)
   }
   const result = auditDocuments({
     documents,
     exists: (path) => available.has(path) && existsSync(resolve(repoRoot, path)),
     expectedVersions: { content, save },
-    historicalTarget: retirements.historicalTarget,
+    historicalTarget: (file, text, link, target) =>
+      locations?.historicalLink(file, text, link) ||
+      retirements.historicalTarget(locations?.identity(file) ?? file, text, link, target),
   })
   result.issues.push(
     ...retirements.issues.map((message) => ({
@@ -376,13 +400,6 @@ async function main(args) {
       message,
     })),
   )
-  if (args.includes('--print-task-index')) {
-    const invalid = result.tasks.filter((task) => !statuses.has(task.status))
-    if (invalid.length)
-      throw new Error(`无法生成索引，任务状态无效：${invalid.map((task) => task.file).join(', ')}`)
-    process.stdout.write(result.expectedIndex)
-    return
-  }
   if (args.includes('--json'))
     console.log(
       JSON.stringify(
@@ -400,6 +417,7 @@ async function main(args) {
     console.log(`docs: ${result.issues.length ? 'FAIL' : 'PASS'} (${result.issues.length} issues)`)
   }
   if (result.issues.length) process.exitCode = 1
+  locations?.assertUnchanged()
 }
 
 if (

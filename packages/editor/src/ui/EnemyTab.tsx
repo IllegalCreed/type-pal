@@ -1491,7 +1491,7 @@ export function EnemyTab(props: {
                   <p className="hint">
                     ＋ 新建 → 改名/数值 → 配 AI 规则(变身/施法/集火都在下拉里)→ 建敌队 → **💾 保存**
                     → ⚔ 试打(试打读磁盘项目;需 reforge dev:pal 在跑,见
-                    docs/ops/guides/dev-servers.md)。
+                    docs/engineering/guides/dev-servers.md)。
                   </p>
                 </DsInspectorSection>
               ),

@@ -6,7 +6,7 @@
 
 This is an unofficial fan project. Do not add original game data files (MKF archives, RPG saves, executables, or other commercial assets) to Git. The full original data stays on your machine under `data/raw/`.
 
-Before non-trivial work, read [`AGENTS.md`](AGENTS.md). Phase 1 (faithful recreation) follows [`CLAUDE.md`](CLAUDE.md). Phase 2 (Reforge) follows [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md). The two rule sets are not interchangeable.
+Before non-trivial work, read [`AGENTS.md`](AGENTS.md). Phase 1 (faithful recreation) follows the [Phase 1 index](docs/phase1/README.md). Phase 2 (Reforge) follows [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md). The two rule sets are not interchangeable.
 
 Local tools: Node.js 22, pnpm, and Git.
 
@@ -25,7 +25,7 @@ The sections below are the maintainer notes that used to lead the root README. T
 
 - 先读根 README 的许可与声明。不要把原版游戏数据提交进 Git。
 - 非小改先读 [`AGENTS.md`](AGENTS.md)。当前模式是分派、执行、独立验收。
-- 动手前先判断阶段。第一阶段看 [`CLAUDE.md`](CLAUDE.md)，第二阶段看 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md)。
+- 动手前先判断阶段。第一阶段看 [第一阶段索引](docs/phase1/README.md)，第二阶段看 [`docs/phase2/READ-FIRST.md`](docs/phase2/READ-FIRST.md)。
 - 访客向的项目介绍在 [`README.md`](README.md) / [`README.en.md`](README.en.md)。
 
 ## 当前开发状态
@@ -36,7 +36,7 @@ The sections below are the maintainer notes that used to lead the root README. T
 工程设置等编辑器工作台。本地工程打开/保存、撤销/重做、引用诊断、试玩和独立战斗模拟器已落地。
 PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、工程和存档只接受当前 canonical 版本。
 
-第一、第二阶段首轮代码审计见[审计总报告](docs/ops/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
+第一、第二阶段首轮代码审计见[审计总报告](docs/tasks/audits/pre-e2e/summary.md)，确认问题按独立任务修复；
 不能把审计完成当成所有缺陷已修复。全仓[13 批结构治理](docs/testing/archive/legacy/ops/testing-records/architecture-continuation-integration.md)
 和[零诊断质量门](docs/testing/archive/legacy/batches/quality-zero/README.md)已收口，第一阶段仍可在保真前提下继续修缺陷。
 双引擎 [001 开场 E2E](docs/testing/e2e/stages/001-opening/report.md)已经有独立可运行的流程、真实存档检查点和关键 NPC 稀疏时序；
@@ -49,7 +49,7 @@ PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、�
 
 接下来继续 R4 分段 E2E 与必要缺陷修复，再按[路线图](docs/phase2/roadmap.md)处理窄版意图式脚本、
 完整剧情/战斗专项、编辑器综合工作流、录制适配，以及最后的预制工程与独立可玩包。
-正在执行的单卡以[任务看板](docs/ops/board.md)为准。
+正在执行的单卡以[任务看板](docs/tasks/board.md)为准。
 
 第二阶段暂不处理真实时间/天气、随机笔刷、时间旅行调试、无障碍设置、完整对话/演出专用工作台及
 版权资源批量替换；2026-09-28追加的构件化地图重建/拆房迁移也归第三阶段。这些不应从旧文档或历史任务误判为当前欠项。
@@ -71,7 +71,7 @@ PAL 迁移使用事务发布与三方合并；开发期运行时、编辑器、�
 一级菜单 **战斗模拟器** 提供“试打方案 / 我方预设 / 敌方预设 / 背包预设”。方案可直接配置，也可复用预设；
 命名配置随项目保存，本场临时调整不反写原定义。先保存作者改动，再从方案“开始试打”，或由技能、敌队、敌人原入口带入对象。
 实际运行Reforge战斗；我方1～3人、敌方5槽，停止/重新试打不保留战斗消耗或奖励，独立入口不读写正常存档。
-范围、验证及限制见[实施记录](docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)，最终状态以[归档任务卡](docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
+范围、验证及限制见[实施记录](docs/testing/archive/legacy/runtime/battle/battle-simulator-implementation.md)，最终状态以[归档任务卡](docs/tasks/archive/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md)为准。
 
 ### 普通开发调试面板
 
@@ -168,7 +168,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 | 路径 | 内容 |
 |---|---|
 | [`docs/`](docs) | 分阶段设计、状态、审计与验收文档。 |
-| [`docs/ops/tasks/`](docs/ops/tasks) | 活动任务卡、证据与交接；当前由 Codex 分派并独立验收，历史三方签字原样保留。 |
+| [`docs/tasks/cards/`](docs/tasks/cards) | 活动任务卡、证据与交接；当前由 Codex 分派并独立验收，历史三方签字原样保留。 |
 | [`reference/sdlpal/`](reference/sdlpal) | sdlpal 源码副本；是一阶段的重要参考实现，不替代原版实际行为这一首要事实来源。 |
 | [`scripts/`](scripts) | 仓库维护与辅助脚本；部分命令仅供维护者使用。 |
 
@@ -179,7 +179,7 @@ pnpm --filter @type-pal/migrate test:pal                  # 需要本地 PAL 数
 - **生成真源优先。** 提取或迁移缺陷修上游并重新生成，不能把 `data/extracted/` 或 `projects/pal` 的局部手改当成最终修复。
 - **工程必须自包含。** 新内容工程不应在运行时偷偷读取仓库级 `data/extracted/` 或其他工程的资源。
 - **提交前跑合适的门禁。** `pnpm check` 是全仓基线；功能性界面、音频和完整路线还要补最小浏览器或 E2E 证据。
-- **协作状态落库。** 任务状态、设计裁决、验收和交接以 [`docs/ops/`](docs/ops) 为准；当前分派/验收模式以 [`AGENTS.md`](AGENTS.md) 为准，不把历史三签要求当成新任务门禁。
+- **协作状态落库。** 任务状态、设计裁决、验收和交接从[任务入口](docs/tasks/README.md)进入，[工程指南](docs/engineering/README.md)维护现行流程；当前分派/验收模式以 [`AGENTS.md`](AGENTS.md) 为准，不把历史三签要求当成新任务门禁。
 
 ## 资产说明
 

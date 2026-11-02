@@ -37,7 +37,7 @@ D24合法战场、首次登记/undo、patch深保真、引用阻断、七公开�
 
 ### GLM 战场命令族拆分候选回执（ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1）
 
-任务卡：[ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1](../../../../../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)。
+任务卡：[ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1](../../../../../tasks/archive/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)。
 状态：**Codex独立accept，done归档**。实现候选`83833719`由GLM贡献，主线统一验证和收口由Codex完成；
 下列GLM自验按历史保留，最终独立证据见文末。本卡与ARCH-REGRESSION-LAB剩余counter分开裁决。
 
@@ -210,4 +210,4 @@ historical。本次接受对象是文档语义、结构和来源保留；原产�
 
 ## 继任文档
 
-[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。
+[配对历史任务卡](../../../../../tasks/archive/done/ARCH-F2-EDITOR-BATTLE-FIELD-COMMANDS-1.md)拥有该历史任务收口；[当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

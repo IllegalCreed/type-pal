@@ -21,9 +21,9 @@ Template: governance-index-v1 / 1.0.0
 
 - 正式域报告：[report.md](report.md)
 - 配对机器evidence：[evidence.json](evidence.json)
-- 实施任务卡：[GAME-INPUT-ROTATION-1.md](../../../../ops/tasks/GAME-INPUT-ROTATION-1.md)
-- 根独立接收与原件索引：[review.json](../../../../ops/evidence/GAME-INPUT-ROTATION-1/review.json)
-- 发布回执：[release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)
+- 实施任务卡：[GAME-INPUT-ROTATION-1.md](../../../../tasks/cards/GAME-INPUT-ROTATION-1.md)
+- 根独立接收与原件索引：[review.json](../../../../tasks/evidence/GAME-INPUT-ROTATION-1/review.json)
+- 发布回执：[release.json](../../../../tasks/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json)
 
 ## 证据与下一步
 

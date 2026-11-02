@@ -15,6 +15,8 @@ import { dirname, join, resolve } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { auditDocuments } from './check.mjs'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { inspectDocumentRetirements, readDocumentRetirements } from './document-retirements.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -280,12 +282,16 @@ test('archived link resolution preserves quote bytes while current and unrelated
 test('progress consumer keeps denominator 1838, reports retirement separately and refuses full completion', (t) => {
   const f = fixture(t)
   cpSync(join(repo, 'scripts/docs'), join(f.root, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(f.root)
   const common = execFileSync('git', ['rev-parse', '--git-common-dir'], {
     cwd: repo,
     encoding: 'utf8',
   }).trim()
   f.write('.git/objects/info/alternates', `${resolve(repo, common, 'objects')}\n`)
-  f.write(frozenDocumentBaseline.path, readFileSync(join(repo, frozenDocumentBaseline.path)))
+  f.write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(repo, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
   f.write('AGENTS.md', '# Fixture\n\n## Routes\n\nNo operations.\n')
   f.write(
     'docs/phase-governance/templates/registry.json',

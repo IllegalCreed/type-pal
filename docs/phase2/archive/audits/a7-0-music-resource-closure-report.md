@@ -10,7 +10,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本回执保存07-15音乐首切片及07-16追加勘误。文档源Git身份是下方固定blob，不代替原执行candidate；原报告未给统一的执行SHA，本轮不补造。治理Owner为Codex，原产品署名与验收分别取[A7-0卡](../../../ops/archive/tasks/done/A7-0-resource-closure-registry.md)和[A7-0A卡](../../../ops/archive/tasks/done/A7-0A-opening-menu-music-role.md)。本次只核文档。
+本回执保存07-15音乐首切片及07-16追加勘误。文档源Git身份是下方固定blob，不代替原执行candidate；原报告未给统一的执行SHA，本轮不补造。治理Owner为Codex，原产品署名与验收分别取[A7-0卡](../../../tasks/archive/done/A7-0-resource-closure-registry.md)和[A7-0A卡](../../../tasks/archive/done/A7-0A-opening-menu-music-role.md)。本次只核文档。
 
 ## 来源与输入
 
@@ -72,7 +72,7 @@ historical。保留AssetId与所有权设计来源，四角色穷尽说法已撤
 
 ## 继任文档
 
-[第五角色纠正](../../../ops/archive/tasks/done/A7-0A-opening-menu-music-role.md)接替遗漏；[总审计](a7-resource-closure-audit.md)按各自日期记录后继资源族，当前约束取[READ-FIRST](../../READ-FIRST.md)。缺动态证据由新的明确范围任务处理，不重复执行旧命令或旧提示词。
+[第五角色纠正](../../../tasks/archive/done/A7-0A-opening-menu-music-role.md)接替遗漏；[总审计](a7-resource-closure-audit.md)按各自日期记录后继资源族，当前约束取[READ-FIRST](../../READ-FIRST.md)。缺动态证据由新的明确范围任务处理，不重复执行旧命令或旧提示词。
 
 ## 原始结论
 

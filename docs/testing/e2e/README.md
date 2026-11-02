@@ -39,7 +39,7 @@ Template: governance-index-v1 / 1.0.0
 - [路线方案](route-proposal.md)：读取候选路线；实施范围和准入仍须核当前任务卡。
 - [001–005 共性问题族](cross-stage/common-issues.md)与[横向材料索引](cross-stage/README.md)：查跨阶段问题、来源与未闭合项。
 - [检查点目录](../../../projects/pal/e2e-checkpoints/README.md)：查剧情边界、各轨检查点与历次版本记录；旧档或旧报告不能改号后充当前前驱。
-- [当前任务看板](../../ops/board.md)与[任务索引](../../ops/tasks/index.md)：确认活动分工，再读原卡顶部状态、范围、counter 和准入。路线与检查点接 [E2E-R4-1](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)，005 接 [E2E-005-1](../../ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md)，006 接 [E2E-006-1](../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)，预览能力接[实体状态方案任务](../../ops/tasks/ED-ENTITY-STATE-PLAN-1.md)。
+- [当前任务看板](../../tasks/board.md)与[任务索引](../../tasks/cards/index.md)：确认活动分工，再读原卡顶部状态、范围、counter 和准入。路线与检查点接 [E2E-R4-1](../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)，005 接 [E2E-005-1](../../tasks/cards/E2E-005-1-shrimp-errand-and-xianglan-news.md)，006 接 [E2E-006-1](../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md)，预览能力接[实体状态方案任务](../../tasks/cards/ED-ENTITY-STATE-PLAN-1.md)。
 
 Codex 维护本页导航。Agent 先按 catalog 的稳定 `id` 找 `index`，再读 `canonical` 和 `evidence`；不能从路径或标题猜状态。报告作者维护合法输入、caller、oracle、候选/版本及执行边界，Codex 按[测试治理](../governance.md)核配对与独立验收。任务状态取原卡，执行结果取原回执，导航日期不为下游续期。
 

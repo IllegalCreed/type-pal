@@ -2,10 +2,12 @@ import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
 import { renderPhaseGovernanceIndexes } from './build-phase-lore-governance.mjs'
+import { loadDocumentLocations, transformDocument } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { loadPhaseLoreCatalog } from './phase-lore-catalog.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
+const locations = loadDocumentLocations(repoRoot)
 const docsRoot = resolve(repoRoot, 'docs')
 const roots = ['lore', 'phase1', 'phase2', 'phase3']
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
@@ -54,7 +56,13 @@ for (const entry of catalog.entries ?? []) {
       issues.push(`${entry.path}: missing ${field}`)
   const absolute = resolve(repoRoot, entry.path)
   if (!existsSync(absolute)) issues.push(`catalog path missing: ${entry.path}`)
-  else if (digest(absolute) !== entry.afterSha256) issues.push(`after SHA drift: ${entry.path}`)
+  else if (locations) {
+    try {
+      locations.assertCurrent(entry.path, entry.afterSha256)
+    } catch (error) {
+      issues.push(`${entry.path}: ${error.message}`)
+    }
+  } else if (digest(absolute) !== entry.afterSha256) issues.push(`after SHA drift: ${entry.path}`)
   if (!/^[a-f\d]{64}$/.test(entry.sourceSha256) || !/^[a-f\d]{64}$/.test(entry.afterSha256))
     issues.push(`invalid SHA: ${entry.path}`)
   if (!Array.isArray(entry.sourceRefs) || !entry.sourceRefs.length)
@@ -65,18 +73,24 @@ for (const entry of catalog.entries ?? []) {
   if (!entry.dedupe?.result) issues.push(`dedupe missing: ${entry.path}`)
 }
 for (const path of expected)
-  if (!seen.has(path)) issues.push(`document missing from phase/lore catalog: ${path}`)
+  if (!seen.has(path) && !locations?.additions.has(path))
+    issues.push(`document missing from phase/lore catalog: ${path}`)
 for (const path of seen)
   if (!expected.includes(path)) issues.push(`catalog points outside phase/lore roots: ${path}`)
-if (catalog.summary?.total !== expected.length)
+const originalCount = expected.filter((path) => !locations?.additions.has(path)).length
+if (catalog.summary?.total !== originalCount)
   issues.push(`catalog summary total ${catalog.summary?.total} != ${expected.length}`)
 for (const [name, expectedText] of Object.entries(renderPhaseGovernanceIndexes(catalog))) {
   const path = resolve(docsRoot, 'phase-governance', name)
-  if (!existsSync(path) || readFileSync(path, 'utf8') !== expectedText)
+  const relativePath = `docs/phase-governance/${name}`
+  const currentExpected =
+    locations?.changes.get(relativePath)?.mode === 'links'
+      ? transformDocument(expectedText, relativePath)
+      : expectedText
+  if (!existsSync(path) || readFileSync(path, 'utf8') !== currentExpected)
     issues.push(`phase/lore generated index drift: ${name}`)
   // Generated views belong to this producer's exact inventory. Validate their
   // actual bodies with the shared template contract as well as byte projection.
-  const relativePath = `docs/phase-governance/${name}`
   const templates = JSON.parse(
     readFileSync(resolve(docsRoot, 'phase-governance/templates/registry.json'), 'utf8'),
   )
@@ -92,4 +106,5 @@ console.log(
   `phase/lore governance: ${issues.length ? 'FAIL' : 'PASS'} (${expected.length} documents)`,
 )
 for (const issue of issues) console.error(`- ${issue}`)
+locations?.assertUnchanged()
 if (issues.length) process.exitCode = 1

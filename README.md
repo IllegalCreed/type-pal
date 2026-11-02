@@ -68,7 +68,7 @@
 - 手机、窄窗口或矮宽窗口会显示屏幕方向键和确认/取消，并在「系统」里提供显示或隐藏。普通桌面窗口不显示这组按键。
 - 标准手柄支持；「系统」中可选择虚拟方向键与左摇杆顺时针旋转45°，默认关闭并记住选择。键盘和手柄十字键保持原映射。
 
-第二阶段已经落地的部分（细节以 [能力地图](docs/phase2/capability-map.md) 和 [任务看板](docs/ops/board.md) 为准）：
+第二阶段已经落地的部分（细节以 [能力地图](docs/phase2/capability-map.md) 和 [任务看板](docs/tasks/board.md) 为准）：
 
 - 编辑场景、地图、剧情、角色、物品、战斗、资源和工程设置。
 - 本地工程打开/保存、撤销/重做、引用诊断、试玩，以及独立战斗模拟器。
@@ -136,7 +136,7 @@ pnpm --filter @type-pal/game dev        # 第一阶段运行时，https://localh
 | 第二阶段完成度 | [`docs/phase2/capability-map.md`](docs/phase2/capability-map.md) |
 | 第二阶段路线 | [`docs/phase2/roadmap.md`](docs/phase2/roadmap.md) |
 | 第三阶段规划 | [`docs/phase3/README.md`](docs/phase3/README.md) |
-| 正在做的任务 | [`docs/ops/board.md`](docs/ops/board.md) |
+| 正在做的任务 | [`docs/tasks/board.md`](docs/tasks/board.md) |
 
 ## 开发方式
 

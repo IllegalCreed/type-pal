@@ -35,11 +35,11 @@ Template: test-run-report-v1 / 1.0.0
 - **失败与修复边界**：Game首轮厨房入口被大娘占用；RF把restore placement误算剧情前移；楼梯脚本中stepFrame被idle覆盖、40ms步频以及旧002错误下一段绑定，按各自根因保留原failed。正式开始后的continuity/无源移动守卫没有因纠错撤销，90/92工具数不是本轮运行。
 - **后继与未验**：10月11日是另一固定批次，不倒填14:12/14:28，也不使006出版rework变绿。003未取菜，004慢读/姿态相邻源码核读不计003新执行；用户观感、capture音轨、raw当前可用性仍未由本治理认证。
 
-完整链强结论的后继：[10月8日撤信](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
+完整链强结论的后继：[10月8日撤信](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)、[10月11日新固定批次](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept)；本次只治理来源和事实轴，不恢复旧build prompt，不把连续卡done变为原轮全绿。
 
 ## Evidence
 
-完整[连续验证任务](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)按自身日期维护后继批次与未决项，不将局部报告改成完整链通过。
+完整[连续验证任务](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md)按自身日期维护后继批次与未决项，不将局部报告改成完整链通过。
 
 下表是10月1日两个独立候选的原表，不代表同revision both；完整hash、时长、尺寸和目录保持原字节。10月7日两个批次的runID/draw/警告与原失败在冻结原文，不能用表中旧档充当前合法输入。
 
@@ -63,7 +63,7 @@ Template: test-run-report-v1 / 1.0.0
 
 ### 2026-10-08 当前验收：复用新录制，统一比较器离线通过
 
-原局部56/56/5项解释及初始idle缺证见[结果](#results)；完整链的更强收口见[撤信段](../../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。
+原局部56/56/5项解释及初始idle缺证见[结果](#results)；完整链的更强收口见[撤信段](../../../../tasks/archive/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批结果历史完整执行链结论被上述反例推翻)。
 
 ### 2026-10-07 完整双轨实跑通过
 

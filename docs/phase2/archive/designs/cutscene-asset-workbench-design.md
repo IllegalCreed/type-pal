@@ -26,7 +26,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 验收
 
-原坏容器、像素往返、随机seek、作者替换、MG2、断外链与UI矩阵完整保留。历史终态取[A7-3最终C1–C5与用户接受](../../../ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md)，其中OPFS/HTTPS只证明各自API/布局/保存范围，不能当原生OS picker或证书信任认证。本次不重播、不开浏览器、不重跑旧测试；新动态验收按现行工作流另行准入。
+原坏容器、像素往返、随机seek、作者替换、MG2、断外链与UI矩阵完整保留。历史终态取[A7-3最终C1–C5与用户接受](../../../tasks/archive/done/A7-3-cutscene-asset-workbench.md)，其中OPFS/HTTPS只证明各自API/布局/保存范围，不能当原生OS picker或证书信任认证。本次不重播、不开浏览器、不重跑旧测试；新动态验收按现行工作流另行准入。
 
 ## 历史范围
 
@@ -176,7 +176,7 @@ Validity为historical。superseded针对本历史文档的当前准入权和已�
 
 ## 继任文档
 
-[最终过场卡](../../../ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md)与[日期分层总审计](../audits/a7-resource-closure-audit.md)说明后继；[现行二阶段规则](../../READ-FIRST.md)及[工作流](../../../ops/agent-workflow.md)控制任何新产品或E2E工作。
+[最终过场卡](../../../tasks/archive/done/A7-3-cutscene-asset-workbench.md)与[日期分层总审计](../audits/a7-resource-closure-audit.md)说明后继；[现行二阶段规则](../../READ-FIRST.md)及[工作流](../../../engineering/guides/agent-workflow.md)控制任何新产品或E2E工作。
 
 ## 原始结论
 

@@ -4,7 +4,7 @@
  * 卡面 `event-dialogue-pagination.ts` 为本测试家族名,分页实体在 event-system.ts +
  * present/dialog-box.ts,同 AssetInspectorTabs 判例)。
  *
- * 旧证去重(逐项锚点见 docs/ops/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md):
+ * 旧证去重(逐项锚点见 docs/tasks/evidence/TEST-GLM-GAME-DIALOGUE-PAGINATION-1/dedup-ledger.md):
  * - event-dialogue-pagination.test.ts:跨页第 5 行保留 / 三样式连续翻页无漏行 / 分页边界接续副作用;
  * - event-system.test.ts:Confirm 释放 end-key(366)、`~` 收尾全程不等键(386)、快按 Confirm
  *   连锁停段末(508)、pendingStyle 翻页(596)、0x05 翻页(2262/2911)、DM20/21 首行 $00(1281)、

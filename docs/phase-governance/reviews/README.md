@@ -10,7 +10,7 @@ Template: governance-index-v1 / 1.0.0
 ## 目的
 
 - 职责导航：由当前 registry 的 reviewRecord 找到有效条目，再核其实际范围；catalog 与 registry 各守其职责，目录收录或旧状态词不证明当前完成。
-- 当前阅读、证据及信用边界遵守[文档质量与验收](../../ops/document-quality.md)；旧索引两层深度定义仅按历史时点保留，不恢复旧独立/全文/深审或产品执行信用。
+- 当前阅读、证据及信用边界遵守[文档质量与验收](../../engineering/guides/document-quality.md)；旧索引两层深度定义仅按历史时点保留，不恢复旧独立/全文/深审或产品执行信用。
 
 ## 范围
 
@@ -32,7 +32,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
-三份仅剩空entries的旧载体按[S22退役裁定](../../ops/tasks/DOCS-FULL-TEMPLATE-1.md#s22-三份空账本退役与固定清单处置2026-10-21)退出工作树；原12条文档的当前绑定仍分别由下列接替记录持有。完整处置与原件Git提交/blob/SHA只维护在[registry](../document-registry.json)的documentRetirements，不把退役算成正文迁移或恢复旧审查信用。
+三份仅剩空entries的旧载体按[S22退役裁定](../../tasks/cards/DOCS-FULL-TEMPLATE-1.md#s22-三份空账本退役与固定清单处置2026-10-21)退出工作树；原12条文档的当前绑定仍分别由下列接替记录持有。完整处置与原件Git提交/blob/SHA只维护在[registry](../document-registry.json)的documentRetirements，不把退役算成正文迁移或恢复旧审查信用。
 
 | 退役的历史载体 | 当前接替记录 | 最近非空历史提交 |
 |---|---|---|

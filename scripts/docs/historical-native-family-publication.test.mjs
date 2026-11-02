@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { nativeFamilyExpansionContentAcceptance } from './historical-native-family-completion-admission.mjs'
@@ -10,7 +11,7 @@ import { nativeFamilyContentSha256 } from './historical-native-family-qualificat
 import { loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const readBuffer = (p) => readFileSync(new URL(`../../${p}`, import.meta.url))
+const readBuffer = (p) => readFileSync(new URL(`../../${currentDocumentPath(p)}`, import.meta.url))
 const templates = JSON.parse(readBuffer('docs/phase-governance/templates/registry.json'))
 const group = loadReviewRecords({ root })
 const pilot = nativeFamilyExpansion[0]

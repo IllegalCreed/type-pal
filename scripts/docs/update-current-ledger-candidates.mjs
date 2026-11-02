@@ -32,17 +32,7 @@ export function runCurrentLedgerCandidate(argv) {
     isAbsolute(path) || path === '..' || path.startsWith('../'),
     'plan must be outside repository',
   )
-  const plan = parseTerminalJson(readFileSync(input)),
-    head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim()
-  assert.equal(plan.baseRevision, head, 'plan must name the actual clean candidate base')
-  assert.equal(
-    execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], {
-      cwd: root,
-      encoding: 'utf8',
-    }),
-    '',
-    'tracked working tree must be clean',
-  )
+  const plan = parseTerminalJson(readFileSync(input))
   const native = [
     'current-native-control-candidate/1.0.0',
     'current-native-control-publication/1.0.0',
@@ -54,6 +44,20 @@ export function runCurrentLedgerCandidate(argv) {
   assert(
     argv.length === 2 || (publication ? argv[2] === '--publish' : argv[2] === '--write'),
     'author writes and Owner publication require their distinct explicit flag',
+  )
+  const head = execFileSync('git', ['rev-parse', 'HEAD'], {
+    cwd: root,
+    encoding: 'utf8',
+  }).trim()
+  assert.equal(plan.baseRevision, head, 'plan must name the actual clean candidate base')
+  assert.equal(
+    execFileSync('git', ['status', '--porcelain', '--untracked-files=no'], {
+      cwd: root,
+      encoding: 'utf8',
+      maxBuffer: 16 * 1024 * 1024,
+    }),
+    '',
+    'tracked working tree must be clean',
   )
   const prepare = native
     ? publication

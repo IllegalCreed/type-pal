@@ -16,7 +16,7 @@ Template: reference-canon-v1 / 1.0.0
 
 下方源块是基点`3ed87f734df357799c4d9a44205781d3deba5c14`的完整原内容：blob `f2feaa219e3023cbc6ea9a34a56000b5eafb46a0`，SHA-256 `75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89`，416B，本轮逐行核读。旧source pin `7cfdccad9fd9299a7d839cc3047a6252e4474b50` / `75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89`仅复核身份，不冒称原执行或原深审已重认证。
 
-[统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../ops/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
+[统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../engineering/guides/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
 
 ## 当前真值
 

@@ -9,7 +9,7 @@ afterEach(() => vi.restoreAllMocks())
 /**
  * TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 — 事件解释器控制流残差合同。
  *
- * 排重账(docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md)结论:
+ * 排重账(docs/tasks/evidence/TEST-GLM-GAME-EVENT-CONTROL-FLOW-1/dedup-ledger.md)结论:
  * runOneAutoOp end/callStack/goto/reset/random-rate/wait、0x7F 主路径(yield/完成/回正/绝对/负数/
  * 0x6E 对)、OP_PLACE_USED_ITEM、0x0A confirm 主流程、goto 缺失终止、ip 越界终止、event-opcode-player
  * 全族均已证(REG);本文件只承接两处全仓零覆盖的新合同:

@@ -3384,7 +3384,7 @@ function validateWorkspaceLegacyExceptions(entries, overrides = {}) {
       byId,
       declaredRegistryPairs,
     }
-  const board = readFileSync(join(repositoryRoot, 'docs/ops/board.md'), 'utf8')
+  const board = readFileSync(join(repositoryRoot, 'docs/tasks/board.md'), 'utf8')
   for (const [index, entry] of entries.entries()) {
     if (!entry || typeof entry !== 'object') {
       problems.push(`workspaceLegacyExceptions[${index}] must be an object`)
@@ -3431,7 +3431,7 @@ function validateWorkspaceLegacyExceptions(entries, overrides = {}) {
     else {
       const taskId = entry.debtCard.split('/').at(-1)?.split('-editor-')[0]
       if (!taskId || !board.includes(taskId))
-        problems.push(`${entry.id} debtCard must be listed on docs/ops/board.md`)
+        problems.push(`${entry.id} debtCard must be listed on docs/tasks/board.md`)
     }
     if (!Array.isArray(entry.selectors) || !entry.selectors.length) {
       problems.push(`${entry.id} selectors must be non-empty`)

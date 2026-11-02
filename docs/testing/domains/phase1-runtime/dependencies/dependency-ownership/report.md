@@ -87,15 +87,15 @@ D1 report/evidence is a phase1 architecture audit; its audit/mutant scripts rema
 本次仅运行文档结构、链接、配对 publication consumer、source/after SHA 与全仓静态门；不改产品、旧测试或coverage。
 缺当前runtime/UI/E2E/视觉/覆盖证据继续保留为限制，不以静态绿色关闭原历史counter或提升catalog状态。
 
-2026-10-18 窄维护：仅player-poison-state注释改动的sourceRef绑定；移除注释后的JS字节与27358基点一致，setObjectPoisons出口/共享Map owner未变。catalog出版日期/状态、历史candidate/versions、SCC/token/三针/浏览器结论均保留原范围，未据此重验。当前11条ownership回归见[pre94有限切片](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)，其中slot1低毒断言只证明当前TS稀疏ownership，不能当SDL压缩等价或完整D1验收。
+2026-10-18 窄维护：仅player-poison-state注释改动的sourceRef绑定；移除注释后的JS字节与27358基点一致，setObjectPoisons出口/共享Map owner未变。catalog出版日期/状态、历史candidate/versions、SCC/token/三针/浏览器结论均保留原范围，未据此重验。当前11条ownership回归见[pre94有限切片](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)，其中slot1低毒断言只证明当前TS稀疏ownership，不能当SDL压缩等价或完整D1验收。
 
 ### 2026-10-20 equipment 注释绑定增量
 
-e0b332b90移除DualAttack/清毒尚未实现的过时声明；f263ded94更正装备卸下清毒等级及扫描/压缩未决边界；本轮实比removeComments正文一致，现行owner出口不变，sourceRef仅换至当前字节。原D1 SCC/token/反控/浏览器记录未重验，catalog状态、lastVerified/reviewBy与历史版本不变。[本轮门回执](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)保存前后SHA与限制。
+e0b332b90移除DualAttack/清毒尚未实现的过时声明；f263ded94更正装备卸下清毒等级及扫描/压缩未决边界；本轮实比removeComments正文一致，现行owner出口不变，sourceRef仅换至当前字节。原D1 SCC/token/反控/浏览器记录未重验，catalog状态、lastVerified/reviewBy与历史版本不变。[本轮门回执](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)保存前后SHA与限制。
 
 ### 2026-10-20 menu-stack注释绑定增量
 
-仅纠正closeTopMenu“下帧回explore”的误称，当前tickMenu可在同一dispatch后恢复battle/event/explore；owner出口与执行体未变，sourceRefs只匹配当前字节。[菜单模块记录](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)给编译不变证明。历史D1审计/三针/浏览器未重跑，出版状态、日期和版本不变。
+仅纠正closeTopMenu“下帧回explore”的误称，当前tickMenu可在同一dispatch后恢复battle/event/explore；owner出口与执行体未变，sourceRefs只匹配当前字节。[菜单模块记录](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)给编译不变证明。历史D1审计/三针/浏览器未重跑，出版状态、日期和版本不变。
 
 ### 2026-10-22 纠错层所有权变更
 
@@ -103,19 +103,19 @@ e0b332b90移除DualAttack/清毒尚未实现的过时声明；f263ded94更正装
 
 ### 2026-10-24 catalog接口与测试质量增量
 
-本轮用户批准移除目录查询未用的GameState参数及伪返回字段；六真实caller和E2E追踪器同步，实际源码插桩31例通过。typed公开工厂替代残缺强转，G07-01重复历史合同由D1两入口/两图号的真实event history保留；目录返回用精确对象断言承接旧“不内嵌commands”合同。[当前八维与完整原件](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)给有限JS迁移证明与结果。只回绑四项当前sourceRefs/行锚；原D1全域SCC/161-token/三针/浏览器未重跑，catalog状态/日期/历史版本不升级，统一门等全部pre94收尾。
+本轮用户批准移除目录查询未用的GameState参数及伪返回字段；六真实caller和E2E追踪器同步，实际源码插桩31例通过。typed公开工厂替代残缺强转，G07-01重复历史合同由D1两入口/两图号的真实event history保留；目录返回用精确对象断言承接旧“不内嵌commands”合同。[当前八维与完整原件](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md)给有限JS迁移证明与结果。只回绑四项当前sourceRefs/行锚；原D1全域SCC/161-token/三针/浏览器未重跑，catalog状态/日期/历史版本不升级，统一门等全部pre94收尾。
 
 ### 2026-10-24 Wear生命周期绑定增量
 
-用户批准稳定前移全部幸存毒并保留洞后有效项/全槽去重，D1的slot1旧位置oracle相应迁移为slot0普通毒、slot1清尾，ID与续点同时断言。只回绑三个sourceRefs；原SCC/token/浏览器与出版状态不升级。完整原件见[当前有限质量片](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
+用户批准稳定前移全部幸存毒并保留洞后有效项/全槽去重，D1的slot1旧位置oracle相应迁移为slot0普通毒、slot1清尾，ID与续点同时断言。只回绑三个sourceRefs；原SCC/token/浏览器与出版状态不升级。完整原件见[当前有限质量片](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md)。
 
-2026-10-24 入口归属窄维护：只更新毒owner的当前sourceRef/锚点，获批先占槽与record前移见[当前有限修复](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。491相邻含当前D1，未重跑历史SCC/token/三针/浏览器；出版状态、版本及旧执行范围保留。
+2026-10-24 入口归属窄维护：只更新毒owner的当前sourceRef/锚点，获批先占槽与record前移见[当前有限修复](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md)。491相邻含当前D1，未重跑历史SCC/token/三针/浏览器；出版状态、版本及旧执行范围保留。
 
 
-2026-10-25 scene身份窄维护：scene-identity只修正成功map-only写入者的注释，getter/setter的完整typed AST不变；仅此sourceRef与配对历史回绑。用户批准的bootstrap编号/缓存修复及7条真实浏览器合同见[当前CODE57](../../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)，不将其晋升为旧D1 SCC/token/三针或全部浏览器的重验，catalog状态/日期/版本原样保留。
+2026-10-25 scene身份窄维护：scene-identity只修正成功map-only写入者的注释，getter/setter的完整typed AST不变；仅此sourceRef与配对历史回绑。用户批准的bootstrap编号/缓存修复及7条真实浏览器合同见[当前CODE57](../../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)，不将其晋升为旧D1 SCC/token/三针或全部浏览器的重验，catalog状态/日期/版本原样保留。
 
-2026-10-25 菜单窄维护：只移除D1现有caller未使用的第三个bus实参，原expect AST保持；本轮50文件407相邻回归含D1。配对sourceRef绑定新字节；历史SCC/token/三针/浏览器、catalog状态/日期与版本不升级，见[94–102当前证据](../../../../../ops/evidence/CODE-QUALITY-94/approved-closeout/README.md)。
+2026-10-25 菜单窄维护：只移除D1现有caller未使用的第三个bus实参，原expect AST保持；本轮50文件407相邻回归含D1。配对sourceRef绑定新字节；历史SCC/token/三针/浏览器、catalog状态/日期与版本不升级，见[94–102当前证据](../../../../../tasks/evidence/CODE-QUALITY-94/approved-closeout/README.md)。
 
-2026-10-26 装备窄维护：六个有效属性求和复用私有helper，owner出口/输入与数值合同保持；仅回绑装备sourceRef与配对history，旧SHA保留。44装备及36相邻只作有限回归，不当成D1全域/SCC/161-token/三针/浏览器重验，catalog状态/日期/版本不升级。见[52阶段实际证据](../../../../../ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json)。
+2026-10-26 装备窄维护：六个有效属性求和复用私有helper，owner出口/输入与数值合同保持；仅回绑装备sourceRef与配对history，旧SHA保留。44装备及36相邻只作有限回归，不当成D1全域/SCC/161-token/三针/浏览器重验，catalog状态/日期/版本不升级。见[52阶段实际证据](../../../../../tasks/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-equipment-fixtures.json)。
 
-2026-10-30 夹具依赖窄维护：G07仅将H标签构造器改借共同battle-records，三条业务回调/输入/断言在精确标识符桥后保持，sourceRef锚点25→29并绑定当前SHA。当前48相邻825例含这三条，但不是历史D1 SCC/token/针或浏览器的重跑；原status/版本/日期/runtimeExecution不变。具体before/after与原生身份见[命名职责窗口](../../../../../ops/evidence/QUALITY-PENDING-100-3/README.md)。
+2026-10-30 夹具依赖窄维护：G07仅将H标签构造器改借共同battle-records，三条业务回调/输入/断言在精确标识符桥后保持，sourceRef锚点25→29并绑定当前SHA。当前48相邻825例含这三条，但不是历史D1 SCC/token/针或浏览器的重跑；原status/版本/日期/runtimeExecution不变。具体before/after与原生身份见[命名职责窗口](../../../../../tasks/evidence/QUALITY-PENDING-100-3/README.md)。

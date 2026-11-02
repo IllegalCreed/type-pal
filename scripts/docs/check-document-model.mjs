@@ -1,7 +1,8 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
+import { loadDocumentLocations } from './document-location.mjs'
 import { checkDocumentModel } from './document-model.mjs'
 import { cacheGitSnapshots, createGitDocumentSnapshotReader } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -14,17 +15,16 @@ import { inspectIncrementalCohort } from './incremental-review.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+const locations = loadDocumentLocations(root)
 const readBuffer = (path) => {
+  if (locations) return locations.readBuffer(path)
   try {
     return readFileSync(resolve(root, path))
   } catch {
     return undefined
   }
 }
-const read = (path) => {
-  const absolute = resolve(root, path)
-  return existsSync(absolute) ? readFileSync(absolute, 'utf8') : undefined
-}
+const read = (path) => readBuffer(path)?.toString('utf8')
 const config = JSON.parse(read('docs/phase-governance/routing.json'))
 const registry = JSON.parse(read('docs/phase-governance/templates/registry.json'))
 const pilotReviews = [
@@ -53,6 +53,7 @@ const reviewGroupReader = () => {
 }
 const issues = checkDocumentModel(config, registry, read, {
   root,
+  locations,
   readSource: (pin) => readGitDocumentSource(root, pin),
   readBuffer,
   readSourceBuffer: cacheGitSnapshots(createGitDocumentSnapshotReader(root)),
@@ -63,9 +64,10 @@ const issues = checkDocumentModel(config, registry, read, {
   reviewReader,
   reviewGroupReader,
 })
+locations?.assertUnchanged()
 if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
 for (const issue of issues) console.error(`- ${issue}`)
 console.log(
-  `document model: ${issues.length ? 'FAIL' : 'PASS'} (${config.routes.length} routes; ${config.migratedDocuments.length} body contracts; ${issues.length} issues; structure only)`,
+  `document model: ${issues.length ? 'FAIL' : 'PASS'} (${locations?.manifest.routing.routes.length ?? config.routes.length} routes; ${config.migratedDocuments.length} inherited body contracts; ${locations?.additions.size ?? 0} additions; ${issues.length} issues; structure only)`,
 )
 if (issues.length) process.exitCode = 1

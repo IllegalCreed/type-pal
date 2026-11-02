@@ -39,7 +39,7 @@ Template: governance-index-v1 / 1.0.0
 
 源身份：`69427d5d564366fc3f82e325d049e8bafa0fcda4:docs/phase2/archive/slices/README.md`，blob `118c634a1cda246858ebd2eb5906d9ff5b9d2354`，SHA256 `ecbccf8b914db29d82b6cf634981ca5a6bf2d79e53a3de0690e0941c63e77a16`。原202行中的本页完整字节保存在下方源快照；新正文状态与源时点分开阅读。
 
-治理入口：[任务卡](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
+治理入口：[任务卡](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)、[本包作者回执](../../../tasks/evidence/DOCS-FULL-TEMPLATE-1/contributor-phase2-navigation-p-20261016.json)、[冻结设计](../../../phase-governance/reviews/20261016-phase2-navigation-p-design.md)。
 
 停止线：没有具体原验收引用时不能补造提交、证据可用性或产品通过；本页仅证明静态路由及原导航语义。
 

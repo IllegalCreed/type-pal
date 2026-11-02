@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import {
@@ -25,7 +26,7 @@ import { biomeFormat } from './review-record-storage-packing.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
-const readBuffer = (p) => readFileSync(new URL(`../../${p}`, import.meta.url))
+const readBuffer = (p) => readFileSync(new URL(`../../${currentDocumentPath(p)}`, import.meta.url))
 // Legitimate future publication cannot mutate this isolated partial-input fixture.
 const group = {
   records: new Map(

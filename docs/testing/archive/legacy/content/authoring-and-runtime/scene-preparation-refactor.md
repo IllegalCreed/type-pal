@@ -37,7 +37,7 @@ ad16ba94只证明旧readiness等待驱动修复，不能代替fdad候选远端CI
 
 ### A3-b：场景资源所有权与只读预检
 
-任务卡：[ARCH-REFORGE-SCENE-1](../../../../../ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)。
+任务卡：[ARCH-REFORGE-SCENE-1](../../../../../tasks/archive/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)。
 冻结cb1cb26d，实现fdad980f已核本段done；Codex按用户全架构队列单席授权实施、自审；不是独立第三方审查。
 完整统计和证据路径见[统一机账](../../runtime/scene/scene-preparation-refactor-evidence.json)。
 A3仍有活动场景/移动/绘制职责未治理，本段完成也不增加13批总队列的已完成数。
@@ -125,4 +125,4 @@ historical。本次接受对象是文档语义、结构和来源保留；原产�
 
 ## 继任文档
 
-[配对历史任务卡](../../../../../ops/archive/tasks/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)拥有该历史任务收口；[当前全量文档任务](../../../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。
+[配对历史任务卡](../../../../../tasks/archive/done/ARCH-REFORGE-SCENE-1-resources-and-preflight.md)拥有该历史任务收口；[当前全量文档任务](../../../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)拥有本次治理进度。当前新产品变更另走现行准入，本回执不提供build授权。

@@ -35,7 +35,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 整改与复核
 
-本包整改Owner为根Codex，仅关闭文档中的双重有效陈述和误路由：视频/完整帧有效证据取[A7-3最终卡](../../../ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md)，各族直接取配对卡。raw、真正过门、原生OS交互和今天运行缺口必须另有实际证据；不重跑旧prompt，不以静态语义核读追认动态通过。
+本包整改Owner为根Codex，仅关闭文档中的双重有效陈述和误路由：视频/完整帧有效证据取[A7-3最终卡](../../../tasks/archive/done/A7-3-cutscene-asset-workbench.md)，各族直接取配对卡。raw、真正过门、原生OS交互和今天运行缺口必须另有实际证据；不重跑旧prompt，不以静态语义核读追认动态通过。
 
 ## 历史范围
 
@@ -181,7 +181,7 @@ historical。旧skip accept撤回、face透明stub反证、证据误路由与版
 
 ## 继任文档
 
-[过场最终纠正](../../../ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md)、[face后继](../../../ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)及[current-only收口卡](../../../ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md)按各自冻结范围读取。当前版本/阶段规则由[READ-FIRST](../../READ-FIRST.md)控制，不由本审计数字反推。
+[过场最终纠正](../../../tasks/archive/done/A7-3-cutscene-asset-workbench.md)、[face后继](../../../tasks/archive/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)及[current-only收口卡](../../../tasks/archive/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md)按各自冻结范围读取。当前版本/阶段规则由[READ-FIRST](../../READ-FIRST.md)控制，不由本审计数字反推。
 
 ## 原始结论
 

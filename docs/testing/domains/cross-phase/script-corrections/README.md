@@ -21,7 +21,7 @@ Template: governance-index-v1 / 1.0.0
 
 - 域报告：[report.md](report.md)
 - 配对机器 evidence：[evidence.json](evidence.json)
-- 实施任务卡：[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md)
+- 实施任务卡：[GAME-SCRIPT-CORRECTIONS-1.md](../../../../tasks/cards/GAME-SCRIPT-CORRECTIONS-1.md)
 
 ## 证据与下一步
 

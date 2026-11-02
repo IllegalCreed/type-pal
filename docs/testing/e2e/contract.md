@@ -89,7 +89,7 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 > 下段为原 2026-09-27 准入与 content21/SAVE10 状态快照；其中“当前/已执行/待确认”均按原轮次读取，今天以各片段正式报告和现行版本为准。
 
 历史准入核对见[前置欠账台账](../archive/legacy/e2e/route-and-checkpoint/pre-e2e-admission.md)（2026-09-21）。现有卡done与CI绿不构成R4自动准入；
-2026-09-27已建[R4准备卡](../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](route-proposal.md)，
+2026-09-27已建[R4准备卡](../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)与[路线方案讨论稿](route-proposal.md)，
 001～005作者边界及两阶段各自连续checkpoint链现已建设，见[001](stages/001-opening/report.md)、[002](stages/002-inn-guests-and-reward/report.md)、
 [003](stages/003-kitchen/report.md)、[004](stages/004-meal/report.md)、[005](stages/005-shrimp/report.md)；006以后作者边界待确认。正常输入、对话适配、正式存读档和
 关键NPC事件已执行；不同冻结revision的历史报告不冒称同revision汇总。当前content21/SAVE10，旧版本准入顺序仅作历史。
@@ -261,7 +261,7 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 本条从后续逐片段执行与验收开始生效；历史报告不追溯改写为已完成。当前游戏runner的自动回执
 尚不包含这项检查，须在片段报告独立记录，不能把runner的`passed`当作本项通过。
 本次只新增准则，未采集或验证正式预览状态。状态库与步骤记忆边界见
-[实体状态方案任务卡](../../ops/tasks/ED-ENTITY-STATE-PLAN-1.md)。
+[实体状态方案任务卡](../../tasks/cards/ED-ENTITY-STATE-PLAN-1.md)。
 
 #### E2E 收口硬门（用户，2026-10-04；2026-10-12补充）
 
@@ -297,7 +297,7 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 
 #### 已登记的存档恢复回归（SAVE-PREFLIGHT-1）
 
-状态：**R4/Q1 待跑，Owner Codex**。[B-04 修复回执](../../ops/audits/pre-e2e/save-preflight-remediation.md)
+状态：**R4/Q1 待跑，Owner Codex**。[B-04 修复回执](../../tasks/audits/pre-e2e/save-preflight-remediation.md)
 已完成开发期最小功能验证；以下集中用例尚无完整自动执行回执，不作为本卡重复人工验收要求。
 
 - 入口与隔离：独立测试工程/浏览器存储，由 runner 从当前 canonical 内容生成合法 checkpoint；
@@ -317,7 +317,7 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 
 #### 已登记的多项目/工作区存档回归（SAVE-ISOLATION-1）
 
-状态：**R4/Q1 连续链待跑，Owner Codex**；[隔离卡](../../ops/archive/tasks/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)
+状态：**R4/Q1 连续链待跑，Owner Codex**；[隔离卡](../../tasks/archive/done/SAVE-ISOLATION-1-project-workspace-save-scope.md)
 已有开发期真实浏览器最小功能证据，不等于完整 E2E。
 
 - 同一隔离浏览器存储域启动项目 P 的工作区 W1/W2、项目 Q，以及 P 的独立运行壳；用当前 canonical
@@ -336,14 +336,14 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 
 #### 已登记的作者保存冲突回归（EDITOR-SAVE-CONFLICT-1）
 
-编辑器作者保存冲突的后续 R4 用例见 [EDITOR-SAVE-CONFLICT-1](../../ops/archive/tasks/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md#验收矩阵)：
+编辑器作者保存冲突的后续 R4 用例见 [EDITOR-SAVE-CONFLICT-1](../../tasks/archive/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md#验收矩阵)：
 两窗口打开同一专用项目，A 修改并保存后 B 从旧态保存应零写入拒绝，磁盘 A 与内存 B 的修改均保留；
 重新打开后可正常编辑保存。2026-09-07 已完成真实链回归与 Chrome 原生 OPFS 双页最小功能（20 文件哈希保全、
 冲突可见且未保存修改保留、同 W 重开后再保存成功）；这不是 OS 目录选择器/真实用户目录故障测试，完整 R4 尚未执行。
 
 #### 已登记的作者保存恢复回归（EDITOR-SAVE-RECOVERY-1）
 
-状态：**R4集中自动化链待跑，Owner Codex**。[保存恢复卡](../../ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)已三席终审、用户免手动复审通过；
+状态：**R4集中自动化链待跑，Owner Codex**。[保存恢复卡](../../tasks/archive/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)已三席终审、用户免手动复审通过；
 [原生补证与限制](../archive/legacy/editor/save-and-recovery/editor-save-recovery-closeout.md)是开发期证据，不替代本条完整自动化链。
 
 - 入口/数据：隔离浏览器资料及测试目录，从空白当前工程创建新人物，体力上限237，场景实体引用该人物；禁止使用用户作者工程。
@@ -495,7 +495,7 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
   与普通保存共用安全快照队列，自动脚本按可恢复指令边界捕获，不等待全地图自动行为结束，
   不写用户槽/缩略图/计数。前台能否存档仍遵守菜单控制权，快速存档不绕过手动存档准入。
   超时/捕获失败reject，调用方须处理错误，不生成下一段检查点；取得快照不替代业务结束断言。
-  [接口实现与历史验证](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)、[后台续跑快照](../../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
+  [接口实现与历史验证](../archive/legacy/runtime/save-and-recovery/checkpoint-export.md)、[后台续跑快照](../../tasks/archive/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)；
   001→004各段当前版本保存/正式恢复链见各段回执。
   DEV控制台示例（正式runner还须完成结束断言和文件落盘）：
 
@@ -511,14 +511,14 @@ E2E 完整不自动授予录制器任意控制权。进入 Content Studio 自动
 - **Reforge 存档恢复**:`?e2e-load=<save.json url>&e2e-load-scene=<id>` 复用正式读档归一化与恢复事务,
   注入 world 并跳到碎片起点。
 - **机读观察点**:`canvas.dataset.rfScene` / `rfRender` / `rfSceneEntry`、`window.__reforge` 和战斗态
-  `__rfBattle`;详见 [`docs/ops/guides/browser-verification.md`](../../ops/guides/browser-verification.md)。
+  `__rfBattle`;详见 [`docs/ops/guides/browser-verification.md`](../../engineering/guides/browser-verification.md)。
 - **当前已登记并执行碎片**：`001`～`005`；两阶段各自拥有runner、正常输入、来源链与执行回执。
   `004`默认`story`只走正常剧情；取消/错误站位/耗酒边界归`items`，存读档归`saves`，`both`汇总六个真实case。
   `005`采用story/guards/saves，最终六份同版case独立核验通过；浏览器启动失败的wrapper原样保留。
   后续段不得重新把专项测试插入正常剧情演示。共性问题见[001–005回顾](cross-stage/common-issues.md)。
 - **尚缺**：`006+`完整主支线、Q1/Q2全矩阵、完整编辑器工作流E2E与Content Studio窄录制适配；
   浏览器启动RPC崩溃后的独立超时和自动清理也须补公共运行器门，不以正常case通过掩盖。
-  001～004的本地原声录制工具已在[005前清账](../../ops/archive/tasks/done/PRE-005-DEBT-1-current-edge-closeout.md)建设；
+  001～004的本地原声录制工具已在[005前清账](../../tasks/archive/done/PRE-005-DEBT-1-current-edge-closeout.md)建设；
   单引擎命令追加`--capture`，004仅支持正常`story`，不得将capture输出用作verify前驱。
   001先验证真实编码准备，再执行正常新的故事输入；视频与音频沿同一时间轴裁取，失败不报成功。
   用户因磁盘空间删除了录像；后续不自动补录，必要时按段生成并及时清理。不据局部代码/短样验收宣布系列`capture-ready`。

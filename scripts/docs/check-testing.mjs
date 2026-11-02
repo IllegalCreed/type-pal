@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isDeepStrictEqual } from 'node:util'
+import { currentDocumentPath } from './document-location.mjs'
 import { loadCatalog, renderIndexes } from './generate-testing-index.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 
@@ -329,13 +330,16 @@ export function validateCanonicalEvidence(entry, root = testingRoot, sourceRoot 
     for (const artifact of Array.isArray(evidence.artifacts) ? evidence.artifacts : []) {
       if (
         !safePath(artifact.path) ||
-        !existsSync(resolve(sourceRoot, artifact.path)) ||
+        !existsSync(resolve(sourceRoot, currentDocumentPath(artifact.path))) ||
         !/^[a-f\d]{64}$/.test(artifact.sha256 ?? '')
       ) {
         issues.push(`${entry.id}: runtime artifact lacks file/hash ${artifact.path}`)
         continue
       }
-      if (digest(readFileSync(resolve(sourceRoot, artifact.path))) !== artifact.sha256)
+      if (
+        digest(readFileSync(resolve(sourceRoot, currentDocumentPath(artifact.path)))) !==
+        artifact.sha256
+      )
         issues.push(`${entry.id}: runtime artifact hash mismatch ${artifact.path}`)
     }
   }

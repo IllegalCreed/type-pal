@@ -18,7 +18,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 
-两阶段脚本纠错域的canonical报告：第一阶段以忠实解码后的构建纠错和通用OBJECT脚本入口所有权修复；第二阶段直接修改canonical作者内容（content22/SAVE12轴）。逐项D/E处理、旧审计勘误与原始输入SHA由任务卡[GAME-SCRIPT-CORRECTIONS-1.md](../../../../ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md)维护，未上传raw/en/EXE。配套机器事实在配对[evidence.json](evidence.json)（18源锚、7条业务oracle断言、8条维护history）。
+两阶段脚本纠错域的canonical报告：第一阶段以忠实解码后的构建纠错和通用OBJECT脚本入口所有权修复；第二阶段直接修改canonical作者内容（content22/SAVE12轴）。逐项D/E处理、旧审计勘误与原始输入SHA由任务卡[GAME-SCRIPT-CORRECTIONS-1.md](../../../../tasks/cards/GAME-SCRIPT-CORRECTIONS-1.md)维护，未上传raw/en/EXE。配套机器事实在配对[evidence.json](evidence.json)（18源锚、7条业务oracle断言、8条维护history）。
 
 ## Claim matrix
 
@@ -26,7 +26,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ## Inputs and fixtures
 
-原盘依赖用例命名*.pal.test.ts沿既有fast/full分区执行，缺输入直接失败无skip；合成CLI输入显式faithful，真实源默认纠正另测；酒神生命周期用保留原控制流的局部指令表与真实资源九次施法配对。合法输入含支持的Win SSS.MKF SHA与原版M.MSG、当前typed GameState与真实提取脚本、canonical作者content22/SAVE12、原生5077事件数组与显式独立scene286新增5077及准备于928,816的合法原始raw存档（非reporter存档/非自然剧情checkpoint）。维护链原件：[docs-maintenance.json](../../../../ops/evidence/GAME-ENGLISH-1/docs-maintenance.json) [release-preparation.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../../../../ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [integration-receipt.json](../../../../ops/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) [README.md](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
+原盘依赖用例命名*.pal.test.ts沿既有fast/full分区执行，缺输入直接失败无skip；合成CLI输入显式faithful，真实源默认纠正另测；酒神生命周期用保留原控制流的局部指令表与真实资源九次施法配对。合法输入含支持的Win SSS.MKF SHA与原版M.MSG、当前typed GameState与真实提取脚本、canonical作者content22/SAVE12、原生5077事件数组与显式独立scene286新增5077及准备于928,816的合法原始raw存档（非reporter存档/非自然剧情checkpoint）。维护链原件：[docs-maintenance.json](../../../../tasks/evidence/GAME-ENGLISH-1/docs-maintenance.json) [release-preparation.json](../../../../tasks/evidence/GAME-NANZHAO-ROOM-EXIT-1/release-preparation.json) [release.json](../../../../tasks/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json) [review.json](../../../../tasks/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json) [integration-receipt.json](../../../../tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/integration-receipt.json) [README.md](../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md) [README.md](../../../../tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md)。
 
 ## Results and gaps
 

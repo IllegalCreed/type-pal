@@ -7,13 +7,13 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
 
-让维护者从一个稳定测试身份找到当前合同、报告、机器证据与原始输入，并按真实来源决定保留、返工或退役。本文定义文档发布流程；测试的业务质量按[协作流程的测试质量验收](../ops/agent-workflow.md#测试质量验收用户-2026-10-03-固化)独立核定，不能用模板、测试数或覆盖率代替。
+让维护者从一个稳定测试身份找到当前合同、报告、机器证据与原始输入，并按真实来源决定保留、返工或退役。本文定义文档发布流程；测试的业务质量按[协作流程的测试质量验收](../engineering/guides/agent-workflow.md#测试质量验收用户-2026-10-03-固化)独立核定，不能用模板、测试数或覆盖率代替。
 
 ## 前置条件
 
-- 读[AGENTS操作路由](../../AGENTS.md#操作与必读)、当前任务卡、[文档模型](../ops/guides/documentation-model.md)及对应domain/report/contract/evidence。核真实caller、合法输入、business oracle、排重、source revision、content/save版本及适用性；未知明确写缺失，不补造SHA或实跑。
+- 读[AGENTS操作路由](../../AGENTS.md#操作与必读)、当前任务卡、[文档模型](../engineering/guides/documentation-model.md)及对应domain/report/contract/evidence。核真实caller、合法输入、business oracle、排重、source revision、content/save版本及适用性；未知明确写缺失，不补造SHA或实跑。
 - [catalog.json](catalog.json)是测试索引与发布状态事实源；目录名、作者名和标题不推断状态。任务状态归任务卡；某次执行的exit、失败、skip、诊断和raw归原回执；全docs迁移覆盖归document-registry，三者不互相代授信用。
-- 先从[统一模板注册表](../phase-governance/templates/README.md)和[测试模板](./_templates/README.md)按实际内容选类型。导航用governance-index，catalog用JSON合同，runbook不是E2E报告；历史原生JSON按已批准变体核真实consumer，不能强套schema2或把业务对象搬进payload。
+- 先从[统一模板注册表](../phase-governance/templates/README.md)和[测试模板](_templates/README.md)按实际内容选类型。导航用governance-index，catalog用JSON合同，runbook不是E2E报告；历史原生JSON按已批准变体核真实consumer，不能强套schema2或把业务对象搬进payload。
 - 同一文件只有一位Coding Owner；作者自验和非作者验收分别记录。旧accept、旧counter和历史三签不自动构成今天准入。当前全量纠错与重审未结束，本文不宣称全testing已通过。
 
 ## 步骤
@@ -72,7 +72,7 @@ catalog原`_governance`中的到期/续期解释以及原回执日期是既有�
 
 ### 5. 有映射地迁移、归档和退役
 
-先读原文与真实consumer，决定唯一目标和保留理由；位置移动不是正文模板迁移的前提，也不因done自动搬目录。确需移动时，迁移计划列完整from→to、源SHA、链接/引用重算和consumer验证；按[文档维护流程](../ops/guides/documentation.md)审查后才用`scripts/docs/relocate.mjs`，不要无计划批量重命名。
+先读原文与真实consumer，决定唯一目标和保留理由；位置移动不是正文模板迁移的前提，也不因done自动搬目录。确需移动时，迁移计划列完整from→to、源SHA、链接/引用重算和consumer验证；按[文档维护流程](../engineering/guides/documentation.md)审查后才用`scripts/docs/relocate.mjs`，不要无计划批量重命名。
 
 移动后以同一计划运行`scripts/docs/finalize-testing-migration.mjs`核Markdown引用与legacy manifest收退，再核分类账：active entries去掉已迁项，retired和分类账保存旧路径、目标、原SHA与计划，原frozen census身份不扩容。迁移器只做机械改链/登记，不证明原文语义或完成质量。重复/低信息材料可用archive及supersedes提供后继；未独立核验保持retain-legacy/rework。删除前核catalog、卡、脚本、README和其他引用，无明确退出与替代映射不静默删raw或孤立材料。
 

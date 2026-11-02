@@ -10,7 +10,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是07-19 A7-2结果回执，08-23已追加raw face勘误，最终08-24用户接受取[face后继卡](../../../ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)。原报告done和三方署名属当时，本次治理不代签原产品执行；原报告未给统一执行candidate，不从本文source Git冒充。
+本页是07-19 A7-2结果回执，08-23已追加raw face勘误，最终08-24用户接受取[face后继卡](../../../tasks/archive/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)。原报告done和三方署名属当时，本次治理不代签原产品执行；原报告未给统一执行candidate，不从本文source Git冒充。
 
 ## 来源与输入
 
@@ -72,7 +72,7 @@ historical。工程/chrome归属与raw absence后继有独立来源；原透明s
 
 ## 继任文档
 
-[raw face后继](../../../ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)、[OFL原失败](../../../ops/archive/tasks/done/A7-3T-tileset-asset-closure.md)与[许可证字节修复记录](../../../ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md)分工清楚；[现行规则](../../READ-FIRST.md)控制新准入，原版美术替换归第三阶段，不由这份结果认证完成。
+[raw face后继](../../../tasks/archive/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md)、[OFL原失败](../../../tasks/archive/done/A7-3T-tileset-asset-closure.md)与[许可证字节修复记录](../../../tasks/archive/done/A7-3W-world-sprite-asset-closure.md)分工清楚；[现行规则](../../READ-FIRST.md)控制新准入，原版美术替换归第三阶段，不由这份结果认证完成。
 
 ## 原始结论
 

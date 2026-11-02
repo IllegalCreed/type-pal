@@ -1,7 +1,7 @@
 // 21 个速通节点与香蕉树配置；稳定 ID 用于计时/持久化，显示名可以本地化。
 // 坐标使用世界像素，即 PalTimer(98柔情)视口 + (160,112)；容差与进出场景策略沿用本项目设计。
 // 2026-10-23 已对五坐标、BGM86、进塔三场景做隔离 DEV 局部校准；证据见
-// docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/，不代表完整剧情路线验收。
+// docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/，不代表完整剧情路线验收。
 
 import { localize } from '../../localization/language.js'
 import {

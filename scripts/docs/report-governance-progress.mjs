@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { currentReviewLedgerAdmissions } from './current-review-ledger-admission.mjs'
+import { documentLocationManifest, loadDocumentLocations } from './document-location.mjs'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { readDocumentRetirements } from './document-retirements.mjs'
@@ -24,7 +25,9 @@ import { inspectIncrementalCohort } from './incremental-review.mjs'
 import { assertReviewRecordSourceUnchanged, loadReviewRecords } from './review-record-storage.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
+const locations = loadDocumentLocations(root)
 const readBuffer = (path) => {
+  if (locations) return locations.readBuffer(path)
   try {
     return readFileSync(resolve(root, path))
   } catch {
@@ -52,6 +55,7 @@ const reviewGroupReader = () => {
 }
 const sourceOptions = {
   root,
+  locations,
   reviewGroupReader,
   reviewReader,
   readSource: (pin) => readGitDocumentSource(root, pin),
@@ -64,11 +68,13 @@ const sourceOptions = {
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
 const cohort = new Set(baseline.entries.map((entry) => entry.path))
-const candidates = gitInventory(root, ['docs']).filter((path) => /\.(md|json|html)$/.test(path))
+const candidates = gitInventory(root, ['docs'])
+  .filter((path) => /\.(md|json|html)$/.test(path))
+  .map((path) => locations?.identity(path) ?? path)
 const { registry } = loadDocumentRegistry({
   manifestPath: resolve(root, 'docs/phase-governance/document-registry.json'),
 })
-const retirements = readDocumentRetirements(root, registry)
+const retirements = readDocumentRetirements(root, registry, locations)
 const retired = new Set(retirements.entries.map((entry) => entry.path))
 const retiredNative = new Set(retirements.nativeEntries.map((entry) => entry.path))
 const structuralRoots = new Set(
@@ -152,18 +158,49 @@ for (const entry of registry.entries) {
     bodyIssues.push('completed review requires one matching migrated route')
   const afterBytes = entry.path === frozenDocumentBaseline.path ? readBuffer(entry.path) : text
   const afterDigest = afterBytes === undefined ? undefined : digest(afterBytes)
-  if (afterDigest !== record.afterSha256 || bodyIssues.length) {
-    if (afterDigest !== record.afterSha256) issues.push(`${entry.path}: completed review SHA drift`)
+  let matching = afterDigest === record.afterSha256
+  if (locations) {
+    try {
+      locations.assertCurrent(entry.path, record.afterSha256)
+      matching = true
+    } catch (error) {
+      bodyIssues.push(error.message)
+      matching = false
+    }
+  }
+  if (!matching || bodyIssues.length) {
+    if (!matching) issues.push(`${entry.path}: completed review SHA drift`)
     issues.push(...bodyIssues.map((issue) => `${entry.path}: ${issue}`))
     continue
   }
   completed.push({
     path: entry.path,
+    ...(locations
+      ? {
+          currentPath: locations.currentPath(entry.path),
+          currentSha256: afterDigest,
+          currentTemplateId: locations.changes.get(entry.path)?.templateId ?? entry.templateId,
+          currentValidation: locations.changes.get(entry.path)?.mode ?? 'unchanged',
+        }
+      : {}),
     templateId: entry.templateId,
     reviewRecord: entry.reviewRecord,
     afterSha256: record.afterSha256,
     cohort: cohort.has(entry.path) ? 'approved-baseline' : 'incremental',
   })
+}
+for (const doc of locations?.additions.values() ?? []) {
+  const bodyIssues = checkMigratedDocument(doc, templateRegistry, read, sourceOptions)
+  if (bodyIssues.length) issues.push(...bodyIssues.map((issue) => `${doc.path}: ${issue}`))
+  else
+    completed.push({
+      path: doc.path,
+      currentPath: doc.path,
+      templateId: doc.templateId,
+      reviewRecord: documentLocationManifest,
+      afterSha256: doc.afterSha256,
+      cohort: 'location-successor',
+    })
 }
 const done = new Set(completed.map((entry) => entry.path))
 const cohortDone = completed.filter((entry) => cohort.has(entry.path)).length
@@ -178,6 +215,7 @@ for (const path of artifactPaths)
 const allCandidates = [...new Set(candidates)]
 const governedCandidates = allCandidates.filter(
   (path) =>
+    !(locations && path === documentLocationManifest) &&
     !structuralRoots.has(path) &&
     !retired.has(path) &&
     !retiredNative.has(path) &&
@@ -198,6 +236,15 @@ const report = {
   currentCandidates: governedCandidates.length,
   currentPending: pending.length,
   reviewStorageArtifacts,
+  ...(locations
+    ? {
+        migrationArtifacts: [...locations.artifacts.values()].map((artifact) => ({
+          ...artifact,
+          semanticCredit: 0,
+          migrationCredit: 0,
+        })),
+      }
+    : {}),
   incrementalMigrated: completed.length - cohortDone,
   incrementalRetired: retirements.nativeEntries,
   exercisedTemplates: [...exercised].sort(),
@@ -212,6 +259,7 @@ if (args.some((arg) => !['--json', '--require-complete'].includes(arg)))
     'Usage: node scripts/docs/report-governance-progress.mjs [--json] [--require-complete]',
   )
 if (reviewGroup) assertReviewRecordSourceUnchanged(reviewGroup.loadedSource)
+locations?.assertUnchanged()
 if (args.includes('--json')) console.log(JSON.stringify(report, null, 2))
 else
   console.log(

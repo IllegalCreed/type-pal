@@ -6,6 +6,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { currentDocumentPath } from './document-location.mjs'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
@@ -17,7 +19,7 @@ import { loadReviewRecord } from './review-record-storage.mjs'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const paths = Object.keys(historicalVitestPilots)
 const templatePath = 'docs/phase-governance/templates/registry.json'
-const json = (path) => JSON.parse(readFileSync(join(root, path)))
+const json = (path) => JSON.parse(readFileSync(join(root, currentDocumentPath(path))))
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 
 function memory(path = paths[0]) {
@@ -30,7 +32,7 @@ function memory(path = paths[0]) {
   const row = review.entries.find((entry) => entry.path === path)
   const readBuffer = (name) => {
     if (name === historicalVitestContract.reviewRecord) return Buffer.from(JSON.stringify(review))
-    return documents.get(name) ?? readFileSync(join(root, name))
+    return documents.get(name) ?? readFileSync(join(root, currentDocumentPath(name)))
   }
   const read = (name) => readBuffer(name).toString('utf8')
   const options = {
@@ -60,7 +62,7 @@ test('native green and red historical outputs use real source and current review
   for (const path of paths) {
     const f = memory(path)
     assert.deepEqual(f.check(), [])
-    const value = JSON.parse(readFileSync(join(root, path)))
+    const value = JSON.parse(readFileSync(join(root, currentDocumentPath(path))))
     assert.equal(Object.hasOwn(value, '_governance'), false)
     assert.equal(
       value.numFailedTests,
@@ -76,7 +78,7 @@ test('reformatting or native edits cannot be laundered by refreshing current rev
     (bytes) => Buffer.from(JSON.stringify({ payload: JSON.parse(bytes) })),
   ]) {
     const f = memory()
-    const bytes = mutate(readFileSync(join(root, f.doc.path)))
+    const bytes = mutate(readFileSync(join(root, currentDocumentPath(f.doc.path))))
     f.documents.set(f.doc.path, bytes)
     f.row.afterSha256 = hash(bytes)
     f.row.revision.currentSha = hash(bytes)
@@ -86,11 +88,11 @@ test('reformatting or native edits cannot be laundered by refreshing current rev
 
 test('strict byte parser rejects duplicate keys and invalid UTF8 in immutable outputs', () => {
   const duplicate = memory()
-  const text = readFileSync(join(root, duplicate.doc.path), 'utf8')
+  const text = readFileSync(join(root, currentDocumentPath(duplicate.doc.path)), 'utf8')
   duplicate.documents.set(duplicate.doc.path, Buffer.from(text.replace('{', '{"success":false,')))
   assert(duplicate.check().some((issue) => issue.includes('duplicate decoded key')))
   const invalid = memory()
-  const bytes = readFileSync(join(root, invalid.doc.path))
+  const bytes = readFileSync(join(root, currentDocumentPath(invalid.doc.path)))
   bytes[bytes.indexOf('success')] = 0xff
   invalid.documents.set(invalid.doc.path, bytes)
   assert(invalid.check().some((issue) => issue.includes('invalid UTF8')))
@@ -148,7 +150,7 @@ test('variant contract is independently versioned and cannot admit another nativ
   parent.templateVersion = '9.0.0'
   assert.deepEqual(f.check(), [])
   f.doc.path = 'docs/testing/unapproved-reporter.json'
-  f.documents.set(f.doc.path, readFileSync(join(root, paths[0])))
+  f.documents.set(f.doc.path, readFileSync(join(root, currentDocumentPath(paths[0]))))
   assert(f.check().some((issue) => issue.includes('fixed path/variant/version')))
 })
 
@@ -157,13 +159,17 @@ test('real model/progress consume the companion review and reject coordinated te
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   execFileSync('git', ['clone', '--quiet', '--shared', '--no-checkout', root, directory])
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   const write = (path, value) => {
     mkdirSync(dirname(join(directory, path)), { recursive: true })
     writeFileSync(join(directory, path), value)
   }
   const save = (path, value) => write(path, JSON.stringify(value))
   write(templatePath, readFileSync(join(root, templatePath)))
-  write(frozenDocumentBaseline.path, readFileSync(join(root, frozenDocumentBaseline.path)))
+  write(
+    frozenDocumentBaseline.path,
+    readFileSync(join(root, currentDocumentPath(frozenDocumentBaseline.path))),
+  )
   write('AGENTS.md', '## Routes\n')
   const routes = paths.map((path) => ({
     path,
@@ -197,7 +203,7 @@ test('real model/progress consume the companion review and reject coordinated te
   for (const row of review.entries) {
     row.contentReviewStatus = 'content-reviewed'
     row.templateCompliance = 'template-compliant'
-    write(row.path, readFileSync(join(root, row.path)))
+    write(row.path, readFileSync(join(root, currentDocumentPath(row.path))))
   }
   const publish = () => {
     save('docs/phase-governance/routing.json', routing)

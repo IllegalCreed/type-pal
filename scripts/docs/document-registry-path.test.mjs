@@ -4,6 +4,7 @@ import { cpSync, mkdtempSync, realpathSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { installHistoricalLocationFixture } from './document-location.test-support.mjs'
 import { loadDocumentRegistry } from './document-registry.mjs'
 import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 
@@ -22,6 +23,7 @@ function fixture(t, paths) {
   t.after(() => rmSync(directory, { recursive: true, force: true }))
   const manifestPath = saveDocumentRegistryFixture(directory, paths.map(entry))
   cpSync(join(root, 'scripts/docs'), join(directory, 'scripts/docs'), { recursive: true })
+  installHistoricalLocationFixture(directory)
   execFileSync('git', ['init', '-q'], { cwd: directory })
   return { directory, manifestPath }
 }

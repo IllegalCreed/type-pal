@@ -8,7 +8,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
 
-`document-registry.json` 在固定源 `3fae68aec8f448bf83d1d85e61da35c94d5200ae` 已达 1,047,444 字节，SHA256 `921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33`。继续接收逐篇审查即会超过 Biome 默认 1 MiB。采用结构拆分；不缩短语义字符串、放宽 maxSize 或新增排除。任务见[DOCS-REGISTRY-SPLIT-1](../../ops/tasks/DOCS-REGISTRY-SPLIT-1.md)。
+`document-registry.json` 在固定源 `3fae68aec8f448bf83d1d85e61da35c94d5200ae` 已达 1,047,444 字节，SHA256 `921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33`。继续接收逐篇审查即会超过 Biome 默认 1 MiB。采用结构拆分；不缩短语义字符串、放宽 maxSize 或新增排除。任务见[DOCS-REGISTRY-SPLIT-1](../../tasks/cards/DOCS-REGISTRY-SPLIT-1.md)。
 
 目标是存储扩容及验证收敛，不改变审查标准、事实权或已批准的 17 类模板。源 2374 条全部保留；1838 固定 cohort 与后续增量仍分开。
 

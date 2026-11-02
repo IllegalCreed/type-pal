@@ -3,7 +3,7 @@
 Status: current
 Validity: current
 Owner: Codex
-Last reviewed: 2026-10-24
+Last reviewed: 2026-11-02
 Template: reference-canon-v1 / 1.0.0
 
 ## 适用范围
@@ -16,7 +16,7 @@ Template: reference-canon-v1 / 1.0.0
 
 下方源块是基点`3ed87f734df357799c4d9a44205781d3deba5c14`的完整原内容：blob `d08694340522c20bbd9fbe58fff37a172a850d0a`，SHA-256 `1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34`，541B，本轮逐行核读。旧source pin `7cfdccad9fd9299a7d839cc3047a6252e4474b50` / `1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34`仅复核身份，不冒称原执行或原深审已重认证。
 
-[统一注册表](registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../ops/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](README.md)提供统一选择入口。
+[统一注册表](registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../engineering/guides/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](README.md)提供统一选择入口。
 
 ## 当前真值
 
@@ -28,7 +28,16 @@ draft/build/review/done/blocked/rework/cancelled由任务事实与授权驱动�
 
 本节接入 main `72db417255d8ca4227522420e9185ef468462aa7` 的质量提示。下方保全骨架仍是其注明基点的原件；建立代码任务时，将本节记录项填入新卡验收部分，不改写历史源块，也不预填通过。
 
-代码任务的验收记录按[长期工程质量规范](../../ops/code-quality.md)逐文件给八维依据、问题处置、候选身份与失效条件、快速复验命令及完整原件；贡献者全文审查，Codex据证验收并按风险定向核源码。非代码任务按文档协议说明适用性。
+代码任务的验收记录按[长期工程质量规范](../../engineering/guides/code-quality.md)逐文件给八维依据、问题处置、候选身份与失效条件、快速复验命令及完整原件；贡献者全文审查，Codex据证验收并按风险定向核源码。非代码任务按文档协议说明适用性。
+
+## 现行文档与知识同步
+
+建立或修改任务时，将以下记录项填入新卡验收部分，按[功能变更写回流程](../../engineering/guides/agent-workflow.md#功能变更同步现行文档与知识用户-2026-11-02-固化)执行；下方历史骨架不改写：
+
+- 受影响的现行规范、指南、知识及状态路径，和实现同提交更新的要点：
+- 没有文档影响时的具体理由；Codex 对照实现、入口与例子核实的结论：
+
+第一阶段上下文从[阶段索引](../../phase1/README.md)选择相关知识与一手证据；不再从历史骨架中的旧模型根入口开始。
 
 ## 未知与冲突
 
@@ -36,7 +45,7 @@ draft/build/review/done/blocked/rework/cancelled由任务事实与授权驱动�
 
 ## 使用边界
 
-以源块作为历史骨架起点，另填真实标题、身份、范围与证据；代码任务同时填写上方现行质量扩展，不把说明或历史占位当作结果。作者自验、非作者接受和中央接入分开；旧机械artifactOnly不授完成，本篇partial/needs待独立验收与显式路由/标志处置。结构通过不授runtime/E2E/视觉/coverage，全量硬门未过不合main、不done。
+以源块作为历史骨架起点，另填真实标题、身份、范围与证据；填写上方文档与知识同步记录，代码任务还须填写现行质量扩展，不把说明或历史占位当作结果。作者自验、非作者接受和中央接入分开；旧机械artifactOnly不授完成；本次修订须由 Codex 独立验收并接入当前治理记录。结构通过不授runtime/E2E/视觉/coverage，全量硬门未过不合main、不done。
 
 ## 原有源内容
 
