@@ -1,15 +1,33 @@
 # ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览
 
-Status: review
+Status: build
 Phase: phase2
 Capability: editor / entity-authoring / script-preview
-Coding Owner: Codex（本轮可操作 UI 首批，唯一实现写入者）
+Coding Owner: /root/script_progress_ledger（2026-11-04 UI整改，隔离树单一实现Owner；历史Owner见原记录）
 Reviewer: state_plan_review（本批独立取证与代码复核）/ Codex
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
 Branch: `main`（首批集成 `39499783c`；集成基线 `origin/main d3cb0c149`）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-11-04
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-04 用户反馈与交互整改准入
+
+用户在001–006初态补齐时明确指出：当前初始状态tab混乱，状态方案的含义与关联实体关系不清，固定宽度卡片文字溢出，`trigger/c8-…/stage-1`等取证地址不能作为人类可读名称。用户心智是先选一个NPC，再看它的脚本与不同预览初态；多人演出时应清楚显示还要摆好哪些角色。本反馈针对当前工作流，保留下方10-12首批试用接受的历史时点，不拿旧接受覆盖当前问题。
+
+build allowed：贡献者在隔离树修改SceneInitialStateEditor、SceneScriptWorkspace及对应editor.css局部样式和必要新回归；旧初态集成测试仅同步因获准文案调整而变化的可访问定位，原业务断言不削弱。当前步骤提供直接编辑预览初态与返回入口，保持NPC/脚本/步骤上下文；全库用可读纵向列表显示用途、使用步骤和角色，角色编辑明确为脚本开场的静态布置。共享方案展示影响范围，复制及用于当前步骤由用户明确操作。场景hook与未绑定方案仍可管理；稳定ID、sidecar格式、保存协议、正式脚本和运行时不改。
+
+实际页面首轮QA发现从NPC入口进入时App仍展示正式实体属性，准入同步修正App.tsx的预览Inspector宿主分支并增加真实caller回归；不能只在工作区组件假宿主中证明可用。当前角色/参与者切换须定位其可见画布范围，列表摘要收短、完整角色与用途在选中详情查看。首轮截图保留，字段未被操作，未改正式实体数据。
+
+Codex负责独立验收与真实页面复验；root将32份预览名称改为经当前脚本用途核对的中文名称，ID、NPC属性和步骤绑定保持。保存事故与逐步骤进度仍归[R4当前记录](E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-04-当前执行与保存边界)；用户已质疑盲目保存重试，本次UI整改不自动继续大工程保存实验。后继代码与实际页面复验记录如下，产品取舍仍待用户判断。
+
+## 2026-11-04 当前候选复验
+
+初版候选`22a49e60d2e9fdf829427cc13920cca06f8f8990`仅取得工作区组件范围的接受；真实App页面仍显示正式实体属性，已明确返工，保留失败截图及counter。后继`994eebbdc85ce1ac4ec150c5b78613d8ba86ffa7`（本树`eb57d961c`）修正App预览Inspector分流、按当前参与者取景与列表摘要。真实App回归在旧分支精确失败于预览字段缺失，后继9项定向回归通过，editor typecheck及目标Biome零诊断；独立核验固定blob、原件与写入边界，未用作者passed代替真实caller检查。
+
+Codex在实际Chrome页面从s001李大娘（厨房）→赠酒后买鲜虾→步骤1进入：名称为“李大娘 · 买虾前的厨房交代”，右侧为预览初态、列89/行45/显示/朝上，画布定位厨房角色；切房内走动李大娘时为列60/行-12/隐藏/朝下，脚本上下文保持，返回后仍是原买虾步骤。309像素抽屉下长列表正常滚动，增高至469像素时两行候选及当前使用标记完整可见；未改任何字段、未重试保存。本次有限实页检查不授全部32份初态逐入口播放/重置信用，也不替代用户最终体验判断。
+
+证据归[本轮UI原件包](../evidence/ED-ENTITY-STATE-PLAN-1-ui-20261104.tar.gz)：manifest逐件列SHA；含作者原生红绿/静态门、两轮独立回执、首轮失败和修复后实际截图、用途名称核对。历史006两份独立裁定仅保留必要原字节及旧包来源，未改旧结论。
 
 ## 目标
 

@@ -5,7 +5,7 @@
     {
       "id": "e2e006-s002-e35-trigger-initial",
       "sceneId": "s002",
-      "name": "006 洪大夫诊断 · initial（NPC显示初态）",
+      "name": "洪大夫 · 为李大娘诊断病情",
       "entities": [
         {
           "entityId": "e34",
@@ -78,7 +78,7 @@
     {
       "id": "e2e006-s002-e36-trigger-initial",
       "sceneId": "s002",
-      "name": "006 小虎子求药说明 · initial（NPC显示初态）",
+      "name": "小虎子 · 首次说明仙灵岛求药",
       "entities": [
         {
           "entityId": "e34",
@@ -151,7 +151,7 @@
     {
       "id": "e2e006-s002-e36-trigger-legacy-002",
       "sceneId": "s002",
-      "name": "006 小虎子求药说明 · legacy-002（NPC显示初态）",
+      "name": "小虎子 · 再问出海与病情",
       "entities": [
         {
           "entityId": "e34",
@@ -224,7 +224,7 @@
     {
       "id": "e2e006-s003-e59-auto-initial",
       "sceneId": "s003",
-      "name": "006 苗人头领指引 · auto/legacy-001/initial（NPC显示初态）",
+      "name": "苗人头领 · 走到大厅出口等候",
       "entities": [
         {
           "entityId": "e54",
@@ -407,7 +407,7 @@
     {
       "id": "e2e006-s003-e59-trigger-initial",
       "sceneId": "s003",
-      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态）",
+      "name": "苗人头领 · 指路、赠锤与服丹",
       "entities": [
         {
           "entityId": "e54",
@@ -590,7 +590,7 @@
     {
       "id": "e2e006-s003-e59-auto-legacy-002-routine",
       "sceneId": "s003",
-      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态） / auto/legacy-002/routine",
+      "name": "苗人头领 · 交代完毕返回客房",
       "entities": [
         {
           "entityId": "e54",
@@ -773,7 +773,7 @@
     {
       "id": "e2e006-s005-e123-trigger-initial",
       "sceneId": "s005",
-      "name": "006 码头张四 · initial（NPC显示初态）",
+      "name": "张四 · 答应渡海并邀请上船",
       "entities": [
         {
           "entityId": "e116",
@@ -1011,7 +1011,7 @@
     {
       "id": "e2e006-s005-e116-trigger-initial",
       "sceneId": "s005",
-      "name": "006 船只出航 · trigger/legacy-001/initial（NPC显示初态）",
+      "name": "渡海出发 · 登船前",
       "entities": [
         {
           "entityId": "e116",
@@ -1249,7 +1249,7 @@
     {
       "id": "e2e006-s005-e117-auto-initial",
       "sceneId": "s005",
-      "name": "006 张四划桨 · initial（NPC显示初态）",
+      "name": "渡海途中 · 张四划桨",
       "entities": [
         {
           "entityId": "e116",
@@ -1487,7 +1487,7 @@
     {
       "id": "e2e006-s014-scene-onEnter-initial",
       "sceneId": "s014",
-      "name": "006 仙灵岛落地叮嘱 · initial（NPC显示初态）",
+      "name": "仙灵岛靠岸 · 张四叮嘱",
       "entities": [
         {
           "entityId": "e201",
@@ -1508,6 +1508,1551 @@
             "height": 0
           },
           "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e001-s001-e10-auto-leave-bedroom-leave",
+      "sceneId": "s001",
+      "name": "李大娘 · 离开卧房前",
+      "entities": [
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12.875,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s001-e3-trigger-default-initial",
+      "sceneId": "s001",
+      "name": "卧房出口 · 大娘离开后",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s003-e56-auto-legacy-006-leave-reception",
+      "sceneId": "s003",
+      "name": "李大娘 · 接待完客人下楼",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s003-e59-auto-legacy-003-initial",
+      "sceneId": "s003",
+      "name": "苗人三人组 · 接待结束准备进房",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 121,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e47-trigger-default-initial",
+      "sceneId": "s003",
+      "name": "客人进房后 · 大厅交谈前",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 137,
+            "row": 66,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 124,
+            "row": 42,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e56-auto-go-to-kitchen-initial",
+      "sceneId": "s003",
+      "name": "李大娘 · 去厨房备菜前",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 137,
+            "row": 66,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 124,
+            "row": 42,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e62-trigger-beggar-first-talk-initial",
+      "sceneId": "s003",
+      "name": "醉酒道士 · 初次在门口讨酒",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 129,
+            "row": 64.5,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 124,
+            "row": 42,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e53-trigger-default-initial",
+      "sceneId": "s003",
+      "name": "大娘进厨房后 · 客栈日间",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 124,
+            "row": 42,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s001-e19-trigger-serve-guests-initial",
+      "sceneId": "s001",
+      "name": "厨房送餐 · 李大娘与待端酒菜",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e19",
+          "pos": {
+            "col": 89,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e20",
+          "pos": {
+            "col": 92,
+            "row": 51,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false,
+          "zBias": 4
+        },
+        {
+          "entityId": "e24",
+          "pos": {
+            "col": 35,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e25",
+          "pos": {
+            "col": 112,
+            "row": 27,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e26",
+          "pos": {
+            "col": 106,
+            "row": 24,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e18-trigger-default-initial",
+      "sceneId": "s001",
+      "name": "端菜送餐 · 厨房与客房共用",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e15",
+          "pos": {
+            "col": 108,
+            "row": 29,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e19",
+          "pos": {
+            "col": 89,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e24",
+          "pos": {
+            "col": 35,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e25",
+          "pos": {
+            "col": 112,
+            "row": 27,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e26",
+          "pos": {
+            "col": 106,
+            "row": 24,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e26-auto-legacy-003-routine",
+      "sceneId": "s001",
+      "name": "苗人随从 · 客房内自动动作",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e16",
+          "pos": {
+            "col": 109,
+            "row": 26,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false,
+          "zBias": 4
+        },
+        {
+          "entityId": "e19",
+          "pos": {
+            "col": 89,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e24",
+          "pos": {
+            "col": 35,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e25",
+          "pos": {
+            "col": 112,
+            "row": 27,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e26",
+          "pos": {
+            "col": 109,
+            "row": 24,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e12-trigger-default-initial",
+      "sceneId": "s001",
+      "name": "苗人随从客房 · 送餐后离开",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e16",
+          "pos": {
+            "col": 109,
+            "row": 26,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false,
+          "zBias": 4
+        },
+        {
+          "entityId": "e19",
+          "pos": {
+            "col": 89,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e24",
+          "pos": {
+            "col": 35,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e25",
+          "pos": {
+            "col": 112,
+            "row": 27,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e26",
+          "pos": {
+            "col": 107,
+            "row": 24,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s003-e53-trigger-default-initial",
+      "sceneId": "s003",
+      "name": "买虾出门 · 离开客栈前",
+      "entities": [
+        {
+          "entityId": "e54",
+          "pos": {
+            "col": 123,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e55",
+          "pos": {
+            "col": 124,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e56",
+          "pos": {
+            "col": 124,
+            "row": 61,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e59",
+          "pos": {
+            "col": 124,
+            "row": 42,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e60",
+          "pos": {
+            "col": 134,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e61",
+          "pos": {
+            "col": 133,
+            "row": 43,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e62",
+          "pos": {
+            "col": 137,
+            "row": 73,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e63",
+          "pos": {
+            "col": 138,
+            "row": 73,
+            "height": 0
+          },
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e64",
+          "pos": {
+            "col": 136,
+            "row": 73,
+            "height": 0
+          },
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e73",
+          "pos": {
+            "col": 133,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e74",
+          "pos": {
+            "col": 134,
+            "row": 44,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s001-e19-trigger-c8-74bc98f07f8e-stage-1",
+      "sceneId": "s001",
+      "name": "李大娘 · 买虾前的厨房交代",
+      "entities": [
+        {
+          "entityId": "e3",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e10",
+          "pos": {
+            "col": 60,
+            "row": -12,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e11",
+          "pos": {
+            "col": 60,
+            "row": -23,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e19",
+          "pos": {
+            "col": 89,
+            "row": 45,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e24",
+          "pos": {
+            "col": 35,
+            "row": 1,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e25",
+          "pos": {
+            "col": 112,
+            "row": 27,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e26",
+          "pos": {
+            "col": 107,
+            "row": 24,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e95-trigger-default-initial",
+      "sceneId": "s004",
+      "name": "买虾途中 · 前往码头",
+      "entities": [
+        {
+          "entityId": "e76",
+          "pos": {
+            "col": 139.5,
+            "row": 58,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e83",
+          "pos": {
+            "col": 153,
+            "row": 43.5,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e84",
+          "pos": {
+            "col": 100.25,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e91",
+          "pos": {
+            "col": 94,
+            "row": 27.5,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e92",
+          "pos": {
+            "col": 93,
+            "row": 28,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e93",
+          "pos": {
+            "col": 95,
+            "row": 25,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e127-trigger-default-initial",
+      "sceneId": "s005",
+      "name": "鱼嫂 · 询问鲜虾前",
+      "entities": [
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 140,
+            "row": 78,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 141,
+            "row": 82,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e124-trigger-default-initial",
+      "sceneId": "s005",
+      "name": "水生叔 · 闲聊仙灵岛前",
+      "entities": [
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 142,
+            "row": 79,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 141,
+            "row": 83,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e123-trigger-legacy-001-initial",
+      "sceneId": "s005",
+      "name": "张四 · 回应仙灵岛传闻前",
+      "entities": [
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 140,
+            "row": 79.5,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 141,
+            "row": 83,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e124",
+          "pos": {
+            "col": 122,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e115-trigger-default-initial",
+      "sceneId": "s005",
+      "name": "买虾归来 · 从码头回村",
+      "entities": [
+        {
+          "entityId": "e121",
+          "pos": {
+            "col": 140.5,
+            "row": 80,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e122",
+          "pos": {
+            "col": 140.5,
+            "row": 83,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e123",
+          "pos": {
+            "col": 116,
+            "row": 56,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e124",
+          "pos": {
+            "col": 122,
+            "row": 57,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-scene-onEnter-legacy-003-initial",
+      "sceneId": "s004",
+      "name": "丁香兰 · 上前报信前",
+      "entities": [
+        {
+          "entityId": "e76",
+          "pos": {
+            "col": 139,
+            "row": 56.875,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e83",
+          "pos": {
+            "col": 153,
+            "row": 42.75,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e84",
+          "pos": {
+            "col": 101,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e92",
+          "pos": {
+            "col": 92,
+            "row": 28,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e93",
+          "pos": {
+            "col": 95,
+            "row": 25,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e88-auto-legacy-001-routine",
+      "sceneId": "s004",
+      "name": "回村报信时 · 街头自动动作",
+      "entities": [
+        {
+          "entityId": "e76",
+          "pos": {
+            "col": 134.125,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e83",
+          "pos": {
+            "col": 139.5,
+            "row": 34,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e84",
+          "pos": {
+            "col": 105,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e91",
+          "pos": {
+            "col": 94.5,
+            "row": 28,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e92",
+          "pos": {
+            "col": 93,
+            "row": 27.25,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e93",
+          "pos": {
+            "col": 94.25,
+            "row": 25,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": false,
+          "collide": false
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e83-auto-legacy-002-initial",
+      "sceneId": "s004",
+      "name": "丁香兰 · 报信后离开前",
+      "entities": [
+        {
+          "entityId": "e76",
+          "pos": {
+            "col": 132.625,
+            "row": 50,
+            "height": 0
+          },
+          "facing": "left",
+          "hidden": true,
+          "collide": false
+        },
+        {
+          "entityId": "e83",
+          "pos": {
+            "col": 139.5,
+            "row": 34,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e84",
+          "pos": {
+            "col": 105.5,
+            "row": 36,
+            "height": 0
+          },
+          "facing": "right",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e91",
+          "pos": {
+            "col": 94.5,
+            "row": 27.75,
+            "height": 0
+          },
+          "facing": "up",
+          "hidden": false,
+          "collide": true
+        },
+        {
+          "entityId": "e92",
+          "pos": {
+            "col": 93,
+            "row": 28,
+            "height": 0
+          },
+          "facing": "down",
+          "hidden": false,
+          "collide": false
+        },
+        {
+          "entityId": "e93",
+          "pos": {
+            "col": 94.25,
+            "row": 25,
+            "height": 0
+          },
+          "facing": "left",
           "hidden": false,
           "collide": false
         }
@@ -1623,6 +3168,315 @@
         "stageId": "initial"
       },
       "stateId": "e2e006-s014-scene-onEnter-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "leave-bedroom",
+        "stageId": "leave",
+        "entityId": "e10"
+      },
+      "stateId": "e2e001-s001-e10-auto-leave-bedroom-leave"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e3"
+      },
+      "stateId": "e2e002-s001-e3-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-006",
+        "stageId": "leave-reception",
+        "entityId": "e56"
+      },
+      "stateId": "e2e002-s003-e56-auto-legacy-006-leave-reception"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial",
+        "entityId": "e59"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial",
+        "entityId": "e60"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial",
+        "entityId": "e61"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e47"
+      },
+      "stateId": "e2e003-s003-e47-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "stageId": "initial",
+        "entityId": "e56"
+      },
+      "stateId": "e2e003-s003-e47-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "go-to-kitchen",
+        "stageId": "initial",
+        "entityId": "e56"
+      },
+      "stateId": "e2e003-s003-e56-auto-go-to-kitchen-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "initial",
+        "entityId": "e62"
+      },
+      "stateId": "e2e003-s003-e62-trigger-beggar-first-talk-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e53"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "serve-guests",
+        "stageId": "initial",
+        "entityId": "e19"
+      },
+      "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "take-dishes",
+        "stageId": "initial",
+        "entityId": "e20"
+      },
+      "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e18"
+      },
+      "stateId": "e2e004-s001-e18-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e46"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e51"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e15"
+      },
+      "stateId": "e2e004-s001-e18-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "routine",
+        "entityId": "e26"
+      },
+      "stateId": "e2e004-s001-e26-auto-legacy-003-routine"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e12"
+      },
+      "stateId": "e2e004-s001-e12-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "c8-321c0a7d7de1",
+        "stageId": "stage-1",
+        "entityId": "e62"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1",
+        "entityId": "e19"
+      },
+      "stateId": "e2e005-s001-e19-trigger-c8-74bc98f07f8e-stage-1"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e44"
+      },
+      "stateId": "e2e005-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e95"
+      },
+      "stateId": "e2e005-s004-e95-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e127"
+      },
+      "stateId": "e2e005-s005-e127-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e124"
+      },
+      "stateId": "e2e005-s005-e124-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial",
+        "entityId": "e123"
+      },
+      "stateId": "e2e005-s005-e123-trigger-legacy-001-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial",
+        "entityId": "e115"
+      },
+      "stateId": "e2e005-s005-e115-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s004-scene-onEnter-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "stageId": "report",
+        "entityId": "e83"
+      },
+      "stateId": "e2e005-s004-scene-onEnter-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine",
+        "entityId": "e88"
+      },
+      "stateId": "e2e005-s004-e88-auto-legacy-001-routine"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "initial",
+        "entityId": "e83"
+      },
+      "stateId": "e2e005-s004-e83-auto-legacy-002-initial"
     }
   ]
 }

@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "61e981aa1550808fa49e16e6270b9ae50ff34d499cb721e978480d842be25305",
+      "afterSha256": "e3a238926ff7fc91ef7d07106b5f8077ed4ca1ed23f8419781a63395c9671fae",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "R4与ED按现行卡写回；ED新反馈进入build，有限实页验证与用户判断分开，未升格为done。",
         "reviewedLines": 119,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
       }
     },
     {
@@ -2326,21 +2326,28 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "75757db006c8dd4dbb422840b5e55e2a7a483aabb42a2db4bea1d4eeba2549ce",
+      "afterSha256": "b698677dbbbf0f55eb740d5ffa4169d31d0ffcc252e8af51011d59c5ed8f2767",
       "review": {
-        "author": "/root/e2e_baseline_docs",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "核006已合入且done；初态最终10套/11绑定仅属006，001–005缺逐入口完成依据。真实项目加载/编译与原档cursor消费证实RF006旧终档digest失配；只记007前驱适用性，不撤销历史技术/用户接受。",
-        "reviewedLines": 402,
-        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
-        "beforeSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
-        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "实际RF同引擎链、32份/42绑定编辑器committed保存及失败原件；明确001–005未全量逐入口验收、11个旧006context依赖漂移，历史boat接受不撤销。",
+        "reviewedLines": 428,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
       }
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6c280253d95cde65fe43040677c153959b76b4581d6158eb26fec7563fd43a48",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "用户当前可读性反馈与新UI准入；固定初版App反例及后继真实caller接线接受；根实际NPC入口/参与者/返回有限复验，用户产品接受及完整现场仍未完成。",
+        "reviewedLines": 722,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md",
@@ -2577,16 +2584,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "ad45de0af8a68c4414ad07c710c7ff0fad3299622cc7998a0c78fc420f74b849",
+      "afterSha256": "4b3e55e8c8e97b48cd995103d50796fe48e659ba390d2a722eea0943d96e7582",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "author": "deterministic task index / Codex",
+        "reviewer": "Codex /root",
+        "date": "2026-11-04",
+        "conclusion": "既有生成器按真实ED卡build更新唯一状态行，其余任务状态不改。",
         "reviewedLines": 574,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
       }
     },
     {
@@ -3906,14 +3913,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "62f8282bb1df1afbdf2939103d72112184758dc0c52e1b9c0b746c5ea544d2c0",
+      "afterSha256": "8539445a13b8762ff4869d039a5c3b4d9c8a963ed095fec2eb42e70e321fb908",
       "review": {
-        "author": "/root/status_reconcile",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
-        "reviewedLines": 551,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "author": "Codex /root/script_progress_ledger",
+        "reviewer": "Codex /root",
+        "date": "2026-11-04",
+        "conclusion": "新增逐步骤三轴追加事件合同，明确canonical入口/调用现场区分、未核自动枚举、configured与saved证据、依赖漂移和只读工具边界；固定counter及后继验收承接。",
+        "reviewedLines": 601,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
       }
     },
     {
@@ -3931,7 +3938,16 @@
     },
     {
       "path": "docs/testing/e2e/cross-stage/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "bd7556b8acb051d5f843b5c3e8b7bc12f19793d1404f12cfd3c8b8d01d1e6517",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "横向导航接入唯一逐步骤台账，不复制第二份状态，不替代阶段报告。",
+        "reviewedLines": 56,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
+      }
     },
     {
       "path": "docs/testing/e2e/README.md",
@@ -4133,6 +4149,19 @@
         "reviewedLines": 43,
         "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
       }
+    },
+    {
+      "path": "docs/phase2/specs/editor-architecture.md",
+      "mode": "reviewed",
+      "afterSha256": "6fbfb13b084528b8d60f1015702fffbab13d9818b293f7ac4e2919d10362d0b4",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "新增NPC脚本步骤与多人静态预览初态职责，局部参与者选择、明确绑定动作与正式/预览Inspector写入边界；不授完整游戏现场恢复。",
+        "reviewedLines": 362,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
+      }
     }
   ],
   "additions": [
@@ -4199,6 +4228,19 @@
         "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
         "reviewedLines": 159,
         "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/script-progress.md",
+      "templateId": "plan-status-v1",
+      "afterSha256": "2d02e81cf3108359adba64d3b93e0fc1e3c03a029786e8363351c6e0a88fb257",
+      "review": {
+        "author": "Codex /root; seed assembly /root/e2e_baseline_docs",
+        "reviewer": "Codex independent cross-review: root and e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "160条新事件源自实际RF现场及历史006接受；74条只授saved，11条当前依赖变化待复核。初次发布前将15个证据引用转为持久包，原执行身份/原字节SHA/语义保留，未补造未跑验收。",
+        "reviewedLines": 19906,
+        "acceptanceScope": "根复核seed原件、真实保存与投影，贡献者独立核saved语义及名称；全量机器结构/指纹由只读消费者核。不是逐行重读19k行或全部脚本已审查，未录入口仍未核。"
       }
     }
   ],
@@ -4290,6 +4332,18 @@
       "sha256": "cc2aa16021da07877ab47f438365e5b4f6af9155c531bb877fbdf97b26e908cb",
       "bytes": 582747,
       "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-preview-baseline-20261104.tar.gz",
+      "sha256": "e39424ff1e6d45d2540c59a28e7158bbfedfd75edbe38d36e04f2fe7fcec5ba2",
+      "bytes": 11152046,
+      "purpose": "8次当前RF链报告、必要首命令现场/真实终档及编辑器保存失败/成功、可恢复296文件重写原件；不授Game、专项、全量初态或新视觉接受。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-ui-20261104.tar.gz",
+      "sha256": "7696ebad384fc34f6906f2721c5e4d62d3cfbbe62792f8c20f2194f1ea3f6596",
+      "bytes": 330920,
+      "purpose": "后继初态名称与UI/caller整改、实际页面、逐步骤工具及普通保存进度的作者/独立/失败恢复原件；旧006仅保留必要裁定原字节及来源，未重复整包。"
     }
   ],
   "artifactAliases": [],

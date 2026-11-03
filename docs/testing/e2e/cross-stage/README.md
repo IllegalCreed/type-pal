@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（横向材料导航维护）
-Last reviewed: 2026-10-18
+Last reviewed: 2026-11-04
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -25,6 +25,7 @@ Template: governance-index-v1 / 1.0.0
 
 | 要查什么 | 入口与职责 |
 |---|---|
+| 每个场景/NPC脚本步骤的核对、初态与优化进度 | [脚本进度台账](script-progress.md)：按稳定入口与调用现场保留有序事件，未记录步骤自动列为未核；不替代阶段报告 |
 | 重复根因与未闭合问题 | [共性问题族](common-issues.md)：定位具体人物/剧情入口、差异、根因层及证据限制 |
 | 公开身份与配对证据 | [catalog](../../catalog.json) 的 `e2e-common-issues` 与[配对 evidence](../evidence/e2e-common-issues.json)：核 publication、sourceRefs、revision 与实际执行范围；其 catalog `index` 仍指向 E2E 总览 |
 | 受影响片段的正式结论 | [E2E 总览](../README.md)：按稳定 `e2e-NNN` 进入阶段页、canonical 报告与检查点链 |

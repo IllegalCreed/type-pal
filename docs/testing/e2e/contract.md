@@ -12,7 +12,7 @@ evidence: e2e/evidence/e2e-contract.json
 
 Owner: Codex
 Status: current（验收合同；不表示片段或完整链已通过）
-Last reviewed: 2026-11-03
+Last reviewed: 2026-11-04
 Template: test-contract-v1 / 1.0.0
 
 ## Contract question
