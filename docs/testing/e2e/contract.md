@@ -265,6 +265,48 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 本次只新增准则，未采集或验证正式预览状态。状态库与步骤记忆边界见
 [实体状态方案任务卡](../../tasks/cards/ED-ENTITY-STATE-PLAN-1.md)。
 
+#### NPC与场景脚本的逐步骤进度（用户，2026-11-04）
+
+[脚本进度台账](cross-stage/script-progress.json)是逐入口审查、初态和优化记录的唯一可维护源；
+任务卡和阶段报告引用具体事件，不另复制一份当前状态。清单从当前canonical场景索引枚举
+`sceneId / entityId或scene / channel / schemeId / stageId`，包括空步骤和未走到的复读步骤。
+未记录入口明确显示未核对；初态JSON存在、任务done或E2E通过都不能自动提升步骤状态。
+此清单覆盖场景`onEnter/onTeleport`与实体`trigger/auto`步骤；物品私有、共享库、敌人/技能等
+非该范围脚本不计入分母。共享调用的影响和现场通过真实调用方及声明依赖核验。
+
+三个进度分别维护，不用一个done掩盖另一项缺口：
+
+| 轴 | 正常推进与明确分支 |
+|---|---|
+| `review`（脚本核对） | `unreviewed → in-review → verified` |
+| `initialState`（预览初态） | `unreviewed → evidence-collected → configured → saved → verified`；最后一步须有切回、重开、播放/重置证据 |
+| `optimization`（脚本优化） | `unassessed → planned → changed → accepted`；核实无需修改时记`not-needed`及理由 |
+
+每项可显式转`needs-review`。已有充分历史证据可直接记对应阶段，不为凑流程伪造中间操作；
+完成态须有不同于作者的复核者。每次变化追加事件，记录时间、执行/复核人、稳定入口、调用
+`context`、该轴此前的**记录状态**`from`、新状态`to`、说明、源码指纹、依赖及原件引用。
+同一步骤在首次、回访、恢复或其它剧情现场分别用可区分context；在说明或原件selector中
+定位实际run/sceneVisit/首次command order，不能用一个默认方案替所有调用现场授信。
+初态已配置及之后还记录`stateId`（null表示已核场景默认）、`selection`（步骤默认或手动选择）
+与预览指纹；手动选择另一现场的方案不冒称步骤默认绑定已经改变。
+
+只读查询入口：
+
+```bash
+node scripts/script-governance/progress-report.mjs --scene s001 --entity e10
+node scripts/script-governance/progress-report.mjs --pending --json
+node scripts/script-governance/progress-report.mjs --check --against origin/main
+```
+
+默认表格最多40行，`--limit`调整显示数量，JSON包含完整筛选结果。`--check`检查整份台账，
+筛选不隐藏其它入口的失配；未核对是合法进度，不能把exit0理解成全部完成。
+`--against`要求既有事件逐项保留，只允许追加，不覆盖旧结论。步骤所属场景、显式声明的
+相关依赖、原件字节或预览选择变化/缺失时，查询派生`needs-review`并保留原记录状态与原因；
+已删除入口的旧事件列为orphan，交Owner核去向，不能静默丢弃。日期和无关HEAD变化不使记录过期。
+所属场景是保守指纹边界，跨场景caller、共享脚本、运行时和编辑器依赖须由核验者按实际影响
+声明，工具不自动证明依赖闭包或证据语义。原件可引用工作树路径或固定Git revision/path，
+用sha256核字节，用selector定位归档member/具体观察；工具不会执行游戏或替代人的验收。
+
 #### E2E 收口硬门（用户，2026-10-04；2026-10-12补充）
 
 每个碎片在 `done` 前必须同时具备五项可追踪产物（可在同一正式报告中分项记录）：
