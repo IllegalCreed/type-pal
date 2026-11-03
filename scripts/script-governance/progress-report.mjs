@@ -3,7 +3,13 @@ import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { assertAppendOnly, filterProgress, PROGRESS_PATH, reportProgress } from './progress.mjs'
+import {
+  assertAppendOnly,
+  filterProgress,
+  PROGRESS_PATH,
+  parseProgressDocument,
+  reportProgress,
+} from './progress.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const json = async (path) => JSON.parse(await readFile(join(root, path), 'utf8'))
@@ -46,7 +52,7 @@ export async function runProgressReport(args = process.argv.slice(2)) {
   const options = parseArguments(args)
   const [index, ledger, library] = await Promise.all([
     json('projects/pal/content/scenes/index.json'),
-    json(PROGRESS_PATH),
+    readFile(join(root, PROGRESS_PATH), 'utf8').then(parseProgressDocument),
     json('projects/pal/editor/script-preview.json'),
   ])
   const paths = new Set()
@@ -72,7 +78,10 @@ export async function runProgressReport(args = process.argv.slice(2)) {
     }).trim()
     assert(/^[a-f0-9]{40}$/.test(revision), 'against must resolve to one Git object')
     const previous = await readReference({ revision, path: PROGRESS_PATH })
-    assertAppendOnly(previous ? JSON.parse(previous) : { events: [] }, ledger)
+    assertAppendOnly(
+      previous ? parseProgressDocument(previous.toString('utf8')) : { events: [] },
+      ledger,
+    )
   }
   const report = await reportProgress({ scenes, library, ledger, readReference })
   const rows = filterProgress(report, options)

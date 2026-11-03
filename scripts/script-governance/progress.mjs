@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 
-export const PROGRESS_PATH = 'docs/testing/e2e/cross-stage/script-progress.json'
+export const PROGRESS_PATH = 'docs/testing/e2e/cross-stage/script-progress.md'
 export const AXES = {
   review: ['unreviewed', 'in-review', 'verified', 'needs-review'],
   initialState: [
@@ -41,6 +41,21 @@ function keys(value, allowed, where) {
   assert(value && typeof value === 'object' && !Array.isArray(value), `${where}: expected object`)
   for (const key of Object.keys(value))
     assert(allowed.includes(key), `${where}: unknown field ${key}`)
+}
+
+/** Only the named ledger block is machine input; examples elsewhere never become state. */
+export function parseProgressDocument(text) {
+  assert(typeof text === 'string', 'progress document must be text')
+  const lines = text.split(/\r?\n/)
+  const starts = lines.flatMap((line, index) =>
+    line === '```json script-progress-ledger' ? [index] : [],
+  )
+  assert.equal(starts.length, 1, 'progress document requires exactly one named ledger block')
+  const end = lines.indexOf('```', starts[0] + 1)
+  assert(end > starts[0], 'progress ledger block is not closed')
+  const ledger = JSON.parse(lines.slice(starts[0] + 1, end).join('\n'))
+  validateLedger(ledger)
+  return ledger
 }
 
 export function entryKey(entry) {

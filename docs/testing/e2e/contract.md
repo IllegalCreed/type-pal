@@ -267,8 +267,10 @@ NPC预览初始状态。由Codex随E2E推进配置并复验，不把逐脚本手
 
 #### NPC与场景脚本的逐步骤进度（用户，2026-11-04）
 
-[脚本进度台账](cross-stage/script-progress.json)是逐入口审查、初态和优化记录的唯一可维护源；
-任务卡和阶段报告引用具体事件，不另复制一份当前状态。清单从当前canonical场景索引枚举
+[脚本进度台账](cross-stage/script-progress.md)是逐入口审查、初态和优化记录的唯一可维护源；
+台账沿用`plan-status-v1`，仅其唯一`json script-progress-ledger`命名围栏保存机器事件；
+工具拒绝缺失、重复或非法围栏内容，不读取其它JSON示例。任务卡和阶段报告引用具体事件，
+不另复制一份当前状态。清单从当前canonical场景索引枚举
 `sceneId / entityId或scene / channel / schemeId / stageId`，包括空步骤和未走到的复读步骤。
 未记录入口明确显示未核对；初态JSON存在、任务done或E2E通过都不能自动提升步骤状态。
 此清单覆盖场景`onEnter/onTeleport`与实体`trigger/auto`步骤；物品私有、共享库、敌人/技能等

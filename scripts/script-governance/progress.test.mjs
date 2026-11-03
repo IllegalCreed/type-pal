@@ -6,6 +6,7 @@ import {
   entryKey,
   filterProgress,
   inventoryScenes,
+  parseProgressDocument,
   previewFingerprint,
   reportProgress,
   validateLedger,
@@ -96,6 +97,34 @@ const report = (events, options = {}) =>
     ...options,
   })
 const doorRow = (result) => result.rows.find((row) => entryKey(row.entry) === entryKey(entry))
+
+test('document parser consumes only the explicitly named ledger block', () => {
+  const source = [
+    '# Script progress',
+    '```json',
+    '{"example":"not the ledger"}',
+    '```',
+    '```json script-progress-ledger',
+    JSON.stringify(ledger(event())),
+    '```',
+    'Current status remains derived from the events.',
+  ].join('\r\n')
+  const parsed = parseProgressDocument(source)
+  assert.equal(parsed.events[0].id, 'door-review')
+  assert.equal(parsed.events[0].to, 'verified')
+})
+
+test('document parser rejects missing, repeated, unclosed, malformed or invalid ledger blocks', () => {
+  const block = `\`\`\`json script-progress-ledger\n${JSON.stringify(ledger())}\n\`\`\``
+  assert.throws(() => parseProgressDocument('```json\n{}\n```'), /exactly one named/)
+  assert.throws(() => parseProgressDocument(`${block}\n${block}`), /exactly one named/)
+  assert.throws(() => parseProgressDocument('```json script-progress-ledger\n{}'), /not closed/)
+  assert.throws(() => parseProgressDocument('```json script-progress-ledger\n{\n```'), SyntaxError)
+  assert.throws(
+    () => parseProgressDocument('```json script-progress-ledger\n{}\n```'),
+    /ERR_ASSERTION/,
+  )
+})
 
 test('inventory includes unvisited and empty steps in both entity and scene channels', async () => {
   const result = await report([])
