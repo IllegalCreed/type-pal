@@ -719,7 +719,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "cd39f4fd8108d5961d288deabf53f953d08a76a92baabdefb7b987fe3cc13938",
+      "afterSha256": "61e981aa1550808fa49e16e6270b9ae50ff34d499cb721e978480d842be25305",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -4128,7 +4128,7 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "5b25e6732614140601e07b37c7778d7b80dbb99093282bfc086ddfe8d6670174",
+      "afterSha256": "7a128c059132dfc4d44503049d41f7f49bdb69b1e2a891181667e5f548bbf9d0",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
@@ -4251,8 +4251,8 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
-      "sha256": "6bae6db442d1207c3dc811876a1dff52467f3a2a9850cc3be83af429d17f0002",
-      "bytes": 1711000,
+      "sha256": "53e7eccbe06be0a6acb1f80319303679db9c529596315dc1ca899e0892bdce7c",
+      "bytes": 1711959,
       "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
     },
     {
