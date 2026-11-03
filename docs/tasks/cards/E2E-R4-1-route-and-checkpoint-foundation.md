@@ -23,6 +23,20 @@ Template: task-card-v1 / 1.0.0
 - 运行器独立deadline与自有进程清理已有[后继实现及专测提交](https://github.com/IllegalCreed/type-pal/commit/f83f2aebb75eb50d1bd20abcc4b45db131b2a076)：当前caller对launch/connect/newContext、整段与清理分别限时，专测含真实Chrome挂起newContext后终止/回收。连续卡保存更早45秒超时及后继含真实Chrome watchdog的379/384工具门记载。本次只核当前实现、测试与Git承接，未取回该专测原生运行包或新跑故障；不据正常001–006授异常通过，也不再称机制仍未实现。后续先定位原专测执行身份及当前受影响边界，再决定是否有具体补验缺口。
 - 原294场景/4459 stages/195 machine/13849 stepEntity只作原调研快照。当前格式与推进顺序以[能力地图当前层](../../phase2/capability-map.md#当前状态)、各段原件及本卡为准；六段有限接受不刷新全表、全量剧情或录制/音频状态。
 
+## 2026-11-03 续办核对与预览初态范围
+
+本轮按`document-delivery-acceptance / 1.0.0`准入文档状态核对和配置盘点；根Codex核范围与独立验收，贡献者`/root/e2e_baseline_docs`为本卡及006报告、阶段入口的单一写入Owner。只修这三篇现行说明，中央记录由根维护；不修改产品、预览配置、原始回执或catalog发布状态，不重开已接受的船体观感。
+
+核对基点为主线`00e38451b4594512c9236d5e214eb47d2cdf6e89`；006最终候选`33cfb9ad89f8696802b7c2ec466fbc93cccf8149`已在其祖先链，任务卡done及PR38/39收口与当前看板一致。`node scripts/docs/testing-revisions.mjs e2e-006`的声明版本/来源指纹为matching、无differences/missing；这仅核声明边界，不是新同版全链实跑，也不自动证明旧终档可作为007当前输入。
+
+根Codex另以真实`loadCurrentProjectFrom`与`loadAllScenes`加载当前294场景，按`packages/reforge/src/main.ts:3544-3558`的正式表达式得到工程摘要`f88a584c3c64e3db35a5a3afa093035e7ff8177eafd8d54d3d737f1915ab469b`。船体起伏归档`build/evidence-archive/e2e006-boat-bob-20261027/boat-bob.tar.gz`内`native/reforge-006-2026-10-27T05-14-20-236Z/006.end.save.json`的76个`resume.digest`均为`a3fac493656dfe8b17e98564cfdcb0fd5339255946cb19d7a2aea53f0c62d022`；后继内容已改变全工程摘要。根从该原档取`s001/e25/auto/default`游标，以当前实体flow及摘要调用`compileRuntimeScriptFlow`和`validateScriptContinuation`，在`packages/reforge/src/script-continuation.ts:29`精确拒绝“auto resume: 内容digest不匹配”。未启动浏览器、未改原档。
+
+007先寻找并核准匹配当前工程的合法同引擎前驱；本次所核10-27的RF006终档不可直接使用，缺少匹配前驱时才正常重建必要链，不能改写旧档digest绕过守卫。本次未穷举其它保存目录，不据此要求Game重跑。此项是续办输入适用性，不撤销006原候选技术及用户视觉接受；本轮未因此重跑剧情。
+
+当前[预览配置](../../../projects/pal/editor/script-preview.json)只有006用途的10套状态、11个步骤绑定；前轮12入口/11状态属于船身旧auto退役前的验收。001–005报告中未找到逐入口预览初态验收完成记录，当前配置也未登记这些片段的状态；因此不能宣布001–006的NPC初态全部完成。已有场景默认或006共享人物的站位不能自动代替另一个脚本入口执行前的现场。
+
+后续按[E2E逐入口初态合同](../../testing/e2e/contract.md#每段核对编辑器预览初始状态用户2026-10-12)补齐001–005入口清单与实际前态，逐项确认可沿用的场景默认或配置独立方案，再完成步骤关联、保存重开及Play/Reset记录；缺证入口保持未完成。006有效范围直接复用。本轮仅做文档与配置核对，未新跑剧情、编辑器播放/重开或007。
+
 ## 前提与证据
 
 - [E2E合同](../../testing/e2e/contract.md)、[共性问题族](../../testing/e2e/cross-stage/common-issues.md)、[路线方案](../../testing/e2e/route-proposal.md)按各自声明合同范围读取；旧版本/旧006待办不能覆盖后继原卡接受。
