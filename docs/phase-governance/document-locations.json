@@ -719,7 +719,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "072253f1000beed82ee70203b3c6c58cc8f2d2fe5311f046eb7b4605c64ac9c1",
+      "afterSha256": "cd39f4fd8108d5961d288deabf53f953d08a76a92baabdefb7b987fe3cc13938",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -2575,7 +2575,7 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "f54a57562746dae147e89c82b562cedb9895ebc3c3b21b399bafff39a89dbde2",
+      "afterSha256": "ad45de0af8a68c4414ad07c710c7ff0fad3299622cc7998a0c78fc420f74b849",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -4128,13 +4128,13 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "015d1679bf2b2b3d69c5a504005a171e0135ade09ac9cc04fc5a138933fdefa9",
+      "afterSha256": "5b25e6732614140601e07b37c7778d7b80dbb99093282bfc086ddfe8d6670174",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
         "date": "2026-11-03",
         "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
-        "reviewedLines": 72,
+        "reviewedLines": 80,
         "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
@@ -4251,8 +4251,8 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
-      "sha256": "e2ea12530f5db0f89ccc154c5af058fab57aac80ed08a20ced9aeb09b162555b",
-      "bytes": 1566283,
+      "sha256": "6bae6db442d1207c3dc811876a1dff52467f3a2a9850cc3be83af429d17f0002",
+      "bytes": 1711000,
       "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
     },
     {
