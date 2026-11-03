@@ -158,7 +158,7 @@ export function useEditorProjectSession(input: {
       if (copySource) await verifySourceAuthorBaseline(authorBaselineRef.current, projectSource)
       const files = await serializeEditorSnapshot(savedState, savedScriptState, projectSource)
       if (!projectGuard.isCurrent(lease)) return outcome
-      let lastPercent = -1
+      let lastProgressKey = ''
       const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
       snapshotRef.current = recoverySnapshot
       const target = rememberDirectory
@@ -179,11 +179,15 @@ export function useEditorProjectSession(input: {
                 await copySource.verify()
               }
             : undefined,
-          onProgress: ({ completed, total }) => {
-            const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
-            if (percent === lastPercent && completed < total) return
-            lastPercent = percent
-            updateActivity({ phase: 'writing', completed, total })
+          onActivity: (progress) => {
+            if (progress.phase !== 'validating') {
+              const { completed, total } = progress
+              const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
+              const key = `${progress.phase}:${percent}`
+              if (key === lastProgressKey && completed < total) return
+              lastProgressKey = key
+            }
+            updateActivity(progress)
           },
         })
       })
