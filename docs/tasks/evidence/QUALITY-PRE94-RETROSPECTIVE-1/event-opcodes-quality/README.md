@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz) [review.json](review.json) [static-receipts.json.gz](static-receipts.json.gz) [static.json](static.json)。原419行与最终版本完整读取,八维及逐例旧→新合同见review;解释器整TS去注释后与基点完全一致(sourceBridge仅删无人消费的_fadeSec声明)。
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/receipts.json.gz) [review.json](review.json) [static-receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/static-receipts.json.gz) [static.json](static.json)。原419行与最终版本完整读取,八维及逐例旧→新合同见review;解释器整TS去注释后与基点完全一致(sourceBridge仅删无人消费的_fadeSec声明)。
 
 ## 断言与业务 oracle
 

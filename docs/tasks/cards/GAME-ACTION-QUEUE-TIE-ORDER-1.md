@@ -1,8 +1,8 @@
 # GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉
 
 Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -19,11 +19,11 @@ turn-queue.ts、其专测与必要真实battle caller反例；RNG、动作倍率
 
 ## 验收
 
-排序方向已获用户批准且先红后修完成；但用户观感/实际动作动画（两同速敌/更快队员的动画先后与dualMove第二动标记）与统一check/official ratchet/protected fast按成本留大窗口未执行。超过3玩家/5敌容量、非整数/NaN/无穷、caller极端SHORT/浮点→WORD转换、缺省dex2近似均不据本片自动接受。
+原C排序片段、正式业务红绿与真实battle unit caller已有有限代码接受。原统一门与发布已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)核定；旧“待全仓/coverage/未合main”只保留为原时点，不再作当前阻塞。仍缺原验收明示的实际动作动画：两同速敌/更快队员的可见行动顺序与dualMove第二动标记；原C最小执行和单测不能替代。
 
 ## 状态与交接
 
-review保持原语义：任务review、done blocked；无下一位Agent提示词，Codex单Agent继续；本卡证据是原C片段最小上下文原生执行，不是完整SDLPal或浏览器实跑。
+Status保持review，下一有限验收以原两敌一玩家/seed5输入和dualMove对照观察实际动作先后，保存对应功能画面与执行身份；不扩整剧情或再造全数值域证明。原C片段不是完整SDLPal/浏览器实跑，容量外、非整数/NaN/无穷及caller域外转换不由本卡接受。
 
 ## 原文保全
 

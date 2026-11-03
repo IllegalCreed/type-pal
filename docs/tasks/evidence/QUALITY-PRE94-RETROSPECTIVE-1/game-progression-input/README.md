@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-证据分三层:修复前八source指纹与四轮完整双流/ready/done/退出信息在[observation.json](observation.json),原件与producer在[native.json.gz](native.json.gz);当前批准、逐文件八维、实际差异/红绿/指纹在[review.json](review.json)及新原件[local-native.json.gz](local-native.json.gz);最终静态以集中门[gates.json](gates.json)为准;[verify.mjs](verify.mjs)只读快检分别核旧Git基点与当前指纹,不联网、不跑测试、不写仓库。数值政策风险见[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../cards/GAME-SAVE-EXPERIENCE-DOMAIN-1.md);获批物品上下文修复另见[三文件八维/原件](../game-item-role-context-review.json)。阈值独立从真实DATA.MKF第14chunk读取,99级为32000;C的WORD与旧固定样本只是值域候选依据,不自动批准JSON接口政策。
+证据分三层:修复前八source指纹与四轮完整双流/ready/done/退出信息在[observation.json](observation.json),原件与producer在[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/native.json.gz);当前批准、逐文件八维、实际差异/红绿/指纹在[review.json](review.json)及新原件[local-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/local-native.json.gz);最终静态以集中门[gates.json](gates.json)为准;[verify.mjs](verify.mjs)只读快检分别核旧Git基点与当前指纹,不联网、不跑测试、不写仓库。数值政策风险见[GAME-SAVE-EXPERIENCE-DOMAIN-1.md](../../../cards/GAME-SAVE-EXPERIENCE-DOMAIN-1.md);获批物品上下文修复另见[三文件八维/原件](../game-item-role-context-review.json)。阈值独立从真实DATA.MKF第14chunk读取,99级为32000;C的WORD与旧固定样本只是值域候选依据,不自动批准JSON接口政策。
 
 ## 发现
 

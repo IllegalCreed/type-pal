@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-范围=原3v六文件(attack/attack-mate/defend/flee及其测试)+七个移动端已改实现(input/avi-player及测试/speedrun store/analytics三件/display-scale/fps-overlay)+两份既有AVI相关测试,共16文件逐文件A–H;battle-system、大actions测试、H harness三份大文件仅核实际调用段,非整文件接受。逐文件维度、SHA、复用来源在[review.json](review.json);门完整原件在[gates.json](gates.json)与[gates-native.json.gz](gates-native.json.gz);baseline调整归因在[recount.json](recount.json);完整native在[native.json.gz](native.json.gz);[verify.mjs](verify.mjs)只读快检不重跑测试、不联网、不写仓库。3v复用既有完整四实现/两专测与SDLPal fight.c有限原文段(3618-3854/4110-4172/4591-4654/4910-5175),本轮补C/D/F/G/H;移动端复用既有独立审查(GAME-MOBILE-LAYOUT-1)与83注册附件逐字节复算,只补七文件真实caller/接口/lifecycle增量,无物理设备/控制器/Safari/编解码/网络/部署证据。
+范围=原3v六文件(attack/attack-mate/defend/flee及其测试)+七个移动端已改实现(input/avi-player及测试/speedrun store/analytics三件/display-scale/fps-overlay)+两份既有AVI相关测试,共16文件逐文件A–H;battle-system、大actions测试、H harness三份大文件仅核实际调用段,非整文件接受。逐文件维度、SHA、复用来源在[review.json](review.json);门完整原件在[gates.json](gates.json)与[gates-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/gates-native.json.gz);baseline调整归因在[recount.json](recount.json);完整native在[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/native.json.gz);[verify.mjs](verify.mjs)只读快检不重跑测试、不联网、不写仓库。3v复用既有完整四实现/两专测与SDLPal fight.c有限原文段(3618-3854/4110-4172/4591-4654/4910-5175),本轮补C/D/F/G/H;移动端复用既有独立审查(GAME-MOBILE-LAYOUT-1)与83注册附件逐字节复算,只补七文件真实caller/接口/lifecycle增量,无物理设备/控制器/Safari/编解码/网络/部署证据。
 
 ## 发现
 

@@ -27,7 +27,7 @@ CODE1三个范围中工程清单与Q1b此窗收口，RLE测试六范围依上窗
 
 ## 限制与复核
 
-低成本复验：在治理树根运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs`（默认只读、不联网、不跑tests/coverage），核候选上下文、539输入、119/84映射、真实native结果、原工程四文件及RLE代码版本桥；版本变化只使相关claim待核。旧RLE快检的历史static报告绑定当时父卡/看板，不能因进度文字改变伪称适用于今天。新证明工具初次格式门有两条useTemplate info（exit0也未记通过），手动修正后旧SHA被快检如实拒绝，核JSON语义未变后绑定最终字节，两次回放原件保留。[receipts.json.gz](receipts.json.gz)收完整stdout/stderr、native JSON、精确命令/cwd/时间/exit/signal与产生者。当前最终[static.json](static.json)单列，不复跑未变的125项docs工具测试。pendingDecisionAudit如实登记四项待用户裁决（CODE1来源修复、3m极端dex、3m正数防御转换、42姓名速度）；全仓check/官方coverage/protected/PR继续等全部pre94，不扩94–102。本治理候选不重开任务、不重跑执行、不授新信用。
+低成本复验：在治理树根运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/verify.mjs`（默认只读、不联网、不跑tests/coverage），核候选上下文、539输入、119/84映射、真实native结果、原工程四文件及RLE代码版本桥；版本变化只使相关claim待核。旧RLE快检的历史static报告绑定当时父卡/看板，不能因进度文字改变伪称适用于今天。新证明工具初次格式门有两条useTemplate info（exit0也未记通过），手动修正后旧SHA被快检如实拒绝，核JSON语义未变后绑定最终字节，两次回放原件保留。[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/receipts.json.gz)收完整stdout/stderr、native JSON、精确命令/cwd/时间/exit/signal与产生者。当前最终[static.json](static.json)单列，不复跑未变的125项docs工具测试。pendingDecisionAudit如实登记四项待用户裁决（CODE1来源修复、3m极端dex、3m正数防御转换、42姓名速度）；全仓check/官方coverage/protected/PR继续等全部pre94，不扩94–102。本治理候选不重开任务、不重跑执行、不授新信用。
 
 ## 原文保全
 

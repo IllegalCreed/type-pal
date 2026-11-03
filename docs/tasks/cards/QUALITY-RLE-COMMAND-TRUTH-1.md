@@ -1,8 +1,8 @@
 # QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验
 
 Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -19,11 +19,11 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-仅代码接受：统一门、official coverage与单PR仍待全部pre94。rle.test.ts“截断坏帧”样本实际走sanity guard而非decodeRle catch的判别力缺口、作者透明游程不按行界分段与高位literal的一般分歧仍未解决；MGO/ABC以外的真实资源census未做。2026-10-18校准另登记：通用decodeRle无sprite 400尺寸上限、parseSpriteChunk过短输入RangeError只是错误合同候选。
+已批准PAL/legacy来源的读取分域、特殊偏移和真实Canvas第200步已有有限接受，统一门与PR22发布已闭合。八域4,662,630命令结构census已记录，未完成的是更广native像素/调用域验证，不能仍概称MGO/ABC以外census未做。canonical作者透明游程/高位literal一般语义与rle.test截断样本判别力仍须分别核定，不能把PAL规则全局套入作者格式。
 
 ## 状态与交接
 
-review保持原语义：产品rle.ts格式风险与修复层裁定未闭合，范围內独立测试质量排重可收口但不借它关闭本卡。无下一位Agent提示词，Codex继续父任务。
+Status保持review，已发布的PAL窄修不再等待全仓门。下一有限动作是列明当前canonical encoder/decoder、合法大图与真实caller的输入合同，明确哪些差异是现行格式取舍、哪些是必修缺口，并核主测是否实际到达decodeRle catch；未知转为具体证据/决策项，不默认更改公共格式或重写资源。原400尺寸guard/过短输入错误合同候选、无全资源native对照及旧反控范围保留，不授新增运行/视觉信用。
 
 ## 原文保全
 

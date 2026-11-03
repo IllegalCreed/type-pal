@@ -3,7 +3,7 @@
 Status: current
 Validity: current
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Template: plan-status-v1 / 1.0.0
 
 ## 目标与时间范围
@@ -18,7 +18,9 @@ Template: plan-status-v1 / 1.0.0
 
 下方“当前第二阶段完整队列”是2026-09-27校对记录，实时执行状态由[看板](../tasks/board.md)及原卡决定。本次不重验能力格、旧全流程或发布，不把旧队列再次宣布为今天的任务清单。
 
-原稿的版本预占、固定三签和早期资源初始化说法按原时点读取；今天的canonical、资源供给与协作分别服从[Reforge规则](READ-FIRST.md)和[现行工作流](../engineering/guides/agent-workflow.md)，旧段不能恢复兼容分支或固定席位门禁。
+2026-11-03核定的当前唯一格式为content22／SAVE12、工程最低可读SAVE12，来源与有限能力进度见[能力地图当前层](capability-map.md#当前状态)及[存档合同](specs/save-system.md#实现锚点)。原稿content20／SAVE8和N6b预占content21均是历史记录；N6b实际开工时按当时canonical核范围与版本，不复用旧预占号。
+
+当前R4仍build，001–006连续链的有限接受不代替前十段、四取物canary与编辑保存重开试玩。薄基线之后才进入N6b及同基线复验，完整Q2/Q1、编辑器综合验证、录制与A1/A8发布闭环仍按[活动任务及后续工作](../tasks/board.md#第二阶段功能开发)推进。固定三签和早期资源初始化说法按原时点读取；当前架构与协作服从[Reforge规则](READ-FIRST.md)和[现行工作流](../engineering/guides/agent-workflow.md)。
 
 ## 阻塞与决策
 

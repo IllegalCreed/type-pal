@@ -110,6 +110,22 @@ test('missing files and edited current prose fail real filesystem validation', (
   assert.throws(() => loadDocumentLocations(f.root, f.admission), /admitted manifest missing/u)
 })
 
+test('the admitted root manifest has an exact 1 MiB boundary before parsing', (t) => {
+  const f = fixture(t)
+  const original = readFileSync(join(f.root, documentLocationManifest))
+  const boundary = Buffer.concat([original, Buffer.alloc(1_048_576 - original.length, 0x20)])
+  f.write(documentLocationManifest, boundary)
+  const admission = { ...f.admission, manifestSha256: hash(boundary) }
+  loadDocumentLocations(f.root, admission).assertUnchanged()
+  const oversized = Buffer.concat([boundary, Buffer.from(' ')])
+  f.write(documentLocationManifest, oversized)
+  assert.throws(() => loadDocumentLocations(f.root, admission), /unaccepted manifest/u)
+  assert.throws(
+    () => loadDocumentLocations(f.root, { ...admission, manifestSha256: hash(oversized) }),
+    /root manifest exceeds 1 MiB/u,
+  )
+})
+
 test('a freshly pinned manifest cannot call a semantic edit a mechanical link change', (t) => {
   const f = fixture(t)
   const changed = f.current.replace('# Card', '# Different meaning')
@@ -863,4 +879,499 @@ test('source batching cannot turn real tags, executable files or symlinks into o
     () => loadDocumentLocations(f.root, { ...f.save(), baseRevision: tag }),
     /source revision is not a commit/u,
   )
+})
+
+function retiredArtifactFixture(t, { sourceText = original } = {}) {
+  const path = 'docs/ops/evidence/CASE/input.source.gz'
+  const keep = 'docs/ops/evidence/CASE/other.source.gz'
+  const receipt = 'docs/ops/evidence/CASE/input.json'
+  const bytes = gzipSync('fixed staged input\n')
+  const keepBytes = gzipSync('different retained input\n')
+  const native = `${JSON.stringify({ input: path, exit: 1, fullRead: false })}\n`
+  const f = fixture(t, {
+    sourceText,
+    seedFiles: { [path]: bytes, [keep]: keepBytes, [receipt]: native },
+  })
+  const row = {
+    path,
+    sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+      cwd: f.root,
+      encoding: 'utf8',
+    }).trim(),
+    sha256: hash(bytes),
+    bytes: bytes.length,
+  }
+  rmSync(join(f.root, currentDocumentPath(path)))
+  f.manifest.retiredArtifacts = [row]
+  return { ...f, path, keep, keepBytes, receipt, native, bytes, row }
+}
+
+test('only a positive admitted attachment retirement has no current body and keeps original-source access explicit', (t) => {
+  const f = retiredArtifactFixture(t)
+  assert.throws(() => loadDocumentLocations(f.root, f.admission), /current file missing/u)
+  const locations = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(locations.retiredArtifacts, [f.row])
+  assert.equal(locations.identity(currentDocumentPath(f.path)), f.path)
+  for (const path of [f.path, currentDocumentPath(f.path)])
+    assert.equal(locations.readBuffer(path), undefined)
+  assert.deepEqual(locations.sourceBuffer(f.path), f.bytes)
+  assert.equal(locations.read(f.receipt), f.native)
+  assert.equal(locations.additions.size, 0)
+  locations.assertUnchanged()
+  for (const path of [f.path, currentDocumentPath(f.path)])
+    assert.throws(() => locations.assertCurrent(path), /retired artifact has no current body/u)
+})
+
+test('attachment retirement does not hide new files, missing unselected evidence or native receipt edits', (t) => {
+  const f = retiredArtifactFixture(t)
+  const admission = f.save()
+  const locations = loadDocumentLocations(f.root, admission)
+  const unclassified = 'docs/tasks/evidence/CASE/new.source.gz'
+  f.write(unclassified, f.bytes)
+  assert.throws(() => locations.assertUnchanged(), /target file set differs/u)
+  assert.throws(() => loadDocumentLocations(f.root, admission), /target file set differs/u)
+  rmSync(join(f.root, unclassified))
+  rmSync(join(f.root, currentDocumentPath(f.keep)))
+  assert.throws(() => locations.assertUnchanged(), /current file missing/u)
+  assert.throws(() => loadDocumentLocations(f.root, admission), /current file missing/u)
+  f.write(currentDocumentPath(f.keep), f.keepBytes)
+  f.write(currentDocumentPath(f.receipt), f.native.replace('"exit":1', '"exit":0'))
+  assert.throws(() => locations.assertUnchanged(), /unreviewed body drift/u)
+  assert.throws(() => loadDocumentLocations(f.root, admission), /unreviewed body drift/u)
+  f.write(currentDocumentPath(f.receipt), f.native)
+  locations.assertUnchanged()
+})
+
+test('attachment retirement cannot hide a governed body or bless a new live link as historical', (t) => {
+  const sourceText =
+    '# Card\n[live](../evidence/CASE/input.source.gz)\n\n<!-- original-source-quote:start -->\n[past](../evidence/CASE/input.source.gz)\n<!-- original-source-quote:end -->\n'
+  const f = retiredArtifactFixture(t, { sourceText })
+  const locations = loadDocumentLocations(f.root, f.save())
+  const links = markdownLinks(f.current, { positions: true })
+  assert.equal(locations.historicalLink('docs/tasks/cards/T.md', f.current, links[0]), false)
+  assert.equal(locations.historicalLink('docs/tasks/cards/T.md', f.current, links[1]), true)
+  const body = 'docs/ops/evidence/result.json'
+  const bytes = execFileSync('git', ['show', `HEAD:${body}`], { cwd: f.root })
+  f.manifest.retiredArtifacts = [
+    {
+      path: body,
+      sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${body}`], {
+        cwd: f.root,
+        encoding: 'utf8',
+      }).trim(),
+      sha256: hash(bytes),
+      bytes: bytes.length,
+    },
+  ]
+  rmSync(join(f.root, currentDocumentPath(body)))
+  assert.throws(
+    () => loadDocumentLocations(f.root, f.save()),
+    /only declared historical gzip attachments/u,
+  )
+})
+
+test('declared retired inputs join bounded fixed Git prefetch without prefetching unrelated carriers', (t) => {
+  const f = retiredArtifactFixture(t)
+  const keepObject = execFileSync('git', ['rev-parse', `HEAD:${f.keep}`], {
+    cwd: f.root,
+    encoding: 'utf8',
+  }).trim()
+  const wrapped = batchGitFixture(t, f)
+  const result = wrapped.run(`
+const locations=loadDocumentLocations(root,admission)
+const objects=trace().filter(x=>x.args[1]==='--batch').flatMap(x=>x.objects)
+assert.equal(objects.filter(x=>x===${JSON.stringify(f.row.sourceBlob)}).length,1)
+assert(!objects.includes(${JSON.stringify(keepObject)}))
+const initial=trace()
+assert.equal(locations.readBuffer(${JSON.stringify(f.path)}),undefined)
+assert.deepEqual(locations.sourceBuffer(${JSON.stringify(f.path)}),Buffer.from(${JSON.stringify(f.bytes.toString('base64'))},'base64'))
+locations.assertUnchanged()
+assert.deepEqual(trace(),initial)
+`)
+  assert.ifError(result.error)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stderr, '')
+})
+
+function packRetirementRows(f, rows, { suffix = '' } = {}) {
+  const path = `docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts${suffix}.json.gz`
+  const decoded = Buffer.from(`${JSON.stringify(rows)}\n`)
+  const packed = gzipSync(decoded)
+  f.write(path, packed)
+  f.manifest.artifacts = [
+    {
+      path,
+      sha256: hash(packed),
+      bytes: packed.length,
+      purpose: 'Finite retirement membership only',
+    },
+  ]
+  f.manifest.retiredArtifacts = {
+    codec: 'gzip',
+    path,
+    storedSha256: hash(packed),
+    storedBytes: packed.length,
+    decodedSha256: hash(decoded),
+    decodedBytes: decoded.length,
+    entries: rows.length,
+  }
+  return { ...f, listPath: path, packed }
+}
+
+function packedRetirementFixture(t) {
+  const f = retiredArtifactFixture(t)
+  return packRetirementRows(f, f.manifest.retiredArtifacts)
+}
+
+test('the ordinary gzip member set is part of complete inventory and joins fixed source prefetch', (t) => {
+  const f = packedRetirementFixture(t)
+  const locations = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(locations.retiredArtifacts, [f.row])
+  assert.equal(locations.manifest.retiredArtifacts.entries, 1)
+  assert.equal(locations.artifacts.size, 1)
+  assert.deepEqual(locations.readBuffer(f.listPath), f.packed)
+  assert.equal(locations.readBuffer(f.path), undefined)
+  locations.assertUnchanged()
+  const wrapped = batchGitFixture(t, f)
+  const result = wrapped.run(`
+const locations=loadDocumentLocations(root,admission)
+assert.equal(locations.retiredArtifacts.length,1)
+assert(trace().filter(x=>x.args[1]==='--batch').flatMap(x=>x.objects).includes(${JSON.stringify(f.row.sourceBlob)}))
+locations.assertUnchanged()
+`)
+  assert.ifError(result.error)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stderr, '')
+  f.write('docs/tasks/evidence/unclassified-list.json.gz', f.packed)
+  assert.throws(() => locations.assertUnchanged(), /target file set differs/u)
+})
+
+test('the gzip list cannot replace ordinary registration or survive carrier replacement during a read', (t) => {
+  const f = packedRetirementFixture(t)
+  const admission = f.save()
+  const locations = loadDocumentLocations(f.root, admission)
+  const temporary = join(f.root, 'replacement.gz')
+  writeFileSync(temporary, f.packed)
+  renameSync(temporary, join(f.root, f.listPath))
+  assert.throws(() => locations.assertUnchanged(), /carrier identity changed/u)
+  loadDocumentLocations(f.root, admission).assertUnchanged()
+  f.manifest.artifacts = []
+  assert.throws(() => loadDocumentLocations(f.root, f.save()), /registration differs/u)
+  f.manifest.artifacts = [
+    {
+      path: f.listPath,
+      sha256: hash(f.packed),
+      bytes: f.packed.length,
+      purpose: 'Finite membership',
+    },
+  ]
+  rmSync(join(f.root, f.listPath))
+  assert.throws(() => loadDocumentLocations(f.root, f.save()), /stored carrier missing/u)
+})
+
+test('retirement windows exceed 4096 independent Git blobs without single-blob reads or losing the tail checks', (t) => {
+  const prefix = 'docs/ops/evidence/LARGE'
+  const seedFiles = Object.fromEntries(
+    Array.from({ length: 4101 }, (_, index) => [
+      `${prefix}/${String(index).padStart(4, '0')}.source.gz`,
+      gzipSync(`fixed historical input ${index}\n`),
+    ]),
+  )
+  const f = fixture(t, { seedFiles })
+  const entries = new Map(
+    execFileSync('git', ['ls-tree', '-rlz', 'HEAD', '--', prefix], {
+      cwd: f.root,
+      encoding: 'utf8',
+      maxBuffer: 2 * 1024 * 1024,
+    })
+      .split('\0')
+      .filter(Boolean)
+      .map((line) => {
+        const [, object, bytes, path] = /^100644 blob ([a-f\d]{40}) +(\d+)\t(.+)$/u.exec(line)
+        return [path, { object, bytes: Number(bytes) }]
+      }),
+  )
+  assert.equal(new Set([...entries.values()].map((row) => row.object)).size, 4101)
+  const rows = Object.entries(seedFiles).map(([path, bytes]) => ({
+    path,
+    sourceBlob: entries.get(path).object,
+    sha256: hash(bytes),
+    bytes: bytes.length,
+  }))
+  for (const row of rows) rmSync(join(f.root, currentDocumentPath(row.path)))
+  packRetirementRows(f, rows)
+  f.write(
+    'expected-retirements.json',
+    JSON.stringify({
+      rows,
+      bytesByObject: Object.fromEntries(
+        [...entries.values()].map((row) => [row.object, row.bytes]),
+      ),
+      tailBytes: seedFiles[rows.at(-1).path].toString('base64'),
+    }),
+  )
+  const wrapped = batchGitFixture(t, f)
+  const result = wrapped.run(`
+const {rows,bytesByObject,tailBytes}=JSON.parse(readFileSync(root+'/expected-retirements.json','utf8'))
+const locations=loadDocumentLocations(root,admission)
+assert.equal(locations.retiredArtifacts.length,4101)
+locations.assertUnchanged()
+const calls=trace(), batches=calls.filter(x=>x.args[1]==='--batch')
+assert(batches.length>1&&batches.length<50)
+assert(batches.every(x=>x.objects.length<=512&&x.objects.reduce((n,oid)=>n+(bytesByObject[oid]??0),0)<=32*1024*1024))
+assert.equal(calls.filter(x=>x.args[0]==='cat-file'&&x.args[1]==='blob').length,0)
+const seen=new Set(batches.flatMap(x=>x.objects));assert(rows.every(row=>seen.has(row.sourceBlob)))
+const fs=await import('node:fs'), tail=rows.at(-1), current=root+'/'+tail.path.replace('docs/ops/evidence/','docs/tasks/evidence/')
+fs.writeFileSync(current,Buffer.from(tailBytes,'base64'))
+assert.throws(()=>locations.assertUnchanged(),/retired physical carrier reappeared/)
+fs.rmSync(current)
+locations.assertUnchanged()
+assert.equal(trace().filter(x=>x.args[0]==='cat-file'&&x.args[1]==='blob').length,0)
+`)
+  assert.ifError(result.error)
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(result.stderr, '')
+  const bad = rows.map((row) => ({ ...row }))
+  bad.at(-1).sha256 = '0'.repeat(64)
+  packRetirementRows(f, bad)
+  const negative = wrapped.run(`
+assert.throws(()=>loadDocumentLocations(root,admission),/fixed source bytes differ/)
+assert.equal(trace().filter(x=>x.args[0]==='cat-file'&&x.args[1]==='blob').length,0)
+`)
+  assert.ifError(negative.error)
+  assert.equal(negative.status, 0, negative.stderr)
+  assert.equal(negative.stderr, '')
+})
+
+test('two physical list shards preserve one retirement set and still reject a repinned corrupt second tail', (t) => {
+  const f = retiredArtifactFixture(t)
+  const keepRow = {
+    path: f.keep,
+    sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${f.keep}`], {
+      cwd: f.root,
+      encoding: 'utf8',
+    }).trim(),
+    sha256: hash(f.keepBytes),
+    bytes: f.keepBytes.length,
+  }
+  rmSync(join(f.root, currentDocumentPath(f.keep)))
+  packRetirementRows(f, [f.row])
+  const first = { ...f.manifest.retiredArtifacts },
+    firstArtifact = { ...f.manifest.artifacts[0] }
+  const setSecond = (row) => {
+    packRetirementRows(f, [row], { suffix: '-2' })
+    f.manifest.retiredArtifacts = [first, f.manifest.retiredArtifacts]
+    f.manifest.artifacts.unshift(firstArtifact)
+    return f.save()
+  }
+  const locations = loadDocumentLocations(f.root, setSecond(keepRow))
+  assert.deepEqual(locations.retiredArtifacts, [f.row, keepRow])
+  assert.equal(locations.artifacts.size, 2)
+  locations.assertUnchanged()
+  assert.throws(
+    () => loadDocumentLocations(f.root, setSecond({ ...keepRow, sha256: '0'.repeat(64) })),
+    /fixed source bytes differ/u,
+  )
+  assert.throws(
+    () => loadDocumentLocations(f.root, setSecond(f.row)),
+    /duplicate or colliding identity/u,
+  )
+})
+
+test('exact archived replay sources retire while adjacent unadmitted files remain enforced', (t) => {
+  const lab = 'docs/testing/archive/legacy/batches/glm-architecture-regression-lab'
+  const input = `${lab}/fixtures/input.ts`
+  const unresolved = 'docs/testing/archive/legacy/unresolved-tools/probe.mts'
+  const keep = `${lab}/tools/keep.mjs`
+  const seedFiles = {
+    [input]: 'export const input = 1\n',
+    [unresolved]: 'export const probe = 2\n',
+    [keep]: 'export const keep = 3\n',
+  }
+  const f = fixture(t, { seedFiles })
+  const rows = [input, unresolved].map((path) => ({
+    path,
+    sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+      cwd: f.root,
+      encoding: 'utf8',
+    }).trim(),
+    sha256: hash(seedFiles[path]),
+    bytes: Buffer.byteLength(seedFiles[path]),
+  }))
+  f.manifest.retiredArtifacts = rows
+  for (const { path } of rows) rmSync(join(f.root, path))
+  const admission = f.save()
+  const locations = loadDocumentLocations(f.root, admission)
+  assert.deepEqual(locations.retiredArtifacts, rows)
+  assert.equal(locations.readBuffer(input), undefined)
+  assert.equal(locations.sourceBuffer(input).toString(), seedFiles[input])
+  locations.assertUnchanged()
+  f.write(keep, 'export const keep = 4\n')
+  assert.throws(() => locations.assertUnchanged(), /unreviewed body drift/u)
+  f.write(keep, seedFiles[keep])
+  rmSync(join(f.root, keep))
+  assert.throws(() => loadDocumentLocations(f.root, admission), /current file missing/u)
+  f.write(keep, seedFiles[keep])
+  const extra = `${lab}/fixtures/unknown.mjs`
+  f.write(extra, 'export const unknown = true\n')
+  assert.throws(() => locations.assertUnchanged(), /unclassified addition or missing original/u)
+  rmSync(join(f.root, extra))
+  f.write(unresolved, seedFiles[unresolved])
+  assert.throws(() => locations.assertUnchanged(), /retired physical carrier reappeared/u)
+  rmSync(join(f.root, unresolved))
+  locations.assertUnchanged()
+})
+
+test('archived replay source admission rejects bodies and sources outside the exact replay roots', (t) => {
+  const lab = 'docs/testing/archive/legacy/batches/glm-architecture-regression-lab'
+  const paths = [
+    `${lab}/fixtures/README.md`,
+    `${lab}/fixtures/evidence.json`,
+    `${lab}/fixtures/archive.html`,
+    `${lab}/other/probe.ts`,
+    'docs/testing/archive/other/probe.mjs',
+    'packages/game/src/probe.ts',
+    'tests/probe.test.ts',
+  ]
+  const bytes = 'fixed historical source\n'
+  const f = fixture(t, { seedFiles: Object.fromEntries(paths.map((path) => [path, bytes])) })
+  for (const path of paths) {
+    f.manifest.retiredArtifacts = [
+      {
+        path,
+        sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+          cwd: f.root,
+          encoding: 'utf8',
+        }).trim(),
+        sha256: hash(bytes),
+        bytes: Buffer.byteLength(bytes),
+      },
+    ]
+    assert.throws(
+      () => loadDocumentLocations(f.root, f.save()),
+      /only declared historical gzip attachments or archived replay sources/u,
+      path,
+    )
+  }
+})
+
+test('historical text and identity inputs exit codecs and aliases as one fixed-source set', (t) => {
+  const prefix = 'docs/ops/evidence/CASE'
+  const baseline = `${prefix}/counterproof-raw/baseline.identity.tsv`
+  const alias = `${prefix}/counterproof-raw/final-replay.identity.tsv`
+  const receipt = `${prefix}/counterproof.json`
+  const bytes = Buffer.from('file\tcontract\tpassed\n'.repeat(100))
+  const descriptor = (path) => ({ path, bytes: bytes.length, sha256: hash(bytes) })
+  const native = JSON.stringify({
+    baseline: {
+      label: 'baseline',
+      exitCode: 0,
+      identity: { artifact: descriptor('counterproof-raw/baseline.identity.tsv') },
+    },
+    finalReplay: {
+      phase: {
+        label: 'final-replay',
+        exitCode: 0,
+        identity: { artifact: descriptor('counterproof-raw/final-replay.identity.tsv') },
+      },
+    },
+  })
+  const seedFiles = {
+    [baseline]: bytes,
+    [alias]: bytes,
+    [`${prefix}/check.txt`]: 'exit: 1\noriginal failure\n',
+    [`${prefix}/capture.log`]: 'argv: fixed historical command\n',
+    [`${prefix}/capture.raw`]: 'unmodified capture\n',
+    'docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw':
+      'first exact legacy task capture\n',
+    'docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw':
+      'second exact legacy task capture\n',
+  }
+  const f = fixture(t, { seedFiles: { ...seedFiles, [receipt]: native } })
+  const rows = Object.entries(seedFiles).map(([path, value]) => ({
+    path,
+    sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+      cwd: f.root,
+      encoding: 'utf8',
+    }).trim(),
+    sha256: hash(value),
+    bytes: Buffer.byteLength(value),
+  }))
+  const packed = gzipSync(bytes)
+  const stored = `${currentDocumentPath(baseline)}.gz`
+  f.write(stored, packed)
+  for (const path of [baseline, alias]) rmSync(join(f.root, currentDocumentPath(path)))
+  f.manifest.compressedArtifacts = [
+    {
+      ...rows[0],
+      stored,
+      codec: 'gzip',
+      storedBytes: packed.length,
+      storedSha256: hash(packed),
+    },
+  ]
+  f.manifest.artifactAliases = [
+    {
+      ...rows[1],
+      retained: baseline,
+      receipt,
+      pointer: '/finalReplay/phase/identity/artifact',
+    },
+  ]
+  const retained = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(retained.readBuffer(alias), bytes)
+  retained.assertUnchanged()
+  f.manifest.retiredArtifacts = rows
+  assert.throws(
+    () => loadDocumentLocations(f.root, f.save()),
+    /overlaps another document or artifact disposition/u,
+  )
+  f.manifest.compressedArtifacts = []
+  f.manifest.artifactAliases = []
+  rmSync(join(f.root, stored))
+  for (const { path } of rows.slice(2)) rmSync(join(f.root, currentDocumentPath(path)))
+  const admission = f.save()
+  const retired = loadDocumentLocations(f.root, admission)
+  assert.equal(retired.readBuffer(alias), undefined)
+  assert.equal(retired.readBuffer(baseline), undefined)
+  assert.deepEqual(retired.sourceBuffer(alias), bytes)
+  assert.equal(retired.read(receipt), native)
+  retired.assertUnchanged()
+  f.write(stored, packed)
+  assert.throws(() => retired.assertUnchanged(), /unclassified addition or missing original/u)
+  rmSync(join(f.root, stored))
+  f.write(currentDocumentPath(baseline), bytes)
+  assert.throws(() => retired.assertUnchanged(), /retired physical carrier reappeared/u)
+  rmSync(join(f.root, currentDocumentPath(baseline)))
+  retired.assertUnchanged()
+})
+
+test('historical text admission does not widen the two exact legacy task capture paths', (t) => {
+  const paths = [
+    'docs/ops/tasks/evidence/OTHER/capture.raw',
+    'docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/other.raw',
+    'docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.txt',
+    'docs/ops/archive/capture.log',
+    'docs/testing/archive/legacy/unresolved-tools/capture.txt',
+  ]
+  const bytes = 'fixed capture\n'
+  const f = fixture(t, { seedFiles: Object.fromEntries(paths.map((path) => [path, bytes])) })
+  for (const path of paths) {
+    f.manifest.retiredArtifacts = [
+      {
+        path,
+        sourceBlob: execFileSync('git', ['rev-parse', `HEAD:${path}`], {
+          cwd: f.root,
+          encoding: 'utf8',
+        }).trim(),
+        sha256: hash(bytes),
+        bytes: Buffer.byteLength(bytes),
+      },
+    ]
+    assert.throws(
+      () => loadDocumentLocations(f.root, f.save()),
+      /only declared historical gzip attachments/u,
+      path,
+    )
+  }
 })

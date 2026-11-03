@@ -1,7 +1,7 @@
 # QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
@@ -23,7 +23,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-纯重构与行为修复分别冻结前后指纹；红绿、修订前绝对路径用例和改为自有outside文件的重放原件见父窗口附件。该边界只保证清单路径拼写，未声称OS沙箱或跨进程链接安全；统一门/提交/推送/合并留父窗口，当前review。无下一位Agent提示词。
+纯重构与行为修复分别冻结前后指纹；红绿、修订前绝对路径用例和改为自有outside文件的重放原件见父窗口附件。该边界只保证清单路径拼写，未声称OS沙箱或跨进程链接安全；父窗口统一门与受保护发布已完成，本卡done仅收口已批准的路径输入校验。没有新的迁移或真实工程执行；无下一位Agent提示词。
+
+2026-11-03复核：原发布义务由父窗口[实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；原件待发布字段保留原时点。
 
 ## 原文保全
 

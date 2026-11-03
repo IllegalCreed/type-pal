@@ -1,8 +1,8 @@
 # QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理
 
 Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -11,19 +11,19 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-只改测试宿主、驱动与oracle，不改生产/资产/接口/规则；全仓未零诊断不得合main。原件口径澄清：glm-c5-check的3574条act诊断按stderr文件头归属52个文件（旧报告把段/用例与文件口径混淆成139），最高WorldSpriteLibrary.c01为604条；3574只是旧GLM原件的一种模式计数，最新完整窗口为3620未包act+577环境+2导航。
+只改测试宿主、驱动与oracle，不改生产/资产/接口/规则；原全仓门与发布限制已由后继闭合，见状态。原件口径澄清：glm-c5-check的3574条act诊断按stderr文件头归属52个文件（旧报告把段/用例与文件口径混淆成139），最高WorldSpriteLibrary.c01为604条；3574只是旧GLM原件的一种模式计数，该原时点完整窗口为3620未包act+577环境+2导航。
 
 ## 前提与证据
 
-固定源全文核读各检查点。生命周期修复路径：仅真实挂载解码等待使604→200；再修单次点击/历史act后70/70、三类诊断0。首片第二提交c8ad9416f：三测试文件生命周期修复、3个oracle补强、3个已证重复精简完成，67定向0诊断、3/3有效业务反控；相邻54通过但有231条其它act。完整模块窗口裁定：check七包20271通过、七包typecheck与lint 0/0/0，确认版ratchet与普通protected数值通过、覆盖计数不变；但全仓未包act分别3001/3009/2955、另577环境/2导航，统一零诊断门不通过、未合main。首跑ratchet显式退役确认门exit1原件保留，核实唯一C01 70→67后重跑。源码五项在完整门期间未变；机器3284/229closed/48review/3007pending。登记的oracle候选：G04-08标题要求stem与后缀但regex为OR、G05-10只断言就绪后enabled、G07-07标题要求计数下界实际仅匹配任意数字。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。
+原检查点固定源全文核读各检查点。生命周期修复路径：仅真实挂载解码等待使604→200；再修单次点击/历史act后70/70、三类诊断0。首片第二提交c8ad9416f：三测试文件生命周期修复、3个oracle补强、3个已证重复精简完成，67定向0诊断、3/3有效业务反控；相邻54通过但有231条其它act。完整模块窗口裁定：check七包20271通过、七包typecheck与lint 0/0/0，确认版ratchet与普通protected数值通过、覆盖计数不变；但全仓未包act分别3001/3009/2955、另577环境/2导航，统一零诊断门不通过、未合main。首跑ratchet显式退役确认门exit1原件保留，核实唯一C01 70→67后重跑。源码五项在完整门期间未变；机器3284/229closed/48review/3007pending。登记的oracle候选：G04-08标题要求stem与后缀但regex为OR、G05-10只断言就绪后enabled、G07-07标题要求计数下界实际仅匹配任意数字。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [README.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/README.md) [window-review.md](../evidence/QUALITY-EDITOR-DIAGNOSTICS-1/window-review.md)。
 
 ## 验收
 
-本片67定向0诊断+3有效反控成立，但统一门以“全仓零诊断”为准：当前未通过，卡保持review、0文件关闭、不合main。相邻231条与其它editor诊断由后续不重叠切片（QUALITY-EDITOR-DIAGNOSTICS-2/3等）接管。
+原C01三源诊断整改、67身份、三有效反控与三精确退役已交付；C01和kit当前SHA同原最终候选，world宿主由后继world-sprite片承接。原统一门与发布等待已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合，旧全仓诊断计数仍按各自冻结时点保留。
 
 ## 状态与交接
 
-review保持原语义；无下一位Agent提示词，Codex维护；下一候选先核新白名单，不越界修改其它editor实现。
+2026-11-03：Status为review。仍需kit/world宿主真实caller的pending导航/挂载失败清理验收，以及原C01三个具体弱oracle候选逐项处置；未知全库重复不扩为无限扫描。下一步由Codex只核root/DOM/spy在已登记故障路径下恢复，再据现成67与反控原件裁定；不改产品、不恢复文件ledger信用。
 
 ## 原文保全
 

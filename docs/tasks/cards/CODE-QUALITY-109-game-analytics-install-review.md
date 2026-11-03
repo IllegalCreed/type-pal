@@ -1,8 +1,8 @@
 # CODE-QUALITY-109 — game analytics 安装器生命周期复核
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。发现与修复：原测试第二用例丢弃installTypePalAnalytics()返回值导致consent listener跨用例存活——测试隔离/资源ownership缺口而非生产行为缺陷；修复将installation存入局部测试变量、afterEach统一destroy()并清空引用，保留原有合法Measurement ID、DNT/GPC、无script请求和UI可见性断言。正确game runner 6files/23tests PASS 0 stderr；从仓库根直接调Vitest会绕过game jsdom配置报window/document不存在，已记录为runner scope不修改测试配置掩盖。2026-10-17收口：全仓check exit0（各包计数完整、lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/32review/3044pending；official ratchet与protected fast仍因shared 447/466、pal-extract 1068/1546等及总量回退失败，未改baseline；仅测试teardown变化，两文件保持review。
+原检查点固定源全文核读。发现与修复：原测试第二用例丢弃installTypePalAnalytics()返回值导致consent listener跨用例存活——测试隔离/资源ownership缺口而非生产行为缺陷；修复将installation存入局部测试变量、afterEach统一destroy()并清空引用，保留原有合法Measurement ID、DNT/GPC、无script请求和UI可见性断言。正确game runner 6files/23tests PASS 0 stderr；从仓库根直接调Vitest会绕过game jsdom配置报window/document不存在，已记录为runner scope不修改测试配置掩盖。2026-10-17收口：全仓check exit0（各包计数完整、lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/32review/3044pending；official ratchet与protected fast仍因shared 447/466、pal-extract 1068/1546等及总量回退失败，未改baseline；仅测试teardown变化，两文件保持review。
 
 ## 验收
 
-批次收口必须运行全部门；coverage baseline回退保持原样；任何GA网络/隐私UI/公共入口/schema/save或用户可感知行为变化另开高风险卡并暂停实现。
+[game-actions-mobile逐文件接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/review.json)的files[12]/[13]分别接收安装器与测试，两份接受SHA均与当前相同；原runner配置错误不算业务红例，不把测试teardown修复说成生产隐私缺陷。
 
 ## 状态与交接
 
-review保持原语义；两文件不标done。
+Status为done，原有限双文件与统一门/发布闭合；没有新GA事件、网络请求、硬件或隐私UI授信。任何此类产品/公共入口变化仍须独立准入。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

@@ -1,8 +1,8 @@
 # GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ shell/bootstrap.ts的map-only资源发布、core/event-system.ts的0x99异步拒
 
 ## 前提与证据
 
-固定源全文核读。独立非持久Chrome经真实main→bootstrap→正式raw 0x99[65535,12,0]→真实资源loader两条反例：tilemap JSON 500产生未处理pageerror；瓦片blob 500使当前tile0从存在变缺失、canvas由客栈变黑底人物/少量遮挡块；原绘制函数/codec/主循环均未mock，只在HTTP端点返回500。成功换图身份反例：真实0x99换到76后getCurrentMapNum仍12；scene2→1→2重访得到tilemap12却仍借tiles76、GS override为76。scene编号1-based与资源sceneId0-based需明确转换、map0合法、用nullish而非真值判断。当前实现交付：两项批准均完成，七真实浏览器合同、391相邻/TC0及精确旧版本回放/单守卫反控有完整原件，修前“待批/未修”均是原时点。此counter曾撤回event-system整文件关闭及CODE3r/53整卡accept。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
+原检查点固定源全文核读。独立非持久Chrome经真实main→bootstrap→正式raw 0x99[65535,12,0]→真实资源loader两条反例：tilemap JSON 500产生未处理pageerror；瓦片blob 500使当前tile0从存在变缺失、canvas由客栈变黑底人物/少量遮挡块；原绘制函数/codec/主循环均未mock，只在HTTP端点返回500。成功换图身份反例：真实0x99换到76后getCurrentMapNum仍12；scene2→1→2重访得到tilemap12却仍借tiles76、GS override为76。scene编号1-based与资源sceneId0-based需明确转换、map0合法、用nullish而非真值判断。当前实现交付：两项批准均完成，七真实浏览器合同、391相邻/TC0及精确旧版本回放/单守卫反控有完整原件，修前“待批/未修”均是原时点。此counter曾撤回event-system整文件关闭及CODE3r/53整卡accept。原件:[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md)。
 
 ## 验收
 
-代码验收成立；父卡统一门和最终集成仍开放，不以故障注入日志冒称console空；不把固定scene失败回归外推为完整剧情通过。
+原两项批准修复、七真实浏览器合同及有效counter由bootstrap-quality接收；原83逐卡表已恢复CODE57/3r/53的有限代码接受，统一门与发布随后闭合。故障注入日志保留，不冒称该原运行console空或完整剧情通过。
 
 ## 状态与交接
 
-review保持原语义：父卡CODE57不能整卡关闭，CODE57/3r/53仅在其具体counter及剩余八维依据闭合后恢复；无下一位Agent提示词，Codex同一3y单Owner。
+Status为done，仅关闭0x99失败保留活地图、拒绝消费及编号/重访的获批范围。原“父57不能关闭/53仍撤信”是修前时点，已被明确后继接受取代；不增加广域文件、剧情或视觉信用。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

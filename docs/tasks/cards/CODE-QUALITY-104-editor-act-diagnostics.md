@@ -1,8 +1,8 @@
 # CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。2026-10-17验收：两白名单测试的原生click/undo/redo已包入act；修复前保留22条React诊断，修复后定向2/4、相邻24/228均PASS且零诊断，editor typecheck与全仓pnpm check exit0，lint/docs通过；official ratchet/protected fast仍因既有shared/pal-extract baseline回退失败，账本登记review不标done。退出码0但仍有stderr不算通过；纯测试宿主修复与产品行为无关不调baseline。
+固定源全文核读。2026-10-17原检查点：两白名单测试的原生click/undo/redo已包入act；修复前保留22条React诊断，修复后定向2/4、相邻24/228均PASS且零诊断，editor typecheck与全仓pnpm check exit0，lint/docs通过；当时official ratchet/protected因shared/pal-extract回退失败而保留review，失败原件不改写。退出码0但仍有stderr不算通过；本卡不改产品或baseline。
 
 ## 验收
 
@@ -23,7 +23,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-review保持原语义；完整回执见[README.md](../evidence/CODE-QUALITY-104/README.md)。无下一位Agent提示词。
+Status为done：两原测试由父52逐文件接受；后继[物品字段职责承接](../evidence/QUALITY-PENDING-100-3/organization-editor-item-fields.json)的旧输入SHA与当前输出SHA已核。仅收M02测试事件归属，不解决CODE103的P1产品取舍，不授整编辑器或新增运行信用。原回执见[README.md](../evidence/CODE-QUALITY-104/README.md)。
+
+2026-11-03复核：原统一门与发布义务由[父52实际发布回执](QUALITY-REVIEW-52-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。无下一位Agent提示词。
 
 ## 原文保全
 

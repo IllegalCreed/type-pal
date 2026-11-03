@@ -1,13 +1,13 @@
 # CODE-QUALITY-57 — game bootstrap thumbnail seam boundary
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-逐文件核验bootstrap启动编排与地图缩略图seam边界：主gameplay的present.ts:290-311传coverage并调repairTilemapSeams（type-pal对每帧clear的补偿），而bootstrap.ts:661-760缩略图两层直绘无repair。原版PAL_MakeScene无独立static thumbnail API，缩略图视觉形态为N/A，须以工具caller与用户可见目标核定；单看gameplay的map76黑三角不能证明缩略图必须同修。
+核定原bootstrap启动编排与地图缩略图seam边界，并记录后继获批修复的接受与发布。原基线主gameplay传coverage并repair、缩略图两层直绘无repair；PAL_MakeScene无独立static thumbnail API，须以工具caller、实际像素反例与用户裁决核定，不能只凭gameplay的map76黑三角推导。
 
 ## 范围
 
@@ -19,11 +19,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-原三个范围文件及拆出的DOS/thumbnail代码与专测已按八维接受，当前无本卡未修产品counter；但统一全仓/coverage/protected与合并仍待父卡剩余pre94（剩1/3m/42）。repairTilemapSeams用coverage mask不可用indices===0判断；若未来接入缩略图须传coverage并验证离屏framebuffer边缘fence。
+原三个范围文件及拆出的DOS/thumbnail代码与专测已按八维接受，获批补缝与地图失败/编号重访counter已闭合；pre94统一门与合并后续完成。repairTilemapSeams使用coverage mask，不以indices===0推断；既有像素与边缘fence合同按原接受范围保留。
 
 ## 状态与交接
 
-review保持原语义：本卡代码已接受但未过统一门；bootstrap.ts是1931行复合文件，不因本切片包绿推为整文件已验证。无下一位Agent提示词，Codex继续父任务。
+Status为done，仅关闭原范围及获批后继修复，不因包绿新增bootstrap广域文件、普通剧情或DOS结局视觉信用，也不重计旧关闭。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。无下一位Agent提示词。
 
 ## 原文保全
 

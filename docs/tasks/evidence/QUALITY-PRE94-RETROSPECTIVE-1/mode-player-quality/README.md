@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是 CODE3o/3p 模式、历史与玩家指令质量返工的治理候选页;原件为 Codex 单Agent 返工回执(2026-10-24,branch codex/code-quality-3y)。数据主体在 [review.json](review.json)(16 份文件级八维/指纹与合同),完整原始输出在 [receipts.json.gz](receipts.json.gz),只读复验 [verify.mjs](verify.mjs)。16 份记录含两份相邻测试的有限增量,不能据数量关闭整卡;3m 极端输入及其它卡仍未收口,94–102 未扩展。
+本页是 CODE3o/3p 模式、历史与玩家指令质量返工的治理候选页;原件为 Codex 单Agent 返工回执(2026-10-24,branch codex/code-quality-3y)。数据主体在 [review.json](review.json)(16 份文件级八维/指纹与合同),完整原始输出在 [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/receipts.json.gz),只读复验 [verify.mjs](verify.mjs)。16 份记录含两份相邻测试的有限增量,不能据数量关闭整卡;3m 极端输入及其它卡仍未收口,94–102 未扩展。
 
 ## 来源与输入
 

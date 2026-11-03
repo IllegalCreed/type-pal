@@ -23,7 +23,7 @@ CLI原920行、slice与四套测试、两个fixture全文及新模块/差异全�
 
 ## 限制与复核
 
-[native.json.gz](native.json.gz)含完整外层双流、原生JSON、命令/版本/退出/失败身份、反控与恢复、证明脚本、官方报告和诊断分类；check的260普通stdout块/18种已逐种核读；所有门stderr0。子CLI可选字体/非法FBP信息由业务精确断言，但本窗未另存完整子流，不冒称已保存；第一次refactor-proof的harness SyntaxError及修正后绿原件均保留，不算业务反控。运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/verify.mjs`，默认只读、无网络/测试/coverage/写回；MATCH不代替语义审查，STALE退出2要求定向重核，FAIL退出1禁止沿用。下一窗口先同分支fetch核main/Owner，再落实已批准slice两缺陷及其有效测试；CLI IO余项仍partial，94–102不扩展。本治理候选不重开任务、不重跑执行、不授新信用。
+[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/native.json.gz)含完整外层双流、原生JSON、命令/版本/退出/失败身份、反控与恢复、证明脚本、官方报告和诊断分类；check的260普通stdout块/18种已逐种核读；所有门stderr0。子CLI可选字体/非法FBP信息由业务精确断言，但本窗未另存完整子流，不冒称已保存；第一次refactor-proof的harness SyntaxError及修正后绿原件均保留，不算业务反控。运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/verify.mjs`，默认只读、无网络/测试/coverage/写回；MATCH不代替语义审查，STALE退出2要求定向重核，FAIL退出1禁止沿用。下一窗口先同分支fetch核main/Owner，再落实已批准slice两缺陷及其有效测试；CLI IO余项仍partial，94–102不扩展。本治理候选不重开任务、不重跑执行、不授新信用。
 
 ## 原文保全
 

@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-用户批准原盘精灵读取修复（call_50e2479c：仅PAL/legacy来源读取，author格式与全部资产/save字节不变）后的CODE1有限代码范围收口（2026-10-25，基点9d57b2f33，candidate为明确指纹的未提交源码差异）。[review.json](review.json)、[receipts.json.gz](receipts.json.gz)、[verify.mjs](verify.mjs)。工程4文件/Q1b 539JSON与119语句84断言、旧RLE59例质量复用有效版本，未重做整批审查。
+用户批准原盘精灵读取修复（call_50e2479c：仅PAL/legacy来源读取，author格式与全部资产/save字节不变）后的CODE1有限代码范围收口（2026-10-25，基点9d57b2f33，candidate为明确指纹的未提交源码差异）。[review.json](review.json)、[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/receipts.json.gz)、[verify.mjs](verify.mjs)。工程4文件/Q1b 539JSON与119语句84断言、旧RLE59例质量复用有效版本，未重做整批审查。
 
 ## 来源与输入
 

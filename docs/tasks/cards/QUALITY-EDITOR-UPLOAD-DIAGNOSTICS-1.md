@@ -1,8 +1,8 @@
 # QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简
 
-Status: build
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Status: review
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,15 @@ build allowed四源：upload-harness.tsx/upload-ui.ts的Wizard分段、G02、G07
 
 ## 前提与证据
 
-固定源全文核读各检查点。首窗实测推翻“只改mount即可清除”的解释：宿主消融30例仍57act；补真实色表/位图/回调等待后30例通过仍2act（G02-10点击后以act外DOM轮询等错误，gzip/SHA的catch/finally两更新逃出act）。恢复C10轮：G02-10改为显式等待真实crypto.subtle.digest Promise，同30身份先清2act；G07-03（body为02取消/一次回调/历史合同弱子集）与G07-09（无错误恢复，改第二id后成功由04两次回调/历史合同覆盖）经验证退役10→8，05标题改首次编辑；最终Wizard 28零诊断。两业务反控（取消后迟到位图释放、重复提交锁）各恰一指定AssertionError；两退役oracle转移及原生绿但2act的诊断反控单列；27项/net62退役账重建。相邻78通过仍Uploader 6act；editor整包631文件/4943通过仍624act/243环境/1表单告警，统一验收拒绝。首轮静态unused import告警保留，删除唯一未用binding后按最终字节回归。证据:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
+原检查点固定源全文核读各检查点。首窗实测推翻“只改mount即可清除”的解释：宿主消融30例仍57act；补真实色表/位图/回调等待后30例通过仍2act（G02-10点击后以act外DOM轮询等错误，gzip/SHA的catch/finally两更新逃出act）。恢复C10轮：G02-10改为显式等待真实crypto.subtle.digest Promise，同30身份先清2act；G07-03（body为02取消/一次回调/历史合同弱子集）与G07-09（无错误恢复，改第二id后成功由04两次回调/历史合同覆盖）经验证退役10→8，05标题改首次编辑；最终Wizard 28零诊断。两业务反控（取消后迟到位图释放、重复提交锁）各恰一指定AssertionError；两退役oracle转移及原生绿但2act的诊断反控单列；27项/net62退役账重建。相邻78通过仍Uploader 6act；editor整包631文件/4943通过仍624act/243环境/1表单告警，统一验收拒绝。首轮静态unused import告警保留，删除唯一未用binding后按最终字节回归。证据:[README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/README.md) [README.md](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。
 
 ## 验收
 
-Wizard侧30→28身份清零诊断并有双反控/退役转移证据成立；但统一零诊断门（全仓）未过：相邻与整包仍存act/环境/表单告警，0文件关闭、不合main、不把局部结果当独立验收。
+作者已交C10四源最终候选，当前SHA全等recovery.finalSha；30→28两精确退役、两个业务反控/诊断反控及末次unused import删除均有原件。原统一门与发布等待已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合，旧全仓诊断计数仍按各自冻结时点保留。
 
 ## 状态与交接
 
-build保持原语义：本片待续，完整门留稳定模块窗口；用户优先级转前94全83卡复审，本片不缩成诊断治理。无下一位Agent提示词，Codex单Agent继续。
+2026-11-03：Status为review。原任务明确不缩成诊断治理，剩余是原四scope的非作者完整据证接受：实际caller、合法输入、oracle、排重与宿主/退出隔离。Codex先核既有before/after/native与两身份转移，只有具体矛盾再展开；不把它写作仍624act，也不要求重复全editor或自动恢复whole-file信用。
 
 ## 原文保全
 

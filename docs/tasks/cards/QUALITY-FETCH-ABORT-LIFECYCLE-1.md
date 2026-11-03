@@ -1,8 +1,8 @@
 # QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线
 
-Status: build
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ C1准入（8f5a9af5d）：最终先红原生六例三通过、三个取消合同
 
 ## 状态与交接
 
-Status保持build：fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done只保留历史。全仓coverage回退与game 17块stderr/editor诊断未清，不合main；全部83卡与94-102/editor原目标继续。
+Status为done，仅关闭C1 GET退避/Request取消生命周期窄修。原CODE71三文件由present-leaves-gates接受；新增cancellation/boundaries两专测另由[3h逐文件原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/review.json)接受且当前SHA相同，主测后继职责桥见[shell-network](../evidence/QUALITY-PENDING-100-3/organization-shell-network.json)。首次输入仍交底层校验、init.signal=null覆盖与原reason边界保持；不授其它网络/音频或新整文件信用。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

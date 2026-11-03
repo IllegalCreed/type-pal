@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[integration.json](integration.json) [native.json.gz](native.json.gz) [review.json](review.json)。三文件全文/差异及A-H见review;前窗9b4df71推送/快进main/fetch核0/0在先,integration.json的真实远端CI只属于前窗,不替新代码授门禁信用。
+来源为固定Git载体,非本次运行;原3个链接处置见作者review的linkDisposition。当前存活入口:[integration.json](integration.json) [native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/native.json.gz) [review.json](review.json)。三文件全文/差异及A-H见review;前窗9b4df71推送/快进main/fetch核0/0在先,integration.json的真实远端CI只属于前窗,不替新代码授门禁信用。
 
 ## 断言与业务 oracle
 

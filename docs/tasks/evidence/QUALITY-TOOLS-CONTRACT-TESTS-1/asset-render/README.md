@@ -11,7 +11,7 @@ Owner：Codex，单Agent。[任务](../../../cards/QUALITY-GAME-ASSET-RENDER-TES
 
 ## 来源与输入
 
-30个存续主体的A–H逐项在[共同文件索引](../review.json)（窗口级，含receiptAudit20261028）；[本片索引](review.json)给每个原/当前文件指纹、caller/依赖、118旧身份到当前合同的逐项映射、原生结果与失效边界；完整raw/native见[native归档](native.json.gz)，每成员hash在本片索引。产品实现、资源产物、schema/save和游戏行为未修改；英文、E2E、editor性能任务不占用。
+30个存续主体的A–H逐项在[共同文件索引](../review.json)（窗口级，含receiptAudit20261028）；[本片索引](review.json)给每个原/当前文件指纹、caller/依赖、118旧身份到当前合同的逐项映射、原生结果与失效边界；完整raw/native见[native归档](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/native.json.gz)，每成员hash在本片索引。产品实现、资源产物、schema/save和游戏行为未修改；英文、E2E、editor性能任务不占用。
 
 ## 断言与业务 oracle
 

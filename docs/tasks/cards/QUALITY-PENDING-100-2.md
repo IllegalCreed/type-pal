@@ -1,8 +1,8 @@
 # QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口
 
 Status: done
-Last reviewed: 2026-10-30
-Owner: Codex
+Last reviewed: 2026-11-03
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -23,7 +23,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-收口当时远端fetch连续TLS失败、卡保持review仅待发布（不代表100文件还待全文复审）；2026-10-28T04:11Z重新fetch成功，origin/main仍f47f052fa、治理分支提交前0ahead/0behind，卡转done。推送、受保护PR及合并后CI按goal继续执行；本提交不提前声称远端检查或合并通过。无下一位Agent提示词。
+2026-11-03复核：[PR31](https://github.com/IllegalCreed/type-pal/pull/31)已合并为b8b6989b952968ab60108ae45842ae5689822925；同一merge的[Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/40634718250)、[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/40634718309)均为main push、completed/success，merge已在当前主线祖先链。原100主体+Canvas宿主叶的代码/门范围保持；本地冻结时TLS/fetch失败和待发布字段均保留原时点，不能回填原JSON。本次只补实际发布，不重复计算100份八维或当前ledger关闭；原首窗证据勘误WIP与本窗已提交候选分别追溯。原生发布与完整日志在`/Users/zhangxu/.codex/quality-evidence/type-pal/window2-remaining-20261028/publication.json`及同目录原件；无下一位Agent提示词。
 
 ## 原文保全
 

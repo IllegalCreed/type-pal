@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](receipts.json.gz) [review.json](review.json) [static.json](static.json) [verify.mjs](verify.mjs)。九文件A-H、版本桥与限制见review;完整原件/程序与失败版本在receipts;合并候选静态门见static。
+来源为固定Git载体,非本次运行;原4个链接处置见作者review的linkDisposition。当前存活入口:[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/receipts.json.gz) [review.json](review.json) [static.json](static.json) [verify.mjs](verify.mjs)。九文件A-H、版本桥与限制见review;完整原件/程序与失败版本在receipts;合并候选静态门见static。
 
 ## 断言与业务 oracle
 

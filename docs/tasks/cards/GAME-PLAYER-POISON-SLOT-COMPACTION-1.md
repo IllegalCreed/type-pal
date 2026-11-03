@@ -1,8 +1,8 @@
 # GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ player-poison-state.ts及直接生命周期专测；不动role→party-slot、sc
 
 ## 状态与交接
 
-Status保持review：技术结果已记录（两项正式红绿+相邻+TC），等待全部剩余pre94最终窗口统一集成门；原盘普通剧情嵌套可达未证；无新PR、未合main。2026-10-18'无build allowed/待裁决'是当时冻结记录，不覆盖后续批准。
+Status为done：两项获批Wear稳定压缩与毒入口记录归属已分别由mode-player-closeout、poison-entry-ownership及原83有限接受接收，原最终统一门/集成等待已闭合。原盘普通剧情嵌套可达仍未证明，不把它外推为玩家已遇缺陷；全16去重/洞后不丢毒、party-slot及Save边界保持，不重计旧关闭。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

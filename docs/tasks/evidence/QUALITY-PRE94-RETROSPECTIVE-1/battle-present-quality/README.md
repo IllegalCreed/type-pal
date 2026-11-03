@@ -17,7 +17,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 - 测试补真实交叠、透明内点、非零idle竞争、倒下姿态、完整裁剪平面、MP八行字段、实际宿主精灵／数字／结算接线；五枚最终反控（y-sort-omitted、shift-mask、wait-arrow、settlement-mp、host-sprites）均完整文件单条 AssertionError，旧测试漏报、源恢复，首版失败原件保留。
 - 相邻82文件664例与 game typecheck 完成，stdout显式default reporter、stderr为空；本地集中门完成：check 20563包例+700工具例零诊断。
-- 覆盖率首次完整采集 exit1 按旧比率拒绝（正文日志无诊断）；第一次同报告策略重放又因未显式确认3条计数退役而拒绝；按既有参数确认26例退役后原 runner 同一报告 ratchet 更新基准，随后不带退役绕过参数的 protected fast 复核原 main 与三份精确身份/文件指纹 exit0。未重复采集、未改比较器或排除规则。完整日志见[receipts.json.gz](receipts.json.gz)及[gates.json.gz](gates.json.gz)，两包只按体积拆分，原件字节与失败记录不变。
+- 覆盖率首次完整采集 exit1 按旧比率拒绝（正文日志无诊断）；第一次同报告策略重放又因未显式确认3条计数退役而拒绝；按既有参数确认26例退役后原 runner 同一报告 ratchet 更新基准，随后不带退役绕过参数的 protected fast 复核原 main 与三份精确身份/文件指纹 exit0。未重复采集、未改比较器或排除规则。完整日志见[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/receipts.json.gz)及[gates.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/gates.json.gz)，两包只按体积拆分，原件字节与失败记录不变。
 
 ## 结果
 

@@ -1,8 +1,8 @@
 # QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-Status保持review：获准行为均已有代码/局部证据，统一全仓/coverage/protected等全部pre94集中；CODE3/3g其它主编排与测试质量余项不随本修复关闭。2026-10-22集中门（CLI IO统一窗口）check20430、ratchet/protected同报告20032全0诊断已过，卡内其它余项与P3后续保持。原版实际游戏未运行——不能把静态17站点写成17个游玩缺陷。
+Status为done，仅收元数据BFS、非零0x3计数续行和P3两条战斗接回分支的获批范围；event-slice-approved、event-battle-returns及cli-slice-closeout已有接受，原83 CODE3有限范围与统一发布亦已闭合。其它CLI/测试/格式风险不随之关闭；原版实际游戏未运行，不把静态17站点当17游玩缺陷。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

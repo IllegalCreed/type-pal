@@ -15,7 +15,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 发现
 
-核心发现:AVI 连续拒绝路径暴露既有真缺口。反证回执 [avi-repeat.json](avi-repeat.json) 与完整原件 [avi-repeat-native.json.gz](avi-repeat-native.json.gz):原生对照 1 绿/反例 1 条指定 DOM AssertionError——两次拒绝后可见重试提示未按合同消失,根因是 one-shot click listener 被首次重试消费、再次拒绝因 clickOverlay 已存在而提前返回。这是修复前冻结失败,不是质量门通过;不得只因移动端 CI 或包绿维持该实现 accept。[风险卡](../../../cards/GAME-AVI-RETRY-OWNERSHIP-1.md)已收到用户「批准修复重复重试」。反例观察仅合法媒体 IO 结果模拟(play Promise 两种结局均为 mock),不证明实体手机自然发生该权限序列。
+核心发现:AVI 连续拒绝路径暴露既有真缺口。反证回执 [avi-repeat.json](avi-repeat.json) 与完整原件 [avi-repeat-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/avi-repeat-native.json.gz):原生对照 1 绿/反例 1 条指定 DOM AssertionError——两次拒绝后可见重试提示未按合同消失,根因是 one-shot click listener 被首次重试消费、再次拒绝因 clickOverlay 已存在而提前返回。这是修复前冻结失败,不是质量门通过;不得只因移动端 CI 或包绿维持该实现 accept。[风险卡](../../../cards/GAME-AVI-RETRY-OWNERSHIP-1.md)已收到用户「批准修复重复重试」。反例观察仅合法媒体 IO 结果模拟(play Promise 两种结局均为 mock),不证明实体手机自然发生该权限序列。
 
 ## 结论
 

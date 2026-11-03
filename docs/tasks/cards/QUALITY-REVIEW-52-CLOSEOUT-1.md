@@ -2,7 +2,7 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ review只表示已读或局部整改未完成整文件验收；全仓绿不能�
 
 ## 状态与交接
 
-Status保持done：卡面done只记录'全部52实质处置+集中门零诊断'两个事实；本地冻结时尚未推送/PR/合并，实际发布以关联PR/main工作流为准，远端未通过不得宣布阶段集成完成。PR重试和main CI以GitHub为准。
+Status保持done：原固定52实质处置与集中门零诊断的接受范围不变。2026-11-03复核：[PR25](https://github.com/IllegalCreed/type-pal/pull/25)已合并为123595ac3a651957b36061eacced329369c495e5；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/40324711037)与[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/40324711128)均为main push、completed/success，merge已在当前主线祖先链。实际发布原件见`/Users/zhangxu/.codex/quality-evidence/type-pal/review52-20261025/publication.json`及同目录原生PR响应、完整成功日志；冻结原件中的待发布状态保留原时点。
+
+本次只补发布事实，不重计52个关闭或新授全仓、真实视频编码、硬件、普通剧情/E2E/视觉信用；PR首轮超时、结构比率拒绝与所有失败记录原样保留。
 
 ## 历史范围
 

@@ -1,8 +1,8 @@
 # QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界
 
-Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Status: done
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -11,19 +11,19 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-只改scripts/docs/check.mjs:327–333与scripts/quality/code-quality-inventory.mjs:18–22及现有inventory测试；ledger的32MiB外层缓冲不能修复inventory内部1MiB；docs/terminal-git.mjs固定4MiB是不同边界不改。
+原修复白名单为docs索引与quality inventory两个Git枚举消费者及现有测试，完整NUL路径与尾部合法/非法判定不变。当前docs转由gitInventory磁盘spool读取；quality inventory仍保留16MiB有限缓冲。terminal namespace的4MiB是独立安全合同，不据此扩大或降门。
 
 ## 前提与证据
 
-固定源全文核读。方案为两个完整枚举指定有限16MiB缓冲（与既有docs Git读取容量一致），终态namespace的4MiB固定安全门原样保留；不为复用一个数引入跨docs/quality生产依赖，测试共用真实Git夹具分别核两消费者。Build：先红1绿/2指定AssertionError，修后3绿；两枚必要性反控旧1绿→新2绿/1指定红且恢复。反证边界：给真实临时Git造>1MiB路径，尾部合法task/source必须仍可见、非法尾部task仍须拒绝，不能通过filter/ignore/删除证据或吞trace过门。本片回执：quality40、docs工具125/实际五消费者与lint-zero5365零诊断、ledger3316/259closed/92review/2965pending；0新关闭、2旧工具重开review/1原pending测试转review。原件:[README.md](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](QUALITY-PRE94-RETROSPECTIVE-1.md)。
+原检查点先以两个16MiB选项修复>1MiB路径的ENOBUFS，保留两枚必要性反控、真实CLI尾部task/source与非法task拒绝、原失败和0新关闭。原件见[枚举修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)。后继quality源码精确等[completion接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)的files[2]；docs当前spool在成功子进程后才解析，finally关FD/清临时树，原存在过滤保持在完整枚举之后。
 
 ## 验收
 
-缓存/输出文件本身坏掉不能由抛错推出——ENOBUFS发生在Git路径响应、还没读文档payload；16MiB仍可能被更大合法仓库触发，届时继续明确失败不能截断成通过。未验收，不以修复计划或历史全绿收口；完整check/coverage/protected未跑、不合main。
+已逐源桥接原有限合同：原生quality5项包含两个>1MiB CLI尾部合同，当前测试相对358446冻结输入diff0；最终docs原件真实通过NUL/Unicode/尾部导航和Git/spawn失败拒绝/清spool。原件复用[瘦身唯一验证归档](../evidence/REPO-SLIM-PLAN-1-validation.tar.gz)，未新跑产品或恢复工具whole-file信用。
 
 ## 状态与交接
 
-review保持原语义；无下一位Agent提示词，Codex完成后恢复保存的3u/3w WIP及其精确SHA。
+Status为done，仅关闭原两个消费者的>1MiB完整枚举缺口与后继桥；quality16MiB对更大输入仍可能明确失败，不得截断假成功。旧3u/3w WIP、未合main和旧全仓门等待已由后继接收取代，不作今日任务；没有新ledger计数或产品执行。
 
 ## 原文保全
 

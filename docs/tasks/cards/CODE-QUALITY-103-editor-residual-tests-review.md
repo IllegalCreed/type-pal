@@ -1,8 +1,8 @@
 # CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）
 
 Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,15 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。ControlCommandForm残余合同：经checkAuthorCommands合法callScript输入、真实CanonicalScriptBodyEditor双击→聚合编辑弹窗→EntityAddressEditor caller；验证悬空场景专属“引用失效”禁用项、实体保留原始文本不伪装combobox、重选合法场景自动绑定首个实体、只在完成时提交完整地址；callScript/jumpScript self分支由作者bridge实际分流排除、无重复不可达分支。ItemUseEffectEditor残余合同三测试经真实ItemTab/loader/EditSession/onStatusNotice：R1场景有效实体失效warning+sceneIndex名+实体修复+保存门红→绿+单步undo；R3跳过首个无实体场景+placeEntityInFront完整schema+scene target联动+保存门undo；R5无可放置实体时候选仍可达+精确错误通知+零history漂移。基础测试只覆盖回调层失效地址/切场景，不含真实loader/sceneIndex/保存门/无实体失败臂，故非重复。P1（选puppet未自动补battleOnly）仍是产品裁决项不夹修。定向2files/4tests PASS 0 stderr 0 act；相邻22files/224tests PASS但有22条act诊断（M02/ItemTab异步更新未包act）；editor typecheck过；账本3307/231closed/17review/3059pending。
+原检查点固定源全文核读。ControlCommandForm残余合同：经checkAuthorCommands合法callScript输入、真实CanonicalScriptBodyEditor双击→聚合编辑弹窗→EntityAddressEditor caller；验证悬空场景专属“引用失效”禁用项、实体保留原始文本不伪装combobox、重选合法场景自动绑定首个实体、只在完成时提交完整地址；callScript/jumpScript self分支由作者bridge实际分流排除、无重复不可达分支。ItemUseEffectEditor残余合同三测试经真实ItemTab/loader/EditSession/onStatusNotice：R1场景有效实体失效warning+sceneIndex名+实体修复+保存门红→绿+单步undo；R3跳过首个无实体场景+placeEntityInFront完整schema+scene target联动+保存门undo；R5无可放置实体时候选仍可达+精确错误通知+零history漂移。基础测试只覆盖回调层失效地址/切场景，不含真实loader/sceneIndex/保存门/无实体失败臂，故非重复。P1（选puppet未自动补battleOnly）仍是产品裁决项不夹修。定向2files/4tests PASS 0 stderr 0 act；相邻22files/224tests PASS但有22条act诊断（M02/ItemTab异步更新未包act）；editor typecheck过；账本3307/231closed/17review/3059pending。
 
 ## 验收
 
-因相邻诊断与未决P1，两文件由待核转review而非已验证；coverage ratchet既有shared/pal-extract回退按CODE-QUALITY-100/101证据记录。
+原四个测试合同已由父52逐文件接受，原act诊断由CODE104及后继源处理；测试职责承接不自动决定P1。父52phase2-reviewed.remaining[0]明确保留puppet自动battleOnly选择；本次核当前实现仍只对hideParty自动设置。
 
 ## 状态与交接
 
-review保持原语义；相邻act诊断由CODE-QUALITY-104小批清理；P1若需产品行为改变另开高风险卡请用户裁决。
+Status保持review，仅剩P1产品选择：自动补battleOnly，或保留现行显式设置/校验流程。Codex须先将两种可观察行为与现行合同交用户裁定，再核范围与相应测试；不得夹修。旧相邻act/coverage门及发布等待已由父52实际发布闭合，不再作为当前阻塞。
 
 ## 原文保全
 

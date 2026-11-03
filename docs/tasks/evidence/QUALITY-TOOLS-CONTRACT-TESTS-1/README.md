@@ -11,7 +11,7 @@ id：QUALITY-TOOLS-CONTRACT-TESTS-1；Owner：Codex，单 Agent。原窗口基�
 
 ## 来源与输入
 
-100个主体文件逐个全文A–H、caller与oracle见[唯一文件索引](review.json)；相邻实现/配置/runner补读仅作依赖绑定，不计100。fixtures是窄工具或原生计数探针输入，不冒称真实游戏资源或完整content schema；同形fixture源于两/三路、node/jsdom初始化器合并，取舍逐文件记录。完整TAP、原生事件、命令/时间/exit/诊断及全部变异原件见[native归档](native.json.gz)与review.json成员指纹。
+100个主体文件逐个全文A–H、caller与oracle见[唯一文件索引](review.json)；相邻实现/配置/runner补读仅作依赖绑定，不计100。fixtures是窄工具或原生计数探针输入，不冒称真实游戏资源或完整content schema；同形fixture源于两/三路、node/jsdom初始化器合并，取舍逐文件记录。完整TAP、原生事件、命令/时间/exit/诊断及全部变异原件见[native归档](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/native.json.gz)与review.json成员指纹。
 
 ## 断言与业务 oracle
 

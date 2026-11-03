@@ -1,8 +1,8 @@
 # GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。实现：标题读档取消pop后仅对opening父菜单selection.cursor归0；游戏内取消仍清整栈。沿真实Down→Confirm→Menu链的原用例先恰一业务断言失败（cursor1≠0），修后相邻11files/125tests、game typecheck通过。最小真实浏览器验证：独立Vite6025、系统Chrome155、真实启动到标题，ArrowDown/Enter/Escape返回标题cursor0、pageErrors=[]；默认Playwright捆绑headless缺失，改用已安装Chrome的独立无用户profile会话；截图codex-opening-selected-load.png与codex-opening-cancel-new-game.png已直接查看。仅SDLPal验证，pal.exe实机观感未核。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+原检查点固定源全文核读。实现：标题读档取消pop后仅对opening父菜单selection.cursor归0；游戏内取消仍清整栈。沿真实Down→Confirm→Menu链的原用例先恰一业务断言失败（cursor1≠0），修后相邻11files/125tests、game typecheck通过。最小真实浏览器验证：独立Vite6025、系统Chrome155、真实启动到标题，ArrowDown/Enter/Escape返回标题cursor0、pageErrors=[]；默认Playwright捆绑headless缺失，改用已安装Chrome的独立无用户profile会话；截图codex-opening-selected-load.png与codex-opening-cancel-new-game.png已直接查看。仅SDLPal验证，pal.exe实机观感未核。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
 
 ## 验收
 
-两项获批修复（本项②）已提交推送且定向125/相邻/typecheck通过；但2026-10-15最终模块窗口完整check/ratchet/protected数值通过而真实诊断未清零，本卡仍review、不标done、不关闭文件。
+CODE94 approved-closeout接收标题取消窄修及真实dispatch/Chrome有限证据，原统一门诊断阻塞后续闭合。pal.exe实机观感仍未核，不据此新增剧情或美术视觉信用。
 
 ## 状态与交接
 
-review保持原语义；Codex作者实施/自验，冻结的独立三验与后续修复分开。无下一位Agent提示词。
+Status为done，仅关闭用户已批②的标题槽位取消cursor0合同与发布；游戏内取消保持原边界。用户未批的大世界法术③仍归其draft卡，不夹带实现或授权。
+
+2026-11-03复核：原统一门与发布义务由[94–102实际发布回执](CODE-QUALITY-94-menu-integration-window.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

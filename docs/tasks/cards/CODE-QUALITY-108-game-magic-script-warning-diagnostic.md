@@ -1,13 +1,13 @@
 # CODE-QUALITY-108 — game magic-script warning ownership
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-清理magic-script.test.ts两个真实预期warning的stderr泄漏：两个warning都来自测试主动传入缺失L_99999，生产runner应返回false并报告warning（fail-closed），不能静音或改成成功。primary锚为SDLPal uigame.c:740-873、script.c:867-1102、global.c:1254-1330与全局label ownership。
+记录原magic-script两条预期warning的stderr归属修复：缺失入口应返回false并报告warning，不能静音或改成成功。原L_99999输入属于原时点；后继使用合法WORD域内未注册的65000，保留失败、零HP变化与精确warning。primary锚为SDLPal uigame.c:740-873、script.c:867-1102、global.c:1254-1330与全局label ownership。
 
 ## 范围
 
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。实施：两个既有测试各自vi.spyOn(console,'warn')捕获并精确断言warning、finally恢复spy；业务断言unchanged——缺失label返回false、scriptOnSuccess不执行、HP不变。修复前1file/37tests PASS但2条缺失L_99999 stderr；修复后同37tests PASS 0 stderr；game menu相邻40files/377tests PASS 0 stderr；game typecheck过。2026-10-17收口：全仓check exit0（lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/30review/3046pending；official ratchet与protected fast保留真实失败（shared 447/466 statements、203/218 branches，pal-extract 1068/1546 statements、461/593 branches、111/140 functions、943/1367 lines及总量回退），本批未调baseline。
+原检查点固定源全文核读。实施：两个既有测试各自vi.spyOn(console,'warn')捕获并精确断言warning、finally恢复spy；业务断言unchanged——缺失label返回false、scriptOnSuccess不执行、HP不变。修复前1file/37tests PASS但2条缺失L_99999 stderr；修复后同37tests PASS 0 stderr；game menu相邻40files/377tests PASS 0 stderr；game typecheck过。2026-10-17收口：全仓check exit0（lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/30review/3046pending；official ratchet与protected fast保留真实失败（shared 447/466 statements、203/218 branches，pal-extract 1068/1546 statements、461/593 branches、111/140 functions、943/1367 lines及总量回退），本批未调baseline。
 
 ## 验收
 
-生产magic-script.ts未修改；magic-script.ts与magic-script.test.ts保持review、整卡不标done；相邻包新诊断须另开卡。
+原两条warning保持业务可观察并精确校验消息/次数，未改返回false、零HP变化和不执行后续脚本的负面合同。[runner职责承接](../evidence/QUALITY-PENDING-100-3/organization-magic-runner.json)与后继[magic API原件](../evidence/QUALITY-PENDING-100-3/organization-magic-api.json)分别承接控制流、阶段组合测试及两项刷新warning反控，当前输出SHA已核；不由本卡新增整实现文件质量信用。
 
 ## 状态与交接
 
-review保持原语义；shared/pal-extract baseline回退若仍存在保持review不降门槛。
+Status为done，仅收两条预期warning的测试归属与发布；旧shared/pal-extract回退是原检查点，不作为当前阻塞。没有新增法术行为、产品取舍或全game runtime验收。
+
+2026-11-03复核：原统一门与发布义务由[第三窗口实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

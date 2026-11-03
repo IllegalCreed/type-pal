@@ -1,8 +1,8 @@
 # QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件
 
-Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Status: done
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,15 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。作者检查点：定向6+8例与相邻34+19例通过；两个native诊断均按独立基线1→0实证（非最近stderr猜归因）；真实reload oracle反控旧8绿/现恰1红/恢复8绿，完整0skip、无timeout/启动失败；键盘事件强转改真实React事件、回收act全局环境、测试身份/计数未改；两包typecheck通过。最强替代解释（其它caller或测试结束后迟到工作）由分别运行基线、替换真实端口后核完整stdout排除。联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
+原检查点固定源全文核读。作者检查点：定向6+8例与相邻34+19例通过；两个native诊断均按独立基线1→0实证（非最近stderr猜归因）；真实reload oracle反控旧8绿/现恰1红/恢复8绿，完整0skip、无timeout/启动失败；键盘事件强转改真实React事件、回收act全局环境、测试身份/计数未改；两包typecheck通过。最强替代解释（其它caller或测试结束后迟到工作）由分别运行基线、替换真实端口后核完整stdout排除。联合窗口C04/C05/C06八源冻结cae26b1c7的check/普通ratchet/protected fast exit0、硬静态零诊断，但仍有act/环境诊断，严格统一门未过。原件:[window-review.md](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/window-review.md) [README.md](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md)。
 
 ## 验收
 
-本卡只清native边界，AudioContext与相邻故障日志仍在；统一门与其它runtime诊断未清不标done、不合main；0文件关闭、账本3284/229closed/58review/2997pending。
+两原生导航合同和真实reload oracle已有限接受。导航测试当前SHA与本片最终源相同；reforge host后继只将afterEach改为async/await close，不改八身份与断言；原6+8、两独立1→0及reload旧绿/新单红原件保留。原统一门与发布等待已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合，旧全仓诊断计数仍按各自冻结时点保留。
 
 ## 状态与交接
 
-review保持原语义；无下一位Agent提示词，由Codex继续。
+2026-11-03：Status为done。仅关闭两测试宿主导航/IO合同，不新增完整App/main、character-search、音频、剧情或整文件ledger信用；旧AudioContext/相邻日志是原检查点。没有新的测试或产品执行。
 
 ## 原文保全
 

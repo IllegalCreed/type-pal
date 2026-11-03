@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-原报告含当前裁定、GLM 独立审计四项返工后续与历史引文三部分;[audit.json](receipt-audit/audit.json)定位原提交、四次原生 CommandExecution(UTC 时间、command/cwd/exit、持久化片段 SHA)与限制——这些是会话持久化片段而非完整未裁剪日志,`check` 记录明确含 `command output truncated for persistence`,没有诊断字符串不能推定诊断为 0;其他执行输出完整性也未被认证。原28行精确字节另存 [original-readme.md.gz](receipt-audit/original-readme.md.gz);逐项处理与证据见 [README.md](receipt-audit/README.md)。
+原报告含当前裁定、GLM 独立审计四项返工后续与历史引文三部分;[audit.json](receipt-audit/audit.json)定位原提交、四次原生 CommandExecution(UTC 时间、command/cwd/exit、持久化片段 SHA)与限制——这些是会话持久化片段而非完整未裁剪日志,`check` 记录明确含 `command output truncated for persistence`,没有诊断字符串不能推定诊断为 0;其他执行输出完整性也未被认证。原28行精确字节另存 [original-readme.md.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/original-readme.md.gz);逐项处理与证据见 [README.md](receipt-audit/README.md)。
 
 ## 发现
 

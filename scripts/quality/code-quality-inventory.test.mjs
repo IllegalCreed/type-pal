@@ -170,6 +170,7 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
     'scripts/docs/document-location.mjs',
     'scripts/docs/artifact-compression.mjs',
     'scripts/docs/artifact-content-alias.mjs',
+    'scripts/docs/artifact-retirement.mjs',
     'scripts/docs/document-location-admission.mjs',
     'scripts/docs/relocate.mjs',
     'scripts/docs/review-record-storage-io.mjs',

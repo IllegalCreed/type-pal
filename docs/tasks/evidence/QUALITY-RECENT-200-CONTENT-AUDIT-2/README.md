@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-原200中前47保留有效证据，本窗口153完成全文八维及必要整改，累计200、固定排队0；完整200身份/排期见[queue.json](queue.json)（identityOnly，不授语义信用），逐主体八维、准确读域与处置见audit.json。全部原生stdout/stderr、原生file×fullName、执行元数据、producer及恢复证据由[native-index.json](native-index.json)逐附件索引[native.json.gz](native.json.gz)。
+原200中前47保留有效证据，本窗口153完成全文八维及必要整改，累计200、固定排队0；完整200身份/排期见[queue.json](queue.json)（identityOnly，不授语义信用），逐主体八维、准确读域与处置见audit.json。全部原生stdout/stderr、原生file×fullName、执行元数据、producer及恢复证据由[native-index.json](native-index.json)逐附件索引[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/native.json.gz)。
 
 ## 断言与业务 oracle
 

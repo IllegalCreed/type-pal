@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是 CODE56 小地图代码质量收口的治理候选页;原件为 Codex 单Agent 自审回执(2026-10-24,base 1006f197→candidate 8c96291,原文 Status: named code scope accepted; final pre94 integration deferred)。真实身份:原 499 行小地图拆为规则模型(minimap-model.ts 140 行)、Canvas 写入(minimap-draw.ts 97 行)、page 控制器(minimap.ts 298 行),原根出口/签名保持;只读规则不再经整份解释器取得三个 ID(script-opcode-ids.ts 6 行叶恰 0x1e/0x1f/0x55)。逐文件八维与 caller/失效边界在 [review.json](review.json),完整未裁剪原件在 [receipts.json.gz](receipts.json.gz),默认只读快检 [verify.mjs](verify.mjs)。
+本页是 CODE56 小地图代码质量收口的治理候选页;原件为 Codex 单Agent 自审回执(2026-10-24,base 1006f197→candidate 8c96291,原文 Status: named code scope accepted; final pre94 integration deferred)。真实身份:原 499 行小地图拆为规则模型(minimap-model.ts 140 行)、Canvas 写入(minimap-draw.ts 97 行)、page 控制器(minimap.ts 298 行),原根出口/签名保持;只读规则不再经整份解释器取得三个 ID(script-opcode-ids.ts 6 行叶恰 0x1e/0x1f/0x55)。逐文件八维与 caller/失效边界在 [review.json](review.json),完整未裁剪原件在 [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/receipts.json.gz),默认只读快检 [verify.mjs](verify.mjs)。
 
 ## 来源与输入
 [首段声明与根API守恒](prove-split.mjs)、[后段两核心全文还原/真实绑定约束](prove-bindings.mjs)各冻结自己范围,不把哈希当设计认证。门数据:基线 22 直接例;本轮一次 7 文件 54 例(22 直接+32 相邻),核心 ID 引用调整再跑 2 文件 330 例;game typecheck 均零诊断。反控 30 次执行=14 共享+8 旧+8 新:旧 22 绿、新 21 绿+唯一一红为指定业务 AssertionError(删成功缓存写入后可见重试提示未按合同消失),恢复字节及副本清理可回读,不计 30 新合同;既有九枚几何/优先级/像素/快捷键反控按未变函数和附件复用未重复跑。相邻保留 5 条原有 Dev Panel 正常装配 console.log(同字面量),完整 stdout 单列,不能写成空输出;没有错误、告警、act 或环境诊断。[发布静态门](static.json)另记。

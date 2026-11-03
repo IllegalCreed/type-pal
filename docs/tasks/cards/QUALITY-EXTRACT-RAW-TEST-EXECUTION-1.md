@@ -1,8 +1,8 @@
 # QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性
 
-Status: build
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Status: done
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,11 +25,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-Status保持build：定向/shared/typecheck通过，但完整extract仍有2-4个stderr块待C2后续与editor诊断未清；完整check/official ratchet/protected未新跑，卡留build/文件review、不合main。机器3289/208closed/226review/2855pending，0新关闭。C2后发现enemies.ts两处不存在的EnemyTeam.slots注释是直接counter、旧关闭撤回review。
+Status为done，仅关闭原八路径的原盘执行完整性与C1/C2诊断scope。两个当前原盘主测仍直接读取必需文件并核固定71/85/88/251/837全RGBA摘要，没有缺raw early-return；其本人、indexed digest与parser IO helper分别有精确当前接受SHA。BALL/enemy边界按第三窗身份转移，misc-guards的16→15由[父52精确wrapper退役](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/sprite-retirement.json)承接，余15按[工具合同原件](../evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/review.json)的native104映射回真实模块，全部当前目标已有接受pin。
+
+旧extract2–4stderr、全门/未合main等待已被有限后继接受及实际发布闭合；原失败、假passed与enemies注释counter保留原时点，不重复恢复其它源码信用。没有本轮原盘重跑、全资源native或产品/E2E接受。
 
 ## 验收边界
 
-本卡是test IO/证据可靠性治理：假passed修复有真实变异证明；FIRE helper只有测试caller、生产CLI原盘接线是decompress→parseSpriteChunk→gzip，不把helper测试冒充CLI执行；合成raw sprite解2帧证明'may or may not'是弱断言而非已证不可达。
+本卡只收test IO/证据可靠性。原FIRE测试适配器后来经独立批准退役，当前原盘摘要经真实writer发布的blob读取；这不等于执行了完整CLI或PAL游戏。原六错根拒绝、原生身份变化、C1/C2及无效首轮反控均按原件追溯，不因整包绿改写。
 
 ## 原文保全
 

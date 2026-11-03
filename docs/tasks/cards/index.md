@@ -33,53 +33,19 @@ Template: governance-index-v1 / 1.0.0
 | 任务 | 顶部状态 | 说明 |
 |---|---|---|
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断](CODE-QUALITY-104-editor-act-diagnostics.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核](CODE-QUALITY-105-reforge-menu-box-residual-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断](CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核](CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-108 — game magic-script warning ownership](CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-109 — game analytics 安装器生命周期复核](CODE-QUALITY-109-game-analytics-install-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-110 — game present draw-sprite 逐文件复核](CODE-QUALITY-110-game-draw-sprite-review.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [ED-ENTITY-STATE-PLAN-1 — 实体状态方案、脚本组合与编辑器预览](ED-ENTITY-STATE-PLAN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-INPUT-KEYMAP-OWN-KEY-1 — 未定义键名的查表所有权](GAME-INPUT-KEYMAP-OWN-KEY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-MAGIC-PARITY-1 — pre-94 战斗模拟法术与自动防御返工](QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界](QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-4 — Kimi 战斗精灵真实工作流](QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径](QUALITY-MIGRATION-ASSET-TAKEOVER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending](QUALITY-PENDING-100-3.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
@@ -490,6 +456,16 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-100 — 存档槽菜单审核（save-slot-menu 切片）](CODE-QUALITY-100-save-slot-menu-review.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-102 — 快存快读工具审核（quick-save）](CODE-QUALITY-102-quick-save-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断](CODE-QUALITY-104-editor-act-diagnostics.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核](CODE-QUALITY-105-reforge-menu-box-residual-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断](CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核](CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-108 — game magic-script warning ownership](CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-109 — game analytics 安装器生命周期复核](CODE-QUALITY-109-game-analytics-install-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-110 — game present draw-sprite 逐文件复核](CODE-QUALITY-110-game-draw-sprite-review.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界](CODE-QUALITY-79-battle-poison-level-boundary.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -519,38 +495,62 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制](GAME-DRAW-NUMBER-NONFINITE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ENGLISH-1 - 第一阶段英文语言包与界面](GAME-ENGLISH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-INPUT-KEYMAP-OWN-KEY-1 — 未定义键名的查表所有权](GAME-INPUT-KEYMAP-OWN-KEY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-ROTATION-1 - 手柄摇杆与虚拟方向键旋转](GAME-INPUT-ROTATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界](GAME-MAGIC-PLAYERINFO-STATUS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 — 换图失败的活资源与拒绝归属](GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-MOBILE-LAYOUT-1 - 第一阶段移动端与标准手柄支持](GAME-MOBILE-LAYOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-NANZHAO-ROOM-EXIT-1 - 南诏地宫中间房间出口回归](GAME-NANZHAO-ROOM-EXIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-PLAYER-POISON-SLOT-COMPACTION-1 — 卸装备后的毒列表压缩差异](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧](GAME-PRE94-MENU-PIXEL-PARITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-EXPERIENCE-DOMAIN-1 — 导入经验余数与结算终止性](GAME-SAVE-EXPERIENCE-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对](GAME-SCRIPT-CORRECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布](GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [MIGRATION-LEGACY-SCRIPT-DISCOVERY-1 — 退役脚本索引与托管范围](MIGRATION-LEGACY-SCRIPT-DISCOVERY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-COVERAGE-PREFLIGHT-PROBES-1 — 工具预检与原生合并探针](QUALITY-COVERAGE-PREFLIGHT-PROBES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1 — 二阶段对话引用的定义归属](QUALITY-DIALOGUE-REFERENCE-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-DOCS-GIT-PATH-ENUMERATION-1 — Git路径枚举缓冲区边界](QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EDITOR-FORM-FIXTURES-1 — 数值表单宿主、合法夹具与oracle](QUALITY-EDITOR-FORM-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 — C03 查看器宿主、回调与迟到读取](QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 — 大世界精灵宿主与真实资源见证](QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 — 事件切分控制流与人读元数据边界](QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-EVENT-TESTS-1 — 事件编解码专测及原始夹具](QUALITY-EXTRACT-EVENT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-FONT-TESTS-1 — 字体专测合同与排重](QUALITY-EXTRACT-FONT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-MANIFEST-TESTS-1 — 资源清单三专测的oracle与ownership](QUALITY-EXTRACT-MANIFEST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线](QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-RAW-TABLE-TESTS-1 — 原盘表专测与散落守卫归属](QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 — extractor原盘用例执行完整性](QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1 — 场景/地图与单帧图片专测](QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-TABLE-TESTS-1 — 二进制表与调色/音频专测](QUALITY-EXTRACT-TABLE-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-EXTRACT-UNUSED-ADAPTERS-1 — 提取器旧适配器退役候选](QUALITY-EXTRACT-UNUSED-ADAPTERS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-GAME-ASSET-RENDER-TESTS-1 — 资产读取与渲染专测的合同收口](QUALITY-GAME-ASSET-RENDER-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-GAME-LOCALIZATION-1 — 第一阶段语言资源与展示合同治理](QUALITY-GAME-LOCALIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-GAME-PRESENT-HOST-TESTS-1 — present 主测与冻屏合同质量](QUALITY-GAME-PRESENT-HOST-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-INITIALIZER-FIXTURES-1 — 原生初始化器探针的九个 fixture](QUALITY-INITIALIZER-FIXTURES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LINT-ZERO-TEST-CONTRACT-1 — 零诊断专测输入排重](QUALITY-LINT-ZERO-TEST-CONTRACT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-LOCALE-DEFINITION-OWNERSHIP-1 — 二阶段文本缺键回退](QUALITY-LOCALE-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径](QUALITY-MIGRATION-ASSET-TAKEOVER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 — 基线清单路径输入域](QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权](QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-MERGE-OWN-JSON-1 — 三方合并 JSON 字段所有权](QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口](QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-NAMING-ORGANIZATION-1 — 命名与文件职责补审](QUALITY-NAMING-ORGANIZATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口](QUALITY-PENDING-100-2.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending](QUALITY-PENDING-100-3.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |

@@ -1,8 +1,8 @@
 # GAME-VIDEO-PUBLISH-BOUNDARY-1 — 视频转码子路径所有权与失败发布
 
-Status: build
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -19,11 +19,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-当前仍build，随父52统一门与发布收口；原extract-videos整文件继续review，未重跑全仓/coverage、未声称发布。
+原获批输出保护与失败保留已接受；[父52逐文件记录](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/review.json)的files[22]记录extract-videos.ts整文件代码接受，接受SHA与当前源一致，统一门与发布后续亦已完成。本轮没有重跑全仓/coverage或真实视频编码，不新增执行信用。
 
 ## 状态与交接
 
-build保持原语义；父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续。原件:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json) [video-red.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz) [QUALITY-REVIEW-52-CLOSEOUT-1.md](QUALITY-REVIEW-52-CLOSEOUT-1.md)。
+Status为done，仅收原获批子路径所有权与失败事务合同；编码替身不证真实视频质量，正常编号、参数与mtime边界保持。原件:[video-boundary.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-boundary.json) [video-red.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/video-red.json.gz)。
+
+2026-11-03复核：原发布义务由[父52实际发布回执](QUALITY-REVIEW-52-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。
 
 ## 原文保全
 

@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-覆盖完整 `pnpm check`、official fast、同报 ratchet/protected 重放、退役工具、docs/ledger/lint/diff 终门与提交前 fetch 基点；完整字节在[完整字节索引](native-index.json)，无损原件在 [native 包](native.json.gz)。重放工具 [replay.mjs](replay.mjs) 复用完整采集报告、原样提取官方比较与写基线逻辑，不重复跑覆盖率。
+覆盖完整 `pnpm check`、official fast、同报 ratchet/protected 重放、退役工具、docs/ledger/lint/diff 终门与提交前 fetch 基点；完整字节在[完整字节索引](native-index.json)，无损原件在 [native 包](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PENDING-100-2/uniform/native.json.gz)。重放工具 [replay.mjs](replay.mjs) 复用完整采集报告、原样提取官方比较与写基线逻辑，不重复跑覆盖率。
 
 ## 当前状态
 

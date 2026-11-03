@@ -1,7 +1,7 @@
 # 第一阶段：忠实还原
 
 Status: current
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -23,7 +23,11 @@ current 仅表示本导航和阶段边界有效。产品能力、已验行为和
 |---|---|
 | 运行时结构、开发命令、资源链与原版考证 | [game 包说明](../../packages/game/README.md)；提取细节查 [pal-extract](../../packages/pal-extract/README.md) |
 | 战斗公式、脚本或游戏机制 | [机制资料](game-mechanics.md)，按专题核来源、版本及待证项 |
-| 调试经验、渲染/脚本/音频陷阱 | [工程记录](engineering-notes.md)，按症状查对应小节，再核当前实现 |
+| 英文SLF、语言资源或翻译播放 | [语言包与翻译播放](engineering-notes.md#语言包与翻译播放) |
+| 触控、标准手柄、输入偏好或音源替换 | [壳层输入](engineering-notes.md#壳层输入与触控手柄)、[音源生命周期](engineering-notes.md#音源生命周期与离线响应) |
+| 资源纠错与原始数据的边界 | [资源纠错来源](engineering-notes.md#资源纠错的来源边界) |
+| 原盘图像预期值、RGBA摘要或原生参考复核 | [独立图像验证](engineering-notes.md#原盘图像的独立验证) |
+| 其它调试、渲染或脚本经验 | [历史工程记录](engineering-notes.md#历史范围)，按原日期核当前实现 |
 | sdlpal 构建、运行与原版分析工具 | [参考运行记录](sdlpal-runbook.md)，执行旧命令前核当前工具与路径 |
 | 已定取舍与事件格式的由来 | [决策记录](04-decisions.md)、[事件格式记录](05-events-schema.md) |
 | 正在做什么、某缺陷是否关闭 | [活动看板](../tasks/board.md)及原任务；问题背景见[审计汇总](../tasks/audits/pre-e2e/summary.md) |

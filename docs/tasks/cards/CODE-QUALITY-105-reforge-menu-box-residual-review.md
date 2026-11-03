@@ -1,17 +1,17 @@
 # CODE-QUALITY-105 — Reforge MenuBox 残余测试逐文件复核
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-复核账本仍为待核的packages/reforge/src/menu/menu-box.residual.glm.test.ts：确认五个公开绘制合同（R1两级级联框层偏移/框高/金钱卷轴/金额右对齐；R2最深层闪烁相位回绕/系统面板静态高亮/禁用选中红/未选米白；S1九行状态数据顺序/HP/MP斜杠与蓝色最大值/经验青色最大值/装备加成；S2角色名金黄居中与默认立绘回落；S3六格装备网格/已装备图标等比内缩/空槽跳过）是否有真实caller、合法typed输入、可判别oracle、相邻排重和反控证据。
+记录原MenuBox residual测试五个公开绘制合同的复核：级联布局/颜色、九行状态数值、姓名与立绘回落、六格装备布局；核真实caller、合法typed输入、可判别oracle、相邻排重与反控，并按后继职责映射承接。
 
 ## 范围
 
-白名单仅该测试文件、当前任务卡与docs/ops/evidence/CODE-QUALITY-105/；不改menu-box.ts、旧测试、资源、schema、UI行为或coverage配置。
+原白名单仅该测试文件、当前任务卡与对应证据；不改menu-box.ts、其它旧测试、资源、schema、UI行为或coverage配置。当前布局合同由后继menu-box.layout.test.ts承接。
 
 ## 前提与证据
 
@@ -19,11 +19,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-定向5files/25tests PASS无stderr；相邻21files/118tests PASS但有一条reward-gain-queue.boundaries未await expect().resolves诊断（不在白名单不静音）；reforge typecheck过；全仓check exit0、lint 4962文件0/0/0；official ratchet与protected fast均exit1（shared/pal-extract/total既有baseline回退），未改baseline。五个合同与五针反控均有当前源码证据、未发现需修复缺陷，但相邻诊断与统一coverage门仍失败，不能关闭本文件，登记review。
+原检查点定向5files/25tests无stderr；相邻21files/118tests有一条reward-gain Promise诊断，随后由CODE106窄修。原check、typecheck与lint结果及official ratchet/protected的真实失败均保留当时结论；父52后续已按五合同/反控接收并完成统一门，不把旧回退当当前阻塞。
 
 ## 状态与交接
 
-review保持原语义；下一步先处理相邻Vitest诊断独立最小批次再复验本卡；发现公共UI/资产/一阶段机制变化立即停线另开高风险卡。
+Status为done：父52接受的旧输入与[当前布局职责承接](../evidence/QUALITY-PENDING-100-3/organization-menu-layout.json)精确SHA已核。仅收五个绘制合同，不新增真实PNG像素、美术或异步立绘观感信用，不授整个MenuBox/资源/UI扩张。
+
+2026-11-03复核：原统一门与发布义务由[父52实际发布回执](QUALITY-REVIEW-52-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。公共UI/资产或机制变更另走准入。
 
 ## 原文保全
 

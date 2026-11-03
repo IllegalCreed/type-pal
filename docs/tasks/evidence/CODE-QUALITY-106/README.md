@@ -19,7 +19,7 @@ settle owner 三路单次兑现（advance/timeout/abort）与 AbortError reject 
 
 ## 结果
 
-[protected-fast.txt](protected-fast.txt) 为全仓 `pnpm check` exit 0（各包 typecheck/test 与 lint-zero 通过）;[ratchet.txt](ratchet.txt) 为 official coverage ratchet exit 1 复现 shared/pal-extract/total baseline 回退;[full-check.txt](full-check.txt.gz) 为 protected fast exit 1 复现同一回退和历史退役保护账。
+[protected-fast.txt](protected-fast.txt) 为全仓 `pnpm check` exit 0（各包 typecheck/test 与 lint-zero 通过）;[ratchet.txt](ratchet.txt) 为 official coverage ratchet exit 1 复现 shared/pal-extract/total baseline 回退;[full-check.txt](https://github.com/IllegalCreed/type-pal/blob/eb223e8ae7b9f0062cbbaaf9869e890b6a974c91/docs/tasks/evidence/CODE-QUALITY-106/full-check.txt.gz) 为 protected fast exit 1 复现同一回退和历史退役保护账。
 
 ## 限制与复核
 

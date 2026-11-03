@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原5链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz) [README.md](../README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)。逐文件八维、版本、合同迁移与当前门禁在review.json(11文件裁决/退役6→2/探针/身份);完整未裁剪stdout/stderr、原生结果与探针在receipts.json.gz的169个具名字节附件。执行HEAD是未提交候选基点,实际测试字节另钉指纹,不把HEAD当候选源码。
+来源为固定Git载体,非本次运行;原5链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/receipts.json.gz) [README.md](../README.md) [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)。逐文件八维、版本、合同迁移与当前门禁在review.json(11文件裁决/退役6→2/探针/身份);完整未裁剪stdout/stderr、原生结果与探针在receipts.json.gz的169个具名字节附件。执行HEAD是未提交候选基点,实际测试字节另钉指纹,不把HEAD当候选源码。
 
 ## 断言与业务 oracle
 

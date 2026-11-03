@@ -21,7 +21,7 @@ Template: governance-index-v1 / 1.0.0
 
 - `node scripts/docs/testing-revisions.mjs`：只读比较六阶段；可加稳定ID。
 - `node docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/verify.mjs`：核精确输入／当前边界、旧报告保全、真实红绿原件；不自动跑E2E。
-- [冻结输入](before.json.gz)与[完整执行原件](raw.json.gz)由review.json校验hash。旧001发布复核继续核当时冻结边界；本政策另核当前字节，不能抹掉历史失败或把旧续期当现行规则。
+- [冻结输入](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/before.json.gz)与[完整执行原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/raw.json.gz)由review.json校验hash。旧001发布复核继续核当时冻结边界；本政策另核当前字节，不能抹掉历史失败或把旧续期当现行规则。
 
 八维逐项检查：
 

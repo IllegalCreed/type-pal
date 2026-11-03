@@ -34,7 +34,7 @@ id：CODE-QUALITY-94/approved-closeout；schemaVersion：1；Owner：Codex，单
 | ratchet/protected | 仅primitives/item-select/player-status的精确结构删除重计，generic规则/阈值/scope不变；driver/Save/IDB收益和六个其它包保持；同一报告原policy tail重放exit0、五项退休匹配 |
 | 收尾静态 | 提交前核uniform包中的docs-final/lint-final/ledger-final/diff-final四项exit0及零诊断；未齐不发布 |
 
-[实施原件](implementation.json.gz)保留实施/反控过程；[统一门完整原件](uniform.json.gz)保留三轮全仓门的原始失败与最终恢复、唯一采集、原生summary、逐文件差异、重计、原policy重放证明及最后静态原件。条目均含完整字节数/SHA/base64，不裁剪成摘要。少数早期手动lint输出未保存、初次临时目录准备失败和过早读尚未生成的game报告均显式披露，不冒充业务counter。
+[实施原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/CODE-QUALITY-94/approved-closeout/implementation.json.gz)保留实施/反控过程；[统一门完整原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/CODE-QUALITY-94/approved-closeout/uniform.json.gz)保留三轮全仓门的原始失败与最终恢复、唯一采集、原生summary、逐文件差异、重计、原policy重放证明及最后静态原件。条目均含完整字节数/SHA/base64，不裁剪成摘要。少数早期手动lint输出未保存、初次临时目录准备失败和过早读尚未生成的game报告均显式披露，不冒充业务counter。
 
 当前机器账本3453tracked／531closed／52review／2870pending。下面只新增20项关闭，34旧关闭保留；剩余review/pending不借包绿升级。
 

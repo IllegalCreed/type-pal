@@ -15,7 +15,7 @@ command-bus及必须的类型/caller/test适配；纯重构独立提交；第一
 
 ## 前提与证据
 
-固定源全文核读。实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus保留依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过0stderr；原bus6例中4条专属协议退役、两队列例加强并补实例隔离，其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。2026-10-26本地统一门：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+固定源全文核读。实施：删除流水号/complete/六空类型及两生产通知，保留真实SFX、cmd信封和FIFO；tickEventSystem最后一个bus用途随通知退役，同步409处直接调用及一个namespace调用，删新产生的纯空bus夹具；其它RunScript仍需bus保留依赖。机械清理曾漏简写引用，中间TC/回归失败原件保留，最终game TC0、35实际文件795例通过0stderr；原bus6例中4条专属协议退役、两队列例加强并补实例隔离，其余测试只去接口/实参、空通知断言迁移实际dialog/帧链。2026-10-26本地统一门：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 验收
 
@@ -35,7 +35,7 @@ done保持原语义；治理不重开。父52其余范围继续。
 
 ## 当时证据
 
-当时回执属原时点证据：30处清单、中间失败原件、795例0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+当时回执属原时点证据：30处清单、中间失败原件、795例0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 当前有效性
 
@@ -43,7 +43,7 @@ done保持原语义；治理不重开。父52其余范围继续。
 
 ## 继任文档
 
-父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；空通知断言迁移实际dialog/帧链。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；空通知断言迁移实际dialog/帧链。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 原文保全
 

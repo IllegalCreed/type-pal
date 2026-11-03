@@ -1,35 +1,38 @@
 # E2E-R4-1 — 路线驱动与合法检查点薄基线
 
 Status: build
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原当前推进位置、先前进展、脚本合理化要求与调研、用户意图与首批准入、001 实现与实跑及本批执行证据在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
+本页维护R4现行推进位置；原调研、准入、实现、实跑、失败与用户裁决在下方quote逐字保留。2026-10-02的下一步与“本轮未生成录像”均限于原时点，本次据后继原件更正状态，不新增产品、E2E或视觉信用。
 
 ## 目标
 
-- 维护 001–005 共性 E2E 路线、合法检查点、真实存档恢复和跨阶段问题族治理，并登记后续 Q1/Q2 执行入口；001–004 已按各自边界核定 verify，005 六份同版实跑与真实终档已独立核验（用户观感复验另列）。
+- 在当前canonical上完成前十段路线驱动、合法检查点薄基线、四种取物canary及一条“编辑→保存→重开→试玩”工作流；既有001–006按各自有限接受复用，不重复建设或据此宣布R4整体完成。
 
 ## 范围
 
-- 范围为001–005路线驱动、合法检查点与真实存档恢复；运行器异常监督和Q1/Q2各自验收，不外推后期剧情。
+- 同引擎真实前驱与正式存档恢复，双阶段各按实际输入/报告验收。后继006仅接受其求药、出海、完整岛口收尾及明确编辑预览范围，不外推后期剧情、未跑专项或当前全链。
+- 薄基线先于N6b窄版及其同基线复验；完整Q1/Q2、综合编辑器E2E、capture/音频与发布闭环分别后置，N6b开工时再核canonical版本，不沿用旧预占号。
 
 ## 状态与交接
 
-- build（quote 当前推进位置 2026-10-02）：下一步优先 001–005 共性问题族治理（机械状态展开、动态入口后继、时基及作者模型统一），不等待每段 E2E 重复踩同根问题。
-- 未完成：运行器 `browser.newContext` 崩溃/无返回时的独立超时与自动清理；本轮未生成录像；完整 Q1/Q2 和后期剧情未完成——正常六 case 通过不当作异常监督机制已完善。
-- 脚本系统调研基线（quote）：294 场景 / 4459 stages / 195 machine / 13849 stepEntity；后续 E2E 判断顺序与维护入口以 quote 调研节为准。
+- R4保持build。001–006连续链已在冻结33afa37候选独立接受并合入主线，见[连续卡原最终验收](../archive/done/E2E-CONTINUOUS-001-006.md)；10-27的006后继技术/C1与用户短片判断另由[006当前卡](E2E-006-1-inn-doctor-and-boat-to-island.md#状态与交接)和[唯一正式报告](../../testing/e2e/stages/006-doctor-boat/report.md)持有。前轮12入口/11状态与起伏补修后11入口/10状态分轮保留，不升格为新同版001–006全测。
+- 下一步由Codex核准前十段尚余边界与实际接受，补齐剩余薄基线、四取物canary和完整编辑保存重开试玩；006已闭合部分直接复用，不再以“协调006接入”作待办，也不以其NPC预览另存样本代替整条R4编辑器基线。
+- 运行器独立deadline与自有进程清理已有[后继实现及专测提交](https://github.com/IllegalCreed/type-pal/commit/f83f2aebb75eb50d1bd20abcc4b45db131b2a076)：当前caller对launch/connect/newContext、整段与清理分别限时，专测含真实Chrome挂起newContext后终止/回收。连续卡保存更早45秒超时及后继含真实Chrome watchdog的379/384工具门记载。本次只核当前实现、测试与Git承接，未取回该专测原生运行包或新跑故障；不据正常001–006授异常通过，也不再称机制仍未实现。后续先定位原专测执行身份及当前受影响边界，再决定是否有具体补验缺口。
+- 原294场景/4459 stages/195 machine/13849 stepEntity只作原调研快照。当前格式与推进顺序以[能力地图当前层](../../phase2/capability-map.md#当前状态)、各段原件及本卡为准；六段有限接受不刷新全表、全量剧情或录制/音频状态。
 
 ## 前提与证据
 
-- `docs/testing/e2e/contract.md`；`docs/testing/e2e/cross-stage/common-issues.md`；`docs/testing/e2e/route-proposal.md`。
-- 阶段报告 `docs/testing/e2e/stages/001-opening/report.md` 至 `005-shrimp/report.md`；`docs/lore/timeline.md` 逐段回写要求。
+- [E2E合同](../../testing/e2e/contract.md)、[共性问题族](../../testing/e2e/cross-stage/common-issues.md)、[路线方案](../../testing/e2e/route-proposal.md)按各自声明合同范围读取；旧版本/旧006待办不能覆盖后继原卡接受。
+- [001报告](../../testing/e2e/stages/001-opening/report.md)至[006报告](../../testing/e2e/stages/006-doctor-boat/report.md)、[剧情时间线](../../lore/timeline.md)及连续卡持有分段、检查点和后继证据，不相互代授信用。
+- 监督范围源码：[独立deadline/清理工具](../../../scripts/e2e/browser-watchdog.mjs)、[真实caller](../../../scripts/e2e/browser-journey.mjs)、[现有专测](../../../scripts/e2e/browser-watchdog.test.mjs)。源码和测试存在不等于本轮实际执行通过。
 
 ## 验收
 
-- 合法检查点与fresh恢复须有各段同版原件；browser.newContext无返回的独立超时/自动清理仍待实证，正常六case不能证明异常监督完成。
-- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
+- 每段合法前驱、正文/控制返回、正式终档与fresh恢复按其同版原件接受；连续演示不替代独立段专项。已有有效接受不默认重跑，真实版本/源码影响按相关合同定向核。
+- 当前仍需前十段、四canary和编辑器工作流的完整薄基线接受，随后才核N6b；不授完整Q1/Q2、后期剧情、新故障实跑、capture/音频或新ledger信用。异常监督按上述源码/历史记载与执行原件缺口分记，不用正常流程passed补证。
 
 ## 原文保全
 

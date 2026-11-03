@@ -3,7 +3,7 @@
 Status: current
 Validity: current
 Owner: Codex
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Template: guide-runbook-v1 / 1.0.0
 
 ## 目的
@@ -39,9 +39,31 @@ git diff --check
 
 原逻辑或当前路径可交给 `node scripts/docs/read-retained-artifact.mjs PATH` 查看身份，加 `--cat` 输出已核原字节并重定向到仓外临时文件。现行 Markdown 链接指向实际 .gz，冻结 JSON 与保全引文仍保持原身份；缺载体、变字节或未声明缺失须拒绝，不能从 Git 静默补读。新反控输出的 gzip 描述须分别记录 stored 与 decoded 身份，原判据仍核解压 TSV。
 
+### 历史输入附件的显式退出与恢复
+
+已无现行文件消费者的历史 `.gz` 输入附件，可经知识承接、必要证据与依赖审查后列入位置合同的 `retiredArtifacts`。每个准入成员记录原逻辑路径、固定 Git blob、SHA256 和字节数；来源提交统一取该合同的固定 `baseRevision`。这是逐成员的生命周期裁定，文件名、目录、同内容或旧完成状态均不单独授权清理。
+
+同一四字段合同允许退出 `docs/ops/evidence/` 下的历史 `.txt`、`.log`、`.tsv`、`.raw` 捕获原件。旧任务路径仅另准入 `docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw` 与 `docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw`，不扩其它任务目录。已压缩成员须同时撤销其压缩映射与实际gzip载体；退出共用baseline时，关联旧别名也分别按固定原源准入退出。各次counterproof JSON的执行label、argv、结果与descriptor保持不变，display与original仍分别恢复各自字节和SHA。计数区分实际载体删除与已缺席别名身份，不能把同一文件重计净删减。
+
+同一合同也允许逐成员退出两处关闭回放树的 `.ts`、`.tsx`、`.mjs`、`.mts` 输入：`docs/testing/archive/legacy/batches/glm-architecture-regression-lab/` 下的 `candidates`、`configs`、`diagnostics`、`fixtures`、`tools`，以及 `docs/testing/archive/legacy/unresolved-tools/`。这些明确子树纳入同一完整文件集检查；未声明缺失、新文件和未退休原件漂移仍须拒绝。产品代码、正式测试、其它目录及 `.md`、`.json`、`.html` 正文不能借此退出。
+
+成员较多时，同一份四字段集合可放在普通附件 `docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts.json.gz`；必要时物理拆成最多四片，后续固定后缀为 `-2.json.gz`、`-3.json.gz`、`-4.json.gz`，不再内联另一份。`retiredArtifacts` 为一个或最多四个精确七字段描述：`codec`、`path`、`storedSha256`、`storedBytes`、`decodedSha256`、`decodedBytes`、`entries`；不混入旧四字段成员。每片的stored身份须与现有 `artifacts` 登记一致，文件为普通0644；未声明片、重复片或跨片重复成员拒绝。每片压缩最多1MiB、解压最多4MiB，集合最多16384成员、累计解码最多16MiB；严格UTF8/JSON拒绝BOM、重复键或尾随内容，逐成员仍走原来源、冲突和缺席校验。根合同本批限制1MiB，准入SHA核对后、JSON解析前检查；名单只承载同一行政集合，不装语义报告、执行日志或新信用，读取结束逐片重核原身份与完整字节。
+
+大集合按最多512成员、源字节合计最多32MiB的窗口批读取；初验和终检都逐成员核完，不跳过尾部，不扩大既有4096对象/128MiB缓存。默认正文、别名与压缩来源继续按原规则预取，退休窗口不会将它们留作逐件Git读取。
+
+实施者先核当前副本与固定原件一致，再删除获准成员；校验器要求原路径和迁移后路径均缺席，并继续核未退出原件、保留元信息和完整文件集。运输表、各次输入/退出结果、独有失败与读取范围分别保留。治理正文与当前review存储不能借此退出；别名及压缩映射须先核其消费者与恢复闭包，按上文明确规则同步撤销，不得保留重叠声明。
+
+复核旧输入时，将 `git show 'ARTIFACT_REV:ARTIFACT_PATH'` 中两项占位符分别替换为已准入合同的 `baseRevision` 和成员的 `path`，重定向到 `/tmp` 等仓外临时文件。先核导出原件的 SHA256/长度与成员记录一致；未压缩文本及回放源码直接恢复原文件，不必解压。gzip输入再按原运输表或输入快照描述核一次解压所得 payload 的 SHA256/长度。若 payload 原本就是 `.patch.gz`，一次解压恢复的仍是该原始压缩文件，不能把再次解压后的文本当成原 payload。源码输入继续沿用原读取边界；恢复完整载体不把 `fullRead=false`、局部 ranges 或失败结论改写为全读通过。
+
+PR40的109份gzip及17个别名旧映射可从[固定eb223位置合同](https://github.com/IllegalCreed/type-pal/blob/eb223e8ae7b9f0062cbbaaf9869e890b6a974c91/docs/phase-governance/document-locations.json)恢复；选择该版本stored链接时按其stored/decoded双身份核对，不能将编码文件SHA与原文SHA混用。
+
+普通读取和 `assertCurrent` 不从 Git 补出已退休附件；`read-retained-artifact` 的 `--cat` 仍只读取现存且已准入的载体。不要把恢复文件放回已声明退休的检出路径，其重现会被拒绝。恢复只用于重读原件，不产生新的执行或验收结论。
+
 ### 历史专用工具
 
 `scripts/docs`中固定20261004布局的`build/apply/enrich/finalize-ops-governance-plan`、封闭批次的publication工具，以及DOCS-RECORD-INTEGRITY-1的capture/inspect/audit脚本只用于按固定提交隔离回放。其旧路径和接受指纹属于历史身份；不能直接在当前树调用，也不将输出重定向后覆盖历史原件。日常维护使用上列现行检查入口；新写入工具另核具体任务、范围和消费者。
+
+关闭质量窗口中 `docs/tasks/evidence/**/verify*.mjs`、`native-archives.mjs` 等也按原回执的完整源候选和依赖隔离复验；先恢复脚本、索引、所需输入和记录的源码/测试边界，再按原合同运行。仅恢复固定159中的附件不保证旧测试名、外部输入或环境已经恢复。旧README中的“默认快检”不表示现行流水线入口；发现固定pin已漂移或原输入不可得时明确报过期/不能复验，不能改脚本补读当前替代物或把回放算新执行信用。
 
 ### 检查范围
 

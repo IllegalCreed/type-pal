@@ -1,8 +1,8 @@
 # GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异
 
 Status: review
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -19,11 +19,11 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-代码已按“先真实caller业务红→最小修复→定向/相邻/typecheck→静态零诊断”执行；但全仓check、官方coverage ratchet、protected fast与集成按父卡CODE3m节奏留到全部pre94收尾，本叶函数反例不能代替模块收口。越界WORD域、其余float系数、极端输入与完整资产域仍pending；未定义转换域不新增回绕/兼容upgrader。
+用户批准的可表示FLOAT/WORD与正WORD防御窄修及TS极值速度偏离已有有限代码接受。原统一门与发布已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)核定；旧“待全仓/coverage/未合main”只保留为原时点，不再作当前阻塞。原卡明示的视觉与其余数值域尚无新增接受，必须区分本卡必验caller输入与明确排除的未定义/域外转换；不能默认新增回绕、兼容或全资产复审。
 
 ## 状态与交接
 
-review保持原语义：速度极值按用户选择不改算法、正防御修复仅代码接受；统一门/视觉/整文件剩余域未收口，done未准入。继任关系：本卡属父卡QUALITY-PRE94-RETROSPECTIVE-1的pre94系列，无下一位Agent提示词，Codex单Agent继续父任务。
+Status保持review；下一有限动作由Codex对照原授权确定仍需的功能展示与声明数值域，优先核原seed244049/正防御边界的实际消费者及可见结果。原36向量、5151抗性和131回归只给各自域信用，不冒称普通剧情自然可达、完整SDL敌行动或全数值1:1；域外未知保留为边界，不自动授权整改。
 
 ## 原文保全
 

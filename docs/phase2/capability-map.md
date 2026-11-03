@@ -3,7 +3,7 @@
 Status: current
 Validity: current
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -18,7 +18,9 @@ Template: governance-index-v1 / 1.0.0
 
 current只指入口与参考职责。原表最近全表对账为2026-09-05、统一步骤局部对账为2026-10-03；后续001–006批次增量不等于全表重验。原行中的“当前”、done、版本和旧签字均限于各自候选，不能随本页复核日期续期。
 
-X1的SAVE10/content21与原文顶部SAVE12/content22属于不同记录时点，本次不改原行或认证今天的canonical。实时任务状态查[看板](../tasks/board.md)及原卡；第三阶段移交、B5/Q2与A1最终收口边界保持原记录，不据旧格色自动开工或结案。
+2026-11-03已核[内容常量](../../packages/content/src/character.ts)与[存档常量](../../packages/reforge/src/save/types.ts)：当前唯一格式为content22、SAVE12，工程最低可读SAVE12；两个版本轴独立，合同见[存档规范](specs/save-system.md#实现锚点)。X1的SAVE10/content21及旧SAVE8/content20是历史检查点，不作为当前格式或兼容许可。
+
+[R4](../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)仍在build；[001–006连续链](../tasks/archive/done/E2E-CONTINUOUS-001-006.md)已有对应候选的独立接受，不等于前十段、四取物canary、编辑保存重开试玩或完整Q1/Q2已完成。N6b窄版尚未实施；后续顺序和具体剩余义务由[当前任务与后续工作](../tasks/board.md#第二阶段功能开发)及原卡维护。本次未重验63格或新增E2E/视觉信用。
 
 ## 入口与责任
 
@@ -26,7 +28,7 @@ X1的SAVE10/content21与原文顶部SAVE12/content22属于不同记录时点，�
 
 ## 证据与下一步
 
-原表完整字节、日期、数字、未决项和锚点不变。此前治理封套与来源身份从[固定Git原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/phase2/capability-map.md)恢复；本次只减少重复说明，不授runtime/E2E/视觉/coverage信用。确认新能力或状态时按任务证据更新本表及相关规范，不从旧quote推断今日完成。
+原表完整字节、日期、数字、未决项和锚点不变。此前治理封套与来源身份从[固定Git原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/phase2/capability-map.md)恢复；当前层已核版本常量与有限后继范围，不授新的runtime/E2E/视觉/coverage信用。确认新能力或状态时按任务证据更新本表及相关规范，不从旧quote推断今日完成。
 
 ## 原文保全
 

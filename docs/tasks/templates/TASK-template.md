@@ -1,9 +1,9 @@
-# Ops完整任务卡模板源
+# 完整任务卡模板
 
 Status: current
 Validity: current
 Owner: Codex
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Template: reference-canon-v1 / 1.0.0
 
 ## 适用范围
@@ -14,7 +14,7 @@ Template: reference-canon-v1 / 1.0.0
 
 ## 一手来源
 
-下方源块是基点`3ed87f734df357799c4d9a44205781d3deba5c14`的完整原内容：blob `807bf63fcf1d24b4c6a1c5ba1b2d5c2a51f148dc`，SHA-256 `522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d`，5997B，本轮逐行核读。旧source pin `ba60e9dccc2833b30be349213b86593260f4f66c` / `4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2`仅复核身份，不冒称原执行或原深审已重认证。
+下方是随现行入口维护的可复制骨架。历史来源为[固定Git原模板](https://github.com/IllegalCreed/type-pal/blob/3ed87f734df357799c4d9a44205781d3deba5c14/docs/ops/templates/TASK-template.md)：blob `807bf63fcf1d24b4c6a1c5ba1b2d5c2a51f148dc`，5997B，SHA-256 `522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d`；这些身份只描述历史原件。当前骨架已修正阶段入口和规范链接，不再与该原件逐字节相同。[固定迁移前整页](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/templates/TASK-template.md)保留此前治理说明和原骨架。
 
 [统一注册表](../../phase-governance/templates/registry.json)决定实际版本、章节、词表与变体，[文档交付与验收](../../engineering/guides/document-quality.md)决定交付验收；本页不改这些合同。[模板入口](../../phase-governance/templates/README.md)提供统一选择入口。
 
@@ -26,7 +26,7 @@ Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unkn
 
 ## 代码任务的现行质量扩展
 
-本节接入 main `72db417255d8ca4227522420e9185ef468462aa7` 的质量提示。下方保全骨架仍是其注明基点的原件；建立代码任务时，将本节记录项填入新卡验收部分，不改写历史源块，也不预填通过。
+本节承接 main `72db417255d8ca4227522420e9185ef468462aa7` 的质量提示。建立代码任务时，将本节记录项填入新卡验收部分，不预填通过；固定历史原件按上述Git来源追溯。
 
 代码任务按[长期工程质量规范](../../engineering/guides/code-quality.md)填写；非代码任务说明适用范围。下列为记录提示，不预填通过，不改变既有任务状态机。
 
@@ -45,32 +45,31 @@ Coding Owner、Generation Owner与Visual Owner职责分开；高风险关键unkn
 
 ## 现行文档与知识同步
 
-建立或修改任务时，将以下记录项填入新卡验收部分，按[功能变更写回流程](../../engineering/guides/agent-workflow.md#功能变更同步现行文档与知识用户-2026-11-02-固化)执行；下方历史骨架不改写：
+建立或修改任务时，将以下记录项填入新卡验收部分，按[功能变更写回流程](../../engineering/guides/agent-workflow.md#功能变更同步现行文档与知识用户-2026-11-02-固化)执行：
 
 - 受影响的现行规范、指南、知识及状态路径，和实现同提交更新的要点：
 - 没有文档影响时的具体理由；Codex 对照实现、入口与例子核实的结论：
 - 非代码产物按[公共收口流程](../../engineering/guides/agent-workflow.md#任务产物收口用户-2026-11-02-固化)记录归宿、数量或净变化、退出条件与必要验证；暂存对象的 Owner、到期日期或复核触发及处置；无产物的具体说明：
 
-第一阶段上下文从[阶段索引](../../phase1/README.md)选择相关知识与一手证据；不再从历史骨架中的旧模型根入口开始。
+第一阶段上下文从[阶段索引](../../phase1/README.md)选择相关知识与一手证据。
 
 ## 未知与冲突
 
-空字段、示例ID/命令/日期是待填输入，不是结果。Status current只指模板说明；正式使用须按实际任务和现行合同替换占位，保全块中的旧版本不作当前断言。来源或许可未知时停受影响项，不填假通过；本轮未审全部使用者文档、未跑产品或历史执行。
+空字段、示例ID/命令/日期是待填输入，不是结果。Status current只指模板说明；正式使用须按实际任务和现行合同替换占位。来源或许可未知时停受影响项，不填假通过；本轮未审全部使用者文档、未跑产品或历史执行。
 
 ## 使用边界
 
-以源块作为历史骨架起点，另填真实标题、身份、范围与证据；填写上方文档、知识与产物收口记录，代码任务还须填写现行质量扩展，不把说明或历史占位当作结果。作者自验、非作者接受和中央接入分开；旧机械artifactOnly不授完成；本次修订须由 Codex 独立验收并接入当前治理记录。结构通过不授runtime/E2E/视觉/coverage，全量硬门未过不合main、不done。
+以可复制骨架为起点，填写真实标题、身份、范围与证据，以及上方文档、知识与产物收口记录；代码任务还须填写现行质量扩展，不把说明或占位当作结果。作者自验、非作者接受和中央接入分开；旧机械artifactOnly不授完成；本次修订须由 Codex 独立验收并接入当前治理记录。结构通过不授runtime/E2E/视觉/coverage，全量硬门未过不合main、不done。
 
-## 原有源内容
+## 可复制骨架
 
-保全块的外层fence之外不属于骨架。按记录前缀/后缀提取即可逐字节等基点原文，不trim、替换或升级字段；嵌套YAML/testing-meta/代码保持原样。
+复制以下fence内的Markdown，按实际任务填写占位并补齐上方适用记录；fence之外是模板说明。骨架更新按现行文档合同审查，历史原件从固定Git恢复。
 
-<!-- template-source-example:start -->
 ````markdown
 # TASK-ID - 任务标题
 
 Status: draft
-Phase: phase1 | phase2 | ops
+Phase: phase1 | phase2 | phase3 | cross-phase
 Capability: W7 / A4 / B5 / etc.
 Coding Owner: Unassigned
 Generation Owner: Codex | N/A
@@ -132,7 +131,7 @@ Branch: TBD
 
 ## 上下文锚点
 
-所有非小改任务必填;无锚点不得进入 `build`。第一阶段任务至少锚定 `CLAUDE.md`、相关 engineering-notes / game-mechanics / 状态表 / 审计或测试;第二阶段任务至少锚定 `docs/phase2/READ-FIRST.md` 和相关设计/审计文档。
+所有非小改任务必填；无锚点不得进入 `build`。第一阶段从 `docs/phase1/README.md` 选择相关机制、工程知识、原任务、审计或测试；引用历史状态表时标明冻结日期。第二阶段任务至少锚定 `docs/phase2/READ-FIRST.md` 和相关设计、审计文档。
 
 - 已拍板决策 / 铁律:
 - 代码锚点(`file:line`):
@@ -142,9 +141,9 @@ Branch: TBD
 
 ## 验收条件
 
-文档任务引用[通用文档验收协议](../document-quality.md#文档交付与证据验收协议)，本卡只填适用版本、本批范围/例外、候选与证据入口、实际裁定；不复制长期规则，也不预填通过。
+文档任务引用[通用文档验收协议](../../engineering/guides/document-quality.md#文档交付与证据验收协议)，本卡只填适用版本、本批范围/例外、候选与证据入口、实际裁定；不复制长期规则，也不预填通过。
 
-测试任务另核[统一质量标准](../agent-workflow.md)：原子业务合同、合法typed输入、真实caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率accept。
+测试任务另核[测试质量验收](../../engineering/guides/agent-workflow.md#测试质量验收用户-2026-10-03-固化)：原子业务合同、合法typed输入、真实caller/oracle、逐轴排重、高判别力反控和隔离；不得仅以通过率/数量/覆盖率accept。
 
 - 功能:
 - 测试:
@@ -269,4 +268,3 @@ Codex 对所有贡献者交付作独立验收；可按难度邀请其它 Agent �
 ```
 
 ````
-<!-- template-source-example:end -->

@@ -1,7 +1,7 @@
 # QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 — 事务内部写入路径所有权
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
@@ -23,7 +23,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-本卡代码修复局部接受、统一门待父窗口集中；整源仍pending，不能由本卡直接升级为整文件已验证。单writer、非OS沙箱、staging中途失败原边界不扩张；未证明真实作者工程已存在这些链接或已受损。Codex单Agent保持同一父窗口，不另开PR/重跑覆盖率。
+本卡已接受的控制路径窄修随父窗口完成统一门与受保护发布。本次不提升migration-transaction.ts整文件审查状态；单writer、非OS沙箱及staging中途失败边界保持。未证明真实作者工程已存在这些链接或已受损；不新增迁移、覆盖率或产品执行信用。
+
+2026-11-03复核：原发布义务由父窗口[实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；原件待发布字段保留原时点。
 
 ## 原文保全
 

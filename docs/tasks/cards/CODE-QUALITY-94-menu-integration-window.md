@@ -2,7 +2,7 @@
 
 Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -24,6 +24,8 @@ Template: task-card-v1 / 1.0.0
 2026-10-25 本地统一门收口（done 仅指本卡有限代码/质量门收口）：全仓 20605 产品+714 工具测试、七包 TC、lint 6111 文件 0/0/0；唯一 official 20168 例/807 源完成，原四条比率拒绝保留、仅三文件结构删除精确重计，同报告 ratchet/protected 判据 exit 0；五项精确退役全部匹配；收尾 docs/lint/ledger/diff 原件提交前补齐。本地冻结时尚未推送/PR/合并，实际远端发布由关联 Git/PR 与 main CI 记录，不从本节预告继承。
 
 ## 状态与交接
+
+2026-11-03复核：[PR23](https://github.com/IllegalCreed/type-pal/pull/23)已合并为0e14c184eed91841ee0f48323b98c98b734a3129；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/40199083771)与[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/40199083773)为main push、completed/success，merge已在当前主线祖先链。发布原件见`/Users/zhangxu/.codex/quality-evidence/type-pal/94-102-approved-20261025/publication.json`及同目录native CI原件；有限54范围（20新关闭+34保留）不变，12相邻仅delta，不扩103+、产品/普通剧情/视觉或当前ledger信用。原本地待发布与所有失败保留其冻结时点。
 
 Status 保持 done（2026-10-25 收口）。历史交接链保留：GLM 逐文件复核（30/30、manifest 30/30 字节一致、CODE95 三份裁定合法）→ Codex R2/R3 counter（统一门 3489/3527/3499 条 React act 警告+各2条 jsdom 导航诊断、inventory-menu 过时注释、flags 强转与「零强转」报告矛盾、R4 单体 caller 前提不成立）→ GLM R1–R4/C5 返工（act 警告归属量化为 editor 域139个.tsx、注释更正、typed 化、manifest 布尔重算）→ Codex 接手修复（2026-10-15 用户授权）→ 2026-10-15 最终模块窗口 bb94ad8e2 三门 exit0 但仍有 3620/3610/3523 条未包 act 诊断、本卡保持 rework → C02 诊断治理（G04 十例 404→0 后九例0诊断）→ 2026-10-25 两项用户裁决落实后收口。E-1 死参（equip-menu.confirmEquipItem）、E-2 工厂统一、E-3 flags 强转清理为发现登记不在本窗口。
 

@@ -19,7 +19,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 结果
 
-九文件代码接受（bootstrap.ts/dos-cutscenes.ts/scene-thumbnail.ts/bootstrap-load/bootstrap.glm-next-wave/scene-thumbnail.test/event-system+K04/event-system.glm-event-k04/scene-identity注释级刷新）；CODE3r/53聚合代码信用恢复；首轮场景重装夹具被同scene guard跳过、sceneLoading应为undefined、早期截图仍有boot淡出层、map0资源不存在等失败如实保留并撤相关信用。[receipts.json.gz](receipts.json.gz)保留命令/cwd/time/exit/signal、完整stdout/stderr、原生结果、patch、producer与所有浏览器轮次。
+九文件代码接受（bootstrap.ts/dos-cutscenes.ts/scene-thumbnail.ts/bootstrap-load/bootstrap.glm-next-wave/scene-thumbnail.test/event-system+K04/event-system.glm-event-k04/scene-identity注释级刷新）；CODE3r/53聚合代码信用恢复；首轮场景重装夹具被同scene guard跳过、sceneLoading应为undefined、早期截图仍有boot淡出层、map0资源不存在等失败如实保留并撤相关信用。[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/receipts.json.gz)保留命令/cwd/time/exit/signal、完整stdout/stderr、原生结果、patch、producer与所有浏览器轮次。
 
 ## 限制与复核
 

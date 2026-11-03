@@ -77,6 +77,19 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/archive/board-history/README.md",
+      "mode": "reviewed",
+      "afterSha256": "80e709e74109e4a84744346277b8248e3beab0a06363722ae781ee5ddcc11f8e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 47,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/archive/evidence/ARCH-CURRENT-ONLY-1-retention-ledger.md",
       "mode": "links"
     },
@@ -650,17 +663,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "84331ba89c0e373ec37d41a00ed916925fc83fdd9c4c430bb7cb06156ac3629b",
+      "afterSha256": "a489e914962de6794f0401268666f7e75ca5b4e0769146f0237ca976bf42b9de",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "候选：本轮有限完成出口与保留理由、12新增工具/1历史JSON退役的库存对账，846行原live表不改；必要质量门尚待稳定窗口。",
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "只更新当前代码库存3636与pending2790，公开inventory/guard和真实45工具测试核对；846既有记录和所有其它字节逆还原相等，新增2路径仍默认pending，不授whole-file或产品信用。",
         "reviewedLines": 889,
-        "acceptanceScope": "贡献者全文核读/治理；根核新正文、真实consumer及固定Git源变换后live表的完整字节相等，不重新授产品/代码质量信用。"
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -706,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "27ceb01bca503f86598ac68729d948d8d1773d799d1ec67629a3a454dccb7861",
+      "afterSha256": "61e981aa1550808fa49e16e6270b9ae50ff34d499cb721e978480d842be25305",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "本轮候选完成、真实本地门与净量有限复核；总纲done、看板及确定性任务索引同步，远端集成另核，不授新产品执行信用。",
-        "reviewedLines": 153,
-        "acceptanceScope": "只核已接受正文后的收口差异、原始完整门日志、按固定源测量与归档成员；不重复产品审核，不授远端CI或新运行信用。"
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "reviewedLines": 119,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -737,16 +750,16 @@
     {
       "path": "docs/ops/document-quality.md",
       "mode": "reviewed",
-      "afterSha256": "c50b3ba9231f36027a3c5f78354e167aedc0369b2011171a823f2386a6cf2a1f",
+      "afterSha256": "525e2b09f1d70c6783e7797976cfc14953c2614e5399205eac68527e953a63f3",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "规范位置统一engineering/guides；既有文档交付、独立验收和零诊断要求保留。",
-        "reviewedLines": 76,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 78,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -766,8 +779,60 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/CODE-QUALITY-104/README.md",
+      "mode": "reviewed",
+      "afterSha256": "52e3e1fc57a4040c66f4fdd91bdf4cb6f24e3c5ad07b06a7a0a58c03341b9b44",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 48,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-105/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4b7335bbec6f5137b64f0419eead6be959f371dee1923d79b93ed5b365e194fb",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 57,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-106/README.md",
+      "mode": "reviewed",
+      "afterSha256": "2f5319d63ca251250979db86636750555915cf30563804cb69e6383300605651",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 55,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/CODE-QUALITY-3Y-CLOSEOUT-1/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/approved-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "62a21376992005ac82c4813629b7338471697513d01b9d5fd011cd231277a376",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 159,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-window.md",
@@ -780,6 +845,32 @@
     {
       "path": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/current-review/README.md",
+      "mode": "reviewed",
+      "afterSha256": "3850c49ed9fce35391b1e0cd4d1e05c59df4cec9a982f753a6bb89fc75c8dfe9",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 81,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-94/README.md",
+      "mode": "reviewed",
+      "afterSha256": "036cefd9095929dfd9ba2e464e1b3df7dff3fad1fa2c3b61113e5dbeee40506e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
+        "reviewedLines": 70,
+        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+      }
     },
     {
       "path": "docs/ops/evidence/CODE-QUALITY-97/README.md",
@@ -795,7 +886,19 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6a37949178d9ca490781dd17c93f0da0e9f90900b00742da7860030e90321c3e",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 41,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
@@ -814,7 +917,16 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "40ca78712daeb57b560cb212c15ad5a7356840d22077b18a662de978471cde10",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "reviewedLines": 75,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
@@ -878,7 +990,16 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "934a6c44104896e5d64ac1347141945888b6f64108911f6e39a2e267193e5c31",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 95,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md",
@@ -886,7 +1007,16 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "b3ed62384fcdd85d983710433b978de7f082d9658a2fc73748faf3c8dcc05fc1",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 49,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-GAME-PRESENT-HOST-TESTS-1/README.md",
@@ -901,12 +1031,56 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/README.md",
+      "mode": "reviewed",
+      "afterSha256": "8b62aefaf9f15914255fd6d54f96b5991419cf740c0c89ded93113af7eac745c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 62,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PENDING-100-2/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "e40539517efbb37cd04c28a3d5aeb66b33cccbe3ae58abeb13669578b719ec27",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 77,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PENDING-100-2/uniform/README.md",
+      "mode": "reviewed",
+      "afterSha256": "6127b66d015ca36ecfee6dc0aaa76dc8454782df9fdc20a06272fbc104ab6684",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 63,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PENDING-100-3/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "3ac42a482f55e17b5c735452a82b1ee7df8c5532aa9f78308dbd3db9d5ae9b7b",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 800,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md",
@@ -926,7 +1100,16 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "1a1ae02328191df938203d152cec69f425ad372a92232df16dad95558de1b86f",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 59,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md",
@@ -938,7 +1121,16 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "3323ff2dd588753da2a6d26e5fa812baa4b750aff6019b5d1a27cd9b06689277",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 95,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md",
@@ -962,15 +1154,59 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/rle-boot-quality/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "5c814e2f893076d790331a03a082b5c31374e9b78722a544116dec519178e497",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 57,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "18c9d7c905b16765fc82f37ddd0d28c1fb730d808266cd10c64d68e16eee259b",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 81,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/README.md",
+      "mode": "reviewed",
+      "afterSha256": "5ad0058be3cbcbd4f28a14901b704d7e2c9f7a561775420ac50ff484ddcfdd7c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 69,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "7f151b83b39d791d11ca7052d059eeec3e987f3d5e7d92b2958d7229797ba73b",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 72,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-number-quality/README.md",
@@ -990,11 +1226,33 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "0fce027ac3eb503ee14e1c582277d3cd66f50ee9b2fdc79a143351c44608cd0e",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 103,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3x-battle-progression/README.md",
+      "mode": "reviewed",
+      "afterSha256": "22adab9bfeb956d07f6a11b99fbfe7b173f0fa7ee225944d07215889887ce28a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 45,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
@@ -1007,6 +1265,19 @@
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/50-draw-magic/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9d6590b307da47db46d732c0f358a9cd8bdd4986f996d8d4e9092b128be106d7",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 88,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
@@ -1029,36 +1300,177 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/README.md",
+      "mode": "reviewed",
+      "afterSha256": "8dceaac3fd3d2d14714918b463a681114aaabefbc9023f2ae2d7aa4365a5f278",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 48,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "3e55ae62408d3a256c7513d335ef045260b26415569cc6c3968c1db05543838a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 54,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "50ea856db997649ea1598d5543a81885b13867652d15f6d4c5d95c7656803366",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 70,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-lifecycle-quality/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6d363c96fbba980db26e56714697177f8205efe54c565a3153216f381da5285d",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 72,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-present-quality/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "b5f106aa9d58ec0d1ade0c872b087cbba6eed7c49150e2259381ebd43e3203e3",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 57,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "55253e0a3dcc099bd9670e04c6845c1d99fe97bb98231f4e34a755fab415affa",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 77,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "94c76a1c24885af8ceee26bfdbe59bbf78566432ed1d4c6c445fd0d6c917f47b",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 109,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/bootstrap-quality/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "7433dfcbf892fb015034600afffa035818e4a3d2bca5622e722d463c6191d43b",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 67,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "c56de5bc22b1db2407408901f833ea996a96e7360fef86517a35f3abc6f351d0",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 82,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-slice-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "ee7f36919e11ab5a891d7ff85e8d7c7bc2584e630f851923a693a86f83077323",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 70,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "41e56aacfda9b70e44de462fd016c2b16e1a4e650e49732b3749698f1281b533",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 54,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/pal-source-fix/README.md",
+      "mode": "reviewed",
+      "afterSha256": "23d06935ebfcdc3d92a90bbd6f92954a8bb30ce8bf39e16b470f72cddfc91007",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 63,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "219b03df44f8050ed12af90004715fdf3c8a8813cd2baf47135c9e2715554de3",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 101,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md",
@@ -1097,24 +1509,285 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dev-panel-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "619b8ce2cbe9244d85e8074eeeee80e1cb61609236d6acd8a375cc3493d94142",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 59,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/dialog-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "a8cd9a8931ddc5426f84a507149a2edb4529b5b5a6a3a917aab5150cfb867a99",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 54,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-battle-returns/README.md",
+      "mode": "reviewed",
+      "afterSha256": "92cad0156ec9bec3a9333d8ab2da30efda2b7b81f9ad833d9174334ada467138",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 48,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-opcodes-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "214deb9e2fd4d28fcf064512cadaf7bc5f3a331c7eaeaa37aa20ab0c0f98a784",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 67,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/event-slice-approved/README.md",
+      "mode": "reviewed",
+      "afterSha256": "e27440687878ef3aeab3d0b2a597d5d34f85a8b71ae523ec0311a54c018a5b2f",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 62,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/extract-scene-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "2ae446cd3b9958c519da05fa6068cba110ba82def2d11e38cac8f41c5542377d",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 52,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md",
+      "mode": "reviewed",
+      "afterSha256": "d86fa068f6289451e0dac7673abcedf1bc6891d164f1b6d1b8140fb847c7f23d",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 84,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "69f42f4da8d621051be4792ff1ca8f9e742534b8ba0d2735e86037f50895e064",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 74,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-actions-mobile/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b2cc22bfd7f20efb4726ff7fad80ec13c6219079e02db602ff234314584b4cae",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 75,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/game-progression-input/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "2e60b992568eb001bc5894f50a54207749bde1e8ee06e1686ce06d487508906a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 71,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "a08e556ecc3298825a38b98f4e63aafc0a43ca91ea184a1e3aaf8522c928caa0",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 61,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-large/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b1f98b053f884a5bcc2c543d656e2bd0a9df85ee94c9db2472efc0e0d4fc1d7d",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 66,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4c6309769920ca2d2c13ccd52d658f3eb3fdcb9b54512e440e5fadf435bb06c0",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 67,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-small/README.md",
+      "mode": "reviewed",
+      "afterSha256": "667a62e926994f032abb0c8483188746a017adad3dff8bc8f1dcd7528636601c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 62,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-large/README.md",
+      "mode": "reviewed",
+      "afterSha256": "958d44f826608e5887a7cae3c500f99b27d409aef7674554e6f4c9196d140e74",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-medium/README.md",
+      "mode": "reviewed",
+      "afterSha256": "ee858ef3cf17cb3dfdaa1555832edf665fb7a2d1ff1c661086e520926671f152",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/README.md",
+      "mode": "reviewed",
+      "afterSha256": "75ef53733eb8fd9155707c3db3157af7738b311483937986db9d4807417a6409",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 65,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/minimap-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "195af121374be6646dd7d3ebf8ee97547f7e76fec9a49c676cf145fa3103ce67",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 53,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mobile-revalidation/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "5fda46337de2ca61c7ac42c569b70206bde095acbbe20e864719fa31802ac4d3",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 65,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/mode-player-quality/README.md",
+      "mode": "reviewed",
+      "afterSha256": "f8faa66a117a0c8a91990306c400728aa303b37e96d83087beec3d4ab2d2fb0a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 66,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/opcode-test-quality/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/README.md",
+      "mode": "reviewed",
+      "afterSha256": "2a8beb4114e52ce60e110739524f0c145fc382288aae8e7ed524686a815834b5",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 50,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-primitives-quality/README.md",
@@ -1126,51 +1799,170 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "3e21ae714b5d27f9fe40dc5d3f2b89ee46d82c51cd6529553c653093e7e45314",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 42,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "evidence-receipt-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "7d89e1a2596b029cf3ee390dd2d99a724f0693722b8db0ea900b0de245363c3e",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 126,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "8d9da3d7f4c4f2a3177555964a1698233b44131fdaea51bdf446d7d14c915e8c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 145,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "97d32dd037af158e23c11ae5f284aa902df911386426d32c65f9f39154e49c45",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 101,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/README.md",
+      "mode": "reviewed",
+      "afterSha256": "14c030f7f748754040a16109869df38167d9dd732ebb37f8a63d1446b9927f71",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 63,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "ec4a1d4dac6a6c01c22fcbb6524439d3d43b5c786d9f91914b41077a0256bf3e",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 61,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/tools-panel-closeout/README.md",
+      "mode": "reviewed",
+      "afterSha256": "62b1593e17cc09866114f9e30bd0fd57707ea8c22901e0eecc99251969cb59c6",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 55,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "928bcf8bc2d01c50dc97e508afb1ac353674db23447fc687ebff701d6c1d76b7",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "2323e857509f51cca60ad17ec707320b3b85daa3cc33c32ea5136fa786ad5e0c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 84,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "5820d79725b623729ca0e932b839eaa1a388ef0183c89da4266f61b69410844a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 126,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/asset-render/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "9675afbb9235a52ecf7f4d6317b1c7da7e2563b78b905be5f7d814cb53b16174",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 79,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "d0702b17d0eec049cd0138f4157d3e47ebc1c7bd1d961dbafe0b602a87192012",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 137,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/evidence/QUALITY-TOOLS-CONTRACT-TESTS-1/uniform/README.md",
@@ -1193,8 +1985,56 @@
       "historyDisposition": "fixed-git-source"
     },
     {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9b0d29e20e42a0c42143e34b6dcb4a79eab05390ff3b9bf60aa1664048829e1b",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 117,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "3ad556d5ef4e6e98432ca14ded0f0f3694e462c2a668daff35fe9c5cca9f2ce7",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9de0c4c95862608a8cbad19944355ee5053067cb98d8ba9e5ead19cd2dbb5dda",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
+        "reviewedLines": 112,
+        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
+      }
+    },
+    {
       "path": "docs/ops/evidence/TESTING-EVIDENCE-REVISION-1/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "4ea30dad37c1c7f0a60c9a1c1a3297f8671fc53148c839603651ed295dfc7b12",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 96,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/guides/browser-verification.md",
@@ -1246,17 +2086,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "2f2820c7fe0e5b5fa3255c45ce51f80245a58ada7a188eb691b0c32318398a8d",
+      "afterSha256": "92d0a32fab953fde3c0e2fb382d631091bab53fd2a2266c7e550f985766a6a79",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
-        "reviewedLines": 63,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+        "author": "/root/retirement_contract（合同）；/root（最后三处措辞）",
+        "reviewer": "/root（合同）；/root/status_reconcile（措辞）",
+        "date": "2026-11-03",
+        "conclusion": "有限原件退休、源/编码恢复、完整候选隔离回放及无当前读取回退；逐成员/有界分片/窗口与代码真实反例一致，最后三处闭包措辞非作者另核。",
+        "reviewedLines": 85,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -1291,24 +2131,244 @@
       }
     },
     {
+      "path": "docs/ops/tasks/CODE-QUALITY-103-editor-residual-tests-review.md",
+      "mode": "reviewed",
+      "afterSha256": "55033d55c68fcc8104e0cb1c992b3890e7083b5e14a4e63936da221a3f8e8614",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 98,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-104-editor-act-diagnostics.md",
+      "mode": "reviewed",
+      "afterSha256": "04d9204399f9a3348ed581d18beacbcded114c1116fb167d911ccb37cc9827b3",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 75,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-105-reforge-menu-box-residual-review.md",
+      "mode": "reviewed",
+      "afterSha256": "c88b110922fd77945212aa1445d84b150d0dfbab774c74cac5bce089f4c76388",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 108,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md",
+      "mode": "reviewed",
+      "afterSha256": "a15130a8a994d7e10a1c4623635652a2e4c13209b2c4fb1ed6866b4dd72ca4ab",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 98,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-107-game-menu-primitives-item-select-review.md",
+      "mode": "reviewed",
+      "afterSha256": "cfb758de60f3c41168e00f3676cec257852364810cab060ab4f8c92277283b77",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 139,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-108-game-magic-script-warning-diagnostic.md",
+      "mode": "reviewed",
+      "afterSha256": "5433808507993b8118404cd7541f14cdc1a2d93b8d7a198ffc659d4716505ede",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 98,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-109-game-analytics-install-review.md",
+      "mode": "reviewed",
+      "afterSha256": "a3c6aa2085470b0c8a1dddfc2d55d9e8ad2e49342d8479af49c8edfeea4ed419",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 99,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-110-game-draw-sprite-review.md",
+      "mode": "reviewed",
+      "afterSha256": "02a9c49ec52accd23d0d17630b2bea604d6b21708580add9d257642b29aa2ff6",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 87,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md",
+      "mode": "reviewed",
+      "afterSha256": "05de7ad8904b6f91c18ab59b659c1ac3405d859a1efa445747e5663211e15df9",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 101,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-53-player-status-runtime-zero.md",
+      "mode": "reviewed",
+      "afterSha256": "5d4261a1bb57358210a412dff7513ab68fc7ca01a9c055294d8bbd7595956cec",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 257,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "mode": "reviewed",
+      "afterSha256": "0c24565a87e64c6007fc72364f593f186d2fd8da0ad95af34ff290e834345bae",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 116,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-94-menu-integration-window.md",
+      "mode": "reviewed",
+      "afterSha256": "e6c12ad6cea1bb752f790c14a0c5136443280cc7540ba135853445d1dfc01e35",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 237,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6f9c63d40da716d6fed483bbd7d5aa4623d15744fa8df7382af5d877e8e7da88",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 134,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "task-card-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/ops/tasks/DOCS-NATIVE-JSON-1.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "2d6e9a20f9f8c5573af941a9a3d3f073209b22284ad829128983fdd488648073",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 222,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "mode": "reviewed",
+      "afterSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 388,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md",
+      "mode": "reviewed",
+      "afterSha256": "cdc2106a62149242d685223f28ab17446f72e438e114328aa941cb271a7d31d7",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 133,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "b9ab81bc06300a52c8042b5ef24676456e30f01afc268fa64be3c62c751c7e6a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 91,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md",
@@ -1319,42 +2379,238 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/GAME-COMMAND-BUS-API-CLEANUP-1.md",
+      "mode": "reviewed",
+      "afterSha256": "15f8f5a627deaa660df10171b63cf61895195a65c25786af839619eecb52d658",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 95,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/GAME-ENGLISH-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "dcf9f752e082b233b69329777cee416d52939a9ad2c720686bc2c7325e9a6f18",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 219,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-INPUT-KEYMAP-OWN-KEY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "f61dde20307c616182aa27706e0e7c9d01b0addf2d85fd3cfc146b74fc12e984",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 75,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-INPUT-ROTATION-1.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md",
+      "mode": "reviewed",
+      "afterSha256": "6c8fa78ec024a4cf77a68412f1ded54b1d0f739aa5d7d796bfaa38aefd543630",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 131,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md",
+      "mode": "reviewed",
+      "afterSha256": "c5194e1404fcf03fa3a8b225a8d4eacf4ca93ca153bbf81fc202a96ac3dca14e",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 90,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/GAME-MOBILE-LAYOUT-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "3ea2dc1a9b165b7c8f4421cd6eaaedbb944a9a4851ba80030264852a0413561a",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 289,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-NANZHAO-ROOM-EXIT-1.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/GAME-OPENING-CANCEL-CURSOR-1.md",
+      "mode": "reviewed",
+      "afterSha256": "2a22de1dc6ded9b9670487cc3d854b31f3dce40ee1e8c252766e0e4ed82ac143",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 112,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md",
+      "mode": "reviewed",
+      "afterSha256": "892659a9a88480d488b600e785aa41a331fd197b7dc6db1b95397f4343e46125",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 99,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md",
+      "mode": "reviewed",
+      "afterSha256": "94a19298dbb28be5cc452c6b7dd3b25da9ce34cc5f024a7ad93db7e42df42b86",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 154,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-SAVE-IDB-COMMIT-1.md",
+      "mode": "reviewed",
+      "afterSha256": "5ead3a7261c34f927d0fe46178779dfc49d987bd18bd82a43a4f79f2b765b666",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 116,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/GAME-SCRIPT-CORRECTIONS-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "5dda914a2a94e4a43af6223912d18faf519ff86ef501bbf049bb6a2a080ce38c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 360,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md",
+      "mode": "reviewed",
+      "afterSha256": "67a832bad46c27871347f461ebc6f4adbb676d3de9de8fe8bf040a3ca9d9e925",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 67,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md",
+      "mode": "reviewed",
+      "afterSha256": "f143f3206d1c1c48bbc1335fdc4c1d9cff02df8e4097ec94239be191c9edb919",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 69,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-UI-ASSET-FRAME-IDENTITY-1.md",
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/GAME-VIDEO-PUBLISH-BOUNDARY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "d0af321e394bc3de0b2b974cee84cb8851f45b47660fab13108a01caf114ec95",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 79,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "c620aef57e4575f4ade7510c32f13f2dab4c98f63bd60bbf2a0cc0677a6f61f8",
+      "afterSha256": "ad45de0af8a68c4414ad07c710c7ff0fad3299622cc7998a0c78fc420f74b849",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "本轮候选完成、真实本地门与净量有限复核；总纲done、看板及确定性任务索引同步，远端集成另核，不授新产品执行信用。",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
         "reviewedLines": 574,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "e3b7ed04f62f627e87468e09f0263101e4018a9700a45090e540464c6bb62dee",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 180,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "4868422f4e94f5d2b0d01af8deaabd857e5fc58f4f2ade6c5901c35a25227c5a",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 72,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -1362,8 +2618,134 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md",
+      "mode": "reviewed",
+      "afterSha256": "902532f24f796d94a38c70cea2782c4a14be9b58feb98a87d23c73d3f113f9c2",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 109,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "b81e00ad347dbd08e8c42df92a4772e76d41c3131153a0422f0f99b714b30df4",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 139,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md",
+      "mode": "reviewed",
+      "afterSha256": "fd6234b221bdc723e7901680efe68b61b5a107d6032cfc3f319a9eb9563de55e",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 105,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md",
+      "mode": "reviewed",
+      "afterSha256": "5480bff9d837d53980716be79108c452cb1af68e9f19ef924dd986788b4186fc",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 111,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/QUALITY-EDITOR-DIAGNOSTICS-4.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "bcd1e1b2a542e5e52c57d285bc5ff5367bf012edb29db4691a72ee981067b5d4",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 87,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-FORM-FIXTURES-1.md",
+      "mode": "reviewed",
+      "afterSha256": "9bcf5c72220a18104573e494e487df3046935a85999b646b566a3ae91bf1d98f",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 87,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "bf88f4e3ec700ac02867b988b3dfcc4d86cea4e81e7538372f41b758218bac34",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 92,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "0375af3434d61144f3a1c4835c5f878a3ae63a10870e2163b6822c0a6dd3de2c",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 85,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "bff3605cdcc7c62cc737b9ef613f1067c34b7912ac1c96c6cf48aa01ceab3b92",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 76,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md",
+      "mode": "reviewed",
+      "afterSha256": "195d7f3cd0eb2436f564d82586bbc997bbf5899f1254149bbd094c4d6b9a7515",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 119,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-EXTRACT-EVENT-TESTS-1.md",
@@ -1378,8 +2760,34 @@
       "mode": "links"
     },
     {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md",
+      "mode": "reviewed",
+      "afterSha256": "ac1d6fec0e2735175571c3ada5651c2c49144d866767aefb17313cb486db6f60",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 127,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/ops/tasks/QUALITY-EXTRACT-RAW-TABLE-TESTS-1.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md",
+      "mode": "reviewed",
+      "afterSha256": "478173d494e6518d4df2703366cbdd9e5684aeeb3ab5edb23e5a1422b592f857",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 134,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-EXTRACT-SCENE-IMAGE-TESTS-1.md",
@@ -1395,7 +2803,16 @@
     },
     {
       "path": "docs/ops/tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6beff101e08e05236280e6429bb012755a733ffff167ea4cf2daf0bd7e5bc45a",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 112,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-GAME-ASSET-RENDER-TESTS-1.md",
@@ -1403,11 +2820,46 @@
     },
     {
       "path": "docs/ops/tasks/QUALITY-GAME-LOCALIZATION-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "8282069cc78f38ba5fd1b7cfacf6ebb535df8af12bf8e3fb1b38a15fb97cac2a",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 65,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-GAME-PRESENT-HOST-TESTS-1.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "cc9d93ed69e3694cb7dc2881b5e6617b89b974d2b2b3cd60b9758b7084d45404",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 75,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md",
+      "mode": "reviewed",
+      "afterSha256": "9b1c04321a62bf0aa931c6e3479b4b53bba646cd699ea94f7d08bcf751a63ebf",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 83,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-INITIALIZER-FIXTURES-1.md",
@@ -1423,19 +2875,68 @@
     },
     {
       "path": "docs/ops/tasks/QUALITY-MIGRATION-ASSET-TAKEOVER-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "eac619a47478af2eaf40440be62cdc68c3a584a4639106ee64fabca48f1de394",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 89,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "dde259fe2249cedeb422f9af3d1ba68139ef7d50153af86646e43ba38bb6c358",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 85,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "9ee197e7c1d91da6d7b01c6c1107feef626d89071b4b395658a57f48089de1ff",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 102,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "1fcb7cb92c127e5e59d694a5eb4e3a04cf96d0cac7039211543994517db8439d",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 89,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md",
+      "mode": "reviewed",
+      "afterSha256": "96727d2f8893a52ee2ca0afa3668ec9542b1950bbe639369c98b3481c6b4a155",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 80,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-NAMING-ORGANIZATION-1.md",
@@ -1447,11 +2948,29 @@
     },
     {
       "path": "docs/ops/tasks/QUALITY-PENDING-100-2.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "79eda7e4819e8b90ad90243bc61ef42ffa9386da3de765c54aff408dc11955e0",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 139,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-PENDING-100-3.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "70f529c741e1833b9040b13e27d1828b31b941739b232768834fa073b56e778c",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 275,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
@@ -1467,7 +2986,29 @@
     },
     {
       "path": "docs/ops/tasks/QUALITY-REVIEW-52-CLOSEOUT-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "bdb0d3804b11ff70bc2437edd227779c437610d5f76331ad5e424c99647f13d0",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 178,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-RLE-COMMAND-TRUTH-1.md",
+      "mode": "reviewed",
+      "afterSha256": "b053770320ee1af12a43b9eb21bf79a9e374c269701bf6126bd5a7c283d1cba6",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 97,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/ops/tasks/QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md",
@@ -1511,32 +3052,34 @@
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
       "mode": "reviewed",
-      "afterSha256": "6659e9b7d25da22e5868f507ddb10ac7f842c03c44f47e2c54e3c7297a75d238",
+      "afterSha256": "c2f1c40f0e1df6eb60c6ecaad04944f42a12a9d72beceeb9b1cc1b4bfdcd03ec",
       "templateId": "reference-canon-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/inventory",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
-        "reviewedLines": 136,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
-      }
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 134,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/ops/templates/TASK-template.md",
       "mode": "reviewed",
-      "afterSha256": "9bedeca4e6d382d25f472209afd485f7555ead99e45c8770859ea32d65f77bd5",
+      "afterSha256": "9fd1a0775d17d028f710610b7740a60ad2b0e59815bc7f561b105b5666e4ad24",
       "templateId": "reference-canon-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/inventory",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
-        "reviewedLines": 273,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
-      }
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 271,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/phase-governance/cross-phase-matrix.md",
@@ -1626,6 +3169,21 @@
       }
     },
     {
+      "path": "docs/phase1/engineering-notes.md",
+      "mode": "reviewed",
+      "afterSha256": "9d3c4a1bc49207019f9ceb5727547e1ea5677f69c33eb503e3828018a6636f7d",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 299,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false
+    },
+    {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "links"
     },
@@ -1634,19 +3192,32 @@
       "mode": "links"
     },
     {
+      "path": "docs/phase1/plans/README.md",
+      "mode": "reviewed",
+      "afterSha256": "6c6697a95fbbf5035640a80c6461e6a4d564eeaa22beb58b8b9e61d9a08598cf",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 138,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/phase1/README.md",
       "mode": "reviewed",
-      "afterSha256": "85e8d5dd09a0eb89da9f2780ac1044b4767d44578d4d6373c55280e063b80d1d",
+      "afterSha256": "5b69114e6edb05349ac5d2b488cd0a4abc06186f68251e9b81c16b4f01353900",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/thin_indexes",
+        "author": "/root/artifact_exit",
         "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "当前导航承接根知识入口，按问题定位包/机制/经验，冻结状态和规划仅追溯；不把下游历史标签升格为产品完成。",
-        "reviewedLines": 36,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 40,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -1696,6 +3267,22 @@
     {
       "path": "docs/phase2/archive/slices/README.md",
       "mode": "links"
+    },
+    {
+      "path": "docs/phase2/capability-map.md",
+      "mode": "reviewed",
+      "afterSha256": "93e6527544dd0b1b7387a85924f3dea8caf91a8af07ed534ecc7c1165e92066e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 387,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "governance-index-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/phase2/guides/debug-tools.md",
@@ -1764,6 +3351,22 @@
         "reviewedLines": 32,
         "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
       }
+    },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "mode": "reviewed",
+      "afterSha256": "440bfc3e2ef2bdc7607a9c3e21b6617dea1f80f3ec59e5f464224106e7985be6",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "当前索引、活模板或版本/有限进度纠偏；实际来源、复制块链接与历史保全已由非作者复核，旧原件与当前说明身份分清。",
+        "reviewedLines": 355,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      },
+      "templateId": "plan-status-v1",
+      "historyOverlay": false,
+      "historyDisposition": "fixed-git-source"
     },
     {
       "path": "docs/phase2/specs/project-lifecycle.md",
@@ -1917,6 +3520,97 @@
       "mode": "links"
     },
     {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/README.md",
+      "mode": "reviewed",
+      "afterSha256": "5f97142435d6d9b686c42b5bb5425d357e43bccc761417df3b6ce0793fb90d5c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 73,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/game/README.md",
+      "mode": "reviewed",
+      "afterSha256": "c505aa3ae62445b8e4cbb8b0dd1f261330e458509a3eed109ad89f648b3f77be",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/migrate/README.md",
+      "mode": "reviewed",
+      "afterSha256": "9fba783f9710b5eba3cd1e4cc6ec74d7f8fc83ecffb920c81bfc55a74e7a10c7",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics/README.md",
+      "mode": "reviewed",
+      "afterSha256": "d2c27a1d325622792422d69b91f0d04c99f9239151e0eb0aa41e44f2b6fb2651",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 69,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/editor/README.md",
+      "mode": "reviewed",
+      "afterSha256": "065680542b183ee273049d3835a9ed7d04730534f7980b11a866f00fa5be2688",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 70,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/migrate/README.md",
+      "mode": "reviewed",
+      "afterSha256": "82ed0ec00cf06562d4071675401dc49352d2eb123be6fce5698cd90ff0e6043c",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 68,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/fixture/README.md",
+      "mode": "reviewed",
+      "afterSha256": "afc434e8723c4031de5bddb9340fea9c6887e5553ac9184a54a226b9aedf5431",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 69,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/testing/archive/legacy/batches/glm-event-wave-k/codex-accept-r2-1f26d421.md",
       "mode": "links"
     },
@@ -1926,7 +3620,16 @@
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/scene-preparation-refactor.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "86146e4d4481a674099bff19fde86303444d291b09c9b69e43c8d32fbf770363",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 129,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/editor/battle/glm-arch-battle-field-commands.md",
@@ -1958,7 +3661,29 @@
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "45744e03af1e12b59bfba23f52d5a9755f96fa8b17670ce138aeba215bca8219",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 146,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/archive/legacy/unresolved-tools/README.md",
+      "mode": "reviewed",
+      "afterSha256": "5fe7d94450177af9eb78a28480b96a77f1ffbdf0a38b668dba5dc2ffd867d037",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 77,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/testing/domains/content/authoring-and-runtime/tools/README.md",
@@ -2178,11 +3903,29 @@
     },
     {
       "path": "docs/testing/e2e/contract.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "62f8282bb1df1afbdf2939103d72112184758dc0c52e1b9c0b746c5ea544d2c0",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 551,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "e1ef011bbef1b0d0ec063973c0c6fb79ff346e3b6ea507ed6cfc41883e0ba5fb",
+      "review": {
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
+        "reviewedLines": 550,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
     },
     {
       "path": "docs/testing/e2e/cross-stage/README.md",
@@ -2312,6 +4055,19 @@
       "mode": "links"
     },
     {
+      "path": "projects/e2e-own/README.md",
+      "mode": "reviewed",
+      "afterSha256": "4620807a24195630c9374ff4147d830811d77c5460ea6ba7c65a00cf1ca3eeb8",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/thin_indexes",
+        "date": "2026-11-02",
+        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
+        "reviewedLines": 13,
+        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
+      }
+    },
+    {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "links"
     },
@@ -2342,45 +4098,6 @@
       }
     },
     {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/README.md",
-      "mode": "reviewed",
-      "afterSha256": "9de0c4c95862608a8cbad19944355ee5053067cb98d8ba9e5ead19cd2dbb5dda",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
-        "reviewedLines": 112,
-        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/README.md",
-      "mode": "reviewed",
-      "afterSha256": "3ad556d5ef4e6e98432ca14ded0f0f3694e462c2a668daff35fe9c5cca9f2ce7",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
-        "reviewedLines": 99,
-        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
-      "mode": "reviewed",
-      "afterSha256": "9b0d29e20e42a0c42143e34b6dcb4a79eab05390ff3b9bf60aa1664048829e1b",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "当前存储增量候选：17内容别名继续保持原相位，基线与红相位分别gzip载体，原TSV身份与执行回执不变。",
-        "reviewedLines": 117,
-        "acceptanceScope": "只接受原接收范围之后的具体差异；历史正文、执行日期与原生回执保持，不授新产品运行信用。冷工作树8项原件恢复按冻结合同；总纲如实保留未完成统一门。"
-      }
-    },
-    {
       "path": "reference/README.md",
       "mode": "reviewed",
       "afterSha256": "d81f74f3ce9d37f0549acf2950da3911a3e93d17381c50901371905cfc511b88",
@@ -2392,92 +4109,9 @@
         "reviewedLines": 43,
         "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
       }
-    },
-    {
-      "path": "projects/e2e-own/README.md",
-      "mode": "reviewed",
-      "afterSha256": "4620807a24195630c9374ff4147d830811d77c5460ea6ba7c65a00cf1ca3eeb8",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "现行入口标签或旧根/归档路径修正；逐篇一处指定替换及实际目标独立核实，剩余真值和历史正文不改。",
-        "reviewedLines": 13,
-        "acceptanceScope": "仅新增有限路由差异；其余正文接续此前机械迁移或已接受变化，不授产品执行信用。"
-      }
-    },
-    {
-      "path": "docs/phase2/capability-map.md",
-      "mode": "reviewed",
-      "afterSha256": "5d7d8bae6f53a5ade68fa4ebbd0309261f0b20ad62d6cccfced7946e7553b84a",
-      "review": {
-        "author": "/root/thin_indexes",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "治理封套有限精简；完整原文保全标题、源SHA前言和quote按固定159原字节保持，独有能力格/原则/时点边界不改。",
-        "reviewedLines": 385,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
-      },
-      "templateId": "governance-index-v1",
-      "historyOverlay": false,
-      "historyDisposition": "fixed-git-source"
-    },
-    {
-      "path": "docs/phase2/roadmap.md",
-      "mode": "reviewed",
-      "afterSha256": "acb7196e1eae9ad19f59f15a4dc17c6966e528d2d7945dd11f874e4f9d2c80da",
-      "review": {
-        "author": "/root/thin_indexes",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "治理封套有限精简；完整原文保全标题、源SHA前言和quote按固定159原字节保持，独有能力格/原则/时点边界不改。",
-        "reviewedLines": 353,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
-      },
-      "templateId": "plan-status-v1",
-      "historyOverlay": false,
-      "historyDisposition": "fixed-git-source"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/README.md",
-      "mode": "reviewed",
-      "afterSha256": "036cefd9095929dfd9ba2e464e1b3df7dff3fad1fa2c3b61113e5dbeee40506e",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
-        "reviewedLines": 70,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
-      }
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-104/README.md",
-      "mode": "links"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-105/README.md",
-      "mode": "links"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-106/README.md",
-      "mode": "links"
     }
   ],
   "additions": [
-    {
-      "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
-      "templateId": "task-card-v1",
-      "afterSha256": "2792bb0d00e27938b75aa27acf89163e984fd995367db0df9b1ca52023db4b19",
-      "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-03",
-        "conclusion": "本地446项与全量门零诊断；保留首CI范围失败、文档20分钟取消及修复原件；四源码独立接受，现行校验与时限不变，最新远端结果取PR。",
-        "reviewedLines": 99,
-        "acceptanceScope": "只核根编写卡面、固定源净量和有限归档增量；四源码由Codex另据作者原件独立接受。不重复产品审核，不由本地通过授远端CI或新运行信用。"
-      }
-    },
     {
       "path": "docs/engineering/guides/README.md",
       "templateId": "governance-index-v1",
@@ -2492,6 +4126,32 @@
       }
     },
     {
+      "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "e80a1842ed2e9fd3d8772d096b5834663be746334ac01c8fb728587db8aa3d91",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-03",
+        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "reviewedLines": 82,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/DOCS-FULL-TEMPLATE-1/index.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "a297225694bae3e0b856ec2ba7f0246475d563625e01bad1c6024a317cd03baa",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 100,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
       "path": "docs/tasks/evidence/index.md",
       "templateId": "governance-index-v1",
       "afterSha256": "36efc5272183c980751ec7d8a9413181f638f90ac616a924ac6eceb682f9256a",
@@ -2502,6 +4162,19 @@
         "conclusion": "109入口覆盖108可检出目录及1同层文档；无README目录直接链接，零漏项/失效目标，状态仍取原卡。",
         "reviewedLines": 135,
         "acceptanceScope": "独立核完整候选与实际Git可检出目录，补10遗漏后逐目标核；默认README只按需转入本表，不复制执行状态。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-PRE94-RETROSPECTIVE-1/index.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "e2cdeda6abbf6fc3b05580eca703af2599b4a7028b3450672db06080e81eec6e",
+      "review": {
+        "author": "/root/artifact_exit",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
+        "reviewedLines": 159,
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     }
   ],
@@ -2578,1256 +4251,43 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
-      "sha256": "e2ea12530f5db0f89ccc154c5af058fab57aac80ed08a20ced9aeb09b162555b",
-      "bytes": 1566283,
+      "sha256": "47f3fd9d743545bf3671e1d79a2fd379206300afdd34def990f571c2f5a16f47",
+      "bytes": 1727194,
       "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
+    },
+    {
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts.json.gz",
+      "sha256": "0eb0b5b0a236adbecb84f54ebe03f35eacee51fccf8021eb0e63a1f0ead9fac2",
+      "bytes": 695740,
+      "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
+    },
+    {
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts-2.json.gz",
+      "sha256": "cc2aa16021da07877ab47f438365e5b4f6af9155c531bb877fbdf97b26e908cb",
+      "bytes": 582747,
+      "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
     }
   ],
-  "artifactAliases": [
+  "artifactAliases": [],
+  "compressedArtifacts": [],
+  "retiredArtifacts": [
     {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
-      "pointer": "/injections/0/restored/phase/identity/artifact",
-      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
-      "bytes": 1696096,
-      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
-      "pointer": "/injections/1/restored/phase/identity/artifact",
-      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
-      "bytes": 1696096,
-      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
-      "pointer": "/injections/2/restored/phase/identity/artifact",
-      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
-      "bytes": 1696096,
-      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/final-replay.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
-      "pointer": "/finalReplay/phase/identity/artifact",
-      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
-      "bytes": 1696096,
-      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/injections/0/restored/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/injections/1/restored/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/injections/2/restored/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/injections/3/restored/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/injections/4/restored/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/final-replay.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof.json",
-      "pointer": "/finalReplay/phase/identity/artifact",
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "bytes": 1645857,
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/0/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/1/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/2/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/3/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/4/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.restored.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/injections/5/restored/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/final-replay.identity.tsv",
-      "retained": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "receipt": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof.json",
-      "pointer": "/finalReplay/phase/identity/artifact",
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "bytes": 1627159,
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24"
-    }
-  ],
-  "compressedArtifacts": [
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "cfafba1a61e0d3f49bc13d730c35d19c92f2cab2",
-      "bytes": 1999934,
-      "sha256": "7e8c3974af0fab2b5159e542590b576fd6d2cf0a3575bce6b891a6a6fcfd13d9",
-      "storedBytes": 113714,
-      "storedSha256": "20d48f62e3524307301a86eea29ae9282afa72c19f66a0d7f4ce972b63586bcc"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "80591070c95b6b675651e140f32a65a609398c29",
-      "bytes": 1977180,
-      "sha256": "2c3e0c55282d9548bdd08a5281fbb5b565333bd6e2455189e9c47d7cbafad23d",
-      "storedBytes": 109797,
-      "storedSha256": "ca0989ecfd47336d64452960ae9b3e27c8d6eb6e3b99eb3b96f1292f3d6c3ede"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "8841f703e80fcfb3a6ef3bdd4c7da58d85672d31",
-      "bytes": 1940707,
-      "sha256": "b8d9b95eedca4326a2c7dfb27e6cf6d14498d27229d64afada8211134f39eddf",
-      "storedBytes": 108178,
-      "storedSha256": "d9aa116882e7023c1c6b5c434532fffc611e572af0ffffece65dc8189280680e"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-protected.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-r2-protected.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "e9e8a8e99f6299e39ab743c0db0d6a578893b5df",
-      "bytes": 1862659,
-      "sha256": "69d7e1b0d825477d5ea2581b36c3f66efc5cd45237f7abccd8e1d0a0ceb40985",
-      "storedBytes": 82994,
-      "storedSha256": "fbe87ebc64cc6a32f647e3e74af21bc41658bb5ad20af998fdbaa4f6da44c5ee"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-ratchet.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-ratchet.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "f0b1f1dda8e6a71a58a308a78f64f3ba0037babf",
-      "bytes": 1844106,
-      "sha256": "ec763fc89acf00d01b0aaf4f06d7e6a05510ddd69899297d71b9bf52618f2c57",
-      "storedBytes": 82253,
-      "storedSha256": "c32f66f0a9f9af66152c2002e3650f87debc3cdaa6228a7ca65808598e04fa88"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-protected.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-protected.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "2746c960ecf96b21b57047c7c057c44bc99794a7",
-      "bytes": 1825128,
-      "sha256": "6dccfcd03a5f8e920ecbd3411f2749101572fdbfd03c332bcd65d432d793dd80",
-      "storedBytes": 79033,
-      "storedSha256": "3230578931fb88722f73fa675c0fb6a3d3d797cacbde064048b7e6ab7007c1f5"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-final-protected.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-final-protected.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "a41688ed7ae237dbb84c1c82dca6f7712fce2c23",
-      "bytes": 1807130,
-      "sha256": "350e04c08e8331d4d726684c4f5484fc48120c3f85e731fa087c98c6d8404446",
-      "storedBytes": 80637,
-      "storedSha256": "45f6004252fe4e53986dc949b128cbfde3ede2362b96f646f152fa7e56b570a5"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-ratchet.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-ratchet.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "6f2989bd796304a51f02734bdcc7971defeb896c",
-      "bytes": 1805090,
-      "sha256": "e2b0eebfeb39860aa98c4d55e9d9b88d9fb739b1ee356a4f61febd99d06c631a",
-      "storedBytes": 78756,
-      "storedSha256": "7118a67103fa1fd9d2720bfa95f969e13c7b735043d2844810f4101ee3efb5dc"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast2.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-protected-fast2.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "1eca195e1003d304cff58b8423d08452e522c864",
-      "bytes": 1792741,
-      "sha256": "f8f4778b641b05448e19879713d6ed03f2ced8f5a67c1d1194475fd550bfa0b2",
-      "storedBytes": 78337,
-      "storedSha256": "409884cb565945828f975db344862094099463a2e3937d533c2ab2dde3fac24d"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-r2-ratchet.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-r2-ratchet.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "fece843517c9d4ce9703a3f1f5eea877f62b2108",
-      "bytes": 1789683,
-      "sha256": "e13f75273a907c65f70339dcf46fedea6557ddd28ea7230016bf9a4df2248d99",
-      "storedBytes": 78417,
-      "storedSha256": "2cb19060cbd3947905de7d9b4b61ddcfc470f37213ee34e9f69398e34deb3f14"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-ratchet.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-merge-ratchet.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "c87104e95b801d62406a7cb8e26f8d67ca12c26b",
-      "bytes": 1787800,
-      "sha256": "68d7c257fccdd6fca7ef3ba3d747cb4b8659a87ca57413e8ea46045be4039ea9",
-      "storedBytes": 78528,
-      "storedSha256": "acf897fb5f9b0e4c1ea6033b71c7115c78548d1f9235169ae4f734ba14c3ba00"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-merge-protected.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-merge-protected.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "ccda6190bd70a2c2443f7f40e7d0b60c78cd4523",
-      "bytes": 1784215,
-      "sha256": "08e3a258872cc95dbcd90d22d392c48113ebfce48ed3a55a0dee382a460f55d2",
-      "storedBytes": 77890,
-      "storedSha256": "78a2ff168d0c36f877763670de5a5a2ef8947c5bb41095443c1bfe8f8d07b72d"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-c5-ratchet.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-c5-ratchet.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "7277ff0c86443e73fe2ed54384e80ab7866633bd",
-      "bytes": 1779292,
-      "sha256": "5e306071f9adf664e2a9f5e16a5aa53f604525234854cf83f8519f3cbcb9f48a",
-      "storedBytes": 78576,
-      "storedSha256": "470a97cf50d6105c9dec9bc1cbd90166c4ed91f01ad31c0372bf3b23b28c41ed"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/glm-protected-fast.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/glm-protected-fast.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "23bd47f8853735324720c30240e1126b9524fba9",
-      "bytes": 1777632,
-      "sha256": "22a57d33702cdaa9ebee602f8b117a4b84d8e6e466274e99f98ad6c39f7d0e55",
-      "storedBytes": 80327,
-      "storedSha256": "3e8c90e6617c6d112e484f11ddbbbd0b35705f7f5df91fde8a5b83795bfe7920"
-    },
-    {
-      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw",
-      "stored": "docs/tasks/cards/evidence/TEST-GLM-EDITOR-CONTROL-FORM-RESIDUAL-1/fullsuite.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "6946103ba1829143802ad202affc7db4eaa87af2",
-      "bytes": 1615944,
-      "sha256": "f2c0bce8a81da38bc49dbd0a083012e3a76e1cff0326e1e415ec41473de6a034",
-      "storedBytes": 46769,
-      "storedSha256": "17abdcd5c894bbb5520b8154ad5f85f38d759f846ee99b3551a14c12405da392"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/baseline.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "76c3304711d55dbb369f2c90e258245ef5941139",
-      "bytes": 1696096,
-      "sha256": "90a5ade246c78069369896cb437d8a9b985eb342fa7154d086a86b5133478442",
-      "storedBytes": 130558,
-      "storedSha256": "5fc7fbef8eea4cd38f3ba1d11e2a2b9e83ef4db8d73466988e8182d3dbff56bf"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-COMPLETE-STALE.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "343ff67059f7a54348d9c33387948f04ceb51a0c",
-      "bytes": 1696096,
-      "sha256": "d83410443c2c868f427ba8125fdc890351c904234dd24404d3310ef1c643b42b",
-      "storedBytes": 130561,
-      "storedSha256": "ed470ed3670de0cb687a000bf6caf73e26c12109661f8fbd9aaeb49470945322"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-CADENCE-CLAMP.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "2db163ad7cc31dfae60a9c1740f72ad45053a4c6",
-      "bytes": 1696096,
-      "sha256": "74e5fd1bf5a48f5774fca0df5d2d04cabacf1bb7a14f9f7ef5d108b0942287ae",
-      "storedBytes": 130565,
-      "storedSha256": "df835974c8799a16a294c4eddab69f59bf14de60c8d645cd01b27df4422a2baa"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof-raw/MT-PARTY-RESOLVE-RELEASE.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "1cd51b4df745886e195936cb73b929cd665d1121",
-      "bytes": 1696096,
-      "sha256": "4f53d18439b7860b6bc22b8ebdecd85691986543712afd5a151c29b248e90d47",
-      "storedBytes": 130568,
-      "storedSha256": "848a0f8c7c9675d78a10b72e4e09fe24082dab153b7811596b4a7db5c5eecfd6"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/full-test.raw",
-      "stored": "docs/tasks/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/full-test.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "74251927d13305220fb5dd072d1567bd2b95e41c",
-      "bytes": 1572633,
-      "sha256": "ac5e429fbe88904bc3de7f2749d42ebf5f613b97446e469b6fc0a581c0b712a3",
-      "storedBytes": 44130,
-      "storedSha256": "96f8b729e9e59311aebcb601842cc31c08825371441810c842f01f14d5515911"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/baseline.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "f10bd3c832aa312094722267471ef7ea1b1a4580",
-      "bytes": 1645857,
-      "sha256": "fb7c2a9ab3316f2eb9d2ff4c7c7eaa3769fa1445c69306351720d651c904381b",
-      "storedBytes": 130758,
-      "storedSha256": "06bcdd14eddb06071cee52e163b921e302e0a2135bb8c3d0464fe2bb5995ac57"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SAVE-FAIL.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "694965e32b78b327cfac693807ffbd6918600ba8",
-      "bytes": 1645857,
-      "sha256": "23d07e2fcc895c22fece25c7e0b3860d33fd98889da4f0fb0241af3a51139ebb",
-      "storedBytes": 130764,
-      "storedSha256": "adecc127ab1c6198ed2c2df8f56df51d9a7b24ca3bd6fa14febbfa74ee00cacf"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-DONE.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "a2c376b3b091e368a0c8137718d67dd6d7ab8edf",
-      "bytes": 1645857,
-      "sha256": "ba4d35779d6ebe4d95c6f6700ee8ec0f645835dc234415f054d202bafa8251be",
-      "storedBytes": 130764,
-      "storedSha256": "a491c200273de46617089d362762e65d897749fb3f6d4b7b0ed387ea6c9782ee"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-ENTRY-REVEAL.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "c886c401e40c6acd7cc0d43d3fa8649aaccd8110",
-      "bytes": 1645857,
-      "sha256": "7ca40b440a32e43467248d75663e904dcfe29411e5d410355f1be98dd2eb598e",
-      "storedBytes": 130765,
-      "storedSha256": "e2ae47c9c269742d9ba1153162b3e3843d0293f0adc43d3688cab30e34f0d997"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-TRIAL-ERROR.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "0cfb46481d9669f3174457262376e81a0d21d9ae",
-      "bytes": 1645857,
-      "sha256": "7210b60c12d1c6feab105977db45d09c156da55b97efa2c59d4919d6faca74fb",
-      "storedBytes": 130765,
-      "storedSha256": "74ee2e5fdfab9905380e928ae467312d589d3696ba6896edd7b9cb061b1acfe3"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MAIN-HOST-BOUNDARIES-1/counterproof-raw/MHB-SCRIPT-ERR.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "fbd602859ca9e765401afc4238907a9a5df3401e",
-      "bytes": 1645857,
-      "sha256": "cbe74d246e61808b42f2c18adcbe09091f1752edde2d0c3a47fac110d2d39c51",
-      "storedBytes": 130766,
-      "storedSha256": "ab2cc8897c4b03fd87f3a1a78fc3a4be256d26ec240dc36269a738ad1c99583f"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/baseline.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "96ab6385d674593761707be115a55db84be43a24",
-      "bytes": 1627159,
-      "sha256": "3f63521bac97775a8adf0b7cbca50d469d8c2c4e4514318edfda98ec7d2f1f4e",
-      "storedBytes": 130395,
-      "storedSha256": "57b8496509ac311c23a7362cafcb91a67188d80b0573aadf9957600cc8a6a8ec"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N2-enemy-hp-gate-flipped.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "3efea5653478671ae81d5e1d3b1f7a8d5503727d",
-      "bytes": 1627159,
-      "sha256": "c0d38dc1727f26fac69b2886200c1345a3a53e4b1f4e1cff26a8f5282088413e",
-      "storedBytes": 130396,
-      "storedSha256": "093a90e994fd263ed8ba2260d79ecb2b9d7721d29554f7d73759cf0f10944ebb"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N3-enemy-apply-status-disabled.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "4314d42bf1ab9d0b3da59980417b4b62c45bfa0e",
-      "bytes": 1627159,
-      "sha256": "665c729f463bfb8ca6d48ad518d65fd939f6d832809cfce7ca73222b764fa1f0",
-      "storedBytes": 130398,
-      "storedSha256": "1860efbfa8f1b3d3ca0baa6fe24d603204dced0fa12f39af1c6188367583407f"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N4-revive-floor-added.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "992ad530180e65cd86ed895bfeed3df762bbfcdd",
-      "bytes": 1627159,
-      "sha256": "cd051aba70c5a1692ec6e059d0a12aa3ae49f1d8abe112098b83e758b60229a1",
-      "storedBytes": 130398,
-      "storedSha256": "dfad81f6c18eccd413741fc8c7b44e604e025f88932eeafbfe91d503f3a9e367"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N1-enemy-heal-disabled.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "a35e77f9879e3906761d3829e4330c5cec9c3c32",
-      "bytes": 1627159,
-      "sha256": "a2199dc080adf8fa9c48ad3b2147b71f25499390f95b1fede3efa8d80d29b4eb",
-      "storedBytes": 130400,
-      "storedSha256": "3adc22e92cb0eaa8ea27020547c63292cbabac2ec995d192673cc44ba1ecd095"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N5-fled-reward-gate-removed.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "18e1a00867dbaaca93d1574c0b5af39888aeab31",
-      "bytes": 1627159,
-      "sha256": "a417344aeb2fb26b2d10f5a1e717f2e52db81c73c64d9c3d387cbf998125ea17",
-      "storedBytes": 130401,
-      "storedSha256": "07537c67767bbcbddcb8205c03c601b5fd9153bd1c18b476565c9327f63125ab"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.mutant.identity.tsv",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/counterproof-raw/N6-session-enemyfled-mapping-dropped.mutant.identity.tsv.gz",
-      "codec": "gzip",
-      "sourceBlob": "7407d75031ad581f5b4fd5ff8a103891a1393238",
-      "bytes": 1627159,
-      "sha256": "efd152e7d57dbd06323220adee6d422c29d48c7b21b14db6a5854c424c795c69",
-      "storedBytes": 130406,
-      "storedSha256": "2f45d2dae2b8a753bce0f32068f2ca7371a12c8e11cd7c387de542156adabb86"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-mechanical-audit-v3.json.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/independent-mechanical-audit-v3.json.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "96759a2979160e3727f224adf1ba9d90850da786",
-      "bytes": 940261,
-      "sha256": "3d70e807e6fb460f43e15c9b78348a1f89d0285022480bae9f24ee02e9785c24",
-      "storedBytes": 45905,
-      "storedSha256": "1a20a869f318ff0d381daf8e2c6c853c4e22cb2fc7b2645ea73aa7a4eee41be5"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/adjacent.raw",
-      "stored": "docs/tasks/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/adjacent.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "de4e58858a0cbfbaed54f78d36008aaea3653dc1",
-      "bytes": 771960,
-      "sha256": "9c6fc40aa1be4e4aeb5d4d17fad612e132b8f9d525de9f79b19529658bfb04af",
-      "storedBytes": 11327,
-      "storedSha256": "338ea6ff043a7bd99061c9655be6a82f53a69ce733dc1fa5f848a0c5b3e5cd71"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "19239ad76b015a3a7053dfd1dfe70cd7cbbb7110",
-      "bytes": 789155,
-      "sha256": "5f95c182f82b667d237969443f254268a85d1e9fb6a37cb4dfa70cc47bfed49e",
-      "storedBytes": 198388,
-      "storedSha256": "b22826db4679c707f63e47cd4d9cbee71f1c2de76a65259bcb3abf51c56769db"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "10e4f3660e9bb5c836188a96828c2f0d610d571b",
-      "bytes": 788592,
-      "sha256": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
-      "storedBytes": 198181,
-      "storedSha256": "0e19d8a3ec7c492e703b7cffd8315fff2546f1c34134204bb8bb26f845f312cd"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "3626bb346de3b3509d571e086b92bd8de0839efa",
-      "bytes": 788397,
-      "sha256": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
-      "storedBytes": 198174,
-      "storedSha256": "20f27c9ab90273ecc1cc4c85a7d3a1288c3a956ca931322b537ef18fa64bd678"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "b58c114ffb9ba65abf0b627d0341b86a1914dfcc",
-      "bytes": 788202,
-      "sha256": "b47e151ff685ae4f4e4de5e78c1cd49fa539a884d9d6f66fd5ee9d9add8cd76e",
-      "storedBytes": 198070,
-      "storedSha256": "bba8ecdecc409ddf76c369adb8f0942f0655f3fc797cf9293b739df3be46e7a9"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "28dce7901a7e5fe596a06845e1733675bee164a5",
-      "bytes": 787464,
-      "sha256": "52058c1f76b79f471037df7f22c4afa231db23c4cdd821bc9594ce715eb9d327",
-      "storedBytes": 197866,
-      "storedSha256": "aef8e8ca3be2ff20f446717626fcca80a503d1962431c7faac46c600897b8df0"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "27082f0ec6e2356ee238b4dbb3ca87f038486d13",
-      "bytes": 786550,
-      "sha256": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
-      "storedBytes": 197576,
-      "storedSha256": "8000f90fd4217ad5656347f8e428c25f481685bc318b7ff6ffdbf80b045041f2"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "6e82121f82883ae63b86f165cf5b9e934e2d87ca",
-      "bytes": 786355,
-      "sha256": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
-      "storedBytes": 197468,
-      "storedSha256": "8c8e242cdc5be97fe8d47e6b5ddf07e5d514f69b082df55709f70938c89e0735"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "98da16669d31055cc7156d5947f2d85655096733",
-      "bytes": 786160,
-      "sha256": "975516c7cc0d190fed282c6a881ea352a7c60e1e203da2e6396c542813ffdba9",
-      "storedBytes": 197415,
-      "storedSha256": "bd9b7fc24a8fdb378dd07ecf5dabc0fb9adfd829f1acad2861c638b187237ffa"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/author-regression.txt",
-      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/author-regression.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "b7556209805e91ccca65f6127431f3ceb550db0e",
-      "bytes": 545386,
-      "sha256": "be0652175d99132d23a87a5067a93988c302ce441159433067d7a27c4b0f7fc2",
-      "storedBytes": 19710,
-      "storedSha256": "bc67e30181f1b1afd589256854fdddbc790a7741c587ab68467a6a8884c7f549"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "8c674d36531bf528051b15bf69182cda0690c434",
-      "bytes": 478885,
-      "sha256": "287b5ff2b8c1ba5fdc8a85be662d2c1a84d05b121a014d4f77f6374d3531a3de",
-      "storedBytes": 25907,
-      "storedSha256": "cb7a6e768d7d8d433783d046b55b05c213e7c1ff0332c39f1da97f645dd90445"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "8c674d36531bf528051b15bf69182cda0690c434",
-      "bytes": 478885,
-      "sha256": "287b5ff2b8c1ba5fdc8a85be662d2c1a84d05b121a014d4f77f6374d3531a3de",
-      "storedBytes": 25907,
-      "storedSha256": "cb7a6e768d7d8d433783d046b55b05c213e7c1ff0332c39f1da97f645dd90445"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stderr.raw.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stderr.raw.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "14ef06d409f0435e119d56e68e74b70d08b7a5ab",
-      "bytes": 478534,
-      "sha256": "e76f03cfa2ce130cfe43879cb17cfaf1f1223ac9dfef19da54b216055d884d06",
-      "storedBytes": 25896,
-      "storedSha256": "dd47464b955179389bdb3466cb35d5d89eafb47cd2701618df23c806a55c7b0f"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "c306e6d9b75ac7de3b2729558e6f642486adef20",
-      "bytes": 478267,
-      "sha256": "04f285577d49d2020bbdd7117889bf515b675c9f137fd8d564e28c9b1b4ee2a9",
-      "storedBytes": 25860,
-      "storedSha256": "8af1c709266b97d268a601a85e42b74207826235b411a719128e2793bf174ada"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-6325bba0-f6ec-47b4-950f-b735c305a288.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "c306e6d9b75ac7de3b2729558e6f642486adef20",
-      "bytes": 478267,
-      "sha256": "04f285577d49d2020bbdd7117889bf515b675c9f137fd8d564e28c9b1b4ee2a9",
-      "storedBytes": 25860,
-      "storedSha256": "8af1c709266b97d268a601a85e42b74207826235b411a719128e2793bf174ada"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "421a747733c9cc3b2021e8f6a4a6c3705d423cc5",
-      "bytes": 478000,
-      "sha256": "d3d63e3e44fb532963876c70f6dd7fb98f1c527cbd37c0518ccc4d669b4708e1",
-      "storedBytes": 25824,
-      "storedSha256": "7959b32ef405e4c503cdb0141d3127a23875b76caa25dc13787341aa4ddc6344"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-09c01f13-24cb-460b-816b-061cdeac677f.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "421a747733c9cc3b2021e8f6a4a6c3705d423cc5",
-      "bytes": 478000,
-      "sha256": "d3d63e3e44fb532963876c70f6dd7fb98f1c527cbd37c0518ccc4d669b4708e1",
-      "storedBytes": 25824,
-      "storedSha256": "7959b32ef405e4c503cdb0141d3127a23875b76caa25dc13787341aa4ddc6344"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "246661cfeb9b452b2f2eccb810585507a3a4b249",
-      "bytes": 477733,
-      "sha256": "bd2b0d0db667607eb62e85ab17c6f82ac1afd8c22bcd01cd752b3e09659d6378",
-      "storedBytes": 25787,
-      "storedSha256": "f6f562a84b645de750274c701391220017a8249860e79b9523a92465e4dd9334"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "246661cfeb9b452b2f2eccb810585507a3a4b249",
-      "bytes": 477733,
-      "sha256": "bd2b0d0db667607eb62e85ab17c6f82ac1afd8c22bcd01cd752b3e09659d6378",
-      "storedBytes": 25787,
-      "storedSha256": "f6f562a84b645de750274c701391220017a8249860e79b9523a92465e4dd9334"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stderr.raw.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/check-docs.stderr.raw.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "bacf22a1c960958f2d19b9c2ffc9c678152fc240",
-      "bytes": 477084,
-      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
-      "storedBytes": 25742,
-      "storedSha256": "523731cc5d1801a6151f93d7c8eb0c18633bbad63fe83cb71688a623fcfd5a69"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stderr.raw.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/content-strict.stderr.raw.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "bacf22a1c960958f2d19b9c2ffc9c678152fc240",
-      "bytes": 477084,
-      "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
-      "storedBytes": 25742,
-      "storedSha256": "523731cc5d1801a6151f93d7c8eb0c18633bbad63fe83cb71688a623fcfd5a69"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "64a941642d46bfcd09a1465fdeaded0e89c07de0",
-      "bytes": 476817,
-      "sha256": "75f0d07e7febd13b195699e1289c2c4d5a2202a4510901a8dc78ea52fa52cb1a",
-      "storedBytes": 25705,
-      "storedSha256": "a30bf57118e747d106a71e70e90edc029e5ddf00087dcacbdaf971c6c9913466"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-fd83a69c-01ee-4c5f-b773-a181419a4979.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "64a941642d46bfcd09a1465fdeaded0e89c07de0",
-      "bytes": 476817,
-      "sha256": "75f0d07e7febd13b195699e1289c2c4d5a2202a4510901a8dc78ea52fa52cb1a",
-      "storedBytes": 25705,
-      "storedSha256": "a30bf57118e747d106a71e70e90edc029e5ddf00087dcacbdaf971c6c9913466"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "2a9ca15d8dea7e40565f0dc3adb083a0b072440f",
-      "bytes": 475777,
-      "sha256": "fcf9f7bd0e1ee1287ab839bb68519df744be23b81966a63e058c8b316a799e6c",
-      "storedBytes": 25614,
-      "storedSha256": "fd5e7cc1f8ab94c34e2c57ce226a39b54e3969d929767375da3661563496c7c4"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-5924dca5-da86-45dc-a6a7-397e9a1759de.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "2a9ca15d8dea7e40565f0dc3adb083a0b072440f",
-      "bytes": 475777,
-      "sha256": "fcf9f7bd0e1ee1287ab839bb68519df744be23b81966a63e058c8b316a799e6c",
-      "storedBytes": 25614,
-      "storedSha256": "fd5e7cc1f8ab94c34e2c57ce226a39b54e3969d929767375da3661563496c7c4"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "f780cf95cfe001e0ceb47f17dea957fe05720efc",
-      "bytes": 474976,
-      "sha256": "49faa0ff01711a26b26153c506dfe508514f0344dc3c0a519ff8ed93d0597d9d",
-      "storedBytes": 25487,
-      "storedSha256": "79e603c50570213c05359755d2111b6829ab5d28ccf294d6c1ffaa4b9f5f7529"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-baac39b4-8b40-4c0f-88b3-f09acf03372c.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "f780cf95cfe001e0ceb47f17dea957fe05720efc",
-      "bytes": 474976,
-      "sha256": "49faa0ff01711a26b26153c506dfe508514f0344dc3c0a519ff8ed93d0597d9d",
-      "storedBytes": 25487,
-      "storedSha256": "79e603c50570213c05359755d2111b6829ab5d28ccf294d6c1ffaa4b9f5f7529"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/check-docs-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "0256dd08ef2250eac9b23f04227ab4df54e5b452",
-      "bytes": 474709,
-      "sha256": "ca1d164d94e00716205cb05a5caad762b0012fe3865e647f449c6152ecbff8d7",
-      "storedBytes": 25448,
-      "storedSha256": "4deeabfd2f342abeb192ebff92a65a68b3625556c6e42e747d60fe3d05198389"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/content-strict-a1622b45-a149-4288-9f17-7799d1236ed9.stderr.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "0256dd08ef2250eac9b23f04227ab4df54e5b452",
-      "bytes": 474709,
-      "sha256": "ca1d164d94e00716205cb05a5caad762b0012fe3865e647f449c6152ecbff8d7",
-      "storedBytes": 25448,
-      "storedSha256": "4deeabfd2f342abeb192ebff92a65a68b3625556c6e42e747d60fe3d05198389"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-8ef0.json.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-8ef0.json.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "2c797d86cc2f7be76791a4fd9236d022a5867c14",
-      "bytes": 350642,
-      "sha256": "ae93814138dd9b36016055acf00c360f85cc206626fadbc5b50280ec9f1380b8",
-      "storedBytes": 20657,
-      "storedSha256": "d12ca78d0d7e8023194702e263e673fcdd81adf9e141afe4a5b9d56a2c17544a"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-0ec6.json.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-0ec6.json.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "9a3aed8a7bb8e14f9fdb903bca2b1a90a5c66dd1",
-      "bytes": 344426,
-      "sha256": "0bf744d77362098356b520a324f62e80e366deb82642322e00c26f33104f101a",
-      "storedBytes": 20227,
-      "storedSha256": "713c021236f027019d4624268d8a28a0c710e0b199846b2901b448a1ba97283f"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/premerge-full-check.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/premerge-full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "551411b3dda4761168d0a7cf27c62a23b9d7c978",
-      "bytes": 372847,
-      "sha256": "238101cc50284796227736f386d092b1245e8dc86b0b97642004d8dd65e15198",
-      "storedBytes": 72907,
-      "storedSha256": "aed3e0fb7b078ff3483d7178b461f4c8334223a5cf75eb6510b57b8133dcab8e"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-closed-panel-contract.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "e15be4f3db4008a7a52c7aac7f671e17ef856db0",
-      "bytes": 212740,
-      "sha256": "3756b2d30225f10b4cec5e2490e62348f754de2f158a773e5f3baeb4d0a2f6da",
-      "storedBytes": 44442,
-      "storedSha256": "7a3c6763828763fe710380a8593741321a0581cff25f3251656d0072c1203869"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-keyboard-surface-contract.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-keyboard-surface-contract.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "afa7c4adcd6c749838bc765f8169d5a09e39009e",
-      "bytes": 205107,
-      "sha256": "8d05c65e0ef2b4ec3044e78bd1f7dea15f39f40d0813b325dca58e4613afcb80",
-      "storedBytes": 40833,
-      "storedSha256": "fbbc05eaf2288099e56e96d7d0f84444380bbb4b02dbcb6c3013c240ba3a5a79"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-shell-integration-passed.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "716f69e86d3e75679f88804d90d58558b0c6dabb",
-      "bytes": 205400,
-      "sha256": "911f35aca10a6e5c68b9608ca7e0cbd044245a174e99dcc5ecec3ac43d1a1101",
-      "storedBytes": 41274,
-      "storedSha256": "e7a1a1eee2037389bc0976246d0cac2c0f3d502bbca6714f6ac173450502d690"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/release-coverage.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "0d73251525ca53d0dabf237ca2d45a0aece616ef",
-      "bytes": 204543,
-      "sha256": "e954028cf1380fec4d07559d95ab7df0aef2c95c248f0dc1678f55e3dde28c53",
-      "storedBytes": 40738,
-      "storedSha256": "609ebb08a4a340306e581aca8bb735dd58c3c1d25c2941b3efce36fb3326dcd2"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-live-tools-fix.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-live-tools-fix.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "99031d83d3315af15b5c9676ef91f712c2b913e2",
-      "bytes": 204049,
-      "sha256": "d123eea4f98db0d7d76abd54abbbcbcab3bfa55ddfd35f478acb066da11c18fd",
-      "storedBytes": 40386,
-      "storedSha256": "df2200006e22934e7b9aeed0d97193b42cc45aeefbaf131afaa3faa572da3d96"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt",
-      "stored": "docs/tasks/evidence/GAME-MOBILE-LAYOUT-1/coverage-before-shell-integration.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "825524e958a02103ec8eea3ff62834f812289418",
-      "bytes": 203709,
-      "sha256": "1377392e143fab82521276bf76f59f131cc32eceb6d0f980f65c7148bb05d649",
-      "storedBytes": 40072,
-      "storedSha256": "1d59cc7a3c7a18a2c0c6742571f5ca152e41335b8cd3b40456822b0f8497f910"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-104/check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-104/check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "90f644036b1fd3bb6a498e20752d88b7b1effb33",
-      "bytes": 180292,
-      "sha256": "b9b66674b73fe7d30ab44b09dbdc305bc6d014bfc034a81d2e5c4a755b9594d2",
-      "storedBytes": 34528,
-      "storedSha256": "f9e0c67ad30c7aa23a910a42fbfd0db73a07b3c9c6b7736f329be25cde9d6cd4"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-108/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-108/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "28e54909f30e21861524895b950600528865c132",
-      "bytes": 180319,
-      "sha256": "4b96187d69f0f95ee99996893210d56e79803ca928b2b2014f7908f87c06d879",
-      "storedBytes": 34563,
-      "storedSha256": "2a4fb445c66544dd038179a68e9eec0fb4e61abdb9b4175478736d86469df3df"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-105/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-105/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "865deb305d26fec3940abe0e8b1b1cf31cac3d01",
-      "bytes": 180318,
-      "sha256": "ded2231cdd20cb18168ebf8ec4cdba37179f4126bbfa171a2620673d8e360c56",
-      "storedBytes": 34574,
-      "storedSha256": "5403b29ef44af53564cfe55c2093a7d9f863eacc17a01b48cd067cf0421c65d8"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-106/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-106/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "23c719b8618c92c52248c6cabdc6b99967f04888",
-      "bytes": 180273,
-      "sha256": "d566d64b4ae5b255251a7e552b37c70767df930613b3dd7d18fb6a9917ff200c",
-      "storedBytes": 34530,
-      "storedSha256": "7c891e801252a4576ddd0f2c13ab5761b71f2703973cd14d0a1acc593515a4ef"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-109/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-109/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "bdcc98a45ab37b24f4cbb9e02bfc1343b0dbaced",
-      "bytes": 180284,
-      "sha256": "96823b7c34af965e52e0d3924929bddee017c86472d47c42626db4624f3e95dd",
-      "storedBytes": 34551,
-      "storedSha256": "3369e3b4303d1c917f772974e155babbc629091cd218d40a03ae8595be1d0066"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-107/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-107/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "7f46bb75888c4ef5cc4444b5dec7caecf1ddcc9c",
-      "bytes": 180328,
-      "sha256": "5a674bc4714d1775412e938e6c85a099fc404645bbcb40b8d23dc171cb72444e",
-      "storedBytes": 34603,
-      "storedSha256": "c6165e7a97821f88c3dbb44fd78cf231e1388dd61265bef1add28e305922eb3e"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-110/full-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-110/full-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "81eeca7e8f5e2b0d0b8efb2ff9f0171b28b61f6d",
-      "bytes": 180265,
-      "sha256": "7c521bcd6a31687b58a21bdf4fcebe660a9d0669955b6952144e04c1da9720a2",
-      "storedBytes": 34542,
-      "storedSha256": "b5ea5da2631010e76540554c547cc45c4279a767cf5c7eb9e23a3ee2d4833368"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-94/codex-takeover-pre-product-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-94/codex-takeover-pre-product-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "0daf41177872e12fb568a4b510fca81af7ad935d",
-      "bytes": 169346,
-      "sha256": "bccef66a1f93930e1fdead4da02e9b370b509e11a1f985f0b2491f2eca2c51a4",
-      "storedBytes": 32742,
-      "storedSha256": "1ac1b07e0ce45eb2e9b79ee0907c96f827000ad00b45ac0f7b15438014cf75ac"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt",
-      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.red-mutated.stdout.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "858db9b5f2e8879c7492cdf1a2e9c790edc83f82",
-      "bytes": 167014,
-      "sha256": "eb1330fac7af05557ec2b3836b6c9d598f78e548656aa62dfd6893b6adffb2ac",
-      "storedBytes": 33458,
-      "storedSha256": "e23bb7782c2e1a3faeae9ab7c8f1c061f32368687f885916c01d08c60a3d536b"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts-2.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts-2.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "97674f159518087d26f2bf307052673f7d50e739",
-      "bytes": 159272,
-      "sha256": "c1805e3b689a4c088022d3371b614c10d944e0697d3679c70bbca19ad91dd7a3",
-      "storedBytes": 31463,
-      "storedSha256": "927c3301f7c97964f7ec6830c1071f5376027cb3dc815e61f5467bd8eaf23f25"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-timeouts.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "abfddb39c1b0c45e3f9967955492c62b97dc0d46",
-      "bytes": 158672,
-      "sha256": "cc4de15bab3166c09e6389092531a9e38a29c511a59c8e20354088709a07a277",
-      "storedBytes": 31390,
-      "storedSha256": "147d03170621be4ff41d6b6dda5f079dbb517f8bb82c0d801c530b35c114bd38"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-96/gate-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-96/gate-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "42ea8d0b9cfe6003a4cfaeec0221b2b810254757",
-      "bytes": 157187,
-      "sha256": "391f602e0bc6b259c49425315fc4369028d712de8e62f1a619a533b74c8c206b",
-      "storedBytes": 30324,
-      "storedSha256": "7c12c05c44890b256ad3535ffad732845657553603b9affd524d1fb41629b7d0"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-53/gate-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-53/gate-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "f148fe8d74183fcce134f93b79671e887028dc4e",
-      "bytes": 157080,
-      "sha256": "1736750e9beae885539cbd0d7ca9c235aa30da50c220b354a6dff2ee292d5a87",
-      "storedBytes": 30317,
-      "storedSha256": "232ec6b1d396704bcedbd919639311ab0c6cee83311f94410ea34ebb8be4c638"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-91/gate-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-91/gate-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "aa15f80fe39274a799f7f72f734ff55cdfc58070",
-      "bytes": 156934,
-      "sha256": "d87a9af83165a0cdb617ce640a22eb0367136d0abdde96a0ccec05b9511ab5f3",
-      "storedBytes": 30224,
-      "storedSha256": "f99eba2ce7dbef5232928023d5a4c668fded07aa8c5f5e99d92aa444ad74d7b8"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-check-latest-main.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-check-latest-main.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "852461d0a5ed539fc401b0b4e51609075bcd472e",
-      "bytes": 156955,
-      "sha256": "6271d70a2babdbae50978242c4727ee60c6a3423b24be31b0450b1813d4a3e86",
-      "storedBytes": 30254,
-      "storedSha256": "edb0c9cb51ff47f9de34a022c74f03f12d05edaf30f0a2ac2af1acc7ce57d9ec"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-check-after-boundary.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-check-after-boundary.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "b6188a23314876e87a53a1d1eca8c9dc755a0081",
-      "bytes": 156873,
-      "sha256": "de61f39bde0f9a552fc93e2d380c0aac12e53b9d361191b37f1887f97d516f66",
-      "storedBytes": 30213,
-      "storedSha256": "efc371ac4cc69539b453cd2587d1206034f003b66cb06ac31061ab0da359234a"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-80/gate-check-final.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-80/gate-check-final.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "4c280f6f02ad8a2cf3085b4ac6f7fea2c92a3f1f",
-      "bytes": 156924,
-      "sha256": "5516de15e428772db6719d0111da0ee8692e2bc8b4a942060739036796b8616e",
-      "storedBytes": 30272,
-      "storedSha256": "2eff6606f5f55e1508beedca05a338bbc45fba07279db00bba4b280bc17580c2"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-93/gate-check.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-93/gate-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "221df63250fdc25e8481c8544520989c22cad76e",
-      "bytes": 156923,
-      "sha256": "7dfb47fc98880d1b3b968e58e3c498794b170b922e326320fc9e566dbd3c0ee6",
-      "storedBytes": 30300,
-      "storedSha256": "bc407abb09e504f83145dbdbebc3eb25b87379a345b899c7e255a860d873c11b"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-workers2-editor-failure.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-workers2-editor-failure.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "87c7970eb93cef9212bea981b934b57a6059eca5",
-      "bytes": 156657,
-      "sha256": "da575282e379e570984be8cab7eaed1c6f42a7dd30f4da3bd2e25cab5a17d114",
-      "storedBytes": 30758,
-      "storedSha256": "45cf80e8193e3283db208c50cdd3b88ef5af01de277e2ab2bec220bb90122e33"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-91/gate-protected-fast.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-91/gate-protected-fast.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "d4c3d32720ba875633c1b6f04a5a134bbdb5949d",
-      "bytes": 155863,
-      "sha256": "34001f277c55978091ca7d77f9f15b6904dd92b2a8312e6e96eff3b81eb8ec60",
-      "storedBytes": 30189,
-      "storedSha256": "3849b99616332460939cc0a097c1b9ddffcc160c06952d98b1113dd93223330f"
-    },
-    {
-      "path": "docs/ops/evidence/CODE-QUALITY-90/gate-protected-fast-pre-sync-cancelled.txt",
-      "stored": "docs/tasks/evidence/CODE-QUALITY-90/gate-protected-fast-pre-sync-cancelled.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "a470494e25932cc25534c962afe82561a3eb6212",
-      "bytes": 155515,
-      "sha256": "a97ca8a0638412b033741e8ba5e39a068a898dde56dfafca60bbbd1eba1d5b0d",
-      "storedBytes": 30160,
-      "storedSha256": "bf86d35cb07c9cb5fd998b9cadece58a1a4511aa8c765758f2c832dbf291bc30"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/reforge-full.raw",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1/reforge-full.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "661de78bd9ff3214be9408daec01fb0bb1fdbab1",
-      "bytes": 135518,
-      "sha256": "a593ba5045af4cfc5e62a05ac8c115c1488f2d8220bb0e2584e1f4113af293ed",
-      "storedBytes": 18180,
-      "storedSha256": "0f6024ec00293d307dd52f8b25cf1a47c589753d2b8369a3f13e7e300a220470"
-    },
-    {
-      "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw",
-      "stored": "docs/tasks/cards/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/directed-adjacent.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "618de9d66353773339973354164a49e689464040",
-      "bytes": 119196,
-      "sha256": "d6662397f71cfbad5de1d7feca28ed3f917a2919a7b69967be116fb409d02a6e",
-      "storedBytes": 4326,
-      "storedSha256": "a9926d795721e7d19919a2c87c281d4fefef1f5b96cb29ed5937a141ca6a23e3"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt",
-      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-original.stdout.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "c8d918c8d6a330aa7066ac5839209956b368cfba",
-      "bytes": 135494,
-      "sha256": "43fdc3c8c05d86a0f712e9d15b3c3b261b813e56a4247c6dc055a595b79ff753",
-      "storedBytes": 21597,
-      "storedSha256": "0d481dd6d72e44b00c8a93f2634e29c9e292cab3b976349086516a7b36a179ba"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt",
-      "stored": "docs/tasks/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-logs/MUT-09.green-restored.stdout.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "8d8723bb9ec7d634947279150724123c1528be7c",
-      "bytes": 135510,
-      "sha256": "391d0ec69a741c2cd903f99a32d1e2b6f7694ca01af829f72adb8e414a77d3a7",
-      "storedBytes": 21648,
-      "storedSha256": "1687e3021f8098c5dab98192d8115333fa589793ac07f3d58788744bd2efbefa"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stdout.raw.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-58e899bf/require-complete.stdout.raw.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "c18801c018a32fa18b21c42b0d873b070219688f",
-      "bytes": 137638,
-      "sha256": "873882606b847ea08732f7bdabe8ddafff085b717a2d8c634e82d151a3564c51",
-      "storedBytes": 25199,
-      "storedSha256": "374649343d002becde31a75b5e6de2114736d73fdf747daf59427ec9e3bf869d"
-    },
-    {
-      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stdout.raw.log",
-      "stored": "docs/tasks/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stdout.raw.log.gz",
-      "codec": "gzip",
-      "sourceBlob": "359ffab26850d6e0cd70cf731625da999ce1e42f",
-      "bytes": 137359,
-      "sha256": "3cbcb99d601d778f8f73fd858f57a1dc71ce175f50828202b40e5ea91aa77553",
-      "storedBytes": 25145,
-      "storedSha256": "e90033899b9b5c6696a9d5c814a913c2a71377937989396afd7d0cbc34338b67"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check.txt",
-      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/workspace-check.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "05f04e9c8d0a688dd844f6a6c2c2eebb3c2f8462",
-      "bytes": 138659,
-      "sha256": "53237c4bc89c0fb491b1842973fef335943fb239ca23f4cb28e6725bbdc47454",
-      "storedBytes": 26685,
-      "storedSha256": "155d37d5b942f3c955cb07e7aa38f4e3e1b849a0d3f03bee5788ee5e96a02437"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/full-test.raw",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/full-test.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "5def87a9a5b0fb4b238f6fb8c7329709e9c2220c",
-      "bytes": 124095,
-      "sha256": "6a33747570a64edd614366b43a5e736bf7057405af488f36ac869221a594dd72",
-      "storedBytes": 17890,
-      "storedSha256": "79ca1e7f5139735f0b4890c964fe6b6bc3c1b5cd44527481967465e426911584"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/full-package-test.raw",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/gates/full-package-test.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "ed1060e4bf3ad2cd979623e876260fbe234442cc",
-      "bytes": 119895,
-      "sha256": "34e3ac08e563f42cd4ec1806eade02d4c089887fbe636d24ec8eb8d7a6bcacdf",
-      "storedBytes": 16802,
-      "storedSha256": "5f9ce2da93d5b03708e36dcf0f75f322d0b589139b285ca61ce0da4e563932cc"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.raw.txt",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1/basepoint/fullsuite-ci-exact.raw.txt.gz",
-      "codec": "gzip",
-      "sourceBlob": "778b54f1d0b531ebf9c67ec284e2c6d107c452bf",
-      "bytes": 119774,
-      "sha256": "5f867a0263357cc24f4b6fa799def0f32edfc6a886306d7d99468a272476fc31",
-      "storedBytes": 17302,
-      "storedSha256": "ec6b43e137729b41afbf88fadc48ec7f4c4cf399257dc2d4f9fa17d7addb0ede"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates/full-test.raw",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-BATTLE-PREVIEW-BINDING-1/gates/full-test.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "7eb84e0464283af43affb889ccd4973959526830",
-      "bytes": 119116,
-      "sha256": "38f0280048c4cea098b81bd526530252e93ce7dcbb0f3dc36d1005495a5beef6",
-      "storedBytes": 16881,
-      "storedSha256": "8dfd77c257451cd8856f6f8d54750fa90b00898c4cb18f42b622675048d0c1a0"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/full-test.raw",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1/full-test.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "351a816e60f306e9be4008bb94d59e1a7312e19b",
-      "bytes": 118823,
-      "sha256": "3c97cd797560ad3f757e685b11a3f2cd59c2f040c02ea980f975af641ce22ad0",
-      "storedBytes": 16756,
-      "storedSha256": "a09d740c184cc5175c6cb4e97b748cfaf42921c8d8e6838e21a32cfa2ef555d7"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/reforge-full.raw",
-      "stored": "docs/tasks/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/reforge-full.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "9e8666be4ac534f9cfae178694077e0c2523326d",
-      "bytes": 118155,
-      "sha256": "e8daf10d3cccd35b387811b32906505b44edbe47812ac35da3fb890f6144c96a",
-      "storedBytes": 16663,
-      "storedSha256": "61e18c3865fcd2fa7b5e09fd3d27c87ca67a2c419d65e7f97bb2c7d07675716a"
-    },
-    {
-      "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/gates/reforge-full.raw",
-      "stored": "docs/tasks/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/gates/reforge-full.raw.gz",
-      "codec": "gzip",
-      "sourceBlob": "ecfa377d3d309614890412a4d4af124f0ed11db8",
-      "bytes": 112427,
-      "sha256": "958152a8465fb17e8ceefb9ba4de22055d6460c4c08d051efc6ef242965b4fe0",
-      "storedBytes": 15563,
-      "storedSha256": "5c2f6c37c237d1e381da57da97efa97b1011abd344387bdab3dbe9806b2c2a10"
-    },
-    {
-      "path": "docs/ops/evidence/GAME-SCRIPT-CORRECTIONS-1/e2e-tools.txt",
-      "stored": "docs/tasks/evidence/GAME-SCRIPT-CORRECTIONS-1/e2e-tools.txt.gz",
       "codec": "gzip",
-      "sourceBlob": "484b0eab84eb73988be62ab5550b1135732af781",
-      "bytes": 117460,
-      "sha256": "03576467f529ea7cbf1d0da2f1b62db00e41752998a65654e086dc9a15961b92",
-      "storedBytes": 22153,
-      "storedSha256": "6300ffe278c9c5108c4887004f264bda41fe869b92f8837aad9ddbf42d7ecd6e"
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts.json.gz",
+      "storedSha256": "0eb0b5b0a236adbecb84f54ebe03f35eacee51fccf8021eb0e63a1f0ead9fac2",
+      "storedBytes": 695740,
+      "decodedSha256": "35ce5cd22691e62a77be4cfe08888a7c8131f3dfbd0e3affc37507041ba37541",
+      "decodedBytes": 2398565,
+      "entries": 6894
     },
     {
-      "path": "docs/ops/evidence/game-rix-music-1/e2e-tools-final.raw",
-      "stored": "docs/tasks/evidence/game-rix-music-1/e2e-tools-final.raw.gz",
       "codec": "gzip",
-      "sourceBlob": "0d051f18a32fef7f750c21d4a2255f2c039c30e3",
-      "bytes": 117479,
-      "sha256": "375c51d948417c8b4c7256247a7d0a749d8a74a839e771fa22f10e4a70a9a16f",
-      "storedBytes": 22188,
-      "storedSha256": "b6ee58b7a7a8593297f27dac33230ade372e812b19a1abca1e1468c401612339"
+      "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts-2.json.gz",
+      "storedSha256": "cc2aa16021da07877ab47f438365e5b4f6af9155c531bb877fbdf97b26e908cb",
+      "storedBytes": 582747,
+      "decodedSha256": "42a9c41e2f485c77ec78955baefe15d919bfb172abbd3e030812b2973341cc53",
+      "decodedBytes": 2043418,
+      "entries": 6893
     }
   ]
 }

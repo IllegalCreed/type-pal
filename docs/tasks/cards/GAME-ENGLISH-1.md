@@ -1,8 +1,8 @@
 # GAME-ENGLISH-1 - 第一阶段英文语言包与界面
 
 Status: done
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ SLF文本解析与可再生语言包、残留中文补译、语言偏好、探�
 
 ## 状态与交接
 
-Status保持done：用户2026-10-22 accepted并授权提交推送/CI合并/部署/清理分支。发布：main两次推进（acb96a123→d297e64d0）后PR #11在候选612b203a1两项必需Actions+GitGuardian成功后于2026-10-22T15:50:13Z合并为365e582e2；deploy all --skip-check exit0/186modules/0warnings、CDN刷新、2,909资源与28HTTPS闭合、线上真实UI选English+刷新保持+真实键盘到李大娘英文对话、日志无warn/error。main保护已配置。收尾文档PR与退休分支/worktree清理按原卡记录尚待执行。
+Status保持done：用户2026-10-22 accepted并授权提交推送/CI合并/部署/清理分支。发布：main两次推进（acb96a123→d297e64d0）后PR #11在候选612b203a1两项必需Actions+GitGuardian成功后于2026-10-22T15:50:13Z合并为365e582e2；deploy all --skip-check exit0/186modules/0warnings、CDN刷新、2,909资源与28HTTPS闭合、线上真实UI选English+刷新保持+真实键盘到李大娘英文对话、日志无warn/error。main保护已配置。文档收尾的后继实际发布与当前资源观察见下文，原待办句仅属发布前时点。
+
+2026-11-03复核：[PR12](https://github.com/IllegalCreed/type-pal/pull/12)已合并为94d03b58450d3147cf3b353d35bf10fe59a6148d；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/39821555786)、[Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/39821555856)均为main push、completed/success，merge已在当前主线祖先链。这是原功能PR11及有限线上smoke之后的文档收尾，不是新部署/新英文剧情验收。当前只读观察：本地主仓refs、完整远端heads与managed worktree注册表未见English项；english-text/shell/dialog的旧type-pal仓路径均不存在，父目录仅名字标记。此处只陈述今天未再存在这些仓/引用，不声称是谁何时删除、旧归档方式或恢复已新验；冻结release.json的pendingCleanup不追溯改写。
 
 ## 历史范围
 
@@ -45,7 +47,7 @@ docs/ops/evidence/GAME-ENGLISH-1/全套（text/dialog/shell-review、docs-mainte
 
 ## 继任文档
 
-无新产品交接；退休分支/worktree清理与文档收尾按原记录由Codex执行。原存活入口逐字保留：
+无新产品交接；文档收尾已由实际PR12完成，当前旧English仓/引用按上述只读观察说明，不沿用原泛指待清理句。原存活入口逐字保留：
 
 关联:[CLAUDE.md](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/CLAUDE.md) [game-mechanics.md](../../phase1/game-mechanics.md) [contract.md](../../testing/e2e/contract.md) [agent-workflow.md](../../engineering/guides/agent-workflow.md) [code-quality-file-ledger.md](../audits/code-quality-file-ledger.md) [code-quality.md](../../engineering/guides/code-quality.md) [branch-protection.json](../evidence/GAME-ENGLISH-1/branch-protection.json) [dialog-review.json](../evidence/GAME-ENGLISH-1/dialog-review.json) [docs-maintenance.json](../evidence/GAME-ENGLISH-1/docs-maintenance.json) [integration-review.json](../evidence/GAME-ENGLISH-1/integration-review.json) [main-sync-2-gates.json](../evidence/GAME-ENGLISH-1/main-sync-2-gates.json) [main-sync-2.json](../evidence/GAME-ENGLISH-1/main-sync-2.json) [native-publication.json](../evidence/GAME-ENGLISH-1/native-publication.json) [opening-browser.json](../evidence/GAME-ENGLISH-1/opening-browser.json) [release-gates.json](../evidence/GAME-ENGLISH-1/release-gates.json) [release-preflight.json](../evidence/GAME-ENGLISH-1/release-preflight.json) [release.json](../evidence/GAME-ENGLISH-1/release.json) [shell-review.json](../evidence/GAME-ENGLISH-1/shell-review.json) [text-review.json](../evidence/GAME-ENGLISH-1/text-review.json) [GAME-SCRIPT-CORRECTIONS-1.md](GAME-SCRIPT-CORRECTIONS-1.md)。
 

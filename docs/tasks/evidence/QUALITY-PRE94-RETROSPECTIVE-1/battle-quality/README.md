@@ -18,7 +18,7 @@ Template: evidence-receipt-v1 / 1.0.0
 - 定向／相邻40、state/runtime20、最终H02/主升级16及game typecheck通过，运行有重叠不相加；完整pnpm check在150650c59实跑20430例零诊断，260个stdout块逐类核对仅耗时不同；其后仅H02测试文件变化，受影响5例／相邻11与TC重验，其余20425未变结果复用，未冒称第二次全check。
 - 官方fast实际20032例／758源联合ratchet与固定main保护通过（同报告canonical投影、严格metrics/scope及protected复核），未再采集；所有包和总计metrics逐计数不变。
 - cb67a6a0e已推3y并FF远端main：Docs成功，main Coverage39681495390在M05（editor4781例中1失败）失败；M05隔离真实reader闸门旧1绿1指定AssertionError→新2绿→恢复2绿（40ms→80ms真实等待、两处复制公式改独立字面值3）；修正后首轮official虽exit0但K06出现5条act/2个stderr块，拒绝作干净统一门，按公开data-reorder-settling等待后旧5条/新0/恢复0；最终ci-two-tests-final-ratchet再次完整采集20032/758零诊断。两轮新增采集（第一轮拒绝、第二轮干净门）如实记录。
-- word-boundary-counter：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；2026-10-22用户裁决保留TS持续增长，原数值实现/save不改，3x仍partial。完整命令、exit/signal、双流、原生JSON与实际SHA见[native.json.gz](native.json.gz)。
+- word-boundary-counter：原生C字段复合赋值与正式TS结算边界已证65535+1分歧；2026-10-22用户裁决保留TS持续增长，原数值实现/save不改，3x仍partial。完整命令、exit/signal、双流、原生JSON与实际SHA见[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/native.json.gz)。
 
 ## 结果
 
