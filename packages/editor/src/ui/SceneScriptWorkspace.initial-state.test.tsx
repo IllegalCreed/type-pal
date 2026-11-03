@@ -217,10 +217,10 @@ test('Inspector commits sparse false/zero values, restores inherited defaults, a
   await click('恢复场景默认', inspector)
   expect(chosen().entities[0]).toEqual({ entityId: 'host' })
   expect(canvas().scene.entities[0]).toEqual(rig.before[0]!.entities[0])
-  await click('移出方案', inspector)
+  await click('移出初态', inspector)
   expect(chosen().entities.map((entry) => entry.entityId)).toEqual(['guest'])
   await act(async () => canvas().onSelectEntity('host'))
-  await click('加入此方案', inspector)
+  await click('加入此初态', inspector)
   expect(chosen().entities.at(-1)).toEqual({ entityId: 'host' })
   expect(rig.main.getState().scenes).toEqual(rig.before)
 })
@@ -228,9 +228,9 @@ test('Inspector commits sparse false/zero values, restores inherited defaults, a
 test('copy and rename keep existing consumers on the original and deletion is reversible', async () => {
   const rig = await workspace()
   await click('初始状态')
-  expect(buttonByLabel(host, '删除方案').disabled).toBe(true)
-  await click('复制方案')
-  const input = host.querySelector<HTMLInputElement>('[aria-label="初始状态方案名称"]')!
+  expect(buttonByLabel(host, '删除初态').disabled).toBe(true)
+  await click('复制初态')
+  const input = host.querySelector<HTMLInputElement>('[aria-label="预览初态名称"]')!
   await act(async () => {
     input.focus()
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(
@@ -247,7 +247,7 @@ test('copy and rename keep existing consumers on the original and deletion is re
   expect(copy).toMatchObject({ name: '另一个入口', entities: previewLibrary().states[0]!.entities })
   expect(copy.id).not.toBe('door')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
-  await click('删除方案')
+  await click('删除初态')
   expect(rig.main.getState().scriptPreview!.states.map((state) => state.id)).toEqual([
     'door',
     'room',
@@ -256,7 +256,7 @@ test('copy and rename keep existing consumers on the original and deletion is re
     history.undo()
   })
   expect(rig.main.getState().scriptPreview!.states.at(-1)).toEqual(copy)
-  await click('新建状态方案')
+  await click('新建预览初态')
   expect(rig.main.getState().scriptPreview!.states.at(-1)!.entities).toEqual([])
 })
 
@@ -281,21 +281,23 @@ test('participant picker preserves existing overrides and adds new entities with
   await click('初始状态')
   const chosen = () => rig.main.getState().scriptPreview!.states[0]!
   const picker = () =>
-    document.querySelector<HTMLElement>('[role="dialog"][aria-label="选择管理方案实体"]')!
-  await click('管理方案实体')
-  await clickCheckboxByLabel(picker(), 'guest')
+    document.querySelector<HTMLElement>('[role="dialog"][aria-label="选择添加或移出角色与物件"]')!
+  await click('添加或移出角色与物件')
+  await clickCheckboxByLabel(picker(), '未命名角色或物件（列 4，行 5）')
   expect(chosen().entities).toEqual([originalHost, { entityId: 'guest' }])
   expect(canvas().scene.entities[0]!.pos).toEqual(originalHost.pos)
   expect(canvas().scene.entities[1]).toEqual(rig.before[0]!.entities[1])
-  await click('管理方案实体')
+  await click('添加或移出角色与物件')
   const guest = [
-    ...host.querySelectorAll<HTMLButtonElement>('[aria-label="方案实体列表"] button'),
-  ].find((button) => button.querySelector('strong')?.textContent === 'guest')!
+    ...host.querySelectorAll<HTMLButtonElement>('[aria-label="开场时的角色与物件"] button'),
+  ].find(
+    (button) => button.querySelector('strong')?.textContent === '未命名角色或物件（列 4，行 5）',
+  )!
   await act(async () => guest.click())
   expect(inspector.querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')!.value).toBe('4')
   expect(buttonByLabel(host, '初始状态').getAttribute('aria-selected')).toBe('true')
-  await click('管理方案实体')
-  await clickCheckboxByLabel(picker(), 'guest')
+  await click('添加或移出角色与物件')
+  await clickCheckboxByLabel(picker(), '未命名角色或物件（列 4，行 5）')
   expect(chosen().entities).toEqual([originalHost])
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(library.bindings)
   expect(rig.main.getState().scenes).toEqual(rig.before)
