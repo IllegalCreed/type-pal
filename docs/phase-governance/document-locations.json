@@ -2326,14 +2326,16 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
+      "afterSha256": "75757db006c8dd4dbb422840b5e55e2a7a483aabb42a2db4bea1d4eeba2549ce",
       "review": {
-        "author": "/root/status_reconcile",
+        "author": "/root/e2e_baseline_docs",
         "reviewer": "/root",
         "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
-        "reviewedLines": 388,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "conclusion": "核006已合入且done；初态最终10套/11绑定仅属006，001–005缺逐入口完成依据。真实项目加载/编译与原档cursor消费证实RF006旧终档digest失配；只记007前驱适用性，不撤销历史技术/用户接受。",
+        "reviewedLines": 402,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
       }
     },
     {
@@ -3981,11 +3983,33 @@
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "80239cc17a1e1bfe879e058ef9e70a66132c57ed1eb018eefeef797547e11d53",
+      "review": {
+        "author": "/root/e2e_baseline_docs",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "根据实际PR38/39与主线祖先链解除旧文档/集成阻塞表述；保留冻结出版YAML和原lastVerified，明确006任务done与旧运行发布身份分轴。",
+        "reviewedLines": 43,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "f556c0ae161e0704403da273f2124ff0c4409bf25567df859dd96a691e6739a3",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+      }
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "2ba32a33824153a585077e23e5dd7f1c974919eba15abc79387c3432fa6741f1",
+      "review": {
+        "author": "/root/e2e_baseline_docs",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "核原独立验收与当前任务完成裁定，修现行Scope/Results中过期停止线；frontmatter/testing-meta、10-27原件段及Revision history逐字保全，不修改原执行JSON或catalog。",
+        "reviewedLines": 149,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "53dc1026849b946f7c6dcf05b69f3755991f068817fe9d77ac193dfec4e673b2",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+      }
     },
     {
       "path": "docs/testing/governance.md",
