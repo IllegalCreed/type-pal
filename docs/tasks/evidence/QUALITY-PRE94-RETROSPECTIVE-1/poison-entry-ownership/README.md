@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是玩家毒入口毒槽所有权修复的治理候选页;原件为 Codex 单Agent 修复回执(原文 Status: recorded; code accepted, unified gates deferred)。[当前修复与回执](review.json)、[完整C／TS程序、正式红绿及命令双流](receipts.json.gz)、[初始停线探针](probe.json);probe.json 保留批准前状态,不代表当前尚未批准。
+本页是玩家毒入口毒槽所有权修复的治理候选页;原件为 Codex 单Agent 修复回执(原文 Status: recorded; code accepted, unified gates deferred)。[当前修复与回执](review.json)、[完整C／TS程序、正式红绿及命令双流](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/receipts.json.gz)、[初始停线探针](probe.json);probe.json 保留批准前状态,不代表当前尚未批准。
 
 ## 来源与输入
 
@@ -25,7 +25,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 无浏览器/原 EXE 复现;无 full check、coverage、protected 或 PR;全仓/coverage/protected 与单 PR 仍等全部 pre94;无浏览器/视觉或全仓完成信用。原件逐字节保全在下方;候选待Owner非作者接收。
 
-原文存活链接原样保留:[README.md](../mode-player-closeout/README.md) [probe.json](probe.json) [receipts.json.gz](receipts.json.gz) [review.json](review.json)。
+原文存活链接原样保留:[README.md](../mode-player-closeout/README.md) [probe.json](probe.json) [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/poison-entry-ownership/receipts.json.gz) [review.json](review.json)。
 
 ## 原文保全
 

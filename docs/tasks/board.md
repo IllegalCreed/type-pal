@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-03
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -18,12 +18,12 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-分类承接已批准主线 `02a67c5aa639d43813511a552d44a1c4e5a99b78`；当前事实按本候选任务卡与原始证据核对。表内英文状态严格取本树任务卡顶部；
-“候选已接收”“代码已合入”“整卡 done”分别解释，不能相互替代。历史卡面未同步时明确列为待对账，不照旧诊断重复开工。
+续办以PR40合并提交 `eb223e8ae7b9f0062cbbaaf9869e890b6a974c91` 为基点；当前事实按本候选任务卡与原始证据核对。表内英文状态严格取本树任务卡顶部；
+“候选已接收”“代码已合入”“整卡 done”分别解释，不能相互替代。旧卡状态已按有限后继接受、主线归属与真实剩余义务对账，不照旧诊断重复开工。
 
 - 文档治理：DOCS-FULL-TEMPLATE-1及五张治理子卡已完成；4536活动/6历史退役、严格待办与完整性0。GLM四包非作者accept及远端399工具/20222覆盖率测试、lint6681零诊断已实取，PR38已依保护规则合入main 75929310。长期规范继续生效，后续新增与清理另按实际范围推进。
 - 006：技术与用户观感接收按后继 `33cfb9ad89f8696802b7c2ec466fbc93cccf8149` 及当前原卡范围复用；本候选原卡已明确船身起伏补修后11入口/10状态，不把前轮12/11推广成新同版全测。原技术/用户接受与文档/集成停止线均已闭合，任务done；不重做已闭合NPC和视觉，不授新剧情或音频信用。
-- 代码治理：后继批次已产生接收与统一门回执，最新逐路径状态以[代码账本](audits/code-quality-file-ledger.md)为准。卡面仍 build/review 不自动等于源码还需重做；整卡的产品/视觉及发布义务逐项对账。
+- 代码治理：本轮46张旧在办卡实质对账后，34张有限done、10张review、2张draft；终态卡已退出下表，原文和失败不改。剩余12张分别有产品/视觉或测试宿主范围内的未完义务，原全仓告警与未合main不再作为泛化阻塞。逐文件质量仍取[代码账本](audits/code-quality-file-ledger.md)，本次不新授whole-file信用。
 
 ## 入口与责任
 
@@ -41,7 +41,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|---|---|---|---|
 | 代码治理 | [逐文件账本](audits/code-quality-file-ledger.md)、[质量规范](../engineering/guides/code-quality.md) | 持续；当前批次与存量分开 | 跨第一/二阶段及工程工具 | 真实 caller、风险与单一 Owner；不等覆盖率目标才推进 | 核下表旧卡收口义务；新批从实际 pending 选有限模块，复用有效证据 |
 | 文档治理 | [质量与验收](../engineering/guides/document-quality.md)、[生成任务索引](cards/index.md) | 本全量批次done；日常增量持续 | ops / 跨阶段 | 原固定接受/来源及真实变更范围 | 新增或变更按公共合同接入；不重复治理已接受正文 |
-| 仓库瘦身 | [产物退出流程](../engineering/guides/agent-workflow.md#任务产物收口用户-2026-11-02-固化)、[任务索引](cards/index.md) | 本轮存量done；日常流程持续 | 全仓 / 文档与工具 | 读取、恢复、独立接受与必要本地门已通过 | 本轮REPO-SLIM-PLAN-1从索引追溯；新任务按退出条件清理，远端集成结果取对应PR |
+| 仓库瘦身 | [瘦身总纲](cards/REPO-SLIM-PLAN-1.md)、[产物退出流程](../engineering/guides/agent-workflow.md#任务产物收口用户-2026-11-02-固化) | review；存量状态对账、知识承接与过程产物清退已实施 | 全仓 / 文档与工具 | 后继有效接受、真实消费者、知识承接及可恢复来源；原PR40结果不授未核范围完成 | 完成中央合同独立接收、完整质量门与真实净量核算，再汇总PR |
 | 测试与覆盖率 | [测试治理](../testing/governance.md)、[官方 fast 基线](../../scripts/coverage/baseline.fast.json)、[测试目录](../testing/indexes/README.md) | 持续；基线已有，按真实业务缺口补强 | 跨第一/二阶段 | 合法输入、真实 caller/oracle、排重；集中窗口核官方门 | 结合当前模块补关键未覆盖分支、精简弱测试；不以例数/总比例替代质量 |
 
 ### 文档治理：已完成批次
@@ -50,60 +50,26 @@ Template: governance-index-v1 / 1.0.0
 
 ### 代码治理：既有批次与卡面收口
 
-下表保留未终态卡的身份和卡面状态。“待对账义务”指接手时要在原卡及后继证据中核实的范围，不宣称每项仍是当前产品缺陷。
+下表仅保留本轮对账后仍未终态的12张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
 后继[pre94 回执](evidence/QUALITY-PRE94-RETROSPECTIVE-1/final-pre94-gates/README.md)、
 [52 文件收口](evidence/QUALITY-REVIEW-52-CLOSEOUT-1/README.md)、[第三窗口收口](evidence/QUALITY-PENDING-100-3/local-closeout.json)
 和[语言资源批次](evidence/QUALITY-GAME-LOCALIZATION-1/README.md)按各自版本消费；不能把旧 coverage/act 阻塞当成今天统一门仍红。
-除另标 draft 外，下一步均由 Codex 先映射后继接收、实际主线提交和原卡剩余义务，再写回原卡终态；仅对新差异或具体缺口定向复验。
+Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的产品取舍与真实缺口各自准入，不重做已接受范围。
 
-| ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 待对账义务 | 下一步 |
+| ID | 原任务入口 | 卡面状态 | 阶段 | 当前剩余范围 | 下一步 |
 |---|---|---|---|---|---|
-| GAME-INPUT-KEYMAP-OWN-KEY-1 | [键位查表自有字段](cards/GAME-INPUT-KEYMAP-OWN-KEY-1.md) | review | 第一阶段 | 自有字段窄修与普通键盘可达性的不同边界 | 核后继证据并同步原卡 |
-| QUALITY-PENDING-100-3 | [第三治理窗口](cards/QUALITY-PENDING-100-3.md) | review | 跨阶段 / ops | 本地代码/统一门已接收；主线发布与卡面尚需同步 | 核后继证据并同步原卡 |
-| QUALITY-MIGRATION-MERGE-OWN-JSON-1 | [三方合并 JSON 字段所有权](cards/QUALITY-MIGRATION-MERGE-OWN-JSON-1.md) | review | 第二阶段 | 第三窗口；JSON 字段所有权窄修 | 核后继证据并同步原卡 |
-| QUALITY-MIGRATION-ASSET-TAKEOVER-1 | [作者资源接管与快捷路径](cards/QUALITY-MIGRATION-ASSET-TAKEOVER-1.md) | review | 第二阶段 | 第三窗口；作者接管与真实重导边界 | 核后继证据并同步原卡 |
-| QUALITY-MIGRATION-CONTROL-OWNERSHIP-1 | [事务内部写入路径所有权](cards/QUALITY-MIGRATION-CONTROL-OWNERSHIP-1.md) | review | 第二阶段 | 第三窗口；事务内部路径与恢复保全 | 核后继证据并同步原卡 |
-| QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1 | [基线清单路径输入域](cards/QUALITY-MIGRATION-BASELINE-PATH-DOMAIN-1.md) | review | 第二阶段 | 第三窗口；基线路径输入域 | 核后继证据并同步原卡 |
-| QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 | [无用非托管哈希接口退役](cards/QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1.md) | review | 第二阶段 | 第三窗口；退役接口与有效断言去向 | 核后继证据并同步原卡 |
-| QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](cards/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 第二阶段 | 资产帧需求合法域与 RangeError 原因尚待准入 | 核前提/Owner/范围后才可 build |
-| GAME-VIDEO-PUBLISH-BOUNDARY-1 | [视频子路径所有权与失败发布](cards/GAME-VIDEO-PUBLISH-BOUNDARY-1.md) | build | 第一阶段 | 窄修已实施；52 窗口已接收视频边界，卡面待同步 | 核后继证据并同步原卡 |
-| CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](cards/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 第一阶段 | pre94 接收、PR22 之后的实际发布与原卡状态 | 核后继证据并同步原卡 |
-| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](cards/CODE-QUALITY-53-player-status-runtime-zero.md) | review | 第一阶段 | 状态/毒/失败拒绝接收与剩余产品义务 | 核后继证据并同步原卡 |
-| CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](cards/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 第一阶段 | thumbnail 像素 oracle 与视觉边界 | 核后继证据并同步原卡 |
-| CODE-QUALITY-103 | [editor残余测试逐文件复核](cards/CODE-QUALITY-103-editor-residual-tests-review.md) | review | 第二阶段 | 52 窗口专测接收；puppet 产品取舍单列 | 核后继证据并同步原卡 |
-| CODE-QUALITY-104 | [editor M02 测试 act 生命周期诊断](cards/CODE-QUALITY-104-editor-act-diagnostics.md) | review | 第二阶段 | 数值表单专测与后继统一门 | 核后继证据并同步原卡 |
-| CODE-QUALITY-105 | [Reforge MenuBox 残余测试逐文件复核](cards/CODE-QUALITY-105-reforge-menu-box-residual-review.md) | review | 第二阶段 | MenuBox 合同、反控与后继统一门 | 核后继证据并同步原卡 |
-| CODE-QUALITY-106 | [Reforge reward-gain 测试 Promise 诊断](cards/CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | 第二阶段 | reward-gain Promise/Abort 合同 | 核后继证据并同步原卡 |
-| CODE-QUALITY-107 | [Game menu primitives / item-select 逐文件复核](cards/CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | review | 第一阶段 | menu primitives/item-select 与相邻诊断归属 | 核后继证据并同步原卡 |
-| CODE-QUALITY-108 | [game magic-script warning ownership](cards/CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | 第一阶段 | magic-script warning 归属与后继统一门 | 核后继证据并同步原卡 |
-| CODE-QUALITY-109 | [game analytics 安装器生命周期复核](cards/CODE-QUALITY-109-game-analytics-install-review.md) | review | 第一阶段 | analytics 安装器/teardown 所有权 | 核后继证据并同步原卡 |
-| CODE-QUALITY-110 | [game present draw-sprite 逐文件复核](cards/CODE-QUALITY-110-game-draw-sprite-review.md) | review | 第一阶段 | draw-sprite 有限读域与统一门 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](cards/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 第二阶段 | editor 专测诊断切片 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](cards/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 第二阶段 | C02 宿主/删除生命周期 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](cards/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 第二阶段 | C02 导入/历史回流 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-DIAGNOSTICS-4 | [Kimi战斗精灵工作流](cards/QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 第二阶段 | 战斗精灵工作流与实际宿主 | 核后继证据并同步原卡 |
-| QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 | [宿主导航与真实事件](cards/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 第二阶段 | 宿主导航与真实事件 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-FORM-FIXTURES-1 | [数值表单合法夹具与生命周期](cards/QUALITY-EDITOR-FORM-FIXTURES-1.md) | review | 第二阶段 | 合法数值夹具与生命周期 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 | [大世界精灵真实宿主](cards/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | 第二阶段 | 大世界精灵真实宿主与后继接收 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](cards/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | 第二阶段 | 查看器迟到读取与后继接收 | 核后继证据并同步原卡 |
-| QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](cards/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | 第二阶段 | 上传向导异步等待与后继接收 | 核后继证据并同步原卡 |
-| QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](cards/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | 跨阶段 / ops | Git 完整路径枚举合同与后继集中门 | 核后继证据并同步原卡 |
-| GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 | [pre94导入读取失败提示](cards/GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | review | 第一阶段 | 导入读取失败反馈与槽位不变 | 核后继证据并同步原卡 |
-| GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1 | [pre94换图失败资源/拒绝归属](cards/GAME-MAP-RELOAD-FAILURE-OWNERSHIP-1.md) | review | 第一阶段 | 换图失败、迟到结果及重访所有权 | 核后继证据并同步原卡 |
-| GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 | [pre94工具导出失败提示](cards/GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | review | 第一阶段 | 导出失败反馈、URL 清理及真实 IO | 核后继证据并同步原卡 |
-| GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](cards/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 第一阶段 | 同速队列机制证据与视觉义务 | 核后继证据并同步原卡 |
-| GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [毒列表与入口所有权](cards/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | review | 第一阶段 | 全槽稳定压缩、入口所有权及嵌套边界 | 核后继证据并同步原卡 |
-| GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](cards/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 第一阶段 | 数值赋值/抗性一手依据与扩展域边界 | 核后继证据并同步原卡 |
-| QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](cards/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 第一阶段 | 战斗机制 counter、复活装备状态与视觉范围 | 核后继证据并同步原卡 |
-| QUALITY-FETCH-ABORT-LIFECYCLE-1 | [重试等待与Request取消](cards/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 第一阶段 | 取消反例、当前修复及后继统一门 | 核后继证据并同步原卡 |
-| QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](cards/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | 第一阶段 | game 逐文件诊断归因与后继接收 | 核后继证据并同步原卡 |
-| QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](cards/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | 第一阶段 | 共享输出保护；视频/其它策略分别核 | 核后继证据并同步原卡 |
-| QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](cards/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | 第一阶段 | 真实原盘测试执行、反控与编号卡映射 | 核后继证据并同步原卡 |
-| QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](cards/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | review | 第一阶段 | 原盘控制流接边、元数据与 CLI 范围 | 核后继证据并同步原卡 |
-| QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](cards/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 跨阶段 / 资源 | PAL/作者资源分域与供应产物范围 | 核后继证据并同步原卡 |
-| GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](cards/GAME-SAVE-IDB-COMMIT-1.md) | review | 第一阶段 | 事务提交/失败传播与真实 IDB 回归 | 核后继证据并同步原卡 |
-| GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](cards/GAME-OPENING-CANCEL-CURSOR-1.md) | review | 第一阶段 | 标题取消光标与已采浏览器证据 | 核后继证据并同步原卡 |
-| GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](cards/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 第一阶段 | 显示真值/可用范围尚未获行为修改准入 | 核前提/Owner/范围后才可 build |
+| QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 | [战斗精灵帧需求边界](cards/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) | draft | 第二阶段 | 合法帧需求/资源边界尚未获产品build准入 | 核最小输入、真实caller与资源前提，再定Owner/白名单 |
+| CODE-QUALITY-103 | [editor残余测试逐文件复核](cards/CODE-QUALITY-103-editor-residual-tests-review.md) | review | 第二阶段 | 仅P1 puppet自动battleOnly的产品选择；测试及旧发布已承接 | 明确可见before/after后交用户裁定，不夹改行为 |
+| QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](cards/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 第二阶段 | 共享host挂起/异常清理及C01三个oracle候选 | 按原卡真实caller窄核root/DOM/spy恢复与指定oracle |
+| QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](cards/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 第二阶段 | 共享host pending/失败退出与清理独验 | 只核已有harness catch/finally及实际caller |
+| QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](cards/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 第二阶段 | 原挂起输入的导航/退出清理证据 | 复用29例与反控，补具体故障路径，不全库重扫 |
+| QUALITY-EDITOR-DIAGNOSTICS-4 | [Kimi战斗精灵工作流](cards/QUALITY-EDITOR-DIAGNOSTICS-4.md) | review | 第二阶段 | C02/C03 host前提及六工作流复用范围 | 跟随共享host有界接受，再核本卡六工作流 |
+| QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](cards/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 第二阶段 | 原四scope完整非作者据证接受；作者已交付 | 核before/after/native/身份转移，仅矛盾再展开 |
+| GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](cards/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 第一阶段 | 真实动画/dualMove的功能表现接受 | 按原两敌一玩家/seed5范围观察动作先后 |
+| GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](cards/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | review | 第一阶段 | 原授权的有限caller/数值域及功能展示 | 按原卡seed/正防御边界核实际可见结果 |
+| QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](cards/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | 第一阶段 | 原卡明示的浏览器功能表现；机制窄修已接受 | 先核合法caller，再按原批准核模拟选靶/防御/复活 |
+| QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](cards/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 跨阶段 / 资源 | 当前canonical格式/decoder catch判别力边界 | 核合法大图与caller合同，不默认扩大格式修复 |
+| GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](cards/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 第一阶段 | 未批③：已学法术显示真值与可用范围 | 先核DOS实机或用户产品选择，保持draft |
 
 ### 测试与覆盖率：当前返工卡
 
@@ -121,7 +87,7 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段；双阶段对照 / ops | 同引擎真实前驱与检查点；001–006 各自证据范围；异常清理单独核 | Codex / 协调 006 接入，补前十段薄基线、四取物 canary 与编辑保存重开试玩；完整 Q1/Q2 后置 |
+| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段；双阶段对照 / ops | 同引擎真实前驱与检查点；001–006 各自证据范围；异常清理单独核 | Codex / 完成前十段薄基线、四取物canary与编辑保存重开试玩；001–006有限后继已承接，完整Q1/Q2后置 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 静态 UI 已通过试用；每段现场决定位置/朝向/显隐等初态 | Codex / 随 E2E 采集并保存步骤关联，核重开/播放/重置；完整动态现场恢复另核范围 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |
@@ -146,7 +112,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
-- 本次导航改动的授权、白名单、验证和交接写回原 DOCS-FULL-TEMPLATE-1；没有新建平行路线图、任务卡或清理账本。
+- 本次存量对账与产物清退的授权、范围、验证和交接写回原[仓库瘦身总纲](cards/REPO-SLIM-PLAN-1.md)；此前文档治理批次仍取原DOCS-FULL-TEMPLATE-1，不新建平行状态或清理账本。
 - 最新状态先写原卡，再由 `node scripts/docs/check.mjs --print-task-index` 生成索引；本表同步原状态和真正下一步。
 - 已合入代码、局部接收、统一门、远端发布和用户观感各有范围；旧失败仍按原时点保留，不冒充当前失败，也不删除未闭合义务。
 - 纯导航检查只验证可达性、状态一致和本次文档差异；不能代替全仓语义治理、runtime、E2E、视觉或 coverage 验收。

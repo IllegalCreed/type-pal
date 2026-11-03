@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。完整字节原件是JSON映射gzip,每项含bytes/sha256/base64,可恢复原始stdout/stderr/执行command/cwd/exit/signal与Vitest native JSON;失败反控与失败网络读取均保留不计成功门。复验:node …/3j-tools-quality/verify.mjs默认只读,指纹变化返回STALE不能继承结论,MATCH表示证据身份一致而非自动证明设计合格。
+来源为固定Git载体,非本次运行;原2链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-tools-quality/receipts.json.gz)。完整字节原件是JSON映射gzip,每项含bytes/sha256/base64,可恢复原始stdout/stderr/执行command/cwd/exit/signal与Vitest native JSON;失败反控与失败网络读取均保留不计成功门。复验:node …/3j-tools-quality/verify.mjs默认只读,指纹变化返回STALE不能继承结论,MATCH表示证据身份一致而非自动证明设计合格。
 
 ## 断言与业务 oracle
 

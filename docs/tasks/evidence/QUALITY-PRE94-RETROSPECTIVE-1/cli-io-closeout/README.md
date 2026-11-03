@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-同一3y，承接前一[README.md](../event-slice-approved/README.md)。七明确文件A–H、冻结SHA、caller/来源及限制见[review.json](review.json)；[native.json.gz](native.json.gz)含原始stdout/stderr、原生JSON、执行身份/版本、失败与恢复、移动证明/反控脚本。CLI全文872行及搬移差异已核；内部write与music模块新读，现有测试全文/增量及共用宿主证据按具体范围复用；CLI大编排仍rework，不以本片关闭整卡。
+同一3y，承接前一[README.md](../event-slice-approved/README.md)。七明确文件A–H、冻结SHA、caller/来源及限制见[review.json](review.json)；[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-io-closeout/native.json.gz)含原始stdout/stderr、原生JSON、执行身份/版本、失败与恢复、移动证明/反控脚本。CLI全文872行及搬移差异已核；内部write与music模块新读，现有测试全文/增量及共用宿主证据按具体范围复用；CLI大编排仍rework，不以本片关闭整卡。
 
 ## 来源与输入
 

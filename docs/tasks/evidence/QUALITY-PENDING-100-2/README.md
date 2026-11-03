@@ -21,7 +21,7 @@ Template: governance-index-v1 / 1.0.0
 
 - [父卡](../../cards/QUALITY-PENDING-100-2.md)：窗口准入与 done 收口；[battle-sprite 需求边界风险卡](../../cards/QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1.md) 保持 draft。
 - [逐文件A–H与指纹](review.json)与[原身份与当前承接](identities.json)：98＋2 主体审查账与 375 条 baseline 身份映射。
-- [native 索引](native-index.json)与无损 [native 包](native.json.gz)：定向/相邻运行原件，不声明整门通过。
+- [native 索引](native-index.json)与无损 [native 包](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PENDING-100-2/native.json.gz)：定向/相邻运行原件，不声明整门通过。
 - [统一原件回执](uniform/README.md)：冻结后全仓门、中断边界与发布前提。
 - 仓库根 `node docs/ops/evidence/QUALITY-PENDING-100-2/verify.mjs` 只读复验主体身份/A–H/当前字节与正常运行、故意反控分离；不代替语义审查，不重跑测试或 coverage。
 

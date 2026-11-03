@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-范围 48 件(含 design-system 大件 floating-layer/help-tips/multi-select/navigation/overlays/add-picker/draft-input-state/field-controls/list-header/icons 与页面级组件/hook),全文读毕 10.8k 行;零整改批(纯读批,零源码改动、零 diff)。验证证据:本批不新跑,复用批54 的 src/ui 全量 2504/2505(唯一红=M05)与单套件重跑 2/2 绿(批54 retry.json);原回执超 1MiB,与 editor-ui-small 为同一次执行的同字节报告,复用同一附件 [directed.json.gz](../editor-ui-small/directed.json.gz)(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
+范围 48 件(含 design-system 大件 floating-layer/help-tips/multi-select/navigation/overlays/add-picker/draft-input-state/field-controls/list-header/icons 与页面级组件/hook),全文读毕 10.8k 行;零整改批(纯读批,零源码改动、零 diff)。验证证据:本批不新跑,复用批54 的 src/ui 全量 2504/2505(唯一红=M05)与单套件重跑 2/2 绿(批54 retry.json);原回执超 1MiB,与 editor-ui-small 为同一次执行的同字节报告,复用同一附件 [directed.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json.gz)(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
 
 ## 发现
 

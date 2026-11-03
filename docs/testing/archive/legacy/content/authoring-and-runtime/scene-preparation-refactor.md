@@ -50,7 +50,7 @@ A3仍有活动场景/移动/绘制职责未治理，本段完成也不增加13�
   精灵与音效。页动作/入口/落点/依赖来自同一冻结视图；只返回计划，不prune精灵工作集、不发布活动场景。
 - main6427→6260行；只保留窄装配和同步提交，缓存查阅改为peek，不把可写Map暴露给宿主。
   两模块不获取完整应用Context、DOM或活动场景对象，无公共包出口/资产格式/SAVE8/content20变化。
-- [冻结对照](../../unresolved-tools/scene-preparation-parity.mjs)：18个保存/世界/切场/移动/绘制/音效函数及2个async loadScene属性，
+- [冻结对照](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs)：18个保存/世界/切场/移动/绘制/音效函数及2个async loadScene属性，
   只反向归一化`sceneResources.peek→canonicalSceneCache.get`后AST token树全等；
   16组正式loader合法fixture，直接运行Git旧prepare与新模块，计划/实际读轨迹/音效输入/依赖拒绝结果全等。
   旧代码仅在/tmp诊断运行态，不留产品兼容实现；诊断内部16组合不计官方新增测试。
@@ -79,7 +79,7 @@ fixture经正式loader，使用合法map/sprite/物品/装备；准备单元的�
    没有改候选断言来迁就错误注入，也没有降低判据。
 3. cb1cb26d远端Coverage36023454364失败：两个旧battle-host用例在固定150次轮询预算内未等到资源准备。
    独立提交ad16ba94改helper为Vitest默认waitFor，不改产品、超时、排除或基线；
-   [就绪调度反证](../../unresolved-tools/battle-host-readiness-scheduling.mjs)原驱动exit1/新驱动exit0，旧29正控/11反例保持。
+   [就绪调度反证](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs)原驱动exit1/新驱动exit0，旧29正控/11反例保持。
    ad16ba94远端[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/36026355596)和
    [Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/36026354848)均已核success。
    不回写成cb1原远端成功；A3-a历史本地门禁证据仍有效。

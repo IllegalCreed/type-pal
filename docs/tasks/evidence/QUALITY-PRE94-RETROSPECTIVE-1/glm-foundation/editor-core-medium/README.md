@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-范围 38 件,六段拼读 12.5k 行,全文读毕;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/core 全量 2331/2331、numFailedTestSuites=0,原回执超 1MiB 检查边界,现以 [directed.json.gz](directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致;与批53页引用同一冻结回执,非两次独立运行)。零 diff 批不适用 body-invariance。
+范围 38 件,六段拼读 12.5k 行,全文读毕;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/core 全量 2331/2331、numFailedTestSuites=0,原回执超 1MiB 检查边界,现以 [directed.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-core-medium/directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致;与批53页引用同一冻结回执,非两次独立运行)。零 diff 批不适用 body-invariance。
 
 ## 发现
 

@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-原 94/95 的 30 路径与当前 main 字节一致，复用 pre94 菜单/renderer 逐文件证据及 PR22 冻结门；CODE96 既有精确退役、102 既有工具关闭保留。指纹不证明读过或设计良好，未重复生产整套 GLM 复审。本轮补读 helper/状态机、完整 driver、Save/IDB 及当前改动测试片；driver 测试全文作者证据复用，当前实际差异/夹具另核。IDB 使用独立 fake-indexeddb 工厂，未读写用户数据库；W3C IndexedDB（2.1.1 versionchange/4.4 close/5.2 closing semantics，2026-10-25 查阅）的连接关闭、versionchange 与失败语义用于资源归属判断，未变存档格式、DB 版本或旧 store 升级策略。原 4 链接处置见作者 review 的 linkDisposition，当前存活入口：[receipts.json.gz](receipts.json.gz) [postflight.json.gz](postflight.json.gz)（含逐次 stdout/stderr、执行参数/退出码与原生 JSON，压缩前字节数/SHA 可复验；提交前静态原件单独保存 docs、lint-zero、ledger 及 diff 收尾日志，不替代尚未运行的全仓测试或 coverage 门）。
+原 94/95 的 30 路径与当前 main 字节一致，复用 pre94 菜单/renderer 逐文件证据及 PR22 冻结门；CODE96 既有精确退役、102 既有工具关闭保留。指纹不证明读过或设计良好，未重复生产整套 GLM 复审。本轮补读 helper/状态机、完整 driver、Save/IDB 及当前改动测试片；driver 测试全文作者证据复用，当前实际差异/夹具另核。IDB 使用独立 fake-indexeddb 工厂，未读写用户数据库；W3C IndexedDB（2.1.1 versionchange/4.4 close/5.2 closing semantics，2026-10-25 查阅）的连接关闭、versionchange 与失败语义用于资源归属判断，未变存档格式、DB 版本或旧 store 升级策略。原 4 链接处置见作者 review 的 linkDisposition，当前存活入口：[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/CODE-QUALITY-94/current-review/receipts.json.gz) [postflight.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/CODE-QUALITY-94/current-review/postflight.json.gz)（含逐次 stdout/stderr、执行参数/退出码与原生 JSON，压缩前字节数/SHA 可复验；提交前静态原件单独保存 docs、lint-zero、ledger 及 diff 收尾日志，不替代尚未运行的全仓测试或 coverage 门）。
 
 ## 发现
 

@@ -1,8 +1,8 @@
 # CODE-QUALITY-53 — game player status runtime-zero ownership conflict
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ SDLPal 锚点：uigame.c:1120-1229 状态直读 runtime；global.c:1459-1693 施
 
 ## 状态与交接
 
-Status 保持 review：本卡代码复审 accept，但等全部 pre94 统一门后再决定 done（截至 2026-10-25 卡面记录时点）。派生卡：CODE-QUALITY-79（0x61 level>=99 条件未随键迁移，单独登记）、CODE-QUALITY-80（战中入队/离队使 party=[0] 而 battlePlayers=[0,1] 的寿葫芦效果丢失，两取舍待用户）。遗留边界：addPoisonForPlayer 先运行入口后写毒槽与 SDLPal 先写 ID 的顺序差异未当已证缺陷；event-opcodes.cov85.test.ts 419 行仍 pending。本卡无下一位 Agent 提示词，Codex 在同一治理分支连续推进。
+Status为done：原卡有限范围代码接受已由bootstrap-quality及原83逐卡接受表确认，地图counter已按后继证据恢复。派生CODE-QUALITY-79/80各有独立有限接受，不再作为本卡未答产品取舍；毒入口与其它后继窄修按各自卡追溯。本卡不重授广域文件、原cov85待验域、普通剧情、英文资源观感或新增视觉信用，也不抹去序列化键语义边界。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。无下一位Agent提示词。
 
 ## 原文保全
 

@@ -311,7 +311,7 @@ DEV hotkeys increment: [one historical subject, A-H and3 identities](organizatio
 
 [One subject, four reorganized specs and shared data fixture](organization-inventory-state.json):40 original cases map to 39 retained and one weaker cancellation duplicate subsumed by a stronger case. Full 12 Item records, four roles and grid data retain declared metadata; IDs, equipment slot/permission and explicit party fixtures are corrected. Independent color literals and full slot tables catch two real mutations: old selected green, new single business red, exact restoration. Nine files/129 adjacent cases, 15 shuffled target cases and game typecheck pass without diagnostics. Three production comments are checked by complete typed AST, including re-exports; the registration parser remains strict. The narrow verifier addition has 29 tool tests and frozen predecessors. Goal138/174, remaining36; fixed cohort142/178. No new closed files or heavy-gate/publication credit.
 
-The original 5,742-member archive remains sealed. Continuations use the existing [volume catalog](native-archives.json), including [third-volume index](native-index-003.json) and [third-volume bytes](native-003.json.gz); every prior member remains exact. These attachments preserve execution facts and failures, not additional file-review credit.
+The original 5,742-member archive remains sealed. Continuations use the existing [volume catalog](native-archives.json), including [third-volume index](native-index-003.json) and [third-volume bytes](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PENDING-100-3/native-003.json.gz); every prior member remains exact. These attachments preserve execution facts and failures, not additional file-review credit.
 
 #### Buying, selling and script-to-menu ownership
 
@@ -391,7 +391,7 @@ base快照错配为ours后，旧选中1绿、新唯一业务AssertionError；sou
 
 第六片收尾fetch首跑TLS失败exit128，默认verify如实拒绝；fetch-r2成功exit0、stdout/stderr0，仍与最新main为0/0。失败/恢复原件分别保留，不改写为首跑成功。
 
-[附件索引](native-index.json)对应完整[native.json.gz](native.json.gz)：probe、before源码/测试、原生file×fullName、实际execution、全部成功/失败stdout/stderr与恢复结果。默认只读：`node docs/ops/evidence/QUALITY-PENDING-100-3/verify.mjs`，只核当前版本/原件/指定结果，不跑测试/覆盖率、不自动证明八维设计。重跑实际定向用migrate的unit runner，具体命令在execution原件中。
+[附件索引](native-index.json)对应完整[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PENDING-100-3/native.json.gz)：probe、before源码/测试、原生file×fullName、实际execution、全部成功/失败stdout/stderr与恢复结果。默认只读：`node docs/ops/evidence/QUALITY-PENDING-100-3/verify.mjs`，只核当前版本/原件/指定结果，不跑测试/覆盖率、不自动证明八维设计。重跑实际定向用migrate的unit runner，具体命令在execution原件中。
 
 #### 未跑与风险
 

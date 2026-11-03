@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-逐文件八维、授权、版本桥与失效域见 [review.json](review.json)(date=2026-10-25,base=7d7246dce…,decisions 记录用户 call_400efa7c… 三决定);完整红/绿与 typecheck 双流原件见 [receipts.json.gz](receipts.json.gz);默认只读复验见 [verify.mjs](verify.mjs)。用户本次明确保留 TS 极值速度,并批准正防御及姓名速度修复:其一 retain TS extreme dex, document deviation;其二 fix positive WORD defense, red first;其三 name does not reset script delay, red first。
+逐文件八维、授权、版本桥与失效域见 [review.json](review.json)(date=2026-10-25,base=7d7246dce…,decisions 记录用户 call_400efa7c… 三决定);完整红/绿与 typecheck 双流原件见 [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/approved-boundaries/receipts.json.gz);默认只读复验见 [verify.mjs](verify.mjs)。用户本次明确保留 TS 极值速度,并批准正防御及姓名速度修复:其一 retain TS extreme dex, document deviation;其二 fix positive WORD defense, red first;其三 name does not reset script delay, red first。
 
 ## 断言与业务 oracle
 

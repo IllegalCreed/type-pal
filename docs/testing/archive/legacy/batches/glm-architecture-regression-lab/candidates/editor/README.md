@@ -23,12 +23,12 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
-- [g01-map-gesture.test.tsx](g01-map-gesture.test.tsx)
-- [g02-map-scope.test.tsx](g02-map-scope.test.tsx)
-- [g03-app-lifecycle.test.tsx](g03-app-lifecycle.test.tsx)
-- [g04-script-draft.test.tsx](g04-script-draft.test.tsx)
-- [g05-playback-scope.test.tsx](g05-playback-scope.test.tsx)
-- [lab-startup.test.tsx](lab-startup.test.tsx)
+- [g01-map-gesture.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/g01-map-gesture.test.tsx)
+- [g02-map-scope.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/g02-map-scope.test.tsx)
+- [g03-app-lifecycle.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/g03-app-lifecycle.test.tsx)
+- [g04-script-draft.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/g04-script-draft.test.tsx)
+- [g05-playback-scope.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/g05-playback-scope.test.tsx)
+- [lab-startup.test.tsx](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/lab-startup.test.tsx)
 - 逐文件台账：[全量收口决策账](../../../../../migrations/legacy-full-closeout-plan.json)（源 SHA/caller/oracle/排重/停止线）。
 - 上级导航：[Legacy 历史归档](../README.md)。
 - Owner：Codex（文档治理）；原批次 Owner/贡献者保留于各正文。

@@ -1,9 +1,9 @@
 # GAME-INPUT-KEYMAP-OWN-KEY-1 — 未定义键名的查表所有权
 
-Status: review
+Status: done
 Owner: Codex（原卡作者；本轮文档pilot）
 Phase: phase1
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -12,7 +12,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-仅查表所有权与真实KeyboardInputSource、modal/手柄/触屏相邻入口；34原支持键保持，不扩键表、类型、存档或机制。本卡原Status review保持，不借文档迁移关闭代码任务。
+仅查表所有权与真实KeyboardInputSource、modal/手柄/触屏相邻入口；34原支持键保持，不扩键表、类型、存档或机制。本次只补已接受窄修的发布收口，不扩原支持键与行为边界。
 
 ## 前提与证据
 
@@ -20,11 +20,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-核自有键结果、未知名不进入held/pressed、modal及设备所有权未变；不能用原型对象制造合法业务键。原代码已接受，统一门/提交仍随父窗口记录，不用文档结构通过代授。
+核自有键结果、未知名不进入held/pressed、modal及设备所有权未变；不能用原型对象制造合法业务键。原代码接受及父窗口本地门证据按原版本复用，受保护发布事实已核；不新增代码或执行验收信用。
 
 ## 状态与交接
 
-查看[治理原件](../evidence/QUALITY-PENDING-100-3/README.md)与[输入所有权审查](../evidence/QUALITY-PENDING-100-3/input-keymap-own-key.json)。普通实体键盘触发未证明，新的产品行为另走授权；本轮只核固定源并等待独立文档验收。
+查看[治理原件](../evidence/QUALITY-PENDING-100-3/README.md)与[输入所有权审查](../evidence/QUALITY-PENDING-100-3/input-keymap-own-key.json)。普通实体键盘触发未证明，新的产品行为另走授权；本卡done仅指已批准窄修的代码与发布义务闭合。
+
+2026-11-03复核：原发布义务由父窗口[实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；原件待发布字段保留原时点。
 
 ## 原文保全
 

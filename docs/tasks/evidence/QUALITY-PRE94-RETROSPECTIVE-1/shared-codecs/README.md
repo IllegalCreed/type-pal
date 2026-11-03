@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-当前CODE2/2b accept：11文件八维成立，6新关闭、5既有关闭不重复计数；固定83卡53accept/30partial，不扩展94–102。复用[README.md](../2/README.md)、[README.md](../2b/README.md)和GLM三个foundation八维记录，当前AST/SDLPal源/15个raw输入与native日志SHA匹配；未重跑2373chunks/1464frames/2626segments全量对拍。完整逐文件A–H、依赖与失效条件见[evidence.json](evidence.json)，完整原件在[raw.json.gz](raw.json.gz)。
+当前CODE2/2b accept：11文件八维成立，6新关闭、5既有关闭不重复计数；固定83卡53accept/30partial，不扩展94–102。复用[README.md](../2/README.md)、[README.md](../2b/README.md)和GLM三个foundation八维记录，当前AST/SDLPal源/15个raw输入与native日志SHA匹配；未重跑2373chunks/1464frames/2626segments全量对拍。完整逐文件A–H、依赖与失效条件见[evidence.json](evidence.json)，完整原件在[raw.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shared-codecs/raw.json.gz)。
 
 ## 断言与业务 oracle
 

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[3x-README.before.gz](../core-comment-audit/poison-progression-comments/3x-README.before.gz) [README.md](../core-comment-audit/poison-progression-comments/README.md) 。本片重新全文核 battle-progression、H02、levelup 三文件,按 PAL_BattleWon/PAL_PlayerLevelUp/真实 settlement caller 核主升级 999 cap、隐藏经验不套此 cap、主 6 抽/隐藏 2 抽与 HP/MP 回满顺序;C 锚勘误:STAT_LIMIT 2393-2401、MAX_LEVELS/palcommon.h 与 global.c 真实 EOF 2409(旧行界 2347-2454 越界,证据在 53 receipt-audit 的 anchor-corrections);写回余 exp 与 PAL_PlayerLevelUp 自身清零不同、PRNG 算法异于 SDLPal,不能声称同种子同序。
+来源为固定Git载体,非本次运行;原2个链接处置见作者review的linkDisposition。当前存活入口:[3x-README.before.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/3x-README.before.gz) [README.md](../core-comment-audit/poison-progression-comments/README.md) 。本片重新全文核 battle-progression、H02、levelup 三文件,按 PAL_BattleWon/PAL_PlayerLevelUp/真实 settlement caller 核主升级 999 cap、隐藏经验不套此 cap、主 6 抽/隐藏 2 抽与 HP/MP 回满顺序;C 锚勘误:STAT_LIMIT 2393-2401、MAX_LEVELS/palcommon.h 与 global.c 真实 EOF 2409(旧行界 2347-2454 越界,证据在 53 receipt-audit 的 anchor-corrections);写回余 exp 与 PAL_PlayerLevelUp 自身清零不同、PRNG 算法异于 SDLPal,不能声称同种子同序。
 
 ## 断言与业务 oracle
 

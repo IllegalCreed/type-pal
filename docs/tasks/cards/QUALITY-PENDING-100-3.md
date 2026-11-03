@@ -1,13 +1,13 @@
 # QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-接续最近200文件复查，从仍pending的模块推进八维审核与必要质量返工。约100个实际完成主体只是集中重型门的默认节奏；按用户2026-10-28指示，复杂模块缩小切片，不降低标准、不用依赖补读凑数。
+本卡记录最近200文件复查后的第三治理窗口及其发布收口。原约100个主体的集中门节奏、复杂模块缩小切片的用户要求和各片实际范围保持，不把本窗口完成外推为全仓完成。
 
 ## 范围
 
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-基点门只证明起点：fetch成功、树干净、origin/main与同一治理分支0/0；main的documentation 40708753365、fast-coverage 40708753193已成功，不替本窗口未提交代码授门禁信用。质量合同锚[长期八维](../../engineering/guides/code-quality.md)、[现行工作流](../../engineering/guides/agent-workflow.md)、[阶段规则](../../phase2/READ-FIRST.md)与[历史写入保护卡](../archive/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)；逐文件A–H、旧→新断言映射、原生身份与完整raw落在[窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)。用户2026-10-29命名与组织补审后，178旧closed静态候选转[命名组织专项](QUALITY-NAMING-ORGANIZATION-1.md)仅F/G补审；原29已读主体先更正为20完成、9项F/G待补，返工后全恢复代码信用、当前实际主体路径25。
+基点门只证明起点：fetch成功、树干净、origin/main与同一治理分支0/0；main的documentation 40708753365、fast-coverage 40708753193已成功，仅为原起点证据，后续本窗口发布事实另列。质量合同锚[长期八维](../../engineering/guides/code-quality.md)、[现行工作流](../../engineering/guides/agent-workflow.md)、[阶段规则](../../phase2/READ-FIRST.md)与[历史写入保护卡](../archive/done/MIGRATION-WRITE-GUARD-1-planned-snapshot-and-paths.md)；逐文件A–H、旧→新断言映射、原生身份与完整raw落在[窗口证据](../evidence/QUALITY-PENDING-100-3/README.md)。用户2026-10-29命名与组织补审后，178旧closed静态候选转[命名组织专项](QUALITY-NAMING-ORGANIZATION-1.md)仅F/G补审；原29已读主体先更正为20完成、9项F/G待补，返工后全恢复代码信用、窗口接收时实际主体路径25。
 
 ## 验收
 
@@ -23,7 +23,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-本窗口代码接收、完整原件及最终文档/静态复验已完成；check20,548、单次fast20,199、同报告ratchet/protected、6301文件lint零诊断。行为修复1c0de481a与职责重组7f6b41d9a分提交。本卡review只等待同一治理分支的PR、远端必需检查与合并，未声称已发布；固定cohort178已补审、本goal174无剩余；范围外5个cov85文件F/G仍review、其余2632 pending不动。无下一位Agent提示词，由Codex完成发布。
+本窗口已完成代码接收、本地统一门与受保护发布，Status为done。check20,548、单次fast20,199、同报告ratchet/protected及6301文件零诊断均是原冻结候选的本地结果；行为修复与职责重组分提交。固定cohort178及本goal174的接受范围不变，317当前路径不等于新做317份全文复审。原窗口之外五个cov85按后继专项判断，本卡不重复授信；原其余pending和整transaction等广域文件不由本卡关闭。没有新产品、E2E或视觉执行；无下一位Agent提示词。
+
+2026-11-03发布事实复核：[PR34](https://github.com/IllegalCreed/type-pal/pull/34)已合并为5e66fa6b6291f94330fb5d7fc9828062e0eb8a51；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/41204980549)与[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/41204980534)均completed/success。原代码提交1c0de481a及7f6b41d9a已在当前主线祖先链；冻结原件中的待发布字段保留原时点，不再作为本卡当前阻塞。
 
 ## 原文保全
 

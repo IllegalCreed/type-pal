@@ -19,8 +19,8 @@ Template: evidence-receipt-v1 / 1.0.0
 
 - [逐文件八维与保留取舍](review.json)：全文主体、caller、生命周期、命名拆合、问题和限制。
 - [冻结输入、当前输出、caller 指纹和测试去向](proof.json)：54 个原运行身份全部有去向；新增10项针对布局flag/资源更换、消息所有权、静态壳卸载和中文描述路径的合同。七个产品文件的去注释 TypeScript AST 相同。
-- [声明、import、hook 与测试闭包](dependency-closures.json.gz)：复用既有 analyzer，语法相同不代替 fixture/生命周期判断。
-- [完整原始材料](raw.json.gz)：stdout/stderr、原生 JSON、命令/退出、反控补丁、环境异常和 main CI；以原始字节/hash保存，不裁剪通过用例输出。
+- [声明、import、hook 与测试闭包](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/dependency-closures.json.gz)：复用既有 analyzer，语法相同不代替 fixture/生命周期判断。
+- [完整原始材料](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-GAME-LOCALIZATION-1/raw.json.gz)：stdout/stderr、原生 JSON、命令/退出、反控补丁、环境异常和 main CI；以原始字节/hash保存，不裁剪通过用例输出。
 - [集中门结果](gates.json)：如实区分首次失败与恢复、覆盖率采集与同报告保护核算；发布由 PR 另记。
 
 `presentation` 的 WORD/布局/说明/装备合同归各自消费者；`shell-surfaces` 的加载、统计授权和地图名分开；消息组模块测试与真实跨帧播放、纯换行、战斗偷取显示分层。地图名三个重复英文断言由原主测已存在的 known/fallback 例承接，全域英文成员与英文回切中文断言保留。原播放的长度断言加强为完整 Command 前后不变，label 字面断言保留。

@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-[review.json](review.json)复用five-cards七份全文证据、58夹具及前片1332行完整读取，本次只核实际差异与旧停止线：十文件中仅新增关闭tools-panel-style.ts，八个状态/inspect相关件只刷新既有接受、不重复计数；tools-panel.ts仍review（纯质量修复有界接受，导出失败停止整模块）。status澄清中英布局和运行态ownership；tools静态样式独立，保留原出口、收窄三个私有依赖、用BattleStatus删除两处双强转；无实现行为、公开接口、存档或生成物变化。完整执行代码重建与状态非import TS相等证明见[prove-refactor.cjs](prove-refactor.cjs)；完整原件在[receipts.json.gz](receipts.json.gz)，[static.json](static.json)独立记录静态门。
+[review.json](review.json)复用five-cards七份全文证据、58夹具及前片1332行完整读取，本次只核实际差异与旧停止线：十文件中仅新增关闭tools-panel-style.ts，八个状态/inspect相关件只刷新既有接受、不重复计数；tools-panel.ts仍review（纯质量修复有界接受，导出失败停止整模块）。status澄清中英布局和运行态ownership；tools静态样式独立，保留原出口、收窄三个私有依赖、用BattleStatus删除两处双强转；无实现行为、公开接口、存档或生成物变化。完整执行代码重建与状态非import TS相等证明见[prove-refactor.cjs](prove-refactor.cjs)；完整原件在[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/status-tools-closeout/receipts.json.gz)，[static.json](static.json)独立记录静态门。
 
 ## 断言与业务 oracle
 

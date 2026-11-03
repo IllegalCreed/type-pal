@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-CODE3g CLI总装质量收口（2026-10-24，基点4c684dfd、codeHead b3dc6d12）。[review.json](review.json)、[receipts.json.gz](receipts.json.gz)、[verify.mjs](verify.mjs)。七新模块（io/read、data/animation/bitmap/sprite/sound/lookup/world-assets）加CLI八新关闭，world仅刷新既有接受；固定83卡76accept／7partial／0pending。代码接受与最终集成门分开；剩余1／3m／42／53／56／57／58继续，94–102不扩展。
+CODE3g CLI总装质量收口（2026-10-24，基点4c684dfd、codeHead b3dc6d12）。[review.json](review.json)、[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/cli-stages-closeout/receipts.json.gz)、[verify.mjs](verify.mjs)。七新模块（io/read、data/animation/bitmap/sprite/sound/lookup/world-assets）加CLI八新关闭，world仅刷新既有接受；固定83卡76accept／7partial／0pending。代码接受与最终集成门分开；剩余1／3m／42／53／56／57／58继续，94–102不扩展。
 
 ## 来源与输入
 

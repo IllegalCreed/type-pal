@@ -1,8 +1,8 @@
 # GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。实施：用户批准后实际先红（导出拒绝缺toast一个AssertionError+一个未处理拒绝），随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob/文件名可核；真实Chrome的Save/IDB readonly平台失败显示原因、恢复后再次读取正常、未写任何槽位。原件unhandledErrors派生字段是suite差值不能当诊断计数，实际拒绝以raw全文为准。完整证据见[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。
+原检查点固定源全文核读。实施：用户批准后实际先红（导出拒绝缺toast一个AssertionError+一个未处理拒绝），随后局部try/catch及URL finally，四条不同IO合同全绿、实际V1 Blob/文件名可核；真实Chrome的Save/IDB readonly平台失败显示原因、恢复后再次读取正常、未写任何槽位。原件unhandledErrors派生字段是suite差值不能当诊断计数，实际拒绝以raw全文为准。完整证据见[README.md](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/README.md)。
 
 ## 验收
 
-代码修复已接受，整卡review等全部pre94的统一零诊断门与PR；不以本次340例或已有toast视觉代替统一门。
+原导出拒绝toast、URL finally与只读Chrome失败/恢复已接受；CODE58后继有限接受及统一门/发布闭合。旧340例、派生unhandledErrors计数纠错与真实拒绝原文分别保留，不当本轮执行。
 
 ## 状态与交接
 
-review保持原语义；属CODE58发现的必要返工候选，完成定向和证据验收前CODE58保持partial。无下一位Agent提示词。
+Status为done，仅关闭批准的导出错误反馈，CODE58旧partial义务已由后继原件接收；不新增数据库格式、槽位、重试、完整工具或剧情视觉信用。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

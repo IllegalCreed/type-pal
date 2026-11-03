@@ -1,8 +1,8 @@
 # CODE-QUALITY-110 — game present draw-sprite 逐文件复核
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。定向3files/17tests PASS 0 stderr；game typecheck PASS；2026-10-17收口：全仓check exit0（content 149/149、shared 16/16、game 321/3613、pal-extract 72/434、reforge 359/8964、editor 631/4943、migrate 96/739，lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/35review/3041pending；official ratchet与protected fast仍因既有shared/pal-extract/total baseline回退失败，本批无源码修复不调baseline。
+原检查点固定源全文核读。定向3files/17tests PASS 0 stderr；game typecheck PASS；2026-10-17收口：全仓check exit0（content 149/149、shared 16/16、game 321/3613、pal-extract 72/434、reforge 359/8964、editor 631/4943、migrate 96/739，lint 4962文件0/0/0）、check:docs/ledger/git diff --check通过、账本3307/231closed/35review/3041pending；official ratchet与protected fast仍因既有shared/pal-extract/total baseline回退失败，本批无源码修复不调baseline。
 
 ## 验收
 
-三文件保持review；sprite asset/schema、生成物、公共接口或用户可见行为变化另开高风险卡。
+原三文件在[呈现叶模块接受](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)内逐项闭合，draw-sprite.ts接受SHA与当前相同；两个原测试经[字体与像素职责原件](../evidence/QUALITY-PENDING-100-3/organization-game-font-pixels.json)保全到当前draw-sprite.test.ts，输入/输出SHA已核。
 
 ## 状态与交接
 
-review保持原语义；无源码修复，以复核证据登记。
+Status为done，仅收原anchor、opaque0、透明孔与裁剪合同；后继命名与断言承接不重复计数。不授整呈现管线、真实资源美术、剧情或新增视觉执行信用。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

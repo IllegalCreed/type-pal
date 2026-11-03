@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE3m 核心合同的收口回执,原时点状态为 scoped code acceptance; CODE3m remains partial(Owner=Codex 单 Agent,自审身份明确)。逐文件八维与继承版本桥见 [review.json](review.json);完整原件/产生者见 [receipts.json.gz](receipts.json.gz);默认只读快检见 [verify.mjs](verify.mjs)。九个文件范围接受(五新关闭、四旧关闭刷新);formulas/magic-damage 及各自主专测四项保留 review,不能以局部绿关闭整卡;pre94 仍 76 accept/7 partial。原件逐字节保全于下方保全块。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE3m 核心合同的收口回执,原时点状态为 scoped code acceptance; CODE3m remains partial(Owner=Codex 单 Agent,自审身份明确)。逐文件八维与继承版本桥见 [review.json](review.json);完整原件/产生者见 [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-closeout/receipts.json.gz);默认只读快检见 [verify.mjs](verify.mjs)。九个文件范围接受(五新关闭、四旧关闭刷新);formulas/magic-damage 及各自主专测四项保留 review,不能以局部绿关闭整卡;pre94 仍 76 accept/7 partial。原件逐字节保全于下方保全块。
 
 ## 来源与输入
 

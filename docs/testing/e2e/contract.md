@@ -12,7 +12,7 @@ evidence: e2e/evidence/e2e-contract.json
 
 Owner: Codex
 Status: current（验收合同；不表示片段或完整链已通过）
-Last reviewed: 2026-10-15
+Last reviewed: 2026-11-03
 Template: test-contract-v1 / 1.0.0
 
 ## Contract question
@@ -85,6 +85,8 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 > **开工前置（用户，2026-09-05；2026-09-06 复核更新）**：商店生命周期已收口；第一、第二阶段
 > 全仓代码审计**A–E 首轮取证已完成**（见 `docs/ops/audits/pre-e2e/summary.md`），当前是按总收口
 > 修复影响数据安全、流程正确性和 E2E 可信度的阻断问题，再开始 R4；一般优化不要求在 E2E 前全部完成。
+
+2026-11-03当前边界：001–006按[冻结连续链的有限接受](../../tasks/archive/done/E2E-CONTINUOUS-001-006.md)复用；006后继已按`33cfb9ad89f8696802b7c2ec466fbc93cccf8149`及[原卡当前接受](../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md#状态与交接)闭合其技术/C1与用户短片义务，具体轮次和未授范围由[006正式报告](stages/006-doctor-boat/report.md)持有。007及以后的作者边界仍随真实剧情、原指令和用户意图逐段核定，不代作者裁决。下方“006以后待确认”仅属2026-09-27快照；当前R4薄基线、N6b及完整剧情均不因本次状态更正获得新接受。机器出版状态、旧版本/执行和失败记录保持原身份。
 
 > 下段为原 2026-09-27 准入与 content21/SAVE10 状态快照；其中“当前/已执行/待确认”均按原轮次读取，今天以各片段正式报告和现行版本为准。
 

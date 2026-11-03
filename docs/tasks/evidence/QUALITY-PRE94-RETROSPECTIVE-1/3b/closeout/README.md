@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是 CODE3b SSS/M.MSG 模块收口（基点 0f6423ef1…，Owner Codex，同一 codex/code-quality-3y）的摘要页；归 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)；[README.md](../README.md)（原边界）与 [README.md](../raw-tests/README.md)（原盘补证）原件保持历史。完整六文件八维、精确改动与失效条件在 [evidence.json](evidence.json)；[raw.json.gz](raw.json.gz)（完整原件）与只读快检 [verify.mjs](verify.mjs)（node …/3b/closeout/verify.mjs）可复验。本片真实成果：六文件（sss/msg 两 parser、两 boundary、两 raw 测试）审查及返工完成并按原 3b 合同 accept，统一门延至多卡窗口；不关闭相邻广域模块、不合 main 的时点边界由后节替代。
+本页是 CODE3b SSS/M.MSG 模块收口（基点 0f6423ef1…，Owner Codex，同一 codex/code-quality-3y）的摘要页；归 [QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)；[README.md](../README.md)（原边界）与 [README.md](../raw-tests/README.md)（原盘补证）原件保持历史。完整六文件八维、精确改动与失效条件在 [evidence.json](evidence.json)；[raw.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/closeout/raw.json.gz)（完整原件）与只读快检 [verify.mjs](verify.mjs)（node …/3b/closeout/verify.mjs）可复验。本片真实成果：六文件（sss/msg 两 parser、两 boundary、两 raw 测试）审查及返工完成并按原 3b 合同 accept，统一门延至多卡窗口；不关闭相邻广域模块、不合 main 的时点边界由后节替代。
 
 ## 来源与输入
 

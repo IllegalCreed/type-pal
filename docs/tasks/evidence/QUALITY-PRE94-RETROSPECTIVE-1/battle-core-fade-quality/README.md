@@ -7,11 +7,11 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE3m/3n 的八维与测试质量返工回执,原时点 Status 为 recorded;Codex 单 Agent,自身核证,不冒充第三方。Date=2026-10-24,Base=3609b4d23…,Branch=codex/code-quality-3y。逐文件 A–H、当前指纹/读域、迁移与限制见 [review.json](review.json);完整原始回执见 [receipts.json.gz](receipts.json.gz);默认只读复验见 [verify.mjs](verify.mjs)。大 event/scene 仅批准签名迁移与实际 caller 核验,不授整文件信用;原 C/四网格 palette/六队列反控等按 report 所列既有证据复用,不重复全文或重跑变异。原件逐字节保全于下方保全块。
+本页是 QUALITY-PRE94-RETROSPECTIVE-1 中 CODE3m/3n 的八维与测试质量返工回执,原时点 Status 为 recorded;Codex 单 Agent,自身核证,不冒充第三方。Date=2026-10-24,Base=3609b4d23…,Branch=codex/code-quality-3y。逐文件 A–H、当前指纹/读域、迁移与限制见 [review.json](review.json);完整原始回执见 [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/receipts.json.gz);默认只读复验见 [verify.mjs](verify.mjs)。大 event/scene 仅批准签名迁移与实际 caller 核验,不授整文件信用;原 C/四网格 palette/六队列反控等按 report 所列既有证据复用,不重复全文或重跑变异。原件逐字节保全于下方保全块。
 
 ## 来源与输入
 
-用户最新裁决:剩余 pre94 全部解决后才集中全仓/coverage 并提交一个 PR;本片只定向/必要静态和同线分提交推送,3m/3n 整卡及文件不因局部绿或旧全仓门提前关闭,94-102 未扩展。两项用户批准:call_d1f85823…'同意按 SDLPal 步骤修复'(FLOAT/中间赋值;PRNG/count 不变;极端 C 转换政策不变)与 call_c207751c…'允许清理内部接口'(resolveScriptLabel 未使用 GS/废弃返回字段及 caller)。[static-receipts.json.gz](static-receipts.json.gz) 保留首轮 12 项 sourceRef/行锚失败、配对 catalog 同步过程和最终完整 check:docs 通过;四项真实源码变化只更新对应当前绑定,原 D1 SCC/161-token/三针/浏览器及出版日期不升级;最终 lint 为 0 error/warning/info,game typecheck 0,未以退出码 0 忽略初版七条 style info。
+用户最新裁决:剩余 pre94 全部解决后才集中全仓/coverage 并提交一个 PR;本片只定向/必要静态和同线分提交推送,3m/3n 整卡及文件不因局部绿或旧全仓门提前关闭,94-102 未扩展。两项用户批准:call_d1f85823…'同意按 SDLPal 步骤修复'(FLOAT/中间赋值;PRNG/count 不变;极端 C 转换政策不变)与 call_c207751c…'允许清理内部接口'(resolveScriptLabel 未使用 GS/废弃返回字段及 caller)。[static-receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-core-fade-quality/static-receipts.json.gz) 保留首轮 12 项 sourceRef/行锚失败、配对 catalog 同步过程和最终完整 check:docs 通过;四项真实源码变化只更新对应当前绑定,原 D1 SCC/161-token/三针/浏览器及出版日期不升级;最终 lint 为 0 error/warning/info,game typecheck 0,未以退出码 0 忽略初版七条 style info。
 
 ## 断言与业务 oracle
 

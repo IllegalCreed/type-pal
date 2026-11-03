@@ -19,7 +19,7 @@ GameState两项纯转换移到`battle-role-projection.ts`,原出口、签名、�
 
 ## 结果
 
-七个文件中五个新整文件关闭(game-state.ts/battle-role-projection.ts/game-state.test.ts/game-state.glm-next-wave.test.ts/tools-panel.save-io.test.ts),save-io.test.ts旧关闭刷新,tools-panel.ts仅接受获批导出修复、整文件仍review。固定77accept/6partial未动。完整原件包[receipts.json.gz](receipts.json.gz)为无损JSON/base64 gzip,成员逐字节索引在review;含实际command/cwd/时间/exit、显式default reporter stdout/stderr、原生JSON、失败、恢复、producer及所有中间失败。静态门13条exit0+ledger-first如实拒绝旧表头后修正通过,lint6055文件0/0/0;历史门不继承。
+七个文件中五个新整文件关闭(game-state.ts/battle-role-projection.ts/game-state.test.ts/game-state.glm-next-wave.test.ts/tools-panel.save-io.test.ts),save-io.test.ts旧关闭刷新,tools-panel.ts仅接受获批导出修复、整文件仍review。固定77accept/6partial未动。完整原件包[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/gamestate-save-closeout/receipts.json.gz)为无损JSON/base64 gzip,成员逐字节索引在review;含实际command/cwd/时间/exit、显式default reporter stdout/stderr、原生JSON、失败、恢复、producer及所有中间失败。静态门13条exit0+ledger-first如实拒绝旧表头后修正通过,lint6055文件0/0/0;历史门不继承。
 
 ## 限制与复核
 

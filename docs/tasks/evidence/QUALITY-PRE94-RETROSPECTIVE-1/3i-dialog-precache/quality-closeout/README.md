@@ -19,7 +19,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 结果
 
-定向7文件52/52、相邻11文件61/61、typecheck、scoped biome、101覆盖率工具通过,完整stderr 0;集中全check20,601例+692工具、official20,172例/774源与同报告strict/protected通过,项目诊断0;全仓lint5939文件0/0/0。原首次coverage中断无最终回执不计通过,补跑完整一次。首次探针漏vi、canvas跨realm比较、假时钟两超时、Mock重载两类型错等失败均保留并解释,不冒充产品缺陷或有效业务反控。pre94当前64accept/19partial;3i仅原五源范围接受,10文件新关闭/3旧接受刷新;3404tracked/405closed/104review/2895pending。完整原件见[receipts.json.gz](receipts.json.gz)、[runner-rework-receipts.json.gz](runner-rework-receipts.json.gz)、[ci-rework-receipts.json.gz](ci-rework-receipts.json.gz)。
+定向7文件52/52、相邻11文件61/61、typecheck、scoped biome、101覆盖率工具通过,完整stderr 0;集中全check20,601例+692工具、official20,172例/774源与同报告strict/protected通过,项目诊断0;全仓lint5939文件0/0/0。原首次coverage中断无最终回执不计通过,补跑完整一次。首次探针漏vi、canvas跨realm比较、假时钟两超时、Mock重载两类型错等失败均保留并解释,不冒充产品缺陷或有效业务反控。pre94当前64accept/19partial;3i仅原五源范围接受,10文件新关闭/3旧接受刷新;3404tracked/405closed/104review/2895pending。完整原件见[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/receipts.json.gz)、[runner-rework-receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/runner-rework-receipts.json.gz)、[ci-rework-receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/quality-closeout/ci-rework-receipts.json.gz)。
 
 ## 结论
 

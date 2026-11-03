@@ -1,8 +1,8 @@
 # QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 — 提取器共享输出目录清理停止线
 
-Status: build
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-31
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -25,7 +25,9 @@ C1红回执：未改生产临时树上原7例通过、两共享输出场景各�
 
 ## 状态与交接
 
-Status保持build：获准切片完成并入CLI IO统一窗口（六明确IO路径接受），但CLI旧ledger关闭因直接counter保持rework；视频编码、所有外部失败路径、内部文件链接/并发换链不在切片验收。2026-10-22集中门后卡面维持build，待大窗口统一门与独立收口。
+Status为done，仅收已批准data/data-extracted两个输出节点及真实CLI/视频入口合同。cli-io-closeout已接受守卫，cli-stages-closeout和原83 CODE3g接受已闭合剩余CLI编排/IO counter；旧CLI rework与未合main不再作当前阻塞。视频更深子路径/失败发布由其独立批准卡处理，不借本卡扩为内部链接、并发换链或编码质量验收。
+
+2026-11-03复核：原统一门与发布义务由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

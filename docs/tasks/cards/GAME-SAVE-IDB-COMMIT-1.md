@@ -1,8 +1,8 @@
 # GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。用户批准（三项最小修复之①）。实现：commitWrite只在transaction complete后resolve；默认请求错误经abort传播；手动abort无原始错误时返回AbortError。修前put success后abort反例恰一业务断言失败；修后三测试证明complete时机、正常存读元数据/删除、覆盖与删除abort均reject且旧槽cash100保留；每例独立IDBFactory、结束关闭真实连接复位句柄/spy/global。与相邻菜单/Save/快存共11files/125tests、game typecheck通过。2026-10-15最终模块窗口：定向125、完整game3564与七包typecheck通过；完整check/ratchet/protected数值通过但真实诊断未清零。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+原检查点固定源全文核读。用户批准（三项最小修复之①）。实现：commitWrite只在transaction complete后resolve；默认请求错误经abort传播；手动abort无原始错误时返回AbortError。修前put success后abort反例恰一业务断言失败；修后三测试证明complete时机、正常存读元数据/删除、覆盖与删除abort均reject且旧槽cash100保留；每例独立IDBFactory、结束关闭真实连接复位句柄/spy/global。与相邻菜单/Save/快存共11files/125tests、game typecheck通过。2026-10-15最终模块窗口：定向125、完整game3564与七包typecheck通过；完整check/ratchet/protected数值通过但真实诊断未清零。原件:[codex-final-window.md](../evidence/CODE-QUALITY-94/codex-final-window.md) [codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
 
 ## 验收
 
-两项获批修复已提交推送且定向/相邻/typecheck成立；但最终窗口诊断未清零，本卡仍review、不标done、不关闭文件、不合main。若真实API在complete前不可能resolve或abort后已reject则推翻判断——该证伪条件未被触发。
+CODE94 approved-closeout的files[48]/[50]接收真实Save→IndexedDbSave事务回归及实现，保留W3C complete/abort与独立factory原件；原全仓诊断阻塞随后闭合。本轮没有重跑存储或产品，不将合法abort注入推广为浏览器自然磁盘满实证。
 
 ## 状态与交接
 
-review保持原语义：Codex作者实施/自验，冻结的独立三验与后续修复分开。无下一位Agent提示词，由Codex继续。
+Status为done，仅关闭用户已批①的事务提交/失败传播和发布；DB_VERSION、store、schema与清档策略未扩，不授所有浏览器存储错误或新增整文件信用。冻结的原独立三验、作者修复和后继接受分别保留。
+
+2026-11-03复核：原统一门与发布义务由[94–102实际发布回执](CODE-QUALITY-94-menu-integration-window.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 

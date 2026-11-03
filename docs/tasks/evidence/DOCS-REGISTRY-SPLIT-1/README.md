@@ -2,12 +2,12 @@
 
 Status: current
 Owner: Codex
-Last reviewed: 2026-10-24
+Last reviewed: 2026-11-03
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
 
-从[registry拆分卡](../../cards/DOCS-REGISTRY-SPLIT-1.md)进入指定设计、实现、反例、中央接入与原件运输，回答“接受了哪个候选的哪一层”。本页导航current不等于卡done；语义进度仍由[全量卡](../../cards/DOCS-FULL-TEMPLATE-1.md)与当前唯一review/registry负责。
+从[registry拆分卡](../../cards/DOCS-REGISTRY-SPLIT-1.md)进入指定设计、实现、反例、中央接入与原件运输，回答“接受了哪个候选的哪一层”。拆分任务已done；全量治理的有限终态见[母卡收口](../../cards/DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)，当前唯一review/registry维护逐篇来源。
 
 ## 范围
 
@@ -17,7 +17,9 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-原卡顶部为build。设计、固定95实现、c4d存储增量、固定65ee30ad的S03/S04组合、固定4ddd的S05组合与76509484私有护栏有各自限定报告；这些接受均只覆盖原候选，不预授后继中央字节、产品运行或全量语义。本轮只重整导航并核原报告定位，未重新运行旧50/178专项或产品流程。
+原卡与治理母卡已经过独立接受及PR38/39主线收口，不再等待下方历史轮次的全量门。设计、固定95实现、c4d存储增量、固定65ee30ad的S03/S04组合、固定4ddd的S05组合与76509484私有护栏仍各自只证明原候选；旧失败不被后继成功改写。本次核终态、真实消费者和固定来源，未重跑旧50/178专项或产品流程。
+
+`raw/central-sessions/`保留269份原transport身份索引；7,399份关闭窗口payload已退出当前检出（含首批3份大补丁及最后7份已转固定Git的人用原件）。各会话原路径、作者、时间、范围、payload/stored双身份仍由原transport维护；完整字节、独有失败和执行记录从[固定Git原目录](https://github.com/IllegalCreed/type-pal/tree/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions)显式恢复，方法见[附件退役与恢复](../../../engineering/guides/documentation.md#历史输入附件的显式退出与恢复)。不从当前读取静默补回，不在新位置复制整套历史。
 
 b753的2374对象/顺序/缺省和八metadata保真，与c4d新增33pending后的summary不是同一个数值快照。原迁移mapping不改目标；canonical转换和格式化阅读投影用显式映射记录，不能拿后继summary或展示SHA替换原件身份。
 

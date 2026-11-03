@@ -1,7 +1,7 @@
 # QUALITY-MIGRATION-ASSET-TAKEOVER-1 — 作者资源接管与三方快捷路径
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
@@ -11,7 +11,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-migration-merge.ts的allowsWholeSubtreeFastPath与正式专测；发现时只读复现、等待裁决，本轮已按用户批准修复，统一门待父窗口。
+migration-merge.ts的allowsWholeSubtreeFastPath与正式专测；发现时只读复现、等待裁决；随后获批的窄修已由父窗口接受并发布。
 
 ## 前提与证据
 
@@ -23,7 +23,9 @@ migration-merge.ts的allowsWholeSubtreeFastPath与正式专测；发现时只读
 
 ## 状态与交接
 
-本卡代码接受、Status review等父窗口统一门；未执行真实迁移、写生成物或改资源/存档/公共签名。普通当前工程曾否遇到仍未增授证据；行为修复与私有清理分开冻结。
+本卡已接受的作者资源接管窄修随父窗口完成统一门与受保护发布。没有新增真实迁移或生成物执行，资源、存档及公共签名保持；普通工程曾否遇到仍未增授证据，行为修复与私有清理保留各自冻结身份。
+
+2026-11-03复核：原发布义务由父窗口[实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；原件待发布字段保留原时点。
 
 ## 原文保全
 

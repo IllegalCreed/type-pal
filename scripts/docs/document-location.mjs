@@ -5,6 +5,11 @@ import { readdirSync } from 'node:fs'
 import { join, posix } from 'node:path'
 import { loadCompressedArtifacts } from './artifact-compression.mjs'
 import { loadArtifactContentAliases } from './artifact-content-alias.mjs'
+import {
+  artifactRetirementReplayRoots,
+  loadArtifactRetirements,
+  readArtifactRetirementRows,
+} from './artifact-retirement.mjs'
 import { documentLocationAdmission } from './document-location-admission.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
@@ -98,7 +103,12 @@ function reviewValid(review, path) {
   )
 }
 
-const managedRoots = ['docs/tasks', 'docs/engineering', 'docs/phase-governance']
+const managedRoots = [
+  'docs/tasks',
+  'docs/engineering',
+  'docs/phase-governance',
+  ...artifactRetirementReplayRoots,
+]
 const managedPath = (path) => managedRoots.some((root) => path.startsWith(`${root}/`))
 function currentInventory(root, directories) {
   const paths = []
@@ -203,36 +213,45 @@ function gitTree(root, revision, requiredPaths) {
   }
   // Only this admitted manifest's mandatory reads are prefetched. Bound both
   // retained bytes and each subprocess; unrelated paths still use the lazy read.
-  const wanted = new Map()
-  let prefetchedBytes = 0
-  for (const path of requiredPaths) {
-    const entry = entries.get(path)
-    if (
-      entry?.mode !== '100644' ||
-      entry.type !== 'blob' ||
-      wanted.has(entry.object) ||
-      wanted.size >= cacheCountLimit ||
-      !Number.isSafeInteger(entry.bytes) ||
-      entry.bytes < 0 ||
-      entry.bytes > blobLimit ||
-      prefetchedBytes + entry.bytes > cacheLimit
-    )
-      continue
-    wanted.set(entry.object, entry)
-    prefetchedBytes += entry.bytes
-  }
-  let pending = [],
-    pendingBytes = 0
-  for (const entry of wanted.values()) {
-    if (pending.length === batchCountLimit || pendingBytes + entry.bytes > blobLimit) {
-      batch(pending)
-      pending = []
-      pendingBytes = 0
+  const prefetch = (paths) => {
+    const wanted = new Map()
+    let prefetchedBytes = 0
+    for (const path of paths) {
+      const entry = entries.get(path)
+      if (
+        entry?.mode !== '100644' ||
+        entry.type !== 'blob' ||
+        wanted.has(entry.object) ||
+        wanted.size >= cacheCountLimit ||
+        !Number.isSafeInteger(entry.bytes) ||
+        entry.bytes < 0 ||
+        entry.bytes > blobLimit ||
+        prefetchedBytes + entry.bytes > cacheLimit
+      )
+        continue
+      wanted.set(entry.object, entry)
+      prefetchedBytes += entry.bytes
     }
-    pending.push(entry)
-    pendingBytes += entry.bytes
+    let pending = [],
+      pendingBytes = 0
+    for (const entry of wanted.values()) {
+      if (cache.has(entry.object)) {
+        const bytes = cache.get(entry.object)
+        cache.delete(entry.object)
+        cache.set(entry.object, bytes)
+        continue
+      }
+      if (pending.length === batchCountLimit || pendingBytes + entry.bytes > blobLimit) {
+        batch(pending)
+        pending = []
+        pendingBytes = 0
+      }
+      pending.push(entry)
+      pendingBytes += entry.bytes
+    }
+    batch(pending)
   }
-  batch(pending)
+  prefetch(requiredPaths)
   const read = (path) => {
     const entry = entries.get(path)
     if (!entry) return undefined
@@ -244,7 +263,7 @@ function gitTree(root, revision, requiredPaths) {
     }
     return Buffer.from(cache.get(entry.object))
   }
-  return { entries, read }
+  return { entries, read, prefetch }
 }
 
 /** The manifest is a bounded, separately admitted change set. It never rewrites
@@ -260,6 +279,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     admission.manifestSha256,
     'document location: unaccepted manifest',
   )
+  assert(manifestBytes.length <= 1_048_576, 'document location: root manifest exceeds 1 MiB')
   const manifest = JSON.parse(manifestBytes)
   assert(
     manifest.schemaVersion === 1 &&
@@ -268,15 +288,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       ['documents', 'additions', 'retired'].every((key) => Array.isArray(manifest[key])) &&
       (manifest.artifacts === undefined || Array.isArray(manifest.artifacts)) &&
       (manifest.artifactAliases === undefined || Array.isArray(manifest.artifactAliases)) &&
-      (manifest.compressedArtifacts === undefined || Array.isArray(manifest.compressedArtifacts)),
+      (manifest.compressedArtifacts === undefined || Array.isArray(manifest.compressedArtifacts)) &&
+      (manifest.retiredArtifacts === undefined ||
+        Array.isArray(manifest.retiredArtifacts) ||
+        (manifest.retiredArtifacts && typeof manifest.retiredArtifacts === 'object')),
     'document location: invalid contract or frozen source revision',
   )
-  const source = gitTree(root, manifest.baseRevision, [
+  const physicalState = (path, parents) => fileState(root, safePath(path), parents, '')
+  const retirementList = readArtifactRetirementRows({
+    declaration: manifest.retiredArtifacts,
+    artifacts: manifest.artifacts,
+    readState: physicalState,
+    safePath,
+  })
+  const requiredSourcePaths = [
     ...manifest.documents.map((row) => row.path),
     ...manifest.retired.map((row) => row.path),
     ...(manifest.compressedArtifacts ?? []).map((row) => row.path),
     ...(manifest.artifactAliases ?? []).flatMap((row) => [row.path, row.receipt]),
-  ])
+  ]
+  const source = gitTree(root, manifest.baseRevision, requiredSourcePaths)
   const changes = new Map()
   const additions = new Map()
   const artifacts = new Map()
@@ -371,7 +402,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     )
     retired.set(row.path, row)
   }
-  const physicalState = (path) => fileState(root, safePath(path), undefined, '')
+  const reservedPaths = new Set([
+    ...changes.keys(),
+    ...additions.keys(),
+    ...artifacts.keys(),
+    ...retired.keys(),
+    ...(manifest.artifactAliases ?? []).flatMap((row) => [row.path, row.retained, row.receipt]),
+    ...(manifest.compressedArtifacts ?? []).flatMap((row) => [row.path, row.stored]),
+  ])
+  for (const path of [...reservedPaths])
+    if (typeof path === 'string') reservedPaths.add(currentDocumentPath(path))
+  const artifactRetirements = loadArtifactRetirements({
+    rows: retirementList.rows,
+    source,
+    physicalPath: currentDocumentPath,
+    readState: physicalState,
+    safePath,
+    reservedPaths,
+  })
+  // A large retired set must not strand ordinary mandatory source reads behind
+  // its rolling cache window. Restore those reads through the same bounded batch.
+  source.prefetch(requiredSourcePaths)
   const compressed = loadCompressedArtifacts({
     rows: manifest.compressedArtifacts,
     source,
@@ -389,11 +440,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   })
   for (const row of compressed.entries)
     assert(!aliases.get(row.path), 'compressed carrier cannot also be a content alias')
-  const readBuffer = (identity) => currentState(aliases.resolve(identity)).buffer ?? undefined
+  const readBuffer = (identity) =>
+    artifactRetirements.get(identity)
+      ? undefined
+      : (currentState(aliases.resolve(identity)).buffer ?? undefined)
   const read = (identity) => readBuffer(identity)?.toString('utf8')
   const assertCurrent = (path, expectedBeforeSha256) => {
     auditedPaths.add(path)
     assert(!retired.has(path), `retired identity has no current body: ${path}`)
+    assert(
+      !artifactRetirements.get(path),
+      `retired artifact has no current body; recover the fixed Git source explicitly: ${path}`,
+    )
     const state = currentState(aliases.resolve(path))
     const current = state.buffer
     assert(current, `document location: current file missing: ${currentDocumentPath(path)}`)
@@ -495,12 +553,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     }
     return { current, previous, change }
   }
-  // Every original identity retains exact bytes. A separately admitted duplicate
-  // TSV may share its fixed baseline bytes without merging execution identities.
+  // Unretired originals keep exact current bytes; admitted duplicate TSVs may
+  // share their baseline without merging executions. Explicitly retired inputs
+  // have only their separately checked fixed Git source, never a current fallback.
   for (const [target, identity] of identities) {
-    if (target === identity) continue
+    if (target === identity) {
+      if (
+        artifactRetirementReplayRoots.some((root) => identity.startsWith(`${root}/`)) &&
+        !artifactRetirements.get(identity)
+      )
+        assertCurrent(identity)
+      continue
+    }
     assert(ordinaryBytes(root, identity) === undefined, `old location still exists: ${identity}`)
-    assertCurrent(identity)
+    if (!artifactRetirements.get(identity)) assertCurrent(identity)
   }
   for (const path of [
     ...changes.keys(),
@@ -517,7 +583,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const expectedInventory = [
     ...new Set([
       ...[...identities.keys()].filter(
-        (path) => managedPath(path) && !aliases.get(path) && !compressed.get(path),
+        (path) =>
+          managedPath(path) &&
+          !aliases.get(path) &&
+          !compressed.get(path) &&
+          !artifactRetirements.get(path),
       ),
       ...[...additions.keys()].filter(managedPath),
       ...artifacts.keys(),
@@ -540,6 +610,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     additions,
     artifacts,
     retired,
+    retiredArtifacts: artifactRetirements.entries,
     read,
     readBuffer,
     currentPath: (path) => compressed.get(aliases.resolve(path))?.stored ?? aliases.resolve(path),
@@ -571,9 +642,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         ordinaryBytes(root, documentLocationManifest)?.equals(manifestBytes),
         'location contract changed during read',
       )
+      source.prefetch(requiredSourcePaths)
       for (const path of auditedPaths) assertCurrent(path)
       aliases.assertUnchanged()
       compressed.assertUnchanged()
+      artifactRetirements.assertUnchanged()
+      retirementList.assertUnchanged()
       assertInventory()
     },
   }

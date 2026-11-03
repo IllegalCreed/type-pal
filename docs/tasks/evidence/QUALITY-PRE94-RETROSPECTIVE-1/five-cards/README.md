@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-范围=五卡slices共18份本轮文件+4个广域caller上下文(game-state/event-system/battle-system/player-poison-state,均裁定review、不得凭上下文复用关闭文件)。逐文件八维、旧→新合同/身份映射与native成员SHA在[review.json](review.json);原始包与只读快检(`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs`)的完整raw/native在[native.json.gz](native.json.gz);任务卡见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)。16个文件获显式接受(closedFiles),旧CODE53七ownership反控与helper/0x75/battle毒回调字节一致性由reuse-proof.json按实际范围+哈希见证,不推定整份event/battle文件未变。
+范围=五卡slices共18份本轮文件+4个广域caller上下文(game-state/event-system/battle-system/player-poison-state,均裁定review、不得凭上下文复用关闭文件)。逐文件八维、旧→新合同/身份映射与native成员SHA在[review.json](review.json);原始包与只读快检(`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs`)的完整raw/native在[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/native.json.gz);任务卡见[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md)。16个文件获显式接受(closedFiles),旧CODE53七ownership反控与helper/0x75/battle毒回调字节一致性由reuse-proof.json按实际范围+哈希见证,不推定整份event/battle文件未变。
 
 ## 发现
 

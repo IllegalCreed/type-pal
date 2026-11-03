@@ -1,8 +1,8 @@
 # GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用
 
 Status: draft
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。2026-10-15三验后的关键转折：用户未批准③并质疑“原版大世界仅显示恢复术”，立即停线。重读magicmenu.c:245-291对入表项无隐藏分支、fEnabled只决定色彩与确认，uigame.c:732传FALSE，支持SDLPal源码“已学条目显示但禁用”；但这不是DOS版pal.exe实机证据。当前提取数据的大世界可用标志仅7项（296气疗术、297观音咒、298凝神归元、299元灵归心术、300五气朝元、301还魂咒、302赎魂），支持“可使用范围为恢复/复活”但不证明DOS原版列表如何显示。原测试把305命名飞龙探云手是合成目录；当前提取305=鬼降、377=飞龙探云手，不把fixture文案当原始ID真值。数据SHA/完整SDL调用链见codex-outside-magic-truth.json。反证已在候选5477af1e4复跑；用户明确只批准①②，③未批准。原件:[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
+原检查点固定源全文核读。2026-10-15三验后的关键转折：用户未批准③并质疑“原版大世界仅显示恢复术”，立即停线。重读magicmenu.c:245-291对入表项无隐藏分支、fEnabled只决定色彩与确认，uigame.c:732传FALSE，支持SDLPal源码“已学条目显示但禁用”；但这不是DOS版pal.exe实机证据。当前提取数据的大世界可用标志仅7项（296气疗术、297观音咒、298凝神归元、299元灵归心术、300五气朝元、301还魂咒、302赎魂），支持“可使用范围为恢复/复活”但不证明DOS原版列表如何显示。原测试把305命名飞龙探云手是合成目录；当前提取305=鬼降、377=飞龙探云手，不把fixture文案当原始ID真值。数据SHA/完整SDL调用链见codex-outside-magic-truth.json。反证已在候选5477af1e4复跑；用户明确只批准①②，③未批准。原件:[codex-r2-review.md](../evidence/CODE-QUALITY-94/codex-r2-review.md)。
 
 ## 验收
 
@@ -23,7 +23,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-draft保持原语义；无下一位Agent提示词，不得开始实现、不标done、不擅改公共接口或机制真值。
+2026-11-03核当前仍按usableOutsideBattle过滤；Status保持draft、无产品build准入。已批准的IDB与标题取消①②均独立收口，不恢复③。下一有限前提是DOS实机列表证据或用户明确选择已学条目如何显示；两者不足时保留现行行为。不得以SDLPal源码、提取可用标志或合成fixture文案替代产品裁决，不新改公共接口或机制。
 
 ## 原文保全
 

@@ -1,13 +1,13 @@
 # CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成
 
-Status: build
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
 
-按用户指令把多条治理分支统一为唯一codex/code-quality-3y并复审集成：3y tip d4cf7f57d对最新main f98d0ddd8为5behind/86ahead，含65个packages/scripts增量与58张非index任务卡待逐项复审；保全a9be8ab9验收线全部成果后删除别名分支，main只读。当前推进到代码接受、PR22待远端CI零诊断后合并。
+记录多条治理分支保全、原pre94有限范围复审与最终集成。原3y的65个packages/scripts增量、58张卡和a9be8ab9验收线沿原件追溯；本卡收口不代表全仓逐文件治理完成。
 
 ## 范围
 
@@ -19,11 +19,13 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-固定pre94原83范围代码已accept，但同一3y/PR22未合并：需新远端CI零诊断；不重跑本地全仓coverage。首次同步git diff --check检出的历史raw尾空格已用17份原件无损gzip+SHA索引证实仅规范差异，未把失败改写为通过。
+固定pre94原83范围已有逐项代码接受，最终零诊断与发布义务亦已闭合。a76881ec四条act告警和首次diff-check失败均保留原结论，不能用后来的成功改写；17份原件的无损gzip与SHA恢复入口保持。本轮未重跑本地全仓coverage。
 
 ## 状态与交接
 
-build保持原语义：58卡复审与逐文件门未全部收口前不合main；无下一位Agent提示词，Codex单Agent继续。
+2026-11-03复核：[PR22](https://github.com/IllegalCreed/type-pal/pull/22)已合并为8ebcb70f0e054038f52e6a3b3f7b35a1f6e536b8；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/40168874490)与[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/40168874483)均为main push、completed/success，merge已在当前主线祖先链。最终发布回执与原生stdout保存在`/Users/zhangxu/.codex/quality-evidence/type-pal/pre94-pr22/release.json`及同目录原件；原治理分支已清退，工作树可恢复归档。
+
+Status为done，仅关闭原83有限代码范围、统一门与集成义务；原全仓其余review/pending、广域文件与产品/视觉边界不附带关闭，不增加当前ledger信用。下方“未合main/待CI”均是发布前原时点；无下一位Agent提示词。
 
 ## 原文保全
 

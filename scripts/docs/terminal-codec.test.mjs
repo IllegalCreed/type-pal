@@ -911,6 +911,7 @@ function entryFixture(t) {
     'scripts/docs/document-location.mjs',
     'scripts/docs/artifact-compression.mjs',
     'scripts/docs/artifact-content-alias.mjs',
+    'scripts/docs/artifact-retirement.mjs',
     'scripts/docs/document-location-admission.mjs',
     'scripts/docs/markdown-source-spans.mjs',
     'scripts/docs/relocate.mjs',

@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-同一codex/code-quality-3y，基点38502c046；本包只接受 pal-meal-shell 测试输入准备的有限差异，0新增文件关闭；固定pre94仍57accept/26partial/0pending、账本3355/371closed/114review/2870pending。实际八维、来源、边界及原件索引见[review.json](review.json)；完整命令/cwd/版本/exit、双流/native JSON、完整输入、producer及完整385远端原件在[native.json.gz](native.json.gz)。
+同一codex/code-quality-3y，基点38502c046；本包只接受 pal-meal-shell 测试输入准备的有限差异，0新增文件关闭；固定pre94仍57accept/26partial/0pending、账本3355/371closed/114review/2870pending。实际八维、来源、边界及原件索引见[review.json](review.json)；完整命令/cwd/版本/exit、双流/native JSON、完整输入、producer及完整385远端原件在[native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/native.json.gz)。
 
 ## 发现
 
@@ -25,7 +25,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 整改与复核
 
-私有profile与减少重复工作没有证明385超时的唯一原因；只在实际新main CI通过后报告远端通过，不增加timeout或靠rerun原失败冒称修复。默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`，核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络。最新main同步：84ac10431仅增加移动端部署文档，已普通merge接入同一3y；代码/测试/配置及保护baseline原字节未变、不重复采集，同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[integration-native.json.gz](integration-native.json.gz)；新main CI仍按实际run另核。本治理候选不重开任务、不重跑执行、不授新信用。
+私有profile与减少重复工作没有证明385超时的唯一原因；只在实际新main CI通过后报告远端通过，不增加timeout或靠rerun原失败冒称修复。默认只读复验：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/verify.mjs`，核当前有限source/原件/输入/AST/严格报告，不运行测试、producer或网络。最新main同步：84ac10431仅增加移动端部署文档，已普通merge接入同一3y；代码/测试/配置及保护baseline原字节未变、不重复采集，同步后文档consumer/progress、5个catalog测试、lint5794的0/0/0及ledger再次通过，见[integration.json](integration.json)与[integration-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/battle-quality/meal-ci/integration-native.json.gz)；新main CI仍按实际run另核。本治理候选不重开任务、不重跑执行、不授新信用。
 
 ## 原文保全
 

@@ -15,7 +15,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。实施：脚本后读取rgObject[itemId].rgwData[6]（无overlay沿静态合同），按id重查当前库存，count>0才扣且保留0行；玩家/敌人归属和script续点不变。既有正式1绿2业务红恢复，两个物品文件11绿/0stderr、game TC0。最初两例探索源未冻结但raw/native原样保留，不给予正式source字节信用。2026-10-26本地统一门收口：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+固定源全文核读。实施：脚本后读取rgObject[itemId].rgwData[6]（无overlay沿静态合同），按id重查当前库存，count>0才扣且保留0行；玩家/敌人归属和script续点不变。既有正式1绿2业务红恢复，两个物品文件11绿/0stderr、game TC0。最初两例探索源未冻结但raw/native原样保留，不给予正式source字节信用。2026-10-26本地统一门收口：52/52代码接受；全仓20620产品+721工具/七包TC、lint6137文件0/0/0、完整stderr空；唯一official20185/809全绿、原旧比率拒绝如实保留；同一报告原policy重放ratchet/protected均exit0、三项精确退役匹配。锚点:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 验收
 
@@ -35,7 +35,7 @@ done保持原语义；治理不重开。父52其余范围继续。
 
 ## 当时证据
 
-当时回执属原时点证据：两角点1绿2指定红、11绿0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+当时回执属原时点证据：两角点1绿2指定红、11绿0stderr、20620+721/official20185零诊断；本页不重跑、不复授。关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 当前有效性
 
@@ -43,7 +43,7 @@ done保持原语义；治理不重开。父52其余范围继续。
 
 ## 继任文档
 
-父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；与GAME-COMMAND-BUS-API-CLEANUP-1同批统一门。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
+父阶段QUALITY-REVIEW-52-CLOSEOUT-1继续；与GAME-COMMAND-BUS-API-CLEANUP-1同批统一门。 关联:[game-boundary-candidates.json](../evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-candidates.json) [game-boundary-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/game-boundary-native.json.gz)。
 
 ## 原文保全
 

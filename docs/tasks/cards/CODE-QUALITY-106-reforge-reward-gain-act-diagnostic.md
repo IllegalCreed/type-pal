@@ -1,8 +1,8 @@
 # CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -15,15 +15,17 @@ Template: task-card-v1 / 1.0.0
 
 ## 前提与证据
 
-固定源全文核读。根因与修改：修复前输入语义测试用void expect(pending).resolves...既没等待Promise也没把取消Promise结果纳入oracle，相邻menu回归出现“Promise returned by expect(...).resolves... was not awaited”诊断；修复后测试声明async：Enter推进后await expect(pending).resolves，Escape/其它键保持current后abort并await expect(pending2).rejects.toMatchObject({name:'AbortError'})。修复前相邻21files/118tests通过但有1条未await诊断（before.txt）；修复后定向1file/5tests与相邻均通过且stderr为零。全仓check exit0、lint-zero 4962文件0/0/0；official ratchet与protected fast均exit1复现shared/pal-extract/total baseline回退，未降阈值；check:docs、最终ledger、diff-check通过。
+固定源全文核读。根因与修改：修复前输入语义测试用void expect(pending).resolves...既没等待Promise也没把取消Promise结果纳入oracle，相邻menu回归出现“Promise returned by expect(...).resolves... was not awaited”诊断；修复后测试声明async：Enter推进后await expect(pending).resolves，Escape/其它键保持current后abort并await expect(pending2).rejects.toMatchObject({name:'AbortError'})。修复前相邻21files/118tests通过但有1条未await诊断（before.txt）；修复后定向1file/5tests与相邻均通过且stderr为零。原检查点全仓check exit0、lint-zero 4962文件0/0/0；official ratchet与protected fast当时均exit1复现shared/pal-extract/total baseline回退，未降阈值；check:docs、最终ledger、diff-check通过，失败与成功各保留原时点。
 
 ## 验收
 
-本卡保持review，不把局部零诊断外推为全仓完成；coverage与统一门收口后复验。
+父52逐文件接受该测试，接受SHA与当前源一致，原统一门与发布义务后续已闭合；本轮没有重跑产品或全仓门，不由局部零诊断外推全仓完成。
 
 ## 状态与交接
 
-review保持原语义；若其它相邻测试仍有诊断另开最小白名单卡，不外推整个Reforge或全仓runtime完成。
+Status为done，仅收Promise等待、取消结果与测试资源归属；其它相邻诊断另走其范围，不外推整个Reforge或全仓runtime。
+
+2026-11-03复核：原统一门与发布义务由[父52实际发布回执](QUALITY-REVIEW-52-CLOSEOUT-1.md#状态与交接)闭合；原件的待发布字段保留原时点。
 
 ## 原文保全
 

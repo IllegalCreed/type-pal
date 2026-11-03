@@ -1,8 +1,8 @@
 # QUALITY-BATTLE-SPRITE-DEMAND-BOUNDARY-1 — 战斗精灵声明帧需求的资源边界
 
 Status: draft
-Last reviewed: 2026-10-30
-Owner: Codex
+Last reviewed: 2026-11-03
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -19,11 +19,11 @@ Template: task-card-v1 / 1.0.0
 
 ## 验收
 
-先核资产实际帧域及允许输入合同，再选不枚举求最大需求和readiness前置边界方案；正式生产caller失败反例先红后修，保持普通数据、生成物和ABI。不得只把RangeError捕获静音、降低规则或加任意上限；用户停止线适用于新的资产/API取舍。
+原有界合法输入反例与资源就绪caller继续作为准入依据；先确定各profile在声明与实际帧数不一致时的合同，再核不枚举求最大需求方案。普通资源、资源字节、schema与ABI不扩；不得仅捕获RangeError或加任意上限。
 
 ## 状态与交接
 
-2026-10-28在第二窗口发现并冻结；Codex单一Owner只读取证，draft、不是build allowed。当前三专测的合法profile/错误字段质量核验单独接受，不授此实现文件关闭。待下一次明确资产边界裁定再实施，不影响本窗纯测试/注释改动集成，也不把此风险登记成已修。
+2026-11-03核当前FrameDemand仍枚举并spread，原风险尚未修；Status保持draft，不继承已完成第二窗口的产品build许可。下一有限动作由Codex核定最小输入/资源边界与正式caller反例后给准入；没有新增普通工程、上传UI或OOM实跑证据。
 
 ## 原文保全
 

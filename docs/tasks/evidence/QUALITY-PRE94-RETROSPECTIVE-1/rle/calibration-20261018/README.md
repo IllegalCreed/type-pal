@@ -21,7 +21,7 @@ P-1 独立追溯五锚点:c727bc81e=三个 RLE 旧关闭撤回 review;9cf1fd09f 
 ## 限制与复核
 未运行:相邻全包、typecheck、全仓 check、official coverage ratchet、protected fast、E2E/视觉;本批只改文档/记录,无产品 build 或合 main;旧 editor 诊断未闭合前不合 main;静态文档结果不代替产品统一门。本治理不重跑、不改写原判定;原件逐字节保全在下方;候选待Owner非作者接收。
 
-原文存活链接原样保留:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../cards/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../README.md) [ledger-drift.json](ledger-drift.json) [manifest.json](manifest.json) [targeted.native.json.gz](targeted.native.json.gz) [targeted.raw.gz](targeted.raw.gz)。
+原文存活链接原样保留:[QUALITY-PRE94-RETROSPECTIVE-1.md](../../../../cards/QUALITY-PRE94-RETROSPECTIVE-1.md) [QUALITY-RLE-COMMAND-TRUTH-1.md](../../../../cards/QUALITY-RLE-COMMAND-TRUTH-1.md) [README.md](../README.md) [ledger-drift.json](ledger-drift.json) [manifest.json](manifest.json) [targeted.native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/targeted.native.json.gz) [targeted.raw.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/targeted.raw.gz)。
 
 ## 原文保全
 

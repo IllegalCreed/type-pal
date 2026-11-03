@@ -156,7 +156,7 @@ R23起扩大撤信、文本损坏修复、真实锚勘误、原件丢失与未�
 
 ## 2026-10-18 S14 回执与快检证据返工
 
-- 候选fb00cc89a58539969760c05737f9003ef7c80fa2的12篇真实before/source/after、quote与base和原源inverse均核对通过；指定三篇风险语义与原源对应，具体读域见[非作者裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-evidence-adjudication/f65c43dd67c501e7dd3ea8f9e7e636f55069c59d72462508f74aab13d8786301.gz)，不冒称root全文重审。
+- 候选fb00cc89a58539969760c05737f9003ef7c80fa2的12篇真实before/source/after、quote与base和原源inverse均核对通过；指定三篇风险语义与原源对应，具体读域见[非作者裁定原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-evidence-adjudication/f65c43dd67c501e7dd3ea8f9e7e636f55069c59d72462508f74aab13d8786301.gz)，不冒称root全文重审。
 - S14-E01：原receipts/summary.json把候选写成不存在的fb00cc89a1cf0e5d43af25f7cf3c93d22c69bf56；S14-E02：保全脚本用HEAD自比较，不能支撑其base保全声明。原文件及完整raw保全，不覆盖旧结论/时间；要求仅追加真实身份勘误与更正脚本新执行。未授12篇中央接入/全量完成。
 - manifest.fabricationNote披露首版5–12条before SHA尾段手写伪造后覆盖；本次只证实当前12条与Git吻合，不能追认未留存首版及事后恢复过程。该披露及新发现共同记录；后续禁止手写Git身份或补造过去回执。
 - 返工范围限证据，12篇正文和固定候选不重做、不切分支；原7输出字节指纹匹配不等于运行输入身份已认证。全卡持续rework，main/done=false。
@@ -164,13 +164,13 @@ R23起扩大撤信、文本损坏修复、真实锚勘误、原件丢失与未�
 ### S14 两项证据counter的限定闭合
 
 - 新append-only补证包保留旧41文件；26新清单字节全匹配、七新回执身份为实际fb00cc89a58539969760c05737f9003ef7c80fa2，固定HEAD/干净tracked输入，完整原输出零诊断；root只重放显式base/candidate纯字节快检12/12。E01/E02仅对该新证据闭合，旧错误SHA/HEAD自比较/首版覆盖事故及旧执行未认证边界不改写。
-- 十二篇由[固定逐篇非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)获文档语义/模板限定接受；原R41/R42撤信entry完整保留在supersededBindings，不批量恢复旧信用。贡献者全文、root证据/三风险和新快检明确归因，旧业务执行不重授。
+- 十二篇由[固定逐篇非作者裁定](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)获文档语义/模板限定接受；原R41/R42撤信entry完整保留在supersededBindings，不批量恢复旧信用。贡献者全文、root证据/三风险和新快检明确归因，旧业务执行不重授。
 - 用户批准后续用大包减少中转，父卡S15一次准入其余274篇历史卡；当前central组合和全量硬门仍分开，不将本次接入当整卡done或main合并。
 
 ## 2026-10-19 S15 证据核验与独立限定接收
 
 - 固定f998fff7d6d746c2fbb3bc29b00b4137b2275dfe、base7ee，273正文改写与N3原文件保留均由真实Git/源SHA/quote-tail/逆回核验；53文件清单全符、实际55原件与外map保全。Owner据证与W7E/TB风险复核接受273篇，未默认再读273篇；N3只读既有codec声明和字节上下文，不算整篇语义或迁移完成。
-- 当前裁定见[逐篇源规则明确报告](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz)。六cancelled元数据done错误由Owner按源/现正文纠正，原件保留；251个不同source revision的blob全部相同，无假漂移。42个结构性LF例外明确有条件相等，不冒直接exact。
+- 当前裁定见[逐篇源规则明确报告](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz)。六cancelled元数据done错误由Owner按源/现正文纠正，原件保留；251个不同source revision的blob全部相同，无假漂移。42个结构性LF例外明确有条件相等，不冒直接exact。
 - N3“21处U+2420、全替换差40B”和before70965前缀为错误诊断。实际只有一个e290a0(U+2420)对ASCII空格，offset659166/line8711；21个e291a0(U+2460圈号)是两边相同原文。现封套早已明示单点规则，mapped inverse精确相等；after/before1714a48d...不变。文档仍blocked，下一包GLM完成其全文治理，不需凭错误诊断另起新模板/产品决策。
 - 旧14分区逐entry更新并保留原withdrawn entry，最大700110B，其他2158 native不变；不批量恢复旧R信用。Owner本轮pin日期常量错误以dateCorrection另附真实19操作日、保留旧date与真实命令原件，后续要求显式operationDate。五事故中间缺失raw不由最终绿补认证。
 - 当前接入与S16准入均不授全量、main、旧CI/runtime/E2E/视觉/coverage完成；两卡继续rework。
@@ -198,19 +198,19 @@ S16实际中央接入后共718篇文档接收、1714篇partial，N3本篇blocked
 
 ### S17 返工真实范围与小修归因（2026-10-20）
 
-124篇453表格反例已由贡献者修复，365原文保全、241只读及旧481件有效性复核保留；新31件冻结不覆盖。作者零占位/重复声明不全，Owner定向查出18篇残留并按授权自行修，详见[逐篇固定裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz)。小修是同Owner维护自验，不能伪装第二次独立审；此前时间占位及回执未知不因新正文接收恢复。全量卡继续rework，严格门尚有待迁移项。
+124篇453表格反例已由贡献者修复，365原文保全、241只读及旧481件有效性复核保留；新31件冻结不覆盖。作者零占位/重复声明不全，Owner定向查出18篇残留并按授权自行修，详见[逐篇固定裁定](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz)。小修是同Owner维护自验，不能伪装第二次独立审；此前时间占位及回执未知不因新正文接收恢复。全量卡继续rework，严格门尚有待迁移项。
 
 ### S18 证据映射与执行身份（2026-10-20）
 
-73份作者coreConclusion误抽metadata；Owner以每篇正文明确的原始结论建立当前映射，原字段及40件原件不改。run-meta锚460而非最终b5，旧运行身份不认证，当前使用Owner固定候选真实重放。六篇排重账的执行闭合措辞收窄为合同登记，Owner自验，不编造第二次独立审。详见[固定裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz)。历史验收真伪、产品通过和全量治理均不因本次接入重授。
+73份作者coreConclusion误抽metadata；Owner以每篇正文明确的原始结论建立当前映射，原字段及40件原件不改。run-meta锚460而非最终b5，旧运行身份不认证，当前使用Owner固定候选真实重放。六篇排重账的执行闭合措辞收窄为合同登记，Owner自验，不编造第二次独立审。详见[固定裁定](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz)。历史验收真伪、产品通过和全量治理均不因本次接入重授。
 
 ### S19 不能缩回初始撤信范围（2026-10-20）
 
-候选039的61份保全及静态门成立，但27篇未引用本卡已接收的扩大纠错，十三篇readonly又混入外轮示例；61条coreConclusion全为metadata。逐篇[具体反例](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)。只对40正文/61证据字段定点修正、21正文与438前序接收保留；不把目标review撤信当所有旧提案全错、不复活旧深审或旧非作者身份，不重新跑历史产品门。中央零新信用，父卡rework。
+候选039的61份保全及静态门成立，但27篇未引用本卡已接收的扩大纠错，十三篇readonly又混入外轮示例；61条coreConclusion全为metadata。逐篇[具体反例](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)。只对40正文/61证据字段定点修正、21正文与438前序接收保留；不把目标review撤信当所有旧提案全错、不复活旧深审或旧非作者身份，不重新跑历史产品门。中央零新信用，父卡rework。
 
 ### S19 修正后原源与新结论仍须对应（2026-10-21）
 
-真实a13候选的61保全、27扩大撤信边界和48具体review字段已据证保留；旧28与新30件完整冻结，九条实际回执及Owner重放全绿。R41–R53新说明伪引Ten documents，R41正确10=2README+8被误判矛盾，十二后轮开头仍误述README；十三条core又复制039的旧错误。故只退同一13篇两句及对应core，不扩大到61全文。首两项/数量/范围修正保留；新回信需勘误错误完整SHA和python调用zsh脚本，不回写原件。逐篇[裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)与父卡终修准入为本轮依据，零中央新信用，不追认历史独立/深审/执行，不标S19或全卡done。
+真实a13候选的61保全、27扩大撤信边界和48具体review字段已据证保留；旧28与新30件完整冻结，九条实际回执及Owner重放全绿。R41–R53新说明伪引Ten documents，R41正确10=2README+8被误判矛盾，十二后轮开头仍误述README；十三条core又复制039的旧错误。故只退同一13篇两句及对应core，不扩大到61全文。首两项/数量/范围修正保留；新回信需勘误错误完整SHA和python调用zsh脚本，不回写原件。逐篇[裁定](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-correction-a13-counter-preserve48/788848e813ce681d83f7a16cd609f9bd0316c59f083f9fb7fa45790155f99027.gz)与父卡终修准入为本轮依据，零中央新信用，不追认历史独立/深审/执行，不标S19或全卡done。
 
 ### S19 final13闭合与新账本自验边界（2026-10-21）
 

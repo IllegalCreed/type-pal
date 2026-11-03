@@ -1,8 +1,8 @@
 # QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清
 
-Status: build
-Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Status: done
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -11,19 +11,19 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-先核看板/活跃Owner挑2–4个不重叠文件；C2切片白名单仅e2-equipment-effects.test.ts与e4-run-equip-script.test.ts；预期负面IO必须核完整记录/实参/错误身份与隔离，不全局静音console、不过滤未知输出、不改生产日志级别。
+原17块stderr逐项归因；C2两装备测试已有接受，其余15按原声明、实际caller/typed输入、错误身份与后继原件对账。不全局静音console、不过滤未知输出、不改生产日志级别，不把文件pending变为whole-file接受。
 
 ## 前提与证据
 
-固定源全文核读。C2装备脚本负输入切片：两stderr均来自合法负输入（未知equipment row 999与未注册L_99999），生产fail-safe warning是业务oracle；用vi.spyOn(console,'warn')在测试自身生命周期内捕获并精确断言、finally恢复。未改测试两warning反例为8/8、2 stderr blocks；显式oracle后8/8、0 stderr；相邻装备/跨模块6文件66 tests通过0 stderr。C2统一门：根pnpm check通过（lint 4962文件0/0/0），official ratchet与protected fast coverage tools 75/75但正式门均被shared/pal-extract基线回退拒绝，未改baseline。完整game verbose复跑321 files/3612 tests通过仍15块stderr，剩余15块未全文核验。原件:[game-diagnostics.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json) [test-gates.json](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/initial-candidate/test-gates.json) [QUALITY-FETCH-ABORT-LIFECYCLE-1.md](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)。
+原C2检查点与17块完整原文见[原诊断清单](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/game-diagnostics.json)。C2之后15块现已逐项定位：合法负面warning进入完整消息/次数/错误身份oracle；redraw、contact脚本、dialog等待和battle敌队的错误fixture改为真实合法状态；加载/AVI/RNG/precache按职责保留原身份与观察结果。两法术缺label从旧99999改合法WORD65000，控制流与阶段组合分别承接。旧15尚未核及coverage回退只表达原检查点。
 
 ## 验收
 
-fetch取消产品风险另归生命周期卡不混为console清理；退出0仍有诊断不通过；历史raw/计数不改写为零。账本3307tracked/226closed/12review/3069pending，0新增文件关闭。
+15块逐项当前SHA/原件和源码定向核验已接受；其中event-state-opcodes、k06、control-flow只接受原warning归属窄delta：真实公开入口与业务结果、完整warning数组、afterEach/finally清理成立。三文件仍保持ledger pending，不新增whole-file A–H信用。其余块由已有scene/event/mode/装备接受与第三窗媒体/脚本/预缓存身份原件承接，不靠包绿猜原因。
 
 ## 状态与交接
 
-build保持原语义：与editor全包诊断共同阻塞统一质量门、未合main；无下一位Agent提示词，Codex单Agent继续83卡与94–102目标。
+Status为done，仅关闭原17块诊断归因/整改与发布等待。原统一门与发布等待已由[3y实际发布回执](CODE-QUALITY-3Y-CLOSEOUT-1.md#状态与交接)闭合，旧全仓诊断计数仍按各自冻结时点保留。原控制台输出与失败事实不改写成零；fetch取消另卡、完整game质量、普通剧情/视觉及新增执行均不附带接受。没有新ledger关闭或本轮产品测试。
 
 ## 原文保全
 

@@ -23,16 +23,16 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
-- [active-scene-parity.mjs](active-scene-parity.mjs)
-- [arch-ds-overflow-mutant.mjs](arch-ds-overflow-mutant.mjs)
-- [battle-host-readiness-scheduling.mjs](battle-host-readiness-scheduling.mjs)
-- [battle-workflows-r3-witnesses.mjs](battle-workflows-r3-witnesses.mjs)
-- [battle-workflows-r4-witnesses.mjs](battle-workflows-r4-witnesses.mjs)
-- [battle-workflows-review-witnesses.mjs](battle-workflows-review-witnesses.mjs)
-- [editor-preview-cache-visual.mjs](editor-preview-cache-visual.mjs)
-- [runtime-frame-parity.mjs](runtime-frame-parity.mjs)
-- [scene-preparation-parity.mjs](scene-preparation-parity.mjs)
-- [scene-reference-guard-visual.mjs](scene-reference-guard-visual.mjs)
+- [active-scene-parity.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/active-scene-parity.mjs)
+- [arch-ds-overflow-mutant.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/arch-ds-overflow-mutant.mjs)
+- [battle-host-readiness-scheduling.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/battle-host-readiness-scheduling.mjs)
+- [battle-workflows-r3-witnesses.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/battle-workflows-r3-witnesses.mjs)
+- [battle-workflows-r4-witnesses.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/battle-workflows-r4-witnesses.mjs)
+- [battle-workflows-review-witnesses.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/battle-workflows-review-witnesses.mjs)
+- [editor-preview-cache-visual.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/editor-preview-cache-visual.mjs)
+- [runtime-frame-parity.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/runtime-frame-parity.mjs)
+- [scene-preparation-parity.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/scene-preparation-parity.mjs)
+- [scene-reference-guard-visual.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/unresolved-tools/scene-reference-guard-visual.mjs)
 - 逐文件台账：[全量收口决策账](../../migrations/legacy-full-closeout-plan.json)（源 SHA/caller/oracle/排重/停止线）。
 - 上级导航：[Legacy 历史归档](../README.md)。
 - Owner：Codex（文档治理）；原批次 Owner/贡献者保留于各正文。

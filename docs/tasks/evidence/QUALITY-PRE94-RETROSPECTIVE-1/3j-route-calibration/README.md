@@ -11,7 +11,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 来源与输入
 
-来源为固定Git载体,非本次运行;原3链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](receipts.json.gz)。原盘SSS.MKF 18条相关指令/11场景/10EO给出独立字节偏移与源哈希,与当前全局提取脚本逐项匹配;PalTimer冻结在ba7ca7cc(blob 0284a5d7),已读InitCheckPoints/位置谓词/香蕉检查,不将外挂源码当大宇原版。
+来源为固定Git载体,非本次运行;原3链接处置见作者review的linkDisposition。当前存活入口:[review.json](review.json) [receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-route-calibration/receipts.json.gz)。原盘SSS.MKF 18条相关指令/11场景/10EO给出独立字节偏移与源哈希,与当前全局提取脚本逐项匹配;PalTimer冻结在ba7ca7cc(blob 0284a5d7),已读InitCheckPoints/位置谓词/香蕉检查,不将外挂源码当大宇原版。
 
 ## 断言与业务 oracle
 

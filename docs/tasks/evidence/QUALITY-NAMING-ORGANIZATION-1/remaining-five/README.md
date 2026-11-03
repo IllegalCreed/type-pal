@@ -27,9 +27,9 @@ Template: evidence-receipt-v1 / 1.0.0
 
 - [逐文件A–H、读域、已有证据复用与问题处置](review.json)：每个输出独立判定；旧报告只复用明确版本/合同。
 - [181原身份→177存活＋4退役](mapping.json)：153callback在有限私有helper命名映射后相同，24个明确输入/断言整改逐条说明。4退役分别由真实屏波交接、真实fade hold、选敌确认、等待落盘的保存强例承接。
-- [完整依赖闭包](dependency-closures.json.gz)：测试、局部声明、imports和hooks；callback相同不代替fixture/cleanup审核。
+- [完整依赖闭包](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/dependency-closures.json.gz)：测试、局部声明、imports和hooks；callback相同不代替fixture/cleanup审核。
 - [当前环境及caller版本](context-pins.json)：指纹是身份，不冒称所有依赖本轮重新全文阅读。
-- [完整原件](raw.json.gz)：base64保留stdout/stderr/native JSON/命令原始字节与SHA，含所有失败轮次；[反控补丁](flee-skip.patch)用于隔离树重放。
+- [完整原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/raw.json.gz)：base64保留stdout/stderr/native JSON/命令原始字节与SHA，含所有失败轮次；[反控补丁](flee-skip.patch)用于隔离树重放。
 - [只读复验器](verify.mjs)：检查Git冻结输入、实际输出/依赖、完整身份与原始结果，正向及尾字段/断言缺调用负向自检共用同一比较器。
 
 最终定向与相邻一次22文件950例通过，stderr空；其中177例是本次组织后专测。相邻原menu-driver主测有一条普通`[save] saved to slot 1(times=1)` stdout，明确披露，不是act/环境/静态诊断。本窗旧同步保存弱例已由等待真实落盘的强例承接；没有为了清输出静音整个console。
@@ -44,7 +44,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 结果
 
-全仓测试与七包typecheck完成后，末尾lint发现回执格式与R93审查账超出既有1MiB限制。仅将三个活动ops投影记录完整移至现有R94机器回执账，保持全部140条记录逐字段相等，并更新三条registry路由；未改规则、ignore或大小上限。[迁移证明](projection-move.json)和[迁移前原件](pre-projection-move.json.gz)保留事实。格式整改后lint为6319文件0/0/0；首次失败不写成全量一次通过，最终由原完整检查加受影响门补验收束。
+全仓测试与七包typecheck完成后，末尾lint发现回执格式与R93审查账超出既有1MiB限制。仅将三个活动ops投影记录完整移至现有R94机器回执账，保持全部140条记录逐字段相等，并更新三条registry路由；未改规则、ignore或大小上限。[迁移证明](projection-move.json)和[迁移前原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/pre-projection-move.json.gz)保留事实。格式整改后lint为6319文件0/0/0；首次失败不写成全量一次通过，最终由原完整检查加受影响门补验收束。
 
 最终文档门曾在临时Git夹具的`hash-object --stdin`进程停滞；采样及原件保留，只终止自有子进程。原命令重跑131工具例通过，随后检查指出done卡应退出活动看板并重新生成索引，已按现有生成器修正；后续只补验受影响静态文档门。独立diff检查另指出反控patch的空白上下文行，缩短同一有效hunk后`git apply --check`和diff均通过。以上均不改变源码／测试或验证规则。
 
@@ -58,4 +58,4 @@ node docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/verify.mjs
 
 预期5输入、17输出、177mapped、4retired、153callbackExact、3比较器自检；默认零写入。语义结论仍需阅读review.json，机器不会自动证明八维设计。
 
-五文件代码复审完成后才集中执行全仓check、唯一官方coverage采集、同报告ratchet/protected及lint/docs。本地统一门由[gates.json](gates.json)及[完整未裁剪原件](gates.raw.json.gz)记录。全仓20,544测试与七包typecheck通过；首个check命令末尾lint失败和文档修复后的补验分别保留。单次官方fast20,195／815源码，ratchet及同报告protected通过，零诊断。三个共用夹具增加覆盖分母，旧源码计数全部保持，baseline只上调、无规则或排除变化。最终账本3459／827closed／0review／2632pending；5原主体不因17输出而多计原文件审查信用。发布状态由同一治理分支PR记录，不将尚未发生的CI／合并写成成功。
+五文件代码复审完成后才集中执行全仓check、唯一官方coverage采集、同报告ratchet/protected及lint/docs。本地统一门由[gates.json](gates.json)及[完整未裁剪原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-NAMING-ORGANIZATION-1/remaining-five/gates.raw.json.gz)记录。全仓20,544测试与七包typecheck通过；首个check命令末尾lint失败和文档修复后的补验分别保留。单次官方fast20,195／815源码，ratchet及同报告protected通过，零诊断。三个共用夹具增加覆盖分母，旧源码计数全部保持，baseline只上调、无规则或排除变化。最终账本3459／827closed／0review／2632pending；5原主体不因17输出而多计原文件审查信用。发布状态由同一治理分支PR记录，不将尚未发生的CI／合并写成成功。

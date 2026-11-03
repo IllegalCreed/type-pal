@@ -15,7 +15,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 断言与业务 oracle
 
-本页核读的事实断言：旧'单branch+门即整文件关闭'已撤回，684行Workbench继续review；另三份Workbench测试（main5例/C05九例/GLM四例）无本例的非均匀受控时间+缺帧像素+终点队列组合，未发现应退役本例的重复，其中C05-09标题'互异RGB至少2'与实际opaque.size>=1不符、GLM frameView先fillRect后设color，均未改不升级为已验证。2026-10-22原合同收口：专测按八维接受（[closeout.json](closeout.json)，原件[closeout-native.json.gz](closeout-native.json.gz)、快检[verify-closeout.mjs](verify-closeout.mjs)），两撤回在89bf84e16合并丢失已补正、相对前窗closed净减1；最终静态/失败披露/集成进度见[closeout-gates.json](closeout-gates.json)。历史计数（83卡accept=0时点、ledger 3287/213/211/2863）按原时点保留。
+本页核读的事实断言：旧'单branch+门即整文件关闭'已撤回，684行Workbench继续review；另三份Workbench测试（main5例/C05九例/GLM四例）无本例的非均匀受控时间+缺帧像素+终点队列组合，未发现应退役本例的重复，其中C05-09标题'互异RGB至少2'与实际opaque.size>=1不符、GLM frameView先fillRect后设color，均未改不升级为已验证。2026-10-22原合同收口：专测按八维接受（[closeout.json](closeout.json)，原件[closeout-native.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/closeout-native.json.gz)、快检[verify-closeout.mjs](verify-closeout.mjs)），两撤回在89bf84e16合并丢失已补正、相对前窗closed净减1；最终静态/失败披露/集成进度见[closeout-gates.json](closeout-gates.json)。历史计数（83卡accept=0时点、ledger 3287/213/211/2863）按原时点保留。
 
 ## 结果
 

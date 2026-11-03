@@ -26,7 +26,7 @@ Template: governance-index-v1 / 1.0.0
 - [任务卡](../../cards/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md)：准入、写白名单与本地收口事实。
 - [逐文件索引](audit.json)：47主体逐文件A–H结论、实际读域与当前指纹。
 - [两百回执机械初筛](screen-200.json)：200主体身份针与打分候选，仅给后续约20文件候选，不授验收信用。
-- [无损原件](native.json.gz)、[成员索引](native-index.json)：完整命令、双流、原生JSON及失败；红例stderr是失败报告，未冒称零诊断。
+- [无损原件](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/native.json.gz)、[成员索引](native-index.json)：完整命令、双流、原生JSON及失败；红例stderr是失败报告，未冒称零诊断。
 - [统一门回执](gates.json)：全仓/官方/ratchet/protected与最终静态门的原始计数。
 - 根目录运行 `node docs/ops/evidence/QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1/verify.mjs`：核当前指纹、A–H、原件、红绿/反控及构造守恒，不代替语义审核。
 

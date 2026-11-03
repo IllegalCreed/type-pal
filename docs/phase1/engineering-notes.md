@@ -1,38 +1,60 @@
-# Engineering Notes · type-pal(第一阶段)
+# Engineering Notes · type-pal（第一阶段）
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Validity: current（仅限本页现行维护层；原文保全区为historical）
+Owner: Codex（知识维护；历史原执行身份不变）
+Last reviewed: 2026-11-03
 Template: guide-runbook-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `guide-runbook-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页承接第一阶段已确认的长期维护知识，按下方问题进入所需小节。现行层以保留的功能裁定、canonical合同和当前源码为依据；下方历史原文逐字节保留，其余旧条目未逐项重新认证。
 
 ## 目的
 
-- 读者和完成后得到的结果：理解并复核历史 phase1 方法/测试/runbook 内容（phase1 foundation document full-text review: Engineering Notes · type-pal(第一阶段).）。
+维护语言资源、展示游标、壳层输入、音源替换及资源纠错的机制和排错边界，避免每次开发重读完整实施流水。这里不复制任务进度、执行日志或测试通过数量。
 
 ## 前置条件
 
-- 权限、输入、版本和安全边界：固定历史 source revision；不得把历史步骤当作当前运行指令。
-- 当前执行前必须确认：现行工具、代码、版本、数据路径和用户授权。
+适用于 `packages/game` 和第一阶段资源提取；第二阶段架构按[Reforge规则](../phase2/READ-FIRST.md)。修改前核对应源码、来源指纹及原卡获批范围；原版数据、SDLPal参考、本项目取舍和浏览器观察分别判断。当前验收要求取[代码质量](../engineering/guides/code-quality.md)与[测试治理](../testing/governance.md)。
 
 ## 步骤
 
-1. 读取本页历史正文和原文 quote，确认日期与适用阶段。
-2. 对照当前 canonical 文档、代码和测试，逐项复核仍有效的步骤。
-3. 将新发现写入当前任务卡或审计台账，不回填为历史事实。
+### 语言包与翻译播放
+
+语言是展示资源，两种语言共用已纠正的玩法指令、对象身份和存档；不能用英文SSS替换玩法。SLF消息按共同指令中的连续原消息 `start:end` 区间匹配，译文行数可以不同。解析保留消息空白、转义及控制符，`[CLEAR MESSAGE]`转为`null`清页/确认边界。构建器核SLF指纹、逐条前值、全部区间匹配和规则消费，区间变化须调整有来源的alias，不能靠删指令或重排IP对齐。原合同及限制见[文本审查](../tasks/evidence/GAME-ENGLISH-1/text-review.json)、[播放审查](../tasks/evidence/GAME-ENGLISH-1/dialog-review.json)；实现入口为[SLF解析](../../packages/pal-extract/src/io/slf.ts)、[语言包构建](../../packages/pal-extract/src/localization/build-language-pack.ts)与[共享格式](../../packages/shared/src/localization.ts)。
+
+翻译使用独立的`lineIndex`和原指令`resumeIp`；整组显示完才继续原脚本。开始时复制该组译文，缺译组固定走原文到组末，切换偏好不能只翻译剩余半组。自动换行保留转义、颜色、速度和等待顺序，`~`后的隐藏后缀不能变成下一可见行。探索对话、战斗队列和物品描述各自消费这些边界，不能仅因一个入口正常就外推全部caller。排错从[消息区间与换行](../../packages/game/src/localization/messages.ts)、[事件解释器](../../packages/game/src/core/event-system.ts)和[物品描述](../../packages/game/src/core/menu/script-desc.ts)入手；`getMissingEnglishMessageGroups()`只报告缺失区间，不按帧刷警告。
+
+浏览器语言偏好独立于存档，启动先恢复偏好、挂静态壳层，再装载资源；加载失败只切换本次有效语言，不覆盖玩家偏好。`languages.json`未声明`en`时不请求`en.json`；装载器校验整个包后才安装，不能发布半份词表/消息/布局。`source.scriptSha256`是纠正后指令流指纹，不能拿原始SSS归档SHA替代。翻译切换不改已捕获的对话历史；静态壳层对进度状态节点仅在`data-initial`仍为`true`时写入，避免覆盖进度或失败说明。来源：[语言服务](../../packages/game/src/localization/language.ts)、[资源入口](../../packages/game/src/assets/language-pack.ts)、[启动静态文案](../../packages/game/src/localization/static-shell.ts)、[启动接线](../../packages/game/src/shell/bootstrap.ts)及[壳层审查](../tasks/evidence/GAME-ENGLISH-1/shell-review.json)。
+
+### 壳层输入与触控手柄
+
+引擎维持320×200帧缓冲，壳层负责显示空间和适配；键盘、触控与手柄都向同一抽象输入源提交带Owner的contact。同一个动作由多设备按住时，释放一个contact不能清除另一个。确认/取消先经modal消费，不能漏入下一游戏快照。触控按钮的键盘/辅助激活只发一次边沿，不能再让全局键盘监听重复确认。来源：[输入源](../../packages/game/src/shell/input.ts)、[游戏壳层](../../packages/game/src/shell/game-shell.ts)、[触控绑定](../../packages/game/src/shell/touch-controls.ts)及[移动端功能卡](../tasks/cards/GAME-MOBILE-LAYOUT-1.md)。
+
+手柄仅接`mapping === 'standard'`：按钮0确认，1和9取消/菜单，12–15为上下左右；未知映射不猜键。每次rAF重读设备状态，只发送状态边沿；左轴进入阈值0.35、保持/回中边界0.2。失焦、隐藏页或工具阻塞须释放并等中立态再接入；断开设备清其contact。实现与清理入口见[手柄控制器](../../packages/game/src/shell/gamepad-input.ts)，软件合同不代表已验所有实体手柄或浏览器。
+
+可记忆的顺时针45°设置只作用于虚拟方向盘与标准左摇杆，键盘/硬件十字键保持原映射。方向变换在caller按原坐标判完死区后执行；触控圆盘的中心/初始外缘/保持外缘分别为宽度的0.13/0.5/0.75。改设置先释放旧触点与摇杆，旧指针不能续动、各旧摇杆须回中。隐藏触控应解绑并释放触点，工具入口保留；存储拒绝时本次内存选择仍生效。这些是浏览器偏好，不改变存档。来源：[方向变换](../../packages/game/src/shell/input-direction.ts)、[旋转偏好](../../packages/game/src/shell/input-rotation.ts)、[触控可见性](../../packages/game/src/shell/touch-preference.ts)及[canonical输入旋转合同](../testing/domains/phase1-runtime/control-rotation/report.md)。
+
+### 音源生命周期与离线响应
+
+音乐意图由shell转发，core不直接操作Web Audio。MIDI与RIX共享曲号/loop意图；音源选择是浏览器偏好，默认MIDI。替换后端先stop/dispose旧实例，保留当前曲号、loop和音量，再给新后端；异步ready/error用generation隔离，旧加载结果不能改新选择。RIX通过WASM与AudioWorklet加载`music/mus.mkf`，销毁须取消加载、断开节点并关闭自己的AudioContext。先区分资源/安全上下文失败、后端初始化失败与用户手势未解锁，不能因静音就改脚本曲号或丢loop。来源：[音源选择](../../packages/game/src/shell/music-source.ts)、[RIX后端](../../packages/game/src/shell/audio-rix.ts)、[音频转发](../../packages/game/src/shell/audio.ts)与[原功能取舍](../tasks/archive/done/GAME-RIX-MUSIC-1.md)。
+
+响应体返回客户端前须克隆缓存副本，再由`event.waitUntil`保活异步写入；不能等待打开cache后才clone已可能被消费的原响应。当前fetch缓存只收完整200，不把视频Range的206当完整对象。此处只沉淀[当前SW实现](../../packages/game/public/sw.js)及同一功能修复的生命周期边界，不重授旧离线/部署或全浏览器通过信用。
+
+### 资源纠错的来源边界
+
+下方历史2.3节“数据bug一律在运行时加载层修”的泛则已被后来明确获批的版本化纠错方案收窄：原始数据与原始disasm/recompile往返先保持，默认仅对支持指纹应用逐条前值守卫的纠错计划；`--faithful`保留不纠错审计路径。纠错作用于克隆，不覆写原盘；共同玩法纠错与英文展示修订分层，来源/旧值/区间预检通过前不清已有输出。新增剧情/对象或纠错政策仍需按任务另核授权。来源：[canonical双阶段纠错合同](../testing/domains/cross-phase/script-corrections/report.md)、[纠错引擎](../../packages/pal-extract/src/events/script-corrections.ts)和[CLI预检顺序](../../packages/pal-extract/src/cli.ts)。
+
+### 原盘图像的独立验证
+
+第一阶段原盘图像回归以固定原盘输入和未改SDLPal函数导出的chunk/slot/尺寸＋完整RGBA摘要为独立预期；实际输出须解码后比较，不能从PNG压缩字节或当前提取器输出反向生成预期。保留来源版本、输入/函数/像素流SHA及适用资源范围，不能外推为pal.exe执行、全资源或可见表现已验。原C和像素流按证据入口的固定Git源恢复；旧探针回放须在隔离环境还原完整原候选及依赖。来源：[原盘回归](../../packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts)、[实际输出摘要](../../packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts)、[独立原件身份](../tasks/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/native-proof.json)与[原生探针方法](../tasks/evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/native-probe.py)。
 
 ## 失败处理
 
-- 可预期失败：- 正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的"已核实"标注别照抄,verify 后再标且写明出处/范围**(别把"3 个早期场景"夸成"整章")。补场景号按"0-based vs 1-based"口诀查 `scene/*.json`+`events/scene-NNN.json`。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 回滚/人工接管：停止执行历史命令，保留证据并交由当前 Owner 裁决。
+按症状先核拥有者与输入：译文漏行核原区间、`resumeIp`与控制边界；切换后旧输入残留核contact释放和回中；音源乱播核后端generation与dispose；提取失败核指纹、前值和输出清理之前的拒绝。发现新行为/数据取舍或来源冲突时停受影响变更，回原功能卡和现行工作流裁定；不改旧失败或把缺失原件补记为成功。
 
 ## 完成定义
 
-- 可观察的完成条件：历史语义、来源 SHA、模板章节和继任入口均可追溯。
-- 证据路径与复核人：本页 quote、R30 review record 与 Codex 独立验收。
+变更实现、caller或资源格式时，同提交更新受影响小节及真实来源，按影响核定向合同与反例。当前知识、任务状态、原始执行和视觉/实体设备验收各有自己的事实权；本次知识归并未执行产品、测试、浏览器、覆盖率或部署，不增加原功能验收信用。
 
 ## 历史范围
 
@@ -48,14 +70,11 @@ Template: guide-runbook-v1 / 1.0.0
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 214:- ⚠ **只第一章早期 3 场景(开场梦境 scene/0·余杭镇 scene/4·码头 scene/5)+ 香兰跨场景 arm 经 data/extracted 逐字段复核 ✅**,其余一律 ⚠️待核实。**继承来的"已核实"标注别照抄,verify 后再标且写明出处/范围**(别把"3 个早期场景"夸成"整章")。补场景号按"0-based vs 1-based"口诀查 `scene/*.json`+`events/scene-NNN.json`。
+上方“步骤”仅承接本轮已核的语言包、输入壳层、音源生命周期、原盘图像验证和显式纠错边界；未改变功能卡的验收范围。下方原文是历史材料，旧命令、日期、路径、缺口和“当前”断语仍按其来源解释，不恢复旧根入口或将六月状态表升级为今天的通过结论。
 
 ## 继任文档
 
-- Current phase1 canonical docs/code/tests and a fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+新增变更依[现行开发流程](../engineering/guides/agent-workflow.md)更新本页受影响机制；功能状态回原任务卡，测试状态回[测试catalog](../testing/catalog.json)，完整剧情与设备体验另按实际证据验收。
 
 ## 原文保全
 

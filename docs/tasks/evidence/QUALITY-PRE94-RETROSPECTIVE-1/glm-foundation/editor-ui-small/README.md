@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-范围 58 件全文读毕 4433 行;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/ui 全量 2504/2505(唯一红=M05)+单套件重跑 2/2 绿(同目录 retry.json 原件在库);原全量回执超 1MiB,现以 [directed.json.gz](directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
+范围 58 件全文读毕 4433 行;零整改批(零源码改动、零 diff)。验证证据:定向测试 src/ui 全量 2504/2505(唯一红=M05)+单套件重跑 2/2 绿(同目录 retry.json 原件在库);原全量回执超 1MiB,现以 [directed.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/editor-ui-small/directed.json.gz) 无损 gzip 保留(解压字节/SHA 与冻结 5af1b6372 一致)。零 diff 批不适用 body-invariance。
 
 ## 发现
 

@@ -1,7 +1,7 @@
 # QUALITY-MIGRATION-UNMANAGED-AUDIT-RETIREMENT-1 — 无生产调用的非托管哈希接口
 
-Status: review
-Last reviewed: 2026-10-30
+Status: done
+Last reviewed: 2026-11-03
 Owner: Codex
 Template: task-card-v1 / 1.0.0
 
@@ -23,7 +23,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 
-两项旧关闭暂review等本窗口门，不重复计原pending主体或新增关闭；未执行全仓/official/protected、真实迁移或发布。旧专测不可直接在删出口的新源上重放，两个测试质量反控仍以各自冻结源/测试身份定位。无新产品裁决待办，统一门/提交/推送/合并留父窗口。无下一位Agent提示词。
+父窗口已对该退役范围完成统一门和受保护发布，原暂review的收口义务闭合，不重复计原pending主体或新增关闭。旧专测不可直接在删出口的新源上重放，两个反控仍以各自冻结源/测试身份定位；未新增真实迁移执行。无新产品裁决待办，无下一位Agent提示词。
+
+2026-11-03复核：原发布义务由父窗口[实际发布回执](QUALITY-PENDING-100-3.md#状态与交接)闭合；原件待发布字段保留原时点。
 
 ## 原文保全
 

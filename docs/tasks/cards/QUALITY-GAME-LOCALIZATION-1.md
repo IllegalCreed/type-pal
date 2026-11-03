@@ -1,9 +1,9 @@
 # QUALITY-GAME-LOCALIZATION-1 — 第一阶段语言资源与展示合同治理
 
 Status: done
-Last reviewed: 2026-11-01
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
-Owner: Codex
+Owner: Codex（当前状态维护与后续协调；原执行身份见原件）
 Coding Owner: Codex（单 Agent）
 Reviewer: Codex（证据及差异复核；不计第三方签字）
 Phase: phase1
@@ -45,12 +45,12 @@ Branch: codex/code-quality-94-102
 - 2026-11-01 Owner 核对：GAME-ENGLISH-1 顶部 done、看板无英语活跃 Owner；三个旧英文隔离树 clean，dialog/text 非祖先的历史交付已在功能卡记录集成，不清理它们。GLM 回合卡与本批文件无重叠。
 - 基点 `4f318eb9864eed65021c75bee6ae43286ffea07f`：本治理树 clean，origin/main 与治理分支 0 behind / 0 ahead；主树不动。main Documentation 41227189659、Coverage 41227189612 均 success，两个 job 原始日志无实际诊断、annotations 为空。
 - build 准入：Codex build allowed（上述十二主体及有明确合同迁移的测试输出）。单一 Owner；不得为凑百文件扩张。
-- 初始机器账：3459 tracked / 827 closed / 0 review / 2632 pending；本卡当前关闭 0。
+- 初始机器账：3459 tracked / 827 closed / 0 review / 2632 pending；本卡该初始时点关闭 0。
 - 逐文件八维及整改已记录于[本批证据](../evidence/QUALITY-GAME-LOCALIZATION-1/README.md)。两个既有 closed 主测 word-lookup/map-names 接收同职责合同，已全文补核；七产品可执行 AST 不变。本地完整门已通过；Git发布由同一治理分支PR执行并记录。
 
 ## 状态与交接
 
-- 2026-11-01 Codex：完成 main CI 与 Owner 核对，开始实际读域/合同核验。外部 main 原始日志在 `/Users/zhangxu/.codex/quality-evidence/type-pal/localization-20261101/`；模块证据在本卡范围稳定后集中落盘。
+2026-11-03复核：[PR36](https://github.com/IllegalCreed/type-pal/pull/36)已合并为c88be9b3b5b9dc38c77d8c440085e35b8d15fc43；同一merge的[Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/41270110481)、[Coverage ratchet](https://github.com/IllegalCreed/type-pal/actions/runs/41270110417)均为main push、completed/success，merge已在当前主线祖先链。原12主体→21输出、19新关闭+2既有消费者及七产品可执行AST不变的范围保持，不新增21文件复审、行为/译文、普通剧情/E2E/视觉或ledger信用。原本地待发布只是提交前检查点；首次采集中断、比例拒绝与快照计数错误继续按[原门证据](../evidence/QUALITY-GAME-LOCALIZATION-1/gates.json)保留。原main原始日志仍在`/Users/zhangxu/.codex/quality-evidence/type-pal/localization-20261101/`；无新的产品委派。
 
 ## 下一位 Agent 提示词
 
@@ -61,4 +61,4 @@ Branch: codex/code-quality-94-102
 - 12原pending主体八维完成；21当前输出逐项接受，其中19新关闭、2既有消费者补核。删除2混装路径不记新关闭；machine账3466/846closed/0review/2620pending。
 - game定向/相邻135、extract相邻33；shared/gameTC0；全check七包20554用例与工具门通过，lint0/0/0。官方fast20205，精确夹具结构重算后同报告ratchet/protected通过。
 - 失败事实：首次官方采集合盖睡眠中断、恢复全绿后比例下降拒绝；首个check在快照计数95≠94处停止，补齐精确census后完整重跑通过。无timeout/选择/ignore/判据放宽；[原件和门](../evidence/QUALITY-GAME-LOCALIZATION-1/gates.json)保留。
-- main重新fetch仍4f318eb9；主树未动。当前代码/证据提交推送并合main的授权已在本轮用户指令给出，PR远端结果在最终交付中报告；本地状态不冒称远端已完成。
+- 原检查点main重新fetch仍4f318eb9、主树未动；当时的代码/证据待发布的授权与记录保留当时含义；实际PR36合并和同merge main两run成功已在本卡状态段核定，不再作为当前待办。

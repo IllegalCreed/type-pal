@@ -11,7 +11,7 @@ Template: audit-report-v1 / 1.0.0
 
 ## 范围与证据
 
-六测试范围按逐文件A–H裁定接受（见[review.json](review.json)）：rle.test、boundaries、GLM-o三旧review与新fixture共四项新关闭，runtime-resource与encoder两项旧关闭刷新。59→59身份精简的逐条去向见[identity-mapping.json](identity-mapping.json)（九个已证重复合并，所有旧身份有已执行新身份承接）。三反控generic-opacity/strict-pixels/indexed-count旧单例绿、新恰一业务AssertionError红；官方源SHA不变。执行回执：基点五文件59/59、game相邻20/20、extract相邻12/12、reforge相邻20/20、退役账单回归82/82、shared typecheck与scoped Biome exit0，全部无损归档于[receipts.json.gz](receipts.json.gz)。静态门（九项static-*，复用未变docs工具回归）另冻结于[static.json](static.json)。全仓check/official coverage/protected/PR按用户要求等全部pre94冻结后再跑。
+六测试范围按逐文件A–H裁定接受（见[review.json](review.json)）：rle.test、boundaries、GLM-o三旧review与新fixture共四项新关闭，runtime-resource与encoder两项旧关闭刷新。59→59身份精简的逐条去向见[identity-mapping.json](identity-mapping.json)（九个已证重复合并，所有旧身份有已执行新身份承接）。三反控generic-opacity/strict-pixels/indexed-count旧单例绿、新恰一业务AssertionError红；官方源SHA不变。执行回执：基点五文件59/59、game相邻20/20、extract相邻12/12、reforge相邻20/20、退役账单回归82/82、shared typecheck与scoped Biome exit0，全部无损归档于[receipts.json.gz](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/quality-closeout/receipts.json.gz)。静态门（九项static-*，复用未变docs工具回归）另冻结于[static.json](static.json)。全仓check/official coverage/protected/PR按用户要求等全部pre94冻结后再跑。
 
 ## 发现
 

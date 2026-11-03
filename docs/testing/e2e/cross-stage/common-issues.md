@@ -15,12 +15,12 @@ evidence: e2e/evidence/e2e-common-issues.json
 
 Status: current
 Owner: Codex（横向问题归因与文档维护；原执行身份按各批回执）
-Last reviewed: 2026-10-18
+Last reviewed: 2026-11-03
 Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
 
-本页是 `e2e-common-issues` 的跨阶段问题归因与证据入口。覆盖 001–005 的作者编排、路线、演出、控制权、存档和工具边界；`current` 是 [catalog](../../catalog.json) 的发布状态，登记依赖恰为 `e2e-001` 至 `e2e-005`。原材料包含 006 与后期剧情线索，它们保留为历史交叉参照，不增加本页依赖，也不为仍 `rework` 的 006 授信。
+本页是 `e2e-common-issues` 的跨阶段问题归因与证据入口。覆盖 001–005 的作者编排、路线、演出、控制权、存档和工具边界；`current` 是 [catalog](../../catalog.json) 的发布状态，登记依赖恰为 `e2e-001` 至 `e2e-005`。原材料包含006与后期剧情线索，它们保留为历史交叉参照，不增加本页依赖。006后继已按`33cfb9ad89f8696802b7c2ec466fbc93cccf8149`及[原卡当前接受](../../../tasks/cards/E2E-006-1-inn-doctor-and-boat-to-island.md#状态与交接)有限收口；技术/C1与用户短片判断由[正式报告](../stages/006-doctor-boat/report.md)持有，不由本页补授。catalog/evidence的原`rework`、pending和旧lastVerified仍是机器出版/执行身份；不能仅凭旧catalog判用户已接收范围未完成，也不能把任务done回填旧原件。若需新增正式机读发布，按既有合同的真实输入另核。007以后边界随真实剧情与用户意图核定，未授N6b或全剧情接受。
 
 [横向索引](README.md)负责导航，[E2E 总览](../README.md)路由阶段；各正式报告持有指定候选的结果、输入和检查点。 [配对 evidence](../evidence/e2e-common-issues.json) 是 `document-audit`，`runtimeExecution.performed=false`、`artifacts=[]`，其 `source-backed` 不代表本轮执行。catalog 管发布状态、日期和依赖，原任务卡管 Owner、准入及 counter，本页管跨阶段归因与缺口，四者不能互相代授信用。
 
@@ -59,7 +59,7 @@ Template: test-domain-report-v1 / 1.1.0
 | D07 / 005船家转身 | 张四、水生叔、鱼嫂的不同实体和入口 | 回[005报告](../stages/005-shrimp/report.md)核确切trigger/target；某处有face指令不足 |
 | D08 / 005香兰报信 | 估时、entry/auto抢写与姐妹各自路线 | 核真实动作完成及各人的首次差异；香兰、秀兰不合称随从，也不因公共修复绿而一起关闭 |
 | D09 / 006苗人头领 | 正文停点与auto终点混淆、显式接管 | 回[006报告](../stages/006-doctor-boat/report.md)与历史primary；旧坐标声明不成为本次新核原值 |
-| D10 / 006求医、码头 | 小虎子错误激活、洪大夫后继与张四显隐 | 核后继实际可触发及精确状态条件，不只核方案存在；006仍rework |
+| D10 / 006求医、码头 | 小虎子错误激活、洪大夫后继与张四显隐 | 原006范围按上方后继原卡有限接受；通用判据仍须真实可触发及精确状态条件，不能只核方案存在。其它入口或后段未由本例全域关闭，命中时逐项核原指令/caller，不代用户裁决 |
 | D11 / 006乘船 | 船体terminal、乘员偏移、slow与ride节拍 | 需实际completion、同run/visit own pose及原指令。本次缺1513/1516/1517原数据，不新认证原版朝向/offset |
 | D12 / 006岛口 | 首句即停与真实对白结束、控制返回不同 | 四行1886/1888/1889/1890仅保留旧核验要求；实际收尾、存档与旧95项须回原回执，不算新执行 |
 | R01 / 保存、重入 | live pose、gait、动作等待及已commit未ack的续演 | 核本引擎正式保存/新实例恢复和返场；不以capture→resume自洽替代真实caller，也不修当前连续现场来冒充恢复 |
@@ -151,9 +151,9 @@ Template: test-domain-report-v1 / 1.1.0
 | 正文与配对 | 五章有实际内容；单篇完整模板consumer、真实`validateCanonicalEvidence`核唯一catalog身份/发布字段/sourceRefs；错publication应被拒 | 形状/配对不证明问题全部闭合或runtime |
 | 原文保全 | frontmatter/testing-meta与完整quote原字节不变；精确source逆回及损坏反例能区分 | 字节保真不等于语义接受，也不倒改旧回执 |
 | 导航 | 新旧每条链接、fragment与catalog实际canonical核验，不能只猜目录或仅核文件存在 | 不代替链接目标全文审查 |
-| 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 作者nonAuthor=false；全量任务仍[rework](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md)，不借本篇合main或done |
+| 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 原全量文档治理已按[母卡最终验收](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)经PR38/39收口；新增差异仍独立接受，文档静态治理不授E2E/catalog或专项执行信用 |
 
-本次没有产品、旧产品测试、E2E、视觉或coverage执行。文档/lint/全量门须按实际候选、命令、原始诊断分别记录，任何error/warning/info不算通过；没有执行的门不沿用旧数字。下一步先完成本篇独立验收，再由root核source/after和回执接入中央唯一binding、R60迁出及矩阵；其它待审文档与全量硬验收仍独立排队。
+本次没有产品、旧产品测试、E2E、视觉或coverage执行。文档/lint/全量门须按实际候选、命令、原始诊断分别记录，任何error/warning/info不算通过；没有执行的门不沿用旧数字。原篇的文档治理、中央接入及全量硬门已按母卡终态收口，不再等待旧R60迁出或旧矩阵排队。当前规范与本次新增差异仍按公共质量门分别独立核定与接入；本次状态更正不新授E2E、catalog发布或专项执行信用。
 
 ## 历史与原文保全
 

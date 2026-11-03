@@ -1,8 +1,8 @@
 # CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核
 
-Status: review
+Status: done
 Owner: GLM(治理候选作者;原文作者/状态见保全块)
-Last reviewed: 2026-10-30
+Last reviewed: 2026-11-03
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -11,19 +11,21 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-primitives.ts：SelectionMenu/Confirm/Triple/Switch均为纯数据操作无DOM/IO，空表/单项/默认cursor clamp/环绕/disabled停留/pageOffset视窗/identity透传有测试；E-4（pageUp/pageDown/findNextSelectable无生产caller）为公共出口删除候选未删。item-select.ts：matchesFilter的potion/battle/important/sellable/usable/all分支与SDLPal入口有直接锚（play.c:266 usable、uigame.c:1777 sellable），important近似明确标注工程分类不冒称原版位；createItemSelectMenu只生成typed状态、目录外id剔除、缺名item#id回退、sell price floor有oracle；E-5（createItemSelectMenu/ItemDisplayMode无生产caller，真实菜单走InventoryMenu/Shop）为删除候选未删。测试无恒真/无业务执行/与真实caller完全重复用例。
+原范围为primitives/item-select与五专测的七路径，不改产品数据、公共游戏行为、schema/save或覆盖率规则。E-4分页/查找等无生产caller接口、E-5未用createItemSelectMenu/ItemDisplayMode曾是待裁候选；后继CODE94已按用户明确批准删除并迁移有效测试，旧“未删/待census”不再是当前义务。
 
 ## 前提与证据
 
-固定源全文核读。真实caller已读：inventory-menu（全库存/target menu/使用装备卖出过滤/cursor委托）、sell-menu/equip-menu（matchesFilter sellable/equipable与确认no-op）、magic-select/in-game-magic-menu（createSelectionMenu/disabled光标/法术排序）、menu-driver（目录注入/runtime投影/确认取消dispatch）、battle-system战斗选择caller、draw-inventory filter命中颜色oracle；primary为SDLPal ui.c:510-572逐项光标、itemmenu.c物品列表/确认/价格。验证：定向7files/78tests PASS 0 stderr；相邻40files/377tests PASS但magic-script.test.ts有2条预期缺失labelMap stderr（不在白名单不静音）；game typecheck PASS；全仓pnpm check exit0、lint 4962 files 0/0/0、check:docs通过；official coverage:ratchet与protected fast均因origin/main的shared、pal-extract及总量baseline回退失败——未降低规则、未刷新baseline。账本3307tracked/231closed/28review/3048pending，本批7文件继续review不因定向或包级全绿关闭。
+原检查点固定源全文核读。真实caller已读：inventory-menu（全库存/target menu/使用装备卖出过滤/cursor委托）、sell-menu/equip-menu（matchesFilter sellable/equipable与确认no-op）、magic-select/in-game-magic-menu（createSelectionMenu/disabled光标/法术排序）、menu-driver（目录注入/runtime投影/确认取消dispatch）、battle-system战斗选择caller、draw-inventory filter命中颜色oracle；primary为SDLPal ui.c:510-572逐项光标、itemmenu.c物品列表/确认/价格。验证：定向7files/78tests PASS 0 stderr；相邻40files/377tests PASS但magic-script.test.ts有2条预期缺失labelMap stderr（不在白名单不静音）；game typecheck PASS；全仓pnpm check exit0、lint 4962 files 0/0/0、check:docs通过；official coverage:ratchet与protected fast均因origin/main的shared、pal-extract及总量baseline回退失败——未降低规则、未刷新baseline。账本3307tracked/231closed/28review/3048pending，本批7文件继续review不因定向或包级全绿关闭。
 
 ## 验收
 
-本批复核证据完整（真实caller/oracle/排重/反例覆盖空表越界负cursor全disabled过滤否决位目录外id缺名奇数卖价MP disabled），但E-4/E-5删除需独立caller census与准入裁决，magic-script.test.ts两条运行时诊断须先处理；coverage回退阻塞未解前保持review。
+原七路径由CODE94 approved-closeout逐项接受或保留接受；用户批准的未用API处置、精确退役身份与有效断言承接已有原件，原两条magic warning也经CODE108及后继原件处理。原相邻/coverage失败保留当时结论，不以全绿替代原七项语义验收。
 
 ## 状态与交接
 
-review保持原语义；下一批候选先处理magic-script.test.ts两条诊断，再为E-4/E-5建caller census；不与本批实现文件重叠。
+Status为done，仅收原七文件与已获批接口处置；后继职责拆合沿[菜单状态原件](../evidence/QUALITY-PENDING-100-3/organization-menu-state.json)追溯。不增加当前整文件ledger关闭、普通剧情或新的菜单视觉信用；important仍是工程分类，不冒称原版标志。
+
+2026-11-03复核：原统一门与发布义务由[94–102实际发布回执](CODE-QUALITY-94-menu-integration-window.md#状态与交接)闭合；冻结原件的待发布字段保留原时点。
 
 ## 原文保全
 
