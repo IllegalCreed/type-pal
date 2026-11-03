@@ -132,10 +132,14 @@ export function inventoryScenes(scenes) {
   return entries
 }
 
-export function previewFingerprint(entry, preview, library) {
+function validatePreview(preview) {
   keys(preview, ['stateId', 'selection'], 'preview')
   assert(preview.stateId === null || id(preview.stateId), 'preview: invalid stateId')
   assert(['default', 'manual'].includes(preview.selection), 'preview: invalid selection')
+}
+
+export function previewFingerprint(entry, preview, library) {
+  validatePreview(preview)
   const matchingStates = library.states.filter((s) => s.id === preview.stateId)
   assert(matchingStates.length <= 1, `duplicate preview state: ${preview.stateId}`)
   const state = preview.stateId === null ? null : matchingStates[0]
@@ -188,6 +192,7 @@ export function validateLedger(ledger) {
   assert(Array.isArray(ledger.events), 'events must be an array')
   const ids = new Set()
   const previous = new Map()
+  const contexts = new Map()
   let previousAt = -Infinity
   for (const event of ledger.events) {
     keys(
@@ -227,7 +232,15 @@ export function validateLedger(ledger) {
       id(event.context.id) && id(event.context.description),
       'event: explicit invocation context required',
     )
-    const key = JSON.stringify([entryKey(event.entry), event.context.id, event.axis])
+    const address = entryKey(event.entry)
+    const contextKey = JSON.stringify([address, event.context.id])
+    const contextHash = fingerprint(event.context)
+    assert(
+      !contexts.has(contextKey) || contexts.get(contextKey) === contextHash,
+      `event ${event.id}: context identity changed; use a distinct context id`,
+    )
+    contexts.set(contextKey, contextHash)
+    const key = JSON.stringify([address, event.context.id, event.axis])
     assert(
       Object.hasOwn(AXES, event.axis) && AXES[event.axis].includes(event.to),
       'event: invalid axis/status',
@@ -258,8 +271,9 @@ export function validateLedger(ledger) {
     if (event.axis === 'initialState' && ['configured', 'saved', 'verified'].includes(event.to)) {
       assert(
         event.preview && shaPattern.test(event.previewFingerprint),
-        'initial state needs saved selection fingerprint',
+        'initial state needs selection fingerprint',
       )
+      validatePreview(event.preview)
     } else {
       assert(
         event.preview === undefined && event.previewFingerprint === undefined,
@@ -321,6 +335,7 @@ export async function reportProgress({ scenes, library, ledger, readReference })
             }
           if (
             event.preview &&
+            event.to !== 'configured' &&
             previewFingerprint(item.entry, event.preview, library) !== event.previewFingerprint
           )
             issues.push('preview-selection-changed-or-missing')

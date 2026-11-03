@@ -197,6 +197,51 @@ test('reopening/play/reset acceptance requires independent review and cannot be 
   )
 })
 
+test('one invocation context cannot change its description across review axes', () => {
+  const review = event()
+  const optimization = event({
+    id: 'optimization-other-visit',
+    axis: 'optimization',
+    from: 'unassessed',
+    to: 'planned',
+    context: { ...review.context, description: 'a different later visit' },
+  })
+  assert.throws(() => validateLedger(ledger(review, optimization)), /context identity changed/)
+  validateLedger(
+    ledger(review, { ...optimization, context: { ...optimization.context, id: 'later-visit' } }),
+  )
+})
+
+test('configured candidates stay unsaved until a matching persisted selection exists', async () => {
+  const preview = { stateId: 'door', selection: 'default' }
+  const configured = event({
+    axis: 'initialState',
+    to: 'configured',
+    preview,
+    previewFingerprint: previewFingerprint(entry, preview, library()),
+    note: 'Candidate configured in UI; save has not succeeded.',
+  })
+  const disk = { states: [], bindings: [] }
+  const result = await report([configured], { library: disk })
+  assert.equal(doorRow(result).statuses.initialState.current, 'configured')
+  const saved = event({ ...configured, id: 'save-claim', from: 'configured', to: 'saved' })
+  const absent = doorRow(await report([configured, saved], { library: disk }))
+  assert.equal(absent.statuses.initialState.current, 'needs-review')
+  assert.deepEqual(absent.statuses.initialState.issues, ['preview-selection-changed-or-missing'])
+  assert.equal(doorRow(await report([configured, saved])).statuses.initialState.current, 'saved')
+  const missingEvidence = await report([configured], {
+    library: disk,
+    readReference: async (ref) => (ref.path === 'receipt.json' ? null : files.get(ref.path)),
+  })
+  assert.deepEqual(doorRow(missingEvidence).statuses.initialState.issues, [
+    'evidence-missing:receipt.json',
+  ])
+  assert.throws(
+    () => validateLedger(ledger({ ...configured, preview: { ...preview, selection: 'unknown' } })),
+    /invalid selection/,
+  )
+})
+
 test('changing only the final stage field invalidates prior source acceptance while preserving recorded status', async () => {
   const changed = scene()
   changed.entities[0].behaviors.auto.leave.flow.stages[1].body.push({ kind: 'wait', ms: 100 })
