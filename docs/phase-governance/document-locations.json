@@ -3559,19 +3559,6 @@
       }
     },
     {
-      "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/README.md",
-      "mode": "reviewed",
-      "afterSha256": "cb543f7313ef6d12ab6e40610c11f450cd4042d6cea04e21c4fa508fa4154a19",
-      "review": {
-        "author": "/root/artifact_exit",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
-        "reviewedLines": 72,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
-      }
-    },
-    {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics/README.md",
       "mode": "reviewed",
       "afterSha256": "d2c27a1d325622792422d69b91f0d04c99f9239151e0eb0aa41e44f2b6fb2651",
@@ -4141,13 +4128,13 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "4406a274e16967b965f34a5c2d322737208171af0b504c8aee30c320f4627eec",
+      "afterSha256": "015d1679bf2b2b3d69c5a504005a171e0135ade09ac9cc04fc5a138933fdefa9",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
         "date": "2026-11-03",
         "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
-        "reviewedLines": 71,
+        "reviewedLines": 72,
         "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
@@ -4226,48 +4213,31 @@
       },
       {
         "operation": "开始或接手非小改",
-        "required": [
-          "docs/engineering/guides/agent-workflow.md",
-          "docs/tasks/board.md"
-        ]
+        "required": ["docs/engineering/guides/agent-workflow.md", "docs/tasks/board.md"]
       },
       {
         "operation": "写、改或审查测试",
-        "required": [
-          "docs/testing/governance.md",
-          "docs/engineering/guides/agent-workflow.md"
-        ]
+        "required": ["docs/testing/governance.md", "docs/engineering/guides/agent-workflow.md"]
       },
       {
         "operation": "第一阶段机制或缺陷",
-        "required": [
-          "docs/phase1/README.md"
-        ]
+        "required": ["docs/phase1/README.md"]
       },
       {
         "operation": "第二阶段引擎、编辑器或内容",
-        "required": [
-          "docs/phase2/READ-FIRST.md"
-        ]
+        "required": ["docs/phase2/READ-FIRST.md"]
       },
       {
         "operation": "世界观查证、剧情设定或创作",
-        "required": [
-          "docs/lore/README.md"
-        ]
+        "required": ["docs/lore/README.md"]
       },
       {
         "operation": "第三阶段规划、储备或参考",
-        "required": [
-          "docs/phase3/README.md"
-        ]
+        "required": ["docs/phase3/README.md"]
       },
       {
         "operation": "E2E、剧情回写或编辑器预览起点",
-        "required": [
-          "docs/testing/e2e/contract.md",
-          "docs/lore/timeline.md"
-        ]
+        "required": ["docs/testing/e2e/contract.md", "docs/lore/timeline.md"]
       },
       {
         "operation": "封板、合并或发布回执",
@@ -4287,14 +4257,14 @@
     },
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts.json.gz",
-      "sha256": "8e3e8a1b9df3412d6ae5c909096dd9c80a2dd2c7cf4c194104265323c215a948",
-      "bytes": 644854,
+      "sha256": "0eb0b5b0a236adbecb84f54ebe03f35eacee51fccf8021eb0e63a1f0ead9fac2",
+      "bytes": 695740,
       "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
     },
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts-2.json.gz",
-      "sha256": "8e031241c053b56d2d8ef0d6282a63278a61c953650e7154bb0e454db8d15bcd",
-      "bytes": 545181,
+      "sha256": "cc2aa16021da07877ab47f438365e5b4f6af9155c531bb877fbdf97b26e908cb",
+      "bytes": 582747,
       "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
     }
   ],
@@ -4304,20 +4274,20 @@
     {
       "codec": "gzip",
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts.json.gz",
-      "storedSha256": "8e3e8a1b9df3412d6ae5c909096dd9c80a2dd2c7cf4c194104265323c215a948",
-      "storedBytes": 644854,
-      "decodedSha256": "7361bd1a5a0a7aa794f0703568a92a9dbc3af8e499cf35b2ebc26fd26fe97d41",
-      "decodedBytes": 2192049,
-      "entries": 6895
+      "storedSha256": "0eb0b5b0a236adbecb84f54ebe03f35eacee51fccf8021eb0e63a1f0ead9fac2",
+      "storedBytes": 695740,
+      "decodedSha256": "35ce5cd22691e62a77be4cfe08888a7c8131f3dfbd0e3affc37507041ba37541",
+      "decodedBytes": 2398565,
+      "entries": 6894
     },
     {
       "codec": "gzip",
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-retired-artifacts-2.json.gz",
-      "storedSha256": "8e031241c053b56d2d8ef0d6282a63278a61c953650e7154bb0e454db8d15bcd",
-      "storedBytes": 545181,
-      "decodedSha256": "ffa6a3901a547ebeb8d718f06254522450c9ec31cc510fc348993a418d372f1f",
-      "decodedBytes": 1837084,
-      "entries": 6895
+      "storedSha256": "cc2aa16021da07877ab47f438365e5b4f6af9155c531bb877fbdf97b26e908cb",
+      "storedBytes": 582747,
+      "decodedSha256": "42a9c41e2f485c77ec78955baefe15d919bfb172abbd3e030812b2973341cc53",
+      "decodedBytes": 2043418,
+      "entries": 6893
     }
   ]
 }

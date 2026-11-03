@@ -24,9 +24,9 @@ Template: governance-index-v1 / 1.0.0
 ## 入口与责任
 
 - [candidates-exec.json](candidates-exec.json)
-- [candidates.vitest.mjs](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates.vitest.mjs)
-- [candidates.vitest.mts](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates.vitest.mts)
-- [diagnostics.vitest.mts](https://github.com/IllegalCreed/type-pal/blob/159cd0e2f8753536800ba4635e896020a897fddc/docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/diagnostics.vitest.mts)
+- [candidates.vitest.mjs](candidates.vitest.mjs)
+- [candidates.vitest.mts](candidates.vitest.mts)
+- [diagnostics.vitest.mts](diagnostics.vitest.mts)
 - [tsconfig.json](tsconfig.json)
 - 逐文件台账：[全量收口决策账](../../../../migrations/legacy-full-closeout-plan.json)（源 SHA/caller/oracle/排重/停止线）。
 - 上级导航：[Legacy 历史归档](../README.md)。
