@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "ff0893bda8004369e02ed70079a4a43ff64e43812559737b8b7b04dae40a4ff9",
+      "afterSha256": "de0351af8aab4aefc832690b9ddd8b2f4b0a00f909b376d7a1a3a4a0665478b4",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "只同步瘦身工作线build、原卡入口及本地资源待办，其余活动卡、历史事实和产品范围不变。",
+        "date": "2026-11-04",
+        "conclusion": "只同步瘦身当前实际退出和S53受管归档剩余项；活动工作受保护，整体build，全部收口后统一PR。",
         "reviewedLines": 119,
-        "acceptanceScope": "仅本次四篇文档实际增量、快照来源、保全及索引一致性；沿用未变正文已有接受。记录不证明本地分支/worktree已清理，不授产品、E2E、视觉或新全仓代码审计信用。"
+        "acceptanceScope": "仅本轮两篇实际正文增量、数字口径、实际删除/恢复/保留证据及看板一致性；PR42三篇正文和中央映射沿用原接受，不刷新其它条目，不授产品/E2E/视觉或全仓代码完成信用。"
       }
     },
     {
@@ -2326,14 +2326,16 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
+      "afterSha256": "75757db006c8dd4dbb422840b5e55e2a7a483aabb42a2db4bea1d4eeba2549ce",
       "review": {
-        "author": "/root/status_reconcile",
+        "author": "/root/e2e_baseline_docs",
         "reviewer": "/root",
         "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
-        "reviewedLines": 388,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "conclusion": "核006已合入且done；初态最终10套/11绑定仅属006，001–005缺逐入口完成依据。真实项目加载/编译与原档cursor消费证实RF006旧终档digest失配；只记007前驱适用性，不撤销历史技术/用户接受。",
+        "reviewedLines": 402,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
       }
     },
     {
@@ -3981,11 +3983,33 @@
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "80239cc17a1e1bfe879e058ef9e70a66132c57ed1eb018eefeef797547e11d53",
+      "review": {
+        "author": "/root/e2e_baseline_docs",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "根据实际PR38/39与主线祖先链解除旧文档/集成阻塞表述；保留冻结出版YAML和原lastVerified，明确006任务done与旧运行发布身份分轴。",
+        "reviewedLines": 43,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "f556c0ae161e0704403da273f2124ff0c4409bf25567df859dd96a691e6739a3",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+      }
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "2ba32a33824153a585077e23e5dd7f1c974919eba15abc79387c3432fa6741f1",
+      "review": {
+        "author": "/root/e2e_baseline_docs",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "核原独立验收与当前任务完成裁定，修现行Scope/Results中过期停止线；frontmatter/testing-meta、10-27原件段及Revision history逐字保全，不修改原执行JSON或catalog。",
+        "reviewedLines": 149,
+        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
+        "beforeSha256": "53dc1026849b946f7c6dcf05b69f3755991f068817fe9d77ac193dfec4e673b2",
+        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+      }
     },
     {
       "path": "docs/testing/governance.md",
@@ -4128,14 +4152,14 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "008c4b90bf3272949307aff5b6e6645a51042e73e1df35c7cbc65fee6d58b0e3",
+      "afterSha256": "11e3ad3f69e2433acdd110a885c54f290da7160e110d3f0fd7aaaeb2ec567ea2",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "补齐长期覆盖清单与本地资源未收口基线，明确原PR40/41有限已交付；快照不是删除白名单，活跃/未知内容和Git恢复锚点受保护，整体恢复build。",
-        "reviewedLines": 120,
-        "acceptanceScope": "仅本次四篇文档实际增量、快照来源、保全及索引一致性；沿用未变正文已有接受。记录不证明本地分支/worktree已清理，不授产品、E2E、视觉或新全仓代码审计信用。"
+        "date": "2026-11-04",
+        "conclusion": "据实际执行、源保全/恢复及保护差异更新总纲；105旧分支、15手工工作树与临时载体已退出，S53受管归档仍待办，整体build且不提PR。",
+        "reviewedLines": 143,
+        "acceptanceScope": "仅本轮两篇实际正文增量、数字口径、实际删除/恢复/保留证据及看板一致性；PR42三篇正文和中央映射沿用原接受，不刷新其它条目，不授产品/E2E/视觉或全仓代码完成信用。"
       }
     },
     {
