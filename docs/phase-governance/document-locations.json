@@ -663,17 +663,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "84331ba89c0e373ec37d41a00ed916925fc83fdd9c4c430bb7cb06156ac3629b",
+      "afterSha256": "a489e914962de6794f0401268666f7e75ca5b4e0769146f0237ca976bf42b9de",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "候选：本轮有限完成出口与保留理由、12新增工具/1历史JSON退役的库存对账，846行原live表不改；必要质量门尚待稳定窗口。",
+        "author": "/root/status_reconcile",
+        "reviewer": "/root",
+        "date": "2026-11-03",
+        "conclusion": "只更新当前代码库存3636与pending2790，公开inventory/guard和真实45工具测试核对；846既有记录和所有其它字节逆还原相等，新增2路径仍默认pending，不授whole-file或产品信用。",
         "reviewedLines": 889,
-        "acceptanceScope": "贡献者全文核读/治理；根核新正文、真实consumer及固定Git源变换后live表的完整字节相等，不重新授产品/代码质量信用。"
+        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
     {
@@ -4128,13 +4128,13 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "7a128c059132dfc4d44503049d41f7f49bdb69b1e2a891181667e5f548bbf9d0",
+      "afterSha256": "e80a1842ed2e9fd3d8772d096b5834663be746334ac01c8fb728587db8aa3d91",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
         "date": "2026-11-03",
         "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
-        "reviewedLines": 80,
+        "reviewedLines": 82,
         "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
       }
     },
@@ -4251,8 +4251,8 @@
   "artifacts": [
     {
       "path": "docs/tasks/evidence/REPO-SLIM-PLAN-1-validation.tar.gz",
-      "sha256": "53e7eccbe06be0a6acb1f80319303679db9c529596315dc1ca899e0892bdce7c",
-      "bytes": 1711959,
+      "sha256": "47f3fd9d743545bf3671e1d79a2fd379206300afdd34def990f571c2f5a16f47",
+      "bytes": 1727194,
       "purpose": "必要作者/独立接受、真实失败/修复、恢复与质量门原件；358446前279条载荷与限制原样，新增同头CI超时/覆盖率成功、有限读取修复及446项本地门；各测量保留独立输入/采样边界，不授E2E、视觉或远端集成信用。"
     },
     {
