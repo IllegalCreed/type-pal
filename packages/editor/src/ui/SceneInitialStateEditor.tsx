@@ -58,6 +58,18 @@ export function SceneInitialStateList(props: {
     const entity = props.scene.entities.find((candidate) => candidate.id === entityId)
     return entity ? previewEntityName(entity, props.actorsById, props.locale) : '已移除的角色或物件'
   }
+  const participantSummary = (state: SceneInitialState) => {
+    const participants = [...state.entities].sort(
+      (left, right) =>
+        Number(right.entityId === props.contextEntityId) -
+        Number(left.entityId === props.contextEntityId),
+    )
+    const names = participants
+      .slice(0, 2)
+      .map((entry) => participantName(entry.entityId))
+      .join('、')
+    return participants.length > 2 ? `${names}，另 ${participants.length - 2} 个` : names
+  }
   const related = props.states.filter((state) => props.stepStateIds?.has(state.id))
   const other = props.states.filter((state) => !props.stepStateIds?.has(state.id))
   const renderStates = (items: readonly SceneInitialState[], label: string) => (
@@ -75,14 +87,10 @@ export function SceneInitialStateList(props: {
           </span>
           <span>
             {(props.usage[state.id] ?? []).length
-              ? `用于：${props.usage[state.id]!.join('；')}`
+              ? `用于 ${props.usage[state.id]!.length} 个步骤`
               : '尚未用于脚本步骤'}
-          </span>
-          <span>
-            开场人物与物件：
-            {state.entities.length
-              ? state.entities.map((entry) => participantName(entry.entityId)).join('、')
-              : '尚未添加；均沿用场景默认'}
+            {' · '}
+            {state.entities.length ? participantSummary(state) : '尚未添加；均沿用场景默认'}
           </span>
         </DsPressable>
       ))}

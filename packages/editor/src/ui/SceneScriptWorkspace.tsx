@@ -259,6 +259,7 @@ export function CanonicalSceneScriptWorkspace(props: {
     stateSelection?.stateId === selectedState?.id
       ? stateSelection?.entityId
       : selectedState?.entities[0]?.entityId
+  const focusedStateEntityId = editingFromStep && entry?.entityId ? editingEntityId : undefined
   const contextLabel =
     entry && canonicalScene
       ? previewEntryLabel(entry, canonicalScene, props.actorsById, props.locale)
@@ -428,13 +429,19 @@ export function CanonicalSceneScriptWorkspace(props: {
               focusRegion={
                 selectedState
                   ? {
-                      key: selectedState.id,
-                      positions: selectedState.entities.flatMap((entry) => {
-                        const entity = projection.scene!.entities.find(
-                          (e) => e.id === entry.entityId,
-                        )
-                        return entity ? [entity.pos] : []
-                      }),
+                      key: focusedStateEntityId
+                        ? JSON.stringify([selectedState.id, focusedStateEntityId])
+                        : selectedState.id,
+                      positions: focusedStateEntityId
+                        ? projection
+                            .scene!.entities.filter((entity) => entity.id === focusedStateEntityId)
+                            .map((entity) => entity.pos)
+                        : selectedState.entities.flatMap((entry) => {
+                            const entity = projection.scene!.entities.find(
+                              (e) => e.id === entry.entityId,
+                            )
+                            return entity ? [entity.pos] : []
+                          }),
                     }
                   : undefined
               }

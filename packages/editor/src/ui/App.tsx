@@ -2844,7 +2844,8 @@ export function App(props: {
             <DsInspectorHost
               className={`inspector${
                 !placingEntity &&
-                (selEntity || (selected.kind === 'scene' && !(drawer.open && editingInitialState)))
+                !(drawer.open && editingInitialState) &&
+                (selEntity || selected.kind === 'scene')
                   ? ' inspector--tabbed'
                   : ''
               }`}
@@ -2867,7 +2868,7 @@ export function App(props: {
                     setPlaceZoneRanges((current) => ({ ...current, [on]: range }))
                   }
                 />
-              ) : drawer.open && selected.kind === 'scene' && editingInitialState ? (
+              ) : drawer.open && editingInitialState ? (
                 <div ref={setInitialStatePropertiesHost} />
               ) : selEntity ? (
                 <SceneEntityInspectorTabs
