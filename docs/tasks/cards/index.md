@@ -48,7 +48,6 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 — C03上传向导真实IO与测试精简](QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
@@ -558,6 +557,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-REVIEW-52-CLOSEOUT-1 — 剩余52个review文件收口](QUALITY-REVIEW-52-CLOSEOUT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TESTING-EVIDENCE-REVISION-1 — 以版本适用性替代 E2E 日历期限](TESTING-EVIDENCE-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）
