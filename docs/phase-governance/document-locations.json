@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "c438dcd85b1b7ccf85c4785a0985003c78e90199dc564bb6f51dd58d722bbd2b",
+      "afterSha256": "edede19fdafec1632167cb740ff77ebbf4a94130348c95e8f18dcbaae08a1b69",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
+        "author": "Codex /root + /root/script_progress_ledger",
         "reviewer": "Codex /root/e2e_baseline_docs / Codex /root",
         "date": "2026-11-04",
-        "conclusion": "步骤旁初态、方案默认与步骤覆盖、长标题修复有限接收；用户体验及逐入口E2E仍未完成。",
+        "conclusion": "11-04当前UI返工已接收至原页，52项caller与实页布局检查；用户体验和001–006逐入口待核保持。",
         "reviewedLines": 119,
-        "acceptanceScope": "只接受本次具体差异及固定候选/必要原件；独立回执位于ED-ENTITY-STATE-PLAN-1-inheritance-20261104.tar.gz。未变正文复用旧接受，reviewedLines仅身份范围，不证明重复全文审读；不授用户最终体验、完整NPC初态、E2E或远端集成信用。"
+        "acceptanceScope": "仅本轮具体差异与固定候选/必要原件；回执在ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz。未变正文复用旧接受，行数仅身份范围，不证明重复全文审读；不授用户最终体验、逐入口NPC初态、E2E、工程Save或远端集成信用。"
       }
     },
     {
@@ -2339,14 +2339,14 @@
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "mode": "reviewed",
-      "afterSha256": "2a1270b393ef541ea987136d1662358ed4c553556bcd23870c5c91e80eec27b1",
+      "afterSha256": "a739824004896210fd51c95b9301534cdaadb8ba5de8e7f8eb8d17679bb297b9",
       "review": {
-        "author": "Codex /root",
+        "author": "Codex /root + /root/script_progress_ledger",
         "reviewer": "Codex /root/e2e_baseline_docs / Codex /root",
         "date": "2026-11-04",
-        "conclusion": "11-04用户继承裁决、新严格v2与UI候选及独立反例修复；根32/42无损迁移与临时实页检查，旧接受、无Save/Play及待用户体验边界明确。",
-        "reviewedLines": 754,
-        "acceptanceScope": "只接受本次具体差异及固定候选/必要原件；独立回执位于ED-ENTITY-STATE-PLAN-1-inheritance-20261104.tar.gz。未变正文复用旧接受，reviewedLines仅身份范围，不证明重复全文审读；不授用户最终体验、完整NPC初态、E2E或远端集成信用。"
+        "conclusion": "11-04最新详情入口及状态库准入、两候选接收、导航与配对反例、矮窄实页及用户授权丢弃试用后重载；旧布局接受仅保留历史执行范围。",
+        "reviewedLines": 778,
+        "acceptanceScope": "仅本轮具体差异与固定候选/必要原件；回执在ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz。未变正文复用旧接受，行数仅身份范围，不证明重复全文审读；不授用户最终体验、逐入口NPC初态、E2E、工程Save或远端集成信用。"
       }
     },
     {
@@ -3913,14 +3913,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "1f0d5da767202fddd08fc917a27eaa2deca4615aec87b951c447d9f7ed32c4c7",
+      "afterSha256": "5173c89f64e580e9c2a647306eae281d465121a6409b6b2a205b5f9b54953660",
       "review": {
-        "author": "Codex /root",
+        "author": "Codex /root + /root/script_progress_ledger",
         "reviewer": "Codex /root/e2e_baseline_docs / Codex /root",
         "date": "2026-11-04",
-        "conclusion": "按用户确认更新步骤旁初态、方案默认与步骤覆盖工作流；台账default按有效引用解析，null只表示场景选择、不自动授已核信用；原机器发布身份保持。",
-        "reviewedLines": 604,
-        "acceptanceScope": "只接受本次具体差异及固定候选/必要原件；独立回执位于ED-ENTITY-STATE-PLAN-1-inheritance-20261104.tar.gz。未变正文复用旧接受，reviewedLines仅身份范围，不证明重复全文审读；不授用户最终体验、完整NPC初态、E2E或远端集成信用。"
+        "conclusion": "初态配置工作流改为步骤/方案详情选引用，统一Tab独立新建和复制；共用、继承和库选择均不替代逐入口核验。",
+        "reviewedLines": 606,
+        "acceptanceScope": "仅本轮具体差异与固定候选/必要原件；回执在ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz。未变正文复用旧接受，行数仅身份范围，不证明重复全文审读；不授用户最终体验、逐入口NPC初态、E2E、工程Save或远端集成信用。"
       }
     },
     {
@@ -4153,14 +4153,14 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "f538c75117e864a53f20211eeed3b235e97cc98250586759d8772fb9e0118070",
+      "afterSha256": "e4267bfbebfc0f5bf4ffb9799841dadf0bb4d1bde931cc32210f889542e278b2",
       "review": {
-        "author": "Codex /root/script_progress_ledger",
+        "author": "Codex /root + /root/script_progress_ledger",
         "reviewer": "Codex /root/e2e_baseline_docs / Codex /root",
         "date": "2026-11-04",
-        "conclusion": "当前v2状态集合、方案默认、步骤覆盖与显式null；步骤/方案直接调整和原子新建复制/撤销、共用影响及返回上下文；严格编辑器辅助数据边界，不授完整游戏现场恢复。",
+        "conclusion": "明确详情归属、方案草稿与配对保存、库两栏/窄单页、跳转返回及请求失效；v2继承和静态预览边界保持。",
         "reviewedLines": 370,
-        "acceptanceScope": "只接受本次具体差异及固定候选/必要原件；独立回执位于ED-ENTITY-STATE-PLAN-1-inheritance-20261104.tar.gz。未变正文复用旧接受，reviewedLines仅身份范围，不证明重复全文审读；不授用户最终体验、完整NPC初态、E2E或远端集成信用。"
+        "acceptanceScope": "仅本轮具体差异与固定候选/必要原件；回执在ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz。未变正文复用旧接受，行数仅身份范围，不证明重复全文审读；不授用户最终体验、逐入口NPC初态、E2E、工程Save或远端集成信用。"
       }
     }
   ],
@@ -4350,6 +4350,12 @@
       "sha256": "e7039418ab3291a9676529c0f725bdcf939240d16a3079ae696e4c593517efa0",
       "bytes": 1010855,
       "purpose": "严格预览v2/方案默认与步骤覆盖、长标题修复的最小作者失败恢复和独立反例接受、根32/42迁移与实际Chrome检查；60件原件及manifest，不授新的Save/Play或逐入口E2E。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz",
+      "sha256": "15868435ebc8283a0f4f694f54b1b965929feb1539a509f143205ef82f4c6b44",
+      "bytes": 980850,
+      "purpose": "步骤/方案详情入口与双栏初态库的必要作者失败恢复、52项真实caller回归、独立接收及原6010页面观察；58件原件及manifest，不授用户最终体验、工程Save/Play或逐入口E2E信用。"
     }
   ],
   "artifactAliases": [],
