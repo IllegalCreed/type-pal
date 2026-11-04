@@ -67,8 +67,8 @@
 
   --ds-z-base: 0;
   --ds-z-sticky: 10;
-  --ds-z-popover: 30;
   --ds-z-app-header: 35;
+  --ds-z-popover: 36;
   --ds-z-drawer: 40;
   --ds-z-modal: 50;
   --ds-z-toast: 60;
