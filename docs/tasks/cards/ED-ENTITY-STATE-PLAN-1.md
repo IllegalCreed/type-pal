@@ -3,13 +3,27 @@
 Status: review
 Phase: phase2
 Capability: editor / entity-authoring / script-preview
-Coding Owner: /root/script_progress_ledger（2026-11-04 UI整改，隔离树单一实现Owner；历史Owner见原记录）
-Reviewer: /root/e2e_baseline_docs（11-04独立边界与证据复核）/ Codex；首批state_plan_review见历史记录
+Coding Owner: /root/ui_affordances（2026-11-04 初态操作、网格与浮层返工，隔离树单一实现Owner；历史Owner见原记录）
+Reviewer: Codex（产品与实页）/ /root/ui_final_doc_review（文档差异）；前轮独立复核见历史记录
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
-Branch: `codex/e2e-script-progress`（当前集成）；`codex/initial-state-ui-consistency`（当前隔离实现）；首批main集成`39499783c`保留为历史
+Branch: `codex/e2e-script-progress`（当前集成）；`codex/initial-state-affordances`（当前隔离实现）；首批main集成`39499783c`保留为历史
 Last reviewed: 2026-11-04
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-04 场景Tab删除显隐与复制边框（追加返工）
+
+用户追加截图显示角色多选浮层搜索区被应用顶栏覆盖。build allowed：同一Owner定向核公共tokens、floating-layer、multi-select与primitives及必要既有回归、现行架构合同；按DS-P.6统一Portal与popover语义层级，不加业务z-index、不借toast补救。根1512×767实页复现：header高41、z35；BODY浮层高420、y22.5、z30；搜索框y33.5，顶部实际命中header。内部列表322/480px已正常滚动，先修公共层级，不以移动边界掩盖遮挡。根复验常规/窄视口、向上展开、搜索和滚动，并复用原生modal内Portal合同回归。
+
+用户在本轮继续要求“角色与物件”区域改为动态多列，并指出添加场景高度不对。追加build allowed：同一/root/ui_affordances在上述候选后继窄改实体网格布局、必要文本收缩/换行、添加场景触发按钮的公共尺寸传递及现行架构合同；白名单补editor.css、design-system/add-picker.tsx、对应既有测试（仅必要）、field-layout-adoption.json与其census（仅真实新增结构声明）。核DS-L.7的280px卡片最小宽度、DS-F.4同排等高/尺寸及DS-C.7卡片语义，按可用容器宽度自动排多列，窄栏单列、DOM顺序不变；添加场景在此非compact上下文使用36px，不以业务私有height覆写共享按钮。根补默认/窄栏/少项/长名称、键盘和点击定位实页验证；数据与脚本绑定范围不扩张。
+
+用户指出所有场景Tab常驻红色删除过于显眼，并指出名称行复制图标没有边框。build allowed：从`0bb9aa467e783f3c406a49c72766f1f6ab9d1ba7`由/root/ui_affordances单一Owner在既有隔离树实施，仅改InitialStateWorkspace的复制按钮变体、公共Tab动作显隐样式和editor-architecture对应现行合同；上一Owner已交付结束。先读DS-0、DS-F.4/F.5、DS-C.1/C.2/C.2a。复制用公共secondary边框；删除保持danger，在所属Tab选中、悬浮或键盘聚焦时显示，隐藏时保留几何空间，避免Tab宽度跳动。根核实页默认/悬浮/选中/键盘及窄宽状态，保留既有删除/撤销和数据边界；不为CSS显隐增加镜像测试，按影响复用既有真实caller回归。
+
+候选`c14135bc25db7230edfed6d7de470fba1bfa5989`已由根核实际三文件差异、A–H复用边界和原生结果并接入`1829bbca2`。根确认上轮遗漏了copy默认quiet的无边框表现；本轮明确secondary，未改变共享IconButton默认值。作者typecheck、目标Biome和DS门零诊断，既有真实caller回归3文件8/8；没有新增测试或改验收规则。根在6012实页验证：闲置非选中动作opacity0且无鼠标命中，选中/真实悬浮/键盘focus-within为1；同一Tab闲置与悬浮宽度均190.3046875px。实际Shift+Tab可聚焦非活动场景删除并显示焦点环，Enter只删除该场景且保留当前场景，一次撤销恢复6实体；默认及900px窄宽下名称/复制/删除均36px同高、上下边一致，复制有公共边框，禁用删除保留danger与0.55透明度。试用重载丢弃，未保存；原数据与绑定不变。完整原件及独立复核见[本轮按钮显隐证据](../evidence/ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz)，本轮仅关闭这两项技术整改，整卡仍review。
+
+网格/高度后继`395061eb44bcdec1540a87bf6ccf192eb20c8f68`已独立核6文件差异、A–H绑定与原生结果，接入`630199cbc`。根实页1512/1200/900px视口分别为3/2/1列，容器无横向溢出；少项保留单卡330.664px而非拉满1008px。实际Enter选择王小虎同步画布/Inspector，Tab按原DOM次序进入下行；临时长别名自然2行，同行3卡均75.5px等高，重载已丢弃。添加场景与角色选择均36px。既有Workspace5+Picker25通过，field8首次发现旧InspectorTabs实有19/登记18；只补真实既有Owner、保留错误原件后8/8恢复，扫描/拒绝规则不变。格式校正原件保留；未变产品字节复用typecheck与交互结果，不重复累加用例数。
+
+浮层后继`bf5545a8243fc9f8756f4d815edbb31364dada15`仅将公共popover从30调整为36并补现行架构关系，header35、drawer40、modal50、toast60保持；未改几何、内部滚动、测试规则或DS原文。作者目标Biome/DS零诊断，既有FloatingLayer6与MultiSelect7共13项通过。根在原被遮挡点(400,36)实际点击并输入王小虎，搜索正确筛至一项；1512×767的浮层位置/420px高度不变且顶部命中INPUT，900×500时浮层y8、高294.5px，列表滚至283.5px可见末项，搜索/动作完整固定。试用长别名与参与者修改均已重载丢弃；正式PAL、绑定和进度账本字节保持。本轮技术整改可接收，整卡仍review，不授用户整体体验接受或新增E2E信用。
 
 ## 2026-11-04 引用、场景增删与属性间距一致性（当前返工准入）
 

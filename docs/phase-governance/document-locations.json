@@ -2339,14 +2339,14 @@
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "mode": "reviewed",
-      "afterSha256": "56670408a5661919ad305b0c0a804593f816b0eda072fafb7ce20c40a5a59819",
+      "afterSha256": "1a907237b9d207625a824c5c25f9aa5b0941caa798f4fe94c72ed6731cc8d6c9",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "author": "/root + /root/ui_affordances",
+        "reviewer": "/root (product/browser); /root/ui_final_doc_review (bounded document delta)",
         "date": "2026-11-04",
-        "conclusion": "Records user UI corrections, fixed candidates, caller tests, default/narrow visual observations and design authority correction without granting whole-task or E2E acceptance.",
-        "reviewedLines": 834,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "conclusion": "Records approved action visibility/borders, responsive participants and default control sizes, shared popover above header; preserves task review and all prior E2E boundaries.",
+        "reviewedLines": 848,
+        "acceptanceScope": "Actual delta, exact sources/native results and targeted browser observations only; previous full review reused. Independent two-document receipt and minimal originals: ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz. Line extent does not claim repeated full read; no user final acceptance, project Save or new E2E credit."
       }
     },
     {
@@ -4153,14 +4153,14 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "99d3c75497fbeb7c4904a926ce3268586b916a0b7a85fef7ebd3ab3cd368fa5c",
+      "afterSha256": "652543d74cb66ee998e3108190327ff4716e32adcf786fbd6fdd16756b21b302",
       "review": {
-        "author": "/root + /root/script_progress_ledger",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "author": "/root + /root/ui_affordances",
+        "reviewer": "/root (product/browser); /root/ui_final_doc_review (bounded document delta)",
         "date": "2026-11-04",
-        "conclusion": "Shared reference Inspector, scene picker and contained danger tab removal, unnamed IDs and equal-density icon actions; DS remains the normative UI entry.",
-        "reviewedLines": 380,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "conclusion": "Records approved action visibility/borders, responsive participants and default control sizes, shared popover above header; preserves task review and all prior E2E boundaries.",
+        "reviewedLines": 382,
+        "acceptanceScope": "Actual delta, exact sources/native results and targeted browser observations only; previous full review reused. Independent two-document receipt and minimal originals: ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz. Line extent does not claim repeated full read; no user final acceptance, project Save or new E2E credit."
       }
     },
     {
@@ -4381,6 +4381,12 @@
       "sha256": "c5531a14c9b40065fa2a219b1d9d414b0cafbad2ee2962c3863690b0192affd2",
       "bytes": 1332365,
       "purpose": "Initial-state UI consistency, equal-height icon actions and DS classification correction: minimal author failure/recovery/counter originals, independent verdicts, default/narrow browser observations and quote preservation. Fixed Git restores source; no new E2E credit."
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz",
+      "sha256": "5f8d523c49626b7801f59e1e18fbfa03b7c071fdc80a3c45d473a5917c5ca006",
+      "bytes": 1040718,
+      "purpose": "Initial-state Tab action visibility, copy border, responsive participant grid, standard control heights and shared popover stacking; minimal original failures/recovery/native results, independent verdicts and browser observations. Fixed Git restores source; no new E2E credit."
     }
   ],
   "artifactAliases": [],
