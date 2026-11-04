@@ -3,6 +3,10 @@
 本目录保存 PAL 的已登记剧情边界及后续 checkpoint / 执行回执。跨阶段的分段、版本、业务断言、
 战斗速胜与录像要求统一见 [E2E 合同](../../../docs/testing/e2e/contract.md)，不在工程目录重复维护。
 
+**2026-11-05当前Reforge续办输入**：本轮仅为001–006脚本命名和编辑器静态初态收尾，按公开执行器正常重建RF001→002→003→004 saves→005 saves→006。当前正式006输入为`build/e2e/reforge-006-2026-11-04T14-32-37-544Z/report.json`及其`006.end.save.json`，终档SHA `6a1e7c69632a29ecbc908e8df38fac18ff02b5cea3a9bd0054cca7e922e0c85a`；工程摘要 `6506aaf10473b1aa5375caad65162e762d9946670f4a7298ac0e1ae4f30d79af`。真实终档fresh恢复和岛口ready通过，后续若canonical再变仍须重新核摘要；不改旧档digest。
+
+当前边界和独立验收由[R4收尾](../../../docs/tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-05-001006脚本与预览基线收尾)持有；[原件包](../../../docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz)内保留69件唯一当前原件及恢复映射。解包到自有空目录后，在该目录运行`node build/e2e-preview-closeout/restore-captured-aliases.mjs`，可按确切SHA恢复6个同字节路径别名和3个同执行报告内嵌原件；完整78个原路径及实际身份均可查。其它源码依固定Git恢复。此条不授新的Game/items/guards/船行视觉/音频或007通过，既有历史记录原样保留。
+
 **2026-10-27当前补验**：两端006从真实005 saves完整执行，写正式`006.end.save.json`并于新浏览器正常恢复，持久域相等、岛口不重播。此前`006-end.json`仅观察属于10-26批次。本轮不重授004 items/005 guards/连续001–006；007未准入，不自动授下游前驱信用。实际SHA与边界由[006报告](../../../docs/testing/e2e/stages/006-doctor-boat/report.md)持有，下列旧日期段落保持历史。
 
 **当前版本状态（2026-10-06）**：Reforge已切换SAVE12/content22，`minimumSaveVersion`为12，必需`sceneRuntime`。

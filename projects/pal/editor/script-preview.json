@@ -415,6 +415,16 @@
               "facing": "down",
               "hidden": false,
               "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
             }
           ]
         }
@@ -602,6 +612,16 @@
               "facing": "down",
               "hidden": false,
               "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
             }
           ]
         }
@@ -788,6 +808,16 @@
               },
               "facing": "down",
               "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
               "collide": false
             }
           ]
@@ -1289,7 +1319,7 @@
               "entityId": "e116",
               "pos": {
                 "col": 126,
-                "row": 52,
+                "row": 51.75,
                 "height": 0
               },
               "facing": "down",
@@ -1333,7 +1363,7 @@
               "entityId": "e121",
               "pos": {
                 "col": 142,
-                "row": 79.25,
+                "row": 79.5,
                 "height": 0
               },
               "facing": "down",
@@ -3185,6 +3215,526 @@
           ]
         }
       ]
+    },
+    {
+      "id": "14cd1105-0a41-4d18-95cc-9b1f38fa09ee",
+      "name": "回客栈途中 · 村口自动动作首轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 140,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 114.75,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "794100b6-eb4d-4715-b57e-255bd0d41479",
+      "name": "回客栈途中 · 村口自动动作次轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 142,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 118.25,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8e4ec065-4ffc-4a16-b0b4-07644a5da30a",
+      "name": "回客栈求诊 · 进门前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 142.5,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 118.75,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20d8dd64-ff3b-47e4-a6cb-d5d8bdc7e57c",
+      "name": "问路后赴码头 · 离开客栈前",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 137,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "55c88d6c-d0e5-4dcb-8e7d-31071e2ce7f1",
+      "name": "赴码头途中 · 村口自动动作首轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 148,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 124.25,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "594c9485-6dd6-4716-a1bc-d0839a7c3164",
+      "name": "赴码头途中 · 村口自动动作次轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 153,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 128,
+                "row": 41.25,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.25,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2d5b27fc-c8e4-444d-8c78-6244746a9a30",
+      "name": "赴码头乘船 · 进入码头前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 154.75,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 128,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "bindings": [
@@ -3193,8 +3743,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e35"
+        "entityId": "e35",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s002-e35-trigger-initial"
     },
@@ -3203,8 +3753,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s002-e36-trigger-initial"
     },
@@ -3213,8 +3763,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "legacy-002",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "legacy-002"
       },
       "stateId": "e2e006-s002-e36-trigger-legacy-002"
     },
@@ -3223,8 +3773,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "legacy-003",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "legacy-003"
       },
       "stateId": "e2e006-s002-e36-trigger-legacy-002"
     },
@@ -3233,8 +3783,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s003-e59-auto-initial"
     },
@@ -3243,8 +3793,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s003-e59-trigger-initial"
     },
@@ -3253,8 +3803,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-002",
-        "stageId": "routine",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "routine"
       },
       "stateId": "e2e006-s003-e59-auto-legacy-002-routine"
     },
@@ -3263,8 +3813,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "legacy-002",
-        "stageId": "initial",
-        "entityId": "e123"
+        "entityId": "e123",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e123-trigger-initial"
     },
@@ -3273,8 +3823,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e116"
+        "entityId": "e116",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e116-trigger-initial"
     },
@@ -3283,8 +3833,8 @@
         "sceneId": "s005",
         "channel": "auto",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e117"
+        "entityId": "e117",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e117-auto-initial"
     },
@@ -3302,8 +3852,8 @@
         "sceneId": "s001",
         "channel": "auto",
         "schemeId": "leave-bedroom",
-        "stageId": "leave",
-        "entityId": "e10"
+        "entityId": "e10",
+        "stageId": "leave"
       },
       "stateId": "e2e001-s001-e10-auto-leave-bedroom-leave"
     },
@@ -3312,8 +3862,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e3"
+        "entityId": "e3",
+        "stageId": "initial"
       },
       "stateId": "e2e002-s001-e3-trigger-default-initial"
     },
@@ -3322,8 +3872,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-006",
-        "stageId": "leave-reception",
-        "entityId": "e56"
+        "entityId": "e56",
+        "stageId": "leave-reception"
       },
       "stateId": "e2e002-s003-e56-auto-legacy-006-leave-reception"
     },
@@ -3332,8 +3882,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-003",
-        "stageId": "initial",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "initial"
       },
       "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
     },
@@ -3342,8 +3892,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-003",
-        "stageId": "initial",
-        "entityId": "e60"
+        "entityId": "e60",
+        "stageId": "initial"
       },
       "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
     },
@@ -3352,8 +3902,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-003",
-        "stageId": "initial",
-        "entityId": "e61"
+        "entityId": "e61",
+        "stageId": "initial"
       },
       "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
     },
@@ -3362,8 +3912,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e47"
+        "entityId": "e47",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e47-trigger-default-initial"
     },
@@ -3372,8 +3922,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "greet-after-guests",
-        "stageId": "initial",
-        "entityId": "e56"
+        "entityId": "e56",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e47-trigger-default-initial"
     },
@@ -3382,8 +3932,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "go-to-kitchen",
-        "stageId": "initial",
-        "entityId": "e56"
+        "entityId": "e56",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e56-auto-go-to-kitchen-initial"
     },
@@ -3392,8 +3942,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "beggar-first-talk",
-        "stageId": "initial",
-        "entityId": "e62"
+        "entityId": "e62",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e62-trigger-beggar-first-talk-initial"
     },
@@ -3402,8 +3952,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e53"
+        "entityId": "e53",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e53-trigger-default-initial"
     },
@@ -3412,8 +3962,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "serve-guests",
-        "stageId": "initial",
-        "entityId": "e19"
+        "entityId": "e19",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
     },
@@ -3422,8 +3972,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "take-dishes",
-        "stageId": "initial",
-        "entityId": "e20"
+        "entityId": "e20",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
     },
@@ -3432,8 +3982,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e18"
+        "entityId": "e18",
+        "stageId": "initial"
       },
       "stateId": "e2e004-s001-e18-trigger-default-initial"
     },
@@ -3442,8 +3992,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e46"
+        "entityId": "e46",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e53-trigger-default-initial"
     },
@@ -3452,8 +4002,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e51"
+        "entityId": "e51",
+        "stageId": "initial"
       },
       "stateId": "e2e003-s003-e53-trigger-default-initial"
     },
@@ -3462,8 +4012,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e15"
+        "entityId": "e15",
+        "stageId": "initial"
       },
       "stateId": "e2e004-s001-e18-trigger-default-initial"
     },
@@ -3472,8 +4022,8 @@
         "sceneId": "s001",
         "channel": "auto",
         "schemeId": "legacy-003",
-        "stageId": "routine",
-        "entityId": "e26"
+        "entityId": "e26",
+        "stageId": "routine"
       },
       "stateId": "e2e004-s001-e26-auto-legacy-003-routine"
     },
@@ -3482,8 +4032,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e12"
+        "entityId": "e12",
+        "stageId": "initial"
       },
       "stateId": "e2e004-s001-e12-trigger-default-initial"
     },
@@ -3492,8 +4042,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "c8-321c0a7d7de1",
-        "stageId": "stage-1",
-        "entityId": "e62"
+        "entityId": "e62",
+        "stageId": "stage-1"
       },
       "stateId": "e2e003-s003-e53-trigger-default-initial"
     },
@@ -3502,8 +4052,8 @@
         "sceneId": "s001",
         "channel": "trigger",
         "schemeId": "c8-74bc98f07f8e",
-        "stageId": "stage-1",
-        "entityId": "e19"
+        "entityId": "e19",
+        "stageId": "stage-1"
       },
       "stateId": "e2e005-s001-e19-trigger-c8-74bc98f07f8e-stage-1"
     },
@@ -3512,8 +4062,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e44"
+        "entityId": "e44",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s003-e53-trigger-default-initial"
     },
@@ -3522,8 +4072,8 @@
         "sceneId": "s004",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e95"
+        "entityId": "e95",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s004-e95-trigger-default-initial"
     },
@@ -3532,8 +4082,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e127"
+        "entityId": "e127",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s005-e127-trigger-default-initial"
     },
@@ -3542,8 +4092,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e124"
+        "entityId": "e124",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s005-e124-trigger-default-initial"
     },
@@ -3552,8 +4102,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e123"
+        "entityId": "e123",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s005-e123-trigger-legacy-001-initial"
     },
@@ -3562,8 +4112,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e115"
+        "entityId": "e115",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s005-e115-trigger-default-initial"
     },
@@ -3581,8 +4131,8 @@
         "sceneId": "s004",
         "channel": "trigger",
         "schemeId": "report-aunt-illness",
-        "stageId": "report",
-        "entityId": "e83"
+        "entityId": "e83",
+        "stageId": "report"
       },
       "stateId": "e2e005-s004-scene-onEnter-legacy-003-initial"
     },
@@ -3591,8 +4141,8 @@
         "sceneId": "s004",
         "channel": "auto",
         "schemeId": "legacy-001",
-        "stageId": "routine",
-        "entityId": "e88"
+        "entityId": "e88",
+        "stageId": "routine"
       },
       "stateId": "e2e005-s004-e88-auto-legacy-001-routine"
     },
@@ -3601,10 +4151,20 @@
         "sceneId": "s004",
         "channel": "auto",
         "schemeId": "legacy-002",
-        "stageId": "initial",
-        "entityId": "e83"
+        "entityId": "e83",
+        "stageId": "initial"
       },
       "stateId": "e2e005-s004-e83-auto-legacy-002-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "default",
+        "entityId": "e25",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s001-e3-trigger-default-initial"
     }
   ],
   "schemeDefaults": []

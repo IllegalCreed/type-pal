@@ -226,7 +226,7 @@
           "lines": "164-178",
           "anchor": "count('worldDrawCompleted')",
           "role": "render collector insertion",
-          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
@@ -275,7 +275,7 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "reviewScope": "document-audit; historical execution claims retained with their original scope. 2026-11-04 source applicability at ca16167540d1f0f2030ebaf126d7533037f8d0b7: RF001 s001 actor snapshots now include e25; older RF001 data cannot prove its first-command pose. The Game observation branch and existing render contracts remain unchanged. This source-pin update accepts no new RF001 runtime, preview or checkpoint result.",
       "reviewHistory": [
         {
           "date": "2026-10-30",
@@ -344,7 +344,7 @@
           "lines": "164-178",
           "anchor": "count('worldDrawCompleted')",
           "role": "render collector insertion",
-          "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
         },
         {
           "path": "scripts/e2e/opening-trace.test.mjs",
@@ -382,7 +382,7 @@
           }
         ]
       },
-      "reviewScope": "2026-10-29 source/publication review retained (25 tool contracts; no new execution); 2026-10-30 upstream publication/source review additionally retained in publicationReview (64 opening + 9 catalog tools; no browser/runtime/visual credit). Calendar expiry is retired; actual source/version boundaries govern applicability.",
+      "reviewScope": "2026-10-29 source/publication review retained (25 tool contracts; no new execution); 2026-10-30 upstream publication/source review additionally retained in publicationReview (64 opening + 9 catalog tools; no browser/runtime/visual credit). Calendar expiry is retired; actual source/version boundaries govern applicability. 2026-11-04 source applicability at ca16167540d1f0f2030ebaf126d7533037f8d0b7: RF001 s001 actor snapshots now include e25; older RF001 data cannot prove its first-command pose. The Game observation branch and existing render contracts remain unchanged. This source-pin update accepts no new RF001 runtime, preview or checkpoint result.",
       "reviewHistory": [
         {
           "date": "2026-10-29",

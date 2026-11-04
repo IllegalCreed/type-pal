@@ -6,7 +6,7 @@ evidence: e2e/evidence/e2e-common-issues.json
 
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-common-issues","sourceRefs":[{"path":"scripts/e2e/errand-contract.mjs","lines":"346-376","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"497-518","anchor":"export function assertKitchenTrace(","role":"oracle","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"scripts/e2e/render-evidence-observer.test.mjs","lines":"323-398","anchor":"test('per-frame clocks do not consume state-change budgets and remain bounded'","role":"oracle","sha256":"46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"},{"path":"scripts/e2e/npc-transition-contract.mjs","lines":"262-338","anchor":"export function renderedPoseEvidence(","role":"render span consumer","sha256":"f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"527-642","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"}],"publicCallers":["pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["each stage's current same-engine predecessor","normal input/navigation","isolated browser storage"],"businessOracle":{"type":"issue-family-closure","assertions":["公共根因按族收敛","路线/演出/存档失败分开归因","源码核读不计作实跑"]},"dedupe":{"result":"reviewed","against":["e2e/stages/001-opening/report.md","e2e/stages/002-inn-guests-and-reward/report.md","e2e/stages/003-kitchen/report.md","e2e/stages/004-meal/report.md","e2e/stages/005-shrimp/report.md"],"notes":"只汇总问题族，不复制各阶段通过数字。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-common-issues.json"}
+{"schemaVersion":2,"id":"e2e-common-issues","sourceRefs":[{"path":"scripts/e2e/errand-contract.mjs","lines":"346-376","anchor":"export function assertErrandBackground(","role":"oracle","sha256":"8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0"},{"path":"scripts/e2e/kitchen-contract.mjs","lines":"497-518","anchor":"export function assertKitchenTrace(","role":"oracle","sha256":"7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"},{"path":"scripts/e2e/render-evidence-observer.test.mjs","lines":"323-398","anchor":"test('per-frame clocks do not consume state-change budgets and remain bounded'","role":"oracle","sha256":"46b89cb0ea998e979d63bfe9d5dbc6fdb4739c3041c0068d67bb282136f032e1"},{"path":"scripts/e2e/npc-transition-contract.mjs","lines":"262-338","anchor":"export function renderedPoseEvidence(","role":"render span consumer","sha256":"f3e27c26baa9cf9712718dbe54647c86cc5981ef7d3613c11f9202f3ed6cdbeb"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"527-642","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"}],"publicCallers":["pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["each stage's current same-engine predecessor","normal input/navigation","isolated browser storage"],"businessOracle":{"type":"issue-family-closure","assertions":["公共根因按族收敛","路线/演出/存档失败分开归因","源码核读不计作实跑"]},"dedupe":{"result":"reviewed","against":["e2e/stages/001-opening/report.md","e2e/stages/002-inn-guests-and-reward/report.md","e2e/stages/003-kitchen/report.md","e2e/stages/004-meal/report.md","e2e/stages/005-shrimp/report.md"],"notes":"只汇总问题族，不复制各阶段通过数字。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-common-issues.json"}
 -->
 
 
@@ -15,7 +15,7 @@ evidence: e2e/evidence/e2e-common-issues.json
 
 Status: current
 Owner: Codex（横向问题归因与文档维护；原执行身份按各批回执）
-Last reviewed: 2026-11-03
+Last reviewed: 2026-11-04
 Template: test-domain-report-v1 / 1.1.0
 
 ## Domain scope
@@ -77,7 +77,7 @@ Template: test-domain-report-v1 / 1.1.0
 
 ### 六个 sourceRefs 的实际范围
 
-本次核六个全文件SHA及范围内anchor均匹配原metadata；语义信用限于实际读取范围，不能据hash授整文件深审或七家族全部通过。
+本次核六个全文件SHA及范围内anchor均匹配顶部metadata；语义信用限于实际读取范围，不能据hash授整文件深审或七家族全部通过。
 
 | 来源 / 实际范围 | 可支持的具体结论 | 不能支持的结论 |
 |---|---|---|
@@ -86,7 +86,13 @@ Template: test-domain-report-v1 / 1.1.0
 | [observer测试源码](../../../../scripts/e2e/render-evidence-observer.test.mjs) 323–398 | 五collector的17,000世界绘制样本与状态变化预算分开；Opening另测60,000及overflow | 本轮未执行测试；count、字节限、快照池、actor列表上限不是同一容量轴 |
 | [renderedPoseEvidence](../../../../scripts/e2e/npc-transition-contract.mjs) 262–338（另读投影208–260） | 有throughRenderId的span须完整连续、同scene/visit且端点时钟一致，展开后才按renderScope裁剪 | 无span分支只返回pose及order/atMs/tick/renderId，可保null来源，**不调用screenProjection**；只有span逐clock调用屏幕几何投影，且可回null screenVisible/screenRect。该函数不独立认证全采集链或像素 |
 | [opening-trace-plugin](../../../../scripts/e2e/opening-trace-plugin.mjs) 164–178（必要上下文140–190） | Game world完成hook在entries循环闭合后发布，不能在循环中提前声称完成 | 一个插入点不能证明全部采集链正确，也不给旧raw补发信用 |
-| [opening-trace测试源码](../../../../scripts/e2e/opening-trace.test.mjs) 515–633 | 真实函数transform后的测试以drawSprite stub记资源；第二draw抛错不发布新pass | 本轮未跑该测试、未画Canvas像素，不授浏览器、全帧、视觉等价 |
+| [opening-trace测试源码](../../../../scripts/e2e/opening-trace.test.mjs) 527–642 | 真实函数transform后的测试以drawSprite stub记资源；第二draw抛错不发布新pass | 本轮未跑该测试、未画Canvas像素，不授浏览器、全帧、视觉等价 |
+
+### 2026-11-04 RF001 观测增补的适用性
+
+`ca16167540d1f0f2030ebaf126d7533037f8d0b7` 只把 RF001 `s001/e25` 加入演员快照名单，并同步现有 projection commit 回归的 fixture/断言。两条相关 catalog 记录、现行 metadata 与配对 evidence 同步插件全文件 SHA；上表 Game 164–178 行插入点及原绘制断言保持，原 Game 与绘制证据仍按各自原版本、原合同复用。不能因文件指纹变动撤销无关证据，也不能把新演员快照当作像素或完整演出证明。
+
+RF001 旧记录缺 `e25` 的现场仍保留初态缺证，不能从脚本、002 或另一 sceneVisit 倒推首命令姿态。新增正常 RF001 执行尚未在本次文档更新中验收；具体 run/sceneVisit/first-command 与初态保存重开、Play/Reset 各按 [001 源码适用性说明](../stages/001-opening/report.md#2026-11-04-rf001-房内随从观测增补源码适用性)和 R4 当前准入另核。历史执行数字、原件、candidate/versions 与配对 `runtimeExecution.performed=false` 均不升级。
 
 ## Inputs and fixtures
 
@@ -149,7 +155,7 @@ Template: test-domain-report-v1 / 1.1.0
 | 检查 | 接受判据 | 信用边界 |
 |---|---|---|
 | 正文与配对 | 五章有实际内容；单篇完整模板consumer、真实`validateCanonicalEvidence`核唯一catalog身份/发布字段/sourceRefs；错publication应被拒 | 形状/配对不证明问题全部闭合或runtime |
-| 原文保全 | frontmatter/testing-meta与完整quote原字节不变；精确source逆回及损坏反例能区分 | 字节保真不等于语义接受，也不倒改旧回执 |
+| 原文保全 | frontmatter与完整quote原字节不变；当前testing-meta只按已核源码影响同步source pin，历史revision不改；精确source逆回及损坏反例能区分 | 字节保真不等于语义接受，也不倒改旧回执 |
 | 导航 | 新旧每条链接、fragment与catalog实际canonical核验，不能只猜目录或仅核文件存在 | 不代替链接目标全文审查 |
 | 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 原全量文档治理已按[母卡最终验收](../../../tasks/cards/DOCS-FULL-TEMPLATE-1.md#最终验收与主线收口)经PR38/39收口；新增差异仍独立接受，文档静态治理不授E2E/catalog或专项执行信用 |
 

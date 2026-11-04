@@ -8,8 +8,12 @@ Reviewer: Codex（产品与实页）/ /root/ui_final_doc_review（文档差异�
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
 Branch: `codex/e2e-script-progress`（当前集成）；`codex/cross-scene-preview`（当前隔离实现）；首批main集成`39499783c`保留为历史
-Last reviewed: 2026-11-04
+Last reviewed: 2026-11-05
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-05 预览与保存后继边界
+
+[R4本轮收尾](E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-05-001006脚本与预览基线收尾)已完成001–006指定入口的当前场景静态初态配置、实际保存重开、309条实体属性读取与SingleStep/Reset；39份状态、43条步骤绑定按原件接受。普通同目标Save的增量写入缺陷已修，浏览器安全设置未改。下文此前“保存/逐入口待核”保留原时点，不再作为本批当前待办；完整现场、并行自动行为、party/背包、动态帧及载具/音乐预览桩仍按原界限，不将有限静态预览写成完整世界恢复或新船行视觉验收。整卡继续review，初态编排UI用户接受与跨场景006有限技术接受保持。
 
 ## 2026-11-04 跨场景预览实施准入
 

@@ -6,20 +6,20 @@ evidence: e2e/evidence/e2e-001.json
 
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"21-29","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-114","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/opening-matrix-observer.mjs","lines":"11-125","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"527-642","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
+{"schemaVersion":2,"id":"e2e-001","sourceRefs":[{"path":"scripts/e2e/game-opening.mjs","lines":"21-29","anchor":"const openingContract = await readOpeningContract","role":"caller","sha256":"248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910"},{"path":"scripts/e2e/opening-matrix.mjs","lines":"76-114","anchor":"export function assertOpeningMatrix(","role":"oracle","sha256":"de102d6d6ebb8c808e493e9118ad60bf83d094c9f34082507585d3e62359f1ab"},{"path":"scripts/e2e/opening-handoff.mjs","lines":"52-67","anchor":"export function assertOpeningHandoff(","role":"oracle","sha256":"e5d65b3de90b578a4cae74329abec3661da8245c4d11c9c122d58c136be66aea"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"},{"path":"scripts/e2e/opening-matrix-observer.mjs","lines":"11-125","anchor":"const worldRenderLimit = 60_000","role":"collector","sha256":"aad2e5f0582e16a1f7c7b105de62989c8f09994f3767d70c27f081097a607d57"},{"path":"scripts/e2e/opening-trace-plugin.mjs","lines":"164-178","anchor":"count('worldDrawCompleted')","role":"render collector insertion","sha256":"13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"},{"path":"scripts/e2e/opening-trace.test.mjs","lines":"527-642","anchor":"test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'","role":"real transformed caller oracle","sha256":"965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"}],"publicCallers":["pnpm e2e:001","pnpm e2e:001:reforge","pnpm e2e:001:both"],"legalInputs":["fresh new story","normal Enter/Escape/F5 flow","same-engine save/load"],"businessOracle":{"type":"opening-dialogue-and-restore","assertions":["55正文/说话人与分页完整","指定站定区间零位移且前后有真实移动","结束档在新上下文正式恢复"]},"dedupe":{"result":"reviewed","against":["e2e-contract","e2e-route","e2e-002"],"notes":"旧 SAVE/content 回执保留为历史，不升级为当前前驱。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-001.json"}
 -->
 
 
 
 # 001 开场执行器：双引擎完整验证
 
-Last reviewed: 2026-10-29
+Last reviewed: 2026-11-04
 Owner: Codex
 Template: test-run-report-v1 / 1.0.0
 
 ## Scope
 
-本报告归属 phase1/game 与 phase2/reforge 的 001 开场 verify 合同，保留不同日期与版本的执行、源码核读和离线判定。顶部 testing-meta/revision 与配对机器回执维持原 source/candidate SHA、content22/SAVE11 的文档核读记录；正文 10-07/10-08 的录制判定有各自来源，不将其拼成新的同 revision 总通过。本次仅重排正文，没有执行游戏、浏览器、E2E、视觉或 coverage。
+本报告归属 phase1/game 与 phase2/reforge 的 001 开场 verify 合同，保留不同日期与版本的执行、源码核读和离线判定。顶部 revision 与配对机器回执保留原 candidate SHA、content22/SAVE11 的文档审计身份，sourceRefs 按已核源码影响另行维护；正文 10-07/10-08 的录制判定有各自来源，不将其拼成新的同 revision 总通过。2026-11-04 本次只更新 RF001 随从观测增补的源码指纹与适用性说明，没有新增已接受的游戏、浏览器、E2E、视觉或 coverage 结果。
 
 ## Execution and assertions
 
@@ -217,6 +217,14 @@ HTTP `.type-pal/save-state.json`不存在是现行“干净工程”的合法404
 50ms轮询仅用于等待状态，不用于指定剧情持续时间。没有多数通过或自动重试放行策略。
 
 ## Revision history
+
+### 2026-11-04 RF001 房内随从观测增补（源码适用性）
+
+候选 `ca16167540d1f0f2030ebaf126d7533037f8d0b7` 仅在 [opening-trace-plugin](../../../../../scripts/e2e/opening-trace-plugin.mjs) 的 RF001 `s001` 演员快照名单中加入 `e25`，并同步现有真实 projection commit 回归的合法实体 fixture 与随从快照断言。新增的是入口现场观测，未改游戏调度、脚本、对白或存档；本页及配对 catalog/evidence 只同步该插件的全文件 SHA。
+
+原 Game 分支、164–178 行的 world-pass 完成插入点及既有实际绘制断言未变，相关 Game 执行与绘制证据在原候选和原合同范围内继续适用。RF001 旧原件若未记录 `e25`，仍不能证明该入口首条命令前的随从姿态，也不能从脚本正文、002 或另一 sceneVisit 倒填。补口须另核正常新执行的 run、sceneVisit 与 first-command 观察；演员快照不代替实际绘制或编辑器保存重开、Play/Reset 验收。
+
+本次源码更新未接收新增 RF001 实跑结果。历史 execution 数字、candidate/versions、原件及 `runtimeExecution.performed=false` 保留；新执行与归档仍由 [R4 原卡](../../../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-04-基线收尾与逐脚本复核准入)另行验收，不将名单补齐写成剧情、检查点或初态已通过。
 
 ### 2026-10-29 当前源码与历史发布边界续审
 
