@@ -15,6 +15,7 @@ import type {
   Locale,
   MapIndexV1,
   SceneDef,
+  SceneIndexV1,
   ScriptStage,
   SpriteDef,
   TriggerActivation,
@@ -27,7 +28,15 @@ import {
   renderSceneFrame,
   walkFrameIndex,
 } from '@type-pal/reforge'
-import { type KeyboardEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  type KeyboardEvent,
+  type ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { entityDisplayLabel } from '../core/entity-display.js'
 import { type EditorPlayIdentity, playProjectQuery } from '../core/play-url.js'
 import type { Playback } from '../core/playback.js'
@@ -40,6 +49,9 @@ import { DsButton, DsSelect, DsTag, DsToolbar } from './design-system/index.js'
 import {
   drawGridBlocked,
   drawTriggerHighlight,
+  prepareSceneAssets,
+  type StageAssets,
+  type StageView,
   useSceneAssets,
   useStageSize,
   useViewZoomPan,
@@ -220,6 +232,7 @@ function collectCanonicalScriptSprites(
 
 export function PreviewCanvas(props: {
   scene: SceneDef
+  sceneIndex?: SceneIndexV1
   stages: readonly ScriptStage[]
   sourceKey: string
   /** Content transport and workspace save identity are supplied together, never guessed here. */
@@ -297,6 +310,14 @@ export function PreviewCanvas(props: {
     initial: { zoom: DEFAULT_ZOOM, panX: 0, panY: 0 },
     centerAnchor: true,
   })
+  const sceneSession = playback.sceneSession
+  const presenting = playback.mode === 'running' || playback.mode === 'paused'
+  const presentation = playback.presentation
+  const displayScene = presentation.scene
+  const displaySceneName =
+    props.sceneIndex?.scenes.find((entry) => entry.id === displayScene.id)?.name ?? displayScene.id
+  const previewAssets = useRef<{ scene: SceneDef; assets: StageAssets } | null>(null)
+  const savedView = useRef<{ view: StageView; route?: ScriptMovementPreview } | null>(null)
   const panDragRef = useRef<{ sx: number; sy: number; panX: number; panY: number } | null>(null)
   const movementPreview = useMemo(
     () =>
@@ -340,6 +361,23 @@ export function PreviewCanvas(props: {
     ...movementPreview.notes,
   ].join('\n')
 
+  useLayoutEffect(() => {
+    void sceneSession
+    if (!presenting && savedView.current) {
+      setView(savedView.current.view)
+      setFramedMovement(savedView.current.route)
+      savedView.current = null
+      previewAssets.current = null
+    }
+  }, [presenting, sceneSession, setView])
+  const start = (paused: boolean): void => {
+    savedView.current = { view: { ...viewRef.current }, route: framedMovement }
+    setFramedMovement(undefined)
+    setView({ zoom: viewRef.current.zoom, panX: 0, panY: 0 })
+    if (startPlayback) startPlayback(paused)
+    else playback.play(sourceKey, stages, { paused, ownerId: focusEntityId })
+  }
+
   const spriteById = useMemo(() => new Map(sprites.map((s) => [s.id, s])), [sprites])
   const entityDef = (e: SceneDef['entities'][number]): SpriteDef | undefined => {
     const sid = resolveEntitySpriteId(e, actorsById)
@@ -377,11 +415,73 @@ export function PreviewCanvas(props: {
     assetReader,
   })
 
+  useEffect(() => {
+    const prepare: NonNullable<Playback['prepareScene']> = async (target, source, signal) => {
+      const ctx = canvasRef.current?.getContext('2d')
+      if (!ctx) throw new Error('预览画布不可用')
+      const needed = new Set(spriteAssets)
+      const addSprite = (id: string | undefined): void => {
+        const def = id ? spriteById.get(id) : undefined
+        if (def) needed.add(def.asset)
+      }
+      addSprite(playback.view.player.spriteId ?? undefined)
+      for (const entity of target.entities) addSprite(resolveEntitySpriteId(entity, actorsById))
+      const flows = [
+        ...Object.values(source.hooks ?? {}).flatMap((slot) =>
+          Object.values(slot?.variants ?? {}).map((hook) => hook.flow),
+        ),
+        ...source.entities.flatMap((entity) =>
+          Object.values(entity.behaviors ?? {}).flatMap((channel) =>
+            Object.values(channel ?? {}).map((behavior) => behavior.flow),
+          ),
+        ),
+      ]
+      for (const flow of flows)
+        for (const id of collectCanonicalScriptSprites(flow, canonicalSharedScripts ?? {}))
+          addSprite(id)
+      const assets = await prepareSceneAssets(
+        {
+          assetBase,
+          mapId: target.mapId,
+          spriteAssets: [...needed],
+          projectMaps,
+          mapIndex,
+          tilesets,
+          assetCatalog,
+          assetReader,
+        },
+        ctx,
+        signal,
+      )
+      return () => {
+        previewAssets.current = { scene: target, assets }
+      }
+    }
+    playback.prepareScene = prepare
+    return () => {
+      if (playback.prepareScene === prepare) playback.prepareScene = undefined
+    }
+  }, [
+    playback,
+    spriteAssets,
+    spriteById,
+    actorsById,
+    canonicalSharedScripts,
+    assetBase,
+    projectMaps,
+    mapIndex,
+    tilesets,
+    assetCatalog,
+    assetReader,
+  ])
+
   // rAF:tick 演出 + 合成一帧
   // biome-ignore lint/correctness/useExhaustiveDependencies: entityDef/spriteById 纯派生;rAF 每帧读最新
   useEffect(() => {
     if (status !== 'ready') return
-    const loaded = loadedRef.current
+    const scene = displayScene
+    const loaded =
+      previewAssets.current?.scene === scene ? previewAssets.current.assets : loadedRef.current
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!loaded || !canvas || !ctx) return
@@ -394,13 +494,13 @@ export function PreviewCanvas(props: {
 
     /** 镜头目标:播放中 = Playback.poi(命令即导演);未播 = 选中源的触发实体(看得见主体)。 */
     const camTarget = (): { x: number; y: number } => {
-      if (routeFramed && routeFrame) return routeFrame.center
-      const v = playback.view
+      if (!presenting && routeFramed && routeFrame) return routeFrame.center
+      const v = playback.presentation.view
       if (playback.poi) {
         const g = playback.poiPos()
         return gridToPixel(g)
       }
-      if (focusEntityId) {
+      if (!presenting && focusEntityId) {
         const e = scene.entities.find((x) => x.id === focusEntityId)
         if (e) return gridToPixel(e.pos)
       }
@@ -431,7 +531,12 @@ export function PreviewCanvas(props: {
       const dt = Math.min(100, now - last)
       last = now
       playback.tick(dt)
-      const v = playback.view
+      // The controller commits synchronously; React installs the matching map on its next render.
+      if (playback.presentation.scene !== scene) {
+        raf = requestAnimationFrame(frame)
+        return
+      }
+      const v = playback.presentation.view
 
       const draws: SpriteDraw[] = []
       // 实体(overlay 合成)
@@ -516,7 +621,7 @@ export function PreviewCanvas(props: {
       if (layers) drawGridBlocked(ctx, map, room, { zoom, panX: camera.x, panY: camera.y }, layers)
       // 触发点/面高亮:选中事件的 owner 格描边 + 触发范围面(range 切比雪夫盒,引擎 findTrigger 同源)。
       // zone 实体无精灵,这是它在预览里唯一的可见形态。
-      if (focusEntityId) {
+      if (!presenting && focusEntityId) {
         const e = scene.entities.find((x) => x.id === focusEntityId)
         if (e && !(v.entity.get(e.id)?.hidden ?? e.hidden)) {
           drawTriggerHighlight(ctx, e, camera, viewRef.current.zoom, now, {
@@ -529,7 +634,7 @@ export function PreviewCanvas(props: {
           }) // 隐藏实体:淡显位置仍可寻
         }
       }
-      drawScriptMovementPreview(ctx, movementPreview, camera, zoom)
+      if (!presenting) drawScriptMovementPreview(ctx, movementPreview, camera, zoom)
       // 淡幕
       if (v.fadeBlack > 0) {
         ctx.save()
@@ -544,7 +649,8 @@ export function PreviewCanvas(props: {
     return () => cancelAnimationFrame(raf)
   }, [
     status,
-    scene,
+    displayScene,
+    presenting,
     size.w,
     size.h,
     playback,
@@ -560,7 +666,7 @@ export function PreviewCanvas(props: {
     routeFrame,
   ])
 
-  const v = playback.view
+  const v = playback.presentation.view
   const mode = playback.mode
   const dlg = v.dialog
   const activeConfirm = v.confirm
@@ -615,8 +721,7 @@ export function PreviewCanvas(props: {
               execute: () => {
                 if (mode === 'running') playback.pause()
                 else if (mode === 'paused') playback.resume()
-                else if (startPlayback) startPlayback(false)
-                else playback.play(sourceKey, stages, { ownerId: focusEntityId })
+                else start(false)
               },
             },
             {
@@ -627,8 +732,7 @@ export function PreviewCanvas(props: {
               disabledReason: playback.view.confirm ? '请先选择“是”或“否”' : undefined,
               execute: () => {
                 if (mode === 'idle' || mode === 'done') {
-                  if (startPlayback) startPlayback(true)
-                  else playback.play(sourceKey, stages, { paused: true, ownerId: focusEntityId })
+                  start(true)
                 }
                 playback.step()
               },
@@ -652,7 +756,7 @@ export function PreviewCanvas(props: {
         trailing={
           <div className="preview-toolbar__trailing">
             {props.initialStateControl}
-            {routeFrame ? (
+            {!presenting && routeFrame ? (
               <DsButton
                 size="compact"
                 variant="secondary"
@@ -696,16 +800,19 @@ export function PreviewCanvas(props: {
                 }}
               />
             </div>
+            {presenting ? <DsTag tone="neutral">预览场景：{displaySceneName}</DsTag> : null}
             <DsTag tone="neutral">
-              {playback.view.confirm
-                ? '等待选择'
-                : mode === 'running'
-                  ? '播放中'
-                  : mode === 'paused'
-                    ? '已暂停'
-                    : mode === 'done'
-                      ? '播放完毕'
-                      : '就绪'}
+              {playback.error
+                ? '预览中断'
+                : playback.view.confirm
+                  ? '等待选择'
+                  : mode === 'running'
+                    ? '播放中'
+                    : mode === 'paused'
+                      ? '已暂停'
+                      : mode === 'done'
+                        ? '播放完毕'
+                        : '就绪'}
             </DsTag>
             {playback.stepNumber > 0 && (
               <DsTag tone="neutral">
@@ -723,6 +830,7 @@ export function PreviewCanvas(props: {
           width={size.w}
           height={size.h}
           className="preview-canvas--interactive"
+          aria-label={`场景预览：${displaySceneName}`}
           onPointerDown={(e) => {
             panDragRef.current = {
               sx: e.clientX,
@@ -750,7 +858,7 @@ export function PreviewCanvas(props: {
             panDragRef.current = null
           }}
         />
-        {movementPreview.tracks.length > 0 || movementPreview.notes.length > 0 ? (
+        {!presenting && (movementPreview.tracks.length > 0 || movementPreview.notes.length > 0) ? (
           <div
             className="preview-route-legend"
             role="note"
@@ -782,7 +890,16 @@ export function PreviewCanvas(props: {
             </div>
           </div>
         ) : null}
-        {status === 'loading' ? <div className="preview-tip">加载资产…</div> : null}
+        {status === 'loading' || playback.loadingScene ? (
+          <div className="preview-tip" role="status">
+            加载资产{playback.loadingScene ? `：${playback.loadingScene}` : ''}…
+          </div>
+        ) : null}
+        {playback.error ? (
+          <div className="preview-tip err" role="alert">
+            {playback.error}
+          </div>
+        ) : null}
         {status === 'error' ? <div className="preview-tip err">{err}</div> : null}
         {status === 'ready' && hint ? <div className="preview-tip hint">{hint}</div> : null}
         {shownCue || v.confirm ? (

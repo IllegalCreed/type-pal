@@ -90,6 +90,9 @@ describe('PreviewCanvas confirm controls', () => {
   test('预览控制使用单行共享工具栏并保持播放、单步与倍速行为', async () => {
     const startPlayback = vi.fn()
     const playback = {
+      get presentation() {
+        return { scene, view: playback.view }
+      },
       view: { dialog: null, heldDialog: null, confirm: null },
       mode: 'idle',
       speed: 1,
@@ -233,6 +236,9 @@ describe('PreviewCanvas confirm controls', () => {
     const submitConfirm = vi.fn()
     const answerConfirm = vi.fn()
     const playback = {
+      get presentation() {
+        return { scene, view: playback.view }
+      },
       view: {
         dialog: null,
         heldDialog: { rows: [{ text: '要选择「是」吗？' }] },

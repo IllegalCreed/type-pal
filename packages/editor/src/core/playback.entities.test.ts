@@ -136,14 +136,24 @@ describe('Canonical preview entity overlays', () => {
     r.unchanged()
   })
 
-  test('owner camera falls back for a missing owner and follows a valid owner overlay', async () => {
+  test('owner camera follows its overlay during playback and returns after completion or reset', async () => {
     const r = preview(),
       p = r.p
     expect(p.entityPos('absent')).toBeUndefined()
     await r.start(flowOf([]), { ownerId: 'absent' })
     expect(p.poiPos()).toEqual(r.scene.entry.pos)
-    await r.start(flowOf([{ kind: 'nudgeEntity', target, dx: 16, dy: 8 }]), { ownerId: 'npc' })
+    await r.start(
+      flowOf([
+        { kind: 'nudgeEntity', target, dx: 16, dy: 8 },
+        { kind: 'wait', ms: 10 },
+      ]),
+      { ownerId: 'npc' },
+    )
     expect(p.poiPos()).toEqual({ col: 3, row: 3, height: 4 })
+    p.tick(10)
+    await settle()
+    expect(p.presentation.view.player.pos).toEqual(r.scene.entry.pos)
+    expect(p.poi).toBeNull()
     p.stop()
     await settle()
     expect(p.entityPos('npc')).toEqual({ col: 2, row: 3, height: 4 })

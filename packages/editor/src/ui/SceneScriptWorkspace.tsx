@@ -536,6 +536,7 @@ export function CanonicalSceneScriptWorkspace(props: {
         ) : (
           <PreviewCanvas
             scene={projection.scene!}
+            sceneIndex={props.editorContext?.sceneIndex}
             stages={EMPTY_STAGES}
             sourceKey={previewSelectionKey}
             playIdentity={props.playIdentity}

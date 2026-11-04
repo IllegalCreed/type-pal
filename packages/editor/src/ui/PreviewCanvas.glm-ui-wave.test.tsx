@@ -101,7 +101,10 @@ let root: Root
 let host: HTMLDivElement
 
 function playbackStub(mode: string): Playback {
-  return {
+  const playback = {
+    get presentation() {
+      return { scene, view: playback.view }
+    },
     view: { dialog: null, heldDialog: null, confirm: null },
     mode,
     speed: 1,
@@ -115,6 +118,7 @@ function playbackStub(mode: string): Playback {
     toggleConfirm: vi.fn(),
     submitConfirm: vi.fn(),
   } as unknown as Playback
+  return playback
 }
 
 async function renderPreview(
@@ -226,6 +230,7 @@ describe('U4b PreviewCanvas 委派与防御（回放控制器局部合同，非�
     })
     expect(playback.play).toHaveBeenCalledWith(`scene:${scene.id}:onEnter:default`, legalStages, {
       ownerId: undefined,
+      paused: false,
     })
     await act(async () => {
       host.querySelector<HTMLButtonElement>('button[aria-label="单步"]')?.click()

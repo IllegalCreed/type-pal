@@ -353,6 +353,7 @@ export {
   prepareBattleTrial,
   previewBattleTrialParty,
 } from './battle-trial-prepare.js'
+export { resolveSceneSpawn } from './scene-transition.js'
 export type {
   FrameAnimationFrameSnapshot,
   FrameSequenceAssetReader,

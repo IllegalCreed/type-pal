@@ -97,8 +97,7 @@ export function useStageSize(
 }
 
 /** 场景资产加载(map/tileset/palette + 指定 world-sprite AssetId)。 */
-export function useSceneAssets(opts: {
-  canvasRef: RefObject<HTMLCanvasElement | null>
+export interface SceneAssetOptions {
   assetBase: AssetBase
   mapId: string
   spriteAssets: AssetId[]
@@ -114,7 +113,63 @@ export function useSceneAssets(opts: {
   assetReader: EditorAssetReader
   /** 项目/消费者身份；相同稳定 id 跨项目切换时必须使旧异步结果失效。 */
   sourceKey?: string
-}): {
+}
+
+/** Prepare a complete stage without changing the visible canvas or current hook state. */
+export async function prepareSceneAssets(
+  opts: SceneAssetOptions,
+  ctx: CanvasRenderingContext2D,
+  signal?: AbortSignal,
+): Promise<StageAssets> {
+  const {
+    assetBase,
+    mapId,
+    projectMaps,
+    mapIndex,
+    tilesets,
+    assetReader,
+    spriteAssets,
+    authoringTilesetIds,
+  } = opts
+  signal?.throwIfAborted()
+  const path = mapAssetById(mapIndex ?? { version: 1, maps: [] }, mapId)?.path
+  const liveMap = projectMaps?.[mapId]
+  if (!liveMap && !path) throw new Error(`地图 ${mapId} 未登记资源路径`)
+  const [map, palette] = await Promise.all([
+    liveMap ?? loadProjectMap(assetBase, path!),
+    loadStandardPalette(assetBase),
+  ])
+  signal?.throwIfAborted()
+  const [loadedTilesets, entries] = await Promise.all([
+    Promise.all(
+      [...new Set([...(map.tilesetRefs ?? []), ...(authoringTilesetIds ?? [])])]
+        .sort()
+        .map(
+          async (id) =>
+            [id, await loadTilesetAsset(assetReader, resolveTilesetAsset(id, tilesets))] as const,
+        ),
+    ),
+    Promise.all(
+      [...new Set(spriteAssets)].map(
+        async (asset) => [asset, await loadEditorSprite(assetReader, asset)] as const,
+      ),
+    ),
+  ])
+  signal?.throwIfAborted()
+  const registry = new Map(loadedTilesets)
+  return {
+    renderer: new Canvas2DRenderer(ctx, palette, registry),
+    map,
+    spritesByAsset: new Map(entries),
+    tilesets: registry,
+    tiles: registry.get(map.tilesetRefs[0]!) ?? new Map(),
+    palette,
+  }
+}
+
+export function useSceneAssets(
+  opts: SceneAssetOptions & { canvasRef: RefObject<HTMLCanvasElement | null> },
+): {
   status: 'loading' | 'ready' | 'error'
   err: string
   loadedRef: RefObject<StageAssets | null>
@@ -170,43 +225,9 @@ export function useSceneAssets(opts: {
     setErr('')
     void (async () => {
       try {
-        const [{ map, tilesets: loadedTilesets }, palette] = await Promise.all([
-          // 有实时副本 → 直接用它；否则按 mapId 从磁盘懒加载。
-          (async () => {
-            const map = liveMap ?? (await loadProjectMap(assetBase, projectMapPath))
-            // 磁盘回退时，瓦片集只能在地图读出后确定。旧实现提前从 liveMap
-            // 取 tilesetRefs，未 hydrate 的地图会以空 registry 进入 ready，最终只画黑屏。
-            const mapTilesetIds = [
-              ...new Set([...(map.tilesetRefs ?? []), ...(authoringTilesetIds ?? [])]),
-            ].sort()
-            const loaded = await Promise.all(
-              mapTilesetIds.map(
-                async (tilesetId) =>
-                  [
-                    tilesetId,
-                    await loadTilesetAsset(assetReader, resolveTilesetAsset(tilesetId, tilesets)),
-                  ] as const,
-              ),
-            )
-            return { map, tilesets: new Map(loaded) }
-          })(),
-          loadStandardPalette(assetBase), // 只留盘 0(W7a-3:调色板概念退役)
-        ])
-        const entries = await Promise.all(
-          [...new Set(spriteAssets)].map(
-            async (asset) => [asset, await loadEditorSprite(assetReader, asset)] as const,
-          ),
-        )
+        const loaded = await prepareSceneAssets(opts, ctx)
         if (!alive) return
-        const tiles = loadedTilesets.get(map.tilesetRefs[0]!) ?? new Map()
-        loadedRef.current = {
-          renderer: new Canvas2DRenderer(ctx, palette, loadedTilesets),
-          map,
-          spritesByAsset: new Map(entries),
-          tilesets: loadedTilesets,
-          tiles,
-          palette,
-        }
+        loadedRef.current = loaded
         setStatus('ready')
       } catch (e) {
         if (alive) {

@@ -137,7 +137,7 @@ describe('Canonical preview presentation clock', () => {
     r.unchanged()
   })
 
-  test('canonical scene transfer terminates after its log, clears hold and skips subsequent commands', async () => {
+  test('missing canonical target fails visibly, clears hold and skips subsequent commands', async () => {
     const r = preview(),
       p = r.p
     await r.start(
@@ -150,7 +150,10 @@ describe('Canonical preview presentation clock', () => {
     expect(p.mode).toBe('done')
     expect(p.activePath).toBeNull()
     expect(p.view.fadeBlack).toBe(0)
-    expect(p.view.logs).toEqual(['⬛ 保持黑屏（cut）', '🚪 切场景 another-room(预览到此为止)'])
+    expect(p.view.logs).toEqual([
+      '⬛ 保持黑屏（cut）',
+      '⚠ 预览中断：预览没有作者场景定义 another-room，无法解析绑定',
+    ])
     r.unchanged()
   })
 })
