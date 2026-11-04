@@ -392,3 +392,30 @@ test('v2 preview fingerprints resolve scheme inheritance, preserve explicit scen
     /schemeDefaults/,
   )
 })
+
+test('the report rejects an editor-invalid unselected state instead of crediting another saved context', async () => {
+  const preview = { stateId: 'door', selection: 'default' }
+  const saved = event({
+    axis: 'initialState',
+    to: 'saved',
+    preview,
+    previewFingerprint: previewFingerprint(entry, preview, library()),
+  })
+  const invalid = library()
+  invalid.states.push({
+    id: 'unselected',
+    sceneId: 's001',
+    name: 'Other start',
+    entities: [],
+    motion: {},
+  })
+  await assert.rejects(
+    reportProgress({
+      scenes: [scene()],
+      library: invalid,
+      ledger: ledger(saved),
+      readReference: async (ref) => files.get(ref.path) ?? null,
+    }),
+    /motion/,
+  )
+})
