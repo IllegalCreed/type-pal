@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e14144ea3bba496f61d393cdd2afa2c307c46979d9349617e8aef8ae1f322bc7",
+      "afterSha256": "4f7cbcc0d1bf915ba6cd317a7e9b342405bb836c7e297a920ef9dbfb8bd54dd8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "reviewer": "/root (explicit user acceptance; read-only current playback boundary)",
         "date": "2026-11-04",
-        "conclusion": "UI rework scope reconciled; task remains review and per-entry initial states remain pending.",
+        "conclusion": "User accepts current initial-state workspace UI at eb620beca. Cross-scene playback remains next host capability; per-entry NPC state/save/E2E validation remains pending.",
         "reviewedLines": 119,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "acceptanceScope": "Only this status delta and current loadScene stop/entry-scene closure were read. Prior product/UI evidence remains in the existing affordances archive; no new runtime, saved-state or E2E credit. No product implementation started in this status update."
       }
     },
     {
@@ -2339,14 +2339,14 @@
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "mode": "reviewed",
-      "afterSha256": "1a907237b9d207625a824c5c25f9aa5b0941caa798f4fe94c72ed6731cc8d6c9",
+      "afterSha256": "e99a64a2ee60e075b592c287c03e81acaa2d98d3df855423739b4a40de0a2dbb",
       "review": {
-        "author": "/root + /root/ui_affordances",
-        "reviewer": "/root (product/browser); /root/ui_final_doc_review (bounded document delta)",
+        "author": "/root",
+        "reviewer": "/root (explicit user acceptance; read-only current playback boundary)",
         "date": "2026-11-04",
-        "conclusion": "Records approved action visibility/borders, responsive participants and default control sizes, shared popover above header; preserves task review and all prior E2E boundaries.",
-        "reviewedLines": 848,
-        "acceptanceScope": "Actual delta, exact sources/native results and targeted browser observations only; previous full review reused. Independent two-document receipt and minimal originals: ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz. Line extent does not claim repeated full read; no user final acceptance, project Save or new E2E credit."
+        "conclusion": "User accepts current initial-state workspace UI at eb620beca. Cross-scene playback remains next host capability; per-entry NPC state/save/E2E validation remains pending.",
+        "reviewedLines": 854,
+        "acceptanceScope": "Only this status delta and current loadScene stop/entry-scene closure were read. Prior product/UI evidence remains in the existing affordances archive; no new runtime, saved-state or E2E credit. No product implementation started in this status update."
       }
     },
     {
