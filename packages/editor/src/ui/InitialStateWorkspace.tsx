@@ -598,7 +598,20 @@ export function InitialStateWorkspace(props: {
                               key={`${reference.kind}:${key}`}
                               title={detail.step ?? detail.scheme}
                               detail={detail.step ? detail.scheme : undefined}
-                              path={source}
+                              path={
+                                exists
+                                  ? source
+                                  : [
+                                      source,
+                                      `场景 ID: ${entry.sceneId}`,
+                                      entry.entityId ? `实体 ID: ${entry.entityId}` : undefined,
+                                      `通道: ${entry.channel}`,
+                                      `方案 ID: ${entry.schemeId}`,
+                                      'stageId' in entry ? `步骤 ID: ${entry.stageId}` : undefined,
+                                    ]
+                                      .filter(Boolean)
+                                      .join(' / ')
+                              }
                               labels={[
                                 {
                                   label: {

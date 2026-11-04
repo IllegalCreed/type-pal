@@ -139,6 +139,17 @@ async function mountApp(unavailableScenes = false) {
     entry: { sceneId: 'outside', entityId: 'host', channel: 'auto', schemeId: 'later' },
     stateId: 'door',
   })
+  if (unavailableScenes)
+    library.bindings.push({
+      entry: {
+        sceneId: 'start',
+        entityId: 'host',
+        channel: 'trigger',
+        schemeId: 'greet',
+        stageId: 'return',
+      },
+      stateId: 'door',
+    })
   files['content/scenes/start.json'] = scene
   files['content/scenes/outside.json'] = outside
   files['editor/script-preview.json'] = library
@@ -435,7 +446,19 @@ test('initial-state workspace remains reachable when no author scene is availabl
     '#initial-state-inspector-panel-references',
   )!
   expect(references.textContent).toContain('整份初态的引用')
-  expect(references.querySelectorAll('article.ds-reference-row').length).toBeGreaterThan(0)
+  const rows = [...references.querySelectorAll('article.ds-reference-row')]
+  expect(rows).toHaveLength(4)
+  expect(inspector().querySelector('#initial-state-inspector-tab-references')?.textContent).toBe(
+    '引用 4',
+  )
+  const paths = rows.map((row) => row.querySelector('.ds-reference-row__path')?.textContent)
+  expect(
+    paths.filter((path) =>
+      path?.includes('场景 ID: start / 实体 ID: host / 通道: trigger / 方案 ID: greet'),
+    ),
+  ).toHaveLength(2)
+  expect(paths.some((path) => path?.endsWith('步骤 ID: arrival'))).toBe(true)
+  expect(paths.some((path) => path?.endsWith('步骤 ID: return'))).toBe(true)
   expect(references.querySelector('button.ds-reference-row')).toBeNull()
   expect(references.textContent).toContain('来源场景、角色、脚本方案或步骤已不存在')
   expect(buttonByLabel(host, '删除').disabled).toBe(true)
