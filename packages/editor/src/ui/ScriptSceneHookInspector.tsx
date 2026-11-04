@@ -1,5 +1,5 @@
 import type { AuthorSceneDef, FlowCursor } from '@type-pal/content'
-import { type ReactNode, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
@@ -19,8 +19,11 @@ import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
   nextGeneratedScriptSchemeId,
+  type ScriptPreviewDetails,
+  type ScriptPreviewDetailsRequest,
   ScriptSchemeCreateDialog,
   ScriptSchemeDetailsDialog,
+  type ScriptSchemeDetailsDraft,
   ScriptSchemeStrip,
 } from './ScriptEditor.js'
 
@@ -68,7 +71,8 @@ export function ScriptSceneHookInspector(props: {
   onSlotChange?: (slot: SceneHookSlot) => void
   selectedHookId?: string
   previewCursor?: FlowCursor
-  stepPreviewControl?: ReactNode
+  previewDetails?: ScriptPreviewDetails
+  detailsRequest?: ScriptPreviewDetailsRequest
   onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onSelectHook?: (hookId: string | undefined) => void
   onDispatch: (command: ScriptEditorCommand) => void
@@ -96,6 +100,17 @@ export function ScriptSceneHookInspector(props: {
       : entries[0]?.[0]) ?? ''
   const selected = variants[selectedId]
   const [detailsId, setDetailsId] = useState<string>()
+  const [detailsDraft, setDetailsDraft] = useState<ScriptSchemeDetailsDraft>()
+  const appliedDetailsRequest = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    const request = props.detailsRequest
+    if (!request || request.kind !== 'scheme' || appliedDetailsRequest.current === request.revision)
+      return
+    appliedDetailsRequest.current = request.revision
+    setDetailsId(request.schemeId)
+    setDetailsDraft(request.draft)
+  }, [props.detailsRequest])
+  const preview = detailsId ? props.previewDetails?.scheme(detailsId) : undefined
   const detailsScheme = detailsId ? variants[detailsId] : undefined
   const referencesReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
   const detailsReferences =
@@ -174,7 +189,10 @@ export function ScriptSceneHookInspector(props: {
               setCreateOpen(false)
               props.onSelectHook?.(id)
             }}
-            onDetails={setDetailsId}
+            onDetails={(id) => {
+              setDetailsDraft(undefined)
+              setDetailsId(id)
+            }}
             onCreate={() => setCreateOpen(true)}
             reorder={{
               kind: 'hook',
@@ -187,7 +205,14 @@ export function ScriptSceneHookInspector(props: {
           <CanonicalScriptFlowEditor
             key={`${props.sceneId}/${props.slot}/${selectedId}`}
             previewCursor={props.previewCursor}
-            stepPreviewControl={props.stepPreviewControl}
+            renderStepPreview={(stageId, close) =>
+              props.previewDetails?.step(selectedId, stageId, close)
+            }
+            detailsRequest={
+              props.detailsRequest?.kind === 'step' && props.detailsRequest.schemeId === selectedId
+                ? props.detailsRequest
+                : undefined
+            }
             onSelectPreviewCursor={props.onSelectPreviewCursor}
             ownerLabel={selected.label}
             flow={selected.flow}
@@ -227,6 +252,18 @@ export function ScriptSceneHookInspector(props: {
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialog
           selectedName={detailsScheme.label}
+          initialDraft={detailsDraft}
+          preview={
+            preview
+              ? {
+                  ...preview,
+                  onOpenLibrary: (draft) => {
+                    setDetailsId(undefined)
+                    preview.onOpenLibrary(draft)
+                  },
+                }
+              : undefined
+          }
           references={detailsReferences.map((reference) => ({
             key: String(reference.id),
             reference,
@@ -243,16 +280,18 @@ export function ScriptSceneHookInspector(props: {
             props.onOpenReference?.(reference)
           }}
           onClose={() => setDetailsId(undefined)}
-          onSave={(label, isDefault) =>
-            dispatch(
-              new SaveSceneHookDetailsCommand(
-                props.sceneId,
-                props.slot,
-                detailsId,
-                label,
-                isDefault === true,
-              ),
-            )
+          onSave={(label, isDefault, previewState) =>
+            preview && previewState !== undefined
+              ? preview.onSave(label, isDefault, previewState)
+              : dispatch(
+                  new SaveSceneHookDetailsCommand(
+                    props.sceneId,
+                    props.slot,
+                    detailsId,
+                    label,
+                    isDefault === true,
+                  ),
+                )
           }
           onDelete={() => {
             if (dispatch(new DeleteSceneHookCommand(props.sceneId, props.slot, detailsId))) {

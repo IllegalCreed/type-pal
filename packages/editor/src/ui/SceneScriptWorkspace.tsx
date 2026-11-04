@@ -24,6 +24,7 @@ import type {
   ScriptEditorCommand,
   ScriptEditorState,
 } from '../core/script-editor.js'
+import { SaveSceneHookDetailsCommand, UpdateEntityBehaviorCommand } from '../core/script-editor.js'
 import { previewCursorKey, previewFlowCursor } from '../core/script-flow-preview.js'
 import {
   applySceneInitialState,
@@ -50,7 +51,12 @@ import {
   SceneInitialStateList,
 } from './SceneInitialStateEditor.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
+import type {
+  CanonicalScriptEditorContext,
+  ScriptPreviewDetails,
+  ScriptPreviewDetailsRequest,
+  ScriptSchemeDetailsDraft,
+} from './ScriptEditor.js'
 import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
 
 const EMPTY_STAGES: readonly ScriptStage[] = []
@@ -60,6 +66,16 @@ const PREVIEW_MIN_HEIGHT = 140
 const RESIZER_SIZE = 1
 
 type SceneScriptOwner = Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
+
+type PreviewLibraryReturn = {
+  ownerKey: string
+  origin: ScriptPreviewEntry
+  sourceKey: string
+  label: string
+} & (
+  | { kind: 'step'; target: ScriptPreviewEntry }
+  | { kind: 'scheme'; target: ScriptPreviewSchemeEntry; draft: ScriptSchemeDetailsDraft }
+)
 
 function previewEntryLabel(
   entry: ScriptPreviewSchemeEntry & { stageId?: string },
@@ -95,6 +111,10 @@ export function CanonicalSceneScriptWorkspace(props: {
   sceneSelected?: boolean
   initialStates?: ScriptPreviewLibrary
   onInitialStatesChange?: (library: ScriptPreviewLibrary) => void
+  onDispatchWithInitialStates?: (
+    command: ScriptEditorCommand,
+    library: ScriptPreviewLibrary,
+  ) => void
   initialStatePropertiesHost?: HTMLElement | null
   onEditingInitialState?: (editing: boolean) => void
   locale: Locale
@@ -120,7 +140,15 @@ export function CanonicalSceneScriptWorkspace(props: {
 }) {
   const hasScriptOwner = !!props.selectedEntityId || props.sceneSelected !== false
   const owner = props.selectedEntityId ? 'entity' : 'scene'
-  const [sceneTab, setSceneTab] = useState<'onEnter' | 'onTeleport' | 'initial-state'>('onEnter')
+  const [sceneTab, setSceneTab] = useState<'onEnter' | 'onTeleport'>('onEnter')
+  const [libraryOpen, setLibraryOpen] = useState(false)
+  const [libraryReturn, setLibraryReturn] = useState<PreviewLibraryReturn>()
+  const [detailsRequest, setDetailsRequest] = useState<{
+    sourceKey: string
+    request: ScriptPreviewDetailsRequest
+  }>()
+  const detailsRevision = useRef(0)
+  const ownerKey = JSON.stringify([props.scene.id, props.selectedEntityId ?? null])
   const [hookSlot, setHookSlot] = useState<SceneHookSlot>('onEnter')
   const [selectedHooks, setSelectedHooks] = useState<Partial<Record<SceneHookSlot, string>>>({})
   const [behaviorChannel, setBehaviorChannel] = useState<'trigger' | 'auto'>('trigger')
@@ -134,7 +162,6 @@ export function CanonicalSceneScriptWorkspace(props: {
     DRAWER_DEFAULT_HEIGHT,
   )
 
-  // Consume explicit navigation once its destination has mounted; edits do not steal focus.
   useEffect(() => {
     const target = scriptWorkRef.current
     if (!target) return
@@ -149,7 +176,9 @@ export function CanonicalSceneScriptWorkspace(props: {
     const referenceFocus = props.focusReference
     const ownerFocus = props.focusOwner
     if (!referenceFocus && !ownerFocus) return
-    setEditingEntryKey(undefined)
+    setLibraryOpen(false)
+    setLibraryReturn(undefined)
+    setDetailsRequest(undefined)
     if (
       referenceFocus &&
       (!ownerFocus || referenceFocus.revision > ownerFocus.revision) &&
@@ -242,11 +271,8 @@ export function CanonicalSceneScriptWorkspace(props: {
   const library = props.initialStates ?? emptyScriptPreviewLibrary()
   const states = library.states.filter((state) => state.sceneId === props.scene.id)
   const [stateSelection, setStateSelection] = useState<{ stateId: string; entityId?: string }>()
-  const [editingEntryKey, setEditingEntryKey] = useState<string>()
-  const [editingScope, setEditingScope] = useState<'step' | 'scheme'>('step')
   const drawerBodyRef = useRef<HTMLDivElement>(null)
-  const stepControlRef = useRef<HTMLElement>(null)
-  const pendingPreviewFocus = useRef<'details' | 'step' | 'scheme'>(undefined)
+  const pendingLibraryFocus = useRef(false)
   const entry: ScriptPreviewEntry | undefined =
     activeFlow && previewCursor?.kind === 'stage'
       ? {
@@ -257,88 +283,51 @@ export function CanonicalSceneScriptWorkspace(props: {
           stageId: previewCursor.stage,
         }
       : undefined
-  const entryKey = entry ? scriptPreviewEntryKey(entry) : undefined
-  const editingFromScript = !!entryKey && editingEntryKey === entryKey
-  const editingState =
-    editingFromScript ||
-    (owner === 'scene' && props.sceneSelected !== false && sceneTab === 'initial-state')
-  const selectedState =
-    states.find((state) => state.id === stateSelection?.stateId) ??
-    (editingFromScript ? undefined : states[0])
+  const editingState = libraryOpen
+  const selectedState = states.find((state) => state.id === stateSelection?.stateId)
   const editingEntityId =
     stateSelection?.stateId === selectedState?.id
       ? stateSelection?.entityId
       : selectedState?.entities[0]?.entityId
-  const focusedStateEntityId = editingFromScript && entry?.entityId ? editingEntityId : undefined
-  const contextLabel =
-    entry && canonicalScene
-      ? previewEntryLabel(entry, canonicalScene, props.actorsById, props.locale)
-      : undefined
-  useEffect(() => {
-    void entryKey
-    setEditingEntryKey(undefined)
-  }, [entryKey])
-  const binding = entry
-    ? library.bindings.find((b) => scriptPreviewEntryKey(b.entry) === entryKey)
-    : undefined
-  const schemeBinding = entry
-    ? library.schemeDefaults.find(
-        (b) => scriptPreviewSchemeKey(b.entry) === scriptPreviewSchemeKey(entry),
-      )
-    : undefined
+  const focusedStateEntityId = libraryReturn?.target.entityId ? editingEntityId : undefined
   const resolved = entry ? resolveScriptPreviewBinding(library, entry) : undefined
-  const editingStateId = editingScope === 'scheme' ? schemeBinding?.stateId : resolved?.stateId
-  const schemeState = states.find((state) => state.id === schemeBinding?.stateId)
-  const schemeLabel =
-    entry && canonicalScene
-      ? previewEntryLabel(
-          {
-            sceneId: entry.sceneId,
-            ...(entry.entityId ? { entityId: entry.entityId } : {}),
-            channel: entry.channel,
-            schemeId: entry.schemeId,
-          },
-          canonicalScene,
-          props.actorsById,
-          props.locale,
-        )
-      : undefined
-  useEffect(() => {
-    if (editingFromScript && (!selectedState || selectedState.id !== editingStateId)) {
-      pendingPreviewFocus.current = editingScope
-      setEditingEntryKey(undefined)
-    }
-  }, [editingFromScript, selectedState, editingStateId, editingScope])
-  // Consume an explicit navigation request once mounted; property edits never request focus.
-  useEffect(() => {
-    const schemePanel = stepControlRef.current?.querySelector<HTMLDetailsElement>(
-      '.initial-state-scheme-default',
-    )
-    if (pendingPreviewFocus.current === 'scheme' && schemePanel) schemePanel.open = true
-    const target =
-      pendingPreviewFocus.current === 'scheme'
-        ? schemePanel?.querySelector<HTMLButtonElement>('[role="combobox"]')
-        : pendingPreviewFocus.current === 'step'
-          ? stepControlRef.current
-          : pendingPreviewFocus.current === 'details'
-            ? drawerBodyRef.current?.querySelector<HTMLButtonElement>(
-                '.initial-state-context button',
-              )
-            : undefined
-    if (!target) return
-    if (pendingPreviewFocus.current === 'details' && drawerBodyRef.current)
-      drawerBodyRef.current.scrollTop = 0
-    if (pendingPreviewFocus.current === 'step')
-      stepControlRef.current?.parentElement
-        ?.querySelector<HTMLElement>('.canonical-stage-card-select[aria-pressed="true"]')
-        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
-    pendingPreviewFocus.current = undefined
-    target.focus({ preventScroll: true })
-    target.scrollIntoView({ block: 'nearest' })
-  })
   const initialState = editingState
     ? selectedState
     : states.find((state) => state.id === resolved?.stateId)
+  useEffect(() => {
+    void ownerKey
+    setLibraryOpen(false)
+    setLibraryReturn(undefined)
+    setDetailsRequest(undefined)
+    setStateSelection(undefined)
+  }, [ownerKey])
+  useEffect(() => {
+    if (detailsRequest && detailsRequest.sourceKey !== previewSourceKey)
+      setDetailsRequest(undefined)
+  }, [detailsRequest, previewSourceKey])
+  useEffect(() => {
+    if (!libraryReturn) return
+    const targetExists =
+      libraryReturn.kind === 'step'
+        ? scriptPreviewEntryExists(libraryReturn.target, props.state.scenes)
+        : scriptPreviewSchemeExists(libraryReturn.target, props.state.scenes)
+    if (
+      libraryReturn.ownerKey !== ownerKey ||
+      !targetExists ||
+      !scriptPreviewEntryExists(libraryReturn.origin, props.state.scenes)
+    )
+      setLibraryReturn(undefined)
+  }, [libraryReturn, ownerKey, props.state.scenes])
+  // Only an explicit visit requests focus; ordinary state edits keep the author's focus.
+  useEffect(() => {
+    if (!libraryOpen || !pendingLibraryFocus.current) return
+    const target =
+      drawerBodyRef.current?.querySelector<HTMLElement>('[aria-label="初始状态名称"]') ??
+      drawerBodyRef.current?.querySelector<HTMLElement>('.initial-state-library button')
+    if (!target) return
+    pendingLibraryFocus.current = false
+    target.focus({ preventScroll: true })
+  })
   const projection = useMemo(() => {
     try {
       if (!editingState && resolved?.stateId && !initialState)
@@ -381,32 +370,227 @@ export function CanonicalSceneScriptWorkspace(props: {
     state?.entities.some((participant) => participant.entityId === entry?.entityId)
       ? entry?.entityId
       : state?.entities[0]?.entityId
-  const useStateForStep = (selection: string) => {
-    if (!entry) return
+  const schemeEntry = (schemeId: string): ScriptPreviewSchemeEntry => ({
+    sceneId: props.scene.id,
+    ...(owner === 'entity' ? { entityId: props.selectedEntityId! } : {}),
+    channel: owner === 'entity' ? behaviorChannel : hookSlot,
+    schemeId,
+  })
+  const withSchemeDefault = (
+    target: ScriptPreviewSchemeEntry,
+    stateId: string,
+  ): ScriptPreviewLibrary => ({
+    ...library,
+    schemeDefaults: [
+      ...library.schemeDefaults.filter(
+        (saved) => scriptPreviewSchemeKey(saved.entry) !== scriptPreviewSchemeKey(target),
+      ),
+      ...(stateId ? [{ entry: target, stateId }] : []),
+    ],
+  })
+  const visitLibrary = (target: PreviewLibraryReturn, stateId: string | null | undefined) => {
     playback.stop()
-    props.onInitialStatesChange?.({
-      ...library,
-      bindings: [
-        ...library.bindings.filter((b) => scriptPreviewEntryKey(b.entry) !== entryKey),
-        ...(selection === 'inherit'
-          ? []
-          : [{ entry, stateId: selection === 'scene' ? null : selection.slice(6) }]),
-      ],
-    })
+    setLibraryReturn(target)
+    setDetailsRequest(undefined)
+    setLibraryOpen(true)
+    const state = states.find((candidate) => candidate.id === stateId)
+    setStateSelection(state ? { stateId: state.id, entityId: firstStateEntity(state) } : undefined)
+    pendingLibraryFocus.current = true
   }
-  const setSchemeDefault = (stateId: string) => {
-    if (!entry) return
-    playback.stop()
-    const { stageId: _stageId, ...schemeEntry } = entry
-    props.onInitialStatesChange?.({
-      ...library,
-      schemeDefaults: [
-        ...library.schemeDefaults.filter(
-          (saved) => scriptPreviewSchemeKey(saved.entry) !== scriptPreviewSchemeKey(entry),
-        ),
-        ...(stateId ? [{ entry: schemeEntry, stateId }] : []),
-      ],
+  const returnToDetails = () => {
+    if (!libraryReturn) return
+    const origin = libraryReturn.origin
+    if (origin.channel === 'trigger' || origin.channel === 'auto') {
+      setBehaviorChannel(origin.channel)
+      setSelectedBehaviors((current) => ({ ...current, [origin.channel]: origin.schemeId }))
+    } else {
+      setHookSlot(origin.channel)
+      setSceneTab(origin.channel)
+      setSelectedHooks((current) => ({ ...current, [origin.channel]: origin.schemeId }))
+    }
+    setSelectedPreview({
+      source: libraryReturn.sourceKey,
+      cursor: { kind: 'stage', stage: origin.stageId },
     })
+    const common = { schemeId: libraryReturn.target.schemeId, revision: ++detailsRevision.current }
+    setDetailsRequest({
+      sourceKey: libraryReturn.sourceKey,
+      request:
+        libraryReturn.kind === 'step'
+          ? { ...common, kind: 'step', stageId: libraryReturn.target.stageId }
+          : { ...common, kind: 'scheme', draft: libraryReturn.draft },
+    })
+    setLibraryOpen(false)
+    setLibraryReturn(undefined)
+  }
+  const previewDetails: ScriptPreviewDetails = {
+    step: (schemeId, stageId, close) => {
+      const target: ScriptPreviewEntry = { ...schemeEntry(schemeId), stageId }
+      const binding = library.bindings.find(
+        (saved) => scriptPreviewEntryKey(saved.entry) === scriptPreviewEntryKey(target),
+      )
+      const inherited = library.schemeDefaults.find(
+        (saved) => scriptPreviewSchemeKey(saved.entry) === scriptPreviewSchemeKey(target),
+      )
+      const inheritedName =
+        states.find((state) => state.id === inherited?.stateId)?.name ??
+        (inherited ? '引用失效' : '场景默认')
+      const effective = resolveScriptPreviewBinding(library, target)
+      const effectiveState = states.find((state) => state.id === effective.stateId)
+      return (
+        <section className="initial-state-reference" aria-label="此步骤的预览初始状态">
+          <strong>此步骤的预览初始状态</strong>
+          <DsSelect
+            aria-label="此步骤的预览初始状态"
+            value={
+              binding
+                ? binding.stateId === null
+                  ? 'scene'
+                  : `state:${binding.stateId}`
+                : 'inherit'
+            }
+            options={[
+              { value: 'inherit', label: `继承方案默认：${inheritedName}` },
+              { value: 'scene', label: '场景默认（此步骤不继承）' },
+              ...(binding?.stateId && !states.some((state) => state.id === binding.stateId)
+                ? [{ value: `state:${binding.stateId}`, label: '引用失效，请重新选择' }]
+                : []),
+              ...states.map((state) => ({ value: `state:${state.id}`, label: state.name })),
+            ]}
+            onValueChange={(selection) => {
+              playback.stop()
+              props.onInitialStatesChange?.({
+                ...library,
+                bindings: [
+                  ...library.bindings.filter(
+                    (saved) => scriptPreviewEntryKey(saved.entry) !== scriptPreviewEntryKey(target),
+                  ),
+                  ...(selection === 'inherit'
+                    ? []
+                    : [
+                        {
+                          entry: target,
+                          stateId: selection === 'scene' ? null : selection.slice(6),
+                        },
+                      ]),
+                ],
+              })
+            }}
+          />
+          <p className="hint2">
+            当前使用：{effectiveState?.name ?? (effective.stateId ? '引用失效' : '场景摆放')}
+            。选择即生效。
+          </p>
+          <DsButton
+            size="compact"
+            variant="secondary"
+            onClick={() => {
+              if (!entry || !canonicalScene) return
+              close()
+              visitLibrary(
+                {
+                  kind: 'step',
+                  target,
+                  origin: entry,
+                  ownerKey,
+                  sourceKey: previewSourceKey,
+                  label: `${previewEntryLabel(target, canonicalScene, props.actorsById, props.locale)} · 步骤详情`,
+                },
+                effective.stateId,
+              )
+            }}
+          >
+            {effectiveState ? '在初始状态中查看 / 编辑' : '打开初始状态库'}
+          </DsButton>
+        </section>
+      )
+    },
+    scheme: (schemeId) => {
+      const target = schemeEntry(schemeId)
+      const value =
+        library.schemeDefaults.find(
+          (saved) => scriptPreviewSchemeKey(saved.entry) === scriptPreviewSchemeKey(target),
+        )?.stateId ?? ''
+      return {
+        value,
+        render: (draft, onChange, onOpenLibrary) => (
+          <section className="initial-state-reference" aria-label="此方案的默认预览初始状态">
+            <strong>此方案的默认预览初始状态</strong>
+            <DsSelect
+              aria-label="此方案的默认预览初始状态"
+              value={draft}
+              options={[
+                { value: '', label: '场景默认' },
+                ...(draft && !states.some((state) => state.id === draft)
+                  ? [{ value: draft, label: '引用失效，请重新选择' }]
+                  : []),
+                ...states.map((state) => ({ value: state.id, label: state.name })),
+              ]}
+              onValueChange={onChange}
+            />
+            <p className="hint2">保存后供未单独设置的步骤继承；已有步骤覆盖保持不变。</p>
+            <DsButton size="compact" variant="secondary" onClick={onOpenLibrary}>
+              {draft ? '在初始状态中查看 / 编辑' : '打开初始状态库'}
+            </DsButton>
+          </section>
+        ),
+        onOpenLibrary: (draft) => {
+          if (!entry || !canonicalScene) return
+          visitLibrary(
+            {
+              kind: 'scheme',
+              target,
+              draft,
+              origin: entry,
+              ownerKey,
+              sourceKey: previewSourceKey,
+              label: `${previewEntryLabel(target, canonicalScene, props.actorsById, props.locale)} · 方案详情`,
+            },
+            draft.previewState,
+          )
+        },
+        onSave: (name, isDefault, stateId) => {
+          const current =
+            target.channel === 'trigger' || target.channel === 'auto'
+              ? canonicalEntity?.behaviors?.[target.channel]?.[schemeId]
+              : canonicalScene?.hooks?.[target.channel]?.variants[schemeId]
+          if (!current) return false
+          const command =
+            target.channel === 'trigger' || target.channel === 'auto'
+              ? name !== current.label
+                ? new UpdateEntityBehaviorCommand(
+                    { scene: target.sceneId, entity: target.entityId! },
+                    target.channel,
+                    schemeId,
+                    { label: name },
+                  )
+                : undefined
+              : name !== current.label ||
+                  isDefault !== (canonicalScene?.hooks?.[target.channel]?.initial === schemeId)
+                ? new SaveSceneHookDetailsCommand(
+                    target.sceneId,
+                    target.channel,
+                    schemeId,
+                    name,
+                    isDefault === true,
+                  )
+                : undefined
+          try {
+            if (command && stateId !== value) {
+              if (!props.onDispatchWithInitialStates)
+                throw new Error('当前工作区无法组合保存脚本与初始状态引用。')
+              props.onDispatchWithInitialStates(command, withSchemeDefault(target, stateId))
+            } else if (command) props.onDispatch(command)
+            else if (stateId !== value)
+              props.onInitialStatesChange?.(withSchemeDefault(target, stateId))
+            return true
+          } catch (error) {
+            props.onError?.(error instanceof Error ? error.message : String(error))
+            return false
+          }
+        },
+      }
+    },
   }
   const usage: Record<string, string[]> = {}
   if (canonicalScene) {
@@ -431,161 +615,6 @@ export function CanonicalSceneScriptWorkspace(props: {
     labels.push(previewEntryLabel(saved.entry, canonicalScene, props.actorsById, props.locale))
     schemeUsage[saved.stateId] = labels
   }
-  const boundState = states.find((state) => state.id === resolved?.stateId)
-  const openStateDetails = (state: SceneInitialState, scope: 'step' | 'scheme' = 'step') => {
-    playback.stop()
-    pendingPreviewFocus.current = 'details'
-    setEditingScope(scope)
-    setEditingEntryKey(entryKey)
-    setStateSelection({ stateId: state.id, entityId: firstStateEntity(state) })
-  }
-  const createInitialState = (scope: 'step' | 'scheme', copy?: SceneInitialState) => {
-    if (!entry) return
-    const state: SceneInitialState = {
-      id: crypto.randomUUID(),
-      sceneId: props.scene.id,
-      name: copy
-        ? `${copy.name} 副本`
-        : `${scope === 'scheme' ? schemeLabel : contextLabel} · 开场前`,
-      entities: copy
-        ? structuredClone(copy.entities)
-        : entry.entityId
-          ? [{ entityId: entry.entityId }]
-          : [],
-    }
-    const { stageId: _stageId, ...schemeEntry } = entry
-    props.onInitialStatesChange?.({
-      ...library,
-      states: [...library.states, state],
-      ...(scope === 'step'
-        ? {
-            bindings: [
-              ...library.bindings.filter(
-                (saved) => scriptPreviewEntryKey(saved.entry) !== entryKey,
-              ),
-              { entry, stateId: state.id },
-            ],
-          }
-        : {
-            schemeDefaults: [
-              ...library.schemeDefaults.filter(
-                (saved) => scriptPreviewSchemeKey(saved.entry) !== scriptPreviewSchemeKey(entry),
-              ),
-              { entry: schemeEntry, stateId: state.id },
-            ],
-          }),
-    })
-    openStateDetails(state, scope)
-  }
-  const sharedStepCount = boundState ? (usage[boundState.id]?.length ?? 0) - 1 : 0
-  const defaultUseCount = boundState ? (schemeUsage[boundState.id]?.length ?? 0) : 0
-  const canCopyForStep = sharedStepCount > 0 || defaultUseCount > 0
-  const stepPreviewControl = entry ? (
-    <section
-      ref={stepControlRef}
-      tabIndex={-1}
-      className="initial-state-step-control"
-      aria-label="此步骤的预览初始状态"
-    >
-      <strong>此步骤的预览初始状态</strong>
-      <span className="hint2">{contextLabel}</span>
-      <div className="initial-state-step-select">
-        <DsSelect
-          aria-label="预览初始状态"
-          size="compact"
-          value={
-            binding ? (binding.stateId === null ? 'scene' : `state:${binding.stateId}`) : 'inherit'
-          }
-          options={[
-            {
-              value: 'inherit',
-              label: `继承方案默认：${schemeState?.name ?? (schemeBinding ? '引用失效' : '场景默认')}`,
-            },
-            { value: 'scene', label: '场景默认（此步骤不继承）' },
-            ...(binding?.stateId && !states.some((state) => state.id === binding.stateId)
-              ? [{ value: `state:${binding.stateId}`, label: '引用失效，请重新选择' }]
-              : []),
-            ...states.map((state) => ({ value: `state:${state.id}`, label: state.name })),
-          ]}
-          onValueChange={useStateForStep}
-        />
-      </div>
-      {boundState ? (
-        <>
-          {sharedStepCount > 0 ? (
-            <span className="hint2">与另外 {sharedStepCount} 个步骤共用，调整会同步影响它们。</span>
-          ) : null}
-          {defaultUseCount > 0 ? (
-            <span className="hint2">
-              也被 {defaultUseCount} 个脚本方案用作默认；调整会同步修改这份默认布置。
-            </span>
-          ) : null}
-          <div className="initial-state-step-actions">
-            <DsButton
-              size="compact"
-              variant="secondary"
-              onClick={() => openStateDetails(boundState)}
-            >
-              调整人物与物件
-            </DsButton>
-            {canCopyForStep ? (
-              <DsButton
-                size="compact"
-                variant="secondary"
-                onClick={() => createInitialState('step', boundState)}
-              >
-                复制给此步骤
-              </DsButton>
-            ) : null}
-          </div>
-        </>
-      ) : !resolved?.stateId ? (
-        <>
-          <span className="hint2">
-            {binding ? '此步骤沿用场景摆放' : '未单独设置，沿用场景摆放'}；
-            这不代表已核对真实剧情前态。新建后可调整。
-          </span>
-          <DsButton size="compact" variant="secondary" onClick={() => createInitialState('step')}>
-            为此步骤新建初始状态
-          </DsButton>
-        </>
-      ) : null}
-      <details className="initial-state-scheme-default">
-        <summary>
-          本脚本方案的默认初始状态：{schemeState?.name ?? (schemeBinding ? '引用失效' : '场景默认')}
-        </summary>
-        <p className="hint2">{schemeLabel} · 只影响选择继承的步骤，已有单独设置保持不变。</p>
-        <div className="initial-state-step-select">
-          <DsSelect
-            aria-label="本脚本方案的默认初始状态"
-            size="compact"
-            value={schemeBinding?.stateId ?? ''}
-            options={[
-              { value: '', label: '场景默认' },
-              ...(schemeBinding && !schemeState
-                ? [{ value: schemeBinding.stateId, label: '引用失效，请重新选择' }]
-                : []),
-              ...states.map((state) => ({ value: state.id, label: state.name })),
-            ]}
-            onValueChange={setSchemeDefault}
-          />
-        </div>
-        {schemeState ? (
-          <DsButton
-            size="compact"
-            variant="secondary"
-            onClick={() => openStateDetails(schemeState, 'scheme')}
-          >
-            调整方案默认的人物与物件
-          </DsButton>
-        ) : !schemeBinding ? (
-          <DsButton size="compact" variant="secondary" onClick={() => createInitialState('scheme')}>
-            为此方案新建初始状态
-          </DsButton>
-        ) : null}
-      </details>
-    </section>
-  ) : undefined
   const selectPreviewCursor = useCallback(
     (cursor: FlowCursor) => {
       playback.stop()
@@ -615,11 +644,12 @@ export function CanonicalSceneScriptWorkspace(props: {
     ? [
         { id: 'entity-trigger', label: '交互脚本' },
         { id: 'entity-auto', label: '自动行为' },
+        { id: 'initial-state', label: '初始状态' },
       ]
     : [
         { id: 'scene-onEnter', label: '进场脚本' },
         { id: 'scene-onTeleport', label: '传送出口' },
-        { id: 'scene-initial-state', label: '初始状态' },
+        { id: 'initial-state', label: '初始状态' },
       ]
   const style = {
     '--script-drawer-height': `${visibleDrawerHeight}px`,
@@ -804,13 +834,26 @@ export function CanonicalSceneScriptWorkspace(props: {
             <DsTabs
               variant="inspector"
               label="脚本类型"
-              activeId={owner === 'scene' ? `scene-${sceneTab}` : `entity-${behaviorChannel}`}
+              activeId={
+                libraryOpen
+                  ? 'initial-state'
+                  : owner === 'scene'
+                    ? `scene-${sceneTab}`
+                    : `entity-${behaviorChannel}`
+              }
               items={scriptTabs}
               onChange={(id) => {
-                setEditingEntryKey(undefined)
-                if (id === 'scene-initial-state') {
+                setLibraryReturn(undefined)
+                setDetailsRequest(undefined)
+                setLibraryOpen(id === 'initial-state')
+                if (id === 'initial-state') {
+                  if (!selectedState && states[0])
+                    setStateSelection({
+                      stateId: states[0].id,
+                      entityId: firstStateEntity(states[0]),
+                    })
                   playback.stop()
-                  setSceneTab('initial-state')
+                  pendingLibraryFocus.current = true
                   return
                 }
                 if (id === 'scene-onEnter' || id === 'scene-onTeleport') {
@@ -824,7 +867,10 @@ export function CanonicalSceneScriptWorkspace(props: {
           ) : null}
         </div>
 
-        <div ref={drawerBodyRef} className="canonical-script-drawer-body">
+        <div
+          ref={drawerBodyRef}
+          className={`canonical-script-drawer-body${libraryOpen ? ' initial-state-drawer-body' : ''}`}
+        >
           {!hasScriptOwner ? (
             <p className="hint2">落点属性在右侧编辑；选择场景标题或实体后显示对应脚本。</p>
           ) : editingState ? (
@@ -837,23 +883,9 @@ export function CanonicalSceneScriptWorkspace(props: {
               locale={props.locale}
               usage={usage}
               schemeUsage={schemeUsage}
-              contextLabel={
-                editingFromScript
-                  ? editingScope === 'scheme'
-                    ? `${schemeLabel} / 方案默认初态`
-                    : contextLabel
-                  : undefined
-              }
-              contextEntityId={editingFromScript ? entry?.entityId : undefined}
-              onBack={() => {
-                pendingPreviewFocus.current = editingScope
-                setEditingEntryKey(undefined)
-              }}
-              onCopyForStep={
-                editingFromScript && editingScope === 'step' && canCopyForStep
-                  ? (copy) => createInitialState('step', copy)
-                  : undefined
-              }
+              contextLabel={libraryReturn?.label}
+              contextEntityId={libraryReturn?.target.entityId}
+              onBack={libraryReturn ? returnToDetails : undefined}
               missingReferences={
                 library.bindings.filter(
                   (b) =>
@@ -879,7 +911,7 @@ export function CanonicalSceneScriptWorkspace(props: {
                 const state: SceneInitialState = {
                   id: crypto.randomUUID(),
                   sceneId: props.scene.id,
-                  name: copy ? `${copy.name} 副本` : `预览初态 ${states.length + 1}`,
+                  name: copy ? `${copy.name} 副本` : `初始状态 ${states.length + 1}`,
                   entities: copy ? structuredClone(copy.entities) : [],
                 }
                 props.onInitialStatesChange?.({ ...library, states: [...library.states, state] })
@@ -897,8 +929,12 @@ export function CanonicalSceneScriptWorkspace(props: {
             />
           ) : owner === 'scene' ? (
             <ScriptSceneHookInspector
+              key={`${props.scene.id}/${hookSlot}`}
               previewCursor={previewCursor}
-              stepPreviewControl={stepPreviewControl}
+              previewDetails={previewDetails}
+              detailsRequest={
+                detailsRequest?.sourceKey === previewSourceKey ? detailsRequest.request : undefined
+              }
               onSelectPreviewCursor={selectPreviewCursor}
               state={props.state}
               sceneId={props.scene.id}
@@ -941,8 +977,12 @@ export function CanonicalSceneScriptWorkspace(props: {
             />
           ) : props.selectedEntityId ? (
             <ScriptBehaviorInspector
+              key={`${props.scene.id}/${props.selectedEntityId}/${behaviorChannel}`}
               previewCursor={previewCursor}
-              stepPreviewControl={stepPreviewControl}
+              previewDetails={previewDetails}
+              detailsRequest={
+                detailsRequest?.sourceKey === previewSourceKey ? detailsRequest.request : undefined
+              }
               onSelectPreviewCursor={selectPreviewCursor}
               state={props.state}
               target={{ scene: props.scene.id, entity: props.selectedEntityId }}

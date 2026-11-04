@@ -2811,6 +2811,12 @@ export function App(props: {
                   onInitialStatesChange={(library) =>
                     session.dispatch(new SetScriptPreviewLibraryCommand(library))
                   }
+                  onDispatchWithInitialStates={(command, library) =>
+                    historyCoordinator.dispatch(
+                      command,
+                      new SetScriptPreviewLibraryCommand(library),
+                    )
+                  }
                   onEditingInitialState={setEditingInitialState}
                   initialStatePropertiesHost={initialStatePropertiesHost}
                   locale={state.locale}

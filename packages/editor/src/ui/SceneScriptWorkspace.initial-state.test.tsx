@@ -134,18 +134,24 @@ async function workspace(library = previewLibrary()) {
   inspector = host.querySelector<HTMLDivElement>('[data-ds-inspector-host]')!
   return { main, script, focus, before }
 }
-async function click(label: string, scope: ParentNode = host) {
+async function click(label: string, scope: ParentNode = document.body) {
   await act(async () => buttonByLabel(scope, label).click())
+}
+async function openStep(index: number) {
+  await act(async () =>
+    host.querySelector<HTMLButtonElement>(`[aria-label^="打开“步骤 ${index} ·"]`)!.click(),
+  )
 }
 const preview = () => probes.preview.mock.lastCall![0] as Parameters<typeof PreviewCanvas>[0]
 const canvas = () => probes.canvas.mock.lastCall![0] as Parameters<typeof SceneCanvas>[0]
 
-test('toolbar selection writes the exact step binding, restores it on return, and participates in undo', async () => {
+test('step details selection writes the exact binding, restores it on return, and participates in undo', async () => {
   const library = previewLibrary()
   library.bindings = []
   const rig = await workspace(library)
   await rig.focus('host')
-  const select = () => comboboxByAriaLabel<HTMLElement>(host, '预览初始状态')
+  await openStep(1)
+  const select = () => comboboxByAriaLabel<HTMLElement>(document.body, '此步骤的预览初始状态')
   await chooseComboboxOption(select(), '迎客前')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
   expect(preview().scene.entities[0]!.pos).toEqual({ col: 6, row: 7, height: 1 })
@@ -157,17 +163,15 @@ test('toolbar selection writes the exact step binding, restores it on return, an
   await act(async () => {
     history.redo()
   })
-  await act(async () =>
-    host.querySelector<HTMLButtonElement>('[aria-label^="步骤 2 · 返回后，"]')!.click(),
-  )
+  await click('关闭')
+  await openStep(2)
   await chooseComboboxOption(select(), '返回后')
   expect(rig.main.getState().scriptPreview!.bindings.at(-1)).toMatchObject({
     entry: { stageId: 'return' },
     stateId: 'room',
   })
-  await act(async () =>
-    host.querySelector<HTMLButtonElement>('[aria-label^="步骤 1 · 迎客前，"]')!.click(),
-  )
+  await click('关闭')
+  await openStep(1)
   expect(select().textContent).toContain('迎客前')
   await chooseComboboxOption(select(), '场景默认（此步骤不继承）')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual([
@@ -218,10 +222,10 @@ test('Inspector commits sparse false/zero values, restores inherited defaults, a
   await click('恢复场景默认', inspector)
   expect(chosen().entities[0]).toEqual({ entityId: 'host' })
   expect(canvas().scene.entities[0]).toEqual(rig.before[0]!.entities[0])
-  await click('移出初态', inspector)
+  await click('移出状态', inspector)
   expect(chosen().entities.map((entry) => entry.entityId)).toEqual(['guest'])
   await act(async () => canvas().onSelectEntity('host'))
-  await click('加入此初态', inspector)
+  await click('加入此初始状态', inspector)
   expect(chosen().entities.at(-1)).toEqual({ entityId: 'host' })
   expect(rig.main.getState().scenes).toEqual(rig.before)
 })
@@ -229,9 +233,9 @@ test('Inspector commits sparse false/zero values, restores inherited defaults, a
 test('copy and rename keep existing consumers on the original and deletion is reversible', async () => {
   const rig = await workspace()
   await click('初始状态')
-  expect(buttonByLabel(host, '删除初态').disabled).toBe(true)
-  await click('复制初态')
-  const input = host.querySelector<HTMLInputElement>('[aria-label="预览初态名称"]')!
+  expect(buttonByLabel(host, '删除').disabled).toBe(true)
+  await click('复制')
+  const input = host.querySelector<HTMLInputElement>('[aria-label="初始状态名称"]')!
   await act(async () => {
     input.focus()
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(
@@ -248,7 +252,7 @@ test('copy and rename keep existing consumers on the original and deletion is re
   expect(copy).toMatchObject({ name: '另一个入口', entities: previewLibrary().states[0]!.entities })
   expect(copy.id).not.toBe('door')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
-  await click('删除初态')
+  await click('删除')
   expect(rig.main.getState().scriptPreview!.states.map((state) => state.id)).toEqual([
     'door',
     'room',
@@ -257,7 +261,7 @@ test('copy and rename keep existing consumers on the original and deletion is re
     history.undo()
   })
   expect(rig.main.getState().scriptPreview!.states.at(-1)).toEqual(copy)
-  await click('新建预览初态')
+  await click('新建初始状态')
   expect(rig.main.getState().scriptPreview!.states.at(-1)!.entities).toEqual([])
 })
 
@@ -266,9 +270,13 @@ test('an invalid binding blocks playback until the user explicitly selects a val
   library.bindings[0]!.stateId = 'deleted'
   const rig = await workspace(library)
   await rig.focus('host')
+  await openStep(1)
   expect(host.querySelector('[role="alert"]')!.textContent).toContain('deleted')
   expect(host.querySelector('[data-testid="preview"]')).toBeNull()
-  await chooseComboboxOption(comboboxByAriaLabel(host, '预览初始状态'), '场景默认（此步骤不继承）')
+  await chooseComboboxOption(
+    comboboxByAriaLabel(document.body, '此步骤的预览初始状态'),
+    '场景默认（此步骤不继承）',
+  )
   expect(host.querySelector('[role="alert"]')).toBeNull()
   expect(rig.main.getState().scriptPreview!.bindings).toEqual([
     { entry: library.bindings[0]!.entry, stateId: null },

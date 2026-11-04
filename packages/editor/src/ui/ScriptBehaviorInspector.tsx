@@ -1,5 +1,5 @@
 import type { AuthorSceneDef, EntityAddress, FlowCursor, Selection } from '@type-pal/content'
-import { type ReactNode, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
@@ -18,8 +18,11 @@ import {
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
   nextGeneratedScriptSchemeId,
+  type ScriptPreviewDetails,
+  type ScriptPreviewDetailsRequest,
   ScriptSchemeCreateDialog,
   ScriptSchemeDetailsDialog,
+  type ScriptSchemeDetailsDraft,
   ScriptSchemeStrip,
 } from './ScriptEditor.js'
 
@@ -115,7 +118,8 @@ export function ScriptBehaviorInspector(props: {
   channel: BehaviorChannel
   selectedBehaviorId?: string
   previewCursor?: FlowCursor
-  stepPreviewControl?: ReactNode
+  previewDetails?: ScriptPreviewDetails
+  detailsRequest?: ScriptPreviewDetailsRequest
   onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onSelectBehavior?: (behaviorId: string) => void
   onDispatch: (command: ScriptEditorCommand) => void
@@ -143,6 +147,17 @@ export function ScriptBehaviorInspector(props: {
       : entries[0]?.[0]) ?? ''
   const selected = registry[selectedId]
   const [detailsId, setDetailsId] = useState<string>()
+  const [detailsDraft, setDetailsDraft] = useState<ScriptSchemeDetailsDraft>()
+  const appliedDetailsRequest = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    const request = props.detailsRequest
+    if (!request || request.kind !== 'scheme' || appliedDetailsRequest.current === request.revision)
+      return
+    appliedDetailsRequest.current = request.revision
+    setDetailsId(request.schemeId)
+    setDetailsDraft(request.draft)
+  }, [props.detailsRequest])
+  const preview = detailsId ? props.previewDetails?.scheme(detailsId) : undefined
   const detailsScheme = detailsId ? registry[detailsId] : undefined
   const referencesReady = props.referenceStatus === 'current' && props.referenceIndex !== undefined
   const detailsReferences =
@@ -228,7 +243,10 @@ export function ScriptBehaviorInspector(props: {
               setCreateOpen(false)
               props.onSelectBehavior?.(id)
             }}
-            onDetails={setDetailsId}
+            onDetails={(id) => {
+              setDetailsDraft(undefined)
+              setDetailsId(id)
+            }}
             onCreate={() => setCreateOpen(true)}
             reorder={{
               kind: 'behavior',
@@ -241,7 +259,14 @@ export function ScriptBehaviorInspector(props: {
           <CanonicalScriptFlowEditor
             key={`${props.target.scene}/${props.target.entity}/${props.channel}/${selectedId}`}
             previewCursor={props.previewCursor}
-            stepPreviewControl={props.stepPreviewControl}
+            renderStepPreview={(stageId, close) =>
+              props.previewDetails?.step(selectedId, stageId, close)
+            }
+            detailsRequest={
+              props.detailsRequest?.kind === 'step' && props.detailsRequest.schemeId === selectedId
+                ? props.detailsRequest
+                : undefined
+            }
             onSelectPreviewCursor={props.onSelectPreviewCursor}
             ownerLabel={selected.label}
             flow={selected.flow}
@@ -287,6 +312,18 @@ export function ScriptBehaviorInspector(props: {
       {detailsId && detailsScheme ? (
         <ScriptSchemeDetailsDialog
           selectedName={detailsScheme.label}
+          initialDraft={detailsDraft}
+          preview={
+            preview
+              ? {
+                  ...preview,
+                  onOpenLibrary: (draft) => {
+                    setDetailsId(undefined)
+                    preview.onOpenLibrary(draft)
+                  },
+                }
+              : undefined
+          }
           references={detailsReferences.map((reference) => ({
             key: String(reference.id),
             reference,
@@ -298,12 +335,14 @@ export function ScriptBehaviorInspector(props: {
             props.onOpenReference?.(reference)
           }}
           onClose={() => setDetailsId(undefined)}
-          onSave={(label) =>
-            dispatch(
-              new UpdateEntityBehaviorCommand(props.target, props.channel, detailsId, {
-                label,
-              }),
-            )
+          onSave={(label, isDefault, previewState) =>
+            preview && previewState !== undefined
+              ? preview.onSave(label, isDefault, previewState)
+              : dispatch(
+                  new UpdateEntityBehaviorCommand(props.target, props.channel, detailsId, {
+                    label,
+                  }),
+                )
           }
           onDelete={() => {
             if (dispatch(new DeleteEntityBehaviorCommand(props.target, props.channel, detailsId))) {

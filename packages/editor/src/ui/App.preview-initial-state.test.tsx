@@ -12,7 +12,12 @@ import { ScriptEditSession } from '../core/script-editor.js'
 import { buildBlankProject } from '../core/seed.js'
 import { createLocalWorkspaceContext } from '../core/workspace-context.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
-import { buttonByLabel, comboboxByAriaLabel, setInputValue } from './__tests__/glm-ui-wave-kit.js'
+import {
+  buttonByLabel,
+  chooseComboboxOption,
+  comboboxByAriaLabel,
+  setInputValue,
+} from './__tests__/glm-ui-wave-kit.js'
 import { App } from './App.js'
 import type { SceneCanvas } from './SceneCanvas.js'
 
@@ -64,7 +69,7 @@ afterEach(async () => {
 })
 
 async function click(label: string) {
-  await act(async () => buttonByLabel(host, label).click())
+  await act(async () => buttonByLabel(document.body, label).click())
 }
 const canvas = () => probes.canvas.mock.lastCall![0] as Parameters<typeof SceneCanvas>[0]
 
@@ -113,7 +118,10 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
   const inspector = () => host.querySelector<HTMLElement>('.inspector')!
   expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
   await click('📜 脚本')
-  await click('调整人物与物件')
+  await act(async () =>
+    host.querySelector<HTMLButtonElement>('[aria-label^="打开“步骤 1 ·"]')!.click(),
+  )
+  await click('在初始状态中查看 / 编辑')
   const initialColumn = inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')
   expect(initialColumn).not.toBeNull()
   expect(inspector().textContent).not.toContain('初始隐藏（待剧情出场）')
@@ -121,7 +129,7 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
   expect(comboboxByAriaLabel(inspector(), '初始显隐').textContent).toContain('显示')
   expect(canvas().focusRegion?.positions).toEqual([{ col: 6, row: 7, height: 1 }])
   const firstFocusKey = canvas().focusRegion!.key
-  expect(host.querySelector('[aria-label="预览初态列表"]')).toBeNull()
+  expect(host.querySelector('[aria-label="初始状态列表"]')).not.toBeNull()
   expect(host.querySelector('[aria-label="开场时的角色与物件"]')?.textContent).toContain(
     '远处角色1',
   )
@@ -141,10 +149,27 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
   expect(canvas().focusRegion?.key).not.toBe(firstFocusKey)
   expect(inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')?.value).toBe('8')
   expect(actor.classList.contains('sel')).toBe(true)
-  await click('返回脚本步骤')
+  await click('返回脚本详情')
   expect(inspector().querySelector('[aria-label="初始列坐标"]')).toBeNull()
   expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
   expect(inspector().classList.contains('inspector--tabbed')).toBe(true)
   expect(main.getState().scenes).toEqual(before)
   expect(script.getState()).toEqual(authorBefore)
+  await click('关闭')
+  await click('打开“迎客”的方案详情')
+  const dialog = document.querySelector<HTMLElement>('[role="dialog"]')!
+  const beforePair = structuredClone(main.getState().scriptPreview)
+  await setInputValue(
+    dialog.querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
+    '迎客新名称',
+  )
+  await chooseComboboxOption(comboboxByAriaLabel(dialog, '此方案的默认预览初始状态'), '返回后')
+  await act(async () => buttonByLabel(dialog, '保存').click())
+  expect(script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.greet!.label).toBe(
+    '迎客新名称',
+  )
+  expect(main.getState().scriptPreview!.schemeDefaults[0]?.stateId).toBe('room')
+  await act(async () => history.undo())
+  expect(script.getState()).toEqual(authorBefore)
+  expect(main.getState().scriptPreview).toEqual(beforePair)
 })
