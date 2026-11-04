@@ -184,6 +184,7 @@ test('step details selection writes the exact binding, restores it on return, an
 test('Inspector commits sparse false/zero values, restores inherited defaults, and undo preserves the author scene', async () => {
   const rig = await workspace()
   await click('初始状态')
+  expect(document.activeElement).toBe(buttonByLabel(host, '新建初始状态'))
   const field = (label: string) =>
     inspector.querySelector<HTMLInputElement>(`input[aria-label="${label}"]`)!
   const chosen = () => rig.main.getState().scriptPreview!.states[0]!

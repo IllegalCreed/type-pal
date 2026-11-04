@@ -321,9 +321,11 @@ export function CanonicalSceneScriptWorkspace(props: {
   // Only an explicit visit requests focus; ordinary state edits keep the author's focus.
   useEffect(() => {
     if (!libraryOpen || !pendingLibraryFocus.current) return
-    const target =
-      drawerBodyRef.current?.querySelector<HTMLElement>('[aria-label="初始状态名称"]') ??
-      drawerBodyRef.current?.querySelector<HTMLElement>('.initial-state-library button')
+    const target = drawerBodyRef.current?.querySelector<HTMLElement>(
+      libraryReturn && selectedState
+        ? '[aria-label="初始状态名称"]'
+        : '.initial-state-library button',
+    )
     if (!target) return
     pendingLibraryFocus.current = false
     target.focus({ preventScroll: true })
