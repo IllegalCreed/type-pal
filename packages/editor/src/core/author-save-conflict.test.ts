@@ -77,11 +77,15 @@ import {
 } from './project-io.js'
 import { ProjectLeaveGuard } from './project-leave-guard.js'
 import {
+  captureEditorSaveSnapshot,
+  captureOpeningSaveBaseline,
+  serializeEditorSaveSnapshot,
+} from './project-save-snapshot.js'
+import {
   AddSceneDefinitionCommand,
   AddSceneEntityDefinitionCommand,
   ScriptEditSession,
 } from './script-editor.js'
-import { mergeEditorProjectionWithCurrentAuthorState } from './script-editor-projection.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import {
@@ -115,7 +119,7 @@ function projectSessionSave(
     'snapshotRef',
     'authorBaselineRef',
     'firstSaveAuthorRef',
-    'serializeEditorSnapshot',
+    'openingSnapshot',
     'save',
   ])
   const declarations = new Map<string, string>()
@@ -124,14 +128,8 @@ function projectSessionSave(
       if (declarations.has(node.name.text))
         throw new Error(`ambiguous project session declaration ${node.name.text}`)
       declarations.set(node.name.text, `const ${node.getText(ast)};`)
-    } else if (
-      ts.isFunctionDeclaration(node) &&
-      node.name?.text === 'serializeEditorSnapshot' &&
-      names.has(node.name.text)
-    ) {
-      if (declarations.has(node.name.text))
-        throw new Error(`ambiguous project session declaration ${node.name.text}`)
-      declarations.set(node.name.text, node.getText(ast))
+    } else if (ts.isVariableDeclaration(node) && node.name.getText(ast) === '[openingSnapshot]') {
+      declarations.set('openingSnapshot', `const ${node.getText(ast)};`)
     }
     ts.forEachChild(node, visit)
   }
@@ -157,6 +155,7 @@ function projectSessionSave(
         options.initialDir === null ? undefined : (options.initialDir ?? opened.dir),
     },
     useRef: <T>(value: T) => ({ current: value }),
+    useState: <T>(initial: () => T) => [initial()],
     useCallback: <T>(value: T) => value,
     setError: error,
     setActivity: activity,
@@ -169,7 +168,9 @@ function projectSessionSave(
     observeProjectCopySource,
     verifySourceAuthorBaseline,
     resumeOwnProjectSave,
-    mergeEditorProjectionWithCurrentAuthorState,
+    captureEditorSaveSnapshot,
+    captureOpeningSaveBaseline,
+    serializeEditorSaveSnapshot,
     createEmptyAuthorDiskBaseline,
     preflightFirstSaveTarget,
     authorizeFirstSaveTarget,
@@ -880,11 +881,11 @@ describe('real author open and save conflict boundary', () => {
     )
     app.scriptSession.dispatch(new AddSceneDefinitionCommand(added))
     disk.hooks.beforeClose = (p) => {
-      if (p === 'content/scenes/start.json') throw new Error('stopped before new scene')
+      if (p === path) throw new Error('stopped before new scene close')
     }
     await app.run()
-    expect(app.error).toHaveBeenLastCalledWith('stopped before new scene')
-    expect(disk.files.has(path)).toBe(false)
+    expect(app.error).toHaveBeenLastCalledWith('stopped before new scene close')
+    expect(disk.files.get(path)?.byteLength).toBe(0)
     expect(editor.undo()).toBe(true)
     expect(app.scriptSession.undo()).toBe(true)
     disk.hooks.beforeClose = undefined

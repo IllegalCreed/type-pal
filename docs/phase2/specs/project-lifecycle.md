@@ -1,8 +1,8 @@
 # 工程与工作区生命周期
 
 Status: current
-Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-10-24
+Owner: Codex（规格维护）
+Last reviewed: 2026-11-04
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -48,6 +48,10 @@ Save As排除旧marker和PAL sentinel后按目标mode建立新身份。ZIP是只
 
 AuthorDiskBaseline另捕获loader真正消费的manifest、作者表/共享脚本、SceneIndex/正文和地图原始字节，打开完成前夹验，不必解析hydrate全部地图。资源按已读catalog的bytes/hash与将写/删目标检查，未知现存新路径拒绝。它与prevSnapshot输出增量分开；同workspace锁内进入操作及首次作者写前比对，冲突零目标写、保留未保存修改，不自动重载/合并/强覆盖。重新打开重建App refs，但mount计数不进入workspaceId或存档地址。
 
+普通保存的输出差异基线在会话首次挂载、用户编辑前捕获，首次保存时按同一作者序列化规则求值；不能用点击保存时的已编辑态冒充已保存态。catalog未变的普通保存中，未修改的正文保持磁盘原字节，不因loader规范化、对象键顺序或by-id投影而重写。每次保存同时冻结主/脚本作者态及地图脏状态；干净地图即使已为画布加载，仍使用打开时或上次已保存的原文，只有新增或实际编辑的地图输出当前副本。保存期间的新修改留待下一笔，成功close/remove才推进该笔输出比较态；确切磁盘冲突与恢复证明仍由作者基线和封存计划独立持有。
+
+首次绑定已有PAL开发目录与复制新工程分开：经既有sentinel、关键快照和完整作者基线授权后，按输出差异构建保存计划，不复制未改资产；HTTP作者字节/保存状态夹验及首次目标全部资源的hash、格式校验仍执行，缺失或损坏明确失败，不从HTTP静默修补。普通HTTP/新建工程的空目标首存、PAL克隆和Save As仍完整复制正文及资源。磁盘catalog与目标catalog不一致时，writer仍按既有恢复边界强制刷写catalog及相关内容引用表，再按发布顺序收缩catalog和删除文件；本轮不把它改为仅依赖内存diff。增量不免除整工程引用校验，也不放宽浏览器安全保护。
+
 ### 保存恢复、读边界与离开保护
 
 普通保存、空白/HTTP首存、PAL克隆和另存共用持久协调器：完整目标/删除/空目录先暂存并回读，真实浏览器句柄与身份凭据封ready后才发布pending、写作者路径。恢复只重放封存计划，不依赖旧页面回调或重读复制源；清理失败不等于内容未保存。复制原资源不混入编辑差异清单，避免下次误删；UI区分准备保存/正在保存。
@@ -66,11 +70,11 @@ projects/pal是仍随E2E修订的开发快照，PAL克隆只创建local工程，
 
 这不是文件夹级事务，不锁其他浏览器/OS写入，检查后非合作写不保证原子CAS；PAL关键proof也不等全工程字节相等。规则与实现缺口分开，原[冲突保护卡](../../tasks/archive/done/EDITOR-SAVE-CONFLICT-1-stale-author-snapshot.md)、[恢复卡](../../tasks/archive/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md)和[A-07回执](../../testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md)只承载当时范围。
 
-本轮核context/marker/关键proof、单次mutation和作者读源baseline切片，未完整审所有FSA/IDB/恢复/ZIP/UI分支，未选真实目录或写用户数据。遇新事实冲突先停相关claim，不由文档改产品、放宽policy或恢复旧compat。
+2026-10-24核context/marker/关键proof、单次mutation和作者读源baseline切片，未完整审所有FSA/IDB/恢复/ZIP/UI分支，未选真实目录或写用户数据。2026-11-04增量保存修复范围与独立实页结果由[当前任务卡](../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-04-基线收尾与逐脚本复核准入)维护；减少无关写入不等于已经证明某次Safe Browsing拦截的原因或解决。遇新事实冲突先停相关claim，不由文档改产品、放宽policy或恢复旧compat。
 
 ## 验收
 
-静态oracle是project/workspace/target/baseline四身份不混、关键守卫与公开来源对应、原quote与源SHA可逆、导航和模板有效。运行oracle应覆盖真实同句柄续存、伪造/重入/冲突/中断恢复、Save As源后代、IDB complete及读锁换代等合法和反例；本轮未执行，旧三席/用户验收不代签今天实跑。
+静态oracle是project/workspace/target/baseline四身份不混、关键守卫与公开来源对应、原quote与源SHA可逆、导航和模板有效。运行oracle应覆盖真实同句柄续存、伪造/重入/冲突/中断恢复、Save As源后代、IDB complete及读锁换代等合法和反例；2026-10-24文档审计未执行，旧三席/用户验收不代签后继实跑。增量保存另核首笔侧车变化不触碰未改正文/资产、干净地图加载与新增/修改地图、保存途中继续编辑、完整另存重开及PAL首次资源/来源失败，具体执行身份与限制归当前任务原件。
 
 本篇等待未参与者据实际diff/读域/保全接受；作者不自行恢复content-reviewed/template-compliant，硬门未过不合main、不标done。
 

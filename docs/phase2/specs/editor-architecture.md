@@ -39,6 +39,8 @@ URL使用`module/page/object`，统一decoder归一化非法模块/子页到安�
 
 地图按稳定mapId组织、正文懒加载；脏文档及撤销栈引用文档保留，未加载文件保存/clone/ZIP按原始字节copy-through。场景绑定MapId而非复制地图。已有选区、待盖模板、素材选择、活动层四轴独立；图层/source/tile/height/collision修改先完整校验，一动作一Command，no-op不置脏、不入history、不清redo。
 
+普通保存以编辑前捕获的规范作者输出为首笔差异基线，独立于证明原始磁盘字节的AuthorDiskBaseline；catalog未变且只改预览侧车时，不得连带重排未编辑正文或复制未改资产。保存快照冻结地图dirty状态，已加载但干净的地图仍保留原文，新增/编辑地图才输出副本；IO期间继续编辑不被该笔保存清脏。PAL首次绑定保留目标全部资源校验；catalog不一致时的既有引用表刷写、真正新工程/Save As完整复制及事务恢复沿[工程生命周期](project-lifecycle.md#pal关键快照与作者基线分层)。
+
 地图和组合共用IsometricEditorCanvas与工具栏，组合以草稿保存形成一笔命令；相对H与地图绝对H在ghost与提交时用同一解析。作者有序集合复用公共grip、键盘与精确移动，重复值用occurrence token，不能因底层是数组就新增排序能力。
 
 音乐替换保持AssetId，试听共用单一owner；过场帧序列按draft-history组织完整RGBA编辑与惰性来源；战斗精灵定义与二进制资源是两条生命周期。替换/删除需复核消费者、字节/SHA、定义与profile边界，不能用过期索引或partial地图facts授权破坏动作。原文各专项保留完整领域细节和任务入口。
