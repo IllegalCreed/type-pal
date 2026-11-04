@@ -13771,6 +13771,9 @@ button.sprite-frame-cell[draggable="true"]:active {
   padding: 8px 10px;
   min-width: 0;
 }
+.initial-state-workspace-heading {
+  align-items: flex-end;
+}
 .initial-state-workspace-heading > .ds-field-group {
   flex: 1 1 250px;
   min-width: 0;

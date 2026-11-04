@@ -194,7 +194,7 @@ test('Inspector commits sparse false/zero values, restores inherited defaults, a
 
 test('copy and rename keep existing consumers on the original and deletion is reversible', async () => {
   const rig = await workspace()
-  expect(buttonByLabel(host, '删除').disabled).toBe(true)
+  expect(buttonByLabel(host, '删除（仍被脚本引用，请先更改引用）').disabled).toBe(true)
   await click('复制')
   const input = host.querySelector<HTMLInputElement>('[aria-label="初始状态名称"]')!
   await act(async () => {

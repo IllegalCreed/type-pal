@@ -461,7 +461,7 @@ test('initial-state workspace remains reachable when no author scene is availabl
   expect(paths.some((path) => path?.endsWith('步骤 ID: return'))).toBe(true)
   expect(references.querySelector('button.ds-reference-row')).toBeNull()
   expect(references.textContent).toContain('来源场景、角色、脚本方案或步骤已不存在')
-  expect(buttonByLabel(host, '删除').disabled).toBe(true)
+  expect(buttonByLabel(host, '删除（仍被脚本引用，请先更改引用）').disabled).toBe(true)
   expect(host.querySelector('[aria-label="初态编排工作区"]')).not.toBeNull()
   await click('新建初始状态')
   expect(rig.main.getState().scriptPreview!.states.at(-1)!.scenes).toEqual([])

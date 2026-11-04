@@ -15,10 +15,12 @@ import {
   scriptPreviewStateUsages,
 } from '../core/script-preview-library.js'
 import {
+  DsActionGroup,
   DsAddPickerDialog,
   DsButton,
   DsDraftTextField,
   DsFieldGroup,
+  DsIconButton,
   DsInspectorHost,
   DsInspectorSection,
   DsInspectorTabs,
@@ -272,6 +274,7 @@ export function InitialStateWorkspace(props: {
               <DsFieldGroup>
                 <DsDraftTextField
                   label="名称"
+                  size="default"
                   aria-label="初始状态名称"
                   value={selected.name}
                   draftKey={`initial-state:${selected.id}:name`}
@@ -280,25 +283,27 @@ export function InitialStateWorkspace(props: {
                   onCommit={(name) => update({ ...selected, name: name.trim() })}
                 />
               </DsFieldGroup>
-              <DsButton size="compact" onClick={() => create(selected)}>
-                复制
-              </DsButton>
-              <DsButton
-                size="compact"
-                disabled={references.length > 0}
-                title={references.length ? '仍被脚本引用，请先更改引用' : '删除此初始状态，可撤销'}
-                onClick={() => {
-                  props.session.dispatch(
-                    new SetScriptPreviewLibraryCommand({
-                      ...library,
-                      states: library.states.filter((state) => state.id !== selected.id),
-                    }),
-                  )
-                  props.onSelectState(undefined)
-                }}
-              >
-                删除
-              </DsButton>
+              <DsActionGroup density="default" className="initial-state-header-actions">
+                <DsIconButton icon="copy" label="复制" onClick={() => create(selected)} />
+                <DsIconButton
+                  icon="delete"
+                  variant="danger"
+                  label={references.length ? '删除（仍被脚本引用，请先更改引用）' : '删除'}
+                  disabled={references.length > 0}
+                  title={
+                    references.length ? '仍被脚本引用，请先更改引用' : '删除此初始状态，可撤销'
+                  }
+                  onClick={() => {
+                    props.session.dispatch(
+                      new SetScriptPreviewLibraryCommand({
+                        ...library,
+                        states: library.states.filter((state) => state.id !== selected.id),
+                      }),
+                    )
+                    props.onSelectState(undefined)
+                  }}
+                />
+              </DsActionGroup>
             </header>
             <div className="initial-state-workspace-canvas">
               {projectionError ? (

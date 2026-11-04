@@ -1873,7 +1873,7 @@
         "scroll": "initial-state groups / participants / DsInspectorTabs",
         "overlay": "DsDialog + DsFloatingLayer",
         "field": "DsAddPickerDialog + DsDraftNumberInput + DsDraftTextField + DsFieldGroup + DsMultiSelect + DsPropertyRow + DsSelect + DsTextInput",
-        "action": "DsButton + DsPressable"
+        "action": "DsActionGroup + DsButton + DsIconButton + DsPressable"
       },
       "ownerEvidence": {
         "field": [
