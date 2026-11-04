@@ -429,6 +429,7 @@ export function InitialStateWorkspace(props: {
                 <DsAddPickerDialog
                   adoptionId="scene/initial-state-scene"
                   triggerLabel="添加场景"
+                  triggerSize="default"
                   title="添加场景"
                   description="为这份初始状态添加场景，不修改工程场景或脚本引用。"
                   confirmLabel="添加所选场景"
@@ -475,7 +476,7 @@ export function InitialStateWorkspace(props: {
                     <DsMultiSelect
                       label="添加或移出角色与物件"
                       summaryMode="count"
-                      size="compact"
+                      size="default"
                       options={scene.entities.map((entity) => ({
                         value: entity.id,
                         label: previewEntityName(entity, props.actorsById, props.state.locale),

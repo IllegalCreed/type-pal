@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 import { DS_OPTION_VIRTUALIZE_ABOVE, filterDsCollection } from './collection-search.js'
+import type { DsControlSize } from './control-types.js'
 import { DsButton, DsTextInput } from './controls.js'
 import { DsDialog } from './overlays.js'
 import { DsVirtualListbox } from './virtual-list.js'
@@ -26,6 +27,7 @@ export interface DsAddPickerOption {
 export interface DsAddPickerDialogProps {
   adoptionId: string
   triggerLabel: string
+  triggerSize?: DsControlSize
   title: string
   description?: string
   confirmLabel: string
@@ -183,7 +185,7 @@ export function DsAddPickerDialog(props: DsAddPickerDialogProps) {
       <DsButton
         ref={triggerRef}
         icon="add"
-        size="compact"
+        size={props.triggerSize ?? 'compact'}
         disabled={Boolean(props.readOnly || unavailableMessage)}
         aria-describedby={ownerStatusMessage ? unavailableId : undefined}
         onClick={openDialog}
