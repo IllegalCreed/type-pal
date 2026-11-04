@@ -8,7 +8,7 @@ import { EditSession } from '../core/edit-session.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { openLocalProject } from '../core/open-local.js'
 import { toEditorState } from '../core/project-io.js'
-import { ScriptEditSession } from '../core/script-editor.js'
+import { ScriptEditSession, UpdateEntityBehaviorCommand } from '../core/script-editor.js'
 import { buildBlankProject } from '../core/seed.js'
 import { createLocalWorkspaceContext } from '../core/workspace-context.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
@@ -87,6 +87,31 @@ async function mountApp() {
       stages: [{ id: 'night', label: '关门后', body: [] }],
     },
   }
+  scene.hooks = {
+    onEnter: {
+      initial: 'welcome',
+      variants: {
+        welcome: {
+          label: '客人进店',
+          order: 0,
+          flow: {
+            kind: 'stages',
+            initial: 'enter',
+            stages: [{ id: 'enter', label: '进门前', body: [] }],
+          },
+        },
+        night: {
+          label: '夜间进店',
+          order: 1,
+          flow: {
+            kind: 'stages',
+            initial: 'night',
+            stages: [{ id: 'night', label: '关门后', body: [] }],
+          },
+        },
+      },
+    },
+  }
   const outside = structuredClone(scene)
   outside.id = 'outside'
   outside.entities[0]!.label = '院外守卫'
@@ -139,7 +164,7 @@ async function openHostScripts() {
     ...host.querySelectorAll<HTMLButtonElement>('.scene-entity-group button.node'),
   ].find((button) => button.textContent?.includes('客栈掌柜'))!
   await act(async () => actor.click())
-  await click('📜 脚本')
+  if (!host.querySelector('.canonical-script-drawer')) await click('📜 脚本')
 }
 async function openStep(index: number) {
   await act(async () =>
@@ -281,4 +306,52 @@ test('non-current scheme draft survives workspace navigation; cancel and paired 
   await act(async () => rig.history.undo())
   expect(host.textContent).toContain('目标不存在')
   expect(host.querySelector('[aria-label="初始状态名称"]')).toBeNull()
+})
+
+test('scene-hook drafts retain runtime default and preview-only saves; deleted return targets stay invalid after undo', async () => {
+  const rig = await mountApp()
+  await click('📜 脚本')
+  await click('打开“夜间进店”的方案详情')
+  await setInputValue(
+    dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
+    '夜间问候',
+  )
+  await click('设为默认方案')
+  await chooseComboboxOption(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态'), '迎客前')
+  await click('在初态编排中查看 / 编辑')
+  await click('返回脚本详情')
+  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
+    '夜间问候',
+  )
+  expect(buttonByLabel(dialog(), '取消默认').getAttribute('aria-pressed')).toBe('true')
+  expect(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态').textContent).toContain('迎客前')
+  await click('取消')
+  expect(rig.script.getState()).toEqual(rig.authorBefore)
+  await click('打开“夜间进店”的方案详情')
+  await chooseComboboxOption(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态'), '迎客前')
+  const beforePreview = structuredClone(rig.main.getState().scriptPreview)
+  await act(async () => buttonByLabel(dialog(), '保存').click())
+  expect(rig.main.getState().scriptPreview!.schemeDefaults.at(-1)).toEqual({
+    entry: { sceneId: 'start', channel: 'onEnter', schemeId: 'night' },
+    stateId: 'door',
+  })
+  expect(rig.script.getState()).toEqual(rig.authorBefore)
+  await act(async () => rig.history.undo())
+  expect(rig.main.getState().scriptPreview).toEqual(beforePreview)
+  expect(host.querySelector('.script-scheme-card.active')?.textContent).toContain('客人进店')
+  await openHostScripts()
+  await openStep(2)
+  await click('打开初态编排')
+  const flow = rig.script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.greet!.flow
+  await act(async () =>
+    rig.script.dispatch(
+      new UpdateEntityBehaviorCommand({ scene: 'start', entity: 'host' }, 'trigger', 'greet', {
+        flow: { ...flow, stages: [flow.stages[0]!] },
+      }),
+    ),
+  )
+  expect(host.textContent).not.toContain('返回脚本详情')
+  await act(async () => rig.history.undo())
+  expect(host.textContent).not.toContain('返回脚本详情')
+  expect(document.querySelector('[role="dialog"]')).toBeNull()
 })
