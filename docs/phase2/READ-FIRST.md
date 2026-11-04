@@ -3,7 +3,7 @@
 Status: current
 Validity: current
 Owner: Codex（阶段准入维护；产品取舍由用户裁决）
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-04
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -17,6 +17,8 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 以下十一条规则是现行阶段准入；实现、任务状态与执行结论仍由各自正文和证据维护。
+
+编辑器界面或交互变更还必须先读[设计系统与交互规范](specs/editor-design-system.md)的规范语义及本次命中条款，再读[编辑器UI开工与验收](specs/editor-architecture.md#编辑器ui开工与验收)，核对应共享组件、尺寸上下文与既有同类页面；交付前在实页检查受影响的整行和窄宽布局。不得只读阶段方针、只检查本次点击的按钮，或以静态门通过代替界面一致性验收。
 
 ### 十一条铁律
 
