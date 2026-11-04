@@ -1497,6 +1497,16 @@
   border-bottom: 0;
 }
 
+.ds-tab-with-action > .ds-tooltip {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ds-tab-with-action:is([data-selected="true"], :hover, :focus-within) > .ds-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .ds-tabs--inspector > .ds-tab-with-action {
   min-width: 0;
 }

@@ -284,7 +284,12 @@ export function InitialStateWorkspace(props: {
                 />
               </DsFieldGroup>
               <DsActionGroup density="default" className="initial-state-header-actions">
-                <DsIconButton icon="copy" label="复制" onClick={() => create(selected)} />
+                <DsIconButton
+                  icon="copy"
+                  variant="secondary"
+                  label="复制"
+                  onClick={() => create(selected)}
+                />
                 <DsIconButton
                   icon="delete"
                   variant="danger"
