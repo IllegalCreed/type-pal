@@ -3,13 +3,37 @@
 Status: review
 Phase: phase2
 Capability: editor / entity-authoring / script-preview
-Coding Owner: /root/ui_affordances（2026-11-04 初态操作、网格与浮层返工，隔离树单一实现Owner；历史Owner见原记录）
+Coding Owner: /root/ui_affordances（2026-11-04 跨场景预览，隔离树单一实现Owner；历史Owner见原记录）
 Reviewer: Codex（产品与实页）/ /root/ui_final_doc_review（文档差异）；前轮独立复核见历史记录
 Visual Verification Owner: Codex
 Visual Verification Timing: functional
-Branch: `codex/e2e-script-progress`（当前集成）；`codex/initial-state-affordances`（当前隔离实现）；首批main集成`39499783c`保留为历史
+Branch: `codex/e2e-script-progress`（当前集成）；`codex/cross-scene-preview`（当前隔离实现）；首批main集成`39499783c`保留为历史
 Last reviewed: 2026-11-04
 Template: task-card-v1 / 1.0.0
+
+## 2026-11-04 跨场景预览实施准入
+
+用户明确授权按已定规则实现：编辑的场景、NPC、脚本方案和步骤保持不变，只切预览画布；暂停停留当前预览场景，自然结束、停止或重置后回到预览前的原场景画布与视角。预览运行态独立且不写回作者工程或初态库，首个验收样本为006登船至仙灵岛。
+
+前提与四向真值：原版及第一阶段没有本编辑器的隔离预览UI，此项形态以用户裁决为准；场景加载/旧请求取消的工程知识沿phase1-knowledge-harvest的W4/W5，仅核实际适用，不复制旧调度架构。当前二阶段正式宿主main.ts的loadScene在资源准备后提交，保留分场景现场并排队目标onEnter，前台链收尾后接续（2267–2369、5007附近）；编辑器Playback.loadScene仍abort，currentSceneId及查询闭包固定入口（playback.ts:304–434、801），PreviewCanvas按固定scene加载绘制。目标是独立活动预览场景与资源握手，沿当前ScriptProjectRuntime执行/绑定语义衔接入场脚本，作者导航不变。多场景初态已一次投影，不能切场景时重套覆盖运行结果。
+
+build allowed：基于`72a60aaaf`沿用/root/ui_affordances为单一产品Owner，在既有隔离树新分支`codex/cross-scene-preview`实施。白名单为editor/core/playback及按职责抽取的预览会话模块、PreviewCanvas、SceneScriptWorkspace、scene-stage必要资源就绪接口及其真实caller测试、必要最小UI样式与现行editor-architecture；涉及App仅允许实际必要的预览接线，不改作者路由/选择。共享Reforge运行器、schema、存档、PAL正文及侧车数据不在白名单；若现有公开接口不足，先给具体缺口由根核范围，不能绕过或扩大强转。测试沿真实公开caller与当前输入，排重并保留有效失败/恢复；新文件按职责命名，不引入作者/任务后缀。UI沿DS-0、DS-F.4/F.5、DS-I.4/I.5、DS-M.2–M.4，复用已接受工具条，不新增私有尺寸或改布局。
+
+根独立核状态Owner、地图/实体/落点与onEnter绑定、同ID跨场景隔离、A→B→A运行态保持、加载中暂停/重置/重播、异步迟到拒绝及自然结束返回。最强反例为只换底图而执行仍属于旧scene、重套初态抹去先前变化、旧加载在结束后替换原画布、预览改变编辑对象或视角无法恢复。资源就绪之前不推进目标演出；加载失败显式反馈并安全回原画布。先用006真实正文实页验证，再按影响补相邻入口/命名落点和当前onEnter选择合同；不将本轮工具能力验收当作006游戏重做、001–006初态现场均已核或完整游戏战斗/自动行为预览。
+
+接口准入补充：根核既有scene-transition.ts与scene-preparer消费者后，允许同一Owner仅在reforge/src/index.ts导出resolveSceneSpawn及必要类型，复用默认/命名/临时落点与显式→命名→继承→默认朝向解析，不复制真值，不改解析实现。准确006验收入口为s005/e116“出海木船”交互legacy-001/initial；s005/e123张四legacy-002是前置邀请上船，不能用其legacy-001传闻对白冒充切场验证。
+
+### 跨场景预览交付与006有限复验
+
+候选`6edbb7a155f62737f2a3de60117787ec994602d4`已独立复核并接入当前分支`2611f069f`。13份文件包含5份产品、7份测试与现行架构；根核固定源码、逐文件A–H、44份作者原件及资源/运行态/画布交接风险，没有重复全文或重跑全部作者用例。目标资源准备完成后提交独立活动场景，接续scratch当前onEnter；作者场景、实体和脚本选择保持，结束与重置回入口投影画布及起播视角。
+
+作者22文件149项通过；之后仅错误Tag及新增资源失败UI合同变化，由2项后继回归覆盖，最终独立合同150项，不累计重跑数量。editor/reforge typecheck、目标Biome与DS门零诊断。取消保护单点失效时，7项恰有一项因旧资源错误提交而触发指定AssertionError；恢复原字节后相关44项通过。根早期复核提出的单步内部重复放行、瞬时完成未恢复视角、诊断末态与显示状态混用均已闭合。测试入口使用真实Playback/Canvas、现行PAL006与合法工程资源，未放松质量门或增设豁免。
+
+根在Chrome1512×767固定代码页面实跑s005/e116/trigger/legacy-001/initial：来源15条单步到仙灵岛码头，单次loadScene无需重复点击；目标onEnter的第20条显示李逍遥道谢，第21条显示张四三行叮嘱。暂停期间画布为s014，作者场景仍s005、实体e116、原方案及步骤均保留。起播前自定平移和112%缩放，岛上另改100%与平移，最后确认对白后自然完成并恢复原112%与地图位置；静态地图地标区域前后像素完全一致，整张画布含时间驱动实体/高亮，不宣称全图逐像素相同。另以2倍连续播放到目标对白暂停，再重置返回来源就绪；速度恢复1倍，console无error/warning。开发期HMR曾干扰早期播放实例，干净重载后单步正常；两次1倍对白等待受工具3秒截止影响，不能当作产品失败，真实对白由上述两种操作观察。
+
+原6010页面已保存后才停服接入并重启；未执行工程Save。正式PAL侧车、逐脚本台账及既有未跟踪save-state的SHA与起点相同。保留当前初态编排UI的既有用户接受，本轮仅关闭跨场景宿主的有限技术验收：mount/ride、音乐/音效等既有日志桩及自动行为调度限制仍在，未重判已接受的游戏船行/漂浮，也未新增001–006逐入口初态或完整游戏E2E信用。整卡继续review，原有保存与逐入口核验待办不自动关闭。
+
+源码按固定Git恢复，必要作者失败/恢复、反控、独立代码裁定和实页原件归[跨场景预览证据包](../evidence/ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz)。中央文档及全仓门在归档/登记固定后运行，避免证据包自引用；最终接入检查由根另记。
 
 ## 2026-11-04 用户接受当前初态编排UI与跨场景预览后继
 

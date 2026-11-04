@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "4f7cbcc0d1bf915ba6cd317a7e9b342405bb836c7e297a920ef9dbfb8bd54dd8",
+      "afterSha256": "9ee4fd2c85a2cafa11514d069097b071563d07f091fcfb17fb085787865ac9e9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root (explicit user acceptance; read-only current playback boundary)",
+        "author": "/root + /root/ui_affordances",
+        "reviewer": "/root (code and live UI); /root/ui_final_doc_review (bounded document delta)",
         "date": "2026-11-04",
-        "conclusion": "User accepts current initial-state workspace UI at eb620beca. Cross-scene playback remains next host capability; per-entry NPC state/save/E2E validation remains pending.",
+        "conclusion": "Records accepted isolated cross-scene preview, current author selection preservation, target onEnter continuation and source canvas/view restoration. Actual PAL006 UI and 150 distinct regression contracts support this limited capability; card remains review.",
         "reviewedLines": 119,
-        "acceptanceScope": "Only this status delta and current loadScene stop/entry-scene closure were read. Prior product/UI evidence remains in the existing affordances archive; no new runtime, saved-state or E2E credit. No product implementation started in this status update."
+        "acceptanceScope": "Actual delta, fixed sources/native results and risk-directed caller inspection; prior unchanged review reused. Independent document receipt, effective late-resource counter and root browser originals: ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz. Line extent is not a repeated full read. Music/ride/auto preview limitations and existing per-entry Save/E2E boundaries remain."
       }
     },
     {
@@ -2339,14 +2339,14 @@
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
       "mode": "reviewed",
-      "afterSha256": "e99a64a2ee60e075b592c287c03e81acaa2d98d3df855423739b4a40de0a2dbb",
+      "afterSha256": "48c64ec3104e703daacedeee3cd7331f38533ee715dd31370e2aadb2dd32e1b4",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (explicit user acceptance; read-only current playback boundary)",
+        "author": "/root + /root/ui_affordances",
+        "reviewer": "/root (code and live UI); /root/ui_final_doc_review (bounded document delta)",
         "date": "2026-11-04",
-        "conclusion": "User accepts current initial-state workspace UI at eb620beca. Cross-scene playback remains next host capability; per-entry NPC state/save/E2E validation remains pending.",
-        "reviewedLines": 854,
-        "acceptanceScope": "Only this status delta and current loadScene stop/entry-scene closure were read. Prior product/UI evidence remains in the existing affordances archive; no new runtime, saved-state or E2E credit. No product implementation started in this status update."
+        "conclusion": "Records accepted isolated cross-scene preview, current author selection preservation, target onEnter continuation and source canvas/view restoration. Actual PAL006 UI and 150 distinct regression contracts support this limited capability; card remains review.",
+        "reviewedLines": 878,
+        "acceptanceScope": "Actual delta, fixed sources/native results and risk-directed caller inspection; prior unchanged review reused. Independent document receipt, effective late-resource counter and root browser originals: ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz. Line extent is not a repeated full read. Music/ride/auto preview limitations and existing per-entry Save/E2E boundaries remain."
       }
     },
     {
@@ -4153,14 +4153,14 @@
     {
       "path": "docs/phase2/specs/editor-architecture.md",
       "mode": "reviewed",
-      "afterSha256": "652543d74cb66ee998e3108190327ff4716e32adcf786fbd6fdd16756b21b302",
+      "afterSha256": "50c86fdef75e7e6fcca409560bcc62b3a9a3c410119c8c099e3d81ebbd5f324d",
       "review": {
         "author": "/root + /root/ui_affordances",
-        "reviewer": "/root (product/browser); /root/ui_final_doc_review (bounded document delta)",
+        "reviewer": "/root (code and live UI); /root/ui_final_doc_review (bounded document delta)",
         "date": "2026-11-04",
-        "conclusion": "Records approved action visibility/borders, responsive participants and default control sizes, shared popover above header; preserves task review and all prior E2E boundaries.",
-        "reviewedLines": 382,
-        "acceptanceScope": "Actual delta, exact sources/native results and targeted browser observations only; previous full review reused. Independent two-document receipt and minimal originals: ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz. Line extent does not claim repeated full read; no user final acceptance, project Save or new E2E credit."
+        "conclusion": "Records accepted isolated cross-scene preview, current author selection preservation, target onEnter continuation and source canvas/view restoration. Actual PAL006 UI and 150 distinct regression contracts support this limited capability; card remains review.",
+        "reviewedLines": 384,
+        "acceptanceScope": "Actual delta, fixed sources/native results and risk-directed caller inspection; prior unchanged review reused. Independent document receipt, effective late-resource counter and root browser originals: ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz. Line extent is not a repeated full read. Music/ride/auto preview limitations and existing per-entry Save/E2E boundaries remain."
       }
     },
     {
@@ -4387,6 +4387,12 @@
       "sha256": "5f8d523c49626b7801f59e1e18fbfa03b7c071fdc80a3c45d473a5917c5ca006",
       "bytes": 1040718,
       "purpose": "Initial-state Tab action visibility, copy border, responsive participant grid, standard control heights and shared popover stacking; minimal original failures/recovery/native results, independent verdicts and browser observations. Fixed Git restores source; no new E2E credit."
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz",
+      "sha256": "c37a912f25bb76a715aa0559d1570631eed2ac34543b092687a723b5b822afc7",
+      "bytes": 1515371,
+      "purpose": "Cross-scene preview and actual006 boat-to-island entry verification: native failures/recovery, effective cancellation counter, per-file review, independent acceptance and UI screenshots. Source retained in fixed Git; no full boat/audio fidelity, project Save or new E2E credit."
     }
   ],
   "artifactAliases": [],
