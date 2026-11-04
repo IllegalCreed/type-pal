@@ -13778,27 +13778,6 @@ button.sprite-frame-cell[draggable="true"]:active {
 .initial-state-workspace-heading .ds-field__label-group {
   min-width: 0;
 }
-.initial-state-references {
-  min-width: 0;
-  flex: 1 1 100%;
-  color: var(--dim);
-}
-.initial-state-references > summary {
-  cursor: pointer;
-}
-.initial-state-reference-list {
-  max-height: 170px;
-  overflow: auto;
-  margin: 6px 0;
-  padding-left: 18px;
-}
-.initial-state-references button {
-  max-width: 100%;
-  height: auto;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  text-align: left;
-}
 .initial-state-workspace-canvas {
   flex: 1;
   min-height: 120px;
@@ -13837,11 +13816,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   flex: 1 1 200px;
   min-width: 0;
   overflow: auto;
-}
-.initial-state-scene-tabs > .ds-select {
-  width: auto;
-  min-width: 110px;
-  max-width: 100%;
 }
 .initial-state-entity-heading {
   justify-content: space-between;

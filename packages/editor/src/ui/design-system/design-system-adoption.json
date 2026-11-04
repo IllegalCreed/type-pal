@@ -108,23 +108,13 @@
           "verification": "InitialStateWorkspace真实路由与editor.css对应overflow边界；App.preview-initial-state与InitialStateWorkspace回归。"
         },
         {
-          "region": "main.references",
-          "axis": "y",
-          "owner": "custom:.initial-state-reference-list",
-          "source": "InitialStateWorkspace.tsx",
-          "component": "InitialStateWorkspace",
-          "callsite": "class:initial-state-reference-list",
-          "reason": "展开的全工程引用列表限制高度。",
-          "verification": "InitialStateWorkspace真实路由与editor.css对应overflow边界；App.preview-initial-state与InitialStateWorkspace回归。"
-        },
-        {
           "region": "inspector",
           "axis": "y",
-          "owner": "custom:.inspector",
+          "owner": "DsInspectorTabs",
           "source": "InitialStateWorkspace.tsx",
           "component": "InitialStateWorkspace",
-          "callsite": "class:inspector",
-          "reason": "选中场景实体初始属性使用公共Inspector宿主。",
+          "callsite": "tag:DsInspectorTabs",
+          "reason": "属性与整份初态引用各由公共Inspector Tab panel持有滚动。",
           "verification": "InitialStateWorkspace真实路由与editor.css对应overflow边界；App.preview-initial-state与InitialStateWorkspace回归。"
         }
       ]
@@ -1880,9 +1870,9 @@
       "status": "adopted",
       "owners": {
         "catalog": "custom:.initial-state-groups",
-        "scroll": "initial-state groups / participants / references / Inspector",
-        "overlay": "DsFloatingLayer",
-        "field": "DsDraftNumberInput + DsDraftTextField + DsFieldGroup + DsMultiSelect + DsPropertyRow + DsSelect + DsTextInput",
+        "scroll": "initial-state groups / participants / DsInspectorTabs",
+        "overlay": "DsDialog + DsFloatingLayer",
+        "field": "DsAddPickerDialog + DsDraftNumberInput + DsDraftTextField + DsFieldGroup + DsMultiSelect + DsPropertyRow + DsSelect + DsTextInput",
         "action": "DsButton + DsPressable"
       },
       "ownerEvidence": {
@@ -1896,7 +1886,7 @@
           {
             "source": "InitialStateWorkspace.tsx",
             "component": "InitialStateWorkspace",
-            "kinds": ["anchored-popup"]
+            "kinds": ["anchored-popup", "modal"]
           }
         ]
       }

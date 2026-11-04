@@ -180,8 +180,13 @@ async function openStep(index: number) {
   )
 }
 async function usage(kind: string) {
+  await act(async () =>
+    inspector()
+      .querySelector<HTMLButtonElement>('#initial-state-inspector-tab-references')!
+      .click(),
+  )
   const button = [
-    ...host.querySelectorAll<HTMLButtonElement>('.initial-state-references button'),
+    ...host.querySelectorAll<HTMLButtonElement>('.ds-reference-row[data-actionable]'),
   ].find(
     (button) => button.textContent?.includes('院外守卫') && button.textContent?.includes(kind),
   )!
@@ -232,17 +237,44 @@ test('independent workspace edits the selected scene only and project usages reo
   await click('在初态编排中查看 / 编辑')
   expect(canvas().scene.id).toBe('outside')
   expect(canvas().selectedEntityId).toBe('host')
-  const sourceLabels = [...host.querySelectorAll('.initial-state-references button')].map(
+  await act(async () =>
+    inspector()
+      .querySelector<HTMLButtonElement>('#initial-state-inspector-tab-references')!
+      .click(),
+  )
+  const referenceTab = inspector().querySelector<HTMLButtonElement>(
+    '#initial-state-inspector-tab-references',
+  )!
+  expect(referenceTab.textContent).toBe('引用 5')
+  const referenceRows = () => [...inspector().querySelectorAll('.ds-reference-row')]
+  expect(
+    referenceRows().map((row) => row.querySelector('.ds-reference-row__title')?.textContent),
+  ).toContain('关门后')
+  expect(
+    referenceRows()
+      .find((row) => row.querySelector('.ds-reference-row__title')?.textContent === '关门后')
+      ?.querySelector('.ds-reference-row__detail')?.textContent,
+  ).toBe('夜间交谈')
+  await act(async () => canvas().onSelectEntity('guest'))
+  expect(referenceTab.textContent).toBe('引用 5')
+  expect(referenceRows()).toHaveLength(5)
+  const sourceLabels = [...host.querySelectorAll('.ds-reference-row[data-actionable]')].map(
     (button) => button.textContent,
   )
   expect(
     sourceLabels.some(
-      (label) => label?.includes('院外守卫 / 交互脚本 / 夜间交谈') && label.includes('方案默认'),
+      (label) =>
+        label?.includes('院外守卫 / 交互脚本') &&
+        label.includes('夜间交谈') &&
+        label.includes('方案默认'),
     ),
   ).toBe(true)
   expect(
     sourceLabels.some(
-      (label) => label?.includes('院外守卫 / 自动行为 / 夜间交谈') && label.includes('方案默认'),
+      (label) =>
+        label?.includes('院外守卫 / 自动行为') &&
+        label.includes('夜间交谈') &&
+        label.includes('方案默认'),
     ),
   ).toBe(true)
   await usage('自动行为')
@@ -393,6 +425,20 @@ test('initial-state workspace remains reachable when no author scene is availabl
   const mounted = mountApp(true)
   await expect(mounted).resolves.toBeDefined()
   const rig = await mounted
+  await act(async () => host.querySelector<HTMLButtonElement>('.initial-state-row')!.click())
+  await act(async () =>
+    inspector()
+      .querySelector<HTMLButtonElement>('#initial-state-inspector-tab-references')!
+      .click(),
+  )
+  const references = inspector().querySelector<HTMLElement>(
+    '#initial-state-inspector-panel-references',
+  )!
+  expect(references.textContent).toContain('整份初态的引用')
+  expect(references.querySelectorAll('article.ds-reference-row').length).toBeGreaterThan(0)
+  expect(references.querySelector('button.ds-reference-row')).toBeNull()
+  expect(references.textContent).toContain('来源场景、角色、脚本方案或步骤已不存在')
+  expect(buttonByLabel(host, '删除').disabled).toBe(true)
   expect(host.querySelector('[aria-label="初态编排工作区"]')).not.toBeNull()
   await click('新建初始状态')
   expect(rig.main.getState().scriptPreview!.states.at(-1)!.scenes).toEqual([])

@@ -390,7 +390,7 @@
         },
         "owner": "card:ED-FIELD-LAYOUT-1",
         "reason": "初态编排选中实体的属性在独立工作区右侧Inspector。",
-        "responsiveEvidence": "InitialStateWorkspace的DsInspectorHost直接承载SceneInitialStateInspector，属性按sceneId/entityId定位。",
+        "responsiveEvidence": "InitialStateWorkspace的DsInspectorTabs属性面板承载SceneInitialStateInspector公共分组，属性按sceneId/entityId定位。",
         "removalCondition": "属性移出右侧 Inspector 时改用 DsFieldGroup。"
       }
     ],

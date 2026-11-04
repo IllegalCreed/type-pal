@@ -36,26 +36,40 @@ export function previewEntryLabel(
   actors: Record<string, ActorDef>,
   locale: Locale,
 ): string {
+  return Object.values(previewEntryDetails(entry, scene, actors, locale)).join(' / ')
+}
+
+/** Human labels stay separate so reference rows can distinguish title, source and channel. */
+export function previewEntryDetails(
+  entry: ScriptPreviewSchemeEntry & { stageId?: string },
+  scene: AuthorSceneDef | undefined,
+  actors: Record<string, ActorDef>,
+  locale: Locale,
+): { owner: string; channel: string; scheme: string; step?: string } {
   const entity = scene?.entities.find((candidate) => candidate.id === entry.entityId)
   const scheme =
     entry.channel === 'trigger' || entry.channel === 'auto'
       ? entity?.behaviors?.[entry.channel]?.[entry.schemeId]
       : scene?.hooks?.[entry.channel]?.variants[entry.schemeId]
   const index = scheme?.flow.stages.findIndex((stage) => stage.id === entry.stageId) ?? -1
-  return [
-    entry.entityId
+  return {
+    owner: entry.entityId
       ? entity
         ? previewEntityName(entity, actors, locale)
         : '已移除的角色或物件'
       : '场景事件',
-    { trigger: '交互脚本', auto: '自动行为', onEnter: '进场事件', onTeleport: '传送出口' }[
+    channel: { trigger: '交互脚本', auto: '自动行为', onEnter: '进场事件', onTeleport: '传送出口' }[
       entry.channel
     ],
-    scheme?.label ?? '已移除的脚本方案',
+    scheme: scheme ? scheme.label || '未命名脚本方案' : '已移除的脚本方案',
     ...(entry.stageId
-      ? [scheme?.flow.stages[index]?.label || (index >= 0 ? `第 ${index + 1} 步` : '已移除的步骤')]
-      : []),
-  ].join(' / ')
+      ? {
+          step:
+            scheme?.flow.stages[index]?.label ||
+            (index >= 0 ? `第 ${index + 1} 步` : '已移除的步骤'),
+        }
+      : {}),
+  }
 }
 
 export function previewUsageExists(

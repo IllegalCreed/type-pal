@@ -22,6 +22,7 @@ import {
 } from './__tests__/glm-ui-wave-kit.js'
 import { InitialStateWorkspace } from './InitialStateWorkspace.js'
 import type { SceneCanvas } from './SceneCanvas.js'
+import { previewEntityName } from './SceneInitialStateEditor.js'
 
 const probes = vi.hoisted(() => ({ canvas: vi.fn() }))
 // Replace asset rendering only; the actual selector, state list and Inspector remain mounted.
@@ -38,6 +39,10 @@ let inspector: HTMLDivElement
 let history: EditorHistoryCoordinator
 beforeEach(async () => {
   useActEnvironment()
+  vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+    callback(0)
+    return 1
+  })
   Element.prototype.scrollIntoView = vi.fn()
   // The jsdom host needs Node's streaming Blob and Web Crypto for the real project loader.
   const [buffer, { webcrypto }] = await Promise.all([
@@ -53,6 +58,19 @@ beforeEach(async () => {
       disconnect() {}
     },
   )
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.setAttribute('open', '')
+    },
+  })
+  Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.removeAttribute('open')
+      this.dispatchEvent(new Event('close'))
+    },
+  })
   window.localStorage.clear()
   host = document.createElement('div')
   document.body.append(host)
@@ -64,6 +82,8 @@ afterEach(async () => {
   history?.dispose()
   host.remove()
   Reflect.deleteProperty(Element.prototype, 'scrollIntoView')
+  Reflect.deleteProperty(HTMLDialogElement.prototype, 'showModal')
+  Reflect.deleteProperty(HTMLDialogElement.prototype, 'close')
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
 })
@@ -106,10 +126,21 @@ async function workspace(library = previewLibrary()) {
   }
   await act(async () => root.render(<Harness />))
   inspector = host.querySelector<HTMLDivElement>('[data-ds-inspector-host]')!
-  return { main, script, before }
+  return { main, script, before, actors: project.actorsById }
 }
 async function click(label: string, scope: ParentNode = document.body) {
   await act(async () => buttonByLabel(scope, label).click())
+}
+async function selectAddScene(query = 'outside') {
+  await click('添加场景')
+  const dialog = host.querySelector<HTMLDialogElement>('dialog[open]')!
+  await setInputValue(dialog.querySelector<HTMLInputElement>('input[type="search"]')!, query)
+  await act(async () => dialog.querySelector<HTMLElement>('[role="option"]')!.click())
+  return dialog
+}
+async function addScene() {
+  const dialog = await selectAddScene()
+  await click('添加所选场景', dialog)
 }
 const canvas = () => probes.canvas.mock.lastCall![0] as Parameters<typeof SceneCanvas>[0]
 
@@ -200,25 +231,37 @@ test('participant picker preserves existing overrides and adds new entities with
   library.states[0]!.scenes[0]!.entities = library.states[0]!.scenes[0]!.entities.slice(0, 1)
   const originalHost = structuredClone(library.states[0]!.scenes[0]!.entities[0]!)
   const rig = await workspace(library)
+  const entity = rig.before[0]!.entities[1]!
+  expect(previewEntityName(entity, rig.actors, rig.main.getState().locale)).toBe(
+    '未命名对象 · guest',
+  )
+  expect(
+    previewEntityName({ ...entity, actor: 'hero' }, rig.actors, rig.main.getState().locale),
+  ).toBe('主角')
+  expect(
+    previewEntityName(
+      { ...entity, actor: 'hero', label: 'guest' },
+      rig.actors,
+      rig.main.getState().locale,
+    ),
+  ).toBe('guest')
   const chosen = () => rig.main.getState().scriptPreview!.states[0]!.scenes[0]!
   const picker = () =>
     document.querySelector<HTMLElement>('[role="dialog"][aria-label="选择添加或移出角色与物件"]')!
   await click('添加或移出角色与物件')
-  await clickCheckboxByLabel(picker(), '未命名角色或物件（列 4，行 5）')
+  await clickCheckboxByLabel(picker(), '未命名对象 · guest')
   expect(chosen().entities).toEqual([originalHost, { entityId: 'guest' }])
   expect(canvas().scene.entities[0]!.pos).toEqual(originalHost.pos)
   expect(canvas().scene.entities[1]).toEqual(rig.before[0]!.entities[1])
   await click('添加或移出角色与物件')
   const guest = [
     ...host.querySelectorAll<HTMLButtonElement>('[aria-label="开场时的角色与物件"] button'),
-  ].find(
-    (button) => button.querySelector('strong')?.textContent === '未命名角色或物件（列 4，行 5）',
-  )!
+  ].find((button) => button.querySelector('strong')?.textContent === '未命名对象 · guest')!
   await act(async () => guest.click())
   expect(inspector.querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')!.value).toBe('4')
   expect(host.querySelector('[aria-label="初始状态名称"]')).not.toBeNull()
   await click('添加或移出角色与物件')
-  await clickCheckboxByLabel(picker(), '未命名角色或物件（列 4，行 5）')
+  await clickCheckboxByLabel(picker(), '未命名对象 · guest')
   expect(chosen().entities).toEqual([originalHost])
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(library.bindings)
   expect(rig.main.getState().scenes).toEqual(rig.before)
@@ -227,7 +270,7 @@ test('participant picker preserves existing overrides and adds new entities with
 test('scene tabs, grouped navigation, drag and reset isolate equal entity IDs and missing selected states never fall back', async () => {
   const rig = await workspace()
   const baseline = structuredClone(rig.main.getState().scriptPreview)
-  await chooseComboboxOption(comboboxByAriaLabel(host, '添加场景'), '院外')
+  await addScene()
   expect(rig.main.getState().scriptPreview!.states).toHaveLength(2)
   expect(canvas().scene.id).toBe('outside')
   await act(async () => canvas().onSelectEntity('host'))
@@ -263,7 +306,7 @@ test('scene tabs, grouped navigation, drag and reset isolate equal entity IDs an
   expect(rig.main.getState().scriptPreview!.states[0]!.scenes[0]).toEqual(
     baseline!.states[0]!.scenes[0],
   )
-  await click('移除此场景')
+  await click('移除场景：院外')
   expect(rig.main.getState().scriptPreview!.states[0]!.scenes).toHaveLength(1)
   await act(async () => history.undo())
   expect(rig.main.getState().scriptPreview!.states[0]!.scenes).toHaveLength(2)
@@ -284,4 +327,46 @@ test('scene tabs, grouped navigation, drag and reset isolate equal entity IDs an
   expect(host.textContent).toContain('所选初始状态已不存在')
   expect(host.querySelector('[aria-label="初始状态名称"]')).toBeNull()
   expect(rig.main.getState().scenes).toEqual(rig.before)
+})
+
+test('[add-picker:scene/initial-state-scene] confirms one slice, cancels without a command, and tab removal preserves bindings and inactive selection', async () => {
+  const rig = await workspace()
+  const dispatch = vi.spyOn(rig.main, 'dispatch')
+  const baseline = structuredClone(rig.main.getState().scriptPreview)
+  let dialog = await selectAddScene('院外')
+  expect(dispatch).not.toHaveBeenCalled()
+  await click('取消', dialog)
+  expect(dispatch).not.toHaveBeenCalled()
+  dialog = await selectAddScene()
+  await click('添加所选场景', dialog)
+  expect(dispatch).toHaveBeenCalledTimes(1)
+  expect(canvas().scene.id).toBe('outside')
+  const slices = () => rig.main.getState().scriptPreview!.states[0]!.scenes
+  expect(slices().map((slice) => slice.sceneId)).toEqual(['start', 'outside'])
+  await act(async () => history.undo())
+  expect(rig.main.getState().scriptPreview).toEqual(baseline)
+  await act(async () => history.redo())
+  await act(async () => canvas().onSelectEntity('guest'))
+  const inactive = host.querySelector<HTMLButtonElement>('[aria-label="移除场景：客栈"]')!
+  await act(async () => inactive.focus())
+  await act(async () => inactive.click())
+  expect(canvas().scene.id).toBe('outside')
+  expect(canvas().selectedEntityId).toBe('guest')
+  expect(slices().map((slice) => slice.sceneId)).toEqual(['outside'])
+  expect(document.activeElement?.textContent).toBe('院外')
+  await act(async () => history.undo())
+  expect(slices().map((slice) => slice.sceneId)).toEqual(['start', 'outside'])
+  await click('移除场景：院外')
+  expect(canvas().scene.id).toBe('start')
+  await click('移除场景：客栈')
+  expect(slices()).toEqual([])
+  expect(document.activeElement?.textContent).toBe('添加场景')
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual(baseline!.bindings)
+  expect(rig.main.getState().scenes).toEqual(rig.before)
+  await act(async () => history.undo())
+  expect(slices()).toEqual(baseline!.states[0]!.scenes)
+  dialog = await selectAddScene()
+  await act(async () => history.undo())
+  expect(dialog.hasAttribute('open')).toBe(false)
+  expect(slices().map((slice) => slice.sceneId)).toEqual(['start', 'outside'])
 })

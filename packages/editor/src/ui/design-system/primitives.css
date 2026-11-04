@@ -1476,6 +1476,35 @@
   outline-offset: -2px;
 }
 
+.ds-tab-with-action {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  padding-inline-end: var(--ds-space-3);
+  gap: var(--ds-space-1);
+  border-bottom: 2px solid transparent;
+  border-radius: var(--ds-radius-control) var(--ds-radius-control) 0 0;
+}
+
+.ds-tab-with-action[data-selected="true"] {
+  border-bottom-color: var(--ds-action-primary);
+  background: var(--ds-action-primary-soft);
+}
+
+.ds-tab-with-action > .ds-tab {
+  padding-inline-end: var(--ds-space-3);
+  border-bottom: 0;
+}
+
+.ds-tabs--inspector > .ds-tab-with-action {
+  min-width: 0;
+}
+
+.ds-tabs--inspector > .ds-tab-with-action > .ds-tab {
+  flex: 1 1 auto;
+}
+
 .ds-status,
 .ds-empty-state {
   display: grid;

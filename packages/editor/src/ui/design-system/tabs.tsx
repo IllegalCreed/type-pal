@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import type { DsControlSize } from './control-types.js'
 import { classes } from './control-utils.js'
+import { DsIconButton } from './icon-button.js'
 
 export interface DsTabItem {
   id: string
@@ -8,6 +9,8 @@ export interface DsTabItem {
   /** Optional numeric metadata rendered as a visually separate shared badge. */
   count?: number
   disabled?: boolean
+  /** Optional sibling action; removing a tab never selects it. The caller owns deletion. */
+  remove?: { label: string; onRemove: () => void; disabled?: boolean }
 }
 
 export function DsTabs(props: {
@@ -20,6 +23,16 @@ export function DsTabs(props: {
   idPrefix?: string
 }) {
   const refs = useRef(new Map<string, HTMLButtonElement>())
+  const pendingRemovalFocus = useRef<string | undefined>(undefined)
+  useEffect(() => {
+    const removedId = pendingRemovalFocus.current
+    if (!removedId || props.items.some((item) => item.id === removedId)) return
+    pendingRemovalFocus.current = undefined
+    const target =
+      props.items.find((item) => item.id === props.activeId && !item.disabled) ??
+      props.items.find((item) => !item.disabled)
+    if (target) refs.current.get(target.id)?.focus()
+  }, [props.items, props.activeId])
   function move(currentId: string, direction: -1 | 1 | 'first' | 'last'): void {
     const enabled = props.items.filter((item) => !item.disabled)
     if (enabled.length === 0) return
@@ -47,7 +60,7 @@ export function DsTabs(props: {
       {props.items.map((item) => {
         const tabId = props.idPrefix ? `${props.idPrefix}-tab-${item.id}` : undefined
         const panelId = props.idPrefix ? `${props.idPrefix}-panel-${item.id}` : undefined
-        return (
+        const tab = (
           <button
             key={item.id}
             ref={(node) => {
@@ -84,6 +97,33 @@ export function DsTabs(props: {
               </>
             ) : null}
           </button>
+        )
+        if (!item.remove) return tab
+        const remove = item.remove
+        return (
+          <div
+            key={item.id}
+            className="ds-tab-with-action"
+            data-selected={item.id === props.activeId}
+            role="presentation"
+          >
+            {tab}
+            <DsIconButton
+              icon="delete"
+              variant="danger"
+              label={remove.label}
+              size="compact"
+              disabled={item.disabled || remove.disabled}
+              onClick={(event) => {
+                if (
+                  event.currentTarget === document.activeElement ||
+                  refs.current.get(item.id) === document.activeElement
+                )
+                  pendingRemovalFocus.current = item.id
+                remove.onRemove()
+              }}
+            />
+          </div>
         )
       })}
     </div>

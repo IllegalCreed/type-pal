@@ -10,16 +10,23 @@ import {
   type ScriptPreviewState,
   type ScriptPreviewUsage,
   SetScriptPreviewLibraryCommand,
+  scriptPreviewEntryKey,
+  scriptPreviewSchemeKey,
   scriptPreviewStateUsages,
 } from '../core/script-preview-library.js'
 import {
+  DsAddPickerDialog,
   DsButton,
   DsDraftTextField,
   DsFieldGroup,
   DsInspectorHost,
+  DsInspectorSection,
+  DsInspectorTabs,
   DsMultiSelect,
   DsPressable,
-  DsSelect,
+  DsReferenceList,
+  DsReferencePanel,
+  DsReferenceRow,
   DsTabs,
   DsTextInput,
 } from './design-system/index.js'
@@ -27,7 +34,7 @@ import { PanelResizeHandle, useStoredPanelNumber } from './PanelResizeHandle.js'
 import { clampPanelSize } from './panel-layout.js'
 import { SceneCanvas } from './SceneCanvas.js'
 import { previewEntityName, SceneInitialStateInspector } from './SceneInitialStateEditor.js'
-import { previewEntryLabel, previewUsageExists } from './script-preview-navigation.js'
+import { previewEntryDetails, previewUsageExists } from './script-preview-navigation.js'
 
 export function InitialStateWorkspace(props: {
   state: EditorState
@@ -47,6 +54,14 @@ export function InitialStateWorkspace(props: {
   const library = props.state.scriptPreview ?? emptyScriptPreviewLibrary()
   const selected = library.states.find((state) => state.id === props.stateId)
   const [search, setSearch] = useState('')
+  const [inspectorTab, setInspectorTab] = useState('properties')
+  const scenePanelRef = useRef<HTMLElement>(null)
+  const focusAddScene = useRef<string | undefined>(undefined)
+  useEffect(() => {
+    if (focusAddScene.current !== selected?.id || selected?.scenes.length) return
+    focusAddScene.current = undefined
+    scenePanelRef.current?.querySelector<HTMLButtonElement>('button')?.focus()
+  }, [selected])
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
   const [selection, setSelection] = useState<
     | {
@@ -284,43 +299,6 @@ export function InitialStateWorkspace(props: {
               >
                 删除
               </DsButton>
-              <details className="initial-state-references">
-                <summary>被哪些脚本使用（{references.length}）</summary>
-                {references.length ? (
-                  <ul className="initial-state-reference-list">
-                    {references.map((reference, index) => (
-                      <li key={index}>
-                        <DsButton
-                          variant="quiet"
-                          size="compact"
-                          disabled={!previewUsageExists(reference, props.authorScenes)}
-                          onClick={() => props.onOpenUsage(reference)}
-                        >
-                          {sceneName(reference.entry.sceneId)} /{' '}
-                          {previewEntryLabel(
-                            reference.entry,
-                            props.authorScenes.find(
-                              (scene) => scene.id === reference.entry.sceneId,
-                            ),
-                            props.actorsById,
-                            props.state.locale,
-                          )}{' '}
-                          ·{' '}
-                          {
-                            {
-                              'scheme-default': '方案默认',
-                              'step-direct': '直接步骤',
-                              'step-inherited': '继承步骤',
-                            }[reference.kind]
-                          }
-                        </DsButton>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>尚未被脚本使用。请在方案或步骤详情选择此状态。</p>
-                )}
-              </details>
             </header>
             <div className="initial-state-workspace-canvas">
               {projectionError ? (
@@ -398,7 +376,7 @@ export function InitialStateWorkspace(props: {
                 setListHeight((value) => clampPanelSize(value - delta, 140, maximumListHeight))
               }
             />
-            <section className="initial-state-scene-panel">
+            <section ref={scenePanelRef} className="initial-state-scene-panel">
               <header className="initial-state-scene-tabs">
                 <DsTabs
                   label="初态涉及场景"
@@ -406,6 +384,28 @@ export function InitialStateWorkspace(props: {
                   items={selected.scenes.map((slice) => ({
                     id: slice.sceneId,
                     label: sceneName(slice.sceneId),
+                    remove: {
+                      label: `移除场景：${sceneName(slice.sceneId)}`,
+                      onRemove: () => {
+                        const next = selected.scenes.filter(
+                          (candidate) => candidate.sceneId !== slice.sceneId,
+                        )
+                        update({ ...selected, scenes: next })
+                        if (slice.sceneId === sceneId) {
+                          const first = next[0]
+                          setSelection(
+                            first
+                              ? {
+                                  stateId: selected.id,
+                                  sceneId: first.sceneId,
+                                  entityId: first.entities[0]?.entityId,
+                                }
+                              : undefined,
+                          )
+                          if (!first) focusAddScene.current = selected.id
+                        }
+                      },
+                    },
                   }))}
                   onChange={(id) =>
                     setSelection({
@@ -416,44 +416,47 @@ export function InitialStateWorkspace(props: {
                     })
                   }
                 />
-                <DsSelect
-                  aria-label="添加场景"
-                  value=""
-                  options={[
-                    { value: '', label: '添加场景' },
-                    ...props.state.scenes
-                      .filter(
-                        (scene) => !selected.scenes.some((slice) => slice.sceneId === scene.id),
-                      )
-                      .map((scene) => ({ value: scene.id, label: sceneName(scene.id) })),
-                  ]}
-                  onValueChange={(id) => {
-                    if (id) {
-                      update({
-                        ...selected,
-                        scenes: [...selected.scenes, { sceneId: id, entities: [] }],
-                      })
-                      setSelection({ stateId: selected.id, sceneId: id })
-                    }
+                <DsAddPickerDialog
+                  adoptionId="scene/initial-state-scene"
+                  triggerLabel="添加场景"
+                  title="添加场景"
+                  description="为这份初始状态添加场景，不修改工程场景或脚本引用。"
+                  confirmLabel="添加所选场景"
+                  scopeKey={selected.id}
+                  revision={JSON.stringify([
+                    library,
+                    props.state.sceneIndex,
+                    props.state.scenes.map((scene) => scene.id),
+                  ])}
+                  options={props.state.scenes
+                    .filter((scene) => !selected.scenes.some((slice) => slice.sceneId === scene.id))
+                    .map((scene) => ({ id: scene.id, label: sceneName(scene.id) }))}
+                  emptyMessage="所有工程场景都已加入这份初始状态。"
+                  onConfirm={(id) => {
+                    const current = props.session.getState()
+                    const currentLibrary = current.scriptPreview
+                    const target = currentLibrary?.states.find((state) => state.id === selected.id)
+                    if (
+                      !target ||
+                      !currentLibrary ||
+                      target.scenes.some((slice) => slice.sceneId === id) ||
+                      !current.scenes.some((scene) => scene.id === id)
+                    )
+                      return false
+                    const added = props.session.dispatch(
+                      new SetScriptPreviewLibraryCommand({
+                        ...currentLibrary,
+                        states: currentLibrary.states.map((state) =>
+                          state.id === target.id
+                            ? { ...state, scenes: [...state.scenes, { sceneId: id, entities: [] }] }
+                            : state,
+                        ),
+                      }),
+                    )
+                    if (!added) return false
+                    setSelection({ stateId: target.id, sceneId: id })
                   }}
                 />
-                {slice ? (
-                  <DsButton
-                    size="compact"
-                    variant="quiet"
-                    onClick={() => {
-                      update({
-                        ...selected,
-                        scenes: selected.scenes.filter(
-                          (candidate) => candidate.sceneId !== slice.sceneId,
-                        ),
-                      })
-                      setSelection(undefined)
-                    }}
-                  >
-                    移除此场景
-                  </DsButton>
-                ) : null}
               </header>
               {scene && slice ? (
                 <>
@@ -523,19 +526,117 @@ export function InitialStateWorkspace(props: {
           </p>
         )}
       </div>
-      <DsInspectorHost className="inspector">
-        <SceneInitialStateInspector
-          state={selected}
-          sceneId={sceneId ?? ''}
-          entity={entity}
-          entityId={entityId}
-          actorsById={props.actorsById}
-          locale={props.state.locale}
-          revision={JSON.stringify(library)}
-          onChange={changeEntity}
-          onRemove={(id) => {
-            if (slice) updateEntities(slice.entities.filter((entry) => entry.entityId !== id))
-          }}
+      <DsInspectorHost className="inspector inspector--tabbed">
+        <DsInspectorTabs
+          id="initial-state-inspector"
+          label="初始状态检查器"
+          activeId={inspectorTab}
+          onChange={setInspectorTab}
+          items={[
+            {
+              id: 'properties',
+              label: '属性',
+              panel: (
+                <SceneInitialStateInspector
+                  state={selected}
+                  sceneId={sceneId ?? ''}
+                  entity={entity}
+                  entityId={entityId}
+                  actorsById={props.actorsById}
+                  locale={props.state.locale}
+                  revision={JSON.stringify(library)}
+                  onChange={changeEntity}
+                  onRemove={(id) => {
+                    if (slice)
+                      updateEntities(slice.entities.filter((entry) => entry.entityId !== id))
+                  }}
+                />
+              ),
+            },
+            {
+              id: 'references',
+              label: '引用',
+              count: references.length,
+              panel: (
+                <DsInspectorSection
+                  title="整份初态的引用"
+                  description={selected?.name ?? '先选择一份初始状态。'}
+                >
+                  <DsReferencePanel
+                    state={references.length ? 'ready' : 'empty'}
+                    count={{ kind: 'exact', value: references.length }}
+                    impact={{
+                      kind: 'blocking',
+                      description: references.length
+                        ? '这些脚本使用整份初态，与当前选中的场景或人物无关。解除全部引用后才能删除初态。'
+                        : '尚未被脚本使用。请在方案或步骤详情选择这份初始状态。',
+                    }}
+                  >
+                    {references.length ? (
+                      <DsReferenceList>
+                        {references.map((reference) => {
+                          const entry = reference.entry
+                          const detail = previewEntryDetails(
+                            entry,
+                            props.authorScenes.find((scene) => scene.id === entry.sceneId),
+                            props.actorsById,
+                            props.state.locale,
+                          )
+                          const label = [detail.scheme, detail.step].filter(Boolean).join(' / ')
+                          const source = [
+                            sceneName(entry.sceneId),
+                            detail.owner,
+                            detail.channel,
+                          ].join(' / ')
+                          const exists = previewUsageExists(reference, props.authorScenes)
+                          const key =
+                            reference.kind === 'scheme-default'
+                              ? scriptPreviewSchemeKey(entry)
+                              : scriptPreviewEntryKey(reference.entry)
+                          return (
+                            <DsReferenceRow
+                              key={`${reference.kind}:${key}`}
+                              title={detail.step ?? detail.scheme}
+                              detail={detail.step ? detail.scheme : undefined}
+                              path={source}
+                              labels={[
+                                {
+                                  label: {
+                                    'scheme-default': '方案默认',
+                                    'step-direct': '直接步骤',
+                                    'step-inherited': '继承步骤',
+                                  }[reference.kind],
+                                },
+                              ]}
+                              action={
+                                exists
+                                  ? {
+                                      label: '打开',
+                                      ariaLabel: `打开引用：${source} / ${label}`,
+                                      onActivate: () => props.onOpenUsage(reference),
+                                    }
+                                  : undefined
+                              }
+                              status={
+                                exists
+                                  ? undefined
+                                  : {
+                                      label: '暂不可定位',
+                                      reason:
+                                        '来源场景、角色、脚本方案或步骤已不存在；引用仍保留，需修复或解除。',
+                                      tone: 'warning',
+                                    }
+                              }
+                            />
+                          )
+                        })}
+                      </DsReferenceList>
+                    ) : null}
+                  </DsReferencePanel>
+                </DsInspectorSection>
+              ),
+            },
+          ]}
         />
       </DsInspectorHost>
     </>

@@ -15,10 +15,9 @@ export function previewEntityName(
   actors: Record<string, ActorDef>,
   locale: Locale,
 ): string {
-  const name = entityDisplayName(entity, actors, locale)
-  return name === entity.id
-    ? `未命名角色或物件（列 ${entity.pos.col}，行 ${entity.pos.row}）`
-    : name
+  return entity.label || (entity.actor && actors[entity.actor])
+    ? entityDisplayName(entity, actors, locale)
+    : `未命名对象 · ${entity.id}`
 }
 
 export function SceneInitialStateInspector(props: {
@@ -63,9 +62,12 @@ export function SceneInitialStateInspector(props: {
   }
   const pos = entry?.pos ?? entity.pos
   return (
-    <DsInspectorSection title="预览初始状态" description={`${state.name} / ${name}`}>
-      {entry ? (
-        <>
+    <>
+      <DsInspectorSection
+        title="预览初始状态"
+        description={`${state.name} / ${name}${entry ? '' : ' · 沿用场景默认状态'}`}
+      >
+        {entry ? (
           <DsPropertyGrid>
             {(['col', 'row', 'height'] as const).map((axis) => {
               const label = { col: '列坐标', row: '行坐标', height: '高度' }[axis]
@@ -153,6 +155,17 @@ export function SceneInitialStateInspector(props: {
               />
             </DsPropertyRow>
           </DsPropertyGrid>
+        ) : (
+          <DsButton onClick={() => props.onChange({ entityId: entity.id })}>
+            加入此初始状态
+          </DsButton>
+        )}
+      </DsInspectorSection>
+      {entry ? (
+        <DsInspectorSection
+          title="配置操作"
+          description="这些属性只用于预览，不修改场景里的默认站位。"
+        >
           <div className="initial-state-actions">
             <DsButton
               size="compact"
@@ -165,16 +178,8 @@ export function SceneInitialStateInspector(props: {
               移出状态
             </DsButton>
           </div>
-          <p className="hint2">这些属性只用于预览，不修改场景里的默认站位。</p>
-        </>
-      ) : (
-        <>
-          <p className="hint2">此角色或物件当前沿用场景默认状态。</p>
-          <DsButton onClick={() => props.onChange({ entityId: entity.id })}>
-            加入此初始状态
-          </DsButton>
-        </>
-      )}
-    </DsInspectorSection>
+        </DsInspectorSection>
+      ) : null}
+    </>
   )
 }
