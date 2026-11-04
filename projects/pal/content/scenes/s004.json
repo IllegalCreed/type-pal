@@ -733,7 +733,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "村中巡行：沿街绕行",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -741,7 +741,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "沿村中路径绕行",
                   "body": [
                     {
                       "kind": "loop",
@@ -1253,7 +1253,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放实体动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1261,7 +1261,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "持续播放循环动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1595,7 +1595,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "朝下循环切换四帧动作",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1603,7 +1603,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "朝下依次切换四种姿态",
                   "body": [
                     {
                       "kind": "loop",
@@ -1717,7 +1717,7 @@
             }
           },
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "受到招呼：回应后恢复循环动作",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -1725,7 +1725,7 @@
               "stages": [
                 {
                   "id": "routine",
-                  "label": "自动动作编排",
+                  "label": "先回应招呼，再恢复循环动作",
                   "body": [
                     {
                       "kind": "setEntityFacing",
@@ -2453,7 +2453,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "沿村路走动，停留并触发路边回应",
                   "body": [
                     {
                       "kind": "loop",
@@ -3688,7 +3688,7 @@
             }
           },
           "legacy-006": {
-            "label": "触发行为 6",
+            "label": "婶婶病重：秀兰询问是否需要帮忙",
             "order": 6,
             "flow": {
               "kind": "stages",
@@ -3696,6 +3696,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "询问病情并提出帮忙",
                   "body": [
                     {
                       "cue": {
@@ -3752,7 +3753,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "村中往返：路口停留与回应",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3760,7 +3761,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "往返走动，在路口停留",
                   "body": [
                     {
                       "kind": "loop",
@@ -4487,7 +4488,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常姿态：偶尔播放完整动作",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -4495,7 +4496,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "交替进行短动作与偶发完整动作",
                   "body": [
                     {
                       "kind": "loop",
@@ -4861,7 +4862,7 @@
             }
           },
           "legacy-003": {
-            "label": "触发行为 3",
+            "label": "婶婶病重：来福婶谈操劳病因",
             "order": 3,
             "flow": {
               "kind": "stages",
@@ -4869,6 +4870,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "谈李大娘操劳成病",
                   "body": [
                     {
                       "cue": {
@@ -4895,7 +4897,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常姿态：偶尔播放完整动作",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -4903,7 +4905,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "交替进行短动作与偶发完整动作",
                   "body": [
                     {
                       "kind": "loop",
@@ -5145,7 +5147,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常动作：招呼旁边实体回应",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5153,7 +5155,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "随机动作后触发旁边实体回应",
                   "body": [
                     {
                       "kind": "loop",
@@ -5386,7 +5388,7 @@
       "behaviors": {
         "auto": {
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "被招呼后：播放一次回应动作",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -5394,7 +5396,7 @@
               "stages": [
                 {
                   "id": "routine",
-                  "label": "自动动作编排",
+                  "label": "播放一次回应动作后结束",
                   "body": [
                     {
                       "kind": "setEntityFacing",
@@ -5467,7 +5469,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常姿态：随机短动作与驻足",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5475,7 +5477,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "随机短动作后驻足",
                   "body": [
                     {
                       "kind": "loop",
@@ -5658,7 +5660,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环动画：随机延长停顿",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5666,7 +5668,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "推进动画并偶尔停顿",
                   "body": [
                     {
                       "kind": "loop",
@@ -5727,7 +5729,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常走动：随机驻足与四向往返",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5735,7 +5737,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "随机驻足，四向绕行后返回",
                   "body": [
                     {
                       "kind": "loop",
@@ -5998,7 +6000,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常走动：绕行与随机驻足",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -6006,7 +6008,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "随机驻足，沿邻近路径绕行",
                   "body": [
                     {
                       "kind": "loop",
@@ -6338,7 +6340,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "日常活动：姿态变化与往返巡游",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7500,7 +7502,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "关联实体消失：同步隐藏",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7508,7 +7510,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "另一关联实体离场时隐藏自身",
                   "body": [
                     {
                       "kind": "loop",
@@ -7632,7 +7634,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "关联实体消失：同步隐藏",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -7640,7 +7642,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "另一关联实体离场时隐藏自身",
                   "body": [
                     {
                       "kind": "loop",
@@ -8042,7 +8044,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "关联实体消失：同步隐藏",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -8050,7 +8052,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "另一关联实体离场时隐藏自身",
                   "body": [
                     {
                       "kind": "loop",
@@ -8452,7 +8454,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "关联实体消失：同步隐藏",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -8460,7 +8462,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "另一关联实体离场时隐藏自身",
                   "body": [
                     {
                       "kind": "loop",
@@ -9089,7 +9091,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "朝下站姿：随机驻足与动作切换",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -9097,7 +9099,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "朝下站立，随机切换两种姿态",
                   "body": [
                     {
                       "kind": "loop",
@@ -9283,7 +9285,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "环境声：两组背景声音交替循环",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -9291,7 +9293,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "按节奏交替播放两组背景声音",
                   "body": [
                     {
                       "kind": "loop",
@@ -9499,7 +9501,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "首次进村：播放村落配乐",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -9507,6 +9509,7 @@
             "stages": [
               {
                 "id": "initial",
+                "label": "播放村落配乐并完成",
                 "body": [
                   {
                     "asset": "music.pal.049",

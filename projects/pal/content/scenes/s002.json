@@ -33,7 +33,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "李大娘房间出口：返回客栈走廊",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -41,6 +41,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "离开房间，回到客栈走廊",
                   "body": [
                     {
                       "entryId": "pal-entry-89e3348b",
