@@ -913,6 +913,8 @@ function entryFixture(t) {
     'scripts/docs/artifact-content-alias.mjs',
     'scripts/docs/artifact-retirement.mjs',
     'scripts/docs/document-location-admission.mjs',
+    'scripts/docs/testing-source-maintenance.mjs',
+    'scripts/docs/testing-source-maintenance-admission.mjs',
     'scripts/docs/markdown-source-spans.mjs',
     'scripts/docs/relocate.mjs',
     'scripts/docs/review-record-storage-io.mjs',
