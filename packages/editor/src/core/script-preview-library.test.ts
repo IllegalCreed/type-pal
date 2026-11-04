@@ -3,12 +3,15 @@ import { fsaSource } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
 import { memoryAuthorDirectory } from './__tests__/author-save-fixture.js'
 import { flowOf, settle } from './__tests__/playback-canonical-fixtures.js'
+import { previewAuthorScene, previewLibrary } from './__tests__/script-preview-fixture.js'
 import { Playback } from './playback.js'
 import {
   applySceneInitialState,
   emptyScriptPreviewLibrary,
   loadScriptPreviewLibrary,
   parseScriptPreviewLibrary,
+  removeDeletedScriptPreviewReferences,
+  resolveScriptPreviewBinding,
   SCRIPT_PREVIEW_PATH,
   type SceneInitialState,
   scriptPreviewEntryKey,
@@ -148,4 +151,62 @@ test('sidecar loading distinguishes absence from malformed or inaccessible data'
       },
     }),
   ).rejects.toThrow('无法读取')
+})
+
+test('current v2 distinguishes inheritance, a scene override and a named override without hiding invalid references', () => {
+  const library = previewLibrary()
+  const entry = library.bindings[0]!.entry
+  const { stageId: _stageId, ...schemeEntry } = entry
+  library.schemeDefaults = [{ entry: schemeEntry, stateId: 'room' }]
+  expect(resolveScriptPreviewBinding(library, entry)).toEqual({ source: 'step', stateId: 'door' })
+  library.bindings[0]!.stateId = null
+  expect(resolveScriptPreviewBinding(parseScriptPreviewLibrary(library), entry)).toEqual({
+    source: 'step',
+    stateId: null,
+  })
+  library.bindings = []
+  expect(resolveScriptPreviewBinding(library, entry)).toEqual({ source: 'scheme', stateId: 'room' })
+  library.schemeDefaults[0]!.stateId = 'missing'
+  expect(resolveScriptPreviewBinding(library, entry)).toEqual({
+    source: 'scheme',
+    stateId: 'missing',
+  })
+  library.schemeDefaults = []
+  expect(resolveScriptPreviewBinding(library, entry)).toEqual({ source: 'scene', stateId: null })
+  expect(() => parseScriptPreviewLibrary({ ...library, version: 1 })).toThrow('version 2')
+  expect(() => parseScriptPreviewLibrary({ ...library, schemeDefaults: undefined })).toThrow(
+    'schemeDefaults',
+  )
+  expect(() =>
+    parseScriptPreviewLibrary({
+      ...library,
+      schemeDefaults: [{ entry: schemeEntry, stateId: null }],
+    }),
+  ).toThrow('stateId')
+  expect(() =>
+    parseScriptPreviewLibrary({
+      ...library,
+      bindings: [{ entry: { ...entry, entityId: undefined }, stateId: 'door' }],
+    }),
+  ).toThrow('entityId')
+  const duplicate = { entry: schemeEntry, stateId: 'door' }
+  expect(() =>
+    parseScriptPreviewLibrary({ ...library, schemeDefaults: [duplicate, duplicate] }),
+  ).toThrow('ID重复')
+})
+
+test('author deletion removes only newly deleted scheme defaults and preserves loaded orphan references', () => {
+  const scene = previewAuthorScene()
+  const library = previewLibrary()
+  const { stageId: _stageId, ...entry } = library.bindings[0]!.entry
+  library.schemeDefaults = [
+    { entry, stateId: 'door' },
+    { entry: { ...entry, schemeId: 'already-missing' }, stateId: 'room' },
+  ]
+  const withoutEntity = { ...scene, entities: scene.entities.slice(1) }
+  const cleaned = removeDeletedScriptPreviewReferences(library, [scene], [withoutEntity])!
+  expect(cleaned.schemeDefaults).toEqual([library.schemeDefaults[1]])
+  expect(cleaned.bindings).toEqual([])
+  expect(library.schemeDefaults).toHaveLength(2)
+  expect(removeDeletedScriptPreviewReferences(library, [scene], [])?.schemeDefaults).toEqual([])
 })

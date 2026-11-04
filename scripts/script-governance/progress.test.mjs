@@ -40,6 +40,9 @@ const entry = {
   stageId: 'start',
 }
 const library = () => ({
+  kind: 'type-pal-script-preview',
+  version: 2,
+  schemeDefaults: [],
   states: [
     {
       id: 'door',
@@ -221,7 +224,7 @@ test('configured candidates stay unsaved until a matching persisted selection ex
     previewFingerprint: previewFingerprint(entry, preview, library()),
     note: 'Candidate configured in UI; save has not succeeded.',
   })
-  const disk = { states: [], bindings: [] }
+  const disk = { ...library(), states: [], bindings: [] }
   const result = await report([configured], { library: disk })
   assert.equal(doorRow(result).statuses.initialState.current, 'configured')
   const saved = event({ ...configured, id: 'save-claim', from: 'configured', to: 'saved' })
@@ -353,4 +356,39 @@ test('read-only report arguments expose scope filters and reject accidental writ
   assert.throws(() => parseArguments(['--write']), /unknown argument/)
   assert.throws(() => parseArguments(['--scene']), /missing value/)
   assert.throws(() => parseArguments(['--limit', '0']), /positive integer/)
+})
+
+test('v2 preview fingerprints resolve scheme inheritance, preserve explicit scene defaults and reject older envelopes', async () => {
+  const current = library()
+  const { stageId: _stageId, ...schemeEntry } = entry
+  current.schemeDefaults = [{ entry: schemeEntry, stateId: 'door' }]
+  current.bindings = []
+  const preview = { stateId: 'door', selection: 'default' }
+  assert.equal(
+    previewFingerprint(entry, preview, current),
+    previewFingerprint(entry, preview, library()),
+  )
+  current.bindings = [{ entry, stateId: null }]
+  assert.equal(previewFingerprint(entry, preview, current), null)
+  assert.notEqual(previewFingerprint(entry, { stateId: null, selection: 'default' }, current), null)
+  assert.notEqual(
+    previewFingerprint(entry, { stateId: 'door', selection: 'manual' }, current),
+    null,
+  )
+  current.bindings = []
+  current.schemeDefaults[0].stateId = 'missing'
+  assert.equal(previewFingerprint(entry, preview, current), null)
+  await assert.rejects(
+    reportProgress({
+      scenes: [scene()],
+      library: { ...current, version: 1 },
+      ledger: ledger(),
+      readReference: async () => null,
+    }),
+    /version 2/,
+  )
+  assert.throws(
+    () => previewFingerprint(entry, preview, { ...current, schemeDefaults: undefined }),
+    /schemeDefaults/,
+  )
 })

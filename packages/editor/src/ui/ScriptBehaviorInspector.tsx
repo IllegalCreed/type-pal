@@ -1,5 +1,5 @@
 import type { AuthorSceneDef, EntityAddress, FlowCursor, Selection } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { type ReactNode, useMemo, useState } from 'react'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
@@ -115,6 +115,7 @@ export function ScriptBehaviorInspector(props: {
   channel: BehaviorChannel
   selectedBehaviorId?: string
   previewCursor?: FlowCursor
+  stepPreviewControl?: ReactNode
   onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onSelectBehavior?: (behaviorId: string) => void
   onDispatch: (command: ScriptEditorCommand) => void
@@ -240,6 +241,7 @@ export function ScriptBehaviorInspector(props: {
           <CanonicalScriptFlowEditor
             key={`${props.target.scene}/${props.target.entity}/${props.channel}/${selectedId}`}
             previewCursor={props.previewCursor}
+            stepPreviewControl={props.stepPreviewControl}
             onSelectPreviewCursor={props.onSelectPreviewCursor}
             ownerLabel={selected.label}
             flow={selected.flow}

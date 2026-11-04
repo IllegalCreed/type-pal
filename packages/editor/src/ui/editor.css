@@ -13423,7 +13423,8 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 10px;
 }
-.canonical-flow-editor > nav {
+.canonical-flow-editor > nav,
+.canonical-stage-layout > .canonical-stage-tabs {
   display: flex;
   gap: 5px;
   min-width: 0;
@@ -13459,9 +13460,22 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
   font-size: 9px;
 }
-.canonical-flow-editor > nav.canonical-stage-tabs {
+.canonical-flow-editor .canonical-stage-tabs {
   gap: var(--ds-space-4);
   padding: var(--ds-space-2);
+}
+.canonical-stage-layout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+.canonical-stage-layout > .canonical-stage-tabs {
+  flex: 1 1 240px;
+}
+.canonical-stage-layout > .initial-state-step-control {
+  flex: 1 1 280px;
 }
 .canonical-stage-card {
   display: grid;
@@ -13738,11 +13752,6 @@ button.sprite-frame-cell[draggable="true"]:active {
   max-height: 180px;
   overflow-y: auto;
 }
-.initial-state-other > summary {
-  padding: 6px 0;
-  color: var(--dim);
-  cursor: pointer;
-}
 .initial-state-row {
   display: grid;
   gap: 4px;
@@ -13793,11 +13802,24 @@ button.sprite-frame-cell[draggable="true"]:active {
   color: var(--dim);
 }
 .initial-state-step-control {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--ds-radius-card);
+  overflow-wrap: anywhere;
+}
+.initial-state-step-control button {
+  white-space: normal;
+}
+.initial-state-scheme-default > summary {
+  cursor: pointer;
+  color: var(--dim);
+  overflow-wrap: anywhere;
+}
+.initial-state-scheme-default[open] {
+  display: grid;
+  gap: 8px;
 }
 .initial-state-step-select {
-  flex: 1 1 220px;
   min-width: 0;
 }
 .initial-state-step-select > button {

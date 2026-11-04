@@ -43,7 +43,8 @@ export function previewAuthorScene(): AuthorSceneDef {
 export function previewLibrary(): ScriptPreviewLibrary {
   return {
     kind: 'type-pal-script-preview',
-    version: 1,
+    version: 2,
+    schemeDefaults: [],
     states: [
       {
         id: 'door',

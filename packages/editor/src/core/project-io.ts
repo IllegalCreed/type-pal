@@ -66,6 +66,7 @@ import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import {
   assertScriptPreviewPathAvailable,
+  isScriptPreviewLibraryEmpty,
   loadScriptPreviewLibrary,
   parseScriptPreviewLibrary,
   SCRIPT_PREVIEW_PATH,
@@ -405,8 +406,7 @@ export function serializeProject(
   }
   if (state.scriptPreview !== undefined) {
     const library = parseScriptPreviewLibrary(state.scriptPreview)
-    if (library.states.length || library.bindings.length)
-      addFile(SCRIPT_PREVIEW_PATH, library, '预览初始状态')
+    if (!isScriptPreviewLibraryEmpty(library)) addFile(SCRIPT_PREVIEW_PATH, library, '预览初始状态')
   }
 
   return files

@@ -32,6 +32,7 @@ let root: Root
 beforeEach(async () => {
   await stubNodeTestHost()
   vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true)
+  Element.prototype.scrollIntoView = vi.fn()
   vi.stubGlobal(
     'IntersectionObserver',
     class {
@@ -58,6 +59,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await act(async () => root.unmount())
   host.remove()
+  Reflect.deleteProperty(Element.prototype, 'scrollIntoView')
   vi.unstubAllGlobals()
 })
 
@@ -111,7 +113,7 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
   const inspector = () => host.querySelector<HTMLElement>('.inspector')!
   expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
   await click('📜 脚本')
-  await click('编辑初态')
+  await click('调整人物与物件')
   const initialColumn = inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')
   expect(initialColumn).not.toBeNull()
   expect(inspector().textContent).not.toContain('初始隐藏（待剧情出场）')
@@ -119,9 +121,7 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
   expect(comboboxByAriaLabel(inspector(), '初始显隐').textContent).toContain('显示')
   expect(canvas().focusRegion?.positions).toEqual([{ col: 6, row: 7, height: 1 }])
   const firstFocusKey = canvas().focusRegion!.key
-  const row = host.querySelector('.initial-state-row.active')!
-  expect(row.textContent).toContain('客栈掌柜、来访客人，另 5 个')
-  expect(row.textContent).not.toContain('远处角色1')
+  expect(host.querySelector('[aria-label="预览初态列表"]')).toBeNull()
   expect(host.querySelector('[aria-label="开场时的角色与物件"]')?.textContent).toContain(
     '远处角色1',
   )

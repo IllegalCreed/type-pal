@@ -21,23 +21,33 @@ export interface SceneInitialState {
   entities: PreviewEntityState[]
 }
 
-export interface ScriptPreviewEntry {
+export interface ScriptPreviewSchemeEntry {
   sceneId: string
   entityId?: string
   channel: 'onEnter' | 'onTeleport' | 'trigger' | 'auto'
   schemeId: string
+}
+
+export interface ScriptPreviewEntry extends ScriptPreviewSchemeEntry {
   stageId: string
 }
 
 export interface ScriptPreviewLibrary {
   kind: 'type-pal-script-preview'
-  version: 1
+  version: 2
   states: SceneInitialState[]
-  bindings: { entry: ScriptPreviewEntry; stateId: string }[]
+  schemeDefaults: { entry: ScriptPreviewSchemeEntry; stateId: string }[]
+  bindings: { entry: ScriptPreviewEntry; stateId: string | null }[]
 }
 
 export function emptyScriptPreviewLibrary(): ScriptPreviewLibrary {
-  return { kind: 'type-pal-script-preview', version: 1, states: [], bindings: [] }
+  return {
+    kind: 'type-pal-script-preview',
+    version: 2,
+    states: [],
+    schemeDefaults: [],
+    bindings: [],
+  }
 }
 
 export function scriptPreviewEntryKey(entry: ScriptPreviewEntry): string {
@@ -50,18 +60,73 @@ export function scriptPreviewEntryKey(entry: ScriptPreviewEntry): string {
   ])
 }
 
+export function scriptPreviewSchemeKey(entry: ScriptPreviewSchemeEntry): string {
+  return JSON.stringify([entry.sceneId, entry.entityId ?? null, entry.channel, entry.schemeId])
+}
+
+function scriptPreviewFlow(entry: ScriptPreviewSchemeEntry, scenes: readonly AuthorSceneDef[]) {
+  const scene = scenes.find((candidate) => candidate.id === entry.sceneId)
+  return entry.channel === 'auto' || entry.channel === 'trigger'
+    ? scene?.entities.find((entity) => entity.id === entry.entityId)?.behaviors?.[entry.channel]?.[
+        entry.schemeId
+      ]?.flow
+    : scene?.hooks?.[entry.channel]?.variants[entry.schemeId]?.flow
+}
+
+export function scriptPreviewSchemeExists(
+  entry: ScriptPreviewSchemeEntry,
+  scenes: readonly AuthorSceneDef[],
+): boolean {
+  return scriptPreviewFlow(entry, scenes) !== undefined
+}
+
 export function scriptPreviewEntryExists(
   entry: ScriptPreviewEntry,
   scenes: readonly AuthorSceneDef[],
 ): boolean {
-  const scene = scenes.find((candidate) => candidate.id === entry.sceneId)
-  const flow =
-    entry.channel === 'auto' || entry.channel === 'trigger'
-      ? scene?.entities.find((entity) => entity.id === entry.entityId)?.behaviors?.[
-          entry.channel
-        ]?.[entry.schemeId]?.flow
-      : scene?.hooks?.[entry.channel]?.variants[entry.schemeId]?.flow
-  return flow?.kind === 'stages' && flow.stages.some((stage) => stage.id === entry.stageId)
+  return (
+    scriptPreviewFlow(entry, scenes)?.stages.some((stage) => stage.id === entry.stageId) ?? false
+  )
+}
+
+/** An explicit null blocks inheritance. Invalid IDs stay visible for repair, never fall through. */
+export function resolveScriptPreviewBinding(
+  library: ScriptPreviewLibrary,
+  entry: ScriptPreviewEntry,
+): { stateId: string | null; source: 'step' | 'scheme' | 'scene' } {
+  const step = library.bindings.find(
+    (binding) => scriptPreviewEntryKey(binding.entry) === scriptPreviewEntryKey(entry),
+  )
+  if (step) return { stateId: step.stateId, source: 'step' }
+  const scheme = library.schemeDefaults.find(
+    (binding) => scriptPreviewSchemeKey(binding.entry) === scriptPreviewSchemeKey(entry),
+  )
+  return scheme ? { stateId: scheme.stateId, source: 'scheme' } : { stateId: null, source: 'scene' }
+}
+
+/** Enumerate actual steps so inherited users appear in sharing/deletion explanations. */
+export function scriptPreviewSceneEntries(scene: AuthorSceneDef): ScriptPreviewEntry[] {
+  const entries: ScriptPreviewEntry[] = []
+  for (const entity of scene.entities)
+    for (const channel of ['trigger', 'auto'] as const)
+      for (const [schemeId, scheme] of Object.entries(entity.behaviors?.[channel] ?? {}))
+        for (const stage of scheme.flow.stages)
+          entries.push({
+            sceneId: scene.id,
+            entityId: entity.id,
+            channel,
+            schemeId,
+            stageId: stage.id,
+          })
+  for (const channel of ['onEnter', 'onTeleport'] as const)
+    for (const [schemeId, scheme] of Object.entries(scene.hooks?.[channel]?.variants ?? {}))
+      for (const stage of scheme.flow.stages)
+        entries.push({ sceneId: scene.id, channel, schemeId, stageId: stage.id })
+  return entries
+}
+
+export function isScriptPreviewLibraryEmpty(library: ScriptPreviewLibrary): boolean {
+  return !library.states.length && !library.bindings.length && !library.schemeDefaults.length
 }
 
 /** Remove only references deleted by this author action; loaded invalid data remains repairable. */
@@ -90,17 +155,24 @@ export function removeDeletedScriptPreviewReferences(
   )
   const bindings = library.bindings.filter(
     (binding) =>
-      !removedStateIds.has(binding.stateId) &&
+      (binding.stateId === null || !removedStateIds.has(binding.stateId)) &&
       (!scriptPreviewEntryExists(binding.entry, before) ||
         scriptPreviewEntryExists(binding.entry, after)),
+  )
+  const schemeDefaults = library.schemeDefaults.filter(
+    (binding) =>
+      !removedStateIds.has(binding.stateId) &&
+      (!scriptPreviewSchemeExists(binding.entry, before) ||
+        scriptPreviewSchemeExists(binding.entry, after)),
   )
   if (
     states.length === library.states.length &&
     states.every((state, index) => state === library.states[index]) &&
-    bindings.length === library.bindings.length
+    bindings.length === library.bindings.length &&
+    schemeDefaults.length === library.schemeDefaults.length
   )
     return library
-  return { ...library, states, bindings }
+  return { ...library, states, bindings, schemeDefaults }
 }
 
 function object(value: unknown, keys: readonly string[], where: string): Record<string, unknown> {
@@ -131,10 +203,33 @@ function unique(values: readonly string[], where: string): void {
   if (new Set(values).size !== values.length) throw new Error(`${where}: ID重复`)
 }
 
+function parseSchemeEntry(e: Record<string, unknown>): ScriptPreviewSchemeEntry {
+  const channel = e.channel
+  if (
+    channel !== 'onEnter' &&
+    channel !== 'onTeleport' &&
+    channel !== 'trigger' &&
+    channel !== 'auto'
+  )
+    throw new Error('entry.channel: 无效脚本通道')
+  if ((channel === 'trigger' || channel === 'auto') !== Object.hasOwn(e, 'entityId'))
+    throw new Error('entry.entityId: 仅实体脚本必须指定实体')
+  return {
+    sceneId: id(e.sceneId, 'entry.sceneId'),
+    channel,
+    schemeId: id(e.schemeId, 'entry.schemeId'),
+    ...(Object.hasOwn(e, 'entityId') ? { entityId: id(e.entityId, 'entry.entityId') } : {}),
+  }
+}
+
 export function parseScriptPreviewLibrary(value: unknown): ScriptPreviewLibrary {
-  const v = object(value, ['kind', 'version', 'states', 'bindings'], SCRIPT_PREVIEW_PATH)
-  if (v.kind !== 'type-pal-script-preview' || v.version !== 1)
-    throw new Error(`${SCRIPT_PREVIEW_PATH}: 仅支持当前 type-pal-script-preview version 1`)
+  const v = object(
+    value,
+    ['kind', 'version', 'states', 'schemeDefaults', 'bindings'],
+    SCRIPT_PREVIEW_PATH,
+  )
+  if (v.kind !== 'type-pal-script-preview' || v.version !== 2)
+    throw new Error(`${SCRIPT_PREVIEW_PATH}: 仅支持当前 type-pal-script-preview version 2`)
   const states = array(v.states, 'states').map((raw): SceneInitialState => {
     const s = object(raw, ['id', 'sceneId', 'name', 'entities'], '初始状态方案')
     const entities = array(s.entities, 'entities').map((rawEntity): PreviewEntityState => {
@@ -183,30 +278,26 @@ export function parseScriptPreviewLibrary(value: unknown): ScriptPreviewLibrary 
   const bindings = array(v.bindings, 'bindings').map((raw) => {
     const b = object(raw, ['entry', 'stateId'], 'binding')
     const e = object(b.entry, ['sceneId', 'entityId', 'channel', 'schemeId', 'stageId'], 'entry')
-    const channel = e.channel
-    if (
-      channel !== 'onEnter' &&
-      channel !== 'onTeleport' &&
-      channel !== 'trigger' &&
-      channel !== 'auto'
-    )
-      throw new Error('entry.channel: 无效脚本通道')
-    if ((channel === 'trigger' || channel === 'auto') !== Object.hasOwn(e, 'entityId'))
-      throw new Error('entry.entityId: 仅实体脚本必须指定实体')
     const entry: ScriptPreviewEntry = {
-      sceneId: id(e.sceneId, 'entry.sceneId'),
-      channel,
-      schemeId: id(e.schemeId, 'entry.schemeId'),
+      ...parseSchemeEntry(e),
       stageId: id(e.stageId, 'entry.stageId'),
-      ...(e.entityId !== undefined ? { entityId: id(e.entityId, 'entry.entityId') } : {}),
     }
-    return { entry, stateId: id(b.stateId, 'binding.stateId') }
+    return { entry, stateId: b.stateId === null ? null : id(b.stateId, 'binding.stateId') }
   })
   unique(
     bindings.map((b) => scriptPreviewEntryKey(b.entry)),
     'bindings',
   )
-  return { kind: 'type-pal-script-preview', version: 1, states, bindings }
+  const schemeDefaults = array(v.schemeDefaults, 'schemeDefaults').map((raw) => {
+    const b = object(raw, ['entry', 'stateId'], 'schemeDefault')
+    const e = object(b.entry, ['sceneId', 'entityId', 'channel', 'schemeId'], 'schemeDefault.entry')
+    return { entry: parseSchemeEntry(e), stateId: id(b.stateId, 'schemeDefault.stateId') }
+  })
+  unique(
+    schemeDefaults.map((binding) => scriptPreviewSchemeKey(binding.entry)),
+    'schemeDefaults',
+  )
+  return { kind: 'type-pal-script-preview', version: 2, states, bindings, schemeDefaults }
 }
 
 export function assertScriptPreviewPathAvailable(
@@ -266,9 +357,7 @@ export async function loadScriptPreviewLibrary(
 }
 
 export function scriptPreviewRemovalPaths(library: ScriptPreviewLibrary | undefined): string[] {
-  return !library || (!library.states.length && !library.bindings.length)
-    ? [SCRIPT_PREVIEW_PATH]
-    : []
+  return !library || isScriptPreviewLibraryEmpty(library) ? [SCRIPT_PREVIEW_PATH] : []
 }
 
 /** Detached projection for rendering/execution only. Never pass this result to a project command. */
@@ -301,7 +390,7 @@ export class SetScriptPreviewLibraryCommand implements Command {
   private readonly next: ScriptPreviewLibrary | undefined
   constructor(value: ScriptPreviewLibrary) {
     const parsed = parseScriptPreviewLibrary(value)
-    this.next = parsed.states.length || parsed.bindings.length ? parsed : undefined
+    this.next = isScriptPreviewLibraryEmpty(parsed) ? undefined : parsed
   }
   apply(state: EditorState): EditorState {
     if (JSON.stringify(state.scriptPreview) === JSON.stringify(this.next)) return state

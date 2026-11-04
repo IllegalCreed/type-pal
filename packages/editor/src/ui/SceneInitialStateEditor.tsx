@@ -33,13 +33,12 @@ export function SceneInitialStateList(props: {
   actorsById: Record<string, ActorDef>
   locale: Locale
   usage: Readonly<Record<string, readonly string[]>>
+  schemeUsage: Readonly<Record<string, readonly string[]>>
   missingReferences: number
   contextLabel?: string
   contextEntityId?: string
-  stepStateIds?: ReadonlySet<string>
-  boundStateId?: string
   onBack?(): void
-  onUseForStep?(id: string): void
+  onCopyForStep?(state: SceneInitialState): void
   revision: string | number
   onSelect(id: string): void
   onSelectEntity(id: string): void
@@ -49,6 +48,7 @@ export function SceneInitialStateList(props: {
 }) {
   const selected = props.selected
   const references = selected ? (props.usage[selected.id] ?? []) : []
+  const defaultReferences = selected ? (props.schemeUsage[selected.id] ?? []) : []
   const participants = [...(selected?.entities ?? [])].sort(
     (left, right) =>
       Number(right.entityId === props.contextEntityId) -
@@ -59,43 +59,12 @@ export function SceneInitialStateList(props: {
     return entity ? previewEntityName(entity, props.actorsById, props.locale) : '已移除的角色或物件'
   }
   const participantSummary = (state: SceneInitialState) => {
-    const participants = [...state.entities].sort(
-      (left, right) =>
-        Number(right.entityId === props.contextEntityId) -
-        Number(left.entityId === props.contextEntityId),
-    )
-    const names = participants
+    const names = state.entities
       .slice(0, 2)
       .map((entry) => participantName(entry.entityId))
       .join('、')
-    return participants.length > 2 ? `${names}，另 ${participants.length - 2} 个` : names
+    return state.entities.length > 2 ? `${names}，另 ${state.entities.length - 2} 个` : names
   }
-  const related = props.states.filter((state) => props.stepStateIds?.has(state.id))
-  const other = props.states.filter((state) => !props.stepStateIds?.has(state.id))
-  const renderStates = (items: readonly SceneInitialState[], label: string) => (
-    <nav className="initial-state-list" aria-label={label}>
-      {items.map((state) => (
-        <DsPressable
-          key={state.id}
-          className={`initial-state-row${state.id === selected?.id ? ' active' : ''}`}
-          aria-pressed={state.id === selected?.id}
-          onClick={() => props.onSelect(state.id)}
-        >
-          <span className="initial-state-row-heading">
-            <strong>{state.name}</strong>
-            {state.id === props.boundStateId ? <span>当前步骤使用</span> : null}
-          </span>
-          <span>
-            {(props.usage[state.id] ?? []).length
-              ? `用于 ${props.usage[state.id]!.length} 个步骤`
-              : '尚未用于脚本步骤'}
-            {' · '}
-            {state.entities.length ? participantSummary(state) : '尚未添加；均沿用场景默认'}
-          </span>
-        </DsPressable>
-      ))}
-    </nav>
-  )
   return (
     <div className="scene-initial-states">
       {props.contextLabel ? (
@@ -104,45 +73,50 @@ export function SceneInitialStateList(props: {
             返回脚本步骤
           </DsButton>
           <div>
-            <span>正在编辑预览初态</span>
+            <span>调整人物与物件</span>
             <strong>{props.contextLabel}</strong>
           </div>
         </div>
       ) : null}
-      <section className="initial-state-library" aria-label="预览初态">
-        <header>
-          <div className="script-section-heading">
-            <strong className="script-section-title">可选预览初态</strong>
-            <span className="script-section-count">{props.states.length} 份</span>
-          </div>
-          <DsButton size="compact" variant="secondary" icon="add" onClick={() => props.onCreate()}>
-            新建预览初态
-          </DsButton>
-        </header>
-        {props.stepStateIds ? (
-          <>
-            <strong className="script-section-title">
-              {props.contextEntityId ? '当前角色使用的初态' : '当前脚本使用的初态'}
-            </strong>
-            {related.length ? (
-              renderStates(related, '预览初态列表')
-            ) : (
-              <p className="hint2">尚未选择初态。可以新建，也可以展开下方其他初态后选用。</p>
-            )}
-            {other.length ? (
-              <details
-                className="initial-state-other"
-                open={!!selected && !props.stepStateIds.has(selected.id)}
+      {!props.contextLabel ? (
+        <section className="initial-state-library" aria-label="预览初态">
+          <header>
+            <div className="script-section-heading">
+              <strong className="script-section-title">可选预览初态</strong>
+              <span className="script-section-count">{props.states.length} 份</span>
+            </div>
+            <DsButton
+              size="compact"
+              variant="secondary"
+              icon="add"
+              onClick={() => props.onCreate()}
+            >
+              新建预览初态
+            </DsButton>
+          </header>
+          <nav className="initial-state-list" aria-label="预览初态列表">
+            {props.states.map((state) => (
+              <DsPressable
+                key={state.id}
+                className={`initial-state-row${state.id === selected?.id ? ' active' : ''}`}
+                aria-pressed={state.id === selected?.id}
+                onClick={() => props.onSelect(state.id)}
               >
-                <summary>场景其他初态与未分配 · {other.length} 份</summary>
-                {renderStates(other, '场景其他初态列表')}
-              </details>
-            ) : null}
-          </>
-        ) : (
-          renderStates(props.states, '预览初态列表')
-        )}
-      </section>
+                <span className="initial-state-row-heading">
+                  <strong>{state.name}</strong>
+                </span>
+                <span>
+                  {(props.usage[state.id] ?? []).length
+                    ? `用于 ${props.usage[state.id]!.length} 个步骤`
+                    : '尚未用于脚本步骤'}
+                  {' · '}
+                  {state.entities.length ? participantSummary(state) : '尚未添加；均沿用场景默认'}
+                </span>
+              </DsPressable>
+            ))}
+          </nav>
+        </section>
+      ) : null}
       {selected ? (
         <>
           <div className="initial-state-details">
@@ -158,35 +132,41 @@ export function SceneInitialStateList(props: {
                 onCommit={(name) => props.onChange({ ...selected, name: name.trim() })}
               />
             </DsFieldGroup>
-            <div className="initial-state-actions">
-              {props.onUseForStep ? (
+            {!props.contextLabel ? (
+              <div className="initial-state-actions">
                 <DsButton
                   size="compact"
                   variant="secondary"
-                  disabled={selected.id === props.boundStateId}
-                  onClick={() => props.onUseForStep?.(selected.id)}
+                  onClick={() => props.onCreate(selected)}
                 >
-                  {selected.id === props.boundStateId ? '当前步骤正在使用' : '用于当前步骤'}
+                  复制初态
                 </DsButton>
-              ) : null}
-              <DsButton size="compact" variant="secondary" onClick={() => props.onCreate(selected)}>
-                复制初态
-              </DsButton>
-              <DsButton
-                size="compact"
-                variant="quiet"
-                disabled={references.length > 0}
-                title={
-                  references.length
-                    ? `已有 ${references.length} 个步骤使用此初态，请先更改这些步骤的选择`
-                    : '删除初态，可撤销'
-                }
-                onClick={() => props.onDelete(selected.id)}
-              >
-                删除初态
-              </DsButton>
-            </div>
+                <DsButton
+                  size="compact"
+                  variant="quiet"
+                  disabled={references.length > 0 || defaultReferences.length > 0}
+                  title={
+                    references.length || defaultReferences.length
+                      ? '仍被步骤或脚本方案默认引用，请先更改这些选择'
+                      : '删除初态，可撤销'
+                  }
+                  onClick={() => props.onDelete(selected.id)}
+                >
+                  删除初态
+                </DsButton>
+              </div>
+            ) : null}
           </div>
+          {defaultReferences.length ? (
+            <div className="initial-state-usage">
+              <strong>作为这些脚本方案的默认初态</strong>
+              <ul>
+                {defaultReferences.map((label, index) => (
+                  <li key={`${index}:${label}`}>{label}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           {references.length ? (
             <div className="initial-state-usage">
               <strong>{references.length > 1 ? '这些步骤共用此初态' : '使用此初态的步骤'}</strong>
@@ -195,13 +175,30 @@ export function SceneInitialStateList(props: {
                   <li key={`${index}:${label}`}>{label}</li>
                 ))}
               </ul>
-              {references.length > 1 ? (
-                <p>
-                  修改会影响以上所有步骤。
-                  {props.contextLabel
-                    ? '只想调整当前步骤时，先复制初态，再选择“用于当前步骤”。'
-                    : '如需不同的开场布置，先复制初态，再回到对应脚本步骤选择副本。'}
-                </p>
+              {references.length > 1 || props.onCopyForStep ? (
+                props.onCopyForStep ? (
+                  <>
+                    <p>
+                      {references.length > 1
+                        ? `与另外 ${references.length - 1} 个步骤共用，调整会同步影响它们。`
+                        : '此初态也作为脚本方案默认；复制后只调整此步骤。'}
+                    </p>
+                    <DsButton
+                      size="compact"
+                      variant="secondary"
+                      onClick={() => props.onCopyForStep?.(selected)}
+                    >
+                      复制给此步骤
+                    </DsButton>
+                  </>
+                ) : (
+                  <p>
+                    修改会影响以上所有步骤。
+                    {!props.contextLabel
+                      ? '如需不同的开场布置，先复制初态，再回到对应脚本步骤选择副本。'
+                      : ''}
+                  </p>
+                )
               ) : null}
             </div>
           ) : null}
@@ -274,12 +271,14 @@ export function SceneInitialStateList(props: {
             </p>
           ) : null}
           <p className="hint2">
-            上方画布已加载此初态。选择列表中的另一份只切换编辑对象，不改变步骤的选择。
-            修改可撤销，随项目一起保存；复制初态不会改变其他步骤。
+            上方画布已加载此初态。修改可撤销，随项目一起保存。
+            {props.contextLabel
+              ? '返回后即可从当前步骤预览。'
+              : '选择列表中的另一份只切换编辑对象；复制初态不会改变任何步骤的选择。'}
           </p>
           {props.missingReferences ? (
             <p className="hint2">
-              {props.missingReferences} 个引用的脚本步骤已不存在，删除初态时一并清理。
+              {props.missingReferences} 个引用的脚本或步骤已不存在，删除初态时一并清理。
             </p>
           ) : null}
         </>

@@ -138,15 +138,51 @@ function validatePreview(preview) {
   assert(['default', 'manual'].includes(preview.selection), 'preview: invalid selection')
 }
 
+const schemeKey = (entry) =>
+  JSON.stringify([entry.sceneId, entry.entityId ?? null, entry.channel, entry.schemeId])
+
+// This tool reads the current sidecar directly; absence is not a v1 compatibility path.
+function validatePreviewLibrary(library) {
+  keys(library, ['kind', 'version', 'states', 'schemeDefaults', 'bindings'], 'preview library')
+  assert(
+    library.kind === 'type-pal-script-preview' && library.version === 2,
+    'preview library: require current version 2',
+  )
+  for (const field of ['states', 'schemeDefaults', 'bindings'])
+    assert(Array.isArray(library[field]), `preview library: missing ${field}`)
+  for (const [field, scheme] of [
+    ['bindings', false],
+    ['schemeDefaults', true],
+  ]) {
+    const seen = new Set()
+    for (const binding of library[field]) {
+      keys(binding, ['entry', 'stateId'], field)
+      if (scheme)
+        keys(binding.entry, ['sceneId', 'entityId', 'channel', 'schemeId'], 'scheme entry')
+      const key = entryKey(scheme ? { ...binding.entry, stageId: '__scheme__' } : binding.entry)
+      assert(!seen.has(key), `duplicate preview ${field}: ${key}`)
+      seen.add(key)
+      assert(
+        id(binding.stateId) || (!scheme && binding.stateId === null),
+        `${field}: invalid stateId`,
+      )
+    }
+  }
+}
+
 export function previewFingerprint(entry, preview, library) {
   validatePreview(preview)
+  validatePreviewLibrary(library)
   const matchingStates = library.states.filter((s) => s.id === preview.stateId)
   assert(matchingStates.length <= 1, `duplicate preview state: ${preview.stateId}`)
   const state = preview.stateId === null ? null : matchingStates[0]
   if (preview.stateId !== null && (!state || state.sceneId !== entry.sceneId)) return null
   const bindings = library.bindings.filter((binding) => entryKey(binding.entry) === entryKey(entry))
   assert(bindings.length <= 1, `duplicate preview binding: ${entryKey(entry)}`)
-  const boundStateId = bindings[0]?.stateId ?? null
+  const scheme = library.schemeDefaults.find(
+    (binding) => schemeKey(binding.entry) === schemeKey(entry),
+  )
+  const boundStateId = bindings.length ? bindings[0].stateId : (scheme?.stateId ?? null)
   if (preview.selection === 'default' && boundStateId !== preview.stateId) return null
   // A manually selected alternate context does not claim the step's saved default binding.
   return fingerprint({
@@ -285,6 +321,7 @@ export function validateLedger(ledger) {
 
 /** IO checks supply actual file fingerprints; no caller-provided passed booleans grant credit. */
 export async function reportProgress({ scenes, library, ledger, readReference }) {
+  validatePreviewLibrary(library)
   validateLedger(ledger)
   const inventory = inventoryScenes(scenes)
   const groups = new Map()

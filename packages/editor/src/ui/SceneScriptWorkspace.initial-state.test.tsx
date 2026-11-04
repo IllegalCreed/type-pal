@@ -146,7 +146,7 @@ test('toolbar selection writes the exact step binding, restores it on return, an
   const rig = await workspace(library)
   await rig.focus('host')
   const select = () => comboboxByAriaLabel<HTMLElement>(host, '预览初始状态')
-  await chooseComboboxOption(select(), '初始状态：迎客前')
+  await chooseComboboxOption(select(), '迎客前')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
   expect(preview().scene.entities[0]!.pos).toEqual({ col: 6, row: 7, height: 1 })
   await act(async () => {
@@ -160,7 +160,7 @@ test('toolbar selection writes the exact step binding, restores it on return, an
   await act(async () =>
     host.querySelector<HTMLButtonElement>('[aria-label^="步骤 2 · 返回后，"]')!.click(),
   )
-  await chooseComboboxOption(select(), '初始状态：返回后')
+  await chooseComboboxOption(select(), '返回后')
   expect(rig.main.getState().scriptPreview!.bindings.at(-1)).toMatchObject({
     entry: { stageId: 'return' },
     stateId: 'room',
@@ -169,9 +169,10 @@ test('toolbar selection writes the exact step binding, restores it on return, an
     host.querySelector<HTMLButtonElement>('[aria-label^="步骤 1 · 迎客前，"]')!.click(),
   )
   expect(select().textContent).toContain('迎客前')
-  await chooseComboboxOption(select(), '初始状态：场景默认')
+  await chooseComboboxOption(select(), '场景默认（此步骤不继承）')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual([
     { entry: { ...previewLibrary().bindings[0]!.entry, stageId: 'return' }, stateId: 'room' },
+    { entry: previewLibrary().bindings[0]!.entry, stateId: null },
   ])
   expect(rig.main.getState().scenes).toEqual(rig.before)
 })
@@ -267,9 +268,11 @@ test('an invalid binding blocks playback until the user explicitly selects a val
   await rig.focus('host')
   expect(host.querySelector('[role="alert"]')!.textContent).toContain('deleted')
   expect(host.querySelector('[data-testid="preview"]')).toBeNull()
-  await chooseComboboxOption(comboboxByAriaLabel(host, '预览初始状态'), '初始状态：场景默认')
+  await chooseComboboxOption(comboboxByAriaLabel(host, '预览初始状态'), '场景默认（此步骤不继承）')
   expect(host.querySelector('[role="alert"]')).toBeNull()
-  expect(rig.main.getState().scriptPreview!.bindings).toEqual([])
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual([
+    { entry: library.bindings[0]!.entry, stateId: null },
+  ])
   expect(preview().scene.entities[0]!.pos).toEqual({ col: 2, row: 3, height: 0 })
 })
 

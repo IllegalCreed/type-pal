@@ -218,7 +218,10 @@ async function save(opened: Opened, editor: EditSession) {
 }
 
 describe('real author open and save conflict boundary', () => {
-  test('preview states round-trip through actual project save without altering game scenes, and last removal is reversible', async () => {
+  test.each([
+    'states',
+    'orphan-default-only',
+  ] as const)('preview states round-trip through actual project save without altering game scenes, and last removal is reversible: %s', async (mode) => {
     const disk = memoryAuthorDirectory(await buildBlankProject('preview-save'))
     disk.set('content/scenes/start.json', previewAuthorScene())
     const before = disk.json('content/scenes/start.json')
@@ -226,6 +229,14 @@ describe('real author open and save conflict boundary', () => {
     const editor = session(opened)
     const app = projectSessionSave(opened, editor)
     const library = previewLibrary()
+    const { stageId: _stageId, ...entry } = library.bindings[0]!.entry
+    library.schemeDefaults = [{ entry, stateId: 'door' }]
+    if (mode === 'orphan-default-only') {
+      // Loaded dangling references stay repairable; an empty state list must not erase the sidecar.
+      library.states = []
+      library.bindings = []
+    }
+
     editor.dispatch(new SetScriptPreviewLibraryCommand(library))
     await app.run()
     expect(app.error).toHaveBeenLastCalledWith('')

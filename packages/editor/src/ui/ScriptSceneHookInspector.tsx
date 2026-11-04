@@ -1,5 +1,5 @@
 import type { AuthorSceneDef, FlowCursor } from '@type-pal/content'
-import { useMemo, useState } from 'react'
+import { type ReactNode, useMemo, useState } from 'react'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
 import {
@@ -68,6 +68,7 @@ export function ScriptSceneHookInspector(props: {
   onSlotChange?: (slot: SceneHookSlot) => void
   selectedHookId?: string
   previewCursor?: FlowCursor
+  stepPreviewControl?: ReactNode
   onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onSelectHook?: (hookId: string | undefined) => void
   onDispatch: (command: ScriptEditorCommand) => void
@@ -186,6 +187,7 @@ export function ScriptSceneHookInspector(props: {
           <CanonicalScriptFlowEditor
             key={`${props.sceneId}/${props.slot}/${selectedId}`}
             previewCursor={props.previewCursor}
+            stepPreviewControl={props.stepPreviewControl}
             onSelectPreviewCursor={props.onSelectPreviewCursor}
             ownerLabel={selected.label}
             flow={selected.flow}
