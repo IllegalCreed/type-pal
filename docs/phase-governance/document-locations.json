@@ -52,16 +52,16 @@
     {
       "path": "docs/ops/agent-workflow.md",
       "mode": "reviewed",
-      "afterSha256": "e560e887aa3388ae393463bd8979c31b4c852373815ac946f59b13919234c859",
+      "afterSha256": "a999e6f09b7c5efd2826cf0cb108a1eb4d95fb3528250dc5a15423031afc9c2b",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/inventory",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "知识承接/证据可追溯/剩余无依赖的退出总则及三边界按用户补充落实，模板引用唯一流程。",
-        "reviewedLines": 147,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+        "author": "/root",
+        "reviewer": "/root/status_reconcile",
+        "date": "2026-11-04",
+        "conclusion": "从已完成总纲承接原八项长期清理清单，逐字保留表格，现行工程流程维护唯一规则；默认路径不依赖终态任务。",
+        "reviewedLines": 164,
+        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
       }
     },
     {
@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "61e981aa1550808fa49e16e6270b9ae50ff34d499cb721e978480d842be25305",
+      "afterSha256": "aff1b70e3ab7efb4a63af54c11d37f3fbd988752e6ed2197badea1d57f87a5a1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "date": "2026-11-04",
+        "conclusion": "本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。",
         "reviewedLines": 119,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
       }
     },
     {
@@ -2583,10 +2583,10 @@
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
+        "date": "2026-11-04",
+        "conclusion": "以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。",
         "reviewedLines": 574,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
       }
     },
     {
@@ -4152,14 +4152,14 @@
     {
       "path": "docs/tasks/cards/REPO-SLIM-PLAN-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e80a1842ed2e9fd3d8772d096b5834663be746334ac01c8fb728587db8aa3d91",
+      "afterSha256": "b477df47ef93dbc82619eb00b69ed7c819e584c8ede7189c43e2574293b0c625",
       "review": {
         "author": "/root",
         "reviewer": "/root/status_reconcile",
-        "date": "2026-11-03",
-        "conclusion": "续办实际角色裁定、源/物理计数与当前活动范围写回；事实取原卡/原件及实际文件集，Git历史与工作树收益分记；原执行、保留义务与未过门边界明确。",
-        "reviewedLines": 82,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "date": "2026-11-04",
+        "conclusion": "用户应用删除S53后核路径/登记退出、精确本地分支退役及固定Git恢复，本轮有限资源批次done；S53字节按最后核实快照说明，活跃开发及条件保留资源不误删。",
+        "reviewedLines": 133,
+        "acceptanceScope": "仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。"
       }
     },
     {

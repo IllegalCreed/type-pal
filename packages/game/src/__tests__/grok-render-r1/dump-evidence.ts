@@ -3,7 +3,7 @@
  * 读回重新打开文件，核对像素和 DOM 原文。不生成替代画面。
  */
 import { createHash } from 'node:crypto'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createCanvas, loadImage } from 'canvas'
@@ -12,7 +12,8 @@ import { createCanvas, loadImage } from 'canvas'
 // in an isolated per-process temp tree so ordinary test/coverage runs cannot
 // dirty docs/testing with generated PNGs and logs.  The assertions still write,
 // reopen, hash, decode, and compare the real bytes before returning.
-const pixelDir = mkdtempSync(join(tmpdir(), 'type-pal-grok-pixels-'))
+// Importing the helper without writing a witness must not leave an empty tree.
+let pixelDir: string | undefined
 
 export interface RgbaCheck {
   x: number
@@ -162,14 +163,13 @@ function percentOf(width: string): number {
 }
 
 function encode(id: string, width: number, height: number, rgba: Uint8ClampedArray): Buffer {
-  mkdirSync(pixelDir, { recursive: true })
   const canvas = createCanvas(width, height)
   const ctx = canvas.getContext('2d')
   const image = ctx.createImageData(width, height)
   image.data.set(rgba)
   ctx.putImageData(image, 0, 0)
   const png = canvas.toBuffer('image/png')
-  writeFileSync(join(pixelDir, `${id}.png`), png)
+  writeFileSync(rel(id), png)
   return png
 }
 
@@ -179,7 +179,7 @@ async function decode(
   width: number,
   height: number,
 ): Promise<Uint8ClampedArray> {
-  const reread = readFileSync(join(pixelDir, `${id}.png`))
+  const reread = readFileSync(rel(id))
   if (!reread.equals(png)) throw new Error(`${id} readback bytes differ`)
   const image = await loadImage(reread)
   const canvas = createCanvas(width, height)
@@ -221,7 +221,7 @@ function put(
 }
 
 function writeLog(id: string, body: unknown): void {
-  writeFileSync(join(pixelDir, `${id}.readback.json`), `${formatReadback(body)}\n`)
+  writeFileSync(join(pixelDirectory(), `${id}.readback.json`), `${formatReadback(body)}\n`)
 }
 
 /** Biome 把放得进行宽的短数组收成一行。先收成同样形状，重跑测试不会把日志打回多行。 */
@@ -278,7 +278,12 @@ function isJsonPrimitive(item: string): boolean {
 }
 
 function rel(id: string): string {
-  return join(pixelDir, `${id}.png`)
+  return join(pixelDirectory(), `${id}.png`)
+}
+
+function pixelDirectory(): string {
+  pixelDir ??= mkdtempSync(join(tmpdir(), 'type-pal-grok-pixels-'))
+  return pixelDir
 }
 
 function sha256(bytes: Buffer): string {
