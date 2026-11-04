@@ -12557,9 +12557,12 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-scheme-card-list > .ds-reorder-item {
   flex: 0 0 220px;
+  min-width: 0;
+  max-width: 100%;
 }
 .script-scheme-card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(58px, auto) auto;
   min-width: 0;
   border: 1px solid var(--line);
@@ -12586,6 +12589,8 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-scheme-card-actions {
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   align-items: center;
   justify-content: flex-end;
   gap: var(--ds-space-1);
@@ -12596,6 +12601,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-scheme-card-select {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: start;
   align-items: start;
   justify-content: stretch;
@@ -12617,9 +12623,10 @@ button.sprite-frame-cell[draggable="true"]:active {
 }
 .script-scheme-card-select strong,
 .script-scheme-card-select span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .script-scheme-card-select strong {
   font-size: 11px;
