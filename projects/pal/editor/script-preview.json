@@ -1,6 +1,6 @@
 {
   "kind": "type-pal-script-preview",
-  "version": 1,
+  "version": 2,
   "states": [
     {
       "id": "e2e006-s002-e35-trigger-initial",
@@ -3478,5 +3478,6 @@
       },
       "stateId": "e2e005-s004-e83-auto-legacy-002-initial"
     }
-  ]
+  ],
+  "schemeDefaults": []
 }
