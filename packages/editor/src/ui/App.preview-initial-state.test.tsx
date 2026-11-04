@@ -73,7 +73,7 @@ async function click(label: string) {
 }
 const canvas = () => probes.canvas.mock.lastCall![0] as Parameters<typeof SceneCanvas>[0]
 
-async function mountApp() {
+async function mountApp(unavailableScenes = false) {
   const files = await buildBlankProject('preview-inspector')
   const scene = previewAuthorScene()
   scene.entities[0]!.label = '客栈掌柜'
@@ -115,6 +115,9 @@ async function mountApp() {
   const outside = structuredClone(scene)
   outside.id = 'outside'
   outside.entities[0]!.label = '院外守卫'
+  outside.entities[0]!.behaviors!.auto = {
+    later: structuredClone(outside.entities[0]!.behaviors!.trigger!.later!),
+  }
   files['content/scenes/index.json'] = {
     version: 1,
     scenes: [
@@ -132,14 +135,19 @@ async function mountApp() {
     entry: { sceneId: 'outside', entityId: 'host', channel: 'trigger', schemeId: 'later' },
     stateId: 'door',
   })
+  library.schemeDefaults.push({
+    entry: { sceneId: 'outside', entityId: 'host', channel: 'auto', schemeId: 'later' },
+    stateId: 'door',
+  })
   files['content/scenes/start.json'] = scene
   files['content/scenes/outside.json'] = outside
   files['editor/script-preview.json'] = library
   const opened = await openLocalProject(memoryAuthorDirectory(files).dir)
+  const scenes = unavailableScenes ? [] : opened.scenes
   const main = new EditSession(
-    toEditorState(opened.project, opened.scenes, {}, {}, [], undefined, opened.scriptPreview),
+    toEditorState(opened.project, scenes, {}, {}, [], undefined, opened.scriptPreview),
   )
-  const script = new ScriptEditSession({ scenes: opened.scenes, items: [], sharedScripts: {} })
+  const script = new ScriptEditSession({ scenes, items: [], sharedScripts: {} })
   const before = structuredClone(main.getState().scenes)
   const authorBefore = structuredClone(script.getState())
   const history = new EditorHistoryCoordinator(main, script)
@@ -224,6 +232,29 @@ test('independent workspace edits the selected scene only and project usages reo
   await click('在初态编排中查看 / 编辑')
   expect(canvas().scene.id).toBe('outside')
   expect(canvas().selectedEntityId).toBe('host')
+  const sourceLabels = [...host.querySelectorAll('.initial-state-references button')].map(
+    (button) => button.textContent,
+  )
+  expect(
+    sourceLabels.some(
+      (label) => label?.includes('院外守卫 / 交互脚本 / 夜间交谈') && label.includes('方案默认'),
+    ),
+  ).toBe(true)
+  expect(
+    sourceLabels.some(
+      (label) => label?.includes('院外守卫 / 自动行为 / 夜间交谈') && label.includes('方案默认'),
+    ),
+  ).toBe(true)
+  await usage('自动行为')
+  expect(
+    [...host.querySelectorAll('[role="tab"]')]
+      .find((tab) => tab.textContent === '自动行为')
+      ?.getAttribute('aria-selected'),
+  ).toBe('true')
+  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
+    '夜间交谈',
+  )
+  await click('在初态编排中查看 / 编辑')
   await usage('继承步骤')
   expect(dialog().textContent).toContain('关门后')
   expect(comboboxByAriaLabel(dialog(), '此步骤的预览初始状态').textContent).toContain(
@@ -249,7 +280,7 @@ test('non-current scheme draft survives workspace navigation; cancel and paired 
   await click('在初态编排中查看 / 编辑')
   await click('新建初始状态')
   expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toHaveLength(1)
+  expect(rig.main.getState().scriptPreview!.schemeDefaults).toHaveLength(2)
   await click('返回脚本详情')
   expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
     '晚间问候',
@@ -354,4 +385,16 @@ test('scene-hook drafts retain runtime default and preview-only saves; deleted r
   await act(async () => rig.history.undo())
   expect(host.textContent).not.toContain('返回脚本详情')
   expect(document.querySelector('[role="dialog"]')).toBeNull()
+})
+
+test('initial-state workspace remains reachable when no author scene is available', async () => {
+  // The editor may expose an unavailable scene with repairable sidecar references; no save is attempted.
+  window.history.replaceState({}, '', '/?module=scene&page=initial-states')
+  const mounted = mountApp(true)
+  await expect(mounted).resolves.toBeDefined()
+  const rig = await mounted
+  expect(host.querySelector('[aria-label="初态编排工作区"]')).not.toBeNull()
+  await click('新建初始状态')
+  expect(rig.main.getState().scriptPreview!.states.at(-1)!.scenes).toEqual([])
+  expect(host.querySelector('[aria-label="初始状态名称"]')).not.toBeNull()
 })

@@ -48,6 +48,9 @@ export function previewEntryLabel(
         ? previewEntityName(entity, actors, locale)
         : '已移除的角色或物件'
       : '场景事件',
+    { trigger: '交互脚本', auto: '自动行为', onEnter: '进场事件', onTeleport: '传送出口' }[
+      entry.channel
+    ],
     scheme?.label ?? '已移除的脚本方案',
     ...(entry.stageId
       ? [scheme?.flow.stages[index]?.label || (index >= 0 ? `第 ${index + 1} 步` : '已移除的步骤')]

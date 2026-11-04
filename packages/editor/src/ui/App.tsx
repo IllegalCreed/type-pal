@@ -2100,7 +2100,7 @@ export function App(props: {
   }
   const sceneEntityGroups = (['预制人物', '自定义实体', '触发区'] as const).map((title) => ({
     title,
-    entities: scene.entities.filter((entity) => entityShapeLabel(entity) === title),
+    entities: (scene?.entities ?? []).filter((entity) => entityShapeLabel(entity) === title),
   }))
   const commands = createEditorAppCommandRegistry([
     {
