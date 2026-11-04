@@ -41,14 +41,18 @@ const entry = {
 }
 const library = () => ({
   kind: 'type-pal-script-preview',
-  version: 2,
+  version: 3,
   schemeDefaults: [],
   states: [
     {
       id: 'door',
-      sceneId: 's001',
       name: 'At the door',
-      entities: [{ entityId: 'e10', pos: { col: 60, row: -12.875, height: 0 } }],
+      scenes: [
+        {
+          sceneId: 's001',
+          entities: [{ entityId: 'e10', pos: { col: 60, row: -12.875, height: 0 } }],
+        },
+      ],
     },
   ],
   bindings: [{ entry, stateId: 'door' }],
@@ -294,7 +298,7 @@ test('a changed saved default invalidates that context without claiming a manual
     result.rows.find((row) => row.context?.id === 'alternate').statuses.initialState.current,
     'saved',
   )
-  changed.states[0].entities[0].pos.row = -23
+  changed.states[0].scenes[0].entities[0].pos.row = -23
   const altered = await report(events, { library: changed })
   assert.equal(
     altered.rows.find((row) => row.context?.id === 'alternate').statuses.initialState.current,
@@ -358,7 +362,7 @@ test('read-only report arguments expose scope filters and reject accidental writ
   assert.throws(() => parseArguments(['--limit', '0']), /positive integer/)
 })
 
-test('v2 preview fingerprints resolve scheme inheritance, preserve explicit scene defaults and reject older envelopes', async () => {
+test('v3 preview fingerprints resolve scheme inheritance, preserve explicit scene defaults and reject older envelopes', async () => {
   const current = library()
   const { stageId: _stageId, ...schemeEntry } = entry
   current.schemeDefaults = [{ entry: schemeEntry, stateId: 'door' }]
@@ -385,7 +389,7 @@ test('v2 preview fingerprints resolve scheme inheritance, preserve explicit scen
       ledger: ledger(),
       readReference: async () => null,
     }),
-    /version 2/,
+    /version 3/,
   )
   assert.throws(
     () => previewFingerprint(entry, preview, { ...current, schemeDefaults: undefined }),
@@ -404,9 +408,8 @@ test('the report rejects an editor-invalid unselected state instead of crediting
   const invalid = library()
   invalid.states.push({
     id: 'unselected',
-    sceneId: 's001',
     name: 'Other start',
-    entities: [],
+    scenes: [{ sceneId: 's001', entities: [] }],
     motion: {},
   })
   await assert.rejects(
@@ -418,4 +421,21 @@ test('the report rejects an editor-invalid unselected state instead of crediting
     }),
     /motion/,
   )
+})
+
+test('cross-scene fingerprints cover every slice even when the source scene has no slice', async () => {
+  const current = library()
+  current.states[0].scenes = [
+    { sceneId: 'elsewhere', entities: [{ entityId: 'e10', hidden: true }] },
+  ]
+  const preview = { stateId: 'door', selection: 'default' }
+  const before = previewFingerprint(entry, preview, current)
+  assert.notEqual(before, null)
+  const saved = event({ axis: 'initialState', to: 'saved', preview, previewFingerprint: before })
+  const scenes = [scene(), { ...scene(), id: 'elsewhere' }]
+  const unchanged = await report([saved], { library: current, scenes })
+  assert.equal(doorRow(unchanged).statuses.initialState.current, 'saved')
+  current.states[0].scenes[0].entities[0].hidden = false
+  const changed = await report([saved], { library: current, scenes })
+  assert.equal(doorRow(changed).statuses.initialState.current, 'needs-review')
 })

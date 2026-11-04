@@ -1,4 +1,4 @@
-/** Editor-only starting positions. These records never enter game content or saves. */
+/** Editor-only scene layouts, persisted as a project sidecar, never game content or runtime saves. */
 import type { AuthorSceneDef, Facing, GridPos, SceneDef } from '@type-pal/content'
 import type { FileSource } from '@type-pal/reforge/author-io'
 import type { Command, EditorState } from './edit-session.js'
@@ -15,10 +15,14 @@ export interface PreviewEntityState {
 }
 
 export interface SceneInitialState {
-  id: string
   sceneId: string
-  name: string
   entities: PreviewEntityState[]
+}
+
+export interface ScriptPreviewState {
+  id: string
+  name: string
+  scenes: SceneInitialState[]
 }
 
 export interface ScriptPreviewSchemeEntry {
@@ -34,8 +38,8 @@ export interface ScriptPreviewEntry extends ScriptPreviewSchemeEntry {
 
 export interface ScriptPreviewLibrary {
   kind: 'type-pal-script-preview'
-  version: 2
-  states: SceneInitialState[]
+  version: 3
+  states: ScriptPreviewState[]
   schemeDefaults: { entry: ScriptPreviewSchemeEntry; stateId: string }[]
   bindings: { entry: ScriptPreviewEntry; stateId: string | null }[]
 }
@@ -43,7 +47,7 @@ export interface ScriptPreviewLibrary {
 export function emptyScriptPreviewLibrary(): ScriptPreviewLibrary {
   return {
     kind: 'type-pal-script-preview',
-    version: 2,
+    version: 3,
     states: [],
     schemeDefaults: [],
     bindings: [],
@@ -136,34 +140,44 @@ export function removeDeletedScriptPreviewReferences(
   after: readonly AuthorSceneDef[],
 ): ScriptPreviewLibrary | undefined {
   if (!library) return library
-  const states = library.states.flatMap((state) => {
-    const oldScene = before.find((scene) => scene.id === state.sceneId)
-    const nextScene = after.find((scene) => scene.id === state.sceneId)
-    if (!oldScene) return [state]
-    if (!nextScene) return []
-    const entities = state.entities.filter(
-      (entry) =>
-        !oldScene.entities.some((entity) => entity.id === entry.entityId) ||
-        nextScene.entities.some((entity) => entity.id === entry.entityId),
-    )
-    return [entities.length === state.entities.length ? state : { ...state, entities }]
+  const states = library.states.map((state) => {
+    const scenes = state.scenes.flatMap((slice) => {
+      const oldScene = before.find((scene) => scene.id === slice.sceneId)
+      const nextScene = after.find((scene) => scene.id === slice.sceneId)
+      if (!oldScene) return [slice]
+      if (!nextScene) return []
+      const entities = slice.entities.filter(
+        (entry) =>
+          !oldScene.entities.some((entity) => entity.id === entry.entityId) ||
+          nextScene.entities.some((entity) => entity.id === entry.entityId),
+      )
+      return [entities.length === slice.entities.length ? slice : { ...slice, entities }]
+    })
+    return scenes.length === state.scenes.length &&
+      scenes.every((slice, i) => slice === state.scenes[i])
+      ? state
+      : { ...state, scenes }
   })
-  const removedStateIds = new Set(
-    library.states
-      .filter((state) => !states.some((s) => s.id === state.id))
-      .map((state) => state.id),
-  )
+  const deletedOwner = (entry: ScriptPreviewSchemeEntry): boolean => {
+    const oldScene = before.find((scene) => scene.id === entry.sceneId)
+    const nextScene = after.find((scene) => scene.id === entry.sceneId)
+    if (!oldScene) return false
+    if (!nextScene) return true
+    return (
+      entry.entityId !== undefined &&
+      oldScene.entities.some((entity) => entity.id === entry.entityId) &&
+      !nextScene.entities.some((entity) => entity.id === entry.entityId)
+    )
+  }
   const bindings = library.bindings.filter(
     (binding) =>
-      (binding.stateId === null || !removedStateIds.has(binding.stateId)) &&
-      (!scriptPreviewEntryExists(binding.entry, before) ||
-        scriptPreviewEntryExists(binding.entry, after)),
+      (!deletedOwner(binding.entry) && !scriptPreviewEntryExists(binding.entry, before)) ||
+      scriptPreviewEntryExists(binding.entry, after),
   )
   const schemeDefaults = library.schemeDefaults.filter(
     (binding) =>
-      !removedStateIds.has(binding.stateId) &&
-      (!scriptPreviewSchemeExists(binding.entry, before) ||
-        scriptPreviewSchemeExists(binding.entry, after)),
+      (!deletedOwner(binding.entry) && !scriptPreviewSchemeExists(binding.entry, before)) ||
+      scriptPreviewSchemeExists(binding.entry, after),
   )
   if (
     states.length === library.states.length &&
@@ -228,48 +242,56 @@ export function parseScriptPreviewLibrary(value: unknown): ScriptPreviewLibrary 
     ['kind', 'version', 'states', 'schemeDefaults', 'bindings'],
     SCRIPT_PREVIEW_PATH,
   )
-  if (v.kind !== 'type-pal-script-preview' || v.version !== 2)
-    throw new Error(`${SCRIPT_PREVIEW_PATH}: 仅支持当前 type-pal-script-preview version 2`)
-  const states = array(v.states, 'states').map((raw): SceneInitialState => {
-    const s = object(raw, ['id', 'sceneId', 'name', 'entities'], '初始状态方案')
-    const entities = array(s.entities, 'entities').map((rawEntity): PreviewEntityState => {
-      const e = object(
-        rawEntity,
-        ['entityId', 'pos', 'facing', 'hidden', 'collide', 'zBias'],
-        '实体状态',
-      )
-      const result: PreviewEntityState = { entityId: id(e.entityId, 'entityId') }
-      if (Object.hasOwn(e, 'pos')) {
-        const p = object(e.pos, ['col', 'row', 'height'], 'pos')
-        result.pos = {
-          col: finite(p.col, 'col'),
-          row: finite(p.row, 'row'),
-          height: finite(p.height, 'height'),
+  if (v.kind !== 'type-pal-script-preview' || v.version !== 3)
+    throw new Error(`${SCRIPT_PREVIEW_PATH}: 仅支持当前 type-pal-script-preview version 3`)
+  const states = array(v.states, 'states').map((raw): ScriptPreviewState => {
+    const s = object(raw, ['id', 'name', 'scenes'], '初始状态')
+    const scenes = array(s.scenes, 'state.scenes').map((rawScene): SceneInitialState => {
+      const slice = object(rawScene, ['sceneId', 'entities'], '初始场景')
+      const entities = array(slice.entities, 'entities').map((rawEntity): PreviewEntityState => {
+        const e = object(
+          rawEntity,
+          ['entityId', 'pos', 'facing', 'hidden', 'collide', 'zBias'],
+          '实体状态',
+        )
+        const result: PreviewEntityState = { entityId: id(e.entityId, 'entityId') }
+        if (Object.hasOwn(e, 'pos')) {
+          const p = object(e.pos, ['col', 'row', 'height'], 'pos')
+          result.pos = {
+            col: finite(p.col, 'col'),
+            row: finite(p.row, 'row'),
+            height: finite(p.height, 'height'),
+          }
         }
-      }
-      if (Object.hasOwn(e, 'facing')) {
-        if (e.facing !== 'up' && e.facing !== 'down' && e.facing !== 'left' && e.facing !== 'right')
-          throw new Error('facing: 无效朝向')
-        result.facing = e.facing
-      }
-      for (const key of ['hidden', 'collide'] as const) {
-        if (!Object.hasOwn(e, key)) continue
-        if (typeof e[key] !== 'boolean') throw new Error(`${key}: 需要布尔值`)
-        result[key] = e[key]
-      }
-      if (Object.hasOwn(e, 'zBias')) result.zBias = finite(e.zBias, 'zBias')
-      return result
+        if (Object.hasOwn(e, 'facing')) {
+          if (
+            e.facing !== 'up' &&
+            e.facing !== 'down' &&
+            e.facing !== 'left' &&
+            e.facing !== 'right'
+          )
+            throw new Error('facing: 无效朝向')
+          result.facing = e.facing
+        }
+        for (const key of ['hidden', 'collide'] as const) {
+          if (!Object.hasOwn(e, key)) continue
+          if (typeof e[key] !== 'boolean') throw new Error(`${key}: 需要布尔值`)
+          result[key] = e[key]
+        }
+        if (Object.hasOwn(e, 'zBias')) result.zBias = finite(e.zBias, 'zBias')
+        return result
+      })
+      unique(
+        entities.map((e) => e.entityId),
+        'entities',
+      )
+      return { sceneId: id(slice.sceneId, 'sceneId'), entities }
     })
     unique(
-      entities.map((e) => e.entityId),
-      'entities',
+      scenes.map((slice) => slice.sceneId),
+      'state.scenes',
     )
-    return {
-      id: id(s.id, 'state.id'),
-      sceneId: id(s.sceneId, 'sceneId'),
-      name: id(s.name, 'name'),
-      entities,
-    }
+    return { id: id(s.id, 'state.id'), name: id(s.name, 'name'), scenes }
   })
   unique(
     states.map((s) => s.id),
@@ -297,7 +319,7 @@ export function parseScriptPreviewLibrary(value: unknown): ScriptPreviewLibrary 
     schemeDefaults.map((binding) => scriptPreviewSchemeKey(binding.entry)),
     'schemeDefaults',
   )
-  return { kind: 'type-pal-script-preview', version: 2, states, bindings, schemeDefaults }
+  return { kind: 'type-pal-script-preview', version: 3, states, bindings, schemeDefaults }
 }
 
 export function assertScriptPreviewPathAvailable(
@@ -363,10 +385,10 @@ export function scriptPreviewRemovalPaths(library: ScriptPreviewLibrary | undefi
 /** Detached projection for rendering/execution only. Never pass this result to a project command. */
 export function applySceneInitialState<
   T extends { id: string; entities: readonly Pick<SceneDef['entities'][number], 'id' | 'pos'>[] },
->(scene: T, state: SceneInitialState | undefined): T {
-  if (!state) return scene
-  if (state.sceneId !== scene.id) throw new Error(`初始状态“${state.name}”不属于当前场景`)
-  for (const entry of state.entities) {
+>(scene: T, state: ScriptPreviewState | undefined): T {
+  const slice = state?.scenes.find((candidate) => candidate.sceneId === scene.id)
+  if (!state || !slice) return scene
+  for (const entry of slice.entities) {
     const entity = scene.entities.find((e) => e.id === entry.entityId)
     if (!entity) throw new Error(`初始状态“${state.name}”引用已不存在的实体 ${entry.entityId}`)
     if ('zone' in entity && entry.facing !== undefined)
@@ -375,12 +397,50 @@ export function applySceneInitialState<
   return {
     ...scene,
     entities: scene.entities.map((entity) => {
-      const entry = state.entities.find((e) => e.entityId === entity.id)
+      const entry = slice.entities.find((e) => e.entityId === entity.id)
       if (!entry) return entity
       const { entityId: _id, ...properties } = entry
       return { ...entity, ...properties, pos: { ...(entry.pos ?? entity.pos) } }
     }),
   }
+}
+
+/** Prepare all definitions once at preview start; scene transitions must keep runtime changes. */
+export function applyScriptPreviewState<
+  T extends { id: string; entities: readonly Pick<SceneDef['entities'][number], 'id' | 'pos'>[] },
+>(scenes: readonly T[], state: ScriptPreviewState | undefined): T[] {
+  for (const slice of state?.scenes ?? [])
+    if (!scenes.some((scene) => scene.id === slice.sceneId))
+      throw new Error(`初始状态“${state!.name}”引用已不存在的场景 ${slice.sceneId}`)
+  return scenes.map((scene) => applySceneInitialState(scene, state))
+}
+
+export type ScriptPreviewUsage =
+  | { kind: 'scheme-default'; entry: ScriptPreviewSchemeEntry }
+  | { kind: 'step-direct' | 'step-inherited'; entry: ScriptPreviewEntry }
+
+/** References belong to their script source, independently of the state's scene slices. */
+export function scriptPreviewStateUsages(
+  library: ScriptPreviewLibrary,
+  scenes: readonly AuthorSceneDef[],
+): ReadonlyMap<string, readonly ScriptPreviewUsage[]> {
+  const usage = new Map<string, ScriptPreviewUsage[]>()
+  const add = (stateId: string, reference: ScriptPreviewUsage) => {
+    const entries = usage.get(stateId) ?? []
+    entries.push(reference)
+    usage.set(stateId, entries)
+  }
+  for (const saved of library.schemeDefaults)
+    add(saved.stateId, { kind: 'scheme-default', entry: saved.entry })
+  for (const saved of library.bindings)
+    if (saved.stateId !== null) add(saved.stateId, { kind: 'step-direct', entry: saved.entry })
+  for (const scene of scenes)
+    for (const entry of scriptPreviewSceneEntries(scene)) {
+      const resolved = resolveScriptPreviewBinding(library, entry)
+      if (resolved.source === 'scheme' && resolved.stateId !== null)
+        add(resolved.stateId, { kind: 'step-inherited', entry })
+    }
+  return usage
 }
 
 export class SetScriptPreviewLibraryCommand implements Command {

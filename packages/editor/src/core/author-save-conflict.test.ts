@@ -224,11 +224,24 @@ describe('real author open and save conflict boundary', () => {
   ] as const)('preview states round-trip through actual project save without altering game scenes, and last removal is reversible: %s', async (mode) => {
     const disk = memoryAuthorDirectory(await buildBlankProject('preview-save'))
     disk.set('content/scenes/start.json', previewAuthorScene())
+    disk.set('content/scenes/outside.json', { ...previewAuthorScene(), id: 'outside' })
+    disk.set('content/scenes/index.json', {
+      version: 1,
+      scenes: [
+        { id: 'start', name: '客栈', path: 'content/scenes/start.json' },
+        { id: 'outside', name: '院外', path: 'content/scenes/outside.json' },
+      ],
+    })
+    const outsideBefore = disk.json('content/scenes/outside.json')
     const before = disk.json('content/scenes/start.json')
     const opened = await finishOpen(disk.dir)
     const editor = session(opened)
     const app = projectSessionSave(opened, editor)
     const library = previewLibrary()
+    library.states[0]!.scenes.push({
+      sceneId: 'outside',
+      entities: [{ entityId: 'host', pos: { col: 10, row: 11, height: 0 }, hidden: true }],
+    })
     const { stageId: _stageId, ...entry } = library.bindings[0]!.entry
     library.schemeDefaults = [{ entry, stateId: 'door' }]
     if (mode === 'orphan-default-only') {
@@ -241,6 +254,7 @@ describe('real author open and save conflict boundary', () => {
     await app.run()
     expect(app.error).toHaveBeenLastCalledWith('')
     expect(disk.json('content/scenes/start.json')).toEqual(before)
+    expect(disk.json('content/scenes/outside.json')).toEqual(outsideBefore)
     const reopened = await finishOpen(disk.dir)
     expect(reopened.scriptPreview).toEqual(library)
     const next = session(reopened)

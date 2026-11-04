@@ -147,8 +147,8 @@
       "stacked": 0
     },
     {
-      "source": "SceneInitialStateEditor.tsx",
-      "component": "SceneInitialStateList",
+      "source": "InitialStateWorkspace.tsx",
+      "component": "InitialStateWorkspace",
       "responsive": 1,
       "stacked": 0
     }
@@ -384,13 +384,13 @@
         "component": "SceneInitialStateInspector",
         "propertyGrids": 1,
         "host": {
-          "source": "App.tsx",
-          "component": "App",
+          "source": "InitialStateWorkspace.tsx",
+          "component": "InitialStateWorkspace",
           "kind": "business-shell"
         },
         "owner": "card:ED-FIELD-LAYOUT-1",
-        "reason": "ED-ENTITY-STATE-PLAN-1 初始状态实体属性通过公共 Inspector Portal 进入场景右侧栏。",
-        "responsiveEvidence": "App 的 DsInspectorHost 内挂载属性节点，CanonicalSceneScriptWorkspace 在其 DsInspectorPortal 内渲染该 Inspector。",
+        "reason": "初态编排选中实体的属性在独立工作区右侧Inspector。",
+        "responsiveEvidence": "InitialStateWorkspace的DsInspectorHost直接承载SceneInitialStateInspector，属性按sceneId/entityId定位。",
         "removalCondition": "属性移出右侧 Inspector 时改用 DsFieldGroup。"
       }
     ],
@@ -470,6 +470,10 @@
       {
         "source": "WorldSpriteLibrary.tsx",
         "component": "WorldSpriteLibrary"
+      },
+      {
+        "source": "InitialStateWorkspace.tsx",
+        "component": "InitialStateWorkspace"
       }
     ],
     "inspectorTabs": [

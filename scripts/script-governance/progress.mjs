@@ -148,7 +148,7 @@ export function previewFingerprint(entry, preview, library) {
   const matchingStates = parsed.states.filter((s) => s.id === preview.stateId)
   assert(matchingStates.length <= 1, `duplicate preview state: ${preview.stateId}`)
   const state = preview.stateId === null ? null : matchingStates[0]
-  if (preview.stateId !== null && (!state || state.sceneId !== entry.sceneId)) return null
+  if (preview.stateId !== null && !state) return null
   const { stateId: boundStateId } = resolveScriptPreviewBinding(parsed, entry)
   if (preview.selection === 'default' && boundStateId !== preview.stateId) return null
   // A manually selected alternate context does not claim the step's saved default binding.

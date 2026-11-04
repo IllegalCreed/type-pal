@@ -2081,7 +2081,7 @@ function appWorkspaceDispatchRoots(overrides = {}) {
         !ts.isIfStatement(statement) ||
         statement.elseStatement ||
         statement.expression.getText(source).replace(/\s+/g, ' ') !==
-          "!scene && activeSubpage.kind !== 'project'" ||
+          "!scene && activeSubpage.kind !== 'project' && activeSubpage.kind !== 'initial-state'" ||
         !ts.isBlock(statement.thenStatement)
       )
         return false
@@ -2138,9 +2138,18 @@ function appWorkspaceDispatchRoots(overrides = {}) {
     current = unwrapExpression(current.whenFalse)
   }
   if (
-    JSON.stringify(routedKinds) !== JSON.stringify(['simulator', 'map', 'actor', 'project', 'data'])
+    JSON.stringify(routedKinds) !==
+    JSON.stringify(['initial-state', 'simulator', 'map', 'actor', 'project', 'data'])
   )
-    throw new Error('App.tsx has no canonical map/actor/project/data route chain')
+    throw new Error(
+      'App.tsx has no canonical initial-state/simulator/map/actor/project/data route chain',
+    )
+  const initialState = candidateRoots.get('initial-state')
+  if (
+    initialState.source !== 'InitialStateWorkspace.tsx' ||
+    initialState.component !== 'InitialStateWorkspace'
+  )
+    throw new Error('App.tsx initial-state must render the canonical InitialStateWorkspace')
   const simulator = candidateRoots.get('simulator')
   if (
     simulator.source !== 'BattleSimulatorWorkbench.tsx' ||

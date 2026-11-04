@@ -99,7 +99,7 @@ describe('EditorHistoryCoordinator', () => {
         schemeDefaults: [
           { entry: { sceneId: 's', channel: 'onEnter', schemeId: 'main' }, stateId: 'door' },
         ],
-        states: [{ id: 'door', sceneId: 's', name: '门口', entities: [] }],
+        states: [{ id: 'door', name: '门口', scenes: [{ sceneId: 's', entities: [] }] }],
         bindings: [
           {
             entry: { sceneId: 's', channel: 'onEnter', schemeId: 'main', stageId: 'stage-2' },

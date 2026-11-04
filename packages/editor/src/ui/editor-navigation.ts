@@ -47,7 +47,14 @@ export const DATA_PAGE_IDS = [
 export type DataPageId = (typeof DATA_PAGE_IDS)[number]
 export const PROJECT_PAGE_IDS = ['overview', 'startup', 'entrypoint', 'advanced'] as const
 export type ProjectPageId = (typeof PROJECT_PAGE_IDS)[number]
-export type EditorWorkspaceKind = 'scene' | 'map' | 'actor' | 'data' | 'project' | 'simulator'
+export type EditorWorkspaceKind =
+  | 'initial-state'
+  | 'scene'
+  | 'map'
+  | 'actor'
+  | 'data'
+  | 'project'
+  | 'simulator'
 
 export interface EditorSubpageDefinition {
   id: string
@@ -79,6 +86,13 @@ export const EDITOR_MODULES: readonly EditorModuleDefinition[] = [
     defaultSubpage: 'workspace',
     subpages: [
       { id: 'workspace', label: '场景编排', icon: '🎬', kind: 'scene', acceptsObject: true },
+      {
+        id: 'initial-states',
+        label: '初态编排',
+        icon: '🎭',
+        kind: 'initial-state',
+        acceptsObject: true,
+      },
       {
         id: 'ambience',
         label: '氛围',
@@ -521,6 +535,11 @@ export function sameEditorLocation(left: EditorLocation, right: EditorLocation):
 }
 
 export const editorLinks = {
+  initialState: (stateId?: string): EditorLocation => ({
+    module: 'scene',
+    subpage: 'initial-states',
+    ...(stateId ? { objectId: stateId } : {}),
+  }),
   variable: (variableId: string): EditorLocation => ({
     module: 'story',
     subpage: 'vars',

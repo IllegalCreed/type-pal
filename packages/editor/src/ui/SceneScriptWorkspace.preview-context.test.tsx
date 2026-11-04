@@ -10,7 +10,7 @@ import { createEditorAssetReader } from '../core/editor-asset-reader.js'
 import { EditorHistoryCoordinator } from '../core/editor-history-coordinator.js'
 import { assertProjectSaveValid } from '../core/project-diagnostics.js'
 import { toEditorState } from '../core/project-io.js'
-import { ScriptEditSession, UpdateEntityBehaviorCommand } from '../core/script-editor.js'
+import { ScriptEditSession } from '../core/script-editor.js'
 import { SetScriptPreviewLibraryCommand } from '../core/script-preview-library.js'
 import { buildBlankProject } from '../core/seed.js'
 import { stubNodeTestHost } from './__tests__/glm-leaf-workflows/node-bridge.js'
@@ -18,7 +18,6 @@ import {
   buttonByLabel,
   chooseComboboxOption,
   comboboxByAriaLabel,
-  setInputValue,
 } from './__tests__/glm-ui-wave-kit.js'
 import { CanonicalSceneScriptWorkspace } from './SceneScriptWorkspace.js'
 
@@ -141,146 +140,65 @@ async function click(label: string) {
   await act(async () => buttonByLabel(document.body, label).click())
 }
 
-const dialog = () => document.querySelector<HTMLElement>('[role="dialog"]')!
-const stepChoice = () => comboboxByAriaLabel(dialog(), '此步骤的预览初始状态')
-const schemeChoice = () => comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态')
 async function openStep(index: number) {
   await act(async () =>
     host.querySelector<HTMLButtonElement>(`[aria-label^="打开“步骤 ${index} ·"]`)!.click(),
   )
 }
 
-test('step details edit the requested stage and library copy/undo never changes its reference', async () => {
+test('step details selection writes the exact binding, restores it on return, and participates in undo', async () => {
   const library = previewLibrary()
-  const arrival = library.bindings[0]!.entry
-  const { stageId: _stageId, ...scheme } = arrival
-  library.schemeDefaults = [{ entry: scheme, stateId: 'door' }]
-  library.bindings.push({ entry: { ...arrival, stageId: 'return' }, stateId: 'room' })
+  library.bindings = []
+  library.states[1]!.scenes = []
   const rig = await mountWorkspace(library)
-  expect(document.querySelector('[aria-label="此步骤的预览初始状态"]')).toBeNull()
-  await openStep(2)
-  expect(stepChoice().textContent).toContain('返回后')
-  await chooseComboboxOption(stepChoice(), '继承方案默认：迎客前')
-  expect(rig.main.getState().scriptPreview!.bindings).toEqual([library.bindings[0]])
-  await chooseComboboxOption(stepChoice(), '场景默认（此步骤不继承）')
-  expect(rig.main.getState().scriptPreview!.bindings.at(-1)).toEqual({
-    entry: { ...arrival, stageId: 'return' },
-    stateId: null,
+  await rig.focus('host')
+  await openStep(1)
+  const select = () => comboboxByAriaLabel<HTMLElement>(document.body, '此步骤的预览初始状态')
+  await chooseComboboxOption(select(), '迎客前')
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
+  await act(async () => {
+    rig.history.undo()
   })
-  await chooseComboboxOption(stepChoice(), '迎客前')
-  const referenced = structuredClone(rig.main.getState().scriptPreview)
-  await click('在初始状态中查看 / 编辑')
-  expect(dialog()).toBeNull()
-  expect(host.querySelector('[aria-label="初始状态列表"]')).not.toBeNull()
-  expect(host.querySelector<HTMLInputElement>('[aria-label="初始状态名称"]')?.value).toBe('迎客前')
-  expect(document.activeElement).toBe(host.querySelector('[aria-label="初始状态名称"]'))
-  const participants = host.querySelectorAll<HTMLButtonElement>(
-    '[aria-label="开场时的角色与物件"] button',
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual([])
+  await act(async () => {
+    rig.history.redo()
+  })
+  await click('关闭')
+  await openStep(2)
+  await chooseComboboxOption(select(), '返回后')
+  expect(document.querySelector('[role="dialog"]')!.textContent).toContain(
+    '这份初态未配置当前场景，当前场景沿用默认摆放。',
   )
-  expect(participants[0]?.textContent).toContain('客栈掌柜')
-  await act(async () => participants[1]!.click())
-  expect(host.querySelector('.initial-state-context')?.textContent).toContain(
-    '客栈掌柜 / 迎客 / 返回后',
-  )
-  await click('复制')
-  expect(rig.main.getState().scriptPreview!.bindings).toEqual(referenced!.bindings)
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toEqual(referenced!.schemeDefaults)
-  await act(async () => rig.history.undo())
-  expect(rig.main.getState().scriptPreview).toEqual(referenced)
-  expect(host.querySelector('[aria-label="初始状态名称"]')).toBeNull()
-  await click('返回脚本详情')
-  expect(dialog().textContent).toContain('步骤 2 · 返回后')
-  expect(stepChoice().textContent).toContain('迎客前')
+  expect(rig.main.getState().scriptPreview!.bindings.at(-1)).toMatchObject({
+    entry: { stageId: 'return' },
+    stateId: 'room',
+  })
+  await click('关闭')
+  await openStep(1)
+  expect(select().textContent).toContain('迎客前')
+  await chooseComboboxOption(select(), '场景默认（此步骤不继承）')
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual([
+    { entry: { ...previewLibrary().bindings[0]!.entry, stageId: 'return' }, stateId: 'room' },
+    { entry: previewLibrary().bindings[0]!.entry, stateId: null },
+  ])
   expect(rig.main.getState().scenes).toEqual(rig.before)
 })
 
-test('a noncurrent scheme preserves its complete draft across the library, cancels cleanly and saves a preview-only edit', async () => {
-  const rig = await mountWorkspace()
-  await rig.focus(null)
-  const before = structuredClone(rig.script.getState())
-  const previewBefore = structuredClone(rig.main.getState().scriptPreview)
-  await click('打开“夜间进店”的方案详情')
-  await setInputValue(
-    dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
-    '夜间迎客',
-  )
-  await click('设为默认方案')
-  await chooseComboboxOption(schemeChoice(), '返回后')
-  expect(rig.script.getState()).toEqual(before)
-  expect(rig.main.getState().scriptPreview).toEqual(previewBefore)
-  await click('在初始状态中查看 / 编辑')
-  expect(dialog()).toBeNull()
-  expect(host.querySelector<HTMLInputElement>('[aria-label="初始状态名称"]')?.value).toBe('返回后')
-  await click('新建初始状态')
-  expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewBefore!.bindings)
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toEqual(previewBefore!.schemeDefaults)
-  await click('返回脚本详情')
-  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')?.value).toBe(
-    '夜间迎客',
-  )
-  expect(buttonByLabel(dialog(), '取消默认').getAttribute('aria-pressed')).toBe('true')
-  expect(schemeChoice().textContent).toContain('返回后')
-  await click('取消')
-  expect(rig.script.getState()).toEqual(before)
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toEqual([])
-  await click('打开“夜间进店”的方案详情')
-  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')?.value).toBe(
-    '夜间进店',
-  )
-  expect(schemeChoice().textContent).toContain('场景默认')
-  await chooseComboboxOption(schemeChoice(), '迎客前')
-  await click('保存')
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toEqual([
-    { entry: { sceneId: 'start', channel: 'onEnter', schemeId: 'night' }, stateId: 'door' },
-  ])
-  expect(rig.script.getState()).toEqual(before)
-  expect(host.querySelector('.script-scheme-card.active')?.textContent).toContain('客人进店')
-  await act(async () => rig.history.undo())
-  expect(rig.main.getState().scriptPreview!.schemeDefaults).toEqual([])
-})
-
-test('leaving the owner or deleting the return target permanently invalidates library return navigation', async () => {
-  const rig = await mountWorkspace()
-  await openStep(1)
-  await click('在初始状态中查看 / 编辑')
-  await rig.focus('guest')
+test('an invalid binding blocks playback until the user explicitly selects a valid default', async () => {
+  const library = previewLibrary()
+  library.bindings[0]!.stateId = 'deleted'
+  const rig = await mountWorkspace(library)
   await rig.focus('host')
-  await click('初始状态')
-  expect(host.querySelector('.initial-state-context')).toBeNull()
-  await click('交互脚本')
-  await openStep(2)
-  await click('打开初始状态库')
-  const flow = rig.script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.greet!.flow
-  await act(async () =>
-    rig.script.dispatch(
-      new UpdateEntityBehaviorCommand({ scene: 'start', entity: 'host' }, 'trigger', 'greet', {
-        flow: { ...flow, stages: [flow.stages[0]!] },
-      }),
-    ),
-  )
-  expect(host.querySelector('.initial-state-context')).toBeNull()
-  expect(host.querySelector('[aria-label="初始状态名称"]')).toBeNull()
-  await act(async () => rig.history.undo())
-  expect(host.querySelector('.initial-state-context')).toBeNull()
-  expect(dialog()).toBeNull()
-})
-
-test('a closed returned step dialog stays closed after switching schemes away and back', async () => {
-  const rig = await mountWorkspace()
-  await rig.focus(null)
   await openStep(1)
-  await click('打开初始状态库')
-  await click('返回脚本详情')
-  expect(dialog().textContent).toContain('步骤 1 · 进门前')
-  await click('关闭')
-  const selectScheme = async (name: string) => {
-    const button = [...host.querySelectorAll<HTMLButtonElement>('.script-scheme-card-select')].find(
-      (item) => item.textContent?.includes(name),
-    )!
-    await act(async () => button.click())
-  }
-  await selectScheme('夜间进店')
-  expect(dialog()).toBeNull()
-  await selectScheme('客人进店')
-  expect(dialog()).toBeNull()
+  expect(host.querySelector('[role="alert"]')!.textContent).toContain('deleted')
+  expect(host.querySelector('[data-testid="preview"]')).toBeNull()
+  await chooseComboboxOption(
+    comboboxByAriaLabel(document.body, '此步骤的预览初始状态'),
+    '场景默认（此步骤不继承）',
+  )
+  expect(host.querySelector('[role="alert"]')).toBeNull()
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual([
+    { entry: library.bindings[0]!.entry, stateId: null },
+  ])
+  expect(host.querySelector('[data-testid="preview"]')).not.toBeNull()
 })

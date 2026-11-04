@@ -73,23 +73,42 @@ async function click(label: string) {
 }
 const canvas = () => probes.canvas.mock.lastCall![0] as Parameters<typeof SceneCanvas>[0]
 
-test('App uses only the preview Inspector for NPC initial-state editing and restores formal properties on return', async () => {
+async function mountApp() {
   const files = await buildBlankProject('preview-inspector')
   const scene = previewAuthorScene()
   scene.entities[0]!.label = '客栈掌柜'
   scene.entities[1]!.label = '来访客人'
-  const library = previewLibrary()
-  for (let i = 1; i <= 5; i++) {
-    const entity = {
-      id: `distant-${i}`,
-      label: `远处角色${i}`,
-      sprite: 'hero',
-      pos: { col: 20 + i, row: 5, height: 0 },
-    }
-    scene.entities.push(entity)
-    library.states[0]!.entities.push({ entityId: entity.id, hidden: true })
+  scene.entities[0]!.behaviors!.trigger!.later = {
+    label: '夜间交谈',
+    order: 1,
+    flow: {
+      kind: 'stages',
+      initial: 'night',
+      stages: [{ id: 'night', label: '关门后', body: [] }],
+    },
   }
+  const outside = structuredClone(scene)
+  outside.id = 'outside'
+  outside.entities[0]!.label = '院外守卫'
+  files['content/scenes/index.json'] = {
+    version: 1,
+    scenes: [
+      { id: 'start', name: '客栈', path: 'content/scenes/start.json' },
+      { id: 'outside', name: '院外', path: 'content/scenes/outside.json' },
+    ],
+  }
+  const library = previewLibrary()
+  library.states[1]!.scenes[0]!.sceneId = 'outside'
+  library.states[0]!.scenes.push({
+    sceneId: 'outside',
+    entities: [{ entityId: 'host', pos: { col: 16, row: 17, height: 0 }, hidden: true }],
+  })
+  library.schemeDefaults.push({
+    entry: { sceneId: 'outside', entityId: 'host', channel: 'trigger', schemeId: 'later' },
+    stateId: 'door',
+  })
   files['content/scenes/start.json'] = scene
+  files['content/scenes/outside.json'] = outside
   files['editor/script-preview.json'] = library
   const opened = await openLocalProject(memoryAuthorDirectory(files).dir)
   const main = new EditSession(
@@ -111,65 +130,155 @@ test('App uses only the preview Inspector for NPC initial-state editing and rest
       />,
     ),
   )
+  return { main, script, history, before, authorBefore }
+}
+const inspector = () => host.querySelector<HTMLElement>('.inspector')!
+const dialog = () => document.querySelector<HTMLElement>('[role="dialog"]')!
+async function openHostScripts() {
   const actor = [
     ...host.querySelectorAll<HTMLButtonElement>('.scene-entity-group button.node'),
   ].find((button) => button.textContent?.includes('客栈掌柜'))!
   await act(async () => actor.click())
-  const inspector = () => host.querySelector<HTMLElement>('.inspector')!
-  expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
   await click('📜 脚本')
+}
+async function openStep(index: number) {
   await act(async () =>
-    host.querySelector<HTMLButtonElement>('[aria-label^="打开“步骤 1 ·"]')!.click(),
+    host.querySelector<HTMLButtonElement>(`[aria-label^="打开“步骤 ${index} ·"]`)!.click(),
   )
-  await click('在初始状态中查看 / 编辑')
-  const initialColumn = inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')
-  expect(initialColumn).not.toBeNull()
-  expect(inspector().textContent).not.toContain('初始隐藏（待剧情出场）')
-  expect(inspector().classList.contains('inspector--tabbed')).toBe(false)
-  expect(comboboxByAriaLabel(inspector(), '初始显隐').textContent).toContain('显示')
-  expect(canvas().focusRegion?.positions).toEqual([{ col: 6, row: 7, height: 1 }])
-  const firstFocusKey = canvas().focusRegion!.key
-  expect(host.querySelector('[aria-label="初始状态列表"]')).not.toBeNull()
-  expect(host.querySelector('[aria-label="开场时的角色与物件"]')?.textContent).toContain(
-    '远处角色1',
-  )
-  await setInputValue(initialColumn!, '9.5')
-  expect(main.getState().scriptPreview!.states[0]!.entities[0]!.pos).toEqual({
-    col: 9.5,
-    row: 7,
-    height: 1,
-  })
-  expect(main.getState().scenes).toEqual(before)
-  expect(script.getState()).toEqual(authorBefore)
-  const guest = [
-    ...host.querySelectorAll<HTMLButtonElement>('[aria-label="开场时的角色与物件"] button'),
-  ].find((button) => button.textContent?.includes('来访客人'))!
-  await act(async () => guest.click())
-  expect(canvas().focusRegion?.positions).toEqual([{ col: 8, row: 9, height: 0 }])
-  expect(canvas().focusRegion?.key).not.toBe(firstFocusKey)
-  expect(inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')?.value).toBe('8')
-  expect(actor.classList.contains('sel')).toBe(true)
-  await click('返回脚本详情')
-  expect(inspector().querySelector('[aria-label="初始列坐标"]')).toBeNull()
+}
+async function usage(kind: string) {
+  const button = [
+    ...host.querySelectorAll<HTMLButtonElement>('.initial-state-references button'),
+  ].find(
+    (button) => button.textContent?.includes('院外守卫') && button.textContent?.includes(kind),
+  )!
+  await act(async () => button.click())
+}
+
+test('independent workspace edits the selected scene only and project usages reopen exact scheme or inherited step', async () => {
+  const rig = await mountApp()
+  await openHostScripts()
   expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
-  expect(inspector().classList.contains('inspector--tabbed')).toBe(true)
-  expect(main.getState().scenes).toEqual(before)
-  expect(script.getState()).toEqual(authorBefore)
-  await click('关闭')
-  await click('打开“迎客”的方案详情')
-  const dialog = document.querySelector<HTMLElement>('[role="dialog"]')!
-  const beforePair = structuredClone(main.getState().scriptPreview)
+  await openStep(1)
+  await click('在初态编排中查看 / 编辑')
+  expect(host.querySelector('[aria-label="初态编排工作区"]')).not.toBeNull()
+  expect(inspector().textContent).not.toContain('初始隐藏（待剧情出场）')
+  expect(canvas().scene.id).toBe('start')
+  expect(canvas().focusRegion?.positions).toEqual([{ col: 6, row: 7, height: 1 }])
   await setInputValue(
-    dialog.querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
-    '迎客新名称',
+    inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')!,
+    '9.5',
   )
-  await chooseComboboxOption(comboboxByAriaLabel(dialog, '此方案的默认预览初始状态'), '返回后')
-  await act(async () => buttonByLabel(dialog, '保存').click())
-  expect(script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.greet!.label).toBe(
-    '迎客新名称',
+  const outsideTab = [...host.querySelectorAll<HTMLButtonElement>('[role="tab"]')].find(
+    (tab) => tab.textContent === '院外',
+  )!
+  await act(async () => outsideTab.click())
+  expect(canvas().scene.id).toBe('outside')
+  expect(inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')!.value).toBe('16')
+  expect(comboboxByAriaLabel(inspector(), '初始显隐').textContent).toContain('隐藏')
+  await setInputValue(
+    inspector().querySelector<HTMLInputElement>('[aria-label="初始列坐标"]')!,
+    '18',
   )
-  expect(main.getState().scriptPreview!.schemeDefaults[0]?.stateId).toBe('room')
-  await act(async () => history.undo())
-  expect(script.getState()).toEqual(authorBefore)
-  expect(main.getState().scriptPreview).toEqual(beforePair)
+  expect(
+    rig.main
+      .getState()
+      .scriptPreview!.states[0]!.scenes.map((slice) => slice.entities[0]!.pos?.col),
+  ).toEqual([9.5, 18])
+  await click('返回脚本详情')
+  expect(comboboxByAriaLabel(dialog(), '此步骤的预览初始状态').textContent).toContain('迎客前')
+  expect(inspector().textContent).toContain('初始隐藏（待剧情出场）')
+  await click('关闭')
+  await openStep(1)
+  await click('在初态编排中查看 / 编辑')
+  await usage('方案默认')
+  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
+    '夜间交谈',
+  )
+  expect(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态').textContent).toContain('迎客前')
+  await click('在初态编排中查看 / 编辑')
+  expect(canvas().scene.id).toBe('outside')
+  expect(canvas().selectedEntityId).toBe('host')
+  await usage('继承步骤')
+  expect(dialog().textContent).toContain('关门后')
+  expect(comboboxByAriaLabel(dialog(), '此步骤的预览初始状态').textContent).toContain(
+    '继承方案默认',
+  )
+  expect(host.querySelector('.scene-entity-group button.node.sel')?.textContent).toContain(
+    '院外守卫',
+  )
+  expect(rig.main.getState().scenes).toEqual(rig.before)
+  expect(rig.script.getState()).toEqual(rig.authorBefore)
+})
+
+test('non-current scheme draft survives workspace navigation; cancel and paired save retain atomic history and closed details stay closed', async () => {
+  const rig = await mountApp()
+  await openHostScripts()
+  await click('打开“夜间交谈”的方案详情')
+  await setInputValue(
+    dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
+    '晚间问候',
+  )
+  await chooseComboboxOption(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态'), '返回后')
+  expect(dialog().textContent).toContain('这份初态未配置当前场景，当前场景沿用默认摆放。')
+  await click('在初态编排中查看 / 编辑')
+  await click('新建初始状态')
+  expect(rig.main.getState().scriptPreview!.bindings).toEqual(previewLibrary().bindings)
+  expect(rig.main.getState().scriptPreview!.schemeDefaults).toHaveLength(1)
+  await click('返回脚本详情')
+  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
+    '晚间问候',
+  )
+  expect(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态').textContent).toContain('返回后')
+  await click('取消')
+  await click('打开“夜间交谈”的方案详情')
+  expect(dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!.value).toBe(
+    '夜间交谈',
+  )
+  expect(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态').textContent).toContain(
+    '场景默认',
+  )
+  const beforePair = structuredClone(rig.main.getState().scriptPreview)
+  await setInputValue(
+    dialog().querySelector<HTMLInputElement>('[aria-label="方案名称"]')!,
+    '晚间问候',
+  )
+  await chooseComboboxOption(comboboxByAriaLabel(dialog(), '此方案的默认预览初始状态'), '返回后')
+  await act(async () => buttonByLabel(dialog(), '保存').click())
+  expect(rig.script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.later!.label).toBe(
+    '晚间问候',
+  )
+  expect(rig.main.getState().scriptPreview!.schemeDefaults.at(-1)).toMatchObject({
+    entry: { sceneId: 'start', schemeId: 'later' },
+    stateId: 'room',
+  })
+  await act(async () => rig.history.undo())
+  expect(rig.script.getState()).toEqual(rig.authorBefore)
+  expect(rig.main.getState().scriptPreview).toEqual(beforePair)
+  await openStep(2)
+  await chooseComboboxOption(
+    comboboxByAriaLabel(dialog(), '此步骤的预览初始状态'),
+    '场景默认（此步骤不继承）',
+  )
+  await click('打开初态编排')
+  await click('返回脚本详情')
+  expect(comboboxByAriaLabel(dialog(), '此步骤的预览初始状态').textContent).toContain(
+    '场景默认（此步骤不继承）',
+  )
+  await click('关闭')
+  // Closing/reopening the drawer remounts the workspace; consumed navigation cannot reopen a dialog.
+  await click('脚本面板')
+  await click('📜 脚本')
+  expect(document.querySelector('[role="dialog"]')).toBeNull()
+  await click('场景')
+  const link = [...document.querySelectorAll<HTMLAnchorElement>('[role="menuitem"][href]')].find(
+    (link) => link.textContent?.includes('初态编排'),
+  )!
+  await act(async () => link.click())
+  expect(host.querySelector('[aria-label="初态编排工作区"]')).not.toBeNull()
+  expect(host.textContent).not.toContain('返回脚本详情')
+  await click('新建初始状态')
+  await act(async () => rig.history.undo())
+  expect(host.textContent).toContain('目标不存在')
+  expect(host.querySelector('[aria-label="初始状态名称"]')).toBeNull()
 })

@@ -28,36 +28,33 @@ import { SaveSceneHookDetailsCommand, UpdateEntityBehaviorCommand } from '../cor
 import { previewCursorKey, previewFlowCursor } from '../core/script-flow-preview.js'
 import {
   applySceneInitialState,
+  applyScriptPreviewState,
   emptyScriptPreviewLibrary,
   resolveScriptPreviewBinding,
-  type SceneInitialState,
   type ScriptPreviewEntry,
   type ScriptPreviewLibrary,
   type ScriptPreviewSchemeEntry,
-  scriptPreviewEntryExists,
   scriptPreviewEntryKey,
-  scriptPreviewSceneEntries,
-  scriptPreviewSchemeExists,
   scriptPreviewSchemeKey,
 } from '../core/script-preview-library.js'
-import { DsButton, DsInspectorPortal, DsSelect, DsTabs } from './design-system/index.js'
+import { DsButton, DsSelect, DsTabs } from './design-system/index.js'
 import { PanelResizeHandle, useStoredPanelNumber } from './PanelResizeHandle.js'
 import { PreviewCanvas } from './PreviewCanvas.js'
 import { clampPanelSize } from './panel-layout.js'
-import { SceneCanvas } from './SceneCanvas.js'
-import {
-  previewEntityName,
-  SceneInitialStateInspector,
-  SceneInitialStateList,
-} from './SceneInitialStateEditor.js'
+import { previewEntityName } from './SceneInitialStateEditor.js'
 import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
 import type {
   CanonicalScriptEditorContext,
   ScriptPreviewDetails,
   ScriptPreviewDetailsRequest,
-  ScriptSchemeDetailsDraft,
 } from './ScriptEditor.js'
 import { ScriptSceneHookInspector } from './ScriptSceneHookInspector.js'
+import {
+  previewSourceKey as entrySourceKey,
+  type InitialStateDetailsNavigation,
+  type InitialStateReturn,
+  previewEntryLabel,
+} from './script-preview-navigation.js'
 
 const EMPTY_STAGES: readonly ScriptStage[] = []
 const DRAWER_DEFAULT_HEIGHT = 420
@@ -66,42 +63,6 @@ const PREVIEW_MIN_HEIGHT = 140
 const RESIZER_SIZE = 1
 
 type SceneScriptOwner = Extract<ScriptCommandOwner, { kind: 'entity-behavior' | 'scene-hook' }>
-
-type PreviewLibraryReturn = {
-  ownerKey: string
-  origin: ScriptPreviewEntry
-  sourceKey: string
-  label: string
-} & (
-  | { kind: 'step'; target: ScriptPreviewEntry }
-  | { kind: 'scheme'; target: ScriptPreviewSchemeEntry; draft: ScriptSchemeDetailsDraft }
-)
-
-function previewEntryLabel(
-  entry: ScriptPreviewSchemeEntry & { stageId?: string },
-  scene: ScriptEditorState['scenes'][number],
-  actors: Record<string, ActorDef>,
-  locale: Locale,
-): string {
-  const entity = scene.entities.find((candidate) => candidate.id === entry.entityId)
-  const scheme =
-    entry.channel === 'trigger' || entry.channel === 'auto'
-      ? entity?.behaviors?.[entry.channel]?.[entry.schemeId]
-      : scene.hooks?.[entry.channel]?.variants[entry.schemeId]
-  const stageIndex = scheme?.flow.stages.findIndex((stage) => stage.id === entry.stageId) ?? -1
-  const stage = scheme?.flow.stages[stageIndex]
-  const channel = {
-    trigger: '交互脚本',
-    auto: '自动行为',
-    onEnter: '进场脚本',
-    onTeleport: '传送出口',
-  }[entry.channel]
-  return [
-    entity ? previewEntityName(entity, actors, locale) : '场景',
-    scheme?.label || channel,
-    ...(entry.stageId ? [stage?.label || `第 ${stageIndex + 1} 步`] : []),
-  ].join(' / ')
-}
 
 export function CanonicalSceneScriptWorkspace(props: {
   scene: SceneDef
@@ -115,8 +76,9 @@ export function CanonicalSceneScriptWorkspace(props: {
     command: ScriptEditorCommand,
     library: ScriptPreviewLibrary,
   ) => void
-  initialStatePropertiesHost?: HTMLElement | null
-  onEditingInitialState?: (editing: boolean) => void
+  onOpenInitialState?: (stateId: string | undefined, target: InitialStateReturn) => void
+  detailsNavigation?: InitialStateDetailsNavigation
+  onDetailsNavigationConsumed?(): void
   locale: Locale
   sprites: SpriteDef[]
   actorsById: Record<string, ActorDef>
@@ -141,13 +103,10 @@ export function CanonicalSceneScriptWorkspace(props: {
   const hasScriptOwner = !!props.selectedEntityId || props.sceneSelected !== false
   const owner = props.selectedEntityId ? 'entity' : 'scene'
   const [sceneTab, setSceneTab] = useState<'onEnter' | 'onTeleport'>('onEnter')
-  const [libraryOpen, setLibraryOpen] = useState(false)
-  const [libraryReturn, setLibraryReturn] = useState<PreviewLibraryReturn>()
   const [detailsRequest, setDetailsRequest] = useState<{
     sourceKey: string
     request: ScriptPreviewDetailsRequest
   }>()
-  const detailsRevision = useRef(0)
   const ownerKey = JSON.stringify([props.scene.id, props.selectedEntityId ?? null])
   const [hookSlot, setHookSlot] = useState<SceneHookSlot>('onEnter')
   const [selectedHooks, setSelectedHooks] = useState<Partial<Record<SceneHookSlot, string>>>({})
@@ -176,8 +135,6 @@ export function CanonicalSceneScriptWorkspace(props: {
     const referenceFocus = props.focusReference
     const ownerFocus = props.focusOwner
     if (!referenceFocus && !ownerFocus) return
-    setLibraryOpen(false)
-    setLibraryReturn(undefined)
     setDetailsRequest(undefined)
     if (
       referenceFocus &&
@@ -269,10 +226,7 @@ export function CanonicalSceneScriptWorkspace(props: {
   )
   const previewSelectionKey = `${previewSourceKey}:${previewCursorKey(previewCursor)}`
   const library = props.initialStates ?? emptyScriptPreviewLibrary()
-  const states = library.states.filter((state) => state.sceneId === props.scene.id)
-  const [stateSelection, setStateSelection] = useState<{ stateId: string; entityId?: string }>()
-  const drawerBodyRef = useRef<HTMLDivElement>(null)
-  const pendingLibraryFocus = useRef(false)
+  const states = library.states
   const entry: ScriptPreviewEntry | undefined =
     activeFlow && previewCursor?.kind === 'stage'
       ? {
@@ -283,67 +237,48 @@ export function CanonicalSceneScriptWorkspace(props: {
           stageId: previewCursor.stage,
         }
       : undefined
-  const editingState = libraryOpen
-  const selectedState = states.find((state) => state.id === stateSelection?.stateId)
-  const editingEntityId =
-    stateSelection?.stateId === selectedState?.id
-      ? stateSelection?.entityId
-      : selectedState?.entities[0]?.entityId
-  const focusedStateEntityId = libraryReturn?.target.entityId ? editingEntityId : undefined
   const resolved = entry ? resolveScriptPreviewBinding(library, entry) : undefined
-  const initialState = editingState
-    ? selectedState
-    : states.find((state) => state.id === resolved?.stateId)
+  const initialState = states.find((state) => state.id === resolved?.stateId)
   useEffect(() => {
     void ownerKey
-    setLibraryOpen(false)
-    setLibraryReturn(undefined)
     setDetailsRequest(undefined)
-    setStateSelection(undefined)
   }, [ownerKey])
   useEffect(() => {
     if (detailsRequest && detailsRequest.sourceKey !== previewSourceKey)
       setDetailsRequest(undefined)
   }, [detailsRequest, previewSourceKey])
   useEffect(() => {
-    if (!libraryReturn) return
-    const targetExists =
-      libraryReturn.kind === 'step'
-        ? scriptPreviewEntryExists(libraryReturn.target, props.state.scenes)
-        : scriptPreviewSchemeExists(libraryReturn.target, props.state.scenes)
-    if (
-      libraryReturn.ownerKey !== ownerKey ||
-      !targetExists ||
-      !scriptPreviewEntryExists(libraryReturn.origin, props.state.scenes)
-    )
-      setLibraryReturn(undefined)
-  }, [libraryReturn, ownerKey, props.state.scenes])
-  // Only an explicit visit requests focus; ordinary state edits keep the author's focus.
-  useEffect(() => {
-    if (!libraryOpen || !pendingLibraryFocus.current) return
-    const target = drawerBodyRef.current?.querySelector<HTMLElement>(
-      libraryReturn && selectedState
-        ? '[aria-label="初始状态名称"]'
-        : '.initial-state-library button',
-    )
-    if (!target) return
-    pendingLibraryFocus.current = false
-    target.focus({ preventScroll: true })
-  })
+    const navigation = props.detailsNavigation
+    if (!navigation) return
+    const { origin, request } = navigation
+    const sourceKey = entrySourceKey(origin)
+    if (origin.channel === 'trigger' || origin.channel === 'auto') {
+      setBehaviorChannel(origin.channel)
+      setSelectedBehaviors((current) => ({ ...current, [origin.channel]: origin.schemeId }))
+    } else {
+      setHookSlot(origin.channel)
+      setSceneTab(origin.channel)
+      setSelectedHooks((current) => ({ ...current, [origin.channel]: origin.schemeId }))
+    }
+    setSelectedPreview({ source: sourceKey, cursor: { kind: 'stage', stage: origin.stageId } })
+    setDetailsRequest({ sourceKey, request })
+    props.onDetailsNavigationConsumed?.()
+  }, [props.detailsNavigation, props.onDetailsNavigationConsumed])
   const projection = useMemo(() => {
     try {
-      if (!editingState && resolved?.stateId && !initialState)
+      if (resolved?.stateId && !initialState)
         throw new Error(`初始状态 ${resolved.stateId} 已失效，请重新选择。`)
       return {
         scene: applySceneInitialState(props.scene, initialState),
         canonical: canonicalScene
           ? applySceneInitialState(canonicalScene, initialState)
           : undefined,
+        scenes: applyScriptPreviewState(props.state.scenes, initialState),
       }
     } catch (error) {
       return { error: error instanceof Error ? error.message : String(error) }
     }
-  }, [props.scene, canonicalScene, initialState, resolved?.stateId, editingState])
+  }, [props.scene, props.state.scenes, canonicalScene, initialState, resolved?.stateId])
   const playback = useMemo(
     () =>
       new Playback(
@@ -354,24 +289,6 @@ export function CanonicalSceneScriptWorkspace(props: {
       ),
     [projection.scene, props.scene, props.state.items, props.locale],
   )
-  const onEditingInitialState = props.onEditingInitialState
-  useEffect(() => {
-    onEditingInitialState?.(editingState)
-    return () => onEditingInitialState?.(false)
-  }, [editingState, onEditingInitialState])
-  const updateState = (state: SceneInitialState) => {
-    props.onInitialStatesChange?.({
-      ...library,
-      states: library.states.map((s) => (s.id === state.id ? state : s)),
-    })
-  }
-  const selectStateEntity = (entityId: string) => {
-    if (selectedState) setStateSelection({ stateId: selectedState.id, entityId })
-  }
-  const firstStateEntity = (state: SceneInitialState | undefined) =>
-    state?.entities.some((participant) => participant.entityId === entry?.entityId)
-      ? entry?.entityId
-      : state?.entities[0]?.entityId
   const schemeEntry = (schemeId: string): ScriptPreviewSchemeEntry => ({
     sceneId: props.scene.id,
     ...(owner === 'entity' ? { entityId: props.selectedEntityId! } : {}),
@@ -390,40 +307,10 @@ export function CanonicalSceneScriptWorkspace(props: {
       ...(stateId ? [{ entry: target, stateId }] : []),
     ],
   })
-  const visitLibrary = (target: PreviewLibraryReturn, stateId: string | null | undefined) => {
+  const visitLibrary = (target: InitialStateReturn, stateId: string | null | undefined) => {
     playback.stop()
-    setLibraryReturn(target)
     setDetailsRequest(undefined)
-    setLibraryOpen(true)
-    const state = states.find((candidate) => candidate.id === stateId)
-    setStateSelection(state ? { stateId: state.id, entityId: firstStateEntity(state) } : undefined)
-    pendingLibraryFocus.current = true
-  }
-  const returnToDetails = () => {
-    if (!libraryReturn) return
-    const origin = libraryReturn.origin
-    if (origin.channel === 'trigger' || origin.channel === 'auto') {
-      setBehaviorChannel(origin.channel)
-      setSelectedBehaviors((current) => ({ ...current, [origin.channel]: origin.schemeId }))
-    } else {
-      setHookSlot(origin.channel)
-      setSceneTab(origin.channel)
-      setSelectedHooks((current) => ({ ...current, [origin.channel]: origin.schemeId }))
-    }
-    setSelectedPreview({
-      source: libraryReturn.sourceKey,
-      cursor: { kind: 'stage', stage: origin.stageId },
-    })
-    const common = { schemeId: libraryReturn.target.schemeId, revision: ++detailsRevision.current }
-    setDetailsRequest({
-      sourceKey: libraryReturn.sourceKey,
-      request:
-        libraryReturn.kind === 'step'
-          ? { ...common, kind: 'step', stageId: libraryReturn.target.stageId }
-          : { ...common, kind: 'scheme', draft: libraryReturn.draft },
-    })
-    setLibraryOpen(false)
-    setLibraryReturn(undefined)
+    props.onOpenInitialState?.(stateId ?? undefined, target)
   }
   const previewDetails: ScriptPreviewDetails = {
     step: (schemeId, stageId, close) => {
@@ -483,6 +370,10 @@ export function CanonicalSceneScriptWorkspace(props: {
             当前使用：{effectiveState?.name ?? (effective.stateId ? '引用失效' : '场景摆放')}
             。选择即生效。
           </p>
+          {effectiveState &&
+          !effectiveState.scenes.some((slice) => slice.sceneId === target.sceneId) ? (
+            <p className="hint2">这份初态未配置当前场景，当前场景沿用默认摆放。</p>
+          ) : null}
           <DsButton
             size="compact"
             variant="secondary"
@@ -494,15 +385,13 @@ export function CanonicalSceneScriptWorkspace(props: {
                   kind: 'step',
                   target,
                   origin: entry,
-                  ownerKey,
-                  sourceKey: previewSourceKey,
                   label: `${previewEntryLabel(target, canonicalScene, props.actorsById, props.locale)} · 步骤详情`,
                 },
                 effective.stateId,
               )
             }}
           >
-            {effectiveState ? '在初始状态中查看 / 编辑' : '打开初始状态库'}
+            {effectiveState ? '在初态编排中查看 / 编辑' : '打开初态编排'}
           </DsButton>
         </section>
       )
@@ -531,8 +420,15 @@ export function CanonicalSceneScriptWorkspace(props: {
               onValueChange={onChange}
             />
             <p className="hint2">保存后供未单独设置的步骤继承；已有步骤覆盖保持不变。</p>
+            {states.some(
+              (state) =>
+                state.id === draft &&
+                !state.scenes.some((slice) => slice.sceneId === target.sceneId),
+            ) ? (
+              <p className="hint2">这份初态未配置当前场景，当前场景沿用默认摆放。</p>
+            ) : null}
             <DsButton size="compact" variant="secondary" onClick={onOpenLibrary}>
-              {draft ? '在初始状态中查看 / 编辑' : '打开初始状态库'}
+              {draft ? '在初态编排中查看 / 编辑' : '打开初态编排'}
             </DsButton>
           </section>
         ),
@@ -544,8 +440,6 @@ export function CanonicalSceneScriptWorkspace(props: {
               target,
               draft,
               origin: entry,
-              ownerKey,
-              sourceKey: previewSourceKey,
               label: `${previewEntryLabel(target, canonicalScene, props.actorsById, props.locale)} · 方案详情`,
             },
             draft.previewState,
@@ -594,29 +488,6 @@ export function CanonicalSceneScriptWorkspace(props: {
       }
     },
   }
-  const usage: Record<string, string[]> = {}
-  if (canonicalScene) {
-    for (const candidate of scriptPreviewSceneEntries(canonicalScene)) {
-      const { stateId } = resolveScriptPreviewBinding(library, candidate)
-      if (stateId === null) continue
-      usage[stateId] ??= []
-      usage[stateId].push(
-        previewEntryLabel(candidate, canonicalScene, props.actorsById, props.locale),
-      )
-    }
-  }
-  const schemeUsage: Record<string, string[]> = {}
-  for (const saved of library.schemeDefaults) {
-    if (
-      saved.entry.sceneId !== props.scene.id ||
-      !canonicalScene ||
-      !scriptPreviewSchemeExists(saved.entry, props.state.scenes)
-    )
-      continue
-    const labels = schemeUsage[saved.stateId] ?? []
-    labels.push(previewEntryLabel(saved.entry, canonicalScene, props.actorsById, props.locale))
-    schemeUsage[saved.stateId] = labels
-  }
   const selectPreviewCursor = useCallback(
     (cursor: FlowCursor) => {
       playback.stop()
@@ -646,12 +517,10 @@ export function CanonicalSceneScriptWorkspace(props: {
     ? [
         { id: 'entity-trigger', label: '交互脚本' },
         { id: 'entity-auto', label: '自动行为' },
-        { id: 'initial-state', label: '初始状态' },
       ]
     : [
         { id: 'scene-onEnter', label: '进场脚本' },
         { id: 'scene-onTeleport', label: '传送出口' },
-        { id: 'initial-state', label: '初始状态' },
       ]
   const style = {
     '--script-drawer-height': `${visibleDrawerHeight}px`,
@@ -663,77 +532,6 @@ export function CanonicalSceneScriptWorkspace(props: {
         {projection.error ? (
           <div className="initial-state-error" role="alert">
             {projection.error}
-          </div>
-        ) : editingState ? (
-          <div className="initial-state-canvas">
-            <div className="initial-state-canvas-label">
-              {selectedState ? `初始状态 · ${selectedState.name}` : '场景默认状态'}
-              <span>选择角色或物件 · 拖动摆位</span>
-            </div>
-            <SceneCanvas
-              scene={projection.scene!}
-              sprites={props.sprites}
-              actorsById={props.actorsById}
-              locale={props.locale}
-              leaderSpriteId={props.leaderSpriteId}
-              assetBase={props.assetBase}
-              assetCatalog={props.assetCatalog}
-              assetReader={props.assetReader}
-              projectMaps={props.projectMaps}
-              mapIndex={props.mapIndex}
-              tilesets={props.tilesets}
-              selectedEntityId={editingEntityId ?? null}
-              focusRegion={
-                selectedState
-                  ? {
-                      key: focusedStateEntityId
-                        ? JSON.stringify([selectedState.id, focusedStateEntityId])
-                        : selectedState.id,
-                      positions: focusedStateEntityId
-                        ? projection
-                            .scene!.entities.filter((entity) => entity.id === focusedStateEntityId)
-                            .map((entity) => entity.pos)
-                        : selectedState.entities.flatMap((entry) => {
-                            const entity = projection.scene!.entities.find(
-                              (e) => e.id === entry.entityId,
-                            )
-                            return entity ? [entity.pos] : []
-                          }),
-                    }
-                  : undefined
-              }
-              placingEntity={false}
-              layers={{
-                base: true,
-                cover: true,
-                entities: true,
-                entries: false,
-                grid: props.layers?.grid ?? false,
-                blocked: props.layers?.blocked ?? false,
-                ghosts: props.layers?.ghosts ?? true,
-              }}
-              onSelectEntity={selectStateEntity}
-              onMoveEntity={(entityId, cell) => {
-                if (!selectedState) return
-                const entity = projection.scene!.entities.find((e) => e.id === entityId)
-                if (!entity) return
-                const old = selectedState.entities.find((e) => e.entityId === entityId)
-                const next = { ...old, entityId, pos: { ...entity.pos, ...cell } }
-                updateState({
-                  ...selectedState,
-                  entities: old
-                    ? selectedState.entities.map((e) => (e.entityId === entityId ? next : e))
-                    : [...selectedState.entities, next],
-                })
-                selectStateEntity(entityId)
-              }}
-              onSelectAnchor={() => {}}
-              onMoveAnchor={() => {}}
-              onAddAt={() => {}}
-              onClearSelection={() => {
-                if (selectedState) setStateSelection({ stateId: selectedState.id })
-              }}
-            />
           </div>
         ) : (
           <PreviewCanvas
@@ -766,7 +564,7 @@ export function CanonicalSceneScriptWorkspace(props: {
                     playback.playCanonical(previewSelectionKey, activeFlow, {
                       cursor: previewCursor,
                       scene: projection.canonical!,
-                      scenes: props.state.scenes,
+                      scenes: projection.scenes!,
                       sharedScripts: props.state.sharedScripts,
                       actorsById: props.actorsById,
                       ...(owner === 'entity'
@@ -836,28 +634,10 @@ export function CanonicalSceneScriptWorkspace(props: {
             <DsTabs
               variant="inspector"
               label="脚本类型"
-              activeId={
-                libraryOpen
-                  ? 'initial-state'
-                  : owner === 'scene'
-                    ? `scene-${sceneTab}`
-                    : `entity-${behaviorChannel}`
-              }
+              activeId={owner === 'scene' ? `scene-${sceneTab}` : `entity-${behaviorChannel}`}
               items={scriptTabs}
               onChange={(id) => {
-                setLibraryReturn(undefined)
                 setDetailsRequest(undefined)
-                setLibraryOpen(id === 'initial-state')
-                if (id === 'initial-state') {
-                  if (!selectedState && states[0])
-                    setStateSelection({
-                      stateId: states[0].id,
-                      entityId: firstStateEntity(states[0]),
-                    })
-                  playback.stop()
-                  pendingLibraryFocus.current = true
-                  return
-                }
                 if (id === 'scene-onEnter' || id === 'scene-onTeleport') {
                   setSceneTab(id === 'scene-onEnter' ? 'onEnter' : 'onTeleport')
                   setHookSlot(id === 'scene-onEnter' ? 'onEnter' : 'onTeleport')
@@ -869,66 +649,9 @@ export function CanonicalSceneScriptWorkspace(props: {
           ) : null}
         </div>
 
-        <div
-          ref={drawerBodyRef}
-          className={`canonical-script-drawer-body${libraryOpen ? ' initial-state-drawer-body' : ''}`}
-        >
+        <div className="canonical-script-drawer-body">
           {!hasScriptOwner ? (
             <p className="hint2">落点属性在右侧编辑；选择场景标题或实体后显示对应脚本。</p>
-          ) : editingState ? (
-            <SceneInitialStateList
-              scene={props.scene}
-              states={states}
-              selected={selectedState}
-              selectedEntityId={editingEntityId}
-              actorsById={props.actorsById}
-              locale={props.locale}
-              usage={usage}
-              schemeUsage={schemeUsage}
-              contextLabel={libraryReturn?.label}
-              contextEntityId={libraryReturn?.target.entityId}
-              onBack={libraryReturn ? returnToDetails : undefined}
-              missingReferences={
-                library.bindings.filter(
-                  (b) =>
-                    b.stateId === selectedState?.id &&
-                    !scriptPreviewEntryExists(b.entry, props.state.scenes),
-                ).length +
-                library.schemeDefaults.filter(
-                  (saved) =>
-                    saved.stateId === selectedState?.id &&
-                    !scriptPreviewSchemeExists(saved.entry, props.state.scenes),
-                ).length
-              }
-              revision={JSON.stringify(library)}
-              onSelect={(stateId) =>
-                setStateSelection({
-                  stateId,
-                  entityId: firstStateEntity(states.find((state) => state.id === stateId)),
-                })
-              }
-              onSelectEntity={selectStateEntity}
-              onChange={updateState}
-              onCreate={(copy) => {
-                const state: SceneInitialState = {
-                  id: crypto.randomUUID(),
-                  sceneId: props.scene.id,
-                  name: copy ? `${copy.name} 副本` : `初始状态 ${states.length + 1}`,
-                  entities: copy ? structuredClone(copy.entities) : [],
-                }
-                props.onInitialStatesChange?.({ ...library, states: [...library.states, state] })
-                setStateSelection({ stateId: state.id, entityId: firstStateEntity(state) })
-              }}
-              onDelete={(id) => {
-                if ((usage[id]?.length ?? 0) > 0 || (schemeUsage[id]?.length ?? 0) > 0) return
-                props.onInitialStatesChange?.({
-                  ...library,
-                  states: library.states.filter((s) => s.id !== id),
-                  bindings: library.bindings.filter((b) => b.stateId !== id),
-                  schemeDefaults: library.schemeDefaults.filter((b) => b.stateId !== id),
-                })
-              }}
-            />
           ) : owner === 'scene' ? (
             <ScriptSceneHookInspector
               key={`${props.scene.id}/${hookSlot}`}
@@ -1026,35 +749,6 @@ export function CanonicalSceneScriptWorkspace(props: {
           )}
         </div>
       </div>
-      {editingState && props.initialStatePropertiesHost ? (
-        <DsInspectorPortal host={props.initialStatePropertiesHost}>
-          <SceneInitialStateInspector
-            state={selectedState}
-            entityId={editingEntityId}
-            entity={props.scene.entities.find((e) => e.id === editingEntityId)}
-            actorsById={props.actorsById}
-            locale={props.locale}
-            revision={JSON.stringify(library)}
-            onChange={(entry) => {
-              if (!selectedState) return
-              const old = selectedState.entities.some((e) => e.entityId === entry.entityId)
-              updateState({
-                ...selectedState,
-                entities: old
-                  ? selectedState.entities.map((e) => (e.entityId === entry.entityId ? entry : e))
-                  : [...selectedState.entities, entry],
-              })
-            }}
-            onRemove={(entityId) => {
-              if (selectedState)
-                updateState({
-                  ...selectedState,
-                  entities: selectedState.entities.filter((e) => e.entityId !== entityId),
-                })
-            }}
-          />
-        </DsInspectorPortal>
-      ) : null}
     </div>
   )
 }

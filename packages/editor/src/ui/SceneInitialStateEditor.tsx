@@ -1,15 +1,10 @@
 import type { ActorDef, GridPos, Locale, SceneDef } from '@type-pal/content'
-import { useEffect, useState } from 'react'
 import { entityDisplayName } from '../core/entity-display.js'
-import type { PreviewEntityState, SceneInitialState } from '../core/script-preview-library.js'
+import type { PreviewEntityState, ScriptPreviewState } from '../core/script-preview-library.js'
 import {
   DsButton,
   DsDraftNumberInput,
-  DsDraftTextField,
-  DsHelpTip,
   DsInspectorSection,
-  DsMultiSelect,
-  DsPressable,
   DsPropertyGrid,
   DsPropertyRow,
   DsSelect,
@@ -26,254 +21,9 @@ export function previewEntityName(
     : name
 }
 
-export function SceneInitialStateList(props: {
-  scene: SceneDef
-  states: readonly SceneInitialState[]
-  selected?: SceneInitialState
-  selectedEntityId?: string
-  actorsById: Record<string, ActorDef>
-  locale: Locale
-  usage: Readonly<Record<string, readonly string[]>>
-  schemeUsage: Readonly<Record<string, readonly string[]>>
-  missingReferences: number
-  contextLabel?: string
-  contextEntityId?: string
-  onBack?(): void
-  revision: string | number
-  onSelect(id: string): void
-  onSelectEntity(id: string): void
-  onCreate(copy?: SceneInitialState): void
-  onChange(state: SceneInitialState): void
-  onDelete(id: string): void
-}) {
-  const selected = props.selected
-  const references = selected ? (props.usage[selected.id] ?? []) : []
-  const defaultReferences = selected ? (props.schemeUsage[selected.id] ?? []) : []
-  const participants = [...(selected?.entities ?? [])].sort(
-    (left, right) =>
-      Number(right.entityId === props.contextEntityId) -
-      Number(left.entityId === props.contextEntityId),
-  )
-  const [detailVisible, setDetailVisible] = useState(!!props.contextLabel && !!selected)
-  useEffect(() => {
-    if (props.contextLabel && props.selected?.id) setDetailVisible(true)
-  }, [props.contextLabel, props.selected?.id])
-  return (
-    <div className="scene-initial-states" data-detail={detailVisible}>
-      {props.contextLabel && props.onBack ? (
-        <div className="initial-state-context">
-          <DsButton size="compact" variant="secondary" onClick={props.onBack}>
-            返回脚本详情
-          </DsButton>
-          <strong>{props.contextLabel}</strong>
-        </div>
-      ) : null}
-      <div className="initial-state-columns">
-        <section className="initial-state-library" aria-label="初始状态库">
-          <header>
-            <strong>初始状态 · {props.states.length}</strong>
-            <DsButton
-              size="compact"
-              variant="secondary"
-              icon="add"
-              onClick={() => {
-                setDetailVisible(true)
-                props.onCreate()
-              }}
-            >
-              新建初始状态
-            </DsButton>
-          </header>
-          <nav className="initial-state-list" aria-label="初始状态列表">
-            {props.states.map((state) => {
-              const steps = props.usage[state.id]?.length ?? 0
-              const defaults = props.schemeUsage[state.id]?.length ?? 0
-              return (
-                <DsPressable
-                  key={state.id}
-                  className={`initial-state-row${state.id === selected?.id ? ' active' : ''}`}
-                  aria-pressed={state.id === selected?.id}
-                  onClick={() => {
-                    setDetailVisible(true)
-                    props.onSelect(state.id)
-                  }}
-                >
-                  <strong>{state.name}</strong>
-                  <span>
-                    {state.entities.length} 个角色/物件 ·{' '}
-                    {steps ? `${steps} 个步骤` : defaults ? `${defaults} 个方案默认` : '未使用'}
-                  </span>
-                </DsPressable>
-              )
-            })}
-          </nav>
-        </section>
-        <section className="initial-state-detail-pane" aria-label="初始状态详情">
-          <DsButton
-            className="initial-state-list-back"
-            size="compact"
-            variant="secondary"
-            onClick={() => setDetailVisible(false)}
-          >
-            返回状态列表
-          </DsButton>
-          {selected ? (
-            <>
-              <div className="initial-state-details">
-                <DsDraftTextField
-                  label="名称"
-                  layout="inline"
-                  aria-label="初始状态名称"
-                  size="compact"
-                  draftKey={`initial-state:${selected.id}:name`}
-                  syncToken={props.revision}
-                  value={selected.name}
-                  validate={(value) => (value.trim() ? undefined : '名称不能为空')}
-                  onCommit={(name) => props.onChange({ ...selected, name: name.trim() })}
-                />
-                <div className="initial-state-actions">
-                  <DsButton
-                    size="compact"
-                    variant="secondary"
-                    onClick={() => props.onCreate(selected)}
-                  >
-                    复制
-                  </DsButton>
-                  <DsButton
-                    size="compact"
-                    variant="quiet"
-                    disabled={references.length > 0 || defaultReferences.length > 0}
-                    title={
-                      references.length || defaultReferences.length
-                        ? '仍被步骤或方案默认引用，请先更改这些选择'
-                        : '删除初始状态，可撤销'
-                    }
-                    onClick={() => props.onDelete(selected.id)}
-                  >
-                    删除
-                  </DsButton>
-                </div>
-              </div>
-              <div className="initial-state-entity-heading">
-                <div className="initial-state-entity-title">
-                  <strong>角色与物件 · {selected.entities.length}</strong>
-                  <DsHelpTip label="开场时的角色与物件">
-                    只添加需要调整的角色或物件，其余沿用场景摆放。点击角色编辑位置、朝向和显隐，也可在上方画布拖动。
-                  </DsHelpTip>
-                </div>
-                <span className="initial-state-picker">
-                  <span>添加/移出</span>
-                  <DsMultiSelect
-                    label="添加或移出角色与物件"
-                    summaryMode="count"
-                    size="compact"
-                    options={props.scene.entities.map((entity) => ({
-                      value: entity.id,
-                      label: previewEntityName(entity, props.actorsById, props.locale),
-                    }))}
-                    value={selected.entities.map((e) => e.entityId)}
-                    onChange={(ids) =>
-                      props.onChange({
-                        ...selected,
-                        entities: ids.map(
-                          (entityId) =>
-                            selected.entities.find((e) => e.entityId === entityId) ?? { entityId },
-                        ),
-                      })
-                    }
-                  />
-                </span>
-              </div>
-              <section className="initial-state-entities" aria-label="开场时的角色与物件">
-                {participants.map((entry) => {
-                  const entity = props.scene.entities.find((e) => e.id === entry.entityId)
-                  const pos = entry.pos ?? entity?.pos
-                  const facing =
-                    entry.facing ?? (entity && 'facing' in entity ? entity.facing : undefined)
-                  const inherits = !Object.entries(entry).some(
-                    ([key, value]) => key !== 'entityId' && value !== undefined,
-                  )
-                  return (
-                    <DsButton
-                      key={entry.entityId}
-                      variant="quiet"
-                      className="initial-state-entity"
-                      aria-pressed={entry.entityId === props.selectedEntityId}
-                      onClick={() => props.onSelectEntity(entry.entityId)}
-                    >
-                      <span className="initial-state-entity-summary">
-                        <strong>
-                          {entity
-                            ? previewEntityName(entity, props.actorsById, props.locale)
-                            : '已移除的角色或物件'}
-                          {entry.entityId === props.contextEntityId ? ' · 当前脚本角色' : ''}
-                        </strong>
-                        <span>
-                          {pos ? `位置 ${pos.col}, ${pos.row}, ${pos.height}` : '引用失效'}
-                          {(entry.hidden ?? entity?.hidden) ? ' · 隐藏' : ' · 显示'}
-                          {facing
-                            ? ` · 朝向${{ up: '上', down: '下', left: '左', right: '右' }[facing]}`
-                            : ''}
-                          {inherits ? ' · 沿用场景默认' : ''}
-                        </span>
-                      </span>
-                    </DsButton>
-                  )
-                })}
-              </section>
-              {!selected.entities.length ? (
-                <p className="hint2">
-                  从“添加或移出角色与物件”选择需要调整的对象，无需把全场景的人物都加入。
-                </p>
-              ) : null}
-
-              <details className="initial-state-usage">
-                <summary>
-                  使用位置 · {references.length} 个步骤 · {defaultReferences.length} 个方案默认
-                </summary>
-                {references.length || defaultReferences.length ? (
-                  <p>调整这份布置会影响以下引用。</p>
-                ) : (
-                  <p>尚未被脚本引用；请回到步骤或方案详情主动选择。</p>
-                )}
-                {references.length ? (
-                  <>
-                    <strong>使用此状态的步骤</strong>
-                    <ul>
-                      {references.map((label, index) => (
-                        <li key={`${index}:${label}`}>{label}</li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
-                {defaultReferences.length ? (
-                  <>
-                    <strong>作为这些脚本方案的默认状态</strong>
-                    <ul>
-                      {defaultReferences.map((label, index) => (
-                        <li key={`${index}:${label}`}>{label}</li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null}
-                {props.missingReferences ? (
-                  <p>{props.missingReferences} 个引用目标已不存在，删除时一并清理。</p>
-                ) : null}
-              </details>
-            </>
-          ) : (
-            <p className="hint2">
-              从左侧选择或新建初始状态。新建、复制和选择不会改变任何脚本引用。
-            </p>
-          )}
-        </section>
-      </div>
-    </div>
-  )
-}
-
 export function SceneInitialStateInspector(props: {
-  state?: SceneInitialState
+  state?: ScriptPreviewState
+  sceneId: string
   entity?: SceneDef['entities'][number]
   entityId?: string
   actorsById: Record<string, ActorDef>
@@ -283,7 +33,9 @@ export function SceneInitialStateInspector(props: {
   onRemove(entityId: string): void
 }) {
   const { state, entity, entityId } = props
-  const entry = state?.entities.find((e) => e.entityId === entityId)
+  const entry = state?.scenes
+    .find((slice) => slice.sceneId === props.sceneId)
+    ?.entities.find((e) => e.entityId === entityId)
   if (!state)
     return (
       <DsInspectorSection title="初始状态" description="先在初始状态库中新建或选择一份状态。">
@@ -295,14 +47,14 @@ export function SceneInitialStateInspector(props: {
       <DsInspectorSection
         title={state.name}
         description={
-          entityId ? '此角色或物件已不存在。' : '在下方开场列表或上方画布选择一个角色或物件。'
+          entityId ? '此角色或物件已不存在。' : '在角色与物件列表或画布选择一个角色或物件。'
         }
       >
         {entityId ? <DsButton onClick={() => props.onRemove(entityId)}>移出状态</DsButton> : null}
       </DsInspectorSection>
     )
   const name = previewEntityName(entity, props.actorsById, props.locale)
-  const prefix = `initial-state:${state.id}:${entity.id}`
+  const prefix = `initial-state:${state.id}:${props.sceneId}:${entity.id}`
   const change = (patch: Partial<PreviewEntityState>) => {
     const next = { ...entry, entityId: entity.id, ...patch }
     for (const key of Object.keys(next) as (keyof PreviewEntityState)[])

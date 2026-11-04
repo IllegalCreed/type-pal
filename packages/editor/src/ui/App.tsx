@@ -120,7 +120,13 @@ import {
   SetEntityPageTriggerActivationCommand,
 } from '../core/script-editor.js'
 import { projectActiveScriptEditorState } from '../core/script-editor-projection.js'
-import { SetScriptPreviewLibraryCommand } from '../core/script-preview-library.js'
+import {
+  type ScriptPreviewUsage,
+  SetScriptPreviewLibraryCommand,
+  scriptPreviewEntryExists,
+  scriptPreviewSchemeExists,
+  scriptPreviewSchemeKey,
+} from '../core/script-preview-library.js'
 import { createScriptReferenceCatalog } from '../core/script-reference-catalog.js'
 import { findDefaultEntry } from '../core/startup-entries.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
@@ -195,6 +201,7 @@ import {
   editorSubpageHasOutliner,
 } from './editor-navigation.js'
 import { editorObjectTargetMissing } from './editor-target.js'
+import { InitialStateWorkspace } from './InitialStateWorkspace.js'
 import { MapMode } from './MapMode.js'
 import { MusicPicker } from './MusicPicker.js'
 import {
@@ -211,6 +218,10 @@ import { ScriptBehaviorInspector } from './ScriptBehaviorInspector.js'
 import { CanonicalHostileOnLoseEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { disposeSoundPreview } from './SoundPicker.js'
 import { SpriteImageViewer, SpriteThumb } from './SpriteThumb.js'
+import type {
+  InitialStateDetailsNavigation,
+  InitialStateReturn,
+} from './script-preview-navigation.js'
 import {
   shallowSelectorArrayEqual,
   useEditorDerivedSelector,
@@ -427,9 +438,8 @@ export function App(props: {
     actors: state.actors,
     sprites: state.sprites,
   })
-  const [editingInitialState, setEditingInitialState] = useState(false)
-  const [initialStatePropertiesHost, setInitialStatePropertiesHost] =
-    useState<HTMLDivElement | null>(null)
+  const [initialStateReturn, setInitialStateReturn] = useState<InitialStateReturn>()
+  const [initialStateDetails, setInitialStateDetails] = useState<InitialStateDetailsNavigation>()
   const {
     error: saveErr,
     activity: saveActivity,
@@ -862,6 +872,90 @@ export function App(props: {
       applyEditorLocation,
     ],
   )
+  const showInitialStateDetails = (target: InitialStateReturn): void => {
+    if (!openProjectSceneReference(target.origin.sceneId, target.origin.entityId)) return
+    const revision = nextPreciseFocusRevision()
+    setCanonicalReferenceFocus(undefined)
+    setInitialStateDetails({
+      origin: target.origin,
+      request:
+        target.kind === 'step'
+          ? {
+              kind: 'step',
+              schemeId: target.target.schemeId,
+              stageId: target.target.stageId,
+              revision,
+            }
+          : { kind: 'scheme', schemeId: target.target.schemeId, draft: target.draft, revision },
+    })
+    setInitialStateReturn(undefined)
+    setDrawer({
+      open: true,
+      src: null,
+      internalScriptId: null,
+      commandPath: null,
+      focusRevision: revision,
+    })
+  }
+  const openInitialStateUsage = (usage: ScriptPreviewUsage): void => {
+    const entry = usage.entry
+    if (usage.kind !== 'scheme-default') {
+      showInitialStateDetails({ kind: 'step', origin: usage.entry, target: usage.entry, label: '' })
+      return
+    }
+    const scene = scriptState.scenes.find((scene) => scene.id === entry.sceneId)
+    const scheme =
+      entry.channel === 'trigger' || entry.channel === 'auto'
+        ? scene?.entities.find((entity) => entity.id === entry.entityId)?.behaviors?.[
+            entry.channel
+          ]?.[entry.schemeId]
+        : scene?.hooks?.[entry.channel]?.variants[entry.schemeId]
+    if (!scheme) return
+    showInitialStateDetails({
+      kind: 'scheme',
+      target: entry,
+      origin: { ...entry, stageId: scheme.flow.initial },
+      label: '',
+      draft: {
+        name: scheme.label,
+        isDefault:
+          (entry.channel === 'onEnter' || entry.channel === 'onTeleport') &&
+          scene?.hooks?.[entry.channel]?.initial === entry.schemeId,
+        previewState:
+          state.scriptPreview?.schemeDefaults.find(
+            (saved) => scriptPreviewSchemeKey(saved.entry) === scriptPreviewSchemeKey(entry),
+          )?.stateId ?? '',
+      },
+    })
+  }
+  useEffect(() => {
+    const inLibrary = location.module === 'scene' && location.subpage === 'initial-states'
+    if (
+      initialStateReturn &&
+      (!inLibrary ||
+        !scriptPreviewEntryExists(initialStateReturn.origin, scriptState.scenes) ||
+        !(initialStateReturn.kind === 'step'
+          ? scriptPreviewEntryExists(initialStateReturn.target, scriptState.scenes)
+          : scriptPreviewSchemeExists(initialStateReturn.target, scriptState.scenes)))
+    )
+      setInitialStateReturn(undefined)
+    if (
+      initialStateDetails &&
+      (location.module !== 'scene' ||
+        location.subpage !== 'workspace' ||
+        placeSceneId !== initialStateDetails.origin.sceneId ||
+        (selected.kind === 'entity' ? selected.id : undefined) !==
+          initialStateDetails.origin.entityId)
+    )
+      setInitialStateDetails(undefined)
+  }, [
+    location,
+    initialStateReturn,
+    initialStateDetails,
+    placeSceneId,
+    selected,
+    scriptState.scenes,
+  ])
   const rejectChangedProjectReference = (label: string, id: string): void =>
     setWorkspaceNotice({
       kind: 'error',
@@ -1947,7 +2041,7 @@ export function App(props: {
     document.title = `${state.manifest.name} · type-pal 编辑器`
   }, [state.manifest.name])
 
-  if (!scene && activeSubpage.kind !== 'project') {
+  if (!scene && activeSubpage.kind !== 'project' && activeSubpage.kind !== 'initial-state') {
     const invalidEntryTarget = defaultEntry?.scene ?? state.manifest.defaultEntryId
     return (
       <div className="boot">
@@ -2237,6 +2331,24 @@ export function App(props: {
             moduleLabel={activeModule.label}
             objectId={location.objectId!}
             onClear={() => focusCurrentObject(undefined)}
+          />
+        ) : activeSubpage.kind === 'initial-state' ? (
+          <InitialStateWorkspace
+            state={state}
+            session={session}
+            authorScenes={scriptState.scenes}
+            actorsById={actorsById}
+            assetBase={project.assetBase}
+            assetReader={assetReader}
+            leaderSpriteId={leaderSpriteId}
+            stateId={location.objectId}
+            onSelectState={(id) => applyEditorLocation(editorLinks.initialState(id), 'replace')}
+            onOpenUsage={openInitialStateUsage}
+            focus={initialStateReturn?.target}
+            returnLabel={initialStateReturn?.label}
+            onReturn={
+              initialStateReturn ? () => showInitialStateDetails(initialStateReturn) : undefined
+            }
           />
         ) : activeSubpage.kind === 'simulator' ? (
           <BattleSimulatorWorkbench
@@ -2817,8 +2929,13 @@ export function App(props: {
                       new SetScriptPreviewLibraryCommand(library),
                     )
                   }
-                  onEditingInitialState={setEditingInitialState}
-                  initialStatePropertiesHost={initialStatePropertiesHost}
+                  onOpenInitialState={(stateId, target) => {
+                    setInitialStateReturn(target)
+                    setInitialStateDetails(undefined)
+                    applyEditorLocation(editorLinks.initialState(stateId))
+                  }}
+                  detailsNavigation={initialStateDetails}
+                  onDetailsNavigationConsumed={() => setInitialStateDetails(undefined)}
                   locale={state.locale}
                   sprites={state.sprites}
                   actorsById={actorsById}
@@ -2849,9 +2966,7 @@ export function App(props: {
 
             <DsInspectorHost
               className={`inspector${
-                !placingEntity &&
-                !(drawer.open && editingInitialState) &&
-                (selEntity || selected.kind === 'scene')
+                !placingEntity && (selEntity || selected.kind === 'scene')
                   ? ' inspector--tabbed'
                   : ''
               }`}
@@ -2874,8 +2989,6 @@ export function App(props: {
                     setPlaceZoneRanges((current) => ({ ...current, [on]: range }))
                   }
                 />
-              ) : drawer.open && editingInitialState ? (
-                <div ref={setInitialStatePropertiesHost} />
               ) : selEntity ? (
                 <SceneEntityInspectorTabs
                   key={`${scene.id}:${selEntity.id}`}
