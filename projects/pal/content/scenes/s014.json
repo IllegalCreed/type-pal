@@ -547,6 +547,7 @@
     },
     {
       "id": "e202",
+      "label": "仙灵岛码头出口",
       "pos": {
         "col": 74,
         "row": -18,
@@ -568,7 +569,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开码头：前往仙灵岛入口",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -576,6 +577,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "切换到仙灵岛入口",
                   "body": [
                     {
                       "kind": "loadScene",

@@ -2935,7 +2935,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "进入仙灵岛迷宫：播放场景音乐",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -2943,6 +2943,7 @@
             "stages": [
               {
                 "id": "initial",
+                "label": "播放迷宫音乐",
                 "body": [
                   {
                     "asset": "music.pal.077",

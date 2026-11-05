@@ -131,7 +131,7 @@ function observeBattleWorld({ game, entityId }) {
 await runBrowserJourney({
   name: `${engine}-007`,
   packageName: `@type-pal/${engine}`,
-  environment: game ? {} : { VITE_PROJECT_ID: 'pal' },
+  environment: game ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
   traceConfig: `scripts/e2e/island-${engine}.config.mts`,
   arguments: [options.headed ? '--headed' : '--headless'],
   initScripts: [islandEntranceObserverScript(), installCommittedRoutePlayback],
