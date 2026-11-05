@@ -293,8 +293,19 @@ test('P03 配对删除场景：成功/undo/redo 双侧同步 + 保存合法', as
   const preview = {
     ...emptyScriptPreviewLibrary(),
     states: [
-      { id: 'removed-scene', sceneId: blank.id, name: '本次删除', entities: [] },
-      { id: 'orphan-scene', sceneId: 'already-missing', name: '载入时失效', entities: [] },
+      {
+        id: 'removed-scene',
+        name: '本次删除',
+        scenes: [
+          { sceneId: blank.id, entities: [] },
+          { sceneId: 'start', entities: [] },
+        ],
+      },
+      {
+        id: 'orphan-scene',
+        name: '载入时失效',
+        scenes: [{ sceneId: 'already-missing', entities: [] }],
+      },
     ],
     bindings: [
       {
@@ -318,7 +329,10 @@ test('P03 配对删除场景：成功/undo/redo 双侧同步 + 保存合法', as
   expect(snap(rig.main, rig.script).sceneIds).not.toContain('wf-scene-del')
   expect(rig.main.getState().scriptPreview).toEqual({
     ...preview,
-    states: [preview.states[1]],
+    states: [
+      { ...preview.states[0], scenes: [{ sceneId: 'start', entities: [] }] },
+      preview.states[1],
+    ],
     bindings: [],
   })
   await expect(saveLegal(rig)).resolves.toBeTruthy()
@@ -328,6 +342,7 @@ test('P03 配对删除场景：成功/undo/redo 双侧同步 + 保存合法', as
   rig.coordinator.redo()
   expect(snap(rig.main, rig.script).sceneIds).not.toContain('wf-scene-del')
   expect(rig.main.getState().scriptPreview!.states.map((state) => state.id)).toEqual([
+    'removed-scene',
     'orphan-scene',
   ])
 })
@@ -369,11 +384,15 @@ test('P05 配对删除实体：成功/undo/redo 双侧同步 + 保存合法', as
     states: [
       {
         id: 'door',
-        sceneId,
         name: '门口',
-        entities: [
-          { entityId: 'wf-entity-del', pos: { col: 8, row: 9, height: 0 } },
-          { entityId: 'already-missing' },
+        scenes: [
+          {
+            sceneId,
+            entities: [
+              { entityId: 'wf-entity-del', pos: { col: 8, row: 9, height: 0 } },
+              { entityId: 'already-missing' },
+            ],
+          },
         ],
       },
     ],
@@ -399,7 +418,7 @@ test('P05 配对删除实体：成功/undo/redo 双侧同步 + 保存合法', as
     new DeleteEntityCommand(sceneId, 'wf-entity-del', provider),
   )
   expect(snap(rig.main, rig.script).entityIds).not.toContain(`${sceneId}/wf-entity-del`)
-  expect(rig.main.getState().scriptPreview!.states[0]!.entities).toEqual([
+  expect(rig.main.getState().scriptPreview!.states[0]!.scenes[0]!.entities).toEqual([
     { entityId: 'already-missing' },
   ])
   await expect(saveLegal(rig)).resolves.toBeTruthy()
@@ -408,7 +427,7 @@ test('P05 配对删除实体：成功/undo/redo 双侧同步 + 保存合法', as
   expect(rig.main.getState().scriptPreview).toEqual(preview)
   rig.coordinator.redo()
   expect(snap(rig.main, rig.script).entityIds).not.toContain(`${sceneId}/wf-entity-del`)
-  expect(rig.main.getState().scriptPreview!.states[0]!.entities).toEqual([
+  expect(rig.main.getState().scriptPreview!.states[0]!.scenes[0]!.entities).toEqual([
     { entityId: 'already-missing' },
   ])
 })
@@ -872,7 +891,7 @@ test('P19 真实 seed→loader→pair 编辑/undo/redo→保存序列化→重�
 test('P20 配对caller数量与Root成组装配的静态入口标记（不据此证明任意命令无复用）', () => {
   expect(
     (`${appSource}\n${itemSource}`.match(/historyCoordinator[.]dispatch[(]/g) ?? []).length,
-  ).toBe(10) // + item create/copy/delete, now paired canonical + shell transactions.
+  ).toBe(11) // Includes the script details + preview default paired Save caller.
   expect(rootSource).toMatch(/new EditSession[(]/)
   expect(rootSource).toMatch(/new ScriptEditSession[(]/)
   expect(rootSource).toMatch(/new EditorHistoryCoordinator[(]/)

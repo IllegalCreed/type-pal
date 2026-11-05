@@ -1,7 +1,7 @@
 {
   "version": 1,
   "baseline": {
-    "groups": 15,
+    "groups": 16,
     "moveButtons": 42,
     "adoptedMoveButtons": 24,
     "rawMoveButtons": 18,
@@ -157,6 +157,16 @@
       "actionMode": "icon-only",
       "moveButtonCount": 2,
       "verification": "SpriteActionEditor.test.tsx"
+    },
+    {
+      "id": "scene/initial-state/actions",
+      "source": "InitialStateWorkspace.tsx",
+      "fingerprint": "className=\"initial-state-header-actions\"",
+      "occurrence": 1,
+      "density": "default",
+      "actionMode": "icon-only",
+      "moveButtonCount": 0,
+      "verification": "InitialStateWorkspace.test.tsx"
     }
   ],
   "candidates": [

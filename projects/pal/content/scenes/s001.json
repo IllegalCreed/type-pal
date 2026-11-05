@@ -223,7 +223,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "卧房出口：前往客栈二楼",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -231,6 +231,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "离开卧房，进入客栈二楼",
                   "body": [
                     {
                       "kind": "loadScene",
@@ -794,6 +795,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "提示端着物品不能爬上去",
                   "body": [
                     {
                       "kind": "dialog",
@@ -815,7 +817,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "密道入口：爬回卧房并合上盖板",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -823,6 +825,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "爬回卧房，复原外观并合上盖板",
                   "body": [
                     {
                       "actor": "li-xiaoyao",
@@ -1403,6 +1406,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "提示端着物品不能爬下去",
                   "body": [
                     {
                       "kind": "dialog",
@@ -1560,7 +1564,7 @@
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "密道出口：打开盖板",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -1568,6 +1572,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "推开密道盖板",
                   "body": [
                     {
                       "kind": "repeat",
@@ -3446,6 +3451,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "头领不饿，让逍遥先送隔壁",
                   "body": [
                     {
                       "kind": "dialog",
@@ -3474,6 +3480,7 @@
                 },
                 {
                   "id": "insist",
+                  "label": "再次拒绝，要求端走酒菜",
                   "body": [
                     {
                       "kind": "dialog",
@@ -3498,6 +3505,7 @@
                 },
                 {
                   "id": "dismiss",
+                  "label": "让逍遥去忙，等待招呼",
                   "body": [
                     {
                       "kind": "dialog",
@@ -3523,7 +3531,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "求药出发后：头领等待好消息",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3531,6 +3539,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "鼓励逍遥，等待求药消息",
                   "body": [
                     {
                       "cue": {
@@ -3552,7 +3561,7 @@
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "送餐后：头领让逍遥去忙",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -3560,6 +3569,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "让逍遥去忙，等待后续招呼",
                   "body": [
                     {
                       "cue": {
@@ -3646,7 +3656,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "用餐中：称赞烧鸡味道",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3654,6 +3664,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "随从称赞烧鸡味道",
                   "body": [
                     {
                       "cue": {
@@ -3675,7 +3686,7 @@
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "婶婶病重：随从谈苗疆巫术",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -3683,6 +3694,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "谈苗疆巫术与拜月教",
                   "body": [
                     {
                       "cue": {
@@ -3715,7 +3727,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "随从房内：朝左维持站姿",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3723,7 +3735,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "朝左站定，保持默认站帧",
                   "body": [
                     {
                       "kind": "loop",
@@ -4024,7 +4036,7 @@
             }
           },
           "legacy-001": {
-            "label": "触发行为 1",
+            "label": "用餐中：感叹长途赶路",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -4032,6 +4044,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "随从感叹赶路后终于吃饭",
                   "body": [
                     {
                       "cue": {
@@ -4056,7 +4069,7 @@
             }
           },
           "legacy-002": {
-            "label": "触发行为 2",
+            "label": "婶婶病重：随从询问病情",
             "order": 2,
             "flow": {
               "kind": "stages",
@@ -4064,6 +4077,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "询问老板娘是否病了",
                   "body": [
                     {
                       "cue": {
@@ -4291,7 +4305,7 @@
             }
           },
           "legacy-003": {
-            "label": "自动行为 3",
+            "label": "送餐结束：随从向左退回",
             "order": 3,
             "flow": {
               "kind": "stages",
@@ -4299,7 +4313,7 @@
               "stages": [
                 {
                   "id": "routine",
-                  "label": "自动动作编排",
+                  "label": "向左退回，完成后结束",
                   "body": [
                     {
                       "kind": "repeat",

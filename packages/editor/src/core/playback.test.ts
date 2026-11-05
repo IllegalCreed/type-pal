@@ -171,7 +171,7 @@ describe('Playback', () => {
     expect(playback.view.fadeBlack).toBe(0)
   })
 
-  test('切场景会收尾临时黑幕并结束当前预览', async () => {
+  test('缺少 canonical 场景定义的旧 stages 入口明确报错并收尾临时黑幕', async () => {
     const playback = new Playback(scene)
     playback.play('canonical:screen-hold', [
       {
@@ -184,7 +184,7 @@ describe('Playback', () => {
 
     await vi.waitFor(() => expect(playback.mode).toBe('done'))
     expect(playback.view.fadeBlack).toBe(0)
-    expect(playback.view.logs.at(-1)).toContain('切场景 s002')
+    expect(playback.error).toBe('切场景 s002 缺少 canonical 预览场景定义')
   })
 
   test('不匹配的 reveal token 会失败并由异常 finalizer 恢复画面', async () => {

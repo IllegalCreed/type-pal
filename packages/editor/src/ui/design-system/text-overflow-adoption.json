@@ -1873,40 +1873,6 @@
     },
     {
       "source": "editor.css",
-      "selectorText": ".script-scheme-card-select span",
-      "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
-      "producer": {
-        "source": "ScriptEditor.tsx",
-        "component": "ScriptSchemeStrip",
-        "callsite": "class:script-scheme-card-select"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
-      "selectorText": ".script-scheme-card-select strong",
-      "condition": "default",
-      "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],
-      "specificity": [0, 1, 1],
-      "producer": {
-        "source": "ScriptEditor.tsx",
-        "component": "ScriptSchemeStrip",
-        "callsite": "class:script-scheme-card-select"
-      },
-      "policy": "selection-summary",
-      "contentKind": "selection-summary",
-      "reveal": "selected-detail",
-      "reason": "固定密度摘要可在当前选中对象详情中读取完整值，且不为每个列表项建立 observer。",
-      "verification": "design-system/text-overflow-adoption.test.ts#keeps selection summaries disclosure out of per-row observers"
-    },
-    {
-      "source": "editor.css",
       "selectorText": ".semantic-frame-group-head b",
       "condition": "default",
       "declarations": ["text-overflow:ellipsis", "white-space:nowrap"],

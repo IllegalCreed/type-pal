@@ -43,25 +43,34 @@ export function previewAuthorScene(): AuthorSceneDef {
 export function previewLibrary(): ScriptPreviewLibrary {
   return {
     kind: 'type-pal-script-preview',
-    version: 1,
+    version: 3,
+    schemeDefaults: [],
     states: [
       {
         id: 'door',
-        sceneId: 'start',
         name: '迎客前',
-        entities: [
+        scenes: [
           {
-            entityId: 'host',
-            pos: { col: 6, row: 7, height: 1 },
-            facing: 'up',
-            hidden: false,
-            collide: false,
-            zBias: 0,
+            sceneId: 'start',
+            entities: [
+              {
+                entityId: 'host',
+                pos: { col: 6, row: 7, height: 1 },
+                facing: 'up',
+                hidden: false,
+                collide: false,
+                zBias: 0,
+              },
+              { entityId: 'guest', pos: { col: 8, row: 9, height: 0 } },
+            ],
           },
-          { entityId: 'guest', pos: { col: 8, row: 9, height: 0 } },
         ],
       },
-      { id: 'room', sceneId: 'start', name: '返回后', entities: [{ entityId: 'host' }] },
+      {
+        id: 'room',
+        name: '返回后',
+        scenes: [{ sceneId: 'start', entities: [{ entityId: 'host' }] }],
+      },
     ],
     bindings: [
       {

@@ -953,6 +953,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '0620f5871091791b7eeca26a9cdcdf4f77d446f9e019bc4d64912d7a26cb77a6',
       fileSha256: '59fa4eda5dc5f088df79d4e6c8e8bc0bb8c3d89c7b832967470cd714bb2b664c',
     },
+    // Codex 2026-11-05: the user-approved independent initial-state workspace
+    // receives the old canvas selection/drag contract; the nested Tab route retires.
+    // Exact migration proof: ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.
+    {
+      file: 'packages/editor/src/ui/SceneScriptWorkspace.test.tsx',
+      previous: 10,
+      current: 9,
+      previousIdentityDigest: '474a9a8c7713d19f5a43384187a2f9443d6667bb48804e55d8144944bb6dfc6f',
+      currentIdentityDigest: 'd919abf76fd922bf736e4e6c6371533dc020632c976f32d39e742bcc98c32d92',
+      fileSha256: '5e2fb0fc53dc4b959d285af8f38d4a9d08a5d2d1d1a232a5a09908abc63949db',
+    },
   ].map((entry) => Object.freeze(entry)),
 )
 

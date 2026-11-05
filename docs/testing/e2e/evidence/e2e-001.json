@@ -49,7 +49,7 @@
       "lines": "164-178",
       "anchor": "count('worldDrawCompleted')",
       "role": "render collector insertion",
-      "sha256": "f4ade1bd454b3dbde7474b8602227656bbf9d8d44090d3ed828710eb9a603db2"
+      "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
@@ -95,6 +95,7 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "2026-11-04 source applicability: ca16167540d1f0f2030ebaf126d7533037f8d0b7 only adds s001/e25 to RF001 actor snapshots and updates the existing real projection test fixture/assertion. Older RF001 recordings retain their missing-e25 limitation; do not infer that pose from script bodies or another visit. The Game branch and prior render contract source remain unchanged, so their evidence retains its original bounded applicability. Only the changed plugin file pin is updated; historical candidate/versions, execution numbers, raw artifacts and runtimeExecution=false stay intact. No new RF001 execution is accepted by this document update.",
     "2026-10-30 仅001出版/源码合同实质复核：7当前sourceRefs SHA/锚点、55行源对白及公开三入口已核；64opening工具/9catalog绿。明确reviewBy10-28→11-29；原runtimeExecution=false、candidate/versions及旧运行结论不升格，当前编辑器预览与双轨运行不由本次授信。",
     "2026-10-10 对白留显修复：仅同步当前sourceRefs源码索引及核验其原有anchor，历史revision/运行结论/数字/raw保持原样。新增全槽draw/显隐义务以E2E-CONTINUOUS-001-006任务卡及dialogue-visibility-fix-20261010局部验证为准，本条不授信当前001–006完整演出。",
     "2026-10-08 源码核读更新：核对本页现有 caller、输入、采集和断言锚点后刷新 sourceRefs 哈希；只更新文档源码绑定，不修改历史 revision、版本、实跑结果或原始日志。本轮工具补强尚未冻结，未补录剧情或执行连续演示；当前进度及剩余项以 E2E-CONTINUOUS-001-006 任务卡顶部为准。",

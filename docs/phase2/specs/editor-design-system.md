@@ -1,59 +1,67 @@
 # Type-Pal 编辑器设计系统与交互规范 v1
 
-Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: current
+Validity: current
+Owner: Codex（现行设计规范维护；不代签历史执行）
+Last reviewed: 2026-11-04
 Template: design-spec-v1 / 1.0.0
 
-本页把历史材料接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 `packages/editor` 功能性界面实施、代码审查与验收的唯一设计规范入口。规范要求与“是否已实现、是否已验收”分开：规则继续约束开发，旧执行记录只证明其当时范围。
 
 ## 问题与目标
 
-- 历史设计记录：Type-Pal 编辑器设计系统与交互规范，自 v1.0.0（ED-DS-1）起经连续 UX consolidation 演进至 implemented v2.24.0 bounded long-flow editor modal contract（v2.1 历史规范中的「底部问题面板」前提已被用户纠正）。目标是保全设计目标、约束、方案和历史验收意图。
+定义编辑器共同的产品语言、Foundations、Patterns和Workbench recipes，防止各页面自行拼凑控件、密度和动作语义。本页不定义内容schema、业务命令、保存协议或游戏运行时规则。
+
+2026-10-17的R33模板迁移（`348620bf3c`）把原本明确标注“后续编辑器界面实施和验收的唯一规范入口”的implemented v2.24.0文档整体标为historical。该提交是文档迁移，没有提供废止本规范或由另一规范完整替代的依据。本次纠正规范适用性；不恢复已撤回的深审信用，不把原implemented、旧测试数字或历史签字算作本轮执行。
 
 ## 方案
 
-- §0 规范语义与使用方法、§1 产品原则与信息层级、§2 Foundations（token 合同，如 `--ds-status-warning #e2b340`）、§3 应用壳与响应式布局、§4 共享组件与状态合同（Panel 状态固定 `ready / empty / loading / partial / error`；扫描未完成或失败时计数必须显示 `at-least / unknown`，不得把下界传成精确 Tab 数字；`statusOwner="external"` 仅限完整 `ready + exact`）、§5 Workbench recipes、§6 交互、导航与反馈（error/warning 必须有可读说明和关联字段；success 不应永久占据主区域）、§7 媒体查看合同、§8 无障碍、国际化与长文本、§9 实现合同与反模式、§10 Reference fixtures 与验收矩阵（Design Lab `RF-16` 行变体基准）、§11 Rollout、例外与版本治理；附录 A 现状映射、B 用户已验收的视觉裁决、C v1.1.0 / D v2.0.0 / E v2.1.0 amendment、F v2.2.0 correction（用户已定形，待 Kimi / GLM 重签）、G 依据与边界、H v2.8.0 interaction / IA consolidation（用户已定形，待 Kimi / GLM 重签）。
+设计、实现和审查按下方保全正文的DS条款定位：§0规范语义与条款引用、§1产品原则、§2 Foundations、§3应用壳与布局、§4组件与状态、§5工作台recipes、§6交互反馈、§7媒体、§8无障碍与长文本、§9实现边界、§10验收矩阵及§11例外治理。条款要求不是“参考样式”；后续UI任务必须引用具体条款，不能只写“看起来统一”。
+
+开工路由见[第二阶段必读](../READ-FIRST.md)，实际工作流程见[编辑器UI开工与验收](editor-architecture.md#编辑器ui开工与验收)。架构文档承载领域结构与明确的后继补充，不另建一套组件尺寸或图标规则。共享组件与token提供当前实现，代码有偏差时按规范及用户裁决修复，不能把有缺陷的现状自动当标准。
 
 ## 真值与约束
 
-- 原版/primary source：`docs/phase2/specs/editor-design-system.md` 原始全文及其中的一手引用。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授执行信用。明确不做：不修改产品实现、不改写原始 quote。
+- 本规范原文固定来源为`0d5311075b4f5e67362d1953a138d678c0a4aa42`，原源SHA为`f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8`；下方保全正文原字节不变。
+- MUST/SHOULD/MAY、Foundations/Patterns/Recipes和具体条款继续按DS-0使用。已被明确的后续用户裁决修订的条款采用后继，须记录具体冲突与承接位置，不能因文档日期或某段旧验收而整体废止规范。
+- 协作、准入及质量门遵循[当前工作流](../../engineering/guides/agent-workflow.md)与AGENTS；旧固定三签、待签和豁免叙述保留历史语境，不恢复成现行门禁。初态编排等领域后继合同见[编辑器架构](editor-architecture.md)。
+- 规范效力不等于实现符合。静态门、模板状态和文档分类不能授runtime、E2E、视觉或coverage信用。
 
 ## 当前状态与未决
 
-- `status`: historical；`lastReviewed`: 2026-10-17。
-- 历史冲突/未决（quote 原文）：附录 F（v2.2.0 correction）与附录 H（v2.8.0 consolidation）标注「用户已定形，待 Kimi / GLM 重签」——该待签状态为历史边界，本页迁移不代签、不视为已完成。
+Status/Validity为current。本文继续承担设计规范入口；历史quote中的版本状态、计数、已完成、待签及执行结论按各自当时记录读取。本轮只纠正误分类及必读路由，没有重新逐条核验全部产品实现，也不宣布所有界面已符合规范。
+
+2026-11-04用户再次明确同一编辑行的控件高度一致、复制/删除采用公共图标动作。相应现有条款为DS-F.4、DS-F.5、DS-C.2和DS-C.2a；本次初态标题行的实现与实页证据归[初态任务卡](../../tasks/cards/ED-ENTITY-STATE-PLAN-1.md)，不外推到全编辑器。
 
 ## 边界与风险
 
-- 风险：历史设计可能与当前代码、数据或产品决策漂移。可证伪观察：当前 primary source 或执行证据与本页不一致时，以新证据为准。迁移/兼容边界：只迁移文档表达和证据账本。
+规范内历史演进可能保留已被后继裁决替代的段落；按明确的用户决定、现行工作流和对应领域后继逐项处理。规范分类纠正不恢复旧审阅声明，不重演历史测试，不修改保全原文，也不通过把规则移到另一份精简文档来悄悄削弱约束。
 
 ## 验收
 
-- 可执行验证：source/after SHA、quote inverse、模板章节和三账本。业务 oracle：设计目标和约束可追溯，当前行为由继任实现与测试证明。复核 Owner 与截止条件：Codex 独立复核后接收。
+本次文档oracle是迁移前规范角色、误分类提交、现行入口与后继关系可核，原文保全可精确逆回，当前状态和中央登记一致。只接收此分类/路由差异，不声称重审全部DS条款或重验所有界面。
+
+产品任务仍按DS条款、实际caller和真实页面核验尺寸、状态、操作及窄宽表现；静态与组件回归分别留证，不能替代可见布局检查。
 
 ## 历史范围
 
-- phase2/lore archive；日期：2026-08-14；固定来源 `0d5311075b4f5e67362d1953a138d678c0a4aa42`；source SHA `f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8`。
+R33封套、S44/S45接受及其撤信/限定范围由固定Git与原review保留。本次纠正其把现行规范整体归为历史的判断，不倒改当时记录。
 
 ## 原始结论
 
-- Type-Pal 编辑器设计系统与交互规范 v1：这是 design-spec，当前文档状态为 implemented。全文 1274 行、98 个标题；摘要/首段为「Status: implemented v2.24.0 bounded long-flow editor modal contract（v2.1 历史规范中的“底部问题面板”前提已被用户纠正）」。属于现行文档范围，使用时受本记录的证据与未决项约束。
+迁移前原稿标注implemented v2.24.0，适用于全部编辑器功能性界面，并明确是后续实施与验收的唯一规范入口；它同时包含历史设计演进和执行叙述，两者应分轴读取。
 
 ## 当时证据
 
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
+原始条款、任务、版本和执行说明仍在下方quote中原样保留；原验收事实按原任务和原件追溯，不由本页恢复当前信用。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision。历史冲突/未决见上方；quote §0–§11 与附录 A–H 原文为唯一措辞来源。
+current。设计规则继续适用；历史执行事实仅限原范围，明确的后继裁决优先。本轮恢复规范身份，不等于全部条款或产品实现重新通过验收。
 
 ## 继任文档
 
-- 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+本页继续作为设计规范入口；[编辑器架构](editor-architecture.md)维护领域工作台合同，[开发验收流程](../../engineering/guides/agent-workflow.md)维护协作与交付过程。没有完整替代本规范的新文档。
 
 ## 原文保全
 

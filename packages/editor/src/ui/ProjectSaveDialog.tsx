@@ -1,11 +1,12 @@
 import type { SaveAsProgress } from '../core/open-actions.js'
+import type { ProjectWriteActivity } from '../core/project-io.js'
 import { DsDialog } from './design-system/index.js'
 
 export type ProjectSaveActivity =
   | { phase: 'choosing-directory' }
   | { phase: 'preparing' }
   | { phase: 'recovering' }
-  | { phase: 'writing'; completed: number; total: number }
+  | ProjectWriteActivity
   | { phase: 'saving-as'; progress?: SaveAsProgress }
 
 function formatBytes(bytes: number): string {

@@ -6,6 +6,7 @@ import { currentNativeControlAcceptance } from './current-native-control-accepta
 import { currentNativeControlAdmissions } from './current-native-control-admission.mjs'
 import { currentNativeControlQualificationIssues } from './current-native-control-qualification.mjs'
 import { frozenRegistrySource, summarizeDocumentRegistry } from './document-registry.mjs'
+import { readPinnedGitDocuments } from './git-document-batch.mjs'
 import {
   incrementalControlMaintenanceMatches,
   incrementalControlProjection,
@@ -15,6 +16,10 @@ import { assertReviewRecordSourceUnchanged } from './review-record-storage.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import { isRollforwardRegistryLayout } from './rollforward-control-view.mjs'
 import { canonicalTerminalJson, parseTerminalJson } from './terminal-json.mjs'
+import {
+  assertTestingSourceMaintenance,
+  assertTestingSourceMaintenanceOwner,
+} from './testing-source-maintenance.mjs'
 
 const hash = (b) => createHash('sha256').update(b).digest('hex')
 const digest = (v) => hash(canonicalTerminalJson(v))
@@ -522,8 +527,28 @@ export function currentNativeControlIssues(doc, template, contract, read, option
       'unique current review owner/position required',
     )
     const row = owners[0].e
+    let acceptedBytes = raw
+    if (row.afterSha256 !== hash(raw)) {
+      const maintenance = assertTestingSourceMaintenanceOwner({
+        doc,
+        row,
+        owner: owners[0].owner,
+        index: owners[0].index,
+        template,
+      })
+      const original = readPinnedGitDocuments(options.root, [maintenance.source])(
+        maintenance.source,
+      )
+      assertTestingSourceMaintenance({
+        path: doc.path,
+        before: original.buffer,
+        current: raw,
+        readBuffer: nativeRead,
+      })
+      acceptedBytes = original.buffer
+    }
     demand(
-      row.afterSha256 === hash(raw) &&
+      row.afterSha256 === hash(acceptedBytes) &&
         row.docType === template.docType &&
         row.templateId === expected.templateId &&
         row.templateVariant === expected.variant &&

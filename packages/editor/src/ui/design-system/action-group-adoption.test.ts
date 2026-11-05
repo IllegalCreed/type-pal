@@ -22,16 +22,16 @@ function unwrapActionGroup(value: string, opening: string): string {
 }
 
 describe('action group adoption gate', () => {
-  test('closes fifteen adopted groups and classifies every raw move-button surface', () => {
+  test('closes sixteen adopted groups and classifies every raw move-button surface', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
-      groups: 15,
+      groups: 16,
       moveButtons: 42,
       adoptedMoveButtons: 24,
       rawMoveButtons: 18,
       candidateSurfaces: 9,
     })
-    expect(manifest.adopted).toHaveLength(15)
+    expect(manifest.adopted).toHaveLength(16)
     expect(manifest.candidates).toHaveLength(9)
     expect(
       Object.fromEntries(
@@ -84,6 +84,7 @@ describe('action group adoption gate', () => {
       'map/layer-stack/header-actions',
       'map/layer-stack/state-actions',
       'asset/sprite-action-current/actions',
+      'scene/initial-state/actions',
     ])
 
     for (const invalid of [-1, 0.5]) {
@@ -234,7 +235,7 @@ describe('action group adoption gate', () => {
     const problems = validateActionGroupAdoption(manifest, { [file]: mutated }).join('\n')
     expect(problems).toMatch(new RegExp(`${id.replaceAll('/', '\\/')} must bind exactly one`))
     expect(problems).toMatch(
-      /production action groups 14|adopted move buttons 22|raw move buttons 20/,
+      /production action groups 15|adopted move buttons 22|raw move buttons 20/,
     )
     expect(problems).toMatch(/raw move button must map to exactly one candidate owner/)
   })

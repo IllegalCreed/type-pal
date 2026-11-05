@@ -2,7 +2,7 @@
  * 演出预览控制器(v0:播放 / 单步 / 高亮 / 日志桩,从头播)。
  *
  * 复用不重写:直接实例化 @type-pal/reforge 的 ScriptRunner,注入**画布 host**——
- * 走位/显隐/朝向/定帧/换装/对话/淡幕做真可视化,音乐/战斗/商店/切场景等落日志桩。
+ * 走位/显隐/朝向/定帧/换装/对话/淡幕做真可视化,音乐/战斗/商店等落日志桩；canonical 场景切换由资源宿主准备并提交。
  * 演出态全部写进 overlay(PlaybackView),**不触碰编辑器场景数据**;重置即丢弃。
  * 走位步进逻辑与引擎同源语义(半格步 + 像素轴朝向,见 reforge main.ts)。
  */
@@ -27,6 +27,7 @@ import type {
 import {
   buildEntityLifecycleReferenceIndex,
   emptyProjectedWorldScriptState,
+  emptyWorldScriptState,
   lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
@@ -42,6 +43,8 @@ import {
   executeScriptHostEffect,
   interactionFacingToward,
   type RuntimeScriptRunner,
+  resolveSceneSpawn,
+  runtimeSceneView,
   ScriptProjectRuntime,
   ScriptRunner,
 } from '@type-pal/reforge'
@@ -119,7 +122,36 @@ export class Playback {
    */
   poi: Poi | null = null
 
-  private scene: SceneDef
+  /** Canvas resources are prepared without changing the visible scene; the returned commit is synchronous. */
+  prepareScene?: (
+    scene: SceneDef,
+    source: AuthorSceneDef,
+    signal: AbortSignal,
+  ) => Promise<() => void>
+  loadingScene: string | null = null
+  error: string | null = null
+  private activeScene: SceneDef
+  private sceneRevision = 0
+  private sceneCommitPaused = false
+  private sceneGate: (() => void) | null = null
+  private switchScene: ScriptHost['loadScene'] | null = null
+  private sceneOverlays = new Map<string, Map<string, EntityOverlay>>()
+  private readonly initialScene: SceneDef
+  private readonly initialView: PlaybackView
+
+  /** Author scene and completed results never determine the live canvas implicitly. */
+  get presentation(): { scene: SceneDef; view: PlaybackView } {
+    return this.mode === 'running' || this.mode === 'paused'
+      ? { scene: this.activeScene, view: this.view }
+      : { scene: this.initialScene, view: this.initialView }
+  }
+
+  get sceneSession(): number {
+    return this.sceneRevision
+  }
+  private get scene(): SceneDef {
+    return this.activeScene
+  }
   private abort: AbortController | null = null
   private moves: MoveJob[] = []
   private fadeJob: { dir: 'in' | 'out'; ms: number; done: number; resolve: () => void } | null =
@@ -139,8 +171,10 @@ export class Playback {
     private readonly itemNames: ReadonlyMap<string, string> = new Map(),
     private readonly locale: Locale = {},
   ) {
-    this.scene = scene
+    this.initialScene = scene
+    this.activeScene = scene
     this.view = this.freshView()
+    this.initialView = this.freshView()
   }
 
   private freshView(): PlaybackView {
@@ -167,11 +201,16 @@ export class Playback {
     return e ? e.pos : undefined
   }
 
-  private ov(id: string): EntityOverlay {
-    let o = this.view.entity.get(id)
+  private ov(id: string, sceneId = this.scene.id): EntityOverlay {
+    let entities = this.sceneOverlays.get(sceneId)
+    if (!entities) {
+      entities = sceneId === this.scene.id ? this.view.entity : new Map()
+      this.sceneOverlays.set(sceneId, entities)
+    }
+    let o = entities.get(id)
     if (!o) {
       o = {}
-      this.view.entity.set(id, o)
+      entities.set(id, o)
     }
     return o
   }
@@ -254,11 +293,7 @@ export class Playback {
       })
       .then(() => {
         if (this.abort === ac) {
-          this.stepRequested = false
-          this.commandInFlight = false
-          this.mode = 'done'
-          this.activePath = null
-          this.onUi?.()
+          this.finish()
         }
       })
       .catch((error: unknown) => {
@@ -273,9 +308,8 @@ export class Playback {
         if (this.abort === ac) {
           this.finalizeScreenHold()
           this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
-          this.mode = 'done'
-          this.activePath = null
-          this.onUi?.()
+          this.error = error instanceof Error ? error.message : String(error)
+          this.finish()
         }
       })
     this.onUi?.()
@@ -306,7 +340,7 @@ export class Playback {
     flow: AuthorScriptFlow,
     options: {
       scene: AuthorSceneDef
-      /** 只读作者定义；可解析异场景绑定，不加载其地图，也不切换预览场景。 */
+      /** 起播时一次投影的独立定义；切场景不重新应用初态。 */
       scenes?: readonly AuthorSceneDef[]
       sharedScripts: AuthorScriptLibrary
       actorsById: Readonly<Record<string, ActorDef>>
@@ -348,10 +382,77 @@ export class Playback {
       learnedSkills: {},
       inventory: [],
       entityLifecycles: {},
+      script: emptyWorldScriptState(),
     }
     const sceneDefinitions = new Map((options.scenes ?? []).map((scene) => [scene.id, scene]))
     sceneDefinitions.set(options.scene.id, options.scene)
     const resolvedScenes = new Map([[runtimeScene.id, runtimeScene]])
+    const resolveScene = (sceneId: string): RuntimeSceneDef => {
+      const cached = resolvedScenes.get(sceneId)
+      if (cached) return cached
+      const source = sceneDefinitions.get(sceneId)
+      if (!source) throw new Error(`预览没有作者场景定义 ${sceneId}，无法解析绑定`)
+      const resolved = resolveAuthorDialogueTree(
+        source,
+        options.actorsById,
+        `preview.scene.${sceneId}`,
+      )
+      resolvedScenes.set(sceneId, resolved)
+      return resolved
+    }
+    const pending: { onEnter: RuntimeSceneDef | null } = { onEnter: null }
+    let enteringScene: string | null = null
+    this.sceneOverlays.set(this.scene.id, this.view.entity)
+    this.switchScene = async (sceneId, spawn, signal, transition) => {
+      const assertCurrent = (): void => {
+        ac.signal.throwIfAborted()
+        signal?.throwIfAborted()
+        if (this.abort !== ac) throw new DOMException('preview replaced', 'AbortError')
+      }
+      assertCurrent()
+      const definition = resolveScene(sceneId)
+      const source = sceneDefinitions.get(sceneId)!
+      const target = runtimeSceneView(definition, scratch.script!)
+      target.mapId = scratch.script?.mapOverride?.[sceneId] ?? target.mapId
+      const landing = resolveSceneSpawn(sceneId, target, {
+        ...spawn,
+        inheritFacing: this.view.player.facing,
+      })
+      this.loadingScene = sceneId
+      this.onUi?.()
+      const commitResources = await this.prepareScene?.(target, source, ac.signal)
+      assertCurrent()
+      await this.waitForSceneCommit(ac)
+      assertCurrent()
+      this.finalizeScreenHold()
+      this.host.clearDialog()
+      const entry = target.onEnter?.[0]?.entry
+      await this.host.fade(
+        'out',
+        entry?.reveal.kind === 'fade' ? entry.reveal.outMs : entry ? 0 : (transition?.outMs ?? 260),
+        'black',
+        ac.signal,
+      )
+      assertCurrent()
+      await this.waitForSceneCommit(ac)
+      assertCurrent()
+      commitResources?.()
+      this.activeScene = target
+      this.sceneRevision++
+      this.view.entity = this.sceneOverlays.get(sceneId) ?? new Map()
+      this.sceneOverlays.set(sceneId, this.view.entity)
+      this.view.player.pos = landing.pos
+      this.view.player.facing = landing.facing
+      this.view.player.gesture = null
+      this.poi = { kind: 'player' }
+      this.loadingScene = null
+      pending.onEnter = definition
+      this.log(`切场景 ${sceneId}`)
+      if (!entry) {
+        await this.host.fade('in', transition?.inMs ?? 260, 'black', ac.signal)
+        assertCurrent()
+      } else if (entry.reveal.kind !== 'fade') this.view.fadeBlack = 0
+    }
     const runtime = new ScriptProjectRuntime(
       { sharedScripts: runtimeSharedScripts },
       scratch,
@@ -362,8 +463,20 @@ export class Playback {
         onStep: (event, owner) => recordStep(event, owner),
         executeEffect: (command, context, signal, commitControl) => {
           if (command.kind === 'setEntityPos') {
-            if (command.target.scene === runtimeScene.id && this.entityPos(command.target.entity))
-              this.ov(command.target.entity).pos = { ...command.pos }
+            this.ov(command.target.entity, command.target.scene).pos = { ...command.pos }
+            return
+          }
+          if (command.kind === 'setEntityState' || command.kind === 'setMultiEntityState') {
+            const targets =
+              command.kind === 'setMultiEntityState' ? command.targets : [command.target]
+            for (const target of targets)
+              this.ov(target.entity, target.scene).hidden = command.state <= 0
+            return
+          }
+          if (command.kind === 'setEntityFacing' || command.kind === 'setEntityFrame') {
+            const overlay = this.ov(command.target.entity, command.target.scene)
+            if (command.kind === 'setEntityFacing') overlay.facing = command.facing
+            else overlay.frame = command.frame
             return
           }
           if (
@@ -372,14 +485,12 @@ export class Playback {
             command.kind === 'restoreEntity' ||
             command.kind === 'removeEntity'
           ) {
-            if (command.target.scene === runtimeScene.id) {
-              const overlay = this.ov(command.target.entity)
-              if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
-                overlay.hidden = true
-              else if (command.kind === 'restoreEntity') {
-                overlay.hidden = false
-                overlay.frame = 0
-              }
+            const overlay = this.ov(command.target.entity, command.target.scene)
+            if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
+              overlay.hidden = true
+            else if (command.kind === 'restoreEntity') {
+              overlay.hidden = false
+              overlay.frame = 0
             }
             return
           }
@@ -388,27 +499,15 @@ export class Playback {
             command as unknown as BaseRuntimeLeafCommand,
             context,
             signal,
-            { currentSceneId: () => runtimeScene.id, ...(commitControl ? { commitControl } : {}) },
+            { currentSceneId: () => this.scene.id, ...(commitControl ? { commitControl } : {}) },
           )
         },
-        scene: (sceneId) => {
-          const cached = resolvedScenes.get(sceneId)
-          if (cached) return cached
-          const source = sceneDefinitions.get(sceneId)
-          if (!source) throw new Error(`预览没有作者场景定义 ${sceneId}，无法解析绑定`)
-          const resolved: RuntimeSceneDef = resolveAuthorDialogueTree(
-            source,
-            options.actorsById,
-            `preview.scene.${sceneId}`,
-          )
-          resolvedScenes.set(sceneId, resolved)
-          return resolved
-        },
-        currentSceneId: () => runtimeScene.id,
-        currentSceneSessionId: () => `${runtimeScene.id}:${key}`,
+        scene: resolveScene,
+        currentSceneId: () => this.scene.id,
+        currentSceneSessionId: () => `${key}:${this.sceneRevision}`,
         gameplayNow: () => this.gameplayTime,
         entityPosRelativeToParty: (target, dcol, drow) => {
-          if (target.scene !== runtimeScene.id)
+          if (target.scene !== this.scene.id)
             throw new Error(`预览相对摆位不属于当前场景: ${target.scene}/${target.entity}`)
           const entity = this.scene.entities.find((candidate) => candidate.id === target.entity)
           return {
@@ -425,13 +524,13 @@ export class Playback {
           money: () => this.host.query.money(),
           inParty: (actorId) => this.host.query.inParty(actorId),
           entityInScene: (target) =>
-            target.scene === runtimeScene.id && this.host.query.entityInScene(target.entity),
+            target.scene === this.scene.id && this.host.query.entityInScene(target.entity),
           entitiesNear: (from, to, range) =>
-            from.scene === runtimeScene.id &&
-            to.scene === runtimeScene.id &&
+            from.scene === this.scene.id &&
+            to.scene === this.scene.id &&
             this.host.query.entitiesNear(from.entity, to.entity, range),
           facingEntity: (target, range) =>
-            target.scene === runtimeScene.id && this.host.query.facingEntity(target.entity, range),
+            target.scene === this.scene.id && this.host.query.facingEntity(target.entity, range),
         },
         confirm: (signal, reportInteraction) => this.requestConfirm(signal, reportInteraction),
         startBattle: (request, signal) =>
@@ -473,17 +572,17 @@ export class Playback {
       this.stepNumber++
       const child =
         owner && (owner.scene !== options.self?.scene || owner.entity !== options.self?.entity)
-      this.activePath = `${child ? `entity:${owner.scene}/${owner.entity}/` : ''}${event.path.join('/')}`
+      this.activePath = `${enteringScene ? `scene:${enteringScene}/` : child ? `entity:${owner.scene}/${owner.entity}/` : ''}${event.path.join('/')}`
       const command =
         event.command.kind === 'leaf' ? event.command.command : { kind: event.command.kind }
       const target = this.poiOf(command)
-      if ('target' in command && command.target?.scene === runtimeScene.id)
+      if ('target' in command && command.target?.scene === this.scene.id)
         this.poi = { kind: 'entity', id: command.target.entity }
       if (target) this.poi = target
       this.onUi?.()
     }
-    void runtime
-      .runPreviewFlow(runtimeFlow, {
+    void (async () => {
+      await runtime.runPreviewFlow(runtimeFlow, {
         signal: ac.signal,
         cursor: options.cursor,
         self: options.self,
@@ -491,13 +590,18 @@ export class Playback {
         allowSceneEntry: options.allowSceneEntry,
         runSceneEntry: options.runSceneEntry,
       })
+
+      while (pending.onEnter) {
+        ac.signal.throwIfAborted()
+        const target = pending.onEnter
+        pending.onEnter = null
+        enteringScene = target.id
+        await runtime.runSceneHook(target, 'onEnter', { signal: ac.signal })
+      }
+    })()
       .then(() => {
         if (this.abort === ac) {
-          this.stepRequested = false
-          this.commandInFlight = false
-          this.mode = 'done'
-          this.activePath = null
-          this.onUi?.()
+          this.finish()
         }
       })
       .catch((error: unknown) => {
@@ -512,11 +616,30 @@ export class Playback {
         if (this.abort === ac) {
           this.finalizeScreenHold()
           this.log(`⚠ 预览中断：${error instanceof Error ? error.message : String(error)}`)
-          this.mode = 'done'
-          this.activePath = null
-          this.onUi?.()
+          this.error = error instanceof Error ? error.message : String(error)
+          this.finish()
         }
       })
+    this.onUi?.()
+  }
+
+  private waitForSceneCommit(ac: AbortController): Promise<void> {
+    if (ac.signal.aborted || !this.sceneCommitPaused) return Promise.resolve()
+    this.commandInFlight = false
+    return new Promise((resolve) => {
+      this.sceneGate = resolve
+    })
+  }
+
+  private finish(): void {
+    const result = { ...this.view }
+    const steps = this.stepNumber
+    const error = this.error
+    this.stop()
+    this.view = { ...result, dialog: null, confirm: null, heldDialog: undefined }
+    this.stepNumber = steps
+    this.error = error
+    this.mode = 'done'
     this.onUi?.()
   }
 
@@ -524,6 +647,7 @@ export class Playback {
   pause(): void {
     if (this.mode === 'running') {
       this.mode = 'paused'
+      if (this.loadingScene) this.sceneCommitPaused = true
       this.onUi?.()
     }
   }
@@ -532,6 +656,9 @@ export class Playback {
   resume(): void {
     if (this.mode !== 'paused') return
     this.mode = 'running'
+    this.sceneCommitPaused = false
+    this.sceneGate?.()
+    this.sceneGate = null
     this.stepRequested = false
     for (const r of this.gateQueue.splice(0)) r()
     // 普通对话从剩余阅读时间继续；二选一仍只能由明确选择提交。
@@ -542,6 +669,12 @@ export class Playback {
   step(): void {
     if (this.mode === 'idle' || this.mode === 'done') return
     this.mode = 'paused'
+    if (this.sceneCommitPaused) {
+      this.sceneCommitPaused = false
+      this.sceneGate?.()
+      this.sceneGate = null
+      return
+    }
     if (this.view.confirm) {
       this.onUi?.()
       return
@@ -630,6 +763,15 @@ export class Playback {
   stop(): void {
     this.abort?.abort()
     this.abort = null
+    this.switchScene = null
+    this.sceneCommitPaused = false
+    this.sceneGate?.()
+    this.sceneGate = null
+    this.loadingScene = null
+    this.error = null
+    this.activeScene = this.initialScene
+    this.sceneOverlays.clear()
+    this.sceneRevision++
     this.stepRequested = false
     this.commandInFlight = false
     this.dialogTimeLeft = 0
@@ -745,6 +887,12 @@ export class Playback {
     fade: (dir, ms) =>
       new Promise<void>((resolve) => {
         this.fadeJob?.resolve()
+        this.fadeJob = null
+        if (ms <= 0) {
+          this.view.fadeBlack = dir === 'out' ? 1 : 0
+          resolve()
+          return
+        }
         this.fadeJob = { dir, ms, done: 0, resolve }
       }),
     holdScreen: async (color, token, signal) => {
@@ -798,13 +946,9 @@ export class Playback {
       this.view.player.pos = { ...pos }
       if (fc) this.view.player.facing = fc
     },
-    loadScene: async (sceneId) => {
-      this.finalizeScreenHold()
-      this.log(`🚪 切场景 ${sceneId}(预览到此为止)`)
-      this.abort?.abort() // 预览不跨场景:当作演出结束
-      this.mode = 'done'
-      this.activePath = null
-      this.onUi?.()
+    loadScene: async (sceneId, spawn, signal, transition) => {
+      if (!this.switchScene) throw new Error(`切场景 ${sceneId} 缺少 canonical 预览场景定义`)
+      await this.switchScene(sceneId, spawn, signal, transition)
     },
     setPartyFacing: (fc, gesture, member) => {
       this.view.player.facing = fc
@@ -951,7 +1095,7 @@ export class Playback {
       inParty: () => false,
       allFullHp: () => true,
       itemEquipped: () => false,
-      entityInScene: () => true,
+      entityInScene: (id) => this.scene.entities.some((entity) => entity.id === id),
       entitiesNear: (from, to, range) =>
         areEntityPositionsNear(this.entityPos(from), this.entityPos(to), range),
       facingEntity: () => false,

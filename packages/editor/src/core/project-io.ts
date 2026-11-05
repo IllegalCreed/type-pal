@@ -66,6 +66,7 @@ import type { EditorState } from './edit-session.js'
 import { assertProjectSaveValid } from './project-diagnostics.js'
 import {
   assertScriptPreviewPathAvailable,
+  isScriptPreviewLibraryEmpty,
   loadScriptPreviewLibrary,
   parseScriptPreviewLibrary,
   SCRIPT_PREVIEW_PATH,
@@ -405,8 +406,7 @@ export function serializeProject(
   }
   if (state.scriptPreview !== undefined) {
     const library = parseScriptPreviewLibrary(state.scriptPreview)
-    if (library.states.length || library.bindings.length)
-      addFile(SCRIPT_PREVIEW_PATH, library, '预览初始状态')
+    if (!isScriptPreviewLibraryEmpty(library)) addFile(SCRIPT_PREVIEW_PATH, library, '预览初始状态')
   }
 
   return files
@@ -420,11 +420,13 @@ export function serializeProject(
 export async function serializeProjectWithMapCopies(
   state: EditorState,
   source: FileSource,
+  previous?: ReadonlyMap<string, string>,
 ): Promise<Record<string, unknown>> {
   const mapCopies: Record<string, string> = {}
   await Promise.all(
     state.mapIndex.maps.map(async (asset) => {
-      if (!state.maps[asset.id]) mapCopies[asset.path] = await source.readText(asset.path)
+      if (!state.maps[asset.id])
+        mapCopies[asset.path] = previous?.get(asset.path) ?? (await source.readText(asset.path))
     }),
   )
   return serializeProject(state, { mapCopies })
@@ -435,9 +437,23 @@ function serializeOne(value: unknown): string {
   return typeof value === 'string' ? value : `${JSON.stringify(value, null, 2)}\n`
 }
 
+/** Output comparison only; exact disk provenance belongs to AuthorDiskBaseline. */
+export async function projectFileSnapshot(
+  files: Record<string, unknown>,
+): Promise<Map<string, string>> {
+  const snapshot = new Map<string, string>()
+  for (const [path, value] of Object.entries(files))
+    snapshot.set(
+      path,
+      value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value),
+    )
+  return snapshot
+}
+
 /**
  * 增量-diff(纯核,可测):next 中内容与快照不同 → write;快照有而 next 无 → remove。
- * 快照 = Map<rel, 上次落盘签名>;二进制使用完整 `bin:<bytes>:<sha256>`，同长度替换也必须写盘。
+ * 快照 = Map<rel, 打开态/上次保存的输出表示>;与保护原始磁盘字节的作者基线分开。
+ * 二进制使用完整 `bin:<bytes>:<sha256>`，同长度替换也必须写盘。
  */
 export async function diffFiles(
   prev: Map<string, string>,
@@ -595,8 +611,9 @@ export async function writeProject(
     const stagedCatalogSize = needsCatalogShrink ? byteLength(stagedCatalog) : 0
     let total = [...sizes.values()].reduce((sum, size) => sum + size, stagedCatalogSize)
     let completed = 0
-    // prev 在真实 IO 期间兼作落盘日志：未触及的旧条目仍代表真实文件，只在成功
-    // close 后覆盖签名、成功/已不存在的 remove 后删条目。中断时同一 Map 因而是完整的实际磁盘快照。
+    // prev tracks accepted output representations, including normalized opening values whose raw
+    // disk formatting may differ. Advance only after successful close/remove; exact disk conflict
+    // and recovery evidence stays in AuthorDiskBaseline and the sealed journal.
     const rememberWrite = async (
       rel: string,
       value: unknown,
@@ -687,13 +704,7 @@ export async function writeProject(
         prev?.delete(rel)
       })
     }
-    const snapshot = new Map<string, string>()
-    for (const [rel, value] of Object.entries(files)) {
-      snapshot.set(
-        rel,
-        value instanceof ArrayBuffer ? await binarySnapshotSignature(value) : serializeOne(value),
-      )
-    }
+    const snapshot = await projectFileSnapshot(files)
     const scope = authorizedSaveScope(mutation)
     const workspace = scope.workspace
     const stagingTotal = inputs.filter((input) => input.kind === 'write').length

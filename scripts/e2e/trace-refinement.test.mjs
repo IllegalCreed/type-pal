@@ -88,7 +88,7 @@ test('001/002 actual projection commit captures each real selection immediately,
   ]) {
     const host = {},
       world = { party: [], script: emptyWorldScriptState() },
-      entities = ['e3', 'e8', 'e10', 'e11'].map((id) => ({
+      entities = ['e3', 'e8', 'e10', 'e11', 'e25'].map((id) => ({
         id,
         pos: { col: 0, row: 0, height: 0 },
         initialPage: 'home',
@@ -198,6 +198,12 @@ test('001/002 actual projection commit captures each real selection immediately,
     )
     assert(events.every((e, i) => i === 0 || e.order > events[i - 1].order))
     assertActorRecording(host[read](), 'reforge')
+    assert(
+      (host[read]().actors ?? host[read]().events).some(
+        (event) => event.kind === 'actor' && event.id === 'e25',
+      ),
+      'the actual projection commit must retain the bedroom attendant snapshot',
+    )
     if (instrument === instrumentInnTrace)
       assert.deepEqual(
         last.state.frameDebug,

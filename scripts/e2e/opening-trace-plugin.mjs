@@ -269,7 +269,7 @@ export function instrumentOpeningTrace(code, file) {
               const actors = {party:{position:[player.pos.col,player.pos.row,player.pos.height], facing,
                 visible:true, sprite:world.party[0] ? partySpriteDef(world.party[0]).id : null,
                 frame:worldPresentation.partyGesture}};
-              if (activeScene.scene.id==='s001') for (const id of ['e3','e8','e10','e11']) {
+              if (activeScene.scene.id==='s001') for (const id of ['e3','e8','e10','e11','e25']) {
                 const e=activeScene.scene.entities.find(e=>e.id===id);
                 if (!e) throw new Error('missing reforge actor '+id);
                 actors[id]={position:[e.pos.col,e.pos.row,e.pos.height],facing:e.facing??'down',visible:!e.hidden,

@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-04
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -23,7 +23,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|
 | 内容工程字段与格式 | [内容工程当前格式](content-schema.md) |
 | 编辑器职责、结构与工作台 | [编辑器架构与工作台合同](editor-architecture.md) |
-| 编辑器视觉、组件与交互 | [设计系统与交互规范](editor-design-system.md) |
+| 编辑器视觉、组件与交互 | [设计系统与交互规范](editor-design-system.md)为唯一设计规范入口；实施前同步读[UI开工与验收流程](editor-architecture.md#编辑器ui开工与验收) |
 | 工程、目录与工作区生命周期 | [工程与工作区生命周期](project-lifecycle.md) |
 | 持久状态、保存与读取 | [当前存档合同](save-system.md) |
 | 作者脚本语义与运行时接口 | [作者脚本与运行时合同](script-system.md) |

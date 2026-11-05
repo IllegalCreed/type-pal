@@ -20,6 +20,8 @@ export function editorObjectTargetMissing(
       state.battleSimulator?.[location.subpage as 'plans' | 'allies' | 'enemies' | 'bags']
     return !rows?.some((record) => record.id === objectId)
   }
+  if (subpage.kind === 'initial-state')
+    return !state.scriptPreview?.states.some((state) => state.id === objectId)
   if (subpage.kind === 'scene') {
     return !state.scenes.some((candidate) => candidate.id === objectId)
   }

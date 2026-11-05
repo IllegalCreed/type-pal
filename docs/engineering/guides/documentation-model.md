@@ -1,7 +1,7 @@
 # type-pal 文档模型
 
 Status: current
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-05
 Owner: Codex
 Template: guide-runbook-v1 / 1.0.0
 
@@ -84,6 +84,8 @@ Template: guide-runbook-v1 / 1.0.0
 ### 4. 机器证据与附件
 
 JSON 保持机器字段和公开 consumer 读取路径；不能把原对象统一移到 `payload` 下就宣布兼容。envelope 优先作为不覆盖业务字段的元数据；原对象不能扩展时使用配对 sidecar，并验证真正 consumer。HTML 保留交互/脚本/资源引用，在可见说明与元数据层记录治理范围，不能转为 Markdown 摘要。
+
+两份已准入 `document-audit-v2` 及 testing catalog 对应两条记录按逐路径准入校验固定前后字节。维护限于更新 `sourceRefs[].sha256`、在完整旧 findings 前加说明或在完整旧 reviewScope 后加说明。实际源码 SHA、行范围、anchor 和现行 JSON 合同均须通过，原审查身份、签名和原件保全。合并后的 catalog 同时包含这两条维护和运行时来源桥接。位置校验先验证原件到固定 Git 中间版本的维护，再验证中间版本到现行 catalog 的桥接。两层分别按各自准入校验，验收范围为来源适用性。[逐路径准入](../../../scripts/docs/testing-source-maintenance-admission.mjs) · [现行测试来源绑定维护](documentation.md#现行测试来源绑定维护)
 
 同一文档类型有多种格式时，按已选变体的format及自有templateVersion校验；未声明自有值的旧变体继承父合同。新增原生格式不要求无关Markdown滚动版本，也不能通过换标绕过固定来源和历史限制。原生pilot结构符合与内容接受分别入账，作者通过不自动增加已迁移数。
 

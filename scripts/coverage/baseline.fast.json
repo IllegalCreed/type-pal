@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-05T02:03:26.918Z",
+  "generatedAt": "2026-11-05T06:05:02.147Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 829,
-  "testCount": 20273,
+  "sourceFileCount": 832,
+  "testCount": 20307,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -6806,7 +6806,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 297,
+      "sourceFileCount": 300,
       "sourceFiles": [
         "packages/editor/src/core/actor-commands.ts",
         "packages/editor/src/core/actor-dialogue-commands.ts",
@@ -6896,6 +6896,7 @@
         "packages/editor/src/core/project-read-lock.ts",
         "packages/editor/src/core/project-reference-adapters.ts",
         "packages/editor/src/core/project-reference.ts",
+        "packages/editor/src/core/project-save-snapshot.ts",
         "packages/editor/src/core/save-performance.ts",
         "packages/editor/src/core/save-read-pool.ts",
         "packages/editor/src/core/scene-commands.ts",
@@ -6975,6 +6976,7 @@
         "packages/editor/src/ui/FrameAnimationEditor.tsx",
         "packages/editor/src/ui/ImageAssetPicker.tsx",
         "packages/editor/src/ui/ImageTab.tsx",
+        "packages/editor/src/ui/InitialStateWorkspace.tsx",
         "packages/editor/src/ui/IsometricEditorCanvas.tsx",
         "packages/editor/src/ui/IsometricEditorSurface.tsx",
         "packages/editor/src/ui/IsometricEditorToolbar.tsx",
@@ -7096,6 +7098,7 @@
         "packages/editor/src/ui/panel-layout.ts",
         "packages/editor/src/ui/project-asset-roles.ts",
         "packages/editor/src/ui/scene-stage.ts",
+        "packages/editor/src/ui/script-preview-navigation.ts",
         "packages/editor/src/ui/session-selector.ts",
         "packages/editor/src/ui/stamp-placement-overlay.ts",
         "packages/editor/src/ui/stamp-placement-selection-overlay.ts",
@@ -7106,10 +7109,10 @@
         "packages/editor/src/ui/use-scene-workspace-session.ts",
         "packages/editor/src/ui/world-sprite-action-preview.ts"
       ],
-      "scopeDigest": "4788e2d6abc52799043e42cdafbfc8faabb6c17c103ae05105cb591142d32c5f",
+      "scopeDigest": "a8675cee0c4c594b1cb910bd882a22dad4858ddcb4cb663ec45adc386bb23d22",
       "fastTests": {
-        "testCount": 4802,
-        "testFileCount": 620,
+        "testCount": 4836,
+        "testFileCount": 626,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
           "packages/editor/scripts/battle-simulator-http.test.mjs",
@@ -7272,6 +7275,7 @@
           "packages/editor/src/core/playback.motion.test.ts",
           "packages/editor/src/core/playback.presentation.test.ts",
           "packages/editor/src/core/playback.queries.test.ts",
+          "packages/editor/src/core/playback.scene-transition.test.ts",
           "packages/editor/src/core/playback.stepping.test.ts",
           "packages/editor/src/core/playback.test.ts",
           "packages/editor/src/core/playback.unified-steps.test.ts",
@@ -7409,6 +7413,7 @@
           "packages/editor/src/ui/App.cov85.test.tsx",
           "packages/editor/src/ui/App.glm-next-wave.test.tsx",
           "packages/editor/src/ui/App.leave-guard.test.tsx",
+          "packages/editor/src/ui/App.preview-initial-state.test.tsx",
           "packages/editor/src/ui/App.reference-navigation.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.glm-asset-lifecycle.test.tsx",
           "packages/editor/src/ui/AssetInspectorTabs.test.tsx",
@@ -7502,6 +7507,7 @@
           "packages/editor/src/ui/ImageTab.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/ImageTab.kimi-workflows.test.tsx",
           "packages/editor/src/ui/ImageTab.test.tsx",
+          "packages/editor/src/ui/InitialStateWorkspace.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.glm-p.test.tsx",
           "packages/editor/src/ui/IsometricEditorToolbar.test.tsx",
@@ -7556,6 +7562,7 @@
           "packages/editor/src/ui/PreviewCanvas.glm-next-wave.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.glm-ui-wave.test.tsx",
           "packages/editor/src/ui/PreviewCanvas.test.tsx",
+          "packages/editor/src/ui/PreviewCanvas.view-restoration.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ProjectAudioPreviewButton.test.tsx",
@@ -7570,7 +7577,7 @@
           "packages/editor/src/ui/SceneCanvas.kimi-workflows.test.tsx",
           "packages/editor/src/ui/SceneCanvas.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.glm-large-wave.test.tsx",
-          "packages/editor/src/ui/SceneScriptWorkspace.initial-state.test.tsx",
+          "packages/editor/src/ui/SceneScriptWorkspace.preview-context.test.tsx",
           "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx",
           "packages/editor/src/ui/ScriptBehaviorInspector.test.tsx",
@@ -7730,6 +7737,8 @@
           "packages/editor/src/ui/use-battle-trial-session.test.tsx",
           "packages/editor/src/ui/use-editor-navigation-session.test.tsx",
           "packages/editor/src/ui/use-editor-project-session.glm-large-wave.test.ts",
+          "packages/editor/src/ui/use-editor-project-session.incremental-save.test.tsx",
+          "packages/editor/src/ui/use-editor-project-session.save-progress.test.tsx",
           "packages/editor/src/ui/use-scene-workspace-session.test.tsx"
         ],
         "fileEntries": [
@@ -7770,8 +7779,8 @@
           },
           {
             "file": "packages/editor/scripts/design-system-audit-layering.test.mjs",
-            "testCount": 6,
-            "identityDigest": "be27b1d5d4e623dfa2af2826f022125964b78c52d3ed96cf82aadd63aa8bada9"
+            "testCount": 10,
+            "identityDigest": "5558beae8369c904814bf41ee33bf3a1df03ce4d0d7266716cbaf64982ad349f"
           },
           {
             "file": "packages/editor/scripts/pal-simulator-presets.test.ts",
@@ -7910,8 +7919,8 @@
           },
           {
             "file": "packages/editor/src/core/author-save-conflict.test.ts",
-            "testCount": 38,
-            "identityDigest": "2ef765d494395b0352764bb3244ff5f38015b74c5f2a9cc0eb19ee3fc84998cf"
+            "testCount": 39,
+            "identityDigest": "2719e86384ae19867a7d758374806eb682676154ac95057ccc6812524270a7ba"
           },
           {
             "file": "packages/editor/src/core/author-save-copy-batch.test.ts",
@@ -8516,7 +8525,7 @@
           {
             "file": "packages/editor/src/core/playback.entities.test.ts",
             "testCount": 18,
-            "identityDigest": "fa08a3fb812593144a976df225ac8c90873e216ed70a359c80988c9cbd152277"
+            "identityDigest": "d6a9bebd9191eeb52fc77070bab050575f20d4f4cef1be2a2ee7d01c4b92de69"
           },
           {
             "file": "packages/editor/src/core/playback.entity-trigger.test.ts",
@@ -8531,12 +8540,17 @@
           {
             "file": "packages/editor/src/core/playback.presentation.test.ts",
             "testCount": 7,
-            "identityDigest": "64c7b2169d84a82b057a008cc3630767a85595d3d9e8f50919e48256a5b760c1"
+            "identityDigest": "1d7329d7c2dc454ccfac9fe67fe5041d8606679c4e7183ecc18e9c53f372f69d"
           },
           {
             "file": "packages/editor/src/core/playback.queries.test.ts",
             "testCount": 12,
             "identityDigest": "918ac242eadc76a34503c0aa989319710b2c46c7dac3c06431e27c251131909d"
+          },
+          {
+            "file": "packages/editor/src/core/playback.scene-transition.test.ts",
+            "testCount": 7,
+            "identityDigest": "73bd9b04ea87565e6f59ed37b80077744acbfff6b8f4c5f68e6a90a44012aa4d"
           },
           {
             "file": "packages/editor/src/core/playback.stepping.test.ts",
@@ -8546,7 +8560,7 @@
           {
             "file": "packages/editor/src/core/playback.test.ts",
             "testCount": 12,
-            "identityDigest": "0bc9a31440c60542133bf08b0facc087c0ff42b90aa6dc3e84be7b1ce5592512"
+            "identityDigest": "0852da5a8ca96ffbbe432b867dedfed6d9cefb0267e06dc5157be56c5b8d6477"
           },
           {
             "file": "packages/editor/src/core/playback.unified-steps.test.ts",
@@ -8785,8 +8799,8 @@
           },
           {
             "file": "packages/editor/src/core/script-preview-library.test.ts",
-            "testCount": 4,
-            "identityDigest": "4153b24aa9caa77d52d9551a18ed069732c209079c0c082b7d013bd8a4e892e7"
+            "testCount": 9,
+            "identityDigest": "b7056c53b6b8df6efa6306eca04b03bc5c448188c258f926eeeb6b54e3fa39bc"
           },
           {
             "file": "packages/editor/src/core/script-reference-catalog.boundaries.test.ts",
@@ -9222,6 +9236,11 @@
             "file": "packages/editor/src/ui/App.leave-guard.test.tsx",
             "testCount": 32,
             "identityDigest": "5c4583512a15284d504dec8260f76690a4925facae52d48d9d2bfb573466cb49"
+          },
+          {
+            "file": "packages/editor/src/ui/App.preview-initial-state.test.tsx",
+            "testCount": 4,
+            "identityDigest": "2d963954332742c65a01c994d731bc997769a79b3c21992ff1bf9d839fce6c40"
           },
           {
             "file": "packages/editor/src/ui/App.reference-navigation.test.tsx",
@@ -9689,6 +9708,11 @@
             "identityDigest": "f190aa4a788b46e4269fbe14151cb85a98b55d264d61a4b9a6bdbc615f2226a1"
           },
           {
+            "file": "packages/editor/src/ui/InitialStateWorkspace.test.tsx",
+            "testCount": 5,
+            "identityDigest": "eb5ae1e8a1018d5b0fa27dae767d622fff318bef373d189d8e237c537342f3e7"
+          },
+          {
             "file": "packages/editor/src/ui/IsometricEditorToolbar.glm-leaf-wave.test.tsx",
             "testCount": 3,
             "identityDigest": "5b95cfb24eda1cdd2e07e50b5e009b95b47f6053d9e4545a4891fa20eb8a33b2"
@@ -9959,6 +9983,11 @@
             "identityDigest": "f8025deb2d900b80561d9d1cfd627958e86fda827165f9d423412dd556f16769"
           },
           {
+            "file": "packages/editor/src/ui/PreviewCanvas.view-restoration.test.tsx",
+            "testCount": 2,
+            "identityDigest": "ba9a3e205fed13de0988d90ded83c8891643019a8cc384300bf1f3a28ddee2f6"
+          },
+          {
             "file": "packages/editor/src/ui/ProjectAudioPreviewButton.glm-audio-own.test.tsx",
             "testCount": 5,
             "identityDigest": "903343b56e4b21ce50f68c32e1932bb6685f40d060efe7e94e4a58524e3f60e5"
@@ -10029,14 +10058,14 @@
             "identityDigest": "790a63bbd11dff560402c543f43b54baa309c1e876e0d96ba1470763ab29e44f"
           },
           {
-            "file": "packages/editor/src/ui/SceneScriptWorkspace.initial-state.test.tsx",
-            "testCount": 5,
-            "identityDigest": "fc31c987ea8ee48f2f953389d921e35bf7741ad1b11f9f8961ea7174288e7634"
+            "file": "packages/editor/src/ui/SceneScriptWorkspace.preview-context.test.tsx",
+            "testCount": 2,
+            "identityDigest": "1519149b793f7755de8fe9bc2c4ccf01b372a877a683031493b29b9acde925a5"
           },
           {
             "file": "packages/editor/src/ui/SceneScriptWorkspace.test.tsx",
-            "testCount": 10,
-            "identityDigest": "474a9a8c7713d19f5a43384187a2f9443d6667bb48804e55d8144944bb6dfc6f"
+            "testCount": 9,
+            "identityDigest": "d919abf76fd922bf736e4e6c6371533dc020632c976f32d39e742bcc98c32d92"
           },
           {
             "file": "packages/editor/src/ui/ScriptBehaviorInspector.glm-leaf-wave.test.tsx",
@@ -10675,8 +10704,8 @@
           },
           {
             "file": "packages/editor/src/ui/design-system/tabs-card-feedback.test.tsx",
-            "testCount": 1,
-            "identityDigest": "69884a664e0d28d1c8fa08a9a9fbd357244e120499e16e8fd24faa546ad18bac"
+            "testCount": 2,
+            "identityDigest": "73aea29cccc1558dc2fab15c1ef795fda169f7b2deab9de42e47909a81d99277"
           },
           {
             "file": "packages/editor/src/ui/design-system/virtual-list-navigation.c10-g03.cursor-r1.test.tsx",
@@ -10829,51 +10858,61 @@
             "identityDigest": "bdab7e3299d2d8c1bf066b4024946e91182c012db703698545ba9b6d80c0b57a"
           },
           {
+            "file": "packages/editor/src/ui/use-editor-project-session.incremental-save.test.tsx",
+            "testCount": 7,
+            "identityDigest": "d24bc26410fe24292d82d1279b768e7bffcedba03c00cc37b14e0a38f4335766"
+          },
+          {
+            "file": "packages/editor/src/ui/use-editor-project-session.save-progress.test.tsx",
+            "testCount": 2,
+            "identityDigest": "4792068f3c99f3a66440f38fc4a769dbb666e88e75d44d3913dad5a05caf62f5"
+          },
+          {
             "file": "packages/editor/src/ui/use-scene-workspace-session.test.tsx",
             "testCount": 7,
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "056a6085f94464001ce5e42cd58ef6117732b965d562493b69958c4e9a184967",
+        "identityDigest": "6059e051a75811ec09606ea6eefaa4c24a388c975b826143b5c38f40c405d25b",
         "duplicateIdentityCount": 8,
-        "executionDigest": "4b6586aece82f3d220b97c27b846fc0a774e7595730cdebbd31ca5e412f55279"
+        "executionDigest": "5c23bf8d35600bed9803fba709638c7a7af834fbe020b1f39ab25f04ebd46548"
       },
       "metrics": {
         "statements": {
-          "covered": 30873,
-          "total": 34210
+          "covered": 31398,
+          "total": 34748
         },
         "branches": {
-          "covered": 24842,
-          "total": 29737
+          "covered": 25284,
+          "total": 30213
         },
         "functions": {
-          "covered": 7823,
-          "total": 8716
+          "covered": 7965,
+          "total": 8865
         },
         "lines": {
-          "covered": 27615,
-          "total": 29883
+          "covered": 28091,
+          "total": 30360
         }
       }
     }
   },
   "total": {
     "statements": {
-      "covered": 73283,
-      "total": 80977
+      "covered": 73808,
+      "total": 81515
     },
     "branches": {
-      "covered": 52950,
-      "total": 63027
+      "covered": 53392,
+      "total": 63503
     },
     "functions": {
-      "covered": 13860,
-      "total": 15414
+      "covered": 14002,
+      "total": 15563
     },
     "lines": {
-      "covered": 65450,
-      "total": 70862
+      "covered": 65926,
+      "total": 71339
     }
   }
 }

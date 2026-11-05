@@ -1,9 +1,9 @@
 {
   "version": 1,
   "baseline": {
-    "included": 7,
+    "included": 8,
     "deferredOwners": 7,
-    "includedDataPaths": 16,
+    "includedDataPaths": 17,
     "deferredDataPaths": 7
   },
   "included": [
@@ -108,6 +108,19 @@
       "verification": {
         "file": "../scripts/battle-simulator-ui.test.tsx",
         "marker": "[add-picker:simulator/bag]"
+      }
+    },
+    {
+      "adoptionId": "scene/initial-state-scene",
+      "source": "InitialStateWorkspace.tsx",
+      "owner": "InitialStateWorkspace",
+      "dataPaths": ["scriptPreview.states[*].scenes"],
+      "candidateOwner": "live scenes excluding slices already in the selected initial state",
+      "mutationOwner": "SetScriptPreviewLibraryCommand",
+      "callsiteFingerprint": "6c46b7840b67a935",
+      "verification": {
+        "file": "ui/InitialStateWorkspace.test.tsx",
+        "marker": "[add-picker:scene/initial-state-scene]"
       }
     }
   ],

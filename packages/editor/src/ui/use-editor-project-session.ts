@@ -12,19 +12,19 @@ import { exportProjectZip } from '../core/export-zip.js'
 import { type Opened, openExistingProject, pickDir, saveProjectAs } from '../core/open-actions.js'
 import type { EditorPlayIdentity } from '../core/play-url.js'
 import { assetCopyInputs, observeProjectCopySource } from '../core/project-copy-source.js'
-import {
-  resumeOwnProjectSave,
-  serializeProjectWithMapCopies,
-  writeProject,
-} from '../core/project-io.js'
+import { resumeOwnProjectSave, writeProject } from '../core/project-io.js'
 import type {
   ProjectLeaveChoice,
   ProjectLeaveGuard,
   ProjectLeaveIntent,
   ProjectSaveOutcome,
 } from '../core/project-leave-guard.js'
-import type { ScriptEditorState, ScriptEditSession } from '../core/script-editor.js'
-import { mergeEditorProjectionWithCurrentAuthorState } from '../core/script-editor-projection.js'
+import {
+  captureEditorSaveSnapshot,
+  captureOpeningSaveBaseline,
+  serializeEditorSaveSnapshot,
+} from '../core/project-save-snapshot.js'
+import type { ScriptEditSession } from '../core/script-editor.js'
 import { scriptPreviewRemovalPaths } from '../core/script-preview-library.js'
 import type { WorkspaceContext } from '../core/workspace-context.js'
 import {
@@ -75,6 +75,9 @@ export function useEditorProjectSession(input: {
     input.initialDirectory ?? null,
   )
   const snapshotRef = useRef<Map<string, string> | null>(null)
+  const [openingSnapshot] = useState(() =>
+    captureOpeningSaveBaseline(input.main, input.script, input.projectSource),
+  )
   const authorBaselineRef = useRef(input.authorBaseline)
   const firstSaveAuthorRef = useRef<AuthorDiskBaseline | undefined>(undefined)
   const [error, setError] = useState(input.initialWarning ?? '')
@@ -83,132 +86,146 @@ export function useEditorProjectSession(input: {
   const getLocalDirectory = useCallback(() => directoryRef.current, [])
   const getAuthorBaseline = useCallback(() => authorBaselineRef.current, [])
 
-  const save = useCallback(async (beforeLeaving = false): Promise<ProjectSaveOutcome> => {
-    const current = inputRef.current
-    const { main, script, projectGuard, projectSource, workspace } = current
-    const lease = projectGuard.begin('save', beforeLeaving)
-    if (!lease) return 'cancelled'
-    let outcome: ProjectSaveOutcome = 'cancelled'
-    const updateActivity = (value: ProjectSaveActivity): void => {
-      if (projectGuard.isCurrent(lease)) setActivity(value)
-    }
-    updateActivity({ phase: 'choosing-directory' })
-    try {
-      let directory = directoryRef.current
-      let rememberDirectory = false
-      let resumesInterruptedAttempt = false
-      if (!directory) {
-        if (
-          workspace.mode === 'pal-development' &&
-          !window.confirm(
-            '当前是 PAL 开发基线模式。只有选择与本次启动快照一致的 projects/pal 目录才会获准写入；要继续吗？',
+  const save = useCallback(
+    async (beforeLeaving = false): Promise<ProjectSaveOutcome> => {
+      const current = inputRef.current
+      const { main, script, projectGuard, projectSource, workspace } = current
+      const lease = projectGuard.begin('save', beforeLeaving)
+      if (!lease) return 'cancelled'
+      let outcome: ProjectSaveOutcome = 'cancelled'
+      const updateActivity = (value: ProjectSaveActivity): void => {
+        if (projectGuard.isCurrent(lease)) setActivity(value)
+      }
+      updateActivity({ phase: 'choosing-directory' })
+      try {
+        let directory = directoryRef.current
+        let rememberDirectory = false
+        let resumesInterruptedAttempt = false
+        if (!directory) {
+          if (
+            workspace.mode === 'pal-development' &&
+            !window.confirm(
+              '当前是 PAL 开发基线模式。只有选择与本次启动快照一致的 projects/pal 目录才会获准写入；要继续吗？',
+            )
           )
-        )
-          return outcome
-        directory = await pickDir()
-        if (!directory || !projectGuard.isCurrent(lease)) return outcome
-        const previousAttempt = saveAttemptDirectoryRef.current
-        resumesInterruptedAttempt = previousAttempt
-          ? await directory.isSameEntry(previousAttempt)
-          : false
-        if (!resumesInterruptedAttempt) {
-          snapshotRef.current = null
-          firstSaveAuthorRef.current =
-            workspace.mode === 'pal-development'
-              ? authorBaselineRef.current
-              : createEmptyAuthorDiskBaseline(workspace.projectId)
+            return outcome
+          directory = await pickDir()
+          if (!directory || !projectGuard.isCurrent(lease)) return outcome
+          const previousAttempt = saveAttemptDirectoryRef.current
+          resumesInterruptedAttempt = previousAttempt
+            ? await directory.isSameEntry(previousAttempt)
+            : false
+          if (!resumesInterruptedAttempt) {
+            snapshotRef.current = null
+            firstSaveAuthorRef.current =
+              workspace.mode === 'pal-development'
+                ? authorBaselineRef.current
+                : createEmptyAuthorDiskBaseline(workspace.projectId)
+          }
+          saveAttemptDirectoryRef.current = directory
+          rememberDirectory = true
         }
-        saveAttemptDirectoryRef.current = directory
-        rememberDirectory = true
-      }
-      const authorBaseline = rememberDirectory
-        ? firstSaveAuthorRef.current!
-        : authorBaselineRef.current
-      setError('')
-      updateActivity({ phase: 'preparing' })
-      const recovered = await resumeOwnProjectSave(workspace, directory, authorBaseline, () =>
-        updateActivity({ phase: 'recovering' }),
-      )
-      if (!projectGuard.isCurrent(lease)) return outcome
-      if (recovered) {
-        snapshotRef.current = recovered.snapshot
-        authorBaselineRef.current = authorBaseline
-        directoryRef.current = directory
-        rememberDirectory = false
-      }
-      if (rememberDirectory)
-        await preflightFirstSaveTarget(workspace, directory, { resumesInterruptedAttempt })
-      const savedState = main.getState()
-      const savedScriptState = script.getState()
-      const savedScriptVersion = script.getVersion()
-      const removePaths = [
-        ...battleSimulatorRemovalPaths(savedState.battleSimulator),
-        ...scriptPreviewRemovalPaths(savedState.scriptPreview),
-        ...main.getDeletedScenePaths(),
-        ...main.getDeletedMapPaths(),
-        ...main.getDeletedAssetPaths(),
-      ]
-      setError('')
-      updateActivity({ phase: 'preparing' })
-      // Yield after the synchronous directory picker so the native modal can enter the top layer.
-      await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
-      const copySource = rememberDirectory
-        ? await observeProjectCopySource(projectSource)
-        : undefined
-      if (copySource) await verifySourceAuthorBaseline(authorBaselineRef.current, projectSource)
-      const files = await serializeEditorSnapshot(savedState, savedScriptState, projectSource)
-      if (!projectGuard.isCurrent(lease)) return outcome
-      let lastPercent = -1
-      const recoverySnapshot = snapshotRef.current ?? new Map<string, string>()
-      snapshotRef.current = recoverySnapshot
-      const target = rememberDirectory
-        ? await authorizeFirstSaveTarget(workspace, directory, {
-            resumesInterruptedAttempt,
-            authorBaseline,
-          })
-        : await authorizeBoundWorkspaceTarget(workspace, directory, authorBaseline)
-      const result = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
-        await registerAuthorizedWorkspaceMutation(mutation, workspace, directory.name)
-        return writeProject(mutation, files, {
-          prevSnapshot: recoverySnapshot,
-          removePaths,
-          copies: copySource ? assetCopyInputs(files, copySource.source) : undefined,
-          verifySource: copySource
-            ? async () => {
-                await verifySourceAuthorBaseline(authorBaselineRef.current, projectSource)
-                await copySource.verify()
+        const authorBaseline = rememberDirectory
+          ? firstSaveAuthorRef.current!
+          : authorBaselineRef.current
+        setError('')
+        updateActivity({ phase: 'preparing' })
+        const recovered = await resumeOwnProjectSave(workspace, directory, authorBaseline, () =>
+          updateActivity({ phase: 'recovering' }),
+        )
+        if (!projectGuard.isCurrent(lease)) return outcome
+        if (recovered) {
+          snapshotRef.current = recovered.snapshot
+          authorBaselineRef.current = authorBaseline
+          directoryRef.current = directory
+          rememberDirectory = false
+        }
+        if (rememberDirectory)
+          await preflightFirstSaveTarget(workspace, directory, { resumesInterruptedAttempt })
+        const saved = captureEditorSaveSnapshot(main, script)
+        const savedState = saved.state
+        const removePaths = [
+          ...battleSimulatorRemovalPaths(savedState.battleSimulator),
+          ...scriptPreviewRemovalPaths(savedState.scriptPreview),
+          ...main.getDeletedScenePaths(),
+          ...main.getDeletedMapPaths(),
+          ...main.getDeletedAssetPaths(),
+        ]
+        setError('')
+        updateActivity({ phase: 'preparing' })
+        // Yield after the synchronous directory picker so the native modal can enter the top layer.
+        await new Promise<void>((resolve) => window.setTimeout(resolve, 0))
+        const copySource = rememberDirectory
+          ? await observeProjectCopySource(projectSource)
+          : undefined
+        if (copySource) await verifySourceAuthorBaseline(authorBaselineRef.current, projectSource)
+        // Binding an existing, proven PAL directory is not a new-project copy. First binding still
+        // rechecks the HTTP source and validates every target asset through the first-save scope.
+        const copyWholeProject = rememberDirectory && workspace.mode !== 'pal-development'
+        const recoverySnapshot =
+          snapshotRef.current ??
+          (copyWholeProject ? new Map<string, string>() : await openingSnapshot())
+        snapshotRef.current = recoverySnapshot
+        const files = await serializeEditorSaveSnapshot(saved, projectSource, recoverySnapshot)
+        if (!projectGuard.isCurrent(lease)) return outcome
+        let lastProgressKey = ''
+        const target = rememberDirectory
+          ? await authorizeFirstSaveTarget(workspace, directory, {
+              resumesInterruptedAttempt,
+              authorBaseline,
+            })
+          : await authorizeBoundWorkspaceTarget(workspace, directory, authorBaseline)
+        const result = await withAuthorizedWorkspaceMutation(target, async (mutation) => {
+          await registerAuthorizedWorkspaceMutation(mutation, workspace, directory.name)
+          return writeProject(mutation, files, {
+            prevSnapshot: recoverySnapshot,
+            removePaths,
+            copies:
+              copyWholeProject && copySource
+                ? assetCopyInputs(files, copySource.source)
+                : undefined,
+            verifySource: copySource
+              ? async () => {
+                  await verifySourceAuthorBaseline(authorBaselineRef.current, projectSource)
+                  await copySource.verify()
+                }
+              : undefined,
+            onActivity: (progress) => {
+              if (progress.phase !== 'validating') {
+                const { completed, total } = progress
+                const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
+                const key = `${progress.phase}:${percent}`
+                if (key === lastProgressKey && completed < total) return
+                lastProgressKey = key
               }
-            : undefined,
-          onProgress: ({ completed, total }) => {
-            const percent = total > 0 ? Math.floor((completed / total) * 100) : 0
-            if (percent === lastPercent && completed < total) return
-            lastPercent = percent
-            updateActivity({ phase: 'writing', completed, total })
-          },
+              updateActivity(progress)
+            },
+          })
         })
-      })
-      if (!projectGuard.isCurrent(lease)) return outcome
-      snapshotRef.current = result.snapshot
-      setError(result.cleanupWarning ?? '')
-      if (main.getState() === savedState) main.markSaved()
-      if (script.getVersion() === savedScriptVersion) script.markSaved()
-      if (rememberDirectory) {
-        authorBaselineRef.current = authorBaseline
-        directoryRef.current = directory
-        saveAttemptDirectoryRef.current = directory
+        if (!projectGuard.isCurrent(lease)) return outcome
+        snapshotRef.current = result.snapshot
+        setError(result.cleanupWarning ?? '')
+        if (main.getState() === savedState) main.markSaved()
+        if (script.getVersion() === saved.scriptVersion) script.markSaved()
+        if (rememberDirectory) {
+          authorBaselineRef.current = authorBaseline
+          directoryRef.current = directory
+          saveAttemptDirectoryRef.current = directory
+        }
+        outcome = 'committed'
+        return outcome
+      } catch (caught) {
+        if (projectGuard.isCurrent(lease))
+          setError(caught instanceof Error ? caught.message : String(caught))
+        outcome = 'failed'
+        return outcome
+      } finally {
+        if (projectGuard.isCurrent(lease)) setActivity(null)
+        projectGuard.finish(lease, outcome)
       }
-      outcome = 'committed'
-      return outcome
-    } catch (caught) {
-      if (projectGuard.isCurrent(lease))
-        setError(caught instanceof Error ? caught.message : String(caught))
-      outcome = 'failed'
-      return outcome
-    } finally {
-      if (projectGuard.isCurrent(lease)) setActivity(null)
-      projectGuard.finish(lease, outcome)
-    }
-  }, [])
+    },
+    [openingSnapshot],
+  )
 
   const runOpen = useCallback(async (): Promise<void> => {
     const current = inputRef.current
@@ -278,8 +295,8 @@ export function useEditorProjectSession(input: {
     if (!lease) return
     setActivity({ phase: 'saving-as' })
     try {
-      const savedState = main.getState()
-      const savedScriptState = script.getState()
+      const saved = captureEditorSaveSnapshot(main, script)
+      const savedState = saved.state
       const removePaths = [
         ...battleSimulatorRemovalPaths(savedState.battleSimulator),
         ...scriptPreviewRemovalPaths(savedState.scriptPreview),
@@ -290,7 +307,7 @@ export function useEditorProjectSession(input: {
       const sourceDirectory = directoryRef.current ?? undefined
       const opened = await saveProjectAs(
         workspace,
-        () => serializeEditorSnapshot(savedState, savedScriptState, projectSource),
+        () => serializeEditorSaveSnapshot(saved, projectSource, snapshotRef.current ?? undefined),
         sourceDirectory,
         removePaths,
         { source: projectSource, authorBaseline: authorBaselineRef.current },
@@ -359,16 +376,4 @@ export function useEditorProjectSession(input: {
     rename,
     exportZip,
   }
-}
-
-function serializeEditorSnapshot(
-  shellState: ReturnType<EditSession['getState']>,
-  scriptState: ScriptEditorState | undefined,
-  source: FileSource,
-): Promise<Record<string, unknown>> {
-  if (!scriptState) throw new Error('current 作者态缺失，拒绝序列化交互投影')
-  return serializeProjectWithMapCopies(
-    mergeEditorProjectionWithCurrentAuthorState(scriptState, shellState),
-    source,
-  )
 }

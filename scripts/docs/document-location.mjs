@@ -16,6 +16,8 @@ import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import { assertTestingSourceBridge, isTestingSourceBridgePath } from './testing-source-bridge.mjs'
+import { assertTestingSourceMaintenance } from './testing-source-maintenance.mjs'
+import { testingSourceMaintenanceAdmissions } from './testing-source-maintenance-admission.mjs'
 
 export const documentLocationManifest = 'docs/phase-governance/document-locations.json'
 export const fixedGitSourceUrl = (path, revision = documentLocationAdmission.baseRevision) =>
@@ -499,6 +501,20 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       `file mode drift: ${path}`,
     )
     if (!change) {
+      if (
+        blobHash(current) !== pin.object &&
+        testingSourceMaintenanceAdmissions.some((entry) => entry.path === path)
+      ) {
+        const previous = source.read(path)
+        assertTestingSourceMaintenance({ path, before: previous, current, readBuffer })
+        if (expectedBeforeSha256)
+          assert.equal(
+            hash(previous),
+            expectedBeforeSha256,
+            `historical review/source drift: ${path}`,
+          )
+        return { current, previous }
+      }
       assert.equal(blobHash(current), pin.object, `unreviewed body drift: ${path}`)
       if (expectedBeforeSha256)
         assert.equal(hash(current), expectedBeforeSha256, `historical review/source drift: ${path}`)
@@ -514,7 +530,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         current.toString('utf8').split('\n').length,
         `candidate body line extent differs: ${path}`,
       )
-      assertTestingSourceBridge(path, previous, current, (sourcePath) =>
+      let bridgeSource = previous
+      const maintenanceRevision = admission.testingCatalogMaintenanceRevision
+      if (
+        maintenanceRevision !== undefined &&
+        testingSourceMaintenanceAdmissions.some(
+          (entry) => entry.kind === 'testing-catalog' && entry.path === path,
+        )
+      ) {
+        assert(
+          /^[a-f\d]{40}$/u.test(maintenanceRevision),
+          'fixed catalog maintenance revision required',
+        )
+        bridgeSource = gitTree(root, maintenanceRevision, [path]).read(path)
+        assertTestingSourceMaintenance({
+          path,
+          before: previous,
+          current: bridgeSource,
+          readBuffer,
+        })
+      }
+      assertTestingSourceBridge(path, bridgeSource, current, (sourcePath) =>
         ordinaryBytes(root, sourcePath),
       )
       return { current, previous, change }

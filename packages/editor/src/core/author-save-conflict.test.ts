@@ -77,11 +77,15 @@ import {
 } from './project-io.js'
 import { ProjectLeaveGuard } from './project-leave-guard.js'
 import {
+  captureEditorSaveSnapshot,
+  captureOpeningSaveBaseline,
+  serializeEditorSaveSnapshot,
+} from './project-save-snapshot.js'
+import {
   AddSceneDefinitionCommand,
   AddSceneEntityDefinitionCommand,
   ScriptEditSession,
 } from './script-editor.js'
-import { mergeEditorProjectionWithCurrentAuthorState } from './script-editor-projection.js'
 import { buildBlankProject } from './seed.js'
 import { createLocalWorkspaceContext } from './workspace-context.js'
 import {
@@ -115,7 +119,7 @@ function projectSessionSave(
     'snapshotRef',
     'authorBaselineRef',
     'firstSaveAuthorRef',
-    'serializeEditorSnapshot',
+    'openingSnapshot',
     'save',
   ])
   const declarations = new Map<string, string>()
@@ -124,14 +128,8 @@ function projectSessionSave(
       if (declarations.has(node.name.text))
         throw new Error(`ambiguous project session declaration ${node.name.text}`)
       declarations.set(node.name.text, `const ${node.getText(ast)};`)
-    } else if (
-      ts.isFunctionDeclaration(node) &&
-      node.name?.text === 'serializeEditorSnapshot' &&
-      names.has(node.name.text)
-    ) {
-      if (declarations.has(node.name.text))
-        throw new Error(`ambiguous project session declaration ${node.name.text}`)
-      declarations.set(node.name.text, node.getText(ast))
+    } else if (ts.isVariableDeclaration(node) && node.name.getText(ast) === '[openingSnapshot]') {
+      declarations.set('openingSnapshot', `const ${node.getText(ast)};`)
     }
     ts.forEachChild(node, visit)
   }
@@ -157,6 +155,7 @@ function projectSessionSave(
         options.initialDir === null ? undefined : (options.initialDir ?? opened.dir),
     },
     useRef: <T>(value: T) => ({ current: value }),
+    useState: <T>(initial: () => T) => [initial()],
     useCallback: <T>(value: T) => value,
     setError: error,
     setActivity: activity,
@@ -169,7 +168,9 @@ function projectSessionSave(
     observeProjectCopySource,
     verifySourceAuthorBaseline,
     resumeOwnProjectSave,
-    mergeEditorProjectionWithCurrentAuthorState,
+    captureEditorSaveSnapshot,
+    captureOpeningSaveBaseline,
+    serializeEditorSaveSnapshot,
     createEmptyAuthorDiskBaseline,
     preflightFirstSaveTarget,
     authorizeFirstSaveTarget,
@@ -218,18 +219,43 @@ async function save(opened: Opened, editor: EditSession) {
 }
 
 describe('real author open and save conflict boundary', () => {
-  test('preview states round-trip through actual project save without altering game scenes, and last removal is reversible', async () => {
+  test.each([
+    'states',
+    'orphan-default-only',
+  ] as const)('preview states round-trip through actual project save without altering game scenes, and last removal is reversible: %s', async (mode) => {
     const disk = memoryAuthorDirectory(await buildBlankProject('preview-save'))
     disk.set('content/scenes/start.json', previewAuthorScene())
+    disk.set('content/scenes/outside.json', { ...previewAuthorScene(), id: 'outside' })
+    disk.set('content/scenes/index.json', {
+      version: 1,
+      scenes: [
+        { id: 'start', name: '客栈', path: 'content/scenes/start.json' },
+        { id: 'outside', name: '院外', path: 'content/scenes/outside.json' },
+      ],
+    })
+    const outsideBefore = disk.json('content/scenes/outside.json')
     const before = disk.json('content/scenes/start.json')
     const opened = await finishOpen(disk.dir)
     const editor = session(opened)
     const app = projectSessionSave(opened, editor)
     const library = previewLibrary()
+    library.states[0]!.scenes.push({
+      sceneId: 'outside',
+      entities: [{ entityId: 'host', pos: { col: 10, row: 11, height: 0 }, hidden: true }],
+    })
+    const { stageId: _stageId, ...entry } = library.bindings[0]!.entry
+    library.schemeDefaults = [{ entry, stateId: 'door' }]
+    if (mode === 'orphan-default-only') {
+      // Loaded dangling references stay repairable; an empty state list must not erase the sidecar.
+      library.states = []
+      library.bindings = []
+    }
+
     editor.dispatch(new SetScriptPreviewLibraryCommand(library))
     await app.run()
     expect(app.error).toHaveBeenLastCalledWith('')
     expect(disk.json('content/scenes/start.json')).toEqual(before)
+    expect(disk.json('content/scenes/outside.json')).toEqual(outsideBefore)
     const reopened = await finishOpen(disk.dir)
     expect(reopened.scriptPreview).toEqual(library)
     const next = session(reopened)
@@ -855,11 +881,11 @@ describe('real author open and save conflict boundary', () => {
     )
     app.scriptSession.dispatch(new AddSceneDefinitionCommand(added))
     disk.hooks.beforeClose = (p) => {
-      if (p === 'content/scenes/start.json') throw new Error('stopped before new scene')
+      if (p === path) throw new Error('stopped before new scene close')
     }
     await app.run()
-    expect(app.error).toHaveBeenLastCalledWith('stopped before new scene')
-    expect(disk.files.has(path)).toBe(false)
+    expect(app.error).toHaveBeenLastCalledWith('stopped before new scene close')
+    expect(disk.files.get(path)?.byteLength).toBe(0)
     expect(editor.undo()).toBe(true)
     expect(app.scriptSession.undo()).toBe(true)
     disk.hooks.beforeClose = undefined

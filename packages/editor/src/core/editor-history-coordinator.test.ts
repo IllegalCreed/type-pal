@@ -6,8 +6,10 @@ import { EditorHistoryCoordinator } from './editor-history-coordinator.js'
 import {
   AddItemPrivateScriptCommand,
   DeleteItemPrivateScriptCommand,
+  DeleteSceneHookCommand,
   type ScriptEditorState,
   ScriptEditSession,
+  SetSceneHookInitialCommand,
   UpdateSceneHookCommand,
 } from './script-editor.js'
 import { emptyScriptPreviewLibrary } from './script-preview-library.js'
@@ -94,7 +96,10 @@ describe('EditorHistoryCoordinator', () => {
       ...legacyState(),
       scriptPreview: {
         ...emptyScriptPreviewLibrary(),
-        states: [{ id: 'door', sceneId: 's', name: '门口', entities: [] }],
+        schemeDefaults: [
+          { entry: { sceneId: 's', channel: 'onEnter', schemeId: 'main' }, stateId: 'door' },
+        ],
+        states: [{ id: 'door', name: '门口', scenes: [{ sceneId: 's', entities: [] }] }],
         bindings: [
           {
             entry: { sceneId: 's', channel: 'onEnter', schemeId: 'main', stageId: 'stage-2' },
@@ -127,6 +132,7 @@ describe('EditorHistoryCoordinator', () => {
     )
     expect(main.getState().scriptPreview!.bindings).toEqual([])
     expect(observed).toEqual([0])
+    expect(main.getState().scriptPreview!.schemeDefaults).toHaveLength(1)
     expect(history.undo()).toBe(true)
     expect(main.getState().scriptPreview!.bindings[0]?.stateId).toBe('door')
     expect(script.getState().scenes[0]!.hooks!.onEnter!.variants.main!.flow).toEqual(flow)
@@ -135,6 +141,13 @@ describe('EditorHistoryCoordinator', () => {
     script.dispatch(new UpdateSceneHookCommand('s', 'onEnter', 'main', { flow }))
     expect(main.getState().scriptPreview!.bindings).toEqual([])
     expect(main.getState().scriptPreview!.states).toHaveLength(1)
+    script.dispatch(new SetSceneHookInitialCommand('s', 'onEnter', undefined))
+    const beforeSchemeDelete = structuredClone(main.getState().scriptPreview)
+    script.dispatch(new DeleteSceneHookCommand('s', 'onEnter', 'main'))
+    expect(main.getState().scriptPreview!.schemeDefaults).toEqual([])
+    expect(history.undo()).toBe(true)
+    expect(main.getState().scriptPreview).toEqual(beforeSchemeDelete)
+    expect(script.getState().scenes[0]!.hooks!.onEnter!.variants.main!.flow).toEqual(flow)
   })
 
   test('私有正文与 shell ref 一次撤销/重做，顺序保持成对', () => {

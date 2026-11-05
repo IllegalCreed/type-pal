@@ -1,1515 +1,3738 @@
 {
   "kind": "type-pal-script-preview",
-  "version": 1,
+  "version": 3,
   "states": [
     {
       "id": "e2e006-s002-e35-trigger-initial",
-      "sceneId": "s002",
-      "name": "006 洪大夫诊断 · initial（NPC显示初态）",
-      "entities": [
+      "name": "洪大夫 · 为李大娘诊断病情",
+      "scenes": [
         {
-          "entityId": "e34",
-          "pos": {
-            "col": 92,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e35",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e36",
-          "pos": {
-            "col": 92,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e37",
-          "pos": {
-            "col": 91,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e38",
-          "pos": {
-            "col": 91,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e39",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
+          "sceneId": "s002",
+          "entities": [
+            {
+              "entityId": "e34",
+              "pos": {
+                "col": 92,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e35",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e36",
+              "pos": {
+                "col": 92,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e37",
+              "pos": {
+                "col": 91,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e38",
+              "pos": {
+                "col": 91,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e39",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s002-e36-trigger-initial",
-      "sceneId": "s002",
-      "name": "006 小虎子求药说明 · initial（NPC显示初态）",
-      "entities": [
+      "name": "小虎子 · 首次说明仙灵岛求药",
+      "scenes": [
         {
-          "entityId": "e34",
-          "pos": {
-            "col": 92,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e35",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e36",
-          "pos": {
-            "col": 92,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e37",
-          "pos": {
-            "col": 91,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e38",
-          "pos": {
-            "col": 91,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e39",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
+          "sceneId": "s002",
+          "entities": [
+            {
+              "entityId": "e34",
+              "pos": {
+                "col": 92,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e35",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e36",
+              "pos": {
+                "col": 92,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e37",
+              "pos": {
+                "col": 91,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e38",
+              "pos": {
+                "col": 91,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e39",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s002-e36-trigger-legacy-002",
-      "sceneId": "s002",
-      "name": "006 小虎子求药说明 · legacy-002（NPC显示初态）",
-      "entities": [
+      "name": "小虎子 · 再问出海与病情",
+      "scenes": [
         {
-          "entityId": "e34",
-          "pos": {
-            "col": 92,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e35",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e36",
-          "pos": {
-            "col": 92,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e37",
-          "pos": {
-            "col": 91,
-            "row": -1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e38",
-          "pos": {
-            "col": 91,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e39",
-          "pos": {
-            "col": 90,
-            "row": 1,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
+          "sceneId": "s002",
+          "entities": [
+            {
+              "entityId": "e34",
+              "pos": {
+                "col": 92,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e35",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e36",
+              "pos": {
+                "col": 92,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e37",
+              "pos": {
+                "col": 91,
+                "row": -1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e38",
+              "pos": {
+                "col": 91,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e39",
+              "pos": {
+                "col": 90,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s003-e59-auto-initial",
-      "sceneId": "s003",
-      "name": "006 苗人头领指引 · auto/legacy-001/initial（NPC显示初态）",
-      "entities": [
+      "name": "苗人头领 · 走到大厅出口等候",
+      "scenes": [
         {
-          "entityId": "e54",
-          "pos": {
-            "col": 123,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e55",
-          "pos": {
-            "col": 124,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e56",
-          "pos": {
-            "col": 124,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e57",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e58",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e59",
-          "pos": {
-            "col": 137,
-            "row": 76,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e60",
-          "pos": {
-            "col": 134,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e61",
-          "pos": {
-            "col": 133,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e62",
-          "pos": {
-            "col": 137,
-            "row": 73,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e68",
-          "pos": {
-            "col": 139,
-            "row": 69,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e69",
-          "pos": {
-            "col": 141,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e70",
-          "pos": {
-            "col": 131,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e71",
-          "pos": {
-            "col": 132,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e72",
-          "pos": {
-            "col": 143,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e73",
-          "pos": {
-            "col": 133,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e74",
-          "pos": {
-            "col": 134,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e57",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e58",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 137,
+                "row": 76,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "pos": {
+                "col": 137,
+                "row": 73,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e68",
+              "pos": {
+                "col": 139,
+                "row": 69,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e69",
+              "pos": {
+                "col": 141,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e70",
+              "pos": {
+                "col": 131,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e71",
+              "pos": {
+                "col": 132,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e72",
+              "pos": {
+                "col": 143,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s003-e59-trigger-initial",
-      "sceneId": "s003",
-      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态）",
-      "entities": [
+      "name": "苗人头领 · 指路、赠锤与服丹",
+      "scenes": [
         {
-          "entityId": "e54",
-          "pos": {
-            "col": 123,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e55",
-          "pos": {
-            "col": 124,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e56",
-          "pos": {
-            "col": 124,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e57",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e58",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e59",
-          "pos": {
-            "col": 137,
-            "row": 72,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e60",
-          "pos": {
-            "col": 134,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e61",
-          "pos": {
-            "col": 133,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e62",
-          "pos": {
-            "col": 137,
-            "row": 73,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e68",
-          "pos": {
-            "col": 139,
-            "row": 69,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e69",
-          "pos": {
-            "col": 141,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e70",
-          "pos": {
-            "col": 131,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e71",
-          "pos": {
-            "col": 132,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e72",
-          "pos": {
-            "col": 143,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e73",
-          "pos": {
-            "col": 133,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e74",
-          "pos": {
-            "col": 134,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e57",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e58",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 137,
+                "row": 72,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "pos": {
+                "col": 137,
+                "row": 73,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e68",
+              "pos": {
+                "col": 139,
+                "row": 69,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e69",
+              "pos": {
+                "col": 141,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e70",
+              "pos": {
+                "col": 131,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e71",
+              "pos": {
+                "col": 132,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e72",
+              "pos": {
+                "col": 143,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s003-e59-auto-legacy-002-routine",
-      "sceneId": "s003",
-      "name": "006 苗人头领指引 · trigger/legacy-001/initial（NPC显示初态） / auto/legacy-002/routine",
-      "entities": [
+      "name": "苗人头领 · 交代完毕返回客房",
+      "scenes": [
         {
-          "entityId": "e54",
-          "pos": {
-            "col": 123,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e55",
-          "pos": {
-            "col": 124,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e56",
-          "pos": {
-            "col": 124,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e57",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e58",
-          "pos": {
-            "col": 0,
-            "row": 0,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e59",
-          "pos": {
-            "col": 137,
-            "row": 72,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e60",
-          "pos": {
-            "col": 134,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e61",
-          "pos": {
-            "col": 133,
-            "row": 43,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e62",
-          "pos": {
-            "col": 137,
-            "row": 73,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e68",
-          "pos": {
-            "col": 139,
-            "row": 69,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e69",
-          "pos": {
-            "col": 141,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e70",
-          "pos": {
-            "col": 131,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e71",
-          "pos": {
-            "col": 132,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e72",
-          "pos": {
-            "col": 143,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e73",
-          "pos": {
-            "col": 133,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e74",
-          "pos": {
-            "col": 134,
-            "row": 44,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e57",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e58",
+              "pos": {
+                "col": 0,
+                "row": 0,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 137,
+                "row": 72,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "pos": {
+                "col": 137,
+                "row": 73,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e68",
+              "pos": {
+                "col": 139,
+                "row": 69,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e69",
+              "pos": {
+                "col": 141,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e70",
+              "pos": {
+                "col": 131,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e71",
+              "pos": {
+                "col": 132,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e72",
+              "pos": {
+                "col": 143,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s005-e123-trigger-initial",
-      "sceneId": "s005",
-      "name": "006 码头张四 · initial（NPC显示初态）",
-      "entities": [
+      "name": "张四 · 答应渡海并邀请上船",
+      "scenes": [
         {
-          "entityId": "e116",
-          "pos": {
-            "col": 126,
-            "row": 52,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e117",
-          "pos": {
-            "col": 124,
-            "row": 54,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e118",
-          "pos": {
-            "col": 137,
-            "row": 79,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e120",
-          "pos": {
-            "col": 140,
-            "row": 80,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e121",
-          "pos": {
-            "col": 140.5,
-            "row": 80,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e122",
-          "pos": {
-            "col": 141.75,
-            "row": 82,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e123",
-          "pos": {
-            "col": 122,
-            "row": 50,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e124",
-          "pos": {
-            "col": 122,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e125",
-          "pos": {
-            "col": 112,
-            "row": 39,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e126",
-          "pos": {
-            "col": 114,
-            "row": 36,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e127",
-          "pos": {
-            "col": 114,
-            "row": 67,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e128",
-          "pos": {
-            "col": 104,
-            "row": 72,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e129",
-          "pos": {
-            "col": 104,
-            "row": 68,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e130",
-          "pos": {
-            "col": 104,
-            "row": 62,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e131",
-          "pos": {
-            "col": 114,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e132",
-          "pos": {
-            "col": 115,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e133",
-          "pos": {
-            "col": 105,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e134",
-          "pos": {
-            "col": 96,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e135",
-          "pos": {
-            "col": 97,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e137",
-          "pos": {
-            "col": 98,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e138",
-          "pos": {
-            "col": 99,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e116",
+              "pos": {
+                "col": 126,
+                "row": 52,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e117",
+              "pos": {
+                "col": 124,
+                "row": 54,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e118",
+              "pos": {
+                "col": 137,
+                "row": 79,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e120",
+              "pos": {
+                "col": 140,
+                "row": 80,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 140.5,
+                "row": 80,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 141.75,
+                "row": 82,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e123",
+              "pos": {
+                "col": 122,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e124",
+              "pos": {
+                "col": 122,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e125",
+              "pos": {
+                "col": 112,
+                "row": 39,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e126",
+              "pos": {
+                "col": 114,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e127",
+              "pos": {
+                "col": 114,
+                "row": 67,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e128",
+              "pos": {
+                "col": 104,
+                "row": 72,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e129",
+              "pos": {
+                "col": 104,
+                "row": 68,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e130",
+              "pos": {
+                "col": 104,
+                "row": 62,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e131",
+              "pos": {
+                "col": 114,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e132",
+              "pos": {
+                "col": 115,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e133",
+              "pos": {
+                "col": 105,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e134",
+              "pos": {
+                "col": 96,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e135",
+              "pos": {
+                "col": 97,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e137",
+              "pos": {
+                "col": 98,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e138",
+              "pos": {
+                "col": 99,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s005-e116-trigger-initial",
-      "sceneId": "s005",
-      "name": "006 船只出航 · trigger/legacy-001/initial（NPC显示初态）",
-      "entities": [
+      "name": "渡海出发 · 登船前",
+      "scenes": [
         {
-          "entityId": "e116",
-          "pos": {
-            "col": 126,
-            "row": 52,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e117",
-          "pos": {
-            "col": 124,
-            "row": 54,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e118",
-          "pos": {
-            "col": 137,
-            "row": 79,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e120",
-          "pos": {
-            "col": 140,
-            "row": 80,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e121",
-          "pos": {
-            "col": 142,
-            "row": 79,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e122",
-          "pos": {
-            "col": 143,
-            "row": 82.5,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e123",
-          "pos": {
-            "col": 123,
-            "row": 51,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e124",
-          "pos": {
-            "col": 122,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e125",
-          "pos": {
-            "col": 112,
-            "row": 39,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e126",
-          "pos": {
-            "col": 114,
-            "row": 36,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e127",
-          "pos": {
-            "col": 114,
-            "row": 67,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e128",
-          "pos": {
-            "col": 104,
-            "row": 72,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e129",
-          "pos": {
-            "col": 104,
-            "row": 68,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e130",
-          "pos": {
-            "col": 104,
-            "row": 62,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e131",
-          "pos": {
-            "col": 114,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e132",
-          "pos": {
-            "col": 115,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e133",
-          "pos": {
-            "col": 105,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e134",
-          "pos": {
-            "col": 96,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e135",
-          "pos": {
-            "col": 97,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e137",
-          "pos": {
-            "col": 98,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e138",
-          "pos": {
-            "col": 99,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e116",
+              "pos": {
+                "col": 126,
+                "row": 52,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e117",
+              "pos": {
+                "col": 124,
+                "row": 54,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e118",
+              "pos": {
+                "col": 137,
+                "row": 79,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e120",
+              "pos": {
+                "col": 140,
+                "row": 80,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 142,
+                "row": 79,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 143,
+                "row": 82.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e123",
+              "pos": {
+                "col": 123,
+                "row": 51,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e124",
+              "pos": {
+                "col": 122,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e125",
+              "pos": {
+                "col": 112,
+                "row": 39,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e126",
+              "pos": {
+                "col": 114,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e127",
+              "pos": {
+                "col": 114,
+                "row": 67,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e128",
+              "pos": {
+                "col": 104,
+                "row": 72,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e129",
+              "pos": {
+                "col": 104,
+                "row": 68,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e130",
+              "pos": {
+                "col": 104,
+                "row": 62,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e131",
+              "pos": {
+                "col": 114,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e132",
+              "pos": {
+                "col": 115,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e133",
+              "pos": {
+                "col": 105,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e134",
+              "pos": {
+                "col": 96,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e135",
+              "pos": {
+                "col": 97,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e137",
+              "pos": {
+                "col": 98,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e138",
+              "pos": {
+                "col": 99,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s005-e117-auto-initial",
-      "sceneId": "s005",
-      "name": "006 张四划桨 · initial（NPC显示初态）",
-      "entities": [
+      "name": "渡海途中 · 张四划桨",
+      "scenes": [
         {
-          "entityId": "e116",
-          "pos": {
-            "col": 126,
-            "row": 52,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e117",
-          "pos": {
-            "col": 124,
-            "row": 54,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e118",
-          "pos": {
-            "col": 137,
-            "row": 79,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e120",
-          "pos": {
-            "col": 140,
-            "row": 80,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e121",
-          "pos": {
-            "col": 142,
-            "row": 79.25,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e122",
-          "pos": {
-            "col": 142.5,
-            "row": 82,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e123",
-          "pos": {
-            "col": 123,
-            "row": 51,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": true,
-          "collide": false
-        },
-        {
-          "entityId": "e124",
-          "pos": {
-            "col": 122,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e125",
-          "pos": {
-            "col": 112,
-            "row": 39,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e126",
-          "pos": {
-            "col": 114,
-            "row": 36,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
-        },
-        {
-          "entityId": "e127",
-          "pos": {
-            "col": 114,
-            "row": 67,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e128",
-          "pos": {
-            "col": 104,
-            "row": 72,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e129",
-          "pos": {
-            "col": 104,
-            "row": 68,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e130",
-          "pos": {
-            "col": 104,
-            "row": 62,
-            "height": 0
-          },
-          "facing": "right",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e131",
-          "pos": {
-            "col": 114,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e132",
-          "pos": {
-            "col": 115,
-            "row": 61,
-            "height": 0
-          },
-          "facing": "left",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e133",
-          "pos": {
-            "col": 105,
-            "row": 75,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e134",
-          "pos": {
-            "col": 96,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e135",
-          "pos": {
-            "col": 97,
-            "row": 71,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e137",
-          "pos": {
-            "col": 98,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
-        },
-        {
-          "entityId": "e138",
-          "pos": {
-            "col": 99,
-            "row": 57,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": true
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e116",
+              "pos": {
+                "col": 126,
+                "row": 51.75,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e117",
+              "pos": {
+                "col": 124,
+                "row": 54,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e118",
+              "pos": {
+                "col": 137,
+                "row": 79,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e120",
+              "pos": {
+                "col": 140,
+                "row": 80,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 142,
+                "row": 79.5,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 142.5,
+                "row": 82,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e123",
+              "pos": {
+                "col": 123,
+                "row": 51,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e124",
+              "pos": {
+                "col": 122,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e125",
+              "pos": {
+                "col": 112,
+                "row": 39,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e126",
+              "pos": {
+                "col": 114,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e127",
+              "pos": {
+                "col": 114,
+                "row": 67,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e128",
+              "pos": {
+                "col": 104,
+                "row": 72,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e129",
+              "pos": {
+                "col": 104,
+                "row": 68,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e130",
+              "pos": {
+                "col": 104,
+                "row": 62,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e131",
+              "pos": {
+                "col": 114,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e132",
+              "pos": {
+                "col": 115,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e133",
+              "pos": {
+                "col": 105,
+                "row": 75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e134",
+              "pos": {
+                "col": 96,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e135",
+              "pos": {
+                "col": 97,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e137",
+              "pos": {
+                "col": 98,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e138",
+              "pos": {
+                "col": 99,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
         }
       ]
     },
     {
       "id": "e2e006-s014-scene-onEnter-initial",
-      "sceneId": "s014",
-      "name": "006 仙灵岛落地叮嘱 · initial（NPC显示初态）",
-      "entities": [
+      "name": "仙灵岛靠岸 · 张四叮嘱",
+      "scenes": [
         {
-          "entityId": "e201",
-          "pos": {
-            "col": 74,
-            "row": 30,
-            "height": 0
-          },
-          "facing": "up",
-          "hidden": false,
-          "collide": true
-        },
+          "sceneId": "s014",
+          "entities": [
+            {
+              "entityId": "e201",
+              "pos": {
+                "col": 74,
+                "row": 30,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e203",
+              "pos": {
+                "col": 80,
+                "row": 37,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e001-s001-e10-auto-leave-bedroom-leave",
+      "name": "李大娘 · 离开卧房前",
+      "scenes": [
         {
-          "entityId": "e203",
-          "pos": {
-            "col": 80,
-            "row": 37,
-            "height": 0
-          },
-          "facing": "down",
-          "hidden": false,
-          "collide": false
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12.875,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s001-e3-trigger-default-initial",
+      "name": "卧房出口 · 大娘离开后",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s003-e56-auto-legacy-006-leave-reception",
+      "name": "李大娘 · 接待完客人下楼",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e002-s003-e59-auto-legacy-003-initial",
+      "name": "苗人三人组 · 接待结束准备进房",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 121,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e47-trigger-default-initial",
+      "name": "客人进房后 · 大厅交谈前",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 137,
+                "row": 66,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 124,
+                "row": 42,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e56-auto-go-to-kitchen-initial",
+      "name": "李大娘 · 去厨房备菜前",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 137,
+                "row": 66,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 124,
+                "row": 42,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e62-trigger-beggar-first-talk-initial",
+      "name": "醉酒道士 · 初次在门口讨酒",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 129,
+                "row": 64.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 124,
+                "row": 42,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s003-e53-trigger-default-initial",
+      "name": "大娘进厨房后 · 客栈日间",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 124,
+                "row": 42,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e003-s001-e19-trigger-serve-guests-initial",
+      "name": "厨房送餐 · 李大娘与待端酒菜",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e19",
+              "pos": {
+                "col": 89,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e20",
+              "pos": {
+                "col": 92,
+                "row": 51,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false,
+              "zBias": 4
+            },
+            {
+              "entityId": "e24",
+              "pos": {
+                "col": 35,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e25",
+              "pos": {
+                "col": 112,
+                "row": 27,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e26",
+              "pos": {
+                "col": 106,
+                "row": 24,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e18-trigger-default-initial",
+      "name": "端菜送餐 · 厨房与客房共用",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e15",
+              "pos": {
+                "col": 108,
+                "row": 29,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e19",
+              "pos": {
+                "col": 89,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e24",
+              "pos": {
+                "col": 35,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e25",
+              "pos": {
+                "col": 112,
+                "row": 27,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e26",
+              "pos": {
+                "col": 106,
+                "row": 24,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e26-auto-legacy-003-routine",
+      "name": "苗人随从 · 客房内自动动作",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e16",
+              "pos": {
+                "col": 109,
+                "row": 26,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false,
+              "zBias": 4
+            },
+            {
+              "entityId": "e19",
+              "pos": {
+                "col": 89,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e24",
+              "pos": {
+                "col": 35,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e25",
+              "pos": {
+                "col": 112,
+                "row": 27,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e26",
+              "pos": {
+                "col": 109,
+                "row": 24,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e004-s001-e12-trigger-default-initial",
+      "name": "苗人随从客房 · 送餐后离开",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e16",
+              "pos": {
+                "col": 109,
+                "row": 26,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false,
+              "zBias": 4
+            },
+            {
+              "entityId": "e19",
+              "pos": {
+                "col": 89,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e24",
+              "pos": {
+                "col": 35,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e25",
+              "pos": {
+                "col": 112,
+                "row": 27,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e26",
+              "pos": {
+                "col": 107,
+                "row": 24,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s003-e53-trigger-default-initial",
+      "name": "买虾出门 · 离开客栈前",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "pos": {
+                "col": 123,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "pos": {
+                "col": 124,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 124,
+                "row": 42,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "pos": {
+                "col": 137,
+                "row": 73,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "pos": {
+                "col": 138,
+                "row": 73,
+                "height": 0
+              },
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "pos": {
+                "col": 136,
+                "row": 73,
+                "height": 0
+              },
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "pos": {
+                "col": 133,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "pos": {
+                "col": 134,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s001-e19-trigger-c8-74bc98f07f8e-stage-1",
+      "name": "李大娘 · 买虾前的厨房交代",
+      "scenes": [
+        {
+          "sceneId": "s001",
+          "entities": [
+            {
+              "entityId": "e3",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e10",
+              "pos": {
+                "col": 60,
+                "row": -12,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e11",
+              "pos": {
+                "col": 60,
+                "row": -23,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e19",
+              "pos": {
+                "col": 89,
+                "row": 45,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e24",
+              "pos": {
+                "col": 35,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e25",
+              "pos": {
+                "col": 112,
+                "row": 27,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e26",
+              "pos": {
+                "col": 107,
+                "row": 24,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e95-trigger-default-initial",
+      "name": "买虾途中 · 前往码头",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 139.5,
+                "row": 58,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 153,
+                "row": 43.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 100.25,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 93,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e127-trigger-default-initial",
+      "name": "鱼嫂 · 询问鲜虾前",
+      "scenes": [
+        {
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 140,
+                "row": 78,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 141,
+                "row": 82,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e124-trigger-default-initial",
+      "name": "水生叔 · 闲聊仙灵岛前",
+      "scenes": [
+        {
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 142,
+                "row": 79,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 141,
+                "row": 83,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e123-trigger-legacy-001-initial",
+      "name": "张四 · 回应仙灵岛传闻前",
+      "scenes": [
+        {
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 140,
+                "row": 79.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 141,
+                "row": 83,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e124",
+              "pos": {
+                "col": 122,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s005-e115-trigger-default-initial",
+      "name": "买虾归来 · 从码头回村",
+      "scenes": [
+        {
+          "sceneId": "s005",
+          "entities": [
+            {
+              "entityId": "e121",
+              "pos": {
+                "col": 140.5,
+                "row": 80,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e122",
+              "pos": {
+                "col": 140.5,
+                "row": 83,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e123",
+              "pos": {
+                "col": 116,
+                "row": 56,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e124",
+              "pos": {
+                "col": 122,
+                "row": 57,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-scene-onEnter-legacy-003-initial",
+      "name": "丁香兰 · 上前报信前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 139,
+                "row": 56.875,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 153,
+                "row": 42.75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 101,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e88-auto-legacy-001-routine",
+      "name": "回村报信时 · 街头自动动作",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 134.125,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 139.5,
+                "row": 34,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 105,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 93,
+                "row": 27.25,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 94.25,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e2e005-s004-e83-auto-legacy-002-initial",
+      "name": "丁香兰 · 报信后离开前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132.625,
+                "row": 50,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 139.5,
+                "row": 34,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 105.5,
+                "row": 36,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 93,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 94.25,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14cd1105-0a41-4d18-95cc-9b1f38fa09ee",
+      "name": "回客栈途中 · 村口自动动作首轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 140,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 114.75,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "794100b6-eb4d-4715-b57e-255bd0d41479",
+      "name": "回客栈途中 · 村口自动动作次轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 142,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 118.25,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8e4ec065-4ffc-4a16-b0b4-07644a5da30a",
+      "name": "回客栈求诊 · 进门前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 142.5,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 118.75,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "20d8dd64-ff3b-47e4-a6cb-d5d8bdc7e57c",
+      "name": "问路后赴码头 · 离开客栈前",
+      "scenes": [
+        {
+          "sceneId": "s003",
+          "entities": [
+            {
+              "entityId": "e54",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e55",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e56",
+              "pos": {
+                "col": 124,
+                "row": 61,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e59",
+              "pos": {
+                "col": 137,
+                "row": 71,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e60",
+              "pos": {
+                "col": 134,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e61",
+              "pos": {
+                "col": 133,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e62",
+              "facing": "down",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e63",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e64",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e73",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e74",
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "55c88d6c-d0e5-4dcb-8e7d-31071e2ce7f1",
+      "name": "赴码头途中 · 村口自动动作首轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 148,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 124.25,
+                "row": 40,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "594c9485-6dd6-4716-a1bc-d0839a7c3164",
+      "name": "赴码头途中 · 村口自动动作次轮",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 153,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 128,
+                "row": 41.25,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e91",
+              "pos": {
+                "col": 94.5,
+                "row": 27.5,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.25,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "left",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2d5b27fc-c8e4-444d-8c78-6244746a9a30",
+      "name": "赴码头乘船 · 进入码头前",
+      "scenes": [
+        {
+          "sceneId": "s004",
+          "entities": [
+            {
+              "entityId": "e76",
+              "pos": {
+                "col": 132,
+                "row": 49.625,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e83",
+              "pos": {
+                "col": 154.75,
+                "row": 44,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e84",
+              "pos": {
+                "col": 128,
+                "row": 43,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e92",
+              "pos": {
+                "col": 92.5,
+                "row": 28,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": false,
+              "collide": false
+            },
+            {
+              "entityId": "e93",
+              "pos": {
+                "col": 95,
+                "row": 25,
+                "height": 0
+              },
+              "facing": "down",
+              "hidden": false,
+              "collide": false
+            }
+          ]
         }
       ]
     }
@@ -1520,8 +3743,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e35"
+        "entityId": "e35",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s002-e35-trigger-initial"
     },
@@ -1530,8 +3753,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "initial",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s002-e36-trigger-initial"
     },
@@ -1540,8 +3763,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "legacy-002",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "legacy-002"
       },
       "stateId": "e2e006-s002-e36-trigger-legacy-002"
     },
@@ -1550,8 +3773,8 @@
         "sceneId": "s002",
         "channel": "trigger",
         "schemeId": "default",
-        "stageId": "legacy-003",
-        "entityId": "e36"
+        "entityId": "e36",
+        "stageId": "legacy-003"
       },
       "stateId": "e2e006-s002-e36-trigger-legacy-002"
     },
@@ -1560,8 +3783,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s003-e59-auto-initial"
     },
@@ -1570,8 +3793,8 @@
         "sceneId": "s003",
         "channel": "trigger",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s003-e59-trigger-initial"
     },
@@ -1580,8 +3803,8 @@
         "sceneId": "s003",
         "channel": "auto",
         "schemeId": "legacy-002",
-        "stageId": "routine",
-        "entityId": "e59"
+        "entityId": "e59",
+        "stageId": "routine"
       },
       "stateId": "e2e006-s003-e59-auto-legacy-002-routine"
     },
@@ -1590,8 +3813,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "legacy-002",
-        "stageId": "initial",
-        "entityId": "e123"
+        "entityId": "e123",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e123-trigger-initial"
     },
@@ -1600,8 +3823,8 @@
         "sceneId": "s005",
         "channel": "trigger",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e116"
+        "entityId": "e116",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e116-trigger-initial"
     },
@@ -1610,8 +3833,8 @@
         "sceneId": "s005",
         "channel": "auto",
         "schemeId": "legacy-001",
-        "stageId": "initial",
-        "entityId": "e117"
+        "entityId": "e117",
+        "stageId": "initial"
       },
       "stateId": "e2e006-s005-e117-auto-initial"
     },
@@ -1623,6 +3846,326 @@
         "stageId": "initial"
       },
       "stateId": "e2e006-s014-scene-onEnter-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "leave-bedroom",
+        "entityId": "e10",
+        "stageId": "leave"
+      },
+      "stateId": "e2e001-s001-e10-auto-leave-bedroom-leave"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e3",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s001-e3-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-006",
+        "entityId": "e56",
+        "stageId": "leave-reception"
+      },
+      "stateId": "e2e002-s003-e56-auto-legacy-006-leave-reception"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "entityId": "e59",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "entityId": "e60",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "entityId": "e61",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s003-e59-auto-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e47",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e47-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "entityId": "e56",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e47-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "auto",
+        "schemeId": "go-to-kitchen",
+        "entityId": "e56",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e56-auto-go-to-kitchen-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "entityId": "e62",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e62-trigger-beggar-first-talk-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e53",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "serve-guests",
+        "entityId": "e19",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "take-dishes",
+        "entityId": "e20",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s001-e19-trigger-serve-guests-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e18",
+        "stageId": "initial"
+      },
+      "stateId": "e2e004-s001-e18-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e46",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e51",
+        "stageId": "initial"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e15",
+        "stageId": "initial"
+      },
+      "stateId": "e2e004-s001-e18-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "entityId": "e26",
+        "stageId": "routine"
+      },
+      "stateId": "e2e004-s001-e26-auto-legacy-003-routine"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e12",
+        "stageId": "initial"
+      },
+      "stateId": "e2e004-s001-e12-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "c8-321c0a7d7de1",
+        "entityId": "e62",
+        "stageId": "stage-1"
+      },
+      "stateId": "e2e003-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "entityId": "e19",
+        "stageId": "stage-1"
+      },
+      "stateId": "e2e005-s001-e19-trigger-c8-74bc98f07f8e-stage-1"
+    },
+    {
+      "entry": {
+        "sceneId": "s003",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e44",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s003-e53-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e95",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s004-e95-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e127",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s005-e127-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e124",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s005-e124-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "entityId": "e123",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s005-e123-trigger-legacy-001-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s005",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e115",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s005-e115-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s004-scene-onEnter-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "entityId": "e83",
+        "stageId": "report"
+      },
+      "stateId": "e2e005-s004-scene-onEnter-legacy-003-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "entityId": "e88",
+        "stageId": "routine"
+      },
+      "stateId": "e2e005-s004-e88-auto-legacy-001-routine"
+    },
+    {
+      "entry": {
+        "sceneId": "s004",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "entityId": "e83",
+        "stageId": "initial"
+      },
+      "stateId": "e2e005-s004-e83-auto-legacy-002-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s001",
+        "channel": "auto",
+        "schemeId": "default",
+        "entityId": "e25",
+        "stageId": "initial"
+      },
+      "stateId": "e2e002-s001-e3-trigger-default-initial"
     }
-  ]
+  ],
+  "schemeDefaults": []
 }

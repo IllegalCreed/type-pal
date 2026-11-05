@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（分类与分工维护；各卡 Owner 负责事实写回）
-Last reviewed: 2026-11-03
+Last reviewed: 2026-11-05
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -87,9 +87,9 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段；双阶段对照 / ops | 同引擎真实前驱与检查点；001–006 各自证据范围；异常清理单独核 | Codex / 完成前十段薄基线、四取物canary与编辑保存重开试玩；001–006有限后继已承接，完整Q1/Q2后置 |
+| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段；双阶段对照 / ops | 同引擎真实前驱与检查点；001–006 各自证据范围；异常清理单独核 | Codex / 001–006有限脚本与静态初态基线已收尾，当前合法RF006终档已取得；按R4推进余下前十段与四取物canary，007尚未开始，完整Q1/Q2后置 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
-| ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 静态 UI 已通过试用；每段现场决定位置/朝向/显隐等初态 | Codex / 随 E2E 采集并保存步骤关联，核重开/播放/重置；完整动态现场恢复另核范围 |
+| ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档 IO 失败](cards/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 第二阶段 | 失败传播、真实 caller、Owner 与白名单尚待准入 | Codex / 先复现并核当前前提，再决定有限修复；draft 不授权实现 |
 

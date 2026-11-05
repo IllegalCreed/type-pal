@@ -1,10 +1,13 @@
+import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
 import { expect, test, vi } from 'vitest'
 import {
+  deriveFieldAdoptionTruth,
   evaluateAllowlist as facadeEvaluateAllowlist,
   validateAllowlist as facadeValidateAllowlist,
+  validateWorkspaceConnectors,
 } from './design-system-audit.mjs'
 import {
   jsxElementFacts,
@@ -177,4 +180,46 @@ test('the report layer owns gate output and exit codes through narrow ports', ()
     log.mockRestore()
     error.mockRestore()
   }
+})
+
+test('initial-state workspace is traversed as a governed field root', () => {
+  const truth = deriveFieldAdoptionTruth({}, 'scene/initial-states')
+  expect(truth['scene/initial-states'].evidence).toEqual([
+    { source: 'InitialStateWorkspace.tsx', component: 'InitialStateWorkspace' },
+  ])
+  expect(truth['scene/initial-states'].components).toContain('SceneInitialStateEditor.tsx')
+  expect(truth['scene/initial-states'].owners).toContain('DsDraftNumberInput')
+  expect(Object.keys(truth)).toEqual(['scene/initial-states'])
+  for (const registryId of ['scene/initial-state', ''])
+    expect(() => deriveFieldAdoptionTruth({}, registryId)).toThrow(
+      'Field registry must identify one registered subpage',
+    )
+})
+
+test.each([
+  'missing branch',
+  'wrong component',
+  'extra guard exemption',
+])('workspace route rejects %s', (fault) => {
+  const app = readFileSync(join(here, '../src/ui/App.tsx'), 'utf8')
+  let changed
+  let expected
+  if (fault === 'missing branch') {
+    const branch =
+      /activeSubpage\.kind === 'initial-state' \? \([\s\S]*?\) : activeSubpage\.kind === 'simulator'/
+    expect(branch.test(app)).toBe(true)
+    changed = app.replace(branch, "activeSubpage.kind === 'simulator'")
+    expected = 'App.tsx has no canonical initial-state/simulator/map/actor/project/data route chain'
+  } else if (fault === 'wrong component') {
+    changed = app.replace('<InitialStateWorkspace', '<BattleSimulatorWorkbench')
+    expected = 'App.tsx initial-state must render the canonical InitialStateWorkspace'
+  } else {
+    changed = app.replace(
+      "!scene && activeSubpage.kind !== 'project' && activeSubpage.kind !== 'initial-state'",
+      "!scene && activeSubpage.kind !== 'project' && activeSubpage.kind !== 'initial-state' && activeSubpage.kind !== 'actor'",
+    )
+    expected = 'App.tsx has a non-continuing path before its canonical rendered root'
+  }
+  expect(changed).not.toBe(app)
+  expect(validateWorkspaceConnectors({ 'App.tsx': changed })).toEqual([expected])
 })

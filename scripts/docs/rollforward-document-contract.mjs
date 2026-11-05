@@ -19,6 +19,10 @@ import {
 import { readRollforwardGitSource } from './rollforward-git-source.mjs'
 import { snapshotRollforwardCohort } from './rollforward-review.mjs'
 import { parseTerminalJson } from './terminal-json.mjs'
+import {
+  assertTestingSourceMaintenance,
+  assertTestingSourceMaintenanceOwner,
+} from './testing-source-maintenance.mjs'
 
 const hash = (b) => createHash('sha256').update(b).digest('hex')
 const physicalSnapshots = new WeakSet()
@@ -67,24 +71,40 @@ export function rollforwardDocumentIssues(doc, template, read, options = {}, che
       'actual fixed Git source differs',
     )
     demand(
-      Buffer.isBuffer(bytes) &&
-        hash(bytes) === row.afterSha256 &&
-        read(doc.path) === bytes.toString('utf8'),
+      Buffer.isBuffer(bytes) && read(doc.path) === bytes.toString('utf8'),
       'adopted byte/text identity differs',
     )
+    const maintained = hash(bytes) !== row.afterSha256
+    if (maintained) {
+      assertTestingSourceMaintenanceOwner({ doc, ...item, template })
+      assertTestingSourceMaintenance({
+        path: doc.path,
+        before: source.buffer,
+        current: bytes,
+        readBuffer: options.readBuffer,
+      })
+    }
     if (doc.path.endsWith('.md')) {
       if (row.rollforward.kind === 'addition') assertIncrementalPreservation(bytes, source.buffer)
       else assertPreservedMarkdownSpans(bytes, source.buffer)
     } else {
-      demand(bytes.equals(source.buffer), 'native carrier changed')
+      demand(maintained || bytes.equals(source.buffer), 'native carrier changed')
+      // Old witnesses certify only the original carrier. The new source audit
+      // separately traverses the live JSON/publication contract below.
       const issues = rollforwardNativeContentIssues(
         row,
         item,
         template,
-        bytes.toString('utf8'),
+        source.buffer.toString('utf8'),
         checkBody,
       )
       demand(issues.length === 0, issues.join('; '))
+      if (maintained) {
+        const currentIssues = checkBody(bytes.toString('utf8'), template, {
+          variant: row.templateVariant,
+        })
+        demand(currentIssues.length === 0, currentIssues.join('; '))
+      }
       demand(
         row.evidence.runtimeExecutionPerformed === false &&
           row.evidence.historicClaimsReexecuted === false &&

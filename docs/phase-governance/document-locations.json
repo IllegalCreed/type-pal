@@ -663,17 +663,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "715fdcbbee466e4e42ecbe72296cf5d179ba566867ba31c622b174d6d8cf6b94",
+      "afterSha256": "4c9bd97fcb2f7cee084d1d30c3c639e659dfa6b2b860f8f9092489e65e6eb795",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior Codex /root/raw_initial_state_audit (bounded source/count reconciliation); /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "conclusion": "保全主线970条闭合原表与已接受PAL oracle刷新；仅按合并后真实tracked库存刷新两条机器汇总为3682/970/0/2712，功能侧先前3636→3651作为原时点历史，不授新whole-file关闭。",
         "reviewedLines": 1015,
-        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "acceptanceScope": "仅根提供的合并库存候选及两机器行；970条live保全由根独立验证，沿用两边原历史与验收，不授新runtime/UI/E2E、统一质量门或PR合入信用。"
       }
     },
     {
@@ -719,16 +719,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "b6246e13534102b2585a1d213ba93bfaeaec31dab965e177a08c35eaed990999",
+      "afterSha256": "e9403da99db37f51a217ea656046303ca602007f47c14f2a9bc5d9b17e4fb226",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior /root/e2e_baseline_docs; /root/status_reconcile; /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 终态父卡直链退出看板，只留回执入口，保全实际单项失败。",
+        "conclusion": "保全37bf层：仅更新R4和初态预览当前推进位置，固定历史接受与007未启动；状态分别跟随两原卡。 本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 终态父卡直链退出看板，只留回执入口，保全实际单项失败。",
         "reviewedLines": 119,
-        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
       }
     },
     {
@@ -2071,16 +2071,16 @@
     {
       "path": "docs/ops/guides/documentation-model.md",
       "mode": "reviewed",
-      "afterSha256": "d372187f5990ebd55b0959319444e37e24573eaf1f5699be8cc96d55884388a4",
+      "afterSha256": "147c04209dd72d43ccd6cc66a357da4c186432e0f4921fefc00b5ad5df2643fe",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
         "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "候选：区分治理逻辑对象与全部物理文件；按有限gzip身份读取，保留display/original和真实路径边界。",
-        "reviewedLines": 136,
-        "acceptanceScope": "复用未变已接受正文，只核本次实际差异、固定来源、具体保全及当前入口；不授产品、历史执行或代码质量closed信用。"
+        "reviewer": "/root/raw_initial_state_audit",
+        "date": "2026-11-05",
+        "conclusion": "合并后的 catalog 先核固定原件到 E2E 已准入版本的来源维护，再核该版本到现行对象的有限来源桥接。",
+        "acceptanceScope": "独立核单段增量与两份现有准入合同。沿用其余已接受正文。",
+        "reviewedLines": 138
       }
     },
     {
@@ -2326,21 +2326,28 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "75757db006c8dd4dbb422840b5e55e2a7a483aabb42a2db4bea1d4eeba2549ce",
+      "afterSha256": "d7c17634838887e88e7be412c7ea31bdc85e2d47fea9c9ed4f1ba38873a11d63",
       "review": {
-        "author": "/root/e2e_baseline_docs",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "核006已合入且done；初态最终10套/11绑定仅属006，001–005缺逐入口完成依据。真实项目加载/编译与原档cursor消费证实RF006旧终档digest失配；只记007前驱适用性，不撤销历史技术/用户接受。",
-        "reviewedLines": 402,
-        "baseRevision": "00e38451b4594512c9236d5e214eb47d2cdf6e89",
-        "beforeSha256": "475881d63700e0d0649eb63d01e91f5834af6834187fd8cc4c0b805f5f574559",
-        "acceptanceScope": "贡献者全文核读三篇；Codex独立核实际diff、固定Git归属、两份独立裁定SHA、源/配置与旧档摘要consumer。未变正文沿用既有接受；未新跑剧情、编辑器或视觉，不增加runtime/coverage信用。"
+        "author": "/root",
+        "reviewer": "/root/raw_initial_state_audit",
+        "date": "2026-11-05",
+        "conclusion": "对齐 c56192d8 后完成官方 ratchet 和当前 RF001–006。五次真实前驱及 006 fresh 恢复均通过，正式终档和必要原件可恢复。",
+        "acceptanceScope": "核最新主线对齐与 RF 两段增量，复用独立验收和实际原件。旧轮次与最终远端状态分别以相应原件及 PR44 为准。",
+        "reviewedLines": 503
       }
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "af7b441844023ee109f0536195ce98faa0e43f32f0ae963ef3198f4b61532cb0",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/e2e_baseline_docs",
+        "date": "2026-11-05",
+        "conclusion": "只追加R4静态初态/Save有限后继，原跨场景预览/用户UI接受及完整世界恢复界限保持，整卡仍review。",
+        "reviewedLines": 882,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
     },
     {
       "path": "docs/ops/tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md",
@@ -2581,12 +2588,12 @@
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior Codex /root/e2e_baseline_docs / Codex /root; /root/status_reconcile; /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "conclusion": "保全37bf层：既有生成器仅将ED当前状态由build更新为review，独立重放stdout与候选逐字相同，其余任务状态不改。 以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
         "reviewedLines": 581,
-        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：只接受唯一生成行、真实card状态及producer一致性；短回执在ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz。未变正文复用旧接受，行数为consumer身份范围；不额外授产品、E2E或全文运行信用。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
       }
     },
     {
@@ -3309,17 +3316,17 @@
     {
       "path": "docs/phase2/READ-FIRST.md",
       "mode": "reviewed",
-      "afterSha256": "6f03f1dff877b3d3348d3b907460a9699ae96c1c7e9f962e66e607f1560f3e91",
+      "afterSha256": "1ced4222cb1b604a9e726234b180467291a1e58f3a7769496c62c43b147513d1",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/inventory",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "十一条现行规则及停止线保留，旧CLAUDE入口改阶段知识；重复历史全文和已过期治理rework退出默认阅读。",
-        "reviewedLines": 58,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "author": "/root",
+        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "date": "2026-11-04",
+        "conclusion": "UI work must read applicable DS clauses and architecture workflow, inspect shared callers, then verify complete rows and narrow layouts.",
+        "reviewedLines": 60,
+        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
       }
     },
     {
@@ -3372,22 +3379,31 @@
     },
     {
       "path": "docs/phase2/specs/project-lifecycle.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "f75e64a21c3ce8257cf284bfec7409161dc1d6e085f8ee916afedbb9122ee760",
+      "review": {
+        "author": "/root/ui_affordances",
+        "reviewer": "/root",
+        "date": "2026-11-05",
+        "conclusion": "普通同目标仅写相对打开态修改；真正新目标/SaveAs完整复制，PAL首绑完整校验与journal/冲突协议不改。",
+        "reviewedLines": 265,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
     },
     {
       "path": "docs/phase2/specs/README.md",
       "mode": "reviewed",
-      "afterSha256": "6dd17f39d7953f848182b99b5b02a9cbf2fd08ba12f0aa2813bf828b90a17306",
+      "afterSha256": "47c9a34c5799c8ff38e06e6625c76d388bafcb23aa8a00602425f42a0959122e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/inventory",
-        "reviewer": "/root",
-        "date": "2026-11-02",
-        "conclusion": "六个现行规范入口全部保留，和操作/历史分工；薄索引不承诺实现符合。",
+        "author": "/root",
+        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "date": "2026-11-04",
+        "conclusion": "Routes to the single design specification and UI workflow; navigation does not certify implementation.",
         "reviewedLines": 36,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
       }
     },
     {
@@ -3933,32 +3949,41 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "62f8282bb1df1afbdf2939103d72112184758dc0c52e1b9c0b746c5ea544d2c0",
+      "afterSha256": "27f9eb53e19c6117b2d7dcb4dc2b3a0affafb8a726c2a21e27076a7e7c29e8a9",
       "review": {
-        "author": "/root/status_reconcile",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
-        "reviewedLines": 551,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "author": "/root",
+        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "date": "2026-11-04",
+        "conclusion": "Reverse-reference entry synchronized to right Inspector References tab; existing E2E and initial-state verification credit unchanged.",
+        "reviewedLines": 608,
+        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
       }
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "mode": "reviewed",
-      "afterSha256": "e1ef011bbef1b0d0ec063973c0c6fb79ff346e3b6ea507ed6cfc41883e0ba5fb",
+      "afterSha256": "0199f45e01eb52f335fd973a5ec3295a0b5c44c3e30e3e736bf56c23ddacf4ec",
       "review": {
-        "author": "/root/status_reconcile",
+        "author": "/root/raw_initial_state_audit",
         "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "以具体后继接受、源/断言身份桥和真实PR/main-push原件对账当前状态；未满足的产品/视觉/宿主义务保持具体范围，原文与旧失败保全，不重授ledger或运行信用。",
-        "reviewedLines": 550,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "date": "2026-11-05",
+        "conclusion": "两个当前源锚点/e25适用边界按实际源核对；历史quote字节保持，无新运行信用。",
+        "reviewedLines": 556,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
       }
     },
     {
       "path": "docs/testing/e2e/cross-stage/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "bd7556b8acb051d5f843b5c3e8b7bc12f19793d1404f12cfd3c8b8d01d1e6517",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/e2e_baseline_docs",
+        "date": "2026-11-04",
+        "conclusion": "横向导航接入唯一逐步骤台账，不复制第二份状态，不替代阶段报告。",
+        "reviewedLines": 56,
+        "acceptanceScope": "本次具体差异、固定来源/原件和实际消费者按独立回执接受；未变正文沿用此前接受。reviewedLines仅正文范围，不证明全文重读；不额外授全量运行、用户视觉、覆盖率或远端集成信用。"
+      }
     },
     {
       "path": "docs/testing/e2e/README.md",
@@ -3974,7 +3999,16 @@
     },
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "00b2acb7c9bb403857aa7c03fd918d847913af18859a5e96627796d4f9612e5e",
+      "review": {
+        "author": "/root/raw_initial_state_audit",
+        "reviewer": "/root",
+        "date": "2026-11-05",
+        "conclusion": "更新唯一观测名单源pin及旧001缺e25的适用边界；旧Game/执行历史保持，新RF事实归R4原件。",
+        "reviewedLines": 293,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
     },
     {
       "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
@@ -4129,7 +4163,16 @@
     },
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "6d81b2ec2dbf2ebbf718ab085232083dc234672cf3431451156c8ec12a783a1d",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root (bounded pointer); /root/raw_initial_state_audit (independent RF input proof)",
+        "date": "2026-11-05",
+        "conclusion": "仅新增当前RF006终档/6506摘要、R4及69唯一原件恢复入口；旧边界/双阶段历史原样保留，不授007/Game/新视觉。",
+        "reviewedLines": 147,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
     },
     {
       "path": "README.en.md",
@@ -4171,6 +4214,32 @@
       }
     },
     {
+      "path": "docs/phase2/specs/editor-architecture.md",
+      "mode": "reviewed",
+      "afterSha256": "31f1255e9c82c6956a6e49e53211ca437bd8d555009d4d5771c9bd4aefbdaead",
+      "review": {
+        "author": "/root/ui_affordances",
+        "reviewer": "/root",
+        "date": "2026-11-05",
+        "conclusion": "增量Save沿打开态规范快照；保留跨场景预览已接受边界及磁盘基线/冲突职责。",
+        "reviewedLines": 386,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
+    },
+    {
+      "path": "docs/phase2/specs/editor-design-system.md",
+      "mode": "reviewed",
+      "afterSha256": "1aea3e6fee4a2c35292baf929db17567a137c29be2330cff32f2993ad8a0ffea",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
+        "date": "2026-11-04",
+        "conclusion": "Restores current normative applicability based on explicit premigration role; quoted original bytes, historical execution boundaries and withdrawn credit remain unchanged.",
+        "reviewedLines": 1345,
+        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+      }
+    },
+    {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
       "mode": "reviewed",
       "historyOverlay": false,
@@ -4188,14 +4257,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "a8d1aa8840429b58fb24d648fbbcf45dc326b38e9709b8a946c849133eabac11",
+      "afterSha256": "565403a5ed988ccb4c529384dd159d3120e30f2a4e931f314b2578e9002a18c2",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
+        "author": "/root/e2e_baseline_docs (source-layer merge)",
+        "reviewer": "/root (merge acceptance); /root/doc_delta_review (c561 layer)",
         "date": "2026-11-05",
-        "conclusion": "仅三个稳定ID的2+4+1来源指纹和各一条history，旧指纹保全；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "conclusion": "固定159cd原件先经已接受37bf catalog维护合同，再经主线有限source bridge；保全E2E两ID来源SHA/reviewScope增量和主线三个ID的2+4+1来源/history增量。两层原断言各自执行，原签名/出版/执行事实不变。",
         "reviewedLines": 3410,
-        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+        "acceptanceScope": "仅两个已接受来源维护层的组合及固定Git中间原件，不扩大路径/ID/字段授权，不授runtime/E2E或旧反控重执行信用。"
       }
     },
     {
@@ -4302,6 +4371,19 @@
         "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
         "reviewedLines": 159,
         "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/script-progress.md",
+      "templateId": "plan-status-v1",
+      "afterSha256": "a769bbcbc6c41515879a09bd08e38989bf76df524844d7327b9365e89010be58",
+      "review": {
+        "author": "/root (UI/append); read-only assembly /root/e2e_baseline_docs",
+        "reviewer": "/root/e2e_baseline_docs (candidate/data); /root (actual publication)",
+        "date": "2026-11-05",
+        "conclusion": "原160事件保全，追加650为810。当前130审查/95静态初态verified，66优化accepted/64无需整改；旧e25缺证unreviewed。正式归档ref与append-only快检0待复核/0 orphan；全仓未核仍自动枚举。",
+        "reviewedLines": 78999,
+        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
       }
     },
     {
@@ -4499,10 +4581,94 @@
       "purpose": "同一已核历史附件退出正名单的有界分片；仅固定源/缺席行政身份，不复制执行原件或新增语义信用。"
     },
     {
+      "path": "docs/tasks/evidence/E2E-R4-1-preview-baseline-20261104.tar.gz",
+      "sha256": "e39424ff1e6d45d2540c59a28e7158bbfedfd75edbe38d36e04f2fe7fcec5ba2",
+      "bytes": 11152046,
+      "purpose": "8次当前RF链报告、必要首命令现场/真实终档及编辑器保存失败/成功、可恢复296文件重写原件；不授Game、专项、全量初态或新视觉接受。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-ui-20261104.tar.gz",
+      "sha256": "7696ebad384fc34f6906f2721c5e4d62d3cfbbe62792f8c20f2194f1ea3f6596",
+      "bytes": 330920,
+      "purpose": "后继初态名称与UI/caller整改、实际页面、逐步骤工具及普通保存进度的作者/独立/失败恢复原件；旧006仅保留必要裁定原字节及来源，未重复整包。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-inheritance-20261104.tar.gz",
+      "sha256": "e7039418ab3291a9676529c0f725bdcf939240d16a3079ae696e4c593517efa0",
+      "bytes": 1010855,
+      "purpose": "严格预览v2/方案默认与步骤覆盖、长标题修复的最小作者失败恢复和独立反例接受、根32/42迁移与实际Chrome检查；60件原件及manifest，不授新的Save/Play或逐入口E2E。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-dialog-library-20261104.tar.gz",
+      "sha256": "15868435ebc8283a0f4f694f54b1b965929feb1539a509f143205ef82f4c6b44",
+      "bytes": 980850,
+      "purpose": "步骤/方案详情入口与双栏初态库的必要作者失败恢复、52项真实caller回归、独立接收及原6010页面观察；58件原件及manifest，不授用户最终体验、工程Save/Play或逐入口E2E信用。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz",
+      "sha256": "5143e9b13499715298217fc7f950542fc4369c31ee6cbbf33b9c3e5c0b98af9c",
+      "bytes": 644824,
+      "purpose": "独立初态编排及v3跨场景集合：固定候选/逐文件八维、原生最终与失败/反控执行、独立代码与文档裁定、PAL逐值迁移/台账不变、原页布局与导航实证；旧源码由固定Git恢复。"
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz",
+      "sha256": "c5531a14c9b40065fa2a219b1d9d414b0cafbad2ee2962c3863690b0192affd2",
+      "bytes": 1332365,
+      "purpose": "Initial-state UI consistency, equal-height icon actions and DS classification correction: minimal author failure/recovery/counter originals, independent verdicts, default/narrow browser observations and quote preservation. Fixed Git restores source; no new E2E credit."
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-affordances-20261104.tar.gz",
+      "sha256": "5f8d523c49626b7801f59e1e18fbfa03b7c071fdc80a3c45d473a5917c5ca006",
+      "bytes": 1040718,
+      "purpose": "Initial-state Tab action visibility, copy border, responsive participant grid, standard control heights and shared popover stacking; minimal original failures/recovery/native results, independent verdicts and browser observations. Fixed Git restores source; no new E2E credit."
+    },
+    {
+      "path": "docs/tasks/evidence/ED-ENTITY-STATE-PLAN-1-cross-scene-preview-20261104.tar.gz",
+      "sha256": "c37a912f25bb76a715aa0559d1570631eed2ac34543b092687a723b5b822afc7",
+      "bytes": 1515371,
+      "purpose": "Cross-scene preview and actual006 boat-to-island entry verification: native failures/recovery, effective cancellation counter, per-file review, independent acceptance and UI screenshots. Source retained in fixed Git; no full boat/audio fidelity, project Save or new E2E credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+      "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+      "bytes": 31138645,
+      "purpose": "001-006 finite script/static initial preview baseline: label-only independent review; normal FSA incremental Save/reopen;309 Inspector observations,95 selected contexts; six legal RF runs and006 formal restore; native failures/recovery/canaries;69 unique current RF originals with9 exact recovery aliases, pinned old-release recovery; no new Game/boat-visual/audio/007 credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-final-quality-20261105.tar.gz",
+      "sha256": "b311e51289289c98709eb40a673363ed20db6dfaa1da8d339d042c83a4a74d80",
+      "bytes": 140027,
+      "purpose": "Final concentrated docs513/lint6681/append-only checks; exact three-path testing source maintenance, independent8-file review and real CLI fixture closure; source-drift single AssertionError/recovery; preserved earlier gate failures and rolled-back catalog packing. Complements the primary001-006 raw/UI/RF archive without copying unchanged members; no gameplay, visual, audio, checkpoint or coverage credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-ci-quality-recovery-20261105.tar.gz",
+      "sha256": "37f96cc413c8a69d56b9defa22a38a78af8e041ad690bfef7249d1e7876af44d",
+      "bytes": 230798,
+      "purpose": "PR44 first remote quality-tools43/45 failure and local45/45 recovery; exact decoded-log reconstruction, actual3651 census and unchanged846-row independent proof; dependency-only CLI fixture repair. Reuses existing runtime/UI evidence and adds no new codeClosed or runtime/coverage credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-ci-editor-recovery-20261105.tar.gz",
+      "sha256": "53a1e6211d2a0b820e0f39246154bd2192f5b578cd1f9ee05200b116fa1f4aa4",
+      "bytes": 156710,
+      "purpose": "PR44 second remote two-editor failure and exact3-file recovery; original32-page/full-scoped equivalence, G03 real edited-content save oracle,10/12/10 native focused results; preserved local migrate two-timeout failure and complete editor626-files/4836-pass V8 recovery with exact300-source census/four improved editor ratios. Reuses earlier runtime/UI/RF and CI-quality evidence; no multi-package, remote CI, merge or new codeClosed credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-ci-coverage-ratchet-20261105.tar.gz",
+      "sha256": "174aa728a78be6cfd3a05f3e309274951ce172fd2769c0af9104faf3c221924f",
+      "bytes": 1524037,
+      "purpose": "PR44 native scope rejection after 20277 runtime tests passed. Preserves exact initial-state test transfer, approved 10-to-9 identities, official full ratchet and independent protected comparison. Original CI summary plus byte-exact recovery of the separate local summary. Includes distinct command outcomes and 822-file scope proof."
+    },
+    {
       "path": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/execution.tar.gz",
       "sha256": "d2cbde2f83d431ebe5e145c71220c4f2f7dc724af3b4d20c889857dcdd0a6019",
       "bytes": 2830158,
       "purpose": "原93主体的独有执行/失败/恢复/映射/来源及只读复验唯一原件；1087成员保全，21可重建或重复过程输出不进入持久包；仅有限文件批次及已执行组成门，不授未来远端CI/合并或整仓完成。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-pr44-main-reconcile-20261105.tar.gz",
+      "sha256": "5037e2a3e618e97bf31389c84f7d4900873a2ef243d54057a87d235242956b84",
+      "bytes": 7106969,
+      "purpose": "Preserves previous-head required check receipts, current-main reconciliation, the official seven-package V8 report, six current Reforge reports and checkpoints, original RF006 fresh-restore inputs, and the independent verification harness."
     }
   ],
   "artifactAliases": [],

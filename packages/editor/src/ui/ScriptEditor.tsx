@@ -290,12 +290,35 @@ export function ScriptSchemeStrip(props: {
   )
 }
 
+export interface ScriptSchemeDetailsDraft {
+  name: string
+  isDefault: boolean
+  previewState: string
+}
+
+export interface ScriptPreviewDetails {
+  step(schemeId: string, stageId: string, close: () => void): ReactNode
+  scheme(schemeId: string): {
+    value: string
+    render(value: string, onChange: (value: string) => void, onOpenLibrary: () => void): ReactNode
+    onOpenLibrary(draft: ScriptSchemeDetailsDraft): void
+    onSave(name: string, isDefault: boolean | undefined, previewState: string): boolean
+  }
+}
+
+export type ScriptPreviewDetailsRequest = {
+  schemeId: string
+  revision: number
+} & ({ kind: 'step'; stageId: string } | { kind: 'scheme'; draft: ScriptSchemeDetailsDraft })
+
 export function ScriptSchemeDetailsDialog(props: {
   selectedName: string
   references: readonly ScriptSchemeReferencePresentation[]
   referencesKnown: boolean
   onClose: () => void
-  onSave: (name: string, isDefault: boolean | undefined) => boolean
+  onSave: (name: string, isDefault: boolean | undefined, previewState?: string) => boolean
+  preview?: ReturnType<ScriptPreviewDetails['scheme']>
+  initialDraft?: ScriptSchemeDetailsDraft
   onDelete: () => void
   defaultControl?: {
     isDefault: boolean
@@ -304,8 +327,17 @@ export function ScriptSchemeDetailsDialog(props: {
   }
   onOpenReference?: (reference: ProjectReferenceEdge) => void
 }) {
-  const [nameDraft, setNameDraft] = useState(props.selectedName)
-  const [defaultDraft, setDefaultDraft] = useState(props.defaultControl?.isDefault ?? false)
+  const [nameDraft, setNameDraft] = useState(props.initialDraft?.name ?? props.selectedName)
+  const [defaultDraft, setDefaultDraft] = useState(
+    props.initialDraft?.isDefault ?? props.defaultControl?.isDefault ?? false,
+  )
+  const [previewDraft, setPreviewDraft] = useState(
+    props.initialDraft?.previewState ?? props.preview?.value ?? '',
+  )
+  const previousSource = useRef({
+    name: props.selectedName,
+    isDefault: props.defaultControl?.isDefault,
+  })
   const [confirmDelete, setConfirmDelete] = useState(false)
   const nameInputId = useId()
   const deleteBlocked = !props.referencesKnown || props.references.length > 0
@@ -315,11 +347,15 @@ export function ScriptSchemeDetailsDialog(props: {
       ? '这套方案仍在使用中，请先处理上方列出的引用。'
       : undefined
 
-  useEffect(() => setNameDraft(props.selectedName), [props.selectedName])
-  useEffect(
-    () => setDefaultDraft(props.defaultControl?.isDefault ?? false),
-    [props.defaultControl?.isDefault],
-  )
+  useEffect(() => {
+    if (previousSource.current.name !== props.selectedName) setNameDraft(props.selectedName)
+    if (previousSource.current.isDefault !== props.defaultControl?.isDefault)
+      setDefaultDraft(props.defaultControl?.isDefault ?? false)
+    previousSource.current = {
+      name: props.selectedName,
+      isDefault: props.defaultControl?.isDefault,
+    }
+  }, [props.selectedName, props.defaultControl?.isDefault])
 
   const save = (): void => {
     const name = nameDraft.trim()
@@ -327,8 +363,10 @@ export function ScriptSchemeDetailsDialog(props: {
     const defaultValue = props.defaultControl ? defaultDraft : undefined
     const unchanged =
       name === props.selectedName &&
-      (!props.defaultControl || defaultDraft === props.defaultControl.isDefault)
-    if (!unchanged && !props.onSave(name, defaultValue)) return
+      (!props.defaultControl || defaultDraft === props.defaultControl.isDefault) &&
+      (!props.preview || previewDraft === props.preview.value)
+    if (!unchanged && !props.onSave(name, defaultValue, props.preview ? previewDraft : undefined))
+      return
     props.onClose()
   }
 
@@ -422,6 +460,14 @@ export function ScriptSchemeDetailsDialog(props: {
             </div>
           </div>
         ) : null}
+
+        {props.preview?.render(previewDraft, setPreviewDraft, () =>
+          props.preview?.onOpenLibrary({
+            name: nameDraft,
+            isDefault: defaultDraft,
+            previewState: previewDraft,
+          }),
+        )}
 
         <div className="script-scheme-usage">
           <header className="canonical-dialog-field-heading">
@@ -4001,6 +4047,8 @@ export function removeTriggerStage(
 export function CanonicalScriptFlowEditor(props: {
   flow: AuthorScriptFlow
   previewCursor?: FlowCursor
+  renderStepPreview?: (stageId: string, close: () => void) => ReactNode
+  detailsRequest?: { stageId: string; revision: number }
   onSelectPreviewCursor?: (cursor: FlowCursor) => void
   onChange: (flow: AuthorScriptFlow) => boolean
   ownerLabel?: string
@@ -4029,6 +4077,16 @@ export function CanonicalScriptFlowEditor(props: {
     [onSelectPreviewCursor],
   )
   const [detailsOpen, setDetailsOpen] = useState(false)
+  const appliedDetailsRequest = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    if (!props.detailsRequest || appliedDetailsRequest.current === props.detailsRequest.revision)
+      return
+    appliedDetailsRequest.current = props.detailsRequest.revision
+    if (props.flow.stages.some((stage) => stage.id === props.detailsRequest?.stageId)) {
+      setSelectedId(props.detailsRequest.stageId)
+      setDetailsOpen(true)
+    }
+  }, [props.detailsRequest, props.flow.stages, setSelectedId])
   const [createOpen, setCreateOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [linkNewStage, setLinkNewStage] = useState(true)
@@ -4091,6 +4149,47 @@ export function CanonicalScriptFlowEditor(props: {
     setSelectedId(replacement.id)
     setDeleteOpen(false)
   }
+  const stageNavigation = (
+    <nav className="canonical-stage-tabs" aria-label="执行步骤">
+      {flow.stages.map((candidate, index) => (
+        <div
+          key={candidate.id}
+          className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
+        >
+          <DsPressable
+            className="canonical-stage-card-select"
+            aria-pressed={candidate.id === stage?.id}
+            aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
+            onClick={() => setSelectedId(candidate.id)}
+          >
+            <span className="canonical-stage-card-heading">
+              <strong>步骤 {index + 1}</strong>
+              <span>{candidate.body.length} 条指令</span>
+            </span>
+            {candidate.label ? (
+              <span className="canonical-stage-card-name">{candidate.label}</span>
+            ) : null}
+            <small>
+              {candidate.id === flow.initial ? <span>首次运行</span> : null}
+              <span>{stageNextLabel(candidate)}</span>
+            </small>
+          </DsPressable>
+          <DsButton
+            size="compact"
+            variant="quiet"
+            className="canonical-stage-card-details"
+            aria-label={`打开“${stageLabel(candidate.id)}”详情`}
+            onClick={() => {
+              setSelectedId(candidate.id)
+              setDetailsOpen(true)
+            }}
+          >
+            步骤详情
+          </DsButton>
+        </div>
+      ))}
+    </nav>
+  )
   return (
     <section className="canonical-flow-editor">
       <header className="canonical-flow-explanation">
@@ -4117,45 +4216,7 @@ export function CanonicalScriptFlowEditor(props: {
           </DsButton>
         </div>
       </header>
-      <nav className="canonical-stage-tabs" aria-label="执行步骤">
-        {flow.stages.map((candidate, index) => (
-          <div
-            key={candidate.id}
-            className={`canonical-stage-card${candidate.id === stage?.id ? ' active' : ''}`}
-          >
-            <DsPressable
-              className="canonical-stage-card-select"
-              aria-pressed={candidate.id === stage?.id}
-              aria-label={`${stageLabel(candidate.id)}，${candidate.body.length} 条指令，${candidate.id === flow.initial ? '首次运行，' : ''}${stageNextLabel(candidate)}`}
-              onClick={() => setSelectedId(candidate.id)}
-            >
-              <span className="canonical-stage-card-heading">
-                <strong>步骤 {index + 1}</strong>
-                <span>{candidate.body.length} 条指令</span>
-              </span>
-              {candidate.label ? (
-                <span className="canonical-stage-card-name">{candidate.label}</span>
-              ) : null}
-              <small>
-                {candidate.id === flow.initial ? <span>首次运行</span> : null}
-                <span>{stageNextLabel(candidate)}</span>
-              </small>
-            </DsPressable>
-            <DsButton
-              size="compact"
-              variant="quiet"
-              className="canonical-stage-card-details"
-              aria-label={`打开“${stageLabel(candidate.id)}”详情`}
-              onClick={() => {
-                setSelectedId(candidate.id)
-                setDetailsOpen(true)
-              }}
-            >
-              步骤详情
-            </DsButton>
-          </div>
-        ))}
-      </nav>
+      {stageNavigation}
       {stage ? (
         <CanonicalFlowBodyTabs
           key={stage.id}
@@ -4243,6 +4304,7 @@ export function CanonicalScriptFlowEditor(props: {
           }
         >
           <div className="canonical-flow-settings-fields">
+            {props.renderStepPreview?.(stage.id, () => setDetailsOpen(false))}
             <section className="canonical-flow-setting">
               <DsField
                 id={stageNameInputId}
