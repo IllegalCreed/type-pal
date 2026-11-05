@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { test } from 'node:test'
@@ -45,7 +45,7 @@ test('repository paths update once and preserve Git historical object identities
   )
 })
 
-test('unsafe, colliding and overlapping paths fail before writes', () => {
+test('unsafe, colliding and overlapping paths fail before writes', (t) => {
   assert.throws(() => validateMoves([{ from: 'docs/a.md', to: '../a.md' }]), /Unsafe/)
   assert.throws(
     () =>
@@ -56,6 +56,7 @@ test('unsafe, colliding and overlapping paths fail before writes', () => {
     /Duplicate/,
   )
   const dir = mkdtempSync(join(tmpdir(), 'type-pal-doc-move-'))
+  t.after(() => rmSync(dir, { recursive: true, force: true }))
   writeFileSync(join(dir, 'a.md'), 'original')
   writeFileSync(join(dir, 'b.md'), 'other')
   const entries = [
@@ -70,8 +71,9 @@ test('unsafe, colliding and overlapping paths fail before writes', () => {
   assert.equal(existsSync(join(dir, 'next/a.md')), false)
 })
 
-test('dry-run preserves files and write keeps every payload while rebasing links', () => {
+test('dry-run preserves files and write keeps every payload while rebasing links', (t) => {
   const dir = mkdtempSync(join(tmpdir(), 'type-pal-doc-move-'))
+  t.after(() => rmSync(dir, { recursive: true, force: true }))
   writeFileSync(join(dir, 'a.md'), '[b](b.md)')
   writeFileSync(join(dir, 'b.md'), 'history [5] (=value)')
   const entries = [
