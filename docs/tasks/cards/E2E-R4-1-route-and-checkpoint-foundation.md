@@ -50,6 +50,12 @@ PR44首轮CI追踪：coverage run `41954840381`、job `127007149647`在前置qua
 
 首轮修复已接入`51b581bd4`：夹具恰新增两条真实模块路径，作者单文件5项通过；库存两条汇总经独立复核为3651/846/0/2805，16新增、1删除均不涉及原846条live，整块字节保持。根完整quality-tools恢复45/45，文档结构/模型和lint零诊断；远端必需门及合入事实继续取PR44原生结果。必要失败、源码/库存身份和恢复原件新增1份[CI质量修复包](../evidence/E2E-R4-1-ci-quality-recovery-20261105.tar.gz)，复用此前执行/保存/预览原件；本轮没有删除其它资源，CI临时材料仍按上述Owner和合入触发退出。
 
+同一PR后继head `83f80fb40174834ab3e4ab05ac1713e4ad9550ca`的documentation通过；coverage run `41956913787`在editor报两项失败：初态字段根的测试调用全量审计超时，G03保存生命周期测试只修改manifest却要求content写闭。根定向核当前保存实现及project-lifecycle合同：同目标未修改正文必须保持原字节，不能为恢复旧测试而重写。build allowed：`/root/raw_initial_state_audit`在隔离树只维护`packages/editor/src/__tests__/architecture-lab/app-lifecycle.test.tsx`，补一笔公开命令产生的合法内容修改及确切落盘oracle，保留committed终态、卸载后零IO与断开派发断言；产品保存实现、协议和超时不变。初态审计先由`/root/e2e_baseline_docs`只读测量归因，确定最小整改边界后另行准入；不得提高deadline或绕开真实组件遍历。原生失败日志与后继恢复由本轮CI-followup原件持有，未通过前不合并。
+
+审计定向准入：原生测量确认`deriveFieldAdoptionTruth`默认遍历32个登记页，而新增测试仅断言初态页。build allowed：`/root/e2e_baseline_docs`在隔离树只改`packages/editor/scripts/design-system-audit.mjs`及`design-system-audit-layering.test.mjs`，为同一派生函数增加已登记页的明确查询范围，初态测试按真实初态根遍历；默认全量结果、manifest/CSS/source缓存失效、字段所有权与连接规则不变。错误登记名须明确拒绝，保留三项初态断言及三个路由反例，以默认全量输出与定向输出的原生投影一致性、定向与相邻回归和覆盖率条件实测验收；不改任何deadline、runner选择、覆盖率配置或产品模块。
+
+根根据实际三文件差异、作者逐文件A–H及原生结果独立接受第二轮定向修复，保留作者提交`84ec961ed8bb4217fab72c38d8a8b472f2788f98`与`85b7c6c606112a84a730af459c91df3f7a254546`，组合为`7d397fac27422c51be6bdfbc2d87aaa7252e09a5`。G03及相邻增量保存10项、审计V8定向12项与相邻10项均通过、无跳过；默认32页JSON与原版逐字相同，全部定向查询均等于全量对应投影。根核源码/依赖与原件SHA，未重复作者同候选测试，不授新UI、E2E或whole-file关闭信用。第一次本地完整coverage预检仍如实失败：迁移包O04两项同步图像语料测试超时，尚未进入editor或ratio门；该包从远端已通过的83f到7d整树字节未变，现有远端718项通过不改写为本地通过，也不据后时点负载推断已证根因。后继完整门和远端结果继续取实际执行。新建`ci-g03-lifecycle`隔离树仅属本轮，Owner为Codex；必要原件有持久恢复入口、作者提交可达合入main且无新Owner/进程/消费者后退役，旧作者树与当前会话资源仍按先前精确范围核查。
+
 ## 2026-11-04 编辑器初态补齐准入
 
 用户追问001–006相关NPC初态是否已经在编辑器核对并保存，确认上一轮仅盘点而未补齐。build allowed：Codex为`projects/pal/editor/script-preview.json`单一写入Owner，在本隔离工作树复用006已接受范围，补核001–005真实步骤入口前态、配置、步骤绑定与编辑器保存/切换/重开/播放/重置；只读贡献者整理原始现场证据，Codex核实际投影与UI。必要时使用现有公开Reforge执行器正常重建当前版本前驱，不能改旧存档digest、正式场景/脚本或假定默认初态正确。现行说明写回本卡，逐入口证据留在本次原生回执；无新产品能力或测试规则变更准入。未完成项继续明确保留，不以静态JSON存在代替编辑器验收。
@@ -57,6 +63,8 @@ PR44首轮CI追踪：coverage run `41954840381`、job `127007149647`在前置qua
 用户同日追加逐脚本线性记录要求：准入`/root/script_progress_ledger`在独立`codex/script-progress-ledger`工作树实现`scripts/script-governance`下的只读清单/进度工具、必要新测试及唯一持久进度事件文件；根独立验收后接入现行合同和中央文档记录。按场景/实体/通道/方案/步骤定位，未有证据一律未核；脚本审查、初态、优化分轴，保存有序历史和调用现场，版本变化派生待复核。工具不授运行通过、不改编辑器或游戏、不从旧done卡推断全部脚本已优化。
 
 用户同日反馈保存卡死：首笔PAL开发基线保存实际在资源暂存阶段被浏览器拒绝（`Blocked by Safe Browsing`），原预览JSON未改变。准入贡献者在隔离树仅补普通Save缺失的staging/validating活动回调与必要新回归测试；不改事务、安全检查或复制语义。根保留失败原件、独立验收，并通过既有打开工程恢复入口处理未封存事务。001–005候选初态已按当前真实首命令前态与正式解析/投影消费者核对，配置持久化和逐入口UI复验分开记录，未完成操作不授verified。
+
+后继editor整包采用当前官方fast选择、V8来源范围与固定deadline实跑，626文件/4836项全部通过，生产文件census精确匹配，S/B/F/L四项均高于保护基线；这仅接受editor整包，不将上述多包失败改绿。必要远端失败、两份作者交付、根独立核验、本地多包失败与editor恢复保存于[第二轮CI修复原件包](../evidence/E2E-R4-1-ci-editor-recovery-20261105.tar.gz)。远端必需检查与合入结论仍以PR44原生结果为准；本轮不改覆盖率基线或测试门槛。
 
 ## 2026-11-04 基线收尾与逐脚本复核准入
 
