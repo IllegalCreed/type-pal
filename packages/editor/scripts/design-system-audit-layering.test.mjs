@@ -183,12 +183,17 @@ test('the report layer owns gate output and exit codes through narrow ports', ()
 })
 
 test('initial-state workspace is traversed as a governed field root', () => {
-  const truth = deriveFieldAdoptionTruth()
+  const truth = deriveFieldAdoptionTruth({}, 'scene/initial-states')
   expect(truth['scene/initial-states'].evidence).toEqual([
     { source: 'InitialStateWorkspace.tsx', component: 'InitialStateWorkspace' },
   ])
   expect(truth['scene/initial-states'].components).toContain('SceneInitialStateEditor.tsx')
   expect(truth['scene/initial-states'].owners).toContain('DsDraftNumberInput')
+  expect(Object.keys(truth)).toEqual(['scene/initial-states'])
+  for (const registryId of ['scene/initial-state', ''])
+    expect(() => deriveFieldAdoptionTruth({}, registryId)).toThrow(
+      'Field registry must identify one registered subpage',
+    )
 })
 
 test.each([

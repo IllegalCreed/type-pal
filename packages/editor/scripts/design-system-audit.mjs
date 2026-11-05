@@ -2573,8 +2573,13 @@ function publicRoot(root) {
   return { source: root.source, component: root.component }
 }
 
-export function deriveFieldAdoptionTruth(overrides = {}) {
-  const registry = registeredSubpages()
+/** Omit registryId for the complete audit; a named query keeps the same route and traversal checks. */
+export function deriveFieldAdoptionTruth(overrides = {}, registryId) {
+  const entries = registeredSubpages()
+  const registry =
+    registryId === undefined ? entries : entries.filter((entry) => entry.registry === registryId)
+  if (registryId !== undefined && registry.length !== 1)
+    throw new Error(`Field registry must identify one registered subpage: ${String(registryId)}`)
   const manifest = productionSources()
     .map((source) => relative(uiRoot, source))
     .join('\n')
