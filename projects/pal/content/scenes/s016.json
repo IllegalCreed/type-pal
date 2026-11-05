@@ -4489,7 +4489,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "到达仙灵岛桃花林：播放场景音乐",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -4502,7 +4502,8 @@
                     "asset": "music.pal.077",
                     "kind": "playMusic"
                   }
-                ]
+                ],
+                "label": "播放桃花林音乐"
               }
             ]
           }

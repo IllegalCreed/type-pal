@@ -85,7 +85,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "穿过通道进入桃花林",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -144,7 +144,8 @@
                       }
                     }
                   ],
-                  "next": "after-checkpoint"
+                  "next": "after-checkpoint",
+                  "label": "逍遥独白后进入桃花林"
                 },
                 {
                   "id": "after-checkpoint",
@@ -158,13 +159,15 @@
                         "height": 0
                       }
                     }
-                  ]
+                  ],
+                  "label": "再次进入桃花林"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "仙灵岛桃花林入口"
     },
     {
       "id": "e266",
@@ -191,7 +194,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "迷宫破阵后：显出通道",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -227,7 +230,8 @@
                 "body": [],
                 "next": {
                   "kind": "complete"
-                }
+                },
+                "label": "改写回访入口并渐显通道"
               }
             ]
           }
