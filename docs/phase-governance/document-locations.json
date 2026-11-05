@@ -2326,14 +2326,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "5c29b908dccd4fdf96aef28ac0f2aeca40bbbfaa2501acd8e7b900909a46d0af",
+      "afterSha256": "1dfe8968ef31368aea48386de254024fdeca015ffb115ebbfbed5ede371a231e",
       "review": {
         "author": "/root",
-        "reviewer": "/root/e2e_baseline_docs",
+        "reviewer": "/root/raw_initial_state_audit",
         "date": "2026-11-05",
-        "conclusion": "001–006有限收尾及PR44的CI维护：原脚本/静态初态/保存/RF证据限定复用；保留两轮原始失败、三文件定向恢复和editor整包4836项/四项ratio通过，多包本地失败不转绿，整卡仍build，未开始007。",
-        "acceptanceScope": "仅本次R4增量正文与CI准入/真实原件边界，未变正文沿此前接受；非作者核两次收口段，根核三文件/依赖和封包42件字节恢复。实际远端与合入仍取PR44原生结果，不重签历史、UI/E2E或whole-file关闭。",
-        "reviewedLines": 483
+        "conclusion": "001–006有限验收按前次证据复用。PR44第三轮全量测试通过后发现范围基线滞后。官方ratchet同步822份生产文件与20277项测试，精确迁移登记与保护比较通过。R4维持build。",
+        "acceptanceScope": "本次复核覆盖第三轮范围拒绝、初态测试合同迁移和官方ratchet。前序正文采用既有接受记录。根核24件封包及一份报告逐字恢复。后继远端检查与合入取PR44原生结果。",
+        "reviewedLines": 489
       }
     },
     {
@@ -4444,6 +4444,12 @@
       "sha256": "53a1e6211d2a0b820e0f39246154bd2192f5b578cd1f9ee05200b116fa1f4aa4",
       "bytes": 156710,
       "purpose": "PR44 second remote two-editor failure and exact3-file recovery; original32-page/full-scoped equivalence, G03 real edited-content save oracle,10/12/10 native focused results; preserved local migrate two-timeout failure and complete editor626-files/4836-pass V8 recovery with exact300-source census/four improved editor ratios. Reuses earlier runtime/UI/RF and CI-quality evidence; no multi-package, remote CI, merge or new codeClosed credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-ci-coverage-ratchet-20261105.tar.gz",
+      "sha256": "174aa728a78be6cfd3a05f3e309274951ce172fd2769c0af9104faf3c221924f",
+      "bytes": 1524037,
+      "purpose": "PR44 native scope rejection after 20277 runtime tests passed. Preserves exact initial-state test transfer, approved 10-to-9 identities, official full ratchet and independent protected comparison. Original CI summary plus byte-exact recovery of the separate local summary. Includes distinct command outcomes and 822-file scope proof."
     }
   ],
   "artifactAliases": [],
