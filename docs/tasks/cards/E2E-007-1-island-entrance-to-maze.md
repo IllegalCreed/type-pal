@@ -1,6 +1,6 @@
 # E2E-007-1 — 从仙灵岛码头到迷宫入口
 
-Status: review
+Status: rework
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -65,9 +65,19 @@ node scripts/e2e/island-entrance.mjs --engine game --headless --from <006-report
 node scripts/e2e/island-entrance.mjs --engine reforge --headless --from <006-report>
 ```
 
+## 2026-11-06 奖励窗观感反例
+
+用户从左右分屏指出 Reforge 的经验与钱数结算窗。修前卷轴按实际数字宽度加固定 4 像素间距，短数字贴着文字，浅底文字使用米白加阴影。一阶段参考保留经验右对齐和钱数居中，文字为深色。按同一遭遇核两端奖励画面与排版。
+
+build allowed。范围为 Reforge 经验与金钱两行的文字、数字布局及相应既有测试。Coding Owner 为 `/root/reforge_007_probe`，隔离候选 `81e0ba0738c6b52fedf7ba06c04aaec1cdbc3bbf`。根独立核实现差异、实际画面与正式存读档。
+
+奖励标签改为深色无阴影。经验在独立数字区右对齐，钱数在数字区居中。两处按实际数宽扩展，卷轴仍按内容伸缩。对齐参考本地 `PAL_BattleWon` 与 Game 绘制。采用第一场实跑的奖励数值，旧实现的经验数字横坐标断言失败，修复后单数字和六位数字均通过，Reforge 战斗目录 58 文件 521 项通过。
+
+冻结候选从各自的正式 006 终档完成双轨实跑，并在新会话读回迷宫终档。第一场 `e206` 的两端实帧均为 2 经验、0 文钱，修前和修后独立保留。已交付 32 秒新版分屏 `build/e2e-007/settlement-review/007-game-reforge-rewards-fixed.mp4`，奖励窗增加短暂停留便于看清。用户确认修后观感之前，奖励窗反例保持开放。[布局反例、修后截图与实跑原件](../evidence/E2E-007-1-settlement-layout-20261106.tar.gz)
+
 ## 状态与交接
 
-双轨技术复核已通过，用户分屏观感待确认，本卡保持 `review`。分屏范围为码头出发到迷宫首次可操作，Game 在左，Reforge 在右。[逐段工作流程](../../testing/e2e/contract.md#逐段工作流程)
+双轨技术复核已通过。已交付 29 秒的左右分屏实跑视频 `build/e2e-007/visual-review/007-game-reforge.mp4`，Game 在左，Reforge 在右，从码头出发到迷宫首次可操作。用户确认视频作为今后的默认验收形式。用户在原回放中指出 Reforge 战胜奖励窗排版问题。修后回放已交，等待用户确认观感，本卡保持 `rework`。[逐段工作流程](../../testing/e2e/contract.md#逐段工作流程)
 
 任务卡记录 007 的双轨技术候选、编辑器实页及可续终档。正式测试目录的 007 配对需另核准入。必要原件按包内 manifest 的 repo 相对路径恢复。后续片段各自使用下面两份 007 正式报告和终档。[双轨和编辑器原件](../evidence/E2E-007-1-island-entrance-20261105.tar.gz) · [逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
 

@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "248e7a7ff38238755bdc1d8a367e50ecc089ffad13dad414cd49f2c759ca91dd",
+      "afterSha256": "358dd5ca4c4de13e884d643bdf9461b81a496aa3f555ea5d19a3b651895f4845",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
+        "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "007 看板指向待用户分屏验收。",
+        "conclusion": "看板 007 跟随当前任务卡的 rework 和等待新版分屏确认。",
         "reviewedLines": 120,
-        "acceptanceScope": "Accept the one-row coordination update. The board points to the owning task card and reflects the same review status, technical review passed, and user split-screen pending."
+        "acceptanceScope": "核实际改动一行、任务卡链接和状态。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "9416eaf5ab9eebe490a3748f1239a99cf4f6edead07302cae42b84dff0a7d74a",
+      "afterSha256": "65abe5f483ab14db82b734c23590dcc7bc3e5b245b29e28202dfdff93f111440",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "核 007 review 行与原生任务索引生成结果逐字一致。",
+        "reviewer": "Codex /root/island_007_route",
+        "date": "2026-11-06",
+        "conclusion": "007 生成索引与卡顶部 rework 对齐。",
         "reviewedLines": 582,
-        "acceptanceScope": "Accept the added review row. Native task index regenerated and compared byte-for-byte."
+        "acceptanceScope": "核唯一变动行与当前任务索引生成器输出逐字节相符。"
       }
     },
     {
@@ -3960,14 +3960,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "1bbbee31f8f91f81f74a62234a167c1416d81644f4ea423e8c35311a46c863f6",
+      "afterSha256": "df5c3eaf49f17bd02ab267d22afbd38255e69c4acd2fdc042cb1da5f3606b0ae",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
+        "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "集中四步 E2E 通用流程，明确技术复核后由用户查看左右分屏并确认观感。",
+        "conclusion": "明确默认分屏实跑视频，按需要开现场复查。首次等待观感是 review，用户反例复看确认前是 rework。",
         "reviewedLines": 618,
-        "acceptanceScope": "Accept the dated workflow insertion as the single canonical procedural entry. It keeps independent checkpoint execution, dual-track evidence review and subsequent author acceptance separate. Game stays on the left, Reforge on the right, with the same narrative scope and an explicit record of what the user watched and accepted. Existing testing identity and unchanged contract text are preserved."
+        "acceptanceScope": "只核逐段流程第四步与用户本次裁决、007 观感状态的一致性。"
       }
     },
     {
@@ -4504,14 +4504,14 @@
     {
       "path": "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md",
       "templateId": "task-card-v1",
-      "afterSha256": "f2f7431401544f969cb4d56599ad0a05c29b2c7e9e9e54c64e0f004758125272",
+      "afterSha256": "ca558227a99d93355fd1d271292c789c15d31b8d4ec447a0b93fda6dfab03855",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
+        "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "007 技术复核通过，分屏观感待用户确认，卡保持 review。",
-        "reviewedLines": 78,
-        "acceptanceScope": "Accept the handoff addition and date update. The accepted technical reports remain distinguished from pending user acceptance. The pier-to-first-controllable-maze visual boundary agrees with the archived runs, and the procedure links to the contract. Official catalog admission stays separate."
+        "conclusion": "记录 007 奖励窗用户反例、隔离修复、同场修前修后、双轨存读与新回放。任务保持 rework。",
+        "reviewedLines": 88,
+        "acceptanceScope": "核本轮正文增量、四份实帧、双轨原生报告、测试证据、媒体身份与用户待确认范围。"
       }
     }
   ],
@@ -4699,6 +4699,12 @@
       "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
       "bytes": 14774993,
       "purpose": "Preserves 007 native dual-engine reports, formal checkpoint and fresh restore traces, exact predecessor inputs and chain receipts, editor save and reopen, independent checks, and bounded failure evidence."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-settlement-layout-20261106.tar.gz",
+      "bytes": 1990194,
+      "sha256": "3074c77313c4eb7524db6ad20d5b90c574099f194487378568775bea4b514268",
+      "purpose": "Preserves the user-reported 007 settlement layout counterexample, matched actual victory frames, dual-engine native continuation and restore, and narrow test receipts."
     }
   ],
   "artifactAliases": [],
