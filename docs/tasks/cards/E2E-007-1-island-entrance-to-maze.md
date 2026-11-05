@@ -1,6 +1,6 @@
 # E2E-007-1 — 从仙灵岛码头到迷宫入口
 
-Status: rework
+Status: done
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -73,15 +73,17 @@ build allowed。范围为 Reforge 经验与金钱两行的文字、数字布局�
 
 奖励标签改为深色无阴影。经验在独立数字区右对齐，钱数在数字区居中。两处按实际数宽扩展，卷轴仍按内容伸缩。对齐参考本地 `PAL_BattleWon` 与 Game 绘制。采用第一场实跑的奖励数值，旧实现的经验数字横坐标断言失败，修复后单数字和六位数字均通过，Reforge 战斗目录 58 文件 521 项通过。
 
-冻结候选从各自的正式 006 终档完成双轨实跑，并在新会话读回迷宫终档。第一场 `e206` 的两端实帧均为 2 经验、0 文钱，修前和修后独立保留。已交付 32 秒新版分屏 `build/e2e-007/settlement-review/007-game-reforge-rewards-fixed.mp4`，奖励窗增加短暂停留便于看清。用户确认修后观感之前，奖励窗反例保持开放。[布局反例、修后截图与实跑原件](../evidence/E2E-007-1-settlement-layout-20261106.tar.gz)
+冻结候选从各自的正式 006 终档完成双轨实跑，并在新会话读回迷宫终档。第一场 `e206` 的两端实帧均为 2 经验、0 文钱，修前和修后独立保留。已交付 32 秒新版分屏 `build/e2e-007/settlement-review/007-game-reforge-rewards-fixed.mp4`，奖励窗增加短暂停留便于看清。用户于 2026-11-06 对新版分屏回复「通过」，奖励窗反例关闭。回放 SHA256 为 `f1efcbd53a50427eb97a25a7803853d68249f27526e9749921e89bcee25daaba`，验收范围为回放中的码头出发、途中遭遇和奖励窗、迷宫首次恢复操控。[布局反例、修后截图与实跑原件](../evidence/E2E-007-1-settlement-layout-20261106.tar.gz)
 
 ## 状态与交接
 
-双轨技术复核已通过。已交付 29 秒的左右分屏实跑视频 `build/e2e-007/visual-review/007-game-reforge.mp4`，Game 在左，Reforge 在右，从码头出发到迷宫首次可操作。用户确认视频作为今后的默认验收形式。用户在原回放中指出 Reforge 战胜奖励窗排版问题。修后回放已交，等待用户确认观感，本卡保持 `rework`。[逐段工作流程](../../testing/e2e/contract.md#逐段工作流程)
+007 已完成逐步骤证据记录，双轨技术复核和用户观感验收均已通过，本地任务收口。奖励窗修复接入 `6557d7c1832c920edb3fbb1719402a923797adf4`。原 29 秒分屏及本次修后分屏分别保留执行身份。用户确认可暂停、可拖进度的分屏视频为默认验收形式。[逐段工作流程](../../testing/e2e/contract.md#逐段工作流程)
 
-任务卡记录 007 的双轨技术候选、编辑器实页及可续终档。正式测试目录的 007 配对需另核准入。必要原件按包内 manifest 的 repo 相对路径恢复。后续片段各自使用下面两份 007 正式报告和终档。[双轨和编辑器原件](../evidence/E2E-007-1-island-entrance-20261105.tar.gz) · [逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
+008 从修后候选的两份 007 正式终档各自接续。已从原件包恢复八件报告、终档和原生轨迹到本工作树 `build/e2e/`，逐件匹配包内 SHA。正式测试目录的 007 配对按独立发布准入维护。[修后实跑原件](../evidence/E2E-007-1-settlement-layout-20261106.tar.gz)
 
-| 引擎 | 007 正式报告（归档成员） |
-|---|---|
-| Game | `build/e2e/game-007-2026-11-05T13-33-08-413Z/report.json` |
-| Reforge | `build/e2e/reforge-007-2026-11-05T13-33-09-443Z/report.json` |
+| 引擎 | 007 正式报告（归档成员） | `007.end.save.json` SHA256 |
+|---|---|---|
+| Game | `build/e2e/game-007-visual-review-rewards-2026-11-05T15-30-12-282Z/report.json` | `55aab923f69ed695bde4b9bcfe2aa45233bc7987006ac3dec2e11c6e8cbe1926` |
+| Reforge | `build/e2e/reforge-007-visual-review-rewards-2026-11-05T15-30-13-385Z/report.json` | `40fb4d61d470b89838dccce6424bf7ec0aa4d64c12225a0b58ee6ee8da9f15f5` |
+
+首轮原件和修后原件分别保存 123 件与 43 件成员。验收视频留在本地供回看，修后原始录制留在布局候选工作树，收据和配对脚本在修后原件内。当前分支和工作树保留供接入与 008 接续。三棵代码候选工作树保留执行身份，预览工作树保留编辑器保存回执及工作副本。Codex 在接入或后继接续完成时复核这些副本的退出条件。[双轨和编辑器原件](../evidence/E2E-007-1-island-entrance-20261105.tar.gz) · [逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)

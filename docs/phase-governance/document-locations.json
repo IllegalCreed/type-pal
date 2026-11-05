@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "358dd5ca4c4de13e884d643bdf9461b81a496aa3f555ea5d19a3b651895f4845",
+      "afterSha256": "fc46299630186135d1f10489f5569cb530f133b3d7b798b7bb2e34dbe9757ec8",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "看板 007 跟随当前任务卡的 rework 和等待新版分屏确认。",
-        "reviewedLines": 120,
-        "acceptanceScope": "核实际改动一行、任务卡链接和状态。"
+        "conclusion": "007 已收口，R4 以同引擎 007 终档接续 008，活动行退出。",
+        "reviewedLines": 119,
+        "acceptanceScope": "核 R4 接续更新、007 终态与活动看板的一致性。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "65abe5f483ab14db82b734c23590dcc7bc3e5b245b29e28202dfdff93f111440",
+      "afterSha256": "ec426e7fbe020f4d776f5e4d73bf70bbc1103ebe42823375e03235e4ce46ceb6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "007 生成索引与卡顶部 rework 对齐。",
+        "conclusion": "007 索引跟随卡面 done。",
         "reviewedLines": 582,
-        "acceptanceScope": "核唯一变动行与当前任务索引生成器输出逐字节相符。"
+        "acceptanceScope": "独立重放生成器，核 007 在完成区及实际字节一致。"
       }
     },
     {
@@ -4175,14 +4175,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "36458f9ca7c39173e254219b8047d3a5f2e5590ca4b75c951fc67bc895bb07dd",
+      "afterSha256": "2f3b548f13058061e97434e5cfd82b3779ea692b917cea85b0eb9f48050ad902",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "增加双轨 007 接续指针，按时间区分本次使用的 006 和此前正式终档。",
+        "reviewer": "Codex /root/island_007_route",
+        "date": "2026-11-06",
+        "conclusion": "工程入口明确 007 双轨和用户验收，接续输入由任务卡持有。",
         "reviewedLines": 149,
-        "acceptanceScope": "Accept the added 007 resume pointer and the corrected dated 006 wording. The former 006 file and digest remain pinned to their own run."
+        "acceptanceScope": "核单段导航更新、006 码头边界和任务卡锚点。"
       }
     },
     {
@@ -4504,14 +4504,14 @@
     {
       "path": "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md",
       "templateId": "task-card-v1",
-      "afterSha256": "ca558227a99d93355fd1d271292c789c15d31b8d4ec447a0b93fda6dfab03855",
+      "afterSha256": "c49a05f7e49a7eaca6c5b2cb30e228f06cb279afe80af2304364194141b852a7",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/island_007_route",
         "date": "2026-11-06",
-        "conclusion": "记录 007 奖励窗用户反例、隔离修复、同场修前修后、双轨存读与新回放。任务保持 rework。",
-        "reviewedLines": 88,
-        "acceptanceScope": "核本轮正文增量、四份实帧、双轨原生报告、测试证据、媒体身份与用户待确认范围。"
+        "conclusion": "用户确认修后 32 秒分屏通过，奖励窗观感反例关闭，007 本地收口。",
+        "reviewedLines": 90,
+        "acceptanceScope": "核用户确认、视频身份、两份正式终档及八件已恢复原件、下一段同引擎输入和本地保留范围。"
       }
     }
   ],
