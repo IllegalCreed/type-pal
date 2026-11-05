@@ -424,7 +424,7 @@ await runBrowserJourney({
       await page.close()
 
       phase = 'terminal-restore'
-      const restored = await restore(bytes, terminal, '008-fresh-peach-restore')
+      const restored = await restore(bytes, JSON.parse(bytes), '008-fresh-peach-restore')
       await waitReady(peach, forest)
       await waitForOpeningFrame(page, until)
       await page.screenshot({ path: resolve(out, '008-peach-restored.png') })
