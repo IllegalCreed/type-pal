@@ -9890,87 +9890,123 @@
               {
                 "kind": "branch",
                 "cond": {
-                  "kind": "not",
-                  "cond": {
-                    "kind": "facingEntity",
-                    "target": {
-                      "scene": "s017",
-                      "entity": "e237"
-                    },
-                    "range": 1
-                  }
+                  "kind": "facingEntity",
+                  "target": {
+                    "scene": "s017",
+                    "entity": "e237"
+                  },
+                  "range": 1
                 },
                 "then": [
                   {
+                    "kind": "runEntityTrigger",
+                    "target": {
+                      "scene": "s017",
+                      "entity": "e237"
+                    }
+                  }
+                ],
+                "else": [
+                  {
                     "kind": "branch",
                     "cond": {
-                      "kind": "not",
-                      "cond": {
-                        "kind": "facingEntity",
-                        "target": {
-                          "scene": "s017",
-                          "entity": "e238"
-                        },
-                        "range": 1
-                      }
+                      "kind": "facingEntity",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e238"
+                      },
+                      "range": 1
                     },
                     "then": [
                       {
+                        "kind": "runEntityTrigger",
+                        "target": {
+                          "scene": "s017",
+                          "entity": "e238"
+                        }
+                      }
+                    ],
+                    "else": [
+                      {
                         "kind": "branch",
                         "cond": {
-                          "kind": "not",
-                          "cond": {
-                            "kind": "facingEntity",
-                            "target": {
-                              "scene": "s017",
-                              "entity": "e239"
-                            },
-                            "range": 1
-                          }
+                          "kind": "facingEntity",
+                          "target": {
+                            "scene": "s017",
+                            "entity": "e239"
+                          },
+                          "range": 1
                         },
                         "then": [
                           {
+                            "kind": "runEntityTrigger",
+                            "target": {
+                              "scene": "s017",
+                              "entity": "e239"
+                            }
+                          }
+                        ],
+                        "else": [
+                          {
                             "kind": "branch",
                             "cond": {
-                              "kind": "not",
-                              "cond": {
-                                "kind": "facingEntity",
-                                "target": {
-                                  "scene": "s017",
-                                  "entity": "e240"
-                                },
-                                "range": 1
-                              }
+                              "kind": "facingEntity",
+                              "target": {
+                                "scene": "s017",
+                                "entity": "e240"
+                              },
+                              "range": 1
                             },
                             "then": [
                               {
+                                "kind": "runEntityTrigger",
+                                "target": {
+                                  "scene": "s017",
+                                  "entity": "e240"
+                                }
+                              }
+                            ],
+                            "else": [
+                              {
                                 "kind": "branch",
                                 "cond": {
-                                  "kind": "not",
-                                  "cond": {
-                                    "kind": "facingEntity",
-                                    "target": {
-                                      "scene": "s017",
-                                      "entity": "e241"
-                                    },
-                                    "range": 1
-                                  }
+                                  "kind": "facingEntity",
+                                  "target": {
+                                    "scene": "s017",
+                                    "entity": "e241"
+                                  },
+                                  "range": 1
                                 },
                                 "then": [
                                   {
+                                    "kind": "runEntityTrigger",
+                                    "target": {
+                                      "scene": "s017",
+                                      "entity": "e241"
+                                    }
+                                  }
+                                ],
+                                "else": [
+                                  {
                                     "kind": "branch",
                                     "cond": {
-                                      "kind": "not",
-                                      "cond": {
-                                        "kind": "facingEntity",
+                                      "kind": "facingEntity",
+                                      "target": {
+                                        "scene": "s017",
+                                        "entity": "e242"
+                                      },
+                                      "range": 1
+                                    },
+                                    "then": [
+                                      {
+                                        "kind": "runEntityTrigger",
                                         "target": {
                                           "scene": "s017",
                                           "entity": "e242"
-                                        },
-                                        "range": 1
+                                        }
                                       }
-                                    },
-                                    "then": [
+                                    ],
+                                    "else": [
                                       {
                                         "kind": "dialog",
                                         "cue": {
@@ -9989,115 +10025,104 @@
                                         "kind": "returnScript"
                                       }
                                     ]
-                                  },
-                                  {
-                                    "kind": "setEntityTriggerActivation",
-                                    "target": {
-                                      "scene": "s017",
-                                      "entity": "e242"
-                                    },
-                                    "selection": {
-                                      "kind": "use",
-                                      "value": {
-                                        "on": "touch",
-                                        "range": 1
-                                      }
-                                    }
-                                  },
-                                  {
-                                    "kind": "returnScript"
                                   }
                                 ]
-                              },
-                              {
-                                "kind": "setEntityTriggerActivation",
-                                "target": {
-                                  "scene": "s017",
-                                  "entity": "e241"
-                                },
-                                "selection": {
-                                  "kind": "use",
-                                  "value": {
-                                    "on": "touch",
-                                    "range": 1
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "returnScript"
                               }
                             ]
-                          },
-                          {
-                            "kind": "setEntityTriggerActivation",
-                            "target": {
-                              "scene": "s017",
-                              "entity": "e240"
-                            },
-                            "selection": {
-                              "kind": "use",
-                              "value": {
-                                "on": "touch",
-                                "range": 1
-                              }
-                            }
-                          },
-                          {
-                            "kind": "returnScript"
                           }
                         ]
-                      },
-                      {
-                        "kind": "setEntityTriggerActivation",
-                        "target": {
-                          "scene": "s017",
-                          "entity": "e239"
-                        },
-                        "selection": {
-                          "kind": "use",
-                          "value": {
-                            "on": "touch",
-                            "range": 1
-                          }
-                        }
-                      },
-                      {
-                        "kind": "returnScript"
                       }
                     ]
-                  },
-                  {
-                    "kind": "setEntityTriggerActivation",
-                    "target": {
-                      "scene": "s017",
-                      "entity": "e238"
-                    },
-                    "selection": {
-                      "kind": "use",
-                      "value": {
-                        "on": "touch",
-                        "range": 1
-                      }
-                    }
-                  },
-                  {
-                    "kind": "returnScript"
                   }
                 ]
               },
               {
-                "kind": "setEntityTriggerActivation",
-                "target": {
-                  "scene": "s017",
-                  "entity": "e237"
+                "kind": "branch",
+                "cond": {
+                  "kind": "all",
+                  "of": [
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e237"
+                      },
+                      "is": 0
+                    },
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e238"
+                      },
+                      "is": 0
+                    },
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e239"
+                      },
+                      "is": 0
+                    },
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e240"
+                      },
+                      "is": 0
+                    },
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e241"
+                      },
+                      "is": 0
+                    },
+                    {
+                      "kind": "entityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e242"
+                      },
+                      "is": 0
+                    }
+                  ]
                 },
-                "selection": {
-                  "kind": "use",
-                  "value": {
-                    "on": "touch",
-                    "range": 1
+                "then": [
+                  {
+                    "kind": "dialog",
+                    "cue": {
+                      "identity": {
+                        "kind": "narration"
+                      },
+                      "rows": [
+                        {
+                          "text": "dlg.1849"
+                        },
+                        {
+                          "text": "dlg.1850"
+                        }
+                      ],
+                      "slot": "center"
+                    }
+                  },
+                  {
+                    "kind": "loseItem",
+                    "itemId": "279",
+                    "count": 1
+                  },
+                  {
+                    "kind": "setEntityState",
+                    "target": {
+                      "scene": "s017",
+                      "entity": "e262"
+                    },
+                    "state": 1
                   }
-                }
+                ]
               }
             ]
           }

@@ -204,7 +204,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e237"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e238",
@@ -214,7 +268,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e238"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e239",
@@ -224,7 +332,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e239"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e240",
@@ -234,7 +396,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e240"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e241",
@@ -244,7 +460,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e241"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e242",
@@ -254,7 +524,61 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e242"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
     },
     {
       "id": "e243",
@@ -2694,7 +3018,8 @@
                         "row": -5
                       }
                     }
-                  ]
+                  ],
+                  "next": "legacy-002"
                 }
               ]
             }
@@ -2778,7 +3103,12 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s018"
+                      "scene": "s018",
+                      "pos": {
+                        "col": 89,
+                        "row": 25,
+                        "height": 0
+                      }
                     }
                   ]
                 }
