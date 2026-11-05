@@ -33,6 +33,12 @@ git diff --check
 
 检查器实现改变时按影响运行`pnpm test:docs-tools`。同一候选已有可靠结果时按质量合同复用；全仓门由Owner在中央接入稳定后集中执行。
 
+### 现行测试来源绑定维护
+
+源码变化后先核实际差异与适用性，不能直接刷新测试载体的SHA。位置合同的`testing-source-bridge`仅支持[已准入的四个现行testing载体及七个来源](../../../scripts/docs/testing-source-bridge.mjs)：保留固定Git原件，独立审阅后只改现有sourceRef的指纹/行范围并追加一条复核history，旧来源完整进入previousSourceRefs。完整对象反向还原必须与原件相同，状态、成员、角色、候选/版本、原执行、附件、claim和旧history均不能改变；新来源须通过实际字节、行范围与anchor校验，读取结束再核。
+
+该模式保留原生JSON类型，不将它伪装为Markdown或给任意JSON开口。仍须真实非作者接受、afterSHA、Owner准入及catalog/report/evidence配对检查；复用证明只授具体来源适用性，不产生新的runtime/E2E/视觉信用。其它载体、来源或字段不在此有限合同内，不能借重标类型、ignore或更新旧接受指纹绕过，需先核实际维护合同。失败输出和历史原件保持原字节。
+
 ### 留存附件的压缩与读取
 
 开发留痕中的大文本可按已独立准入的位置合同无损 gzip；保留每份逻辑路径、固定 Git blob、原载体 SHA/字节及压缩文件 SHA/字节，不合并执行。历史 display 副本与 original 原件按原映射区分，压缩 display 不使其成为原执行输出。

@@ -62,6 +62,8 @@ Template: guide-runbook-v1 / 1.0.0
 
 HEAD不同只作候选对照，旧执行日期不是有效期。完整文件SHA仍是默认保守边界；合法重构须核实际差异和相关caller后追加复用证明，不得只刷新hash洗白。合法同引擎checkpoint、实际执行、业务停止线、sourceRef、配对和artifact真实性门保留。schema迁移的`migrateBy`另属真实迁移期限，本裁决不退休它。
 
+现行来源回绑按[受限维护流程](../engineering/guides/documentation.md#现行测试来源绑定维护)接入；有限JSON桥接只维护已准入来源指纹和追加历史，不能修改原执行或扩大出版信用。未命中该合同的载体保持原保护，不批量刷新。
+
 catalog原`_governance`中的到期/续期解释以及原回执日期是既有审阅时点记录；本节明确替代其日历规则，不覆盖冻结的历史字节或来源pin。各条reviewHistory保存本次退役与旧值，当前消费者以本节及实际版本比较为准。
 
 ### 4. 核业务质量后决定保留或精简

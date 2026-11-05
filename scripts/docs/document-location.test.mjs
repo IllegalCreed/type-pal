@@ -1375,3 +1375,67 @@ test('historical text admission does not widen the two exact legacy task capture
     )
   }
 })
+
+test('admitted testing source bridges retain publication bytes and recheck source drift', (t) => {
+  const path = 'docs/testing/catalog.json'
+  const source = 'packages/game/src/core/inventory-state.ts'
+  const beforeSource = 'export const count = 1\n'
+  const afterSource = 'export const count = 2\n'
+  const reference = {
+    path: source,
+    lines: '1',
+    anchor: 'export const count',
+    role: 'owner',
+    sha256: hash(beforeSource),
+  }
+  const before = {
+    schemaVersion: 2,
+    entries: [
+      {
+        id: 'phase1-dependency-ownership',
+        status: 'current',
+        sourceRefs: [reference],
+        revision: { currentSha: '1'.repeat(40), history: [] },
+      },
+    ],
+  }
+  const beforeBytes = `${JSON.stringify(before)}\n`
+  const f = fixture(t, {
+    seedFiles: {
+      [path]: beforeBytes,
+      [source]: beforeSource,
+      'docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md': '# Source bridge receipt\n',
+    },
+  })
+  const current = structuredClone(before)
+  current.entries[0].sourceRefs[0].sha256 = hash(afterSource)
+  current.entries[0].revision.history.push({
+    date: '2026-11-05',
+    action: 'source-reference-bridge',
+    base: f.admission.baseRevision,
+    previousSourceRefs: [reference],
+    scope: 'Source identity only; publication remains current.',
+    evidence: 'docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md',
+  })
+  const currentBytes = `${JSON.stringify(current)}\n`
+  f.write(source, afterSource)
+  f.write(path, currentBytes)
+  f.manifest.documents.push({
+    path,
+    mode: 'testing-source-bridge',
+    afterSha256: hash(currentBytes),
+    review: {
+      author: 'Author',
+      reviewer: 'Independent reviewer',
+      date: '2026-11-05',
+      conclusion: 'Only the declared source binding changes; execution facts are preserved.',
+      reviewedLines: 2,
+    },
+  })
+  const locations = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(locations.assertCurrent(path).current, Buffer.from(currentBytes))
+  assert.deepEqual(locations.sourceBuffer(path), Buffer.from(beforeBytes))
+  locations.assertUnchanged()
+  f.write(source, 'export const count = 3\n')
+  assert.throws(() => locations.assertUnchanged(), /sourceRef hash mismatch/)
+})

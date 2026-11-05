@@ -6,6 +6,7 @@ import { isDeepStrictEqual } from 'node:util'
 import { currentDocumentPath } from './document-location.mjs'
 import { loadCatalog, renderIndexes } from './generate-testing-index.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
+import { safeTestingPath as safePath, testingSourceRefIssues } from './testing-source-refs.mjs'
 
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const testingRoot = resolve(repoRoot, 'docs/testing')
@@ -36,12 +37,6 @@ const strings = (value) =>
   Array.isArray(value) &&
   value.length > 0 &&
   value.every((item) => typeof item === 'string' && item.trim())
-const safePath = (path) =>
-  typeof path === 'string' &&
-  path.length > 0 &&
-  !path.startsWith('/') &&
-  !path.includes('\\') &&
-  !path.split('/').some((part) => ['', '.', '..'].includes(part))
 const validDate = (value) =>
   typeof value === 'string' &&
   /^\d{4}-\d{2}-\d{2}$/.test(value) &&
@@ -79,47 +74,11 @@ export function parseTestingFrontMatter(text) {
   return fields
 }
 
-function parseLineRange(value) {
-  if (typeof value !== 'string') return null
-  const match = /^(\d+)(?:-(\d+))?$/.exec(value)
-  if (!match) return null
-  return { start: Number(match[1]), end: Number(match[2] ?? match[1]) }
-}
-
 function sourceRefIssues(refs, prefix, sourceRoot = repoRoot) {
-  const issues = []
-  if (!Array.isArray(refs) || refs.length === 0) return [`${prefix}: sourceRefs must be non-empty`]
-  for (const ref of refs) {
-    if (!ref || !safePath(ref.path) || !ref.lines)
-      return [`${prefix}: every sourceRef needs path and lines`]
-    const absolute = resolve(sourceRoot, ref.path)
-    if (!existsSync(absolute)) {
-      issues.push(`${prefix}: sourceRef path missing ${ref.path}`)
-      continue
-    }
-    const range = parseLineRange(ref.lines)
-    if (!range || range.start < 1 || range.end < range.start) {
-      issues.push(`${prefix}: invalid sourceRef lines ${ref.path}:${ref.lines}`)
-      continue
-    }
-    const bytes = readFileSync(absolute)
-    const lines = bytes.toString('utf8').trimEnd().split('\n')
-    const lineCount = lines.length
-    if (range.end > lineCount)
-      issues.push(`${prefix}: sourceRef line out of range ${ref.path}:${ref.lines}`)
-    if (!/^[a-f\d]{64}$/.test(ref.sha256 ?? '') || digest(bytes) !== ref.sha256)
-      issues.push(`${prefix}: sourceRef hash mismatch ${ref.path}`)
-    if (
-      typeof ref.anchor !== 'string' ||
-      !ref.anchor ||
-      !lines
-        .slice(range.start - 1, range.end)
-        .join('\n')
-        .includes(ref.anchor)
-    )
-      issues.push(`${prefix}: sourceRef anchor not in declared range ${ref.path}:${ref.lines}`)
-  }
-  return issues
+  return testingSourceRefIssues(refs, prefix, {
+    has: (path) => existsSync(resolve(sourceRoot, path)),
+    read: (path) => readFileSync(resolve(sourceRoot, path)),
+  })
 }
 
 function walkFiles(root) {
