@@ -47,7 +47,18 @@
     },
     {
       "path": "docs/lore/timeline.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true,
+      "afterSha256": "9f1b8665016355dfb20a792f70ae5221bb988a96d07aed8fee45956ec6e8c095",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
+        "date": "2026-11-05",
+        "conclusion": "写回作者确定的 007 叙事和收段边界，接入实跑任务卡。",
+        "reviewedLines": 544,
+        "acceptanceScope": "Accept the current 007 route and author stop line and card linkage. The historical quote and its identity stay unchanged."
+      }
     },
     {
       "path": "docs/ops/agent-workflow.md",
@@ -663,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "4c9bd97fcb2f7cee084d1d30c3c639e659dfa6b2b860f8f9092489e65e6eb795",
+      "afterSha256": "1fae80eeb1213f1eb27bf50be8251a744b2de322677131862f38f973b34b32f0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior Codex /root/raw_initial_state_audit (bounded source/count reconciliation); /root/doc_delta_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "保全主线970条闭合原表与已接受PAL oracle刷新；仅按合并后真实tracked库存刷新两条机器汇总为3682/970/0/2712，功能侧先前3636→3651作为原时点历史，不授新whole-file关闭。",
+        "conclusion": "按六份新增工具文件更新 3688/970/0/2718 库存，保全 970 条既有闭合记录。",
         "reviewedLines": 1015,
-        "acceptanceScope": "仅根提供的合并库存候选及两机器行；970条live保全由根独立验证，沿用两边原历史与验收，不授新runtime/UI/E2E、统一质量门或PR合入信用。"
+        "acceptanceScope": "Accept the two live counts only. The six new tracked tooling files add pending inventory. The old closed table and source credit remain intact."
       }
     },
     {
@@ -719,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e9403da99db37f51a217ea656046303ca602007f47c14f2a9bc5d9b17e4fb226",
+      "afterSha256": "79e86c941d68e9e89eca571795eedaeb24a26ac442ae4d02a88fbd5a5e66e94e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior /root/e2e_baseline_docs; /root/status_reconcile; /root/doc_delta_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "保全37bf层：仅更新R4和初态预览当前推进位置，固定历史接受与007未启动；状态分别跟随两原卡。 本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 终态父卡直链退出看板，只留回执入口，保全实际单项失败。",
-        "reviewedLines": 119,
-        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "conclusion": "新增 007 review 卡并对齐 R4 的续办位置。",
+        "reviewedLines": 120,
+        "acceptanceScope": "Accept both changed rows and their matching build and review statuses. No broader task credit assigned."
       }
     },
     {
@@ -2326,14 +2337,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "d7c17634838887e88e7be412c7ea31bdc85e2d47fea9c9ed4f1ba38873a11d63",
+      "afterSha256": "0b78b17826607813831c5afe65f6797383ee0add60aac1fd08c4d64500d68a28",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/raw_initial_state_audit",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "对齐 c56192d8 后完成官方 ratchet 和当前 RF001–006。五次真实前驱及 006 fresh 恢复均通过，正式终档和必要原件可恢复。",
-        "acceptanceScope": "核最新主线对齐与 RF 两段增量，复用独立验收和实际原件。旧轮次与最终远端状态分别以相应原件及 PR44 为准。",
-        "reviewedLines": 503
+        "conclusion": "记录 001–006 收尾时点，接入当日 007 续办与原件。R4 继续 build。",
+        "reviewedLines": 507,
+        "acceptanceScope": "Accept the amended time qualifier and dated onward anchor. R4 stays build. 007 credit and resume evidence live on its own review card."
       }
     },
     {
@@ -2584,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "eba7c4a8224cc1f82d7d4800b3ba7a82c2f9afeae5132fcc987449beeb7759a9",
+      "afterSha256": "9416eaf5ab9eebe490a3748f1239a99cf4f6edead07302cae42b84dff0a7d74a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior Codex /root/e2e_baseline_docs / Codex /root; /root/status_reconcile; /root/doc_delta_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "保全37bf层：既有生成器仅将ED当前状态由build更新为review，独立重放stdout与候选逐字相同，其余任务状态不改。 以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
-        "reviewedLines": 581,
-        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：只接受唯一生成行、真实card状态及producer一致性；短回执在ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz。未变正文复用旧接受，行数为consumer身份范围；不额外授产品、E2E或全文运行信用。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "conclusion": "核 007 review 行与原生任务索引生成结果逐字一致。",
+        "reviewedLines": 582,
+        "acceptanceScope": "Accept the added review row. Native task index regenerated and compared byte-for-byte."
       }
     },
     {
@@ -3949,14 +3960,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "27f9eb53e19c6117b2d7dcb4dc2b3a0affafb8a726c2a21e27076a7e7c29e8a9",
+      "afterSha256": "91f9dc1549c586094f422db81466946601c91a99e4ba7b052421a995f3063bab",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
-        "date": "2026-11-04",
-        "conclusion": "Reverse-reference entry synchronized to right Inspector References tab; existing E2E and initial-state verification credit unchanged.",
-        "reviewedLines": 608,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
+        "date": "2026-11-05",
+        "conclusion": "接入 007 verify 调用和现场速胜、正式结算、续走及终档合同。",
+        "reviewedLines": 609,
+        "acceptanceScope": "Accept the single changed 007 launcher and boundary bullet. Ordinary encounter readiness, one request per encounter, confirmed settlement, resumed movement and real end save are bounded by the reviewed run."
       }
     },
     {
@@ -4164,14 +4175,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "6d81b2ec2dbf2ebbf718ab085232083dc234672cf3431451156c8ec12a783a1d",
+      "afterSha256": "36458f9ca7c39173e254219b8047d3a5f2e5590ca4b75c951fc67bc895bb07dd",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (bounded pointer); /root/raw_initial_state_audit (independent RF input proof)",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "仅新增当前RF006终档/6506摘要、R4及69唯一原件恢复入口；旧边界/双阶段历史原样保留，不授007/Game/新视觉。",
-        "reviewedLines": 147,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "conclusion": "增加双轨 007 接续指针，按时间区分本次使用的 006 和此前正式终档。",
+        "reviewedLines": 149,
+        "acceptanceScope": "Accept the added 007 resume pointer and the corrected dated 006 wording. The former 006 file and digest remain pinned to their own run."
       }
     },
     {
@@ -4376,14 +4387,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "a769bbcbc6c41515879a09bd08e38989bf76df524844d7327b9365e89010be58",
+      "afterSha256": "adf3f4784130848a8009d772f79e74d892409a05f0689969b258920fea8866e2",
       "review": {
-        "author": "/root (UI/append); read-only assembly /root/e2e_baseline_docs",
-        "reviewer": "/root/e2e_baseline_docs (candidate/data); /root (actual publication)",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
         "date": "2026-11-05",
-        "conclusion": "原160事件保全，追加650为810。当前130审查/95静态初态verified，66优化accepted/64无需整改；旧e25缺证unreviewed。正式归档ref与append-only快检0待复核/0 orphan；全仓未核仍自动枚举。",
-        "reviewedLines": 78999,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "conclusion": "保全 810 条历史，接受 44 条新增事件。四个路线步骤逐轴核验，17 个环境入口留初次取证，五条 006 记录按历史上下文复核适用性。",
+        "reviewedLines": 82617,
+        "acceptanceScope": "Accept the milestone and 44 appended events only. Four independently observed route contexts receive bounded review and static preview credit, 17 ambience contexts remain evidence-collected, and five old-axis applicability events preserve their accepted original contexts. The prior 810 events remain intact."
       }
     },
     {
@@ -4488,6 +4499,19 @@
         "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 另据证接受TURN现行收口段移出保全区及首轮元数据失败保全；完整历史字节不变。",
         "reviewedLines": 556,
         "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "9f1925050ce1ef6381fd24d3ed90148b0e24f92371c16a6c8cb2b38fb217bd05",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_007_probe",
+        "date": "2026-11-05",
+        "conclusion": "核任务卡全文、双轨路线与首个迷宫可控状态、正式存读档、编辑器静态初态和原件移交。卡处 review，正式目录另按准入。",
+        "reviewedLines": 76,
+        "acceptanceScope": "Full body accepted. Scope, source and failures, 44/88 route, Game 3 and Reforge 4 ordinary victories, formal saves and independent fresh restoration, bounded authoring scope, artifact and onward handoff match the bundle. Review status and separate official testing admission remain explicit."
       }
     }
   ],
@@ -4669,6 +4693,12 @@
       "sha256": "5037e2a3e618e97bf31389c84f7d4900873a2ef243d54057a87d235242956b84",
       "bytes": 7106969,
       "purpose": "Preserves previous-head required check receipts, current-main reconciliation, the official seven-package V8 report, six current Reforge reports and checkpoints, original RF006 fresh-restore inputs, and the independent verification harness."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+      "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+      "bytes": 14774993,
+      "purpose": "Preserves 007 native dual-engine reports, formal checkpoint and fresh restore traces, exact predecessor inputs and chain receipts, editor save and reopen, independent checks, and bounded failure evidence."
     }
   ],
   "artifactAliases": [],

@@ -23,6 +23,7 @@ Template: plan-status-v1 / 1.0.0
 |---|---|---|---|
 | 当前步骤全量枚举与三个独立进度轴 | Codex | active | 查询工具按canonical身份读取；结构检查不授脚本或初态完成信用 |
 | 001–006逐入口实态与编辑器持久化记录 | Codex | 本轮有限完成 | 95个已观测当前场景静态现场已验；旧001缺pose现场保持未核，完整世界恢复不外推 |
+| 007 码头到迷宫入口 | Codex | 四个路线步骤已验证 | 两个触碰区、空进场和迷宫音乐的脚本、预览初态与优化判断分别记录。17 个环境入口留有首次循环取证。 [007 任务卡](../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md) |
 | 后续片段与脚本优化持续推进 | Codex | planned | 沿逐步骤合同更新，不以片段总状态替代各轴记录 |
 
 ## 怎样看每条记录
@@ -78980,6 +78981,3624 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "当前复核仍确认旧001首命令8739原件没有e25 pose，原collector未覆盖该角色；旧现场保持unreviewed。当前source/dependencies仅记录对现行工程及此已知缺证事实的重新审计，不声明旧入口初态正确，不授configured/saved/verified。新8713真实现场独立记账，不能倒填旧现场；原160事件原字节不改。"
+    },
+    {
+      "id": "e2e007-v4-r2-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s014",
+        "entityId": "e202",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s014/e202/trigger/default/initial:v4:r2:o2626",
+        "description": "E2E 007，s014/e202/trigger/default/initial。sceneVisit=4，sceneSession=s014:2，runId=2，runStarted=2620，firstCommand=2626，stageSettled=3239，runEnded=3240。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "2cadc2dffd60f384edec81f1606b051093bc53cf8077eacb4c2522bda16ec8fb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=2 sceneVisit=4 first=2626"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/0"
+        }
+      ],
+      "note": "逐值核命令前或空步骤开始时本场景实体的位置、朝向和显隐。两次独立执行的静态字段一致，生命周期计数按各次原件分别保留。"
+    },
+    {
+      "id": "e2e007-v4-r2-review-in-review",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s014",
+        "entityId": "e202",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s014/e202/trigger/default/initial:v4:r2:o2626",
+        "description": "E2E 007，s014/e202/trigger/default/initial。sceneVisit=4，sceneSession=s014:2，runId=2，runStarted=2620，firstCommand=2626，stageSettled=3239，runEnded=3240。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "2cadc2dffd60f384edec81f1606b051093bc53cf8077eacb4c2522bda16ec8fb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-003.json",
+          "sha256": "91c524087f832503daaeb77a986cfb651cdcfbd22eace26478a8c1b83619c77f"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=2 sceneVisit=4 first=2626"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/0"
+        }
+      ],
+      "note": "已定位当前调用、方案和步骤，按已执行的主路径核对源码与原始指令。"
+    },
+    {
+      "id": "e2e007-v4-r2-review-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s014",
+        "entityId": "e202",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s014/e202/trigger/default/initial:v4:r2:o2626",
+        "description": "E2E 007，s014/e202/trigger/default/initial。sceneVisit=4，sceneSession=s014:2，runId=2，runStarted=2620，firstCommand=2626，stageSettled=3239，runEnded=3240。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "2cadc2dffd60f384edec81f1606b051093bc53cf8077eacb4c2522bda16ec8fb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-003.json",
+          "sha256": "91c524087f832503daaeb77a986cfb651cdcfbd22eace26478a8c1b83619c77f"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=2 sceneVisit=4 first=2626"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/0"
+        }
+      ],
+      "note": "默认触碰页只调用一次 loadScene 到 s015，600ms 出入场过渡保留。移动由玩家完成，出口脚本没有可合并的位移或重复指令。"
+    },
+    {
+      "id": "e2e007-v4-r2-optimization-not-needed",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s014",
+        "entityId": "e202",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s014/e202/trigger/default/initial:v4:r2:o2626",
+        "description": "E2E 007，s014/e202/trigger/default/initial。sceneVisit=4，sceneSession=s014:2，runId=2，runStarted=2620，firstCommand=2626，stageSettled=3239，runEnded=3240。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "2cadc2dffd60f384edec81f1606b051093bc53cf8077eacb4c2522bda16ec8fb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-003.json",
+          "sha256": "91c524087f832503daaeb77a986cfb651cdcfbd22eace26478a8c1b83619c77f"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=2 sceneVisit=4 first=2626"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/0"
+        }
+      ],
+      "note": "默认触碰页只调用一次 loadScene 到 s015，600ms 出入场过渡保留。移动由玩家完成，出口脚本没有可合并的位移或重复指令。"
+    },
+    {
+      "id": "e2e007-v4-r2-initialState-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s014",
+        "entityId": "e202",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s014/e202/trigger/default/initial:v4:r2:o2626",
+        "description": "E2E 007，s014/e202/trigger/default/initial。sceneVisit=4，sceneSession=s014:2，runId=2，runStarted=2620，firstCommand=2626，stageSettled=3239，runEnded=3240。"
+      },
+      "axis": "initialState",
+      "from": "evidence-collected",
+      "to": "verified",
+      "sourceFingerprint": "2cadc2dffd60f384edec81f1606b051093bc53cf8077eacb4c2522bda16ec8fb",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=2 sceneVisit=4 first=2626"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/0"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /cases/0"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "正式重开项目后选择仍为继承的场景默认。已比较本场景静态字段，单步、重置和编辑选择按实际 UI 回执核对。"
+    },
+    {
+      "id": "e2e007-v6-r7-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/scene/onEnter/default/initial:v6:r7:o3242",
+        "description": "E2E 007，s015/scene/onEnter/default/initial。sceneVisit=6，sceneSession=s015:3，runId=7，runStarted=3242，firstCommand=empty，stageSettled=3243，runEnded=3244。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "0bb59802be4aa5768fec148144085c6ae6bc2fa0806776a2e5ff5df9bc58f625",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=7 sceneVisit=6 first=3242"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/1"
+        }
+      ],
+      "note": "逐值核命令前或空步骤开始时本场景实体的位置、朝向和显隐。两次独立执行的静态字段一致，生命周期计数按各次原件分别保留。"
+    },
+    {
+      "id": "e2e007-v6-r7-review-in-review",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s015",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/scene/onEnter/default/initial:v6:r7:o3242",
+        "description": "E2E 007，s015/scene/onEnter/default/initial。sceneVisit=6，sceneSession=s015:3，runId=7，runStarted=3242，firstCommand=empty，stageSettled=3243，runEnded=3244。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "0bb59802be4aa5768fec148144085c6ae6bc2fa0806776a2e5ff5df9bc58f625",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=7 sceneVisit=6 first=3242"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/1"
+        }
+      ],
+      "note": "已定位当前调用、方案和步骤，按已执行的主路径核对源码与原始指令。"
+    },
+    {
+      "id": "e2e007-v6-r7-review-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/scene/onEnter/default/initial:v6:r7:o3242",
+        "description": "E2E 007，s015/scene/onEnter/default/initial。sceneVisit=6，sceneSession=s015:3，runId=7，runStarted=3242，firstCommand=empty，stageSettled=3243，runEnded=3244。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "0bb59802be4aa5768fec148144085c6ae6bc2fa0806776a2e5ff5df9bc58f625",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=7 sceneVisit=6 first=3242"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/1"
+        }
+      ],
+      "note": "实际默认入场方案为零指令，run-started、stage-settled、run-ended 连续发生。场景管理负责入场，空方案维持稳定入口，无额外演出指令需要压缩。"
+    },
+    {
+      "id": "e2e007-v6-r7-optimization-not-needed",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/scene/onEnter/default/initial:v6:r7:o3242",
+        "description": "E2E 007，s015/scene/onEnter/default/initial。sceneVisit=6，sceneSession=s015:3，runId=7，runStarted=3242，firstCommand=empty，stageSettled=3243，runEnded=3244。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "0bb59802be4aa5768fec148144085c6ae6bc2fa0806776a2e5ff5df9bc58f625",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=7 sceneVisit=6 first=3242"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/1"
+        }
+      ],
+      "note": "实际默认入场方案为零指令，run-started、stage-settled、run-ended 连续发生。场景管理负责入场，空方案维持稳定入口，无额外演出指令需要压缩。"
+    },
+    {
+      "id": "e2e007-v6-r7-initialState-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s015",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/scene/onEnter/default/initial:v6:r7:o3242",
+        "description": "E2E 007，s015/scene/onEnter/default/initial。sceneVisit=6，sceneSession=s015:3，runId=7，runStarted=3242，firstCommand=empty，stageSettled=3243，runEnded=3244。"
+      },
+      "axis": "initialState",
+      "from": "evidence-collected",
+      "to": "verified",
+      "sourceFingerprint": "0bb59802be4aa5768fec148144085c6ae6bc2fa0806776a2e5ff5df9bc58f625",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=7 sceneVisit=6 first=3242"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/1"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /cases/1"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "正式重开项目后选择仍为继承的场景默认。已比较本场景静态字段，单步、重置和编辑选择按实际 UI 回执核对。"
+    },
+    {
+      "id": "e2e007-v6-r10-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=10 sceneVisit=6 first=5872"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/2"
+        }
+      ],
+      "note": "逐值核命令前或空步骤开始时本场景实体的位置、朝向和显隐。两次独立执行的静态字段一致，生命周期计数按各次原件分别保留。"
+    },
+    {
+      "id": "e2e007-v6-r10-review-in-review",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=10 sceneVisit=6 first=5872"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/2"
+        }
+      ],
+      "note": "已定位当前调用、方案和步骤，按已执行的主路径核对源码与原始指令。"
+    },
+    {
+      "id": "e2e007-v6-r10-review-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=10 sceneVisit=6 first=5872"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/2"
+        }
+      ],
+      "note": "当前触碰页只调用一次 loadScene 到 s017，600ms 出入场过渡保留。四个草妖由接敌和胜后实体生命周期处理，出口正文无战斗或角色移动指令。"
+    },
+    {
+      "id": "e2e007-v6-r10-optimization-not-needed",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/maps/map-007.json",
+          "sha256": "10bca06bc97640836d12a68fffa26095ccf346845b8b2b57bbea88affce95fc2"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=10 sceneVisit=6 first=5872"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/2"
+        }
+      ],
+      "note": "当前触碰页只调用一次 loadScene 到 s017，600ms 出入场过渡保留。四个草妖由接敌和胜后实体生命周期处理，出口正文无战斗或角色移动指令。"
+    },
+    {
+      "id": "e2e007-v6-r10-initialState-configured",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "initialState",
+      "from": "evidence-collected",
+      "to": "configured",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/2"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/configure-actions.json 创建方案、四个草妖字段与步骤绑定"
+        }
+      ],
+      "preview": {
+        "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+        "selection": "default"
+      },
+      "previewFingerprint": "a9e63f46d5a91a31b4e7ad73dce34e9a6f946585b482eb5cb9af0e82872a77da",
+      "note": "在初态编排创建「草妖战后：进入仙灵岛迷宫」，只覆盖四个草妖，随后绑定本步骤。"
+    },
+    {
+      "id": "e2e007-v6-r10-initialState-saved",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "initialState",
+      "from": "configured",
+      "to": "saved",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /cases/2"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /save /sha256"
+        }
+      ],
+      "preview": {
+        "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+        "selection": "default"
+      },
+      "previewFingerprint": "a9e63f46d5a91a31b4e7ad73dce34e9a6f946585b482eb5cb9af0e82872a77da",
+      "note": "实际 File Save 将预览侧车保存到项目目录，保存字节与候选 Git 文件一致。"
+    },
+    {
+      "id": "e2e007-v6-r10-initialState-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s015",
+        "entityId": "e204",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s015/e204/trigger/default/initial:v6:r10:o5872",
+        "description": "E2E 007，s015/e204/trigger/default/initial。sceneVisit=6，sceneSession=s015:3，runId=10，runStarted=5871，firstCommand=5872，stageSettled=6581，runEnded=6582。"
+      },
+      "axis": "initialState",
+      "from": "saved",
+      "to": "verified",
+      "sourceFingerprint": "644665a864a0bac8f04705106a44bbe3577b514c47baf75786f29c19712d95ab",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s015.json",
+          "sha256": "5b2ff6d0b51e2ac8b0b58db87623d91b55ce41e8ac48d2b31359a6e298d13ca9"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=10 sceneVisit=6 first=5872"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/2"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /cases/2"
+        }
+      ],
+      "preview": {
+        "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+        "selection": "default"
+      },
+      "previewFingerprint": "a9e63f46d5a91a31b4e7ad73dce34e9a6f946585b482eb5cb9af0e82872a77da",
+      "note": "保存重开逐值核四个草妖的静态字段和反向引用；单步到目标画布，重置回原编辑现场。实时重现计数独立留证。"
+    },
+    {
+      "id": "e2e007-v8-r16-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e243",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e243/auto/default/initial:v8:r16:o6547",
+        "description": "E2E 007，s017/e243/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=16，runStarted=6495，firstCommand=6547，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "7f5f43a6d63d2c1fe522b71e82bd12dbd156090d7dacecd8ad22eda080931a76",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=16 sceneVisit=8 first=6547"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/3"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6678。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r19-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e244",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e244/auto/default/initial:v8:r19:o6548",
+        "description": "E2E 007，s017/e244/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=19，runStarted=6497，firstCommand=6548，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "d595f8b9b13ae7a64a33da17b8ccc2b943727db391fdf2fcb51096264187cf18",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=19 sceneVisit=8 first=6548"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/4"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6681。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r22-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e245",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e245/auto/default/initial:v8:r22:o6549",
+        "description": "E2E 007，s017/e245/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=22，runStarted=6499，firstCommand=6549，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "69a68b63fc4d9e82a7b365ad2e6ea18e965e0e18094552dede97c628a24bbc19",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=22 sceneVisit=8 first=6549"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/5"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6684。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r25-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e246",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e246/auto/default/initial:v8:r25:o6550",
+        "description": "E2E 007，s017/e246/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=25，runStarted=6501，firstCommand=6550，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "58f79b2dff6da7a07edc3b273ac3121178a5d48d69a682f781d71e1e46c29c67",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=25 sceneVisit=8 first=6550"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/6"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6687。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r28-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e247",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e247/auto/default/initial:v8:r28:o6551",
+        "description": "E2E 007，s017/e247/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=28，runStarted=6503，firstCommand=6551，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "073dde8139daea6c730a191928afce09c0255b3c10e9922e86e3f47b4b9a2f2e",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=28 sceneVisit=8 first=6551"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/7"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6690。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r31-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e248",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e248/auto/default/initial:v8:r31:o6552",
+        "description": "E2E 007，s017/e248/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=31，runStarted=6505，firstCommand=6552，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "1726619461c85e28390bc227aee4cd3bffeb61bd52619118ea14d7b2c82c5611",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=31 sceneVisit=8 first=6552"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/8"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6693。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r34-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e249",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e249/auto/default/initial:v8:r34:o6553",
+        "description": "E2E 007，s017/e249/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=34，runStarted=6507，firstCommand=6553，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "20312fe75e7995fd649b11a56d7af89be9bb277a645454f72fff0275dde8cfa7",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=34 sceneVisit=8 first=6553"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/9"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6696。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r37-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e250",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e250/auto/default/initial:v8:r37:o6554",
+        "description": "E2E 007，s017/e250/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=37，runStarted=6509，firstCommand=6554，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "e8b47c1339295e8771d827f259a14c875f2ded841c49b5923481f43c4de50704",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=37 sceneVisit=8 first=6554"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/10"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6699。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r40-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e251",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e251/auto/default/initial:v8:r40:o6555",
+        "description": "E2E 007，s017/e251/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=40，runStarted=6511，firstCommand=6555，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "0efec7e269ed1a24dbf3d850eee4c7f37590dc7fe7a9d069eb738b7e91fe09ce",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=40 sceneVisit=8 first=6555"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/11"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6702。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r43-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e252",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e252/auto/default/initial:v8:r43:o6556",
+        "description": "E2E 007，s017/e252/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=43，runStarted=6513，firstCommand=6556，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "003eb8da2aacec715f80c7c058da32ba17d3e478d5dc10b474e8fcd358e43b6f",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=43 sceneVisit=8 first=6556"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/12"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6705。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r46-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e253",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e253/auto/default/initial:v8:r46:o6557",
+        "description": "E2E 007，s017/e253/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=46，runStarted=6515，firstCommand=6557，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "9d781b2d1fd0679dd786119c7ec28d493ba116583c9761e1f0f5a9a1fd1be229",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=46 sceneVisit=8 first=6557"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/13"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6708。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r49-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e254",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e254/auto/default/initial:v8:r49:o6558",
+        "description": "E2E 007，s017/e254/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=49，runStarted=6517，firstCommand=6558，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "8add41801b93ba879ad54efccb20a1c68f78664f8e02b2f65be1aa05aabea053",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=49 sceneVisit=8 first=6558"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/14"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6711。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r52-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e255",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e255/auto/default/initial:v8:r52:o6559",
+        "description": "E2E 007，s017/e255/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=52，runStarted=6519，firstCommand=6559，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "acb9b41c4b7e09ed4b20354920fd3e420c013ce80891f7ec3776380eade377d5",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=52 sceneVisit=8 first=6559"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/15"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6714。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r55-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e256",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e256/auto/default/initial:v8:r55:o6560",
+        "description": "E2E 007，s017/e256/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=55，runStarted=6521，firstCommand=6560，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "afea4c0fbcd9c203aa3957c8c5a64a2fea0094641020f2a27cc882c8c6ab142c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=55 sceneVisit=8 first=6560"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/16"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6717。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r58-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e257",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e257/auto/default/initial:v8:r58:o6561",
+        "description": "E2E 007，s017/e257/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=58，runStarted=6523，firstCommand=6561，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "4267d50fc01fc96281d4ddb4c4eddfb5a0821f0651cc91a3f63827b62f831cc6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=58 sceneVisit=8 first=6561"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/17"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6720。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r61-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e258",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e258/auto/default/initial:v8:r61:o6562",
+        "description": "E2E 007，s017/e258/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=61，runStarted=6525，firstCommand=6562，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "8dfbbdb6145272d7994db48191e7b54961d97d75dc100444abd7052e1273f88e",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=61 sceneVisit=8 first=6562"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/18"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6723。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r64-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e259",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/e259/auto/default/initial:v8:r64:o6563",
+        "description": "E2E 007，s017/e259/auto/default/initial。sceneVisit=8，sceneSession=s017:4，runId=64，runStarted=6527，firstCommand=6563，stageSettled=pending，runEnded=pending。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "25faadf774396316805102f5c27b0733484d94d051ee2df73a7aee335eb0f616",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=64 sceneVisit=8 first=6563"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/19"
+        }
+      ],
+      "note": "迷宫首次入场时记录该实体的原生位置、朝向和显隐，以及循环入口和第一次等待 order 6726。本条范围为入口取证。"
+    },
+    {
+      "id": "e2e007-v8-r66-initialState-evidence-collected",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/scene/onEnter/default/initial:v8:r66:o6619",
+        "description": "E2E 007，s017/scene/onEnter/default/initial。sceneVisit=8，sceneSession=s017:4，runId=66，runStarted=6584，firstCommand=6619，stageSettled=6673，runEnded=6674。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "fd9d7affb7745f5c76c6093a8ee89b03c35054c5f9216945fbbc90083af2d6fc",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=66 sceneVisit=8 first=6619"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/20"
+        }
+      ],
+      "note": "逐值核命令前或空步骤开始时本场景实体的位置、朝向和显隐。两次独立执行的静态字段一致，生命周期计数按各次原件分别保留。"
+    },
+    {
+      "id": "e2e007-v8-r66-review-in-review",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/scene/onEnter/default/initial:v8:r66:o6619",
+        "description": "E2E 007，s017/scene/onEnter/default/initial。sceneVisit=8，sceneSession=s017:4，runId=66，runStarted=6584，firstCommand=6619，stageSettled=6673，runEnded=6674。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "fd9d7affb7745f5c76c6093a8ee89b03c35054c5f9216945fbbc90083af2d6fc",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/assets/index.json",
+          "sha256": "2dd88e802aa86f1050c2648e0ada93b83f3a65796f2e4748bf864873c63532fd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=66 sceneVisit=8 first=6619"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/20"
+        }
+      ],
+      "note": "已定位当前调用、方案和步骤，按已执行的主路径核对源码与原始指令。"
+    },
+    {
+      "id": "e2e007-v8-r66-review-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/scene/onEnter/default/initial:v8:r66:o6619",
+        "description": "E2E 007，s017/scene/onEnter/default/initial。sceneVisit=8，sceneSession=s017:4，runId=66，runStarted=6584，firstCommand=6619，stageSettled=6673，runEnded=6674。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "fd9d7affb7745f5c76c6093a8ee89b03c35054c5f9216945fbbc90083af2d6fc",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/assets/index.json",
+          "sha256": "2dd88e802aa86f1050c2648e0ada93b83f3a65796f2e4748bf864873c63532fd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=66 sceneVisit=8 first=6619"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/20"
+        }
+      ],
+      "note": "实际默认入场步骤只调用 playMusic music.pal.077。入口推进和 17 个环境自动循环各有独立 caller，入场正文已经是单条指令。"
+    },
+    {
+      "id": "e2e007-v8-r66-optimization-not-needed",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s017",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/scene/onEnter/default/initial:v8:r66:o6619",
+        "description": "E2E 007，s017/scene/onEnter/default/initial。sceneVisit=8，sceneSession=s017:4，runId=66，runStarted=6584，firstCommand=6619，stageSettled=6673，runEnded=6674。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "fd9d7affb7745f5c76c6093a8ee89b03c35054c5f9216945fbbc90083af2d6fc",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/assets/index.json",
+          "sha256": "2dd88e802aa86f1050c2648e0ada93b83f3a65796f2e4748bf864873c63532fd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=66 sceneVisit=8 first=6619"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/entry-audit.json /entries/20"
+        }
+      ],
+      "note": "实际默认入场步骤只调用 playMusic music.pal.077。入口推进和 17 个环境自动循环各有独立 caller，入场正文已经是单条指令。"
+    },
+    {
+      "id": "e2e007-v8-r66-initialState-verified",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root/island_007_route",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-007-2026-11-05T13-33-09-443Z:s017/scene/onEnter/default/initial:v8:r66:o6619",
+        "description": "E2E 007，s017/scene/onEnter/default/initial。sceneVisit=8，sceneSession=s017:4，runId=66，runStarted=6584，firstCommand=6619，stageSettled=6673，runEnded=6674。"
+      },
+      "axis": "initialState",
+      "from": "evidence-collected",
+      "to": "verified",
+      "sourceFingerprint": "fd9d7affb7745f5c76c6093a8ee89b03c35054c5f9216945fbbc90083af2d6fc",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "d1b8238d46035921e0fd9a535b2a4e6022b7b33fcd56123a716ae99371bb97d2"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-trace.mjs",
+          "sha256": "d0b3b9020c84eba7684dcf5f605a96830c8a9ba2fd603c58c7b380feb91f1633"
+        },
+        {
+          "path": "scripts/e2e/opening-trace-plugin.mjs",
+          "sha256": "13043b56f56cc6c04475a327c6818351fc60c6cb609daa6431a99604413736d0"
+        },
+        {
+          "path": "scripts/e2e/script-causal-observer.mjs",
+          "sha256": "d17bed577dea925aaf14d65111cda67e9b73461490e8501a1a97bf649e93f724"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e/reforge-007-2026-11-05T13-33-09-443Z/007-trace.json causes runId=66 sceneVisit=8 first=6619"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/preview-parity-6b2a2529.json /entries/20"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/editor-007-preview/receipt.json /cases/3"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "正式重开项目后选择仍为继承的场景默认。已比较本场景静态字段，单步、重置和编辑选择按实际 UI 回执核对。"
+    },
+    {
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e116",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e116/trigger/legacy-001/initial:v14:r242:o77945",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=242; firstCommandOrder=77945; originalAuditRunStartedOrder=77935; UI File/Open/Play/Reset at 2026-10-27T01:19:07.779Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "sourceFingerprint": "6e200ae9c786db97aed859dc4f95b7ed26165d3f0fa86efe343a8e932acdc8ee",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "id": "e2e007-006-label-revalidation-0-review",
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/review.json; nativeSHA256=e3d8f2f1a4837905f760bdc8a1c73fa225cf14ad44a74a36a6eeb3294b1ad0e6; records[address=s005/e116/trigger/legacy-001/initial] complete flow/stage body; scope=ledger-seed"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/receipt.json; nativeSHA256=21ad4381e35f8825279cbf6fcc7c3571af720ece7647c0b39c7524a24550cb1b; fileSlices[path=projects/pal/content/scenes/s005.json].A_H; acceptanceBoundary; notNeededReasonCorrection"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/final110-source-verification.json; nativeSHA256=3da7c3afa579d7ae59cb22d7651c6c6b425279ff40e18aba4a7249397580ba68; sourceFiles/delta: 110 exact label-only fields; current source fingerprints; no behavioral mutation"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/006-label-credit-audit/receipt.json /cases/0/rechecks/0"
+        }
+      ],
+      "note": "s014 本轮变化是 e202 实体、方案和步骤的名称。独立复核了历史入口正文、相关 caller 和原预览记录的适用性。沿用历史现场和原验收范围。新 006 运行镜头外 e122 巡游位置差异另见复核回执。",
+      "reviewer": "Codex /root/island_007_route"
+    },
+    {
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e116",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e116/trigger/legacy-001/initial:v14:r242:o77945",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=242; firstCommandOrder=77945; originalAuditRunStartedOrder=77935; UI File/Open/Play/Reset at 2026-10-27T01:19:07.779Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "sourceFingerprint": "6e200ae9c786db97aed859dc4f95b7ed26165d3f0fa86efe343a8e932acdc8ee",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "id": "e2e007-006-label-revalidation-0-optimization",
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/review.json; nativeSHA256=e3d8f2f1a4837905f760bdc8a1c73fa225cf14ad44a74a36a6eeb3294b1ad0e6; records[address=s005/e116/trigger/legacy-001/initial] complete flow/stage body; scope=ledger-seed"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/receipt.json; nativeSHA256=21ad4381e35f8825279cbf6fcc7c3571af720ece7647c0b39c7524a24550cb1b; fileSlices[path=projects/pal/content/scenes/s005.json].A_H; acceptanceBoundary; notNeededReasonCorrection"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/final110-source-verification.json; nativeSHA256=3da7c3afa579d7ae59cb22d7651c6c6b425279ff40e18aba4a7249397580ba68; sourceFiles/delta: 110 exact label-only fields; current source fingerprints; no behavioral mutation"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/006-label-credit-audit/receipt.json /cases/0/rechecks/1"
+        }
+      ],
+      "note": "s014 本轮变化是 e202 实体、方案和步骤的名称。独立复核了历史入口正文、相关 caller 和原预览记录的适用性。沿用历史现场和原验收范围。新 006 运行镜头外 e122 巡游位置差异另见复核回执。",
+      "reviewer": "Codex /root/island_007_route"
+    },
+    {
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s014/onEnter/default/initial:v16:r251:o96395",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=16; sceneSession=s014:8; runId=251; firstCommandOrder=96395; originalAuditRunStartedOrder=96394; UI File/Open/Play/Reset at 2026-10-27T01:17:15.455Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "sourceFingerprint": "a83d8537e256708ce40045aa0a7982adf8f039e6b196d693fc17caa5ef08c21c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "id": "e2e007-006-label-revalidation-1-review",
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/review.json; nativeSHA256=e3d8f2f1a4837905f760bdc8a1c73fa225cf14ad44a74a36a6eeb3294b1ad0e6; records[address=s014/scene/onEnter/default/initial] complete flow/stage body; scope=ledger-seed"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/receipt.json; nativeSHA256=21ad4381e35f8825279cbf6fcc7c3571af720ece7647c0b39c7524a24550cb1b; fileSlices[path=projects/pal/content/scenes/s014.json].A_H; acceptanceBoundary; notNeededReasonCorrection"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/final110-source-verification.json; nativeSHA256=3da7c3afa579d7ae59cb22d7651c6c6b425279ff40e18aba4a7249397580ba68; sourceFiles/delta: 110 exact label-only fields; current source fingerprints; no behavioral mutation"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/006-label-credit-audit/receipt.json /cases/1/rechecks/0"
+        }
+      ],
+      "note": "s014 本轮变化是 e202 实体、方案和步骤的名称。独立复核了历史入口正文、相关 caller 和原预览记录的适用性。沿用历史现场和原验收范围。新 006 运行镜头外 e122 巡游位置差异另见复核回执。",
+      "reviewer": "Codex /root/island_007_route"
+    },
+    {
+      "id": "e2e007-006-label-revalidation-1-initialState",
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/island_007_route",
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s014/onEnter/default/initial:v16:r251:o96395",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=16; sceneSession=s014:8; runId=251; firstCommandOrder=96395; originalAuditRunStartedOrder=96394; UI File/Open/Play/Reset at 2026-10-27T01:17:15.455Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a83d8537e256708ce40045aa0a7982adf8f039e6b196d693fc17caa5ef08c21c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/project-io.ts",
+          "sha256": "af634d8063a60997f258f5c4ce07f9a731c240d4011fe554de9dd3fd6a1bf7d9"
+        },
+        {
+          "path": "packages/editor/src/core/script-flow-preview.ts",
+          "sha256": "8946fe2357f548940a9c39666b1b9124d80f5d288c0fef9a1fc83e5531f37a55"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/App.tsx",
+          "sha256": "dc41d7b3f161426243ef0117abe20e6ffb0d697bb9bb6f8161a1ace7c0e9b1f1"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneInitialStateEditor.tsx",
+          "sha256": "a3a185da598b198ff471bb780f5535651bf50fdef1447be2d84a006ad380dde6"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/project-loader.ts",
+          "sha256": "ec07b4e235d13df2b6945870b3994eb2b3ab0031b4d80bbb0a6bf7ffe20bff1f"
+        },
+        {
+          "path": "packages/reforge/src/runtime-project-view.ts",
+          "sha256": "1c7ed7ca473734f1bc12f6c4b6b2f14cf5bff8dad96a9674398e9eb24022b1e2"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/world-scene-presentation.ts",
+          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/old-006-recovery.json; nativeSHA256=3283b2444fe078978a5467a4a24a02ac99d1ed2c3cd4cda9c7835da9cbc457b1; pinned Release evidence-e2e006-20261027 asset698197180 archiveSHA256=25b6587094406374d3ffa26a8af3d508a0e86fd4d8dcb79bbe2740e4076cea66; recover original archive, then member=delivery/preview-save-reopen/observations.json sha256=58499a9868f76424753dbe972e336c101c993f364911a76d7aef9ea3ecdd4ea8; index=0; entry=s014/onEnter/default/initial; before/running/after; original raw member=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; firstCommandOrder=96395, runStartedOrder=96394; saved state member=delivery/script-preview-current.json sha256=2af49db116c1966bfa7a8c4876ca29fb3bbddd6b2f9ecae12d7ad0d8878ba642"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/ui/steps-after-save.json; nativeSHA256=3694cbe4d75d1c547b89fe7d0d4eee16014a263be8a55d5c400da07a2c1dd561; index=82; exact entry=[\"s014\",null,\"onEnter\",\"default\",\"initial\"]; stateId=e2e006-s014-scene-onEnter-initial; SingleStep paused at first command; Reset ready; selectedScene/scheme/step preserved"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/ui/fields-after-reopen.json; nativeSHA256=a3663913dbfee379e65205434784f563a94fe9d1035e0fcbf0249621614b02c3; rows stateId=e2e006-s014-scene-onEnter-initial; root reopened field read; file is still pending full309 freeze unless candidate gates.readyForAppend=true"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/saved-sidecar-39-43-independent-review.json; nativeSHA256=1e4bc00ef051bc280630234d63ac93e049a49c401a3e272bec7bdb557ac5616e; fixed sidecar77fd...; original28 preserved,4 corrections,7UUID states,+e25 binding; formal parser/loader/projection actual differences0"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/final-ui-fields.json; nativeSHA256=ad1be9866efc037bcf3a53a1018fb7f91ef27d94591782cd4b78c566fa64e9c3; Expected-only fields; compared against actual ui/fields-after-reopen.json, not self-certified UI"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/initial-state-save-operation-snapshot.json; nativeSHA256=6764d2e218fbd43af041fbab1a9b2ece5565e8bcaadda41f53563665c0f930ee; actual save-state phase=committed; operationId=474d3dc6-47e7-4de0-bba7-3876e05b23db"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/ui/final-field-helper.txt; nativeSHA256=4b488ccf654f054b96e8c18f9d1429f5fddde654696a744d6ea3efb19cfb7526; Actual DOM input/combobox read, selected entity identity check, then persisted observations; expected values are kept separate"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/ui/context-helper.txt; nativeSHA256=d68125d140157472f82880dc06c5cfca37bfb9e41cc204ea81182ac9b7f36978; Actual SingleStep/Reset and manual Undo/default restoration assertions before observation record"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/006-label-credit-audit/receipt.json /cases/1/rechecks/1"
+        }
+      ],
+      "preview": {
+        "stateId": "e2e006-s014-scene-onEnter-initial",
+        "selection": "default"
+      },
+      "previewFingerprint": "726c6f642ccb461584af6769ed70f3b4260bda94a17698d5f245c5c116b00da0",
+      "note": "s014 本轮变化是 e202 实体、方案和步骤的名称。独立复核了历史入口正文、相关 caller 和原预览记录的适用性。沿用历史现场和原验收范围。新 006 运行镜头外 e122 巡游位置差异另见复核回执。"
+    },
+    {
+      "at": "2026-11-05T13:50:45.799Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s014/onEnter/default/initial:v16:r251:o96395",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=16; sceneSession=s014:8; runId=251; firstCommandOrder=96395; originalAuditRunStartedOrder=96394; UI File/Open/Play/Reset at 2026-10-27T01:17:15.455Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "sourceFingerprint": "a83d8537e256708ce40045aa0a7982adf8f039e6b196d693fc17caa5ef08c21c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "380e857aae64100848be07b5f52744373b61669a2a82fece18960cbccd6f17bd"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "id": "e2e007-006-label-revalidation-1-optimization",
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/review.json; nativeSHA256=e3d8f2f1a4837905f760bdc8a1c73fa225cf14ad44a74a36a6eeb3294b1ad0e6; records[address=s014/scene/onEnter/default/initial] complete flow/stage body; scope=ledger-seed"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/script-review/receipt.json; nativeSHA256=21ad4381e35f8825279cbf6fcc7c3571af720ece7647c0b39c7524a24550cb1b; fileSlices[path=projects/pal/content/scenes/s014.json].A_H; acceptanceBoundary; notNeededReasonCorrection"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz",
+          "sha256": "e804bb9e159db2012fc517b607866d31d737415dcf1b3896cc41d4c4e2fdba8f",
+          "selector": "member=build/e2e-preview-closeout/evidence-map/e2e_baseline_docs-8e7ea5b3c/final110-source-verification.json; nativeSHA256=3da7c3afa579d7ae59cb22d7651c6c6b425279ff40e18aba4a7249397580ba68; sourceFiles/delta: 110 exact label-only fields; current source fingerprints; no behavioral mutation"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+          "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+          "selector": "member=build/e2e-007/006-label-credit-audit/receipt.json /cases/1/rechecks/2"
+        }
+      ],
+      "note": "s014 本轮变化是 e202 实体、方案和步骤的名称。独立复核了历史入口正文、相关 caller 和原预览记录的适用性。沿用历史现场和原验收范围。新 006 运行镜头外 e122 巡游位置差异另见复核回执。",
+      "reviewer": "Codex /root/island_007_route"
     }
   ]
 }
@@ -78993,6 +82612,5 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 ## 下一步
 
-Codex先补录001–006实际完成与待办的逐入口事件，按场景/NPC筛选继续配置和复验；后续每次E2E
-或优化同步追加事实。完成标准是相应context的三个轴各有充分、可恢复证据及必要独立验收；
-`--check`成功只表示记录自洽和所声明版本匹配，不代表全量脚本已经完成。
+从各自引擎的 007 终档接续，按场景与实体筛选未完成的逐入口现场。后续 E2E 或优化同步追加事实。
+相应 context 的三个轴分别需要可恢复的证据与独立验收。`--check` 成功核对记录自洽和所声明的版本。

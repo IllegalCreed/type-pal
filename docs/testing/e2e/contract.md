@@ -444,6 +444,7 @@ Type Pal 只拥有上述项目事实和稳定 `fragmentId`。Content Studio 拥�
 
 - `?win`是历史设计称谓，不表示当前两引擎已有该参数。速胜仅用于已分类的非战斗专题verify，
   不可机械改变剧情Boss胜负/回合条件，不可用于Q2或战斗展示。
+- 007 的 verify 入口使用 `node scripts/e2e/island-entrance.mjs --engine game|reforge --from <006-report>`。专用 Vite 配置在实际岛口接敌及首轮开场处理完成后，核场景、事件、敌队和逍遥单人队伍，接受一次速胜请求。执行器在请求前释放方向键，按正式结算屏确认，核经验、隐藏策略和原格恢复。终点为迷宫首次入场并恢复操控。两引擎各自保存和读回正式终档。[007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)
 - `capture` 与 `verify` 最终必须落到等价的剧情结束契约;若录像档会改变剧情结果,应拆成另一个碎片。
 - verify允许正常确认键使文字瞬显/翻页，但以状态变化驱动，不写死回车次数；capture使用可读停留和正常节奏。
   两profile的关键剧情结束契约一致，不要求实际战斗造成的HP/MP等非合同字段相同；capture产物不回写verify检查点链。
