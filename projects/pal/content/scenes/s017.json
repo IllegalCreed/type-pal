@@ -2974,14 +2974,6 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e260"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 2,
                       "target": {
                         "scene": "s017",
@@ -3044,14 +3036,6 @@
                       "target": {
                         "scene": "s017",
                         "entity": "e259"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e260"
                       }
                     },
                     {
