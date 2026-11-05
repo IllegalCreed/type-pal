@@ -50,14 +50,14 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "9f1b8665016355dfb20a792f70ae5221bb988a96d07aed8fee45956ec6e8c095",
+      "afterSha256": "727524316ede6acdcad5520634495dd425cd7dfbaa8dbc178c322d5d68d9a6ec",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "写回作者确定的 007 叙事和收段边界，接入实跑任务卡。",
-        "reviewedLines": 544,
-        "acceptanceScope": "Accept the current 007 route and author stop line and card linkage. The historical quote and its identity stay unchanged."
+        "reviewer": "Codex /root/ui_final_doc_review",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 553,
+        "acceptanceScope": "接受008因果、路线边界与待用户分屏状态增量；正文current部分与diff定向核读，历史范围至EOF逐字节保全，未重新授予001–007或系列旧稿信用。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "1fae80eeb1213f1eb27bf50be8251a744b2de322677131862f38f973b34b32f0",
+      "afterSha256": "ce978c81fddff7841ca657388ba723aa8d134d94c830dbd53fc0e30dc6808b91",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "按六份新增工具文件更新 3688/970/0/2718 库存，保全 970 条既有闭合记录。",
-        "reviewedLines": 1015,
-        "acceptanceScope": "Accept the two live counts only. The six new tracked tooling files add pending inventory. The old closed table and source credit remain intact."
+        "reviewer": "Codex /root/ui_final_doc_review",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 1017,
+        "acceptanceScope": "接受新增8个tracked工具为pending及3696库存投影；按Git index复核数量，970旧关闭不变，入口责任至EOF原字节保全；未重审全表历史主体。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "fc46299630186135d1f10489f5569cb530f133b3d7b798b7bb2e34dbe9757ec8",
+      "afterSha256": "42192ec002b4a5d482b9eedca28fbf2fa0f37ca34c7c0c9164fbdcf02e9084ed",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/island_007_route",
+        "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
-        "conclusion": "007 已收口，R4 以同引擎 007 终档接续 008，活动行退出。",
-        "reviewedLines": 119,
-        "acceptanceScope": "核 R4 接续更新、007 终态与活动看板的一致性。"
+        "conclusion": "accept",
+        "reviewedLines": 120,
+        "acceptanceScope": "接受R4/008活动行与日期增量；008保持review、待用户分屏，未扩大前十段/取物共享脚本准入。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "ec426e7fbe020f4d776f5e4d73bf70bbc1103ebe42823375e03235e4ce46ceb6",
+      "afterSha256": "9151bd69a171aab05fe0c46c906ccea28b63a27f343c65c7f65d32d88084dac9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/island_007_route",
+        "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
-        "conclusion": "007 索引跟随卡面 done。",
-        "reviewedLines": 582,
-        "acceptanceScope": "独立重放生成器，核 007 在完成区及实际字节一致。"
+        "conclusion": "accept",
+        "reviewedLines": 583,
+        "acceptanceScope": "接受新增008一行的确定性任务索引增量，review与卡头一致；既有任务行未改。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -3960,14 +3960,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "df5c3eaf49f17bd02ab267d22afbd38255e69c4acd2fdc042cb1da5f3606b0ae",
+      "afterSha256": "04fa5229a2d6f6f40bb3f74a5486649ddb589c9c07c8a31c0b5a263c50038d71",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/island_007_route",
+        "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
-        "conclusion": "明确默认分屏实跑视频，按需要开现场复查。首次等待观感是 review，用户反例复看确认前是 rework。",
-        "reviewedLines": 618,
-        "acceptanceScope": "只核逐段流程第四步与用户本次裁决、007 观感状态的一致性。"
+        "conclusion": "accept",
+        "reviewedLines": 619,
+        "acceptanceScope": "接受008两端CLI、--from与--visual-review及桃花林首次可控终点这一行增量；已核实际参数解析/保存恢复锚点，不重授全合同执行。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -4175,14 +4175,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "2f3b548f13058061e97434e5cfd82b3779ea692b917cea85b0eb9f48050ad902",
+      "afterSha256": "ff871a2ca0c2bead062755f1f8cb4671f3e0584db7e347aa46b3368075918fe6",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/island_007_route",
+        "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
-        "conclusion": "工程入口明确 007 双轨和用户验收，接续输入由任务卡持有。",
-        "reviewedLines": 149,
-        "acceptanceScope": "核单段导航更新、006 码头边界和任务卡锚点。"
+        "conclusion": "accept",
+        "reviewedLines": 151,
+        "acceptanceScope": "接受008接续、终点、终档fresh读回及待分屏导航增量；来源保持同引擎，RF正常重建007与原件入口由卡持有，旧007/006历史身份保全。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -4387,14 +4387,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "adf3f4784130848a8009d772f79e74d892409a05f0689969b258920fea8866e2",
+      "afterSha256": "656d0c3b539a2aace435d4ecff21b3bc4c28492b8b4cc267b34ecf8a56207d2f",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "保全 810 条历史，接受 44 条新增事件。四个路线步骤逐轴核验，17 个环境入口留初次取证，五条 006 记录按历史上下文复核适用性。",
-        "reviewedLines": 82617,
-        "acceptanceScope": "Accept the milestone and 44 appended events only. Four independently observed route contexts receive bounded review and static preview credit, 17 ambience contexts remain evidence-collected, and five old-axis applicability events preserve their accepted original contexts. The prior 810 events remain intact."
+        "reviewer": "Codex /root/ui_final_doc_review",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 111725,
+        "acceptanceScope": "接受854→1266 append-only事件增量：43×3本段轴、283既有适用性轴；旧JSON事件前缀精确保全。定向核新增入口/context/轴/理由/依赖/证据成员/独立Reviewer及预览收据，62初态仅静态可保存字段。旧历史不倒写，宝箱planned保留，未核步骤不授完成。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     },
     {
@@ -4512,6 +4512,19 @@
         "conclusion": "用户确认修后 32 秒分屏通过，奖励窗观感反例关闭，007 本地收口。",
         "reviewedLines": 90,
         "acceptanceScope": "核用户确认、视频身份、两份正式终档及八件已恢复原件、下一段同引擎输入和本地保留范围。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-008-1-fairy-island-maze.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "ea8b1a5c2dce516ac9d629487f632e0e91fa1da96042d1ae7bee889384639cb4",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/ui_final_doc_review",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 89,
+        "acceptanceScope": "全文核读新卡；依据c77d双轨原生报告、正式终档与fresh恢复、独立编辑器收据及110成员归档接受技术交付陈述。保留浏览器两条提示、11未经过步骤、动态相位/队伍与预览静态字段界限；用户分屏pending，未授done。 本回执为document-delivery-acceptance/1.0.0有界独立语义验收；reviewedLines按请求记录当前文件split(\\n).length，不表示历史全文重读。中央接入和最终文档/静态门由root另验。"
       }
     }
   ],
@@ -4705,6 +4718,12 @@
       "bytes": 1990194,
       "sha256": "3074c77313c4eb7524db6ad20d5b90c574099f194487378568775bea4b514268",
       "purpose": "Preserves the user-reported 007 settlement layout counterexample, matched actual victory frames, dual-engine native continuation and restore, and narrow test receipts."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+      "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+      "bytes": 7939784,
+      "purpose": "Preserves 008 native reports, checkpoints and fresh restores from one frozen candidate, the strict Reforge predecessor rebuild, route counterexamples, and native editor initial-state proof."
     }
   ],
   "artifactAliases": [],

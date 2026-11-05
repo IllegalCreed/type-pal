@@ -3783,6 +3783,505 @@
           ]
         }
       ]
+    },
+    {
+      "id": "696d9ffd-9b30-4e72-9e45-9557899c55a9",
+      "name": "变轨芦苇漂：第二次上漂",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e259",
+              "pos": {
+                "col": 75,
+                "row": -5,
+                "height": 0
+              }
+            },
+            {
+              "entityId": "e260",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e261",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "581cdabf-9f05-417c-a34a-a3610e1c4930",
+      "name": "变轨芦苇漂：第三次上漂",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e259",
+              "pos": {
+                "col": 64,
+                "row": -5,
+                "height": 0
+              }
+            },
+            {
+              "entityId": "e260",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e261",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "43d47d29-2209-4304-9871-518acaf243a6",
+      "name": "芦苇漂 14：重踩折返：驶向左下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e256",
+              "pos": {
+                "col": 77,
+                "row": -11,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3c22c026-4eb1-485f-a044-a697f392851e",
+      "name": "芦苇漂 13：重踩折返：分段驶向左下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e255",
+              "pos": {
+                "col": 78,
+                "row": -6,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bc4159ba-7b26-485c-9932-41a8830ace66",
+      "name": "阿修罗石像：已敲碎 1 座",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1180b028-cf43-4e45-8190-1ef01fe0dbaf",
+      "name": "芦苇漂 15：重踩折返：分段驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e257",
+              "pos": {
+                "col": 52,
+                "row": 17,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d0cf3e8a-80b6-4f76-b7a2-761f7ea64343",
+      "name": "阿修罗石像：已敲碎 2 座",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e237",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c9269ab9-8b0d-4940-a207-1b5bddc3fa27",
+      "name": "芦苇漂 16：重踩折返：驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e258",
+              "pos": {
+                "col": 55,
+                "row": 2,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "db1eb27d-b1da-4589-bd21-d1b5f153ce34",
+      "name": "芦苇漂 11：重踩折返：驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e253",
+              "pos": {
+                "col": 87,
+                "row": 18,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "44af2910-981c-4295-9b1e-78139ec1f9d0",
+      "name": "芦苇漂 10：重踩折返：驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e252",
+              "pos": {
+                "col": 95,
+                "row": 18,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aa4bca06-1cdd-483f-8d9b-24e58324d805",
+      "name": "阿修罗石像：已敲碎 3 座",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e237",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e238",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "57b91abc-cee4-4a49-8aa8-a590737371aa",
+      "name": "芦苇漂 09：重踩折返：驶向右上岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e251",
+              "pos": {
+                "col": 111,
+                "row": 45,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a1496688-0079-4af9-9cee-6cbcb9ac46d1",
+      "name": "阿修罗石像：已敲碎 4 座",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e237",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e238",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e242",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3f976385-82cd-4280-96b1-b239d6942682",
+      "name": "芦苇漂 08：重踩折返：分段驶向左上岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e250",
+              "pos": {
+                "col": 117,
+                "row": 26,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5a5e8235-f9d8-4b8d-8727-1fde7328af4b",
+      "name": "芦苇漂 06：重踩折返：驶向左下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e248",
+              "pos": {
+                "col": 90,
+                "row": 12,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ab738e1b-062c-4178-bb6c-1d7e5da4d1b6",
+      "name": "阿修罗石像：已敲碎 5 座",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e237",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e238",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e240",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e242",
+              "hidden": true,
+              "collide": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2c484771-fcec-4156-9bb3-f00acf6ede33",
+      "name": "芦苇漂 07：重踩折返：分段驶向右上岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e249",
+              "pos": {
+                "col": 61,
+                "row": 29,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "885743c4-6682-4dcf-bc00-8ab2e68dd90e",
+      "name": "芦苇漂 02：重踩折返：分段驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e244",
+              "pos": {
+                "col": 56,
+                "row": 12,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "593f2e22-74c6-45c5-bec6-d76d8bdd8c97",
+      "name": "芦苇漂 01：重踩折返：驶向右下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e243",
+              "pos": {
+                "col": 80,
+                "row": 26,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7f30aca9-6cd9-4c95-ab48-eb340c30137f",
+      "name": "芦苇漂 05：重踩折返：驶向左下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e247",
+              "pos": {
+                "col": 101,
+                "row": -11,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "32f46bf7-671e-463c-9d85-e362533c4524",
+      "name": "芦苇漂 03：重踩折返：分段驶向左下岸",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e245",
+              "pos": {
+                "col": 100,
+                "row": 3,
+                "height": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13207f48-5a8b-4459-9a42-e08080f5af27",
+      "name": "六座阿修罗已碎：踏上闪烁地板",
+      "scenes": [
+        {
+          "sceneId": "s017",
+          "entities": [
+            {
+              "entityId": "e237",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e238",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e240",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e241",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e242",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e262",
+              "hidden": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "bindings": [
@@ -4223,6 +4722,226 @@
         "stageId": "initial"
       },
       "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e259",
+        "stageId": "legacy-002"
+      },
+      "stateId": "696d9ffd-9b30-4e72-9e45-9557899c55a9"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e259",
+        "stageId": "legacy-003"
+      },
+      "stateId": "581cdabf-9f05-417c-a34a-a3610e1c4930"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e256",
+        "stageId": "legacy-002"
+      },
+      "stateId": "43d47d29-2209-4304-9871-518acaf243a6"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e255",
+        "stageId": "legacy-002"
+      },
+      "stateId": "3c22c026-4eb1-485f-a044-a697f392851e"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e237",
+        "stageId": "initial"
+      },
+      "stateId": "bc4159ba-7b26-485c-9932-41a8830ace66"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e257",
+        "stageId": "legacy-002"
+      },
+      "stateId": "1180b028-cf43-4e45-8190-1ef01fe0dbaf"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e238",
+        "stageId": "initial"
+      },
+      "stateId": "d0cf3e8a-80b6-4f76-b7a2-761f7ea64343"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e258",
+        "stageId": "legacy-002"
+      },
+      "stateId": "c9269ab9-8b0d-4940-a207-1b5bddc3fa27"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e253",
+        "stageId": "legacy-002"
+      },
+      "stateId": "db1eb27d-b1da-4589-bd21-d1b5f153ce34"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e252",
+        "stageId": "legacy-002"
+      },
+      "stateId": "44af2910-981c-4295-9b1e-78139ec1f9d0"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e242",
+        "stageId": "initial"
+      },
+      "stateId": "aa4bca06-1cdd-483f-8d9b-24e58324d805"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e251",
+        "stageId": "legacy-002"
+      },
+      "stateId": "57b91abc-cee4-4a49-8aa8-a590737371aa"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e240",
+        "stageId": "initial"
+      },
+      "stateId": "a1496688-0079-4af9-9cee-6cbcb9ac46d1"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e250",
+        "stageId": "legacy-002"
+      },
+      "stateId": "3f976385-82cd-4280-96b1-b239d6942682"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e248",
+        "stageId": "legacy-002"
+      },
+      "stateId": "5a5e8235-f9d8-4b8d-8727-1fde7328af4b"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e241",
+        "stageId": "initial"
+      },
+      "stateId": "ab738e1b-062c-4178-bb6c-1d7e5da4d1b6"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e249",
+        "stageId": "legacy-002"
+      },
+      "stateId": "2c484771-fcec-4156-9bb3-f00acf6ede33"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e244",
+        "stageId": "legacy-002"
+      },
+      "stateId": "885743c4-6682-4dcf-bc00-8ab2e68dd90e"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e243",
+        "stageId": "legacy-002"
+      },
+      "stateId": "593f2e22-74c6-45c5-bec6-d76d8bdd8c97"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e247",
+        "stageId": "legacy-002"
+      },
+      "stateId": "7f30aca9-6cd9-4c95-ab48-eb340c30137f"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e245",
+        "stageId": "legacy-002"
+      },
+      "stateId": "32f46bf7-671e-463c-9d85-e362533c4524"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e262",
+        "stageId": "initial"
+      },
+      "stateId": "13207f48-5a8b-4459-9a42-e08080f5af27"
     }
   ],
   "schemeDefaults": []
