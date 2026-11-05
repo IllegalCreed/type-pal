@@ -36,10 +36,10 @@ export function ProjectSaveDialog(props: {
     progress?.phase === 'validating'
       ? '正在校验暂存内容与来源…'
       : progress?.phase === 'reopening'
-        ? '正在重新打开已保存工程…'
+        ? '正在重新打开已保存项目…'
         : activity.phase === 'recovering'
           ? '正在恢复上次保存…'
-          : '正在准备工程文件…'
+          : '正在准备项目文件…'
   const title =
     activity.phase === 'recovering'
       ? '正在完成上次保存…'

@@ -51,7 +51,7 @@ test('save-as displays measured file/byte progress and clears percentages betwee
   expect(bar().getAttribute('aria-valuenow')).toBe('50')
   expect(host.textContent).toContain('写入并核验文件 50% · 512 B / 1 KB')
   await render({ phase: 'saving-as', progress: { phase: 'reopening' } })
-  expect(host.textContent).toContain('正在重新打开已保存工程')
+  expect(host.textContent).toContain('正在重新打开已保存项目')
   expect(host.textContent).not.toContain('%')
   expect(bar().hasAttribute('aria-valuenow')).toBe(false)
   expect(bar().querySelector('span')).toBeNull()
