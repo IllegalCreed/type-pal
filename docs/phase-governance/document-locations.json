@@ -2326,14 +2326,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "8de7ac931d82c0ebd0ec4e4c85ec8008519de642f1be1b19c01cd67e6dbc550f",
+      "afterSha256": "d7c17634838887e88e7be412c7ea31bdc85e2d47fea9c9ed4f1ba38873a11d63",
       "review": {
         "author": "/root",
         "reviewer": "/root/raw_initial_state_audit",
         "date": "2026-11-05",
-        "conclusion": "旧候选双门通过后按严格保护对齐主线 c56192d8。保全两侧来源维护和代码库存。当前官方 ratchet 通过，续办前驱实跑待记录。",
-        "acceptanceScope": "核本次对齐四段、来源边界和实际 ratchet。以前各轮结果及新一轮远端状态取各自原件。",
-        "reviewedLines": 499
+        "conclusion": "对齐 c56192d8 后完成官方 ratchet 和当前 RF001–006。五次真实前驱及 006 fresh 恢复均通过，正式终档和必要原件可恢复。",
+        "acceptanceScope": "核最新主线对齐与 RF 两段增量，复用独立验收和实际原件。旧轮次与最终远端状态分别以相应原件及 PR44 为准。",
+        "reviewedLines": 503
       }
     },
     {
@@ -4663,6 +4663,12 @@
       "sha256": "d2cbde2f83d431ebe5e145c71220c4f2f7dc724af3b4d20c889857dcdd0a6019",
       "bytes": 2830158,
       "purpose": "原93主体的独有执行/失败/恢复/映射/来源及只读复验唯一原件；1087成员保全，21可重建或重复过程输出不进入持久包；仅有限文件批次及已执行组成门，不授未来远端CI/合并或整仓完成。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-pr44-main-reconcile-20261105.tar.gz",
+      "sha256": "5037e2a3e618e97bf31389c84f7d4900873a2ef243d54057a87d235242956b84",
+      "bytes": 7106969,
+      "purpose": "Preserves previous-head required check receipts, current-main reconciliation, the official seven-package V8 report, six current Reforge reports and checkpoints, original RF006 fresh-restore inputs, and the independent verification harness."
     }
   ],
   "artifactAliases": [],
