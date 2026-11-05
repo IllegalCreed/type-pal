@@ -16,6 +16,7 @@ import { runScript } from '../../event-system.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
 import { performThrowItem } from '../actions/throw-item.js'
+import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
 import type { BattleState } from '../battle-state.js'
 
 function makeEnemy(opts: Partial<Enemy>): Enemy {
@@ -364,5 +365,32 @@ describe('performThrowItem (E2)', () => {
     })
     expect(state.enemies[0]!.e.health).toBe(200) // 没扔成 → 无伤害
     warnSpy.mockRestore()
+  })
+})
+
+describe('throw item inventory ownership', () => {
+  it('consumes the current entry after the throw script removes and recreates the item', () => {
+    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x20, operands: [66, 1, 0], label: 'L_1' },
+      { op: 'giveItem', itemId: 66, count: 2 },
+      { op: 'end' },
+    ]
+    const fx = createBattleLifecycleFixture({ commands })
+    fx.gs.inventory = [{ itemId: 66, count: 1 }]
+    performThrowItem({
+      ...fx,
+      itemId: 66,
+      items: [makeItem({ scriptOnThrow: 1 })],
+      commands,
+      runScript,
+      casterIsEnemy: false,
+      casterIdx: 0,
+      targetIdx: 0,
+      magics: [],
+      objectMagics: [],
+      objectPoisons: [],
+    })
+    expect(fx.gs.inventory).toEqual([{ itemId: 66, count: 1 }])
   })
 })

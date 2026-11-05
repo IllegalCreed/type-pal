@@ -82,9 +82,8 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     return
   }
   // —— 队员投:检查 inventory(敌人不 track) ——
-  let entry: { itemId: number; count: number } | undefined
   if (!input.casterIsEnemy) {
-    entry = input.gs.inventory.find((e) => e.itemId === input.itemId)
+    const entry = input.gs.inventory.find((e) => e.itemId === input.itemId)
     if (!entry || entry.count === 0) {
       console.warn(`[throw-item] no inventory for item ${input.itemId}`)
       return
@@ -148,8 +147,12 @@ export function performThrowItem(input: PerformThrowItemInput): void {
     setItemScriptEntry(input.gs, item, 'scriptOnThrow', nextEntry)
   }
 
-  // —— 消耗 1(sdlpal:脚本之后 PAL_AddItemToInventory(-1)) ——
-  if (entry) entry.count--
+  // The script may replace or exhaust the entry. Consume from the current
+  // inventory, keeping the ordinary final count=0 row used by the TS menus.
+  if (!input.casterIsEnemy) {
+    const entry = input.gs.inventory.find((e) => e.itemId === input.itemId)
+    if (entry && entry.count > 0) entry.count--
+  }
 
   // —— 拼挥臂 + OffMagic 特效 → startBattleAnim,伤害数字延迟到动画末(sdlpal fight.c:4369 DisplayStatChange)——
   if (hasAnim) {

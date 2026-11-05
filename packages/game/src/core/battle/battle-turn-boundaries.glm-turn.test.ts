@@ -1,3 +1,14 @@
+import { makeBattleSpellRecord } from '../../__tests__/battle-records.js'
+import { recordingRng } from '../../__tests__/scripted-rng.js'
+import { makeMagic } from './__tests__/magic-action.test-fixtures.js'
+import { dispatchBattleOpcode } from './battle-opcodes.js'
+import {
+  advanceUntil,
+  press,
+  roundEnemy,
+  roundRole,
+  startRound,
+} from './battle-round.test-fixtures.js'
 /**
  * TEST-GLM-GAME-TURN-BOUNDARIES-1 —— 战斗回合与结算边界合同(GLM r1)。
  *
@@ -15,8 +26,10 @@ import type {
   EnemyTeam,
   InputSnapshot,
   Item,
+  ObjectMagicView,
   PlayerRole,
   PlayerRoles,
+  Spell,
 } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
 import { type CommandBus, createCommandBus } from '../command-bus.js'
@@ -436,25 +449,58 @@ describe('TEST-GLM-GAME-TURN-BOUNDARIES-1', () => {
 
   // ── battle-system.ts:2585-2595 执行期吞并/粘滞(DL3 / DL1)────────────────────
 
-  it('DL3 fThisTurnCoop:合击后同回合后续玩家动作吞为 pass(无攻击伤害、无攻击隐藏经验)', () => {
-    // 合击吞并臂(2586-2587)无旧测(coop-magic.test 只证合击本身)。fThisTurnCoop 由
-    // performCoopMagic 置真(2983),此处直摆该 typed 字段隔离 gate 本体。
-    const { gs, bus, emptyInput } = bootstrap({
-      roles: [makeRole({ id: 0, attackStrength: 500 })],
-      enemies: [makeEnemy({ id: 100, health: 99999, level: 0, dexterity: 0, attackStrength: 0 })],
+  it('a real co-op action consumes the later confused player action in the same round', () => {
+    const spell: Spell = {
+      ...makeBattleSpellRecord(7),
+      magicNumber: 3,
+      flags: {
+        usableOutsideBattle: false,
+        usableInBattle: true,
+        usableToEnemy: true,
+        applyToAll: false,
+      },
+    }
+    const object: ObjectMagicView = {
+      id: 7,
+      magicNumber: 3,
+      scriptOnUse: 0,
+      scriptOnSuccess: 0,
+      flags: spell.flags,
+    }
+    const round = startRound({
+      roles: [
+        roundRole({ id: 0, hp: 500, maxHP: 500, cooperativeMagic: 7, dexterity: 50 }),
+        roundRole({ id: 1, hp: 500, maxHP: 500, dexterity: 20 }),
+        roundRole({ id: 2, hp: 500, maxHP: 500, dexterity: 10 }),
+      ],
+      enemies: [roundEnemy({ health: 30000, level: 0, dexterity: 0 })],
+      spells: [spell],
+      objectMagics: [object],
+      magics: [makeMagic({ id: 3, type: 'normal', costMP: 1, baseDamage: 100, elemental: 0 })],
     })
-    const st = gs.battleState!
-    st.phase = 'performAction'
-    st.uiState = 'hidden'
-    st.fThisTurnCoop = true // 本回合已执行过合击
-    st.actionQueue = [{ isEnemy: false, idx: 0, dex: 100, fIsSecond: false }]
-    st.currentActionIndex = 0
-    st.pendingActions.set(0, { type: 'attack', target: 0 }) // 后续手动动作
-    let guard = 100
-    while (gs.mode === 'battle' && st.phase === 'performAction' && guard-- > 0)
-      tickBattle(gs, emptyInput, bus)
-    expect(st.enemies[0]!.e.health).toBe(99999) // 吞为 pass → 攻击未发生
-    expect(gs.Exp.rgAttackExp[0]!.wCount ?? 0).toBe(0) // E04 攻击隐藏经验未累积(执行的是 pass)
+    round.state.enemies[0]!.status.sleep = 999
+    dispatchBattleOpcode(0x2d, [0, 3, 0], {
+      state: round.state,
+      playerRoles: round.playerRoles,
+      gs: round.gs,
+      caster: { type: 'player', idx: 2 },
+      target: { type: 'player', idx: 2 },
+    })
+    const rng = recordingRng()
+    round.state.rng = rng
+    press(round, 'Right', 'Confirm')
+    expect(round.state.pendingActions.get(0)?.type).toBe('coop-magic')
+    expect(round.state.pendingActions.get(2)?.type).toBe('attack')
+    advanceUntil(round, () => round.state.currentActionIndex >= 1)
+    expect(round.playerRoles.roles.slice(0, 3).map((role) => role.hp)).toEqual([499, 499, 500])
+    const callsAfterCoop = rng.calls.length
+    advanceUntil(round, () => round.state.phase === 'postAction')
+    expect(round.state.enemies[0]!.e.health).toBe(29889) // one co-op hit of 111, no later confused hit
+    expect(round.gs.Exp.rgAttackExp[2]!.wCount).toBe(0)
+    expect(round.state.fThisTurnCoop).toBe(true)
+    // The sleeping enemy still selects one player before its status gate. Neither later
+    // player may consume a confused-target or attack draw after the co-op action.
+    expect(rng.calls.slice(callsAfterCoop)).toEqual(['rangeInclusive(0,2)'])
   })
 
   it('DL1 prevPlayerAutoAtk 粘性:围攻后手动防御被强制改普攻(防御经验 0/攻击经验 1)', () => {

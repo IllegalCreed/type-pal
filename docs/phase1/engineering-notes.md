@@ -3,7 +3,7 @@
 Status: current
 Validity: current（仅限本页现行维护层；原文保全区为historical）
 Owner: Codex（知识维护；历史原执行身份不变）
-Last reviewed: 2026-11-03
+Last reviewed: 2026-11-05
 Template: guide-runbook-v1 / 1.0.0
 
 本页承接第一阶段已确认的长期维护知识，按下方问题进入所需小节。现行层以保留的功能裁定、canonical合同和当前源码为依据；下方历史原文逐字节保留，其余旧条目未逐项重新认证。
@@ -26,6 +26,20 @@ Template: guide-runbook-v1 / 1.0.0
 
 浏览器语言偏好独立于存档，启动先恢复偏好、挂静态壳层，再装载资源；加载失败只切换本次有效语言，不覆盖玩家偏好。`languages.json`未声明`en`时不请求`en.json`；装载器校验整个包后才安装，不能发布半份词表/消息/布局。`source.scriptSha256`是纠正后指令流指纹，不能拿原始SSS归档SHA替代。翻译切换不改已捕获的对话历史；静态壳层对进度状态节点仅在`data-initial`仍为`true`时写入，避免覆盖进度或失败说明。来源：[语言服务](../../packages/game/src/localization/language.ts)、[资源入口](../../packages/game/src/assets/language-pack.ts)、[启动静态文案](../../packages/game/src/localization/static-shell.ts)、[启动接线](../../packages/game/src/shell/bootstrap.ts)及[壳层审查](../tasks/evidence/GAME-ENGLISH-1/shell-review.json)。
 
+### 物品脚本后的库存所有权
+
+使用和投掷脚本可能删除、追加或重建inventory条目；动作结束后的扣除必须按物品ID重查当前条目，不能持有脚本前的entry跨过解释器调用。使用物品还要读脚本后的Consuming标志；投掷始终按投掷流程消耗。两者都保留正常最后一次消耗后的count0行；若脚本已把库存耗尽，不再减成负数。来源为[使用动作](../../packages/game/src/core/battle/actions/item.ts)、[投掷动作](../../packages/game/src/core/battle/actions/throw-item.ts)及SDLPal fight.c对应UseItem/ThrowItem分支中的脚本后PAL_AddItemToInventory。合法小脚本已复现重建条目角点，普通原盘剧情是否触发尚未证明。
+
+### 合击后的行动吞并
+
+合击生产者置`fThisTurnCoop`后，本回合后续玩家行动已吞并；[回合控制器](../../packages/game/src/core/battle/battle-system.ts)不得在混乱分支重新选靶覆盖pass，也不能为已吞行动消耗选靶随机数。合击的健康参与者判定、正常混乱选人及伤害公式分别保留原合同。核接线须先经真实合击菜单/执行，再观察后续混乱队员；单独手填flag只能证明消费者分支。
+
+### 开发跳转与本地资源服务
+
+开发跳转的`partyStart`仍有生产consumer：[dev-panel](../../packages/game/src/dev/dev-panel.ts)传给loadScene，在onEnter后覆盖起点；未提供时保留脚本位置。备用点须核真实`tickSceneInput`的移动范围，不只核地形可站立。scene-86原点落在x<160移动边界，改为同网格相位(176,1048)；只影响[调试表](../../packages/game/src/dev/fixtures/scene-jumps.json)，不是正常剧情或碰撞规则变更。
+
+[Vite开发/预览资源服务](../../packages/game/vite.config.ts)持读取流生命周期。Node的`pipe()`不替源error或客户端关闭完成清理：响应close/error须销毁源，源close移除响应监听；读取失败未发头时交给Connect错误链，已发头时销毁响应，不能在资源字节后拼错误页。验证须覆盖同一服务的后续请求仍可用；此合同不改变正式部署或提取输出。
+
 ### 壳层输入与触控手柄
 
 引擎维持320×200帧缓冲，壳层负责显示空间和适配；键盘、触控与手柄都向同一抽象输入源提交带Owner的contact。同一个动作由多设备按住时，释放一个contact不能清除另一个。确认/取消先经modal消费，不能漏入下一游戏快照。触控按钮的键盘/辅助激活只发一次边沿，不能再让全局键盘监听重复确认。来源：[输入源](../../packages/game/src/shell/input.ts)、[游戏壳层](../../packages/game/src/shell/game-shell.ts)、[触控绑定](../../packages/game/src/shell/touch-controls.ts)及[移动端功能卡](../tasks/cards/GAME-MOBILE-LAYOUT-1.md)。
@@ -37,6 +51,8 @@ Template: guide-runbook-v1 / 1.0.0
 ### 音源生命周期与离线响应
 
 音乐意图由shell转发，core不直接操作Web Audio。MIDI与RIX共享曲号/loop意图；音源选择是浏览器偏好，默认MIDI。替换后端先stop/dispose旧实例，保留当前曲号、loop和音量，再给新后端；异步ready/error用generation隔离，旧加载结果不能改新选择。RIX通过WASM与AudioWorklet加载`music/mus.mkf`，销毁须取消加载、断开节点并关闭自己的AudioContext。先区分资源/安全上下文失败、后端初始化失败与用户手势未解锁，不能因静音就改脚本曲号或丢loop。来源：[音源选择](../../packages/game/src/shell/music-source.ts)、[RIX后端](../../packages/game/src/shell/audio-rix.ts)、[音频转发](../../packages/game/src/shell/audio.ts)与[原功能取舍](../tasks/archive/done/GAME-RIX-MUSIC-1.md)。
+
+MIDI的public worklet是`spessasynth_lib`供应者生成物，不手改压缩算法。更新冻结依赖时同步供应者的worklet与[Apache许可证](../../packages/game/public/spessasynth-LICENSE.txt)，通过[字节/notice合同](../../scripts/quality/game-midi-worklet.test.mjs)核复制一致，并复验实际后端加载、失败拒绝与dispose；供应者版本一致不代替原生浏览器生命周期验收。当前生成物边界按[本批用户裁决及原生证据](../tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md#回合开发落点与资源宿主最后4个原主体)授信，不宣称上游合成算法、物理听感或全浏览器已审。
 
 响应体返回客户端前须克隆缓存副本，再由`event.waitUntil`保活异步写入；不能等待打开cache后才clone已可能被消费的原响应。当前fetch缓存只收完整200，不把视频Range的206当完整对象。此处只沉淀[当前SW实现](../../packages/game/public/sw.js)及同一功能修复的生命周期边界，不重授旧离线/部署或全浏览器通过信用。
 

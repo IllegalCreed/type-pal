@@ -2369,7 +2369,8 @@ function tickPerformAction(
           const st = player.status
           if (st.sleep > 0 || st.paralyzed > 0) {
             action = { type: 'pass', target: -1 }
-          } else if (st.confused > 0) {
+          } else if (st.confused > 0 && !state.fThisTurnCoop) {
+            // 合击已吞掉后续行动；不能重新选靶覆盖pass，也不能为它消耗随机数。
             action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
               ? { type: 'pass', target: -1 }
               : resolveConfusedAttack(state, res, item.idx)
