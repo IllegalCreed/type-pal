@@ -24,7 +24,10 @@ const proof = (approval) => ({
 
 test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   const boatFile = 'packages/reforge/src/pal-unified-steps-content.test.ts'
-  const historical = approvedTestRetirements.filter((entry) => entry.file !== boatFile)
+  const workspaceFile = 'packages/editor/src/ui/SceneScriptWorkspace.test.tsx'
+  const historical = approvedTestRetirements.filter(
+    (entry) => entry.file !== boatFile && entry.file !== workspaceFile,
+  )
   assert.deepEqual(
     approvedTestRetirements.filter((entry) => entry.file === boatFile),
     [
@@ -35,6 +38,19 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
         previousIdentityDigest: '1952a3f8f7cb645ee161bbae45050334a83094c44796bd2d9072faba4e55855b',
         currentIdentityDigest: '00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450',
         fileSha256: '6dc2404d5fac5ea54fd62ec4101d830405842a352395ce9f32b47f8707ca1523',
+      },
+    ],
+  )
+  assert.deepEqual(
+    approvedTestRetirements.filter((entry) => entry.file === workspaceFile),
+    [
+      {
+        file: workspaceFile,
+        previous: 10,
+        current: 9,
+        previousIdentityDigest: '474a9a8c7713d19f5a43384187a2f9443d6667bb48804e55d8144944bb6dfc6f',
+        currentIdentityDigest: 'd919abf76fd922bf736e4e6c6371533dc020632c976f32d39e742bcc98c32d92',
+        fileSha256: '5e2fb0fc53dc4b959d285af8f38d4a9d08a5d2d1d1a232a5a09908abc63949db',
       },
     ],
   )
