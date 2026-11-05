@@ -431,12 +431,14 @@ await runBrowserJourney({
     await page.screenshot({ path: resolve(out, '007-maze-arrival.png') })
 
     phase = 'end-save'
+    const readSaveStatus = () => page.evaluate(() => window.__readErrandStatus())
+    const beforeSave = game ? await readSaveStatus() : null
     let bytes
     if (game) {
       await press('F5', 'formal maze arrival checkpoint')
       await until(
-        () => page.evaluate(() => window.__readErrandStatus()),
-        (status) => status.saveCompletions === 1,
+        readSaveStatus,
+        (status) => status.saveCompletions === beforeSave.saveCompletions + 1,
         'formal terminal save acknowledged',
       )
       bytes = Buffer.from(
@@ -451,16 +453,23 @@ await runBrowserJourney({
     }
     const trace = await readLongEvidenceArchive(page)
     assertErrandCollector(trace, '007 story and save')
+    report.contextTraces = [await writeLongEvidenceArtifact(out, '007-trace.json', trace)]
     const payload = JSON.parse(bytes)
+    let captureProof
     if (game) {
       assert.equal(payload.gs.wNumScene, 18)
       assert.deepEqual([payload.gs.party.x, payload.gs.party.y], end.position)
-      assert.equal(trace.saveCaptures.length, 1)
-      assert.equal(trace.saveCompletions.length, 1)
-      assert.equal(trace.saveCaptures[0].slot, 1)
-      assert.equal(trace.saveCompletions[0].captureSeq, trace.saveCaptures[0].seq)
-      assert(trace.saveCompletions[0].order > trace.saveCaptures[0].order)
-      assertBoatGameSaveCapture(payload, trace.saveCaptures[0].payload)
+      const captures = trace.saveCaptures.slice(beforeSave.saveCaptures)
+      const completions = trace.saveCompletions.slice(beforeSave.saveCompletions)
+      assert.equal(captures.length, 1)
+      assert.equal(completions.length, 1)
+      const [capture] = captures
+      const [completion] = completions
+      assert.equal(capture.slot, 1)
+      assert.equal(completion.captureSeq, capture.seq)
+      assert(completion.order > capture.order)
+      assertBoatGameSaveCapture(payload, capture.payload)
+      captureProof = { inputOrder: capture.order, acknowledgementOrder: completion.order }
     } else {
       assert.equal(payload.position.sceneId, 's017')
       const { col, row, height } = payload.position.pos
@@ -471,8 +480,8 @@ await runBrowserJourney({
       path: '007.end.save.json',
       sha256: sha256(bytes),
       byteLength: bytes.length,
+      ...(captureProof ? { captureProof } : {}),
     }
-    report.contextTraces = [await writeLongEvidenceArtifact(out, '007-trace.json', trace)]
     await page.close()
     const restored = await restore(bytes, 's017', '007-fresh-maze-restore')
     assert.deepEqual((await snapshot()).position, end.position)
