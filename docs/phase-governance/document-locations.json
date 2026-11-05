@@ -663,17 +663,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "a489e914962de6794f0401268666f7e75ca5b4e0769146f0237ca976bf42b9de",
+      "afterSha256": "429162b01c7c1cfb878f166014b772edd967e8c02f0bc704791f2a774b8bddbb",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/status_reconcile",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "只更新当前代码库存3636与pending2790，公开inventory/guard和真实45工具测试核对；846既有记录和所有其它字节逆还原相等，新增2路径仍默认pending，不授whole-file或产品信用。",
+        "author": "Codex /root (tracked inventory projection)",
+        "reviewer": "Codex /root/raw_initial_state_audit (bounded source/count reconciliation)",
+        "date": "2026-11-05",
+        "conclusion": "Only two machine-summary lines: tracked3636 to3651 and pending2790 to2805. Real Git index adds16 and removes1; all846 live rows, closed846/review0 and historical bytes are preserved. No new code-quality closure.",
         "reviewedLines": 889,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "acceptanceScope": "Bounded current tracked census and balanced summary only; original table/history accepted as before. PR44 failure and recovery are owned by R4 CI-followup. No new runtime, coverage or full-file semantic credit."
       }
     },
     {
@@ -2326,14 +2326,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "a298043b4643deb8c808cb6df2048c1ed1cec1ea42485c01c35862668164eda6",
+      "afterSha256": "0f090970c605352757f9b99ae63044fe87551ea38378d183fce9a8da0f71dd5a",
       "review": {
         "author": "/root",
         "reviewer": "/root/e2e_baseline_docs",
         "date": "2026-11-05",
         "conclusion": "001–006有限收尾及其来源维护准入：120步骤/130context审查，95静态初态现场、39状态/309实体/43绑定、真实Save重开与当前合法RF链/006终档；三份测试文档仅核来源适用性，旧审查签名与执行原件保持，整卡仍build，未开始007。",
         "acceptanceScope": "仅本次实际差异、受审源码和唯一原件/回执，未变正文沿用此前接受；来源维护消费者、原生诊断与后继恢复另有末轮回执，不重签历史、未核现场或Game/视觉/音频/007。",
-        "reviewedLines": 471
+        "reviewedLines": 475
       }
     },
     {
@@ -4432,6 +4432,12 @@
       "sha256": "b311e51289289c98709eb40a673363ed20db6dfaa1da8d339d042c83a4a74d80",
       "bytes": 140027,
       "purpose": "Final concentrated docs513/lint6681/append-only checks; exact three-path testing source maintenance, independent8-file review and real CLI fixture closure; source-drift single AssertionError/recovery; preserved earlier gate failures and rolled-back catalog packing. Complements the primary001-006 raw/UI/RF archive without copying unchanged members; no gameplay, visual, audio, checkpoint or coverage credit."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-ci-quality-recovery-20261105.tar.gz",
+      "sha256": "37f96cc413c8a69d56b9defa22a38a78af8e041ad690bfef7249d1e7876af44d",
+      "bytes": 230798,
+      "purpose": "PR44 first remote quality-tools43/45 failure and local45/45 recovery; exact decoded-log reconstruction, actual3651 census and unchanged846-row independent proof; dependency-only CLI fixture repair. Reuses existing runtime/UI evidence and adds no new codeClosed or runtime/coverage credit."
     }
   ],
   "artifactAliases": [],
