@@ -7,6 +7,49 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-11-03/05: responsibility-based phase1 pending93 test quality.
+    // Five exact per-file count reductions include transfers and proven subsumption,
+    // not66 deleted contracts. Full old-to-new maps and native reports: parent audit/archive.
+    {
+      file: 'packages/game/src/core/battle/__tests__/coop-magic.test.ts',
+      previous: 15,
+      current: 9,
+      previousIdentityDigest: '04b7b108545c6e0f2d3975fbda2e907de01bfa3899e536cf9f739ef4a3b772bb',
+      currentIdentityDigest: '9eafea9be52a430faf030db948f9e821a3f4aacc6396f026d7ff2e8b8794380a',
+      fileSha256: '33faf1b320aec4775e57a5f134eaae562ec1801437162bd8aab2af3530d28330',
+    },
+    {
+      file: 'packages/game/src/core/battle/__tests__/death-fade.test.ts',
+      previous: 16,
+      current: 10,
+      previousIdentityDigest: 'c5848ad4780c9371f32ad9734a057de3776815fa7b94f9a8da4c8b26aedbd141',
+      currentIdentityDigest: '22dae3f548ca89c8bdd72c6789c8181677fdc4f3c85406adfa3ed83357719b37',
+      fileSha256: '9b4f6a56a081e109a4b2693d40e7fbd2bd15283cc9d747d66392ee001e165f50',
+    },
+    {
+      file: 'packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts',
+      previous: 33,
+      current: 10,
+      previousIdentityDigest: 'cf3a8254a419939da955618062848809cfd97e431d0483f460c0d74fcf5d2bf6',
+      currentIdentityDigest: 'd1bf5ff029332e64644cf3f28087a951402200bd962d0827000c2211e76a2595',
+      fileSha256: '8f326ab2cc1dc422ed114bfe6ee124b4ea81e24c5c27865cb983eccc6199e2ae',
+    },
+    {
+      file: 'packages/game/src/core/equip-effect.test.ts',
+      previous: 36,
+      current: 6,
+      previousIdentityDigest: '0234f713ca93455d83ca7c45446c272957e2a1002fcf83045850582496d964b6',
+      currentIdentityDigest: 'f9dfd610b46ecbd01d63d0afdea12cd52299c59045ba8d3f40b5fac5c8514f61',
+      fileSha256: '79505fac62dbe6338c669dba6e1c182de4e6054daf1ac0fa63cf73f1a196ef3c',
+    },
+    {
+      file: 'packages/game/src/core/menu/script-desc.test.ts',
+      previous: 6,
+      current: 5,
+      previousIdentityDigest: '0f0c5a24ce655c3b2ff35c746f927477393182c1a51953454bba22f3cf8b9c22',
+      currentIdentityDigest: '9e548f29c09c146081c7f6666742ce7c2574c98ebcdb554e36cc068865193960',
+      fileSha256: 'cdc2ac33b921eb8f453717375cbc2ffd74174f4c414e5def0febc6720a42d778',
+    },
     // User2026-11-02: exact boat auto retirement; dedicated ride proof stays active.
     {
       file: 'packages/reforge/src/pal-unified-steps-content.test.ts',

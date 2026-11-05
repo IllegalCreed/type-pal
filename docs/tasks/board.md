@@ -48,6 +48,10 @@ Template: governance-index-v1 / 1.0.0
 
 全量父卡、catalog/registry存储、原生JSON/Vitest与记录可信度五子卡已经按后继有效接受和最终主线硬门收口，006任务仅复用原技术/用户判断解除集成停止线。终态卡从活动分工退出，通过[生成索引](cards/index.md)检索；旧R波撤信不恢复，未知历史来源不认证。
 
+### 代码治理：最近完成的文件批次
+
+`QUALITY-PHASE1-PENDING-93-1`：原game78/pal-extract15已逐文件接受，含6项获准整改与旧回合15合同返工；Codex单一Coding Owner。中央3667/970/0/2697；原93不按拆分目的路径重复计数。组成门及必要失败恢复见[唯一回执](evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)，旧撤回不恢复。文件批次done不预授PR/main未来结果；发布按同一治理分支保护检查执行。
+
 ### 代码治理：既有批次与卡面收口
 
 下表仅保留本轮对账后仍未终态的12张卡，范围与下一步取原卡当前层；不能把登记风险当作已证玩家缺陷。
@@ -71,11 +75,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 | QUALITY-RLE-COMMAND-TRUTH-1 | [PAL资源来源规则](cards/QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 跨阶段 / 资源 | 当前canonical格式/decoder catch判别力边界 | 核合法大图与caller合同，不默认扩大格式修复 |
 | GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](cards/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 第一阶段 | 未批③：已学法术显示真值与可用范围 | 先核DOS实机或用户产品选择，保持draft |
 
-### 测试与覆盖率：当前返工卡
-
-| ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
-|---|---|---|---|---|---|
-| TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界](cards/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 第一阶段 | 原 accept 撤回；合法输入和原始业务反控须对账 | GLM 原贡献 / Codex 接收；先核当前后继证据，只补未闭合合同，不按全绿自动 accept |
+战斗回合返工已并入上述有限批次收口，旧15VALID/accept永久撤回；原卡由[生成索引](cards/index.md)按需追溯，不再保留活动席位。
 
 ## 第二阶段功能开发
 
