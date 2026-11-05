@@ -87,7 +87,8 @@ await runBrowserJourney({
   traceConfig: 'scripts/e2e/fairy-island-maze-reforge.config.mts',
   arguments: [options.headed ? '--headed' : '--headless'],
   viewport: { width: 1280, height: 800 },
-  journeyTimeoutMs: 420_000,
+  // This route has 31 moving rafts as well as live dialogue and scene transitions.
+  journeyTimeoutMs: 540_000,
   initScripts: [fairyIslandMazeObserverScript(), installCommittedRoutePlayback],
   sources: [
     ...ERRAND_TRACE_TARGETS.filter((path) => path.startsWith('packages/reforge/')),
@@ -126,7 +127,8 @@ await runBrowserJourney({
     const readUi = () => page.evaluate(() => window.__mazeReadUi())
     const readOrder = () =>
       page.evaluate(() => window.__readErrandDrive(Number.MAX_SAFE_INTEGER).order)
-    const evidence = () => page.evaluate(() => window.__readErrandRouteEvidence())
+    const evidence = async () =>
+      JSON.parse(await page.evaluate(() => JSON.stringify(window.__readErrandRouteEvidence())))
     const press = (key, reason) =>
       pressRecordedKey({
         keyboard: page.keyboard,

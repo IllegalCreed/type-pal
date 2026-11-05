@@ -21,15 +21,8 @@ function createMazeCausalObserver(createCausal, options) {
   return createCausal({
     ...options,
     append(list, event, limit) {
-      // Commands retain their clocks. Idle frame bookkeeping duplicates the
-      // sampled render stream without adding a script or movement boundary.
-      if (
-        ['clock', 'cadence', 'action-frame-start', 'action-frame-end', 'action-gate'].includes(
-          event.phase,
-        ) ||
-        (event.phase === 'dialogue-presentation' && !event.slots.length)
-      )
-        return
+      // Commands retain their clocks without also recording every frame clock.
+      if (event.phase === 'clock') return
       const author = event.author
       if (
         event.phase === 'run-started' &&
@@ -55,30 +48,46 @@ function createMazeCausalObserver(createCausal, options) {
 
 function mazeActorHasChanged(id, before, actor, exact) {
   if (!before || exact || !isMazeRaft(id)) return JSON.stringify(before) !== JSON.stringify(actor)
-  const pose = ({ position, facing, visible, state, sprite, behavior }) => ({
-    position,
-    facing,
-    visible,
-    state,
-    sprite,
-    trigger: behavior?.trigger,
-    triggerActivation: behavior?.triggerActivation,
-    page: behavior?.page,
-  })
-  return JSON.stringify(pose(before)) !== JSON.stringify(pose(actor))
+  return (
+    before.position.some((value, axis) => value !== actor.position[axis]) ||
+    before.facing !== actor.facing ||
+    before.visible !== actor.visible ||
+    before.state !== actor.state ||
+    before.sprite !== actor.sprite ||
+    before.behavior?.page !== actor.behavior?.page ||
+    JSON.stringify(before.behavior?.trigger) !== JSON.stringify(actor.behavior?.trigger) ||
+    JSON.stringify(before.behavior?.triggerActivation) !==
+      JSON.stringify(actor.behavior?.triggerActivation)
+  )
 }
 
-function installMazePointSampling() {
+function installMazePointSampling(setSkipSnapshot) {
   const point = globalThis.__errandPoint
-  const ambient = new WeakSet()
+  const ambient = new WeakMap()
+  const ambientSignals = new WeakSet()
   let exactSnapshot = false
-  let lastDraw
-  globalThis.__errandPoint = (source, state) => {
-    if (source === 'render:world') {
-      const draw = `${state.scene}/${state.tick}/${state.routeReady}/${state.routeDialogue}`
-      if (draw === lastDraw) return
-      lastDraw = draw
+  let skipSnapshot = false
+  const withSnapshotPolicy = (exact, skip, observe) => {
+    const previous = { exactSnapshot, skipSnapshot }
+    exactSnapshot = exact
+    skipSnapshot = skip
+    setSkipSnapshot(skip)
+    try {
+      return observe()
+    } finally {
+      exactSnapshot = previous.exactSnapshot
+      skipSnapshot = previous.skipSnapshot
+      setSkipSnapshot(skipSnapshot)
     }
+  }
+  const draws = new Map()
+  globalThis.__mazeCaptureDraw = (source, scene, tick, ready, dialogue) => {
+    const draw = `${scene}/${tick}/${ready}/${dialogue}`
+    if (draw === draws.get(source)) return false
+    draws.set(source, draw)
+    return true
+  }
+  globalThis.__errandPoint = (source, state) => {
     point(source, { ...state, mazeExactSnapshot: exactSnapshot || source === 'commit:scene-ready' })
   }
   for (const suffix of ['Run', 'Step', 'LeafCompleted', 'Settled', 'Ended']) {
@@ -86,18 +95,38 @@ function installMazePointSampling() {
     const observe = globalThis[name]
     globalThis[name] = (runner, ...args) => {
       if (suffix === 'Run') {
-        if (args[1]?.timing === 'auto') ambient.add(runner)
-        else ambient.delete(runner)
+        const [signal, data] = args
+        if (data.timing === 'auto' && data.self?.scene === 's017' && isMazeRaft(data.self.entity)) {
+          ambient.set(runner, { paths: new Set(), repeat: false })
+          ambientSignals.add(signal)
+        } else ambient.delete(runner)
       }
-      const previous = exactSnapshot
-      exactSnapshot = !ambient.has(runner)
-      try {
-        return observe(runner, ...args)
-      } finally {
-        exactSnapshot = previous
+      const loop = ambient.get(runner)
+      if (loop && suffix === 'Step') {
+        const path = JSON.stringify(args[0].path)
+        loop.repeat = loop.paths.has(path)
+        loop.paths.add(path)
       }
+      const repeat = !!loop?.repeat && ['Step', 'LeafCompleted'].includes(suffix)
+      // Repeated automatic leaves still advance native observer identities and
+      // timers. Only their unretained full-world snapshots are skipped.
+      return withSnapshotPolicy(!loop, repeat, () => observe(runner, ...args))
     }
   }
+  const observeTimer = globalThis.__openingCauseTimer
+  globalThis.__openingCauseTimer = (phase, timer, signal, data) =>
+    withSnapshotPolicy(exactSnapshot, ambientSignals.has(signal), () =>
+      observeTimer(phase, timer, signal, data),
+    )
+  const observeDialogue = globalThis.__openingCauseDialogueDraw
+  globalThis.__openingCauseDialogueDraw = (engine, slots) => {
+    if (slots.length) observeDialogue(engine, slots)
+  }
+  // These independent diagnostic frame streams are outside the maze oracle.
+  globalThis.__openingCauseCadence = undefined
+  globalThis.__openingCauseActionFrame = undefined
+  globalThis.__openingCauseActionGate = undefined
+  globalThis.__openingCauseActionGateInputs = undefined
 }
 
 export function fairyIslandMazeObserverScript() {
@@ -111,6 +140,24 @@ export function fairyIslandMazeObserverScript() {
     observer,
     'JSON.stringify(before) !== JSON.stringify(actor)',
     'mazeActorHasChanged(id, before, actor, state.mazeExactSnapshot)',
+    1,
+  )
+  observer = replaceAnchor(
+    observer,
+    "(id === 'party' && (newVisit || source === 'commit:refreshRuntimeProjection'))",
+    "(id === 'party' && newVisit)",
+    1,
+  )
+  observer = replaceAnchor(
+    observer,
+    'startPoint(source, state)\n',
+    'startPoint(source, state)\n      const orderBeforePoint = order\n',
+    1,
+  )
+  observer = replaceAnchor(
+    observer,
+    'final = structuredClone(state)',
+    "if (source !== 'commit:refreshRuntimeProjection' || order !== orderBeforePoint) final = structuredClone(state)",
     1,
   )
   observer = replaceAnchor(
@@ -129,7 +176,31 @@ export function fairyIslandMazeObserverScript() {
     globalThis.__readErrandRouteEvidence = () =>`,
     1,
   )
-  return `(() => { const isMazeRaft = ${isMazeRaft}; const mazeActorHasChanged = ${mazeActorHasChanged}; (${observer})(options => (${createMazeCausalObserver})((${createScriptCausalObserver}), options), ${createEvidenceRecorder}, ${createSnapshotGraph}); (${installMazePointSampling})(); })()`
+  observer = replaceAnchor(
+    observer,
+    "events: events.filter((e) => e.kind === 'actor' && e.id === 'party'),",
+    `events: events.filter((e) => e.kind === 'actor' && e.id === 'party' && e.source === 'commit:player.input'),`,
+    1,
+  )
+  let causal = replaceAnchor(
+    createScriptCausalObserver.toString(),
+    'const snapshotReforge = () => {',
+    'const snapshotReforge = () => {\n    if (skipMazeCausalSnapshot) return',
+    1,
+  )
+  causal = replaceAnchor(
+    causal,
+    'globalThis.__openingCauseFrame = (data) => {\n    snapshotReforge()',
+    'globalThis.__openingCauseFrame = (data) => {',
+    1,
+  )
+  return `(() => {
+    let skipMazeCausalSnapshot = false;
+    const isMazeRaft = ${isMazeRaft};
+    const mazeActorHasChanged = ${mazeActorHasChanged};
+    (${observer})(options => (${createMazeCausalObserver})((${causal}), options), ${createEvidenceRecorder}, ${createSnapshotGraph});
+    (${installMazePointSampling})(skip => { skipMazeCausalSnapshot = skip; });
+  })()`
 }
 
 export function fairyIslandMazeTracePlugin() {
@@ -148,6 +219,15 @@ export function fairyIslandMazeTracePlugin() {
           code,
           "['s001','s002','s003','s004','s005','s014']",
           JSON.stringify(mazeScenes),
+          1,
+        )
+        code = replaceAnchor(
+          code,
+          'const slot=value=>value?{selection:value.selection,cursor:value.cursor}:null;',
+          `if ((source==='render:world'||source==='before:render') && !globalThis.__mazeCaptureDraw(source,sid,tick,
+            !runner&&!dialogBox.active&&!presentation.busy()&&!menus.active&&!battleHost.active&&fadeDriver.value===0&&ditherTransition.active===null,
+            dialogBox.active)) return;
+          const slot=value=>value?{selection:value.selection,cursor:value.cursor}:null;`,
           1,
         )
         const marker = 'const rewardGainQueue = new RewardGainQueue()'
