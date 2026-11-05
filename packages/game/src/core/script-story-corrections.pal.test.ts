@@ -32,11 +32,19 @@ function environment(scene = 81) {
 // Keep dialogue and confirm processing real; only advance the clock deterministically.
 function play(
   env: ReturnType<typeof environment>,
-  ip: number,
-  owner: number,
-  denyCount = 0,
-  stopAfterCourtAnswer = false,
-  onEnterScene?: number,
+  {
+    ip,
+    owner = 0,
+    denyCount = 0,
+    stopAfterCourtAnswer = false,
+    onEnterScene,
+  }: {
+    ip: number
+    owner?: number
+    denyCount?: number
+    stopAfterCourtAnswer?: boolean
+    onEnterScene?: number
+  },
 ) {
   const { gs, bus } = env
   const lines: string[] = []
@@ -86,7 +94,12 @@ afterEach(() => {
 
 describe('PAL authored script corrections: court and gate', () => {
   it('orders one beating demand before each answer and repeats only after denial', () => {
-    const result = play(environment(), 14457, 1518, 2, true)
+    const result = play(environment(), {
+      ip: 14457,
+      owner: 1518,
+      denyCount: 2,
+      stopAfterCourtAnswer: true,
+    })
     expect(result.answers).toBe(3)
     expect(result.lines).toEqual([
       '还不肯招？再打！',
@@ -100,7 +113,7 @@ describe('PAL authored script corrections: court and gate', () => {
 
   it.each([1599, 1600, 1601])('opening the gate through guard %i moves it only once', (first) => {
     const env = environment(84)
-    play(env, 14971, 1518)
+    play(env, { ip: 14971, owner: 1518 })
     const gate = env.gs.allEventObjects![1599]!
     const initialX = gate.x
     const initialY = gate.y
@@ -109,7 +122,7 @@ describe('PAL authored script corrections: court and gate', () => {
       const npc = env.gs.allEventObjects![id]!
       const ip = npc.triggerResume?.ip ?? Number(npc.triggerLabel?.slice(2))
       expect(Number.isInteger(ip)).toBe(true)
-      const result = play(env, ip, id)
+      const result = play(env, { ip, owner: id })
       expect(result.lines).toEqual(
         index === 0
           ? ['奉太守之命，可让两位出城。']
@@ -122,18 +135,18 @@ describe('PAL authored script corrections: court and gate', () => {
 
 it('completes the altar farewell onEnter without replaying it on the next visit', () => {
   const env = environment(77)
-  const first = play(env, 12820, 0, 0, false, 77)
+  const first = play(env, { ip: 12820, onEnterScene: 77 })
   expect(first.lines).toContain('韩医仙一行人走了')
   const resume = env.gs.sceneOnEnterIp[77]
   expect(resume).toBeDefined()
-  const second = play(env, resume!, 0, 0, false, 77)
+  const second = play(env, { ip: resume!, onEnterScene: 77 })
   expect(second.lines).toEqual([])
 })
 
 it.each([0, 2])('keeps the scholar hiring state %i until his dialogue decision', (hiredState) => {
   const env = environment(102)
   env.gs.allEventObjects![1882]!.sState = hiredState
-  const result = play(env, 16389, 1883)
+  const result = play(env, { ip: 16389, owner: 1883 })
   expect(result.lines.includes('二．．二位．．英雄')).toBe(hiredState === 0)
   expect(env.gs.allEventObjects![1882]!.sState).toBe(0)
 })
@@ -165,7 +178,7 @@ it('handing over thirty-six worms clears Gai Luojiao and her retinue on the earl
       (state) => state! > 0,
     ),
   ).toBe(true)
-  play(env, 28419, 2862)
+  play(env, { ip: 28419, owner: 2862 })
   expect(env.gs.inventory.find((item) => item.itemId === 152)?.count ?? 0).toBe(0)
   expect(Array.from({ length: 7 }, (_, i) => env.gs.allEventObjects![3657 + i]!.sState)).toEqual([
     0, 0, 0, 0, 0, 0, 0,
@@ -177,7 +190,7 @@ it('repairs the original corrupt farewell text without adding a garbage question
   const env = environment(9)
   env.gs.allEventObjects![188]!.triggerResume = { ip: 3919 }
   for (let attempt = 0; attempt < 2; attempt++) {
-    const result = play(env, 3919, 188)
+    const result = play(env, { ip: 3919, owner: 188 })
     expect(result.lines).toEqual(['呵．．怎么可能嘛，不要放', '在心上，大概是我老眼昏花', '看错了'])
   }
 })

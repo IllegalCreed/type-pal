@@ -5,11 +5,11 @@ import {
   makeEnemyRecord as makeEnemy,
   makeRoleRecord as makeRole,
 } from '../../__tests__/battle-records.js'
-import { makeBattle, seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../__tests__/scripted-rng.js'
 import type { BattleCtx } from '../event-system.js'
 import { hydratePlayerRolesRuntime } from '../game-state.js'
 import { setObjectPoisons } from '../player-poison-state.js'
-import { damageNums } from './battle-opcode.test-fixtures.js'
+import { damageNums, makeOpcodeBattle } from './battle-opcode.test-fixtures.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
 function makeMagic(id: number, overrides: Partial<Magic> = {}): Magic {
@@ -65,9 +65,9 @@ const poison = (id: number, enemyScript: number): ObjectPoisonView => ({
 afterEach(() => setObjectPoisons([]))
 describe('0x42 SimulateMagic 目标解析与特效音', () => {
   it('op2 显式目标(op2-1≥0)→ 只打指定敌;applyToAll → 全体活敌各中一发', () => {
-    const { gs, state, playerRoles, bus } = makeBattle({
+    const { gs, state, playerRoles, bus } = makeOpcodeBattle({
       enemies: [makeEnemy({ health: 9000 }), makeEnemy({ id: 101, health: 9000 }), null],
-      rng: seqRng([3, 3, 3, 3, 3, 3, 3, 3]),
+      rng: lowerBoundRng([3, 3, 3, 3, 3, 3, 3, 3]),
     })
     const magics = [makeMagic(0, { baseDamage: 200 })]
     const objectMagics = [makeObjectMagic(24, 0)]
@@ -101,7 +101,7 @@ describe('0x42 SimulateMagic 目标解析与特效音', () => {
   })
 
   it('无 magicTables → consumed no-op,零变异(state.enemies 不动)', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     const ctx: BattleCtx = { state }
     const h = state.enemies[0]!.e.health
     expect(dispatchBattleOpcode(0x42, [24, 50, 0], ctx)).toEqual({ consumed: true })
@@ -109,7 +109,7 @@ describe('0x42 SimulateMagic 目标解析与特效音', () => {
   })
 
   it('有表无特效上下文且 mg.sound>0 → magic.sound 即时进 gs.pendingSounds', () => {
-    const { gs, state } = makeBattle()
+    const { gs, state } = makeOpcodeBattle()
     const ctx: BattleCtx = {
       state,
       gs,
@@ -125,8 +125,8 @@ describe('0x42 SimulateMagic 目标解析与特效音', () => {
 })
 describe('0x66 ThrowWeapon 攻击力系数', () => {
   it('player caster 使用已hydrate的裸武术60与roll2，精确造成313伤害', () => {
-    const rng = seqRng([2])
-    const { gs, state, playerRoles, bus } = makeBattle({ rng })
+    const rng = lowerBoundRng([2])
+    const { gs, state, playerRoles, bus } = makeOpcodeBattle({ rng })
     hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
     const ctx: BattleCtx = {
       state,
@@ -152,7 +152,7 @@ describe('0x66 ThrowWeapon 攻击力系数', () => {
   })
 
   it('enemy caster 无玩家武术项，操作数150仍造成53伤害', () => {
-    const { gs, state, bus } = makeBattle({ rng: seqRng([1, 3, 3, 3, 3, 3, 3, 3]) })
+    const { gs, state, bus } = makeOpcodeBattle({ rng: lowerBoundRng([1, 3, 3, 3, 3, 3, 3, 3]) })
     const ctx: BattleCtx = {
       state,
       gs,
@@ -172,7 +172,7 @@ describe('0x66 ThrowWeapon 攻击力系数', () => {
 })
 describe('0x21 InflictDamage 全体/单体/超杀钳零', () => {
   it('op0≠0 全体:活敌各扣 op1,死敌(defeated)跳过', () => {
-    const { state, bus } = makeBattle({
+    const { state, bus } = makeOpcodeBattle({
       enemies: [makeEnemy({ health: 100 }), makeEnemy({ id: 101, health: 100 }), null],
     })
     state.enemies[1]!.defeated = true
@@ -190,7 +190,7 @@ describe('0x21 InflictDamage 全体/单体/超杀钳零', () => {
   })
 
   it('op0=0 单体超杀:health 钳 0,显示完整算出伤害(fullDamage)', () => {
-    const { state, bus } = makeBattle({ enemies: [makeEnemy({ health: 10 })] })
+    const { state, bus } = makeOpcodeBattle({ enemies: [makeEnemy({ health: 10 })] })
     const ctx: BattleCtx = { state, bus, target: { type: 'enemy', idx: 0 } }
     expect(dispatchBattleOpcode(0x21, [0, 999, 0], ctx).consumed).toBe(true)
     expect(state.enemies[0]!.e.health).toBe(0)
@@ -199,7 +199,7 @@ describe('0x21 InflictDamage 全体/单体/超杀钳零', () => {
   })
 
   it('op0=0 且无 ctx.target → 空操作零变异', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     const ctx: BattleCtx = { state }
     const h = state.enemies[0]!.e.health
     expect(dispatchBattleOpcode(0x21, [0, 30, 0], ctx).consumed).toBe(true)
@@ -208,7 +208,7 @@ describe('0x21 InflictDamage 全体/单体/超杀钳零', () => {
 })
 describe('0x57/0x88 法术伤害改写(酒神/乾坤一掷)', () => {
   it('0x57:magic.baseDamage=caster.mp*i;op1=0 → i=8;caster.mp 清 0;无表/无 magic no-op', () => {
-    const { state, playerRoles } = makeBattle({ roles: [makeRole(0, { mp: 20 })] })
+    const { state, playerRoles } = makeOpcodeBattle({ roles: [makeRole(0, { mp: 20 })] })
     const magics = [makeMagic(3)]
     const ctx: BattleCtx = {
       state,
@@ -230,7 +230,7 @@ describe('0x57/0x88 法术伤害改写(酒神/乾坤一掷)', () => {
   })
 
   it('0x88:cash>5000 → 扣 5000、baseDamage=2000;cash<5000 → 全扣;无 gs no-op', () => {
-    const { state, gs } = makeBattle()
+    const { state, gs } = makeOpcodeBattle()
     gs.dwCash = 8000
     const magics = [makeMagic(5)]
     const ctx: BattleCtx = {
@@ -252,7 +252,7 @@ describe('0x57/0x88 法术伤害改写(酒神/乾坤一掷)', () => {
 })
 describe('0x5B HalveEnemyHP', () => {
   it('w=health/2+1 超 cap → 钳 cap;无 target / 目标槽空 → no-op', () => {
-    const { state, bus } = makeBattle({ enemies: [makeEnemy({ health: 101 })] })
+    const { state, bus } = makeOpcodeBattle({ enemies: [makeEnemy({ health: 101 })] })
     const ctx: BattleCtx = { state, bus, target: { type: 'enemy', idx: 0 } }
     dispatchBattleOpcode(0x5b, [10, 0, 0], ctx)
     expect(state.enemies[0]!.e.health).toBe(91) // 101-10(cap)
@@ -265,7 +265,7 @@ describe('0x5B HalveEnemyHP', () => {
 })
 describe('0x5F KillPlayer / 0x5A HalvePlayerHP', () => {
   it('0x5F:target player → hp=0 + blue 数字;无 player 上下文 → no-op', () => {
-    const { state, playerRoles, bus } = makeBattle({ roles: [makeRole(0)] })
+    const { state, playerRoles, bus } = makeOpcodeBattle({ roles: [makeRole(0)] })
     const ctx: BattleCtx = { state, playerRoles, bus, target: { type: 'player', idx: 0 } }
     dispatchBattleOpcode(0x5f, [0, 0, 0], ctx)
     expect(playerRoles.roles[0]!.hp).toBe(0)
@@ -277,7 +277,7 @@ describe('0x5F KillPlayer / 0x5A HalvePlayerHP', () => {
   })
 
   it('0x5A:hp 减半(向下取整)+ blue 数字;无 player 上下文 no-op', () => {
-    const { state, playerRoles, bus } = makeBattle({ roles: [makeRole(0, { hp: 101 })] })
+    const { state, playerRoles, bus } = makeOpcodeBattle({ roles: [makeRole(0, { hp: 101 })] })
     const ctx: BattleCtx = { state, playerRoles, bus, target: { type: 'player', idx: 0 } }
     dispatchBattleOpcode(0x5a, [0, 0, 0], ctx)
     expect(playerRoles.roles[0]!.hp).toBe(50)
@@ -286,7 +286,7 @@ describe('0x5F KillPlayer / 0x5A HalvePlayerHP', () => {
 })
 describe('0x1B/0x1C/0x1D 战内 HP/MP delta', () => {
   it('0x1B applyAll:全队(死人跳过),fScriptSuccess=anyChanged;单体无改动 → false', () => {
-    const { state, gs, playerRoles, bus } = makeBattle({
+    const { state, gs, playerRoles, bus } = makeOpcodeBattle({
       roles: [makeRole(0, { hp: 50 }), makeRole(1, { hp: 0 })],
     })
     const ctx: BattleCtx = { state, gs, playerRoles, bus }
@@ -309,7 +309,7 @@ describe('0x1B/0x1C/0x1D 战内 HP/MP delta', () => {
   })
 
   it('0x1C 单体 MP:回蓝发 cyan;掉蓝不发;0x1D 双回(HP yellow + MP cyan)', () => {
-    const { state, gs, playerRoles, bus } = makeBattle({
+    const { state, gs, playerRoles, bus } = makeOpcodeBattle({
       roles: [makeRole(0, { hp: 50, mp: 10 })],
     })
     const ctx: BattleCtx = {
@@ -339,14 +339,14 @@ describe('0x1B/0x1C/0x1D 战内 HP/MP delta', () => {
   })
 
   it('无 playerRoles / 无 player 上下文单目标 → 空集 no-op', () => {
-    const { state, gs } = makeBattle()
+    const { state, gs } = makeOpcodeBattle()
     expect(dispatchBattleOpcode(0x1b, [0, 5, 0], { state, gs })).toEqual({ consumed: true })
     expect(dispatchBattleOpcode(0x1c, [0, 5, 0], { state, gs })).toEqual({ consumed: true })
   })
 })
 describe('0x22 战内 RevivePlayer', () => {
   it('applyAll:复活死人(比例+清临时状态但保留装备状态+currentFrame复位+清≤3级毒);fScriptSuccess=anyRevived', () => {
-    const { state, gs, playerRoles } = makeBattle({
+    const { state, gs, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { hp: 0 }), makeRole(1, { hp: 80 })],
     })
     state.players[0]!.status.bravery = 999
@@ -373,7 +373,7 @@ describe('0x22 战内 RevivePlayer', () => {
   })
 
   it('单体复活按目标队伍位置选择角色：保留装备状态，不修改活队友状态', () => {
-    const { state, gs, playerRoles } = makeBattle({
+    const { state, gs, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { hp: 0 }), makeRole(1, { hp: 80 })],
       party: [1, 0],
     })
@@ -397,7 +397,7 @@ describe('0x22 战内 RevivePlayer', () => {
   })
 
   it('单体复活活人 → fScriptSuccess=false;无 player 上下文 → 空目标 no-op', () => {
-    const { state, gs, playerRoles } = makeBattle({ roles: [makeRole(0, { hp: 80 })] })
+    const { state, gs, playerRoles } = makeOpcodeBattle({ roles: [makeRole(0, { hp: 80 })] })
     const ctx: BattleCtx = {
       state,
       gs,
@@ -413,7 +413,7 @@ describe('0x22 战内 RevivePlayer', () => {
 })
 describe('0x39 DrainHP', () => {
   it('0x39:敌扣血、caster 回血钳 maxHP;缺少 target 时敌方体力不变', () => {
-    const { state, gs, playerRoles, bus } = makeBattle({
+    const { state, gs, playerRoles, bus } = makeOpcodeBattle({
       roles: [makeRole(0, { hp: 90, maxHP: 100 })],
       enemies: [makeEnemy({ health: 500 })],
     })
@@ -439,7 +439,7 @@ describe('0x39 DrainHP', () => {
 })
 describe('0x60 EnemyImmediateKO', () => {
   it('0x60:target(enemy)KO 血 0 + blue;无 enemy 上下文 no-op', () => {
-    const { state, bus } = makeBattle({ enemies: [makeEnemy({ health: 400 })] })
+    const { state, bus } = makeOpcodeBattle({ enemies: [makeEnemy({ health: 400 })] })
     dispatchBattleOpcode(0x60, [0, 0, 0], {
       state,
       bus,

@@ -26,11 +26,17 @@ Template: guide-runbook-v1 / 1.0.0
 
 浏览器语言偏好独立于存档，启动先恢复偏好、挂静态壳层，再装载资源；加载失败只切换本次有效语言，不覆盖玩家偏好。`languages.json`未声明`en`时不请求`en.json`；装载器校验整个包后才安装，不能发布半份词表/消息/布局。`source.scriptSha256`是纠正后指令流指纹，不能拿原始SSS归档SHA替代。翻译切换不改已捕获的对话历史；静态壳层对进度状态节点仅在`data-initial`仍为`true`时写入，避免覆盖进度或失败说明。来源：[语言服务](../../packages/game/src/localization/language.ts)、[资源入口](../../packages/game/src/assets/language-pack.ts)、[启动静态文案](../../packages/game/src/localization/static-shell.ts)、[启动接线](../../packages/game/src/shell/bootstrap.ts)及[壳层审查](../tasks/evidence/GAME-ENGLISH-1/shell-review.json)。
 
+物品描述只扫描当前全局目录的有界线性描述段（showDialog、0xA7、end），不是通用自动脚本解释器。32的上限单位是源指令条数，不是译文行数；菜单通过script-catalog查入口，不能反向依赖完整事件执行器。原盘魔法描述由SDLPal magicmenu.c读取OBJECT的item.wScriptDesc（WORD5），不能只按magic结构的WORD4重写保留逻辑。
+
 ### 物品脚本后的库存所有权
 
 使用和投掷脚本可能删除、追加或重建inventory条目；动作结束后的扣除必须按物品ID重查当前条目，不能持有脚本前的entry跨过解释器调用。使用物品还要读脚本后的Consuming标志；投掷始终按投掷流程消耗。两者都保留正常最后一次消耗后的count0行；若脚本已把库存耗尽，不再减成负数。来源为[使用动作](../../packages/game/src/core/battle/actions/item.ts)、[投掷动作](../../packages/game/src/core/battle/actions/throw-item.ts)及SDLPal fight.c对应UseItem/ThrowItem分支中的脚本后PAL_AddItemToInventory。合法小脚本已复现重建条目角点，普通原盘剧情是否触发尚未证明。
 
-### 合击后的行动吞并
+### 战斗动画与动作的所有权
+
+[动画建链入口](../../packages/game/src/core/battle/anim-timeline.ts)保留稳定导出，具体实现按手势、物理、法术、受击、合击、召唤和敌变形组织在`core/battle/animation/`。builder只产帧，不执行脚本、结算伤害或扣资源；位置与嵌套帧可借用，caller须提供在本次播放期间稳定的快照。逃跑文本读取当前locale，吹飞可推进传入RNG，因此不能笼统称为无外部依赖的纯函数。
+
+动作协调器负责资源前提、脚本和成本，driver负责应用帧/清理，present负责视觉细分与召唤loop/crossfade；不能在重组时互相搬入这些职责。前摇坐标按每步整除后累计（x减10、y减4），治疗辉光是0..5再6..0共13帧；SDLPal `RandomLong(0,0)`不推进随机状态。测试若声称施法、加速或回合末状态的接线，须走真实解释器/选择队列/控制器；直接调用公式或手工安排函数顺序只能证明相应组件，不能证明调度。
 
 合击生产者置`fThisTurnCoop`后，本回合后续玩家行动已吞并；[回合控制器](../../packages/game/src/core/battle/battle-system.ts)不得在混乱分支重新选靶覆盖pass，也不能为已吞行动消耗选靶随机数。合击的健康参与者判定、正常混乱选人及伤害公式分别保留原合同。核接线须先经真实合击菜单/执行，再观察后续混乱队员；单独手填flag只能证明消费者分支。
 
@@ -55,6 +61,8 @@ Template: guide-runbook-v1 / 1.0.0
 MIDI的public worklet是`spessasynth_lib`供应者生成物，不手改压缩算法。更新冻结依赖时同步供应者的worklet与[Apache许可证](../../packages/game/public/spessasynth-LICENSE.txt)，通过[字节/notice合同](../../scripts/quality/game-midi-worklet.test.mjs)核复制一致，并复验实际后端加载、失败拒绝与dispose；供应者版本一致不代替原生浏览器生命周期验收。当前生成物边界按[本批用户裁决及原生证据](../tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md#回合开发落点与资源宿主最后4个原主体)授信，不宣称上游合成算法、物理听感或全浏览器已审。
 
 响应体返回客户端前须克隆缓存副本，再由`event.waitUntil`保活异步写入；不能等待打开cache后才clone已可能被消费的原响应。当前fetch缓存只收完整200，不把视频Range的206当完整对象。此处只沉淀[当前SW实现](../../packages/game/public/sw.js)及同一功能修复的生命周期边界，不重授旧离线/部署或全浏览器通过信用。
+
+资源版本由[提取器](../../packages/pal-extract/src/resources/asset-manifest.ts)对排序后的path/size/sha256生成；激活和每轮预缓存均检查版本，只删旧`type-pal-`缓存，离线读取manifest失败时保留已有缓存。暂停只阻止后续领取，不取消在途请求。`done`计已处理项；`bytes`按清单大小累计缓存命中或未抛错的响应，也含HTTP失败响应，均不代表全部资源已成功入cache。验离线能力须查实际命中，不能仅看进度到顶。
 
 ### 资源纠错的来源边界
 

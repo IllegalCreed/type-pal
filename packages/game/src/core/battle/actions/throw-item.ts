@@ -1,18 +1,8 @@
-import { getWord } from '../../word-lookup.js'
 /**
- * 投掷物 perform —— E2(战斗投掷物,kBattleActionThrowItem)。
- *
- * 对照 sdlpal `fight.c:4332-4376`:
- *   PAL_RunTriggerScript(item.wScriptOnThrow, (WORD)sTarget);  // eventObjectID = 目标敌人
- *   PAL_AddItemToInventory(wObject, -1);                       // 投掷物消耗 1
- *
- * 与 `performItem`(use 物品,scriptOnUse)的区别:
- *   - 跑 `item.scriptOnThrow`(不是 scriptOnUse)。
- *   - 注入 `battleCtx.magicTables`(magics + objectMagics)—— scriptOnThrow 几乎都跑
- *     `0x42 SimulateMagic`,需 magic 表解析 op0(magic object id → magicNumber/baseDamage)。
- *   - `battleCtx.target` = 被掷敌人(0x42 op2=0 时当 eventObjectID 用)。
- *
- * 43 个投掷物(天师符/风灵符/梅花镖/银针/各种卵·蛊·毒草)的 scriptOnThrow 都靠这条。
+ * Battle throw coordinator (SDLPal kBattleActionThrowItem): run the object's
+ * throw script, consume the current inventory entry, then play windup/effects.
+ * Script effects own damage; this module collects their frames and deferred
+ * numbers so presentation follows the throw instead of preceding it.
  */
 
 import type {
@@ -26,6 +16,7 @@ import type {
 import type { CommandBus } from '../../command-bus.js'
 import type { GameState } from '../../game-state.js'
 import { getItemScriptEntry, setItemScriptEntry } from '../../object-script-state.js'
+import { getWord } from '../../word-lookup.js'
 import { buildThrowWindupTimeline } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { RunScriptFn } from '../battle-runtime-context.js'
@@ -57,11 +48,11 @@ export interface PerformThrowItemInput {
   playerRoles: PlayerRoles
   /** Present 命令通道。 */
   bus: CommandBus
-  /** events.bin 全局 commands(scriptOnThrow 是其 ip)。 */
+  /** events/all.json 全局 commands(scriptOnThrow 是原始脚本 IP)。 */
   commands: Command[]
   /** EventSystem.runScript 注入。 */
   runScript: RunScriptFn
-  /** FIRE.MKF magic sprite 帧数 Map(0x42/0x66 建 OffMagic 特效帧用);省略 → 不建特效动画(向后兼容)。 */
+  /** FIRE.MKF magic sprite 帧数 Map(0x42/0x66 建 OffMagic 特效帧用);缺帧数时不建FIRE特效，已创建的挥臂仍保留。 */
   magicSpriteFrameCounts?: Map<number, number>
   /** enemyId → ABC.MKF frame0 height(PAL_RLEGetHeight),供脚本变身/召唤后保持命中特效落点。 */
   enemySpriteFrameHeights?: Map<number, number>
@@ -93,17 +84,13 @@ export function performThrowItem(input: PerformThrowItemInput): void {
   // —— 投掷挥臂动画前置(sdlpal fight.c:4339-4356,队员投 + 有 posOriginal)——
   //   挥臂(4 步前移 + frame5/6 + 投掷音 rgwMagicSound[role])在 scriptOnThrow(0x42 OffMagic 特效)之前。
   //   有动画 → scriptOnThrow 的 OffMagic 特效帧 + 伤害数字延迟收进缓冲,拼挥臂后一起 startBattleAnim;
-  //   无动画(敌投 / 旧 fixture 无 pos)→ 退化即时(向后兼容)。
+  //   没有队员位置时不建挥臂链；脚本副作用由原即时路径消费。
   const caster = input.state.players[input.casterIdx]
-  const hasAnim = !input.casterIsEnemy && !!caster?.posOriginal
+  const origin = !input.casterIsEnemy ? caster?.posOriginal : undefined
+  const hasAnim = origin !== undefined
   const magicSound = caster ? (input.playerRoles.roles[caster.roleId]?.magicSound ?? 0) : 0
-  const windup = hasAnim
-    ? buildThrowWindupTimeline(
-        input.casterIdx,
-        caster!.posOriginal!,
-        magicSound,
-        getWord(item.id, item._name),
-      )
+  const windup = origin
+    ? buildThrowWindupTimeline(input.casterIdx, origin, magicSound, getWord(item.id, item._name))
     : []
   const pendingAnimFrames: BattleAnimFrame[] = []
   const pendingDamageNums: NonNullable<BattleState['battleAnim']>['pendingDamageNums'] = []
@@ -134,7 +121,7 @@ export function performThrowItem(input: PerformThrowItemInput): void {
         runScript: input.runScript,
         enemySpriteFrameHeights: input.enemySpriteFrameHeights,
         // 投掷动画:0x42/0x66 把 OffMagic 特效帧 push 进 pendingAnimFrames;HP-mutate 数字延迟进 pendingDamageNums。
-        //   无动画(敌投/无 pos)→ 不传缓冲 → opcode 即时 emit + 音效即时(向后兼容)。
+        //   无挥臂链时不传缓冲，由opcode即时发送数字与音效。
         ...(hasAnim
           ? {
               pendingAnimFrames,

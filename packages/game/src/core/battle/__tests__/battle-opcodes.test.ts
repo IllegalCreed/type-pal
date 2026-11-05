@@ -14,7 +14,7 @@ import {
   makeEnemyRecord as makeEnemyStats,
   makeRoleRecord as makeRole,
 } from '../../../__tests__/battle-records.js'
-import { makeBattle, seqRng } from '../../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../../__tests__/scripted-rng.js'
 import {
   makeBattleEnemy,
   makeBattlePlayer,
@@ -31,22 +31,23 @@ import {
 import { type BattleCtx, runScript, setObjectPoisons } from '../../event-system.js'
 import { createInitialGameState, type GameState } from '../../game-state.js'
 import type { SeedableRng } from '../../rng.js'
+import { makeOpcodeBattle } from '../battle-opcode.test-fixtures.js'
 import { dispatchBattleOpcode } from '../battle-opcodes.js'
 import type { BattleEnemy, BattleState, BattleStatus } from '../battle-state.js'
 
 /** Direct-dispatch view: real constructor defaults plus typed case-specific axes, not a full startBattle. */
 function stateView(overrides: Partial<BattleState> = {}): BattleState {
-  return { ...makeBattle().state, ...overrides }
+  return { ...makeOpcodeBattle().state, ...overrides }
 }
 
 /** Keep scripted rolls inside the requested legal domain; other methods use the shared deterministic fixture. */
 function constantRoll(value = 0): SeedableRng {
-  return { ...seqRng(), rangeInclusive: (lo, hi) => Math.min(hi, Math.max(lo, value)) }
+  return { ...lowerBoundRng(), rangeInclusive: (lo, hi) => Math.min(hi, Math.max(lo, value)) }
 }
 
 /** Canonical cleared slot, so a negative summon probe has room to succeed if its guard is lost. */
 function emptyEnemySlot(): BattleEnemy {
-  return makeBattle({ enemies: [null] }).state.enemies[0]!
+  return makeOpcodeBattle({ enemies: [null] }).state.enemies[0]!
 }
 
 function makeEnemy(health: number, magic = 0, magicRate = 0): BattleEnemy {
@@ -162,7 +163,7 @@ describe('B-w2.a battle-opcodes dispatch', () => {
 
   it('0x0061:非顺序队伍按当前 party slot 读毒,role4 不会误读 roleId=4 槽', () => {
     setObjectPoisons([{ id: 552, level: 2, color: 0, playerScript: 0, enemyScript: 0 }])
-    const { gs, state } = makeBattle({
+    const { gs, state } = makeOpcodeBattle({
       roles: Array.from({ length: 5 }, (_, id) => makeRole(id)),
       party: [4, 1],
     })
@@ -692,7 +693,7 @@ describe('0x29/0x2B/0x2C player poison 战斗单目标(ctx.target 解析,绕开 
 
   it('0x29 施毒:非顺序队伍按 role→party slot 落槽,role4 写入 slot0', () => {
     setObjectPoisons([{ id: 557, level: 3, color: 0, playerScript: 0, enemyScript: 0 }])
-    const { gs, state, playerRoles } = makeBattle({
+    const { gs, state, playerRoles } = makeOpcodeBattle({
       roles: Array.from({ length: 5 }, (_, id) => makeRole(id)),
       party: [4, 1],
     })
@@ -1969,7 +1970,7 @@ describe('0x31 / 0x92 battle presentation opcodes', () => {
 // rangeInclusive(0,10)=roll010;rangeInclusive(2,3)=div23。其余 lo。
 function fakeRng(roll010: number, div23 = 2): SeedableRng {
   return {
-    ...seqRng(),
+    ...lowerBoundRng(),
     rangeInclusive: (lo: number, hi: number) => {
       if (lo === 0 && hi === 10) return roll010
       if (lo === 2 && hi === 3) return div23

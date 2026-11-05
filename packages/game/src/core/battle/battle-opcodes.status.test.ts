@@ -5,10 +5,10 @@ import {
   makeEnemyRecord as makeEnemy,
   makeRoleRecord as makeRole,
 } from '../../__tests__/battle-records.js'
-import { makeBattle, seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../__tests__/scripted-rng.js'
 import { type BattleCtx, runScript } from '../event-system.js'
 import { addPoisonForPlayer, setObjectPoisons } from '../player-poison-state.js'
-import { damageNums } from './battle-opcode.test-fixtures.js'
+import { damageNums, makeOpcodeBattle } from './battle-opcode.test-fixtures.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
 /** 0x28 读 objectPoisons[id](数组下标即对象号)→ 造 id 稠密索引数组。 */
@@ -28,9 +28,9 @@ const poison = (id: number, enemyScript: number): ObjectPoisonView => ({
 afterEach(() => setObjectPoisons([]))
 describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
   it('单体只毒target1：真实入口立即扣5血并保存续点3，非目标不受影响', () => {
-    const { state, gs, bus } = makeBattle({
+    const { state, gs, bus } = makeOpcodeBattle({
       enemies: [makeEnemy(), makeEnemy({ id: 101 })],
-      rng: seqRng([0, 0]),
+      rng: lowerBoundRng([0, 0]),
     })
     state.enemies[0]!.resistanceToSorcery = 9
     const commands: Command[] = [
@@ -59,9 +59,9 @@ describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
   })
 
   it('rng < 抗性 → 抵抗不落毒;同毒去重;缺 commands → fallback 存原始 enemyScript', () => {
-    const { state } = makeBattle({
+    const { state } = makeOpcodeBattle({
       enemies: [makeEnemy()],
-      rng: seqRng([0]),
+      rng: lowerBoundRng([0]),
     })
     state.enemies[0]!.resistanceToSorcery = 5
     const ctx: BattleCtx = {
@@ -72,7 +72,7 @@ describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
     dispatchBattleOpcode(0x28, [0, 77, 0], ctx)
     expect(state.enemies[0]!.poisons).toEqual([]) // roll 0 < 5 → 抵抗
     // 抗性 0 落毒,无 commands → scriptEntry 原始值
-    const fx2 = makeBattle({ enemies: [makeEnemy({})], rng: seqRng([9]) })
+    const fx2 = makeOpcodeBattle({ enemies: [makeEnemy({})], rng: lowerBoundRng([9]) })
     const ctx2: BattleCtx = {
       state: fx2.state,
       gs: fx2.gs,
@@ -87,9 +87,9 @@ describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
   })
 
   it('毒槽满 16 → 不再落;全体模式只为有空槽的活敌登记毒', () => {
-    const { state } = makeBattle({
+    const { state } = makeOpcodeBattle({
       enemies: [makeEnemy({}), makeEnemy({ id: 101 })],
-      rng: seqRng([9, 9, 9, 9]),
+      rng: lowerBoundRng([9, 9, 9, 9]),
     })
     state.enemies[0]!.poisons = Array.from({ length: 16 }, (_, i) => ({
       poisonId: 500 + i,
@@ -106,7 +106,7 @@ describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
   })
 
   it('op0=0 且无 target → 空操作', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     const ctx: BattleCtx = { state, objectPoisons: densePoisons([poison(77, 0)]) }
     dispatchBattleOpcode(0x28, [0, 77, 0], ctx)
     expect(state.enemies[0]!.poisons).toEqual([])
@@ -114,7 +114,7 @@ describe('0x28 ApplyPoison 抗性/去重/槽满/入口脚本', () => {
 })
 describe('0x2A CureEnemyPoisonKind 全体/单体/无 target', () => {
   it('op0≠0 → 全体活敌清指定毒,死敌不动;op0=0 → 只清 target', () => {
-    const { state } = makeBattle({
+    const { state } = makeOpcodeBattle({
       enemies: [makeEnemy({}), makeEnemy({ id: 101 }), makeEnemy({ id: 102 })],
     })
     state.enemies[0]!.poisons = [
@@ -136,7 +136,7 @@ describe('0x2A CureEnemyPoisonKind 全体/单体/无 target', () => {
   })
 
   it('op0=0 无 target → 空操作不炸', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     state.enemies[0]!.poisons = [{ poisonId: 77, scriptEntry: 0 }]
     dispatchBattleOpcode(0x2a, [0, 77, 0], { state })
     expect(state.enemies[0]!.poisons).toHaveLength(1)
@@ -144,7 +144,7 @@ describe('0x2A CureEnemyPoisonKind 全体/单体/无 target', () => {
 })
 describe('resolvePlayerPoisonTargets(0x2B/0x2C/0x29 目标解析)', () => {
   it('op0≠0 → 全队;op0=0 target(player)优先;无 target 退 caster;都无 → 空;无 gs no-op', () => {
-    const { gs, state, playerRoles } = makeBattle({
+    const { gs, state, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0), makeRole(1)],
     })
     setObjectPoisons([poison(77, 0)])
@@ -190,7 +190,7 @@ describe('resolvePlayerPoisonTargets(0x2B/0x2C/0x29 目标解析)', () => {
 })
 describe('0x2D SetPlayerStatus 战内状态三族', () => {
   it('坏状态 current=0 才写;已有不刷新;无 player target → no-op', () => {
-    const { state, playerRoles } = makeBattle({ roles: [makeRole(0)] })
+    const { state, playerRoles } = makeOpcodeBattle({ roles: [makeRole(0)] })
     const ctx: BattleCtx = {
       state,
       playerRoles,
@@ -206,7 +206,7 @@ describe('0x2D SetPlayerStatus 战内状态三族', () => {
   })
 
   it('puppet:死人可设更久;活人 → fScriptSuccess=false', () => {
-    const { state, gs, playerRoles } = makeBattle({ roles: [makeRole(0, { hp: 0 })] })
+    const { state, gs, playerRoles } = makeOpcodeBattle({ roles: [makeRole(0, { hp: 0 })] })
     const ctx: BattleCtx = { state, gs, playerRoles, target: { type: 'player', idx: 0 } }
     dispatchBattleOpcode(0x2d, [4, 5, 0], ctx)
     expect(state.players[0]!.status.puppet).toBe(5)
@@ -218,7 +218,7 @@ describe('0x2D SetPlayerStatus 战内状态三族', () => {
   })
 
   it('好状态:活人更久才写，较短持续时间与死人不覆盖', () => {
-    const { state, playerRoles } = makeBattle({ roles: [makeRole(0)] })
+    const { state, playerRoles } = makeOpcodeBattle({ roles: [makeRole(0)] })
     const ctx: BattleCtx = { state, playerRoles, target: { type: 'player', idx: 0 } }
     dispatchBattleOpcode(0x2d, [5, 3, 0], ctx) // bravery
     expect(state.players[0]!.status.bravery).toBe(3)
@@ -231,11 +231,11 @@ describe('0x2D SetPlayerStatus 战内状态三族', () => {
 })
 describe('0x2E SetEnemyStatus 命中/抵抗/非法', () => {
   it('rng≥抗性 → 命中写状态;rng<抗性 → newIp=op2;未知 statusId / 无敌 target → no-op', () => {
-    const hit = makeBattle({ enemies: [makeEnemy()], rng: seqRng([9]) })
+    const hit = makeOpcodeBattle({ enemies: [makeEnemy()], rng: lowerBoundRng([9]) })
     const hitCtx: BattleCtx = { state: hit.state, target: { type: 'enemy', idx: 0 } }
     expect(dispatchBattleOpcode(0x2e, [2, 6, 55], hitCtx)).toEqual({ consumed: true })
     expect(hit.state.enemies[0]!.status.sleep).toBe(6)
-    const resist = makeBattle({ enemies: [makeEnemy()], rng: seqRng([0]) })
+    const resist = makeOpcodeBattle({ enemies: [makeEnemy()], rng: lowerBoundRng([0]) })
     resist.state.enemies[0]!.resistanceToSorcery = 5
     const resistCtx: BattleCtx = { state: resist.state, target: { type: 'enemy', idx: 0 } }
     expect(dispatchBattleOpcode(0x2e, [2, 6, 55], resistCtx)).toEqual({
@@ -249,7 +249,7 @@ describe('0x2E SetEnemyStatus 命中/抵抗/非法', () => {
 })
 describe('0x2F RemovePlayerStatus', () => {
   it('清 target player 的普通状态;>999 装备态不清;无敌 target → no-op', () => {
-    const { state } = makeBattle({ roles: [makeRole(0)] })
+    const { state } = makeOpcodeBattle({ roles: [makeRole(0)] })
     state.players[0]!.status.bravery = 9
     state.players[0]!.status.dualAttack = 32760
     const ctx: BattleCtx = { state, target: { type: 'player', idx: 0 } }
@@ -263,7 +263,7 @@ describe('0x2F RemovePlayerStatus', () => {
 })
 describe('0x5E JumpIfNoPoison', () => {
   it('无敌无该毒 → newIp=op1;有该毒 → 不跳;caster(enemy) 退路', () => {
-    const { state } = makeBattle({ enemies: [makeEnemy({})] })
+    const { state } = makeOpcodeBattle({ enemies: [makeEnemy({})] })
     const ctx: BattleCtx = { state, target: { type: 'enemy', idx: 0 } }
     expect(dispatchBattleOpcode(0x5e, [77, 300, 0], ctx)).toEqual({
       consumed: true,
@@ -281,7 +281,7 @@ describe('0x5E JumpIfNoPoison', () => {
 })
 describe('0x30 BuffPlayerStatPct', () => {
   it('gs 路径:bonus=trunc(base*op1/100) 写 Extra 槽并 recompute snapshot', () => {
-    const { state, gs, playerRoles } = makeBattle({
+    const { state, gs, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { attackStrength: 60 })],
     })
     gs.PlayerRolesRuntime.rgwAttackStrength[0] = 60
@@ -297,7 +297,7 @@ describe('0x30 BuffPlayerStatPct', () => {
   })
 
   it('op2>0 显式 role;未知 row / 无 player 上下文 → no-op;负 % 缩围', () => {
-    const { state, gs, playerRoles } = makeBattle({
+    const { state, gs, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { defense: 40 }), makeRole(1, { defense: 40 })],
     })
     gs.PlayerRolesRuntime.rgwDefense[1] = 40
@@ -317,7 +317,7 @@ describe('0x30 BuffPlayerStatPct', () => {
   })
 
   it('无 gs 退化路径:直接 mutate snapshot(叠加)', () => {
-    const { state, playerRoles } = makeBattle({
+    const { state, playerRoles } = makeOpcodeBattle({
       roles: [makeRole(0, { dexterity: 40 })],
     })
     const ctx: BattleCtx = {

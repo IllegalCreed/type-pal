@@ -100,6 +100,35 @@ describe('Service worker registration and messages', () => {
     expect(onDone.mock.calls).toEqual([[]])
     expect(onProgress).toHaveBeenCalledOnce()
   })
+
+  it('同次注册连续收到 done 和 error 时分别通知收尾', async () => {
+    const { container } = installServiceWorker()
+    const onDone = vi.fn()
+    const onProgress = vi.fn()
+    await client.registerPrecache({ isProd: true, onProgress, onDone })
+    container.dispatchEvent(new MessageEvent('message', { data: { type: 'precache-done' } }))
+    container.dispatchEvent(new MessageEvent('message', { data: { type: 'precache-error' } }))
+    expect(onDone.mock.calls).toEqual([[], []])
+    expect(onProgress).not.toHaveBeenCalled()
+  })
+
+  it('持久化权限请求拒绝后仍就绪，并能启动预缓存', async () => {
+    const { post } = installServiceWorker()
+    const persist = vi.fn<StorageManager['persist']>().mockRejectedValue(new Error('quota denied'))
+    Object.defineProperty(navigator, 'storage', { configurable: true, value: { persist } })
+    const onReady = vi.fn()
+    const outcome = await client
+      .registerPrecache({ isProd: true, onProgress: () => {}, onReady })
+      .then(
+        () => 'resolved',
+        (error: unknown) => `rejected:${String(error)}`,
+      )
+    expect(outcome).toBe('resolved')
+    expect(persist).toHaveBeenCalledOnce()
+    expect(onReady).toHaveBeenCalledOnce()
+    client.startPrecache()
+    expect(post.mock.calls).toEqual([[{ type: 'precache' }]])
+  })
 })
 
 describe('Commands before worker readiness', () => {

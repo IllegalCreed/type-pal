@@ -1,5 +1,5 @@
 /**
- * M5.6 T18 Step 5:Splash 卷轴动画(DOS build fallback)— sdlpal `PAL_SplashScreen`
+ * Splash 卷轴动画(DOS build fallback)，参考 SDLPal PAL_SplashScreen。
  * 参考 `reference/sdlpal/main.c` 的 `PAL_SplashScreen`；浏览器端用异步定时器驱动。
  *
  * 视觉(sdlpal):
@@ -14,7 +14,7 @@
  *  4. palette 1 从全 0(黑屏)渐变到 100% 在 15000ms 内(每帧 SetPalette
  *     rgb * dwTime/15000)
  *  5. 帧间隔 sdlpal 真值 `dwBeginTime + dwTime + 85ms`(SDL_GetTicks)≈ 12fps
- *  6. 按 Menu/Search 键:补完渐变 quick(+250ms 步进)+ 0.5s delay + break
+ *  6. 跳过时补完渐变(+250ms 步进)再等待 0.5s；C 只在早于 15s 跳过时等待这 0.5s。
  *  7. 退出前在本播放器内淡黑，再移交 caller。
  *
  * 设计:
@@ -25,6 +25,7 @@
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import type { Framebuffer } from '../present/framebuffer.js'
+import { scalePaletteBrightness } from '../present/palette-brightness.js'
 import { flushToCanvas } from '../present/present.js'
 import { listenForModalActions } from './input.js'
 
@@ -72,22 +73,6 @@ interface CranePos {
 
 function randomLong(min: number, max: number): number {
   return Math.floor(min + Math.random() * (max - min + 1))
-}
-
-/** 构造一份 rgb scaled 当前 palette(0 → 100% over FADE_IN_MS)。 */
-function scalePalette(base: Palette, factor: number): Palette {
-  const f = Math.max(0, Math.min(1, factor))
-  return {
-    ...base,
-    colors: base.colors.map(
-      (c) =>
-        [Math.floor(c[0] * f), Math.floor(c[1] * f), Math.floor(c[2] * f)] as [
-          number,
-          number,
-          number,
-        ],
-    ),
-  }
 }
 
 /**
@@ -155,8 +140,8 @@ function sleep(ms: number): Promise<void> {
 }
 
 /**
- * L42:splash 退出淡黑 — palette rgb 从 100% 缩放到 0%,等价 sdlpal `PAL_FadeOut(1)`(main.c:455)。
- * 与 trademark-fallback.ts 的 fadeOut 同款实现(只渐变 palette,不重绘内容)。
+ * splash 退出前保持索引画面并淡黑，caller 随后接管标题页。
+ * 与商标演出一样按经过时间插值，未复刻 PAL_FadeOut 的 j/64 整数步。
  */
 async function fadeOut(
   fb: Framebuffer,
@@ -169,10 +154,10 @@ async function fadeOut(
   while (true) {
     const t = nowFn() - start
     if (t >= durationMs) break
-    flushToCanvas(fb, canvasCtx, scalePalette(palette, 1 - t / durationMs))
+    flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, 1 - t / durationMs))
     await sleep(16) // ~60fps
   }
-  flushToCanvas(fb, canvasCtx, scalePalette(palette, 0))
+  flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, 0))
 }
 
 /**
@@ -223,7 +208,7 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
 
       // 1. palette 渐变(0 → 100% over FADE_IN_MS)
       const fadeFactor = Math.min(1, dwTime / FADE_IN_MS)
-      const curPalette = scalePalette(options.palette, fadeFactor)
+      const curPalette = scalePaletteBrightness(options.palette, fadeFactor)
 
       // 2. 画上下两半滚动 bitmap
       //    sdlpal main.c:334-359:srcrect.y=iImgPos,h=200-iImgPos → 取 bitmapUp 下半 → 画屏顶
@@ -283,7 +268,7 @@ export async function playSplashFallback(options: PlaySplashFallbackOptions): Pr
         let fastTime = dwTime
         while (fastTime < FADE_IN_MS) {
           const f = Math.min(1, fastTime / FADE_IN_MS)
-          renderFrame(options.fb, options.canvasCtx, scalePalette(options.palette, f))
+          renderFrame(options.fb, options.canvasCtx, scalePaletteBrightness(options.palette, f))
           fastTime += SKIP_FAST_STEP_MS
           await sleep(8) // sdlpal UTIL_Delay(8)
         }

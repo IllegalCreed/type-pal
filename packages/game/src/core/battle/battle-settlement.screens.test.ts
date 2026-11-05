@@ -64,6 +64,16 @@ describe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyK
 })
 
 describe('won首tick的结算装配', () => {
+  it('zero experience skips the reward screen while cash is still credited exactly once', () => {
+    const fixture = makeWonBattle({ expGained: 0, cashGained: 50 })
+    const before = fixture.gs.dwCash
+    const settlement = enterWonSettlement(fixture)
+    expect(settlement.screens).toEqual([])
+    expect(fixture.gs.dwCash).toBe(before + 50)
+    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
+    expect(fixture.gs.dwCash).toBe(before + 50)
+  })
+
   it('先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次', () => {
     const fixture = makeWonBattle({ partyMembers: [0, 1], expGained: 10 })
     fixture.playerRoles.roles[0]!.hp = 0

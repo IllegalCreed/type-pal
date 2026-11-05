@@ -20,7 +20,11 @@ import { createCommandBus } from './command-bus.js'
 import { runEquipScript } from './equip-effect.js'
 import { removeEquipmentEffect } from './equipment-state.js'
 import { runScript, tickEventSystem } from './event-system.js'
-import { createInitialGameState } from './game-state.js'
+import {
+  createInitialGameState,
+  loadDefaultGame,
+  projectRuntimeToBattleRoles,
+} from './game-state.js'
 import { createSeedableRng } from './rng.js'
 import { setGlobalEvents } from './script-catalog.js'
 
@@ -78,22 +82,34 @@ test.each([
 
 function battle() {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  gs.partyMembers = [1, 0]
-  const playerRoles = read<PlayerRoles>('data/player-roles.json')
-  for (const role of playerRoles.roles) {
+  const baseline = read<PlayerRoles>('data/player-roles.json')
+  for (const role of baseline.roles) {
     role.hp = role.maxHP = 600
     role.mp = role.maxMP = 1000
   }
+  loadDefaultGame(gs, baseline)
+  gs.partyMembers = [1, 0]
+  const playerRoles = projectRuntimeToBattleRoles(
+    gs.PlayerRolesRuntime,
+    baseline,
+    gs.rgEquipmentEffect,
+  )
+  const enemies = read<Enemy[]>('data/enemies.json')
+    .filter((enemy) => enemy.health > 0)
+    .slice(0, 1)
+  // The script-progress fixture needs a living target for all nine invocations.
+  // 60,000 is within the source WORD health domain; no enemy algorithm is mocked.
+  enemies[0]!.health = 60000
   const state = createBattleState({
     gs,
     playerRoles,
-    enemies: read<Enemy[]>('data/enemies.json')
-      .filter((enemy) => enemy.health > 0)
-      .slice(0, 1),
+    enemies,
     field: read<BattleField[]>('data/battle-fields.json')[0]!,
     isBoss: false,
     rng: createSeedableRng(42),
   })
+  gs.mode = 'battle'
+  gs.battleState = state
   return { gs, playerRoles, state, bus: createCommandBus() }
 }
 
@@ -183,7 +199,12 @@ test('real Wine God success script advances through eight uses and removes only 
   env.gs.PlayerRolesRuntime.rgwMagic[0]![1] = 296
   const learned = () => env.gs.PlayerRolesRuntime.rgwMagic.some((row) => row[0] === 370)
   for (let count = 1; count <= 9; count++) {
+    expect(env.state.enemies[0]!.e.health, 'target must be alive before each cast').toBeGreaterThan(
+      0,
+    )
+    // Refill between these isolated action invocations; this is not nine consecutive turns.
     env.playerRoles.roles[0]!.mp = 1000
+    env.gs.PlayerRolesRuntime.rgwMP[0] = 1000
     performMagic({
       ...env,
       casterIsEnemy: false,

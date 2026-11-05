@@ -1,7 +1,5 @@
-// packages/game/public/sw.js — 原生 Service Worker(离线资源预缓存)。
-// vanilla JS,不经 vite 打包;register 时 updateViaCache:'none' 保证本文件改动即时生效。
-// rev: 2026-06-22 activate 改按版本清缓存(保留当前版本,只删旧版本)。
-/* eslint-disable no-restricted-globals */
+// 原生Service Worker，不经Vite打包；页面以updateViaCache:'none'注册，更新脚本不读HTTP缓存。
+// 运行时按需缓存与后台预缓存共用资源；worker重启后内存状态会重置。
 const CACHE_PREFIX = 'type-pal-'
 let CACHE_NAME = `${CACHE_PREFIX}bootstrap` // 真正名字在拿到 manifest.version 后定(setCacheVersion)
 const MANIFEST_URL = '/extracted/asset-manifest.json'
@@ -13,16 +11,9 @@ self.addEventListener('install', () => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      // 激活即按 manifest 版本归位 CACHE_NAME,并删**非当前版本**的旧缓存(含迁移前老格式),再接管页面。
-      //   为何删旧版本:fetch handler 跨 cache 匹配,若旧格式 cache 还在,会在新壳下被命中 → 版本错位崩
-      //   (2026-06-22:tileset/sprite/动画/战斗/magic 改 gzip blob 后,旧 cache 的 tilemap 无 tileset →
-      //    `tilemap.tileset` undefined → fetch `/extracted/data/undefined` 404 → bootstrap 崩)。
-      //   为何**不**删当前版本:纯 app 发版(数据版本不变)若连当前版本整份预缓存也清,老用户每次发版后
-      //    都要在慢网(prod ~440KB/s,~200MB≈8min)重下 → 进度卡虚线(2026-06-22 用户实测「停在虚线」根因;
-      //    此前误用「清所有」即此)。版本不变 → 保留缓存 → 续访 precache 全 cache.match 命中、秒满。
-      //   离线:manifest 取不到 → 不误删用户已有缓存,保持现状(setCacheVersion 抛 → catch 跳过)。
-      // ⚠️ 凡 `pnpm extract` 改了资源格式/路径,manifest.version 会变(extractor 按内容哈希),本清理据此
-      //    生效;无需再手改本文件触发 activate(版本变更 → setCacheVersion 删旧版本即可)。
+      // 清除旧资源版本，避免跨cache查询命中旧格式；保留当前版本，避免只更新壳层也重下全量。
+      // manifest由提取器按排序后的path/size/sha256生成版本。activate与每次precache都会检查，
+      // 资源更新不依赖修改sw.js来触发activate。离线取不到manifest时保留已有缓存。
       try {
         await setCacheVersion()
       } catch {
@@ -45,20 +36,21 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url)
   if (!shouldCache(url)) return // 导航/index.html/其它 → 走默认网络(SW 可自更新)
   event.respondWith(
-    // 跨所有 type-pal-* cache 匹配:SW 被浏览器重启后顶层 CACHE_NAME 重置回 'type-pal-bootstrap'
-    // (precacheAll 已 done 不再 setCacheVersion 修正它),只在它里面找会全 miss → 退化直连、打网络
-    // (2026-06-14 竞速零网络验证暴露)。caches.match 跨 cache 命中 version cache 的预缓存资源。
+    // 查询同源CacheStorage全部cache：worker重启后CACHE_NAME回到bootstrap，不能只查该空cache。
+    // 旧type-pal版本由setCacheVersion清理；这里没有额外的cache名称过滤。
     caches.match(req).then(async (hit) => {
       if (hit) return hit
       const res = await fetch(req)
-      // 只缓存完整 200;206 Partial(<video> 的 Range 请求)Cache.put 不支持。put 必须 fire-forget + 吞错——
-      // 若 await 且 put 抛(206),respondWith 会 reject → 资源 net::ERR_FAILED(开场 AVI 全挂 + 黑屏,
-      // 2026-06-15 生产回归:改 caches.match 时误加了 await + 用 res.ok 含 206;原版本就是 fire-forget)。
+      // 只缓存完整200；Cache.put拒绝206视频Range响应。写缓存不阻塞响应，写入失败也不拒绝响应；
+      // waitUntil仍延长事件生命周期，不是放任写入在worker终止时丢失。
       if (res.status === 200) {
         // Clone before returning the response: the client can consume it while caches.open awaits.
         const copy = res.clone()
         event.waitUntil(
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy)).catch(() => {}),
+          caches
+            .open(CACHE_NAME)
+            .then((cache) => cache.put(req, copy))
+            .catch(() => {}),
         )
       }
       return res
@@ -66,7 +58,7 @@ self.addEventListener('fetch', (event) => {
   )
 })
 
-// ── 后台预缓存:页面 postMessage({type:'precache'}) 触发(虚线后由 startPrecache 启动)──
+// 页面在必要资源就绪后postMessage启动预缓存；单worker全局只允许一轮，重启后靠cache续传。
 const CONCURRENCY = 8 // 全速:虚线后必要资源已下完,预缓存不再抢它的带宽
 let precaching = false
 // 开场视频期间暂停:worker 挂起、不发起 fetch,不抢视频 Range 请求 / 用户输入的带宽 IO
@@ -125,7 +117,7 @@ async function precacheAll() {
             const res = await fetch(url, { cache: 'no-cache' })
             if (res.ok) await cache.put(url, res.clone())
           }
-          bytes += size
+          bytes += size // 已处理清单字节，含HTTP非成功响应；不是实际下载/成功缓存字节。
         } catch {
           // 单文件失败不致命:运行时按需 fetch 兜底
         }
@@ -149,9 +141,8 @@ async function precacheAll() {
 self.addEventListener('message', (event) => {
   if (!event.data) return
   if (event.data.type === 'precache') {
-    // waitUntil 保活:precacheAll 是长任务(本地数十秒、生产数分钟),不挂 waitUntil 则 SW 在
-    // ~30s idle(无 pending event)后被浏览器终止,预缓存中途停(2026-06-14 验证停在 76%)。
-    // 被终止后靠续传(cache.match 跳过)续:重访/重触发从未缓存项继续。
+    // 将整轮promise挂到消息事件，延长worker生命周期；浏览器仍可能终止worker。
+    // 失败或终止后的下一轮通过cache.match跳过已有资源，并非持久化进度游标。
     event.waitUntil(precacheAll())
   } else if (event.data.type === 'precache-pause') {
     paused = true // 开场视频期间:worker 在 waitWhilePaused 挂起

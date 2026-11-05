@@ -1,11 +1,63 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState } from '../core/game-state.js'
+import { setSceneContext } from '../core/scene-system.js'
 import { heldSnapshot, prepareEmptyLoopContext } from './__tests__/loop-context.js'
 import { walkableTilemap } from './__tests__/loop-tilemap.js'
 import { ReplayInputSource } from './input.js'
 import type { LoopContext } from './main-loop.js'
 import { startRafLoop, tickN } from './main-loop.js'
+
+/** Real loop callbacks with an owned pending queue; cancellation actually removes work. */
+function installRafQueue() {
+  const pending = new Map<number, FrameRequestCallback>()
+  const canceled: number[] = []
+  const stops: Array<() => void> = []
+  const settings = new Map<string, string | null>()
+  for (const key of ['tp-speedrun-enabled', 'tp-fps-show']) {
+    settings.set(key, localStorage.getItem(key))
+    localStorage.removeItem(key)
+  }
+  const clock = vi.spyOn(performance, 'now').mockReturnValue(0)
+  let nextFrameId = 40
+  const request = vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((callback) => {
+    const id = ++nextFrameId
+    pending.set(id, callback)
+    return id
+  })
+  const cancel = vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation((id) => {
+    canceled.push(id)
+    pending.delete(id)
+  })
+  onTestFinished(() => {
+    try {
+      for (const stop of stops) stop()
+    } finally {
+      pending.clear()
+      request.mockRestore()
+      cancel.mockRestore()
+      clock.mockRestore()
+      // This page-lifetime port has no uninstall operation; release the tested map.
+      setSceneContext({ tilemap: walkableTilemap(8, 8) })
+      for (const [key, value] of settings) {
+        if (value === null) localStorage.removeItem(key)
+        else localStorage.setItem(key, value)
+      }
+    }
+  })
+  function start(ctx = prepareEmptyLoopContext()): () => void {
+    const stop = startRafLoop(ctx)
+    stops.push(stop)
+    return stop
+  }
+  function frame(id: number, time: number): void {
+    const callback = pending.get(id)
+    pending.delete(id)
+    expect(callback).toBeTypeOf('function')
+    callback?.(time)
+  }
+  return { pending, canceled, start, frame }
+}
 
 describe('Headless loop', () => {
   it('跑 N tick,每 tick 调 onPresent', () => {
@@ -59,53 +111,39 @@ describe('Headless loop', () => {
 
 describe('Animation frame loop lifecycle', () => {
   it('取消初帧与推进后最新帧，释放各自排队的回调', () => {
-    const pending = new Map<number, FrameRequestCallback>()
-    const canceled: number[] = []
-    const stops: Array<() => void> = []
-    const settings = new Map<string, string | null>()
-    for (const key of ['tp-speedrun-enabled', 'tp-fps-show'])
-      settings.set(key, localStorage.getItem(key))
-    let nextFrameId = 40
-    try {
-      for (const key of settings.keys()) localStorage.removeItem(key)
-      vi.spyOn(performance, 'now').mockReturnValue(0)
-      vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((callback) => {
-        const id = ++nextFrameId
-        pending.set(id, callback)
-        return id
-      })
-      vi.spyOn(globalThis, 'cancelAnimationFrame').mockImplementation((id) => {
-        canceled.push(id)
-        pending.delete(id)
-      })
-      const stopInitial = startRafLoop(prepareEmptyLoopContext())
-      stops.push(stopInitial)
-      expect([...pending.keys()]).toEqual([41])
-      stopInitial()
-      expect(canceled).toEqual([41])
-      expect(pending.size).toBe(0)
-      const stopAdvanced = startRafLoop(prepareEmptyLoopContext())
-      stops.push(stopAdvanced)
-      expect([...pending.keys()]).toEqual([42])
-      const frame = pending.get(42)
-      pending.delete(42)
-      expect(frame).toBeTypeOf('function')
-      frame?.(10)
-      expect([...pending.keys()]).toEqual([43])
-      stopAdvanced()
-      expect(canceled).toEqual([41, 43])
-      expect(pending.size).toBe(0)
-    } finally {
-      try {
-        for (const stop of stops) stop()
-      } finally {
-        pending.clear()
-        vi.restoreAllMocks()
-        for (const [key, value] of settings) {
-          if (value === null) localStorage.removeItem(key)
-          else localStorage.setItem(key, value)
-        }
-      }
-    }
+    const queue = installRafQueue()
+    const stopInitial = queue.start()
+    expect([...queue.pending.keys()]).toEqual([41])
+    stopInitial()
+    expect(queue.canceled).toEqual([41])
+    expect(queue.pending.size).toBe(0)
+    const stopAdvanced = queue.start()
+    expect([...queue.pending.keys()]).toEqual([42])
+    queue.frame(42, 10)
+    expect([...queue.pending.keys()]).toEqual([43])
+    stopAdvanced()
+    expect(queue.canceled).toEqual([41, 43])
+    expect(queue.pending.size).toBe(0)
+  })
+
+  it('多帧按逻辑间隔呈现，并取消最新的待执行回调', () => {
+    const queue = installRafQueue()
+    const present = vi.fn()
+    const ctx = prepareEmptyLoopContext(undefined, present)
+    const stop = queue.start(ctx)
+    expect([...queue.pending.keys()]).toEqual([41])
+    queue.frame(41, 100)
+    expect(ctx.gs.frameNum).toBe(1)
+    expect([...queue.pending.keys()]).toEqual([42])
+    queue.frame(42, 250)
+    expect(ctx.gs.frameNum).toBe(2)
+    expect([...queue.pending.keys()]).toEqual([43])
+    queue.frame(43, 280)
+    expect(ctx.gs.frameNum).toBe(2)
+    expect(present).toHaveBeenCalledTimes(2)
+    expect([...queue.pending.keys()]).toEqual([44])
+    stop()
+    expect(queue.canceled).toEqual([44])
+    expect(queue.pending.size).toBe(0)
   })
 })

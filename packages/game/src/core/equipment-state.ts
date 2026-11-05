@@ -58,7 +58,8 @@ export function getPlayerFleeRate(gs: GameState, roleId: number): number {
 /** sdlpal `PAL_GetPlayerPoisonResistance`(global.c:1900-1935)。 */
 export function getPlayerPoisonResistance(gs: GameState, roleId: number): number {
   const value = sumEffectiveStat(gs, roleId, 'rgwPoisonResistance')
-  return Math.max(0, Math.min(100, value)) // sdlpal clamp [0, 100]
+  // TS clamps to [0,100]; SDLPal adds in WORD arithmetic and only caps the upper bound.
+  return Math.max(0, Math.min(100, value))
 }
 
 /**

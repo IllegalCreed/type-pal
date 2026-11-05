@@ -7,7 +7,9 @@ import { runScript } from '../../event-system.js'
 import {
   createInitialGameState,
   hydratePlayerRolesRuntime,
+  projectRuntimeToBattleRoles,
   resetSceneRuntimeForNewGame,
+  writeBackBattleRolesToRuntime,
 } from '../../game-state.js'
 import { Save } from '../../save/api.js'
 import { performItem } from '../actions/item.js'
@@ -67,10 +69,18 @@ function battle() {
   b.gs.PlayerRolesRuntime.rgwMagic[0]![0] = 370
   b.gs.PlayerRolesRuntime.rgwMagic[1]![0] = 296
   b.gs.inventory = [{ itemId: 86, count: 12 }]
+  b.state.phase = 'performAction'
   return b
 }
 function cast(b: ReturnType<typeof battle>, spell = wine) {
-  b.playerRoles.roles[0]!.mp = 30
+  expect(b.state.enemies[0]!.e.health, 'live target before each isolated cast').toBeGreaterThan(0)
+  expect(b.gs.PlayerRolesRuntime.rgwHP[0], 'live caster').toBeGreaterThan(0)
+  // Refill between isolated actions, not nine consecutive turns. Project restored
+  // runtime on each invocation so save/load does not leave a stale role snapshot.
+  b.gs.PlayerRolesRuntime.rgwMP[0] = 30
+  b.playerRoles = projectRuntimeToBattleRoles(b.gs.PlayerRolesRuntime, b.playerRoles)
+  b.gs.mode = 'battle'
+  b.gs.battleState = b.state
   performMagic({
     ...b,
     casterIsEnemy: false,
@@ -80,9 +90,11 @@ function cast(b: ReturnType<typeof battle>, spell = wine) {
     targetIdx: 'all',
     spells: [spell],
     magics: [{ ...magic }],
+    objectMagics: [{ ...wine }],
     commands,
     runScript,
   })
+  writeBackBattleRolesToRuntime(b.playerRoles, b.gs.PlayerRolesRuntime, b.gs.partyMembers)
   b.bus.drain()
 }
 const learnedWine = (b: ReturnType<typeof battle>) =>
@@ -93,14 +105,18 @@ afterEach(async () => {
 })
 
 describe('object script progress belongs to the saved game', () => {
-  it('Wine God: eight successes, save/import/load, ninth removes the nonleader spell; Repeat cannot cast a tenth', async () => {
+  it('Wine God progress survives save/import/load; the ninth use removes the nonleader spell and a stale tenth action falls back', async () => {
     const b = battle()
     const staticSpell = structuredClone(wine)
-    for (let n = 0; n < 8; n++) cast(b, staticSpell)
+    for (let n = 0; n < 8; n++) {
+      cast(b, staticSpell)
+      expect(b.playerRoles.roles[0]!.mp, 'the real MP-damage hook must run').toBe(0)
+    }
     expect(learnedWine(b)).toBe(true)
     expect(b.gs.inventory[0]!.count).toBe(4)
     expect(b.gs.rgObject[370]?.rgwData[2]).toBe(14)
     b.gs.battleState = undefined // Save from the overworld; battle RNG is not a serializable resource.
+    b.gs.mode = 'explore'
     await Save.saveSlot(1, parseImportedSave(serializeSave(b.gs)))
     const loaded = await Save.loadSlot(1)
     expect(loaded).not.toBeNull()
@@ -111,7 +127,8 @@ describe('object script progress belongs to the saved game', () => {
     expect(continued.gs.inventory[0]!.count).toBe(3)
     expect(staticSpell).toEqual(wine)
 
-    // A repeated previous action traverses production action validation, rather than calling performMagic illegally.
+    // A stale selected action traverses execution-time validation. This does not
+    // exercise the Repeat key's UI route.
     continued.gs.mode = 'battle'
     continued.gs.battleState = continued.state
     continued.state.phase = 'performAction'
@@ -144,6 +161,7 @@ describe('object script progress belongs to the saved game', () => {
     expect(b.gs.fScriptSuccess).toBe(false)
     expect(b.gs.rgObject[370]?.rgwData[2]).toBe(7)
     resetSceneRuntimeForNewGame(b.gs, [])
+    expect(b.gs.rgObject).toEqual({})
     b.gs.inventory = [{ itemId: 86, count: 1 }]
     cast(b)
     expect(b.gs.rgObject[370]?.rgwData[2]).toBe(7)

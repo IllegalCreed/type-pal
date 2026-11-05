@@ -66,6 +66,29 @@ describe('结局 ending-player playEndingAnimation(PAL_EndingAnimation port)', (
     await p
     expect(fb.indices).toEqual(new Uint8Array(320 * 200).fill(50)) // Two frames: lower only.
   })
+
+  it('女孩按墙钟换帧，同时按循环次数下降', async () => {
+    vi.useFakeTimers()
+    const clock = vi.spyOn(performance, 'now').mockReturnValue(75)
+    const fb = createFramebuffer()
+    const pending = playEndingAnimation({
+      upperIndices: new Uint8Array(320 * 200).fill(60),
+      lowerIndices: new Uint8Array(320 * 200).fill(50),
+      beastFrames: [],
+      girlFrames: [90, 91, 92, 93].map((color) => solidIndexedImage(1, 1, color)),
+      fb,
+      canvasCtx: realCanvasContext(),
+      palette,
+      frameCount: 2,
+      frameDelayMs: 50,
+    })
+    expect(fb.indices[180 * 320 + 220]).toBe(91)
+    clock.mockReturnValue(125)
+    await vi.runAllTimersAsync()
+    await pending
+    expect(fb.indices[179 * 320 + 220]).toBe(92)
+    expect(fb.indices[180 * 320 + 220]).toBe(50)
+  })
 })
 
 describe('playEndingAnimation 取消释放与背景回退', () => {

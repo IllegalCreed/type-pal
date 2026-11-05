@@ -1,6 +1,5 @@
 /** Magic-menu input factories return owned data/state; shared uniform catalogs are borrowed read-only. */
 import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
-import { makeRoles as makeBaseRoles } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import {
   createInitialGameState,
   type GameState,
@@ -9,9 +8,13 @@ import {
 } from '../../core/game-state.js'
 import { magicWithCost } from '../../core/menu/__tests__/magic-cost-fixture.js'
 import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js'
+import { makeRoles as makeBaseRoles } from './menu-state-fixtures.js'
 export function uniformCasterRoles(): ReturnType<typeof makeBaseRoles> {
   const roles = makeBaseRoles()
-  for (const role of roles.roles) role.mp = 20
+  for (const role of roles.roles) {
+    role.maxMP = 40
+    role.mp = 20
+  }
   return roles
 }
 export function createHydratedUniformState(

@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'
 import { createPrecacheUiTestHost, mountBootLoading } from '../__tests__/precache-ui-host.js'
 import { createUnifiedProgressUi } from './precache-ui.js'
 
@@ -164,7 +163,7 @@ describe('Progress boundaries and missing nodes', () => {
     expect(onEnter).toHaveBeenCalledOnce()
     expect(repeated).not.toHaveBeenCalled()
   })
-  it('没有进入按钮容器时 markPlayable 立刻放行', async () => {
+  it('没有进入按钮容器时 markPlayable 立刻放行', () => {
     document.body.innerHTML = `
       <div id="boot-loading">
         <div id="boot-loading-fill"></div>
@@ -178,14 +177,6 @@ describe('Progress boundaries and missing nodes', () => {
     expect(calls).toBe(1)
     expect(fillWidth()).toBe('12%')
     expect(statusText()).toBe('必要资源就绪 — 可进入')
-    await dumpHost('G09-D08', [
-      readHost(
-        'enter-without-button',
-        document.getElementById('boot-loading-status'),
-        document.getElementById('boot-loading-fill'),
-        document.getElementById('boot-loading'),
-      ),
-    ])
   })
   it('有容器但没有按钮时立刻放行，容器保持 hidden', () => {
     document.body.innerHTML = `

@@ -1,26 +1,11 @@
-/**
- * 物理战斗动画时间线驱动(D17a)—— 把声明式 `BattleAnimFrame` 应用到 BattleState
- * 的 per-fighter render state,并在动画播完后复位 fighter。
- *
- * - applyAnimFrame:把一帧的 fighters / overlay / damageNum 落到 state(+ emit 数字弹幕)。
- * - startBattleAnim:set state.battleAnim 并立即应用 frame[0](performAttack 用)。
- * - resetFightersAfterAction:port PAL_BattleUpdateFighters 复位段(fight.c:940-1019)。
- *
- * 抽到独立 module(非 battle-system.ts):actions/attack.ts 起时间线 + battle-system.ts
- * 驱动时间线 都要用,避免循环依赖。
+/** Actions construct timelines; the battle tick commits effects and the render clock selects visuals.
+ * Keeping the driver below battle-system lets both actions and the coordinator use it without a cycle.
  */
 
 import type { PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../command-bus.js'
 import type { BattleAnimFrame, BattleAnimState, BattleState } from './battle-state.js'
 
-/**
- * 把一帧动画应用到 state:
- *   - fighters:逐条 mutate 对应 player/enemy 的 pos/currentFrame/iColorShift
- *   - overlay:写到 state.battleAnim.overlay(供 present 画 effect sprite)
- *   - damageNum:emit showDamageNum(present 数字弹幕)
- * sound 在本函数逐帧 emit;shake/screenWave 等视觉字段由 present 读取当前 frame。
- */
 /**
  * 把一帧的**视觉字段**(fighters / overlay / overlays / summon)落到 state —— 不含 sound/damage/keepEffect
  * 等逻辑副作用。present 端 wall-clock 细分(`stepBattleAnimRender`)按真实时间选帧后只刷视觉(每 rAF),
@@ -53,6 +38,7 @@ export function applyAnimFrameVisual(state: BattleState, frame: BattleAnimFrame)
   }
 }
 
+/** Commit one logical frame. The coordinator calls this once on entry, never for render-only advancement. */
 export function applyAnimFrame(state: BattleState, frame: BattleAnimFrame, bus: CommandBus): void {
   applyAnimFrameVisual(state, frame)
 
@@ -156,10 +142,8 @@ export function advanceBattleAnimFrames(
 /**
  * present 端 **wall-clock 视觉帧细分**(每 rAF 调,对齐 `stepSummonLoopRender`/`stepDeathFadeRender` 范式)。
  *
- * 战斗动画帧时长是 (speed+5)*10ms(法术效果,45/104 法术 speed=0=50ms)/ Delay(N)×40ms(物理)。40ms
- * 逻辑 tick 离散推进会让非 40ms 整数倍的帧抖成 80/40/40/40 拍频 —— user 反复报"施法慢"的根因(实测施法期
- * present 仅 25fps、rAF 120fps:画面只在 tick 刷)。本函数按真实时间算应显示帧 renderIdx,present 据此画
- * 法术 sprite / 精灵 / 抖屏,平滑到屏幕刷新率。
+ * 法术帧长为(speed+5)*10ms，物理Delay以40ms为单位。逻辑tick按40ms采样，
+ * 本函数用独立时钟选择视觉帧，使50ms等非整数倍帧长不受逻辑采样间隔限制。
  *
  * 分工(同 summon-loop):逻辑 `idx`(advanceBattleAnimFrames,40ms tick)独占副作用(sound/damage)与
  * 完成判定 → 确定性不变(headless/单测不经 present → renderIdx 恒 undefined,纯 idx 路径);renderIdx 只领
@@ -189,7 +173,7 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
     a.renderStartMs = nowMs - logicElapsed
     a.renderIdx = a.idx
   }
-  // 从上次 renderIdx 前向扫到 wall-clock elapsed 所在帧(单调,O(前进帧数);末帧前停 → 完成归逻辑)。
+  // 先累加已过前缀，再从上次renderIdx前向扫；每次O(已过帧数)，末帧完成仍归逻辑时钟。
   const elapsed = nowMs - a.renderStartMs
   let vIdx = a.renderIdx
   let acc = 0
@@ -203,16 +187,6 @@ export function stepBattleAnimRender(state: BattleState, nowMs: number): void {
   applyAnimFrameVisual(state, a.frames[vIdx]!)
 }
 
-/**
- * 动画播完后复位双方 fighter —— port PAL_BattleUpdateFighters 复位段(fight.c:940-1019)。
- *
- * player(fight.c:948-985):
- *   - 非 defending → pos = posOriginal;iColorShift = 0
- *   - hp==0:puppet>0 → 0(傀儡死后仍站立);否则 → 2(死)
- *   - hp>0:sleep!=0 || dying(<min(100,maxHP/5))→ 1(濒死/睡倒);defending → 3;否则 → 0
- * enemy(fight.c:991-1019):
- *   - pos = posOriginal;iColorShift = 0;currentFrame = undefined(idle 复位;轮播由渲染层时钟驱动)
- */
 /**
  * 玩家复位帧值(PAL_BattleUpdateFighters 玩家分支的 wCurrentFrame 判定,fight.c:957-985)。
  * resetFightersAfterAction 与"链内复位帧"(敌法术收尾 UpdateFighters 等价帧)共用,防判定漂移。
@@ -233,6 +207,9 @@ export function playerRestFrame(
   return p.defending ? 3 : 0
 }
 
+/** Restore action positions/color and player rest poses. Enemy idle uses the TS gesture clock,
+ * while SDLPal fight.c::PAL_BattleUpdateFighters advances its shared frame counter directly.
+ */
 export function resetFightersAfterAction(state: BattleState, playerRoles: PlayerRoles): void {
   for (const p of state.players) {
     const role = playerRoles.roles[p.roleId]

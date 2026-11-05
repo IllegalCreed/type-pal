@@ -22,6 +22,7 @@ test('default CLI corrects gameplay before every event consumer is emitted', asy
   expect(result.stdout).toContain('events round-trip OK')
   // The isolated input intentionally ends at the following DATA.MKF stage.
   expect(result.exitCode).toBe(1)
+  expect(result.signal).toBeNull()
   expect(result.stderr).toContain('DATA.MKF')
   const all: EventFile = JSON.parse(
     readFileSync(join(tree, 'data/extracted/events/all.json'), 'utf8'),
@@ -53,11 +54,12 @@ test('default CLI corrects gameplay before every event consumer is emitted', asy
     op: 'loadScene',
     sceneId: 286,
   })
-  for (const segment of scene.segments) {
-    for (const command of segment.commands) {
-      if (command.label)
-        expect(allCommands.some((global) => global.label === command.label)).toBe(true)
-    }
+  const labeledCommands = scene.segments
+    .flatMap((segment) => segment.commands)
+    .filter((command) => command.label)
+  expect(labeledCommands.length).toBeGreaterThan(0)
+  for (const command of labeledCommands) {
+    expect(allCommands.find((global) => global.label === command.label)).toEqual(command)
   }
   const manifest = JSON.parse(
     readFileSync(join(tree, 'data/extracted/script-corrections.json'), 'utf8'),
@@ -81,10 +83,14 @@ test('default CLI rejects an altered source before corrected event outputs; fait
   mkdirSync(join(tree, 'data/extracted'), { recursive: true })
   writeFileSync(join(tree, 'data/extracted/keep.json'), 'previous output')
   const rejected = await host.runCli(tree)
+  expect(rejected.exitCode).toBe(1)
+  expect(rejected.signal).toBeNull()
   expect(rejected.stderr).toContain('Unsupported script source')
   expect(readFileSync(join(tree, 'data/extracted/keep.json'), 'utf8')).toBe('previous output')
   expect(existsSync(join(tree, 'data/extracted/events/all.json'))).toBe(false)
   const faithful = await host.runCli(tree, ['--faithful'])
+  expect(faithful.exitCode).toBe(1)
+  expect(faithful.signal).toBeNull()
   expect(faithful.stdout).toContain('events round-trip OK')
   expect(faithful.stderr).toContain('DATA.MKF')
   const manifest = JSON.parse(

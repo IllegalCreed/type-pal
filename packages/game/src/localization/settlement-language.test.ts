@@ -1,17 +1,23 @@
-import { afterEach, expect, it, vi } from 'vitest'
-import { makeUiFrames } from '../__tests__/glm-phase1-leaves/present-fixtures.js'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { createBattleLifecycleFixture } from '../core/battle/battle-lifecycle.test-fixtures.js'
 import { buildBattleWonSettlement } from '../core/battle/battle-settlement.js'
 import { setEnglishWordTable, setWordTable } from '../core/word-lookup.js'
+import { makeUiFrames } from '../present/__tests__/menu-ui-fixtures.js'
 import { drawBattleSettlement } from '../present/battle/draw-battle-settlement.js'
 import * as font from '../present/font.js'
 import { createFramebuffer } from '../present/framebuffer.js'
 import { parseImportedSave, serializeSave } from '../tools/save-io.js'
-import { setLanguage } from './language.js'
+import { useFallbackLanguage } from './language.js'
+import { isolateLanguagePreference } from './language.test-fixtures.js'
+
+let restoreLanguage: () => void
+beforeEach(() => {
+  restoreLanguage = isolateLanguagePreference()
+})
 
 afterEach(() => {
   vi.restoreAllMocks()
-  setLanguage('zh-CN')
+  restoreLanguage()
   setWordTable([])
   setEnglishWordTable({})
 })
@@ -50,7 +56,7 @@ it('translates an already-created settlement by role and magic identities withou
       .magicId,
   ).toBe(349)
   const before = JSON.stringify(f.gs.PlayerRolesRuntime)
-  setLanguage('en')
+  useFallbackLanguage('en')
   const spy = vi.spyOn(font, 'renderText')
   for (const screen of [learned, level]) {
     drawBattleSettlement({

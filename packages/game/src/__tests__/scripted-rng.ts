@@ -2,6 +2,48 @@
 import type { SeedableRng } from '../core/rng.js'
 
 /**
+ * Direct opcode probes use the lower bound after their queued integer draws, including floats.
+ * Unlike recordingRng's unit-jitter default, this preserves their existing lower-bound policy.
+ * Both integer methods share a cursor; invalid draws fail instead of silently changing the fixture.
+ * calls traces range methods only. next/getState are fixed zero, not PRNG seed replay.
+ */
+export function lowerBoundRng(ints: number[] = []): SeedableRng & { calls: string[] } {
+  const calls: string[] = []
+  let cursor = 0
+  const draw = (lo: number, hi: number, inclusive: boolean): number => {
+    if (!Number.isFinite(lo) || !Number.isFinite(hi)) {
+      throw new RangeError(`lowerBoundRng: non-finite bounds ${lo},${hi}`)
+    }
+    if (hi <= lo) return lo
+    const value = ints[cursor++] ?? lo
+    if (!Number.isInteger(value) || value < lo || (inclusive ? value > hi : value >= hi)) {
+      throw new RangeError(`lowerBoundRng: ${value} outside ${lo}..${hi} (inclusive=${inclusive})`)
+    }
+    return value
+  }
+  return {
+    calls,
+    next: () => 0,
+    range: (lo, hi) => {
+      calls.push(`range(${lo},${hi})`)
+      return draw(lo, hi, false)
+    },
+    rangeInclusive: (lo, hi) => {
+      calls.push(`rangeInclusive(${lo},${hi})`)
+      return draw(lo, hi, true)
+    },
+    rangeFloat: (lo, hi) => {
+      calls.push(`rangeFloat(${lo},${hi})`)
+      if (!Number.isFinite(lo) || !Number.isFinite(hi)) {
+        throw new RangeError(`lowerBoundRng: non-finite bounds ${lo},${hi}`)
+      }
+      return lo
+    },
+    getState: () => 0,
+  }
+}
+
+/**
  * 脚本化RNG：整数方法共用ints游标，浮点方法使用floats；拒绝域外值，不静默钳制坏fixture。
  * 队列用尽取合法默认值：exclusive整数取lo，inclusive整数/浮点优先1，否则取lo。
  * 空区间返回lo且不吃队列。记录的是方法调用，不是PRNG内部抽样；next固定0、getState固定0，

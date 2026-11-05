@@ -1,15 +1,5 @@
 import type { PlayerRoles } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-  CURSOR_ID as ARROW_CURSOR_ID,
-  SENTINEL as ARROW_SENTINEL,
-  newFb as arrowFramebuffer,
-  makeUiFrames as arrowFrameInputs,
-  pixel as arrowPixel,
-  makeRoles as arrowRoles,
-  BATTLE_ICON_COLOR,
-  freezeNow as freezeArrowClock,
-} from '../../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import type { BattleState } from '../../../core/battle/battle-state.js'
 import type { GameState } from '../../../core/game-state.js'
 import { createInitialGameState } from '../../../core/game-state.js'
@@ -23,8 +13,23 @@ import {
   rolesOf,
   battlePlayer as rosterPlayer,
 } from '../../__tests__/battle-render-fixtures.js'
-import { yellowDigit } from '../../__tests__/menu-ui-fixtures.js'
-import { at, pixel, solidIndexedImage } from '../../__tests__/raster-fixtures.js'
+import {
+  makeRoles as arrowRoles,
+  freezeNow as freezeArrowClock,
+} from '../../__tests__/menu-state-fixtures.js'
+import {
+  CURSOR_ID as ARROW_CURSOR_ID,
+  makeUiFrames,
+  yellowDigit,
+} from '../../__tests__/menu-ui-fixtures.js'
+import {
+  SENTINEL as ARROW_SENTINEL,
+  sentinelFramebuffer as arrowFramebuffer,
+  pixel as arrowPixel,
+  at,
+  pixel,
+  solidIndexedImage,
+} from '../../__tests__/raster-fixtures.js'
 import { battleView, snapshotRaster } from '../../__tests__/render-input-snapshots.js'
 import { createFramebuffer } from '../../framebuffer.js'
 import { drawBattleUI } from '../draw-battle-ui.js'
@@ -91,7 +96,10 @@ function arrowGameState(): GameState {
   return gs
 }
 
-const arrowFrames = arrowFrameInputs()
+// This selection oracle needs filled action icons; other menu fixtures leave these slots absent.
+const BATTLE_ICON_COLOR = 0x33
+const arrowFrames = makeUiFrames()
+for (let i = 40; i < 44; i++) arrowFrames[i] = solidIndexedImage(8, 8, BATTLE_ICON_COLOR)
 
 function drawRoster(count: number, hp: number[], frames: ReturnType<typeof selectionFrames>) {
   const players = hp.map((_, index) => rosterPlayer(index))

@@ -32,9 +32,14 @@ import { applyMagicDamage, magicForcesAllTarget, resolveObjectMagic } from '../m
 import { isPlayerHealthy } from '../player-condition.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 import { performAttack } from './attack.js'
+import {
+  asMagicShort,
+  isOffensiveMagicType,
+  type PendingDamageNums,
+} from './magic-action-contract.js'
 
 export interface PerformCoopMagicInput {
-  /** DL6:降级普攻的隐藏 exp 写入(fight.c:3756-3757);省略 → 不积(旧 fixture)。 */
+  /** 降级普攻时写入当前角色的隐藏经验；生产caller传入GameState。 */
   gs?: import('../../game-state.js').GameState
   state: BattleState
   /** 发起合击的队员 slot 索引(state.players)。 */
@@ -51,19 +56,11 @@ export interface PerformCoopMagicInput {
   actor?: ActionQueueItem
   /** 退化普攻的命中特效帧基号。 */
   battleEffectIndex?: number[]
-  /** D17:FIRE.MKF chunk[effect] 帧数 Map(= res.magicSpriteFrameCounts)。有则建合击动画;缺则即时数字(向后兼容)。 */
+  /** FIRE.MKF chunk[effect]帧数；未加载对应资源时沿即时音效/数字路径。 */
   magicSpriteFrameCounts?: Map<number, number>
   /** 召唤神精灵帧数 Map(F.MKF chunk = magic.special+10)。summon 型协力用。 */
   summonSpriteFrameCounts?: Map<number, number>
 }
-
-/** sdlpal 攻击魔法 4 落点类型(OffMagic / 合击动画支持)。 */
-type OffMagicType = 'normal' | 'attackAll' | 'attackWhole' | 'attackField'
-function isOffMagicType(t: Magic['type']): t is OffMagicType {
-  return t === 'normal' || t === 'attackAll' || t === 'attackWhole' || t === 'attackField'
-}
-
-type PendingDamageNums = NonNullable<NonNullable<BattleState['battleAnim']>['pendingDamageNums']>
 
 function attachDamageNumsToFirstFrame(
   frames: BattleAnimFrame[],
@@ -74,11 +71,6 @@ function attachDamageNumsToFirstFrame(
   if (!first) return false
   first.damageNums = [...(first.damageNums ?? []), ...pendingNums]
   return true
-}
-
-/** SHORT cast(同 magic-damage.ts)。 */
-function asShort(n: number): number {
-  return (n << 16) >> 16
 }
 
 export function performCoopMagic(input: PerformCoopMagicInput): void {
@@ -154,7 +146,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
   let str = 0
   for (const i of contributors) {
     const role = playerRoles.roles[state.players[i]!.roleId]!
-    str += asShort(role.attackStrength) + asShort(role.magicStrength)
+    str += asMagicShort(role.attackStrength) + asMagicShort(role.magicStrength)
   }
   str = Math.trunc(str / 4)
 
@@ -179,7 +171,7 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
 
   const pendingNums: PendingDamageNums = []
   const hurtEnemies: Array<{ idx: number; pos: { x: number; y: number } }> = []
-  // 合击打敌人:wHealth WORD 下溢不钳(fight.c:638),超杀显示**完整算出伤害** r.damage,非剩余血 delta。
+  // applyMagicDamage按TS合同将超杀HP钳0；数字仍显示完整r.damage，而非剩余血量。
   for (const r of results) {
     if (r.hpAfter < r.hpBefore)
       pendingNums.push({
@@ -214,10 +206,10 @@ export function performCoopMagic(input: PerformCoopMagicInput): void {
 
   // —— 动画:聚拢队形 → 施法 → OffMagic 法术效果 → PostMagic → 滑回(fight.c:3856-4107)。
   //   前置满足(攻击类 magic + 有 FIRE.MKF 帧数 + 发起者有底锚)→ 建链;伤害数字挂 PostMagic 第一帧。
-  //   不满足(治疗/召唤类合击 / 无帧数 / 旧 fixture)→ 回落即时数字,向后兼容。
+  //   召唤已在上方单独建链；其它类型或缺资源时不建此攻击时间线。
   const n = magicSpriteFrameCounts?.get(magic.effect)
   const casterPos = state.players[casterIdx]?.posOriginal
-  if (isOffMagicType(magic.type) && n !== undefined && n > 0 && casterPos) {
+  if (isOffensiveMagicType(magic.type) && n !== undefined && n > 0 && casterPos) {
     const offType = magic.type
     // 伤害数字延迟到 OffMagic 落完(sdlpal PAL_BattleDisplayStatChange 在 OffMagic 后,fight.c:4045),
     // 再和 PostMagic 第一帧同帧显示。
@@ -312,7 +304,7 @@ function buildAndStartCoopSummonAnim(input: {
 
   let offMagicFrames: BattleAnimFrame[] = []
   const secondary = magics.find((m) => m.id === magic.effect)
-  if (secondary && isOffMagicType(secondary.type)) {
+  if (secondary && isOffensiveMagicType(secondary.type)) {
     const n = magicSpriteFrameCounts?.get(secondary.effect)
     if (n !== undefined && n > 0) {
       offMagicFrames = buildPlayerOffMagicTimeline({
@@ -343,8 +335,8 @@ function buildAndStartCoopSummonAnim(input: {
 
   const godFrames = buildSummonGodSequence({
     spriteKey: `player-${summonChunk}`,
-    pos: { x: 240 + asShort(magic.xOffset), y: 165 + asShort(magic.yOffset) },
-    bgColorShift: asShort(magic.effectTimes),
+    pos: { x: 240 + asMagicShort(magic.xOffset), y: 165 + asMagicShort(magic.yOffset) },
+    bgColorShift: asMagicShort(magic.effectTimes),
     totalFrames,
     frameTimeMs: (magic.speed + 5) * 10,
     offMagicFrames,
