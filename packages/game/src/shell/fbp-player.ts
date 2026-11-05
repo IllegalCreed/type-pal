@@ -129,7 +129,8 @@ export interface ScrollFbpOptions {
 /**
  * FBP 全屏图滚动卷入(port sdlpal ending.c:152-279 PAL_ScrollFBP)。
  * 220 步:下滑时旧屏(快照)整体下移、新图自底向上从顶部推入;每步 800/speed ms。末帧整屏 = 新图。
- * MGO effect sprite overlay + PAL_ApplyWave 留 Phase 3(结局 ScrollFBP(74) g_wCurEffectSprite=0 + wScreenWave=0)。
+ * 本播放器会叠加 effect sprite，但不读取 gs 的 wave 或 fNeedToFadeIn；
+ * 不宣称包含 SDLPal PAL_ScrollFBP 的这两段状态处理。
  * modal,caller suspendRaf 包。
  */
 export async function scrollFbp(o: ScrollFbpOptions): Promise<void> {

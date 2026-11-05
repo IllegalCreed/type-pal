@@ -1,11 +1,12 @@
 import type { Command } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { startDialogLine } from '../../present/dialog-box.js'
 import {
   makeBattleField,
   makeEnemy,
   makePlayerRoles,
 } from '../__tests__/stats/stats-test-fixtures.js'
+import { createCommandBus } from '../command-bus.js'
 import {
   createInitialGameState,
   type GameState,
@@ -22,7 +23,9 @@ import {
   setBattleResources,
   setBattleRunScript,
 } from './battle-runtime-context.js'
+import { battleInput } from './battle-start.test-fixtures.js'
 import { type BattleState, createBattleState } from './battle-state.js'
+import { tickBattle } from './battle-system.js'
 
 function battleFixture(partyMembers = [0]) {
   const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
@@ -175,7 +178,7 @@ describe('battle finalization ownership', () => {
     }
     installResume(gs)
 
-    finalizeBattle(gs, state, resources, false)
+    tickBattle(gs, battleInput(), createCommandBus())
 
     expect(gs.PlayerRolesRuntime.rgwHP.slice(0, 3)).toEqual([0, 100, 0])
     expect(gs.PlayerRolesRuntime.rgwMP.slice(0, 3)).toEqual([11, 50, 7])
@@ -208,7 +211,17 @@ describe('battle finalization ownership', () => {
     if (forced) state.battleDialogQueue = [{ text: '尚未播放', style: 'bottom' }]
     installResume(gs)
 
-    finalizeBattle(gs, state, resources, forced)
+    if (forced) {
+      const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+      onTestFinished(() => error.mockRestore())
+      state.phaseStallTicks = 1501
+      tickBattle(gs, battleInput(), createCommandBus())
+      expect(error.mock.calls).toEqual([
+        ['[battle] phase performAction stall > 1500 ticks (~60s),强制退出 explore'],
+      ])
+    } else {
+      finalizeBattle(gs, state, resources, false)
+    }
 
     expect(gs.eventCursor?.ip).toBe(expectedIp)
     if (forced) expect(state.battleDialogQueue).toBeUndefined()

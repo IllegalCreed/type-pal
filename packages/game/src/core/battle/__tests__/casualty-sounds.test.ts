@@ -1,30 +1,31 @@
 /**
- * M6 玩家濒死/阵亡音 —— emitPlayerCasualtySounds 单测。
+ * Player casualty sounds through the public sweep, with explicit HP snapshots.
  *
  * sdlpal 真值:
  *   - 阵亡音 rgwDeathSound:enemy 攻击致死处内联(fight.c:4816/4851/5110,HP→0)。
  *   - 濒死音 rgwDyingSound:PAL_BattlePostActionCheck(fight.c:834-850)—— HP<min(100,maxHP/5)
- *     且回合初 >= 阈值(刚跨入)。
- * ts 集中到每回合后处理一次,比对本回合初 prevHp。
+ *     前态门用未钳制的 maxHP/5；当前HP才用 min(100,maxHP/5)。
+ * TS compares the previous sweep's snapshot. Action completion and post-poison
+ * callers supply different cause/guardian inputs; this is not a whole-turn audio test.
  */
 import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createCommandBus } from '../../command-bus.js'
 import { emitPlayerCasualtySounds } from '../battle-system.js'
 
-/** 最小 role(只用到 hp/maxHP/deathSound/dyingSound)。 */
 function role(opts: {
   hp: number
   maxHP?: number
   deathSound?: number
   dyingSound?: number
 }): PlayerRole {
-  return {
+  return makeRoleRecord(0, {
     hp: opts.hp,
     maxHP: opts.maxHP ?? 100,
     deathSound: opts.deathSound ?? 23,
     dyingSound: opts.dyingSound ?? 19,
-  } as unknown as PlayerRole
+  })
 }
 
 function run(
@@ -39,12 +40,13 @@ function run(
   emitPlayerCasualtySounds(players, playerRoles, bus, pre)
   const sounds = bus
     .drain()
-    .filter((c) => c.cmd.op === 'playSound')
-    .map((c) => (c.cmd as { soundId: number }).soundId)
+    .map(({ cmd }) => cmd)
+    .filter((cmd) => cmd.op === 'playSound')
+    .map((cmd) => cmd.soundId)
   return { sounds, prevHp: players[0]!.prevHp }
 }
 
-describe('M6 emitPlayerCasualtySounds', () => {
+describe('player casualty sound sweep', () => {
   it('本回合阵亡(prevHp>0 → hp=0)→ deathSound,prevHp 快照为 0', () => {
     const r = run({ hp: 0, deathSound: 23 }, 100)
     expect(r.sounds).toEqual([23])
@@ -65,7 +67,7 @@ describe('M6 emitPlayerCasualtySounds', () => {
     expect(run({ hp: 60 }, 100).sounds).toEqual([])
   })
 
-  it('未掉血(hp>=prevHp)→ 无音,prevHp 跟到当前 hp', () => {
+  it('HP unchanged: no sound and snapshot remains current', () => {
     const r = run({ hp: 80 }, 80)
     expect(r.sounds).toEqual([])
     expect(r.prevHp).toBe(80)
@@ -93,11 +95,16 @@ describe('M6 emitPlayerCasualtySounds', () => {
     expect(run({ hp: 15, dyingSound: 19 }, 100, 40).sounds).toEqual([19])
   })
 
-  it('DL2a:prevHP 阈值用 raw maxHP/5(fight.c:836-837 无 min(100));当前 hp 仍 IsPlayerDying 口径', () => {
-    // maxHP=9999 → prevThreshold = 1999;prevHp 150 落在 100~1999 区间 → C **不**触发(旧 ts 多播)
-    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 150).sounds).toEqual([])
-    expect(run({ hp: 150, maxHP: 9999, dyingSound: 19 }, 200).sounds).toEqual([])
-    // prevHp >= 1999 才真触发(当前 hp < min(100, 1999)=100)
-    expect(run({ hp: 99, maxHP: 9999, dyingSound: 19 }, 2000).sounds).toEqual([19])
+  it.each([
+    { reason: 'previous HP was already below raw maxHP/5', hp: 99, previous: 150, sounds: [] },
+    {
+      reason: 'current HP is above the capped dying threshold',
+      hp: 150,
+      previous: 200,
+      sounds: [],
+    },
+    { reason: 'both thresholds are crossed', hp: 99, previous: 2000, sounds: [19] },
+  ])('$reason for maxHP 9999', ({ hp, previous, sounds }) => {
+    expect(run({ hp, maxHP: 9999, dyingSound: 19 }, previous).sounds).toEqual(sounds)
   })
 })

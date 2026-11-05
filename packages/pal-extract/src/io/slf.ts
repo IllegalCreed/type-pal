@@ -6,7 +6,11 @@ export interface SlfLocalization {
   layout: PalLanguagePack['layout']
 }
 
-/** SLF is UTF-8. Message bodies preserve whitespace, escapes and control codes. */
+/**
+ * Parse the display sections of a decoded SLF. The CLI owns fatal UTF-8 decoding.
+ * Message bodies preserve whitespace, escapes and control codes. Unlike SDLPal's
+ * permissive reader, extraction rejects malformed/ambiguous ranges before replacing output.
+ */
 export function parseSlf(text: string): SlfLocalization {
   const result: SlfLocalization = { words: {}, groups: [], layout: {} }
   let section: string | undefined

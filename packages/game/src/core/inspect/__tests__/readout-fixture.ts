@@ -1,10 +1,11 @@
 // Fresh projection inputs. These synthetic name/script tables are not original-resource or script-execution claims.
 import type { Enemy, Item, ObjectPoisonView, PlayerRoles } from '@type-pal/shared'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import {
   makeEnemyRecord as makeEnemy,
   makeRoleRecord as makeRole,
 } from '../../../__tests__/battle-records.js'
-import { makeBattle } from '../../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../../__tests__/scripted-rng.js'
 import type { BattleState } from '../../battle/battle-state.js'
 import {
   createInitialGameState,
@@ -38,7 +39,8 @@ export const inspectionNames: readonly Item[] = [
   },
 ]
 export function makeBattleReadoutState(enemy: Partial<Enemy> = {}): GameState {
-  const { gs, state, playerRoles } = makeBattle({
+  const { gs, state, playerRoles } = makeBattleFixture({
+    rng: lowerBoundRng(),
     roles: [
       makeRole(0, {
         _name: '李逍遥',

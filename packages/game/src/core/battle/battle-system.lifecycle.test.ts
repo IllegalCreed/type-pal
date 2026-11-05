@@ -5,7 +5,7 @@ import {
   makeEnemyRecord as makeEnemy,
   makeRoleRecord as makeRole,
 } from '../../__tests__/battle-records.js'
-import { seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../__tests__/scripted-rng.js'
 import { createCommandBus } from '../command-bus.js'
 import { createInitialGameState } from '../game-state.js'
 import { startTestBattle as boot, battleInput as emptyInput } from './battle-start.test-fixtures.js'
@@ -129,7 +129,7 @@ describe('battle lifecycle', () => {
     expect(st.pendingActions.get(0)?.type).toBe('flee')
     expect(st.phase).toBe('performAction')
     // Queue construction has finished; this RNG now belongs to action execution.
-    const rng = seqRng([114]) // enemy fleeRate50 + (level10 + 6)*4 = 114; player rate5.
+    const rng = lowerBoundRng([114]) // enemy fleeRate50 + (level10 + 6)*4 = 114; player rate5.
     st.rng = rng
     // Flee is slower than the enemy: isolate the player's already selected queue entry.
     const playerAction = st.actionQueue.find((entry) => !entry.isEnemy)

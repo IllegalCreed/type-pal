@@ -756,10 +756,10 @@
       "sceneId": 86,
       "mapNum": 93,
       "partyStart": {
-        "x": 80,
+        "x": 176,
         "y": 1048,
         "facing": "down",
-        "_devNote": "scene 86 wScriptOnEnter(L_13868) 不含 setPartyPos;无 caller-trace,NPC-anchored BFS(4 iso 方向,parity-matched to NPC 1624) center,连通区 size=15996。dev-only fallback。"
+        "_devNote": "scene 86 wScriptOnEnter(L_13868) 不含 setPartyPos;无 caller-trace。备用点保留NPC邻域网格相位，向右避开PAL_CheckObstacleWithRange的x<160不可进入带；须经真实加载/四向移动复核。dev-only fallback。"
       }
     },
     {

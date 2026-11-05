@@ -1,11 +1,12 @@
 # TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts
 
-Status: rework
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Status: done
+Owner: Codex
+Coding Owner: Codex（本轮测试返工）
+Last reviewed: 2026-11-05
 Template: task-card-v1 / 1.0.0
 
-本页把当前 ops task card 接入 `task-card-v1`。原当前裁决、目标、独占范围、硬约束与交付、GLM r1 交付回执、Codex 独立验收与收口（历史裁决，2026-10-12 撤回）与返工提示词在 quote 中逐字保全；本次只改变文档结构与可追溯边界，不改变产品、测试、E2E 或用户裁决，不推进状态。
+现行层记录Codex本轮测试返工与准入；原GLM交付、撤回裁决和旧提示词在quote中逐字保全。旧Owner/测试数量/反控汇总不代表当前验收，不恢复固定席位或历史done。
 
 ## 目标
 
@@ -13,22 +14,42 @@ Template: task-card-v1 / 1.0.0
 
 ## 范围
 
-- 范围为战斗回合/毒结算/终局恢复测试合同及其证据缺口；历史15针和撤回accept不重新获得信用，不修改产品/旧测试。
+- 范围为原15个战斗回合/毒结算/终局恢复测试合同及证据缺口，本卡改原专测与必要相邻fixture/后继测试；产品窄修另归获用户批准的GAME-BATTLE-COOP-CONFUSED-QUEUE-1。历史15针与撤回accept不重新获得信用。
 
 ## 状态与交接
 
+- 2026-11-05 Codex接手测试返工，build allowed：用户已要求pending批逐文件与GLM必要返工由Codex完成；当前看板、worktree/分支与源码状态未见GLM当前写入者。本卡原贡献保留于历史，固定GLM席位不恢复。单一Coding Owner为Codex，同一治理分支，不另建分支。
+- 现行白名单：本卡15个既有合同的合法输入、真实前序、排重、职责组织及必要相邻测试/typed fixture；产品机制与接口仍冻结。优先复用现行finalization和战斗初始化证据，不能凭旧“未覆盖”宣称再包装重复。
+- 旧62份日志/31次原生JSON不可从汇总补造，历史15VALID与accept永久撤回。本轮采用新的实际执行身份/原件替代旧验收载体，全部15合同有强后继及合法输入/真实前序；旧counter各事实项处置见下，统一门未完成前不标done。
+
 - rework（quote 2026-10-12 当前裁决）。r1 交付 15 合同 + 15 针（mutation-results 15/15 VALID）；2026-10-11 的 accept/done（b75d6d792 在 main 祖先链）已撤回：62 份 stdout/stderr 仅路径或空串、31 次原生 JSON 未入库、`:128 items=[]` 与 `:224` 提交 item 矛盾、`:447/:468` 同回合前序可达性待核。
-- 原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。
+- 以上是2026-10-12历史撤回原因。旧原件不再作为本轮验收来源；新合同按以下逐项处置复核，不将旧缺件补记已恢复。
 
 ## 前提与证据
 
 - `packages/game/src/core/battle/turn-queue.ts`；`battle-finalization.ts`；`battle-system.ts`。
-- `docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md`（排重登记）与 quote 内 2026-10-12 裁决节。
+- [原排重登记](../evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md)与quote内2026-10-12裁决；新的当前交付归[本批唯一记录](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md)。
 
 ## 验收
 
-- 原始raw/31次原生JSON、合法物品输入与同回合前序可达性缺口须逐项闭合；2026-10-12撤回保持，不以15/15计数重授accept。
-- 本次只接受文档表达；原任务Status、用户裁决和未跑边界不变。
+- 2026-10-12撤回保持；新交付须逐项证明实际caller、合法输入与判别力，并保全新相位完整原件。不补造旧31次执行、不以旧15/15重授accept。
+- 当前接手只授权测试整改与据证验收，统一门随父批；产品机制/接口未有新裁决时继续冻结。新证据只能关闭其实际覆盖的缺口，不补造旧执行。
+
+## 本轮证据处置（2026-11-05）
+
+| 历史counter | 当前处置与限制 |
+|---|---|
+| 62日志/31JSON缺件 | 历史声明永久撤回；新的原始default+JSON报告、命令/时间/输入SHA、业务红例及恢复分别保全于父批唯一归档。不是重建旧执行；无需凑旧15针计数。 |
+| items=[]却提交1 | round-order经真实库存物品7与菜单选择，断完整队列顺序；无非法物品前提。 |
+| co-op手填flag前序 | 两健康队员真实菜单合击，第三混乱；首次正式1红找到产品错接，获用户批准后独立机制卡修复。核精确HP/EXP与后续RNG。去生产者flag时旧手注测试绿、新指定1业务红，源码恢复SHA相同。 |
+| auto手填前序 | 真实auto行动后再消费后续手动动作；producer反控旧绿新指定1业务红、恢复绿。 |
+| 排重/职责 | 15旧身份逐条映：两终局合回已有finalizer，两毒轴合一，余专属12按顺序/生命周期/逃跑组织；与6个finalizer共18，唯一业务轴不删。 |
+
+逐文件A–H、具体身份及三态原件入口取[父批唯一记录](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#回合开发落点与资源宿主最后4个原主体)。8相邻文件46绿、stderr空；统一门待父批。现行测试整改可据新证据接收，历史撤回原样保全；不授普通剧情可达性、视觉或完整E2E信用。
+
+## 本批有限交付收口
+
+2026-11-05有限交付收口：本卡当前合同及获准差异已由Codex据证接受，原失败/历史撤回不恢复；集中组成门和唯一原件归[父批](QUALITY-PHASE1-PENDING-93-1.md)与[回执](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#集中门最终组成与必要返工)。本地验收不预报PR/main未来结果，发布按同分支保护检查执行。
 
 ## 原文保全
 

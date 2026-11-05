@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-11-02
+Last reviewed: 2026-11-05
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -17,10 +17,12 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,636。
-当前已闭合核验：846；已读但待审：0；尚未逐文件核验：2,790；合计未闭合：2,790。
+起始基点机器清单：2,962。当前 tracked 清单：3,667。
+当前已闭合核验：970；已读但待审：0；尚未逐文件核验：2,697；合计未闭合：2,697。
 
 2026-11-02 按当前 index 库存同步：相对固定159cd库存新增12个工具路径并退役1份N3历史生成物，净增11项 pending；846 条既有 live 记录逐字节保留，没有新增关闭。`已验证/保留`只表示原专项已登记的核验，适用性仍须查对应版本、caller 与证据，不表示本轮重读产品或重跑测试。
+
+2026-11-05：93原pending主体按唯一八维记录接受；32旧路径按职责退役/合并，60新实现/专测/夹具路径逐项承接，另3个必要门工具逐文件接受，61原路径保留，当前增124条文件层记录，库存净增31。worklet按用户明确批准的第三方生成物合同，不冒上游算法全文审查。原846旧行中845逐字节保全，PAL引用专测一行按本轮因果证据刷新；集中门与集成资格独立取父卡，未知结构候选仍在原审查限定范围。
 
 ## 入口与责任
 
@@ -136,7 +138,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/content/src/validate-runtime.ts` | product | 已验证 | 直接读取 runtime scene/hooks/entities validator 与 content tests | 旧 cast 仅校验后 DTO 投影 |
 | `packages/content/src/world-variable.ts` | product | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `packages/content/tsconfig.json` | product | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
-| `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | [CODE1 Q1b当前逐文件八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md) | 原119语句／84断言保全，九命名合同只加载一次；当前整文件关闭刷新，0新closed；不授生产或E2E信用 |
+| `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | [原CODE1八维](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/code1-closeout/README.md)；[本次来源刷新](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#统一门中的既有pal与术语差异) | 九身份和独立collector/worker合同保留；s005/e116单实体回放解释五census更新，新增具名动画边与旧auto零引用；0新closed，不授E2E信用 |
 | `packages/editor/src/ui/ItemTab.fields.test.tsx` | test | 已验证 | [Item field/placement A-H and identities](../evidence/QUALITY-PENDING-100-3/organization-editor-item-fields.json) | Actual host and lifecycle ownership;7 original identities/69 neighbors,editor and author TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/editor/src/ui/ItemUseEffectEditor.field-history.test.tsx` | test | 已验证 | [Item field/placement A-H and identities](../evidence/QUALITY-PENDING-100-3/organization-editor-item-fields.json) | Actual host and lifecycle ownership;7 original identities/69 neighbors,editor and author TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
 | `packages/editor/src/ui/ItemTab.entity-placement.test.tsx` | test | 已验证 | [Item field/placement A-H and identities](../evidence/QUALITY-PENDING-100-3/organization-editor-item-fields.json) | Actual host and lifecycle ownership;7 original identities/69 neighbors,editor and author TC0. F/G accepted,unified gates pending. 2026-10-31：逐文件代码信用与[集中门收尾](../evidence/QUALITY-PENDING-100-3/local-closeout.json)按精确版本接收；保留上文历史运行边界，不外推相邻文件。 |
@@ -886,3 +888,127 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/quality/lint-zero.mjs` | tool | 已验证 | whole-repository Biome JSON report/fail-closed wrapper；3198-file zero-diagnostic runs | 不接受过滤参数 |
 | `scripts/quality/lint-zero.test.mjs` | test | 已验证 | [本轮逐文件A–H与原件](../evidence/QUALITY-RECENT-200-CONTENT-AUDIT-2/audit.json) | 既有关闭经当前153主体复核；具体caller/oracle/结构取舍及未修相邻风险逐项记录，不重复增加closed；统一门另核。 |
 | `scripts/script-governance/run.mjs` | tool | 已验证 | canonical install census CLI, output symlink guard, script-governance tests | 不写产品数据 |
+| `packages/game/public/spessasynth_processor.min.js` | vendor/reference | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 用户批准按第三方生成物合同接收：供应者字节/锁定版本/许可证/原生加载失败与销毁；不授上游算法全文审查。 |
+| `packages/game/public/sw.js` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/action.test-fixtures.ts` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/battle-auto-selection.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/casualty-sounds.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/coop-magic.animation.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/coop-magic.test-fixtures.ts` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/coop-magic.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/death-fade.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/defend.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/enemy-ai.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/enemy-confused-attack.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/enemy-magic.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/flee.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/item-use.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/magic-action.test-fixtures.ts` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/magic-action.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/magic-input.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/magic-scripts.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/object-script-progress.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/physical-attack.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/player-magic-animation.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/runscript-rearm.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/status-action-effects.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/summon-loop-render.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/__tests__/throw-item.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/actions/coop-magic.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/actions/throw-item.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/anim-timeline.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/action-gestures.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/action-gestures.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/cooperative-magic.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/cooperative-magic.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/enemy-transformation.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/enemy-transformation.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/frames.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/hit-reaction.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/hit-reaction.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/magic-effects.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/magic-effects.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/physical-attack.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/physical-attack.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/summon.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/animation/summon.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-action-wiring.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-anim-driver.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-escape.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-flow.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-progression.level-up.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-round-lifecycle.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-round-order.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/battle-round.test-fixtures.ts` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/enemy-ai.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/battle/magic-object.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/equip-effect.status.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/equipment-state.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-dialogue-lifecycle.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-rng-scene-restore.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-scene-fade.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-scene-state.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-script.auto.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-script.battle.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-script.lifecycle.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-script.resume.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/event-script.wait.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/inventory-state.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/menu/save-slot-menu.flow.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/menu/script-desc.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/menu/script-desc.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/object-script-progress.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/object-script-state.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/overworld-item-script.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/player-poison-entry.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/player-poison-state.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/scene-supplemental-objects.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/scene-supplemental-objects.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/scene-supplemental-objects.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/script-corrections.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/script-story-corrections.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/core/script-topology-corrections.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/fixtures/battle-fixtures.json` | fixture | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/fixtures/scene-jumps.json` | fixture | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/fixtures/scene-names.json` | fixture | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/scene-jumps.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/state-dump.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/dev/state-dump.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/localization/map-names-en.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/localization/settlement-language.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/localization/ui-text.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/localization/ui-text.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/present/menu/localized-background.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/present/menu/localized-background.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/present/palette-brightness.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/present/small-font.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/shell/ending-player.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/shell/fbp-player.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/shell/splash-fallback.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/src/tools/tools-panel.english.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/vendor/rix/source-manifest.json` | vendor/reference | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/game/vite.config.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/cli-localization.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/cli-localization.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/cli-script-corrections.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/events/script-corrections.pal.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/events/script-corrections.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/events/script-corrections.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/events/win-script-corrections.json` | product | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/io/slf.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/io/slf.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/localization/build-language-pack.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/localization/build-language-pack.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/localization/english-message-revisions.json` | product | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/localization/english-revisions.ts` | product | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/localization/english-word-revisions.json` | product | 保留 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `packages/pal-extract/src/resources/scene-supplemental.test.ts` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/quality/fixtures/asset-server.mjs` | fixture | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/quality/game-asset-server.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/quality/game-midi-worklet.test.mjs` | test | 已验证 | [93主体逐文件审查](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md) | 逐文件A–H/实际caller/oracle及职责映射见唯一审查；文件层接收，集中门/交付仍取父卡，不借包绿外推。 |
+| `scripts/docs/testing-source-bridge.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
+| `scripts/docs/testing-source-bridge.test.mjs` | test | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |
+| `scripts/docs/testing-source-refs.mjs` | tool | 已验证 | [必要门工具A–H/当前96/接线反控](../evidence/QUALITY-PHASE1-PENDING-93-1/README.md#必要的现行文档接入工具不增加原93分子) | 限定JSON来源维护/共享校验/专测全文接受；不授旧原件、新runtime或全仓完成；不增加原93分子。 |

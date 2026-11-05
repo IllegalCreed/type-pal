@@ -1,17 +1,10 @@
-/**
- * battle-anim-driver.test.ts —— D17a 时间线驱动 + fighter 复位(数据级断言)。
- *
- * 覆盖:
- *  - applyAnimFrame:fighter pos/currentFrame/iColorShift mutate + overlay 落 battleAnim + damageNum emit
- *  - startBattleAnim:set battleAnim + 立即应用 frame[0]
- *  - resetFightersAfterAction:port PAL_BattleUpdateFighters(fight.c:940-1019)
- */
-
 import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
 import { createCommandBus } from '../../command-bus.js'
-import { createSeedableRng } from '../../rng.js'
 import {
+  advanceBattleAnimFrames,
   applyAnimFrame,
   resetFightersAfterAction,
   startBattleAnim,
@@ -36,7 +29,7 @@ function mkPlayer(roleId: number, opts: Partial<BattlePlayer> = {}): BattlePlaye
 
 function mkEnemy(opts: Partial<BattleEnemy> = {}): BattleEnemy {
   return {
-    e: { health: 100, id: 50, idleFrames: 2, idleAnimSpeed: 1 } as BattleEnemy['e'],
+    e: makeEnemyRecord({ health: 100, id: 50, idleFrames: 2, idleAnimSpeed: 1 }),
     status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
     prevHp: 100,
     scriptOnTurnStart: 0,
@@ -51,45 +44,19 @@ function mkEnemy(opts: Partial<BattleEnemy> = {}): BattleEnemy {
 }
 
 function mkState(players: BattlePlayer[], enemies: BattleEnemy[]): BattleState {
-  return {
-    players,
-    enemies,
-    field: {
-      id: 0,
-      screenWave: 0,
-      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    },
-    isBoss: false,
-    phase: 'performAction',
-    turn: 1,
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'hidden',
-    menuState: 'main',
-    selectedAction: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    uiCursor: 0,
-    expGained: 0,
-    cashGained: 0,
-    rng: createSeedableRng(1),
-    phaseStallTicks: 0,
-  }
+  const { state } = makeBattleFixture({
+    roles: players.map((player) => makeRoleRecord(player.roleId, { hp: 200, maxHP: 200 })),
+    enemies: enemies.map((enemy) => enemy.e),
+  })
+  state.players = players
+  state.enemies = enemies
+  state.phase = 'performAction'
+  state.turn = 1
+  return state
 }
 
 function mkRoles(...roles: Array<Partial<PlayerRole>>): PlayerRoles {
-  return {
-    roles: roles.map(
-      (r, i) =>
-        ({
-          id: i,
-          hp: 200,
-          maxHP: 200,
-          ...r,
-        }) as PlayerRole,
-    ),
-  }
+  return { roles: roles.map((role, id) => makeRoleRecord(id, { hp: 200, maxHP: 200, ...role })) }
 }
 
 describe('applyAnimFrame', () => {
@@ -384,24 +351,42 @@ describe('stepBattleAnimRender — present wall-clock 视觉帧细分(修"施法
     expect(a.summon?.frame).toBe(9) // 召唤神仍定格 lastFrame(只平滑特效,不动神)
   })
 
-  it('视觉-only:细分只刷 fighters/overlay,不碰逻辑副作用(无 bus 参数即结构性保证)', () => {
-    const state = mkAnimState([
-      {
-        durationMs: 50,
-        fighters: [{ side: 'enemy', idx: 0, pos: { x: 5, y: 6 } }],
-        overlays: [{ kind: 'magic', spriteChunk: 7, frameIdx: 0, x: 1, y: 1 }],
-      },
-      {
-        durationMs: 50,
-        fighters: [{ side: 'enemy', idx: 0, pos: { x: 9, y: 9 } }],
-        overlays: [{ kind: 'magic', spriteChunk: 7, frameIdx: 1, x: 2, y: 2 }],
-      },
-    ])
+  it('rendering ahead changes visuals, then the logic clock commits damage, sound and keepEffect once', () => {
+    const state = mkAnimState(
+      [
+        { durationMs: 50, fighters: [{ side: 'enemy', idx: 0, pos: { x: 5, y: 6 } }] },
+        {
+          durationMs: 50,
+          fighters: [{ side: 'enemy', idx: 0, pos: { x: 9, y: 9 } }],
+          overlays: [{ kind: 'magic', spriteChunk: 7, frameIdx: 1, x: 2, y: 2 }],
+          keepEffect: true,
+          sound: 90,
+          damageNum: { target: { kind: 'enemy', idx: 0 }, value: 37, color: 'blue' },
+        },
+      ],
+      { frameElapsedMs: 7 },
+    )
+    const bus = createCommandBus()
     const a = state.battleAnim!
     stepBattleAnimRender(state, 1000)
-    stepBattleAnimRender(state, 1060) // → frame1
-    expect(state.enemies[0]!.pos).toEqual({ x: 9, y: 9 }) // fighter 视觉已刷
+    stepBattleAnimRender(state, 1060)
+    expect(state.enemies[0]!.pos).toEqual({ x: 9, y: 9 })
     expect(a.overlays?.[0]!.frameIdx).toBe(1)
+    expect(a.idx).toBe(0)
+    expect(a.frameElapsedMs).toBe(7)
+    expect(state.persistentBgBlits).toBeUndefined()
+
+    expect(advanceBattleAnimFrames(state, bus, 50)).toBe(false)
+    expect(a.idx).toBe(1)
+    expect(a.frameElapsedMs).toBe(7)
+    expect(state.persistentBgBlits).toEqual([{ spriteChunk: 7, frameIdx: 1, x: 2, y: 2 }])
+    expect(bus.drain().map((entry) => entry.cmd)).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 37, color: 'blue' },
+      { op: 'playSound', soundId: 90 },
+    ])
+    expect(advanceBattleAnimFrames(state, bus, 1)).toBe(false)
+    expect(bus.drain()).toEqual([])
+    expect(state.persistentBgBlits).toHaveLength(1)
   })
 
   it('无 battleAnim → 纯 no-op', () => {
@@ -473,32 +458,19 @@ describe('resetFightersAfterAction (fight.c:940-1019)', () => {
     expect(e.iColorShift).toBe(0)
     // 复位回 undefined → draw idle 时钟轮播(置 0 会冻结,回归 D17c)。
     expect(e.currentFrame).toBeUndefined()
+    expect(e.idleFrame).toBe(0)
+    expect(e.idleTick).toBe(1)
   })
 
-  it('player 睡眠(sleep>0,活)→ currentFrame=1(睡倒);puppet 死后 → 0(站立)', () => {
-    // fight.c:957-960 sleep→帧1;fight.c:965-972 hp0&&puppet→帧0
-    const sleepState = mkState(
-      [
-        mkPlayer(0, {
-          currentFrame: 0,
-          status: { sleep: 3, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        }),
-      ],
-      [],
-    )
-    resetFightersAfterAction(sleepState, mkRoles({ hp: 200, maxHP: 200 }))
-    expect(sleepState.players[0]!.currentFrame).toBe(1)
-
-    const puppetState = mkState(
-      [
-        mkPlayer(0, {
-          currentFrame: 4,
-          status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0, puppet: 2 },
-        }),
-      ],
-      [],
-    )
-    resetFightersAfterAction(puppetState, mkRoles({ hp: 0, maxHP: 200 }))
-    expect(puppetState.players[0]!.currentFrame).toBe(0)
+  it.each([
+    { name: 'sleeping', hp: 200, sleep: 3, puppet: 0, expected: 1 },
+    { name: 'dead puppet', hp: 0, sleep: 0, puppet: 2, expected: 0 },
+  ])('$name uses rest frame $expected', ({ hp, sleep, puppet, expected }) => {
+    const player = mkPlayer(0, { currentFrame: 4 })
+    player.status.sleep = sleep
+    player.status.puppet = puppet
+    const state = mkState([player], [])
+    resetFightersAfterAction(state, mkRoles({ hp, maxHP: 200 }))
+    expect(state.players[0]!.currentFrame).toBe(expected)
   })
 })

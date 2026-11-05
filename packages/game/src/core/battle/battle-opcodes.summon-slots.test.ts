@@ -5,9 +5,9 @@
 import type { Enemy, EnemyObject } from '@type-pal/shared'
 import { describe, expect, test } from 'vitest'
 import { makeEnemyRecord } from '../../__tests__/battle-records.js'
-import { makeBattle } from '../../__tests__/coverage85-glm-game/harness.js'
 import type { BattleCtx } from '../event-system.js'
 import { createInitialGameState } from '../game-state.js'
+import { makeOpcodeBattle } from './battle-opcode.test-fixtures.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 import type { BattleEnemy, BattleState } from './battle-state.js'
 
@@ -76,7 +76,7 @@ function makeSummonContext(
 
 /** Constructor-owned party/RNG/queues; retain the explicitly prepared mutable enemy slot references. */
 function makeBattleWithSlots(roster: BattleEnemy[]): BattleState {
-  const { state } = makeBattle({ enemies: roster.map((enemy) => enemy.e) })
+  const { state } = makeOpcodeBattle({ enemies: roster.map((enemy) => enemy.e) })
   state.enemies = roster
   state.phase = 'performAction'
   state.turn = 1

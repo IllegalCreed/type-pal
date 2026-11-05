@@ -1,6 +1,13 @@
 import type { AbstractKey, Command, InputSnapshot } from '@type-pal/shared'
 import { afterEach, assert, beforeEach, describe, expect, it } from 'vitest'
-import { buildLabelMap, OP_BUY_MENU, setShopMenuHandler, tickEventSystem } from '../event-system.js'
+import {
+  buildLabelMap,
+  OP_ADD_CASH,
+  OP_BUY_MENU,
+  OP_SELL_MENU,
+  setShopMenuHandler,
+  tickEventSystem,
+} from '../event-system.js'
 import { createInitialGameState, type GameState } from '../game-state.js'
 import { buyFlowItems } from './__tests__/trading-fixture.js'
 import { dispatchMenuInput, setMenuCatalogs } from './menu-driver.js'
@@ -42,6 +49,47 @@ describe('Shop script and transaction flow', () => {
     expect(gs.menuStack[0]?.kind).toBe('shop-buy')
     expect(gs.eventCursor?.waiting).toBe('shop')
     expect(gs.eventCursor?.ip).toBe(1) // 已 ip++(菜单关后从此续)
+  })
+
+  it.each([
+    4, 9,
+  ])('sell opcode operand %i opens the sell menu and resumes only after it closes', (operand) => {
+    gs.inventory = [{ itemId: 105, count: 2 }]
+    loadEvent(gs, [
+      { op: 'raw', opcode: OP_SELL_MENU, operands: [operand, 0, 0] },
+      { op: 'raw', opcode: OP_ADD_CASH, operands: [7, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, inputSnapshot())
+    expect(gs.mode).toBe('menu')
+    expect(gs.menuStack).toHaveLength(1)
+    expect(gs.menuStack[0]?.kind).toBe('shop-sell')
+    expect(gs.eventCursor?.waiting).toBe('shop')
+    expect(gs.eventCursor?.ip).toBe(1)
+    expect(gs.dwCash).toBe(1000)
+    tickMenu(gs, inputSnapshot(['Menu']))
+    expect(gs.mode).toBe('event')
+    expect(gs.eventCursor?.waiting).toBeUndefined()
+    tickEventSystem(gs, inputSnapshot())
+    expect(gs.dwCash).toBe(1007)
+    expect(gs.inventory).toEqual([{ itemId: 105, count: 2 }])
+    expect(gs.mode).toBe('explore')
+  })
+
+  it.each([
+    OP_BUY_MENU,
+    OP_SELL_MENU,
+  ])('shop opcode %i without a handler skips and continues', (opcode) => {
+    setShopMenuHandler(null)
+    loadEvent(gs, [
+      { op: 'raw', opcode, operands: [1, 0, 0] },
+      { op: 'raw', opcode: OP_ADD_CASH, operands: [7, 0, 0] },
+      { op: 'end' },
+    ])
+    tickEventSystem(gs, inputSnapshot())
+    expect(gs.dwCash).toBe(1007)
+    expect(gs.mode).toBe('explore')
+    expect(gs.eventCursor).toBeUndefined()
   })
 
   it('买 1 个:Confirm 选 → Confirm 买 → cash 扣 + item 入包', () => {

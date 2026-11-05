@@ -166,5 +166,6 @@ const ENGLISH_LABELS: Readonly<Record<string, string>> = {
 }
 
 export function uiText(chinese: string): string {
-  return localize(chinese, ENGLISH_LABELS[chinese] ?? chinese)
+  const english = Object.hasOwn(ENGLISH_LABELS, chinese) ? ENGLISH_LABELS[chinese] : undefined
+  return localize(chinese, english ?? chinese)
 }

@@ -1,63 +1,83 @@
-/**
- * B2 c7 —— runScript 返回值 = sdlpal PAL_RunTriggerScript 的 wNextScriptEntry。
- *
- * sdlpal script.c:3171/3204-3237/3478:wNextScriptEntry 初始 = 传入 entry;
- *   0x00 Stop(plain end)→ 不改 → 返回**起始 entry**(每轮从头重跑 = 每轮重显);
- *   0x01(advance)→ 该行 +1(指针前移 = show-once);
- *   0x02(reset)→ operand[0]=resetTo(re-arm 到指定 entry)。
- * 敌 turnStart/ready 调用方据此回写 wScriptOnTurnStart/Ready(fight.c:1186/1226/1689/1719)实现真 show-once。
- *
- * 这里用 explore 模式(无 battleCtx)单测纯返回值契约:脚本只含 end / 可跳过的 raw,跑完同步返回。
- */
+/** Script return-entry contracts and the enemy-ready caller that owns the saved entry. */
 import type { Command } from '@type-pal/shared'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from '../../command-bus.js'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import { runScript } from '../../event-system.js'
+import { battleInput, startTestBattle } from '../battle-start.test-fixtures.js'
+import { tickBattle } from '../battle-system.js'
 
-// explore 模式下 raw opcode 会 console.debug skip —— 静音保持输出 pristine。
-beforeEach(() => {
-  vi.spyOn(console, 'debug').mockImplementation(() => {})
-  vi.spyOn(console, 'warn').mockImplementation(() => {})
-})
+const PREFIX: Command = { op: 'setDialogStyleNarration' }
 
-// 占位 raw(explore 模式 → D26 skip + ip++);用于在 end 前制造位移,证明返回的是"起始 entry"而非"end 位置"。
-const NOOP: Command = { op: 'raw', opcode: 0x9f, operands: [0, 0, 0] }
-
-function run(commands: Command[], ip: number): number {
-  return runScript({ commands, ip, bus: createCommandBus(), runtimeMode: 'explore' })
+function run(commands: Command[], ip = 1): number {
+  const { state, gs, playerRoles, bus } = makeBattleFixture()
+  return runScript({
+    commands,
+    ip,
+    bus,
+    runtimeMode: 'battle',
+    battleCtx: { state, gs, playerRoles },
+  })
 }
 
-describe('B2 c7 runScript 返回 wNextScriptEntry', () => {
-  it('0x00 plain end → 返回起始 entry(opts.ip),即便 end 在后面(每轮重显)', () => {
-    // ip=0 起跑,end 在 ip=1;返回应为起始 0(不是 end 的位置 1)。
-    expect(run([NOOP, { op: 'end' }], 0)).toBe(0)
-    // end 即起点时同样返回起点。
-    expect(run([{ op: 'end' }], 0)).toBe(0)
+describe('script return entry', () => {
+  it('plain end returns the initial entry even after preceding instructions', () => {
+    expect(run([{ op: 'end' }, PREFIX, { op: 'end' }])).toBe(1)
+    expect(run([{ op: 'end' }, { op: 'end' }])).toBe(1)
   })
 
-  it('0x01 advance end → 返回该 end 行 +1(show-once)', () => {
-    // end-advance 在 ip=1 → 返回 2(跳过本段)。
-    expect(run([NOOP, { op: 'end', advance: true }], 0)).toBe(2)
-    // end-advance 在 ip=0 → 返回 1。
-    expect(run([{ op: 'end', advance: true }], 0)).toBe(1)
+  it('advance end returns the instruction after that end', () => {
+    expect(run([{ op: 'end' }, PREFIX, { op: 'end', advance: true }])).toBe(3)
+    expect(run([{ op: 'end' }, { op: 'end', advance: true }])).toBe(2)
   })
 
-  it('0x02 reset end → 返回 resetTo 标签解析出的 entry(re-arm 指定)', () => {
-    // end-reset resetTo=7 → labelMap['L_7'] = 2(带 L_7 标签的命令下标)。
+  it('reset end resolves the label to its command index', () => {
     const commands: Command[] = [
+      { op: 'end' },
       { op: 'end', reset: true, resetTo: 7 },
-      NOOP,
+      PREFIX,
       { op: 'end', label: 'L_7' },
     ]
-    expect(run(commands, 0)).toBe(2)
+    expect(run(commands)).toBe(3)
   })
 
-  it('0x02 reset 但 resetTo 标签缺失 → 退回起始 entry(不误禁)', () => {
-    expect(run([{ op: 'end', reset: true, resetTo: 999 }], 0)).toBe(0)
+  it('missing reset labels leave the original entry armed', () => {
+    expect(run([{ op: 'end' }, { op: 'end', reset: true, resetTo: 999 }])).toBe(1)
   })
 
-  it('ip 越界(脚本未达 end opcode)→ 返回起始 entry(保持 armed,不误禁)', () => {
-    // 只有一条可跳过 raw,跑完 ip→1 越界 → 返回 opts.ip=0。
-    expect(run([NOOP], 0)).toBe(0)
+  it('running past the command list reports its exact warning and keeps the original entry', () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    onTestFinished(() => warning.mockRestore())
+    expect(run([{ op: 'end' }, PREFIX])).toBe(1)
+    expect(warning.mock.calls).toEqual([['[event-system battle] ip 2 越界 → 退出']])
   })
+})
+
+it('enemy-ready writes back an advance-end result and does not replay its script on the next action', () => {
+  const { gs, bus } = startTestBattle({
+    commands: [
+      { op: 'end' },
+      { op: 'giveItem', itemId: 99, count: 1 },
+      { op: 'end', advance: true },
+      { op: 'end' },
+    ],
+  })
+  const state = gs.battleState!
+  state.enemies[0]!.scriptOnReady = 1
+  const selectEnemy = () => {
+    state.phase = 'performAction'
+    state.actionQueue = [{ isEnemy: true, idx: 0, dex: 100, fIsSecond: false }]
+    state.currentActionIndex = 0
+    // The isolated next action starts after the previous timeline, not during it.
+    state.battleAnim = undefined
+  }
+  selectEnemy()
+  tickBattle(gs, battleInput(), bus)
+  expect(state.enemies[0]!.scriptOnReady).toBe(3)
+  expect(gs.inventory).toEqual([{ itemId: 99, count: 1 }])
+  for (let i = 0; state.battleAnim && i < 200; i++) tickBattle(gs, battleInput(), bus)
+  expect(state.battleAnim).toBeUndefined()
+  selectEnemy()
+  tickBattle(gs, battleInput(), bus)
+  expect(state.enemies[0]!.scriptOnReady).toBe(3)
+  expect(gs.inventory).toEqual([{ itemId: 99, count: 1 }])
 })

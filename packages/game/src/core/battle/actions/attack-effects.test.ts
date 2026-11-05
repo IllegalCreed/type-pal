@@ -1,7 +1,7 @@
 /**
  * performAttack 将角色的战斗精灵编号映射为命中特效帧。
  * SDLPal PAL_BattleShowPlayerAttackAnim 读取 BattleEffectIndex 的第二列并乘以 3；
- * 此处验证真实动作入口的查表接线，时间线布局由 anim-timeline.test.ts 验证。
+ * 此处验证真实动作入口的查表接线，帧布局由 animation/physical-attack.test.ts 验证。
  * 表缺省回退到帧 0..2 是当前 TS 策略，不声称 SDLPal 有同样的缺表路径。
  */
 import { describe, expect, it } from 'vitest'

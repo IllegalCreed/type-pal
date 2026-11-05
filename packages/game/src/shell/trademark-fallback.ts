@@ -7,6 +7,7 @@
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import type { Framebuffer } from '../present/framebuffer.js'
+import { scalePaletteBrightness } from '../present/palette-brightness.js'
 import { flushToCanvas } from '../present/present.js'
 import { playRng } from './rng-player.js'
 
@@ -37,21 +38,6 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
-function scalePalette(base: Palette, factor: number): Palette {
-  const f = Math.max(0, Math.min(1, factor))
-  return {
-    ...base,
-    colors: base.colors.map(
-      (c) =>
-        [Math.floor(c[0] * f), Math.floor(c[1] * f), Math.floor(c[2] * f)] as [
-          number,
-          number,
-          number,
-        ],
-    ),
-  }
-}
-
 async function fadeOut(
   fb: Framebuffer,
   canvasCtx: CanvasRenderingContext2D,
@@ -64,10 +50,10 @@ async function fadeOut(
     const t = nowFn() - start
     if (t >= durationMs) break
     const factor = 1 - t / durationMs
-    flushToCanvas(fb, canvasCtx, scalePalette(palette, factor))
+    flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, factor))
     await sleep(16) // ~60fps
   }
-  flushToCanvas(fb, canvasCtx, scalePalette(palette, 0))
+  flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, 0))
 }
 
 export async function playTrademarkFallback(options: PlayTrademarkFallbackOptions): Promise<void> {

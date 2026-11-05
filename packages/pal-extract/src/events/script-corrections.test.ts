@@ -94,23 +94,28 @@ test('guarded plan relocates forward script/object references and preserves all 
   )
 })
 
-test('wrong source identity and instruction count reject before applying edits', () => {
-  const input = example(),
-    before = structuredClone(input.source)
-  expect(() =>
-    applyScriptCorrectionPlan(input.source, 'other', input.messages, input.plan),
-  ).toThrow('Unsupported script source')
-  input.plan.instructionCount++
+test.each([
+  ['identity', 'Unsupported script source'],
+  ['instruction-count', 'expected 3 instructions'],
+] as const)('wrong source %s rejects before applying edits', (kind, reason) => {
+  const input = example()
+  if (kind === 'identity') input.sha = 'other'
+  else input.plan.instructionCount++
+  const before = structuredClone(input)
   expect(() =>
     applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
-  ).toThrow('expected 3 instructions')
-  expect(input.source).toEqual(before)
+  ).toThrow(reason)
+  expect(input).toEqual(before)
+})
+
+test('the Win correction entry rejects a synthetic source even when it is a valid script container', () => {
+  const input = example()
   expect(() => correctScripts(input.source, input.sha, input.messages)).toThrow(
     'Unsupported script source',
   )
 })
 
-test('supplemental event IDs append contiguously and reject collisions, gaps, duplicates and invalid owners', () => {
+function supplementalFixture() {
   const input = example()
   input.source.scenes = [
     {
@@ -127,6 +132,11 @@ test('supplemental event IDs append contiguously and reject collisions, gaps, du
     object: { x: 32, y: 48, spriteNum: 0, triggerMode: 5, triggerScript: { block: 'stop' } },
   }
   input.plan.rules[0]!.supplementalObjects = [entry]
+  return { input, entry }
+}
+
+test('a supplemental event follows the native table and resolves its script reference', () => {
+  const { input } = supplementalFixture()
   const result = applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan)
   expect(result.sss.eventObjects).toHaveLength(1)
   expect(result.supplementalObjects).toEqual([
@@ -144,20 +154,24 @@ test('supplemental event IDs append contiguously and reject collisions, gaps, du
       },
     },
   ])
-  for (const id of [0, 2]) {
-    input.plan.rules[0]!.supplementalObjects = [{ ...entry, id }]
-    expect(() =>
-      applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
-    ).toThrow('must append the native table')
-  }
-  input.plan.rules[0]!.supplementalObjects = [entry, entry]
+})
+
+test.each([
+  ['collision', 'must append the native table'],
+  ['gap', 'must append the native table'],
+  ['duplicate', 'must append the native table'],
+  ['unknown-scene', 'invalid scene'],
+] as const)('a supplemental %s is rejected without changing source or plan', (kind, reason) => {
+  const { input, entry } = supplementalFixture()
+  if (kind === 'collision') entry.id = 0
+  if (kind === 'gap') entry.id = 2
+  if (kind === 'duplicate') input.plan.rules[0]!.supplementalObjects!.push(entry)
+  if (kind === 'unknown-scene') entry.sceneId = 1
+  const before = structuredClone(input)
   expect(() =>
     applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
-  ).toThrow('must append the native table')
-  input.plan.rules[0]!.supplementalObjects = [{ ...entry, sceneId: 1 }]
-  expect(() =>
-    applyScriptCorrectionPlan(input.source, input.sha, input.messages, input.plan),
-  ).toThrow('invalid scene')
+  ).toThrow(reason)
+  expect(input).toEqual(before)
 })
 
 test('metadata-only rules preserve script, object and message data without requiring empty edit lists', () => {

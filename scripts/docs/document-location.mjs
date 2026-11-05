@@ -15,6 +15,7 @@ import { markdownLinks } from './markdown.mjs'
 import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
+import { assertTestingSourceBridge, isTestingSourceBridgePath } from './testing-source-bridge.mjs'
 
 export const documentLocationManifest = 'docs/phase-governance/document-locations.json'
 export const fixedGitSourceUrl = (path, revision = documentLocationAdmission.baseRevision) =>
@@ -324,13 +325,13 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     assert(source.entries.has(row.path), `document location: changed source missing: ${row.path}`)
     assert(!changes.has(row.path), `document location: duplicate change: ${row.path}`)
     assert(
-      row.path.endsWith('.md') &&
-        ['links', 'reviewed'].includes(row.mode) &&
+      ((row.path.endsWith('.md') && ['links', 'reviewed'].includes(row.mode)) ||
+        (isTestingSourceBridgePath(row.path) && row.mode === 'testing-source-bridge')) &&
         ((row.mode === 'links' && row.afterSha256 === undefined) ||
           /^[a-f\d]{64}$/u.test(row.afterSha256 ?? '')),
       `document location: unsupported body change: ${row.path}`,
     )
-    if (row.mode === 'reviewed') reviewValid(row.review, row.path)
+    if (row.mode !== 'links') reviewValid(row.review, row.path)
     else
       assert(
         !row.templateId &&
@@ -344,6 +345,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       row.historyDisposition === undefined || row.historyDisposition === 'fixed-git-source',
       'unknown history disposition',
     )
+    if (row.mode === 'testing-source-bridge')
+      assert(
+        !row.templateId &&
+          !row.variant &&
+          row.historyOverlay === undefined &&
+          row.historyDisposition === undefined,
+        'testing source bridge cannot override a native template or history role',
+      )
     changes.set(row.path, { ...row })
   }
   for (const row of manifest.additions) {
@@ -498,6 +507,18 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     const previous = source.read(path)
     if (expectedBeforeSha256)
       assert.equal(hash(previous), expectedBeforeSha256, `historical review/source drift: ${path}`)
+    if (change.mode === 'testing-source-bridge') {
+      assert.equal(hash(current), change.afterSha256, `current body drift: ${path}`)
+      assert.equal(
+        change.review.reviewedLines,
+        current.toString('utf8').split('\n').length,
+        `candidate body line extent differs: ${path}`,
+      )
+      assertTestingSourceBridge(path, previous, current, (sourcePath) =>
+        ordinaryBytes(root, sourcePath),
+      )
+      return { current, previous, change }
+    }
     {
       if (change.mode === 'reviewed')
         assert.equal(hash(current), change.afterSha256, `current body drift: ${path}`)

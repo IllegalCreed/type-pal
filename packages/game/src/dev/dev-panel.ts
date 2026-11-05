@@ -99,8 +99,8 @@ export interface SceneJump {
   sceneId: number
   mapNum?: number
   /**
-   * P0.e: partyStart 已删(scene-jumps.json 删 partyStart 字段)。
-   * loadScene 不传 partyStart → 走 wScriptOnEnter 自动设位置。
+   * 开发调试的显式备用起点：存在时由loadScene在onEnter后应用；缺省保留onEnter位置。
+   * 取点须按真实移动边界复核，不能只检查地图上可站立。
    * 留 optional 供需要 dev override 的极端情况(不传即走 enter script)。
    */
   partyStart?: { x: number; y: number; facing: string }
@@ -1862,8 +1862,7 @@ async function applySceneJump(
   jump: SceneJump,
 ): Promise<void> {
   try {
-    // P0.e: partyStart 字段已从 scene-jumps.json 删除;loadScene 不传 → 走 wScriptOnEnter。
-    // 若 jump.partyStart 仍存在(极端 dev override),仍可透传。
+    // 真实进入脚本先执行；fixture有备用起点时再覆盖，移动/碰撞规则仍由场景模块负责。
     await loadScene({
       gs: deps.gs,
       sceneId: jump.sceneId,

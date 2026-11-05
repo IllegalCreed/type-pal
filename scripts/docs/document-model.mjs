@@ -362,6 +362,10 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
         ),
       )
     }
+    // assertCurrent has checked the complete native object against the accepted
+    // source and the finite metadata-only bridge contract. JSON is not Markdown;
+    // its unchanged publication/execution facts retain the original native type.
+    if (change.mode === 'testing-source-bridge') return issues
     const currentDoc = {
       ...doc,
       ...(change.templateId

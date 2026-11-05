@@ -34,21 +34,21 @@
       "lines": "63",
       "anchor": "export function setMagicScriptEntry",
       "role": "saved-entry-owner",
-      "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+      "sha256": "166c96f50691fe04823ee876ec90c231ecbf4c30ccde0304e019f36985b66871"
     },
     {
       "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
       "lines": "33",
       "anchor": "function play",
       "role": "oracle",
-      "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+      "sha256": "9caa5abc77a3a36e3ae9b16e371ed25271cf986ce09323aeff3167f3ab6bf31c"
     },
     {
       "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
       "lines": "59",
       "anchor": "function portal",
       "role": "oracle",
-      "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
+      "sha256": "58c479cec773d53ce304f8f156a22626bf1dfaa993144e0f69f3bcf8ef67585f"
     },
     {
       "path": "packages/reforge/src/pal-story-corrections.test.ts",
@@ -83,7 +83,7 @@
       "lines": "346",
       "anchor": "supplySupplementalSceneObjects(gs",
       "role": "saved-game-caller",
-      "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+      "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
     },
     {
       "path": "packages/pal-extract/src/resources/scene.ts",
@@ -339,6 +339,43 @@
       "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
       "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
       "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
+    },
+    {
+      "date": "2026-11-05",
+      "action": "pending93-source-ref-bridge",
+      "base": "08d67e28ec454d29941f8fab614644c5e160d790",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/core/object-script-state.ts",
+          "lines": "63",
+          "anchor": "export function setMagicScriptEntry",
+          "role": "saved-entry-owner",
+          "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+        },
+        {
+          "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+          "lines": "33",
+          "anchor": "function play",
+          "role": "oracle",
+          "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+        },
+        {
+          "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+          "lines": "59",
+          "anchor": "function portal",
+          "role": "oracle",
+          "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
+        },
+        {
+          "path": "packages/game/src/shell/bootstrap.ts",
+          "lines": "346",
+          "anchor": "supplySupplementalSceneObjects(gs",
+          "role": "saved-game-caller",
+          "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+        }
+      ],
+      "scope": "object-script-state/bootstrap仅注释，typed去注释正文相同；story改具名选项与拓扑typed方向、原14合同保留，当前两PAL文件14绿且stderr空。既有纠错规则/脚本/资产输入不变。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
+      "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
     }
   ],
   "claims": [

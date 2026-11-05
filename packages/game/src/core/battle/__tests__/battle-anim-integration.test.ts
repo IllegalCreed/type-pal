@@ -1,146 +1,59 @@
-/**
- * battle-anim-integration.test.ts —— D17a 时间线驱动接入 tickBattle(数据级断言)。
- *
- * 覆盖:
- *  - performAttack(player→enemy)起时间线:连续 N tick currentActionIndex 不变(播放中)
- *    + battleAnim.idx 递增;播完 currentActionIndex++ 且 fighter pos==posOriginal/iColorShift==0
- *  - 向后兼容:defend / pass action 后 state.battleAnim 仍 undefined + currentActionIndex 立刻 ++
- */
-
-import type {
-  BattleField,
-  Command,
-  Enemy,
-  EnemyTeam,
-  InputSnapshot,
-  Item,
-  PlayerRole,
-  PlayerRoles,
-} from '@type-pal/shared'
+/** Real tick ownership of animation completion and post-item fighter restoration. */
+import type { Item, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import { type CommandBus, createCommandBus } from '../../command-bus.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
-import { getBattleLiveRoles, startBattle, tickBattle } from '../battle-system.js'
+import { makeEnemyRecord, makeRoleRecord } from '../../../__tests__/battle-records.js'
+import { battleInput, startTestBattle } from '../battle-start.test-fixtures.js'
+import { getBattleLiveRoles, tickBattle } from '../battle-system.js'
 
-function makeRole(opts: Partial<PlayerRole> = {}): PlayerRole {
-  return {
-    id: 0,
-    _name: 'R',
-    avatar: 0,
-    spriteNumInBattle: 0,
-    spriteNum: 0,
-    name: 0,
-    attackAll: 0,
-    level: 10,
+function makeRole(options: Partial<PlayerRole> = {}): PlayerRole {
+  return makeRoleRecord(options.id ?? 0, {
     maxHP: 200,
-    maxMP: 30,
     hp: 200,
+    maxMP: 30,
     mp: 30,
     attackStrength: 100,
     magicStrength: 0,
     defense: 50,
     dexterity: 50,
     fleeRate: 50,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0,
-    attackSound: 0,
-    weaponSound: 0,
-    criticalSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    ...opts,
-  }
+    ...options,
+  })
 }
-
-function makeEnemy(opts: Partial<Enemy> = {}): Enemy {
-  return {
-    id: 100,
-    _name: 'E',
-    idleFrames: 1,
-    magicFrames: 0,
-    attackFrames: 0,
-    idleAnimSpeed: 1,
-    actWaitFrames: 0,
-    yPosOffset: 0,
-    attackSound: 0,
-    actionSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    callSound: 0,
+function makeEnemy(options: Parameters<typeof makeEnemyRecord>[0] = {}) {
+  return makeEnemyRecord({
     health: 100,
-    exp: 50,
-    cash: 30,
-    level: 5,
-    magic: 0,
-    magicRate: 0,
-    attackEquivItem: 0,
-    attackEquivItemRate: 0,
-    stealItem: 0,
-    stealItemCount: 0,
+    idleFrames: 1,
+    idleAnimSpeed: 1,
     attackStrength: 10,
     magicStrength: 0,
-    defense: 10,
-    dexterity: 20,
     fleeRate: 0,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    physicalResistance: 1,
-    dualMove: 0,
-    collectValue: 0,
-    ...opts,
-  }
+    ...options,
+  })
 }
 
-function bootstrap(
-  opts: { enemies?: Enemy[]; roles?: PlayerRole[]; items?: Item[]; commands?: Command[] } = {},
-): {
-  gs: GameState
-  bus: CommandBus
-  emptyInput: InputSnapshot
-} {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  gs.partyMembers = [0]
-  const roles = opts.roles ?? [makeRole({ id: 0 })]
-  const playerRoles: PlayerRoles = { roles }
-  const enemies = opts.enemies ?? [makeEnemy({ id: 100, health: 99999 })] // 不秒杀,保持战斗
-  const enemyTeams: EnemyTeam[] = [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }]
-  const field: BattleField = {
-    id: 0,
-    screenWave: 0,
-    magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-  }
-  startBattle({
-    gs,
-    enemyTeamId: 0,
-    battleFieldId: 0,
-    isBoss: false,
-    enemies,
-    enemyTeams,
-    battleFields: [field],
-    playerRoles,
-    items: opts.items ?? [],
-    spells: [],
-    magics: [],
-    commands: opts.commands ?? [{ op: 'end' }],
-    rngSeed: 42,
+function bootstrap(options: Parameters<typeof startTestBattle>[0] = {}) {
+  const fixture = startTestBattle({
+    roles: [makeRole()],
+    enemies: [makeEnemy({ health: 60000 })],
+    ...options,
   })
-  return {
-    gs,
-    bus: createCommandBus(),
-    emptyInput: { held: new Set(), pressed: new Set(), frameNum: 0 },
-  }
+  return { ...fixture, emptyInput: battleInput() }
 }
 
 describe('D17a 时间线驱动 — player 物理攻击', () => {
   it('攻击后多 tick:currentActionIndex 不变(播放中)+ battleAnim.idx 递增;播完 ++ 且复位', () => {
-    const { gs, bus, emptyInput } = bootstrap()
+    const { gs, bus, emptyInput } = bootstrap({ roles: [makeRole({ dexterity: 100 })] })
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     const state = gs.battleState!
     state.pendingActions.set(0, { type: 'attack', target: 0 })
     tickBattle(gs, emptyInput, bus) // selectAction → performAction(actionQueue built)
+    expect(state.actionQueue[0], 'this test requires the player action first').toMatchObject({
+      isEnemy: false,
+      idx: 0,
+    })
 
-    // 推进到 player action 起始(可能 enemy 先手 / 后手;找到第一个起了 battleAnim 的 tick)
+    const enemyHpBefore = state.enemies[0]!.e.health
+    // The selected queue has a proven player-first entry; the animation must belong to it.
     let started = false
     let safety = 50
     while (!started && safety-- > 0 && gs.battleState?.phase === 'performAction') {
@@ -153,6 +66,8 @@ describe('D17a 时间线驱动 — player 物理攻击', () => {
     expect(started, 'player 攻击应建时间线').toBe(true)
 
     const s = gs.battleState!
+    expect(s.currentActionIndex).toBe(0)
+    expect(s.enemies[0]!.e.health).toBeLessThan(enemyHpBefore)
     const idxAtStart = s.currentActionIndex
     const animIdx0 = s.battleAnim!.idx
     // 记 player fighter posOriginal
@@ -183,7 +98,7 @@ describe('D17a 时间线驱动 — player 物理攻击', () => {
   })
 })
 
-describe('D17a 向后兼容 — 未建时间线的 action 即时推进', () => {
+describe('actions without timelines advance immediately', () => {
   it('defend action:battleAnim 仍 undefined + currentActionIndex 立刻 ++', () => {
     const { gs, bus, emptyInput } = bootstrap()
     tickBattle(gs, emptyInput, bus) // → selectAction
@@ -259,7 +174,7 @@ describe('濒死队员吃回血道具 — 收尾帧据回血后 HP 复位(对齐
     // 第一条时间线即玩家吃药(避免敌人先手干扰)。enemy attackStrength=0 不致命。
     const { gs, bus, emptyInput } = bootstrap({
       roles: [makeRole({ id: 0, maxHP: 200, hp: 10, dexterity: 9999 })],
-      enemies: [makeEnemy({ id: 100, health: 99999, attackStrength: 0, dexterity: 1 })],
+      enemies: [makeEnemy({ id: 100, health: 60000, attackStrength: 0, dexterity: 1 })],
       items: [makeHealItem()],
       // ip1:0x1B 单体(op0=0)回血 9999 → clamp 回满 200
       commands: [{ op: 'end' }, { op: 'raw', opcode: 0x1b, operands: [0, 9999, 0] }, { op: 'end' }],
