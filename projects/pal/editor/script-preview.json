@@ -3735,6 +3735,54 @@
           ]
         }
       ]
+    },
+    {
+      "id": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+      "name": "草妖战后：进入仙灵岛迷宫",
+      "scenes": [
+        {
+          "sceneId": "s015",
+          "entities": [
+            {
+              "entityId": "e206",
+              "pos": {
+                "col": 118,
+                "row": 76,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e207",
+              "pos": {
+                "col": 117,
+                "row": 47,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e208",
+              "pos": {
+                "col": 116,
+                "row": 32,
+                "height": 0
+              },
+              "facing": "right",
+              "hidden": true
+            },
+            {
+              "entityId": "e209",
+              "pos": {
+                "col": 117,
+                "row": 18,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        }
+      ]
     }
   ],
   "bindings": [
@@ -4165,6 +4213,16 @@
         "stageId": "initial"
       },
       "stateId": "e2e002-s001-e3-trigger-default-initial"
+    },
+    {
+      "entry": {
+        "sceneId": "s015",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e204",
+        "stageId": "initial"
+      },
+      "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a"
     }
   ],
   "schemeDefaults": []

@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { checkBoatCheckpoint } from './boat-checkpoint-contract.mjs'
 import { assertBoatReport } from './boat-contract.mjs'
-import { assertBoatGameRestore } from './boat-game-save-domain.mjs'
+import { assertBoatGameRestore, assertBoatGameSaveCapture } from './boat-game-save-domain.mjs'
 import { repoRoot, runBrowserJourney, sha256 } from './browser-journey.mjs'
 import { committedRouteReceipt, installCommittedRoutePlayback } from './committed-route.mjs'
 import { continuousScene } from './continuous-route.mjs'
@@ -76,10 +76,20 @@ const reportSources = [
   'projects/pal/assets/index.json',
   'projects/pal/content/enemies.json',
   'projects/pal/content/enemy-teams.json',
+  'projects/pal/content/battle-fields.json',
   ...(game
     ? [
         'data/extracted/events/all.json',
         'data/extracted/data/event-objects.json',
+        ...['014', '015', '017'].map((scene) => `data/extracted/events/scene-${scene}.json`),
+        ...[
+          'player-roles',
+          'enemies',
+          'enemy-objects',
+          'enemy-teams',
+          'battle-fields',
+          'level-up-exp',
+        ].map((table) => `data/extracted/data/${table}.json`),
         ...[14, 15, 17].map((scene) => `data/extracted/data/scene/${scene}.json`),
         ...[3, 7, 6].map((map) => `data/extracted/data/tilemap/${map}.json`),
       ]
@@ -229,23 +239,33 @@ await runBrowserJourney({
         )
       }
       const trace = await readLongEvidenceArchive(page)
-      assertErrandCollector(trace, '007 restore')
-      const payload = JSON.parse(bytes)
-      const commits = game ? trace.gameRestores : trace.restoreCommits
-      assert.equal(commits.length, 1, 'expected exactly one formal restore')
-      const [commit] = commits
-      if (game) assertBoatGameRestore(payload, commit.payload)
-      else assertReforgeRestoreInput(trace, payload)
-      const expected = errandSaveView(payload, engine)
-      assert.deepEqual(errandSaveView(commit.payload, engine), expected)
-      assert.equal(trace.pages.filter(({ page }) => page).length, 0, 'restore replayed dialogue')
-      return {
-        trace,
-        proof: {
-          source: commit.source,
-          order: commit.order,
-          stateSha256: sha256(JSON.stringify(expected)),
-        },
+      try {
+        assertErrandCollector(trace, '007 restore')
+        const payload = JSON.parse(bytes)
+        const commits = game ? trace.gameRestores : trace.restoreCommits
+        assert.equal(commits.length, 1, 'expected exactly one formal restore')
+        const [commit] = commits
+        const completeGameDomain = game ? assertBoatGameRestore(payload, commit.payload) : undefined
+        if (!game) assertReforgeRestoreInput(trace, payload)
+        const expected = errandSaveView(payload, engine)
+        assert.deepEqual(errandSaveView(commit.payload, engine), expected)
+        assert.equal(trace.pages.filter(({ page }) => page).length, 0, 'restore replayed dialogue')
+        return {
+          trace,
+          proof: {
+            source: commit.source,
+            order: commit.order,
+            stateSha256: sha256(JSON.stringify(expected)),
+            completeGameDomain,
+          },
+        }
+      } catch (error) {
+        report.rejectedRestore = await writeLongEvidenceArtifact(
+          out,
+          '007-rejected-restore-trace.json',
+          trace,
+        )
+        throw error
       }
     }
 
@@ -440,10 +460,7 @@ await runBrowserJourney({
       assert.equal(trace.saveCaptures[0].slot, 1)
       assert.equal(trace.saveCompletions[0].captureSeq, trace.saveCaptures[0].seq)
       assert(trace.saveCompletions[0].order > trace.saveCaptures[0].order)
-      assert.deepEqual(
-        errandSaveView(payload, engine),
-        errandSaveView(trace.saveCaptures[0].payload, engine),
-      )
+      assertBoatGameSaveCapture(payload, trace.saveCaptures[0].payload)
     } else {
       assert.equal(payload.position.sceneId, 's017')
       const { col, row, height } = payload.position.pos
