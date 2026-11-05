@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { legalPalette } from '../../../__tests__/asset-fixtures.js'
-import { dumpFramebuffer } from '../../../__tests__/grok-render-r1/dump-evidence.js'
 import type { BattleAnimOverlay } from '../../../core/battle/battle-state.js'
 import { fillSentinel, pixel, SENTINEL } from '../../__tests__/raster-fixtures.js'
 import { createFramebuffer } from '../../framebuffer.js'
@@ -165,7 +164,7 @@ describe('effect odd-width anchors and palette readback', () => {
     expect(pixel(fb, 159, 89)).toBe(SENTINEL)
   })
 
-  it('奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D', async () => {
+  it('奇数宽右缘索引 0x2D 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x2D', () => {
     const fb = createFramebuffer()
     fillSentinel(fb)
     drawBattleEffectOverlay(fb, overlayAt(160, 90), filledSprite([{ w: 3, h: 1, fill: 0x2d }]))
@@ -180,9 +179,5 @@ describe('effect odd-width anchors and palette readback', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(161, 89, 1, 1).data)).toEqual([45, 9, 18, 255])
     expect(pixel(fb, 161, 89)).toBe(0x2d)
-    const snap = ctx2d.getImageData(0, 0, 320, 200)
-    await dumpFramebuffer('G08-D07', 320, 200, snap.data, [
-      { x: 161, y: 89, rgba: [45, 9, 18, 255] },
-    ])
   })
 })

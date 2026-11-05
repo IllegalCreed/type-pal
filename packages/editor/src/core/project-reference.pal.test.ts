@@ -113,7 +113,8 @@ describe('ED-3 PAL project reference index', () => {
 
     // Pin the authored PAL census and independent deletion-blocker parity together.
     // Content edits must account for the changed dependency, not merely adjust this total.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_668)
+    // s005/e116's carrier bob now belongs to its page animation, not four self-target commands.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_664)
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
     expect(
@@ -591,7 +592,27 @@ describe('ED-3 PAL project reference index', () => {
     ])
     // Inn open pages and the landed-grain idle page contribute author action references.
     // Keep exact census and owner/locator identities; all collector/index parity gates below stay.
-    expect(worldSpriteActionEdges).toHaveLength(400)
+    expect(worldSpriteActionEdges).toHaveLength(401)
+    expect(
+      worldSpriteActionEdges
+        .filter(
+          (edge) =>
+            edge.source.owner.kind === 'scene-page' &&
+            edge.source.owner.sceneId === 's005' &&
+            edge.source.owner.entityId === 'e116',
+        )
+        .map((edge) => ({ target: edge.target, owner: edge.source.owner, locator: edge.locator })),
+    ).toEqual([
+      {
+        target: {
+          kind: 'world-sprite-action',
+          spriteId: 'sprite-196',
+          actionId: 'pal-auto-v1-08679dac4d0551b2',
+        },
+        owner: { kind: 'scene-page', sceneId: 's005', entityId: 'e116', pageId: 'default' },
+        locator: { kind: 'scene-page', sceneId: 's005', entityId: 'e116', pageId: 'default' },
+      },
+    ])
     expect(
       worldSpriteActionEdges
         .filter(
@@ -721,10 +742,11 @@ describe('ED-3 PAL project reference index', () => {
         (sum, id) => sum + index.referencesTo({ kind: 'world-sprite', id }).length,
         0,
       ),
-    ).toBe(4_235)
+    ).toBe(4_236)
     expect(new Set(oldBattleSpriteReferences.map((reference) => reference.battleSprite)).size).toBe(
       171,
     )
+    // The carrier reuses the existing s014/s100/s111 pair; distinct actions stay unchanged.
     expect(
       new Set(
         worldSpriteActionEdges.map((edge) =>
@@ -881,7 +903,16 @@ describe('ED-3 PAL project reference index', () => {
   test('preserves behavior, hook and parent-scene dependency locators', () => {
     const { edges, index } = referenceContext()
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_452)
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_451)
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's005',
+        entityId: 'e116',
+        channel: 'auto',
+        behaviorId: 'default',
+      }),
+    ).toEqual([])
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -1025,7 +1056,7 @@ describe('ED-3 PAL project reference index', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
     expect(diagnostics.projectReferences.rows).toHaveLength(25_224)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_136)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_137)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

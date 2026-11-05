@@ -5,8 +5,9 @@
  */
 import type { Command, Item } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
+import { makeBattleFixture } from '../../../__tests__/battle-fixture.js'
 import { makeRoleRecord as makeRole } from '../../../__tests__/battle-records.js'
-import { makeBattle } from '../../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../../__tests__/scripted-rng.js'
 import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import { runScript } from '../../event-system.js'
 import { setObjectPoisons } from '../../player-poison-state.js'
@@ -85,7 +86,8 @@ commands[39765] = { op: 'raw', opcode: 0x61, operands: [39505, 0, 0] }
 commands[39766] = { op: 'raw', opcode: 0x2c, operands: [0, 3, 0] }
 
 function fixture(itemId: number) {
-  const fx = makeBattle({
+  const fx = makeBattleFixture({
+    rng: lowerBoundRng(),
     roles: Array.from({ length: 6 }, (_, id) => makeRole(id, { hp: id === 4 ? 100 : 200 })),
     party: [4, 0],
   })

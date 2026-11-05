@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dumpHost, readHost } from '../__tests__/grok-render-r1/dump-evidence.js'
 import {
   createBootLoadingHost,
   mountBootOverlay,
@@ -88,14 +87,6 @@ describe('Progress nodes and render scheduling', () => {
     await host.advanceRenderFrame()
     expect(document.getElementById('boot-loading-status')?.textContent).toBe('正在加载资源 0 / 810')
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('0%')
-    await dumpHost('G09-C01', [
-      readHost(
-        'boot-default',
-        document.getElementById('boot-loading-status'),
-        document.getElementById('boot-loading-fill'),
-        document.getElementById('boot-loading'),
-      ),
-    ])
   })
   it('只有状态节点时写入 1 / 4', async () => {
     mountProgressNodes({ fill: false })
@@ -112,14 +103,6 @@ describe('Progress nodes and render scheduling', () => {
     await host.advanceRenderFrame()
     expect(document.getElementById('boot-loading-status')).toBeNull()
     expect(document.getElementById('boot-loading-fill')?.style.width).toBe('25%')
-    await dumpHost('G09-C04', [
-      readHost(
-        'fill-only',
-        document.getElementById('boot-loading-status'),
-        document.getElementById('boot-loading-fill'),
-        document.getElementById('boot-loading'),
-      ),
-    ])
   })
   it('没有状态节点时失败仍加上错误类，之后的说明不再改条宽', async () => {
     mountProgressNodes({ status: false })
@@ -171,7 +154,7 @@ describe('Progress nodes and render scheduling', () => {
       '正在加载资源 0 / 4 — 只等超时',
     )
   })
-  it('失败文案是启动失败加原文，并带上错误类', async () => {
+  it('失败文案是启动失败加原文，并带上错误类', () => {
     mountProgressNodes()
     initBootLoading(4)
     const root = document.getElementById('boot-loading')
@@ -183,13 +166,5 @@ describe('Progress nodes and render scheduling', () => {
     expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-error')).toBe(
       true,
     )
-    await dumpHost('G09-C11', [
-      readHost(
-        'boot-failed',
-        document.getElementById('boot-loading-status'),
-        document.getElementById('boot-loading-fill'),
-        document.getElementById('boot-loading'),
-      ),
-    ])
   })
 })

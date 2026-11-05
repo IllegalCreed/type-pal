@@ -49,7 +49,6 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位](SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 
 ## 已完成（historical）
 
@@ -483,7 +482,10 @@ Template: governance-index-v1 / 1.0.0
 | [DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分](DOCS-REGISTRY-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-ASSET-SERVER-READ-FAILURE-1 — 本地资源读取失败的请求与流清理](GAME-ASSET-SERVER-READ-FAILURE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口](GAME-AVI-RETRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-AI-INPUT-CLEANUP-1 — 敌方决策输入只保留生产目标表](GAME-BATTLE-AI-INPUT-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-COOP-CONFUSED-QUEUE-1 — 合击后的混乱队员不得追加行动](GAME-BATTLE-COOP-CONFUSED-QUEUE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1 — 隐藏成长的16位属性边界](GAME-BATTLE-HIDDEN-WORD-BOUNDARY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-ITEM-LIVE-INVENTORY-1 — 物品脚本后的库存与标志所有权](GAME-BATTLE-ITEM-LIVE-INVENTORY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-ITEM-ROLE-CONTEXT-1 — 战斗使用物品的脚本角色上下文](GAME-BATTLE-ITEM-ROLE-CONTEXT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -491,7 +493,9 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1 — 战后脚本与提示的逐敌顺序](GAME-BATTLE-POSTSCRIPT-DIALOG-ORDER-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1 — 战后脚本角色状态归属](GAME-BATTLE-POSTSCRIPT-PLAYER-STATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-BATTLE-PRESENT-LIFECYCLE-1 — 战斗画面宿主生命周期](GAME-BATTLE-PRESENT-LIFECYCLE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-BATTLE-THROW-LIVE-INVENTORY-1 — 投掷脚本后的库存归属](GAME-BATTLE-THROW-LIVE-INVENTORY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-COMMAND-BUS-API-CLEANUP-1 — 一阶段命令通道无用回执清理](GAME-COMMAND-BUS-API-CLEANUP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-DEV-SCENE-JUMP-SPAWN-1 — 开发跳转落点避开移动边界](GAME-DEV-SCENE-JUMP-SPAWN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-DRAW-NUMBER-NONFINITE-1 — 非有限数字阻塞绘制](GAME-DRAW-NUMBER-NONFINITE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ENGLISH-1 - 第一阶段英文语言包与界面](GAME-ENGLISH-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -510,6 +514,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1 — 第一阶段导入内容合法性](GAME-SAVE-IMPORT-PAYLOAD-VALIDATION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-SCRIPT-CORRECTIONS-1 - 原盘脚本纠错与英文补丁差异核对](GAME-SCRIPT-CORRECTIONS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [GAME-TOOLS-LABEL-OWN-KEY-1 — 工具标签仅读取自有译文](GAME-TOOLS-LABEL-OWN-KEY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1 — 工具面板导入读取失败提示](GAME-TOOLS-SAVE-IMPORT-READ-ERROR-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1 — 工具面板导出失败提示](GAME-TOOLS-SAVE-IO-ERROR-FEEDBACK-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-UI-ASSET-FRAME-IDENTITY-1 — UI 单帧加载失败后的编号漂移](GAME-UI-ASSET-FRAME-IDENTITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -551,6 +556,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-PENDING-100-1 — 约百文件代码治理窗口](QUALITY-PENDING-100-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-2 — 第二个百文件代码治理窗口](QUALITY-PENDING-100-2.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PENDING-100-3 — 第三治理窗口：按复杂度逐片核验 pending](QUALITY-PENDING-100-3.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [QUALITY-PHASE1-PENDING-93-1 — game 与 pal-extract 剩余 pending 批次](QUALITY-PHASE1-PENDING-93-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1 — 两百文件回执返工与风险抽核](QUALITY-RECENT-200-ACCEPTANCE-AUDIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-RECENT-200-CONTENT-AUDIT-2 — 最近两百文件剩余项逐文件复核](QUALITY-RECENT-200-CONTENT-AUDIT-2.md) | done | 完成证据、历史签字与交接见原卡。 |
@@ -558,6 +564,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-SHOP-DEFINITION-OWNERSHIP-1 — 二阶段商店物品定义归属](QUALITY-SHOP-DEFINITION-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [QUALITY-TOOLS-CONTRACT-TESTS-1 — 覆盖率工具专测的合同与判别力](QUALITY-TOOLS-CONTRACT-TESTS-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [REPO-SLIM-PLAN-1 仓库瘦身总纲](REPO-SLIM-PLAN-1.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts](TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [TESTING-EVIDENCE-REVISION-1 — 以版本适用性替代 E2E 日历期限](TESTING-EVIDENCE-REVISION-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）

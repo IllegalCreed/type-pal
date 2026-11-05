@@ -159,7 +159,6 @@ export const coveragePackages = Object.freeze([
     ...standardSource,
     testArgs: ['--config', 'vitest.config.ts', '--passWithNoTests'],
     fastTestExcludes: [
-      'src/__tests__/e2e-battle.test.ts',
       'src/assets/rng-blob-snapshot.test.ts',
       'src/assets/sprite-blob-snapshot.test.ts',
       'src/assets/tileset-blob-snapshot.test.ts',

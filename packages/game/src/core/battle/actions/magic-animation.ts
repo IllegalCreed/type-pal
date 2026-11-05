@@ -187,7 +187,7 @@ function buildAndStartMagicAnim(
       yOffset: magic.yOffset,
       wave: magic.wave, // W4 屏波(present applyScreenWave)
       keepEffect: magic.keepEffect, // W4 烙背景(末帧 0xFFFF)
-      sound: magic.sound, // M6 效果音帧同步((i-fireDelay)%n==0 帧播,fight.c:2713)
+      sound: magic.sound, // 按已确定的 WIN95 时序挂在主特效首帧。
     },
     n,
     targetIdx: offTargetIdx,

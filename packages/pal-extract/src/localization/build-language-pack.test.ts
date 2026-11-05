@@ -45,6 +45,7 @@ function fixture(): { slf: SlfLocalization; commands: Command[]; revisions: Lang
 
 test('language construction binds flexible text to common message spans without rewriting scripts', () => {
   const { slf, commands, revisions } = fixture()
+  const before = structuredClone({ slf, commands, revisions })
   const pack = buildLanguagePack(slf, commands, source, revisions)
   expect(pack).toMatchObject({
     version: 1,
@@ -57,14 +58,7 @@ test('language construction binds flexible text to common message spans without 
     ],
     layout: { '5': { x: 180, y: 11, flags: 1 } },
   })
-  expect(commands[5]).toEqual({
-    op: 'showDialog',
-    messageIndex: 20,
-    text: 'original attribute line',
-    label: 'L_5',
-  })
-  expect(slf.words['4']).toBe('Word4')
-  expect(slf.groups[1]?.end).toBe(20)
+  expect({ slf, commands, revisions }).toEqual(before)
 })
 
 test('nonincrementing adjacent messages remain separate groups', () => {
@@ -85,49 +79,72 @@ test('nonincrementing adjacent messages remain separate groups', () => {
   ).toEqual([10, 20])
 })
 
-test('language source and per-entry preconditions guard updates independently', () => {
+test('a different SLF edition cannot use revisions authored for the supported source', () => {
   const { slf, commands, revisions } = fixture()
   expect(() =>
     buildLanguagePack(slf, commands, { ...source, slfSha256: 'new-edition' }, revisions),
   ).toThrow('Unsupported English SLF source')
-  slf.words['4'] = 'Different word'
-  expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow('word 4 precondition')
-  slf.words['4'] = 'Word4'
-  slf.groups[0]!.lines[1] = 'Different line'
-  expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
-    'message 10:12 precondition',
-  )
 })
 
-test('a selectable English pack requires every common message range and original word identity', () => {
+test.each([
+  ['word', 'English word 4 precondition failed'],
+  ['message', 'English message 10:12 precondition failed'],
+] as const)('a changed %s rejects its revision without changing any input', (kind, reason) => {
+  const input = fixture()
+  if (kind === 'word') input.slf.words['4'] = 'Different word'
+  else input.slf.groups[0]!.lines[1] = 'Different line'
+  const before = structuredClone(input)
+  expect(() => buildLanguagePack(input.slf, input.commands, source, input.revisions)).toThrow(
+    reason,
+  )
+  expect(input).toEqual(before)
+})
+
+test('a selectable English pack requires every common message range', () => {
   const { slf, commands, revisions } = fixture()
   slf.groups.pop()
   expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
     'Missing English message',
   )
-  const restored = fixture()
-  delete restored.slf.words['564']
-  expect(() =>
-    buildLanguagePack(restored.slf, restored.commands, source, restored.revisions),
-  ).toThrow('Missing English word 564')
 })
 
-test('unused revision rules and untranslated text fail rather than silently falling back', () => {
+test('a selectable English pack requires every original word identity', () => {
+  const { slf, commands, revisions } = fixture()
+  delete slf.words['564']
+  expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
+    'Missing English word 564',
+  )
+})
+
+test('an unused message revision is rejected', () => {
   const { slf, commands, revisions } = fixture()
   revisions.groups['90:90'] = { before: ['unused'], after: ['unused'] }
   expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
     'Unused English message revision',
   )
-  delete revisions.groups['90:90']
-  slf.words['398'] = '史莱姆'
+})
+
+test.each([
+  'word',
+  'message',
+] as const)('untranslated %s text prevents publishing a partially translated pack', (kind) => {
+  const { slf, commands, revisions } = fixture()
+  if (kind === 'word') slf.words['398'] = '史莱姆'
+  else slf.groups[1]!.lines = ['仍未翻译']
   expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
-    'Untranslated English word',
+    `Untranslated English ${kind}`,
   )
-  slf.words['398'] = 'Slime'
-  slf.groups[1]!.lines = ['仍未翻译']
-  expect(() => buildLanguagePack(slf, commands, source, revisions)).toThrow(
-    'Untranslated English message',
-  )
+})
+
+test('the constructed pack owns mutable word, message and layout data', () => {
+  const { slf, commands, revisions } = fixture()
+  const before = structuredClone({ slf, revisions })
+  const pack = buildLanguagePack(slf, commands, source, revisions)
+  pack.words['4'] = 'Changed'
+  pack.groups[0]!.lines[0] = 'Changed revised line'
+  pack.groups[1]!.lines[0] = 'Changed unrevised line'
+  pack.layout['5']!.x = 99
+  expect({ slf, revisions }).toEqual(before)
 })
 
 test.each([

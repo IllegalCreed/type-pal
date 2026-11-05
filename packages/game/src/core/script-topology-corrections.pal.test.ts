@@ -33,8 +33,8 @@ function reachable(map: Tilemap, start: PixelPos, goal: (p: PixelPos) => boolean
       [16, -8],
       [-16, 8],
       [-16, -8],
-    ]) {
-      const next = { x: p.x + dx!, y: p.y + dy! }
+    ] as const) {
+      const next = { x: p.x + dx, y: p.y + dy }
       const key = `${next.x},${next.y}`
       if (!seen.has(key) && isWalkable(map, next.x, next.y, [], 0, true)) {
         seen.add(key)
@@ -90,10 +90,8 @@ it.each([
   const chest = env.gs.allEventObjects![3999]!
   expect(
     reachable(map, env.gs.party, (p) =>
-      ['down', 'left', 'up', 'right'].some(
-        (dir) =>
-          findSearchableNpc([chest], dir as 'down' | 'left' | 'up' | 'right', p.x, p.y)?.id ===
-          3999,
+      (['down', 'left', 'up', 'right'] as const).some(
+        (dir) => findSearchableNpc([chest], dir, p.x, p.y)?.id === 3999,
       ),
     ),
   ).toBe(true)
@@ -119,8 +117,9 @@ it.each([
   const exit = env.gs.allEventObjects![source === 249 ? 4557 : 5077]!
   expect(exit.spriteNum).toBe(0)
   expect(exit.sState).toBe(1)
-  const threshold = ((exit.triggerMode ?? 0) - 4) * 32 + 16
-  expect(threshold).toBe(48)
+  expect(exit.triggerMode).toBe(5)
+  // Mode 5 has a 48px contact diamond; keep the oracle literal, not a copy of the implementation.
+  const threshold = 48
   expect(
     reachable(
       map,

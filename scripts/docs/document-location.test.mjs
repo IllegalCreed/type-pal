@@ -1375,3 +1375,175 @@ test('historical text admission does not widen the two exact legacy task capture
     )
   }
 })
+
+test('admitted testing source bridges retain publication bytes and recheck source drift', (t) => {
+  const path = 'docs/testing/catalog.json'
+  const source = 'packages/game/src/core/inventory-state.ts'
+  const beforeSource = 'export const count = 1\n'
+  const afterSource = 'export const count = 2\n'
+  const reference = {
+    path: source,
+    lines: '1',
+    anchor: 'export const count',
+    role: 'owner',
+    sha256: hash(beforeSource),
+  }
+  const before = {
+    schemaVersion: 2,
+    entries: [
+      {
+        id: 'phase1-dependency-ownership',
+        status: 'current',
+        sourceRefs: [reference],
+        revision: { currentSha: '1'.repeat(40), history: [] },
+      },
+    ],
+  }
+  const beforeBytes = `${JSON.stringify(before)}\n`
+  const f = fixture(t, {
+    seedFiles: {
+      [path]: beforeBytes,
+      [source]: beforeSource,
+      'docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md': '# Source bridge receipt\n',
+    },
+  })
+  const current = structuredClone(before)
+  current.entries[0].sourceRefs[0].sha256 = hash(afterSource)
+  current.entries[0].revision.history.push({
+    date: '2026-11-05',
+    action: 'source-reference-bridge',
+    base: f.admission.baseRevision,
+    previousSourceRefs: [reference],
+    scope: 'Source identity only; publication remains current.',
+    evidence: 'docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md',
+  })
+  const currentBytes = `${JSON.stringify(current)}\n`
+  f.write(source, afterSource)
+  f.write(path, currentBytes)
+  f.manifest.documents.push({
+    path,
+    mode: 'testing-source-bridge',
+    afterSha256: hash(currentBytes),
+    review: {
+      author: 'Author',
+      reviewer: 'Independent reviewer',
+      date: '2026-11-05',
+      conclusion: 'Only the declared source binding changes; execution facts are preserved.',
+      reviewedLines: 2,
+    },
+  })
+  const locations = loadDocumentLocations(f.root, f.save())
+  assert.deepEqual(locations.assertCurrent(path).current, Buffer.from(currentBytes))
+  assert.deepEqual(locations.sourceBuffer(path), Buffer.from(beforeBytes))
+  locations.assertUnchanged()
+  f.write(source, 'export const count = 3\n')
+  assert.throws(() => locations.assertUnchanged(), /sourceRef hash mismatch/)
+})
+
+test('catalog source bridge composes the exact accepted maintenance Git layer without borrowing execution credit', (t) => {
+  const path = 'docs/testing/catalog.json'
+  const repository = fileURLToPath(new URL('../../', import.meta.url))
+  const fixed = (revision, path) =>
+    execFileSync('git', ['show', `${revision}:${path}`], { cwd: repository })
+  const featureRevision = '37bf91067012bebf1f4fedd707326c5149f4a429'
+  const mainRevision = 'c56192d8b388b8c1b677bb547895b89cea249475'
+  const before = fixed('159cd0e2f8753536800ba4635e896020a897fddc', path)
+  const maintained = fixed(featureRevision, path)
+  const current = JSON.parse(maintained)
+  const main = JSON.parse(fixed(mainRevision, path))
+  const maintenanceIds = new Set(['e2e-001', 'e2e-common-issues'])
+  const bridgeIds = new Set([
+    'phase1-dependency-ownership',
+    'game-script-corrections',
+    'game-input-rotation',
+  ])
+  const seedFiles = { [path]: before }
+  for (const entry of current.entries) {
+    if (!maintenanceIds.has(entry.id)) continue
+    for (const reference of entry.sourceRefs)
+      seedFiles[reference.path] = fixed(featureRevision, reference.path)
+  }
+  for (const entry of main.entries) {
+    if (!bridgeIds.has(entry.id)) continue
+    current.entries[current.entries.findIndex((old) => old.id === entry.id)] = entry
+    for (const reference of entry.sourceRefs)
+      seedFiles[reference.path] = fixed(mainRevision, reference.path)
+    const evidence = entry.revision.history.at(-1).evidence
+    seedFiles[evidence] = fixed(mainRevision, evidence)
+  }
+  const f = fixture(t, { seedFiles })
+  f.write(path, maintained)
+  const git = (...args) => execFileSync('git', args, { cwd: f.root, encoding: 'utf8' }).trim()
+  git('add', '-f', path)
+  git(
+    '-c',
+    'user.name=Fixture',
+    '-c',
+    'user.email=fixture@example.invalid',
+    'commit',
+    '-qm',
+    'maintained catalog',
+  )
+  const maintenanceRevision = git('rev-parse', 'HEAD')
+  const currentBytes = `${JSON.stringify(current)}\n`
+  f.write(path, currentBytes)
+  const row = {
+    path,
+    mode: 'testing-source-bridge',
+    afterSha256: hash(currentBytes),
+    review: {
+      author: 'Author',
+      reviewer: 'Independent reviewer',
+      date: '2026-11-05',
+      conclusion: 'Each exact source maintenance layer retains its own checked boundary.',
+      reviewedLines: 2,
+    },
+  }
+  f.manifest.documents.push(row)
+  const admission = () => ({
+    ...f.save(),
+    testingCatalogMaintenanceRevision: maintenanceRevision,
+  })
+  const locations = loadDocumentLocations(f.root, admission())
+  assert.deepEqual(locations.assertCurrent(path).current, Buffer.from(currentBytes))
+  assert.deepEqual(locations.assertCurrent(path).previous, before)
+  assert.deepEqual(locations.sourceBuffer(path), before)
+  locations.assertUnchanged()
+  assert.throws(
+    () => loadDocumentLocations(f.root, f.save()),
+    /catalog ID\/order outside admitted bridge/,
+  )
+  assert.throws(
+    () =>
+      loadDocumentLocations(f.root, { ...admission(), testingCatalogMaintenanceRevision: 'HEAD' }),
+    /fixed catalog maintenance revision required/,
+  )
+  assert.throws(
+    () =>
+      loadDocumentLocations(f.root, {
+        ...admission(),
+        testingCatalogMaintenanceRevision: f.admission.baseRevision,
+      }),
+    /testing source maintenance:/,
+  )
+  for (const source of [
+    'scripts/e2e/opening-trace-plugin.mjs',
+    'packages/game/src/core/inventory-state.ts',
+  ]) {
+    f.write(source, Buffer.concat([seedFiles[source], Buffer.from('\n// drift\n')]))
+    assert.throws(() => locations.assertUnchanged(), /source bytes differ|sourceRef hash mismatch/)
+    f.write(source, seedFiles[source])
+  }
+  const executionClaim = structuredClone(current)
+  executionClaim._governance.runtimeExecutionPerformed = true
+  const tampered = `${JSON.stringify(executionClaim)}\n`
+  f.write(path, tampered)
+  row.afterSha256 = hash(tampered)
+  assert.throws(
+    () => loadDocumentLocations(f.root, admission()),
+    /bridge changed publication, execution or unrelated native facts/,
+  )
+  f.write(path, currentBytes)
+  row.afterSha256 = hash(currentBytes)
+  loadDocumentLocations(f.root, admission()).assertUnchanged()
+})

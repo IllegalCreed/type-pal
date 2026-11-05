@@ -44,6 +44,7 @@ describe('ProjectSaveDialog', () => {
     expect(dialog.textContent).toContain('正在保存项目')
     expect(dialog.textContent).toContain('正在整理并校验项目内容')
     expect(dialog.querySelector('[role="progressbar"]')?.hasAttribute('aria-valuenow')).toBe(false)
+    expect(dialog.querySelector('output')?.textContent).toBe('正在准备项目文件…')
 
     const cancel = new Event('cancel', { cancelable: true })
     expect(dialog.dispatchEvent(cancel)).toBe(false)

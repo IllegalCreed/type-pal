@@ -5,6 +5,699 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
   {
+    id: 'phase1-pending93-quality-20261105',
+    authority:
+      'Standing user authority permits justified exact baseline changes after code/test-quality restructuring, without dead code restoration or weak tests. The user approved this 93-subject phase1 batch, semantic organization, legal fixtures, throw-inventory/co-op/own-key fixes and final-only coverage. Conserved/strengthened test identities and timeline declaration equivalence are in the single audit. One official collection passed20273 tests. Game branches change9954/12268 to9961/12278 (only this metric, about0.009 percentage-point decline); retain all uncovered counters. Current per-source summaries are retained, but no pre-window per-source V8 capture exists: this is a finite aggregate mixed restructuring/approved-guard recount, not a claimed single-helper counter proof. Keep the other3 game metric floors and all6 other packages. No scope exclusion, tolerance, predicate, timeout, random-bound or assertion weakening.',
+    evidence: 'docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md',
+    baselineSha256: '154524a5809ba8bce7a6eaf9a1351e77574cc539404929109e3d92efa39d12c4',
+    sources: [
+      {
+        path: 'packages/game/public/spessasynth-LICENSE.txt',
+        sha256: 'cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30',
+      },
+      {
+        path: 'packages/game/public/spessasynth_processor.min.js',
+        sha256: '2b01a0e28af38aefb21fc32bcd8a288c68fba36b391e5d495b865322f9ae0a25',
+      },
+      {
+        path: 'packages/game/public/sw.js',
+        sha256: '9ed72cfdb37dfaebc70f7e278fbe291aa72d8301bbe7359698b8dd9727bac8ec',
+      },
+      {
+        path: 'packages/game/src/__tests__/scripted-rng.ts',
+        sha256: '9f0980ba4a55f0a235958e660ea2d9c1aa6e7e5c58e918d5779e9ddc8786e4d8',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/action.test-fixtures.ts',
+        sha256: 'bdef67bf998617cf824ec677e79c7c7f2a9ad06bb1c3ee00aba2b88d5a0b90f3',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts',
+        sha256: 'f3b50b6b96fdf643539f2a099eb9dba9c3b8e21a6ca5903cb4cf086350fb3c61',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts',
+        sha256: '41fa3c2af02410a983447ea8d3ec4529d19ec62aca5fb9b44b83e3bcfebaeae5',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-auto-selection.test.ts',
+        sha256: '3adbd5683686cff32bf408ced78f26b7252f07ba9ea3ac91cf0e9c3526639c41',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/battle-opcodes.test.ts',
+        sha256: 'c880557b26815c69e7386857b83299a770533ed123955d8458c3e87cc3b89d47',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/casualty-sounds.test.ts',
+        sha256: '2a0451fbd52d5333bbad3486dbbe47b5b556cc031c6370306fe4eedff8680e7a',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/coop-magic.animation.test.ts',
+        sha256: 'bd8a1e9d9f9150e4b533d9a4c8f40a3228eb6aa55a29d839fa97a7eab305cbfa',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/coop-magic.test-fixtures.ts',
+        sha256: '176d33c583e022cf4e2fc90dd75914e8897e696a4d10e47ca6883836389ee9e3',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/coop-magic.test.ts',
+        sha256: '33faf1b320aec4775e57a5f134eaae562ec1801437162bd8aab2af3530d28330',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/death-fade.test.ts',
+        sha256: '9b4f6a56a081e109a4b2693d40e7fbd2bd15283cc9d747d66392ee001e165f50',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/defend.test.ts',
+        sha256: 'f9d0443e497d46c75478abd48fe67d6e90b86aa3720233a4ac9c967542fcde1b',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/enemy-ai.test.ts',
+        sha256: '3fe9524eb3945aef6dd0e04b71a01608918e916dae9b5ba1a45c3c39476ecec4',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/enemy-confused-attack.test.ts',
+        sha256: 'cf04cc147d45aa4cbd71ed9d4fc3882225b3353fac27b8358fc97c382724a77b',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/enemy-magic.test.ts',
+        sha256: '9feec10c97123804badd6e5f3ea4718aae70525a3693a1289c35f373b3bb0836',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/flee.test.ts',
+        sha256: 'e5125131613851d847dc5c9b661b1d53604e49c10c14ff99c69b3738cbb822fd',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/item-use.test.ts',
+        sha256: '4b97a55112fe3dc693599b8aff6e240ea4dbc533b2a883e1cfeb3c9c120d9096',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-action.test-fixtures.ts',
+        sha256: '27c798a79b4c73d4c69685a2b86b9484a45a07420c77ce84717abbfd9d0e1e45',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-action.test.ts',
+        sha256: 'c1f5ec947f8944037479a6726ad1de062af0a652bfe9da3ce4864e3fac036a2c',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts',
+        sha256: '8f326ab2cc1dc422ed114bfe6ee124b4ea81e24c5c27865cb983eccc6199e2ae',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-input.test.ts',
+        sha256: '1d4cace8ba0d171d8ca34aacb504332266af6632f683714f9e1ffcd6b47f6df7',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/magic-scripts.test.ts',
+        sha256: 'e61aece47f6411f152d6ba3e6e317d0b9e2147ff9a44b7268228fb9a50d720c8',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/object-script-progress.test.ts',
+        sha256: '669c62a1760c27d6d4073bb9fd69e6be1cb39ad12e7ed98519ee57caf082e0bc',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/physical-attack.test.ts',
+        sha256: 'ef3dd5a86cac5367f7b39f0f72c44b0cf42821550f20e8be7f790fb1c060cabe',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/player-magic-animation.test.ts',
+        sha256: '183129dfdb66eb9a2ca0ef8b25342564cc714b62d775660ba9551cd132339b4c',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/runscript-rearm.test.ts',
+        sha256: 'e1fe8b443382a08c49d2312c0fe0a54d842d431fbe387b133faf0e83d6e5e6a7',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/status-action-effects.test.ts',
+        sha256: 'baf806a564c7609500793da7f831ff280a98eef27c8a2922d574541e6ab23641',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/summon-loop-render.test.ts',
+        sha256: '1d0b88f17414f096a6d49ca0948b217683c5897685ad30dec1bc8ba36d1d317c',
+      },
+      {
+        path: 'packages/game/src/core/battle/__tests__/throw-item.test.ts',
+        sha256: 'e02cb7709032659bd1b7817492b548767ec0ba63d97ee45c67c1e247174a0f71',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/attack-effects.test.ts',
+        sha256: 'b3646cae2f0db24aa72ce1b18a4911ff1b5e3ac9a7cde4f8b041ed3c4d9f4ad1',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/coop-magic.ts',
+        sha256: '6d5b55bc65f13ec62be51f53a4d562eb038cc7f51e001db9a5d5ef186d632cb2',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/item-poison-boundary.test.ts',
+        sha256: 'dc8098da59b311c39a6c8d901a700885964b9159980f29add2bc1c95c7b96281',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/magic-animation.ts',
+        sha256: 'a1efdd02ffee4302da02aeb14b1eb24dcc1b5e3a13c5f773de839fb60b98c755',
+      },
+      {
+        path: 'packages/game/src/core/battle/actions/throw-item.ts',
+        sha256: '406ec7aa7d09620fc028d6fb847913c453b3928895dca57b22b4fcc9fa4feafe',
+      },
+      {
+        path: 'packages/game/src/core/battle/anim-timeline.ts',
+        sha256: '0e102f0362bfc3d7717775aeb737bffe4b9db6e60c9fb8725e34695f380a31ae',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/action-gestures.test.ts',
+        sha256: '266e94037a07a62fb2bf59c476bf0a1055da2b60bf8a41b637049732305b71f7',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/action-gestures.ts',
+        sha256: '889c235b2d02f475a7ee440c4bfa35ec99051440f4b223f89594f98ad48b6c6b',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/cooperative-magic.test.ts',
+        sha256: 'bb6afbfea13e65d2d585fd4cc06ecbe3eb510adfd8fe4c00d2e8da87f7c1ce03',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/cooperative-magic.ts',
+        sha256: '8d06e703380d6ac1a15e4ed732843f2b4607ff34b7a166b1d1fca26d1d6e4773',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/enemy-transformation.test.ts',
+        sha256: 'bae315451791ba2cbd5d2dcdb3d2909881dd7eb4f43fff8856639bdae5cccd0c',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/enemy-transformation.ts',
+        sha256: '36f23eb86879997644d21bad0479331a3a3d06aa4e2a097479e8119612ced448',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/frames.ts',
+        sha256: '6711a483df2575ec2cc72d8abc7659ee1150cdfe754ce7c3792d8277e335fd98',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/hit-reaction.test.ts',
+        sha256: '23f0a3006a653e8eb2b8bda4a14270bc24a07f433a499e6f7600f4edcbeb3e15',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/hit-reaction.ts',
+        sha256: '439e3e463ae06a3e4084266fe66e57e0bc7fb7b7113a71300110db13b92fa751',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/magic-effects.test.ts',
+        sha256: 'f79638d7f38212428d759171fae32fd30c2f127ef0b28264cd1e18f6e6d7e6bc',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/magic-effects.ts',
+        sha256: '504617a8fdd5d38a1ccbf5acad92694920c00c3a648ba5a0e21d71e80562f4e5',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/physical-attack.test.ts',
+        sha256: '5a7b47e77b30a10aa9208e753208be8048d32179bb526a62a51213f84c96b62b',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/physical-attack.ts',
+        sha256: 'd4f9066cc45263906c309b92ea905307b05334fd583a3589c29e38b377479f66',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/summon.test.ts',
+        sha256: '2ee117574e2b7075f3efa64eeb94c2e54f174ad2676a9032f65b0b31f13d9a8b',
+      },
+      {
+        path: 'packages/game/src/core/battle/animation/summon.ts',
+        sha256: 'e02c51000e4210ee53e6ee4436e7504d25d87d5c7ad5dbbf4836ac26d47225cf',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-action-wiring.test.ts',
+        sha256: 'aefa180f0a525211421f4ea2d05057c4808707387dc2537de464299d256d8a12',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-anim-driver.ts',
+        sha256: 'b847cb5597b4391fe34931e1eda6737ffdd066b7427b3f581094d885a81a2c83',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-escape.test.ts',
+        sha256: '6b19ad9d5c0b18b1fdd1472bd1dc52b21736192fab49d3f33af2f1450250e053',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-finalization.test.ts',
+        sha256: 'be0bb00ea7c9ec1d87d8688756ec70ebb573d746d7a2df5e7f520208ef1a55c0',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-flow.pal.test.ts',
+        sha256: 'be5a20c2dea348c37602eebc6a76607f0e7c3fc78728fbf423c6d2c4f7570ab3',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcode.test-fixtures.ts',
+        sha256: 'c202ed6b15eca607d491ad151e482d4bdfffe662de248bddd593a675e1370e10',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.control.test.ts',
+        sha256: 'a13f2b4f526b6c802fd519ad79295d3ff2b6fd7c90660b79d382ce484a95a893',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.damage.test.ts',
+        sha256: '4c50ce79ee3fc4279b3146b192b24a84851f22d6f5ee823b682f3956db251d5f',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.status.test.ts',
+        sha256: '8e88de35aab21e29cfad35b5ab949a4eb50f1bdf00654b2c0773bdf65337c06a',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts',
+        sha256: '0d482bb5ab2dc3021bef4bf1c5ee611181e90ef5c01c57ea9a3f21eae4101075',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-progression.level-up.test.ts',
+        sha256: '84026ae5de12fac973c04a756ffce01cfeb8cde3a01e47f7fae121b398f657d1',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-round-lifecycle.test.ts',
+        sha256: '77385200c586e5f10a87141864d6b2b11d49cd82ec745b311e7c96b0a8552f68',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-round-order.test.ts',
+        sha256: '9e656d6521d39d0fed17fd4d5e2c8381f999876ca2bc0beede5a41aa0d5ca865',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-round.test-fixtures.ts',
+        sha256: 'e3df25a349c313661b894a26bb50a3b74902555717c2cc125428e0a4d45c16e7',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-settlement.screens.test.ts',
+        sha256: 'e5e877095a089cc152b0dda7e3f914c7d37e9e35444b249fe8ddb3940ab79081',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-start.test-fixtures.ts',
+        sha256: '86a71a6f2ad0870209cf0fdf659d3fd5d627deaf621cda095353b29e96e07290',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-system.lifecycle.test.ts',
+        sha256: '1a46f6b6f2936807419e6e66e958fa928be918b44e4304232baefdd99849337a',
+      },
+      {
+        path: 'packages/game/src/core/battle/battle-system.ts',
+        sha256: '9e75a0ed990e39229029ed59d9c31eecd748e7bb8a235f5d8f93a63618445593',
+      },
+      {
+        path: 'packages/game/src/core/battle/enemy-ai.ts',
+        sha256: '824439736c9ac56e5e661ac53f611699ddc03b4fda6eaa470d9dce3e52142970',
+      },
+      {
+        path: 'packages/game/src/core/battle/magic-object.ts',
+        sha256: 'accf84c763a6e3e8ba782994812d0429d4aea3ffc032d530b743cecd2a850c5d',
+      },
+      {
+        path: 'packages/game/src/core/equip-effect.status.test.ts',
+        sha256: '411c92786dd0ed8f9d6a1bdc92377bbd0467c10fa84f34ac4a95fd5f45037826',
+      },
+      {
+        path: 'packages/game/src/core/equip-effect.test.ts',
+        sha256: '79505fac62dbe6338c669dba6e1c182de4e6054daf1ac0fa63cf73f1a196ef3c',
+      },
+      {
+        path: 'packages/game/src/core/equipment-state.test.ts',
+        sha256: '9ed14e93137b227594e5b34db8566f67749bb81a304ad106b08977b183790896',
+      },
+      {
+        path: 'packages/game/src/core/equipment-state.ts',
+        sha256: '4a6eff269afe9dd42c71d6ea6cd65fa990f0b8237c0c949cf79b838aab809fcd',
+      },
+      {
+        path: 'packages/game/src/core/event-dialogue-lifecycle.test.ts',
+        sha256: 'b9c3b720741cc7d0afe75fa454c5ef8d36629c02048e6e07541bfab1dd200941',
+      },
+      {
+        path: 'packages/game/src/core/event-dialogue-pagination.test.ts',
+        sha256: '12eae65d24b97b6e5eb2f983d76a456ecafa5fcc0d1fbc7b5cccbe99462e4a8e',
+      },
+      {
+        path: 'packages/game/src/core/event-rng-scene-restore.test.ts',
+        sha256: 'df45f4aa956e449e44c33b8db99550ecf52104de9298d7061a0fc1cbd7257d60',
+      },
+      {
+        path: 'packages/game/src/core/event-scene-fade.test.ts',
+        sha256: '97c9a17fc0ec7c9e417ed8a92080279e9f577aefce0b47c089f9d78a3669f464',
+      },
+      {
+        path: 'packages/game/src/core/event-scene-state.test.ts',
+        sha256: '022314da1ec66077ed2b9b7d3bf7c21388a0fc938d935e5c7a12e472b345354d',
+      },
+      {
+        path: 'packages/game/src/core/event-script.auto.test.ts',
+        sha256: 'a7577134595a882594731f3f749a0dc00140ad4565f1f1bb9ce634ad42acffb5',
+      },
+      {
+        path: 'packages/game/src/core/event-script.battle.test.ts',
+        sha256: '8989625d7f824f44d8322024278ff9362f2bafc8e634da9090ff70a9d17b17ec',
+      },
+      {
+        path: 'packages/game/src/core/event-script.lifecycle.test.ts',
+        sha256: 'e24bcfdd9a2a58855f6dd771eb7fe155ed8792cc580714d13eb228c585c929b1',
+      },
+      {
+        path: 'packages/game/src/core/event-script.resume.test.ts',
+        sha256: '37a0fdea13a98cb952ed971e25802894d5fe0b4ccc4ab1473e64e5b830bd2f83',
+      },
+      {
+        path: 'packages/game/src/core/event-script.wait.test.ts',
+        sha256: 'c4537547d0601d8205661e6b9d41612b54583b142aabaa592c163820601d5e9e',
+      },
+      {
+        path: 'packages/game/src/core/inspect/__tests__/readout-fixture.ts',
+        sha256: '292860fa9736140a5fcc9f07b2a59e102aefb55714ecea0e72faba446da3e30d',
+      },
+      {
+        path: 'packages/game/src/core/inventory-state.ts',
+        sha256: '3a104dc4f754f7a55511c864092a17f5592f655d138773609fe0c878af01f4d2',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-mode.test.ts',
+        sha256: '68b6f771ed4362fbd687c8fc1defa9fd06752816971702a958499b5a808aa3d9',
+      },
+      {
+        path: 'packages/game/src/core/menu/save-slot-menu.flow.test.ts',
+        sha256: 'd00298f4a3af8eb88813d6202bb228061f3d5f83cfd8af027d8109f9afb6c327',
+      },
+      {
+        path: 'packages/game/src/core/menu/script-desc.test.ts',
+        sha256: 'cdc2ac33b921eb8f453717375cbc2ffd74174f4c414e5def0febc6720a42d778',
+      },
+      {
+        path: 'packages/game/src/core/menu/script-desc.ts',
+        sha256: '8425ac43645c7fb8b9d78a9cedc793be18abc04e1674747bfeb7427530736df5',
+      },
+      {
+        path: 'packages/game/src/core/menu/shop-menu.flow.test.ts',
+        sha256: '45c6ed4d7312c7838319bffaaf18908563554198905354ced0e6f92557d01a7c',
+      },
+      {
+        path: 'packages/game/src/core/object-script-progress.test.ts',
+        sha256: 'e84502946c4d47eeee28aba58234f7bc16407482a7efab72637207e9ffe61ace',
+      },
+      {
+        path: 'packages/game/src/core/object-script-state.ts',
+        sha256: '166c96f50691fe04823ee876ec90c231ecbf4c30ccde0304e019f36985b66871',
+      },
+      {
+        path: 'packages/game/src/core/overworld-item-script.test.ts',
+        sha256: '661a10c141e4abcddd4f7f03dea427fa4b90bf5f58627381e5083022a5484bb4',
+      },
+      {
+        path: 'packages/game/src/core/player-poison-entry.test.ts',
+        sha256: '57f4c987bbddef4c8ae680fd0355cfe9e3e2c256a3c339d7a9a102c0eb51aea7',
+      },
+      {
+        path: 'packages/game/src/core/player-poison-state.test.ts',
+        sha256: '20ed890d5a91b8a4e5e681802bad0b82d642a213ae64cd67abe6b7b7248d94fb',
+      },
+      {
+        path: 'packages/game/src/core/scene-supplemental-objects.pal.test.ts',
+        sha256: '1506d5c485ed5396c79f8a7490325b71419400dc5bd25a376b90432dfcf2e8c5',
+      },
+      {
+        path: 'packages/game/src/core/scene-supplemental-objects.test.ts',
+        sha256: 'ab5eb3f3a14557ae861fd8ff1a14162f3dddc1a564548f82eccc58b4a5b91904',
+      },
+      {
+        path: 'packages/game/src/core/scene-supplemental-objects.ts',
+        sha256: '155e2f84ab3c30a5ff475833b89a8492ab86e3331fd8ff045f58ca9737d51620',
+      },
+      {
+        path: 'packages/game/src/core/script-corrections.pal.test.ts',
+        sha256: 'eaff460edef96cc4abf5e63f2e4bc24eb5b7fffb2bb2e3a8a78ae1f684097a8a',
+      },
+      {
+        path: 'packages/game/src/core/script-story-corrections.pal.test.ts',
+        sha256: '9caa5abc77a3a36e3ae9b16e371ed25271cf986ce09323aeff3167f3ab6bf31c',
+      },
+      {
+        path: 'packages/game/src/core/script-topology-corrections.pal.test.ts',
+        sha256: '58c479cec773d53ce304f8f156a22626bf1dfaa993144e0f69f3bcf8ef67585f',
+      },
+      {
+        path: 'packages/game/src/dev/dev-panel.ts',
+        sha256: '2171c00361099209656f3e5cd9cae3531d8eebeb455190450e51441d54467caf',
+      },
+      {
+        path: 'packages/game/src/dev/fixtures/battle-fixtures.json',
+        sha256: '2688c71ba118bc2e0808a50d5f6fe7e272e22270c9b8e00e09c01680a68a487d',
+      },
+      {
+        path: 'packages/game/src/dev/fixtures/scene-jumps.json',
+        sha256: '210981434be425910ec16f8b654d2ff03b809597ec1f2b55d88ddc417ae68dc7',
+      },
+      {
+        path: 'packages/game/src/dev/fixtures/scene-names.json',
+        sha256: '7269e962fc4f09f52671f191a26891cc23addcd9acb7e1a2c69c09d1af1e8579',
+      },
+      {
+        path: 'packages/game/src/dev/scene-jumps.pal.test.ts',
+        sha256: '40acb5a5830d35c25e74f0c336ea37f46ab6870b094b2792f3ec197c101b2f52',
+      },
+      {
+        path: 'packages/game/src/dev/state-dump.test.ts',
+        sha256: '08cf9ebcbe0f0a9e481780bc8ca03b6d13c2f54bed3712e298ce8bb6ebaf3645',
+      },
+      {
+        path: 'packages/game/src/dev/state-dump.ts',
+        sha256: '0bfb0b21e25861ceaa82bd6db98f9f6d4548bbb32d26ff69fb37fa8468059fd2',
+      },
+      {
+        path: 'packages/game/src/localization/map-names-en.ts',
+        sha256: 'ef57733e5f7158b80024e6c0dd04f2eacfc8378dbd69a72954af45872dcf0f06',
+      },
+      {
+        path: 'packages/game/src/localization/settlement-language.test.ts',
+        sha256: '2a6119849b0e4de772b8de3f72707e69bdc28145a116660b9cd2336647239482',
+      },
+      {
+        path: 'packages/game/src/localization/ui-text.test.ts',
+        sha256: '833bbf1ac40e0b60a87d687a7c55a0c96050eba8046a719f029b236cb0d6a682',
+      },
+      {
+        path: 'packages/game/src/localization/ui-text.ts',
+        sha256: 'ab2b4e1627d27f1ca49acfdf37f3a7c7370faf218a9f24dce7bdfb216a25c964',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/magic-menu-fixtures.ts',
+        sha256: 'e9c8251fa4a513ef258203c193f9cad73d5a1120263d0de0baadcec806e2bb67',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts',
+        sha256: '4236afda3402c4c1039a0282d298f3acd1875e86e0928af8425a2a94550cb8ca',
+      },
+      {
+        path: 'packages/game/src/present/battle/__tests__/draw-battle-ui.selection-pixels.test.ts',
+        sha256: 'b23990896fb2f347a398f1697cbe9c6ef89f2b1b46ff0bfebe959e03eb1d6d96',
+      },
+      {
+        path: 'packages/game/src/present/dialog-draw.canvas.test.ts',
+        sha256: '6eb028124022da56afd625f5bd6bbbde40e2a832e65bab0339572be5c29b1bb6',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-equip.localization.test.ts',
+        sha256: 'fb2daeb86a86ad3a8f5036b36b4bbf39f8cddd7ad284ea9ee86035cdb5a60092',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.canvas.test.ts',
+        sha256: '78eab09518d631ab6d695b8ea8b2aca2c47c90e141c5deec7a4052f483aa26c2',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-shop.canvas.test.ts',
+        sha256: '5f89fd7e2cee6bd76488ecc556b94134f17fdbf2e7493b07ed9a097a07866142',
+      },
+      {
+        path: 'packages/game/src/present/menu/localized-background.test.ts',
+        sha256: 'a56804f8a30f9796e288887c86564787c2d244db2fb8c1d320c3e8496064dd4b',
+      },
+      {
+        path: 'packages/game/src/present/menu/localized-background.ts',
+        sha256: '3ac70f1791f9c83b5adea4fc0550e27a824b8e5fb850c7259deedcd22901c2bf',
+      },
+      {
+        path: 'packages/game/src/present/palette-brightness.ts',
+        sha256: '7b46d99032de38e900db40987c7a5f852e0b6a6813e9636bcde504c572bcb794',
+      },
+      {
+        path: 'packages/game/src/present/small-font.ts',
+        sha256: '126e1059b63a940419fda70b2354697fc95a0938af65b1bd9482894d82e8fec9',
+      },
+      {
+        path: 'packages/game/src/shell/boot-loading.dom.test.ts',
+        sha256: 'd8ab8300aa7cdb8bc667874aeadf491b1b42d25abf4c7dd8f49c47f7ba2bed54',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap-audio.test.ts',
+        sha256: '2f12fa3584bd67fe4e5a4c2357b91a1b473ec1d07e89da30e25b901ef7667e2e',
+      },
+      {
+        path: 'packages/game/src/shell/bootstrap.ts',
+        sha256: '0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e',
+      },
+      {
+        path: 'packages/game/src/shell/ending-player.test.ts',
+        sha256: '7383c54fff4ec493ce71091688228325143162dd86ca9e0a4e650249d98f9235',
+      },
+      {
+        path: 'packages/game/src/shell/ending-player.ts',
+        sha256: 'ffc5f87bbe021a7eb78f168d4eb872e87501428bd2f6ff3f9e552434d016dd42',
+      },
+      {
+        path: 'packages/game/src/shell/fbp-player.ts',
+        sha256: 'af84be834b916e847166fc837d4f9aa0a6968ba9185c6e5ffb2d7f19a9120208',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.lifecycle.test.ts',
+        sha256: '5c2a5959c16acc050c8a8fc90ea3c142f37cfab9e970087ebb94969f6926ed67',
+      },
+      {
+        path: 'packages/game/src/shell/precache-client.test.ts',
+        sha256: 'b8e071710e2075d3397b6f29e99ed6b4f2f562e4a36ade5f46d636950270cd30',
+      },
+      {
+        path: 'packages/game/src/shell/precache-ui.test.ts',
+        sha256: '51e20fafbf326472266949a75e953fe86cb931bf3d16d1ed374ccaa3a9de6f27',
+      },
+      {
+        path: 'packages/game/src/shell/precache-widget.test.ts',
+        sha256: '24992d5e791336af87c3392e38926f755b82243f92fb19424002ef87ea2ac902',
+      },
+      {
+        path: 'packages/game/src/shell/splash-fallback.ts',
+        sha256: 'c22b575b836efdbef716e3a5dd457f43e5672129e72b14671c59bcbb72849ffd',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-fallback.test.ts',
+        sha256: '5edfedf419b3302e2b093515c89f236e46470b67e9ba799f64bb7035fd40b7c7',
+      },
+      {
+        path: 'packages/game/src/shell/trademark-fallback.ts',
+        sha256: '27c2894ea81bd1dc5c3f2389210a4214a5783cdee507b19cf49466ada079d2cb',
+      },
+      {
+        path: 'packages/game/src/tools/tools-panel.english.test.ts',
+        sha256: '5d19965ea3cb56f7f6c754b0583cb0867c4a17921cba11659ce537ee899a888b',
+      },
+      {
+        path: 'packages/game/vendor/rix/source-manifest.json',
+        sha256: '3f1363a2908f292c63ca66daf376550cfc9eec21488029f9c8138e31f075c523',
+      },
+      {
+        path: 'packages/game/vite.config.ts',
+        sha256: 'c6a3fe8ecac55523b4a5dd01e7f2039d87b8d52493961c594486f12e43aae144',
+      },
+      {
+        path: 'packages/game/vitest.config.ts',
+        sha256: '3dd92ad4886bc72c88e7a7b2e6bdacc3aaf9e2a24ac72153f3b619ba37feb7d4',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-localization.pal.test.ts',
+        sha256: 'fbbc7bd02587a23cdb6044afa0dc400c031cd7d917a6d14fe68cb3a2a6675e88',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-localization.test.ts',
+        sha256: '5a22eff6a35023efd64ce0ac65f5a7fef9a0dc1c7a52175f0d583b22dce328f1',
+      },
+      {
+        path: 'packages/pal-extract/src/cli-script-corrections.pal.test.ts',
+        sha256: '5e7838e939f92c706c55f37e7082757b4f456324cade1b893e0ab302cbb9dfaf',
+      },
+      {
+        path: 'packages/pal-extract/src/events/script-corrections.pal.test.ts',
+        sha256: '9ac61b1d705a889ecadb1a16554bf7c4962e289173f0ec74ca185b70d00571df',
+      },
+      {
+        path: 'packages/pal-extract/src/events/script-corrections.test.ts',
+        sha256: 'bdbd9e1ee70f3e65028e23b2b59b95618c62e890b384b2ba77ccd4940c54caed',
+      },
+      {
+        path: 'packages/pal-extract/src/events/script-corrections.ts',
+        sha256: '05e3cb0844eb8cd24b5f7d64c2b5ca30ab9aef3fe36ecf5a1913b31b5fc4593d',
+      },
+      {
+        path: 'packages/pal-extract/src/events/win-script-corrections.json',
+        sha256: '323331dff539ba2fa4dcb6c0aeaa6e834987b3d10699bf39a12b9cd5e05017cd',
+      },
+      {
+        path: 'packages/pal-extract/src/io/slf.test.ts',
+        sha256: 'a03264080e9b67bb759f0e445a5e717348fd0a1f634bd7c01ca198df03be0818',
+      },
+      {
+        path: 'packages/pal-extract/src/io/slf.ts',
+        sha256: '485d53265abddc3619a325d1a8543e3f0b5b6027c062dbc0a6cdf3831d3842c2',
+      },
+      {
+        path: 'packages/pal-extract/src/localization/build-language-pack.test.ts',
+        sha256: '75ac8ebdf7464c43fde8c504caba137cf5494f21f66dd447a0a93c0e44b93e96',
+      },
+      {
+        path: 'packages/pal-extract/src/localization/build-language-pack.ts',
+        sha256: 'e55266cd6fcde40b777184118a271ec58adb430d98082e92753bac513410eb88',
+      },
+      {
+        path: 'packages/pal-extract/src/localization/english-message-revisions.json',
+        sha256: '56c8b451e2aa63a4fec581cf336363e180d356e128083334a07c5f7ce28e3aeb',
+      },
+      {
+        path: 'packages/pal-extract/src/localization/english-revisions.ts',
+        sha256: '8a88ef573de1c96d1f3f0e766890474dfb63ad6d71304a51bb528130f7b2cad6',
+      },
+      {
+        path: 'packages/pal-extract/src/localization/english-word-revisions.json',
+        sha256: '5890ffcc042561f44125c25291e909bb7037083420b565b9bf3209a8b0a584c8',
+      },
+      {
+        path: 'packages/pal-extract/src/resources/scene-supplemental.test.ts',
+        sha256: 'b01ec8ace3707d39ecd47650c0f7a6ff1e1d715503de5e32b173f822ee528dad',
+      },
+      {
+        path: 'pnpm-lock.yaml',
+        sha256: '3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65',
+      },
+      {
+        path: 'scripts/coverage/config.mjs',
+        sha256: 'c1d178414601d769f8bb67497862aa2843919bf68065eefe43a08f165ad9f3e0',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 15526,
+            total: 17185,
+          },
+          branches: {
+            covered: 9954,
+            total: 12268,
+          },
+          functions: {
+            covered: 1890,
+            total: 2170,
+          },
+          lines: {
+            covered: 13851,
+            total: 15075,
+          },
+        },
+        after: {
+          statements: {
+            covered: 15526,
+            total: 17185,
+          },
+          branches: {
+            covered: 9961,
+            total: 12278,
+          },
+          functions: {
+            covered: 1890,
+            total: 2170,
+          },
+          lines: {
+            covered: 13851,
+            total: 15075,
+          },
+        },
+      },
+    },
+  },
+  {
     id: 'language-test-ownership-20261101',
     authority:
       'User2026-11-01 authorizes responsibility-based pending-module quality work, reusable fixtures and standing exact baseline adjustment for justified restructuring. All seven product executable ASTs unchanged. New language.test-fixtures.ts alone adds10/12 statements,3/5 branches,2/2 functions,8/10 lines under unchanged selection. Rebase only game statement/branch/line floors; function floor and all six other packages unchanged. No ignored source, weakened test or runner/predicate change.',

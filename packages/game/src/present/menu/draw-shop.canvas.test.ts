@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { legalPalette } from '../../__tests__/asset-fixtures.js'
-import { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js'
 import { beginChineseMenuText } from '../../__tests__/menu-text-fixture.js'
 import { createBuyMenu } from '../../core/menu/shop-menu.js'
 import { fixtureGlyphs } from '../__tests__/glyph-fixtures.js'
@@ -24,7 +23,7 @@ afterEach(() => {
 })
 
 describe('Shop canvas output', () => {
-  it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {
+  it('预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', () => {
     const { gs } = makeLiveScene()
     const item = makeItem(44, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [item]
@@ -49,9 +48,5 @@ describe('Shop canvas output', () => {
     flushToCanvas(fb, ctx2d, palette)
     expect(Array.from(ctx2d.getImageData(40, 8, 1, 1).data)).toEqual([40, 18, 70, 255])
     expect(pixel(fb, 40, 8)).toBe(ITEMBOX_ID)
-    const snap = ctx2d.getImageData(0, 0, 320, 200)
-    await dumpFramebuffer('G07-B13', 320, 200, snap.data, [
-      { x: 40, y: 8, rgba: [40, 18, 70, 255] },
-    ])
   })
 })

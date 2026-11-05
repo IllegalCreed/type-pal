@@ -5,8 +5,9 @@ import {
   makeEnemyRecord as makeEnemy,
   makeRoleRecord as makeRole,
 } from '../../__tests__/battle-records.js'
-import { makeBattle, seqRng } from '../../__tests__/coverage85-glm-game/harness.js'
+import { lowerBoundRng } from '../../__tests__/scripted-rng.js'
 import type { BattleCtx } from '../event-system.js'
+import { makeOpcodeBattle } from './battle-opcode.test-fixtures.js'
 import { dispatchBattleOpcode } from './battle-opcodes.js'
 
 function makeItem(id: number, name: string): Item {
@@ -44,13 +45,13 @@ function makeEnemyObject(objectIndex: number, enemyId: number): EnemyObject {
 
 describe('0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle', () => {
   it('0x5C → iHidingTime=-op0', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     dispatchBattleOpcode(0x5c, [7, 0, 0], { state })
     expect(state.iHidingTime).toBe(-7)
   })
 
   it('0x89:3→won、1→lost、0→terminated 标记+fleed、0xFFFF→fleed、1000+不改', () => {
-    const mk = (): ReturnType<typeof makeBattle>['state'] => makeBattle().state
+    const mk = (): ReturnType<typeof makeOpcodeBattle>['state'] => makeOpcodeBattle().state
     const s1 = mk()
     dispatchBattleOpcode(0x89, [3, 0, 0], { state: s1 })
     expect(s1.phase).toBe('won')
@@ -72,7 +73,7 @@ describe('0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle', () => {
   })
 
   it('0x8A:有 gs → fAutoBattle=true;无 gs no-op', () => {
-    const { state, gs } = makeBattle()
+    const { state, gs } = makeOpcodeBattle()
     dispatchBattleOpcode(0x8a, [0, 0, 0], { state, gs })
     expect(gs.fAutoBattle).toBe(true)
     expect(dispatchBattleOpcode(0x8a, [0, 0, 0], { state })).toEqual({ consumed: true })
@@ -80,7 +81,7 @@ describe('0x5C HideParty / 0x89 SetBattleResult / 0x8A AutoBattle', () => {
 })
 describe('0x33 CollectEnemy / 0x3A PlayerFlee', () => {
   it('0x33:collectValue≠0 → wCollectValue 累加;=0 → newIp=op0;无 target → newIp', () => {
-    const { state, gs } = makeBattle({
+    const { state, gs } = makeOpcodeBattle({
       enemies: [makeEnemy({ collectValue: 5 })],
     })
     const ctx: BattleCtx = { state, gs, target: { type: 'enemy', idx: 0 } }
@@ -92,14 +93,14 @@ describe('0x33 CollectEnemy / 0x3A PlayerFlee', () => {
   })
 
   it('0x3A:boss → newIp=op0;非 boss → fleeAnim 起 + 音 45', () => {
-    const bossFx = makeBattle({ isBoss: true })
+    const bossFx = makeOpcodeBattle({ isBoss: true })
     expect(
       dispatchBattleOpcode(0x3a, [77, 0, 0], {
         state: bossFx.state,
         target: { type: 'player', idx: 0 },
       }),
     ).toEqual({ consumed: true, newIp: 77 })
-    const fx = makeBattle()
+    const fx = makeOpcodeBattle()
     dispatchBattleOpcode(0x3a, [77, 0, 0], {
       state: fx.state,
       gs: fx.gs,
@@ -111,7 +112,7 @@ describe('0x33 CollectEnemy / 0x3A PlayerFlee', () => {
 })
 describe('0x31 ChangeBattleSprite / 0x92 ShowMagicAnim', () => {
   it('0x31:caster player 优先;写 spriteNumOverride', () => {
-    const { state } = makeBattle({ roles: [makeRole(0)] })
+    const { state } = makeOpcodeBattle({ roles: [makeRole(0)] })
     dispatchBattleOpcode(0x31, [9, 0, 0], {
       state,
       caster: { type: 'player', idx: 0 },
@@ -123,7 +124,7 @@ describe('0x31 ChangeBattleSprite / 0x92 ShowMagicAnim', () => {
   })
 
   it('0x92:op0=0 → no-op;op0 非 0 无 bus → no-op 不炸', () => {
-    const { state } = makeBattle({ roles: [makeRole(0), makeRole(1)] })
+    const { state } = makeOpcodeBattle({ roles: [makeRole(0), makeRole(1)] })
     expect(dispatchBattleOpcode(0x92, [0, 0, 0], { state })).toEqual({ consumed: true })
     expect(dispatchBattleOpcode(0x92, [2, 0, 0], { state })).toEqual({ consumed: true })
     expect(state.battleAnim).toBeUndefined()
@@ -131,9 +132,9 @@ describe('0x31 ChangeBattleSprite / 0x92 ShowMagicAnim', () => {
 })
 describe('0x6A StealFromEnemy', () => {
   it('偷钱:c=count/divisor,stealItemCount 减、cash 加;c=0 不弹框', () => {
-    const { state, gs } = makeBattle({
+    const { state, gs } = makeOpcodeBattle({
       enemies: [makeEnemy({ stealItem: 0, stealItemCount: 9 })],
-      rng: seqRng([0, 3, 3, 3]),
+      rng: lowerBoundRng([0, 3, 3, 3]),
     })
     const ctx: BattleCtx = {
       state,
@@ -155,8 +156,8 @@ describe('0x6A StealFromEnemy', () => {
   })
 
   it('偷物:已持有 +1(封顶 99);roll>rate 失败;无 gs no-op', () => {
-    const rng = seqRng([11, 0])
-    const { state, gs } = makeBattle({
+    const rng = lowerBoundRng([10, 0])
+    const { state, gs } = makeOpcodeBattle({
       enemies: [makeEnemy({ stealItem: 30, stealItemCount: 2 })],
       rng,
     })
@@ -168,7 +169,7 @@ describe('0x6A StealFromEnemy', () => {
       target: { type: 'enemy', idx: 0 },
       caster: { type: 'player', idx: 0 },
     }
-    // seq的11在合法范围[0,10]被夹为10；10>rate3，所以失败。
+    // 合法上界10 > rate3，所以失败；不靠stub钳制域外11。
     dispatchBattleOpcode(0x6a, [3, 0, 0], ctx)
     expect(gs.inventory[0]!.count).toBe(98)
     // roll=0 → 成功偷物
@@ -179,8 +180,8 @@ describe('0x6A StealFromEnemy', () => {
   })
 
   it('偷物:包里没有 → push 新条目;stealItemCount=0 → 不抽 rng 直接失败', () => {
-    const rng = seqRng([])
-    const { state, gs } = makeBattle({
+    const rng = lowerBoundRng([])
+    const { state, gs } = makeOpcodeBattle({
       enemies: [makeEnemy({ stealItem: 30, stealItemCount: 0 })],
       rng,
     })
@@ -200,7 +201,7 @@ describe('0x6A StealFromEnemy', () => {
 })
 describe('0x68/0x91 敌方条件跳转', () => {
   it('0x68:caster=enemy → newIp=op0;否则续行', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     expect(
       dispatchBattleOpcode(0x68, [66, 0, 0], { state, caster: { type: 'enemy', idx: 0 } }),
     ).toEqual({ consumed: true, newIp: 66 })
@@ -208,7 +209,7 @@ describe('0x68/0x91 敌方条件跳转', () => {
   })
 
   it('0x91:同种第二个及以后 → newIp;第一个续行;非 enemy caster no-op', () => {
-    const fx = makeBattle({
+    const fx = makeOpcodeBattle({
       enemies: [makeEnemy({ id: 5 }), makeEnemy({ id: 5 }), makeEnemy({ id: 6 })],
     })
     expect(
@@ -234,7 +235,7 @@ describe('0x68/0x91 敌方条件跳转', () => {
 })
 describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
   it('0x9C 失败臂:多活敌 → failJump≠0 跳 op1;health≤1 → failJump=0 续行;非 enemy caster no-op', () => {
-    const multi = makeBattle({
+    const multi = makeOpcodeBattle({
       enemies: [makeEnemy({ health: 100 }), makeEnemy({ id: 101, health: 100 })],
     })
     expect(
@@ -243,7 +244,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
         caster: { type: 'enemy', idx: 0 },
       }),
     ).toEqual({ consumed: true, newIp: 55 })
-    const weak = makeBattle({ enemies: [makeEnemy({ health: 1 })] })
+    const weak = makeOpcodeBattle({ enemies: [makeEnemy({ health: 1 })] })
     expect(
       dispatchBattleOpcode(0x9c, [1, 0, 0], {
         state: weak.state,
@@ -254,7 +255,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
   })
 
   it('0x9C 成功:恰 1 活敌 health>1 → 血减半 + 分裂落 defeated 空槽', () => {
-    const fx = makeBattle({
+    const fx = makeOpcodeBattle({
       enemies: [makeEnemy({ health: 100 }), null, null],
     })
     fx.state.enemies[0]!.defeated = false
@@ -271,7 +272,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
   })
 
   it('0x9F:hiding/睡眠 → no-op;查无对象/查无 base → no-op;成功保 health 换 stats', () => {
-    const hiding = makeBattle({ enemies: [makeEnemy({ health: 300 })] })
+    const hiding = makeOpcodeBattle({ enemies: [makeEnemy({ health: 300 })] })
     hiding.state.iHidingTime = 5
     const tables = {
       enemies: [makeEnemy({ id: 200, health: 999 })],
@@ -283,7 +284,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
       caster: { type: 'enemy', idx: 0 },
     })
     expect(hiding.state.enemies[0]!.e.id).toBe(100)
-    const asleep = makeBattle({ enemies: [makeEnemy({ health: 300 })] })
+    const asleep = makeOpcodeBattle({ enemies: [makeEnemy({ health: 300 })] })
     asleep.state.enemies[0]!.status.sleep = 2
     dispatchBattleOpcode(0x9f, [50, 0, 0], {
       state: asleep.state,
@@ -292,7 +293,7 @@ describe('0x9C EnemyDivision / 0x9F EnemyTransform', () => {
     })
     expect(asleep.state.enemies[0]!.e.id).toBe(100)
     // 查无对象
-    const fx = makeBattle({ enemies: [makeEnemy({ health: 300 })] })
+    const fx = makeOpcodeBattle({ enemies: [makeEnemy({ health: 300 })] })
     dispatchBattleOpcode(0x9f, [999, 0, 0], {
       state: fx.state,
       summonTables: tables,
@@ -326,7 +327,7 @@ describe('0x9E EnemySummon', () => {
   }
 
   it('无表/非 enemy caster → no-op;房位不足(count>defeated 数)→ failJump', () => {
-    const fx = makeBattle({ enemies: [makeEnemy({})] })
+    const fx = makeOpcodeBattle({ enemies: [makeEnemy({})] })
     expect(dispatchBattleOpcode(0x9e, [60, 2, 0], { state: fx.state })).toEqual({ consumed: true })
     expect(
       dispatchBattleOpcode(0x9e, [60, 2, 0], {
@@ -345,7 +346,7 @@ describe('0x9E EnemySummon', () => {
   })
 
   it('hiding / 自身定身 → failJump;count=0 → 1', () => {
-    const hiding = makeBattle({ enemies: [makeEnemy({}), null] })
+    const hiding = makeOpcodeBattle({ enemies: [makeEnemy({}), null] })
     hiding.state.iHidingTime = 3
     hiding.state.enemies[1]!.defeated = true
     expect(
@@ -355,7 +356,7 @@ describe('0x9E EnemySummon', () => {
         caster: { type: 'enemy', idx: 0 },
       }),
     ).toEqual({ consumed: true, newIp: 44 })
-    const asleep = makeBattle({ enemies: [makeEnemy({}), null] })
+    const asleep = makeOpcodeBattle({ enemies: [makeEnemy({}), null] })
     asleep.state.enemies[1]!.defeated = true
     asleep.state.enemies[0]!.status.paralyzed = 2
     expect(
@@ -366,7 +367,7 @@ describe('0x9E EnemySummon', () => {
       }),
     ).toEqual({ consumed: true, newIp: 44 })
     // count=0 → 1:成功召唤 1 只
-    const ok = makeBattle({ enemies: [makeEnemy({}), null] })
+    const ok = makeOpcodeBattle({ enemies: [makeEnemy({}), null] })
     ok.state.enemies[1]!.defeated = true
     dispatchBattleOpcode(0x9e, [60, 0, 0], {
       state: ok.state,
@@ -380,7 +381,7 @@ describe('0x9E EnemySummon', () => {
   })
 
   it('w=0 自身同种:查无 overlay/对象表 → 回退 self 脚本字段;查无 base → no-op', () => {
-    const fx = makeBattle({ enemies: [makeEnemy({}), null] })
+    const fx = makeOpcodeBattle({ enemies: [makeEnemy({}), null] })
     fx.state.enemies[1]!.defeated = true
     fx.state.enemies[0]!.scriptOnReady = 111
     dispatchBattleOpcode(0x9e, [0, 1, 0], {
@@ -391,7 +392,7 @@ describe('0x9E EnemySummon', () => {
     expect(fx.state.enemies[1]!.e.id).toBe(100)
     expect(fx.state.enemies[1]!.scriptOnReady).toBe(111)
     // 查无 base
-    const nobase = makeBattle({ enemies: [makeEnemy({}), null] })
+    const nobase = makeOpcodeBattle({ enemies: [makeEnemy({}), null] })
     nobase.state.enemies[1]!.defeated = true
     dispatchBattleOpcode(0x9e, [0, 1, 0], {
       state: nobase.state,
@@ -403,7 +404,7 @@ describe('0x9E EnemySummon', () => {
 })
 describe('0x69 EnemyEscape', () => {
   it('0x69:enemyEscapeAnim 起 + terminated 标记 + 音 45', () => {
-    const { state, gs } = makeBattle()
+    const { state, gs } = makeOpcodeBattle()
     dispatchBattleOpcode(0x69, [0, 0, 0], { state, gs })
     expect(state.enemyEscapeAnim).toEqual({ step: 0 })
     expect(state.terminatedByEnemyEscape).toBe(true)
@@ -412,7 +413,7 @@ describe('0x69 EnemyEscape', () => {
 })
 describe('家族外 opcode → consumed:false', () => {
   it('未实现 opcode(0x01)交还 raw skip', () => {
-    const { state } = makeBattle()
+    const { state } = makeOpcodeBattle()
     expect(dispatchBattleOpcode(0x01, [0, 0, 0], { state })).toEqual({ consumed: false })
   })
 })

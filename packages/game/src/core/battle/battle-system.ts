@@ -789,10 +789,9 @@ export function emitPlayerCasualtySounds(
   players: ReadonlyArray<{ roleId: number; prevHp: number }>,
   playerRoles: PlayerRoles,
   bus: CommandBus,
-  /** 毒 tick 前各 roleId 的 hp(tickPostAction 起手快照)。仅 prePoisonHp===0(敌攻致死)才播 deathSound;
-   *  省略 → 退化为旧行为(任何致死都播,向后兼容旧测试)。 */
+  /** 毒 tick 前各 roleId 的hp。传入时只对毒前已死者播deathSound；动作收尾不传，不过滤毒死因。 */
   prePoisonHp?: ReadonlyMap<number, number>,
-  /** DL2b:守护者(coveredBy)健康检查(fight.c:841-850);省略 → 不门控(旧测试兼容)。 */
+  /** 守护者健康检查(fight.c:841-850)由毒后caller提供；动作收尾不传，不加此门。 */
   guardianOk?: (roleId: number) => boolean,
 ): void {
   for (const p of players) {
@@ -806,12 +805,12 @@ export function emitPlayerCasualtySounds(
     const dyingSound = role.dyingSound ?? 0
     if (role.hp < p.prevHp) {
       if (role.hp === 0 && p.prevHp > 0) {
-        // 死于敌攻(毒前已死,prePoisonHp===0)才播阵亡音;毒杀不播。无 prePoisonHp 入参 → 旧行为。
+        // 毒后caller过滤毒杀；动作收尾caller没有毒前快照，不执行该过滤。
         const diedFromAttack = prePoisonHp === undefined || (prePoisonHp.get(p.roleId) ?? 0) === 0
         if (deathSound > 0 && diedFromAttack) bus.emit({ op: 'playSound', soundId: deathSound })
       } else if (role.hp > 0 && role.hp < dyingThreshold && p.prevHp >= prevDyingThreshold) {
         // DL2b:dyingSound 在 C 的守护者失能检查**之后**(fight.c:841-850 continue 跳过)——
-        //   守护者(coveredBy)失能/不在队时连濒死音都不播。guardianOk 缺省 true(旧测试兼容)。
+        //   守护者(coveredBy)失能/不在队时连濒死音都不播。此门只在caller提供判断时生效。
         if (dyingSound > 0 && (guardianOk?.(p.roleId) ?? true))
           bus.emit({ op: 'playSound', soundId: dyingSound })
       }
@@ -2319,22 +2318,14 @@ function tickPerformAction(
         idx: i,
         hp: res.playerRoles.roles[p.roleId]?.hp ?? 0,
       }))
-      const alivePlayers = party.filter((p) => p.hp > 0)
-      // B2 c1:敌方状态门(sleep/paralyzed→pass;silence→强制物理;confused→打友敌;fight.c:4582-4655)
-      const aliveEnemies = state.enemies
-        .map((e, i) => ({ idx: i, health: e.e.health, defeated: e.defeated }))
-        .filter((e) => !e.defeated && e.health > 0)
-      // OBS-1:全敌槽(含死/空,idx = state.enemies 索引)→ confused 用 sdlpal 全槽拒绝采样(fight.c:4489)
-      //   逐抽对齐 RNG 流(空槽/死敌 health 0 → hp<=0 拒绝,同 sdlpal wObjectID==0||wHealth==0)。
+      // Full slots preserve rejected dead/empty draws in confused target selection.
       const enemySlots = state.enemies.map((e, i) => ({ idx: i, hp: e.e.health }))
       action = decideEnemyAction({
         enemy: enemy.e,
-        alivePlayers,
         party,
         rng: state.rng,
         status: enemy.status,
         selfIdx: item.idx,
-        aliveEnemies,
         enemySlots,
       })
     }
@@ -2369,7 +2360,8 @@ function tickPerformAction(
           const st = player.status
           if (st.sleep > 0 || st.paralyzed > 0) {
             action = { type: 'pass', target: -1 }
-          } else if (st.confused > 0) {
+          } else if (st.confused > 0 && !state.fThisTurnCoop) {
+            // 合击已吞掉后续行动；不能重新选靶覆盖pass，也不能为它消耗随机数。
             action = isPlayerDying({ hp: role.hp, maxHP: role.maxHP })
               ? { type: 'pass', target: -1 }
               : resolveConfusedAttack(state, res, item.idx)

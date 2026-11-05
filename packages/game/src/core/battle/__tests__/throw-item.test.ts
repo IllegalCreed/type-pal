@@ -1,89 +1,12 @@
-/**
- * throw-item.test.ts —— E2:performThrowItem(战斗投掷物)。
- *
- * 对照 sdlpal `fight.c:4332-4376`(kBattleActionThrowItem):
- *   PAL_RunTriggerScript(item.wScriptOnThrow, (WORD)sTarget);  // eventObjectID = 目标敌人
- *   PAL_AddItemToInventory(wObject, -1);                       // 投掷物消耗 1
- *
- * 投掷物 scriptOnThrow 跑 0x42 SimulateMagic 结算伤害(43 个符/镖/卵/蛊)。
- * 本测用**真 runScript** 走全链:performThrowItem → runScript → 0x42 → applyMagicDamage。
- */
-
-import type { Command, Enemy, Item, Magic, ObjectMagicView } from '@type-pal/shared'
-import { describe, expect, it, vi } from 'vitest'
-import { createCommandBus } from '../../command-bus.js'
+/** Real throw script execution, deferred presentation, and post-script inventory ownership. */
+import type { Command, Item, Magic, ObjectMagicView, ObjectPoisonView } from '@type-pal/shared'
+import { describe, expect, it, onTestFinished, vi } from 'vitest'
 import { runScript } from '../../event-system.js'
-import { createInitialGameState, type GameState } from '../../game-state.js'
-import { createSeedableRng } from '../../rng.js'
 import { performThrowItem } from '../actions/throw-item.js'
-import type { BattleState } from '../battle-state.js'
+import { createBattleLifecycleFixture } from '../battle-lifecycle.test-fixtures.js'
+import { tickBattle } from '../battle-system.js'
 
-function makeEnemy(opts: Partial<Enemy>): Enemy {
-  return {
-    id: 100,
-    health: 200,
-    defense: 30,
-    level: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    ...opts,
-  } as any as Enemy
-}
-
-function makeState(enemies: Partial<Enemy>[]): BattleState {
-  return {
-    players: [
-      {
-        roleId: 0,
-        prevHp: 100,
-        prevMp: 0,
-        defending: false,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-      },
-    ],
-    enemies: enemies.map((e) => {
-      const en = makeEnemy(e)
-      return {
-        e: en,
-        status: { sleep: 0, paralyzed: 0, confused: 0, haste: 0, slow: 0 },
-        prevHp: en.health,
-        scriptOnTurnStart: 0,
-        scriptOnBattleEnd: 0,
-        scriptOnReady: 0,
-      }
-    }),
-    field: {
-      id: 0,
-      screenWave: 0,
-      magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    },
-    isBoss: false,
-    phase: 'performAction',
-    turn: 1,
-    actionQueue: [],
-    currentActionIndex: 0,
-    pendingActions: new Map(),
-    uiState: 'hidden',
-    menuState: 'main',
-    selectedAction: 0,
-    miscMenuCursor: 0,
-    miscSubMenuCursor: 0,
-    uiCursor: 0,
-    expGained: 0,
-    cashGained: 0,
-    rng: { ...createSeedableRng(1), next: () => 0 }, // rngFactor 固定 1.0
-    phaseStallTicks: 0,
-  }
-}
-
-function makeGameState(inventory: { itemId: number; count: number }[]): GameState {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  gs.inventory = inventory
-  gs.mode = 'battle'
-  return gs
-}
-
-function makeItem(opts: Partial<Item>): Item {
+function makeItem(opts: Partial<Item> = {}): Item {
   return {
     id: 66,
     _name: '天师符',
@@ -91,7 +14,7 @@ function makeItem(opts: Partial<Item>): Item {
     price: 0,
     scriptOnUse: 0,
     scriptOnEquip: 0,
-    scriptOnThrow: 0,
+    scriptOnThrow: 1,
     scriptDesc: 0,
     flags: {
       usable: false,
@@ -106,10 +29,63 @@ function makeItem(opts: Partial<Item>): Item {
   }
 }
 
-function objMagic(id: number, magicNumber: number): ObjectMagicView {
+function throwFixture(commands: Command[], item = makeItem(), count = 2) {
+  const fx = createBattleLifecycleFixture({ commands, role: { magicSound: 88 } })
+  fx.gs.inventory = [{ itemId: item.id, count }]
+  fx.state.enemies[0]!.e.health = 200
+  fx.state.enemies[0]!.prevHp = 200
+  fx.state.enemies[0]!.e.defense = 30
+  // Invoke the action at its normal phase; resources and positioned fighters
+  // still come from real hydrate/startBattle rather than a partial state cast.
+  fx.state.phase = 'performAction'
+  const magics: Magic[] = []
+  const objectMagics: ObjectMagicView[] = []
+  const objectPoisons: ObjectPoisonView[] = []
   return {
-    id,
-    magicNumber,
+    ...fx,
+    itemId: item.id,
+    items: [item],
+    commands,
+    runScript,
+    casterIsEnemy: false,
+    casterIdx: 0,
+    targetIdx: 0,
+    magics,
+    objectMagics,
+    objectPoisons,
+  }
+}
+
+const DAMAGE_SCRIPT: Command[] = [
+  { op: 'end', label: 'L_0' },
+  { op: 'raw', opcode: 0x42, operands: [349, 0, 0], label: 'L_1' },
+  { op: 'end' },
+]
+
+function damageFixture(count = 2) {
+  const input = throwFixture(DAMAGE_SCRIPT, makeItem(), count)
+  input.magics.push({
+    id: 54,
+    effect: 7,
+    type: 'normal',
+    speed: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    wave: 0,
+    keepEffect: 0,
+    unknown: 0,
+    costMP: 0,
+    baseDamage: 140,
+    elemental: 0,
+    sound: 170,
+  })
+  input.objectMagics.push({
+    id: 349,
+    magicNumber: 54,
     scriptOnSuccess: 0,
     scriptOnUse: 0,
     flags: {
@@ -118,251 +94,122 @@ function objMagic(id: number, magicNumber: number): ObjectMagicView {
       usableToEnemy: true,
       applyToAll: false,
     },
-  }
-}
-function magicStat(id: number, baseDamage: number, elemental: number): Magic {
-  return { id, baseDamage, elemental, type: 'normal' } as any as Magic
-}
-
-describe('performThrowItem (E2)', () => {
-  it('投掷天师符 → scriptOnThrow 跑 0x42 → 目标敌人落血 140 + 扣 inventory', () => {
-    const state = makeState([{ health: 200, defense: 30, level: 5 }])
-    const gs = makeGameState([{ itemId: 66, count: 2 }])
-    // ip1 = 0x42 [349,0,0],ip0/ip2 = end
-    const commands: Command[] = [
-      { op: 'end' },
-      { op: 'raw', opcode: 0x42, operands: [349, 0, 0] },
-      { op: 'end' },
-    ]
-
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 66,
-      targetIdx: 0,
-      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
-      magics: [magicStat(54, 140, 0)],
-      objectMagics: [objMagic(349, 54)],
-      objectPoisons: [],
-      playerRoles: { roles: [] },
-      bus: createCommandBus(),
-      commands,
-      runScript,
-    })
-
-    expect(state.enemies[0]!.e.health).toBe(60) // 140 伤害
-    expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
   })
+  return { ...input, magicSpriteFrameCounts: new Map([[7, 8]]) }
+}
 
-  // 投掷物全段动画(user 2026-06-05:投掷物全无特效)。sdlpal fight.c:4339-4356 挥臂 + fight.c:5340
-  //   PAL_BattleSimulateMagic → PAL_BattleShowPlayerOffMagicAnim FIRE 特效。有 posOriginal + magicSpriteFrameCounts
-  //   → 建挥臂(frame5/6 + 投掷音)+ OffMagic 特效帧,伤害数字延迟到动画末(fight.c:4369 DisplayStatChange)。
-  it('投掷动画:挥臂(frame5/6+投掷音)+ OffMagic 特效帧 + 伤害数字延迟(fight.c:4339/5340/4369)', () => {
-    const state = makeState([{ health: 200, defense: 30, level: 5 }])
-    state.players[0]!.posOriginal = { x: 240, y: 170 }
-    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
-    const gs = makeGameState([{ itemId: 66, count: 2 }])
-    const commands: Command[] = [
-      { op: 'end' },
-      { op: 'raw', opcode: 0x42, operands: [349, 0, 0] },
-      { op: 'end' },
-    ]
-    const bus = createCommandBus()
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 66,
-      targetIdx: 0,
-      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
-      // magic 54:effect 7(FIRE chunk),type normal,baseDamage 140,效果音 170
-      magics: [
-        {
-          id: 54,
-          effect: 7,
-          type: 'normal',
-          speed: 0,
-          fireDelay: 0,
-          effectTimes: 0,
-          shake: 0,
-          xOffset: 0,
-          yOffset: 0,
-          wave: 0,
-          keepEffect: 0,
-          baseDamage: 140,
-          elemental: 0,
-          sound: 170,
-        } as any,
-      ],
-      objectMagics: [objMagic(349, 54)],
-      objectPoisons: [],
-      playerRoles: { roles: [{ id: 0, magicSound: 88 } as any] },
-      bus,
-      commands,
-      runScript,
-      magicSpriteFrameCounts: new Map([[7, 8]]), // effect 7 有 8 帧 → 建 OffMagic 特效
-    })
-    expect(state.enemies[0]!.e.health).toBe(60) // 伤害结算(逻辑同步)
-    expect(state.battleAnim).toBeDefined() // 建了动画时间线
+describe('performThrowItem', () => {
+  it('applies simulated damage and consumes once; emits the number only after the throw animation', () => {
+    const input = damageFixture()
+    performThrowItem(input)
+    const { state, gs, bus } = input
+    expect(state.enemies[0]!.e.health).toBe(60)
+    expect(gs.inventory).toEqual([{ itemId: 66, count: 1 }])
+    expect(state.battleAnim).toBeDefined()
     const frames = state.battleAnim!.frames
-    // 挥臂:frame5 带投掷音 88 + frame6
-    expect(
-      frames.some(
-        (f) =>
-          f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 5) && f.sound === 88,
-      ),
-    ).toBe(true)
-    expect(
-      frames.some((f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 6)),
-    ).toBe(true)
-    // OffMagic FIRE 特效帧(magic overlay,chunk 7)
-    expect(
-      frames.some((f) => f.overlays?.some((o) => o.kind === 'magic' && o.spriteChunk === 7)),
-    ).toBe(true)
-    // 伤害数字延迟到动画末(pendingDamageNums),不即时 emit
-    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
+    const windup = frames.findIndex(
+      (f) => f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 5) && f.sound === 88,
+    )
+    const release = frames.findIndex((f) =>
+      f.fighters?.some((d) => d.side === 'player' && d.currentFrame === 6),
+    )
+    const effect = frames.findIndex((f) =>
+      f.overlays?.some((o) => o.kind === 'magic' && o.spriteChunk === 7),
+    )
+    expect(windup).toBeGreaterThanOrEqual(0)
+    expect(release).toBeGreaterThan(windup)
+    expect(effect).toBeGreaterThan(release)
+    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toEqual([])
     expect(state.battleAnim!.pendingDamageNums).toEqual([
       { target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' },
     ])
+    for (let tick = 0; tick < 200 && state.battleAnim; tick++) {
+      tickBattle(gs, { held: new Set(), pressed: new Set(), frameNum: tick }, bus)
+    }
+    expect(state.battleAnim).toBeUndefined()
+    expect(
+      bus
+        .drain()
+        .map((e) => e.cmd)
+        .filter((c) => c.op === 'showDamageNum'),
+    ).toEqual([
+      { op: 'showDamageNum', target: { kind: 'enemy', idx: 0 }, value: 140, color: 'blue' },
+    ])
   })
 
-  // 尸腐肉式投掷(0x28 施毒):magic 是 -999 sentinel 无 inline 伤害,掉血全来自"施毒当下跑一次毒入口脚本"的
-  //   即时 0x21 扣血。该入口伤害数字必须也延迟到挥臂+受击动画末(透传 pendingDamageNums),否则数字先于动画
-  //   (user 2026-06-09 报:尸腐肉先掉血后受击动画)。
-  it('投掷施毒(尸腐肉式):施毒入口即时伤害数字也延迟到动画末,不先于受击动画', () => {
-    const state = makeState([{ health: 200, defense: 30, level: 5 }])
-    state.players[0]!.posOriginal = { x: 240, y: 170 } // hasAnim → 建挥臂 + 缓冲
-    state.enemies[0]!.posOriginal = { x: 160, y: 80 }
-    state.enemies[0]!.resistanceToSorcery = 0 // 必中毒
-    const gs = makeGameState([{ itemId: 116, count: 1 }])
-    // scriptOnThrow(ip1)= 0x28 apply poison 5;poison 5 的 enemyScript(ip3)= 0x21 即时扣 50。
+  it('defers immediate poison-script damage until the throw animation completes', () => {
     const commands: Command[] = [
-      { op: 'end' }, // ip0
-      { op: 'raw', opcode: 0x28, operands: [0, 5, 0] }, // ip1 apply poison 5(单体 = 投掷目标)
-      { op: 'end' }, // ip2
-      { op: 'raw', opcode: 0x21, operands: [0, 50, 0] }, // ip3 毒入口:即时扣 50
-      { op: 'end' }, // ip4
-    ]
-    // objectPoisons 按 poisonId 数组下标索引(0x28 handler:ctx.objectPoisons[poisonId])。
-    const objectPoisons: any[] = []
-    objectPoisons[5] = { id: 5, level: 1, color: 0, playerScript: 0, enemyScript: 3 }
-    const bus = createCommandBus()
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 116,
-      targetIdx: 0,
-      items: [makeItem({ id: 116, scriptOnThrow: 1 })],
-      magics: [],
-      objectMagics: [],
-      objectPoisons,
-      playerRoles: { roles: [{ id: 0, magicSound: 0 } as any] },
-      bus,
-      commands,
-      runScript,
-      magicSpriteFrameCounts: new Map(),
-    })
-    expect(state.enemies[0]!.e.health).toBe(150) // 毒入口即时扣 50(逻辑同步)
-    // **关键**:即时伤害数字 defer 进 pendingDamageNums,不即时 emit(否则先掉血后动画)
-    expect(bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toHaveLength(0)
-    expect(state.battleAnim?.pendingDamageNums?.some((d) => d.value === 50)).toBe(true)
-  })
-
-  it('D17b:投掷 0x42 经真 runScript → 自动注入 bus → emit showDamageNum(blue)', () => {
-    const state = makeState([{ health: 200, defense: 30, level: 5 }])
-    const gs = makeGameState([{ itemId: 66, count: 2 }])
-    const commands: Command[] = [
+      { op: 'end', label: 'L_0' },
+      { op: 'raw', opcode: 0x28, operands: [0, 5, 0], label: 'L_1' },
       { op: 'end' },
-      { op: 'raw', opcode: 0x42, operands: [349, 0, 0] },
+      { op: 'raw', opcode: 0x21, operands: [0, 50, 0], label: 'L_3' },
       { op: 'end' },
     ]
-    const bus = createCommandBus()
-    // 注:performThrowItem 不显式塞 battleCtx.bus,靠 runScript 默认从 opts.bus 注入。
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 66,
-      targetIdx: 0,
-      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
-      magics: [magicStat(54, 140, 0)],
-      objectMagics: [objMagic(349, 54)],
-      objectPoisons: [],
-      playerRoles: { roles: [] },
-      bus,
-      commands,
-      runScript,
-    })
-    const nums = bus
-      .drain()
-      .map((e) => e.cmd)
-      .filter((c) => c.op === 'showDamageNum')
-    expect(nums).toHaveLength(1)
-    expect(nums[0]).toMatchObject({
-      op: 'showDamageNum',
-      target: { kind: 'enemy', idx: 0 },
-      value: 140,
-      color: 'blue',
-    })
+    const input = throwFixture(commands, makeItem({ id: 116 }), 1)
+    input.state.enemies[0]!.resistanceToSorcery = 0
+    // The object view is indexed by poison ID, like the extracted OBJECT table.
+    input.objectPoisons[5] = { id: 5, level: 1, color: 0, playerScript: 0, enemyScript: 3 }
+    performThrowItem(input)
+    expect(input.state.enemies[0]!.e.health).toBe(150)
+    expect(input.bus.drain().filter((c) => c.cmd.op === 'showDamageNum')).toEqual([])
+    expect(input.state.battleAnim?.pendingDamageNums).toEqual([
+      { target: { kind: 'enemy', idx: 0 }, value: 50, color: 'blue' },
+    ])
   })
 
-  it('scriptOnThrow=0 → PAL_RunTriggerScript no-op,仍消耗投掷物', () => {
-    const state = makeState([{ health: 200 }])
-    const gs = makeGameState([{ itemId: 5, count: 2 }])
-    const runScriptSpy = vi.fn()
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 5,
-      targetIdx: 0,
-      items: [makeItem({ id: 5, scriptOnThrow: 0 })],
-      magics: [],
-      objectMagics: [],
-      objectPoisons: [],
-      playerRoles: { roles: [] },
-      bus: createCommandBus(),
-      commands: [{ op: 'end' }],
-      runScript: runScriptSpy,
-    })
-    expect(state.enemies[0]!.e.health).toBe(200)
-    expect(gs.inventory[0]!.count).toBe(1)
-    expect(runScriptSpy).not.toHaveBeenCalled()
+  it('a zero script entry is a no-op but still consumes the last item, retaining its zero row', () => {
+    // If entry zero were executed, this legal script would change inventory.
+    const commands: Command[] = [{ op: 'giveItem', itemId: 66, count: 5 }, { op: 'end' }]
+    const input = throwFixture(commands, makeItem({ scriptOnThrow: 0 }), 1)
+    performThrowItem(input)
+    expect(input.gs.inventory).toEqual([{ itemId: 66, count: 0 }])
+    expect(input.state.enemies[0]!.e.health).toBe(200)
   })
 
-  it('inventory 没有该投掷物 → warn + 不跑(防御)', () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const state = makeState([{ health: 200 }])
-    const gs = makeGameState([{ itemId: 66, count: 0 }])
-    const commands: Command[] = [
-      { op: 'end' },
-      { op: 'raw', opcode: 0x42, operands: [349, 0, 0] },
-      { op: 'end' },
-    ]
-    performThrowItem({
-      state,
-      gs,
-      casterIsEnemy: false,
-      casterIdx: 0,
-      itemId: 66,
-      targetIdx: 0,
-      items: [makeItem({ id: 66, scriptOnThrow: 1 })],
-      magics: [magicStat(54, 140, 0)],
-      objectMagics: [objMagic(349, 54)],
-      objectPoisons: [],
-      playerRoles: { roles: [] },
-      bus: createCommandBus(),
-      commands,
-      runScript,
-    })
-    expect(state.enemies[0]!.e.health).toBe(200) // 没扔成 → 无伤害
-    warnSpy.mockRestore()
+  it.each([
+    { name: 'missing entry', inventory: [] },
+    { name: 'zero-count entry', inventory: [{ itemId: 66, count: 0 }] },
+  ])('rejects $name without running damage or starting an animation', ({ inventory }) => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    onTestFinished(() => warning.mockRestore())
+    const input = damageFixture(0)
+    input.gs.inventory = inventory.map((entry) => ({ ...entry }))
+    performThrowItem(input)
+    expect(warning.mock.calls).toEqual([['[throw-item] no inventory for item 66']])
+    expect(input.state.enemies[0]!.e.health).toBe(200)
+    expect(input.gs.inventory).toEqual(inventory)
+    expect(input.state.battleAnim).toBeUndefined()
+    expect(input.bus.drain()).toEqual([])
+  })
+})
+
+describe('throw item inventory ownership', () => {
+  it('consumes the current entry after the throw script removes and recreates the item', () => {
+    const input = throwFixture(
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'raw', opcode: 0x20, operands: [66, 1, 0], label: 'L_1' },
+        { op: 'giveItem', itemId: 66, count: 2 },
+        { op: 'end' },
+      ],
+      makeItem(),
+      1,
+    )
+    performThrowItem(input)
+    expect(input.gs.inventory).toEqual([{ itemId: 66, count: 1 }])
+  })
+
+  it('leaves inventory empty when the script consumes the last item', () => {
+    const input = throwFixture(
+      [
+        { op: 'end', label: 'L_0' },
+        { op: 'raw', opcode: 0x20, operands: [66, 1, 0], label: 'L_1' },
+        { op: 'end' },
+      ],
+      makeItem(),
+      1,
+    )
+    performThrowItem(input)
+    expect(input.gs.inventory).toEqual([])
   })
 })

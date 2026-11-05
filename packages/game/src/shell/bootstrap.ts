@@ -476,7 +476,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   //   每帧 onPresent 调 audio.sync 消费。首个 keydown resume AudioContext(浏览器 autoplay policy)。
   const audio = createAudioManager('/extracted')
   // BGM 后端:SpessaSynth 运行时 MIDI 合成(直接播 Musics/{NNN}.mid,开箱即响)。
-  //   public/soundfont.sf3 已随仓库提供;缺失则 BGM 静默 + warn,见 audio-midi.ts。worklet 已 vendored 到 public/。
+  //   public/soundfont.sf3提供GM音色；加载失败由音源控制器发布错误状态，见audio-midi.ts。
+  //   worklet与已安装依赖的dist保持字节一致，供应者许可证随public产物保留。
   const musicSource = createMusicSourceController(
     (source) =>
       source === 'rix'

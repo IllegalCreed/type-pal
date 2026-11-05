@@ -5,13 +5,14 @@
  *  - 背景:pUpper(FBP DOS chunk 61)/ pLower(chunk 62)按 i/2 垂直滚动拼接(pLower 下移、pUpper 自顶推入)。
  *  - 水波:wScreenWave=2 全程(PAL_ApplyWave 每帧扭曲背景)。
  *  - 妖兽(MGO chunk 571):帧 0 在 (0,-400+i)、帧 1 在 (0,-200+i),自顶降下(top-left blit,负 y 裁剪)。
- *  - 女孩(MGO chunk 572):4 帧 walk 循环(i%4)在 (220, yPosGirl);yPosGirl 180→80(每隔帧 -1)。
+ *  - 女孩(MGO chunk 572):按墙钟每 50ms 换 walk 帧；yPosGirl 180→80(每隔循环 -1)。
  * modal,caller suspendRaf 包。默认不可跳；仅显式传入 skipKeys 时响应对应键。
  */
 import type { Palette } from '@type-pal/shared'
 import type { IndexedImage } from '../assets/png.js'
 import { drawSprite } from '../present/draw-sprite.js'
 import type { Framebuffer } from '../present/framebuffer.js'
+import { scalePaletteBrightness } from '../present/palette-brightness.js'
 import { flushToCanvas } from '../present/present.js'
 import { applyScreenWave, resetScreenWavePhase } from '../present/screen-wave.js'
 import { listenForModalActions } from './input.js'
@@ -21,7 +22,7 @@ const SCREEN_H = 200
 const N = SCREEN_W * SCREEN_H
 
 export interface EndingAnimationOptions {
-  /** FBP DOS chunk 61(上半背景)320×200 indices;缺 → 全黑。 */
+  /** FBP DOS chunk 61(上半背景)320×200 indices；长度不符用索引 0 替代。 */
   upperIndices: Uint8Array
   /** FBP DOS chunk 62(下半背景)。 */
   lowerIndices: Uint8Array
@@ -64,25 +65,9 @@ export function waitForKey(keys: string[] = ['Space', 'Enter', 'Escape']): Promi
   })
 }
 
-/** 把 palette rgb 整体缩放 factor(0=黑,1=原色)。 */
-function scalePalette(base: Palette, factor: number): Palette {
-  const f = Math.max(0, Math.min(1, factor))
-  return {
-    ...base,
-    colors: base.colors.map(
-      (c) =>
-        [Math.floor(c[0]! * f), Math.floor(c[1]! * f), Math.floor(c[2]! * f)] as [
-          number,
-          number,
-          number,
-        ],
-    ),
-  }
-}
-
 /**
- * 阻塞淡出 —— palette rgb 100%→0%(屏幕内容不变,只暗调色板)。port sdlpal PAL_FadeOut 等价
- * (我们结局编排全程 suspendRaf,fade 不能走 present 驱动的 paletteFadeState,故用阻塞 palette-scale)。
+ * modal 序列淡出：保持索引画面，按经过时间缩放 RGB，正常呈现由 caller 的 suspendRaf 暂停。
+ * 这是浏览器端时间插值；SDLPal PAL_FadeOut 的 j/64 整数步不由此函数复刻。
  */
 export async function fadeOutBlocking(
   fb: Framebuffer,
@@ -94,13 +79,13 @@ export async function fadeOutBlocking(
   for (;;) {
     const t = performance.now() - start
     if (t >= durationMs) break
-    flushToCanvas(fb, canvasCtx, scalePalette(palette, 1 - t / durationMs))
+    flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, 1 - t / durationMs))
     await sleep(16)
   }
-  flushToCanvas(fb, canvasCtx, scalePalette(palette, 0))
+  flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, 0))
 }
 
-/** 阻塞淡入 —— palette rgb 0%→100%(屏幕内容已是目标图,从黑渐亮)。port PAL_FadeIn 等价。 */
+/** 保持目标索引画面，从黑插值到完整调色板；中间步与 PAL_FadeIn 的 j/64 不同。 */
 export async function fadeInBlocking(
   fb: Framebuffer,
   canvasCtx: CanvasRenderingContext2D,
@@ -111,7 +96,7 @@ export async function fadeInBlocking(
   for (;;) {
     const t = performance.now() - start
     if (t >= durationMs) break
-    flushToCanvas(fb, canvasCtx, scalePalette(palette, t / durationMs))
+    flushToCanvas(fb, canvasCtx, scalePaletteBrightness(palette, t / durationMs))
     await sleep(16)
   }
   flushToCanvas(fb, canvasCtx, palette)
@@ -120,7 +105,8 @@ export async function fadeInBlocking(
 /**
  * 阻塞 ColorFade —— 整个 palette 朝纯色 colors[colorIdx] crossfade(闪色过渡)。
  * 近似 sdlpal PAL_ColorFade(结局用 ColorFade(7,15):向 color 15 闪);我们做线性 crossfade 到该色,
- * 不复刻 64 步 ±4 nibble 细节(视觉等价的闪色;时长对齐 64*(delay*10)ms)。
+ * 不复刻 C 的 64 步 RGB 通道 ±4 调整；caller 传入 64*(delay*10)ms 总预算。
+ * 终点为目标色，不声明中间像素或闪色观感与原版等价。
  */
 export async function colorFadeBlocking(
   fb: Framebuffer,
@@ -162,7 +148,7 @@ export async function playEndingAnimation(o: EndingAnimationOptions): Promise<vo
   const frameCount = o.frameCount ?? 400
   const frameDelayMs = o.frameDelayMs ?? 50
   const next = new Uint8Array(N)
-  // wScreenWave=2 全程(ending.c:329);sWaveProgression=0 → 恒定波幅。局部状态不污染 gs。
+  // 波幅为局部常量，不改 gs；波形相位仍由 screen-wave 模块共享，进入时复位。
   const wave = { wScreenWave: 2, sWaveProgression: 0 }
   resetScreenWavePhase()
   let yPosGirl = 180
@@ -178,13 +164,13 @@ export async function playEndingAnimation(o: EndingAnimationOptions): Promise<vo
   window.addEventListener('keydown', onKey, true)
   try {
     for (let i = 0; i < frameCount && !skipped; i++) {
-      const h = Math.floor(i / 2) // 0..200,背景滚动高度
+      const h = Math.floor(i / 2) // 默认 400 帧的背景滚动高度为 0..199。
       // 背景:pLower rows [0,200-h) → 屏 [h,200);pUpper rows [200-h,200) → 屏 [0,h)(ending.c:336-350)
       next.set(lower.subarray(0, (200 - h) * SCREEN_W), h * SCREEN_W)
       next.set(upper.subarray((200 - h) * SCREEN_W, N), 0)
       o.fb.indices.set(next)
       // 水波扭曲背景(wScreenWave=2 恒定)
-      if (wave.wScreenWave !== 0) applyScreenWave(o.fb.indices, wave)
+      applyScreenWave(o.fb.indices, wave)
       // 妖兽:帧 0@(0,-400+i)、帧 1@(0,-200+i)
       if (o.beastFrames.length >= 2) {
         blitTopLeft(o.fb, o.beastFrames[0]!, 0, -400 + i)

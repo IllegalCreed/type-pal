@@ -1,5 +1,7 @@
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 
+// Validated 320×200 assets and installed layouts are borrowed read-only.
+// Weak source keys release derived images when the owning resource is replaced.
 const statusCache = new WeakMap<BattleBgAsset, Map<string, BattleBgAsset>>()
 const equipCache = new WeakMap<BattleBgAsset, BattleBgAsset>()
 

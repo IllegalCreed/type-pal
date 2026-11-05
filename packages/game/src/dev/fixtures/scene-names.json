@@ -1,5 +1,5 @@
 {
-  "_doc": "Dev-only 场景中文名(scene id 字符串 → 地名)。PAL/sdlpal 无场景名真值表,此处为 dev 导航便利标签。名字来源:① 该 scene 脚本里的 startBattle teamId ∩ dev-panel.ts BOSS_ROSTER 已核地点;② 该 scene 对白佐证(events/scene-NNN.json 的 say 文本);③ 同 mapNum 兄弟场景一致(同一 MKF 地图=同一地点)。三信号交叉确认,非凭空猜。仍为**部分覆盖**(~33/294,主要剧情点),其余留空走 `scene-N · map-M` 回退。补名请同样对照对白/剧情确认,宁缺毋滥。",
+  "_doc": "开发面板的部分导航标签：资源场景下标（0-based）字符串 → 人读地名。当前34项，其余由面板回退为 scene-N · map-M。PAL/SDLPal没有对应的场景名真值表；此表是项目自定义导航，不充当剧情或地理考据结论。补名须核目标场景的对白与地点，宁缺毋滥。",
   "names": {
     "1": "余杭镇",
     "2": "余杭镇",

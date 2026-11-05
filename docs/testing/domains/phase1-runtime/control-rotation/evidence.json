@@ -63,7 +63,7 @@
       "lines": "46",
       "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
       "role": "display-label",
-      "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+      "sha256": "ab2b4e1627d27f1ca49acfdf37f3a7c7370faf218a9f24dce7bdfb216a25c964"
     },
     {
       "path": "packages/game/src/core/scene-system.ts",
@@ -175,6 +175,22 @@
       "afterLine": "157",
       "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
       "scope": "Only shell test teardown now releases language subscribers after removing temporary DOM and restores language/lang attribute. Referenced rotation test and remainder are byte-identical; native controls-after13files81passed/empty stderr. No new hardware/browser/visual/deployment claims; old runtime receipts and publication state remain unchanged."
+    },
+    {
+      "date": "2026-11-05",
+      "action": "pending93-source-ref-bridge",
+      "base": "08d67e28ec454d29941f8fab614644c5e160d790",
+      "previousSourceRefs": [
+        {
+          "path": "packages/game/src/localization/ui-text.ts",
+          "lines": "46",
+          "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
+          "role": "display-label",
+          "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+        }
+      ],
+      "scope": "获批uiText只读自有译文；ENGLISH_LABELS完整字面表不变，旋转设置caller传表中自有键，原标签/控制adapter不变。当前fast含原设置/壳层邻测；不重授旧浏览器/实体设备信用。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
+      "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
     }
   ],
   "kind": "runtime-execution",

@@ -1,28 +1,31 @@
-import type { AbstractKey, InputSnapshot, Item, Magic, Spell } from '@type-pal/shared'
-import { beforeEach, describe, expect, it } from 'vitest'
+import type { AbstractKey, InputSnapshot } from '@type-pal/shared'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { createInitialGameState } from '../game-state.js'
+import { makeRoleRecord } from '../../__tests__/battle-records.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../game-state.js'
 import { createInGameMenu, createSystemMenu } from './in-game-menu.js'
 import { createInventoryMenu } from './inventory-menu.js'
 import { setMenuCatalogs } from './menu-driver.js'
 import { closeTopMenu, openMenu, tickMenu } from './menu-mode.js'
 
 const MOCK_CATALOGS = {
-  items: [] as Item[],
-  spells: [] as Spell[],
-  magics: [] as Magic[],
+  items: [],
+  spells: [],
+  magics: [],
   playerRoles: { roles: [] },
 }
 
 beforeEach(() => {
   setMenuCatalogs(MOCK_CATALOGS)
 })
+// The public setter has no uninstall operation; return to this isolated file's empty baseline.
+afterEach(() => setMenuCatalogs(MOCK_CATALOGS))
 
 function snap(pressed: AbstractKey[] = []): InputSnapshot {
   return { held: new Set(), pressed: new Set(pressed), frameNum: 0 }
 }
 
-describe('M5.6 W0.a tickMenu 骨架', () => {
+describe('Menu mode dispatch and return', () => {
   it('menuStack 空 → 切回 explore mode', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'menu'
@@ -38,6 +41,18 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
     expect(gs.menuStack.length).toBe(1)
     tickMenu(gs, snap(['Menu']))
     expect(gs.menuStack.length).toBe(0)
+    expect(gs.mode).toBe('explore')
+  })
+
+  it('hub 同帧收到取消与确认时先关栈，不打开状态页', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const playerRoles = { roles: [makeRoleRecord(0)] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, playerRoles)
+    setMenuCatalogs({ ...MOCK_CATALOGS, playerRoles })
+    openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
+    expect(gs.mode).toBe('menu')
+    tickMenu(gs, snap(['Menu', 'Confirm']))
+    expect(gs.menuStack).toHaveLength(0)
     expect(gs.mode).toBe('explore')
   })
 
@@ -60,7 +75,7 @@ describe('M5.6 W0.a tickMenu 骨架', () => {
     expect(gs.mode).toBe('menu')
   })
 
-  it('DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)', () => {
+  it('物品列表 Menu 键 → 关整个菜单栈(uigame.c:1024-1026)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
     openMenu(gs, { kind: 'inventory', state: createInventoryMenu(gs, []) })

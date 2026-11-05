@@ -15,14 +15,20 @@ export interface UnresolvedMagicObject {
   reason: 'objectNotFound' | 'magicNotFound'
 }
 
+/**
+ * Prefer the spell table even when its referenced magic is missing: a broken spell
+ * must be reported, rather than hidden by a different OBJECT view of the same ID.
+ * Magic and table Spell records are borrowed. A fallback Spell is newly assembled
+ * but still borrows its flags; callers own script progress in GameState.
+ */
 export function resolveMagicObject(
   objectId: number,
   spells: readonly Spell[],
   magics: readonly Magic[],
   objectMagics: readonly ObjectMagicView[] = [],
 ): ResolvedMagicObject | undefined {
-  // 通常玩家法术落在 spells.json(OBJECT_MAGIC 296..397)。梦蛇这类边界对象
-  // id=295 留在 item 段,但 OBJECT union 的 magic view 仍有效,需走 objectMagics 回退。
+  // 当前 parseSpells 已含296..397及梦蛇295。只在没有该Spell时读取完整OBJECT的
+  // magic-union视图；同ID的Spell存在但引用损坏时，不用另一视图掩盖错误。
   const spell = spells.find((s) => s.id === objectId)
   if (spell) {
     const magic = magics.find((m) => m.id === spell.magicNumber)
@@ -49,6 +55,7 @@ export function resolveMagicObject(
   }
 }
 
+/** Diagnose the same precedence as resolveMagicObject without creating a fallback Spell. */
 export function explainMagicObjectResolution(
   objectId: number,
   spells: readonly Spell[],

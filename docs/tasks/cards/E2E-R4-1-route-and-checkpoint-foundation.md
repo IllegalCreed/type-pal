@@ -72,6 +72,16 @@ PR44首轮CI追踪：coverage run `41954840381`、job `127007149647`在前置qua
 
 根按实际差异接受`5cd9684f74a719b865143a510a6bb102f763df88`的精确迁移登记。既有96条审批数据与比较谓词逐字保全，新增条目只匹配原生10→9两份身份摘要和当前文件SHA。定向Node测试112项通过，Biome两文件零诊断。官方`pnpm run coverage:ratchet --allow-scope-removal`对保护基点`08d67e28`完整运行，159项工具测试和七包20277项通过，覆盖822份生产文件。`/root/raw_initial_state_audit`独立核验官方投影与新基线精确相等，六个非editor对象与保护基线相等，32项比值24平8升。当前报告与新基线的范围差异为0，原保护比较对真实10→9登记与已删除文件通过。第三轮远端范围门失败和本地ratchet通过分别保留执行身份。原生报告及可逐字恢复的本地报告、两次命令的退出事实、迁移和独立验收收于[覆盖范围同步原件包](../evidence/E2E-R4-1-ci-coverage-ratchet-20261105.tar.gz)。后继必需检查和合入仍取PR44原生状态。
 
+## 2026-11-05 PR44 与最新主线对齐
+
+`37bf91067012bebf1f4fedd707326c5149f4a429` 的 `documentation` 与 `fast-coverage` 分别在 41972487211 和 41972487209 通过。期间 PR45 已将 `main` 推进到 `c56192d8b388b8c1b677bb547895b89cea249475`。PR44 继续按严格分支保护在新基点重新验收。[文档检查](https://github.com/IllegalCreed/type-pal/actions/runs/41972487211) · [覆盖率检查](https://github.com/IllegalCreed/type-pal/actions/runs/41972487209)
+
+本轮 build allowed 范围为合并冲突、现有质量门和续办终档复验。`/root/e2e_baseline_docs` 独立提供位置清单与固定源校验的组合候选及真实 loader 回归，保留目录原件和两侧来源维护。`/root/raw_initial_state_audit` 独立提供代码质量台账库存合并，主线的 970 条文件闭合与历史保全。根 Codex 核差异、复验门禁、按新基点执行官方 ratchet，并对照原 RF001–006 报告核现行源指纹。六份报告各有六个声明文件随 PR45 变化，因此在合并候选重建正式同引擎前驱链，范围止于 RF006 的终档和 fresh 恢复。
+
+位置清单保全双方记录。根逐条核 catalog 的五个变化 ID，原件到固定 `37bf9106` 通过已有 E2E 来源维护校验，再到现行 catalog 通过主线有限来源桥接。作者使用真实 loader 的 79 项定向回归通过，固定源错配、当前源漂移和改写执行声明均被拒绝。已解决的 Git index 通过台账门，3682 tracked、970 closed、0 review、2712 pending。逐脚本台账仍为 810 条有序记录，待复核和孤立均为 0。[文档模型](../../engineering/guides/documentation-model.md#4-机器证据与附件) · [代码质量台账](../audits/code-quality-file-ledger.md)
+
+根对保护基点 `c56192d8` 执行官方 `pnpm run coverage:ratchet --allow-scope-removal`，164 项工具测试和七包 20307 项全部通过，覆盖 832 份生产源码。范围同步沿用已核实的旧文件退出和 10→9 用例迁移，生成的基线 SHA256 为 `0df725a44ca8fc24e6028fc730d3df24095a893a96006a9902d638c6f5e699a4`。实际比较提升 8 项，范围变化 4 项。
+
 ## 2026-11-04 基线收尾与逐脚本复核准入
 
 用户在状态方案与跨场景预览接入并推送`8e7ea5b3c`后明确要求继续收尾，同时复核001–006所有相关脚本是否满足简洁性、合理性，并给对应入口分阶段标记。当前范围为既有001–006涉及的场景hook、实体trigger/auto及其真实共享/嵌套调用；全仓未执行步骤继续由工具枚举为未核，不把本批范围扩大成全部5492步骤，也不启动007验收。

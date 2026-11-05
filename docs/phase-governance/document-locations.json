@@ -663,17 +663,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "429162b01c7c1cfb878f166014b772edd967e8c02f0bc704791f2a774b8bddbb",
+      "afterSha256": "4c9bd97fcb2f7cee084d1d30c3c639e659dfa6b2b860f8f9092489e65e6eb795",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root (tracked inventory projection)",
-        "reviewer": "Codex /root/raw_initial_state_audit (bounded source/count reconciliation)",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior Codex /root/raw_initial_state_audit (bounded source/count reconciliation); /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "Only two machine-summary lines: tracked3636 to3651 and pending2790 to2805. Real Git index adds16 and removes1; all846 live rows, closed846/review0 and historical bytes are preserved. No new code-quality closure.",
-        "reviewedLines": 889,
-        "acceptanceScope": "Bounded current tracked census and balanced summary only; original table/history accepted as before. PR44 failure and recovery are owned by R4 CI-followup. No new runtime, coverage or full-file semantic credit."
+        "conclusion": "保全主线970条闭合原表与已接受PAL oracle刷新；仅按合并后真实tracked库存刷新两条机器汇总为3682/970/0/2712，功能侧先前3636→3651作为原时点历史，不授新whole-file关闭。",
+        "reviewedLines": 1015,
+        "acceptanceScope": "仅根提供的合并库存候选及两机器行；970条live保全由根独立验证，沿用两边原历史与验收，不授新runtime/UI/E2E、统一质量门或PR合入信用。"
       }
     },
     {
@@ -719,32 +719,32 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "c7922f1af361166df532e1954b23dce1f9fea3fcf93d6dbf8ae8a2860893e88e",
+      "afterSha256": "e9403da99db37f51a217ea656046303ca602007f47c14f2a9bc5d9b17e4fb226",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root",
-        "reviewer": "/root/e2e_baseline_docs; /root/status_reconcile",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior /root/e2e_baseline_docs; /root/status_reconcile; /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "仅更新R4和初态预览当前推进位置，固定历史接受与007未启动；状态分别跟随两原卡。 本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。",
+        "conclusion": "保全37bf层：仅更新R4和初态预览当前推进位置，固定历史接受与007未启动；状态分别跟随两原卡。 本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 终态父卡直链退出看板，只留回执入口，保全实际单项失败。",
         "reviewedLines": 119,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。"
+        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
       }
     },
     {
       "path": "docs/ops/code-quality.md",
       "mode": "reviewed",
-      "afterSha256": "62c0bf1edfdac50205eb5eb6d587371e58862a780290636523dd5a79343758d9",
+      "afterSha256": "ee4b807fe9f1093f8092da51d74abbfef32bd9f07d38e2710b4597dc4b99b172",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "全部现行条款原样保留，只有可见路径迁移；重复历史全文改从固定Git读取，不减少八维或零诊断要求。",
-        "reviewedLines": 176,
-        "acceptanceScope": "贡献者按白名单全文治理；独立验收核实际差异、来源/保全及适用范围，必要项定向展开；reviewedLines仅为候选正文行数，不认证独立全文阅读或产品执行。"
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "字典所有权、同根因扩查两条规范及日期；独立据证复核接受，原执行/历史撤回不重写。",
+        "reviewedLines": 180,
+        "acceptanceScope": "仅该篇本轮实际增量和所列来源/身份/映射/消费者；作者全文八维由Coding Owner承担，独立复核不重复93产品全文。未授统一门、持久归档、视觉/E2E或整批完成信用。"
       }
     },
     {
@@ -2071,32 +2071,32 @@
     {
       "path": "docs/ops/guides/documentation-model.md",
       "mode": "reviewed",
-      "afterSha256": "4139ecf7beb9945671231046ccd3b6c83647f20275c553b497dbc53533f6a06a",
+      "afterSha256": "147c04209dd72d43ccd6cc66a357da4c186432e0f4921fefc00b5ad5df2643fe",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/e2e_baseline_docs",
-        "reviewer": "/root",
+        "author": "/root",
+        "reviewer": "/root/raw_initial_state_audit",
         "date": "2026-11-05",
-        "conclusion": "新增精确三路径的来源适用性维护说明与唯一准入入口：只核sourceRefs指纹和保全旧说明的增补，现行JSON和实际源码仍验；旧审查/签名及其他原生载体冻结规则保持，不授新执行或覆盖率信用。",
-        "acceptanceScope": "核该新增段与对应真实三消费者/反例，其他已接受正文不重复全文；具体源码身份与原始执行在末轮质量回执中固定。",
+        "conclusion": "合并后的 catalog 先核固定原件到 E2E 已准入版本的来源维护，再核该版本到现行对象的有限来源桥接。",
+        "acceptanceScope": "独立核单段增量与两份现有准入合同。沿用其余已接受正文。",
         "reviewedLines": 138
       }
     },
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "92d0a32fab953fde3c0e2fb382d631091bab53fd2a2266c7e550f985766a6a79",
+      "afterSha256": "71ecc28e9deda48f35ba36863e2ac97175c7cdc3ce81b4e98be807fd3bb5f2bd",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/retirement_contract（合同）；/root（最后三处措辞）",
-        "reviewer": "/root（合同）；/root/status_reconcile（措辞）",
-        "date": "2026-11-03",
-        "conclusion": "有限原件退休、源/编码恢复、完整候选隔离回放及无当前读取回退；逐成员/有界分片/窗口与代码真实反例一致，最后三处闭包措辞非作者另核。",
-        "reviewedLines": 85,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "仅新增现行测试来源绑定维护流程及版本适用性转接，固定4载体/7来源；旧类型/执行保全、非作者/afterSHA/Owner及配对门表达与实现一致。",
+        "reviewedLines": 91,
+        "acceptanceScope": "独立核实际新增小节/转接及链接，不授旧runtime/E2E/视觉/全仓或整窗完成信用。"
       }
     },
     {
@@ -2326,14 +2326,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "1dfe8968ef31368aea48386de254024fdeca015ffb115ebbfbed5ede371a231e",
+      "afterSha256": "8de7ac931d82c0ebd0ec4e4c85ec8008519de642f1be1b19c01cd67e6dbc550f",
       "review": {
         "author": "/root",
         "reviewer": "/root/raw_initial_state_audit",
         "date": "2026-11-05",
-        "conclusion": "001–006有限验收按前次证据复用。PR44第三轮全量测试通过后发现范围基线滞后。官方ratchet同步822份生产文件与20277项测试，精确迁移登记与保护比较通过。R4维持build。",
-        "acceptanceScope": "本次复核覆盖第三轮范围拒绝、初态测试合同迁移和官方ratchet。前序正文采用既有接受记录。根核24件封包及一份报告逐字恢复。后继远端检查与合入取PR44原生结果。",
-        "reviewedLines": 489
+        "conclusion": "旧候选双门通过后按严格保护对齐主线 c56192d8。保全两侧来源维护和代码库存。当前官方 ratchet 通过，续办前驱实跑待记录。",
+        "acceptanceScope": "核本次对齐四段、来源边界和实际 ratchet。以前各轮结果及新一轮远端状态取各自原件。",
+        "reviewedLines": 499
       }
     },
     {
@@ -2584,16 +2584,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "ad45de0af8a68c4414ad07c710c7ff0fad3299622cc7998a0c78fc420f74b849",
+      "afterSha256": "eba7c4a8224cc1f82d7d4800b3ba7a82c2f9afeae5132fcc987449beeb7759a9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "deterministic task index / Codex; /root",
-        "reviewer": "Codex /root/e2e_baseline_docs / Codex /root; /root/status_reconcile",
+        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
+        "reviewer": "/root (merge acceptance); prior Codex /root/e2e_baseline_docs / Codex /root; /root/status_reconcile; /root/doc_delta_review",
         "date": "2026-11-05",
-        "conclusion": "既有生成器仅将ED当前状态由build更新为review，独立重放stdout与候选逐字相同，其余任务状态不改。 以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。",
-        "reviewedLines": 574,
-        "acceptanceScope": "只接受唯一生成行、真实card状态及producer一致性；短回执在ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz。未变正文复用旧接受，行数为consumer身份范围；不额外授产品、E2E或全文运行信用。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。"
+        "conclusion": "保全37bf层：既有生成器仅将ED当前状态由build更新为review，独立重放stdout与候选逐字相同，其余任务状态不改。 以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 581,
+        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：只接受唯一生成行、真实card状态及producer一致性；短回执在ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz。未变正文复用旧接受，行数为consumer身份范围；不额外授产品、E2E或全文运行信用。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
       }
     },
     {
@@ -3180,14 +3180,14 @@
     {
       "path": "docs/phase1/engineering-notes.md",
       "mode": "reviewed",
-      "afterSha256": "9d3c4a1bc49207019f9ceb5727547e1ea5677f69c33eb503e3828018a6636f7d",
+      "afterSha256": "34fca8101e435284ab050a02b0fad736c34f919313d64d4de152a048ecc94d76",
       "review": {
-        "author": "/root/artifact_exit",
-        "reviewer": "/root",
-        "date": "2026-11-03",
-        "conclusion": "仅本次具体知识承接、历史入口薄化或精确原件href转固定Git；实际差异/来源/逆还原与消费者闭包独立核验，原JSON、独立执行及失败不重写。",
-        "reviewedLines": 299,
-        "acceptanceScope": "仅本次列明的实际差异与来源/保全/消费者；沿用未变正文此前接受，不认证新的全文逐行阅读、产品运行、E2E、视觉、部署或全仓代码质量。"
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "新增现行知识、来源及信用边界；历史quote精确保全；独立据证复核接受，原执行/历史撤回不重写。",
+        "reviewedLines": 323,
+        "acceptanceScope": "仅该篇本轮实际增量和所列来源/身份/映射/消费者；作者全文八维由Coding Owner承担，独立复核不重复93产品全文。未授统一门、持久归档、视觉/E2E或整批完成信用。"
       },
       "templateId": "guide-runbook-v1",
       "historyOverlay": false
@@ -3725,7 +3725,16 @@
     },
     {
       "path": "docs/testing/domains/cross-phase/script-corrections/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "3513c88fbcb0b17dd4d3ae096e1bfde00fe07b6b18ce00981c090191c2502e88",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "四来源回绑、当前PAL14合同证据及限制；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 111,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
     },
     {
       "path": "docs/testing/domains/editor/authoring-and-runtime/tools/README.md",
@@ -3801,7 +3810,16 @@
     },
     {
       "path": "docs/testing/domains/phase1-runtime/control-rotation/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "b9ba03afda61c46bbb4281f985905b2c7b1a1e0126a549c04c634d3ddc8dff37",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "旋转设置自有literal标签适用性与唯一来源回绑；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 110,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/README.md",
@@ -3813,7 +3831,16 @@
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "8cee9270b262de8cba9d3ef2fcb2dd22ba6b4fae48902623cf76952d960ec20d",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "两个注释变化来源回绑及窄维护说明；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 124,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/README.md",
@@ -4047,7 +4074,16 @@
     },
     {
       "path": "docs/testing/governance.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "90106cc582a233e5bac52f93a1ce427d28ba8c59681faa0f744439f6164a9bc2",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "仅新增现行测试来源绑定维护流程及版本适用性转接，固定4载体/7来源；旧类型/执行保全、非作者/afterSHA/Owner及配对门表达与实现一致。",
+        "reviewedLines": 100,
+        "acceptanceScope": "独立核实际新增小节/转接及链接，不授旧runtime/E2E/视觉/全仓或整窗完成信用。"
+      }
     },
     {
       "path": "docs/testing/README.md",
@@ -4202,6 +4238,73 @@
         "reviewedLines": 1345,
         "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
       }
+    },
+    {
+      "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
+      "mode": "reviewed",
+      "historyOverlay": false,
+      "afterSha256": "e8f4b51bc235b90b906ff5592dd477e742f6a3319acb1d700288ab61e8db8100",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 另据证接受TURN现行收口段移出保全区及首轮元数据失败保全；完整历史字节不变。",
+        "reviewedLines": 220,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/testing/catalog.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "565403a5ed988ccb4c529384dd159d3120e30f2a4e931f314b2578e9002a18c2",
+      "review": {
+        "author": "/root/e2e_baseline_docs (source-layer merge)",
+        "reviewer": "/root (merge acceptance); /root/doc_delta_review (c561 layer)",
+        "date": "2026-11-05",
+        "conclusion": "固定159cd原件先经已接受37bf catalog维护合同，再经主线有限source bridge；保全E2E两ID来源SHA/reviewScope增量和主线三个ID的2+4+1来源/history增量。两层原断言各自执行，原签名/出版/执行事实不变。",
+        "reviewedLines": 3410,
+        "acceptanceScope": "仅两个已接受来源维护层的组合及固定Git中间原件，不扩大路径/ID/字段授权，不授runtime/E2E或旧反控重执行信用。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "c9985a093ca44f8b972bdd9e6c5cbc963c4b59639854e19215e0a5e0a2d1293e",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "与catalog/report精确配对两来源及history；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 422,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/script-corrections/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "ec947346fea6f0cb8466b073648ee7404e11452d287d1d4184b6c17e04e6efa0",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "四来源与旧指纹保全，既有执行字段不变；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 544,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/control-rotation/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "ad032ff089c9ac39eed6908eb9e2db8b3b048737d7d4fc3a67b6e4b7f25cb29c",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "标签来源与配对history，不重授设备/浏览器信用；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
+        "reviewedLines": 463,
+        "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
     }
   ],
   "additions": [
@@ -4247,14 +4350,14 @@
     {
       "path": "docs/tasks/evidence/index.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "36efc5272183c980751ec7d8a9413181f638f90ac616a924ac6eceb682f9256a",
+      "afterSha256": "23e82f36a1a53b6b35c6a51ca2c7798058d239e5e83ced772bbdd7e6aee773c5",
       "review": {
         "author": "/root",
-        "reviewer": "/root/thin_indexes",
-        "date": "2026-11-02",
-        "conclusion": "109入口覆盖108可检出目录及1同层文档；无README目录直接链接，零漏项/失效目标，状态仍取原卡。",
-        "reviewedLines": 135,
-        "acceptanceScope": "独立核完整候选与实际Git可检出目录，补10遗漏后逐目标核；默认README只按需转入本表，不复制执行状态。"
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "唯一新审查入口及日期，薄索引职责；独立据证复核接受，原执行/历史撤回不重写。",
+        "reviewedLines": 136,
+        "acceptanceScope": "仅该篇本轮实际增量和所列来源/身份/映射/消费者；作者全文八维由Coding Owner承担，独立复核不重复93产品全文。未授统一门、持久归档、视觉/E2E或整批完成信用。"
       }
     },
     {
@@ -4281,6 +4384,110 @@
         "conclusion": "原160事件保全，追加650为810。当前130审查/95静态初态verified，66优化accepted/64无需整改；旧e25缺证unreviewed。正式归档ref与append-only快检0待复核/0 orphan；全仓未核仍自动枚举。",
         "reviewedLines": 78999,
         "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-ASSET-SERVER-READ-FAILURE-1.md",
+      "afterSha256": "4a48c825e0de2b405472e63c36fa17b0f488bc69b8cadc9a2a6b5b5e54beb428",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 40,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-BATTLE-AI-INPUT-CLEANUP-1.md",
+      "afterSha256": "42d3c1de57abf098f97eedbca0ee15d3f2f8bbba1f67890da2f0d4a6d10e0df2",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 42,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-BATTLE-COOP-CONFUSED-QUEUE-1.md",
+      "afterSha256": "d515a807f95ca0e127cca6bab1a772a1b544ea8f8e9716f4b741d42acdd366b9",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 40,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-BATTLE-THROW-LIVE-INVENTORY-1.md",
+      "afterSha256": "99d80ad355868509ef80dfdb1e17dd0d15cb2b05b0f6148f8ac940074d54b200",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 44,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-DEV-SCENE-JUMP-SPAWN-1.md",
+      "afterSha256": "cfbac18a60761047926b2d8b080f7076d797e9c31eab6b060a2a06d2ab0ddd95",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 40,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/GAME-TOOLS-LABEL-OWN-KEY-1.md",
+      "afterSha256": "ef30572ab83f76d061659c11bc4a473c81f5b016366836fff12501e18c9c6199",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 44,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/QUALITY-PHASE1-PENDING-93-1.md",
+      "afterSha256": "7203f6c585d0ceab7d8e0d18dfe2f2ba009c0781449d6200f983f98c04c1205d",
+      "templateId": "task-card-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
+        "reviewedLines": 96,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md",
+      "afterSha256": "5915ea6adca1bed01d49d9f881eb6d6ac3ccf5ba13793c09d944d91ceb652ce0",
+      "templateId": "audit-report-v1",
+      "review": {
+        "author": "/root",
+        "reviewer": "/root/doc_delta_review",
+        "date": "2026-11-05",
+        "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 另据证接受TURN现行收口段移出保全区及首轮元数据失败保全；完整历史字节不变。",
+        "reviewedLines": 556,
+        "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
       }
     }
   ],
@@ -4450,6 +4657,12 @@
       "sha256": "174aa728a78be6cfd3a05f3e309274951ce172fd2769c0af9104faf3c221924f",
       "bytes": 1524037,
       "purpose": "PR44 native scope rejection after 20277 runtime tests passed. Preserves exact initial-state test transfer, approved 10-to-9 identities, official full ratchet and independent protected comparison. Original CI summary plus byte-exact recovery of the separate local summary. Includes distinct command outcomes and 822-file scope proof."
+    },
+    {
+      "path": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/execution.tar.gz",
+      "sha256": "d2cbde2f83d431ebe5e145c71220c4f2f7dc724af3b4d20c889857dcdd0a6019",
+      "bytes": 2830158,
+      "purpose": "原93主体的独有执行/失败/恢复/映射/来源及只读复验唯一原件；1087成员保全，21可重建或重复过程输出不进入持久包；仅有限文件批次及已执行组成门，不授未来远端CI/合并或整仓完成。"
     }
   ],
   "artifactAliases": [],

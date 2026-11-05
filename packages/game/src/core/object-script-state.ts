@@ -69,6 +69,7 @@ export function setMagicScriptEntry(
   if (!gs || entry === getMagicScriptEntry(gs, spell, script)) return
   const flags = spell.flags
   const state = gs.rgObject[spell.id] ?? {
+    // SDLPal magicmenu reads item.wScriptDesc (WORD 5), not magic.wScriptDesc (WORD 4).
     rgwData: [
       spell.magicNumber,
       0,

@@ -40,6 +40,7 @@ describe('overworld object script ownership', () => {
         applyToAll: false,
       },
     }
+    gs.PlayerRolesRuntime.rgwMagic[0]![0] = spell.id
     const commands: Command[] = [
       { op: 'end' },
       { op: 'end', advance: true },
@@ -78,7 +79,8 @@ describe('overworld object script ownership', () => {
     ])
     updateAllEquipments(gs, [item])
     expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength.slice(0, 2)).toEqual([10, 20])
-    expect(gs.rgObject[187]?.rgwData.slice(2, 6)).toEqual([7, 3, 8, 9])
+    // Equipable + sellable + six eligible roles: the saved union retains all resource fields.
+    expect(gs.rgObject[187]?.rgwData).toEqual([1, 100, 7, 3, 8, 9, 4066])
     expect(item.scriptOnEquip).toBe(1)
   })
 
@@ -126,7 +128,12 @@ describe('overworld object script ownership', () => {
 
   it('root checkpoint survives a child checkpoint and plain end, so the next use skips the completed prefix', () => {
     const gs = makeFreshGameState()
-    const item = makeItem({ id: 61, scriptOnUse: 1 })
+    const item = makeItem({
+      id: 61,
+      scriptOnUse: 1,
+      flags: makeItemFlags({ usable: true, equipable: false }),
+    })
+    gs.inventory = [{ itemId: 61, count: 1 }]
     installCommands([
       { op: 'end' },
       { op: 'giveItem', itemId: 80, count: 1 },
@@ -148,7 +155,12 @@ describe('overworld object script ownership', () => {
 
   it('returning to title during a waiting item script discards its unfinished next entry', () => {
     const gs = makeFreshGameState()
-    const item = makeItem({ id: 61, scriptOnUse: 1 })
+    const item = makeItem({
+      id: 61,
+      scriptOnUse: 1,
+      flags: makeItemFlags({ usable: true, equipable: false }),
+    })
+    gs.inventory = [{ itemId: 61, count: 1 }]
     installCommands([
       { op: 'end' },
       { op: 'raw', opcode: 8, operands: [0, 0, 0] },

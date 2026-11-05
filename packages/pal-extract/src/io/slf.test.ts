@@ -21,6 +21,7 @@ test('SLF preserves flexible message lines and clear boundaries, but unescapes w
     '[BEGIN MESSAGE] 6',
     "Li\\'s Aunt:",
     '$02Hurry!~40',
+    '  Keep the indentation.  ',
     '',
     '# inside message',
     '[CLEAR MESSAGE]',
@@ -33,7 +34,14 @@ test('SLF preserves flexible message lines and clear boundaries, but unescapes w
       {
         start: 6,
         end: 8,
-        lines: ["Li\\'s Aunt:", '$02Hurry!~40', '', '# inside message', null],
+        lines: [
+          "Li\\'s Aunt:",
+          '$02Hurry!~40',
+          '  Keep the indentation.  ',
+          '',
+          '# inside message',
+          null,
+        ],
       },
     ],
   })
@@ -58,7 +66,7 @@ test('SLF accepts disjoint message ranges and retains their authored order and c
   ])
 })
 
-describe('SLF rejects malformed source before extraction cleanup', () => {
+describe('SLF rejects malformed source', () => {
   test.each([
     ['duplicate words', '[BEGIN WORDS]\n7=A\n7=B\n[END WORDS]', 'duplicate word 7'],
     ['word escape', '[BEGIN WORDS]\n7=A\\\n[END WORDS]', 'dangling word escape'],

@@ -2,7 +2,7 @@ import { createReadStream, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import basicSsl from '@vitejs/plugin-basic-ssl'
-import { defineConfig, type Plugin } from 'vite'
+import { type Connect, defineConfig, type Plugin } from 'vite'
 
 // e2e(playwright)跑同一份 config 但在 5174 且断言 baseURL=http://localhost:5174 —— 必须保持 HTTP。
 // 否则 "server 走 https / baseURL 是 http" 会让全部 e2e 挂掉。playwright webServer.command 里设 E2E=1。
@@ -17,14 +17,7 @@ const isE2E = process.env.E2E === '1'
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 function serveDir(urlPrefix: string, fsDir: string): Plugin {
   // dev + preview 同款中间件:dev 服务源码、preview 服务 dist(本地验 SW/离线);两者都要把 /extracted 映射到仓库根。
-  const mw = (
-    req: { url?: string },
-    res: NodeJS.WritableStream & {
-      setHeader?: (key: string, value: string) => void
-      removeHeader?: (key: string) => void
-    },
-    next: () => void,
-  ): void => {
+  const mw: Connect.NextHandleFunction = (req, res, next) => {
     const url = req.url ?? ''
     if (!url.startsWith(urlPrefix)) {
       next()
@@ -53,16 +46,34 @@ function serveDir(urlPrefix: string, fsDir: string): Plugin {
       next()
       return
     }
-    res.setHeader?.('Cache-Control', 'no-cache, no-transform')
-    res.removeHeader?.('Content-Encoding')
+    res.setHeader('Cache-Control', 'no-cache, no-transform')
+    res.removeHeader('Content-Encoding')
     if (file.endsWith('.rle')) {
-      res.setHeader?.('Content-Type', 'application/vnd.type-pal.rle')
-      res.setHeader?.('X-Content-Type-Options', 'nosniff')
+      res.setHeader('Content-Type', 'application/vnd.type-pal.rle')
+      res.setHeader('X-Content-Type-Options', 'nosniff')
     } else if (file.endsWith('.gz')) {
-      res.setHeader?.('Content-Type', 'application/gzip')
-      res.setHeader?.('X-Content-Type-Options', 'nosniff')
+      res.setHeader('Content-Type', 'application/gzip')
+      res.setHeader('X-Content-Type-Options', 'nosniff')
     }
-    createReadStream(file).pipe(res)
+    const input = createReadStream(file)
+    // pipe does not release its source when the client closes or the response fails.
+    const stop = (): void => {
+      input.destroy()
+    }
+    res.once('close', stop)
+    res.once('error', stop)
+    input.once('close', () => {
+      res.off('close', stop)
+      res.off('error', stop)
+    })
+    input.once('error', (error) => {
+      input.unpipe(res)
+      if (res.destroyed) return
+      // Once bytes have been sent, a new error page would corrupt the resource body.
+      if (res.headersSent) res.destroy(error)
+      else next(error)
+    })
+    input.pipe(res)
   }
   return {
     name: `serve-${urlPrefix.replace(/\//g, '')}`,

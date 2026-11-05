@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-05T04:57:34.422Z",
+  "generatedAt": "2026-11-05T06:05:02.147Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 822,
-  "testCount": 20277,
+  "sourceFileCount": 832,
+  "testCount": 20307,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -1140,7 +1140,7 @@
       ],
       "scopeDigest": "96fef9f4f13a5146e0d9ddc5a9429c739f462502f444b7f7dabcf1dc80b95b02",
       "fastTests": {
-        "testCount": 356,
+        "testCount": 368,
         "testFileCount": 56,
         "files": [
           "packages/pal-extract/src/__tests__/cli-host.test.ts",
@@ -1293,8 +1293,8 @@
           },
           {
             "file": "packages/pal-extract/src/events/script-corrections.test.ts",
-            "testCount": 15,
-            "identityDigest": "92a75eb9996f8e1638853939877ec47081a449a100ec9c9aa691ab6b41a2842a"
+            "testCount": 21,
+            "identityDigest": "37db9d1a5b4f6e464767fbf5f6014e5bbe875ec14297696a63fce16853b0a3b6"
           },
           {
             "file": "packages/pal-extract/src/events/script-entries.test.ts",
@@ -1339,7 +1339,7 @@
           {
             "file": "packages/pal-extract/src/io/slf.test.ts",
             "testCount": 18,
-            "identityDigest": "a045dd9f721af29b2be0796e950a871ae469fe4e89672e1422c092cb09153adf"
+            "identityDigest": "6143f14b0e91a11b5c585f880f0f44a47ed68cbad8ea7c88b5ba3589aafd1815"
           },
           {
             "file": "packages/pal-extract/src/io/sss.boundaries.test.ts",
@@ -1353,8 +1353,8 @@
           },
           {
             "file": "packages/pal-extract/src/localization/build-language-pack.test.ts",
-            "testCount": 7,
-            "identityDigest": "42244b970c74e832b662ff6b9fe75f1907098a03e9bfb2a0bcacc280c2b8979c"
+            "testCount": 13,
+            "identityDigest": "b96b7d68257f2d94d250ae6a895c06fd836833c540fe4a8c9422d6f983ff815b"
           },
           {
             "file": "packages/pal-extract/src/output-boundary.test.ts",
@@ -1482,9 +1482,9 @@
             "identityDigest": "c2c81c7c43d5b81e2fa52cb616dadfe88c14e4d1c097e8348f0f28221faf66e3"
           }
         ],
-        "identityDigest": "412e8dcf0d4f289396c6231c2fc2560cf2a8de240df6b003d81c00cb10b143d3",
+        "identityDigest": "a3305fcc1b8766254be1daebf76be07f2bfeb7741539f1bda49a2d63417b1ccd",
         "duplicateIdentityCount": 0,
-        "executionDigest": "740fd60dfd9588a42abd357a0c9be97d6f6183bf47e618b4b6826198a4f43dc8"
+        "executionDigest": "cee0ed56e343c2a390f1151a0d415868a79c1d75e7c160537880d3ba7448a06e"
       },
       "metrics": {
         "statements": {
@@ -4482,7 +4482,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 204,
+      "sourceFileCount": 214,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4508,6 +4508,14 @@
         "packages/game/src/core/battle/actions/magic.ts",
         "packages/game/src/core/battle/actions/throw-item.ts",
         "packages/game/src/core/battle/anim-timeline.ts",
+        "packages/game/src/core/battle/animation/action-gestures.ts",
+        "packages/game/src/core/battle/animation/cooperative-magic.ts",
+        "packages/game/src/core/battle/animation/enemy-transformation.ts",
+        "packages/game/src/core/battle/animation/frames.ts",
+        "packages/game/src/core/battle/animation/hit-reaction.ts",
+        "packages/game/src/core/battle/animation/magic-effects.ts",
+        "packages/game/src/core/battle/animation/physical-attack.ts",
+        "packages/game/src/core/battle/animation/summon.ts",
         "packages/game/src/core/battle/battle-anim-driver.ts",
         "packages/game/src/core/battle/battle-dialog.ts",
         "packages/game/src/core/battle/battle-finalization.ts",
@@ -4516,6 +4524,7 @@
         "packages/game/src/core/battle/battle-opcodes.ts",
         "packages/game/src/core/battle/battle-positions.ts",
         "packages/game/src/core/battle/battle-progression.ts",
+        "packages/game/src/core/battle/battle-round.test-fixtures.ts",
         "packages/game/src/core/battle/battle-runtime-context.ts",
         "packages/game/src/core/battle/battle-settlement-data.ts",
         "packages/game/src/core/battle/battle-settlement.test-fixtures.ts",
@@ -4630,6 +4639,7 @@
         "packages/game/src/present/menu/draw-player-status.ts",
         "packages/game/src/present/menu/draw-shop.ts",
         "packages/game/src/present/menu/localized-background.ts",
+        "packages/game/src/present/palette-brightness.ts",
         "packages/game/src/present/player-info-box.ts",
         "packages/game/src/present/present.ts",
         "packages/game/src/present/screen-shake.ts",
@@ -4689,10 +4699,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "222175970aaadf57915c0d85b500ab2eb42d24a5e92d7ed9f7b89b6e9cbccac3",
+      "scopeDigest": "403c415be8be079cb8c32909fea9e104e86bbf9660ef0829d12966e903c14b9a",
       "fastTests": {
-        "testCount": 3762,
-        "testFileCount": 330,
+        "testCount": 3780,
+        "testFileCount": 344,
         "files": [
           "packages/game/src/__tests__/battle-fixture.test.ts",
           "packages/game/src/__tests__/scripted-rng.test.ts",
@@ -4721,10 +4731,6 @@
           "packages/game/src/assets/tileset-blob.fetch.test.ts",
           "packages/game/src/assets/tileset-blob.frames.test.ts",
           "packages/game/src/assets/tileset-blob.gzip.test.ts",
-          "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-          "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
-          "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
-          "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
           "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
           "packages/game/src/core/__tests__/stats/e2-equipment-effects.test.ts",
           "packages/game/src/core/__tests__/stats/e3-player-stat-rows.test.ts",
@@ -4734,38 +4740,56 @@
           "packages/game/src/core/__tests__/stats/i1-party-status-readouts.test.ts",
           "packages/game/src/core/__tests__/stats/i2-enemy-field-readouts.test.ts",
           "packages/game/src/core/battle-world-opcodes.test.ts",
-          "packages/game/src/core/battle/__tests__/actions.test.ts",
-          "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
           "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
           "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
           "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
+          "packages/game/src/core/battle/__tests__/battle-auto-selection.test.ts",
           "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
           "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
           "packages/game/src/core/battle/__tests__/battle-opcodes.test.ts",
           "packages/game/src/core/battle/__tests__/battle-state.test.ts",
           "packages/game/src/core/battle/__tests__/battle-system.test.ts",
           "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
+          "packages/game/src/core/battle/__tests__/coop-magic.animation.test.ts",
           "packages/game/src/core/battle/__tests__/coop-magic.test.ts",
           "packages/game/src/core/battle/__tests__/death-fade.test.ts",
+          "packages/game/src/core/battle/__tests__/defend.test.ts",
           "packages/game/src/core/battle/__tests__/enemy-ai.test.ts",
+          "packages/game/src/core/battle/__tests__/enemy-confused-attack.test.ts",
+          "packages/game/src/core/battle/__tests__/enemy-magic.test.ts",
+          "packages/game/src/core/battle/__tests__/flee.test.ts",
           "packages/game/src/core/battle/__tests__/formulas.test.ts",
+          "packages/game/src/core/battle/__tests__/item-use.test.ts",
+          "packages/game/src/core/battle/__tests__/magic-action.test.ts",
           "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
           "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
+          "packages/game/src/core/battle/__tests__/magic-input.test.ts",
           "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
           "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
+          "packages/game/src/core/battle/__tests__/magic-scripts.test.ts",
           "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
+          "packages/game/src/core/battle/__tests__/physical-attack.test.ts",
+          "packages/game/src/core/battle/__tests__/player-magic-animation.test.ts",
           "packages/game/src/core/battle/__tests__/runscript-rearm.test.ts",
+          "packages/game/src/core/battle/__tests__/status-action-effects.test.ts",
           "packages/game/src/core/battle/__tests__/status.test.ts",
+          "packages/game/src/core/battle/__tests__/summon-loop-render.test.ts",
           "packages/game/src/core/battle/__tests__/throw-item.test.ts",
           "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
           "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
           "packages/game/src/core/battle/actions/attack-effects.test.ts",
-          "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
           "packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts",
           "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
-          "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
-          "packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+          "packages/game/src/core/battle/animation/action-gestures.test.ts",
+          "packages/game/src/core/battle/animation/cooperative-magic.test.ts",
+          "packages/game/src/core/battle/animation/enemy-transformation.test.ts",
+          "packages/game/src/core/battle/animation/hit-reaction.test.ts",
+          "packages/game/src/core/battle/animation/magic-effects.test.ts",
+          "packages/game/src/core/battle/animation/physical-attack.test.ts",
+          "packages/game/src/core/battle/animation/summon.test.ts",
+          "packages/game/src/core/battle/battle-action-wiring.test.ts",
           "packages/game/src/core/battle/battle-dialog.script.test.ts",
+          "packages/game/src/core/battle/battle-escape.test.ts",
           "packages/game/src/core/battle/battle-finalization-extra.test.ts",
           "packages/game/src/core/battle/battle-finalization.test.ts",
           "packages/game/src/core/battle/battle-opcodes.control.test.ts",
@@ -4773,24 +4797,24 @@
           "packages/game/src/core/battle/battle-opcodes.status.test.ts",
           "packages/game/src/core/battle/battle-opcodes.summon-slots.test.ts",
           "packages/game/src/core/battle/battle-progression.hidden-exp.test.ts",
+          "packages/game/src/core/battle/battle-progression.level-up.test.ts",
+          "packages/game/src/core/battle/battle-round-lifecycle.test.ts",
+          "packages/game/src/core/battle/battle-round-order.test.ts",
           "packages/game/src/core/battle/battle-runtime-context.test.ts",
           "packages/game/src/core/battle/battle-settlement.screens.test.ts",
           "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
-          "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
           "packages/game/src/core/battle/battle-steal-localization.test.ts",
           "packages/game/src/core/battle/battle-system.lifecycle.test.ts",
           "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
-          "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
           "packages/game/src/core/battle/enemy-idle.test.ts",
           "packages/game/src/core/command-bus.test.ts",
           "packages/game/src/core/cross-module-boundaries.test.ts",
           "packages/game/src/core/dependency-ownership.test.ts",
-          "packages/game/src/core/dialog-bug2-skip.test.ts",
           "packages/game/src/core/dialog-history.test.ts",
-          "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
+          "packages/game/src/core/equip-effect.status.test.ts",
           "packages/game/src/core/equip-effect.test.ts",
-          "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
-          "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+          "packages/game/src/core/equipment-state.test.ts",
+          "packages/game/src/core/event-dialogue-lifecycle.test.ts",
           "packages/game/src/core/event-dialogue-pagination.test.ts",
           "packages/game/src/core/event-opcode-player.attributes.test.ts",
           "packages/game/src/core/event-opcode-player.equipment.test.ts",
@@ -4799,15 +4823,13 @@
           "packages/game/src/core/event-opcode-player.test.ts",
           "packages/game/src/core/event-party.equipment-refresh.test.ts",
           "packages/game/src/core/event-rng-scene-restore.test.ts",
-          "packages/game/src/core/event-system.cov85.test.ts",
-          "packages/game/src/core/event-system.glm-event-contracts.test.ts",
-          "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
-          "packages/game/src/core/event-system.glm-event-k01.test.ts",
-          "packages/game/src/core/event-system.glm-event-k02.test.ts",
-          "packages/game/src/core/event-system.glm-event-k03.test.ts",
-          "packages/game/src/core/event-system.glm-event-k05.test.ts",
-          "packages/game/src/core/event-system.glm-event-k06.test.ts",
-          "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+          "packages/game/src/core/event-scene-fade.test.ts",
+          "packages/game/src/core/event-scene-state.test.ts",
+          "packages/game/src/core/event-script.auto.test.ts",
+          "packages/game/src/core/event-script.battle.test.ts",
+          "packages/game/src/core/event-script.lifecycle.test.ts",
+          "packages/game/src/core/event-script.resume.test.ts",
+          "packages/game/src/core/event-script.wait.test.ts",
           "packages/game/src/core/event-system.map-change.test.ts",
           "packages/game/src/core/event-system.object-layer.test.ts",
           "packages/game/src/core/event-system.test.ts",
@@ -4839,10 +4861,10 @@
           "packages/game/src/core/menu/menu-driver.test.ts",
           "packages/game/src/core/menu/menu-driver.trading.test.ts",
           "packages/game/src/core/menu/menu-mode.test.ts",
-          "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
           "packages/game/src/core/menu/opening-menu.test.ts",
           "packages/game/src/core/menu/player-status.test.ts",
           "packages/game/src/core/menu/primitives.test.ts",
+          "packages/game/src/core/menu/save-slot-menu.flow.test.ts",
           "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
           "packages/game/src/core/menu/save-slot-menu.test.ts",
           "packages/game/src/core/menu/script-desc.test.ts",
@@ -4851,8 +4873,11 @@
           "packages/game/src/core/menu/shop-menu.test.ts",
           "packages/game/src/core/mode.test.ts",
           "packages/game/src/core/object-script-progress.test.ts",
+          "packages/game/src/core/overworld-item-script.test.ts",
           "packages/game/src/core/palette-fade.test.ts",
+          "packages/game/src/core/player-poison-entry.test.ts",
           "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
+          "packages/game/src/core/player-poison-state.test.ts",
           "packages/game/src/core/rng.test.ts",
           "packages/game/src/core/save/__tests__/api.test.ts",
           "packages/game/src/core/save/__tests__/indexed-db.test.ts",
@@ -4868,7 +4893,7 @@
           "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
           "packages/game/src/dev/dev-panel.hotkeys.test.ts",
           "packages/game/src/dev/dev-panel.pure.test.ts",
-          "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts",
+          "packages/game/src/dev/state-dump.test.ts",
           "packages/game/src/e2e.test.ts",
           "packages/game/src/localization/dialog-playback.test.ts",
           "packages/game/src/localization/dialog-wrap.test.ts",
@@ -4877,6 +4902,7 @@
           "packages/game/src/localization/messages.test.ts",
           "packages/game/src/localization/settlement-language.test.ts",
           "packages/game/src/localization/static-shell.test.ts",
+          "packages/game/src/localization/ui-text.test.ts",
           "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
           "packages/game/src/present/__tests__/world-composition.test.ts",
           "packages/game/src/present/__tests__/world-effects.test.ts",
@@ -4994,12 +5020,10 @@
           "packages/game/src/shell/rng-player.effects.test.ts",
           "packages/game/src/shell/rng-player.test.ts",
           "packages/game/src/shell/scene-thumbnail.test.ts",
-          "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
           "packages/game/src/shell/splash-fallback.test.ts",
           "packages/game/src/shell/touch-controls.test.ts",
           "packages/game/src/shell/touch-preference.test.ts",
           "packages/game/src/shell/trademark-fallback.test.ts",
-          "packages/game/src/status-poison-equip.glm-q.test.ts",
           "packages/game/src/tools/display-scale.test.ts",
           "packages/game/src/tools/fps-overlay.test.ts",
           "packages/game/src/tools/map-names.test.ts",
@@ -5162,26 +5186,6 @@
             "identityDigest": "08afc93defe3c1b69fb50dac6d1ded8e4ff193e55e6050da489af70656e6e84d"
           },
           {
-            "file": "packages/game/src/battle-action-error-arms.glm-q.test.ts",
-            "testCount": 13,
-            "identityDigest": "b2939523b3deb32fc18813a19d1be26747297124fe01742e1c066f21cec4109b"
-          },
-          {
-            "file": "packages/game/src/battle-magic-e2-autodefend-poses.glm-q.test.ts",
-            "testCount": 2,
-            "identityDigest": "55b6632b427c8888dfcea3a57fd0c6520aa0497247f3fa9a6f8a38f8a827b7c7"
-          },
-          {
-            "file": "packages/game/src/battle-magic-e2-target-semantics.glm-q.test.ts",
-            "testCount": 3,
-            "identityDigest": "a539f950f7fd734901fce747cebf3eb4bf7fb738d22d79e1995a666d391893f4"
-          },
-          {
-            "file": "packages/game/src/battle-magic-fizzle-audio.glm-q.test.ts",
-            "testCount": 2,
-            "identityDigest": "89539108473061cb72ef9a07434884f9e411a1b94c4331e16667836f30390434"
-          },
-          {
             "file": "packages/game/src/core/__tests__/stats/e1-effective-stats.test.ts",
             "testCount": 3,
             "identityDigest": "5e94e591d1e37033e1e794a35f475d1418e3fc3b5ecccf798b8ca729d9bb0882"
@@ -5227,29 +5231,24 @@
             "identityDigest": "ad03c0823c982259c790b5ae06b4151c5eacaa2bd87aefa6c733dcf5eec3e584"
           },
           {
-            "file": "packages/game/src/core/battle/__tests__/actions.test.ts",
-            "testCount": 89,
-            "identityDigest": "234653316380beab9ab1e99e09326ef5d4a15be1ca3c25fcabd4d681c894ad89"
-          },
-          {
-            "file": "packages/game/src/core/battle/__tests__/anim-timeline.test.ts",
-            "testCount": 110,
-            "identityDigest": "7b368259a2aca02d796ea07c9a28b502bf9850b5a597fb6b3f85873e4f104155"
-          },
-          {
             "file": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
             "testCount": 7,
             "identityDigest": "33ced03a646af0eeb67565f83a79329e2c6d6b4da502a63e791ff67b63258876"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
-            "testCount": 24,
-            "identityDigest": "ce3847075b81254c40b32ef81fd295016c6042c4e3133778f2424bf211f0ff9b"
+            "testCount": 25,
+            "identityDigest": "a3abb6c7c2df506676bbf90067f11859e3c708a711ed8fc2e65d50237434bb7b"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
             "testCount": 4,
-            "identityDigest": "4518884a8b414a9c5cf320d28a28ba73705a24e6d729f1e3a8592d8ef9ed9fc2"
+            "identityDigest": "3f6162dc553b5e7784e2ad3bd66727bdc10b6279446d85f9c82768b4a59298ab"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/battle-auto-selection.test.ts",
+            "testCount": 10,
+            "identityDigest": "878f337f98deb5340598e6e6e88687fb3b87445916c27d873f341ae3b5782394"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/battle-dialog.test.ts",
@@ -5278,28 +5277,63 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/casualty-sounds.test.ts",
-            "testCount": 11,
-            "identityDigest": "73670c7707e96e594a2fbdd974db180cce4ac1e0057fe7da08890afb4c910e74"
+            "testCount": 13,
+            "identityDigest": "c7f47e163c94922aa6ddb9b77751664c8667cc30c73ce4d788706f412049e2d0"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/coop-magic.animation.test.ts",
+            "testCount": 8,
+            "identityDigest": "41c919d363ab923f3629d683561a52123e67945c8dd590d156c22c90dd5fb286"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/coop-magic.test.ts",
-            "testCount": 15,
-            "identityDigest": "04b7b108545c6e0f2d3975fbda2e907de01bfa3899e536cf9f739ef4a3b772bb"
+            "testCount": 9,
+            "identityDigest": "9eafea9be52a430faf030db948f9e821a3f4aacc6396f026d7ff2e8b8794380a"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/death-fade.test.ts",
-            "testCount": 16,
-            "identityDigest": "c5848ad4780c9371f32ad9734a057de3776815fa7b94f9a8da4c8b26aedbd141"
+            "testCount": 10,
+            "identityDigest": "22dae3f548ca89c8bdd72c6789c8181677fdc4f3c85406adfa3ed83357719b37"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/defend.test.ts",
+            "testCount": 2,
+            "identityDigest": "a81d77be36c3b4af977258ef208b99a47e05835a4edfa73c02af860ab4ffcc33"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/enemy-ai.test.ts",
             "testCount": 14,
-            "identityDigest": "1be069172f0059524af739cd550221b63ebc0379451967172789d0d2f1faca0f"
+            "identityDigest": "d9530fe91e6fce35abd6cbd91f44581a085511334a3046d4508a3eee7d422bb3"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/enemy-confused-attack.test.ts",
+            "testCount": 4,
+            "identityDigest": "be9efe482049a6aa22651b309bd7db6e67621e4e94bee070237b125b33a3c6f7"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/enemy-magic.test.ts",
+            "testCount": 10,
+            "identityDigest": "5554aed563d7bf9edf0befe8e68b86ba51fd48c4b1a0ef2ec689d89e3393bd3d"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/flee.test.ts",
+            "testCount": 10,
+            "identityDigest": "d95e181c19e7a00a1ba8fe417f7f4c11bf82b4aa98ab7336c9b0b20ce82905ac"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/formulas.test.ts",
             "testCount": 28,
             "identityDigest": "0a61949730e72c5749e233fd4db9ca95d5f6e3d9915f4f6db42a3647f2c565f2"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/item-use.test.ts",
+            "testCount": 8,
+            "identityDigest": "89184b545bd5f68f225de28a7fb563dec8b23aa03949ec7170ea0877aa7efd47"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/magic-action.test.ts",
+            "testCount": 20,
+            "identityDigest": "61181f1015f8e6b7893abfd99d26f7813f5066d23a072516ce2498fa78efc4b5"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
@@ -5308,8 +5342,13 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/magic-inline-damage.test.ts",
-            "testCount": 33,
-            "identityDigest": "cf3a8254a419939da955618062848809cfd97e431d0483f460c0d74fcf5d2bf6"
+            "testCount": 10,
+            "identityDigest": "d1bf5ff029332e64644cf3f28087a951402200bd962d0827000c2211e76a2595"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/magic-input.test.ts",
+            "testCount": 2,
+            "identityDigest": "e239f2cc4ecfc3e5a7a1e64770748f2caf5b7a605c17ea9816d59853ed3b4440"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/magic-numeric-assignment.test.ts",
@@ -5322,14 +5361,34 @@
             "identityDigest": "580a542eee36825cbb200993d5f1abb2c1e4a20c338d9b5cf1313c3c55684748"
           },
           {
+            "file": "packages/game/src/core/battle/__tests__/magic-scripts.test.ts",
+            "testCount": 4,
+            "identityDigest": "7cb41f3528a0821d499cd5bcf9296d40e3701c575b51f9545c6be363fc70dcfd"
+          },
+          {
             "file": "packages/game/src/core/battle/__tests__/object-script-progress.test.ts",
             "testCount": 3,
-            "identityDigest": "2ac4097769afde5fcd44e65093a001aba60dbd4c0b5d35adfbef9e16a93b4784"
+            "identityDigest": "6923c0e6162eb37c0b664567294fcfbce797c488e2449fe9c0e180f767b584fb"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/physical-attack.test.ts",
+            "testCount": 39,
+            "identityDigest": "f7d5efb5bef7351d65db915553496de86910d7f6f04c9dbfafe4c062a3bcea25"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/player-magic-animation.test.ts",
+            "testCount": 15,
+            "identityDigest": "dcf43a0eba195472fff52c360f1e5a7e06e59a13f1f3edaadcab0334d6338907"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/runscript-rearm.test.ts",
-            "testCount": 5,
-            "identityDigest": "fcb30a61b7d79a43903ff9e26a4f99c3f8424857c21bbd3bb8fc0e09fae0149c"
+            "testCount": 6,
+            "identityDigest": "5c2e043eee3edf515691fe6772fc1e44e463e9da6feb908d236de165b3147024"
+          },
+          {
+            "file": "packages/game/src/core/battle/__tests__/status-action-effects.test.ts",
+            "testCount": 4,
+            "identityDigest": "0a31f9ed5d431605cea3f3371f4017760eec25509030acfa90c71883abb4b53c"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/status.test.ts",
@@ -5337,9 +5396,14 @@
             "identityDigest": "45304ac5e9e9f9e2585e43044c735be396fbb6c9ee41395ebca6939f787a8026"
           },
           {
+            "file": "packages/game/src/core/battle/__tests__/summon-loop-render.test.ts",
+            "testCount": 4,
+            "identityDigest": "101aee81edf4e6c35ba244a30a0b776363a79a6d58e223c3ea958166b1f28fe1"
+          },
+          {
             "file": "packages/game/src/core/battle/__tests__/throw-item.test.ts",
-            "testCount": 6,
-            "identityDigest": "c6d588f8e6b8a49cf3aab20ae068ffe5590fdeab9e19dbf980a752c211210fac"
+            "testCount": 7,
+            "identityDigest": "a39bbc25307b85ead7e5cba93574bba752d2229231fd9f10c4a2a89b89fb0ae8"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/turn-queue-parity.test.ts",
@@ -5357,11 +5421,6 @@
             "identityDigest": "537af237c4c4dccc2d1cdc4ecd582c6faaae78a618c3d9e2532779a160439d60"
           },
           {
-            "file": "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
-            "testCount": 3,
-            "identityDigest": "9724a54a5f2f8b69fd7595a2ec0e0db1fb84e0a55d5eebca8faa05c3842a68bc"
-          },
-          {
             "file": "packages/game/src/core/battle/actions/item-inventory-lifecycle.test.ts",
             "testCount": 3,
             "identityDigest": "aaff6ac59f454d68ac9ea41e20f5b488016840e29b1c94c3819d2c06ffa324a5"
@@ -5372,19 +5431,54 @@
             "identityDigest": "a816fb5ecee027b0f1d732c53efb122b7b2242b7093a2360ac69a18570de6a82"
           },
           {
-            "file": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
-            "testCount": 3,
-            "identityDigest": "3adcf6bb34d326229ce326e79f07fa2bbff339c17308b094f804a593428a6bf0"
+            "file": "packages/game/src/core/battle/animation/action-gestures.test.ts",
+            "testCount": 13,
+            "identityDigest": "a24ed4f3f6cbf0c401e400da54abc0a4daecd63b30ce082a77824572bd237eb4"
           },
           {
-            "file": "packages/game/src/core/battle/anim-timeline.glm-next-wave.test.ts",
+            "file": "packages/game/src/core/battle/animation/cooperative-magic.test.ts",
+            "testCount": 6,
+            "identityDigest": "640812c49ecd1d4297763caaf8161820c4a773415b569ef9877634fc6f4792ba"
+          },
+          {
+            "file": "packages/game/src/core/battle/animation/enemy-transformation.test.ts",
+            "testCount": 3,
+            "identityDigest": "13fc01be65f6f1b951287d8372ee07d7f547265577af78b081b7e96e06760253"
+          },
+          {
+            "file": "packages/game/src/core/battle/animation/hit-reaction.test.ts",
+            "testCount": 6,
+            "identityDigest": "90ff462711a18db9d2b5b0123f28737bc80f947b4139b0a7a7167a541ae7a85f"
+          },
+          {
+            "file": "packages/game/src/core/battle/animation/magic-effects.test.ts",
+            "testCount": 51,
+            "identityDigest": "155d979301282393463d97056bf38605e6f22c9852dc952746ab6a314e5fdfd4"
+          },
+          {
+            "file": "packages/game/src/core/battle/animation/physical-attack.test.ts",
+            "testCount": 31,
+            "identityDigest": "fc5940e6324399fc0677f9f3ccc94c1b34875bbf618aeb0a3004562167accc9b"
+          },
+          {
+            "file": "packages/game/src/core/battle/animation/summon.test.ts",
             "testCount": 5,
-            "identityDigest": "bf7005aa65fd88df7f7a07e05569f4857832b403552107b7bdfa93d610311352"
+            "identityDigest": "de29fae0993b82e5da16ce51754398bf1c641f21ebca12e3310fbf9dc379a878"
+          },
+          {
+            "file": "packages/game/src/core/battle/battle-action-wiring.test.ts",
+            "testCount": 5,
+            "identityDigest": "c15f1bff7b91f542a770c1e388076326128797a2886550cb81029e8131e6af50"
           },
           {
             "file": "packages/game/src/core/battle/battle-dialog.script.test.ts",
             "testCount": 3,
             "identityDigest": "f631518cc3684bec182873deb809de214002e572ebd371c6d13cd48e550b3480"
+          },
+          {
+            "file": "packages/game/src/core/battle/battle-escape.test.ts",
+            "testCount": 3,
+            "identityDigest": "b187d9dcb4fb7abe3f26f42ab28476dd75ffe74bc6f01956bedbf2bf157105fb"
           },
           {
             "file": "packages/game/src/core/battle/battle-finalization-extra.test.ts",
@@ -5422,24 +5516,34 @@
             "identityDigest": "b63d74bd3816cf21e8915c6dfb107726e87af50a9f7d04329e100afab91aeaae"
           },
           {
+            "file": "packages/game/src/core/battle/battle-progression.level-up.test.ts",
+            "testCount": 2,
+            "identityDigest": "e062fd77c3bc94f403d09bc5fb2731297ad3831aae4af8a7a5a98c8acb7ffc8e"
+          },
+          {
+            "file": "packages/game/src/core/battle/battle-round-lifecycle.test.ts",
+            "testCount": 6,
+            "identityDigest": "c11f4307b4e91b4f6fd539dbd40d3b40464bbb050439d15a0ad89e0de7f02b05"
+          },
+          {
+            "file": "packages/game/src/core/battle/battle-round-order.test.ts",
+            "testCount": 3,
+            "identityDigest": "f641eb8c3205dcca68d836918a47da9986fc9947e78f739914ae4a4bd4a8b3cb"
+          },
+          {
             "file": "packages/game/src/core/battle/battle-runtime-context.test.ts",
             "testCount": 3,
             "identityDigest": "bce26fd77e880dfde9ff80f2d4b963271ccc055cbf1a06f272af5464f044b75a"
           },
           {
             "file": "packages/game/src/core/battle/battle-settlement.screens.test.ts",
-            "testCount": 6,
-            "identityDigest": "f7583a11d75f8112088b5e4843350a8b593a480da7c61d2a8f248c28aafcc816"
+            "testCount": 7,
+            "identityDigest": "59b9ceca30f9baea04bf5a8d14bb51ae591e85c7cff56946f2d26e6014b0a09f"
           },
           {
             "file": "packages/game/src/core/battle/battle-settlement.scripts.test.ts",
             "testCount": 8,
             "identityDigest": "1ff0c396b1c9c71a81472e6e1b9bfcd3f5fa7e0b3df7d712a2a0d9b6bd1556cf"
-          },
-          {
-            "file": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
-            "testCount": 10,
-            "identityDigest": "038cddc66f4f01eccc266dc53672de3e2936a963f23d6f5bd1d0c29c3adddd79"
           },
           {
             "file": "packages/game/src/core/battle/battle-steal-localization.test.ts",
@@ -5455,11 +5559,6 @@
             "file": "packages/game/src/core/battle/battle-system.script-boundaries.test.ts",
             "testCount": 6,
             "identityDigest": "cff62fc8e5501f26469242165a8ace6f7500ab975aae6d5535bf0bff12cbc552"
-          },
-          {
-            "file": "packages/game/src/core/battle/battle-turn-boundaries.glm-turn.test.ts",
-            "testCount": 15,
-            "identityDigest": "5c9408f9dd1eed16740dc3db6244edadc9bb29b1ead5835df189dca33798e100"
           },
           {
             "file": "packages/game/src/core/battle/enemy-idle.test.ts",
@@ -5482,39 +5581,34 @@
             "identityDigest": "2442a6cc7144d704f2919c3ae7f4b54aa0211dbf316d16effecd847db2fcc61d"
           },
           {
-            "file": "packages/game/src/core/dialog-bug2-skip.test.ts",
-            "testCount": 4,
-            "identityDigest": "e1d94ba7b96d81b7d1b506521dfa5ed3d23b1e4f2d0dde8b74514afb162eff90"
-          },
-          {
             "file": "packages/game/src/core/dialog-history.test.ts",
             "testCount": 7,
             "identityDigest": "79ecbd378e833d435029109787b5403859ccae90f7e80c53c5c1ce6d94a00074"
           },
           {
-            "file": "packages/game/src/core/equip-effect.glm-next-wave.test.ts",
-            "testCount": 4,
-            "identityDigest": "592579efedf0344819e789a50b33c5256f71979a48215428ab64292643a8174c"
+            "file": "packages/game/src/core/equip-effect.status.test.ts",
+            "testCount": 8,
+            "identityDigest": "584d7c1e78c4149366777a993d69d3d0f5cbbd81beec00c03a42fed1ca098304"
           },
           {
             "file": "packages/game/src/core/equip-effect.test.ts",
-            "testCount": 36,
-            "identityDigest": "0234f713ca93455d83ca7c45446c272957e2a1002fcf83045850582496d964b6"
-          },
-          {
-            "file": "packages/game/src/core/equipment-state.glm-next-wave.test.ts",
-            "testCount": 5,
-            "identityDigest": "d121f715b71f23392ac7dbd197edc299408de470cd9fcd98e500e2ae01116f72"
-          },
-          {
-            "file": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
             "testCount": 6,
-            "identityDigest": "f36c852a132cc1919b55fa50ca88de8f0e76bc465008f4e93e7c8cf109e787d4"
+            "identityDigest": "f9dfd610b46ecbd01d63d0afdea12cd52299c59045ba8d3f40b5fac5c8514f61"
+          },
+          {
+            "file": "packages/game/src/core/equipment-state.test.ts",
+            "testCount": 31,
+            "identityDigest": "3a4dfbb931f43c47f712871cc403185ce655c16d1e5e41c3bfbbf52ca2a2607a"
+          },
+          {
+            "file": "packages/game/src/core/event-dialogue-lifecycle.test.ts",
+            "testCount": 3,
+            "identityDigest": "21eea91a2f3e4234f6a46a66b5f48fe4e18ec966c8c7e203b0a8b9919ba454a3"
           },
           {
             "file": "packages/game/src/core/event-dialogue-pagination.test.ts",
-            "testCount": 11,
-            "identityDigest": "16498d1e96e166c74cde27bed03fbc900c2b9854c3dca13c23a4a78f9f69b783"
+            "testCount": 20,
+            "identityDigest": "9cf5d63de18277963dced297735e383187a82cd091b92c29077e445fec223190"
           },
           {
             "file": "packages/game/src/core/event-opcode-player.attributes.test.ts",
@@ -5552,49 +5646,39 @@
             "identityDigest": "58763dcd8a8a6c8c7eb5d04268af315f483edbdaf884a72f865487a86aeaf987"
           },
           {
-            "file": "packages/game/src/core/event-system.cov85.test.ts",
-            "testCount": 26,
-            "identityDigest": "346454d281dfadd9da77d1680cd350ee198396a6c13b5540b31b84d53ff13c47"
+            "file": "packages/game/src/core/event-scene-fade.test.ts",
+            "testCount": 19,
+            "identityDigest": "6ba9e36cdf2efdfd04f27823b209e3abdb4cfa0caa15449547cb6649af54d512"
           },
           {
-            "file": "packages/game/src/core/event-system.glm-event-contracts.test.ts",
-            "testCount": 22,
-            "identityDigest": "527d6e1ca410a80dcc1f50df6f14f9aa04238c66bd174a28dc808174e7d2c61c"
+            "file": "packages/game/src/core/event-scene-state.test.ts",
+            "testCount": 7,
+            "identityDigest": "d25bc4d29e5930f4495f5df44c10220abe63a59498c32d55c3a46497f9b6f4ae"
           },
           {
-            "file": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
-            "testCount": 2,
-            "identityDigest": "85a0c6ebe855ce07a6299c180cdf73697e369aa09cb75fb6fc733bd425c5461f"
+            "file": "packages/game/src/core/event-script.auto.test.ts",
+            "testCount": 29,
+            "identityDigest": "46c6d895448af0098423b99df244d6d8677e5d0e90736542177feccccbb133b2"
           },
           {
-            "file": "packages/game/src/core/event-system.glm-event-k01.test.ts",
-            "testCount": 2,
-            "identityDigest": "53c3b7ae9c64953706eb742324b5b15a0f614130b6fc40d7784828dfea545b11"
+            "file": "packages/game/src/core/event-script.battle.test.ts",
+            "testCount": 12,
+            "identityDigest": "e8bdc9618e308863cbf9f4e1671e54abd5b440833cdd30d7531fe25550319729"
           },
           {
-            "file": "packages/game/src/core/event-system.glm-event-k02.test.ts",
+            "file": "packages/game/src/core/event-script.lifecycle.test.ts",
+            "testCount": 4,
+            "identityDigest": "ea31d709e3dc46f075be42fd81c45c6248ee3c662e87746dc0fcbeb82a88c2c7"
+          },
+          {
+            "file": "packages/game/src/core/event-script.resume.test.ts",
             "testCount": 5,
-            "identityDigest": "934ac06e665c9f160a32e978fc4f1114fe0b89252c1143fcdec289273c2ec96b"
+            "identityDigest": "9b03ee26d1857eff6fba30aba3af6c32f96a9fafaf1fd5f38153b34f73e03035"
           },
           {
-            "file": "packages/game/src/core/event-system.glm-event-k03.test.ts",
+            "file": "packages/game/src/core/event-script.wait.test.ts",
             "testCount": 2,
-            "identityDigest": "22003e5cfd1b496721ad92df06afaf5910d384cf90fac0fd8124425efa5b7588"
-          },
-          {
-            "file": "packages/game/src/core/event-system.glm-event-k05.test.ts",
-            "testCount": 3,
-            "identityDigest": "5ebca777b8dfb18251d38c4006fcc2372a26210a4d74fe728f1bfa8bd069f64d"
-          },
-          {
-            "file": "packages/game/src/core/event-system.glm-event-k06.test.ts",
-            "testCount": 6,
-            "identityDigest": "b6565131af073cb9514282ff8db8bf08689cb1246d12b9a86b8796b89b478048"
-          },
-          {
-            "file": "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
-            "testCount": 8,
-            "identityDigest": "d9782fde61b9a5b901f850158b4e8c3f1377c1c79a9d6d6c0612ac8964d42a00"
+            "identityDigest": "50524d8177aa99d38ba1632620f7cc2a2f7a4b7bb4bd6822b8c49776bc4172ea"
           },
           {
             "file": "packages/game/src/core/event-system.map-change.test.ts",
@@ -5748,13 +5832,8 @@
           },
           {
             "file": "packages/game/src/core/menu/menu-mode.test.ts",
-            "testCount": 7,
-            "identityDigest": "1b7f17fbd0816993a647c5d33fd5b81c27ab14b4cd051a6f73382fdb44efe8c7"
-          },
-          {
-            "file": "packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts",
-            "testCount": 2,
-            "identityDigest": "ec215c68a6ad0a1eb04cb3dcc618f66faee398ec0fbc76ca2506a297c9177c4a"
+            "testCount": 8,
+            "identityDigest": "924cb92d96c8d0798c80e144fd1d5a79f22cb62b68287ebc8e7c80d2ff06eb3f"
           },
           {
             "file": "packages/game/src/core/menu/opening-menu.test.ts",
@@ -5772,6 +5851,11 @@
             "identityDigest": "08f479bd1c7c72c37c976090c6f508b5c40a787ed89ec7ef4a455f580033e7ec"
           },
           {
+            "file": "packages/game/src/core/menu/save-slot-menu.flow.test.ts",
+            "testCount": 1,
+            "identityDigest": "48c98273163f2d79db5a27b13628b0d003b6ff60f70f10cdc0b1a003eb7260d7"
+          },
+          {
             "file": "packages/game/src/core/menu/save-slot-menu.metadata.test.ts",
             "testCount": 6,
             "identityDigest": "0ef3fe774f0fa78d11ba7e7ce4416cec70a77ce0fdfc6601a43cbf0a7f07416e"
@@ -5783,8 +5867,8 @@
           },
           {
             "file": "packages/game/src/core/menu/script-desc.test.ts",
-            "testCount": 6,
-            "identityDigest": "0f0c5a24ce655c3b2ff35c746f927477393182c1a51953454bba22f3cf8b9c22"
+            "testCount": 5,
+            "identityDigest": "9e548f29c09c146081c7f6666742ce7c2574c98ebcdb554e36cc068865193960"
           },
           {
             "file": "packages/game/src/core/menu/sell-menu.test.ts",
@@ -5793,8 +5877,8 @@
           },
           {
             "file": "packages/game/src/core/menu/shop-menu.flow.test.ts",
-            "testCount": 5,
-            "identityDigest": "6630312604cd48b5bc3458d7f6e9a1b65acd13d9f779b7c1eabcec6505869d75"
+            "testCount": 9,
+            "identityDigest": "6df5d55e7e9b113e503a1c3c6f32aec6b00f941faec45e27d8101b1811efff0c"
           },
           {
             "file": "packages/game/src/core/menu/shop-menu.test.ts",
@@ -5812,14 +5896,29 @@
             "identityDigest": "7bedc1ddeb54ef130efcaaf3d26de92797ca822e52304b185dfce22677382d09"
           },
           {
+            "file": "packages/game/src/core/overworld-item-script.test.ts",
+            "testCount": 3,
+            "identityDigest": "1e4d1c77b6ad9c05256d54c7a7466b2254f67106c4bc8b3b8db2879f511a59b1"
+          },
+          {
             "file": "packages/game/src/core/palette-fade.test.ts",
             "testCount": 17,
             "identityDigest": "964c9cc46cb2f9634fcb5fe256d99bf2be9b388b4a2eb1b23b9c48f04dd9295b"
           },
           {
+            "file": "packages/game/src/core/player-poison-entry.test.ts",
+            "testCount": 13,
+            "identityDigest": "b861d6080532fbda0180b28434aad9487f771db5fdaae956886366192d97c6ef"
+          },
+          {
             "file": "packages/game/src/core/player-poison-equipment-lifecycle.test.ts",
             "testCount": 7,
             "identityDigest": "885ad944a82f0d2a6109b46aa632e112846caa7f8babfd9b265d36ab5948041f"
+          },
+          {
+            "file": "packages/game/src/core/player-poison-state.test.ts",
+            "testCount": 15,
+            "identityDigest": "2c7b46fbaf7932b242d74f3e25fa111d65fa183b5614d44fabfe54ea483e2b10"
           },
           {
             "file": "packages/game/src/core/rng.test.ts",
@@ -5897,9 +5996,9 @@
             "identityDigest": "0c3947f6fca4e0e015e011b5f0335bf77168223624218ab5287b5aafefa61e01"
           },
           {
-            "file": "packages/game/src/dev/state-dump.glm-phase1-leaves.test.ts",
-            "testCount": 5,
-            "identityDigest": "0d7268e0ece7527da5a1dd36e084857ac71bfdaa1327f00f30809f65d1b1609e"
+            "file": "packages/game/src/dev/state-dump.test.ts",
+            "testCount": 8,
+            "identityDigest": "36fb896e98753a1d28abd62b36f85d47ce4d12c67eb8f3844a1f891577805d0b"
           },
           {
             "file": "packages/game/src/e2e.test.ts",
@@ -5940,6 +6039,11 @@
             "file": "packages/game/src/localization/static-shell.test.ts",
             "testCount": 2,
             "identityDigest": "050f54dea1297062237682b5a174bf99ce1e0ddb736809c27bb09a2d92a4598f"
+          },
+          {
+            "file": "packages/game/src/localization/ui-text.test.ts",
+            "testCount": 1,
+            "identityDigest": "8e59107463701f01903ab0b9cac7777f05e20366e722bcb1f9b1260d8ae75505"
           },
           {
             "file": "packages/game/src/present/__tests__/render-input-snapshots.test.ts",
@@ -6059,7 +6163,7 @@
           {
             "file": "packages/game/src/present/dialog-draw.canvas.test.ts",
             "testCount": 1,
-            "identityDigest": "e75ccb2039bbddd0df3e5b5f0bb3f171438b09926ab1e62bb7c0fc485c0f4216"
+            "identityDigest": "9ec88809b67c56184655a2c10ff9886509b548eff0ed0aac5c60814f66346c5b"
           },
           {
             "file": "packages/game/src/present/dialog-draw.layout.test.ts",
@@ -6164,7 +6268,7 @@
           {
             "file": "packages/game/src/present/menu/draw-inventory.canvas.test.ts",
             "testCount": 1,
-            "identityDigest": "3ae5802e43737d4f55c8c3bd331ae892e9a22e99a2e5dde7b7422dfc04e91f9a"
+            "identityDigest": "c984d1ce6a3e516b895ef4043c09144a6dcfa8e2b686d249452a76bcf1abece9"
           },
           {
             "file": "packages/game/src/present/menu/draw-inventory.description.test.ts",
@@ -6234,7 +6338,7 @@
           {
             "file": "packages/game/src/present/menu/draw-shop.canvas.test.ts",
             "testCount": 1,
-            "identityDigest": "cadb1b574aeb871121ccdab3865ebd39d7351d5b64b4550db95d90e50ac01fac"
+            "identityDigest": "69cae68decc17cfb0f8d1f555573fff2bf469795d2cbbe1f6fed56da3c9b66f8"
           },
           {
             "file": "packages/game/src/present/menu/draw-shop.test.ts",
@@ -6243,8 +6347,8 @@
           },
           {
             "file": "packages/game/src/present/menu/localized-background.test.ts",
-            "testCount": 2,
-            "identityDigest": "84894068cb92f9fc1b6f0fa902a0d34a123299c76d68792baa7252338868836e"
+            "testCount": 3,
+            "identityDigest": "1e819185e15534769a685fd128360ec5091f6dc5a73138acf8d3a6b1dc4abfce"
           },
           {
             "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
@@ -6353,8 +6457,8 @@
           },
           {
             "file": "packages/game/src/shell/bootstrap-audio.test.ts",
-            "testCount": 1,
-            "identityDigest": "e8bcec403170f46f8442a385b2d27f415dea5ee89c9f25e10700219f3d001524"
+            "testCount": 4,
+            "identityDigest": "4e41b3aac0f001d4d2ee3ccaa09a182bf840eb1e0f43a7d06a4ad19452e26c67"
           },
           {
             "file": "packages/game/src/shell/bootstrap-load.test.ts",
@@ -6383,8 +6487,8 @@
           },
           {
             "file": "packages/game/src/shell/ending-player.test.ts",
-            "testCount": 7,
-            "identityDigest": "a1bf98222862ae6392585ca41845168ffb2d467240ebe5b5dd2ce47dd1d5d0ad"
+            "testCount": 8,
+            "identityDigest": "f63e4354c7b2b6cb699038edf45be5b42fd70da12f03930b3c4a1c8fa5d95fd7"
           },
           {
             "file": "packages/game/src/shell/ending-player.wait-key.test.ts",
@@ -6458,8 +6562,8 @@
           },
           {
             "file": "packages/game/src/shell/main-loop.lifecycle.test.ts",
-            "testCount": 4,
-            "identityDigest": "e983728db2eeca7fc434f6d1d0e13f96b45917c22a4587aa2a5703fc3dc75f2d"
+            "testCount": 5,
+            "identityDigest": "574d07821174b8e73f19573582759c29e29ea9eaa051216061abede97eaec1da"
           },
           {
             "file": "packages/game/src/shell/main-loop.menu-input.test.ts",
@@ -6483,8 +6587,8 @@
           },
           {
             "file": "packages/game/src/shell/precache-client.test.ts",
-            "testCount": 9,
-            "identityDigest": "482f1018d899eb8464175ecd6950a8d2ad60754a70f21890b5854c01e13c38c3"
+            "testCount": 11,
+            "identityDigest": "b13d2dc0adaf1bc6a981308a0f1d8054b6ccaf4ea31ed1b702236717b762c554"
           },
           {
             "file": "packages/game/src/shell/precache-ui.test.ts",
@@ -6527,11 +6631,6 @@
             "identityDigest": "10e835a18c2d089e47bb5803f7c6a17477fc3042c8f3966c8bf986735c09bea1"
           },
           {
-            "file": "packages/game/src/shell/shell-bootstrap.glm-shell.test.ts",
-            "testCount": 6,
-            "identityDigest": "b59541b5004e3e9ac4cc000ed29e09669a3af30f8dc71889b0dea7897398f998"
-          },
-          {
             "file": "packages/game/src/shell/splash-fallback.test.ts",
             "testCount": 8,
             "identityDigest": "9ffeeb7f8946ad64df6290fa27d7c1e30b301816b0eb361c2dc44bc40046505a"
@@ -6550,11 +6649,6 @@
             "file": "packages/game/src/shell/trademark-fallback.test.ts",
             "testCount": 6,
             "identityDigest": "ea5772bdcbc6208b5a520d90a0f6753787480290e01aacfcce43efc8372e5706"
-          },
-          {
-            "file": "packages/game/src/status-poison-equip.glm-q.test.ts",
-            "testCount": 16,
-            "identityDigest": "d0e86c25f72e6ed0fd0ae3dbae736154133efe63ca257730885a29623976c857"
           },
           {
             "file": "packages/game/src/tools/display-scale.test.ts",
@@ -6677,26 +6771,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "567c4095fb44594f78317037ec4f47afd26b7d26fa2e70dd6b454cee6e980f10",
+        "identityDigest": "5ad77efe8523630c0f63e0f39d52a06a3f2251293a1a1cf609bcd95402ccf084",
         "duplicateIdentityCount": 0,
-        "executionDigest": "27d8a0ae6645fc3e8197692a55c82979863c05c9a00a042654f2fd1e1e41563d"
+        "executionDigest": "8a7793c8175a2bf7bba795f30607a53791536c6c62c5c231832d96155fd86395"
       },
       "metrics": {
         "statements": {
-          "covered": 15526,
-          "total": 17185
+          "covered": 15549,
+          "total": 17187
         },
         "branches": {
-          "covered": 9954,
-          "total": 12268
+          "covered": 9961,
+          "total": 12278
         },
         "functions": {
-          "covered": 1890,
-          "total": 2170
+          "covered": 1893,
+          "total": 2171
         },
         "lines": {
-          "covered": 13851,
-          "total": 15075
+          "covered": 13872,
+          "total": 15076
         }
       }
     },
@@ -10805,20 +10899,20 @@
   },
   "total": {
     "statements": {
-      "covered": 73785,
-      "total": 81513
+      "covered": 73808,
+      "total": 81515
     },
     "branches": {
-      "covered": 53385,
-      "total": 63493
+      "covered": 53392,
+      "total": 63503
     },
     "functions": {
-      "covered": 13999,
-      "total": 15562
+      "covered": 14002,
+      "total": 15563
     },
     "lines": {
-      "covered": 65905,
-      "total": 71338
+      "covered": 65926,
+      "total": 71339
     }
   }
 }
