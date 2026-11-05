@@ -63,9 +63,11 @@ assert.equal(predecessor.gs.wNumScene, 18)
 assert.deepEqual(positionOf(predecessor), mazePosition)
 assert.equal(itemCount(predecessor.gs, hammerItem), 1)
 const [previousStory, previousRestored] = await Promise.all(
-  previous.contextTraces.map(
-    async (reference) => (await readLongEvidenceArtifact(dirname(options.from), reference)).value,
-  ),
+  previous.contextTraces.map(async (reference) => {
+    const archive = await readLongEvidenceArtifact(dirname(options.from), reference)
+    assert.equal(archive.binding.status, 'verified', '007 native trace lacks its byte binding')
+    return archive.value
+  }),
 )
 const previousCapture = previousStory.saveCaptures.find(
   ({ order }) => order === previous.checkpoint.captureProof.inputOrder,
@@ -73,6 +75,7 @@ const previousCapture = previousStory.saveCaptures.find(
 const previousAck = previousStory.saveCompletions.find(
   ({ order }) => order === previous.checkpoint.captureProof.acknowledgementOrder,
 )
+assert(previousCapture && previousAck, '007 formal F5 capture or acknowledgement missing')
 assert.equal(previousCapture.source, 'before:Save.saveSlot:deepClone')
 assert.equal(previousAck.source, 'commit:Save.saveSlot')
 assert.equal(previousCapture.slot, 1)
@@ -223,6 +226,20 @@ await runBrowserJourney({
     const snapshot = () => page.evaluate(() => window.__fairyMazeGameRead())
     const evidence = () => page.evaluate(() => window.__fairyMazeGameRouteEvidence())
     const saveStatus = () => page.evaluate(() => window.__fairyMazeGameSaveStatus())
+    // Loading can clear between logic ticks. Observe the trace boundary before another key.
+    const waitForReadyMark = (scene, position) =>
+      until(
+        () =>
+          page.evaluate(
+            (scene) =>
+              window
+                .__fairyMazeGameRouteEvidence()
+                .events.findLast((entry) => entry.kind === 'ready' && entry.scene === scene),
+            scene,
+          ),
+        (mark) => mark && samePosition(mark.position, position),
+        `native control recorded in ${scene}`,
+      )
     const archive = guardedEvidenceReader({
       page: () => page,
       read: (page) => page.evaluate(() => window.__fairyMazeGameArchive()),
@@ -281,6 +298,7 @@ await runBrowserJourney({
       await until(snapshot, (s) => s?.menu?.kind === 'save-slot' && s.menu.cursor === 0, 'slot one')
       await press('Enter', 'restore formal slot 1')
       await until(snapshot, (s) => at(s, scene, position), `ready in Game scene ${scene}`)
+      await waitForReadyMark(scene === 18 ? 's017' : 's016', position)
       return verifyRestore(await archive.read(), JSON.parse(bytes))
     }
 
@@ -459,6 +477,7 @@ await runBrowserJourney({
       await page.screenshot({ path: resolve(out, '008-peach-grove-arrival.png') })
 
       phase = 'end-save'
+      await waitForReadyMark('s016', grovePosition)
       const beforeF5 = await saveStatus()
       assert.deepEqual(beforeF5, { captures: 1, completions: 1 })
       await press('F5', 'formal Game 008 terminal save')
@@ -520,13 +539,17 @@ await runBrowserJourney({
       report.route.status = 'passed'
     } catch (error) {
       report.failedPhase = phase
-      await archive.diagnose(async () => {
-        report.rejectedTrace = await writeEvidenceArtifact(
-          out,
-          '008-rejected-trace.json',
-          await archive.read(),
-        )
-      })
+      if (phase === 'end-save' && report.contextTraces?.[0]) {
+        report.rejectedTrace = report.contextTraces[0]
+      } else {
+        await archive.diagnose(async () => {
+          report.rejectedTrace = await writeEvidenceArtifact(
+            out,
+            '008-rejected-trace.json',
+            await archive.read(),
+          )
+        })
+      }
       throw error
     }
   },
