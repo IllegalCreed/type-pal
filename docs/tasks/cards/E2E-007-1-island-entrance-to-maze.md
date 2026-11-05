@@ -2,7 +2,7 @@
 
 Status: review
 Owner: Codex
-Last reviewed: 2026-11-05
+Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -66,6 +66,8 @@ node scripts/e2e/island-entrance.mjs --engine reforge --headless --from <006-rep
 ```
 
 ## 状态与交接
+
+双轨技术复核已通过，用户分屏观感待确认，本卡保持 `review`。分屏范围为码头出发到迷宫首次可操作，Game 在左，Reforge 在右。[逐段工作流程](../../testing/e2e/contract.md#逐段工作流程)
 
 任务卡记录 007 的双轨技术候选、编辑器实页及可续终档。正式测试目录的 007 配对需另核准入。必要原件按包内 manifest 的 repo 相对路径恢复。后续片段各自使用下面两份 007 正式报告和终档。[双轨和编辑器原件](../evidence/E2E-007-1-island-entrance-20261105.tar.gz) · [逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
 

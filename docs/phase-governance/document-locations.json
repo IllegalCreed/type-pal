@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "79e86c941d68e9e89eca571795eedaeb24a26ac442ae4d02a88fbd5a5e66e94e",
+      "afterSha256": "248e7a7ff38238755bdc1d8a367e50ecc089ffad13dad414cd49f2c759ca91dd",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "新增 007 review 卡并对齐 R4 的续办位置。",
+        "date": "2026-11-06",
+        "conclusion": "007 看板指向待用户分屏验收。",
         "reviewedLines": 120,
-        "acceptanceScope": "Accept both changed rows and their matching build and review statuses. No broader task credit assigned."
+        "acceptanceScope": "Accept the one-row coordination update. The board points to the owning task card and reflects the same review status, technical review passed, and user split-screen pending."
       }
     },
     {
@@ -3960,14 +3960,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "91f9dc1549c586094f422db81466946601c91a99e4ba7b052421a995f3063bab",
+      "afterSha256": "1bbbee31f8f91f81f74a62234a167c1416d81644f4ea423e8c35311a46c863f6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "接入 007 verify 调用和现场速胜、正式结算、续走及终档合同。",
-        "reviewedLines": 609,
-        "acceptanceScope": "Accept the single changed 007 launcher and boundary bullet. Ordinary encounter readiness, one request per encounter, confirmed settlement, resumed movement and real end save are bounded by the reviewed run."
+        "date": "2026-11-06",
+        "conclusion": "集中四步 E2E 通用流程，明确技术复核后由用户查看左右分屏并确认观感。",
+        "reviewedLines": 618,
+        "acceptanceScope": "Accept the dated workflow insertion as the single canonical procedural entry. It keeps independent checkpoint execution, dual-track evidence review and subsequent author acceptance separate. Game stays on the left, Reforge on the right, with the same narrative scope and an explicit record of what the user watched and accepted. Existing testing identity and unchanged contract text are preserved."
       }
     },
     {
@@ -4504,14 +4504,14 @@
     {
       "path": "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9f1925050ce1ef6381fd24d3ed90148b0e24f92371c16a6c8cb2b38fb217bd05",
+      "afterSha256": "f2f7431401544f969cb4d56599ad0a05c29b2c7e9e9e54c64e0f004758125272",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/reforge_007_probe",
-        "date": "2026-11-05",
-        "conclusion": "核任务卡全文、双轨路线与首个迷宫可控状态、正式存读档、编辑器静态初态和原件移交。卡处 review，正式目录另按准入。",
-        "reviewedLines": 76,
-        "acceptanceScope": "Full body accepted. Scope, source and failures, 44/88 route, Game 3 and Reforge 4 ordinary victories, formal saves and independent fresh restoration, bounded authoring scope, artifact and onward handoff match the bundle. Review status and separate official testing admission remain explicit."
+        "date": "2026-11-06",
+        "conclusion": "007 技术复核通过，分屏观感待用户确认，卡保持 review。",
+        "reviewedLines": 78,
+        "acceptanceScope": "Accept the handoff addition and date update. The accepted technical reports remain distinguished from pending user acceptance. The pier-to-first-controllable-maze visual boundary agrees with the archived runs, and the procedure links to the contract. Official catalog admission stays separate."
       }
     }
   ],
