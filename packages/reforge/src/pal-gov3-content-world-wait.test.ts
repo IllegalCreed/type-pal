@@ -68,9 +68,23 @@ test('OP_WAIT_FRAMES preserves 389 sites including the palace guide movement rep
       expect(stage.paths).toHaveLength(1)
       expect(first).toMatchObject({ source: [4327], beforeMs: 560, afterMs: 1400 })
       const hide = { kind: 'setEntityState', state: 0, target: palaceGuideTarget }
+      const [clearAtTurn, faceRight, rightFrame, redrawWait, faceUp, upFrame] = previousBody.slice(
+        5,
+        11,
+      )
+      // L_4313 redraws the right-facing pose before L_4314 turns the guide up.
+      expect(clearAtTurn).toEqual({ kind: 'clearDialog' })
+      expect(redrawWait).toEqual({ kind: 'wait', ms: 100 })
       expect(previousBody.slice(-3)).toEqual([{ kind: 'clearDialog' }, palaceGuideMove, hide])
       previousBody = [
-        ...previousBody.slice(0, -3),
+        ...previousBody.slice(0, 5),
+        faceRight,
+        rightFrame,
+        clearAtTurn,
+        faceUp,
+        upFrame,
+        clearAtTurn,
+        ...previousBody.slice(11, -3),
         {
           kind: 'selectEntityBehavior',
           target: palaceGuideTarget,
