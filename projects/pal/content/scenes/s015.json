@@ -151,9 +151,11 @@
       },
       "sprite": "sprite-468",
       "hostile": {
+        "preStepEncounterRange": 1.5,
         "chase": {
           "range": 6,
-          "speed": 2
+          "speed": 2,
+          "cadence": "world-step"
         },
         "onVictory": {
           "kind": "hide",
@@ -176,9 +178,11 @@
       },
       "sprite": "sprite-468",
       "hostile": {
+        "preStepEncounterRange": 1.5,
         "chase": {
           "range": 6,
-          "speed": 2
+          "speed": 2,
+          "cadence": "world-step"
         },
         "onVictory": {
           "kind": "hide",
@@ -201,9 +205,11 @@
       },
       "sprite": "sprite-468",
       "hostile": {
+        "preStepEncounterRange": 1.5,
         "chase": {
           "range": 6,
-          "speed": 2
+          "speed": 2,
+          "cadence": "world-step"
         },
         "onVictory": {
           "kind": "hide",
@@ -226,9 +232,11 @@
       },
       "sprite": "sprite-468",
       "hostile": {
+        "preStepEncounterRange": 1.5,
         "chase": {
           "range": 6,
-          "speed": 2
+          "speed": 2,
+          "cadence": "world-step"
         },
         "onVictory": {
           "kind": "hide",

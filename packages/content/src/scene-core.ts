@@ -22,7 +22,15 @@ export type HostilePlayerFleePolicy =
 export interface BaseHostileBehavior {
   enemyTeamId: string
   battleFieldId?: number
-  chase?: { range: number; speed: number; floating?: boolean }
+  /** 有值时每个世界拍开始按严格小于此格数接敌。省略时沿用相邻接触。 */
+  preStepEncounterRange?: number
+  chase?: {
+    range: number
+    speed: number
+    floating?: boolean
+    /** 显式 world-step 每个合格世界拍按 speed / 8 格移动，感知距离严格小于 range。 */
+    cadence?: 'world-step'
+  }
   onLose?: 'gameOver' | BaseAuthorCommand[]
   onVictory: HostileVictoryPolicy
   onPlayerFlee: HostilePlayerFleePolicy

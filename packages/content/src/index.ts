@@ -9,6 +9,7 @@
 
 import type { AssetId } from './asset.js'
 import type { GridPos } from './grid.js'
+import type { BaseHostileBehavior } from './scene-core.js'
 import type { EntityPage, ScriptStage } from './script.js'
 
 export type Facing = 'up' | 'down' | 'left' | 'right'
@@ -97,8 +98,9 @@ export interface HostileBehavior {
   enemyTeamId: string
   /** 此怪专属战场(优先于场景默认;水怪上岸打水下场地这类)。 */
   battleFieldId?: number
-  /** 追逐参数(缺省 = 原地不追)。range = 切比雪夫格内才追;speed 越大越快;floating 忽略地形与阻挡实体。 */
-  chase?: { range: number; speed: number; floating?: boolean }
+  preStepEncounterRange?: BaseHostileBehavior['preStepEncounterRange']
+  /** 追逐参数(缺省 = 原地不追)。range 使用切比雪夫格距，floating 忽略地形与阻挡实体。 */
+  chase?: BaseHostileBehavior['chase']
   /** 战败后重生秒数(缺省 = 死了不复活)。 */
   respawnSeconds?: number
   /** 战败处理:'gameOver'(默认渐红读档)或自定义命令(剧情战输了也继续)。 */
