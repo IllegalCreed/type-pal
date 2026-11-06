@@ -4282,6 +4282,418 @@
           ]
         }
       ]
+    },
+    {
+      "id": "5c591c47-7bb5-4fd8-a558-4d7adc238705",
+      "name": "折返池塘：衣物与沐浴演出已收尾",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e213",
+              "hidden": false
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6dc84558-12bc-4185-83aa-9873af3ffd4b",
+      "name": "池塘雷击：第 1 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7bff2935-06b1-42eb-bfc9-c9d8b743354d",
+      "name": "池塘雷击：第 2 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 120,
+                "row": 58,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8ca1955b-3b68-43a7-81c6-f783bf7d97c3",
+      "name": "池塘雷击：第 3 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 120,
+                "row": 48,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "9e7f5f54-5fe0-487c-8f28-592227385316",
+      "name": "池塘雷击：第 4 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 120,
+                "row": 53,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cfea2560-cf71-44bb-a500-df866ea78c56",
+      "name": "池塘雷击：第 5 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 117,
+                "row": 52,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edea2e82-c739-4815-ae2c-23fcce19de74",
+      "name": "池塘雷击：第 6 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 114,
+                "row": 46,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "e3207dc1-7fb2-475c-b05f-46b492a5ddff",
+      "name": "池塘雷击：第 7 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 113,
+                "row": 46,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c8545b29-3662-4894-bfa6-a1adc5168e05",
+      "name": "池塘雷击：第 8 次",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e218",
+              "pos": {
+                "col": 113,
+                "row": 48,
+                "height": 0
+              },
+              "hidden": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca",
+      "name": "赵灵儿：准备带路离开池塘",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e221",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "15295c0e-2e5d-495a-84f4-3f05e1b81539",
+      "name": "赵灵儿：出场姿态开始",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e219",
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "d1ff4a00-6e86-47f1-816b-2764f307cac7",
+      "name": "赵灵儿：听完求药缘由",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e219",
+              "pos": {
+                "col": 111,
+                "row": 49,
+                "height": 0
+              },
+              "hidden": false,
+              "collide": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cbb83606-e0c5-4927-a8d1-8e30d3e6a751",
+      "name": "赵灵儿：开始滑行",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e212",
+              "hidden": true
+            },
+            {
+              "entityId": "e217",
+              "pos": {
+                "col": 128,
+                "row": 56,
+                "height": 0
+              },
+              "hidden": true
+            },
+            {
+              "entityId": "e219",
+              "hidden": false,
+              "collide": true
+            },
+            {
+              "entityId": "e220",
+              "hidden": false
+            }
+          ]
+        }
+      ]
     }
   ],
   "bindings": [
@@ -4942,6 +5354,66 @@
         "stageId": "initial"
       },
       "stateId": "13207f48-5a8b-4459-9a42-e08080f5af27"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e213",
+        "stageId": "initial"
+      },
+      "stateId": "5c591c47-7bb5-4fd8-a558-4d7adc238705"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "auto",
+        "schemeId": "default",
+        "entityId": "e218",
+        "stageId": "initial"
+      },
+      "stateId": "6dc84558-12bc-4185-83aa-9873af3ffd4b"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "auto",
+        "schemeId": "default",
+        "entityId": "e219",
+        "stageId": "initial"
+      },
+      "stateId": "15295c0e-2e5d-495a-84f4-3f05e1b81539"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "entityId": "e219",
+        "stageId": "initial"
+      },
+      "stateId": "d1ff4a00-6e86-47f1-816b-2764f307cac7"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "auto",
+        "schemeId": "default",
+        "entityId": "e220",
+        "stageId": "routine"
+      },
+      "stateId": "cbb83606-e0c5-4927-a8d1-8e30d3e6a751"
+    },
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "entityId": "e221",
+        "stageId": "initial"
+      },
+      "stateId": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca"
     }
   ],
   "schemeDefaults": []

@@ -20,6 +20,7 @@ Template: task-card-v1 / 1.0.0
 
 - R4保持build。001–006连续链已在冻结33afa37候选独立接受并合入主线，见[连续卡原最终验收](../archive/done/E2E-CONTINUOUS-001-006.md)；10-27的006后继技术/C1与用户短片判断另由[006当前卡](E2E-006-1-inn-doctor-and-boat-to-island.md#状态与交接)和[唯一正式报告](../../testing/e2e/stages/006-doctor-boat/report.md)持有。前轮12入口/11状态与起伏补修后11入口/10状态分轮保留，不升格为新同版001–006全测。
 - 下一步由Codex核准前十段尚余边界与实际接受，补齐剩余薄基线、四取物canary和完整编辑保存重开试玩；006已闭合部分直接复用，不再以“协调006接入”作待办，也不以其NPC预览另存样本代替整条R4编辑器基线。
+- [009](E2E-009-1-fairy-island-pool.md) 的可见止血草、池塘两段与各自合法终档已技术复核，等待作者分屏。止血草补上有精灵拾取样本；本次未提取公共脚本，未授前十段、N6b 或完整 R4 验收。
 - 运行器独立deadline与自有进程清理已有[后继实现及专测提交](https://github.com/IllegalCreed/type-pal/commit/f83f2aebb75eb50d1bd20abcc4b45db131b2a076)：当前caller对launch/connect/newContext、整段与清理分别限时，专测含真实Chrome挂起newContext后终止/回收。连续卡保存更早45秒超时及后继含真实Chrome watchdog的379/384工具门记载。本次只核当前实现、测试与Git承接，未取回该专测原生运行包或新跑故障；不据正常001–006授异常通过，也不再称机制仍未实现。后续先定位原专测执行身份及当前受影响边界，再决定是否有具体补验缺口。
 - 原294场景/4459 stages/195 machine/13849 stepEntity只作原调研快照。当前格式与推进顺序以[能力地图当前层](../../phase2/capability-map.md#当前状态)、各段原件及本卡为准；六段有限接受不刷新全表、全量剧情或录制/音频状态。
 

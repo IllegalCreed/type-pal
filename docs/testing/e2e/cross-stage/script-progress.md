@@ -131400,6 +131400,3943 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e009-predecessor-8234c5470c0ad3616c",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "881dfb898775bf6af876a82e0cef34ee3a89759b1986a6386c4eef58ebd6ae9d",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-75a7b51277bf862b2776"
+        }
+      ],
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-predecessor-7169c9a401ad854b9d",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "881dfb898775bf6af876a82e0cef34ee3a89759b1986a6386c4eef58ebd6ae9d",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-9520e6de642bd5ed9051"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-predecessor-4b630453040ec26327",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "881dfb898775bf6af876a82e0cef34ee3a89759b1986a6386c4eef58ebd6ae9d",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-a9d6ba785b04eddf0be7"
+        }
+      ],
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-predecessor-dfcef265b92a19f7fc",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-yellow-applicability-721e46c4e3f67f2dc8"
+        }
+      ],
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-predecessor-29c27729568adbe828",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-yellow-applicability-e03f3f51105e5bc2c3"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-predecessor-334ccfac12009f1540",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/predecessor-applicability.json; prior=e2e008-yellow-applicability-c0931b801bc5bf0fe2"
+        }
+      ],
+      "note": "同内容摘要的正式 008 实跑复核该调用与落点。桃花林进场音乐和旧出口脚本正文不变，原默认初态选择与字段仍适用；后续池塘脚本的变化不扩授旧场景或用户视觉信用。"
+    },
+    {
+      "id": "e2e009-0d4c280a21a3e711d5b1",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "6cde334208d589128e5785b135820fada0394a050e478fa1f1703a6224e196e5",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e217\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-7d011429eb22acec1369",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "6cde334208d589128e5785b135820fada0394a050e478fa1f1703a6224e196e5",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e217\",\"auto\",\"default\",\"initial\"] 继承方案默认：场景默认"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-f3d0903750cfb4720634",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "6cde334208d589128e5785b135820fada0394a050e478fa1f1703a6224e196e5",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e217\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "已有一组沐浴背景循环，无需改写；前景接管时的同向重复写入在衣物交互步骤处理。"
+    },
+    {
+      "id": "e2e009-564bb1089319cc16739e",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "216c32b0355aa8aabc021d823801a9fec062edeccb67190cc9bc896dd6831f28",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=10; before-leaf-order=15099"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e219\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-49ef0fb429af5286dde1",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "216c32b0355aa8aabc021d823801a9fec062edeccb67190cc9bc896dd6831f28",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=10; before-leaf-order=15099"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e219\",\"auto\",\"default\",\"initial\"] 赵灵儿：出场姿态开始"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "15295c0e-2e5d-495a-84f4-3f05e1b81539",
+        "selection": "default"
+      },
+      "previewFingerprint": "66184e9330c280c826d5cceda181f79b94cf58442fc57f77ee3f2c991ac7bdb9",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-cc79f2b53f0740e5782c",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "216c32b0355aa8aabc021d823801a9fec062edeccb67190cc9bc896dd6831f28",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=10; before-leaf-order=15099"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e219\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "保留滑入/反应的精灵帧、步幅与等待，去掉重复同向写入。"
+    },
+    {
+      "id": "e2e009-8f8401036cade8dacfa6",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "d30485c8c8bf7b890c3bf17925baee1c719957744c2f2b1e285efa64f25bc9fd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=12; before-leaf-order=15108"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e220\",\"auto\",\"default\",\"routine\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-0d133337f3c0a0e3e6c6",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "d30485c8c8bf7b890c3bf17925baee1c719957744c2f2b1e285efa64f25bc9fd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=12; before-leaf-order=15108"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e220\",\"auto\",\"default\",\"routine\"] 赵灵儿：开始滑行"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "cbb83606-e0c5-4927-a8d1-8e30d3e6a751",
+        "selection": "default"
+      },
+      "previewFingerprint": "32f72bdf797a17090c03afe299034583630f6297ca6b9ae1a23ba7649f4bda09",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-df6f10eedff6494699b9",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "d30485c8c8bf7b890c3bf17925baee1c719957744c2f2b1e285efa64f25bc9fd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=12; before-leaf-order=15108"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e220\",\"auto\",\"default\",\"routine\"]"
+        }
+      ],
+      "note": "后台只驱动滑行，原分段减速、末次较长停顿与表现并行都有职责。补用途名，保持动作时序。"
+    },
+    {
+      "id": "e2e009-4b40d5f39c7c6421c048",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "083f48d9c1b2ab355b458e66371465a42654c7acf0da64073867658fd10cd477",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=14; before-leaf-order=1932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e233\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-1e11d201c2c3b3762a81",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "083f48d9c1b2ab355b458e66371465a42654c7acf0da64073867658fd10cd477",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=14; before-leaf-order=1932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e233\",\"trigger\",\"default\",\"initial\"] 继承方案默认：场景默认"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-a532f331b681ab1cbe6a",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "083f48d9c1b2ab355b458e66371465a42654c7acf0da64073867658fd10cd477",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=14; before-leaf-order=1932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e233\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "普通可见药草首次隐藏并入包，复点无奖励；保留为前十段后可见拾取样本。"
+    },
+    {
+      "id": "e2e009-f12200bce36cfa1b9323",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "535ff34c24b20c1f8df0cc858df8c08869cb992f4e566c6260302c54831d46c2",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=17; before-leaf-order=5690"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e212\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-6e5d2ae6783b089b547c",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "535ff34c24b20c1f8df0cc858df8c08869cb992f4e566c6260302c54831d46c2",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=17; before-leaf-order=5690"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e212\",\"trigger\",\"default\",\"initial\"] 继承方案默认：场景默认"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-ac1bc3618427213e7d9c",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "535ff34c24b20c1f8df0cc858df8c08869cb992f4e566c6260302c54831d46c2",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=17; before-leaf-order=5690"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e212\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "去掉沐浴连帧的同向重复写入；留原帧、镜头、对白、停顿及跑开路线。"
+    },
+    {
+      "id": "e2e009-f18d7cbd8249eb58a347",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "60e09fef027696c04d8492a796ee782db6d4233910c0816460c6343553485a97",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=26; before-leaf-order=12893"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e213\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-9926a93efd9bd690e696",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "60e09fef027696c04d8492a796ee782db6d4233910c0816460c6343553485a97",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=26; before-leaf-order=12893"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e213\",\"trigger\",\"default\",\"initial\"] 折返池塘：衣物与沐浴演出已收尾"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "5c591c47-7bb5-4fd8-a558-4d7adc238705",
+        "selection": "default"
+      },
+      "previewFingerprint": "a20db4e71d9221f85c0485fd47e721e956399a26ad7b0776100338764d261e8c",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-cda0fda0fb169a68c516",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "60e09fef027696c04d8492a796ee782db6d4233910c0816460c6343553485a97",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=26; before-leaf-order=12893"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e213\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "归拢连续闪避节拍并及时归还雷击特效，八次显式从首帧重新触发；每一处转折、速度和等待保留。"
+    },
+    {
+      "id": "e2e009-4728600322148a0a46e8",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=30; before-leaf-order=13169"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-b004ac9789f924625451",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=30; before-leaf-order=13169"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 1 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "6dc84558-12bc-4185-83aa-9873af3ffd4b",
+        "selection": "default"
+      },
+      "previewFingerprint": "9bec3147658f4f75e1ac20bdcb34bd03acf3330a6c66df09a4356c30cff20615",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-12c085f7ae55bc23db4a",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=30; before-leaf-order=13169"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-cb226cc7f46e78b53bcc",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=35; before-leaf-order=13596"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-c48225b3a36190880931",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=35; before-leaf-order=13596"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 2 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "7bff2935-06b1-42eb-bfc9-c9d8b743354d",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a2f310ca1438e5ac5fcd01cedeca626a897107ded6fa5531be0eb5f45b8f735e",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-85cd17e6c9318b2e9dca",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=35; before-leaf-order=13596"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-9f3790381c983f806ad6",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=40; before-leaf-order=13932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-3539720b24e4cdd5751b",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=40; before-leaf-order=13932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 3 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "8ca1955b-3b68-43a7-81c6-f783bf7d97c3",
+        "selection": "manual"
+      },
+      "previewFingerprint": "b36a794dd5b7c550131f085dfcd059b7d8c9ad2248d84177e14ae9fe44641094",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-0cf3dc31d43946f6ff88",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=40; before-leaf-order=13932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-53981f3b828cd5afd881",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=45; before-leaf-order=14228"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-7e4b205bda5acb98c8e5",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=45; before-leaf-order=14228"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 4 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "9e7f5f54-5fe0-487c-8f28-592227385316",
+        "selection": "manual"
+      },
+      "previewFingerprint": "876b2f84b7ca88ebb41a8b068ff92ddf4f4344887f11f48e61bcdd928f18a3b3",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-f93c5f30fe7cf2db85aa",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=45; before-leaf-order=14228"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-71cafec04b0505763839",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=48; before-leaf-order=14326"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-c9435e46f5aa1f1e12a6",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=48; before-leaf-order=14326"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 5 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "cfea2560-cf71-44bb-a500-df866ea78c56",
+        "selection": "manual"
+      },
+      "previewFingerprint": "f8c754faff37594d8e7644b0a61fb385a2b99aeea412c140307fd70bc8c159a3",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-3def2e964ea8ecd60e24",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=48; before-leaf-order=14326"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-0733ddf9d4d10cc3d39f",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=53; before-leaf-order=14537"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-31a8f736713616ca5839",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=53; before-leaf-order=14537"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 6 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "edea2e82-c739-4815-ae2c-23fcce19de74",
+        "selection": "manual"
+      },
+      "previewFingerprint": "51c33a8fe77a51e5a3bf5b01454121c66eb132e3e73497dce293d80c6b1f11e2",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-d0c93f5218cb69884590",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=53; before-leaf-order=14537"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-96e2b3004cb47ebe7e14",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=58; before-leaf-order=14804"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-994bc7c0ccb54b7ba4ed",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=58; before-leaf-order=14804"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 7 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "e3207dc1-7fb2-475c-b05f-46b492a5ddff",
+        "selection": "manual"
+      },
+      "previewFingerprint": "0da068e097d81c382b0fea9375ac21f93f3e641e004279e0771d4c1e144e7dbb",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-9d033a1326fcbe6bbe9a",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=58; before-leaf-order=14804"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-644a940714249e7cb829",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=63; before-leaf-order=16425"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-f9231e0ba8f616a076b3",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=63; before-leaf-order=16425"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"] 池塘雷击：第 8 次"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "c8545b29-3662-4894-bfa6-a1adc5168e05",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a3307991877c9cf90055006365b1f0728155e4e80f4716d333bfba4c41619fc1",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-878f2b4522cb06055b7e",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "96602c42e9198b4d85415eb4a157a1856da5a1d7b72d43af44a35c210b39cbbd",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=63; before-leaf-order=16425"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "每次独立触发从首帧重播，去掉同向重复设置；相邻雷击可以按原节拍中断，保留四帧的原等待。"
+    },
+    {
+      "id": "e2e009-8263f417ec0f2c2ee9fd",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "ce6c4d17ff234f198df074f8fe0115de2a2f4cc5f098b8e4f5bd7ab78d6ad3b6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=68; before-leaf-order=19479"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e219\",\"auto\",\"legacy-001\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-aedbddfe5d684baf8433",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "ce6c4d17ff234f198df074f8fe0115de2a2f4cc5f098b8e4f5bd7ab78d6ad3b6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=68; before-leaf-order=19479"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e219\",\"auto\",\"legacy-001\",\"initial\"] 赵灵儿：听完求药缘由"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "d1ff4a00-6e86-47f1-816b-2764f307cac7",
+        "selection": "default"
+      },
+      "previewFingerprint": "fce60d6e729a97a24cff660e2e80fe623453a3a825e63eebd5a5f17b59e41839",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-e33ab8febdae575a2bf2",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "ce6c4d17ff234f198df074f8fe0115de2a2f4cc5f098b8e4f5bd7ab78d6ad3b6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=68; before-leaf-order=19479"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e219\",\"auto\",\"legacy-001\",\"initial\"]"
+        }
+      ],
+      "note": "保留滑入/反应的精灵帧、步幅与等待，去掉重复同向写入。"
+    },
+    {
+      "id": "e2e009-034e094580eeaf8cde5b",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "ba28c46e58d7d799ba77f2329c96d5629b292deb31a1b3fd5abfb7c9e5c14edb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=71; before-leaf-order=21014"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e221\",\"auto\",\"legacy-001\",\"initial\"]"
+        }
+      ],
+      "note": "按原始指令、实际触发顺序与正式原件，核正文、角色、接续和控制边界。"
+    },
+    {
+      "id": "e2e009-0c33e4280f2675b7e56f",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "ba28c46e58d7d799ba77f2329c96d5629b292deb31a1b3fd5abfb7c9e5c14edb",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=71; before-leaf-order=21014"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e221\",\"auto\",\"legacy-001\",\"initial\"] 赵灵儿：准备带路离开池塘"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/editor-runtime-binding.json; compare saved and native static projections"
+        }
+      ],
+      "preview": {
+        "stateId": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca",
+        "selection": "default"
+      },
+      "previewFingerprint": "568dbf9f3c16b2a42c9c8c879b0f55ca57f719b9b9c69399b2d7a4ac5f3aec4d",
+      "note": "按真实首个有效指令前可保存的布置核对。编辑器原生保存、重开、单步及重置已核；实时帧、队伍、权限和脚本游标仅在运行证据。"
+    },
+    {
+      "id": "e2e009-52a224a44504640df49b",
+      "at": "2026-11-06T03:13:47.538Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "ba28c46e58d7d799ba77f2329c96d5629b292deb31a1b3fd5abfb7c9e5c14edb",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "0cd11cc0bfaebc644dc11fe56fa6e9114da8d0b677c44b08bd50e1b79f2ba1be"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T03-07-22-247Z/009-trace.json; visit=4; run=71; before-leaf-order=21014"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/independent/content-diff.json; entry=[\"s016\",\"e221\",\"auto\",\"legacy-001\",\"initial\"]"
+        }
+      ],
+      "note": "六个路点和先走后跑是实际离场路线；确认前景已归还控制、后台仍完成离场。补用途名。"
     }
   ]
 }
@@ -131413,5 +135350,5 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 ## 下一步
 
-从各自引擎的 007 终档接续，按场景与实体筛选未完成的逐入口现场。后续 E2E 或优化同步追加事实。
+009 已按正式双轨与编辑器复验记录池塘步骤，作者分屏裁定见任务卡。后续按场景与实体筛选待核现场，随实际 E2E 或优化同步追加。
 相应 context 的三个轴分别需要可恢复的证据与独立验收。`--check` 成功核对记录自洽和所声明的版本。
