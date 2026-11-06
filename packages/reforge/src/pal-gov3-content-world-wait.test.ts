@@ -17,6 +17,15 @@ const scenes = new Map(
 const hash = (value: unknown): Promise<string> =>
   sha256Bytes(new TextEncoder().encode(JSON.stringify(value)))
 
+const palaceGuideWaitPath = 's019/e270/trigger/default/initial/body/17'
+const palaceGuideTarget = { scene: 's019', entity: 'e270' }
+const palaceGuideMove = {
+  kind: 'moveEntity',
+  speed: 'normal',
+  to: { col: 77, height: 0, row: 17.75 },
+  target: palaceGuideTarget,
+}
+
 function stageFor(path: string) {
   const parts = path.split('/')
   const scene: AuthorSceneDef | undefined = scenes.get(parts[0] ?? '')
@@ -45,19 +54,41 @@ function stageFor(path: string) {
   throw new Error(`unterminated body path ${path}`)
 }
 
-test('OP_WAIT_FRAMES world wait batch has exact stage hashes and 389 post-values', async () => {
+test('OP_WAIT_FRAMES preserves 389 sites including the palace guide movement replacement', async () => {
   expect(receipt.counts).toMatchObject({ appliedSites: 389, appliedStages: 81, appliedScenes: 66 })
   const sites = new Set<string>()
   for (const stage of receipt.stages) {
     const first = stage.paths[0]
     if (!first) throw new Error(`empty receipt stage ${stage.owner}`)
     const resolved = stageFor(first.path)
-    expect(await hash(resolved.stage.body), stage.owner).toBe(stage.afterBodyHash)
+    let previousBody = resolved.stage.body
+    if (first.path === palaceGuideWaitPath) {
+      // L_4327 advances L_4330 for fourteen speed-3 steps before L_4328 hides the guide.
+      // Reconstruct the frozen post-migration body to still check the rest of the stage.
+      expect(stage.paths).toHaveLength(1)
+      expect(first).toMatchObject({ source: [4327], beforeMs: 560, afterMs: 1400 })
+      const hide = { kind: 'setEntityState', state: 0, target: palaceGuideTarget }
+      expect(previousBody.slice(-3)).toEqual([{ kind: 'clearDialog' }, palaceGuideMove, hide])
+      previousBody = [
+        ...previousBody.slice(0, -3),
+        {
+          kind: 'selectEntityBehavior',
+          target: palaceGuideTarget,
+          channel: 'auto',
+          selection: { kind: 'use', value: 'legacy-001' },
+        },
+        { kind: 'wait', ms: first.afterMs },
+        hide,
+      ]
+    }
+    expect(await hash(previousBody), stage.owner).toBe(stage.afterBodyHash)
     for (const entry of stage.paths) {
       expect(sites.has(entry.path)).toBe(false)
       sites.add(entry.path)
       const command = stageFor(entry.path).command
-      expect(command).toEqual({ kind: 'wait', ms: entry.afterMs })
+      expect(command).toEqual(
+        entry.path === palaceGuideWaitPath ? palaceGuideMove : { kind: 'wait', ms: entry.afterMs },
+      )
     }
   }
   expect(sites.size).toBe(receipt.counts.appliedSites)

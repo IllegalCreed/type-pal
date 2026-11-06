@@ -39,6 +39,7 @@ const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [act
 const library = resolveAuthorDialogueTree(validateAuthorSharedScripts(sharedJson), actors)
 const digest = 'f'.repeat(64)
 const shared = new RuntimeSharedScriptResolver(library, digest)
+const retiredPalaceGuideAuto = 's019/e270/auto/legacy-001'
 const governedAutoKeys = new Set([
   ...motionTransitionLedger.rows.map((row) => row.key),
   // E2E006: the boat's retired auto is now exercised by main.ride-presentation.test.ts.
@@ -46,6 +47,8 @@ const governedAutoKeys = new Set([
   's016/e218/auto/default',
   's016/e218/auto/legacy-001',
   's048/e797/auto/default',
+  // E2E010: pal-gov3-content-world-wait.test.ts checks the foreground guide movement.
+  retiredPalaceGuideAuto,
 ])
 const governedSceneIds = new Set([
   's001',
@@ -313,7 +316,7 @@ async function observe(
 
 test('all current scene scripts use steps; automatic phases are inside one step', () => {
   expect(scenes).toHaveLength(294)
-  expect(autos.size).toBe(1321)
+  expect(autos.size).toBe(1320)
   let flows = 0
   for (const scene of scenes) {
     for (const entity of scene.entities)
@@ -333,7 +336,7 @@ test('all current scene scripts use steps; automatic phases are inside one step'
     .filter((entity) => entity.behaviors?.trigger?.['break-with-hammer'])
     .map((entity) => entity.id)
   expect(hammerTargets).toEqual([...mazeAshuraStatues.keys()])
-  expect(flows).toBe(4656 + mazeAshuraStatues.size)
+  expect(flows).toBe(4655 + mazeAshuraStatues.size)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -556,6 +559,10 @@ test('governed auto transitions retain their original oracle evidence while usin
     expect(row.oldOracleHashes.length).toBe(4)
     expect(row.oldOracleHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))).toBe(true)
   }
+  expect(oracle.cases.find(({ key }) => key === retiredPalaceGuideAuto)?.hashes).toHaveLength(
+    oracle.scenarios.length,
+  )
+  expect(autos.has(retiredPalaceGuideAuto)).toBe(false)
 })
 
 // The pond plans preserve their frame times with one facing write per cycle.
