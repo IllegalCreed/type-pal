@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "id": "e2e-009",
   "kind": "runtime-execution",
-  "status": "rework",
+  "status": "verified",
   "candidateSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
   "versions": {
     "content": 22,
@@ -116,11 +116,7 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": [
-      "e2e-008",
-      "e2e-009 首轮 bf3071ecb 录制",
-      "e2e-009 的单独编辑器初态验收"
-    ],
+    "against": ["e2e-008", "e2e-009 首轮 bf3071ecb 录制", "e2e-009 的单独编辑器初态验收"],
     "notes": "008 只提供合法输入。009 发布配对只认当前两条实跑，旧反例和原保存证据各保留本轮身份。"
   },
   "execution": {
@@ -216,10 +212,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-06",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "contentVersion": 22,
     "reforgeSaveVersion": 12,
     "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
@@ -239,16 +232,9 @@
     {
       "name": "unified recompare-recording 009",
       "result": "passed",
-      "routeSteps": [
-        70,
-        144,
-        25
-      ],
+      "routeSteps": [70, 144, 25],
       "cameraDraws": 48,
-      "reforgeDialogueDraws": [
-        476,
-        133
-      ],
+      "reforgeDialogueDraws": [476, 133],
       "findings": 0,
       "sourceChanges": 0,
       "evidence": [
@@ -268,7 +254,7 @@
     },
     {
       "name": "author side-by-side review",
-      "result": "pending",
+      "result": "accepted",
       "videoSeconds": 129.4,
       "localVideo": {
         "path": "build/e2e-rework/review-009-mounted-pose/009-game-reforge.mp4",
@@ -568,9 +554,10 @@
     },
     {
       "id": "current-author-visual-acceptance",
-      "result": "pending",
+      "result": "accepted-by-user",
       "evidence": [
-        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-009-mounted-pose/review-media.json"
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-009-mounted-pose/review-media.json",
+        "docs/tasks/cards/E2E-009-1-fairy-island-pool.md"
       ]
     }
   ],
@@ -578,11 +565,7 @@
     {
       "case": "first-recording-business-counterexamples",
       "revision": "bf3071ecb048cdc3ab5eb6398e8acad359bcf50a",
-      "fields": [
-        "route",
-        "camera",
-        "dialogue"
-      ],
+      "fields": ["route", "camera", "dialogue"],
       "status": "rejected",
       "evidence": [
         "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz#build/e2e-rework/009-old-integrated.json"
@@ -633,6 +616,17 @@
       "date": "2026-11-06",
       "action": "current-native-008-to-009-and-unified-recomparison",
       "visualAcceptance": "pending"
+    },
+    {
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "date": "2026-11-06",
+      "action": "user-accepted-current-split-screen",
+      "visualReview": {
+        "result": "accepted",
+        "quote": "007、009 都通过",
+        "clipSha256": "db199f27362d57ca33345c2595525fb0b402f423e4b4f2925b2828e5bc50c002",
+        "seconds": 129.4
+      }
     }
   ],
   "_governance": {
@@ -650,9 +644,9 @@
     "sourceGitObject": "cf0151aca3178ff87f1183613f0d51c873e140de",
     "sourceGitRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
     "sourceRole": "Native Game runner entrypoint blob",
-    "scope": "009 technical evidence, bounded editor re-open and separately pending author visual review",
+    "scope": "009 technical execution, bounded editor re-open and accepted split-screen review",
     "beforeAfter": "New formal 009 publication pair. Historical raw and rejected attempts retain exact bytes.",
     "stopLine": "Native 009 ends at regained control and completed departure in peach grove. Static preview and runtime have independent scope.",
-    "nextStep": "Independent report review and author judgment on the current byte-bound split-screen."
+    "nextStep": "为后继片段保留各引擎的 009 正式终档。"
   }
 }

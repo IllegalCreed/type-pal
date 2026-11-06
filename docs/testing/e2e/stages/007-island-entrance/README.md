@@ -5,7 +5,7 @@ Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
 id: e2e-007
-status: rework
+status: verified
 phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
@@ -22,7 +22,7 @@ evidence: ../../evidence/e2e-007.json
 
 ## 当前结论
 
-候选 `743be436c70bf3519e1324ec356dafcf0f6d040a` 双轨走完相同的 132 步和三场遭遇，各获 8 点经验，首次到迷宫恢复操控并在新会话读回终档。四只草妖的实绘追逐也通过同路对照。前轮奖励窗观感已通过，当前 28.12 秒同路分屏待作者复看。出版状态为 `rework`，任务裁定见[007 任务卡](../../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)。
+候选 `743be436c70bf3519e1324ec356dafcf0f6d040a` 双轨走完相同的 132 步和三场遭遇，各获 8 点经验，首次到迷宫恢复操控并在新会话读回终档。四只草妖的实绘追逐也通过同路对照。用户已确认 28.12 秒同路分屏。当前发布状态为 `verified`，任务裁定见[007 任务卡](../../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)。
 
 ## 证据与状态
 

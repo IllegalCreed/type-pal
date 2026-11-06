@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（E2E 导航维护）
-Last reviewed: 2026-10-18
+Last reviewed: 2026-11-06
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -11,13 +11,13 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-本页导航覆盖 001–006、共用验收与编辑器预览起点、路线 proposal、横向问题和 PAL 检查点目录。阶段正文、执行工具和原始回执分别在各自入口维护；本页不汇总全部剧情的完成度。
+本页导航覆盖 001–009、共用验收与编辑器预览起点、路线 proposal、横向问题和 PAL 检查点目录。阶段正文、执行工具和原始回执分别在各自入口维护。
 
 ## 当前状态
 
-`current` 表示本导航入口有效。阶段的发布状态、`lastVerified`、`reviewBy` 和 `dependsOn` 以 [catalog.json](../catalog.json) 为唯一索引事实源；[按阶段视图](../indexes/by-stage.md)由 catalog 生成，本页不再手工维护另一张状态表。
+`current` 表示本导航入口有效。阶段的发布状态、`lastVerified` 和 `dependsOn` 由测试目录及其生成的阶段视图提供。各段实际执行读取的同引擎检查点见正式报告。[测试目录](../catalog.json) · [按阶段视图](../indexes/by-stage.md)
 
-`verified` 只在对应报告声明的候选、版本、输入和 verify 合同内有效，不能当作今天已重跑、已完成编辑器预览核对或已达 `capture-ready`。`rework` 不能作为下游正式前驱；执行前仍须回读报告的候选 SHA、版本与真实检查点链。源码核读或 `source-backed` 证据不等于实跑，`draft` 和路线 `proposal` 也不授予 build 准入。
+`verified` 的适用范围由配对报告的候选、版本、输入及 verify 合同限定。出版依赖 `dependsOn` 只指向 `current` 或 `verified` 的目录项。每次实跑的同引擎前驱另按通过的原生执行回执、候选 SHA、版本及实际检查点链核定。源码核读或 `source-backed` 证据不等于实跑，`draft` 和路线 `proposal` 也不授予 build 准入。
 
 ## 入口与责任
 
@@ -31,6 +31,9 @@ Template: governance-index-v1 / 1.0.0
 | e2e-004 · 端菜、赠酒与道士离场 | [阶段页](stages/004-meal/README.md) | [正式报告](stages/004-meal/report.md) |
 | e2e-005 · 买虾、报信与返程 | [阶段页](stages/005-shrimp/README.md) | [正式报告](stages/005-shrimp/report.md) |
 | e2e-006 · 求药、出海与仙灵岛入口 | [阶段页](stages/006-doctor-boat/README.md) | [正式报告](stages/006-doctor-boat/report.md) |
+| e2e-007 · 从仙灵岛码头到迷宫入口 | [阶段页](stages/007-island-entrance/README.md) | [正式报告](stages/007-island-entrance/report.md) |
+| e2e-008 · 仙灵岛迷宫与桃花林入口 | [阶段页](stages/008-fairy-island-maze/README.md) | [正式报告](stages/008-fairy-island-maze/report.md) |
+| e2e-009 · 桃花林采药与池塘初遇 | [阶段页](stages/009-fairy-island-pool/README.md) | [正式报告](stages/009-fairy-island-pool/report.md) |
 
 ### 共用合同与工作入口
 
@@ -45,7 +48,9 @@ Codex 维护本页导航。Agent 先按 catalog 的稳定 `id` 找 `index`，再
 
 ## 证据与下一步
 
-本次核对了固定原文、现行入口、catalog 中合同/路线/共性问题及六个阶段的导航字段、完整 by-stage 投影，以及共同合同的演出、预览和收口边界；没有全文重审六篇报告，也没有运行产品、E2E、视觉或 coverage。
+2026-11-06 登记 007–009 的阶段页、正式报告和机器回执。三段绑定候选 `743be436c` 的实际双轨原件，用户复看范围和当前任务状态由各段报告及任务卡持有。[本轮任务入口](../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-06-007009-正式报告收口)
+
+2026-10-18 核对了固定原文、当时六个阶段的导航字段、by-stage 投影，以及共同合同的演出、预览和收口边界。该次核对的执行范围限文档。
 
 接手某段时先核当前任务准入，再按 catalog 找阶段页、报告和配对 evidence，核当前候选/版本、合格前驱与真实检查点，按共同合同补齐两阶段证据和逐入口预览回执。缺来源、版本不合、旧 counter 未闭合或存在视觉反例时停止该项，回原卡记录 rework/blocked；不能用本页或历史 verified 补证。报告、证据或发布状态变化时，按测试治理同提交写回并重生成索引。
 

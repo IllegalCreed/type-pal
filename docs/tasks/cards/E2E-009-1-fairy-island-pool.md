@@ -1,6 +1,6 @@
 # E2E-009-1 — 桃花林采药与池塘初遇
 
-Status: rework
+Status: done
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -86,13 +86,15 @@ node scripts/e2e/fairy-island-pool-reforge.mjs --verify --visual-review --from <
 
 008 朝向返工后，`b3b399c5f2590ac57432fb6934d470348150f637` 两端从各自新 008 终档再次实跑。统一入口再次通过 239 步路线、原盘 48 步平移和换镜对白层。实绘平移 Game 4700 毫秒、Reforge 4713.5 毫秒；Reforge 两个窗口 477 和 137 次绘制的旧槽均为空。两端正式存档和新会话恢复通过。回执见[朝向返工及后续复验原件](../evidence/E2E-008-1-orientation-recheck-20261106.tar.gz)。
 
-定姿回归闭合后，当前候选 `743be436c70bf3519e1324ec356dafcf0f6d040a` 两端各从本轮的正式 008 终档再次实跑。239 步路线、48 步平移、换镜及淡入时的对白清除、新会话读档均通过。平移历时 Game 4699.3 毫秒、Reforge 4718.0 毫秒，终镜位均为 `[1136,1400]`。Reforge 两处换镜的 476 和 133 次绘制均无旧对白。一次 Game 按键释放延迟导致多走，守卫拒绝该轮，使用同一终档和路线独立复跑。当前回执零发现、零录制源差异，129.4 秒分屏待作者复看。[当前双轨原件](../evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz)
+定姿回归闭合后，当前候选 `743be436c70bf3519e1324ec356dafcf0f6d040a` 两端各从本轮的正式 008 终档再次实跑。239 步路线、48 步平移、换镜及淡入时的对白清除、新会话读档均通过。平移历时 Game 4699.3 毫秒、Reforge 4718.0 毫秒，终镜位均为 `[1136,1400]`。Reforge 两处换镜的 476 和 133 次绘制均无旧对白。一次 Game 按键释放延迟导致多走，守卫拒绝该轮，使用同一终档和路线独立复跑。当前回执零发现、零录制源差异。[当前双轨原件](../evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz)
 
 在镜头与对白候选 `8d9dcdbe2` 上，独立浏览器打开原生 OPFS 工程，复用实际已保存的侧车，重开并复验 9 个步骤、7 份雷击临时选择和 13 份初态属性与反查。当前逐步骤台账保留旧事件并追加新适用性证据。[编辑器复验原件](../evidence/E2E-009-1-preview-applicability-20261106.tar.gz) · [逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
 
+2026-11-06 用户回复「007、009 都通过」，确认当前候选的 129.4 秒分屏。双轨执行、正式终档与复看结论已配对登记。[009 正式报告](../../testing/e2e/stages/009-fairy-island-pool/report.md)
+
 ### 前轮验收及原件
 
-前轮技术与编辑器核验按下表保留，旧分屏已被本轮路线、镜头和对白三项反例判退。可暂停的原速回放在本地 `build/e2e-009/review/009-game-reforge-fairy-island-pool.mp4`，左 Game、右 Reforge，先结束一侧停在终点。片长约 2 分 9 秒，SHA256 `b604f6e86cfc9e5ccb88e49c57a6b0a262ba23a706be048e3c23ef29e1d94e3c`。原浏览器视频本地保留；该片不授音频验收。正式测试目录尚未登记本段，待封板时与报告配对。
+前轮技术与编辑器核验按下表保留，旧分屏已被本轮路线、镜头和对白三项反例判退。可暂停的原速回放在本地 `build/e2e-009/review/009-game-reforge-fairy-island-pool.mp4`，左 Game、右 Reforge，先结束一侧停在终点。片长约 2 分 9 秒，SHA256 `b604f6e86cfc9e5ccb88e49c57a6b0a262ba23a706be048e3c23ef29e1d94e3c`。原浏览器视频本地保留；该片不授音频验收。该轮执行时测试目录尚未登记 009。
 
 | 引擎 | 009 正式报告（归档成员） | `009.end.save.json` SHA256 |
 |---|---|---|

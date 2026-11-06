@@ -5,13 +5,13 @@ Template: test-e2e-stage-v1 / 1.0.0
 
 ```yaml
 id: e2e-009
-status: rework
+status: verified
 phase: [phase1, phase2]
 engines: [game, reforge]
 owner: Codex
 lastVerified: 2026-11-06
 dependsOn: [e2e-008]
-tags: [story, npc, item-pickup, visual, rework]
+tags: [story, npc, item-pickup, visual]
 canonicalReport: report.md
 evidence: ../../evidence/e2e-009.json
 ```
@@ -24,7 +24,7 @@ Game 和 Reforge 各从同候选、同引擎的 008 正式终档进入仙灵岛�
 
 最新双轨运行、同路逐步对照、换镜实绘、正式终档与新会话读回通过。两次换镜的旧对白均已清除，原盘 48 步平移的两端实际绘制时长相差 18.7 毫秒。编辑器的静态初态另有实际保存和重开证据。
 
-当前发布为 `rework`，同候选 129.4 秒分屏待作者复看。技术检查、录制文件与作者验收各有独立身份。[正式报告](report.md#results)
+用户已确认同候选 129.4 秒分屏。当前发布为 `verified`。技术检查、录制文件与作者验收各有独立身份。[正式报告](report.md#results)
 
 ## 证据与状态
 

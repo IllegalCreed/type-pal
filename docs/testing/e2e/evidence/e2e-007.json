@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "id": "e2e-007",
   "kind": "runtime-execution",
-  "status": "rework",
+  "status": "verified",
   "candidateSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
   "versions": {
     "content": 22,
@@ -180,7 +180,7 @@
     },
     {
       "id": "review-007-current-clip",
-      "status": "pending",
+      "status": "accepted",
       "artifact": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json"
     }
   ],
@@ -430,6 +430,17 @@
       "date": "2026-11-06",
       "action": "rerun-after-shared-mounted-pose-fix",
       "result": "双轨技术对照通过，迷宫终档均正式恢复并供 008 接续。"
+    },
+    {
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "date": "2026-11-06",
+      "action": "user-accepted-current-split-screen",
+      "visualReview": {
+        "result": "accepted",
+        "quote": "007、009 都通过",
+        "clipSha256": "24b609ea42db5308b596dbb3556d889dc2ef6c595864a28988c81353983e05ad",
+        "seconds": 28.12
+      }
     }
   ],
   "runtimeExecution": {
@@ -438,7 +449,7 @@
     "engines": ["game", "reforge"],
     "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
     "technicalResult": "passed",
-    "userReviewCurrent": "pending"
+    "userReviewCurrent": "accepted"
   },
   "claims": [
     {
@@ -480,9 +491,10 @@
     },
     {
       "id": "current-split-screen-user-acceptance",
-      "result": "pending",
+      "result": "accepted-by-user",
       "evidence": [
-        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json"
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json",
+        "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md"
       ]
     }
   ],
@@ -522,6 +534,6 @@
     "scope": "007 同路双轨、正式存读、与独立编辑器静态初态证据。",
     "beforeAfter": "建立 e2e-007 发布配对，原生归档与前轮裁定继续按原身份使用。",
     "stopLine": "首次迷宫可控。战斗回合策略、音频和后续机关各按独立验收范围。",
-    "nextStep": "作者复看当前分屏，Codex 独立验收本发布配对。"
+    "nextStep": "采用各自已验证的 007 终档接续 008。"
   }
 }

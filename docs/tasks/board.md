@@ -87,10 +87,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 008 分屏已验收，007、009 技术对照通过并待作者复看 |
-| E2E-007-1 | [从仙灵岛码头到迷宫入口](cards/E2E-007-1-island-entrance-to-maze.md) | rework | 第二阶段与双阶段对照 | 统一接敌、追逐与实绘通过，初态已保存重开 | Codex / 等待作者复看 |
-| E2E-008-1 | [仙灵岛迷宫与桃花林入口](cards/E2E-008-1-fairy-island-maze.md) | rework | 第二阶段与双阶段对照 | 同路技术复核和用户分屏验收通过 | Codex / 待正式报告登记 |
-| E2E-009-1 | [桃花林采药与池塘初遇](cards/E2E-009-1-fairy-island-pool.md) | rework | 第二阶段与双阶段对照 | 同路平移、换镜对白与存读通过 | Codex / 等待作者复看 |
+| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 007–009 已收口，剩余薄基线与取物 canary 见原卡 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |

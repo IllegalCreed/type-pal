@@ -1,6 +1,6 @@
 # E2E-008-1 — 仙灵岛迷宫与桃花林入口
 
-Status: rework
+Status: done
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -25,7 +25,7 @@ Template: task-card-v1 / 1.0.0
 
 2026-11-06 用户复看本轮 227 秒的 008 分屏后回复「没问题了」。石像朝向和乘漂转向的观感反例关闭，008 同路技术复核及分屏验收完成。回放为 `build/e2e-rework/review-008-mounted-pose/008-game-reforge.mp4`，SHA256 `bf0529928b54d58ca0ff586bd40fa598fe6204c5acddc53a771429cf1575c644`，对应上方归档中的 `build/e2e-rework/review-008-mounted-pose/review-media.json`。
 
-待在 [测试目录](../../testing/catalog.json) 登记 008 的配对正式报告。按 [E2E 收口硬门](../../testing/e2e/contract.md#e2e-收口硬门用户2026-10-042026-10-12补充)，任务保持 `rework` 至登记完成。正式终档和复跑原件按上方归档的成员清单恢复。
+双轨执行、正式终档与复看结论已配对登记。正式终档和复跑原件按上方归档的成员清单恢复。[008 正式报告](../../testing/e2e/stages/008-fairy-island-maze/report.md)
 
 ## 目标
 

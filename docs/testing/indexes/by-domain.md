@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 6 个工程域、20 个唯一 ID：cross-phase 1；e2e 9；editor 2；ops 1；phase1-runtime 2；runtime 5。每份登记记录在该维度只列一次。
+当前 6 个工程域、23 个唯一 ID：cross-phase 1；e2e 12；editor 2；ops 1；phase1-runtime 2；runtime 5。每份登记记录在该维度只列一次。
 
 ## 当前状态
 
@@ -42,6 +42,9 @@ domain 字段决定组别；人和 Agent 从组内 canonical 继续查 evidence�
 | e2e-004 | [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md) | verified | Codex |
 | e2e-005 | [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md) | verified | Codex |
 | e2e-006 | [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md) | rework | Codex |
+| e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
+| e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
+| e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |
