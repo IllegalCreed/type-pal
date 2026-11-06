@@ -195,6 +195,9 @@
                       "kind": "playMusic"
                     },
                     {
+                      "kind": "clearDialog"
+                    },
+                    {
                       "dx": 4,
                       "dy": 2,
                       "frames": 48,
@@ -285,6 +288,9 @@
                       "dir": "out",
                       "kind": "fade",
                       "ms": 600
+                    },
+                    {
+                      "kind": "clearDialog"
                     },
                     {
                       "dx": 192,
