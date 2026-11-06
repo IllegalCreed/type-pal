@@ -1,4 +1,5 @@
 import { type GridPos, gridToPixel } from '@type-pal/content'
+import { FRAME_MS_EXPLORE } from '@type-pal/shared'
 import type { SceneViewBounds } from './active-scene.js'
 import { asyncIntentAbortError } from './async-intent.js'
 import { scriptWorkWait } from './script-work-queue.js'
@@ -10,6 +11,7 @@ interface Pan {
   dy: number
   steps: number
   done: number
+  elapsedMs: number
   resolve(): void
 }
 
@@ -60,6 +62,7 @@ export class WorldCamera {
         dy,
         steps: frames,
         done: 0,
+        elapsedMs: 0,
         resolve: (): void => {
           if (settled) return
           settled = true
@@ -98,7 +101,14 @@ export class WorldCamera {
   advance(dt: number): void {
     if (!this.panFx) return
     const fx = this.panFx
-    fx.done = Math.min(fx.steps, fx.done + Math.max(1, Math.round(dt / 16)))
+    // Apply the first step on the next eligible frame. Pace the rest on the exploration clock.
+    if (fx.done > 0) {
+      fx.elapsedMs += dt
+      if (fx.elapsedMs < FRAME_MS_EXPLORE) return
+      // Keep the partial interval without jumping over any displacement steps after a stall.
+      fx.elapsedMs %= FRAME_MS_EXPLORE
+    }
+    fx.done = Math.min(fx.steps, fx.done + 1)
     this.displacement.x = fx.fromX + fx.dx * fx.done
     this.displacement.y = fx.fromY + fx.dy * fx.done
     this.update()

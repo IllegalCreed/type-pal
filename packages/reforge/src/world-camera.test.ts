@@ -1,5 +1,6 @@
 import type { GridPos } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { frameFixture } from './__tests__/runtime-frame-fixture.js'
 import type { SceneViewBounds } from './active-scene.js'
 import { WorldCamera } from './world-camera.js'
 
@@ -62,26 +63,57 @@ describe('WorldCamera ownership', () => {
     expect(f.camera.position).toEqual({ x: 16, y: 136 })
   })
 
-  test('pan advances on render steps, retaining the minimum step and rounded elapsed time', async () => {
+  test('a 48-frame pan moves once per 100 ms after its first frame', async () => {
     const f = fixture()
     let finished = false
-    const done = f.camera.pan(3, -2, 4, new AbortController().signal).then(() => {
+    const done = f.camera.pan(4, 2, 48, new AbortController().signal).then(() => {
       finished = true
     })
     expect(f.camera.offset).toEqual({ x: 0, y: 0 })
-    f.camera.advance(0)
-    expect(f.camera.offset).toEqual({ x: 3, y: -2 })
-    f.camera.advance(24)
-    expect(f.camera.offset).toEqual({ x: 9, y: -6 })
-    await Promise.resolve()
-    expect(finished).toBe(false)
-    f.camera.advance(1000)
-    expect(f.camera.offset).toEqual({ x: 12, y: -8 })
-    expect(f.camera.position).toEqual({ x: 12, y: 120 })
+    f.camera.advance(16)
+    expect(f.camera.offset).toEqual({ x: 4, y: 2 })
+
+    for (let step = 1; step < 48; step++) {
+      f.camera.advance(34)
+      f.camera.advance(33)
+      f.camera.advance(32)
+      expect(f.camera.offset).toEqual({ x: 4 * step, y: 2 * step })
+      await Promise.resolve()
+      expect(finished).toBe(false)
+      f.camera.advance(1)
+      expect(f.camera.offset).toEqual({ x: 4 * (step + 1), y: 2 * (step + 1) })
+    }
+
     await done
-    expect(finished).toBe(true)
-    f.camera.advance(1000)
-    expect(f.camera.offset).toEqual({ x: 12, y: -8 })
+    expect(f.camera.position).toEqual({ x: 192, y: 224 })
+    f.camera.advance(100)
+    expect(f.camera.offset).toEqual({ x: 192, y: 96 })
+  })
+
+  test('frame stepping pauses the pan and a delayed frame advances it only once', async () => {
+    const { camera } = fixture()
+    const frames = frameFixture()
+    frames.ports.advanceMoves = (dt) => camera.advance(dt)
+    const done = camera.pan(4, 2, 4, new AbortController().signal)
+    await frames.tick(1_000)
+    expect(camera.offset).toEqual({ x: 4, y: 2 })
+    await frames.tick(1_050)
+
+    frames.session.setStepActive(true)
+    await frames.tick(10_000)
+    expect(camera.offset).toEqual({ x: 4, y: 2 })
+    frames.session.requestStep()
+    await frames.tick(10_016)
+    expect(camera.offset).toEqual({ x: 8, y: 4 })
+
+    frames.session.setStepActive(false)
+    await frames.tick(30_000)
+    expect(camera.offset).toEqual({ x: 12, y: 6 })
+    await frames.tick(30_049)
+    expect(camera.offset).toEqual({ x: 12, y: 6 })
+    await frames.tick(30_050)
+    await done
+    expect(camera.offset).toEqual({ x: 16, y: 8 })
   })
 
   test('replacement resolves the old waiter and starts from the current displacement', async () => {
@@ -90,6 +122,7 @@ describe('WorldCamera ownership', () => {
       next = new AbortController()
     const first = f.camera.pan(5, 2, 8, old.signal)
     f.camera.advance(16)
+    f.camera.advance(80)
     let nextDone = false
     const second = f.camera.pan(-2, 3, 2, next.signal).then(() => {
       nextDone = true
@@ -98,9 +131,11 @@ describe('WorldCamera ownership', () => {
     old.abort()
     f.camera.advance(16)
     expect(f.camera.offset).toEqual({ x: 3, y: 5 })
+    f.camera.advance(99)
+    expect(f.camera.offset).toEqual({ x: 3, y: 5 })
     await Promise.resolve()
     expect(nextDone).toBe(false)
-    f.camera.advance(16)
+    f.camera.advance(1)
     await second
     expect(f.camera.offset).toEqual({ x: 1, y: 8 })
   })
@@ -115,7 +150,8 @@ describe('WorldCamera ownership', () => {
     dead.abort()
     await expect(f.camera.pan(99, 99, 9, dead.signal)).rejects.toMatchObject({ name: 'AbortError' })
     expect(finished).toBe(false)
-    f.camera.advance(32)
+    f.camera.advance(16)
+    f.camera.advance(100)
     await first
     expect(f.camera.offset).toEqual({ x: 8, y: 12 })
   })
@@ -125,7 +161,8 @@ describe('WorldCamera ownership', () => {
       controller = new AbortController()
     const detach = vi.spyOn(controller.signal, 'removeEventListener')
     const outcome = f.camera.pan(4, 6, 8, controller.signal).catch((error: unknown) => error)
-    f.camera.advance(32)
+    f.camera.advance(16)
+    f.camera.advance(100)
     controller.abort()
     expect(await outcome).toMatchObject({ name: 'AbortError' })
     expect(detach).toHaveBeenCalledTimes(1)
@@ -160,7 +197,7 @@ describe('WorldCamera ownership', () => {
     f.camera.advance(16)
     f.camera.snap({ col: 30, row: 10, height: 0 })
     expect(f.camera.offset).toEqual({ x: 160, y: 80 })
-    f.camera.advance(16)
+    f.camera.advance(100)
     await done
     expect(f.camera.offset).toEqual({ x: 4, y: 6 })
   })
