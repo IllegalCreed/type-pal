@@ -1,14 +1,14 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
-import { basename, dirname, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
-import { assertBoatGameRestore, assertBoatGameSaveCapture } from './boat-game-save-domain.mjs'
+import { readBoundStoryRecording } from './bound-story-recording.mjs'
 import { committedRouteReceipt } from './committed-route.mjs'
 import { continuousGrid } from './continuous-route.mjs'
 import { verifyDialoguePresentation } from './dialogue-presentation-contract.mjs'
 import { assertErrandCollector } from './errand-contract.mjs'
-import { readCheckpointInput, readEvidenceArtifact } from './evidence-artifact.mjs'
+import { readEvidenceArtifact } from './evidence-artifact.mjs'
 import {
   assertDependencyClosure,
   dependencyImpact,
@@ -20,80 +20,34 @@ import { assertFairyPoolGameTrace } from './fairy-island-pool-game-observer.mjs'
 import { assertFairyPoolGameStory } from './fairy-island-pool-game-oracle.mjs'
 import { verifyFairyIslandPoolTrace } from './fairy-island-pool-reforge-trace.mjs'
 import { fairyPoolRoutes } from './fairy-island-pool-route.mjs'
-import { assertInputLedger } from './input-ledger.mjs'
 import { readLongEvidenceArtifact } from './long-evidence.mjs'
-import { assertReforgeRestoreInput } from './restore-input-contract.mjs'
 import { checkTransitionTrace, requireTrace, TraceObligation } from './trace-refinement.mjs'
 
 const scene = 's016'
 const rawScriptPath = 'data/extracted/events/all.json'
 const leaf = (event) => event.occurrence?.command?.command
-const pin = ({ path, sha256, byteLength }) => ({ path, sha256, byteLength })
 const digest = (value) => createHash('sha256').update(value).digest('hex')
 
 async function readRecording(path, engine) {
-  const dir = dirname(path)
-  const reportFile = await readEvidenceArtifact(dir, { path: basename(path) })
-  const report = reportFile.value
-  assert.equal(report.fragment, '009')
-  assert.equal(report.engine, engine)
-  assert.equal(report.kind, 'verify')
-  assert.equal(report.profile, 'verify')
-  assert.equal(report.case, 'story')
-  assert.equal(report.status, 'passed')
-  assert.deepEqual(report.errors, [])
-  assert.equal(report.route.status, 'passed')
-  assert.equal(report.checks.terminalSave, 'passed')
-  assert.equal(report.checks.terminalRestore, 'passed')
-  assert.equal(report.persistence.freshContext, true)
-  assert.equal(report.contextTraces.length, 2)
-  assert.deepEqual(report.hashes, report.dependencies.hashes)
+  const game = engine === 'game'
+  const result = await readBoundStoryRecording({
+    path,
+    engine,
+    fragment: '009',
+    readTrace: game ? readEvidenceArtifact : readLongEvidenceArtifact,
+    assertTrace: game ? assertFairyPoolGameTrace : assertErrandCollector,
+  })
+  const { report, trace } = result
   const { definition } = report.dependencies
   assert.equal(definition.entry, `scripts/e2e/fairy-island-pool-${engine}.mjs`)
   assert.equal(definition.packageName, engine)
   assert.equal(
     definition.traceConfig,
-    `scripts/e2e/fairy-island-pool-${engine}${engine === 'game' ? '.config.mts' : '.config.mjs'}`,
+    `scripts/e2e/fairy-island-pool-${engine}${game ? '.config.mts' : '.config.mjs'}`,
   )
-  assertInputLedger(report.actions, { requireReceipts: true })
-  const readTrace = engine === 'game' ? readEvidenceArtifact : readLongEvidenceArtifact
-  const [story, fresh, terminal, predecessor] = await Promise.all([
-    readTrace(dir, report.contextTraces[0]),
-    readTrace(dir, report.contextTraces[1]),
-    readEvidenceArtifact(dir, report.checkpoint),
-    readCheckpointInput(report.predecessor, engine, '008'),
-  ])
-  for (const artifact of [story, fresh, terminal])
-    assert.equal(artifact.binding.status, 'verified', '009 artifact needs exact bytes')
-  assert.equal(story.path, resolve(dir, '009-trace.json'))
-  assert.equal(fresh.path, resolve(dir, '009-fresh-trace.json'))
-  assert.equal(predecessor.artifacts[0].sha256, report.predecessor.reportSha256)
-  assert.equal(predecessor.artifacts[1].binding.status, 'verified')
-  if (engine === 'game') {
-    assertFairyPoolGameTrace(story.value)
-    assertFairyPoolGameTrace(fresh.value)
-    assertFairyPoolGameStory(story.value, report)
-    assertBoatGameRestore(predecessor.payload, story.value.gameRestores[0].payload)
-    const capture = story.value.saveCaptures.at(-1)
-    const acknowledgement = story.value.saveCompletions.at(-1)
-    assert.equal(capture.order, report.checkpoint.captureProof.inputOrder)
-    assert.equal(acknowledgement.order, report.checkpoint.captureProof.acknowledgementOrder)
-    assert.equal(acknowledgement.captureSeq, capture.seq)
-    assert(capture.order < acknowledgement.order)
-    assertBoatGameSaveCapture(terminal.value, capture.payload)
-    assertBoatGameRestore(terminal.value, fresh.value.gameRestores[0].payload)
-  } else {
-    assertErrandCollector(story.value, '009 story')
-    assertErrandCollector(fresh.value, '009 restore')
-    verifyFairyIslandPoolTrace(story.value)
-    assertReforgeRestoreInput(story.value, predecessor.payload)
-    assertReforgeRestoreInput(fresh.value, terminal.value)
-  }
-  return {
-    report,
-    trace: story.value,
-    files: [reportFile, story, fresh, terminal, ...predecessor.artifacts].map(pin),
-  }
+  if (game) assertFairyPoolGameStory(trace, report)
+  else verifyFairyIslandPoolTrace(trace)
+  return result
 }
 
 function measuredRoute(recording) {
