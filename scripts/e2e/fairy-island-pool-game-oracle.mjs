@@ -91,7 +91,7 @@ export function assertFairyPoolGameStory(trace, report) {
         type === 'keydown' &&
         key === 'Enter' &&
         order > picked.order &&
-        order <= report.route.legs[1].startOrder,
+        order < report.route.legs[1].replay.steps[0].order,
     ),
     'repeat Search was not dispatched after the herb disappeared',
   )
