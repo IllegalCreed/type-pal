@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-05T06:05:02.147Z",
+  "generatedAt": "2026-11-06T12:57:34.455Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 832,
-  "testCount": 20307,
+  "testCount": 20314,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2233,7 +2233,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9014,
+        "testCount": 9021,
         "testFileCount": 368,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3089,7 +3089,7 @@
           {
             "file": "packages/reforge/src/battle/settlement.glm-runtime-resource.test.ts",
             "testCount": 4,
-            "identityDigest": "e50a8d78a3a731441e1b151a2938db059a1efdba81f565f3b1c1103cad6c5d80"
+            "identityDigest": "b7cad99bf59ac4fd387fab30834986d83aaa9213493d999aa83656c55e7dfb5f"
           },
           {
             "file": "packages/reforge/src/boot-page-shell.glm-q.test.ts",
@@ -3423,8 +3423,8 @@
           },
           {
             "file": "packages/reforge/src/main.battle-host-flows.test.ts",
-            "testCount": 6,
-            "identityDigest": "0f4749652ed2b5be8db6bc7983f0d532f29b921fedd7386fc18d1136e1bc6779"
+            "testCount": 9,
+            "identityDigest": "39eab5c3c6753dd971381741b0f1497e2833aa5a830a66d89494383f34bbe74c"
           },
           {
             "file": "packages/reforge/src/main.battle-preview.glm-q.test.ts",
@@ -3533,8 +3533,8 @@
           },
           {
             "file": "packages/reforge/src/main.ride-presentation.test.ts",
-            "testCount": 2,
-            "identityDigest": "e626d4d0b824c1bcd9224b3bfed742ab61bb6b9ffa78f28d97f7f4c3355c74ea"
+            "testCount": 4,
+            "identityDigest": "4b0924c408b6502762a166175767283f6575c6d016b26dde45cd3bbde1f80e08"
           },
           {
             "file": "packages/reforge/src/main.save-flows.test.ts",
@@ -4403,8 +4403,8 @@
           },
           {
             "file": "packages/reforge/src/world-camera.test.ts",
-            "testCount": 11,
-            "identityDigest": "5608cc79051622c52435c7a5626c5389e7bc963d53249a85a6dc980c4b637b6a"
+            "testCount": 12,
+            "identityDigest": "fc1c1b48e4489f26e79c45b2171853e4a35932c95852a76ac89c2375ddaff712"
           },
           {
             "file": "packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts",
@@ -4443,30 +4443,30 @@
           },
           {
             "file": "packages/reforge/src/world-scene-presentation.test.ts",
-            "testCount": 5,
-            "identityDigest": "3cbb8fa95917cb86d7414ee21345af8a1a2a0df2d14066318539861c10b28ed8"
+            "testCount": 6,
+            "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "2de6ad9a137a2e2cb4b66bf457946be80b65c09c1c79e1758baddfc2de0d9e96",
+        "identityDigest": "01d284af57c6b32c6cec7af433de82c10b2a289e7f226b296fa098eaf6294ce3",
         "duplicateIdentityCount": 3,
-        "executionDigest": "ee03bdc767998381236b60319cebebef023c4027777ca24df5176c26baa15187"
+        "executionDigest": "47d7273c64f3c3dd82e132cb6a34a18c945ec47fe6879cb68e6a795eb787b0e9"
       },
       "metrics": {
         "statements": {
-          "covered": 17045,
-          "total": 18892
+          "covered": 17122,
+          "total": 18922
         },
         "branches": {
-          "covered": 10832,
-          "total": 13102
+          "covered": 10892,
+          "total": 13135
         },
         "functions": {
-          "covered": 2779,
-          "total": 3075
+          "covered": 2784,
+          "total": 3077
         },
         "lines": {
-          "covered": 15254,
-          "total": 16486
+          "covered": 15324,
+          "total": 16512
         }
       }
     },
@@ -10899,20 +10899,20 @@
   },
   "total": {
     "statements": {
-      "covered": 73808,
-      "total": 81515
+      "covered": 73885,
+      "total": 81545
     },
     "branches": {
-      "covered": 53392,
-      "total": 63503
+      "covered": 53452,
+      "total": 63536
     },
     "functions": {
-      "covered": 14002,
-      "total": 15563
+      "covered": 14007,
+      "total": 15565
     },
     "lines": {
-      "covered": 65926,
-      "total": 71339
+      "covered": 65996,
+      "total": 71365
     }
   }
 }

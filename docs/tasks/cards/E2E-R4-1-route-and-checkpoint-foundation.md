@@ -45,6 +45,10 @@ Template: task-card-v1 / 1.0.0
 
 首轮 CI 日志、同窗口前后轨迹和反例回执分别保留在集成树的 `build/e2e-rework/pr46-fast-coverage-job.log`、`build/e2e-rework/pr46-e219-comparable-traces.json` 和 `build/e2e-rework/pr46-content-countercontrols.json`。轨迹对应主线 `c132cbd6d` 与实跑候选 `743be436c`，SHA256 为 `256d5c6fe4f33388d8d665ce8af1ff2092aedc4ac8427b352e3204cf07858247`。
 
+第二轮 CI 在 `e833ef45dcab292d924a3db9ed73c23ad60152ea` 完成全部 20314 项 fast 测试，覆盖率对照通过，门禁要求登记 Reforge 的测试范围与执行指纹。Reforge 测试由 9014 增至 9021。覆盖率清单记录五个测试文件的用例身份摘要变化，测试文件与生产范围无移除。[第二轮 CI 原件](https://github.com/IllegalCreed/type-pal/actions/runs/42215181183/job/127883283521)
+
+Codex 以主线 `c132cbd6d` 为比较基准运行官方 `pnpm coverage:ratchet`，退出码 0。新基线含 832 个生产文件、20314 项测试。Reforge 和总计的四项覆盖率各提高，全部包的精确分子、分母和测试计数均与第二轮 CI 一致。基线 SHA256 `65e1b6db557128a64f5aebdccbc8cee59eda8e143e37eee0b69064adae2935ed`，本地原回执在 `build/e2e-rework/pr46-coverage-ratchet.log` 和 `coverage/fast/summary.json`。
+
 ## 2026-11-05 001–006脚本与预览基线收尾
 
 本节记录 001–006 收尾时点。下方 11-04 各次保存、缺口与待复核查询保留其原时点。本卡仍为 build。本轮关闭 001–006 的指定脚本审查、当前场景静态初态与保存复验，前十段、四种取物 canary 及完整 R4 工作流继续按原范围推进。007 续办见下方同日记录。
