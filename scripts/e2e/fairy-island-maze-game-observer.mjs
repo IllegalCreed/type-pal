@@ -4,6 +4,7 @@ export const FAIRY_MAZE_GAME_TRACE_TARGETS = [
   'packages/game/src/core/event-system.ts',
   'packages/game/src/core/save/api.ts',
   'packages/game/src/core/scene-system.ts',
+  'packages/game/src/present/present.ts',
   'packages/game/src/shell/bootstrap.ts',
 ]
 
@@ -28,6 +29,7 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
     },
   })
   const append = recorder.append
+  const drawnActors = new Map()
   const position = ({ x, y }) => [x, y]
   const npcState = (npc) =>
     npc && {
@@ -70,7 +72,7 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
   }
 
   // These hooks come from the existing Game source transforms. Only their retained facts differ.
-  globalThis.__errandGame = (gs, source) => {
+  globalThis.__errandGame = (gs, source, render) => {
     if (!gs || ![17, 18, 19].includes(gs.wNumScene)) return
     try {
       const scene = `s${String(gs.wNumScene - 1).padStart(3, '0')}`
@@ -110,6 +112,20 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
       }
       const cursor = gs.eventCursor,
         owner = cursor?.triggerOwnerId
+      if (scene === 's017' && source === 'render:world' && render) {
+        const tracked = ['e237', 'e238', 'e239', 'e240', 'e241', 'e242']
+        if (owner >= 243 && owner <= 259) tracked.push('party')
+        for (const id of tracked) {
+          const draw = render.actors[id]
+          if (!draw) continue
+          const { position, facing, frame, assetId } = draw
+          const state = { position, facing, frame, assetId, drawStatus: 'drawn' }
+          const snapshot = JSON.stringify([sceneVisit, state])
+          if (drawnActors.get(id) === snapshot) continue
+          drawnActors.set(id, snapshot)
+          append(events, { ...context, kind: 'actor-render', id, state })
+        }
+      }
       if (
         owner >= 243 &&
         owner <= 259 &&

@@ -15,6 +15,7 @@ import { readLongEvidenceArtifact } from './long-evidence.mjs'
 
 const fragment = '008'
 const rawPath = 'data/extracted/events/all.json'
+const originalObjects = 'data/extracted/data/event-objects.json'
 const pathScenes = ['s017', 's018', 's016']
 const stepSources = { game: 'commit:tickSceneInput', reforge: 'commit:player.input' }
 const arrow = { '-1,0': 'ArrowLeft', '1,0': 'ArrowRight', '0,-1': 'ArrowUp', '0,1': 'ArrowDown' }
@@ -180,8 +181,8 @@ function rawRideWaypoints(commands, entry) {
   return waypoints
 }
 
-function compareRide(trace, gameLeg, gameAction, observation, entry, commands) {
-  const movement = trace.events.filter(
+function compareRide(game, reforge, gameLeg, gameAction, observation, entry, commands) {
+  const movement = game.events.filter(
     ({ kind, owner, order }) =>
       kind === 'raft-motion' &&
       owner === entry.id &&
@@ -208,20 +209,27 @@ function compareRide(trace, gameLeg, gameAction, observation, entry, commands) {
   )
   assert.deepEqual(observation.ride, entry.ride)
   const boarding = continuousGrid(gameLeg.replay.steps.at(-1).to, 'game')
-  const gamePath = riding
-    .map(({ raft }) => continuousGrid(raft, 'game'))
-    .filter((pos, i, points) => !same(pos, i === 0 ? boarding : points[i - 1]))
+  const moved = riding.filter(
+    ({ raft }, i) =>
+      !same(
+        continuousGrid(raft, 'game'),
+        i === 0 ? boarding : continuousGrid(riding[i - 1].raft, 'game'),
+      ),
+  )
+  const gamePath = moved.map(({ raft }) => continuousGrid(raft, 'game'))
   // verifyMazeCausality binds each Reforge sample to the raft and party commits in the same tick.
   const reforgePath = observation.nativeRide.samples.map(({ position }) =>
     continuousGrid(position, 'reforge'),
   )
   assert.deepEqual(reforgePath, gamePath, `008 rider trajectory e${entry.id} at ${entry.entry}`)
+  const facing = compareRideFacing(game, reforge, moved, observation.nativeRide.samples)
   return {
     stage: observation.ride.stage,
     originalEntry: entry.entry,
     originalResume: entry.resume,
     waypoints,
     samples: gamePath.length,
+    facing,
     gameBoardOrder: riding[0].order,
     reforgeBoardOrder: observation.nativeRide.samples[0].raftOrder,
     gameDismountOrder: movement.at(-1).order,
@@ -229,7 +237,59 @@ function compareRide(trace, gameLeg, gameAction, observation, entry, commands) {
   }
 }
 
+function comparedActorPose(event, source, position) {
+  assert.equal(event?.kind, 'actor')
+  assert.equal(event.id, 'party')
+  assert.equal(event.source, source)
+  assert.deepEqual(event.state.position, position)
+  assert(['up', 'down', 'left', 'right'].includes(event.state.facing))
+  return { order: event.order, facing: event.state.facing }
+}
+
+function compareRideFacing(game, reforge, moves, nativeRide) {
+  const mismatches = []
+  const turns = []
+  for (const [index, moved] of moves.entries()) {
+    const gameActor = game.byOrder.get(moved.order - 1)
+    const reforgeActor = reforge.byOrder.get(nativeRide[index].partyOrder)
+    const left = comparedActorPose(gameActor, 'commit:partyRideEventObject', moved.party)
+    const right = comparedActorPose(reforgeActor, 'commit:player.pos', nativeRide[index].position)
+    const sample = { step: index + 1, game: left, reforge: right }
+    if (left.facing !== right.facing) mismatches.push(sample)
+    if (gameActor.before.facing === left.facing) continue
+    const painted = (timeline, actor) =>
+      timeline.draws.get(`party:${actor.sceneVisit}:${actor.tick}:${actor.state.position}`)
+    const gameDraw = painted(game, gameActor)
+    const reforgeDraw = painted(reforge, reforgeActor)
+    turns.push({
+      ...sample,
+      draws: [gameDraw, reforgeDraw].map((draw) =>
+        draw ? { order: draw.order, facing: draw.state.facing } : null,
+      ),
+    })
+  }
+  return {
+    checked: moves.length,
+    mismatches: mismatches.length,
+    firstDifference: mismatches[0] ?? null,
+    turns,
+  }
+}
+
+function actorTimeline({ events }) {
+  const rendered = events.filter((e) => e.kind === 'actor-render' && e.state.drawStatus === 'drawn')
+  return {
+    events,
+    rendered,
+    byOrder: new Map(events.map((event) => [event.order, event])),
+    draws: new Map(
+      rendered.map((e) => [`${e.id}:${e.sceneVisit}:${e.tick}:${e.state.position}`, e]),
+    ),
+  }
+}
+
 function compareActions(game, reforge, commands) {
+  const timelines = [actorTimeline(game.trace), actorTimeline(reforge.trace)]
   const observations = structuredClone(reforge.report.observations)
   assert.deepEqual(
     verifyMazeCausality(reforge.trace, observations),
@@ -254,7 +314,7 @@ function compareActions(game, reforge, commands) {
     if (entry.kind === 'raft') {
       return {
         ...receipt,
-        ...compareRide(game.trace, game.report.route.legs[index], left, right, entry, commands),
+        ...compareRide(...timelines, game.report.route.legs[index], left, right, entry, commands),
       }
     }
     if (entry.kind === 'hammer') {
@@ -283,6 +343,83 @@ function compareActions(game, reforge, commands) {
     actions,
     rides: rides.length,
     pairedRideSamples: rides.reduce((sum, ride) => sum + ride.samples, 0),
+  }
+}
+
+function compareRiderTurns({ actions }) {
+  const rides = actions.filter(({ kind }) => kind === 'raft')
+  const samples = rides.reduce((sum, { facing }) => sum + facing.checked, 0)
+  const mismatches = rides.reduce((sum, { facing }) => sum + facing.mismatches, 0)
+  const turns = rides.flatMap(({ action, entity, facing }) =>
+    facing.turns.map((turn) => ({ action, entity, ...turn })),
+  )
+  const missing = turns.filter(({ draws }) => draws.some((draw) => !draw))
+  const firstBadDraw = turns.find(({ game, draws }) =>
+    draws.some((draw) => draw && draw.facing !== game.facing),
+  )
+  const firstBadRide = rides.find(({ facing }) => facing.firstDifference)
+  return {
+    status: mismatches || firstBadDraw ? 'rejected' : missing.length ? 'unknown' : 'proved',
+    samples,
+    mismatches,
+    turns: turns.length,
+    missingDraws: missing.length,
+    firstMissingDraw: missing[0] ?? null,
+    firstBadDraw: firstBadDraw ?? null,
+    firstDifference: firstBadRide
+      ? {
+          entity: firstBadRide.entity,
+          action: firstBadRide.action,
+          ...firstBadRide.facing.firstDifference,
+        }
+      : null,
+  }
+}
+
+function compareStatues(game, reforge, objects) {
+  const drawings = [game, reforge].map(({ trace }) => actorTimeline(trace).rendered)
+  const states = FAIRY_MAZE_STATUES.map((id) => {
+    const original = objects.find((object) => object.id === id)
+    assert.equal(original?.spriteNum, 66)
+    const expected = {
+      position: continuousGrid([original.x, original.y], 'game'),
+      frame: original.currentFrameNum,
+    }
+    const pose = (e, engine) => ({
+      position: continuousGrid(e.state.position, engine),
+      frame: e.state.frame,
+    })
+    const samples = drawings.map((draws) =>
+      draws.filter((e) => e.scene === 's017' && e.id === `e${id}`),
+    )
+    const mismatched = samples.map((draws, index) =>
+      draws.find(
+        (e) =>
+          !same(pose(e, index === 0 ? 'game' : 'reforge'), expected) ||
+          (index === 0 ? e.state.assetId !== 66 : e.state.resourceAssetId !== 'sprite.pal.066'),
+      ),
+    )
+    const receipt = (e, index) =>
+      e && {
+        ...pose(e, index === 0 ? 'game' : 'reforge'),
+        facing: e.state.facing,
+        order: e.order,
+      }
+    return {
+      entity: `e${id}`,
+      expected,
+      game: receipt(samples[0][0], 0) ?? null,
+      reforge: receipt(samples[1][0], 1) ?? null,
+      firstDifferences: mismatched.map((e, i) => receipt(e, i) ?? null),
+    }
+  })
+  return {
+    status: states.some(({ firstDifferences }) => firstDifferences.some(Boolean))
+      ? 'rejected'
+      : states.some(({ game, reforge }) => !game || !reforge)
+        ? 'unknown'
+        : 'proved',
+    states,
   }
 }
 
@@ -392,15 +529,18 @@ export async function recompareFairyIslandMaze(root, gamePath, reforgePath) {
     readRecording(gamePath, 'game'),
     readRecording(reforgePath, 'reforge'),
   ])
-  const raw = await readFile(resolve(root, rawPath))
+  const [raw, objects] = await Promise.all(
+    [rawPath, originalObjects].map((path) => readFile(resolve(root, path))),
+  )
+  const objectsSha = createHash('sha256').update(objects).digest('hex')
   const sha256 = createHash('sha256').update(raw).digest('hex')
   return recompareBoundStory({
     root,
     fragment,
     recordings: [game, reforge],
-    semanticPaths: [rawPath],
+    semanticPaths: [rawPath, originalObjects],
     scope:
-      '008 native directions and footpoints, full rider trajectories, two pickups, six statues, the flashing plate, and independent checkpoint restores.',
+      '008 native directions and footpoints, rider trajectories and turns, six statues’ original drawn poses, two pickups, the flashing plate, and checkpoint restores.',
     compare: ({ semanticSources }) => {
       assert.equal(
         semanticSources[rawPath],
@@ -419,8 +559,15 @@ export async function recompareFairyIslandMaze(root, gamePath, reforgePath) {
           )
           return compareActions(game, reforge, JSON.parse(raw).segments[0].commands)
         })
-        if (proofs.actions.status === 'proved')
+        if (proofs.actions.status === 'proved') {
+          proofs.riderFacing = prove(() => compareRiderTurns(proofs.actions))
           proofs.gate = prove(() => compareGate(game, reforge, gameRoute, reforgeRoute))
+        }
+        proofs.statuePresentation = prove(() => {
+          assert.equal(objectsSha, semanticSources[originalObjects])
+          assert.equal(objectsSha, game.report.hashes[originalObjects])
+          return compareStatues(game, reforge, JSON.parse(objects).eventObjects)
+        })
       }
       return {
         ...proofs,
