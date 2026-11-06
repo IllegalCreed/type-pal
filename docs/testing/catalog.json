@@ -1082,14 +1082,14 @@
           "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1107,10 +1107,10 @@
         },
         {
           "path": "packages/reforge/src/world-camera.test.ts",
-          "lines": "108-125",
+          "lines": "143-157",
           "anchor": "test('pre-aborted request rejects",
           "role": "oracle",
-          "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+          "sha256": "77fd8d046b763348474c9fd306f5299c2bd1a95e8f826e8d1056b6dc65779b04"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1130,6 +1130,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "407-414",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "448-455",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-camera.test.ts",
+                "lines": "108-125",
+                "anchor": "test('pre-aborted request rejects",
+                "role": "oracle",
+                "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+              }
+            ],
+            "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1201,7 +1231,7 @@
           "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1242,6 +1272,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1242-1261",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              }
+            ],
+            "scope": "BattleHost 主壳端口下移两行，端口接线、owner 和测试字节相同。接敌选择与奖励窗变化归 007 各自证据。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1437,7 +1483,7 @@
           "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -1451,7 +1497,7 @@
           "lines": "71-88",
           "anchor": "export class WorldScenePresentation",
           "role": "contract",
-          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+          "sha256": "81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -1465,7 +1511,7 @@
           "lines": "82-105",
           "anchor": "describe('WorldScenePresentation sprite ownership'",
           "role": "oracle",
-          "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+          "sha256": "f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1485,6 +1531,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "434-445",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.ts",
+                "lines": "71-88",
+                "anchor": "export class WorldScenePresentation",
+                "role": "contract",
+                "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.test.ts",
+                "lines": "82-105",
+                "anchor": "describe('WorldScenePresentation sprite ownership'",
+                "role": "oracle",
+                "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+              }
+            ],
+            "scope": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行且字节相同。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -2028,14 +2104,14 @@
           "lines": "10-23",
           "anchor": "export function addItemToInventory",
           "role": "owner",
-          "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25"
+          "sha256": "3a104dc4f754f7a55511c864092a17f5592f655d138773609fe0c878af01f4d2"
         },
         {
           "path": "packages/game/src/core/equipment-state.ts",
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
+          "sha256": "4a6eff269afe9dd42c71d6ea6cd65fa990f0b8237c0c949cf79b838aab809fcd"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
@@ -2296,6 +2372,29 @@
             ],
             "evidence": "docs/ops/evidence/QUALITY-REVIEW-52-CLOSEOUT-1/approved-remaining-reviewed.json",
             "scope": "Only current oracle sourceRef identity/anchor; actual diff removes unused bus argument/fixture. Preserve historical execution/status/version claims, no re-credit of old SCC or route runs."
+          },
+          {
+            "date": "2026-11-05",
+            "action": "pending93-source-ref-bridge",
+            "base": "08d67e28ec454d29941f8fab614644c5e160d790",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/inventory-state.ts",
+                "lines": "10-23",
+                "anchor": "export function addItemToInventory",
+                "role": "owner",
+                "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25"
+              },
+              {
+                "path": "packages/game/src/core/equipment-state.ts",
+                "lines": "6-13",
+                "anchor": "export const MAX_PLAYER_EQUIPMENTS",
+                "role": "owner",
+                "sha256": "4993411b4f30cb53f0f21a3c170748132c9d1ec8ab6ff4e94a931def846c2205"
+              }
+            ],
+            "scope": "inventory/equipment仅注释变化，完整typed去注释正文与08d67e28相同，负控能拒绝执行增量；owner出口与caller不变。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
+            "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
           }
         ]
       },
@@ -2354,21 +2453,21 @@
           "lines": "63",
           "anchor": "export function setMagicScriptEntry",
           "role": "saved-entry-owner",
-          "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+          "sha256": "166c96f50691fe04823ee876ec90c231ecbf4c30ccde0304e019f36985b66871"
         },
         {
           "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
           "lines": "33",
           "anchor": "function play",
           "role": "oracle",
-          "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+          "sha256": "9caa5abc77a3a36e3ae9b16e371ed25271cf986ce09323aeff3167f3ab6bf31c"
         },
         {
           "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
           "lines": "59",
           "anchor": "function portal",
           "role": "oracle",
-          "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
+          "sha256": "58c479cec773d53ce304f8f156a22626bf1dfaa993144e0f69f3bcf8ef67585f"
         },
         {
           "path": "packages/reforge/src/pal-story-corrections.test.ts",
@@ -2403,7 +2502,7 @@
           "lines": "346",
           "anchor": "supplySupplementalSceneObjects(gs",
           "role": "saved-game-caller",
-          "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+          "sha256": "0359ab376ef4969136baabbdf639cf885baf3c09ad549f5ba1ce1000e432f39e"
         },
         {
           "path": "packages/pal-extract/src/resources/scene.ts",
@@ -2664,6 +2763,43 @@
             "deployedCommit": "bde596695d9c4d90a8031443ddd1ea033edd5245",
             "evidence": "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/release.json",
             "scope": "Actual official20203/812, protected CI, merged fresh build/all deployment, origin+CDN semantics and finite browser smoke. Hardware, full-story and offline activation remain untested."
+          },
+          {
+            "date": "2026-11-05",
+            "action": "pending93-source-ref-bridge",
+            "base": "08d67e28ec454d29941f8fab614644c5e160d790",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/core/object-script-state.ts",
+                "lines": "63",
+                "anchor": "export function setMagicScriptEntry",
+                "role": "saved-entry-owner",
+                "sha256": "8d805022e2ea3fc951abd83b3c58f22035140069cf79366f744df2e4e3beee32"
+              },
+              {
+                "path": "packages/game/src/core/script-story-corrections.pal.test.ts",
+                "lines": "33",
+                "anchor": "function play",
+                "role": "oracle",
+                "sha256": "7a54e1598563ca79e5db4e82f1e9214fa4c1102c5ecc7d452cdedf0085975df4"
+              },
+              {
+                "path": "packages/game/src/core/script-topology-corrections.pal.test.ts",
+                "lines": "59",
+                "anchor": "function portal",
+                "role": "oracle",
+                "sha256": "633033d8faadf015b1e70e2b14b9901bb272b270d37cba435aa34cab0ef64270"
+              },
+              {
+                "path": "packages/game/src/shell/bootstrap.ts",
+                "lines": "346",
+                "anchor": "supplySupplementalSceneObjects(gs",
+                "role": "saved-game-caller",
+                "sha256": "a4d007c9739873dc20f385b52b584de49ec57cd5c328cb11ca9d3b0b9f19fb0a"
+              }
+            ],
+            "scope": "object-script-state/bootstrap仅注释，typed去注释正文相同；story改具名选项与拓扑typed方向、原14合同保留，当前两PAL文件14绿且stderr空。既有纠错规则/脚本/资产输入不变。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
+            "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
           }
         ]
       },
@@ -2749,7 +2885,7 @@
           "lines": "46",
           "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
           "role": "display-label",
-          "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+          "sha256": "ab2b4e1627d27f1ca49acfdf37f3a7c7370faf218a9f24dce7bdfb216a25c964"
         },
         {
           "path": "packages/game/src/core/scene-system.ts",
@@ -2866,6 +3002,22 @@
             "afterLine": "157",
             "evidence": "docs/ops/evidence/QUALITY-PENDING-100-2/review.json",
             "scope": "Only shell test teardown now releases language subscribers after removing temporary DOM and restores language/lang attribute. Referenced rotation test and remainder are byte-identical; native controls-after13files81passed/empty stderr. No new hardware/browser/visual/deployment claims; old runtime receipts and publication state remain unchanged."
+          },
+          {
+            "date": "2026-11-05",
+            "action": "pending93-source-ref-bridge",
+            "base": "08d67e28ec454d29941f8fab614644c5e160d790",
+            "previousSourceRefs": [
+              {
+                "path": "packages/game/src/localization/ui-text.ts",
+                "lines": "46",
+                "anchor": "'虚拟方向键 / 左摇杆顺时针旋转45°'",
+                "role": "display-label",
+                "sha256": "8da4ef228621a771220c861dd8fe75eba28cfb888d0b295848165b378677513a"
+              }
+            ],
+            "scope": "获批uiText只读自有译文；ENGLISH_LABELS完整字面表不变，旋转设置caller传表中自有键，原标签/控制adapter不变。当前fast含原设置/壳层邻测；不重授旧浏览器/实体设备信用。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
+            "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
           }
         ]
       },

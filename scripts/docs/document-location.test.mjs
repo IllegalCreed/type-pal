@@ -1445,7 +1445,7 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
   const repository = fileURLToPath(new URL('../../', import.meta.url))
   const fixed = (revision, path) =>
     execFileSync('git', ['show', `${revision}:${path}`], { cwd: repository })
-  const featureRevision = '37bf91067012bebf1f4fedd707326c5149f4a429'
+  const featureRevision = '98628aa7593a2d0867cb85b1d08f2be694e047d3'
   const mainRevision = 'c56192d8b388b8c1b677bb547895b89cea249475'
   const before = fixed('159cd0e2f8753536800ba4635e896020a897fddc', path)
   const maintained = fixed(featureRevision, path)
@@ -1528,6 +1528,7 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
   )
   for (const source of [
     'scripts/e2e/opening-trace-plugin.mjs',
+    'scripts/e2e/opening-trace.test.mjs',
     'packages/game/src/core/inventory-state.ts',
   ]) {
     f.write(source, Buffer.concat([seedFiles[source], Buffer.from('\n// drift\n')]))

@@ -23,6 +23,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 const sourceRevision = 'ca16167540d1f0f2030ebaf126d7533037f8d0b7'
 const priorRevision = '43403a826edcaf40509f55b51e6f6214723252ed'
 const plugin = 'scripts/e2e/opening-trace-plugin.mjs'
+const renderFixture = 'scripts/e2e/opening-trace.test.mjs'
+const renderFixtureRevision = 'dee5b622f4e354fd1467d89e947c8300b2e6ba9a'
 const finding =
   '2026-11-04 source applicability: ca16167540d1f0f2030ebaf126d7533037f8d0b7 only adds s001/e25 to RF001 actor snapshots and updates the existing real projection test fixture/assertion. Older RF001 recordings retain their missing-e25 limitation; do not infer that pose from script bodies or another visit. The Game branch and prior render contract source remain unchanged, so their evidence retains its original bounded applicability. Only the changed plugin file pin is updated; historical candidate/versions, execution numbers, raw artifacts and runtimeExecution=false stay intact. No new RF001 execution is accepted by this document update.'
 const catalogNote =
@@ -42,6 +44,10 @@ function pinned(path, revision = sourceRevision) {
     )
   return gitCache.get(key)
 }
+const maintainedSource = (path) =>
+  pinned(path, path === renderFixture ? renderFixtureRevision : sourceRevision)
+const refreshRenderFixture = (text) =>
+  text.replaceAll(hash(pinned(renderFixture)), hash(maintainedSource(renderFixture)))
 const registry = JSON.parse(
   readFileSync(resolve(root, 'docs/phase-governance/templates/registry.json')),
 )
@@ -55,23 +61,26 @@ const locations = {
   changes: new Map(locationManifest.documents.map((row) => [row.path, row])),
 }
 
-function fixture([id, expectedSha256] = cases[0]) {
+function fixture([id, earlierSha256] = cases[0]) {
   const path = `docs/testing/e2e/evidence/${id}.json`
   const before = pinned(path, priorRevision)
   const prior = JSON.parse(before)
   const priorPluginSha = prior.sourceRefs.find((ref) => ref.path === plugin).sha256
-  const bytes = Buffer.from(
+  const earlier = Buffer.from(
     before
       .toString('utf8')
       .replace(priorPluginSha, hash(pinned(plugin)))
       .replace('"findings": [\n', `"findings": [\n    ${JSON.stringify(finding)},\n`),
   )
+  assert.equal(hash(earlier), earlierSha256, 'original maintenance bytes remain reproducible')
+  const bytes = Buffer.from(refreshRenderFixture(earlier.toString('utf8')))
+  const admission = testingSourceMaintenanceAdmissions.find((entry) => entry.path === path)
   assert.equal(
     hash(bytes),
-    expectedSha256,
-    'fixture must reconstruct the independently frozen bytes',
+    admission.afterSha256,
+    'fixture must reproduce the current admitted bytes',
   )
-  const sources = new Map(prior.sourceRefs.map((ref) => [ref.path, pinned(ref.path)]))
+  const sources = new Map(prior.sourceRefs.map((ref) => [ref.path, maintainedSource(ref.path)]))
   const doc = {
     path,
     templateId: 'test-machine-evidence-v1',
@@ -105,14 +114,16 @@ function catalogFixture() {
           ),
         )
   }
-  const bytes = Buffer.from(text)
+  const bytes = Buffer.from(refreshRenderFixture(text))
   assert.equal(hash(bytes), afterSha256, 'catalog fixture must reproduce the admitted bytes')
   return {
     path,
     before,
     bytes,
     sources: new Map(
-      entries.flatMap((entry) => entry.sourceRefs.map((ref) => [ref.path, pinned(ref.path)])),
+      entries.flatMap((entry) =>
+        entry.sourceRefs.map((ref) => [ref.path, maintainedSource(ref.path)]),
+      ),
     ),
     doc: {
       path,
@@ -282,8 +293,13 @@ test('an otherwise allowed new prefix is not a new independently admitted candid
 
 test('actual source bytes are required by both document consumers, independent of declared pins', () => {
   for (const f of [fixture(), catalogFixture()]) {
-    const stale = new Map([[plugin, pinned(plugin, priorRevision)]])
-    assert.match(consume(f, stale).join('\n'), /source bytes differ/u)
+    for (const [path, bytes] of [
+      [plugin, pinned(plugin, priorRevision)],
+      [renderFixture, pinned(renderFixture)],
+    ]) {
+      const stale = new Map([[path, bytes]])
+      assert.match(consume(f, stale).join('\n'), /source bytes differ/u)
+    }
   }
 })
 
