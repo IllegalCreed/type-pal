@@ -31,6 +31,10 @@ const hashFile = async (path) =>
 
 /** Recorded provenance is immutable; current verifier provenance is a separate receipt. */
 export async function recompareRecording(fragment, gamePath, reforgePath) {
+  if (fragment === '009') {
+    const { recompareFairyIslandPool } = await import('./fairy-island-pool-comparison.mjs')
+    return recompareFairyIslandPool(root, resolve(gamePath), resolve(reforgePath))
+  }
   assert(Object.hasOwn(STORY_PRODUCERS, fragment), 'offline acceptance scope is 001–006')
   const contract = await readStoryContract(fragment, root)
   const loaded = await Promise.all([gamePath, reforgePath].map(readNpcTrace))
