@@ -3,19 +3,13 @@ import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { isDeepStrictEqual as same } from 'node:util'
+import { recompareBoundStory } from './bound-story-comparison.mjs'
 import { readBoundStoryRecording } from './bound-story-recording.mjs'
 import { committedRouteReceipt } from './committed-route.mjs'
 import { continuousGrid } from './continuous-route.mjs'
 import { verifyDialoguePresentation } from './dialogue-presentation-contract.mjs'
 import { assertErrandCollector } from './errand-contract.mjs'
 import { readEvidenceArtifact } from './evidence-artifact.mjs'
-import {
-  assertDependencyClosure,
-  dependencyImpact,
-  hashRepositoryFiles,
-  localDependencyGraph,
-  recordingDependencies,
-} from './evidence-dependencies.mjs'
 import { assertFairyPoolGameTrace } from './fairy-island-pool-game-observer.mjs'
 import { assertFairyPoolGameStory } from './fairy-island-pool-game-oracle.mjs'
 import { verifyFairyIslandPoolTrace } from './fairy-island-pool-reforge-trace.mjs'
@@ -412,107 +406,35 @@ export async function recompareFairyIslandPool(root, gamePath, reforgePath) {
     readRecording(gamePath, 'game'),
     readRecording(reforgePath, 'reforge'),
   ])
-  const recordings = [game, reforge].map(({ report, files }) => ({
-    engine: report.engine,
-    revision: report.revision,
-    report: files[0],
-    trace: files[1],
-    artifacts: files.slice(2),
-    predecessor: report.predecessor,
-    sources: report.hashes,
-    dependencies: report.dependencies,
-  }))
-  assert.equal(
-    game.report.revision,
-    reforge.report.revision,
-    '009 recordings used different candidates',
-  )
-  const graph = await localDependencyGraph(root, ['scripts/e2e/recompare-recording.mjs'])
-  const paths = [
-    ...new Set([
-      ...graph.files,
-      rawScriptPath,
-      ...recordings.flatMap(({ sources }) => Object.keys(sources)),
-      'package.json',
-      'pnpm-lock.yaml',
-    ]),
-  ]
-  const current = await hashRepositoryFiles(root, paths)
-  const original = await readFile(resolve(root, rawScriptPath))
-  assert.equal(
-    digest(original),
-    game.report.hashes[rawScriptPath],
-    'original script source differs from Game recording',
-  )
-  const raw = JSON.parse(original)
-  const sourceChanges = recordings.flatMap(({ engine, sources, dependencies }) =>
-    Object.entries(sources).flatMap(([path, sha256]) =>
-      current[path] === sha256
-        ? []
-        : [
-            {
-              engine,
-              path,
-              recorded: sha256,
-              current: current[path],
-              impact: dependencyImpact(dependencies, path),
-            },
-          ],
-    ),
-  )
-  const dependencyProofs = await Promise.all(
-    recordings.map(async ({ dependencies, engine }) => {
-      const now = await recordingDependencies(root, dependencies.definition)
-      try {
-        assertDependencyClosure(dependencies, now)
-        return { engine, status: 'proved' }
-      } catch (error) {
-        if (!(error instanceof assert.AssertionError)) throw error
-        return { engine, status: 'changed', reason: error.message.split('\n')[0] }
-      }
-    }),
-  )
-  const comparison = {
-    route: prove(() => compareRoute(game, reforge)),
-    camera: prove(() => compareCamera(game.trace, reforge.trace, raw)),
-    dialogue: prove(() => compareDialogue(game.trace, reforge.trace)),
-  }
-  comparison.findings = Object.entries(comparison).flatMap(([field, proof]) =>
-    proof.status === 'proved'
-      ? []
-      : [{ type: 'fairy-pool', field, status: proof.status, reason: proof.reason }],
-  )
-  for (const proof of dependencyProofs)
-    if (proof.status !== 'proved')
-      comparison.findings.push({ type: 'producer-dependency-change', ...proof })
-  assert.deepEqual(
-    await hashRepositoryFiles(root, paths),
-    current,
-    '009 verifier/source changed during comparison',
-  )
-  for (const { files } of [game, reforge])
-    for (const artifact of files)
-      assert.equal(
-        digest(await readFile(artifact.path)),
-        artifact.sha256,
-        '009 input changed during comparison',
-      )
-  const sources = Object.fromEntries(graph.files.map((path) => [path, current[path]]))
-  return {
-    kind: 'archived-recording-recomparison',
+  return recompareBoundStory({
+    root,
     fragment: '009',
-    status: comparison.findings.length ? 'needs-review' : 'passed',
+    recordings: [game, reforge],
+    semanticPaths: [rawScriptPath],
     scope:
       '009 frozen route, authored opening pan and pool-transition dialogue draws. Native journey and terminal restore required for both engines.',
-    recordings,
-    sourceChanges,
-    currentSemanticSources: { [rawScriptPath]: current[rawScriptPath] },
-    verifier: {
-      entry: 'scripts/e2e/recompare-recording.mjs',
-      external: graph.external,
-      sources,
-      sha256: digest(JSON.stringify(sources)),
+    async compare({ semanticSources }) {
+      const original = await readFile(resolve(root, rawScriptPath))
+      assert.equal(digest(original), semanticSources[rawScriptPath])
+      assert.equal(
+        digest(original),
+        game.report.hashes[rawScriptPath],
+        'original script source differs from Game recording',
+      )
+      const raw = JSON.parse(original)
+      const comparison = {
+        route: prove(() => compareRoute(game, reforge)),
+        camera: prove(() => compareCamera(game.trace, reforge.trace, raw)),
+        dialogue: prove(() => compareDialogue(game.trace, reforge.trace)),
+      }
+      return {
+        ...comparison,
+        findings: Object.entries(comparison).flatMap(([field, proof]) =>
+          proof.status === 'proved'
+            ? []
+            : [{ type: 'fairy-pool', field, status: proof.status, reason: proof.reason }],
+        ),
+      }
     },
-    comparison,
-  }
+  })
 }

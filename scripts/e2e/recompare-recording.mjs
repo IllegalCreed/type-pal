@@ -31,6 +31,10 @@ const hashFile = async (path) =>
 
 /** Recorded provenance is immutable; current verifier provenance is a separate receipt. */
 export async function recompareRecording(fragment, gamePath, reforgePath) {
+  if (fragment === '007') {
+    const { recompareIslandEntrance } = await import('./island-entrance-comparison.mjs')
+    return recompareIslandEntrance(root, resolve(gamePath), resolve(reforgePath))
+  }
   if (fragment === '009') {
     const { recompareFairyIslandPool } = await import('./fairy-island-pool-comparison.mjs')
     return recompareFairyIslandPool(root, resolve(gamePath), resolve(reforgePath))
