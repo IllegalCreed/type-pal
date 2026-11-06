@@ -247,7 +247,10 @@ function pursuit({ report, trace }, route, original) {
     const party = route.steps.findLast(({ order }) => order < e.order)
     const presented = draws.filter(
       (draw) =>
-        e.order < draw.order && draw.order < endOrder && same(grid(draw.state.position), position),
+        e.order < draw.order &&
+        draw.order < endOrder &&
+        draw.tick === e.tick &&
+        same(grid(draw.state.position), position),
     )
     return {
       order: e.order,
