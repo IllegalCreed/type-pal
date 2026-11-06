@@ -14,14 +14,14 @@
       "lines": "407-414",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "448-455",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -138,7 +138,7 @@
           "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
         }
       ],
-      "scope": "主壳 ActiveScene 和 WorldCamera 端口原位逐字节一致。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
+      "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
       "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
     }
   ],

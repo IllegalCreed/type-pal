@@ -14,7 +14,7 @@
       "lines": "434-445",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -139,7 +139,7 @@
           "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
         }
       ],
-      "scope": "WorldMotionRuntime 端口原位逐字节一致。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
+      "scope": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行且字节相同。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
       "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
     }
   ],

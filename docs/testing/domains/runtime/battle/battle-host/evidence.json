@@ -14,7 +14,7 @@
       "lines": "1242-1261",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -116,7 +116,7 @@
           "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
         }
       ],
-      "scope": "BattleHost 主壳端口、owner 和测试逐字节一致。接敌选择与奖励窗变化归 007 各自证据。",
+      "scope": "BattleHost 主壳端口下移两行，端口接线、owner 和测试字节相同。接敌选择与奖励窗变化归 007 各自证据。",
       "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
     }
   ],
