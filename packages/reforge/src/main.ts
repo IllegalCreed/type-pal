@@ -4189,7 +4189,8 @@ export async function bootGame(
           hasBody && meta?.source === 'auto' && !entity.hostile && !authority.has(entity.id),
       }
     })
-    const partyMount = authority.get('party')?.kind === 'mount'
+    const partyOwner = authority.get('party')
+    const partyMount = partyOwner?.kind === 'mount'
     actors.push({
       actor: { kind: 'party' },
       pos: { ...player.pos },
@@ -4280,6 +4281,7 @@ export async function bootGame(
         }
       },
       commitLivePositions: () => {
+        let partyRideMoved = false
         for (const { outcome, meta, reachedEndpoint } of entityOutcomes) {
           if (meta.slot?.kind === 'move' && meta.slot.slowCadence)
             meta.slot.slowRestPending = restAfterMoveAttempt(meta.slot.speed)
@@ -4297,12 +4299,23 @@ export async function bootGame(
             }
           } else {
             if (meta.slot?.kind === 'move') meta.slot.blockedAttempts = 0
+            const transporting = meta.slot?.kind === 'move' && meta.slot.preserveFacing
+            if (
+              transporting &&
+              partyMount &&
+              partyOwner.parent === meta.entity.id &&
+              (meta.entity.pos.col !== outcome.to.col || meta.entity.pos.row !== outcome.to.row)
+            ) {
+              // The fixed mount offset gives the rider the same travel direction as the carrier.
+              facing = facingToward(meta.entity.pos, outcome.to)
+              partyRideMoved = true
+            }
             meta.entity.pos = { ...outcome.to }
             meta.entity.facing = outcome.facing
             // A ride translates its carrier without walking it. Keep its explicit/action pose
             // owner intact on every step, including arrival; gait would freeze static vehicles
             // at frame zero and pause their independently authored action timeline.
-            if (meta.slot?.kind === 'move' && meta.slot.preserveFacing) continue
+            if (transporting) continue
             if (reachedEndpoint) {
               worldPresentation.clearEntityFrame(meta.entity.id)
               motion.clearExplicitAnimation(meta.entity.id)
@@ -4385,6 +4398,7 @@ export async function bootGame(
         // optional player outcomes are committed, before terminal/touch/hostile contact reads.
         if (partyMount) {
           deriveMounts()
+          if (partyRideMoved) pushTrail(trail, player.pos, facing)
           deriveFollowers()
           updateCamera()
         }

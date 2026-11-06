@@ -17,15 +17,19 @@ afterEach(() => {
 async function travelling(ride: boolean) {
   host = await installShellHost()
   const target = { scene: 'a', entity: 'carrier' }
-  const body: AuthorCommand[] = [
-    ...(ride ? [{ kind: 'mountParty' as const, target, dx: 0, dy: 0 }] : []),
-    {
-      kind: ride ? 'ride' : 'moveEntity',
-      target,
-      to: { col: 6, row: 2, height: 0 },
-      speed: 'slow',
-    },
-  ]
+  const start = { col: 3, row: 2, height: 0 }
+  const turn = { col: 6, row: 2, height: 0 }
+  const end = ride ? { col: 6, row: 5, height: 0 } : turn
+  const body: AuthorCommand[] = ride
+    ? [
+        { kind: 'setPartyFacing', facing: 'left' },
+        { kind: 'mountParty', target, dx: 0, dy: 0 },
+        { kind: 'ride', target, to: start, speed: 'slow' },
+        { kind: 'wait', ms: 200 },
+        { kind: 'ride', target, to: turn, speed: 'slow' },
+        { kind: 'ride', target, to: end, speed: 'slow' },
+      ]
+    : [{ kind: 'moveEntity', target, to: end, speed: 'slow' }]
   const scene = sceneWithCommands('a', body)
   scene.entities = [
     {
@@ -40,7 +44,7 @@ async function travelling(ride: boolean) {
       ],
       initialPage: 'default',
       facing: 'down',
-      pos: { col: 3, row: 2, height: 0 },
+      pos: start,
     },
   ]
   const f = await shellProject({ first: scene, party: ['hero'] })
@@ -66,7 +70,12 @@ async function travelling(ride: boolean) {
   const project = await loadCurrentProjectFrom(f.source)
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')
   const present = WorldScenePresentation.prototype.sprites
-  const draws: { col: number; frame: number | undefined; gait: number | undefined }[] = []
+  const draws: {
+    carrier: typeof start
+    player: { pos: typeof start; facing: string; walking: boolean }
+    frame: number | undefined
+    gait: number | undefined
+  }[] = []
   // Observe the actual painter after its original implementation; no business function is replaced.
   vi.spyOn(WorldScenePresentation.prototype, 'sprites').mockImplementation(function (
     this: InstanceType<typeof WorldScenePresentation>,
@@ -76,7 +85,12 @@ async function travelling(ride: boolean) {
     const entity = input.entities.find((value) => value.id === 'carrier')
     if (entity)
       draws.push({
-        col: entity.pos.col,
+        carrier: { ...entity.pos },
+        player: {
+          pos: { ...input.player.pos },
+          facing: input.player.facing,
+          walking: input.player.walking,
+        },
         frame: this.renderedEntityFrame('carrier'),
         gait: input.entityGait('carrier'),
       })
@@ -87,24 +101,42 @@ async function travelling(ride: boolean) {
     projectId: 'shell-project',
   })
   await advance(host, () =>
-    state().entities.some((entity) => entity.id === 'carrier' && entity.pos.col === 6),
+    state().entities.some(
+      (entity) =>
+        entity.id === 'carrier' && entity.pos.col === end.col && entity.pos.row === end.row,
+    ),
   )
   await drain()
   expect(f.files).toEqual(before)
-  return draws.filter((draw) => draw.col > 3 && draw.col < 6)
+  return draws
 }
 
-test('a mounted carrier translates while its authored bob timeline selects both real frames', async () => {
+test('a rider faces each travel leg while the carrier keeps its authored bob timeline', async () => {
   const draws = await travelling(true)
-  expect(draws.length).toBeGreaterThan(4)
-  expect([...new Set(draws.map((draw) => draw.frame))].sort()).toEqual([0, 1])
-  expect(draws.every((draw) => draw.gait === undefined)).toBe(true)
-  expect(state().player.pos).toEqual({ col: 6, row: 2, height: 0 })
+  const stationary = draws.filter(
+    ({ carrier, player }) => carrier.col === 3 && player.pos.col === 3,
+  )
+  expect(stationary.length).toBeGreaterThan(0)
+  expect(new Set(stationary.map(({ player }) => player.facing))).toEqual(new Set(['left']))
+  const first = draws.filter(({ carrier }) => carrier.col > 3 && carrier.col < 6)
+  const second = draws.filter(({ carrier }) => carrier.row > 2 && carrier.row < 5)
+  expect(first.length).toBeGreaterThan(4)
+  expect(second.length).toBeGreaterThan(4)
+  expect(new Set(first.map(({ player }) => player.facing))).toEqual(new Set(['right']))
+  expect(new Set(second.map(({ player }) => player.facing))).toEqual(new Set(['down']))
+  const moving = [...first, ...second]
+  expect([...new Set(moving.map((draw) => draw.frame))].sort()).toEqual([0, 1])
+  expect(moving.every((draw) => draw.gait === undefined)).toBe(true)
+  expect(moving.every(({ player }) => !player.walking)).toBe(true)
+  expect(moving.map(({ player }) => player.pos)).toEqual(moving.map(({ carrier }) => carrier))
+  expect(state().player.pos).toEqual({ col: 6, row: 5, height: 0 })
   expect(state().entities.find((entity) => entity.id === 'carrier')?.facing).toBe('down')
 })
 
 test('ordinary walking still owns gait presentation over a concurrently authored action', async () => {
-  const draws = await travelling(false)
+  const draws = (await travelling(false)).filter(
+    ({ carrier }) => carrier.col > 3 && carrier.col < 6,
+  )
   expect(draws.length).toBeGreaterThan(4)
   expect(draws.every((draw) => draw.gait !== undefined)).toBe(true)
   expect(new Set(draws.map((draw) => draw.frame)).size).toBeGreaterThan(1)
