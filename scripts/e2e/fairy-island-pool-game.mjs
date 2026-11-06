@@ -19,7 +19,8 @@ import {
   installFairyPoolGameObserver,
 } from './fairy-island-pool-game-observer.mjs'
 import { assertFairyPoolGameStory } from './fairy-island-pool-game-oracle.mjs'
-import { executeFixedRoute, fixedRoutePlan } from './fixed-route-plan.mjs'
+import { fairyPoolRoutes } from './fairy-island-pool-route.mjs'
+import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
 
@@ -98,61 +99,7 @@ assertBoatGameRestore(predecessor, previousRestored.gameRestores[0].payload)
 const inputBytes = await readFile(predecessorSave.path)
 assert.equal(sha256(inputBytes), predecessorSave.sha256)
 
-const routeToHerb = fixedRoutePlan('game', {
-  id: 'peach-grove-arrival-to-herb',
-  scene,
-  start: [61, 42],
-  holds: [
-    ['ArrowUp', 52],
-    ['ArrowLeft', 7],
-    ['ArrowUp', 1],
-    ['ArrowLeft', 10],
-  ],
-  completion: { scene, position: [44, -11], mode: 'ready' },
-})
-const routeToPool = fixedRoutePlan('game', {
-  id: 'herb-to-pool-clothes',
-  scene,
-  start: [44, -11],
-  holds: [
-    ['ArrowRight', 10],
-    ['ArrowDown', 1],
-    ['ArrowRight', 31],
-    ['ArrowDown', 9],
-    ['ArrowRight', 15],
-    ['ArrowDown', 6],
-    ['ArrowRight', 1],
-    ['ArrowDown', 8],
-    ['ArrowRight', 1],
-    ['ArrowDown', 9],
-    ['ArrowRight', 1],
-    ['ArrowDown', 6],
-    ['ArrowRight', 1],
-    ['ArrowDown', 2],
-    ['ArrowRight', 1],
-    ['ArrowDown', 1],
-    ['ArrowRight', 3],
-    ['ArrowDown', 1],
-    ['ArrowRight', 1],
-    ['ArrowDown', 1],
-    ['ArrowRight', 6],
-    ['ArrowDown', 7],
-    ['ArrowRight', 1],
-    ['ArrowDown', 7],
-    ['ArrowRight', 3],
-    ['ArrowDown', 1],
-    ['ArrowRight', 4],
-    ['ArrowDown', 6],
-  ],
-  completion: { scene, position: [123, 54], mode: 'ready' },
-})
-const routeBackToPool = fixedRoutePlan('game', {
-  id: 'return-to-pool-after-first-cutscene',
-  scene,
-  start: [97, 55],
-  holds: [['ArrowRight', 25]],
-  completion: { scene, position: [122, 55], mode: 'dialogue' },
-})
+const { herb: routeToHerb, pool: routeToPool, return: routeBackToPool } = fairyPoolRoutes('game')
 
 function verifyRestore(trace, payload) {
   assertFairyPoolGameTrace(trace)

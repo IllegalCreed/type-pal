@@ -13,7 +13,8 @@ import {
   fairyIslandPoolObserverScript,
   verifyFairyIslandPoolTrace,
 } from './fairy-island-pool-reforge-trace.mjs'
-import { executeFixedRoute, fixedRoutePlan } from './fixed-route-plan.mjs'
+import { fairyPoolRoutes } from './fairy-island-pool-route.mjs'
+import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { kitchenReady } from './kitchen-contract.mjs'
 import { readLongEvidenceArchive, writeLongEvidenceArtifact } from './long-evidence.mjs'
@@ -33,15 +34,13 @@ assert(options.from, '009 requires --from a formal Reforge 008 verify report')
 assert(!(options.headed && options.headless), 'choose one browser mode')
 
 const engine = 'reforge'
+const routes = fairyPoolRoutes(engine)
 const scene = 's016'
 const sceneSource = 'projects/pal/content/scenes/s016.json'
 const map = 'projects/pal/content/maps/map-119.json'
 const herb = '99'
-const start = [61, 42]
 const herbStop = [44, -11]
-const pool = [123, 54]
 const turnBack = [97, 55]
-const lightning = [122, 55]
 const end = [114, 48]
 const departure = [123, 1, 0]
 const hiddenAtEnd = ['e212', 'e213', 'e216', 'e217', 'e218', 'e219', 'e220', 'e221', 'e233']
@@ -165,20 +164,13 @@ await runBrowserJourney({
       }
     }
 
-    const walk = async (from, to, holds, mode = 'ready') => {
-      const plan = fixedRoutePlan(engine, {
-        id: phase,
-        scene,
-        start: from,
-        holds,
-        completion: { scene, position: to, mode },
-      })
-      return executeFixedRoute({
+    const walk = (plan) =>
+      executeFixedRoute({
         page,
         engine,
         plan,
         scene,
-        id: phase,
+        id: plan.id,
         phase,
         report,
         snapshot,
@@ -186,9 +178,10 @@ await runBrowserJourney({
         health,
         evidence: () => page.evaluate(() => window.__readErrandRouteEvidence()),
         finished: (state) =>
-          at(state, to) && (mode === 'dialogue' ? !!state.runtime.dialogue : ready(state)),
+          state.scene === plan.completion.scene &&
+          same(state.position, plan.completion.position) &&
+          (plan.completion.mode === 'dialogue' ? !!state.runtime.dialogue : ready(state)),
       })
-    }
 
     // Only fully shown manual pages receive a key. Timed lightning cues advance
     // through the production dialogue/timer path without a runner key.
@@ -230,12 +223,7 @@ await runBrowserJourney({
       mark('start-ready')
 
       phase = 'herb-approach'
-      await walk(start, herbStop, [
-        ['ArrowUp', 52],
-        ['ArrowLeft', 7],
-        ['ArrowUp', 1],
-        ['ArrowLeft', 10],
-      ])
+      await walk(routes.herb)
       assert.equal((await snapshot()).actors.e233.sprite, 'sprite-69')
       phase = 'pick-herb'
       await press('pick visible herb')
@@ -251,18 +239,7 @@ await runBrowserJourney({
       report.checks.herb = { entity: 'e233', item: herb, count: 1, repeat: 'passed' }
 
       phase = 'pool-approach'
-      await walk(herbStop, pool, [
-        ['ArrowDown', 2],
-        ['ArrowRight', 5],
-        ['ArrowDown', 29],
-        ['ArrowRight', 37],
-        ['ArrowDown', 10],
-        ['ArrowRight', 10],
-        ['ArrowDown', 23],
-        ['ArrowRight', 5],
-        ['ArrowDown', 1],
-        ['ArrowRight', 22],
-      ])
+      await walk(routes.pool)
       const beforeClothes = await snapshot()
       assert.equal(beforeClothes.actors.e212.visible, true)
       assert.equal(beforeClothes.actors.e213.visible, false)
@@ -278,7 +255,7 @@ await runBrowserJourney({
       mark('pool-clothes-ready')
 
       phase = 'pool-return'
-      await walk(turnBack, lightning, [['ArrowRight', 25]], 'dialogue')
+      await walk(routes.return)
       phase = 'pool-lightning'
       mark('pool-lightning-start')
       const firstReady = await drive((state) => readyAt(state, end) && !state.actors.e213.visible)
