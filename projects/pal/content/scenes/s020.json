@@ -101,6 +101,13 @@
                       "kind": "clearDialog"
                     },
                     {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e342"
+                      }
+                    },
+                    {
                       "kind": "setEntityTriggerActivation",
                       "target": {
                         "scene": "s020",
