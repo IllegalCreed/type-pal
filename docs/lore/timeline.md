@@ -33,7 +33,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-007 从各自引擎的 006 岛口终档接续，止于迷宫首次可控，双轨和分屏已验收。008 两端已由正式 007 接续到桃花林并存读终档。末锤对白颜色已修，待用户复看分屏。各段实跑结果由任务卡持有。[007 任务卡](../tasks/cards/E2E-007-1-island-entrance-to-maze.md) · [008 任务卡](../tasks/cards/E2E-008-1-fairy-island-maze.md)
+007 从各自引擎的 006 岛口终档接续，止于迷宫首次可控，双轨和分屏已验收。008 两端已由正式 007 接续到桃花林并存读终档，末锤黄字修后分屏已获用户确认。各段实跑结果由任务卡持有。[007 任务卡](../tasks/cards/E2E-007-1-island-entrance-to-maze.md) · [008 任务卡](../tasks/cards/E2E-008-1-fairy-island-maze.md)
 
 ## 008 · 仙灵岛迷宫到桃花林
 

@@ -1,6 +1,6 @@
 # E2E-008-1 — 仙灵岛迷宫与桃花林入口
 
-Status: rework
+Status: done
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -81,14 +81,20 @@ build allowed。基点 `2bf5cfaa6`。Coding Owner `/root/reforge_007_probe` 在�
 
 逐步骤台账保留原 1,266 条事件，续记 287 条 locale 依赖的适用性。两条改动文案仅由破天锤的末锤私有脚本使用。相关脚本结论与编辑器静态前态按原回执及本次差异复核适用，末锤颜色另有实际绘制原件。[逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
 
+## 取物模式样本
+
+按 [N6b 四种取物流程](../../phase2/design-backlog.md#n6b-强类型脚本模式库) 归类，五灵符宝箱是第 2 类「宝箱领取」。首次互动打开箱子并发五种灵符，箱体保留，后续步骤提示空箱。雪莲子是第 4 类「大世界无精灵搜刮」。无精灵的交互区首次给一颗雪莲子，后续步骤提示空莲蓬。两端实跑和终档读回复验首次入袋，两个复读步骤按正文核读。它们是后续模式抽取的实际样本。
+
 ## 状态与交接
 
-修后技术复验通过，保持 `rework`，待用户复看末锤对白。修后短分屏 `build/e2e-008/yellow-review/008-hammer-yellow-dialogue.mp4` 取两端真实末锤画面，各端完整字幕帧停留约 2 秒。完整分屏在同目录 `008-game-reforge-fairy-island-maze.mp4`，左 Game，右 Reforge。
+用户于 2026-11-06 确认「我觉得008可以通过了」，接受修后末锤对白和 008 分屏，关闭颜色反例。双轨技术与用户观感验收均通过。修后短分屏 `build/e2e-008/yellow-review/008-hammer-yellow-dialogue.mp4` 取两端真实末锤画面，各端完整字幕帧停留约 2 秒。完整分屏在同目录 `008-game-reforge-fairy-island-maze.mp4`，左 Game，右 Reforge。
 
 | 引擎 | 修后正式 008 报告所在目录（归档成员） | `008.end.save.json` SHA256 |
 |---|---|---|
 | Game | `build/e2e/game-008-visual-review-2026-11-06T00-48-09-910Z/` | `9279b4f2a65d56609c43b789adc2f66bffdc2805d6911eefcc75a25b4723ffa9` |
 | Reforge | `build/e2e/reforge-008-2026-11-06T00-48-09-797Z/` | `79b52949038df0173a5e5641c80e9433de75b018a1de4944d295aec18b609b46` |
+
+以上两份修后正式终档作为后续各自引擎的接续输入。报告、存档及原生轨迹可从[黄字返工原件](../evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz) 按成员清单恢复。修后分屏与本地运行目录保留供回看，后续接续时复核临时副本的退出条件。
 
 ### 首轮技术记录
 

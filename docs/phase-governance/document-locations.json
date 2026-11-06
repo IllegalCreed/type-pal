@@ -50,14 +50,14 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "300bb234e9eebcdc74ac6e1a19a55a91d21f6bf58e84f52c466340c0cd8b7f4a",
+      "afterSha256": "8974f7595d60f05c0e3c025229f8804c9526273d93c00a7469d6c8c9a68f900f",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
         "conclusion": "accept",
         "reviewedLines": 553,
-        "acceptanceScope": "相对 2bf5cfaa6 的唯一下一步更新及邻接 008 范围；沿用前次全文/历史裁定。已核 d848 双轨正式报告、终档与黄字帧，措辞明确待用户复看，不授用户验收或 done。"
+        "acceptanceScope": "相对 fd12d21a2 的唯一 008 下一步状态更新及上下文；用户本轮明确“我觉得008可以通过了”，故修后分屏确认有授权。沿用已核同候选双轨与黄字证据，不扩大到未跑步骤或后续片段。"
       }
     },
     {
@@ -730,7 +730,7 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "72261fd6cdc155ccc2d34899e3e06f9eb3fdb462236a935b8be84087fa95bbbe",
+      "afterSha256": "55817915517abd78d2edd37da56a5189b84155ee8d401f15f37d1e8238c7f509",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -738,8 +738,8 @@
         "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
         "conclusion": "accept",
-        "reviewedLines": 120,
-        "acceptanceScope": "相对 2bf5cfaa6 的 008 单行更新及相邻活动边界；rework 与根卡、cards/index、待用户复看一致。未重新审核其他卡或授统一门收口。"
+        "reviewedLines": 119,
+        "acceptanceScope": "相对 fd12d21a2 的 008 活动行移除与 R4 进度更新；008 根卡/index 已 done，R4 仍 build，前十段/四类取物/编辑保存工作流继续，未以 008 接受关闭总范围。"
       }
     },
     {
@@ -2595,7 +2595,7 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "5327010d04a99f9b0a6923ceb4e5785908052c209bd8eee003d464e9f52ffed9",
+      "afterSha256": "f5bb3cdae67a6106041069e568fda857db9cf823c7c78c2ae760417d58bda17e",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
@@ -2604,7 +2604,7 @@
         "date": "2026-11-06",
         "conclusion": "accept",
         "reviewedLines": 583,
-        "acceptanceScope": "相对 2bf5cfaa6 仅 008 状态 review→rework；与根卡和 board 一致，沿用前次未变全文/历史裁定，无旁支状态更改。"
+        "acceptanceScope": "相对 fd12d21a2 仅将 E2E-008-1 从活动 rework 区移到完成 done 区，单一记录与根卡/用户通过一致；既有其他卡记录保持。"
       }
     },
     {
@@ -4175,14 +4175,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "688d90cb90120156f9287834551f98af50319c145034ab3ba47f937cf6ecc12d",
+      "afterSha256": "6ef4fc18e67c8e5afdfce96c6641b34f7e686750056093d0eb3bc4a690fdf2a8",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
         "conclusion": "accept",
         "reviewedLines": 151,
-        "acceptanceScope": "相对 2bf5cfaa6 首段 008 接续/修后终档更新及邻接前驱范围；已核两份正式报告均 d848、terminalSave/Restore passed、freshContext true，终档字节 SHA 匹配；仍明确待用户复看末锤黄字，未改旧正式前驱身份。"
+        "acceptanceScope": "相对 fd12d21a2 仅 008 首段改为用户已确认与各自修后终档接续；与根卡修后正式 Game/RF 终档 SHA 一致，保留修前历史身份并不混用引擎。沿用前轮已核原件与实际新会话恢复，不授后续片段验收。"
       }
     },
     {
@@ -4517,14 +4517,14 @@
     {
       "path": "docs/tasks/cards/E2E-008-1-fairy-island-maze.md",
       "templateId": "task-card-v1",
-      "afterSha256": "274db15dee19af8da9046a54d0a68147adefeeefc2ac929b8040e9632b44a87b",
+      "afterSha256": "5b7d5a1966366218289a123569b95a4dfbac6cb503555eefe078d29d7abc423a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/ui_final_doc_review",
         "date": "2026-11-06",
         "conclusion": "accept",
-        "reviewedLines": 110,
-        "acceptanceScope": "全文 110 行复读，重点核新增两行 locale 返工准入、d848 同候选正式双轨、合法 007 前驱、原生 draw waiting-input、修前白字引号/修后双黄字帧、6.4 秒短片及 221.68 秒全段身份。33 个归档载荷与 manifest 的字节/SHA 全核，归档 SHA 8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b；终档 SHA 与当前报告及原件相符。294 场景续跑材料等值有生产加载器探针和实际读档支持。首轮 c77d 的记录/反例仍保留；本轮脚本与编辑初态只授差异适用性，未冒称新增 UI 实跑、无告警或用户接受。"
+        "reviewedLines": 116,
+        "acceptanceScope": "本轮完整差异、上下文与首轮/黄字历史保全核验。用户明确接受 008，done 与修后两份正式终档接续边界相符；两终档 SHA 从既有唯一归档重新核对，首轮技术尾段及黄字返工段精确保持。定向核 N6b 四类原定义、s017/e263 与 e235 完整两个阶段正文及 1574/1575/1895/12222 文案：宝箱为第2类宝箱领取，雪莲子实体 zone=true 且无sprite，为第4类无精灵搜刮；first giveItem 与复读仅对白分离。卡明确两个复读仅正文核读、首次入袋才有双轨实跑和正式存读证据，并称后续模式抽取样本，未冒称模式库已实现或复读已跑。本次不重复双轨/UI验收。"
       }
     }
   ],
