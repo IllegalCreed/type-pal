@@ -7,7 +7,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
 
-[E2E-R4-1](../cards/E2E-R4-1-route-and-checkpoint-foundation.md) 收口时，检查器在三组 `document-audit` 中报告 16 条来源诊断。旧来源为 `dccd4095fff93626f16c68f8d4aca3627ff6e8e7`，新来源与绑定维护基点为 `a636321333e368da03607ec2ea5bba6fb205c2bc`。三组原出版 revision 仍各自引用 `d02278dc0154dd73b5db24388a35c30bb096cc81`。
+[E2E-R4-1](../cards/E2E-R4-1-route-and-checkpoint-foundation.md) 收口时，检查器在三组 `document-audit` 中报告 16 条来源诊断。旧来源为 `dccd4095fff93626f16c68f8d4aca3627ff6e8e7`，本批绑定维护基点为 `a636321333e368da03607ec2ea5bba6fb205c2bc`，现行源码复核固定在 `552b5c3f4ddcee9ee8e104d38e4a973de15a7d11`。该版本包含 008 骑乘按已提交的位移更新乘客朝向，四处 caller 声明仍逐字节相等。三组原出版 revision 仍各自引用 `d02278dc0154dd73b5db24388a35c30bb096cc81`。
 
 ## 来源与输入
 
@@ -15,7 +15,7 @@ Template: evidence-receipt-v1 / 1.0.0
 
 | 来源 | 旧 SHA-256 | 新 SHA-256 |
 | --- | --- | --- |
-| `packages/reforge/src/main.ts` | `f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120` | `c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7` |
+| `packages/reforge/src/main.ts` | `f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120` | `6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71` |
 | `packages/reforge/src/world-camera.test.ts` | `08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721` | `77fd8d046b763348474c9fd306f5299c2bd1a95e8f826e8d1056b6dc65779b04` |
 | `packages/reforge/src/world-scene-presentation.ts` | `e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0` | `81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2` |
 | `packages/reforge/src/world-scene-presentation.test.ts` | `0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd` | `f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6` |

@@ -14,14 +14,14 @@
       "lines": "407-414",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
+      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "448-455",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
+      "sha256": "6f2046060a8e32a5f5d19dd8bd0607b8ac5c9eddf77036e4a3b0a55f11ae2e71"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
