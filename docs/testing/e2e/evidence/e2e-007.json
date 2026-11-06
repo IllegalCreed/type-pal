@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-007",
+  "kind": "runtime-execution",
+  "status": "rework",
+  "candidateSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+  "versions": {
+    "content": 22,
+    "minimumSave": 12,
+    "gameSave": 1
+  },
+  "execution": {
+    "commands": [
+      [
+        "node",
+        "scripts/e2e/island-entrance.mjs",
+        "--headless",
+        "--visual-review",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/game-006-2026-11-06T07-31-57-504Z/report.json",
+        "--engine",
+        "game"
+      ],
+      [
+        "node",
+        "scripts/e2e/island-entrance.mjs",
+        "--headless",
+        "--visual-review",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/reforge-006-2026-11-06T08-06-37-166Z/report.json",
+        "--engine",
+        "reforge"
+      ]
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal",
+    "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "startedAt": null,
+    "endedAt": null,
+    "timing": "原生接续日志无进程启动和退出时刻；各步骤保留正式输入记录的 UTC 时点。",
+    "exitCode": 0,
+    "signal": null,
+    "profile": "verify with silent visual-review capture"
+  },
+  "sourceRefs": [
+    {
+      "path": "scripts/e2e/island-entrance.mjs",
+      "lines": "27-47",
+      "anchor": "assertBoatReport(predecessor)",
+      "role": "verify caller and legal predecessor",
+      "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+    },
+    {
+      "path": "scripts/e2e/island-entrance.mjs",
+      "lines": "48-67",
+      "anchor": "const dockPlan = fixedRoutePlan",
+      "role": "fixed route and endpoint",
+      "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+    },
+    {
+      "path": "scripts/e2e/island-entrance.mjs",
+      "lines": "290-337",
+      "anchor": "only the first valid speed-win request may succeed",
+      "role": "actual encounter and settlement",
+      "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+    },
+    {
+      "path": "scripts/e2e/island-entrance.mjs",
+      "lines": "469-510",
+      "anchor": "assertBoatGameSaveCapture(payload, capture.payload)",
+      "role": "formal save and fresh restore",
+      "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+    },
+    {
+      "path": "scripts/e2e/recompare-recording.mjs",
+      "lines": "33-37",
+      "anchor": "return recompareIslandEntrance",
+      "role": "offline public caller",
+      "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+    },
+    {
+      "path": "scripts/e2e/island-entrance-comparison.mjs",
+      "lines": "328-368",
+      "anchor": "export async function recompareIslandEntrance",
+      "role": "committed route, encounters and sprite draws",
+      "sha256": "ee4ff2b630355eea5be90f1fa33b4a77ba4a429b94319c95624e730803268d7e"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-168",
+      "anchor": "export const CONTENT_VERSION = 22",
+      "role": "canonical content version",
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+    },
+    {
+      "path": "packages/reforge/src/save/types.ts",
+      "lines": "9-9",
+      "anchor": "export const SAVE_VERSION = 12",
+      "role": "Reforge save version",
+      "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+    }
+  ],
+  "publicCallers": [
+    "node scripts/e2e/island-entrance.mjs --engine game --headless --visual-review --from <game006/report.json>",
+    "node scripts/e2e/island-entrance.mjs --engine reforge --headless --visual-review --from <reforge006/report.json>",
+    "node scripts/e2e/recompare-recording.mjs 007 <game007/report.json> <reforge007/report.json> <new-output.json>"
+  ],
+  "legalInputs": [
+    "各引擎实际完成 006 并保存的本引擎 verify 报告和对应终档字节",
+    "Game SAVE1，Reforge content22 / SAVE12；正常方向键逐步走 44 格加 88 格",
+    "实际普通草妖遭遇，李逍遥单人；首轮就绪后一次速胜请求，经 Enter 确认正式结算",
+    "正式 007 终档通过本引擎独立浏览器会话恢复"
+  ],
+  "businessOracle": {
+    "type": "island-entrance-committed-route-encounter-and-handoff",
+    "assertions": [
+      "两端真实移动提交逐步匹配，码头 44 步和岛入口 88 步，在迷宫首次恢复操控处停止",
+      "同格同序触发 e206、e207、e209，正式结算后从原格可控，经验合计 +8，钱数不变",
+      "e206 至 e209 的逐步追逐位置和实际绘制帧匹配；e208 参与追逐但没有接敌",
+      "各自正式保存与独立会话恢复核对持久域，确认 008 实际消费对应终档"
+    ]
+  },
+  "dedupe": {
+    "result": "bounded-distinct",
+    "against": ["e2e-contract", "e2e-006", "旧 007 不同遭遇与奖励窗执行", "008 迷宫机关"],
+    "notes": "006 证明实际前驱，007 只授本段运行结果；编辑器逐步骤证据和作者观感分别按原裁定记录。"
+  },
+  "steps": [
+    {
+      "id": "game-007-verify",
+      "engine": "game",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "firstRecordedInputAt": "2026-11-06T08:04:47.853Z",
+      "lastRecordedInputAt": "2026-11-06T08:05:20.447Z",
+      "sourceJournal": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-game-first-failed/journey.json /stages fragment=007",
+      "predecessor": {
+        "revision": "b3b399c5f2590ac57432fb6934d470348150f637",
+        "report": "docs/tasks/evidence/E2E-008-1-orientation-recheck-20261106.tar.gz#build/e2e/game-006-2026-11-06T07-31-57-504Z/report.json",
+        "checkpoint": "docs/tasks/evidence/E2E-008-1-orientation-recheck-20261106.tar.gz#build/e2e/game-006-2026-11-06T07-31-57-504Z/006.end.save.json"
+      },
+      "report": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/report.json",
+      "checkpoint": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/007.end.save.json",
+      "freshTrace": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/007-fresh-trace.json",
+      "downstream": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-game-second-attempt/journey.json /stages fragment=008"
+    },
+    {
+      "id": "reforge-007-verify",
+      "engine": "reforge",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "firstRecordedInputAt": "2026-11-06T08:08:33.367Z",
+      "lastRecordedInputAt": "2026-11-06T08:08:49.684Z",
+      "sourceJournal": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-reforge/journey.json /stages fragment=007",
+      "predecessor": {
+        "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+        "report": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-006-2026-11-06T08-06-37-166Z/report.json",
+        "checkpoint": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-006-2026-11-06T08-06-37-166Z/006.end.save.json"
+      },
+      "report": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/report.json",
+      "checkpoint": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007.end.save.json",
+      "freshTrace": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007-fresh-trace.json",
+      "downstream": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-reforge/journey.json /stages fragment=008"
+    },
+    {
+      "id": "compare-007",
+      "status": "passed",
+      "findings": 0,
+      "sourceChanges": 0,
+      "artifact": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/007-mounted-pose-final.json"
+    },
+    {
+      "id": "editor-preview-007",
+      "status": "passed",
+      "revision": "5bbc2e5de5af771862dc725d6799d5af357e0073",
+      "savedSidecarRevision": "cb132e06eb1dbdfc3f91f6974645340a56b02351",
+      "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+      "artifact": "docs/tasks/evidence/E2E-R4-1-hostile-script-applicability-20261106.tar.gz#build/editor-007-preview/receipt.json /actions"
+    },
+    {
+      "id": "review-007-current-clip",
+      "status": "pending",
+      "artifact": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json"
+    }
+  ],
+  "hashes": [
+    {
+      "role": "saved editor sidecar",
+      "path": "projects/pal/editor/script-preview.json",
+      "revision": "cb132e06eb1dbdfc3f91f6974645340a56b02351",
+      "sha256": "8cb13aa2fadbbe081c5c28f67a0742cb69e774ec3b11efecfa1ed949ebfbb5be"
+    },
+    {
+      "role": "runtime recording candidate editor sidecar",
+      "path": "projects/pal/editor/script-preview.json",
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "sha256": "072f76aea74786af91a6ce1b93fb3e29fa5a7100beff3ee7f9e645dd77aa383e"
+    },
+    {
+      "role": "identical selected preview state and binding",
+      "stateId": "8ed6846e-9aaa-4e72-a19c-23bc09870f3a",
+      "sha256": "018a5f534392e065ab2500f0b9c0ec9dcb5e9847147b1c9ef7692e8b473188fe",
+      "codec": "UTF-8 sorted-key compact JSON of filtered states, bindings and schemeDefaults"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz",
+      "sha256": "e45bce10751d3c7f8acac8acd1c6de6c1f8b177127f28cd5af02ea12aed3b0a9",
+      "bytes": 10805917,
+      "role": "当前 007 双轨、验收录制收据及实际接续",
+      "members": [
+        {
+          "path": "build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/report.json",
+          "sha256": "47ac66ac8afe2e481eeb89a8354b3fe2a3ce4f4c16f05c6d57630a366a7c9941",
+          "bytes": 213783
+        },
+        {
+          "path": "build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/007-trace.json",
+          "sha256": "632196d0fbd6a335573ef9f88144914b561f42cd2723286eaa01cfdcfcd6285f",
+          "bytes": 6192864
+        },
+        {
+          "path": "build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/007-fresh-trace.json",
+          "sha256": "03de34e17c7f937dfb401a5b5c4a9cc0f4327670ccde5b50397ab2678f1c8cf8",
+          "bytes": 2124708
+        },
+        {
+          "path": "build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/007.end.save.json",
+          "sha256": "4f2b6c740f31d3e19c95326cb2151451d53b74d2b4340de9b17acb7cb11510a2",
+          "bytes": 1008502
+        },
+        {
+          "path": "build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/report.json",
+          "sha256": "4dd015e27970da6e7cdc12b93e3080b65b42166a69a336bc9f6e4b2ae9a02258",
+          "bytes": 212350
+        },
+        {
+          "path": "build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007-trace.json",
+          "sha256": "0a10c7763ad8002b1954e7d67d35b87fbdb5f0960f28d39f9221ff309cba14a1",
+          "bytes": 5382047
+        },
+        {
+          "path": "build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007-fresh-trace.json",
+          "sha256": "8ee3d34b75c5a63f3ed85656ee5b586c5c2c85609681e3ff18cfbea47420ead5",
+          "bytes": 896602
+        },
+        {
+          "path": "build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007.end.save.json",
+          "sha256": "44e89b39fcb6b47c4c8d8c30638bcc506bc5beee52403b3506af62c0156fe58b",
+          "bytes": 54628
+        },
+        {
+          "path": "build/e2e/reforge-006-2026-11-06T08-06-37-166Z/report.json",
+          "sha256": "f51780b09e34ec1d4dea4c263c73c9c229638846a222d380c2741c821ce44593",
+          "bytes": 431174
+        },
+        {
+          "path": "build/e2e/reforge-006-2026-11-06T08-06-37-166Z/006.end.save.json",
+          "sha256": "18895d094799482e58b79be7a376d336a02b5b42c6d35a695e49e762171cfdda",
+          "bytes": 41316
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-game-first-failed/journey.json",
+          "sha256": "e4c6020c4b79a1dc27a4a78bb502f562d398177a5ae25c4d7ce6b5b07774fe0f",
+          "bytes": 3764
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-reforge/journey.json",
+          "sha256": "59af731bec357fef2d294f19699e697c8915b889ab905b1ee5e48f13735715f4",
+          "bytes": 5045
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-game-second-attempt/journey.json",
+          "sha256": "df8ec00f48da31384fd45779c09f87c6f03612e3c64f7ff2dff02f1668fd26d7",
+          "bytes": 3800
+        },
+        {
+          "path": "build/e2e-rework/007-mounted-pose-final.json",
+          "sha256": "c54d806444d81d23c60a77eafe9522223cbd7835301b589547173d1e1094ac4b",
+          "bytes": 271794
+        },
+        {
+          "path": "build/e2e-rework/review-007-mounted-pose/review-media.json",
+          "sha256": "204244dd738f3128cca9a45aec10dabe665ce108c3dee2b42dae06a0cc014cac",
+          "bytes": 2595
+        },
+        {
+          "path": "build/e2e-rework/review-007-mounted-pose/alignment.json",
+          "sha256": "d7e4c8af868023a073b5da088931a065ae830f5241de36477670c289dceea673",
+          "bytes": 5508
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-orientation-recheck-20261106.tar.gz",
+      "sha256": "5f5b85e831be3e6248783694ddb207a64f4c8fdf69cda428f938e033c1936067",
+      "bytes": 11182680,
+      "role": "本轮 Game 实际 006 前驱原件",
+      "members": [
+        {
+          "path": "build/e2e/game-006-2026-11-06T07-31-57-504Z/report.json",
+          "sha256": "fc44ae14fb5829fe22ddbe29cfe46bb3d222ba8da55c13466141e44f011af54d",
+          "bytes": 422800
+        },
+        {
+          "path": "build/e2e/game-006-2026-11-06T07-31-57-504Z/006.end.save.json",
+          "sha256": "756158dad2b5dbe77d03b00a32f38c4847f060589db14b824a9607efd64c19e4",
+          "bytes": 994385
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-hostile-script-applicability-20261106.tar.gz",
+      "sha256": "3a388c368f3ebfea387caec8933f7f931c03b6556da8e15d2029ee7413dee712",
+      "bytes": 882709,
+      "role": "迷宫入口编辑器保存、重开与适用性",
+      "members": [
+        {
+          "path": "build/editor-007-preview/receipt.json",
+          "sha256": "f3e69ef72d4ed23814c827b65a3aed19c23053792dad3d2c509e1e4d769088f9",
+          "bytes": 12920
+        },
+        {
+          "path": "build/editor-007-preview/verify-actions.json",
+          "sha256": "e0b9edfec5a99f1a179b8ca1f5f4b43fa7c9fd2fe07760628c88c5ee4fdae52d",
+          "bytes": 6870
+        },
+        {
+          "path": "build/editor-007-preview/runtime-applicability.json",
+          "sha256": "6295a0e423023abf6625d555326b3e5cb04049e5c307d1307ae85c61126700f4",
+          "bytes": 1101
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz",
+      "sha256": "ee8007e7ba6079b9035f408d0375207278ce772f0f008c2517efe48a5fbeb547",
+      "bytes": 8616834,
+      "role": "旧路线反例与首次共同路线比较",
+      "members": [
+        {
+          "path": "build/e2e-rework/007-old-integrated.json",
+          "sha256": "1ac2720db72718080430c5945df0162532b7edf062192aa728e0ba87273b4989",
+          "bytes": 272768
+        },
+        {
+          "path": "build/e2e-rework/007-shared-default.json",
+          "sha256": "bca5d7c5bcec0057d7e74e7169e71e1bcdfba75186d077ceb3955f3c946c5cb7",
+          "bytes": 271848
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-settlement-layout-20261106.tar.gz",
+      "sha256": "3074c77313c4eb7524db6ad20d5b90c574099f194487378568775bea4b514268",
+      "bytes": 1990194,
+      "role": "历史奖励窗原始截图与实现回执",
+      "members": [
+        {
+          "path": "build/e2e/game-007-visual-review-rewards-2026-11-05T15-30-12-282Z/e206-exp-cash.png",
+          "sha256": "2d6c49c58475b6d237d27a67bb92eaa1f8e57b8a19bc68c951684fbc98377cc7",
+          "bytes": 43704
+        },
+        {
+          "path": "build/e2e/reforge-007-visual-review-rewards-2026-11-05T15-30-13-385Z/e206-exp-cash.png",
+          "sha256": "be1e55d5042d29a3decaa33d132b3563eb4db4ac399d4af390ce85a454040271",
+          "bytes": 41104
+        },
+        {
+          "path": "build/e2e-007/settlement-layout/coding-owner-receipt.json",
+          "sha256": "da898dd21c130a42017b1a6e0e372a85aa84fc705e6415a00905c19992d68395",
+          "bytes": 20990
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+      "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+      "bytes": 14774993,
+      "role": "初次编辑器操作原件与首轮独立核验",
+      "members": [
+        {
+          "path": "build/editor-007-preview/receipt.json",
+          "sha256": "48a8065a411c1445acde820122135e131a25e3463aaa5ecef4ef1f1869f81982",
+          "bytes": 9771
+        }
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "id": "historical-encounter-mismatch",
+      "result": "三场对四场，首个额外接敌是 e208。",
+      "artifact": "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz#build/e2e-rework/007-old-integrated.json"
+    },
+    {
+      "id": "next-fragment-game-input-guard",
+      "result": "Game 007 子进程通过。外层接续日志在 008 拒绝一次多走，另轮接续同一 007 终档。",
+      "artifact": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-game-first-failed/journey.json /stages fragment=008"
+    }
+  ],
+  "cleanup": {
+    "complete": false,
+    "paths": [],
+    "scope": "原生接续子进程均退出；双轨原件入库，本地录像按作者复看继续留存。"
+  },
+  "history": [
+    {
+      "revision": "6b2a252984431d6866e68c1e38f3ea5424535836",
+      "date": "2026-11-05",
+      "action": "first-dual-native-run",
+      "result": "Game 三场，Reforge 四场，均完成迷宫终档和恢复。"
+    },
+    {
+      "revision": "6557d7c1832c920edb3fbb1719402a923797adf4",
+      "date": "2026-11-06",
+      "action": "settlement-layout-rerun",
+      "result": "首场奖励窗修后分屏获作者通过。"
+    },
+    {
+      "revision": "5bbc2e5de5af771862dc725d6799d5af357e0073",
+      "date": "2026-11-06",
+      "action": "first-common-route-runtime-match",
+      "result": "统一接敌、逐步追逐和实绘通过，编辑器迷宫入口初态以该轮首叶现场取证。"
+    },
+    {
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "date": "2026-11-06",
+      "action": "rerun-after-shared-mounted-pose-fix",
+      "result": "双轨技术对照通过，迷宫终档均正式恢复并供 008 接续。"
+    }
+  ],
+  "runtimeExecution": {
+    "performed": true,
+    "date": "2026-11-06",
+    "engines": ["game", "reforge"],
+    "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "technicalResult": "passed",
+    "userReviewCurrent": "pending"
+  },
+  "claims": [
+    {
+      "id": "route-encounters-chase",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/007-mounted-pose-final.json /comparison"
+      ]
+    },
+    {
+      "id": "native-save-and-restore",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/report.json /checks /checkpoint /persistence",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/report.json /checks /checkpoint /persistence"
+      ]
+    },
+    {
+      "id": "speed-win-single-request-boundary",
+      "result": "source-backed",
+      "evidence": ["scripts/e2e/island-entrance.mjs:290-337"]
+    },
+    {
+      "id": "editor-save-reopen-and-preview-reset",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-R4-1-hostile-script-applicability-20261106.tar.gz#build/editor-007-preview/receipt.json /save /actions /fields /references",
+        "docs/tasks/evidence/E2E-R4-1-hostile-script-applicability-20261106.tar.gz#build/editor-007-preview/runtime-applicability.json /before /after",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/007-trace.json /causes sceneVisit=6 runId=10 order=5963"
+      ]
+    },
+    {
+      "id": "historical-reward-window-user-acceptance",
+      "result": "recorded-user-acceptance",
+      "evidence": [
+        "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md#2026-11-06-奖励窗观感反例",
+        "docs/tasks/evidence/E2E-007-1-settlement-layout-20261106.tar.gz#build/e2e-007/settlement-layout/coding-owner-receipt.json"
+      ]
+    },
+    {
+      "id": "current-split-screen-user-acceptance",
+      "result": "pending",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json"
+      ]
+    }
+  ],
+  "localReviewMedia": {
+    "manifest": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-007-mounted-pose/review-media.json",
+    "clip": {
+      "path": "/Users/zhangxu/.codex/worktrees/e2e-009-peach-grove/type-pal/build/e2e-rework/review-007-mounted-pose/007-game-reforge.mp4",
+      "sha256": "24b609ea42db5308b596dbb3556d889dc2ef6c595864a28988c81353983e05ad",
+      "bytes": 13356700,
+      "seconds": 28.12
+    },
+    "originals": [
+      {
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/game-007-visual-review-2026-11-06T08-04-38-750Z/visual-review-1.webm",
+        "sha256": "05668f9ec065a12d35c8b85368536ce0fd1983fd54501266c1016aebbe625e18",
+        "bytes": 3925815
+      },
+      {
+        "path": "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/reforge-007-visual-review-2026-11-06T08-08-28-828Z/visual-review-1.webm",
+        "sha256": "5b55138d3560fffdd9d000fdb3e744c2e04b71beb15108478d1fb7781b69798b",
+        "bytes": 3295367
+      }
+    ],
+    "retention": "本地交付目录留作作者复看，仓库归档保存采集与对齐收据。"
+  },
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "execution",
+    "lastReviewed": "2026-11-06",
+    "owner": "Codex",
+    "provenance": ["两端原生 verify 报告及接续子进程回执", "正式比较、录制对齐与编辑器独立取证"],
+    "sourceSha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1",
+    "sourceGitObject": "d80ee5dad289b470b35ef7827a56176ee17924d6",
+    "sourceGitRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "sourceRole": "007 正式验证生产者入口",
+    "scope": "007 同路双轨、正式存读、与独立编辑器静态初态证据。",
+    "beforeAfter": "建立 e2e-007 发布配对，原生归档与前轮裁定继续按原身份使用。",
+    "stopLine": "首次迷宫可控。战斗回合策略、音频和后续机关各按独立验收范围。",
+    "nextStep": "作者复看当前分屏，Codex 独立验收本发布配对。"
+  }
+}
