@@ -453,6 +453,66 @@ function compareChest(game, reforge) {
   })
 }
 
+export function compareWaterMoonPalaceMedicineFacing(game, reforge) {
+  const gameDraws = (trace) =>
+    trace.events
+      .filter(({ kind, scene }) => kind === 'world-draw' && scene === 's020')
+      .map(({ order, actors }) => ({ order, throughOrder: order, pose: actors.e342 }))
+  const reforgeDraws = (trace) =>
+    trace.events
+      .filter(
+        ({ kind, scene, id, state }) =>
+          kind === 'actor-render' &&
+          scene === 's020' &&
+          id === 'e342' &&
+          state.drawStatus === 'drawn',
+      )
+      .map(({ order, throughOrder, renderId, throughRenderId, state }) => ({
+        order,
+        throughOrder,
+        renderId,
+        throughRenderId,
+        pose: state,
+      }))
+  const lastGameDraw = (trace) => gameDraws(trace).at(-1)
+  const lastReforgeDraw = (trace) => {
+    const last = trace.worldRenders.findLast(({ scene }) => scene === 's020')
+    assert(last, 'missing final Reforge palace paint')
+    return reforgeDraws(trace).find(
+      ({ renderId, throughRenderId }) =>
+        renderId <= last.renderId && last.renderId <= throughRenderId,
+    )
+  }
+  const left = gameDraws(game.trace)
+  const right = reforgeDraws(reforge.trace)
+  const before = { position: [95, 23], facing: 'up', frame: 6 }
+  const during = { position: [95, 23], facing: 'down', frame: 0 }
+  const check = (draw, engine, expected, label) => {
+    assert(draw?.pose, `${engine} missing the actual ${label} medicine draw`)
+    const [observed] = normalizeDraws([draw.pose], engine)
+    assert.deepEqual(observed, expected, `${engine} palace medicine-facing differs at ${label}`)
+    return draw.order
+  }
+  return Object.fromEntries(
+    [
+      ['game', game, left, game.story.pellet.start.order, lastGameDraw],
+      ['reforge', reforge, right, reforge.story.pellet.start, lastReforgeDraw],
+    ].map(([engine, recording, draws, start, lastDraw]) => {
+      const prior = draws.findLast(({ order }) => order < start)
+      const turn = draws.find(({ throughOrder }) => throughOrder >= start)
+      return [
+        engine,
+        {
+          before: check(prior, engine, before, 'before'),
+          first: check(turn, engine, during, 'first'),
+          final: check(lastDraw(recording.trace), engine, during, 'final'),
+          fresh: check(lastDraw(recording.fresh), engine, during, 'fresh'),
+        },
+      ]
+    }),
+  )
+}
+
 export async function recompareWaterMoonPalace(root, gamePath, reforgePath) {
   const [game, reforge] = await Promise.all([
     readRecording(gamePath, 'game'),
@@ -478,6 +538,7 @@ export async function recompareWaterMoonPalace(root, gamePath, reforgePath) {
       const dialogue = comparePages(game, reforge)
       const presentation = compareStoryCutovers(game, reforge)
       const chest = compareChest(game, reforge)
+      const medicineFacing = compareWaterMoonPalaceMedicineFacing(game, reforge)
       const gameWater = game.story.water.recovery
       const reforgeWater = reforge.story.water.recovery
       const vitals = (roles) => roles.map(({ hp, mp }) => [hp, mp])
@@ -507,6 +568,7 @@ export async function recompareWaterMoonPalace(root, gamePath, reforgePath) {
           game: game.story.pellet.end.order,
           reforge: reforge.story.pellet.ready.order,
           position: [96, 24],
+          lingerDraws: medicineFacing,
         },
       }
     },
