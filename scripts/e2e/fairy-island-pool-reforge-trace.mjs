@@ -318,7 +318,7 @@ function verifyLingerApproach(trace, lightning, end, glide) {
     (event) =>
       event.id === 'e219' &&
       event.kind === 'actor' &&
-      event.source === 'commit:meta.entity.pos' &&
+      event.source === 'commit:e.pos' &&
       glide.order < event.order &&
       event.order < glideEnd.order &&
       !same(event.before?.position, event.state.position),
@@ -368,6 +368,12 @@ export function verifyFairyIslandPoolTrace(trace) {
   assert(
     departureEnd.order > lightningReady.order,
     'missing visible departure after foreground release',
+  )
+  assert(
+    !trace.events.some(
+      (event) => event.order > lightningReady.order && event.source === 'commit:player.input',
+    ),
+    'player moved after the final return of control',
   )
 
   assert.equal(herb.poses.e233.state.state, 1)

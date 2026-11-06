@@ -47,7 +47,8 @@ const departure = [123, 1, 0]
 const hiddenAtEnd = ['e212', 'e213', 'e216', 'e217', 'e218', 'e219', 'e220', 'e221', 'e233']
 
 const reportPath = resolve(options.from)
-const predecessor = JSON.parse(await readFile(reportPath))
+const reportBytes = await readFile(reportPath)
+const predecessor = JSON.parse(reportBytes)
 assert.equal(predecessor.kind, 'verify')
 assert.equal(predecessor.profile, 'verify')
 assert.equal(predecessor.case, 'story')
@@ -62,6 +63,7 @@ const {
   engine,
   '008',
 )
+assert.equal(inputReport.sha256, sha256(reportBytes), '008 report changed during preflight')
 assert.deepEqual(payload.position, {
   sceneId: scene,
   pos: { col: 61, row: 42, height: 0 },
