@@ -353,17 +353,27 @@ test('real motion queues retain invocation identity through commit, acknowledgem
   const advance = new Function(
     'deps',
     ts.transpile(
-      `const {${Object.keys(deps)}}=deps;let walking=false,facing='down',stepFrame=0;return ()=>{const partyMove=motion.partyMove;${branch.getText(ast)}}`,
+      `
+        const {${Object.keys(deps)}} = deps
+        let walking = false, facing = 'down', stepFrame = 0
+        let authoredPartyFacing = { owner: { running: true }, facing: 'left' }
+        return () => {
+          const partyMove = motion.partyMove
+          ${branch.getText(ast)}
+          return authoredPartyFacing
+        }
+      `,
       { target: ts.ScriptTarget.ES2022 },
     ),
   )(deps)
+  assert.equal(advance().facing, 'left', 'without displacement the authored pose remains')
   globalThis.__openingCauseFrame({ now, realNow: now, frozen: false, stepping: false })
   run = await start({ kind: 'moveParty', to: { col: 1.25, row: 0, height: 0 }, speed: 'normal' })
   for (let i = 0; i < 2; i++) {
     now += 100
     globalThis.__openingCauseFrame({ now, realNow: now, frozen: false, stepping: false })
     assert(motion.advanceCadence(100, false))
-    advance()
+    assert.equal(advance(), null, 'committed party displacement releases the authored pose')
     for (const resume of motionContinuations.splice(0)) resume()
     await new Promise(setImmediate)
   }
