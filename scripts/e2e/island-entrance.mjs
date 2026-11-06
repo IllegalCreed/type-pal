@@ -30,6 +30,7 @@ const { values: options } = parseArgs({
     from: { type: 'string' },
     headed: { type: 'boolean' },
     headless: { type: 'boolean' },
+    'visual-review': { type: 'boolean' },
   },
 })
 const engine = options.engine
@@ -139,7 +140,7 @@ function observeBattleWorld({ game, entityId }) {
 }
 
 await runBrowserJourney({
-  name: `${engine}-007`,
+  name: `${engine}-007${options['visual-review'] ? '-visual-review' : ''}`,
   packageName: `@type-pal/${engine}`,
   environment: game ? { E2E: '1' } : { VITE_PROJECT_ID: 'pal' },
   traceConfig: `scripts/e2e/island-${engine}.config.mts`,
@@ -161,6 +162,15 @@ await runBrowserJourney({
       encounters: [],
       checks: {},
     })
+    const visualReview = options['visual-review'] === true
+    if (visualReview) report.visualReviewMarks = []
+    let videoStart
+    const mark = (name) => {
+      report.visualReviewMarks?.push({
+        name,
+        elapsedMs: Math.round(performance.now() - videoStart),
+      })
+    }
     let page
     let phase = 'bootstrap'
     const snapshot = () => page.evaluate(game ? readErrandGame : readErrandReforge)
@@ -175,9 +185,10 @@ await runBrowserJourney({
     const waitReady = (scene) =>
       until(snapshot, (state) => ready(state, scene), `control returned in ${scene}`)
 
-    const restore = async (bytes, scene, label) => {
+    const restore = async (bytes, scene, label, visualReviewVideo = false) => {
       phase = 'restore'
-      page = await newPage(label)
+      if (visualReviewVideo) videoStart = performance.now()
+      page = await newPage(label, { visualReviewVideo })
       if (game) {
         await page.goto(baseURL)
         await until(
@@ -279,6 +290,7 @@ await runBrowserJourney({
       assert(!report.encounters.some((entry) => entry.entityId === entityId), 'encounter repeated')
       const encounter = { entityId, teamId, status: 'entered', screens: [] }
       report.encounters.push(encounter)
+      mark(`encounter-${entityId}`)
       const launch = await snapshot()
       assert.equal(continuousScene(launch, engine), 's015')
       const before = await page.evaluate(observeBattleWorld, { game, entityId })
@@ -312,6 +324,7 @@ await runBrowserJourney({
         if (!screen) break
         assert(screen.requested)
         encounter.screens.push(screen.settlement)
+        mark(`settlement-${entityId}-${encounter.screens.length}`)
         await press('Enter', 'confirm the actual victory settlement')
       }
       assert(encounter.screens.length > 0, 'victory returned without a formal settlement screen')
@@ -400,8 +413,9 @@ await runBrowserJourney({
       }
     }
 
-    const start = await restore(inputBytes, 's014', '007-real-006-restore')
+    const start = await restore(inputBytes, 's014', '007-real-006-restore', visualReview)
     report.checks.predecessorRestore = start.proof
+    mark('start-ready')
     phase = 'walk-dock'
     await executeFixedRoute({
       page,
@@ -418,6 +432,7 @@ await runBrowserJourney({
       health,
     })
     const end = await traverseEntrance()
+    mark('end-ready')
     assert(report.encounters.length > 0, '007 route did not encounter an enemy')
     assert(report.encounters.every((entry) => entry.status === 'passed'))
     report.route.status = 'passed'
