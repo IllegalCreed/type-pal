@@ -19,35 +19,6 @@ describe('current hostile policy', () => {
     ).not.toThrow()
   })
 
-  test('accepts an explicit fractional encounter range and world-step chase', () => {
-    expect(() =>
-      checkRuntimeHostileBehavior({
-        ...base,
-        preStepEncounterRange: 1.5,
-        chase: { range: 6, speed: 2, cadence: 'world-step' },
-      }),
-    ).not.toThrow()
-  })
-
-  test.each([
-    0,
-    -1,
-    Infinity,
-    NaN,
-    '1.5',
-    null,
-  ])('rejects invalid pre-step encounter range %s', (preStepEncounterRange) => {
-    expect(() => checkRuntimeHostileBehavior({ ...base, preStepEncounterRange })).toThrow(
-      /preStepEncounterRange: 期望正有限数/,
-    )
-  })
-
-  test.each(['timer', 1, null])('rejects unrecognized chase cadence %s', (cadence) => {
-    expect(() =>
-      checkRuntimeHostileBehavior({ ...base, chase: { range: 6, speed: 2, cadence } }),
-    ).toThrow(/chase.cadence: 期望 world-step/)
-  })
-
   test('rejects legacy respawn/success fields and missing policies', () => {
     expect(() => checkRuntimeHostileBehavior({ ...base, respawnSeconds: 80 })).toThrow(/未知字段/)
     expect(() => checkRuntimeHostileBehavior({ ...base, success: 'hide' })).toThrow(/未知字段/)

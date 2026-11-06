@@ -124,7 +124,7 @@ describe('A3 world runtime ownership', () => {
       'motion.teardownScene',
       'beforeCancelSlots:',
       'beforeReleaseAllAuthority:',
-      'hostileCd.clear()',
+      'hostileReady.clear()',
       'pendingTouchTrigger.clear()',
       'cameraSession.reset()',
     ])

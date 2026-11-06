@@ -96,15 +96,13 @@ function checkPlayerFleePolicy(
 
 function checkChase(value: unknown, path: string): void {
   const chase = record(value, path)
-  exactKeys(chase, ['range', 'speed', 'floating', 'cadence'], path)
+  exactKeys(chase, ['range', 'speed', 'floating'], path)
   if (!Number.isFinite(chase.range) || Number(chase.range) < 0)
     throw new Error(`${path}.range: 期望非负有限数`)
   if (!Number.isFinite(chase.speed) || Number(chase.speed) <= 0)
     throw new Error(`${path}.speed: 期望正有限数`)
   if (chase.floating !== undefined && typeof chase.floating !== 'boolean')
     throw new Error(`${path}.floating: 期望 boolean`)
-  if (chase.cadence !== undefined && chase.cadence !== 'world-step')
-    throw new Error(`${path}.cadence: 期望 world-step`)
 }
 
 /** 当前运行态 hostile 的严格单表 guard；禁止 respawnSeconds/success 和隐式策略。 */
@@ -116,15 +114,7 @@ export function checkRuntimeHostileBehavior(
   const hostile = record(value, path)
   exactKeys(
     hostile,
-    [
-      'enemyTeamId',
-      'battleFieldId',
-      'preStepEncounterRange',
-      'chase',
-      'onLose',
-      'onVictory',
-      'onPlayerFlee',
-    ],
+    ['enemyTeamId', 'battleFieldId', 'chase', 'onLose', 'onVictory', 'onPlayerFlee'],
     path,
   )
   if (typeof hostile.enemyTeamId !== 'string' || hostile.enemyTeamId.length === 0)
@@ -134,11 +124,6 @@ export function checkRuntimeHostileBehavior(
     (!Number.isSafeInteger(hostile.battleFieldId) || Number(hostile.battleFieldId) < 0)
   )
     throw new Error(`${path}.battleFieldId: 期望非负安全整数`)
-  if (
-    hostile.preStepEncounterRange !== undefined &&
-    (!Number.isFinite(hostile.preStepEncounterRange) || Number(hostile.preStepEncounterRange) <= 0)
-  )
-    throw new Error(`${path}.preStepEncounterRange: 期望正有限数`)
   if (hostile.chase !== undefined) checkChase(hostile.chase, `${path}.chase`)
   if (hostile.onLose !== undefined && hostile.onLose !== 'gameOver')
     checkRuntimeCommands(hostile.onLose, `${path}.onLose`, options)

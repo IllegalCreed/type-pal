@@ -1561,6 +1561,15 @@ export async function bootGame(
   }
   const markEntityGait = (id: string, source: MotionSource, epoch: number): void => {
     worldPresentation.clearEntityFrame(id)
+    if (
+      source === 'hostile' &&
+      motion.gaitOwner(id)?.source !== 'hostile' &&
+      activeScene.entitySpriteDefs.get(id)?.layout.kind === 'static'
+    ) {
+      // The first accepted step starts a new non-directional chase cycle.
+      clearEntityGait(id)
+      motion.clearExplicitAnimation(id)
+    }
     motion.markGait(id, source, epoch)
   }
   const motionRuntime = motion.coordinator
@@ -3222,7 +3231,6 @@ export async function bootGame(
     if (!entity) return
     const hasAuto = !!entity.pages?.[0]?.auto
     const gates = entityLifecycleGates(entity, { hasAuto, hasHostile: !!entity.hostile })
-    hostileCd.delete(entity.id)
     hostileReady.delete(entity.id)
     hostileMotionEpoch.delete(entity.id)
     if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
@@ -3965,14 +3973,13 @@ export async function bootGame(
 
       // Producer priority: authored/script chase > engine hostile > auto.
       if (!slot && !authority.has(id) && hostileReady.has(id)) {
-        const hostile = entity.hostile
-        const chase = hostile?.chase
+        const chase = entity.hostile?.chase
         const distance = gridDist(player.pos, entity.pos)
         const remainsEligible =
           !!chase &&
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed &&
-          !isHostileEncounterInRange(distance, hostile?.preStepEncounterRange, 'pre-step') &&
-          isHostileChaseInRange(chase, distance, awarenessMultiplier)
+          distance > 1 &&
+          distance < chase.range * awarenessMultiplier
         if (!remainsEligible) {
           hostileReady.delete(id)
           hostileMotionEpoch.delete(id)
@@ -4006,7 +4013,8 @@ export async function bootGame(
         if (!chase) throw new Error(`hostile ${entity.id} ready without chase definition`)
         desiredFacing = facingToward(entity.pos, player.pos)
         const delta = WALK_STEP[desiredFacing]
-        const stride = chase.cadence === 'world-step' ? Math.min(chase.speed / 8, 1) : 1
+        // The original speed code advances 2s/1s pixels in one exploration step.
+        const stride = Math.min(chase.speed / 8, 1)
         desired = {
           col: entity.pos.col + delta.dcol * stride,
           row: entity.pos.row + delta.drow * stride,
@@ -4594,7 +4602,6 @@ export async function bootGame(
   // ── B9 敌对行为引擎驱动器(数据化遇敌:零脚本;hostile 字段 = 野怪)──
   //   每 hostile 实体一个游标状态机,tick 里推进:追逐→贴脸开战→胜利消失/重生、战败走 onLose。
   //   原版靠 event object 挂脚本区分野怪,新引擎用数据区分(作者拍板:遇敌是引擎能力)。
-  const hostileCd = new Map<string, number>() // 实体 → 追逐节流累计 ms
   const hostileReady = new Set<string>()
   const hostileMotionEpoch = new Map<string, number>()
   const pendingChaseTerminal = new Map<
@@ -4663,35 +4670,17 @@ export async function bootGame(
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed,
       )
       .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  function isHostileEncounterInRange(
-    distance: number,
-    preStepRange: number | undefined,
-    phase: 'pre-step' | 'post-step',
-  ): boolean {
-    if (preStepRange === undefined) return distance <= 1
-    return phase === 'pre-step' && distance < preStepRange
-  }
-  function isHostileChaseInRange(
-    chase: NonNullable<RuntimeHostileBehavior['chase']>,
-    distance: number,
-    awarenessMultiplier: number,
-  ): boolean {
-    const range = chase.range * awarenessMultiplier
-    return chase.cadence === 'world-step' ? distance < range : distance <= range
-  }
   const hostileAtContact = (
     phase: 'pre-step' | 'post-step',
     excluded?: ReadonlySet<string>,
   ): EntityDef | undefined =>
-    eligibleHostiles().find(
-      (entity) =>
-        !excluded?.has(entity.id) &&
-        isHostileEncounterInRange(
-          gridDist(player.pos, entity.pos),
-          entity.hostile?.preStepEncounterRange,
-          phase,
-        ),
-    )
+    eligibleHostiles().find((entity) => {
+      if (excluded?.has(entity.id)) return false
+      const distance = gridDist(player.pos, entity.pos)
+      // The original near-trigger window is sampled before movement. The narrower post-step
+      // contact check runs only after a landing touch has had its chance to take control.
+      return phase === 'pre-step' ? distance < 1.5 : distance <= 1
+    })
   const beginHostileEncounter = (entity: EntityDef): void => {
     const hostile = entity.hostile
     if (!hostile || hostileBusy) return
@@ -4719,24 +4708,14 @@ export async function bootGame(
       const h = e.hostile
       if (!h || hostileReady.has(e.id)) continue
       const distance = gridDist(player.pos, e.pos)
-      if (isHostileEncounterInRange(distance, h.preStepEncounterRange, 'pre-step')) continue
+      if (distance <= 1) continue
       const chase = h.chase
       // 感知香只影响引擎明雷追逐；剧情脚本主动 chasePlayer 属于作者演出，不受此全局态污染。
-      if (!chase || !isHostileChaseInRange(chase, distance, awarenessMultiplier)) {
+      if (!chase || distance >= chase.range * awarenessMultiplier) {
         hostileReady.delete(e.id)
         hostileMotionEpoch.delete(e.id)
         clearMotionStick({ kind: 'entity', id: e.id })
         continue // 原地怪 / 出程:不动
-      }
-      // World-step chasers are ready at every eligible shared movement snapshot.
-      if (chase.cadence !== 'world-step') {
-        const cd = (hostileCd.get(e.id) ?? 0) + dt
-        const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
-        if (cd < stepMs) {
-          hostileCd.set(e.id, cd)
-          continue
-        }
-        hostileCd.set(e.id, 0)
       }
       hostileReady.add(e.id)
       if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, motion.nextCommandEpoch())
@@ -4900,7 +4879,6 @@ export async function bootGame(
         if (authority.get('party')?.kind === 'mount') dismountParty()
       },
     })
-    hostileCd.clear()
     hostileReady.clear()
     hostileMotionEpoch.clear()
     pendingChaseTerminal.clear()
