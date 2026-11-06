@@ -148,6 +148,43 @@ const governedSceneIds = new Set([
   's291',
   's292',
 ])
+const mazeAshuraStatues = new Map([
+  ['e237', { label: '阿修罗石像 01', facing: 'right' }],
+  ['e238', { label: '阿修罗石像 02', facing: 'right' }],
+  ['e239', { label: '阿修罗石像 03', facing: 'down' }],
+  ['e240', { label: '阿修罗石像 04', facing: 'down' }],
+  ['e241', { label: '阿修罗石像 05', facing: 'up' }],
+  ['e242', { label: '阿修罗石像 06', facing: 'left' }],
+])
+const islandEntityLabels = new Map([
+  ['s015/e204', '仙灵岛迷宫入口'],
+  ['s015/e206', '草妖（靠码头）'],
+  ['s015/e207', '草妖（入口中段）'],
+  ['s015/e208', '草妖（入口上段）'],
+  ['s015/e209', '草妖（迷宫入口前）'],
+  ['s017/e235', '雪莲子采集点'],
+  ['s017/e236', '观音像'],
+  ['s017/e243', '芦苇漂 01'],
+  ['s017/e244', '芦苇漂 02'],
+  ['s017/e245', '芦苇漂 03'],
+  ['s017/e246', '芦苇漂 04'],
+  ['s017/e247', '芦苇漂 05'],
+  ['s017/e248', '芦苇漂 06'],
+  ['s017/e249', '芦苇漂 07'],
+  ['s017/e250', '芦苇漂 08'],
+  ['s017/e251', '芦苇漂 09'],
+  ['s017/e252', '芦苇漂 10'],
+  ['s017/e253', '芦苇漂 11'],
+  ['s017/e254', '芦苇漂 12'],
+  ['s017/e255', '芦苇漂 13'],
+  ['s017/e256', '芦苇漂 14'],
+  ['s017/e257', '芦苇漂 15'],
+  ['s017/e258', '芦苇漂 16'],
+  ['s017/e259', '变轨芦苇漂'],
+  ['s017/e262', '闪烁地板'],
+  ['s017/e263', '五灵符宝箱'],
+  ['s018/e265', '仙灵岛桃花林入口'],
+])
 const autos = new Map<string, RuntimeScriptFlow>()
 for (const scene of scenes)
   for (const entity of scene.entities)
@@ -291,7 +328,12 @@ test('all current scene scripts use steps; automatic phases are inside one step'
         expect(hook.flow.kind).toBe('stages')
       }
   }
-  expect(flows).toBe(4656)
+  const maze = scenes.find((scene) => scene.id === 's017')
+  const hammerTargets = maze?.entities
+    .filter((entity) => entity.behaviors?.trigger?.['break-with-hammer'])
+    .map((entity) => entity.id)
+  expect(hammerTargets).toEqual([...mazeAshuraStatues.keys()])
+  expect(flows).toBe(4656 + mazeAshuraStatues.size)
   for (const flow of autos.values()) expect(flow.stages).toHaveLength(1)
   const text = JSON.stringify(scenes)
   for (const retired of ['stateMachine', 'cursorHandoff', 'stopScript', 'commandOutcome'])
@@ -305,7 +347,30 @@ test('non-script definitions preserve the source except for explicitly asserted 
     const withoutScripts = {
       ...scene,
       hooks: undefined,
-      entities: scene.entities.map(({ behaviors: _behaviors, ...entity }) => entity),
+      entities: scene.entities.map(({ behaviors: _behaviors, ...entity }): typeof entity => {
+        const address = `${scene.id}/${entity.id}`
+        const statue = scene.id === 's017' ? mazeAshuraStatues.get(entity.id) : undefined
+        const label = statue?.label ?? islandEntityLabels.get(address)
+        if (!label) return entity
+
+        // Verify the author fields before projecting the entity back to the historical snapshot.
+        expect(entity.label, address).toBe(label)
+        const { label: _label, ...withoutLabel } = entity
+        if (!statue) return withoutLabel
+
+        expect(withoutLabel.facing, address).toBe(statue.facing)
+        expect(withoutLabel.initialPage, address).toBe('default')
+        expect(withoutLabel.pages, address).toEqual([
+          { id: 'default', label: '完整石像', trigger: 'break-with-hammer' },
+        ])
+        const {
+          facing: _facing,
+          initialPage: _initialPage,
+          pages: _pages,
+          ...original
+        } = withoutLabel
+        return original
+      }),
     }
     if (scene.id === 's004') {
       const grain = withoutScripts.entities.find((entity) => entity.id === 'e88')
@@ -493,13 +558,54 @@ test('governed auto transitions retain their original oracle evidence while usin
   }
 })
 
+// The pond plans preserve their frame times with one facing write per cycle.
+const pondAutoPoses = new Map([
+  [
+    's016/e219/auto/default',
+    {
+      starts: [0, 1640],
+      frames: [0, 1, 2, 3, 0, 1, 2, 3],
+      windowMs: 3280,
+      elapsedMs: 3280,
+      completes: false,
+    },
+  ],
+  [
+    's016/e219/auto/legacy-001',
+    {
+      starts: [0],
+      frames: [4, 5, 6, 7, 8, 9, 10],
+      windowMs: 1500,
+      elapsedMs: 1400,
+      completes: true,
+    },
+  ],
+])
+
 test.each(
   cases,
 )('preserves bounded auto effects, RNG and time: $key seed=$seed env=$environment', async (entry) => {
   const flow = autos.get(entry.key)
   if (!flow || !entry.expected) throw new Error(`missing oracle case ${entry.key}`)
-  const actual = await observe(flow, entry)
-  expect(actual.hash).toBe(entry.expected)
+
+  const pose = pondAutoPoses.get(entry.key)
+  const actual = await observe(flow, { ...entry, ...(pose ? { milliseconds: pose.windowMs } : {}) })
+  if (!pose) {
+    expect(actual.hash).toBe(entry.expected)
+    return
+  }
+
+  const target = { scene: 's016', entity: 'e219' }
+  const expected = pose.starts.flatMap((start) => [
+    { at: start, command: { kind: 'setEntityFacing', target, facing: 'down' } },
+    ...pose.frames.map((frame, index) => ({
+      at: start + 100 + index * 200,
+      command: { kind: 'setEntityFrame', target, frame },
+    })),
+  ])
+  expect(actual.trace).toEqual(expected)
+  expect(actual.now).toBe(pose.elapsedMs)
+  expect(actual.cursor?.kind === 'completed').toBe(pose.completes)
 })
 
 test.each(
