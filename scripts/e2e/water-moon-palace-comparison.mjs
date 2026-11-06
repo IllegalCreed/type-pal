@@ -3,7 +3,6 @@ import { recompareBoundStory } from './bound-story-comparison.mjs'
 import { readBoundStoryRecording } from './bound-story-recording.mjs'
 import { committedRouteReceipt } from './committed-route.mjs'
 import { continuousGrid } from './continuous-route.mjs'
-import { verifyDialoguePresentation } from './dialogue-presentation-contract.mjs'
 import { assertErrandCollector } from './errand-contract.mjs'
 import { readEvidenceArtifact } from './evidence-artifact.mjs'
 import { readLongEvidenceArtifact } from './long-evidence.mjs'
@@ -282,6 +281,64 @@ function gamePages(trace, { start, end }) {
   return [...pages.values()]
 }
 
+function compareStoryCutovers(game, reforge) {
+  const gameSlots = game.trace.events.filter(({ kind }) => kind === 'dialogue-draw')
+  const reforgeSlots = new Map(
+    reforge.trace.causes
+      .filter(({ phase }) => phase === 'dialogue-presentation')
+      .map((draw) => [draw.renderId, draw]),
+  )
+  const afterGameRender = ({ renderId, sceneVisit }) =>
+    gameSlots.findLast((row) => row.renderId <= renderId && row.sceneVisit === sceneVisit)
+  const [gameFirst, gameSecond] = gamePages(game.trace, game.story.guide)
+  const [reforgeFirst, reforgeSecond] = reforge.story.guide.pages
+  const gameTurn = game.trace.events.find(
+    (draw) =>
+      gameFirst.order < draw.order &&
+      draw.order < gameSecond.order &&
+      draw.kind === 'world-draw' &&
+      draw.actors.e270?.facing === 'right',
+  )
+  const reforgeTurn = reforge.trace.events.find(
+    (draw) =>
+      reforgeFirst.drawOrder < draw.order &&
+      draw.order < reforgeSecond.drawOrder &&
+      draw.kind === 'actor-render' &&
+      draw.id === 'e270' &&
+      draw.state.drawStatus === 'drawn' &&
+      draw.state.facing === 'right',
+  )
+  assert(gameTurn && reforgeTurn, 's019/e270 must draw the glance before turning toward the palace')
+  assert.deepEqual(
+    normalizeDraws([reforgeTurn.state], 'reforge'),
+    normalizeDraws([gameTurn.actors.e270], 'game'),
+    's019/e270 drawn glance differs',
+  )
+  assert.deepEqual(afterGameRender(gameTurn)?.slots, [])
+  const turnFrames = reforge.trace.worldRenders.filter(
+    ({ renderId }) => reforgeTurn.renderId <= renderId && renderId <= reforgeTurn.throughRenderId,
+  )
+  assert(turnFrames.length, 'missing Reforge world paints for the glance')
+  for (const draw of turnFrames) assert.deepEqual(reforgeSlots.get(draw.renderId)?.slots, [])
+  const gameAfterGate = game.trace.events.find(
+    ({ kind, order }) => kind === 'world-draw' && order > game.story.pellet.openedExit.order,
+  )
+  const reforgeAfterGate = reforge.trace.worldRenders.find(
+    ({ order }) => order > reforge.story.pellet.gateOrder,
+  )
+  assert(gameAfterGate && reforgeAfterGate, 'next story gate has no subsequent real world draw')
+  assert.deepEqual(afterGameRender(gameAfterGate)?.slots, [])
+  assert.deepEqual(reforgeSlots.get(reforgeAfterGate.renderId)?.slots, [])
+  return {
+    guideGlance: {
+      game: gameTurn.order,
+      reforge: reforgeTurn.order,
+      frame: gameTurn.actors.e270.frame,
+    },
+    nextStoryGate: { game: gameAfterGate.order, reforge: reforgeAfterGate.order },
+  }
+}
+
 function comparePages(game, reforge) {
   return ['guide', 'water', 'pellet'].map((story) => {
     const left = gamePages(game.trace, game.story[story])
@@ -402,16 +459,20 @@ export async function recompareWaterMoonPalace(root, gamePath, reforgePath) {
         reforge.story.guide,
       )
       const dialogue = comparePages(game, reforge)
-      const presentation = verifyDialoguePresentation(
-        reforge.trace.causes,
-        reforge.trace.worldRenders,
-      )
+      const presentation = compareStoryCutovers(game, reforge)
       const chest = compareChest(game, reforge)
       const gameWater = game.story.water.recovery
       const reforgeWater = reforge.story.water.recovery
       const vitals = (roles) => roles.map(({ hp, mp }) => [hp, mp])
       assert.deepEqual(vitals(gameWater.before), vitals(reforgeWater.before))
       assert.deepEqual(vitals(gameWater.after), vitals(reforgeWater.after))
+      const boatman = game.terminal.gs.allEventObjects.find(({ id }) => id === 201)
+      assert.equal(boatman?.triggerLabel, 'L_4267', 'Game lost the later boatman response')
+      assert.deepEqual(
+        reforge.terminal.world.script.behaviors.entities.s014?.e201?.trigger?.selection,
+        { kind: 'use', value: 'legacy-001' },
+        'Reforge lost the later boatman response',
+      )
       return {
         findings: [],
         route: left.map(({ id, steps, completion }) => ({ id, moves: steps.length, completion })),
