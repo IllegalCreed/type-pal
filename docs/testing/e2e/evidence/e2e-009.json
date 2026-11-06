@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-009",
+  "kind": "runtime-execution",
+  "status": "rework",
+  "candidateSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+  "versions": {
+    "content": 22,
+    "minimumSave": 12
+  },
+  "sourceRefs": [
+    {
+      "path": "scripts/e2e/fairy-island-pool-game.mjs",
+      "lines": "60-78",
+      "anchor": "readCheckpointInput(predecessorRef",
+      "role": "caller",
+      "sha256": "4e4b1577d09a7306ce1113bd01386553ae6470b246bc11ef36b643b2b6123370"
+    },
+    {
+      "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
+      "lines": "48-70",
+      "anchor": "await readCheckpointInput(",
+      "role": "caller",
+      "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+    },
+    {
+      "path": "scripts/e2e/fairy-island-pool-route.mjs",
+      "lines": "5-63",
+      "anchor": "export function fairyPoolRoutes(engine)",
+      "role": "legal-input",
+      "sha256": "72e2215c6bc83ec4e07ba96bb9934130bb8ac58d6356ebe1b949436dc7fdbd28"
+    },
+    {
+      "path": "scripts/e2e/fairy-island-pool-game-oracle.mjs",
+      "lines": "24-24",
+      "anchor": "export function assertFairyPoolGameStory(trace, report)",
+      "role": "oracle",
+      "sha256": "2d5c270f323ab84650de93f43699954beda51774a9efd61ec1cd0edae6e35f60"
+    },
+    {
+      "path": "scripts/e2e/fairy-island-pool-reforge-trace.mjs",
+      "lines": "345-345",
+      "anchor": "export function verifyFairyIslandPoolTrace(trace)",
+      "role": "oracle",
+      "sha256": "d4d484689d4cedeba059e52d213f9d4ee4be3843b18ae679510a90505e8870a4"
+    },
+    {
+      "path": "scripts/e2e/recompare-recording.mjs",
+      "lines": "33-47",
+      "anchor": "if (fragment === '009')",
+      "role": "caller",
+      "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+    },
+    {
+      "path": "scripts/e2e/fairy-island-pool-comparison.mjs",
+      "lines": "404-440",
+      "anchor": "export async function recompareFairyIslandPool",
+      "role": "oracle",
+      "sha256": "839de3e7c77ac8f536ecc78ebed9052e68fc92aa71f1a055b8d34858782ddee1"
+    },
+    {
+      "path": "projects/pal/content/scenes/s016.json",
+      "lines": "119-119",
+      "anchor": "\"id\": \"e212\"",
+      "role": "authored-first-pool-entry",
+      "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+    },
+    {
+      "path": "projects/pal/content/scenes/s016.json",
+      "lines": "1144-1144",
+      "anchor": "\"id\": \"e213\"",
+      "role": "authored-return-trigger",
+      "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+    },
+    {
+      "path": "projects/pal/content/scenes/s016.json",
+      "lines": "4216-4216",
+      "anchor": "\"id\": \"e233\"",
+      "role": "authored-visible-pickup",
+      "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "lines": "168-168",
+      "anchor": "export const CONTENT_VERSION = 22",
+      "role": "version",
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+    },
+    {
+      "path": "packages/reforge/src/save/types.ts",
+      "lines": "9-9",
+      "anchor": "export const SAVE_VERSION = 12",
+      "role": "version",
+      "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+    }
+  ],
+  "publicCallers": [
+    "node scripts/e2e/fairy-island-pool-game.mjs --headless --verify --visual-review --from <Game-008-report>",
+    "node scripts/e2e/fairy-island-pool-reforge.mjs --headless --verify --visual-review --from <Reforge-008-report>",
+    "node scripts/e2e/recompare-recording.mjs 009 <Game-009-report> <Reforge-009-report> <new-output>"
+  ],
+  "legalInputs": [
+    "各引擎用同候选的实际 008 verify 报告与正式 008.end.save.json，在桃花林恢复",
+    "以生产方向键、调查和对白确认完成两个独立触发，路线与实际移动提交同时校验",
+    "内容版本 22，Reforge SAVE12。Game 原生 F5 和 Reforge 公开 dumpSave 产出各自正式终档"
+  ],
+  "businessOracle": {
+    "type": "dual009-fairy-island-pool-journey-and-draw-parity",
+    "assertions": [
+      "三段实际方向提交分别为 70、144、25 步，两端逐步匹配",
+      "止血草实体 e233 领取后隐藏，物品 99 增一，原处复点无重复奖励",
+      "两次独立池塘入口之间恢复自由控制并走回池边，两端记录八雷，离场后仍在桃花林",
+      "按原盘 L_5240 的 48 步实绘核时长、镜位及两次淡入的旧对白清除",
+      "两端在剧情和离场完成后正式存档，新浏览器会话读回持久状态且池塘剧情不重播"
+    ]
+  },
+  "dedupe": {
+    "result": "bounded-distinct",
+    "against": [
+      "e2e-008",
+      "e2e-009 首轮 bf3071ecb 录制",
+      "e2e-009 的单独编辑器初态验收"
+    ],
+    "notes": "008 只提供合法输入。009 发布配对只认当前两条实跑，旧反例和原保存证据各保留本轮身份。"
+  },
+  "execution": {
+    "commands": [
+      [
+        "node",
+        "scripts/e2e/fairy-island-pool-game.mjs",
+        "--headless",
+        "--visual-review",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/report.json",
+        "--verify"
+      ],
+      [
+        "node",
+        "scripts/e2e/fairy-island-pool-reforge.mjs",
+        "--headless",
+        "--visual-review",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/reforge-008-2026-11-06T08-08-55-136Z/report.json",
+        "--verify"
+      ]
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal",
+    "startedAt": "2026-11-06T08:12:33.464Z",
+    "startTimeSource": "UTC output-directory allocation in each native runner",
+    "exitCode": 0,
+    "signal": null,
+    "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "profile": "verify with real-time author-review recording",
+    "runs": [
+      {
+        "engine": "game",
+        "argv": [
+          "node",
+          "scripts/e2e/fairy-island-pool-game.mjs",
+          "--headless",
+          "--visual-review",
+          "--from",
+          "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/report.json",
+          "--verify"
+        ],
+        "allocatedAt": "2026-11-06T08:16:03.954Z",
+        "exitCode": 0,
+        "signal": null,
+        "journey": "build/e2e-rework/ride-authored-pose-game/journey.json",
+        "report": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+        "predecessor": {
+          "report": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/report.json",
+          "reportSha256": "ece06bcfbfbdf4836edfa1ddb570ef9bcc9336cce407be7df5c2a7c3c3bb3c3b",
+          "checkpoint": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/008.end.save.json",
+          "checkpointSha256": "d8729196511cbb1dc369d89d2f84d6b3f5caea6b3c14ddf48389eb2a776fd8fd"
+        },
+        "terminal": {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009.end.save.json",
+          "sha256": "6c5e96f596f0dd1af07c898a6aeb75cde08c42afb5549709cc4211664ffb0804"
+        },
+        "warnings": []
+      },
+      {
+        "engine": "reforge",
+        "argv": [
+          "node",
+          "scripts/e2e/fairy-island-pool-reforge.mjs",
+          "--headless",
+          "--visual-review",
+          "--from",
+          "/Users/zhangxu/.codex/worktrees/e2e-007-009-final/type-pal/build/e2e/reforge-008-2026-11-06T08-08-55-136Z/report.json",
+          "--verify"
+        ],
+        "allocatedAt": "2026-11-06T08:12:33.464Z",
+        "exitCode": 0,
+        "signal": null,
+        "journey": "build/e2e-rework/ride-authored-pose-reforge/journey.json",
+        "report": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/report.json",
+        "predecessor": {
+          "report": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/report.json",
+          "reportSha256": "0be8697cde14bb9c8c4f3bcd34583e4e152ae1387c7029269788169db668394e",
+          "checkpoint": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/008.end.save.json",
+          "checkpointSha256": "239a454be35b55aef08de070ffa072ef18b377d0ad11d3d4650da9702312ba80"
+        },
+        "terminal": {
+          "path": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009.end.save.json",
+          "sha256": "bed3d82a761659a5132f47eb56e0118a51771789f11dabb0f03298b00dacb9d7"
+        },
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+        ]
+      }
+    ]
+  },
+  "runtimeExecution": {
+    "performed": true,
+    "date": "2026-11-06",
+    "engines": [
+      "game",
+      "reforge"
+    ],
+    "contentVersion": 22,
+    "reforgeSaveVersion": 12,
+    "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "result": "passed",
+    "verification": "byte-bound native runs and unified offline comparison",
+    "continuous": false
+  },
+  "steps": [
+    {
+      "name": "native 009 Game and Reforge verify and fresh restore",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-009-2026-11-06T08-12-33-464Z/report.json"
+      ]
+    },
+    {
+      "name": "unified recompare-recording 009",
+      "result": "passed",
+      "routeSteps": [
+        70,
+        144,
+        25
+      ],
+      "cameraDraws": 48,
+      "reforgeDialogueDraws": [
+        476,
+        133
+      ],
+      "findings": 0,
+      "sourceChanges": 0,
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/009-mounted-pose-final.json"
+      ]
+    },
+    {
+      "name": "isolated saved editor preview re-open",
+      "result": "passed",
+      "producerRevision": "8d9dcdbe29ba5e194bbcb8ff6caf43f6b352dd22",
+      "stepResets": 9,
+      "alternateResets": 7,
+      "staticStateAndReferenceChecks": 13,
+      "evidence": [
+        "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz#build/e2e-rework/editor-009/verify-actions.json"
+      ]
+    },
+    {
+      "name": "author side-by-side review",
+      "result": "pending",
+      "videoSeconds": 129.4,
+      "localVideo": {
+        "path": "build/e2e-rework/review-009-mounted-pose/009-game-reforge.mp4",
+        "sha256": "db199f27362d57ca33345c2595525fb0b402f423e4b4f2925b2828e5bc50c002"
+      },
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-009-mounted-pose/review-media.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-009-mounted-pose/alignment.json"
+      ]
+    }
+  ],
+  "hashes": [
+    {
+      "path": "projects/pal/editor/script-preview.json",
+      "sha256": "072f76aea74786af91a6ce1b93fb3e29fa5a7100beff3ee7f9e645dd77aa383e",
+      "scope": "Current retained editor sidecar. The native editor re-open has its own earlier candidate."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz",
+      "sha256": "e45bce10751d3c7f8acac8acd1c6de6c1f8b177127f28cd5af02ea12aed3b0a9",
+      "bytes": 10805917,
+      "manifest": {
+        "path": "manifest.json",
+        "sha256": "84ca7372d2098a126b97442b1882619dae8b892699593243043b444fc192c9af",
+        "bytes": 16400
+      },
+      "members": [
+        {
+          "path": "build/e2e-rework/009-mounted-pose-final.json",
+          "sha256": "f15f721632069cea6dfacb671f6ec0f75ea88422e63f30c925421d62764154dc",
+          "bytes": 241095
+        },
+        {
+          "path": "build/e2e-rework/review-009-mounted-pose/review-media.json",
+          "sha256": "2af106c7bdfa80dfb96e5a2004cf7d7db275b0b01d734097283e2eb19cfb7ca4",
+          "bytes": 2516
+        },
+        {
+          "path": "build/e2e-rework/review-009-mounted-pose/alignment.json",
+          "sha256": "d68cf93d6c4c727fdf3b832318d06c397285de6dc71ae619f54336baacd1d19d",
+          "bytes": 5473
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-game/journey.json",
+          "sha256": "889dd9907ec30dad7bff97d42a1ab2013b2ac72208a245badf088dab64c8e106",
+          "bytes": 1497
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-reforge/journey.json",
+          "sha256": "59af731bec357fef2d294f19699e697c8915b889ab905b1ee5e48f13735715f4",
+          "bytes": 5045
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-game/game-009.log",
+          "sha256": "f0f1ac94b46eefd97025319f4c7bd3b2a8181886ffe733f3f4031f88fc008a87",
+          "bytes": 282
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-reforge/reforge-009.log",
+          "sha256": "8cf08827c46048b0426d3e66ff9bee6cfbe54ee3ed3c85ef155e59c6d49a4aba",
+          "bytes": 125
+        },
+        {
+          "path": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/report.json",
+          "sha256": "ece06bcfbfbdf4836edfa1ddb570ef9bcc9336cce407be7df5c2a7c3c3bb3c3b",
+          "bytes": 760022
+        },
+        {
+          "path": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/008.end.save.json",
+          "sha256": "d8729196511cbb1dc369d89d2f84d6b3f5caea6b3c14ddf48389eb2a776fd8fd",
+          "bytes": 1018518
+        },
+        {
+          "path": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/008-trace.json",
+          "sha256": "a5b7ad4c984c08f0573240112aa5f54533bb7a4bef4271e6f9ed0da5a2df46e4",
+          "bytes": 4407278
+        },
+        {
+          "path": "build/e2e/game-008-visual-review-2026-11-06T08-09-49-321Z/008-fresh-trace.json",
+          "sha256": "1832f141017dd3109caf0287d3da82b3f4d722b1914ed8416c27015ba8dcae33",
+          "bytes": 2048396
+        },
+        {
+          "path": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/report.json",
+          "sha256": "0be8697cde14bb9c8c4f3bcd34583e4e152ae1387c7029269788169db668394e",
+          "bytes": 1100590
+        },
+        {
+          "path": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/008.end.save.json",
+          "sha256": "239a454be35b55aef08de070ffa072ef18b377d0ad11d3d4650da9702312ba80",
+          "bytes": 61166
+        },
+        {
+          "path": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/008-trace.json",
+          "sha256": "4ee5c5eef3f743c6b9f75522ea2290918ced8e1ee5132c3a935e7e5eaf036af7",
+          "bytes": 14203303
+        },
+        {
+          "path": "build/e2e/reforge-008-2026-11-06T08-08-55-136Z/008-fresh-trace.json",
+          "sha256": "5fef16792bf22a86103048e5872945b5df1fbe5c1f012b49bfedb2b5ab762c4b",
+          "bytes": 506664
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+          "sha256": "2ea6e3d50041a0fcd4e69f50c1a6c6e1a8bf963c7059adc1759720fefaecff27",
+          "bytes": 357644
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009-trace.json",
+          "sha256": "42a2e28eeb2a1d510d8c068be5d26038c18934fb60c1c0142005388addb9eda9",
+          "bytes": 4737313
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009.end.save.json",
+          "sha256": "6c5e96f596f0dd1af07c898a6aeb75cde08c42afb5549709cc4211664ffb0804",
+          "bytes": 1018579
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009-fresh-trace.json",
+          "sha256": "d4d5404d1ffd5f1c732c15c57c9085765d2d30109361bd1486dafebd668f1430",
+          "bytes": 2053041
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/report.json",
+          "sha256": "abcd6339bc878bdc94a7364c03fc34a92faae2af4c752e7b0ef2e4c01e8d4b71",
+          "bytes": 544449
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009-trace.json",
+          "sha256": "4539856075bdc1082530dea651c4802bd7582f499ab55830bcbd33d4f66bac49",
+          "bytes": 21636753
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009.end.save.json",
+          "sha256": "bed3d82a761659a5132f47eb56e0118a51771789f11dabb0f03298b00dacb9d7",
+          "bytes": 60729
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009-fresh-trace.json",
+          "sha256": "34026b654f3f5b4a8203a549d652a1e1e67401ad721a95021d1d014cf82a9812",
+          "bytes": 442680
+        },
+        {
+          "path": "build/e2e-rework/ride-authored-pose-game-second-attempt/journey.json",
+          "sha256": "df8ec00f48da31384fd45779c09f87c6f03612e3c64f7ff2dff02f1668fd26d7",
+          "bytes": 3800
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-13-52-262Z/report.json",
+          "sha256": "fba18724bc28b75e927786a3d6e2d0f1c432df35f86b152787f0ff36166510f4",
+          "bytes": 155206
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-13-52-262Z/009-rejected-trace.json",
+          "sha256": "c3bea1788719dc2d36b66e2ee9872f80939bb2622110b5bff858a2180de4de43",
+          "bytes": 2325936
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+      "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+      "bytes": 1784577,
+      "manifest": {
+        "path": "manifest.json",
+        "sha256": "7a3eff2c044766eeea11c6727ffec5f49ec39cc7f9c10a0557403e3ed5bb674b",
+        "bytes": 3183
+      },
+      "members": [
+        {
+          "path": "build/e2e-rework/009-script-progress-recheck.json",
+          "sha256": "e9080e697a824fd27436076f426b28808f30b9396b044e442eab5006c1a6c5cf",
+          "bytes": 91572
+        },
+        {
+          "path": "build/e2e-rework/editor-009/editor-plan.json",
+          "sha256": "77b6c4a11ee6c7bf4130e50fd5d4f889b2ed6d1188ab8a27d86afa3ee0fe9e62",
+          "bytes": 57401
+        },
+        {
+          "path": "build/e2e-rework/editor-009/seed.json",
+          "sha256": "aa38ff8551a2080f1ad72b71d63914a1aa299b262f80b894758543ea887ac34f",
+          "bytes": 265865
+        },
+        {
+          "path": "build/e2e-rework/editor-009/verify-actions.json",
+          "sha256": "b76b53bd98c059f8f4953e4939c1e3b81f2af2cb60f0214ed3d2576767d3ad99",
+          "bytes": 27869
+        },
+        {
+          "path": "build/e2e-rework/editor-009/verify.log",
+          "sha256": "3aa3763ade6af738257b5d4f4b42997ab7b8919452a6be88b22158066c98bec7",
+          "bytes": 16047
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz",
+      "sha256": "ee8007e7ba6079b9035f408d0375207278ce772f0f008c2517efe48a5fbeb547",
+      "bytes": 8616834,
+      "manifest": {
+        "path": "manifest.json",
+        "sha256": "3bbb76e4fe2c3001e3d6f060c68cb63101fb96374f164ede8e703baf76387c89",
+        "bytes": 23974
+      },
+      "members": [
+        {
+          "path": "build/e2e-rework/009-old-integrated.json",
+          "sha256": "212031e5a4744226c8d64ad6f2e0cf0cca2995f5b0d8ec6f7869e7cde736151a",
+          "bytes": 244002
+        },
+        {
+          "path": "build/e2e-009-rework/009-recompare-current-entry.json",
+          "sha256": "753689e89ca94cbd69dca1fd05cbfc5a9291a67ff1bcc7311a4868f5f723b852",
+          "bytes": 241249
+        },
+        {
+          "path": "build/e2e-rework/009-shared-default.json",
+          "sha256": "b753e6f6f599984a7b120cbad1023b4454925f1d0eaf7f00560faab39e64df34",
+          "bytes": 241132
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+      "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+      "bytes": 10345748,
+      "manifest": {
+        "path": "009-evidence-manifest.json",
+        "sha256": "f94772dccacfcb8932328592e4e8fc73740b73388630ebe8891feb5b1dec5ee0",
+        "bytes": 18565
+      },
+      "members": [
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T02-55-31-285Z/report.json",
+          "sha256": "37afb78aad04a33ea084f569dcceaf81bb92395265ed9e15879ed6af5dbb7136",
+          "bytes": 357355
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T03-07-22-247Z/report.json",
+          "sha256": "cc4e55e2d765498e2ec3562297464c4d453b39deb89baea663a6eb2048d4e94f",
+          "bytes": 518160
+        },
+        {
+          "path": "build/e2e-009/content-author/final-scene-delta.json",
+          "sha256": "f8a2817aaea34475549d38a78c667ccf9027729204b796c83d343e8f3f3e4f2b",
+          "bytes": 5971
+        },
+        {
+          "path": "build/e2e-009/editor-opfs/configure-actions.json",
+          "sha256": "322b2b38b858a9e32ca1a38f40f2ae618273694a47b52f13387e54adac839381",
+          "bytes": 15484
+        },
+        {
+          "path": "build/e2e-009/editor-opfs/verify-actions.json",
+          "sha256": "e0ba61d571107ad4bd036597d05b5b79d6e9161c5ba11a955e95b7bd355c9fc6",
+          "bytes": 27881
+        }
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "native-pickup-two-independent-pool-entries-and-departure",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-009-2026-11-06T08-12-33-464Z/report.json"
+      ]
+    },
+    {
+      "id": "shared-route-authored-pan-and-dialogue-draws",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/009-mounted-pose-final.json"
+      ]
+    },
+    {
+      "id": "native-terminal-save-and-fresh-restore",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009.end.save.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009-fresh-trace.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009.end.save.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/reforge-009-2026-11-06T08-12-33-464Z/009-fresh-trace.json"
+      ]
+    },
+    {
+      "id": "bounded-editor-static-preview-reopen",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz#build/e2e-009/editor-opfs/configure-actions.json",
+        "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz#build/e2e-rework/editor-009/verify-actions.json"
+      ]
+    },
+    {
+      "id": "current-author-visual-acceptance",
+      "result": "pending",
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/review-009-mounted-pose/review-media.json"
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "case": "first-recording-business-counterexamples",
+      "revision": "bf3071ecb048cdc3ab5eb6398e8acad359bcf50a",
+      "fields": [
+        "route",
+        "camera",
+        "dialogue"
+      ],
+      "status": "rejected",
+      "evidence": [
+        "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz#build/e2e-rework/009-old-integrated.json"
+      ]
+    },
+    {
+      "case": "extra movement before key release",
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "engine": "game",
+      "phase": "walk-to-pool",
+      "exitCode": 1,
+      "signal": null,
+      "evidence": [
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e-rework/ride-authored-pose-game-second-attempt/journey.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-13-52-262Z/report.json",
+        "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz#build/e2e/game-009-visual-review-2026-11-06T08-13-52-262Z/009-rejected-trace.json"
+      ]
+    }
+  ],
+  "cleanup": {
+    "complete": true,
+    "scope": "Native runners closed owned browser contexts and servers. Source recordings and diagnostic artifacts retained.",
+    "retained": [
+      "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz",
+      "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+      "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz",
+      "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz"
+    ]
+  },
+  "history": [
+    {
+      "revision": "bf3071ecb048cdc3ab5eb6398e8acad359bcf50a",
+      "date": "2026-11-06",
+      "action": "original-dual-run-later-rejected-for-route-camera-and-dialogue"
+    },
+    {
+      "revision": "8d9dcdbe29ba5e194bbcb8ff6caf43f6b352dd22",
+      "date": "2026-11-06",
+      "action": "shared-route-camera-dialogue-and-saved-editor-recheck"
+    },
+    {
+      "revision": "5bbc2e5de5af771862dc725d6799d5af357e0073",
+      "date": "2026-11-06",
+      "action": "same-candidate-predecessors-and-unified-comparison"
+    },
+    {
+      "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+      "date": "2026-11-06",
+      "action": "current-native-008-to-009-and-unified-recomparison",
+      "visualAcceptance": "pending"
+    }
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "execution",
+    "lastReviewed": "2026-11-06",
+    "owner": "Codex",
+    "provenance": [
+      "Native 009 execution journeys and saved artifact bytes",
+      "Unified offline re-comparison",
+      "Native editor Save and isolated re-open"
+    ],
+    "sourceSha256": "4e4b1577d09a7306ce1113bd01386553ae6470b246bc11ef36b643b2b6123370",
+    "sourceGitObject": "cf0151aca3178ff87f1183613f0d51c873e140de",
+    "sourceGitRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+    "sourceRole": "Native Game runner entrypoint blob",
+    "scope": "009 technical evidence, bounded editor re-open and separately pending author visual review",
+    "beforeAfter": "New formal 009 publication pair. Historical raw and rejected attempts retain exact bytes.",
+    "stopLine": "Native 009 ends at regained control and completed departure in peach grove. Static preview and runtime have independent scope.",
+    "nextStep": "Independent report review and author judgment on the current byte-bound split-screen."
+  }
+}
