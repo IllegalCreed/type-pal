@@ -264,7 +264,7 @@ function compareRideFacing(game, reforge, moves, nativeRide) {
     turns.push({
       ...sample,
       draws: [gameDraw, reforgeDraw].map((draw) =>
-        draw ? { order: draw.order, facing: draw.state.facing } : null,
+        draw ? { order: draw.order, facing: draw.state.facing, frame: draw.state.frame } : null,
       ),
     })
   }
@@ -354,8 +354,11 @@ function compareRiderTurns({ actions }) {
     facing.turns.map((turn) => ({ action, entity, ...turn })),
   )
   const missing = turns.filter(({ draws }) => draws.some((draw) => !draw))
-  const firstBadDraw = turns.find(({ game, draws }) =>
-    draws.some((draw) => draw && draw.facing !== game.facing),
+  const firstBadDraw = turns.find(
+    ({ game, draws: [left, right] }) =>
+      (left && left.facing !== game.facing) ||
+      (right && right.facing !== game.facing) ||
+      (left && right && left.frame !== right.frame),
   )
   const firstBadRide = rides.find(({ facing }) => facing.firstDifference)
   return {
