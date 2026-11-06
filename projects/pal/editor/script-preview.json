@@ -4694,6 +4694,51 @@
           ]
         }
       ]
+    },
+    {
+      "id": "a59e7488-54e5-44eb-891e-21207e1f9a69",
+      "name": "离开桃花林：赵灵儿已结束引路",
+      "scenes": [
+        {
+          "sceneId": "s016",
+          "entities": [
+            {
+              "entityId": "e216",
+              "hidden": true
+            },
+            {
+              "entityId": "e221",
+              "pos": {
+                "col": 123,
+                "row": 1,
+                "height": 0
+              },
+              "facing": "up"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "6184b866-a53d-4644-85fb-92962c877be2",
+      "name": "水月宫外：赵灵儿引路完毕",
+      "scenes": [
+        {
+          "sceneId": "s019",
+          "entities": [
+            {
+              "entityId": "e270",
+              "pos": {
+                "col": 77,
+                "row": 17.75,
+                "height": 0
+              },
+              "facing": "up",
+              "hidden": true
+            }
+          ]
+        }
+      ]
     }
   ],
   "bindings": [
@@ -5414,7 +5459,35 @@
         "stageId": "initial"
       },
       "stateId": "a1496688-0079-4af9-9cee-6cbcb9ac46d1"
+    },
+    {
+      "entry": {
+        "sceneId": "s019",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e268",
+        "stageId": "initial"
+      },
+      "stateId": "6184b866-a53d-4644-85fb-92962c877be2"
     }
   ],
-  "schemeDefaults": []
+  "schemeDefaults": [
+    {
+      "entry": {
+        "sceneId": "s016",
+        "channel": "trigger",
+        "schemeId": "default",
+        "entityId": "e211"
+      },
+      "stateId": "a59e7488-54e5-44eb-891e-21207e1f9a69"
+    },
+    {
+      "entry": {
+        "sceneId": "s019",
+        "channel": "onEnter",
+        "schemeId": "default"
+      },
+      "stateId": "a59e7488-54e5-44eb-891e-21207e1f9a69"
+    }
+  ]
 }
