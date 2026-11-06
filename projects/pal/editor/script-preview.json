@@ -3888,7 +3888,7 @@
           "sceneId": "s017",
           "entities": [
             {
-              "entityId": "e239",
+              "entityId": "e240",
               "hidden": true,
               "collide": false
             }
@@ -3923,12 +3923,12 @@
           "sceneId": "s017",
           "entities": [
             {
-              "entityId": "e237",
+              "entityId": "e240",
               "hidden": true,
               "collide": false
             },
             {
-              "entityId": "e239",
+              "entityId": "e242",
               "hidden": true,
               "collide": false
             }
@@ -4001,17 +4001,17 @@
           "sceneId": "s017",
           "entities": [
             {
-              "entityId": "e237",
-              "hidden": true,
-              "collide": false
-            },
-            {
-              "entityId": "e238",
-              "hidden": true,
-              "collide": false
-            },
-            {
               "entityId": "e239",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e240",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e242",
               "hidden": true,
               "collide": false
             }
@@ -4051,17 +4051,17 @@
               "collide": false
             },
             {
-              "entityId": "e238",
-              "hidden": true,
-              "collide": false
-            },
-            {
               "entityId": "e239",
               "hidden": true,
               "collide": false
             },
             {
               "entityId": "e242",
+              "hidden": true,
+              "collide": false
+            },
+            {
+              "entityId": "e240",
               "hidden": true,
               "collide": false
             }
@@ -5179,31 +5179,11 @@
       "entry": {
         "sceneId": "s017",
         "channel": "trigger",
-        "schemeId": "break-with-hammer",
-        "entityId": "e237",
-        "stageId": "initial"
-      },
-      "stateId": "bc4159ba-7b26-485c-9932-41a8830ace66"
-    },
-    {
-      "entry": {
-        "sceneId": "s017",
-        "channel": "trigger",
         "schemeId": "default",
         "entityId": "e257",
         "stageId": "legacy-002"
       },
       "stateId": "1180b028-cf43-4e45-8190-1ef01fe0dbaf"
-    },
-    {
-      "entry": {
-        "sceneId": "s017",
-        "channel": "trigger",
-        "schemeId": "break-with-hammer",
-        "entityId": "e238",
-        "stageId": "initial"
-      },
-      "stateId": "d0cf3e8a-80b6-4f76-b7a2-761f7ea64343"
     },
     {
       "entry": {
@@ -5239,31 +5219,11 @@
       "entry": {
         "sceneId": "s017",
         "channel": "trigger",
-        "schemeId": "break-with-hammer",
-        "entityId": "e242",
-        "stageId": "initial"
-      },
-      "stateId": "aa4bca06-1cdd-483f-8d9b-24e58324d805"
-    },
-    {
-      "entry": {
-        "sceneId": "s017",
-        "channel": "trigger",
         "schemeId": "default",
         "entityId": "e251",
         "stageId": "legacy-002"
       },
       "stateId": "57b91abc-cee4-4a49-8aa8-a590737371aa"
-    },
-    {
-      "entry": {
-        "sceneId": "s017",
-        "channel": "trigger",
-        "schemeId": "break-with-hammer",
-        "entityId": "e240",
-        "stageId": "initial"
-      },
-      "stateId": "a1496688-0079-4af9-9cee-6cbcb9ac46d1"
     },
     {
       "entry": {
@@ -5414,6 +5374,46 @@
         "stageId": "initial"
       },
       "stateId": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e242",
+        "stageId": "initial"
+      },
+      "stateId": "bc4159ba-7b26-485c-9932-41a8830ace66"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e239",
+        "stageId": "initial"
+      },
+      "stateId": "d0cf3e8a-80b6-4f76-b7a2-761f7ea64343"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e237",
+        "stageId": "initial"
+      },
+      "stateId": "aa4bca06-1cdd-483f-8d9b-24e58324d805"
+    },
+    {
+      "entry": {
+        "sceneId": "s017",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "entityId": "e238",
+        "stageId": "initial"
+      },
+      "stateId": "a1496688-0079-4af9-9cee-6cbcb9ac46d1"
     }
   ],
   "schemeDefaults": []
