@@ -111,6 +111,78 @@ for (const [index, path] of evidencePaths.entries()) {
   })
 }
 
+const activeSceneEvidence = 'docs/testing/domains/runtime/scene/active-scene/evidence.json'
+const cameraTestPath = 'packages/reforge/src/world-camera.test.ts'
+const cameraAnchor = "test('pre-aborted request rejects"
+const cameraTest = `${cameraAnchor}', () => {})\n`
+
+function activeSceneCameraFixture(currentSource, lines) {
+  const original = {
+    path: cameraTestPath,
+    lines: '1',
+    anchor: cameraAnchor,
+    role: 'oracle',
+    sha256: digest(cameraTest),
+  }
+  const before = {
+    id: 'runtime-active-scene',
+    sourceRefs: [original],
+    history: [],
+    claims: [
+      {
+        id: 'runtime-active-scene-source-contract',
+        result: 'source-backed',
+        evidence: [`${cameraTestPath}:1`],
+      },
+    ],
+  }
+  const current = structuredClone(before)
+  current.sourceRefs[0].lines = lines
+  current.sourceRefs[0].sha256 = digest(currentSource)
+  current.claims[0].evidence[0] = `${cameraTestPath}:${lines}`
+  current.history.push({
+    date: '2026-11-06',
+    action: 'source-reference-bridge',
+    base: 'b'.repeat(40),
+    previousSourceRefs: [original],
+    scope: 'Same source-backed pre-abort claim.',
+    evidence: receipt,
+  })
+  const sources = new Map([
+    [receipt, Buffer.from('# Limited source binding review\n')],
+    [cameraTestPath, Buffer.from(currentSource)],
+  ])
+  return {
+    current,
+    check: () =>
+      assertTestingSourceBridge(activeSceneEvidence, bytes(before), bytes(current), (path) =>
+        sources.get(path),
+      ),
+  }
+}
+
+test('the active-scene claim pointer follows its moved camera oracle only at the matching range', () => {
+  const f = activeSceneCameraFixture(`\n${cameraTest}`, '2')
+  f.check()
+  for (const range of ['1', '3']) {
+    f.current.claims[0].evidence[0] = `${cameraTestPath}:${range}`
+    assert.throws(f.check, /must follow the moved camera oracle/)
+  }
+})
+
+test('the moved camera oracle does not permit a different claim result', () => {
+  const f = activeSceneCameraFixture(`\n${cameraTest}`, '2')
+  f.current.claims[0].result = 'runtime-backed'
+  assert.throws(f.check, /publication, execution or unrelated/)
+})
+
+test('a hash-only camera source refresh does not permit changing its claim pointer', () => {
+  const f = activeSceneCameraFixture(`${cameraTest}// oracle stays on the same line\n`, '1')
+  f.check()
+  f.current.claims[0].evidence[0] = `${cameraTestPath}:2`
+  assert.throws(f.check, /publication, execution or unrelated/)
+})
+
 const catalogRefusals = [
   [
     'publication status',

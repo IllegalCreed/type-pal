@@ -4,6 +4,8 @@ import { parseTerminalJson } from './terminal-json.mjs'
 import { safeTestingPath, testingSourceRefIssues } from './testing-source-refs.mjs'
 
 const catalogPath = 'docs/testing/catalog.json'
+const activeSceneId = 'runtime-active-scene'
+const cameraTestPath = 'packages/reforge/src/world-camera.test.ts'
 // This finite maintenance pilot cannot be widened by the candidate manifest.
 const evidenceIds = new Map([
   [
@@ -12,6 +14,9 @@ const evidenceIds = new Map([
   ],
   ['docs/testing/domains/cross-phase/script-corrections/evidence.json', 'game-script-corrections'],
   ['docs/testing/domains/phase1-runtime/control-rotation/evidence.json', 'game-input-rotation'],
+  ['docs/testing/domains/runtime/scene/active-scene/evidence.json', activeSceneId],
+  ['docs/testing/domains/runtime/battle/battle-host/evidence.json', 'runtime-battle-host'],
+  ['docs/testing/domains/runtime/world/world-runtime/evidence.json', 'runtime-world-owners'],
 ])
 const sourcePaths = new Map([
   [
@@ -31,6 +36,16 @@ const sourcePaths = new Map([
     ]),
   ],
   ['game-input-rotation', new Set(['packages/game/src/localization/ui-text.ts'])],
+  [activeSceneId, new Set(['packages/reforge/src/main.ts', cameraTestPath])],
+  ['runtime-battle-host', new Set(['packages/reforge/src/main.ts'])],
+  [
+    'runtime-world-owners',
+    new Set([
+      'packages/reforge/src/main.ts',
+      'packages/reforge/src/world-scene-presentation.ts',
+      'packages/reforge/src/world-scene-presentation.test.ts',
+    ]),
+  ],
 ])
 
 export const isTestingSourceBridgePath = (path) => path === catalogPath || evidenceIds.has(path)
@@ -101,8 +116,29 @@ function restoreHistory(before, current, changed, readSource) {
   return structuredClone(before)
 }
 
-/** Preserve the entire accepted native object except this pilot's checked source
- * bindings and append-only history. Runtime artifacts and publication are immutable. */
+function restoreActiveSceneCameraPointer(before, current, restored) {
+  const oldRef = before.sourceRefs.find((ref) => ref.path === cameraTestPath)
+  const movedRef = current.sourceRefs.find((ref) => ref.path === cameraTestPath)
+  if (!oldRef || !movedRef || oldRef.lines === movedRef.lines) return
+
+  const claimIndex = before.claims?.findIndex(
+    (claim) =>
+      claim.id === 'runtime-active-scene-source-contract' && claim.result === 'source-backed',
+  )
+  const oldPointer = `${cameraTestPath}:${oldRef.lines}`
+  const pointerIndex = before.claims?.[claimIndex]?.evidence?.indexOf(oldPointer) ?? -1
+  const pointers = restored.claims?.[claimIndex]?.evidence
+  assert(
+    pointerIndex >= 0 &&
+      Array.isArray(pointers) &&
+      pointers[pointerIndex] === `${cameraTestPath}:${movedRef.lines}`,
+    'active-scene source claim must follow the moved camera oracle',
+  )
+  pointers[pointerIndex] = oldPointer
+}
+
+/** Preserve the accepted object by restoring checked source bindings, the matching
+ * moved camera claim pointer and append-only history. Runtime and publication are immutable. */
 export function assertTestingSourceBridge(path, previousBytes, currentBytes, readSource) {
   assert(isTestingSourceBridgePath(path), 'unadmitted testing source bridge path')
   const before = parseTerminalJson(previousBytes)
@@ -154,6 +190,7 @@ export function assertTestingSourceBridge(path, previousBytes, currentBytes, rea
     assert.equal(current.id, id, 'evidence ID changed')
     const references = restoreReferences(before.sourceRefs, current.sourceRefs, id, sources)
     restored.sourceRefs = references.restored
+    if (id === activeSceneId) restoreActiveSceneCameraPointer(before, current, restored)
     restored.history = restoreHistory(
       before.history,
       current.history,

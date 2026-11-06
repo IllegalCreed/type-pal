@@ -1082,14 +1082,14 @@
           "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1107,10 +1107,10 @@
         },
         {
           "path": "packages/reforge/src/world-camera.test.ts",
-          "lines": "108-125",
+          "lines": "143-157",
           "anchor": "test('pre-aborted request rejects",
           "role": "oracle",
-          "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+          "sha256": "77fd8d046b763348474c9fd306f5299c2bd1a95e8f826e8d1056b6dc65779b04"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1130,6 +1130,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "407-414",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "448-455",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-camera.test.ts",
+                "lines": "108-125",
+                "anchor": "test('pre-aborted request rejects",
+                "role": "oracle",
+                "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+              }
+            ],
+            "scope": "主壳 ActiveScene 和 WorldCamera 端口原位逐字节一致。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1201,7 +1231,7 @@
           "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1242,6 +1272,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1242-1261",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              }
+            ],
+            "scope": "BattleHost 主壳端口、owner 和测试逐字节一致。接敌选择与奖励窗变化归 007 各自证据。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1437,7 +1483,7 @@
           "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "c5d7bd5cb15293d3757c9e20d7d0870a63ad7aae28c29a3ab0590c3e90bcd1d7"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -1451,7 +1497,7 @@
           "lines": "71-88",
           "anchor": "export class WorldScenePresentation",
           "role": "contract",
-          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+          "sha256": "81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -1465,7 +1511,7 @@
           "lines": "82-105",
           "anchor": "describe('WorldScenePresentation sprite ownership'",
           "role": "oracle",
-          "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+          "sha256": "f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1485,6 +1531,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "434-445",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.ts",
+                "lines": "71-88",
+                "anchor": "export class WorldScenePresentation",
+                "role": "contract",
+                "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.test.ts",
+                "lines": "82-105",
+                "anchor": "describe('WorldScenePresentation sprite ownership'",
+                "role": "oracle",
+                "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+              }
+            ],
+            "scope": "WorldMotionRuntime 端口原位逐字节一致。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
