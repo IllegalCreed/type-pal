@@ -139,7 +139,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "在池畔发现衣物",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -321,14 +321,6 @@
                       "ms": 600
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -339,14 +331,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
                     },
                     {
                       "kind": "setEntityFrame",
@@ -361,14 +345,6 @@
                       "ms": 200
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -379,14 +355,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
                     },
                     {
                       "kind": "setEntityFrame",
@@ -401,14 +369,6 @@
                       "ms": 200
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -419,14 +379,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
                     },
                     {
                       "kind": "setEntityFrame",
@@ -441,14 +393,6 @@
                       "ms": 200
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -459,14 +403,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      },
-                      "facing": "down"
                     },
                     {
                       "kind": "setEntityFrame",
@@ -590,14 +526,6 @@
                       "ms": 1000
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 9,
                       "kind": "setEntityFrame",
                       "target": {
@@ -612,14 +540,6 @@
                     {
                       "kind": "wait",
                       "ms": 800
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 10,
@@ -705,14 +625,6 @@
                       "kind": "dialog"
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 11,
                       "kind": "setEntityFrame",
                       "target": {
@@ -729,14 +641,6 @@
                       "ms": 300
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 12,
                       "kind": "setEntityFrame",
                       "target": {
@@ -747,14 +651,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 13,
@@ -769,14 +665,6 @@
                       "ms": 200
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 14,
                       "kind": "setEntityFrame",
                       "target": {
@@ -787,14 +675,6 @@
                     {
                       "kind": "wait",
                       "ms": 200
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 15,
@@ -821,14 +701,6 @@
                         }
                       },
                       "kind": "dialog"
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 16,
@@ -903,14 +775,6 @@
                       "kind": "dialog"
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 15,
                       "kind": "setEntityFrame",
                       "target": {
@@ -961,14 +825,6 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 16,
@@ -1032,14 +888,6 @@
                       "kind": "clearDialog"
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
-                    },
-                    {
                       "frame": 15,
                       "kind": "setEntityFrame",
                       "target": {
@@ -1099,14 +947,6 @@
                         "slot": "top"
                       },
                       "kind": "dialog"
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e217"
-                      }
                     },
                     {
                       "frame": 16,
@@ -1285,13 +1125,14 @@
                       }
                     }
                   ],
-                  "label": "发现沐浴少女并偷藏衣物"
+                  "label": "藏起衣物并向赵灵儿求药"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "赵灵儿的衣物"
     },
     {
       "id": "e213",
@@ -1317,7 +1158,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "折返池畔后躲雷求药",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1414,22 +1255,20 @@
                       "kind": "setPartyFacing"
                     },
                     {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 40
-                    },
-                    {
-                      "dx": -16,
-                      "dy": -8,
-                      "kind": "nudgeParty"
+                      "kind": "repeat",
+                      "count": 2,
+                      "label": "雷声后连续闪避两步",
+                      "body": [
+                        {
+                          "kind": "wait",
+                          "ms": 40
+                        },
+                        {
+                          "dx": -16,
+                          "dy": -8,
+                          "kind": "nudgeParty"
+                        }
+                      ]
                     },
                     {
                       "kind": "wait",
@@ -1477,6 +1316,13 @@
                       "dx": -128,
                       "dy": 16,
                       "kind": "nudgeEntity",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "releaseEntity",
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
@@ -2427,13 +2273,15 @@
                         "entity": "e216"
                       }
                     }
-                  ]
+                  ],
+                  "label": "躲过雷击，说明来意并获准跟随"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "池畔折返触发点"
     },
     {
       "id": "e214",
@@ -2752,7 +2600,7 @@
           }
         }
       },
-      "label": "少女（沐浴演出）"
+      "label": "赵灵儿（沐浴演出）"
     },
     {
       "id": "e218",
@@ -2806,14 +2654,6 @@
                       "ms": 100
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e218"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -2826,14 +2666,6 @@
                       "ms": 100
                     },
                     {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e218"
-                      },
-                      "facing": "down"
-                    },
-                    {
                       "kind": "setEntityFrame",
                       "target": {
                         "scene": "s016",
@@ -2844,14 +2676,6 @@
                     {
                       "kind": "wait",
                       "ms": 100
-                    },
-                    {
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e218"
-                      },
-                      "facing": "down"
                     },
                     {
                       "kind": "setEntityFrame",
@@ -2908,7 +2732,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "出场滑行姿态",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2916,7 +2740,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "循环播放出场姿态",
                   "body": [
                     {
                       "kind": "loop",
@@ -2947,14 +2771,6 @@
                           "ms": 100
                         },
                         {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
-                        },
-                        {
                           "kind": "wait",
                           "ms": 100
                         },
@@ -2971,14 +2787,6 @@
                           "ms": 100
                         },
                         {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
-                        },
-                        {
                           "kind": "wait",
                           "ms": 100
                         },
@@ -2993,14 +2801,6 @@
                         {
                           "kind": "wait",
                           "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
                         },
                         {
                           "kind": "wait",
@@ -3019,14 +2819,6 @@
                           "ms": 100
                         },
                         {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
-                        },
-                        {
                           "kind": "wait",
                           "ms": 100
                         },
@@ -3041,14 +2833,6 @@
                         {
                           "kind": "wait",
                           "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
                         },
                         {
                           "kind": "wait",
@@ -3067,14 +2851,6 @@
                           "ms": 100
                         },
                         {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
-                        },
-                        {
                           "kind": "wait",
                           "ms": 100
                         },
@@ -3089,14 +2865,6 @@
                         {
                           "kind": "wait",
                           "ms": 100
-                        },
-                        {
-                          "facing": "down",
-                          "kind": "setEntityFacing",
-                          "target": {
-                            "scene": "s016",
-                            "entity": "e219"
-                          }
                         },
                         {
                           "kind": "wait",
@@ -3122,7 +2890,7 @@
             }
           },
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "听完求药缘由后的反应",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3130,7 +2898,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "播放赵灵儿的反应",
                   "body": [
                     {
                       "facing": "down",
@@ -3157,14 +2925,6 @@
                       "ms": 100
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
-                    },
-                    {
                       "kind": "wait",
                       "ms": 100
                     },
@@ -3179,14 +2939,6 @@
                     {
                       "kind": "wait",
                       "ms": 100
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
                     },
                     {
                       "kind": "wait",
@@ -3205,14 +2957,6 @@
                       "ms": 100
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
-                    },
-                    {
                       "kind": "wait",
                       "ms": 100
                     },
@@ -3227,14 +2971,6 @@
                     {
                       "kind": "wait",
                       "ms": 100
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
                     },
                     {
                       "kind": "wait",
@@ -3253,14 +2989,6 @@
                       "ms": 100
                     },
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
-                    },
-                    {
                       "kind": "wait",
                       "ms": 100
                     },
@@ -3275,14 +3003,6 @@
                     {
                       "kind": "wait",
                       "ms": 100
-                    },
-                    {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e219"
-                      }
                     },
                     {
                       "kind": "wait",
@@ -3315,7 +3035,8 @@
             }
           }
         }
-      }
+      },
+      "label": "赵灵儿（滑行现身）"
     },
     {
       "id": "e220",
@@ -3337,7 +3058,7 @@
       "behaviors": {
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "滑行入场",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -3345,7 +3066,7 @@
               "stages": [
                 {
                   "id": "routine",
-                  "label": "自动动作编排",
+                  "label": "分段减速滑到池畔",
                   "body": [
                     {
                       "kind": "repeat",
@@ -3364,7 +3085,8 @@
                           "kind": "wait",
                           "ms": 100
                         }
-                      ]
+                      ],
+                      "label": "匀速滑行"
                     },
                     {
                       "kind": "nudgeEntity",
@@ -3396,7 +3118,8 @@
                           "kind": "wait",
                           "ms": 100
                         }
-                      ]
+                      ],
+                      "label": "减半步幅"
                     },
                     {
                       "kind": "repeat",
@@ -3415,7 +3138,8 @@
                           "kind": "wait",
                           "ms": 100
                         }
-                      ]
+                      ],
+                      "label": "再减速至停稳"
                     },
                     {
                       "kind": "setEntityState",
@@ -3437,7 +3161,8 @@
             }
           }
         }
-      }
+      },
+      "label": "赵灵儿出场滑行控制点"
     },
     {
       "id": "e221",
@@ -3452,7 +3177,7 @@
       "behaviors": {
         "auto": {
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "带路离开池畔",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -3460,7 +3185,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "先走后跑并离场",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -3587,7 +3312,8 @@
             }
           }
         }
-      }
+      },
+      "label": "赵灵儿（引路）"
     },
     {
       "id": "e222",
@@ -4415,7 +4141,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "采摘止血草",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -4457,13 +4183,15 @@
                       "itemId": "99",
                       "kind": "giveItem"
                     }
-                  ]
+                  ],
+                  "label": "拾取一株止血草"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "止血草（可采集）"
     }
   ],
   "entries": {
