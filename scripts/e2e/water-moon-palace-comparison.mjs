@@ -402,9 +402,9 @@ function compareChest(game, reforge) {
     ({ type, key }) => type === 'keydown' && key === 'Enter',
   )
   return game.story.chest.visits.map(({ narration, start, end }, index) => {
-    const { pages, ready, start: reforgeStart } = reforge.story.chest.visits[index]
+    const { pages, ready, start: reforgeStart, end: reforgeEnd } = reforge.story.chest.visits[index]
     const before = reforge.story.chest.visits[index - 1]?.end ?? reforge.story.portals[1].order
-    const input = enters.filter(({ order }) => before < order && order < ready.order)
+    const input = enters.filter(({ order }) => before < order && order < reforgeEnd)
     assert.equal(input.length, 1, `chest search ${index + 1} required a second confirmation`)
     assert(input[0].order < reforgeStart && !input[0].repeat)
     const shown = draws.find(({ order }) => order === pages[0].drawOrder)
