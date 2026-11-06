@@ -3082,7 +3082,7 @@
           "lines": "33-37",
           "anchor": "return recompareIslandEntrance",
           "role": "offline public caller",
-          "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
         },
         {
           "path": "scripts/e2e/island-entrance-comparison.mjs",
@@ -3173,7 +3173,7 @@
           }
         ]
       },
-      "reviewScope": "同路双轨技术复核、正式存读及静态预览通过，用户确认 28.12 秒同路分屏。"
+      "reviewScope": "同路双轨技术复核、正式存读及静态预览通过，用户确认 28.12 秒同路分屏。 010 新分派只影响同入口文件指纹，007 分支保持同字节。"
     },
     {
       "id": "e2e-008",
@@ -3335,10 +3335,10 @@
         },
         {
           "path": "scripts/e2e/recompare-recording.mjs",
-          "lines": "33-47",
+          "lines": "42-45",
           "anchor": "if (fragment === '009')",
           "role": "caller",
-          "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
         },
         {
           "path": "scripts/e2e/fairy-island-pool-comparison.mjs",
@@ -3349,24 +3349,24 @@
         },
         {
           "path": "projects/pal/content/scenes/s016.json",
-          "lines": "119-119",
+          "lines": "121-121",
           "anchor": "\"id\": \"e212\"",
           "role": "authored-first-pool-entry",
-          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
         },
         {
           "path": "projects/pal/content/scenes/s016.json",
-          "lines": "1144-1144",
+          "lines": "1146-1146",
           "anchor": "\"id\": \"e213\"",
           "role": "authored-return-trigger",
-          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
         },
         {
           "path": "projects/pal/content/scenes/s016.json",
-          "lines": "4216-4216",
+          "lines": "4218-4218",
           "anchor": "\"id\": \"e233\"",
           "role": "authored-visible-pickup",
-          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -3447,7 +3447,7 @@
           }
         ]
       },
-      "reviewScope": "同候选双轨技术、存读和保存的静态预览通过，用户确认 129.4 秒池塘分屏。"
+      "reviewScope": "同候选双轨技术、存读和保存的静态预览通过，用户确认 129.4 秒池塘分屏。 010 新分派和桃花林出口名称只改变来源指纹与行号，009 调用和剧情正文保持原样。"
     }
   ],
   "_governance": {
