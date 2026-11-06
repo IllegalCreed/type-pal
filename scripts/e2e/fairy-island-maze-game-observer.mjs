@@ -28,7 +28,7 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
       overflow = true
     },
   })
-  const append = recorder.append
+  const { append, resources } = recorder
   const drawnActors = new Map()
   const position = ({ x, y }) => [x, y]
   const npcState = (npc) =>
@@ -118,8 +118,8 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
         for (const id of tracked) {
           const draw = render.actors[id]
           if (!draw) continue
-          const { position, facing, frame, assetId } = draw
-          const state = { position, facing, frame, assetId, drawStatus: 'drawn' }
+          const { position, facing, frame, assetId, frameResourceId } = draw
+          const state = { position, facing, frame, assetId, frameResourceId, drawStatus: 'drawn' }
           const snapshot = JSON.stringify([sceneVisit, state])
           if (drawnActors.get(id) === snapshot) continue
           drawnActors.set(id, snapshot)
@@ -188,6 +188,7 @@ export function installFairyMazeGameObserver(_causal, createRecorder) {
     saveCaptures,
     saveCompletions,
     gameRestores,
+    resources: resources(),
     errors,
     overflow,
   })
@@ -197,7 +198,9 @@ export function assertFairyMazeGameTrace(trace) {
   assert.equal(trace.overflow, false, '008 Game trace exceeded its budget')
   assert.deepEqual(trace.errors, [], '008 Game trace observer error')
   const ordered = []
-  for (const name of ['events', 'inputs', 'saveCaptures', 'saveCompletions', 'gameRestores']) {
+  const lists = ['events', 'inputs', 'saveCaptures', 'saveCompletions', 'gameRestores']
+  if (trace.resources !== undefined) lists.push('resources')
+  for (const name of lists) {
     trace[name].forEach((event, index) => {
       assert.equal(event.seq, index, `008 Game lost ${name} record`)
       ordered.push(event)
