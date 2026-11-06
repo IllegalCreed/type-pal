@@ -276,6 +276,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
   const completed = []
   const emptyPages = []
   let continueAfterWorld = false
+  let presentedPartyFacing
   const stop = new Error('stop after world pass')
   const scope = {
     globalThis: { __openingMatrixRendered: (page) => emptyPages.push(page) },
@@ -291,12 +292,21 @@ test('real render early returns and failed draws never claim a freshly rendered 
     syncDitherDebugDataset() {},
     updateCamera() {},
     deriveFollowers() {},
-    worldPresentation: { sprites: () => [], renderWorld() {} },
+    worldPresentation: {
+      sprites: ({ player }) => {
+        presentedPartyFacing = player.facing
+        return []
+      },
+      renderWorld() {},
+    },
     activeScene: { scene: { entities: [] } },
     runtimeScript: {},
     world: { party: [] },
     partyVisual() {},
-    player: {},
+    player: { pos: { col: 3, row: 2, height: 0 } },
+    authority: new Map(),
+    authoredPartyFacing: null,
+    runner: null,
     facing: 'down',
     walking: false,
     stepFrame: 0,
@@ -346,6 +356,7 @@ test('real render early returns and failed draws never claim a freshly rendered 
   assert.throws(render, (error) => error === stop)
   assert.deepEqual(points, ['before:render', 'render:world'])
   assert.equal(completed.length, 1)
+  assert.equal(presentedPartyFacing, 'down')
   assert.equal(completed[0].tick, 31)
   assert(Number.isFinite(completed[0].atMs))
   assert.deepEqual(emptyPages, [], 'early returns and failed world paths cannot clear dialogue')
@@ -359,6 +370,14 @@ test('real render early returns and failed draws never claim a freshly rendered 
   assert.deepEqual(emptyPages, [], 'auto-advance closure retains the page already drawn this frame')
   assert.throws(render, (error) => error === stop)
   assert.deepEqual(emptyPages, [null], 'only the following successful world pass clears that page')
+
+  scope.activeScene.scene.entities.push({ id: 'carrier', pos: scope.player.pos, facing: 'down' })
+  scope.authority.set('party', { kind: 'mount', parent: 'carrier', dx: 0, dy: 0 })
+  scope.runner = { running: true }
+  scope.authoredPartyFacing = { owner: scope.runner, facing: 'left' }
+  scope.facing = 'up'
+  assert.throws(render, (error) => error === stop)
+  assert.equal(presentedPartyFacing, 'left')
 
   const game = 'packages/game/src/present/present.ts'
   const gamePoints = []
