@@ -12,6 +12,7 @@
   "entities": [
     {
       "id": "e204",
+      "label": "仙灵岛迷宫入口",
       "pos": {
         "col": 116,
         "row": 2,
@@ -33,7 +34,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "初次上岛：进入仙灵岛迷宫",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -41,6 +42,7 @@
               "stages": [
                 {
                   "id": "initial",
+                  "label": "切换到仙灵岛迷宫",
                   "body": [
                     {
                       "kind": "loadScene",
@@ -141,6 +143,7 @@
     },
     {
       "id": "e206",
+      "label": "草妖（靠码头）",
       "pos": {
         "col": 118,
         "row": 75,
@@ -165,6 +168,7 @@
     },
     {
       "id": "e207",
+      "label": "草妖（入口中段）",
       "pos": {
         "col": 117,
         "row": 46,
@@ -189,6 +193,7 @@
     },
     {
       "id": "e208",
+      "label": "草妖（入口上段）",
       "pos": {
         "col": 115,
         "row": 31,
@@ -213,6 +218,7 @@
     },
     {
       "id": "e209",
+      "label": "草妖（迷宫入口前）",
       "pos": {
         "col": 117,
         "row": 17,

@@ -2,7 +2,12 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { auditDocuments, renderTaskIndex, taskInfo } from './check.mjs'
-import { checkDocumentModel, checkRouting, checkTemplateBody } from './document-model.mjs'
+import {
+  checkDocumentModel,
+  checkMigratedDocument,
+  checkRouting,
+  checkTemplateBody,
+} from './document-model.mjs'
 
 const config = {
   entry: 'AGENTS.md',
@@ -72,6 +77,36 @@ test('moving a machine receipt into payload breaks its public top-level field co
     'missing machine field: exitCode',
   ])
   assert.deepEqual(checkTemplateBody('null', template), ['expected machine evidence object'])
+})
+
+test('an admitted stage execution addition uses the native body and machine declaration', () => {
+  const registry = JSON.parse(
+    readFileSync(new URL('../../docs/phase-governance/templates/registry.json', import.meta.url)),
+  )
+  const native = JSON.parse(
+    readFileSync(new URL('../../docs/testing/e2e/evidence/e2e-006-current.json', import.meta.url)),
+  )
+  const doc = {
+    path: 'docs/testing/e2e/evidence/e2e-007.json',
+    templateId: 'test-machine-evidence-v1',
+  }
+  native.id = 'e2e-007'
+  const check = () => {
+    const current = Buffer.from(JSON.stringify(native))
+    const locations = {
+      additions: new Map([[doc.path, doc]]),
+      changes: new Map(),
+      assertCurrent: () => ({ current }),
+    }
+    return checkMigratedDocument(doc, registry, () => current.toString('utf8'), { locations })
+  }
+  assert.deepEqual(check(), [])
+  delete native.execution
+  native._governance.templateVersion = '1.4.0'
+  assert.deepEqual(check(), [
+    'missing machine field: execution',
+    'machine template declaration mismatch',
+  ])
 })
 
 test('a catalog envelope preserves its public schema and cannot claim execution', () => {

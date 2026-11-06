@@ -233,7 +233,7 @@
           "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
+          "sha256": "4d9c0fbd649e662ef3df4c668303457dfc1842ccad723257092e4d44f9962cda"
         }
       ],
       "publicCallers": [
@@ -351,7 +351,7 @@
           "lines": "527-642",
           "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
           "role": "real transformed caller oracle",
-          "sha256": "965892932b391417a20cc2162dabd3c0dc6266e009bbbbc06e5cde5aceb9a9d7"
+          "sha256": "4d9c0fbd649e662ef3df4c668303457dfc1842ccad723257092e4d44f9962cda"
         }
       ],
       "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -1082,14 +1082,14 @@
           "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1107,10 +1107,10 @@
         },
         {
           "path": "packages/reforge/src/world-camera.test.ts",
-          "lines": "108-125",
+          "lines": "143-157",
           "anchor": "test('pre-aborted request rejects",
           "role": "oracle",
-          "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+          "sha256": "77fd8d046b763348474c9fd306f5299c2bd1a95e8f826e8d1056b6dc65779b04"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1130,6 +1130,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "407-414",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "448-455",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-camera.test.ts",
+                "lines": "108-125",
+                "anchor": "test('pre-aborted request rejects",
+                "role": "oracle",
+                "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+              }
+            ],
+            "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1201,7 +1231,7 @@
           "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1242,6 +1272,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1242-1261",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              }
+            ],
+            "scope": "BattleHost 主壳端口下移两行，端口接线、owner 和测试字节相同。接敌选择与奖励窗变化归 007 各自证据。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -1437,7 +1483,7 @@
           "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -1451,7 +1497,7 @@
           "lines": "71-88",
           "anchor": "export class WorldScenePresentation",
           "role": "contract",
-          "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+          "sha256": "81af6d6d3582ecff255b2242b108ffb270b4c9e017bc015b687417b409d402d2"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.test.ts",
@@ -1465,7 +1511,7 @@
           "lines": "82-105",
           "anchor": "describe('WorldScenePresentation sprite ownership'",
           "role": "oracle",
-          "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+          "sha256": "f18b1755bab15ad924c19700cc53f9c87d3a4712b44cd70ba7afbb35be719bf6"
         },
         {
           "path": "packages/content/src/character.ts",
@@ -1485,6 +1531,36 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "date": "2026-11-06",
+            "action": "e2e-r4-runtime-source-bridge",
+            "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "434-445",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.ts",
+                "lines": "71-88",
+                "anchor": "export class WorldScenePresentation",
+                "role": "contract",
+                "sha256": "e6edaddf9e78747a11e409f6058d6f3014f169b799cda182a225827cc700efa0"
+              },
+              {
+                "path": "packages/reforge/src/world-scene-presentation.test.ts",
+                "lines": "82-105",
+                "anchor": "describe('WorldScenePresentation sprite ownership'",
+                "role": "oracle",
+                "sha256": "0925a2b288cab4ba75f054c6880845e5ef800d80ba07d8dc2bd04c5dc8f716cd"
+              }
+            ],
+            "scope": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行且字节相同。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
+            "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
           }
         ]
       },
@@ -2954,6 +3030,424 @@
           "scope": "Original publication status/runtime claims remain at main source time; active calendar deadline is retired, no execution rerun."
         }
       ]
+    },
+    {
+      "id": "e2e-007",
+      "kind": "e2e-stage",
+      "title": "007 从仙灵岛码头到迷宫入口",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "island-entrance",
+      "canonical": "e2e/stages/007-island-entrance/report.md",
+      "index": "e2e/stages/007-island-entrance/README.md",
+      "evidence": "e2e/evidence/e2e-007.json",
+      "tags": ["story", "hostile-encounter", "save-restore", "editor-preview", "visual"],
+      "lastVerified": "2026-11-06",
+      "dependsOn": ["e2e-contract"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/island-entrance.mjs",
+          "lines": "27-47",
+          "anchor": "assertBoatReport(predecessor)",
+          "role": "verify caller and legal predecessor",
+          "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+        },
+        {
+          "path": "scripts/e2e/island-entrance.mjs",
+          "lines": "48-67",
+          "anchor": "const dockPlan = fixedRoutePlan",
+          "role": "fixed route and endpoint",
+          "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+        },
+        {
+          "path": "scripts/e2e/island-entrance.mjs",
+          "lines": "290-337",
+          "anchor": "only the first valid speed-win request may succeed",
+          "role": "actual encounter and settlement",
+          "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+        },
+        {
+          "path": "scripts/e2e/island-entrance.mjs",
+          "lines": "469-510",
+          "anchor": "assertBoatGameSaveCapture(payload, capture.payload)",
+          "role": "formal save and fresh restore",
+          "sha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1"
+        },
+        {
+          "path": "scripts/e2e/recompare-recording.mjs",
+          "lines": "33-37",
+          "anchor": "return recompareIslandEntrance",
+          "role": "offline public caller",
+          "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+        },
+        {
+          "path": "scripts/e2e/island-entrance-comparison.mjs",
+          "lines": "328-368",
+          "anchor": "export async function recompareIslandEntrance",
+          "role": "committed route, encounters and sprite draws",
+          "sha256": "ee4ff2b630355eea5be90f1fa33b4a77ba4a429b94319c95624e730803268d7e"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-168",
+          "anchor": "export const CONTENT_VERSION = 22",
+          "role": "canonical content version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "lines": "9-9",
+          "anchor": "export const SAVE_VERSION = 12",
+          "role": "Reforge save version",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+        }
+      ],
+      "publicCallers": [
+        "node scripts/e2e/island-entrance.mjs --engine game --headless --visual-review --from <game006/report.json>",
+        "node scripts/e2e/island-entrance.mjs --engine reforge --headless --visual-review --from <reforge006/report.json>",
+        "node scripts/e2e/recompare-recording.mjs 007 <game007/report.json> <reforge007/report.json> <new-output.json>"
+      ],
+      "legalInputs": [
+        "各引擎实际完成 006 并保存的本引擎 verify 报告和对应终档字节",
+        "Game SAVE1，Reforge content22 / SAVE12；正常方向键逐步走 44 格加 88 格",
+        "实际普通草妖遭遇，李逍遥单人；首轮就绪后一次速胜请求，经 Enter 确认正式结算",
+        "正式 007 终档通过本引擎独立浏览器会话恢复"
+      ],
+      "businessOracle": {
+        "type": "island-entrance-committed-route-encounter-and-handoff",
+        "assertions": [
+          "两端真实移动提交逐步匹配，码头 44 步和岛入口 88 步，在迷宫首次恢复操控处停止",
+          "同格同序触发 e206、e207、e209，正式结算后从原格可控，经验合计 +8，钱数不变",
+          "e206 至 e209 的逐步追逐位置和实际绘制帧匹配；e208 参与追逐但没有接敌",
+          "各自正式保存与独立会话恢复核对持久域，确认 008 实际消费对应终档"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": ["e2e-contract", "e2e-006", "旧 007 不同遭遇与奖励窗执行", "008 迷宫机关"],
+        "notes": "006 证明实际前驱，007 只授本段运行结果；编辑器逐步骤证据和作者观感分别按原裁定记录。"
+      },
+      "revision": {
+        "currentSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "revision": "6b2a252984431d6866e68c1e38f3ea5424535836",
+            "date": "2026-11-05",
+            "action": "first-dual-native-run",
+            "result": "Game 三场，Reforge 四场，均完成迷宫终档和恢复。"
+          },
+          {
+            "revision": "6557d7c1832c920edb3fbb1719402a923797adf4",
+            "date": "2026-11-06",
+            "action": "settlement-layout-rerun",
+            "result": "首场奖励窗修后分屏获作者通过。"
+          },
+          {
+            "revision": "5bbc2e5de5af771862dc725d6799d5af357e0073",
+            "date": "2026-11-06",
+            "action": "first-common-route-runtime-match",
+            "result": "统一接敌、逐步追逐和实绘通过，编辑器迷宫入口初态以该轮首叶现场取证。"
+          },
+          {
+            "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+            "date": "2026-11-06",
+            "action": "rerun-after-shared-mounted-pose-fix",
+            "result": "双轨技术对照通过，迷宫终档均正式恢复并供 008 接续。"
+          },
+          {
+            "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+            "date": "2026-11-06",
+            "action": "user-accepted-current-split-screen",
+            "visualReview": {
+              "result": "accepted",
+              "quote": "007、009 都通过",
+              "clipSha256": "24b609ea42db5308b596dbb3556d889dc2ef6c595864a28988c81353983e05ad",
+              "seconds": 28.12
+            }
+          }
+        ]
+      },
+      "reviewScope": "同路双轨技术复核、正式存读及静态预览通过，用户确认 28.12 秒同路分屏。"
+    },
+    {
+      "id": "e2e-008",
+      "kind": "e2e-stage",
+      "title": "008 仙灵岛迷宫与桃花林入口",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "fairy-island-maze",
+      "canonical": "e2e/stages/008-fairy-island-maze/report.md",
+      "index": "e2e/stages/008-fairy-island-maze/README.md",
+      "evidence": "e2e/evidence/e2e-008.json",
+      "tags": ["story", "npc", "route", "maze", "visual"],
+      "lastVerified": "2026-11-06",
+      "dependsOn": ["e2e-007"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/fairy-island-maze-game.mjs",
+          "lines": "27-42",
+          "anchor": "const { values: options } = parseArgs({",
+          "role": "Game native verify caller",
+          "sha256": "c3c4a442cd58c17d1c62349331475bed27216802df3d8eb4c70246d83d351f7e"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-maze-reforge.mjs",
+          "lines": "24-33",
+          "anchor": "008 requires --from a formal Reforge 007 verify report",
+          "role": "Reforge native verify caller",
+          "sha256": "63dd8305713c0bd65e02274d783a328d3c59c9876f6daa947b8f32480d568f43"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-maze-comparison.mjs",
+          "lines": "349-380",
+          "anchor": "function compareRiderTurns",
+          "role": "rider motion and actual draw oracle",
+          "sha256": "a9e5383c03dbbeed5e452aa90bdeca909b69ebedce5f638c8516049aee38ba77"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-maze-comparison.mjs",
+          "lines": "382-445",
+          "anchor": "function compareStatues",
+          "role": "statue actual frame and indexed pixels oracle",
+          "sha256": "a9e5383c03dbbeed5e452aa90bdeca909b69ebedce5f638c8516049aee38ba77"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-maze-comparison.mjs",
+          "lines": "471-500",
+          "anchor": "function verifyTerminal",
+          "role": "terminal checkpoint oracle",
+          "sha256": "a9e5383c03dbbeed5e452aa90bdeca909b69ebedce5f638c8516049aee38ba77"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "PAL content and Reforge minimum save version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "publicCallers": [
+        "node scripts/e2e/fairy-island-maze-game.mjs --headless --visual-review --from <same-engine-Game-007-report>",
+        "node scripts/e2e/fairy-island-maze-reforge.mjs --headless --visual-review --from <same-engine-Reforge-007-report>",
+        "node scripts/e2e/recompare-recording.mjs 008 <Game-008-report> <Reforge-008-report> <new-comparison-output>"
+      ],
+      "legalInputs": [
+        "Each native runner reads its own actual 007 verify report and byte-bound checkpoint on candidate 743be436c.",
+        "The recorded start is first control in the Fairy Island maze, with one Sky Breaker Hammer. PAL content22 and Reforge SAVE12 apply.",
+        "Normal direction keys, search and the item menu follow the frozen route through the maze. Fresh restore reads the resulting native 008 save."
+      ],
+      "businessOracle": {
+        "type": "dual-008-maze-route-mechanisms-draws-and-persistence",
+        "assertions": [
+          "Match all 636 direction commits and 41 route actions. Match 31 raft rides, 1154 rider positions/facings and the actual drawings at 19 turns.",
+          "Check all six Asura statues’ original pose indices and selected frame pixels. The six hammer hits destroy only those statues, expose the starting plate and consume the hammer.",
+          "Observe the snow lotus and five-talisman chest rewards and the Guanyin statue state. Returning to the flashing plate opens the exit and reaches control in the Peach Grove.",
+          "Both producers save actual 008 terminal checkpoints and restore them in fresh contexts. Native Editor save, reopen, single-step and reset bind the observed hammer entry layouts."
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": ["e2e-contract", "e2e-007", "e2e-009"],
+        "notes": "007 supplies native inputs. 008 owns the maze and first control in the grove. 009 owns the subsequent pickup and pool sequences."
+      },
+      "revision": {
+        "currentSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+            "date": "2026-11-06",
+            "action": "same-route-008-native-verify-and-fresh-restore",
+            "independentAcceptance": "passed",
+            "visualReview": {
+              "result": "accepted",
+              "clipSha256": "bf0529928b54d58ca0ff586bd40fa598fe6204c5acddc53a771429cf1575c644"
+            },
+            "notRun": ["capture", "audio acceptance", "unvisited branches"]
+          }
+        ]
+      },
+      "reviewScope": "Frozen native Game/Reforge maze route and draws, actual same-engine checkpoints, saved static Editor preview and the user-accepted silent 008 split screen."
+    },
+    {
+      "id": "e2e-009",
+      "kind": "e2e-stage",
+      "title": "009 桃花林采药与池塘初遇",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "fairy-island-pool",
+      "canonical": "e2e/stages/009-fairy-island-pool/report.md",
+      "index": "e2e/stages/009-fairy-island-pool/README.md",
+      "evidence": "e2e/evidence/e2e-009.json",
+      "tags": ["story", "npc", "item-pickup", "visual"],
+      "lastVerified": "2026-11-06",
+      "dependsOn": ["e2e-008"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/fairy-island-pool-game.mjs",
+          "lines": "60-78",
+          "anchor": "readCheckpointInput(predecessorRef",
+          "role": "caller",
+          "sha256": "4e4b1577d09a7306ce1113bd01386553ae6470b246bc11ef36b643b2b6123370"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
+          "lines": "48-70",
+          "anchor": "await readCheckpointInput(",
+          "role": "caller",
+          "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-pool-route.mjs",
+          "lines": "5-63",
+          "anchor": "export function fairyPoolRoutes(engine)",
+          "role": "legal-input",
+          "sha256": "72e2215c6bc83ec4e07ba96bb9934130bb8ac58d6356ebe1b949436dc7fdbd28"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-pool-game-oracle.mjs",
+          "lines": "24-24",
+          "anchor": "export function assertFairyPoolGameStory(trace, report)",
+          "role": "oracle",
+          "sha256": "2d5c270f323ab84650de93f43699954beda51774a9efd61ec1cd0edae6e35f60"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-pool-reforge-trace.mjs",
+          "lines": "345-345",
+          "anchor": "export function verifyFairyIslandPoolTrace(trace)",
+          "role": "oracle",
+          "sha256": "d4d484689d4cedeba059e52d213f9d4ee4be3843b18ae679510a90505e8870a4"
+        },
+        {
+          "path": "scripts/e2e/recompare-recording.mjs",
+          "lines": "33-47",
+          "anchor": "if (fragment === '009')",
+          "role": "caller",
+          "sha256": "f07159364c57d90d8a66ca017ab584a25c3d7a3b6a594a0a5271f764b9c516b1"
+        },
+        {
+          "path": "scripts/e2e/fairy-island-pool-comparison.mjs",
+          "lines": "404-440",
+          "anchor": "export async function recompareFairyIslandPool",
+          "role": "oracle",
+          "sha256": "839de3e7c77ac8f536ecc78ebed9052e68fc92aa71f1a055b8d34858782ddee1"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "119-119",
+          "anchor": "\"id\": \"e212\"",
+          "role": "authored-first-pool-entry",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "1144-1144",
+          "anchor": "\"id\": \"e213\"",
+          "role": "authored-return-trigger",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "4216-4216",
+          "anchor": "\"id\": \"e233\"",
+          "role": "authored-visible-pickup",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-168",
+          "anchor": "export const CONTENT_VERSION = 22",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "lines": "9-9",
+          "anchor": "export const SAVE_VERSION = 12",
+          "role": "version",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2"
+        }
+      ],
+      "publicCallers": [
+        "node scripts/e2e/fairy-island-pool-game.mjs --headless --verify --visual-review --from <Game-008-report>",
+        "node scripts/e2e/fairy-island-pool-reforge.mjs --headless --verify --visual-review --from <Reforge-008-report>",
+        "node scripts/e2e/recompare-recording.mjs 009 <Game-009-report> <Reforge-009-report> <new-output>"
+      ],
+      "legalInputs": [
+        "各引擎用同候选的实际 008 verify 报告与正式 008.end.save.json，在桃花林恢复",
+        "以生产方向键、调查和对白确认完成两个独立触发，路线与实际移动提交同时校验",
+        "内容版本 22，Reforge SAVE12。Game 原生 F5 和 Reforge 公开 dumpSave 产出各自正式终档"
+      ],
+      "businessOracle": {
+        "type": "dual009-fairy-island-pool-journey-and-draw-parity",
+        "assertions": [
+          "三段实际方向提交分别为 70、144、25 步，两端逐步匹配",
+          "止血草实体 e233 领取后隐藏，物品 99 增一，原处复点无重复奖励",
+          "两次独立池塘入口之间恢复自由控制并走回池边，两端记录八雷，离场后仍在桃花林",
+          "按原盘 L_5240 的 48 步实绘核时长、镜位及两次淡入的旧对白清除",
+          "两端在剧情和离场完成后正式存档，新浏览器会话读回持久状态且池塘剧情不重播"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": ["e2e-008", "e2e-009 首轮 bf3071ecb 录制", "e2e-009 的单独编辑器初态验收"],
+        "notes": "008 只提供合法输入。009 发布配对只认当前两条实跑，旧反例和原保存证据各保留本轮身份。"
+      },
+      "revision": {
+        "currentSha": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "revision": "bf3071ecb048cdc3ab5eb6398e8acad359bcf50a",
+            "date": "2026-11-06",
+            "action": "original-dual-run-later-rejected-for-route-camera-and-dialogue"
+          },
+          {
+            "revision": "8d9dcdbe29ba5e194bbcb8ff6caf43f6b352dd22",
+            "date": "2026-11-06",
+            "action": "shared-route-camera-dialogue-and-saved-editor-recheck"
+          },
+          {
+            "revision": "5bbc2e5de5af771862dc725d6799d5af357e0073",
+            "date": "2026-11-06",
+            "action": "same-candidate-predecessors-and-unified-comparison"
+          },
+          {
+            "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+            "date": "2026-11-06",
+            "action": "current-native-008-to-009-and-unified-recomparison",
+            "visualAcceptance": "pending"
+          },
+          {
+            "revision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
+            "date": "2026-11-06",
+            "action": "user-accepted-current-split-screen",
+            "visualReview": {
+              "result": "accepted",
+              "quote": "007、009 都通过",
+              "clipSha256": "db199f27362d57ca33345c2595525fb0b402f423e4b4f2925b2828e5bc50c002",
+              "seconds": 129.4
+            }
+          }
+        ]
+      },
+      "reviewScope": "同候选双轨技术、存读和保存的静态预览通过，用户确认 129.4 秒池塘分屏。"
     }
   ],
   "_governance": {
@@ -3068,6 +3562,18 @@
       {
         "id": "game-input-rotation",
         "conclusion": "2026-10-27有限功能与用户接受、官方20203/812、保护CI及实际应用/资源部署收口；保留原合同和执行身份，真机/自然剧情/离线激活未核。"
+      },
+      {
+        "id": "e2e-007",
+        "conclusion": "同路 132 步、三场草妖、经验及实绘通过，实际同引擎前驱与终档绑定。用户确认 28.12 秒分屏。"
+      },
+      {
+        "id": "e2e-008",
+        "conclusion": "同路迷宫、六像与 19 次乘漂转向的实绘、实际终档及静态初态通过，用户确认 227 秒分屏。"
+      },
+      {
+        "id": "e2e-009",
+        "conclusion": "同路 239 步、48 步平移、两处换镜对白和实际终档通过。用户确认 129.4 秒分屏。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

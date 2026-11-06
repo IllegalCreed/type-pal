@@ -35,9 +35,11 @@ git diff --check
 
 ### 现行测试来源绑定维护
 
-源码变化后先核实际差异与适用性，不能直接刷新测试载体的SHA。位置合同的`testing-source-bridge`仅支持[已准入的四个现行testing载体及七个来源](../../../scripts/docs/testing-source-bridge.mjs)：保留固定Git原件，独立审阅后只改现有sourceRef的指纹/行范围并追加一条复核history，旧来源完整进入previousSourceRefs。完整对象反向还原必须与原件相同，状态、成员、角色、候选/版本、原执行、附件、claim和旧history均不能改变；新来源须通过实际字节、行范围与anchor校验，读取结束再核。
+源码变化后先核实际差异与适用性。位置合同的 `testing-source-bridge` 仅支持[有限名单中的现行测试载体及来源](../../../scripts/docs/testing-source-bridge.mjs)。保留固定 Git 原件，独立审阅后更新现有 `sourceRef` 的指纹或行范围并追加一条复核 history。旧来源完整进入 `previousSourceRefs`。`runtime-active-scene` 的预取消镜头断言仅随已移动的同一来源更新对应 `path:lines` 指针。桥接器反向恢复该指针与来源及 history 后，逐值比较完整原对象，核对状态、成员、角色、候选、版本、原执行、附件、claim 和旧 history。新来源须通过实际字节、行范围与 anchor 校验，读取结束再核。
 
 该模式保留原生JSON类型，不将它伪装为Markdown或给任意JSON开口。仍须真实非作者接受、afterSHA、Owner准入及catalog/report/evidence配对检查；复用证明只授具体来源适用性，不产生新的runtime/E2E/视觉信用。其它载体、来源或字段不在此有限合同内，不能借重标类型、ignore或更新旧接受指纹绕过，需先核实际维护合同。失败输出和历史原件保持原字节。
+
+007–009 的正式登记另在来源回绑之后核对。独立准入固定回绑已通过的 catalog Git 原件，分别检查原维护层和来源回绑层，再按 `007`、`008`、`009` 顺序追加三个现行阶段及各自的 `entryReadings`。其余 catalog 字段和原成员顺序完整保留。每个阶段的 `report.md`、`README.md` 和机器回执均按精确路径登记，新增 JSON 继续使用 `test-machine-evidence-v1 / 1.5.0` 的原生执行格式。`check-testing` 仍核发布状态、声明源码、发布依赖、执行附件指纹和索引投影。同引擎前驱、正式终档及用户确认按各段原件验收。
 
 ### 留存附件的压缩与读取
 

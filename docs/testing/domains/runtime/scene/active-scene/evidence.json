@@ -14,14 +14,14 @@
       "lines": "407-414",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "448-455",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -39,10 +39,10 @@
     },
     {
       "path": "packages/reforge/src/world-camera.test.ts",
-      "lines": "108-125",
+      "lines": "143-157",
       "anchor": "test('pre-aborted request rejects",
       "role": "oracle",
-      "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+      "sha256": "77fd8d046b763348474c9fd306f5299c2bd1a95e8f826e8d1056b6dc65779b04"
     },
     {
       "path": "packages/content/src/character.ts",
@@ -86,7 +86,7 @@
         "packages/reforge/src/main.ts:448-455",
         "packages/reforge/src/active-scene.ts:65-94",
         "packages/reforge/src/active-scene.test.ts:53-77",
-        "packages/reforge/src/world-camera.test.ts:108-125",
+        "packages/reforge/src/world-camera.test.ts:143-157",
         "packages/content/src/character.ts:168-170"
       ]
     }
@@ -110,6 +110,36 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "date": "2026-11-06",
+      "action": "e2e-r4-runtime-source-bridge",
+      "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "407-414",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "448-455",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.test.ts",
+          "lines": "108-125",
+          "anchor": "test('pre-aborted request rejects",
+          "role": "oracle",
+          "sha256": "08978bf5b4af768ab1d22a8adf7c2492f6f9429bcbe9fd74c0798cf071723721"
+        }
+      ],
+      "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
+      "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
     }
   ],
   "_governance": {

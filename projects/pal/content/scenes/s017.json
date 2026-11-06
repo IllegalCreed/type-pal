@@ -86,7 +86,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "摘取雪莲子",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -114,7 +114,8 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "摘得雪莲子"
                 },
                 {
                   "id": "legacy-002",
@@ -133,13 +134,15 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "查看空莲蓬"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "雪莲子采集点"
     },
     {
       "id": "e236",
@@ -165,7 +168,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "查看观音像刻字",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -188,13 +191,15 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "查看刻字"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "观音像"
     },
     {
       "id": "e237",
@@ -204,7 +209,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "right",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e237"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 01"
     },
     {
       "id": "e238",
@@ -214,7 +275,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "right",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e238"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 02"
     },
     {
       "id": "e239",
@@ -224,7 +341,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "down",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e239"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 03"
     },
     {
       "id": "e240",
@@ -234,7 +407,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "down",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e240"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 04"
     },
     {
       "id": "e241",
@@ -244,7 +473,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "up",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e241"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 05"
     },
     {
       "id": "e242",
@@ -254,7 +539,63 @@
         "height": 0
       },
       "sprite": "sprite-66",
-      "collide": true
+      "facing": "left",
+      "collide": true,
+      "pages": [
+        {
+          "id": "default",
+          "label": "完整石像",
+          "trigger": "break-with-hammer"
+        }
+      ],
+      "initialPage": "default",
+      "behaviors": {
+        "trigger": {
+          "break-with-hammer": {
+            "label": "用破天锤敲碎石像",
+            "order": 0,
+            "flow": {
+              "kind": "stages",
+              "initial": "initial",
+              "stages": [
+                {
+                  "id": "initial",
+                  "label": "石像碎裂",
+                  "body": [
+                    {
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 60
+                    },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s017",
+                        "entity": "e242"
+                      },
+                      "state": 0
+                    },
+                    {
+                      "kind": "playSound",
+                      "asset": "sound.pal.262"
+                    },
+                    {
+                      "kind": "ditherScreen",
+                      "ms": 2160
+                    }
+                  ],
+                  "next": {
+                    "kind": "complete"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "label": "阿修罗石像 06"
     },
     {
       "id": "e243",
@@ -280,7 +621,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -312,7 +653,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -340,7 +682,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右下岸"
                 }
               ]
             }
@@ -348,7 +691,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -356,7 +699,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -381,7 +724,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 01"
     },
     {
       "id": "e244",
@@ -407,7 +751,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -452,7 +796,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -493,7 +838,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向右下岸"
                 }
               ]
             }
@@ -501,7 +847,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -509,7 +855,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -534,7 +880,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 02"
     },
     {
       "id": "e245",
@@ -560,7 +907,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -605,7 +952,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向右上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -646,7 +994,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向左下岸"
                 }
               ]
             }
@@ -654,7 +1003,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -662,7 +1011,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -687,7 +1036,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 03"
     },
     {
       "id": "e246",
@@ -713,7 +1063,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -745,7 +1095,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -773,7 +1124,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右下岸"
                 }
               ]
             }
@@ -781,7 +1133,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -789,7 +1141,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -814,7 +1166,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 04"
     },
     {
       "id": "e247",
@@ -840,7 +1193,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -872,7 +1225,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向右上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -900,7 +1254,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向左下岸"
                 }
               ]
             }
@@ -908,7 +1263,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -916,7 +1271,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -941,7 +1296,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 05"
     },
     {
       "id": "e248",
@@ -967,7 +1323,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -999,7 +1355,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向右上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1027,7 +1384,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向左下岸"
                 }
               ]
             }
@@ -1035,7 +1393,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1043,7 +1401,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1068,7 +1426,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 06"
     },
     {
       "id": "e249",
@@ -1094,7 +1453,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1139,7 +1498,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向左下岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1180,7 +1540,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向右上岸"
                 }
               ]
             }
@@ -1188,7 +1549,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1196,7 +1557,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1221,7 +1582,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 07"
     },
     {
       "id": "e250",
@@ -1247,7 +1609,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1305,7 +1667,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向右下岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1359,7 +1722,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向左上岸"
                 }
               ]
             }
@@ -1367,7 +1731,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1375,7 +1739,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1400,7 +1764,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 08"
     },
     {
       "id": "e251",
@@ -1426,7 +1791,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1458,7 +1823,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左下岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1486,7 +1852,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右上岸"
                 }
               ]
             }
@@ -1494,7 +1861,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1502,7 +1869,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1527,7 +1894,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 09"
     },
     {
       "id": "e252",
@@ -1553,7 +1921,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1585,7 +1953,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1613,7 +1982,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右下岸"
                 }
               ]
             }
@@ -1621,7 +1991,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1629,7 +1999,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1654,7 +2024,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 10"
     },
     {
       "id": "e253",
@@ -1680,7 +2051,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1712,7 +2083,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1740,7 +2112,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右下岸"
                 }
               ]
             }
@@ -1748,7 +2121,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1756,7 +2129,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1781,7 +2154,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 11"
     },
     {
       "id": "e254",
@@ -1807,7 +2181,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1852,7 +2226,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -1893,7 +2268,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向右下岸"
                 }
               ]
             }
@@ -1901,7 +2277,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -1909,7 +2285,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -1934,7 +2310,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 12"
     },
     {
       "id": "e255",
@@ -1960,7 +2337,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2005,7 +2382,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向右上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -2046,7 +2424,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向左下岸"
                 }
               ]
             }
@@ -2054,7 +2433,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2062,7 +2441,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -2087,7 +2466,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 13"
     },
     {
       "id": "e256",
@@ -2113,7 +2493,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2145,7 +2525,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向右上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -2173,7 +2554,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向左下岸"
                 }
               ]
             }
@@ -2181,7 +2563,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2189,7 +2571,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -2214,7 +2596,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 14"
     },
     {
       "id": "e257",
@@ -2240,7 +2623,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2285,7 +2668,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：分段驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -2326,7 +2710,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：分段驶向右下岸"
                 }
               ]
             }
@@ -2334,7 +2719,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2342,7 +2727,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -2367,7 +2752,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 15"
     },
     {
       "id": "e258",
@@ -2393,7 +2779,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：往返两岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2425,7 +2811,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：驶向左上岸"
                 },
                 {
                   "id": "legacy-002",
@@ -2453,7 +2840,8 @@
                       }
                     }
                   ],
-                  "next": "initial"
+                  "next": "initial",
+                  "label": "重踩折返：驶向右下岸"
                 }
               ]
             }
@@ -2461,7 +2849,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2469,7 +2857,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -2494,7 +2882,8 @@
             }
           }
         }
-      }
+      },
+      "label": "芦苇漂 16"
     },
     {
       "id": "e259",
@@ -2520,7 +2909,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩上芦苇漂：转弯换岸",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2591,14 +2980,6 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e260"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 2,
                       "target": {
                         "scene": "s017",
@@ -2615,7 +2996,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "首次渡行：转弯并切换岸边路障"
                 },
                 {
                   "id": "legacy-002",
@@ -2643,7 +3025,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "再次踩踏：驶往左上岸"
                 },
                 {
                   "id": "legacy-003",
@@ -2671,14 +3054,6 @@
                     },
                     {
                       "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e260"
-                      }
-                    },
-                    {
-                      "kind": "setEntityState",
                       "state": 2,
                       "target": {
                         "scene": "s017",
@@ -2694,7 +3069,9 @@
                         "row": -5
                       }
                     }
-                  ]
+                  ],
+                  "next": "legacy-002",
+                  "label": "折返：驶回右下岸"
                 }
               ]
             }
@@ -2702,7 +3079,7 @@
         },
         "auto": {
           "default": {
-            "label": "默认自动行为",
+            "label": "循环播放筏面动画",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2710,7 +3087,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "持续自动动作",
+                  "label": "播放筏面动画",
                   "body": [
                     {
                       "kind": "loop",
@@ -2735,7 +3112,8 @@
             }
           }
         }
-      }
+      },
+      "label": "变轨芦苇漂"
     },
     {
       "id": "e262",
@@ -2767,7 +3145,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "踩下闪烁地板进入通道",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2778,15 +3156,22 @@
                   "body": [
                     {
                       "kind": "loadScene",
-                      "scene": "s018"
+                      "scene": "s018",
+                      "pos": {
+                        "col": 89,
+                        "row": 25,
+                        "height": 0
+                      }
                     }
-                  ]
+                  ],
+                  "label": "进入破解后的仙灵岛迷宫"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "闪烁地板"
     },
     {
       "id": "e263",
@@ -2812,7 +3197,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "开启宝箱领取五张灵符",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -2882,7 +3267,8 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "领取五张灵符"
                 },
                 {
                   "id": "legacy-002",
@@ -2901,13 +3287,15 @@
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "查看空宝箱"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "五灵符宝箱"
     },
     {
       "id": "e260",
@@ -2935,7 +3323,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "进入仙灵岛迷宫：播放场景音乐",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -2943,6 +3331,7 @@
             "stages": [
               {
                 "id": "initial",
+                "label": "播放迷宫音乐",
                 "body": [
                   {
                     "asset": "music.pal.077",

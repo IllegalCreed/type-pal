@@ -141,6 +141,52 @@ describe('WorldScenePresentation sprite ownership', () => {
     expect(instance.renderedEntityFrame('npc')).toBe(5)
   })
 
+  test('only static hostile gait advances actual frames and returns to idle when the gait ends', () => {
+    const { instance } = presentation()
+    const definition: SpriteDef = {
+      id: 'creature',
+      label: 'Creature',
+      asset: 'sprite.creature',
+      layout: { kind: 'static' },
+    }
+    const frames = loaded(2)
+    const draw = (phase?: number) =>
+      instance
+        .sprites({
+          entities: [
+            { id: 'chaser', sprite: 'creature', pos: { col: 3, row: 0, height: 0 } },
+            { id: 'performer', sprite: 'creature', pos: { col: 4, row: 0, height: 0 } },
+          ],
+          visible: () => true,
+          entitySprite: () => definition,
+          loadedSprite: () => frames,
+          entityGait: () => phase,
+          entityGaitSource: (id) => (id === 'chaser' ? 'hostile' : 'script'),
+          entityExplicitAnimation: () => undefined,
+          entityActionFrame: () => undefined,
+          entityLayer: () => undefined,
+          party: [],
+          partyVisual: () => undefined,
+          player: {
+            pos: { col: 0, row: 0, height: 0 },
+            facing: 'down',
+            walking: false,
+            stepFrame: 0,
+            layer: 0,
+          },
+          followers: [],
+          extraFollowerSpriteIds: [],
+          extraFollowerPosition: () => ({ pos: { col: 0, row: 0, height: 0 }, facing: 'down' }),
+          spriteById: () => undefined,
+          now: () => 0,
+        })
+        .map((sprite) => sprite.frame)
+    expect(draw(1)).toEqual([frames.frames[0], frames.frames[0]])
+    expect(draw(2)).toEqual([frames.frames[1], frames.frames[0]])
+    expect(draw(3)).toEqual([frames.frames[0], frames.frames[0]])
+    expect(draw()).toEqual([frames.frames[0], frames.frames[0]])
+  })
+
   test('party, party followers and extra followers retain source order and depth tie-breaks', () => {
     const { instance } = presentation()
     const definition: SpriteDef = {

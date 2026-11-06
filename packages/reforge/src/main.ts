@@ -409,8 +409,10 @@ export async function bootGame(
   })
   const entityStaticBaseline = activeScene.entityStaticBaseline
   const entityActions = activeScene.actions
+  type ActiveScriptRunner = ScriptRunner | { running: boolean }
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
+  let authoredPartyFacing: { owner: ActiveScriptRunner; facing: Facing } | null = null
   // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
   // sort/cover；换场景由 sdlpal 真值清零。
   let partyLayer = 0
@@ -969,6 +971,7 @@ export async function bootGame(
     activeScene.commit(plan, restoreActions)
     player.pos = plan.spawn.pos
     facing = plan.spawn.facing
+    authoredPartyFacing = null
     partyLayer = 0
     walking = false
     stepFrame = 0
@@ -1047,7 +1050,6 @@ export async function bootGame(
   )
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
-  type ActiveScriptRunner = ScriptRunner | { running: boolean }
   let runner: ActiveScriptRunner | null = null
   // Only the outer interactive runner owns this marker. Inline trigger children keep their own
   // stack below so chasePlayer(self) can recognise that the trigger is already executing instead
@@ -1561,6 +1563,15 @@ export async function bootGame(
   }
   const markEntityGait = (id: string, source: MotionSource, epoch: number): void => {
     worldPresentation.clearEntityFrame(id)
+    if (
+      source === 'hostile' &&
+      motion.gaitOwner(id)?.source !== 'hostile' &&
+      activeScene.entitySpriteDefs.get(id)?.layout.kind === 'static'
+    ) {
+      // The first accepted step starts a new non-directional chase cycle.
+      clearEntityGait(id)
+      motion.clearExplicitAnimation(id)
+    }
     motion.markGait(id, source, epoch)
   }
   const motionRuntime = motion.coordinator
@@ -2845,6 +2856,7 @@ export async function bootGame(
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
       pushTrail(trail, player.pos, displacementFacing(from, player.pos, facing))
       if (dx !== 0 || dy !== 0) {
+        authoredPartyFacing = null
         walking = true
         worldPresentation.setPartyGesture(null)
         stepFrame = (stepFrame + 1) % 4
@@ -3081,6 +3093,11 @@ export async function bootGame(
   // 主脚本视图:位移指令隐式接管目标(决策②:转向/定帧不接管);脚本链收尾统一归还。
   const scriptHost: ScriptHost = {
     ...host,
+    setPartyFacing: (fc, gesture, member) => {
+      host.setPartyFacing(fc, gesture, member)
+      // An explicit leader pose belongs to this interactive chain, including its inline calls.
+      if (!member) authoredPartyFacing = runner ? { owner: runner, facing: fc } : null
+    },
     moveEntity: async (id, to, speed, signal) => {
       if (entityMotionPermanentlyRemoved(id))
         throw asyncIntentAbortError(`实体 ${id} 已永久移除，走位未执行`)
@@ -3222,7 +3239,6 @@ export async function bootGame(
     if (!entity) return
     const hasAuto = !!entity.pages?.[0]?.auto
     const gates = entityLifecycleGates(entity, { hasAuto, hasHostile: !!entity.hostile })
-    hostileCd.delete(entity.id)
     hostileReady.delete(entity.id)
     hostileMotionEpoch.delete(entity.id)
     if (command.kind === 'hideEntity' || command.kind === 'removeEntity')
@@ -3854,10 +3870,10 @@ export async function bootGame(
       }
     }
 
-    // Snapshot-precontact has first claim: a player cannot escape an already adjacent eligible
-    // hostile on the same tick. Stable id order is provided by eligibleHostiles().
+    // Pre-step contact claims the snapshot before either actor moves. Stable id order resolves
+    // competing contacts in the same world step.
     if (hostileMotionGateOpen()) {
-      const contact = hostileAtContact()
+      const contact = hostileAtContact('pre-step')
       if (contact) {
         settleEntityGaitsForTick()
         if (walking && !motion.partyMove) {
@@ -3880,13 +3896,16 @@ export async function bootGame(
       player.pos = result.pos
       facing = result.facing
       const moved = from.col !== result.pos.col || from.row !== result.pos.row
-      if (moved) pushTrail(trail, player.pos, result.facing)
+      if (moved) {
+        authoredPartyFacing = null
+        worldPresentation.setPartyGesture(null)
+        pushTrail(trail, player.pos, result.facing)
+      }
       if (result.done) {
         walking = false
         motionContinuations.push(() => motion.completePartyMove(mv))
       } else {
         walking = true
-        worldPresentation.setPartyGesture(null)
         stepFrame = (stepFrame + 1) % 4
       }
       if (moved) deriveFollowers()
@@ -3965,14 +3984,13 @@ export async function bootGame(
 
       // Producer priority: authored/script chase > engine hostile > auto.
       if (!slot && !authority.has(id) && hostileReady.has(id)) {
-        const hostile = entity.hostile
-        const chase = hostile?.chase
+        const chase = entity.hostile?.chase
         const distance = gridDist(player.pos, entity.pos)
         const remainsEligible =
           !!chase &&
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed &&
           distance > 1 &&
-          distance <= chase.range * awarenessMultiplier
+          distance < chase.range * awarenessMultiplier
         if (!remainsEligible) {
           hostileReady.delete(id)
           hostileMotionEpoch.delete(id)
@@ -4006,9 +4024,11 @@ export async function bootGame(
         if (!chase) throw new Error(`hostile ${entity.id} ready without chase definition`)
         desiredFacing = facingToward(entity.pos, player.pos)
         const delta = WALK_STEP[desiredFacing]
+        // The original speed code advances 2s/1s pixels in one exploration step.
+        const stride = Math.min(chase.speed / 8, 1)
         desired = {
-          col: entity.pos.col + delta.dcol,
-          row: entity.pos.row + delta.drow,
+          col: entity.pos.col + delta.dcol * stride,
+          row: entity.pos.row + delta.drow * stride,
           height: entity.pos.height,
         }
         source = 'hostile'
@@ -4180,7 +4200,8 @@ export async function bootGame(
           hasBody && meta?.source === 'auto' && !entity.hostile && !authority.has(entity.id),
       }
     })
-    const partyMount = authority.get('party')?.kind === 'mount'
+    const partyOwner = authority.get('party')
+    const partyMount = partyOwner?.kind === 'mount'
     actors.push({
       actor: { kind: 'party' },
       pos: { ...player.pos },
@@ -4271,6 +4292,7 @@ export async function bootGame(
         }
       },
       commitLivePositions: () => {
+        let partyRideMoved = false
         for (const { outcome, meta, reachedEndpoint } of entityOutcomes) {
           if (meta.slot?.kind === 'move' && meta.slot.slowCadence)
             meta.slot.slowRestPending = restAfterMoveAttempt(meta.slot.speed)
@@ -4288,12 +4310,24 @@ export async function bootGame(
             }
           } else {
             if (meta.slot?.kind === 'move') meta.slot.blockedAttempts = 0
+            const transporting = meta.slot?.kind === 'move' && meta.slot.preserveFacing
+            if (
+              transporting &&
+              partyMount &&
+              partyOwner.parent === meta.entity.id &&
+              (meta.entity.pos.col !== outcome.to.col || meta.entity.pos.row !== outcome.to.row)
+            ) {
+              // The fixed mount offset gives the rider the same travel direction as the carrier.
+              facing = facingToward(meta.entity.pos, outcome.to)
+              if (authoredPartyFacing?.owner !== runner) worldPresentation.setPartyGesture(null)
+              partyRideMoved = true
+            }
             meta.entity.pos = { ...outcome.to }
             meta.entity.facing = outcome.facing
             // A ride translates its carrier without walking it. Keep its explicit/action pose
             // owner intact on every step, including arrival; gait would freeze static vehicles
             // at frame zero and pause their independently authored action timeline.
-            if (meta.slot?.kind === 'move' && meta.slot.preserveFacing) continue
+            if (transporting) continue
             if (reachedEndpoint) {
               worldPresentation.clearEntityFrame(meta.entity.id)
               motion.clearExplicitAnimation(meta.entity.id)
@@ -4365,6 +4399,7 @@ export async function bootGame(
             } else {
               walking = playerMoved
               if (playerMoved) {
+                authoredPartyFacing = null
                 worldPresentation.setPartyGesture(null)
                 stepFrame = (stepFrame + 1) % 4
               }
@@ -4376,6 +4411,7 @@ export async function bootGame(
         // optional player outcomes are committed, before terminal/touch/hostile contact reads.
         if (partyMount) {
           deriveMounts()
+          if (partyRideMoved) pushTrail(trail, player.pos, facing)
           deriveFollowers()
           updateCamera()
         }
@@ -4467,7 +4503,7 @@ export async function bootGame(
         )
         // A chasePlayer leaf that just reached contact owns its terminal semantics: the next leaf
         // fires self exactly once. Engine-hostile postcontact must not steal that same-tick claim.
-        const contact = hostileAtContact(chaseTerminalOwners)
+        const contact = hostileAtContact('post-step', chaseTerminalOwners)
         if (contact) beginHostileEncounter(contact)
       },
       queueContinuations: () => {
@@ -4593,7 +4629,6 @@ export async function bootGame(
   // ── B9 敌对行为引擎驱动器(数据化遇敌:零脚本;hostile 字段 = 野怪)──
   //   每 hostile 实体一个游标状态机,tick 里推进:追逐→贴脸开战→胜利消失/重生、战败走 onLose。
   //   原版靠 event object 挂脚本区分野怪,新引擎用数据区分(作者拍板:遇敌是引擎能力)。
-  const hostileCd = new Map<string, number>() // 实体 → 追逐节流累计 ms
   const hostileReady = new Set<string>()
   const hostileMotionEpoch = new Map<string, number>()
   const pendingChaseTerminal = new Map<
@@ -4662,10 +4697,17 @@ export async function bootGame(
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed,
       )
       .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  const hostileAtContact = (excluded: ReadonlySet<string> = new Set()): EntityDef | undefined =>
-    eligibleHostiles().find(
-      (entity) => !excluded.has(entity.id) && gridDist(player.pos, entity.pos) <= 1,
-    )
+  const hostileAtContact = (
+    phase: 'pre-step' | 'post-step',
+    excluded?: ReadonlySet<string>,
+  ): EntityDef | undefined =>
+    eligibleHostiles().find((entity) => {
+      if (excluded?.has(entity.id)) return false
+      const distance = gridDist(player.pos, entity.pos)
+      // The original near-trigger window is sampled before movement. The narrower post-step
+      // contact check runs only after a landing touch has had its chance to take control.
+      return phase === 'pre-step' ? distance < 1.5 : distance <= 1
+    })
   const beginHostileEncounter = (entity: EntityDef): void => {
     const hostile = entity.hostile
     if (!hostile || hostileBusy) return
@@ -4691,26 +4733,17 @@ export async function bootGame(
     }
     for (const e of eligibleHostiles()) {
       const h = e.hostile
-      if (!h) continue
-      const dc = player.pos.col - e.pos.col
-      const dr = player.pos.row - e.pos.row
-      const dist = Math.max(Math.abs(dc), Math.abs(dr))
-      if (dist <= 1 || hostileReady.has(e.id)) continue
+      if (!h || hostileReady.has(e.id)) continue
+      const distance = gridDist(player.pos, e.pos)
+      if (distance <= 1) continue
       const chase = h.chase
       // 感知香只影响引擎明雷追逐；剧情脚本主动 chasePlayer 属于作者演出，不受此全局态污染。
-      if (!chase || dist > chase.range * awarenessMultiplier) {
+      if (!chase || distance >= chase.range * awarenessMultiplier) {
         hostileReady.delete(e.id)
         hostileMotionEpoch.delete(e.id)
         clearMotionStick({ kind: 'entity', id: e.id })
         continue // 原地怪 / 出程:不动
       }
-      const cd = (hostileCd.get(e.id) ?? 0) + dt
-      const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
-      if (cd < stepMs) {
-        hostileCd.set(e.id, cd)
-        continue
-      }
-      hostileCd.set(e.id, 0)
       hostileReady.add(e.id)
       if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, motion.nextCommandEpoch())
     }
@@ -4873,7 +4906,6 @@ export async function bootGame(
         if (authority.get('party')?.kind === 'mount') dismountParty()
       },
     })
-    hostileCd.clear()
     hostileReady.clear()
     hostileMotionEpoch.clear()
     pendingChaseTerminal.clear()
@@ -5041,6 +5073,7 @@ export async function bootGame(
     scriptAbort?.abort()
     itemUseSession.cancel()
     runner = null
+    authoredPartyFacing = null
     runnerTriggerOwnerId = null
     inlineTriggerOwners.clear()
     scriptAbort = null
@@ -5742,6 +5775,11 @@ export async function bootGame(
     // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
     // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
     deriveFollowers()
+    // Mounted travel updates steering and trail without replacing a leader's authored pose.
+    const renderedFacing =
+      authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
+        ? authoredPartyFacing.facing
+        : facing
     const sprites = worldPresentation.sprites({
       entities: activeScene.scene.entities,
       visible: (entity) => entityLifecycleGates(entity).visible,
@@ -5752,12 +5790,13 @@ export async function bootGame(
         motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
           ? undefined
           : motion.gaitPhase(id),
+      entityGaitSource: (id) => motion.gaitOwner(id)?.source,
       entityExplicitAnimation: (id) => motion.explicitAnimation(id),
       entityActionFrame: (id) => entityActions.frame(id),
       entityLayer: (id) => runtimeScript.entityLayer?.[id],
       party: world.party,
       partyVisual,
-      player: { pos: player.pos, facing, walking, stepFrame, layer: partyLayer },
+      player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
       followers: followerPos,
       extraFollowerSpriteIds: runtimeScript.followers ?? [],
       extraFollowerPosition: (partyIndex) => {

@@ -413,12 +413,17 @@ test('003 actual synchronous nudge commit observes post-body gait even on thrown
     const points = new Function(
       'failCamera',
       `
+      'use strict';
       const points=[], player={pos:{col:0,row:0}}, trail=[], facing='right';
       let partyLayer=8, walking=false, stepFrame=1;
+      let authoredPartyFacing={owner:{running:true},facing:'left'};
       const takeByScript=()=>{}, pixelDeltaToGridDelta=(dx,dy)=>({dcol:dx,drow:dy}),
         pushTrail=()=>{}, displacementFacing=()=>facing, worldPresentation={setPartyGesture:()=>{}},
         updateCamera=()=>{if(failCamera)throw new Error('camera failed')},
-        __openingPoint=(source)=>points.push({source,pos:{...player.pos},partyLayer,walking,stepFrame});
+        __openingPoint=(source)=>points.push({
+          source,pos:{...player.pos},partyLayer,walking,stepFrame,
+          authoredFacing:authoredPartyFacing?.facing??null,
+        });
       const nudge=${matches[0]};
       try {nudge(10,10,0)} catch(error) {if(!failCamera)throw error}
       return points;
@@ -429,12 +434,14 @@ test('003 actual synchronous nudge commit observes post-body gait even on thrown
       ['before:nudgeParty', 'commit:nudgeParty'],
     )
     assert.equal(points[0].stepFrame, 1)
+    assert.equal(points[0].authoredFacing, 'left')
     assert.deepEqual(points[1], {
       source: 'commit:nudgeParty',
       pos: { col: 10, row: 10 },
       partyLayer: 0,
       walking: true,
       stepFrame: 2,
+      authoredFacing: null,
     })
   }
 })

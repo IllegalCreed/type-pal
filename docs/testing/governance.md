@@ -54,7 +54,7 @@ Template: guide-runbook-v1 / 1.0.0
 
 ### 版本适用性
 
-用户2026-10-30取消日期驱动的循环复核与E2E重跑。复用`revision.currentSha/currentShas`、`contentVersion`、`minimumSaveVersion`和`sourceRefs.sha256`记录证据边界，运行`node scripts/docs/testing-revisions.mjs`查看六阶段，或附稳定ID只查该条。命令只读，不更新状态或源码hash。
+用户2026-10-30取消日期驱动的循环复核与E2E重跑。复用`revision.currentSha/currentShas`、`contentVersion`、`minimumSaveVersion`和`sourceRefs.sha256`记录证据边界，运行`node scripts/docs/testing-revisions.mjs`查看已登记的 E2E 阶段，或附稳定 ID 只查该条。命令只读。
 
 - `matching`：已声明的版本与源码指纹匹配；不代表完整依赖闭包、浏览器E2E或视觉通过。
 - `changed`：有已知版本或相关源码差异；先核真实影响与已有复用证明，只补验受影响合同，不自动重跑全路线。

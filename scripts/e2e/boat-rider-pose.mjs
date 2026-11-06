@@ -5,8 +5,8 @@ import { canonicalScenes } from './entity-action-contract.mjs'
 import { originalSpriteNumber } from './game-pose-semantics.mjs'
 import { renderedPoseEvidence } from './npc-transition-contract.mjs'
 
-/** Steering direction is not the rider's picture: native ride retains the last
- * 0x15 frame. Bind that source setter and every completed draw to the actual run.
+/** Native ride keeps the explicit 0x15 picture while updating travel direction.
+ * Bind the pose setter and every completed draw to the actual run.
  */
 export function assertBoatRiderPose(raw, engine, terminal) {
   const commands = raw.causes.filter(
@@ -79,7 +79,6 @@ export function assertBoatRiderPose(raw, engine, terminal) {
     )
     if (engine === 'game')
       assert.equal(actor.state.scriptedFrame, 0, 'boat rider lost the primary scripted pose')
-    else assert.equal(actor.state.facing, 'down', 'boat rider changed authored facing')
     assert.equal(pose.frameSource, 'drawn', 'boat rider frame was not actually drawn')
     assert.equal(pose.drawStatus, 'drawn', 'boat rider draw did not complete')
     assert.equal(pose.frame, 0, `boat rider rendered opposite/wrong pose at draw ${draw.renderId}`)

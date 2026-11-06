@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 37 个标签组、74 个成员关系、20 个唯一 ID；标签成员数不是测试数。
+当前 41 个标签组、88 个成员关系、23 个唯一 ID；标签成员数不是测试数。
 
 ## 当前状态
 
@@ -82,6 +82,10 @@ Template: governance-index-v1 / 1.0.0
 - e2e-contract — [两阶段 E2E 与录像合同](../e2e/contract.md)（current）
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 
+### editor-preview
+
+- e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
+
 ### gamepad
 
 - game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
@@ -95,6 +99,10 @@ Template: governance-index-v1 / 1.0.0
 
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
 
+### hostile-encounter
+
+- e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
+
 ### inn
 
 - e2e-002 — [002 客栈住客与赏银](../e2e/stages/002-inn-guests-and-reward/report.md)（verified）
@@ -103,6 +111,10 @@ Template: governance-index-v1 / 1.0.0
 ### input
 
 - game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
+
+### item-pickup
+
+- e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
 
 ### items
 
@@ -119,6 +131,10 @@ Template: governance-index-v1 / 1.0.0
 ### map
 
 - editor-map-workspace-sessions — [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md)（current）
+
+### maze
+
+- e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
 
 ### menu
 
@@ -138,6 +154,8 @@ Template: governance-index-v1 / 1.0.0
 - e2e-003 — [003 下楼、道士与厨房交代](../e2e/stages/003-kitchen/report.md)（verified）
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
 - e2e-006 — [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md)（rework）
+- e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
+- e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
 
 ### opening
 
@@ -165,6 +183,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### route
 
+- e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
 
 ### save
@@ -175,6 +194,7 @@ Template: governance-index-v1 / 1.0.0
 
 - e2e-004 — [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md)（verified）
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
+- e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
 
 ### scene
 
@@ -201,10 +221,16 @@ Template: governance-index-v1 / 1.0.0
 - e2e-004 — [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md)（verified）
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
 - e2e-006 — [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md)（rework）
+- e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
+- e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
+- e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
 
 ### visual
 
 - e2e-006 — [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md)（rework）
+- e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
+- e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
+- e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
 
 ### world
 

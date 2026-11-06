@@ -11,11 +11,11 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前仅投影 kind=e2e-stage 的 6 个阶段、6 个稳定 ID。跨阶段合同、路线建议和共性审计不混入阶段表。
+当前仅投影 kind=e2e-stage 的 9 个阶段、9 个稳定 ID。跨阶段合同、路线建议和共性审计不混入阶段表。
 
 ## 当前状态
 
-阶段行状态来自 catalog：rework 1；verified 5。页面 current 不改变任何阶段的 rework、verified 或其它原状态，也不恢复旧运行授权。
+阶段行状态来自 catalog：rework 1；verified 8。页面 current 不改变任何阶段的 rework、verified 或其它原状态，也不恢复旧运行授权。
 
 页面 current 仅指导航投影有效；行的出版状态、历史验收与本轮深审分开。原视图没有文档级 Owner 或审查日期，上方责任是本次新增治理职责。
 2026-10-16 只记录当时索引规则、来源与导航语义的审查；重新生成不会续期日期，也不授予变化后的正文或下游报告新的审查、runtime/E2E/视觉/coverage 信用。
@@ -35,6 +35,9 @@ catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和
 | e2e-004 | [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md) | verified | Codex |
 | e2e-005 | [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md) | verified | Codex |
 | e2e-006 | [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md) | rework | Codex |
+| e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
+| e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
+| e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
 
 ### 已记录版本
 
@@ -46,6 +49,9 @@ catalog 的 kind 决定是否入表；阶段报告负责合法输入、前驱和
 | e2e-004 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 7 | 2026-10-02 |
 | e2e-005 | d02278dc0154dd73b5db24388a35c30bb096cc81 | 22 | 11 | 8 | 2026-10-02 |
 | e2e-006 | c68d369869dce63cb884e2203dab2b9e53f65e2f | 22 | 12 | 7 | 2026-10-03 |
+| e2e-007 | 743be436c70bf3519e1324ec356dafcf0f6d040a | 22 | 12 | 8 | 2026-11-06 |
+| e2e-008 | 743be436c70bf3519e1324ec356dafcf0f6d040a | 22 | 12 | 6 | 2026-11-06 |
+| e2e-009 | 743be436c70bf3519e1324ec356dafcf0f6d040a | 22 | 12 | 12 | 2026-11-06 |
 
 只读对比：在仓库根运行 `node scripts/docs/testing-revisions.mjs`。HEAD不同不单独判过时；matching/changed/unknown按[版本适用性](../governance.md#版本适用性)解释，不授新的E2E信用。
 

@@ -14,7 +14,7 @@
       "lines": "1242-1261",
       "anchor": "const battleHost = new BattleHost",
       "role": "caller",
-      "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
     },
     {
       "path": "packages/reforge/src/battle/battle-host.ts",
@@ -102,6 +102,22 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "date": "2026-11-06",
+      "action": "e2e-r4-runtime-source-bridge",
+      "base": "dccd4095fff93626f16c68f8d4aca3627ff6e8e7",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "1242-1261",
+          "anchor": "const battleHost = new BattleHost",
+          "role": "caller",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        }
+      ],
+      "scope": "BattleHost 主壳端口下移两行，端口接线、owner 和测试字节相同。接敌选择与奖励窗变化归 007 各自证据。",
+      "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
     }
   ],
   "_governance": {

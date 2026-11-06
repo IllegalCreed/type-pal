@@ -14,7 +14,7 @@ import { drawNumberLeft, drawScroll, drawSlicedBox, type MenuAssets } from '../m
 import type { GlyphTable } from '../text/glyph.js'
 import { measureSpans, renderSpans } from '../text/text-render.js'
 
-const COLOR_LABEL = [199, 186, 174] as const // 米白(一阶段 renderText 色 0)
+const COLOR_LABEL = [199, 186, 174] as const // 米白
 const COLOR_LEVELUP_LABEL = [214, 198, 140] as const // 0xBB 升级标签
 const COLOR_MAGIC = [140, 180, 235] as const // 0x1B 练成技能名
 
@@ -131,49 +131,64 @@ function scrollBoxH(menu: MenuAssets): number {
   return (t[1]?.height ?? 4) + (t[4]?.height ?? 18) + (t[7]?.height ?? 4)
 }
 
-/** 行片段:文字 or 数字(黄)。 */
-type LinePart = { text: string; color?: readonly [number, number, number] } | { num: number }
+type LinePart =
+  | { text: string; color?: readonly [number, number, number] }
+  | { num: number; align?: 'right' | 'center' }
 
-/**
- * 内容自适应卷轴行(卷轴动态宽 = 按内容收窄,不留原版固定 len 的死空间;作者拍板)。
- * 框**水平居中**于屏、内容**水平+垂直双居中**于框;片段横排(文字/数字),片段间 GAP。
- */
+interface ScrollLineStyle {
+  gap?: number
+  color?: readonly [number, number, number]
+  shadow?: boolean
+}
+
+const REWARD_NUMBER_WIDTH = 5 * 6 // 原版经验、金钱各用五个 6px 数字格。
+const REWARD_LINE_STYLE = { gap: 6, color: [0, 0, 0], shadow: false } as const
+
+/** 卷轴按内容宽度伸缩。对齐的奖励数字预留一列，实测内容更宽时扩展。 */
 function drawScrollLine(
   ctx: CanvasRenderingContext2D,
   menu: MenuAssets,
   glyphs: GlyphTable,
   y: number,
   parts: LinePart[],
+  { gap = 4, color = COLOR_LABEL, shadow = true }: ScrollLineStyle = {},
 ): void {
-  const GAP = 4
   const PAD = 6 // 内容距左右帽内边距
   const t = menu.scroll.tiles
   const leftW = t[3]?.width ?? 8
   const midW = t[4]?.width ?? 16
   const rightW = t[5]?.width ?? 8
   const boxH = scrollBoxH(menu)
-  const partW = (p: LinePart): number =>
-    'num' in p ? numWidth(p.num, menu.nums) : measureSpans([{ text: p.text }], glyphs)
-  const contentW = parts.reduce((w, p) => w + partW(p), 0) + GAP * (parts.length - 1)
+  const layout = parts.map((part) => {
+    if ('text' in part)
+      return { part, width: measureSpans([{ text: part.text }], glyphs), offset: 0 }
+    const digitWidth = numWidth(part.num, menu.nums)
+    const width = part.align ? Math.max(REWARD_NUMBER_WIDTH, digitWidth) : digitWidth
+    const space = width - digitWidth
+    const offset = part.align === 'right' ? space : Math.round(space / 2)
+    return { part, width, offset }
+  })
+  const contentW = layout.reduce((w, { width }) => w + width, 0) + gap * (layout.length - 1)
   const nLen = Math.max(1, Math.ceil((contentW + PAD * 2) / midW))
   const boxW = leftW + midW * nLen + rightW
-  const x = Math.round((320 - boxW) / 2) // 框水平居中
+  const x = Math.round((320 - boxW) / 2)
   drawScroll(ctx, menu.scroll, x, y, nLen)
-  // 内容水平居中于框中段;垂直居中(文字/数字各自按高度居中,底对齐一致)
+
+  // 文字与数字各按自身高度垂直居中。
   const textY = y + Math.round((boxH - GLYPH_H) / 2)
-  const numY = textY + Math.round((GLYPH_H - DIGIT_H) / 2) // 数字与文字**垂直居中**对齐(非底对齐)
+  const numY = textY + Math.round((GLYPH_H - DIGIT_H) / 2)
   let px = Math.round(x + leftW + (midW * nLen - contentW) / 2)
-  for (const p of parts) {
-    if ('num' in p) {
-      drawNumberLeft(ctx, p.num, px, numY, menu.nums)
+  for (const { part, width, offset } of layout) {
+    if ('num' in part) {
+      drawNumberLeft(ctx, part.num, px + offset, numY, menu.nums)
     } else {
-      renderSpans(ctx, [{ text: p.text }], px, textY, {
+      renderSpans(ctx, [{ text: part.text }], px, textY, {
         glyphs,
-        shadow: true,
-        forceRgba: p.color ?? COLOR_LABEL,
+        shadow,
+        forceRgba: part.color ?? color,
       })
     }
-    px += partW(p) + GAP
+    px += width + gap
   }
 }
 
@@ -188,12 +203,22 @@ function drawExpCash(
   const h = scrollBoxH(menu)
   const GAPV = 12 // 两卷轴间距
   const y0 = Math.round((200 - (2 * h + GAPV)) / 2) // 整组垂直居中
-  drawScrollLine(ctx, menu, glyphs, y0, [{ text: '获得经验值' }, { num: exp }])
-  drawScrollLine(ctx, menu, glyphs, y0 + h + GAPV, [
-    { text: '打败敌人得' },
-    { num: cash },
-    { text: '文钱' },
-  ])
+  drawScrollLine(
+    ctx,
+    menu,
+    glyphs,
+    y0,
+    [{ text: '获得经验值' }, { num: exp, align: 'right' }],
+    REWARD_LINE_STYLE,
+  )
+  drawScrollLine(
+    ctx,
+    menu,
+    glyphs,
+    y0 + h + GAPV,
+    [{ text: '打败敌人得' }, { num: cash, align: 'center' }, { text: '文钱' }],
+    REWARD_LINE_STYLE,
+  )
 }
 
 /** 升级屏一行:标签 + old(右对齐)+ 箭头 + cur;体力/真气带 cur/max 分数(max 蓝小字 + 斜杠)。 */

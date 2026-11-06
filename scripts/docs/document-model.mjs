@@ -25,6 +25,7 @@ import { mainSuccessorDocumentIssues } from './main-successor-document.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 import { rollforwardDocumentIssues } from './rollforward-document-contract.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
+import { isTestingStageEvidencePath } from './testing-source-bridge.mjs'
 
 function documentStatus(text, contract) {
   if (contract.format === 'json') {
@@ -392,6 +393,16 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
     const contract = currentDoc.variant ? template.variants?.[currentDoc.variant] : template
     if (!contract) return [...issues, 'current body variant missing']
     issues.push(...publicationIssues(text, contract, read, doc.path))
+    if (addition && isTestingStageEvidencePath(addition.path)) {
+      issues.push(
+        ...machineDeclarationIssues(
+          text,
+          template,
+          contract.templateVersion ?? template.templateVersion,
+        ),
+      )
+      return issues
+    }
     const visible = withoutFences(text)
     if (!/^Last reviewed: \d{4}-\d{2}-\d{2}$/m.test(visible))
       issues.push('current review date missing')

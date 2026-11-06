@@ -47,7 +47,18 @@
     },
     {
       "path": "docs/lore/timeline.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "templateId": "plan-status-v1",
+      "historyOverlay": true,
+      "afterSha256": "715d657f6c4d4e3f9669cdcbc7a9236470cfe7396323cc1c0187f2c21b4cb814",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/ui_final_doc_review",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 562,
+        "acceptanceScope": "相对24aaf5fa完整新增/修改片段及邻接范围，按Game firstPool/secondPool原生对白核叙事顺序与收段；“灵儿答应后”已纠正为原对白可支持的表述。止血草、两段之间真实走回、先回权后完整离场与任务卡一致；水月宫/仙丹留后续。历史范围及其后固定原稿精确保全，用户视觉状态回卡持有，未倒写历史。"
+      }
     },
     {
       "path": "docs/ops/agent-workflow.md",
@@ -663,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "4c9bd97fcb2f7cee084d1d30c3c639e659dfa6b2b860f8f9092489e65e6eb795",
+      "afterSha256": "fe0eb760479d8ee02f4f2d8e52647193ac535f28158b658e5cff1408ec00f85d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior Codex /root/raw_initial_state_audit (bounded source/count reconciliation); /root/doc_delta_review",
-        "date": "2026-11-05",
-        "conclusion": "保全主线970条闭合原表与已接受PAL oracle刷新；仅按合并后真实tracked库存刷新两条机器汇总为3682/970/0/2712，功能侧先前3636→3651作为原时点历史，不授新whole-file关闭。",
-        "reviewedLines": 1015,
-        "acceptanceScope": "仅根提供的合并库存候选及两机器行；970条live保全由根独立验证，沿用两边原历史与验收，不授新runtime/UI/E2E、统一质量门或PR合入信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受六个新增代码路径登记为 pending。索引核验为 3709 条库存、970 已闭合、2739 待核，原逐文件表 970 行逐字节一致。",
+        "reviewedLines": 1021,
+        "acceptanceScope": "执行账本完整性门并逐值对照 Git 新增范围和原表字节。既有文件的语义审阅范围由原回执持有。"
       }
     },
     {
@@ -719,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e9403da99db37f51a217ea656046303ca602007f47c14f2a9bc5d9b17e4fb226",
+      "afterSha256": "efe84d5b369be90067019b0fd6cc3c41eb779223a1403e242652c29cf5bc92e0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior /root/e2e_baseline_docs; /root/status_reconcile; /root/doc_delta_review",
-        "date": "2026-11-05",
-        "conclusion": "保全37bf层：仅更新R4和初态预览当前推进位置，固定历史接受与007未启动；状态分别跟随两原卡。 本轮资源处置收齐后将瘦身方向改为有限批次done、长期持续，移除活动看板对终态卡的链接并路由现行工作流。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 终态父卡直链退出看板，只留回执入口，保全实际单项失败。",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受三张完成卡退出活动表，R4 保持 build 并指向仍在推进的事项。",
         "reviewedLines": 119,
-        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "acceptanceScope": "仅四个活动行的状态投影。"
       }
     },
     {
@@ -1971,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "94c4e3096212a52222a60c08907958a763733b98fec4922decb151e3e14af878",
+      "afterSha256": "01bea90a52ee65ca579b0f3bb33ecfd99649c84a99be0d3771eff5ef2db947ef",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "原稿贡献者；/root（导航delta）",
-        "reviewer": "/root（原稿）；/root/thin_indexes（导航delta）",
-        "date": "2026-11-02",
-        "conclusion": "任务子索引按需定位；独有建卡边界保留，旧完成清单/原文从固定Git恢复；治理done取原卡，不把历史撤信恢复。",
-        "reviewedLines": 39,
-        "acceptanceScope": "根全文核当前五篇179行、对照贡献者逐篇来源/规则承接及实际旧正文差异；原件保全与入口定位接受，不授历史执行或产品信用。 本次根编写的有限导航delta由/root/thin_indexes独立复核：显式同目录索引、旧ops根分路与done/cancelled入口；不授产品信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "新增 007–009 复验的运行时测试来源回执导航，实际目标与已验收原件一致。",
+        "reviewedLines": 40,
+        "acceptanceScope": "仅日期和一条导航增量，原证据及运行结论沿各自既有范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -2086,17 +2097,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "71ecc28e9deda48f35ba36863e2ac97175c7cdc3ce81b4e98be807fd3bb5f2bd",
+      "afterSha256": "317f24574d97d77ec7f94c135404018bd05980992ff7c43bc1de39952966cd26",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
-        "date": "2026-11-05",
-        "conclusion": "仅新增现行测试来源绑定维护流程及版本适用性转接，固定4载体/7来源；旧类型/执行保全、非作者/afterSHA/Owner及配对门表达与实现一致。",
-        "reviewedLines": 91,
-        "acceptanceScope": "独立核实际新增小节/转接及链接，不授旧runtime/E2E/视觉/全仓或整窗完成信用。"
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "接受固定原件上的追加式阶段出版。源维护、原来源桥与有限登记分别核对，既有证据保持原范围。",
+        "reviewedLines": 93,
+        "acceptanceScope": "仅核 007–009 的目录准入、三个正式载体及实际消费路径。先前规则和原文保全保持。"
       }
     },
     {
@@ -2326,14 +2337,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "d7c17634838887e88e7be412c7ea31bdc85e2d47fea9c9ed4f1ba38873a11d63",
+      "afterSha256": "9a56d8a0ab531647359a431c9e74230c806f309a5b2f62e7fe4e559f48ec54e4",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/raw_initial_state_audit",
-        "date": "2026-11-05",
-        "conclusion": "对齐 c56192d8 后完成官方 ratchet 和当前 RF001–006。五次真实前驱及 006 fresh 恢复均通过，正式终档和必要原件可恢复。",
-        "acceptanceScope": "核最新主线对齐与 RF 两段增量，复用独立验收和实际原件。旧轮次与最终远端状态分别以相应原件及 PR44 为准。",
-        "reviewedLines": 503
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007–009 正式收口、PR 内容一致性复验及官方覆盖率基线。核失败身份、原测试判据、反例和与远端一致的逐包精确结果。",
+        "reviewedLines": 533,
+        "acceptanceScope": "沿用三段已接受的实跑与分屏。增量核第二轮 CI、官方 ratchet 和范围差异，R4 与 006 全段的边界按原卡。"
       }
     },
     {
@@ -2584,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "eba7c4a8224cc1f82d7d4800b3ba7a82c2f9afeae5132fcc987449beeb7759a9",
+      "afterSha256": "3174c609ca506433e6d4f4072f572d7e97a7e3a249a9617da9803e78f99e71de",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "/root/e2e_baseline_docs (three-way source reconciliation)",
-        "reviewer": "/root (merge acceptance); prior Codex /root/e2e_baseline_docs / Codex /root; /root/status_reconcile; /root/doc_delta_review",
-        "date": "2026-11-05",
-        "conclusion": "保全37bf层：既有生成器仅将ED当前状态由build更新为review，独立重放stdout与候选逐字相同，其余任务状态不改。 以公开生成器投影REPO-SLIM-PLAN-1的build转done；其它任务状态、历史身份和正文不变。 保全c561层：独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。",
-        "reviewedLines": 581,
-        "acceptanceScope": "仅合并两边已接受范围及历史，不授新执行/UI/E2E/主线合入信用。37bf原范围：只接受唯一生成行、真实card状态及producer一致性；短回执在ED-ENTITY-STATE-PLAN-1-initial-state-workspace-20261104.tar.gz。未变正文复用旧接受，行数为consumer身份范围；不额外授产品、E2E或全文运行信用。 仅本轮四篇实际增量、S53用户操作后缺席及精确引用退役、最后快照计量边界、原八项规则唯一承接和生成导航一致性；沿用未变正文/原执行接受。有限本地清理done不授其它产品任务、全仓代码审计或PR已合并信用。 本次仅协调c01daf49034c4a066f199cb675cc1a0f3ac935d1与08d67e28ec454d29941f8fab614644c5e160d790的已接受改动，核自动合并正文及真实当前SHA；原历史/原生签名不改，合并主线尚未完成。 c561原范围：复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007–009 从活动项移到已完成。实际生成投影逐字节一致。",
+        "reviewedLines": 584,
+        "acceptanceScope": "只核本轮卡面状态的机械投影。"
       }
     },
     {
@@ -3391,6 +3402,19 @@
       }
     },
     {
+      "path": "docs/phase2/specs/script-system.md",
+      "mode": "reviewed",
+      "afterSha256": "12f125deb44c3a253ff0004e9e088549db1f425385d6d13089555cd68fa2b8fa",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 cameraPan/clearDialog、普通明雷与 ride 实际世界步和呈现职责的增量。交互脚本显式站姿有独立的渲染边界。",
+        "reviewedLines": 313,
+        "acceptanceScope": "只核改动三段与 main、WorldCamera 及 006–009 对应原件。沿用未变规范，不授完整 runtime 或编辑器验收。"
+      }
+    },
+    {
       "path": "docs/phase2/specs/README.md",
       "mode": "reviewed",
       "afterSha256": "47c9a34c5799c8ff38e06e6625c76d388bafcb23aa8a00602425f42a0959122e",
@@ -3949,27 +3973,27 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "27f9eb53e19c6117b2d7dcb4dc2b3a0affafb8a726c2a21e27076a7e7c29e8a9",
+      "afterSha256": "aa43fde9d5e846e1920aa51529598daaab68fb07e19fe82391a8fe690409108f",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (product/visual); /root/ui_final_doc_review (document delta)",
-        "date": "2026-11-04",
-        "conclusion": "Reverse-reference entry synchronized to right Inspector References tab; existing E2E and initial-state verification credit unchanged.",
-        "reviewedLines": 608,
-        "acceptanceScope": "Only the actual delta, necessary primary sources and consumers; unchanged prior acceptance reused. Line extent identifies current body, not a repeated full read. Final independent document receipt and product originals: ED-ENTITY-STATE-PLAN-1-ui-consistency-20261104.tar.gz. No whole-editor, user final acceptance, project Save or new E2E credit."
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受共用路线、实际提交、原件离线对照与分屏流程的差异。静态机关实绘与骑乘的行进方向、可见姿势有分别可证的判据。",
+        "reviewedLines": 634,
+        "acceptanceScope": "只核实际增量、生产比较入口及 006–009 有关义务。首次 review、返工 rework、作者分屏范围分开，沿用未变正文原接受。"
       }
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "mode": "reviewed",
-      "afterSha256": "0199f45e01eb52f335fd973a5ec3295a0b5c44c3e30e3e736bf56c23ddacf4ec",
+      "afterSha256": "3c8f9aa203e4b51ffa793a11642b013c45af4852a257dbc92eac17ccda2e4c72",
       "review": {
-        "author": "/root/raw_initial_state_audit",
-        "reviewer": "/root",
-        "date": "2026-11-05",
-        "conclusion": "两个当前源锚点/e25适用边界按实际源核对；历史quote字节保持，无新运行信用。",
-        "reviewedLines": 556,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "完整 Game 既有用例从 527–642 移到 546–661，整段相同。正文说明当前读域，机器范围及原历史保留。",
+        "reviewedLines": 560,
+        "acceptanceScope": "仅核当前开场夹具来源、既有测试判据及两层目录组合。各版本的历史出版、运行和验收信用由原件持有。"
       }
     },
     {
@@ -3987,7 +4011,16 @@
     },
     {
       "path": "docs/testing/e2e/README.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "d319535ef3ff617bda604032436e18126fcab038d81bf12c474825fab240e71f",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007–009 的正式阶段导航，以及目录出版依赖和实际同引擎前驱的分别核定。原引文保留其历史时点。",
+        "reviewedLines": 96,
+        "acceptanceScope": "仅新入口和现行边界差异，历史 quote 按原范围。"
+      }
     },
     {
       "path": "docs/testing/e2e/route-proposal.md",
@@ -4000,14 +4033,14 @@
     {
       "path": "docs/testing/e2e/stages/001-opening/report.md",
       "mode": "reviewed",
-      "afterSha256": "00b2acb7c9bb403857aa7c03fd918d847913af18859a5e96627796d4f9612e5e",
+      "afterSha256": "b9d9509591592bf0e4a717a1005e36900b89fc85bac5a1723e0337477d28ee16",
       "review": {
-        "author": "/root/raw_initial_state_audit",
-        "reviewer": "/root",
-        "date": "2026-11-05",
-        "conclusion": "更新唯一观测名单源pin及旧001缺e25的适用边界；旧Game/执行历史保持，新RF事实归R4原件。",
-        "reviewedLines": 293,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "完整 Game 既有用例从 527–642 移到 546–661，整段相同。正文说明当前读域，机器范围及原历史保留。",
+        "reviewedLines": 297,
+        "acceptanceScope": "仅核当前开场夹具来源、既有测试判据及两层目录组合。各版本的历史出版、运行和验收信用由原件持有。"
       }
     },
     {
@@ -4075,14 +4108,14 @@
     {
       "path": "docs/testing/governance.md",
       "mode": "reviewed",
-      "afterSha256": "90106cc582a233e5bac52f93a1ce427d28ba8c59681faa0f744439f6164a9bc2",
+      "afterSha256": "2a46864fd8508b75fd2dccfa4d4d9243306a6953b53912b0329862d0cdb226ae",
       "review": {
-        "author": "/root",
-        "reviewer": "/root/doc_delta_review",
-        "date": "2026-11-05",
-        "conclusion": "仅新增现行测试来源绑定维护流程及版本适用性转接，固定4载体/7来源；旧类型/执行保全、非作者/afterSHA/Owner及配对门表达与实现一致。",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受版本对比命令面向所有已登记 E2E，而非固定阶段计数。",
         "reviewedLines": 100,
-        "acceptanceScope": "独立核实际新增小节/转接及链接，不授旧runtime/E2E/视觉/全仓或整窗完成信用。"
+        "acceptanceScope": "仅现行只读命令范围一行。"
       }
     },
     {
@@ -4164,14 +4197,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "6d81b2ec2dbf2ebbf718ab085232083dc234672cf3431451156c8ec12a783a1d",
+      "afterSha256": "ab3fca634e45379c5cf5e973502c383b85835286ccf656ba7fd7ed1ac771b846",
       "review": {
-        "author": "/root",
-        "reviewer": "/root (bounded pointer); /root/raw_initial_state_audit (independent RF input proof)",
-        "date": "2026-11-05",
-        "conclusion": "仅新增当前RF006终档/6506摘要、R4及69唯一原件恢复入口；旧边界/双阶段历史原样保留，不授007/Game/新视觉。",
-        "reviewedLines": 147,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 743be 当前 007→008→009 的正式终档接续及用户复看完成，各段指向自己的正式报告。",
+        "reviewedLines": 157,
+        "acceptanceScope": "核同引擎实际链、阶段导航和本批视觉范围。006 全段和其它版本沿原身份。"
       }
     },
     {
@@ -4257,14 +4290,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "565403a5ed988ccb4c529384dd159d3120e30f2a4e931f314b2578e9002a18c2",
+      "afterSha256": "ac28f995e46930c2bfe075e8a7908b10f230a37d79fca9b44d09640d7aa7bb81",
       "review": {
-        "author": "/root/e2e_baseline_docs (source-layer merge)",
-        "reviewer": "/root (merge acceptance); /root/doc_delta_review (c561 layer)",
-        "date": "2026-11-05",
-        "conclusion": "固定159cd原件先经已接受37bf catalog维护合同，再经主线有限source bridge；保全E2E两ID来源SHA/reviewScope增量和主线三个ID的2+4+1来源/history增量。两层原断言各自执行，原签名/出版/执行事实不变。",
-        "reviewedLines": 3410,
-        "acceptanceScope": "仅两个已接受来源维护层的组合及固定Git中间原件，不扩大路径/ID/字段授权，不授runtime/E2E或旧反控重执行信用。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007、008、009 三条 verified 及三个具名审查结论。旧 20 条、原顺序和所有其它治理值逐值完整保留。008 依已出版 007。",
+        "reviewedLines": 3916,
+        "acceptanceScope": "核固定 opening、六条来源桥、c327 完整原对象和限定尾项。发布依赖与原生实跑前驱分别保持其身份。"
       }
     },
     {
@@ -4304,6 +4337,188 @@
         "conclusion": "标签来源与配对history，不重授设备/浏览器信用；实际diff、七源指纹/锚点、四实现去注释正文及PAL14原件据证接受。",
         "reviewedLines": 463,
         "acceptanceScope": "仅本轮回绑增量；status/lastVerified/currentSha/versions/runtimeExecution/artifacts/claims及原保全块不变；不授旧SCC/token/反控、浏览器、新E2E或整窗完成信用。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
+      "mode": "reviewed",
+      "afterSha256": "46fcccc60ddfdfaadf1d5212befd3a105b62b98246f323431e79298688dd7801",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "ActiveScene 构造原位保留。WorldCamera 构造接线下移两行，仍在既有锚点范围。预取消 oracle 指针维持本次已核 143–157。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "fba1e8a778879334f7da754fcfce3d39e32ee7f37543cd57bb92b2a092e1101b",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "ActiveScene 构造原位保留。WorldCamera 构造接线下移两行，仍在既有锚点范围。预取消 oracle 指针维持本次已核 143–157。",
+        "reviewedLines": 212,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
+      "mode": "reviewed",
+      "afterSha256": "9d74655ff5ff948bc0d63139f867f18db75d7453b6ca4530d037c7b3a1529273",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "BattleHost 主壳端口下移两行，接线、owner 与原测试字节相同。",
+        "reviewedLines": 98,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "b460d5d555a0d84b75f764289a9b7ded99e6823de5665996d4c1d1ab4e7a3783",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "BattleHost 主壳端口下移两行，接线、owner 与原测试字节相同。",
+        "reviewedLines": 184,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
+      "mode": "reviewed",
+      "afterSha256": "96d1d20f0686f5cc2b4c40ec39a6bdfe9fdd80010a061a12e4606c3db3261286",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行，字节相同。普通明雷与骑乘动态证据各归原段。",
+        "reviewedLines": 99,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
+      "mode": "testing-source-bridge",
+      "afterSha256": "5308a149808731dcd7818e756b5bf39f47f73429f824d1b1168e5e3e2a86e008",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行，字节相同。普通明雷与骑乘动态证据各归原段。",
+        "reviewedLines": 208,
+        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-domain.md",
+      "mode": "reviewed",
+      "afterSha256": "2c18ba317c0581250c068233da9c67b4979bcae89e5cf16ff86ac482493be083",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 91,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：工程域归类与 e2e 的三条新增成员。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-engine.md",
+      "mode": "reviewed",
+      "afterSha256": "468e2435b6ed88bd03f22f894998e58b13169256ea0b2e9f76a6e678a9189db2",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 103,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：Game 与 Reforge 各三条双引擎成员关系。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-module.md",
+      "mode": "reviewed",
+      "afterSha256": "095a0b167939e1c6af140a49d9d38a0ee73684a8c0fb65dbeb35f08513e80d3c",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 187,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段各自的工程域/模块归类与报告链接。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-owner.md",
+      "mode": "reviewed",
+      "afterSha256": "0707f4261bba8bebdef85a8b0cfd603857f448dc976a0a7c21613d7d551ea491",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 59,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段归入 Codex 的发布维护责任。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-phase.md",
+      "mode": "reviewed",
+      "afterSha256": "d1632902ab3ac55673db10e6e897df236ea77a0b3a9e1283046c274e8cc0cb5a",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 88,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：第一阶段与第二阶段各三条适用成员关系。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-stage.md",
+      "mode": "reviewed",
+      "afterSha256": "2c8b9cacf96d20cb64fb7c44bb2d6f70c8238b2bd5ac4bb48ad619d486221f43",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 63,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段状态、正式报告和冻结实跑版本行，006 rework 及原六段版本保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-status.md",
+      "mode": "reviewed",
+      "afterSha256": "0a16a348e90ad487f46b983ca9c9a38550ac2f231b6dbaa4267944af9d5402e9",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 87,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三条 verified 成员、006 rework 保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+      }
+    },
+    {
+      "path": "docs/testing/indexes/by-tag.md",
+      "mode": "reviewed",
+      "afterSha256": "26ba8a8ccfb50a4d377c9b757386c1ebd384f0e5c2d793accd2081c72267ffad",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "accept",
+        "reviewedLines": 244,
+        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段 14 条标签成员，原标签与成员保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
       }
     }
   ],
@@ -4376,14 +4591,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "a769bbcbc6c41515879a09bd08e38989bf76df524844d7327b9365e89010be58",
+      "afterSha256": "36c9f10a8057095042db1a4296a34ceb6b33ad20610370eeda90f5088587242d",
       "review": {
-        "author": "/root (UI/append); read-only assembly /root/e2e_baseline_docs",
-        "reviewer": "/root/e2e_baseline_docs (candidate/data); /root (actual publication)",
-        "date": "2026-11-05",
-        "conclusion": "原160事件保全，追加650为810。当前130审查/95静态初态verified，66优化accepted/64无需整改；旧e25缺证unreviewed。正式归档ref与append-only快检0待复核/0 orphan；全仓未核仍自动枚举。",
-        "reviewedLines": 78999,
-        "acceptanceScope": "仅本次已列实际差异、固定候选/原件、明确限制及消费者；未变正文沿用此前接受。独立回执/失败/恢复/源身份见E2E-R4-1-script-baseline-closeout-20261105.tar.gz，根核实际归档、追加与中央门。不是重复全文历史阅读、全仓脚本完成、新Game/视觉/音频或007验收。"
+        "author": "Codex /root/reforge_009",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "旧 2800 个事件字节保全。新站姿改动逐项复核 215 处现场的 577 轴，范围含地面走位的前态和已保存编辑器属性。",
+        "reviewedLines": 212268,
+        "acceptanceScope": "当前可用性依原生轨迹、存读、编辑器回执和真实源闭包。006 只授骑乘专项，两版均有的其他演出差异保留待核。"
       }
     },
     {
@@ -4488,6 +4703,175 @@
         "conclusion": "独立增量及唯一归档接受：原93、组成门/失败恢复和有限交付done成立；845旧行保全+1条PAL oracle刷新，未授未来PR/main或全仓专项完成。 另据证接受TURN现行收口段移出保全区及首轮元数据失败保全；完整历史字节不变。",
         "reviewedLines": 556,
         "acceptanceScope": "复用已受审正文，只核本次Status/H/收口增量、具名身份/计数/必要原件与归档完整性；不重复93全文，不恢复历史撤回，不授未执行远端检查/合并信用。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "a91b120598e32c010a3661e6cd1d4feca57f62203884380c33b110e2c2ca0c01",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受当前 28.12 秒分屏的用户结论和与正式阶段配对后的 done。前轮奖励窗和早期同路回执各保留时点。",
+        "reviewedLines": 116,
+        "acceptanceScope": "限当前 visual delta、正式报告导航与原闭环证据。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-008-1-fairy-island-maze.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "3d112221448d3592cfcd2f902d63032e7b34726e505d385500f053410e4299f8",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受正式报告已登记后改为 done。227 秒新版的「没问题了」仍绑定原回执。",
+        "reviewedLines": 148,
+        "acceptanceScope": "本次关闭正式登记缺项，引用已有用户视觉结论及实际技术证据。"
+      }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-009-1-fairy-island-pool.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "fa48f91816c6862228b327333a247fbd55ca29a17ff95330a2f6f38a7ac5c252",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受当前 129.4 秒分屏的用户结论和与正式阶段配对后的 done。旧视觉反例保留原执行。",
+        "reviewedLines": 103,
+        "acceptanceScope": "限当前 visual delta、历史时点修正与正式报告导航。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md",
+      "templateId": "evidence-receipt-v1",
+      "afterSha256": "2ee30988800191ac70be8898aef633313aca04e9901a8ed27dd14efecf10179f",
+      "review": {
+        "author": "Codex /root/pond_dialogue",
+        "reviewer": "Codex /root",
+        "date": "2026-11-06",
+        "conclusion": "固定 743be 最终源码。复核真实四 caller 字节、原声明内锚点及静态检查 8→0。",
+        "reviewedLines": 42,
+        "acceptanceScope": "只核本次文档来源绑定与检查工具。运行、覆盖率、E2E、视觉仍使用各自原件。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/007-island-entrance/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "afterSha256": "44c80d2999027beac4d445bad63590de9a7aa009b54f8ab7d35a2681369fe8bb",
+      "review": {
+        "author": "Codex /root/reforge_007_probe 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007 的阶段入口、依赖和 verified 投影。007 当前 28.12 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 34,
+        "acceptanceScope": "仅实际阶段导航和已绑定的当前技术/作者范围。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/007-island-entrance/report.md",
+      "templateId": "test-run-report-v1",
+      "afterSha256": "710c5d5e15700ccd2901174a270bfe6fc890506a4f7e6798dc029e84509785ac",
+      "review": {
+        "author": "Codex /root/reforge_007_probe 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 132 步、三场遭遇、四只草妖实绘及迷宫正式存读的冻结报告。007 当前 28.12 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 81,
+        "acceptanceScope": "核当前录制身份、对应原件、用户确认范围及各自已明确的限制。沿用本轮原件的既有独立验收。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-007.json",
+      "templateId": "test-machine-evidence-v1",
+      "afterSha256": "e11b2a34432e17ab6f04a97394680e65b34fc16905491bccfeb0dbd3bf1f512a",
+      "review": {
+        "author": "Codex /root/reforge_007_probe 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 007 的原生 verify、终档、读回及独立静态预览证据范围。007 当前 28.12 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 540,
+        "acceptanceScope": "复算实际归档/成员绑定、原生模板及发布配对。保持旧执行/失败范围。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/008-fairy-island-maze/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "afterSha256": "af3f4259557f48fa43f01e45eef511c517ff6f365e15dc47998e7c44830a9b8d",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_009",
+        "date": "2026-11-06",
+        "conclusion": "接受 008 的阶段入口、依赖和 verified 投影。008 当前 227 秒分屏对应用户「没问题了」。",
+        "reviewedLines": 33,
+        "acceptanceScope": "仅实际阶段导航和已绑定的当前技术/作者范围。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/008-fairy-island-maze/report.md",
+      "templateId": "test-run-report-v1",
+      "afterSha256": "09b9bae714f0142a4dc7eea7fa54abc66f4214ea71d94cafa22f444ada328d01",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_009",
+        "date": "2026-11-06",
+        "conclusion": "接受 636 步、六像实绘、19 次转向、迷宫机关与桃花林正式存读的冻结报告。008 当前 227 秒分屏对应用户「没问题了」。",
+        "reviewedLines": 58,
+        "acceptanceScope": "核当前录制身份、对应原件、用户确认范围及各自已明确的限制。沿用本轮原件的既有独立验收。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-008.json",
+      "templateId": "test-machine-evidence-v1",
+      "afterSha256": "d9b61c5f056c4ef70b770c9551ec385bb038697ecd4f163c495ec16ddce7a2fb",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/reforge_009",
+        "date": "2026-11-06",
+        "conclusion": "接受 008 的原生 verify、终档、读回及独立静态预览证据范围。008 当前 227 秒分屏对应用户「没问题了」。",
+        "reviewedLines": 454,
+        "acceptanceScope": "复算实际归档/成员绑定、原生模板及发布配对。保持旧执行/失败范围。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/009-fairy-island-pool/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "afterSha256": "934c76e7409c1d90aec895688a26870c7077eb93e7ae960cb13a3a63bc70a4d6",
+      "review": {
+        "author": "Codex /root/reforge_009 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 009 的阶段入口、依赖和 verified 投影。009 当前 129.4 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 36,
+        "acceptanceScope": "仅实际阶段导航和已绑定的当前技术/作者范围。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/009-fairy-island-pool/report.md",
+      "templateId": "test-run-report-v1",
+      "afterSha256": "625b0468a2a79172b9f1b4884ef4cde803283947ed77b72c4acdef578a20ab69",
+      "review": {
+        "author": "Codex /root/reforge_009 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 239 步、48 步镜头平移、两次转场对白清除和正式存读的冻结报告。009 当前 129.4 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 73,
+        "acceptanceScope": "核当前录制身份、对应原件、用户确认范围及各自已明确的限制。沿用本轮原件的既有独立验收。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-009.json",
+      "templateId": "test-machine-evidence-v1",
+      "afterSha256": "e797bc099deba6f312c18931db9b090ff07ae430bc0f7c2d2b73d2da9daa7937",
+      "review": {
+        "author": "Codex /root/reforge_009 与 /root",
+        "reviewer": "Codex /root/pond_dialogue",
+        "date": "2026-11-06",
+        "conclusion": "接受 009 的原生 verify、终档、读回及独立静态预览证据范围。009 当前 129.4 秒分屏对应用户「007、009 都通过」。",
+        "reviewedLines": 653,
+        "acceptanceScope": "复算实际归档/成员绑定、原生模板及发布配对。保持旧执行/失败范围。"
       }
     }
   ],
@@ -4669,6 +5053,72 @@
       "sha256": "5037e2a3e618e97bf31389c84f7d4900873a2ef243d54057a87d235242956b84",
       "bytes": 7106969,
       "purpose": "Preserves previous-head required check receipts, current-main reconciliation, the official seven-package V8 report, six current Reforge reports and checkpoints, original RF006 fresh-restore inputs, and the independent verification harness."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-island-entrance-20261105.tar.gz",
+      "sha256": "67425f1a5412eeb1fb293d5008cef7f7ce43c17702c418856f687e1f29795d59",
+      "bytes": 14774993,
+      "purpose": "Preserves 007 native dual-engine reports, formal checkpoint and fresh restore traces, exact predecessor inputs and chain receipts, editor save and reopen, independent checks, and bounded failure evidence."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-007-1-settlement-layout-20261106.tar.gz",
+      "bytes": 1990194,
+      "sha256": "3074c77313c4eb7524db6ad20d5b90c574099f194487378568775bea4b514268",
+      "purpose": "Preserves the user-reported 007 settlement layout counterexample, matched actual victory frames, dual-engine native continuation and restore, and narrow test receipts."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+      "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+      "bytes": 7939784,
+      "purpose": "Preserves 008 native reports, checkpoints and fresh restores from one frozen candidate, the strict Reforge predecessor rebuild, route counterexamples, and native editor initial-state proof."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+      "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+      "bytes": 3305893,
+      "purpose": "Preserves the 008 yellow dialogue counterexample, matched fixed browser frames, native dual-engine reruns and restored checkpoints, and bounded locale-dependency applicability."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+      "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+      "bytes": 10345748,
+      "purpose": "Preserves 009 native gameplay and fresh restores from one candidate, the exact Reforge 001–008 checkpoint chain, both lightning counterexamples, and the saved editor layouts rebound to the real pre-command poses."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz",
+      "sha256": "ee8007e7ba6079b9035f408d0375207278ce772f0f008c2517efe48a5fbeb547",
+      "bytes": 8616834,
+      "purpose": "Binds six native 007–009 recordings, their actual saves and restored contexts, offline parity and counterexamples, confirmed input identity, and review video receipts."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+      "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+      "bytes": 1784577,
+      "purpose": "Binds the 009 editor reopen, preview and reset with the actual 008/009 entry poses for step applicability."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-R4-1-hostile-script-applicability-20261106.tar.gz",
+      "sha256": "3a388c368f3ebfea387caec8933f7f931c03b6556da8e15d2029ee7413dee712",
+      "bytes": 882709,
+      "purpose": "Binds the new maze entrance editor save, reopen and cross-scene preview, and file-level source impact checks for existing script records."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-orientation-recheck-20261106.tar.gz",
+      "sha256": "5f5b85e831be3e6248783694ddb207a64f4c8fdf69cda428f938e033c1936067",
+      "bytes": 11182680,
+      "purpose": "Native 008/009 orientation recheck, its real red counterexample, related checkpoint chain, and the scoped 006 motion observations."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-preview-route-recheck-20261106.tar.gz",
+      "sha256": "7307836873851cfc8d6d0017c87b5fc056acc8a0bfc2449a3531b1bf5b194e45",
+      "bytes": 3243218,
+      "purpose": "Editor native save and new browser reopen for all six hammer-step initial states, references and observed scripted steps."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz",
+      "sha256": "e45bce10751d3c7f8acac8acd1c6de6c1f8b177127f28cd5af02ea12aed3b0a9",
+      "bytes": 10805917,
+      "purpose": "Independent 006 pose counterexample and corrected actual frame pixels, fresh 007–009 dual recordings, formal saves and offline review receipts."
     }
   ],
   "artifactAliases": [],

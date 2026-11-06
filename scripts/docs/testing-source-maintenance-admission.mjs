@@ -12,7 +12,7 @@ export const testingSourceMaintenanceAdmissions = Object.freeze([
       gitObject: 'e60639a77d870138daaa5745a02abcb61d0899da',
       sha256: '3aba7fc7233ea1194926ab3c4af1fcfccd9e640039fa028051b6ee32308aa3cb',
     }),
-    afterSha256: '264934dae710e736bfc01bd8a58c6cde2c4eb32392c2eb80f5a8bd17ca5efb0b',
+    afterSha256: '5db7d51a4a6b85929c75f4a162838352384d7a545a8ec3754e92a7cef2e7f99f',
   }),
   Object.freeze({
     kind: 'document-audit',
@@ -25,7 +25,7 @@ export const testingSourceMaintenanceAdmissions = Object.freeze([
       gitObject: '1f8818b492b162091a55e8f6dd244b71d456305c',
       sha256: '75e0f415e7a1dd2a5d3655f28c6ddc23726038e4ec129e1100974958f936e2c3',
     }),
-    afterSha256: 'a958da3c07141ba0cd2f6fda9de19d6d12c211cbe945f181c398ee9e2c0d7c04',
+    afterSha256: '7387d32a7d21c5ebb230aed45a2efa6731473ef9d03f8515e4a5bb9f49bc383c',
   }),
   Object.freeze({
     kind: 'testing-catalog',
@@ -38,6 +38,6 @@ export const testingSourceMaintenanceAdmissions = Object.freeze([
       gitObject: 'bb3e4af62b5f4eb701a563ab30fb72a8b6bd63cb',
       sha256: '06c95d90188a0591d9837cd3f7dc897ed898602fe44bd56f8b6317ed8d84f3bd',
     }),
-    afterSha256: 'b21b0b08e815ca4a775e75b6f04a7a2850adc92a94d33b42dbd13549391c9c9e',
+    afterSha256: '36bea571e903445240944b5045f4491563e66d751d08fe5df7e2d6e897cf568f',
   }),
 ])

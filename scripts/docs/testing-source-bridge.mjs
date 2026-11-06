@@ -4,6 +4,8 @@ import { parseTerminalJson } from './terminal-json.mjs'
 import { safeTestingPath, testingSourceRefIssues } from './testing-source-refs.mjs'
 
 const catalogPath = 'docs/testing/catalog.json'
+const activeSceneId = 'runtime-active-scene'
+const cameraTestPath = 'packages/reforge/src/world-camera.test.ts'
 // This finite maintenance pilot cannot be widened by the candidate manifest.
 const evidenceIds = new Map([
   [
@@ -12,6 +14,9 @@ const evidenceIds = new Map([
   ],
   ['docs/testing/domains/cross-phase/script-corrections/evidence.json', 'game-script-corrections'],
   ['docs/testing/domains/phase1-runtime/control-rotation/evidence.json', 'game-input-rotation'],
+  ['docs/testing/domains/runtime/scene/active-scene/evidence.json', activeSceneId],
+  ['docs/testing/domains/runtime/battle/battle-host/evidence.json', 'runtime-battle-host'],
+  ['docs/testing/domains/runtime/world/world-runtime/evidence.json', 'runtime-world-owners'],
 ])
 const sourcePaths = new Map([
   [
@@ -31,9 +36,109 @@ const sourcePaths = new Map([
     ]),
   ],
   ['game-input-rotation', new Set(['packages/game/src/localization/ui-text.ts'])],
+  [activeSceneId, new Set(['packages/reforge/src/main.ts', cameraTestPath])],
+  ['runtime-battle-host', new Set(['packages/reforge/src/main.ts'])],
+  [
+    'runtime-world-owners',
+    new Set([
+      'packages/reforge/src/main.ts',
+      'packages/reforge/src/world-scene-presentation.ts',
+      'packages/reforge/src/world-scene-presentation.test.ts',
+    ]),
+  ],
 ])
 
 export const isTestingSourceBridgePath = (path) => path === catalogPath || evidenceIds.has(path)
+
+const stagePublications = [
+  ['007', 'island-entrance'],
+  ['008', 'fairy-island-maze'],
+  ['009', 'fairy-island-pool'],
+].map(([number, slug]) => ({
+  id: `e2e-${number}`,
+  kind: 'e2e-stage',
+  canonical: `e2e/stages/${number}-${slug}/report.md`,
+  index: `e2e/stages/${number}-${slug}/README.md`,
+  evidence: `e2e/evidence/e2e-${number}.json`,
+}))
+const stageEvidenceIds = new Map(
+  stagePublications.map(({ evidence, id }) => [`docs/testing/${evidence}`, id]),
+)
+export const isTestingStageEvidencePath = (path) => stageEvidenceIds.has(path)
+
+/** A publication is a separate layer over the already verified source bridge. */
+export function assertTestingStagePublication(previousBytes, currentBytes, additions) {
+  const before = parseTerminalJson(previousBytes)
+  const current = parseTerminalJson(currentBytes)
+  const oldEntries = before?.entries
+  const oldReadings = before?._governance?.entryReadings
+  const entries = current?.entries
+  const readings = current?._governance?.entryReadings
+  assert(
+    [oldEntries, oldReadings, entries, readings].every(Array.isArray),
+    'stage publication requires catalog entries and entry readings',
+  )
+  assert.deepEqual(
+    {
+      ...current,
+      entries: entries.slice(0, oldEntries.length),
+      _governance: {
+        ...current._governance,
+        entryReadings: readings.slice(0, oldReadings.length),
+      },
+    },
+    before,
+    'stage publication changed existing catalog facts',
+  )
+  const stageIds = stagePublications.map(({ id }) => id)
+  assert(!oldEntries.some((entry) => stageIds.includes(entry?.id)), 'stage was already published')
+  assert.deepEqual(
+    entries.slice(oldEntries.length).map((entry) => {
+      const { id, kind, canonical, index, evidence } = entry ?? {}
+      return { id, kind, canonical, index, evidence }
+    }),
+    stagePublications,
+    'only the three admitted stage entries may be appended in order',
+  )
+  const newReadings = readings.slice(oldReadings.length)
+  assert.deepEqual(
+    newReadings.map((reading) => reading?.id),
+    stageIds,
+    'stage publication requires a reading for each appended stage in order',
+  )
+  assert(
+    newReadings.every(({ conclusion }) => typeof conclusion === 'string' && conclusion.trim()),
+    'stage publication requires a concrete reading conclusion',
+  )
+  for (const { canonical, index, evidence } of stagePublications) {
+    for (const [path, templateId] of [
+      [canonical, 'test-run-report-v1'],
+      [index, 'test-e2e-stage-v1'],
+      [evidence, 'test-machine-evidence-v1'],
+    ]) {
+      assert.equal(
+        additions.get(`docs/testing/${path}`)?.templateId,
+        templateId,
+        `stage publication requires an admitted pair: ${path}`,
+      )
+    }
+  }
+}
+
+export function assertTestingStageEvidence(path, bytes) {
+  assert(isTestingStageEvidencePath(path), 'unadmitted testing stage evidence path')
+  const evidence = parseTerminalJson(bytes)
+  assert.equal(evidence?.id, stageEvidenceIds.get(path), 'testing stage evidence identity differs')
+  assert(
+    evidence.schemaVersion === 2 &&
+      evidence.kind === 'runtime-execution' &&
+      evidence.runtimeExecution?.performed === true &&
+      evidence._governance?.variant === 'execution' &&
+      Array.isArray(evidence.claims) &&
+      evidence.claims.some((claim) => claim?.result === 'runtime-backed'),
+    'testing stage evidence must declare its actual native execution',
+  )
+}
 
 function restoreReferences(before, current, id, sources) {
   assert(
@@ -101,8 +206,29 @@ function restoreHistory(before, current, changed, readSource) {
   return structuredClone(before)
 }
 
-/** Preserve the entire accepted native object except this pilot's checked source
- * bindings and append-only history. Runtime artifacts and publication are immutable. */
+function restoreActiveSceneCameraPointer(before, current, restored) {
+  const oldRef = before.sourceRefs.find((ref) => ref.path === cameraTestPath)
+  const movedRef = current.sourceRefs.find((ref) => ref.path === cameraTestPath)
+  if (!oldRef || !movedRef || oldRef.lines === movedRef.lines) return
+
+  const claimIndex = before.claims?.findIndex(
+    (claim) =>
+      claim.id === 'runtime-active-scene-source-contract' && claim.result === 'source-backed',
+  )
+  const oldPointer = `${cameraTestPath}:${oldRef.lines}`
+  const pointerIndex = before.claims?.[claimIndex]?.evidence?.indexOf(oldPointer) ?? -1
+  const pointers = restored.claims?.[claimIndex]?.evidence
+  assert(
+    pointerIndex >= 0 &&
+      Array.isArray(pointers) &&
+      pointers[pointerIndex] === `${cameraTestPath}:${movedRef.lines}`,
+    'active-scene source claim must follow the moved camera oracle',
+  )
+  pointers[pointerIndex] = oldPointer
+}
+
+/** Preserve the accepted object by restoring checked source bindings, the matching
+ * moved camera claim pointer and append-only history. Runtime and publication are immutable. */
 export function assertTestingSourceBridge(path, previousBytes, currentBytes, readSource) {
   assert(isTestingSourceBridgePath(path), 'unadmitted testing source bridge path')
   const before = parseTerminalJson(previousBytes)
@@ -154,6 +280,7 @@ export function assertTestingSourceBridge(path, previousBytes, currentBytes, rea
     assert.equal(current.id, id, 'evidence ID changed')
     const references = restoreReferences(before.sourceRefs, current.sourceRefs, id, sources)
     restored.sourceRefs = references.restored
+    if (id === activeSceneId) restoreActiveSceneCameraPointer(before, current, restored)
     restored.history = restoreHistory(
       before.history,
       current.history,

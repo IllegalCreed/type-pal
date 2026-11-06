@@ -2,7 +2,7 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import type { ShellHost } from './__tests__/runtime-shell/dom-host.js'
 import { drain, key } from './__tests__/runtime-shell/driver.js'
-import { sceneWithCommands } from './__tests__/runtime-shell/project.js'
+import { sceneWithCommands, shellScene } from './__tests__/runtime-shell/project.js'
 import {
   advance,
   bootScenario,
@@ -33,6 +33,129 @@ async function finish(h: ShellHost) {
   }
   expect(state().renderDebug.inBattle).toBe(false)
 }
+
+function hostileEncounterClaimed(): boolean {
+  const debug: unknown = Reflect.get(window, '__tpE2e')
+  if (!debug || typeof debug !== 'object' || !('dumpMotionState' in debug))
+    throw new Error('runtime motion observation is unavailable')
+  if (typeof debug.dumpMotionState !== 'function') throw new Error('motion reader is unavailable')
+  const motion: unknown = debug.dumpMotionState()
+  if (!motion || typeof motion !== 'object' || !('hostileBusy' in motion))
+    throw new Error('encounter observation is unavailable')
+  if (typeof motion.hostileBusy !== 'boolean') throw new Error('invalid encounter observation')
+  return motion.hostileBusy
+}
+
+test('a world hostile takes quarter-steps and only claims near contact at the next step', async () => {
+  host = await installShellHost()
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const sprites = vi.spyOn(WorldScenePresentation.prototype, 'sprites')
+  const first = sceneWithCommands('a', [
+    { kind: 'animEntity', target: { scene: 'a', entity: 'chaser' } },
+  ])
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 5, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        chase: { range: 3, speed: 2 },
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const fixture = await bootScenario(host, { first })
+  const enemyCol = () => state().entities.find((entity) => entity.id === 'chaser')?.pos.col
+  const drawnFrame = () => {
+    const painter = sprites.mock.contexts.at(-1)
+    if (!(painter instanceof WorldScenePresentation))
+      throw new Error('world painter was not called')
+    return painter.renderedEntityFrame('chaser')
+  }
+  await host.frame(100)
+  await drain()
+  // Exactly at the chase radius, the authored idle pose still owns the draw.
+  expect(state().player.pos).toEqual({ col: 2, row: 2, height: 0 })
+  expect(enemyCol()).toBe(5)
+  expect(drawnFrame()).toBe(1)
+  await key(host, 'ArrowRight')
+  expect(state().player.pos).toEqual({ col: 3, row: 2, height: 0 })
+  expect(enemyCol()).toBe(5)
+  // At 1.5 there is no pre-step contact. At 1.25 there is no post-step contact.
+  for (const [phase, col] of [4.75, 4.5, 4.25].entries()) {
+    await host.frame(100)
+    await drain()
+    expect(enemyCol()).toBe(col)
+    expect(hostileEncounterClaimed()).toBe(false)
+    expect(drawnFrame()).toBe(phase)
+  }
+  await host.frame(100)
+  await drain()
+  expect(enemyCol()).toBe(4.25)
+  expect(hostileEncounterClaimed()).toBe(true)
+  await advance(host, () => state().renderDebug.inBattle)
+  expect(state().player.pos).toEqual({ col: 3, row: 2, height: 0 })
+  fixture.assertInputUnchanged()
+})
+
+test.each([
+  false,
+  true,
+])('landing touch present=%s owns the slot before post-step contact', async (touch) => {
+  host = await installShellHost()
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  if (touch) {
+    first.entities.push({
+      id: 'landing',
+      zone: true,
+      pos: { col: 3, row: 2, height: 0 },
+      initialPage: 'entry',
+      pages: [
+        {
+          id: 'entry',
+          label: 'Entry',
+          trigger: 'gain',
+          triggerActivation: { on: 'touch', range: 0 },
+        },
+      ],
+      behaviors: {
+        trigger: {
+          gain: {
+            label: 'Gain',
+            order: 0,
+            flow: {
+              kind: 'stages',
+              initial: 'gain',
+              stages: [{ id: 'gain', body: [{ kind: 'giveMoney', delta: 7 }] }],
+            },
+          },
+        },
+      },
+    })
+  }
+  const fixture = await bootScenario(host, { first })
+  expect(state().player.pos).toEqual({ col: 2, row: 2, height: 0 })
+  await key(host, 'ArrowRight')
+  expect(state().player.pos).toEqual({ col: 3, row: 2, height: 0 })
+  expect(hostileEncounterClaimed()).toBe(!touch)
+  expect(state().world.money).toBe(touch ? 57 : 50)
+  if (!touch) await advance(host, () => state().renderDebug.inBattle)
+  fixture.assertInputUnchanged()
+})
 
 test('H9 public battle runs actual settlement and onDefeated before resolving, preserving nonempty inventory', async () => {
   host = await installShellHost()

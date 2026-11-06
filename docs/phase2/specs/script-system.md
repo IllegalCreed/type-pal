@@ -47,6 +47,12 @@ onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面
 - applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
 - 指令只有明确等待/真实异步动作消耗游戏时间；节拍由正文repeat/loop/wait表达，不给每条auto加100ms、循环强塞世界拍或步后40ms。零时间循环用工作量保护，不限制正常巡逻累计寿命；公平yield/已兑现Promise/wait0不算真实进展，技术计数不暴露成作者状态。
 
+多帧 `cameraPan` 的步数以探索帧为单位。首个合格运行帧推进第一步，后续每到 100 毫秒推进一步，帧间延迟时依次经过中间位置。指令完成后继续正文。换镜、淡入等段落需要清除旧对白时，作者在相应时点显式使用 `clearDialog`。实际镜头终点、时长和转场对白层分别核对。实现和池塘正反例见[镜头推进](../../../packages/reforge/src/world-camera.ts)及 [009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)。
+
+普通明雷在世界拍开始时统一以小于 1.5 格判定接敌。拍后检查仍以贴脸为准，并让玩家最终落点触发优先。引擎自动追逐每个合格世界拍按 `min(speed / 8, 1)` 格推进，感知距离严格小于作者设置的追逐范围。脚本追逐按自己的命令节拍和接触认领执行。采用 `static` 布局的无方向多帧精灵在引擎追逐实际落步时推进步态，站定归回静止绘制。实际对照见 [007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)。
+
+`ride` 在每次已提交的载具位移中，以实际行进方向更新队伍方向和轨迹。挂载队伍默认面向行进方向站立。当前交互演出用 `setPartyFacing` 明确指定队长姿势时，骑乘画面使用该姿势。队伍自行走位、切图或该演出结束后释放。载具保留自己的朝向和动作姿态。原地停留延续队伍当前姿态。
+
 ### 作者编辑与持久现场
 
 CanonicalScriptBodyEditor统一AuthorCommand[]，外层FlowEditor维护步骤/默认去向，各owner只保留identity/选择/元数据壳；修改进同一ScriptEditSession，共用schema/reference/cursor与undo/redo/save。场景入口仍是有真实地图的工作台与可调抽屉；共享库/物品需要空间语境时回真实场景调用点，不复制owner-less地图播放器。scratch预览不写canonical，跨场景只读定义不等视觉切场，动态轨迹未知不得画假连接。

@@ -10,22 +10,19 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   drawHost,
   glyphTable,
+  image,
   menuAssets,
   stubDocumentCanvas,
 } from '../__tests__/glm-runtime-resource/menu-draw-fixtures.js'
 import { buildSettlementScreens, drawSettlementScreen } from './settlement.js'
 
-const textCalls = vi.hoisted(() => vi.fn())
-vi.mock('../text/text-render.js', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../text/text-render.js')>()
-  return {
-    ...actual,
-    renderSpans: (...args: unknown[]) => {
-      textCalls(...args)
-      return 0
-    },
-  }
-})
+const textCalls = vi.hoisted(() =>
+  vi.fn<typeof import('../text/text-render.js').renderSpans>(() => 0),
+)
+vi.mock('../text/text-render.js', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../text/text-render.js')>()),
+  renderSpans: textCalls,
+}))
 
 const lu = (over: Partial<LevelUpReport>): LevelUpReport => ({
   characterId: 'li-xiaoyao',
@@ -111,28 +108,82 @@ describe('R16 buildSettlementScreens 屏序', () => {
   })
 })
 
-describe('R16 drawSettlementScreen exp-cash 居中双卷轴', () => {
-  test('两卷轴垂直居中：文字 span 与黄色数字左对齐坐标逐项手算', () => {
-    const h = drawHost()
-    stubDocumentCanvas(h)
-    textCalls.mockClear()
-    const menu = menuAssets()
-    // 手算：h=26、y0=round((200-(2*26+12))/2)=68；line1 内容 '获得经验值'(80)+num 5(6)+GAP4 → boxW=129、x=96、px=115
-    drawSettlementScreen(h.ctx, { kind: 'exp-cash', exp: 5, cash: 10 }, menu, glyphTable())
-    const spans = textCalls.mock.calls.map((c: unknown[]) => [
-      (c[1] as { text: string }[])[0]!.text,
-      c[2],
-      c[3],
+function drawReward(exp: number, cash: number) {
+  const host = drawHost()
+  stubDocumentCanvas(host)
+  textCalls.mockClear()
+  const menu = menuAssets()
+  // 与引擎卷轴的实际尺寸一致。黄色 1 比其余数字窄一像素。
+  const columns = [8, 16, 8]
+  const rows = [4, 26, 4]
+  menu.scroll.tiles = rows.flatMap((height, row) =>
+    columns.map((width, col) => image(`scroll-${row}-${col}`, width, height)),
+  )
+  menu.nums[1] = image('n-1', 5, 8)
+
+  drawSettlementScreen(host.ctx, { kind: 'exp-cash', exp, cash }, menu, glyphTable())
+
+  const labels = textCalls.mock.calls.map(([, spans, x, y, opts]) => ({
+    text: spans.map((span) => span.text).join(''),
+    x,
+    y,
+    color: opts.forceRgba,
+    shadow: opts.shadow,
+  }))
+  const digits = host.drawImage.mock.calls.flatMap(([sprite, x, y]) => {
+    const digit = menu.nums.indexOf(sprite)
+    return digit < 0 ? [] : [[digit, x, y]]
+  })
+  const topLeft = menu.scroll.tiles[0]
+  const topRight = menu.scroll.tiles[2]
+  const corners = host.drawImage.mock.calls
+    .filter(([sprite]) => sprite === topLeft || sprite === topRight)
+    .map(([, x, y]) => [x, y])
+  return { labels, digits, corners }
+}
+
+describe('R16 drawSettlementScreen 居中卷轴', () => {
+  test('奖励标签深色无影，经验右对齐、钱数居中，六位数保留间距', () => {
+    const single = drawReward(2, 0)
+    expect(single.digits).toEqual([
+      [2, 212, 73],
+      [0, 181, 119],
     ])
-    expect(spans).toContainEqual(['获得经验值', 115, 73])
-    expect(spans).toContainEqual(['打败敌人得', 94, 111])
-    expect(spans).toContainEqual(['文钱', 194, 111])
-    const digitCalls = h.drawImage.mock.calls
-      .filter((c: unknown[]) => String((c[0] as { id: string }).id).startsWith('n-'))
-      .map((c: unknown[]) => [String((c[0] as { id: string }).id).replace('n-', ''), c[1], c[2]])
-    expect(digitCalls).toContainEqual(['5', 199, 77])
-    expect(digitCalls).toContainEqual(['1', 178, 115])
-    expect(digitCalls).toContainEqual(['0', 184, 115])
+    expect(single.labels).toEqual([
+      { text: '获得经验值', x: 102, y: 69, color: [0, 0, 0], shadow: false },
+      { text: '打败敌人得', x: 83, y: 115, color: [0, 0, 0], shadow: false },
+      { text: '文钱', x: 205, y: 115, color: [0, 0, 0], shadow: false },
+    ])
+    expect(single.corners).toEqual([
+      [88, 60],
+      [224, 60],
+      [64, 106],
+      [248, 106],
+    ])
+
+    // 原盘每个敌人的奖励是 WORD。一场五敌可达到 327675。
+    const large = drawReward(327_675, 123_456)
+    expect(large.digits).toEqual([
+      [3, 185, 73],
+      [2, 191, 73],
+      [7, 197, 73],
+      [6, 203, 73],
+      [7, 209, 73],
+      [5, 215, 73],
+      [1, 167, 119],
+      [2, 172, 119],
+      [3, 178, 119],
+      [4, 184, 119],
+      [5, 190, 119],
+      [6, 196, 119],
+    ])
+    expect(large.labels.map(({ x }) => x)).toEqual([99, 81, 208])
+    expect(large.corners).toEqual([
+      [80, 60],
+      [232, 60],
+      [64, 106],
+      [248, 106],
+    ])
   })
 
   test('hidden-up 屏：名字 + 统计中文标签 + 增量', () => {

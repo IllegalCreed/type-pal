@@ -3,9 +3,19 @@
 本目录保存 PAL 的已登记剧情边界及后续 checkpoint / 执行回执。跨阶段的分段、版本、业务断言、
 战斗速胜与录像要求统一见 [E2E 合同](../../../docs/testing/e2e/contract.md)，不在工程目录重复维护。
 
-**2026-11-05当前Reforge续办输入**：本轮仅为001–006脚本命名和编辑器静态初态收尾，按公开执行器正常重建RF001→002→003→004 saves→005 saves→006。当前正式006输入为`build/e2e/reforge-006-2026-11-04T14-32-37-544Z/report.json`及其`006.end.save.json`，终档SHA `6a1e7c69632a29ecbc908e8df38fac18ff02b5cea3a9bd0054cca7e922e0c85a`；工程摘要 `6506aaf10473b1aa5375caad65162e762d9946670f4a7298ac0e1ae4f30d79af`。真实终档fresh恢复和岛口ready通过，后续若canonical再变仍须重新核摘要；不改旧档digest。
+**2026-11-06 首次同路收口**。007–009 的该轮真实终档和新会话恢复绑定游戏候选 `5bbc2e5de`，各自沿同引擎前驱实跑并通过统一离线检查。该轮分屏和现行复验各保留运行身份。机器出版范围按下表所列原版本执行。[前轮原件与终档](../../../docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz)
 
-当前边界和独立验收由[R4收尾](../../../docs/tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-05-001006脚本与预览基线收尾)持有；[原件包](../../../docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz)内保留69件唯一当前原件及恢复映射。解包到自有空目录后，在该目录运行`node build/e2e-preview-closeout/restore-captured-aliases.mjs`，可按确切SHA恢复6个同字节路径别名和3个同执行报告内嵌原件；完整78个原路径及实际身份均可查。其它源码依固定Git恢复。此条不授新的Game/items/guards/船行视觉/音频或007通过，既有历史记录原样保留。
+**007–009 正式接续**。当前复验候选为 `743be436c`。两端实际从各自 006 正式档跑到迷宫，消费本轮 007 终档进入 008，再用各自新 008 终档接续 009。Reforge 的正式前驱按新内容摘要重建，006 船上定姿和起伏按实际绘制核验。用户已确认三段新版分屏，正式报告列出各段实跑、终档和恢复原件。[007 报告](../../../docs/testing/e2e/stages/007-island-entrance/report.md) · [008 报告](../../../docs/testing/e2e/stages/008-fairy-island-maze/report.md) · [009 报告](../../../docs/testing/e2e/stages/009-fairy-island-pool/report.md)
+
+**009 桃花林与池塘**。两引擎各从自己的正式 008 终档接续。采止血草，查看池边衣物触发第一段，恢复操控后折返触发第二段。完成雷击、求药与引路离场，在桃花林恢复操控并保存终档。存读和分屏验收见 [009 任务卡](../../../docs/tasks/cards/E2E-009-1-fairy-island-pool.md)。
+
+**008 迷宫至桃花林**。从各自正式 007 终档接续，经变轨芦苇漂、雪莲子、五灵符宝箱和六座阿修罗回到起点踏板。破解后通道内的首次出口对白完成后，止于桃花林首次可控。前轮用户确认末锤黄字修复。当前接续使用上方同路复验批次的双轨正式终档，原件路径见任务卡。[008 任务卡](../../../docs/tasks/cards/E2E-008-1-fairy-island-maze.md)
+
+**007 码头至迷宫**。Game 与 Reforge 各自从正式 006 仙灵岛码头终档出发，经入口草妖遭遇，止于首次抵达迷宫地图并恢复操控。前轮用户确认奖励窗修复。两份当前同路终档由上方复验批次生成，008 的接续和恢复路径由任务卡持有。[007 任务卡](../../../docs/tasks/cards/E2E-007-1-island-entrance-to-maze.md#状态与交接)
+
+**2026-11-05 Reforge 006 基线收尾输入**：当时为001–006脚本命名和编辑器静态初态收尾，按公开执行器正常重建RF001→002→003→004 saves→005 saves→006。该批正式006输入为`build/e2e/reforge-006-2026-11-04T14-32-37-544Z/report.json`及其`006.end.save.json`，终档SHA `6a1e7c69632a29ecbc908e8df38fac18ff02b5cea3a9bd0054cca7e922e0c85a`；工程摘要 `6506aaf10473b1aa5375caad65162e762d9946670f4a7298ac0e1ae4f30d79af`。真实终档fresh恢复和岛口ready通过，后续若canonical再变仍须重新核摘要；不改旧档digest。
+
+该批边界和独立验收由[R4收尾](../../../docs/tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-05-001006脚本与预览基线收尾)持有；[原件包](../../../docs/tasks/evidence/E2E-R4-1-script-baseline-closeout-20261105.tar.gz)内保留69件该批唯一原件及恢复映射。解包到自有空目录后，在该目录运行`node build/e2e-preview-closeout/restore-captured-aliases.mjs`，可按确切SHA恢复6个同字节路径别名和3个同执行报告内嵌原件；完整78个原路径及实际身份均可查。其它源码依固定Git恢复。此条不授新的Game/items/guards/船行视觉/音频或007通过，既有历史记录原样保留。
 
 **2026-10-27当前补验**：两端006从真实005 saves完整执行，写正式`006.end.save.json`并于新浏览器正常恢复，持久域相等、岛口不重播。此前`006-end.json`仅观察属于10-26批次。本轮不重授004 items/005 guards/连续001–006；007未准入，不自动授下游前驱信用。实际SHA与边界由[006报告](../../../docs/testing/e2e/stages/006-doctor-boat/report.md)持有，下列旧日期段落保持历史。
 

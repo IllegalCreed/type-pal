@@ -481,6 +481,9 @@ Template: governance-index-v1 / 1.0.0
 | [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分](DOCS-REGISTRY-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-007-1 — 从仙灵岛码头到迷宫入口](E2E-007-1-island-entrance-to-maze.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-008-1 — 仙灵岛迷宫与桃花林入口](E2E-008-1-fairy-island-maze.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [E2E-009-1 — 桃花林采药与池塘初遇](E2E-009-1-fairy-island-pool.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-ASSET-SERVER-READ-FAILURE-1 — 本地资源读取失败的请求与流清理](GAME-ASSET-SERVER-READ-FAILURE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [GAME-AVI-RETRY-OWNERSHIP-1 — 视频再次播放失败后的重试入口](GAME-AVI-RETRY-OWNERSHIP-1.md) | done | 完成证据、历史签字与交接见原卡。 |

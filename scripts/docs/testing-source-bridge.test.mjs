@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import test from 'node:test'
-import { assertTestingSourceBridge } from './testing-source-bridge.mjs'
+import {
+  assertTestingSourceBridge,
+  assertTestingStagePublication,
+} from './testing-source-bridge.mjs'
 import { testingSourceRefIssues } from './testing-source-refs.mjs'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -110,6 +113,165 @@ for (const [index, path] of evidencePaths.entries()) {
     )
   })
 }
+
+function stagePublicationFixture() {
+  const f = fixture()
+  f.before._governance = { entryReadings: [], runtimeExecutionPerformed: false }
+  f.current._governance = structuredClone(f.before._governance)
+  const published = structuredClone(f.current)
+  const additions = new Map()
+  for (const [id, slug] of [
+    ['007', '007-island-entrance'],
+    ['008', '008-fairy-island-maze'],
+    ['009', '009-fairy-island-pool'],
+  ]) {
+    const stage = {
+      id: `e2e-${id}`,
+      kind: 'e2e-stage',
+      canonical: `e2e/stages/${slug}/report.md`,
+      index: `e2e/stages/${slug}/README.md`,
+      evidence: `e2e/evidence/e2e-${id}.json`,
+    }
+    published.entries.push(stage)
+    published._governance.entryReadings.push({ id: stage.id, conclusion: `Review of ${stage.id}` })
+    for (const [path, templateId] of [
+      [stage.canonical, 'test-run-report-v1'],
+      [stage.index, 'test-e2e-stage-v1'],
+      [stage.evidence, 'test-machine-evidence-v1'],
+    ]) {
+      additions.set(`docs/testing/${path}`, { templateId })
+    }
+  }
+  return {
+    ...f,
+    published,
+    additions,
+    check: () => assertTestingStagePublication(bytes(f.current), bytes(published), additions),
+  }
+}
+
+test('only the separate publication layer accepts the three stages and their admitted pairs', () => {
+  const f = stagePublicationFixture()
+  assertTestingSourceBridge(catalogPath, bytes(f.before), bytes(f.current), f.read)
+  f.check()
+  assert.throws(
+    () => assertTestingSourceBridge(catalogPath, bytes(f.before), bytes(f.published), f.read),
+    /catalog membership changed/,
+  )
+  f.additions.delete('docs/testing/e2e/evidence/e2e-008.json')
+  assert.throws(f.check, /requires an admitted pair: e2e\/evidence\/e2e-008.json/)
+})
+
+test('publication cannot modify existing entries or governance, or widen the approved suffix', () => {
+  for (const [mutate, reason] of [
+    [
+      (f) => {
+        f.published.entries[0].status = 'verified'
+      },
+      /changed existing catalog facts/,
+    ],
+    [
+      (f) => {
+        f.published._governance.runtimeExecutionPerformed = true
+      },
+      /changed existing catalog facts/,
+    ],
+    [
+      (f) => {
+        f.published.entries.at(-1).evidence = 'e2e/evidence/e2e-010.json'
+      },
+      /three admitted stage entries/,
+    ],
+    [
+      (f) => {
+        f.published._governance.entryReadings.reverse()
+      },
+      /reading for each appended stage in order/,
+    ],
+    [
+      (f) => {
+        f.published._governance.entryReadings.at(-1).conclusion = ' '
+      },
+      /concrete reading conclusion/,
+    ],
+  ]) {
+    const f = stagePublicationFixture()
+    mutate(f)
+    assert.throws(f.check, reason)
+  }
+})
+
+const activeSceneEvidence = 'docs/testing/domains/runtime/scene/active-scene/evidence.json'
+const cameraTestPath = 'packages/reforge/src/world-camera.test.ts'
+const cameraAnchor = "test('pre-aborted request rejects"
+const cameraTest = `${cameraAnchor}', () => {})\n`
+
+function activeSceneCameraFixture(currentSource, lines) {
+  const original = {
+    path: cameraTestPath,
+    lines: '1',
+    anchor: cameraAnchor,
+    role: 'oracle',
+    sha256: digest(cameraTest),
+  }
+  const before = {
+    id: 'runtime-active-scene',
+    sourceRefs: [original],
+    history: [],
+    claims: [
+      {
+        id: 'runtime-active-scene-source-contract',
+        result: 'source-backed',
+        evidence: [`${cameraTestPath}:1`],
+      },
+    ],
+  }
+  const current = structuredClone(before)
+  current.sourceRefs[0].lines = lines
+  current.sourceRefs[0].sha256 = digest(currentSource)
+  current.claims[0].evidence[0] = `${cameraTestPath}:${lines}`
+  current.history.push({
+    date: '2026-11-06',
+    action: 'source-reference-bridge',
+    base: 'b'.repeat(40),
+    previousSourceRefs: [original],
+    scope: 'Same source-backed pre-abort claim.',
+    evidence: receipt,
+  })
+  const sources = new Map([
+    [receipt, Buffer.from('# Limited source binding review\n')],
+    [cameraTestPath, Buffer.from(currentSource)],
+  ])
+  return {
+    current,
+    check: () =>
+      assertTestingSourceBridge(activeSceneEvidence, bytes(before), bytes(current), (path) =>
+        sources.get(path),
+      ),
+  }
+}
+
+test('the active-scene claim pointer follows its moved camera oracle only at the matching range', () => {
+  const f = activeSceneCameraFixture(`\n${cameraTest}`, '2')
+  f.check()
+  for (const range of ['1', '3']) {
+    f.current.claims[0].evidence[0] = `${cameraTestPath}:${range}`
+    assert.throws(f.check, /must follow the moved camera oracle/)
+  }
+})
+
+test('the moved camera oracle does not permit a different claim result', () => {
+  const f = activeSceneCameraFixture(`\n${cameraTest}`, '2')
+  f.current.claims[0].result = 'runtime-backed'
+  assert.throws(f.check, /publication, execution or unrelated/)
+})
+
+test('a hash-only camera source refresh does not permit changing its claim pointer', () => {
+  const f = activeSceneCameraFixture(`${cameraTest}// oracle stays on the same line\n`, '1')
+  f.check()
+  f.current.claims[0].evidence[0] = `${cameraTestPath}:2`
+  assert.throws(f.check, /publication, execution or unrelated/)
+})
 
 const catalogRefusals = [
   [
