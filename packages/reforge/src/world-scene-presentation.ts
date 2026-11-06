@@ -10,6 +10,7 @@ import {
 import type { ActiveScene } from './active-scene.js'
 import type { LoadedSprite } from './assets.js'
 import { expectDefined } from './defined.js'
+import type { MotionSource } from './entity-motion.js'
 import type { Camera, Renderer, SpriteDraw } from './render.js'
 import { renderSceneFrame } from './render-scene.js'
 import { advanceWave, WorldWaveRenderer } from './screen-wave.js'
@@ -34,6 +35,7 @@ export interface WorldSpriteInput {
   entitySprite(id: string): SpriteDef | undefined
   loadedSprite(definition: SpriteDef): LoadedSprite | undefined
   entityGait(id: string): number | undefined
+  entityGaitSource?(id: string): MotionSource | undefined
   entityExplicitAnimation(id: string): number | undefined
   entityActionFrame(id: string): number | undefined
   entityLayer(id: string): number | undefined
@@ -125,40 +127,32 @@ export class WorldScenePresentation {
       }
       const definition = input.entitySprite(entity.id)
       const loaded = definition ? input.loadedSprite(definition) : undefined
+      const facing = entity.facing ?? 'down'
+      const frameCount = loaded?.frames.length
       const gait = input.entityGait(entity.id)
       const explicitAnimation = input.entityExplicitAnimation(entity.id)
       const hasOverride = this.entityFrames.has(entity.id)
       const actionFrame = input.entityActionFrame(entity.id)
+      // Movement phases start at one. Non-directional hostile walks start with resource frame zero.
       const frameIndex = definition
         ? hasOverride
           ? actualFrameIndex(
-              idleFrameIndex(definition.layout, entity.facing ?? 'down', loaded?.frames.length) +
+              idleFrameIndex(definition.layout, facing, frameCount) +
                 (this.entityFrames.get(entity.id) ?? 0),
-              loaded?.frames.length ?? 0,
+              frameCount ?? 0,
             )
           : gait !== undefined
-            ? walkFrameIndex(
-                definition.layout,
-                entity.facing ?? 'down',
-                gait,
-                loaded?.frames.length,
-              )
+            ? definition.layout.kind === 'static' &&
+              input.entityGaitSource?.(entity.id) === 'hostile'
+              ? animFrameIndex(definition.layout, facing, Math.max(0, gait - 1), frameCount ?? 1)
+              : walkFrameIndex(definition.layout, facing, gait, frameCount)
             : explicitAnimation !== undefined
-              ? animFrameIndex(
-                  definition.layout,
-                  entity.facing ?? 'down',
-                  explicitAnimation,
-                  loaded?.frames.length ?? 1,
-                )
+              ? animFrameIndex(definition.layout, facing, explicitAnimation, frameCount ?? 1)
               : actionFrame !== undefined
-                ? actualFrameIndex(actionFrame, loaded?.frames.length ?? 0)
+                ? actualFrameIndex(actionFrame, frameCount ?? 0)
                 : definition.layout.kind === 'loop'
-                  ? loopFrameIndex(definition.layout, input.now(), loaded?.frames.length ?? 0)
-                  : idleFrameIndex(
-                      definition.layout,
-                      entity.facing ?? 'down',
-                      loaded?.frames.length,
-                    )
+                  ? loopFrameIndex(definition.layout, input.now(), frameCount ?? 0)
+                  : idleFrameIndex(definition.layout, facing, frameCount)
         : 0
       const frame = definition ? loaded?.frames[frameIndex] : undefined
       if (!loaded || !frame) {

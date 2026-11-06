@@ -3854,10 +3854,10 @@ export async function bootGame(
       }
     }
 
-    // Snapshot-precontact has first claim: a player cannot escape an already adjacent eligible
-    // hostile on the same tick. Stable id order is provided by eligibleHostiles().
+    // Pre-step contact claims the snapshot before either actor moves. Stable id order resolves
+    // competing contacts in the same world step.
     if (hostileMotionGateOpen()) {
-      const contact = hostileAtContact()
+      const contact = hostileAtContact('pre-step')
       if (contact) {
         settleEntityGaitsForTick()
         if (walking && !motion.partyMove) {
@@ -3971,8 +3971,8 @@ export async function bootGame(
         const remainsEligible =
           !!chase &&
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed &&
-          distance > 1 &&
-          distance <= chase.range * awarenessMultiplier
+          !isHostileEncounterInRange(distance, hostile?.preStepEncounterRange, 'pre-step') &&
+          isHostileChaseInRange(chase, distance, awarenessMultiplier)
         if (!remainsEligible) {
           hostileReady.delete(id)
           hostileMotionEpoch.delete(id)
@@ -4006,9 +4006,10 @@ export async function bootGame(
         if (!chase) throw new Error(`hostile ${entity.id} ready without chase definition`)
         desiredFacing = facingToward(entity.pos, player.pos)
         const delta = WALK_STEP[desiredFacing]
+        const stride = chase.cadence === 'world-step' ? Math.min(chase.speed / 8, 1) : 1
         desired = {
-          col: entity.pos.col + delta.dcol,
-          row: entity.pos.row + delta.drow,
+          col: entity.pos.col + delta.dcol * stride,
+          row: entity.pos.row + delta.drow * stride,
           height: entity.pos.height,
         }
         source = 'hostile'
@@ -4467,7 +4468,7 @@ export async function bootGame(
         )
         // A chasePlayer leaf that just reached contact owns its terminal semantics: the next leaf
         // fires self exactly once. Engine-hostile postcontact must not steal that same-tick claim.
-        const contact = hostileAtContact(chaseTerminalOwners)
+        const contact = hostileAtContact('post-step', chaseTerminalOwners)
         if (contact) beginHostileEncounter(contact)
       },
       queueContinuations: () => {
@@ -4662,9 +4663,34 @@ export async function bootGame(
           entityLifecycleGates(entity, { hasHostile: true }).hostileAllowed,
       )
       .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
-  const hostileAtContact = (excluded: ReadonlySet<string> = new Set()): EntityDef | undefined =>
+  function isHostileEncounterInRange(
+    distance: number,
+    preStepRange: number | undefined,
+    phase: 'pre-step' | 'post-step',
+  ): boolean {
+    if (preStepRange === undefined) return distance <= 1
+    return phase === 'pre-step' && distance < preStepRange
+  }
+  function isHostileChaseInRange(
+    chase: NonNullable<RuntimeHostileBehavior['chase']>,
+    distance: number,
+    awarenessMultiplier: number,
+  ): boolean {
+    const range = chase.range * awarenessMultiplier
+    return chase.cadence === 'world-step' ? distance < range : distance <= range
+  }
+  const hostileAtContact = (
+    phase: 'pre-step' | 'post-step',
+    excluded?: ReadonlySet<string>,
+  ): EntityDef | undefined =>
     eligibleHostiles().find(
-      (entity) => !excluded.has(entity.id) && gridDist(player.pos, entity.pos) <= 1,
+      (entity) =>
+        !excluded?.has(entity.id) &&
+        isHostileEncounterInRange(
+          gridDist(player.pos, entity.pos),
+          entity.hostile?.preStepEncounterRange,
+          phase,
+        ),
     )
   const beginHostileEncounter = (entity: EntityDef): void => {
     const hostile = entity.hostile
@@ -4691,26 +4717,27 @@ export async function bootGame(
     }
     for (const e of eligibleHostiles()) {
       const h = e.hostile
-      if (!h) continue
-      const dc = player.pos.col - e.pos.col
-      const dr = player.pos.row - e.pos.row
-      const dist = Math.max(Math.abs(dc), Math.abs(dr))
-      if (dist <= 1 || hostileReady.has(e.id)) continue
+      if (!h || hostileReady.has(e.id)) continue
+      const distance = gridDist(player.pos, e.pos)
+      if (isHostileEncounterInRange(distance, h.preStepEncounterRange, 'pre-step')) continue
       const chase = h.chase
       // 感知香只影响引擎明雷追逐；剧情脚本主动 chasePlayer 属于作者演出，不受此全局态污染。
-      if (!chase || dist > chase.range * awarenessMultiplier) {
+      if (!chase || !isHostileChaseInRange(chase, distance, awarenessMultiplier)) {
         hostileReady.delete(e.id)
         hostileMotionEpoch.delete(e.id)
         clearMotionStick({ kind: 'entity', id: e.id })
         continue // 原地怪 / 出程:不动
       }
-      const cd = (hostileCd.get(e.id) ?? 0) + dt
-      const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
-      if (cd < stepMs) {
-        hostileCd.set(e.id, cd)
-        continue
+      // World-step chasers are ready at every eligible shared movement snapshot.
+      if (chase.cadence !== 'world-step') {
+        const cd = (hostileCd.get(e.id) ?? 0) + dt
+        const stepMs = Math.max(80, 480 / Math.max(1, chase.speed))
+        if (cd < stepMs) {
+          hostileCd.set(e.id, cd)
+          continue
+        }
+        hostileCd.set(e.id, 0)
       }
-      hostileCd.set(e.id, 0)
       hostileReady.add(e.id)
       if (!hostileMotionEpoch.has(e.id)) hostileMotionEpoch.set(e.id, motion.nextCommandEpoch())
     }
@@ -5752,6 +5779,7 @@ export async function bootGame(
         motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
           ? undefined
           : motion.gaitPhase(id),
+      entityGaitSource: (id) => motion.gaitOwner(id)?.source,
       entityExplicitAnimation: (id) => motion.explicitAnimation(id),
       entityActionFrame: (id) => entityActions.frame(id),
       entityLayer: (id) => runtimeScript.entityLayer?.[id],
