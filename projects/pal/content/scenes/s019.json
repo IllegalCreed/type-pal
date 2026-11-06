@@ -85,7 +85,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "进入水月宫内",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -105,13 +105,15 @@
                         "evidenceId": "pal-load-scene-4048"
                       }
                     }
-                  ]
+                  ],
+                  "label": "切换到水月宫内"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "水月宫内入口"
     },
     {
       "id": "e269",
@@ -147,7 +149,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "邀逍遥入宫取药",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -330,7 +332,8 @@
                         "entity": "e270"
                       }
                     }
-                  ]
+                  ],
+                  "label": "招呼逍遥并带路"
                 }
               ]
             }
@@ -338,7 +341,7 @@
         },
         "auto": {
           "legacy-001": {
-            "label": "自动行为 1",
+            "label": "赵灵儿先行入宫",
             "order": 1,
             "flow": {
               "kind": "stages",
@@ -346,7 +349,7 @@
               "stages": [
                 {
                   "id": "initial",
-                  "label": "完成本段自动动作",
+                  "label": "沿宫外小径先行",
                   "body": [
                     {
                       "kind": "moveEntity",
@@ -380,7 +383,8 @@
             }
           }
         }
-      }
+      },
+      "label": "赵灵儿（水月宫外引路）"
     },
     {
       "id": "e271",
@@ -39373,7 +39377,7 @@
       "initial": "default",
       "variants": {
         "default": {
-          "label": "默认进场行为",
+          "label": "初到水月宫外，收起桃花林引路角色",
           "order": 0,
           "flow": {
             "kind": "stages",
@@ -39390,7 +39394,8 @@
                       "entity": "e221"
                     }
                   }
-                ]
+                ],
+                "label": "隐去桃花林的赵灵儿"
               }
             ]
           }
