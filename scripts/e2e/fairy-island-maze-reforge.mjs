@@ -13,8 +13,8 @@ import {
   mazeScenes,
   verifyMazeCausality,
 } from './fairy-island-maze-reforge-trace.mjs'
-import { mazeRoute, openedMazeRoute } from './fairy-island-maze-route.mjs'
-import { executeFixedRoute, fixedRoutePlan } from './fixed-route-plan.mjs'
+import { FAIRY_MAZE_LOOT, FAIRY_MAZE_STATUES, fairyMazePlan } from './fairy-island-maze-route.mjs'
+import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
 import { kitchenReady } from './kitchen-contract.mjs'
 import { readLongEvidenceArchive, writeLongEvidenceArtifact } from './long-evidence.mjs'
@@ -34,14 +34,13 @@ assert(!(options.headed && options.headless), 'choose one browser mode')
 
 const engine = 'reforge'
 const maze = 's017'
-const openMaze = 's018'
 const peach = 's016'
 const start = [90, 54]
-const plate = [89, 25]
 const forest = [61, 42]
 const hammer = '279'
-const statues = ['e237', 'e238', 'e239', 'e240', 'e241', 'e242']
-const loot = ['67', '68', '69', '70', '71', '108']
+const statues = FAIRY_MAZE_STATUES.map((id) => `e${id}`)
+const loot = Object.values(FAIRY_MAZE_LOOT).flat().map(String)
+const mazePlan = fairyMazePlan(engine)
 const reportPath = resolve(options.from)
 const reportBytes = await readFile(reportPath)
 const predecessor = JSON.parse(reportBytes)
@@ -172,18 +171,9 @@ await runBrowserJourney({
       }
     }
 
-    const walk = async (leg, completion) => {
-      const holds = leg.keys.map((key) => {
-        const match = /^(Up|Down|Left|Right)([1-9]\d*)$/.exec(key)
-        assert(match, `invalid frozen route input ${key}`)
-        return [`Arrow${match[1]}`, Number(match[2])]
-      })
-      const plan = fixedRoutePlan(engine, { id: phase, scene, start: position, holds, completion })
-      assert.deepEqual(
-        plan.steps.at(-1)?.to ?? at(position),
-        at(leg.stop),
-        'route endpoint mismatch',
-      )
+    const walk = ({ route }) => {
+      const plan = { ...route, id: phase }
+      const { completion } = plan
       return executeFixedRoute({
         page,
         engine,
@@ -196,7 +186,8 @@ await runBrowserJourney({
         evidence,
         ready: isReady,
         finished: (state) =>
-          isAt(state, completion.scene, completion.position) &&
+          state.scene === completion.scene &&
+          same(state.position, completion.position) &&
           (completion.mode === 'dialogue' ? !!state.runtime.dialogue : isReady(state)),
         health,
       })
@@ -336,9 +327,9 @@ await runBrowserJourney({
     }
     mark('start-ready')
     try {
-      for (const [index, leg] of mazeRoute.entries()) {
+      for (const [index, leg] of mazePlan.slice(0, -1).entries()) {
         phase = `maze-${index + 1}`
-        const target = leg.ride?.entity ?? leg.hammer?.entity ?? leg.pickup?.entity ?? leg.exit
+        const target = `e${leg.id}`
         const observation = { phase, target, startOrder: await readOrder() }
         report.observations.push(observation)
         if (target === 'e262')
@@ -349,13 +340,8 @@ await runBrowserJourney({
             'revealed blinking plate painted at least two animation frames',
             5000,
           )
-        const finish = {
-          scene: leg.exit ? openMaze : maze,
-          position: leg.exit ? plate : (leg.ride?.landing ?? leg.stop),
-          mode: 'ready',
-        }
-        const beforeAction = await walk(leg, finish)
-        position = finish.position
+        const beforeAction = await walk(leg)
+        position = leg.landing
         observation.actionStartOrder = await readOrder()
         if (leg.ride) {
           assert.deepEqual(beforeAction.actors[target].position, at(leg.ride.waypoints.at(-1)))
@@ -366,25 +352,29 @@ await runBrowserJourney({
             assert.equal(entityState.e261, 2)
             observation.markers = { e260: entityState.e260, e261: entityState.e261 }
           }
-        } else if (leg.hammer)
-          observation.hammer = await useHammer(leg.hammer, beforeAction, observation)
-        else if (leg.pickup) observation.pickup = await takeLoot(leg.pickup)
-        else observation.exit = leg.exit
+        } else if (leg.kind === 'hammer') {
+          const [facing] = leg.holds.at(-1)
+          observation.hammer = await useHammer(
+            { entity: target, facing },
+            beforeAction,
+            observation,
+          )
+        } else if (leg.kind === 'search') {
+          const items = FAIRY_MAZE_LOOT[leg.id].map(String)
+          observation.pickup = await takeLoot({ entity: target, items })
+        } else observation.exit = target
         observation.endOrder = await readOrder()
         console.log(`[reforge-008] ${phase} ${target} ${position.join(',')}`)
       }
 
       phase = 'opened-maze-to-peach-grove'
-      scene = openMaze
-      const observation = { phase, target: openedMazeRoute.exit, startOrder: await readOrder() }
+      const exit = mazePlan.at(-1)
+      scene = exit.scene
+      const observation = { phase, target: `e${exit.id}`, startOrder: await readOrder() }
       report.observations.push(observation)
-      await walk(openedMazeRoute, {
-        scene: openMaze,
-        position: openedMazeRoute.stop,
-        mode: 'dialogue',
-      })
+      await walk(exit)
       const arrived = await driveAction('first peach grove arrival', peach, forest)
-      observation.exit = openedMazeRoute.exit
+      observation.exit = observation.target
       observation.endOrder = await readOrder()
       scene = peach
       position = forest
