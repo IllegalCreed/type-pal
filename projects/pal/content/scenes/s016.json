@@ -1223,6 +1223,17 @@
                       "kind": "stopMusic"
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -1329,6 +1340,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -1392,6 +1414,17 @@
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
@@ -1462,6 +1495,17 @@
                       }
                     },
                     {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
+                      }
+                    },
+                    {
                       "kind": "setEntityState",
                       "state": 1,
                       "target": {
@@ -1504,6 +1548,17 @@
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
@@ -1558,6 +1613,17 @@
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
@@ -1640,6 +1706,17 @@
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
@@ -1823,6 +1900,17 @@
                       "target": {
                         "scene": "s016",
                         "entity": "e218"
+                      }
+                    },
+                    {
+                      "kind": "selectEntityBehavior",
+                      "target": {
+                        "scene": "s016",
+                        "entity": "e218"
+                      },
+                      "channel": "auto",
+                      "selection": {
+                        "kind": "disabled"
                       }
                     },
                     {
