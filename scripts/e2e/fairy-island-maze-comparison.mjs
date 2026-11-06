@@ -378,6 +378,21 @@ function compareRiderTurns({ actions }) {
 
 function compareStatues(game, reforge, objects) {
   const drawings = [game, reforge].map(({ trace }) => actorTimeline(trace).rendered)
+  const resources = [game, reforge].map(
+    ({ trace }) => new Map((trace.resources ?? []).map((frame) => [frame.order, frame])),
+  )
+  const fingerprint = (e, index) => {
+    const frame = resources[index].get(e.state.frameResourceId)
+    assert.equal(frame?.kind, 'sprite-frame')
+    const { width, height, pixels, opaque } = frame
+    assert.equal(pixels.length, width * height)
+    assert.equal(opaque.length, width * height)
+    return createHash('sha256')
+      .update(`${width}:${height}:`)
+      .update(Buffer.from(pixels))
+      .update(Buffer.from(opaque))
+      .digest('hex')
+  }
   const states = FAIRY_MAZE_STATUES.map((id) => {
     const original = objects.find((object) => object.id === id)
     assert.equal(original?.spriteNum, 66)
@@ -404,17 +419,22 @@ function compareStatues(game, reforge, objects) {
         ...pose(e, index === 0 ? 'game' : 'reforge'),
         facing: e.state.facing,
         order: e.order,
+        frameSha256: fingerprint(e, index),
       }
+    const [left, right] = samples.map(([draw], index) => receipt(draw, index) ?? null)
     return {
       entity: `e${id}`,
       expected,
-      game: receipt(samples[0][0], 0) ?? null,
-      reforge: receipt(samples[1][0], 1) ?? null,
+      game: left,
+      reforge: right,
+      pixelsDiffer: !!left && !!right && left.frameSha256 !== right.frameSha256,
       firstDifferences: mismatched.map((e, i) => receipt(e, i) ?? null),
     }
   })
   return {
-    status: states.some(({ firstDifferences }) => firstDifferences.some(Boolean))
+    status: states.some(
+      ({ firstDifferences, pixelsDiffer }) => pixelsDiffer || firstDifferences.some(Boolean),
+    )
       ? 'rejected'
       : states.some(({ game, reforge }) => !game || !reforge)
         ? 'unknown'
