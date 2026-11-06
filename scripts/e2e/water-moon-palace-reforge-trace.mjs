@@ -272,14 +272,18 @@ export function verifyWaterMoonPalaceReforgeTrace(trace) {
         row.order < through,
     )
     assert(control, `${story.start.author.entity} did not return control`)
+    // A timed narration can clear during the paint that wakes its caller.
+    // The clear and the observed return of control have independent order.
+    const inVisit = (draw) =>
+      draw.sceneVisit === control.sceneVisit &&
+      draw.order > story.start.order &&
+      draw.order < through
+    const lastVisible = draws.findLast((draw) => inVisit(draw) && draw.slots.length > 0)
+    assert(lastVisible, `${story.start.author.entity} has no drawn dialogue`)
     const clear = draws.find(
-      (draw) =>
-        draw.sceneVisit === control.sceneVisit &&
-        draw.order > control.order &&
-        draw.order < through &&
-        draw.slots.length === 0,
+      (draw) => inVisit(draw) && draw.order > lastVisible.order && draw.slots.length === 0,
     )
-    assert(clear?.renderId, 'control returned without a dialogue-free world draw')
+    assert(clear?.renderId, `${story.start.author.entity} did not draw a dialogue-free ending`)
     return { order: control.order, atMs: control.atMs, clearDraw: clear.order }
   }
   const issuedRewards = (story) =>
