@@ -25,6 +25,7 @@ Template: plan-status-v1 / 1.0.0
 | 001–006逐入口实态与编辑器持久化记录 | Codex | 本轮有限完成 | 95个已观测当前场景静态现场已验；旧001缺pose现场保持未核，完整世界恢复不外推 |
 | 007 码头到迷宫入口 | Codex | 四个路线步骤已验证 | 两个触碰区、空进场和迷宫音乐的脚本、预览初态与优化判断分别记录。17 个环境入口留有首次循环取证。 [007 任务卡](../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md) |
 | 008 仙灵岛迷宫到桃花林 | Codex | 双轨与逐步初态复验 | 记录实际机关、取物和跨图入口，普通筏及变轨筏分别落到每次调用。宝箱列为共享脚本候选。 [008 任务卡](../../../tasks/cards/E2E-008-1-fairy-island-maze.md) |
+| 009 桃花林采药与池塘初遇 | Codex | 逐步骤复核，等待作者分屏 | 以双轨新实跑核对两段池塘演出，九个步骤的初态在当前编辑器复验，八处雷击逐现场记录。 [009 任务卡](../../../tasks/cards/E2E-009-1-fairy-island-pool.md) |
 | 后续片段与脚本优化持续推进 | Codex | planned | 沿逐步骤合同更新，不以片段总状态替代各轴记录 |
 
 ## 怎样看每条记录
@@ -50,6 +51,10 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 当前机器记录如下。事件按实际记录时间追加，`from`连接该入口/context/轴的上一个记录状态；
 查询分别保留记录状态和受源码、依赖、证据、预览变化影响后的待复核状态。本页不另维护手工完成总数。
+
+2026-11-06 双轨回归保留 009 及 008 桃花林交接的原现场标识。新运行作为适用性证据，引用各自的首条有效指令。
+009 以原保存字节在独立编辑器重开、单步和重置。008 出口及进场步骤沿用原编辑器原件，以新运行复核原默认布置。
+队伍、运行帧、道具和脚本游标由游戏原件持有。
 
 ```json script-progress-ledger
 {
@@ -135337,6 +135342,4237 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "六个路点和先走后跑是实际离场路线；确认前景已归还控制、后台仍完成离场。补用途名。"
+    },
+    {
+      "id": "e2e009-parity-applicability-ba3c13df85f077ff13",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=6; run=194; before-leaf-order=15862"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658"
+        }
+      ],
+      "note": "迷宫出口的朝向、独白与跨图交接正文不变，真实到达桃花林落点。"
+    },
+    {
+      "id": "e2e009-parity-applicability-306cae5f8780d9f1da",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=6; run=194; before-leaf-order=15862"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+          "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+          "selector": "member=build/editor-008-preview/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+          "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+          "selector": "member=build/editor-008-preview/verify-actions.json; reopened-preview-reset entry=[\"s018\",\"e265\",\"trigger\",\"default\",\"initial\"]; selection=继承方案默认：场景默认"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "新实跑的首条有效指令及原默认布置适用性已复核。编辑器引用原实际保存、重开与预览重置，两个步骤正文及相关编辑器实现没有变更。"
+    },
+    {
+      "id": "e2e009-parity-applicability-263c74763a32b871a0",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=6; run=194; before-leaf-order=15862"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658"
+        }
+      ],
+      "note": "迷宫出口的朝向、独白与跨图交接正文不变，真实到达桃花林落点。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-627a5431fdc92198ec",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e2736b8636d353e05162916fbcec1ed861735cd3048f209c22dc3ae57549e76a",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=8; run=211; before-leaf-order=16146"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944"
+        }
+      ],
+      "note": "桃花林入场脚本仍只播放 music.pal.077，实际到达落点与出口交接一致。"
+    },
+    {
+      "id": "e2e009-parity-applicability-800e78187da0202ca8",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e2736b8636d353e05162916fbcec1ed861735cd3048f209c22dc3ae57549e76a",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=8; run=211; before-leaf-order=16146"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+          "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+          "selector": "member=build/editor-008-preview/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz",
+          "sha256": "afe554c8d36296a2cffa010be7b5d2d4ad739f75c8295a5eb29c07b3fbf0907e",
+          "selector": "member=build/editor-008-preview/verify-actions.json; reopened-preview-reset entry=[\"s016\",null,\"onEnter\",\"default\",\"initial\"]; selection=继承方案默认：场景默认"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "新实跑的首条有效指令及原默认布置适用性已复核。编辑器引用原实际保存、重开与预览重置，两个步骤正文及相关编辑器实现没有变更。"
+    },
+    {
+      "id": "e2e009-parity-applicability-0356cc371ecf19a6c5",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e2736b8636d353e05162916fbcec1ed861735cd3048f209c22dc3ae57549e76a",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-008-2026-11-06T06-05-00-168Z/008-trace.json; visit=8; run=211; before-leaf-order=16146"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944"
+        }
+      ],
+      "note": "桃花林入场脚本仍只播放 music.pal.077，实际到达落点与出口交接一致。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-9337dc1ad1e7094695",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "d8b5ea3a8af9b19f5f147e1f6d6bee5b3298d5bdd0df4e14cbc36cd9c68b2767",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103"
+        }
+      ],
+      "note": "009 恢复入场终档后，沿用先前沐浴自动循环的首个实际有效指令。"
+    },
+    {
+      "id": "e2e009-parity-applicability-ee62a5d3669fd6204f",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "d8b5ea3a8af9b19f5f147e1f6d6bee5b3298d5bdd0df4e14cbc36cd9c68b2767",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e217\",\"auto\",\"default\",\"initial\"]; selection=继承方案默认：场景默认"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-8f957b860dc12b48cc",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "d8b5ea3a8af9b19f5f147e1f6d6bee5b3298d5bdd0df4e14cbc36cd9c68b2767",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=6; before-leaf-order=103"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103"
+        }
+      ],
+      "note": "009 恢复入场终档后，沿用先前沐浴自动循环的首个实际有效指令。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-97074d452e4589476d",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "50736344f610cd90cf6fbf932a623c938a7bdfa7c90b0c7cb89ca65885f4ee32",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=10; before-leaf-order=16079"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099"
+        }
+      ],
+      "note": "出场姿态脚本在前景放开阻塞后执行，保留和滑行脚本 e220 的并行关系。"
+    },
+    {
+      "id": "e2e009-parity-applicability-0c501472be83580052",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "50736344f610cd90cf6fbf932a623c938a7bdfa7c90b0c7cb89ca65885f4ee32",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=10; before-leaf-order=16079"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e219\",\"auto\",\"default\",\"initial\"]; selection=赵灵儿：出场姿态开始"
+        }
+      ],
+      "preview": {
+        "stateId": "15295c0e-2e5d-495a-84f4-3f05e1b81539",
+        "selection": "default"
+      },
+      "previewFingerprint": "66184e9330c280c826d5cceda181f79b94cf58442fc57f77ee3f2c991ac7bdb9",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-5a58c26b65ec25ca96",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "50736344f610cd90cf6fbf932a623c938a7bdfa7c90b0c7cb89ca65885f4ee32",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=10; before-leaf-order=16079"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099"
+        }
+      ],
+      "note": "出场姿态脚本在前景放开阻塞后执行，保留和滑行脚本 e220 的并行关系。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-c155f218bdd9caf1cc",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "df62ca2c588c54e545cd506af11d658b35fdfe67137eb93c5f7f1f91c8d7bf25",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=12; before-leaf-order=16088"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108"
+        }
+      ],
+      "note": "后台滑行步骤与 e219 出场在真实时序中并行，分段速度保留。"
+    },
+    {
+      "id": "e2e009-parity-applicability-a5eb2bd5d461ca8875",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "df62ca2c588c54e545cd506af11d658b35fdfe67137eb93c5f7f1f91c8d7bf25",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=12; before-leaf-order=16088"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e220\",\"auto\",\"default\",\"routine\"]; selection=赵灵儿：开始滑行"
+        }
+      ],
+      "preview": {
+        "stateId": "cbb83606-e0c5-4927-a8d1-8e30d3e6a751",
+        "selection": "default"
+      },
+      "previewFingerprint": "32f72bdf797a17090c03afe299034583630f6297ca6b9ae1a23ba7649f4bda09",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-9b5e223d15799ed799",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "df62ca2c588c54e545cd506af11d658b35fdfe67137eb93c5f7f1f91c8d7bf25",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=12; before-leaf-order=16088"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108"
+        }
+      ],
+      "note": "后台滑行步骤与 e219 出场在真实时序中并行，分段速度保留。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-b30b7c7223de5cf3bc",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "adba6c0fc80cc49cdef22c1bf1be7aaf08bc81129b38da4f0556d959d77016c9",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=14; before-leaf-order=1937"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932"
+        }
+      ],
+      "note": "从实景正常取到一次止血草，复点无奖励，保留为可见拾取样本。"
+    },
+    {
+      "id": "e2e009-parity-applicability-0a934dfb224d23acdf",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "adba6c0fc80cc49cdef22c1bf1be7aaf08bc81129b38da4f0556d959d77016c9",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=14; before-leaf-order=1937"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e233\",\"trigger\",\"default\",\"initial\"]; selection=继承方案默认：场景默认"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-c4ba0dab9fcbc56c99",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "adba6c0fc80cc49cdef22c1bf1be7aaf08bc81129b38da4f0556d959d77016c9",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=14; before-leaf-order=1937"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932"
+        }
+      ],
+      "note": "从实景正常取到一次止血草，复点无奖励，保留为可见拾取样本。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-399e8733c1d5370b90",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/pond_dialogue",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "7e1015fdf76433b142f22f915e358de5cc1d9c29c678a1a6be7e24eb8903da28",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.ts",
+          "sha256": "299ad4551dfda75402f01c1592234ed6141a22c5327c0c3253426790e5bb1e25"
+        },
+        {
+          "path": "packages/shared/src/index.ts",
+          "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=17; before-leaf-order=5892"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690"
+        }
+      ],
+      "note": "本次正文在两次镜头移动前显式清除旧对白，独立双轨对照核到完整 48 步及两次黑屏淡入期间旧字为零。"
+    },
+    {
+      "id": "e2e009-parity-applicability-7c04471f204115b951",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "7e1015fdf76433b142f22f915e358de5cc1d9c29c678a1a6be7e24eb8903da28",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=17; before-leaf-order=5892"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e212\",\"trigger\",\"default\",\"initial\"]; selection=继承方案默认：场景默认"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。共同路线改变了逍遥的入场朝向，该值由游戏运行记录持有。"
+    },
+    {
+      "id": "e2e009-parity-applicability-98cf59f504dd0e4edf",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/pond_dialogue",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "7e1015fdf76433b142f22f915e358de5cc1d9c29c678a1a6be7e24eb8903da28",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.ts",
+          "sha256": "299ad4551dfda75402f01c1592234ed6141a22c5327c0c3253426790e5bb1e25"
+        },
+        {
+          "path": "packages/shared/src/index.ts",
+          "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=17; before-leaf-order=5892"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690"
+        }
+      ],
+      "note": "保留原帧、位移和等待。新实跑证实两处显式清除请求及原速镜头，不需要引入额外等待。"
+    },
+    {
+      "id": "e2e009-parity-applicability-5ccc9e214dacabe27d",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "49d0ff03f3ef3b2ed2f14deadb2b886a9871e86f2e3ea860e0f65d2004428e84",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=26; before-leaf-order=13879"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893"
+        }
+      ],
+      "note": "折返触发的前景正文、八处雷击调用及恢复操控后的后台离场边界在新记录中复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-d49ac121e054716879",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "49d0ff03f3ef3b2ed2f14deadb2b886a9871e86f2e3ea860e0f65d2004428e84",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=26; before-leaf-order=13879"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e213\",\"trigger\",\"default\",\"initial\"]; selection=折返池塘：衣物与沐浴演出已收尾"
+        }
+      ],
+      "preview": {
+        "stateId": "5c591c47-7bb5-4fd8-a558-4d7adc238705",
+        "selection": "default"
+      },
+      "previewFingerprint": "a20db4e71d9221f85c0485fd47e721e956399a26ad7b0776100338764d261e8c",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-a57ddd036df0f4df44",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "49d0ff03f3ef3b2ed2f14deadb2b886a9871e86f2e3ea860e0f65d2004428e84",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=26; before-leaf-order=13879"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893"
+        }
+      ],
+      "note": "折返触发的前景正文、八处雷击调用及恢复操控后的后台离场边界在新记录中复核。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-ebce0d60fee719c9f0",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=30; before-leaf-order=14152"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 123, 53, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-b6f6eba0593f04797f",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=30; before-leaf-order=14152"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 1 次"
+        }
+      ],
+      "preview": {
+        "stateId": "6dc84558-12bc-4185-83aa-9873af3ffd4b",
+        "selection": "default"
+      },
+      "previewFingerprint": "9bec3147658f4f75e1ac20bdcb34bd03acf3330a6c66df09a4356c30cff20615",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-50b220797031d161e3",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=30; before-leaf-order=14152"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 14172 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-e060d914b61f920300",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=35; before-leaf-order=14582"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 120, 58, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-ec4c78507683182751",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=35; before-leaf-order=14582"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 2 次"
+        }
+      ],
+      "preview": {
+        "stateId": "7bff2935-06b1-42eb-bfc9-c9d8b743354d",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a2f310ca1438e5ac5fcd01cedeca626a897107ded6fa5531be0eb5f45b8f735e",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-7b6902718865ffd62f",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=35; before-leaf-order=14582"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 14602 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-3331610eb07e165ac4",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=40; before-leaf-order=14914"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 120, 48, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-5610fb21df1a2c7e90",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=40; before-leaf-order=14914"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 3 次"
+        }
+      ],
+      "preview": {
+        "stateId": "8ca1955b-3b68-43a7-81c6-f783bf7d97c3",
+        "selection": "manual"
+      },
+      "previewFingerprint": "b36a794dd5b7c550131f085dfcd059b7d8c9ad2248d84177e14ae9fe44641094",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-2bc0ede1dc5066c1b2",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=40; before-leaf-order=14914"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 14934 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-c3d385bf02fb31d88f",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=45; before-leaf-order=15210"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 120, 53, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-7c214c567940cb3217",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=45; before-leaf-order=15210"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 4 次"
+        }
+      ],
+      "preview": {
+        "stateId": "9e7f5f54-5fe0-487c-8f28-592227385316",
+        "selection": "manual"
+      },
+      "previewFingerprint": "876b2f84b7ca88ebb41a8b068ff92ddf4f4344887f11f48e61bcdd928f18a3b3",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-8444f0f8e0a22fd269",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=45; before-leaf-order=15210"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 15231 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-c54a54c5374575a4cb",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=48; before-leaf-order=15308"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 117, 52, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-e6bdd28c4b46145648",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=48; before-leaf-order=15308"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 5 次"
+        }
+      ],
+      "preview": {
+        "stateId": "cfea2560-cf71-44bb-a500-df866ea78c56",
+        "selection": "manual"
+      },
+      "previewFingerprint": "f8c754faff37594d8e7644b0a61fb385a2b99aeea412c140307fd70bc8c159a3",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-3eba55609042c2e2cf",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=48; before-leaf-order=15308"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 15329 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-9b829474e07af6c7be",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=53; before-leaf-order=15519"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 114, 46, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-7d35fae8f9099068c1",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=53; before-leaf-order=15519"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 6 次"
+        }
+      ],
+      "preview": {
+        "stateId": "edea2e82-c739-4815-ae2c-23fcce19de74",
+        "selection": "manual"
+      },
+      "previewFingerprint": "51c33a8fe77a51e5a3bf5b01454121c66eb132e3e73497dce293d80c6b1f11e2",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-0f02e00925ac3c294b",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=53; before-leaf-order=15519"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 15539 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-a4f74b59078e7b868c",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=58; before-leaf-order=15784"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 113, 46, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-7d4765a0fe3ffcef7c",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=58; before-leaf-order=15784"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 7 次"
+        }
+      ],
+      "preview": {
+        "stateId": "e3207dc1-7fb2-475c-b05f-46b492a5ddff",
+        "selection": "manual"
+      },
+      "previewFingerprint": "0da068e097d81c382b0fea9375ac21f93f3e641e004279e0771d4c1e144e7dbb",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-34bf128d9bdb452f23",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=58; before-leaf-order=15784"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 15803 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-4b8fcc559d1c315757",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=63; before-leaf-order=17403"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425"
+        }
+      ],
+      "note": "同一首叶与调用方案在新实跑再次出现。雷击位置 113, 48, 0，首个实际绘制的帧号为 0。"
+    },
+    {
+      "id": "e2e009-parity-applicability-c4453d9435a18e4781",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=63; before-leaf-order=17403"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-manual-preview-reset entry=[\"s016\",\"e218\",\"auto\",\"default\",\"initial\"]; selection=池塘雷击：第 8 次"
+        }
+      ],
+      "preview": {
+        "stateId": "c8545b29-3662-4894-bfa6-a1adc5168e05",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a3307991877c9cf90055006365b1f0728155e4e80f4716d333bfba4c41619fc1",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。此现场用手动预览选择复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-4df939eddde75068f6",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ccba69e7e5aa2265b26bce440c327c65d21f0c173c09f55a692fb1785c575c6",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=63; before-leaf-order=17403"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425"
+        }
+      ],
+      "note": "继续保留原节拍与独立首帧启动，本次 draw 17422 复核。相邻雷击按原间隔可打断。"
+    },
+    {
+      "id": "e2e009-parity-applicability-e8b080f24415bc4358",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "88b2f649b4a096ae90d78bc2a62260bec1d23620b2b1195255df46dbbdc00d91",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=68; before-leaf-order=20460"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479"
+        }
+      ],
+      "note": "听完求药缘由才进入表情步骤，保留独立方案的精灵帧。"
+    },
+    {
+      "id": "e2e009-parity-applicability-89b137cd01f35eb9e4",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "88b2f649b4a096ae90d78bc2a62260bec1d23620b2b1195255df46dbbdc00d91",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=68; before-leaf-order=20460"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e219\",\"auto\",\"legacy-001\",\"initial\"]; selection=赵灵儿：听完求药缘由"
+        }
+      ],
+      "preview": {
+        "stateId": "d1ff4a00-6e86-47f1-816b-2764f307cac7",
+        "selection": "default"
+      },
+      "previewFingerprint": "fce60d6e729a97a24cff660e2e80fe623453a3a825e63eebd5a5f17b59e41839",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-d482e8a4b4e561c829",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "88b2f649b4a096ae90d78bc2a62260bec1d23620b2b1195255df46dbbdc00d91",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=68; before-leaf-order=20460"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479"
+        }
+      ],
+      "note": "听完求药缘由才进入表情步骤，保留独立方案的精灵帧。 原优化结论继续适用，保留原先的理由及审查事件。"
+    },
+    {
+      "id": "e2e009-parity-applicability-730e87899564dd24b2",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b58155c98992c2cbe19c1d28ddd1c11ede971317146e8f2a563963c7c13eda6f",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=71; before-leaf-order=21990"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014"
+        }
+      ],
+      "note": "「你跟我来」后开始离场，前景先归还操控，后台完成六个路点后隐藏。"
+    },
+    {
+      "id": "e2e009-parity-applicability-5de0a10070a867219b",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b58155c98992c2cbe19c1d28ddd1c11ede971317146e8f2a563963c7c13eda6f",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=71; before-leaf-order=21990"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-fairy-island-pool-20261106.tar.gz",
+          "sha256": "2aaee52ddea722174e283ae7f9d8a29cc77dcf2cd8d9d3022b6408649b197aa6",
+          "selector": "member=build/e2e-009/editor-opfs/configure-actions.json; native-save-readback"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/editor-009/verify-actions.json; reopened-preview-reset entry=[\"s016\",\"e221\",\"auto\",\"legacy-001\",\"initial\"]; selection=赵灵儿：准备带路离开池塘"
+        }
+      ],
+      "preview": {
+        "stateId": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca",
+        "selection": "default"
+      },
+      "previewFingerprint": "568dbf9f3c16b2a42c9c8c879b0f55ca57f719b9b9c69399b2d7a4ac5f3aec4d",
+      "note": "新实跑首条有效指令前的可保存字段与原持久化选择相符。以原文件字节种入隔离 OPFS 后，当前版本实页重开、单步及重置均复核。"
+    },
+    {
+      "id": "e2e009-parity-applicability-253e90c63c50130a88",
+      "at": "2026-11-06T06:33:44Z",
+      "actor": "Codex /root/reforge_007_probe",
+      "reviewer": "Codex /root/reforge_009",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b58155c98992c2cbe19c1d28ddd1c11ede971317146e8f2a563963c7c13eda6f",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "a31e59355c283b58ceaf717ed7ac7f9bdf4b3ca7e0143d315259518bcd44ce84"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "7acbf896deef1d65b2c6ef0460fd40910138d2818c47b03a1a901887462a7e1a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e/reforge-009-2026-11-06T06-08-35-566Z/009-trace.json; visit=4; run=71; before-leaf-order=21990"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-009-1-preview-applicability-20261106.tar.gz",
+          "sha256": "82a19ca79602ecd9efb6a23585ce5d92402db1b8e110b2eee99a29dcd30a32ae",
+          "selector": "member=build/e2e-rework/009-script-progress-recheck.json; context=reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014"
+        }
+      ],
+      "note": "「你跟我来」后开始离场，前景先归还操控，后台完成六个路点后隐藏。 原优化结论继续适用，保留原先的理由及审查事件。"
     }
   ]
 }
@@ -135350,5 +139586,5 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 ## 下一步
 
-009 已按正式双轨与编辑器复验记录池塘步骤，作者分屏裁定见任务卡。后续按场景与实体筛选待核现场，随实际 E2E 或优化同步追加。
+作者分屏裁定见 009 任务卡。后续按场景与实体筛选待核现场，随实际 E2E 或优化同步追加。
 相应 context 的三个轴分别需要可恢复的证据与独立验收。`--check` 成功核对记录自洽和所声明的版本。
