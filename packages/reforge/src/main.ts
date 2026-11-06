@@ -409,8 +409,10 @@ export async function bootGame(
   })
   const entityStaticBaseline = activeScene.entityStaticBaseline
   const entityActions = activeScene.actions
+  type ActiveScriptRunner = ScriptRunner | { running: boolean }
   const player: { pos: GridPos } = { pos: { ...project.entryScene.entry.pos } }
   let facing: Facing = project.entryScene.entry.facing
+  let authoredPartyFacing: { owner: ActiveScriptRunner; facing: Facing } | null = null
   // 原版 gs.wLayer：0x6E 第三操作数是逻辑层号，渲染时按 8px/层参与
   // sort/cover；换场景由 sdlpal 真值清零。
   let partyLayer = 0
@@ -969,6 +971,7 @@ export async function bootGame(
     activeScene.commit(plan, restoreActions)
     player.pos = plan.spawn.pos
     facing = plan.spawn.facing
+    authoredPartyFacing = null
     partyLayer = 0
     walking = false
     stepFrame = 0
@@ -1047,7 +1050,6 @@ export async function bootGame(
   )
 
   // ══ M3a 脚本运行时(设计 §4:driver Promise + AbortSignal;tick 驱动计时/淡入淡出)══
-  type ActiveScriptRunner = ScriptRunner | { running: boolean }
   let runner: ActiveScriptRunner | null = null
   // Only the outer interactive runner owns this marker. Inline trigger children keep their own
   // stack below so chasePlayer(self) can recognise that the trigger is already executing instead
@@ -2854,6 +2856,7 @@ export async function bootGame(
       player.pos = { ...player.pos, col: player.pos.col + d.dcol, row: player.pos.row + d.drow }
       pushTrail(trail, player.pos, displacementFacing(from, player.pos, facing))
       if (dx !== 0 || dy !== 0) {
+        authoredPartyFacing = null
         walking = true
         worldPresentation.setPartyGesture(null)
         stepFrame = (stepFrame + 1) % 4
@@ -3090,6 +3093,11 @@ export async function bootGame(
   // 主脚本视图:位移指令隐式接管目标(决策②:转向/定帧不接管);脚本链收尾统一归还。
   const scriptHost: ScriptHost = {
     ...host,
+    setPartyFacing: (fc, gesture, member) => {
+      host.setPartyFacing(fc, gesture, member)
+      // An explicit leader pose belongs to this interactive chain, including its inline calls.
+      if (!member) authoredPartyFacing = runner ? { owner: runner, facing: fc } : null
+    },
     moveEntity: async (id, to, speed, signal) => {
       if (entityMotionPermanentlyRemoved(id))
         throw asyncIntentAbortError(`实体 ${id} 已永久移除，走位未执行`)
@@ -3888,13 +3896,16 @@ export async function bootGame(
       player.pos = result.pos
       facing = result.facing
       const moved = from.col !== result.pos.col || from.row !== result.pos.row
-      if (moved) pushTrail(trail, player.pos, result.facing)
+      if (moved) {
+        authoredPartyFacing = null
+        worldPresentation.setPartyGesture(null)
+        pushTrail(trail, player.pos, result.facing)
+      }
       if (result.done) {
         walking = false
         motionContinuations.push(() => motion.completePartyMove(mv))
       } else {
         walking = true
-        worldPresentation.setPartyGesture(null)
         stepFrame = (stepFrame + 1) % 4
       }
       if (moved) deriveFollowers()
@@ -4308,6 +4319,7 @@ export async function bootGame(
             ) {
               // The fixed mount offset gives the rider the same travel direction as the carrier.
               facing = facingToward(meta.entity.pos, outcome.to)
+              if (authoredPartyFacing?.owner !== runner) worldPresentation.setPartyGesture(null)
               partyRideMoved = true
             }
             meta.entity.pos = { ...outcome.to }
@@ -4387,6 +4399,7 @@ export async function bootGame(
             } else {
               walking = playerMoved
               if (playerMoved) {
+                authoredPartyFacing = null
                 worldPresentation.setPartyGesture(null)
                 stepFrame = (stepFrame + 1) % 4
               }
@@ -5060,6 +5073,7 @@ export async function bootGame(
     scriptAbort?.abort()
     itemUseSession.cancel()
     runner = null
+    authoredPartyFacing = null
     runnerTriggerOwnerId = null
     inlineTriggerOwners.clear()
     scriptAbort = null
@@ -5761,6 +5775,11 @@ export async function bootGame(
     // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
     // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
     deriveFollowers()
+    // Mounted travel updates steering and trail without replacing a leader's authored pose.
+    const renderedFacing =
+      authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
+        ? authoredPartyFacing.facing
+        : facing
     const sprites = worldPresentation.sprites({
       entities: activeScene.scene.entities,
       visible: (entity) => entityLifecycleGates(entity).visible,
@@ -5777,7 +5796,7 @@ export async function bootGame(
       entityLayer: (id) => runtimeScript.entityLayer?.[id],
       party: world.party,
       partyVisual,
-      player: { pos: player.pos, facing, walking, stepFrame, layer: partyLayer },
+      player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
       followers: followerPos,
       extraFollowerSpriteIds: runtimeScript.followers ?? [],
       extraFollowerPosition: (partyIndex) => {
