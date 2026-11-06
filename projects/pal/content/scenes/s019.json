@@ -309,20 +309,20 @@
                       "kind": "dialog"
                     },
                     {
-                      "kind": "selectEntityBehavior",
+                      "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "moveEntity",
+                      "speed": "normal",
+                      "to": {
+                        "col": 77,
+                        "height": 0,
+                        "row": 17.75
+                      },
                       "target": {
                         "scene": "s019",
                         "entity": "e270"
-                      },
-                      "channel": "auto",
-                      "selection": {
-                        "kind": "use",
-                        "value": "legacy-001"
                       }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 1400
                     },
                     {
                       "kind": "setEntityState",
@@ -334,50 +334,6 @@
                     }
                   ],
                   "label": "招呼逍遥并带路"
-                }
-              ]
-            }
-          }
-        },
-        "auto": {
-          "legacy-001": {
-            "label": "赵灵儿先行入宫",
-            "order": 1,
-            "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "label": "沿宫外小径先行",
-                  "body": [
-                    {
-                      "kind": "moveEntity",
-                      "speed": "normal",
-                      "to": {
-                        "col": 44,
-                        "height": 0,
-                        "row": -30
-                      },
-                      "target": {
-                        "scene": "s019",
-                        "entity": "e270"
-                      }
-                    },
-                    {
-                      "kind": "wait",
-                      "ms": 100
-                    },
-                    {
-                      "kind": "finishStep",
-                      "next": {
-                        "kind": "complete"
-                      }
-                    }
-                  ],
-                  "next": {
-                    "kind": "complete"
-                  }
                 }
               ]
             }
