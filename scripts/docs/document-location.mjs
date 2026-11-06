@@ -15,11 +15,18 @@ import { markdownLinks } from './markdown.mjs'
 import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
-import { assertTestingSourceBridge, isTestingSourceBridgePath } from './testing-source-bridge.mjs'
+import {
+  assertTestingSourceBridge,
+  assertTestingStageEvidence,
+  assertTestingStagePublication,
+  isTestingSourceBridgePath,
+  isTestingStageEvidencePath,
+} from './testing-source-bridge.mjs'
 import { assertTestingSourceMaintenance } from './testing-source-maintenance.mjs'
 import { testingSourceMaintenanceAdmissions } from './testing-source-maintenance-admission.mjs'
 
 export const documentLocationManifest = 'docs/phase-governance/document-locations.json'
+const testingCatalogPath = 'docs/testing/catalog.json'
 export const fixedGitSourceUrl = (path, revision = documentLocationAdmission.baseRevision) =>
   `https://github.com/IllegalCreed/type-pal/blob/${revision}/${path.split('/').map(encodeURIComponent).join('/')}`
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
@@ -357,11 +364,26 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       )
     changes.set(row.path, { ...row })
   }
+  const stagePublicationRevision = admission.testingCatalogStagePublicationBaseRevision
+  if (stagePublicationRevision !== undefined) {
+    assert(/^[a-f\d]{40}$/u.test(stagePublicationRevision), 'fixed stage publication base required')
+    assert(
+      changes.get(testingCatalogPath)?.mode === 'testing-source-bridge' &&
+        /^[a-f\d]{40}$/u.test(admission.testingCatalogMaintenanceRevision ?? ''),
+      'stage publication requires both fixed catalog source layers',
+    )
+  }
   for (const row of manifest.additions) {
     safePath(row.path)
+    const nativeStage =
+      stagePublicationRevision !== undefined && isTestingStageEvidencePath(row.path)
     assert(
       row.path.startsWith('docs/') &&
-        row.path.endsWith('.md') &&
+        (row.path.endsWith('.md') ||
+          (nativeStage &&
+            row.templateId === 'test-machine-evidence-v1' &&
+            row.variant === undefined &&
+            row.historyOverlay === undefined)) &&
         !identities.has(row.path) &&
         !additions.has(row.path) &&
         typeof row.templateId === 'string' &&
@@ -487,6 +509,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         current.toString('utf8').split('\n').length,
         `candidate body line extent differs: ${path}`,
       )
+      if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -550,9 +573,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           readBuffer,
         })
       }
-      assertTestingSourceBridge(path, bridgeSource, current, (sourcePath) =>
-        ordinaryBytes(root, sourcePath),
-      )
+      const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+      if (stagePublicationRevision !== undefined && path === testingCatalogPath) {
+        const publicationBase = gitTree(root, stagePublicationRevision, [path]).read(path)
+        assertTestingSourceBridge(path, bridgeSource, publicationBase, readSource)
+        assertTestingStagePublication(publicationBase, current, additions)
+      } else {
+        assertTestingSourceBridge(path, bridgeSource, current, readSource)
+      }
       return { current, previous, change }
     }
     {

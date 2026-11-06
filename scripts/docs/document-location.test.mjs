@@ -1547,4 +1547,108 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
   f.write(path, currentBytes)
   row.afterSha256 = hash(currentBytes)
   loadDocumentLocations(f.root, admission()).assertUnchanged()
+  git('add', '-f', path)
+  git(
+    '-c',
+    'user.name=Fixture',
+    '-c',
+    'user.email=fixture@example.invalid',
+    'commit',
+    '-qm',
+    'source-bridged catalog',
+  )
+  const publicationBase = git('rev-parse', 'HEAD')
+  const published = structuredClone(current)
+  for (const [number, slug] of [
+    ['007', 'island-entrance'],
+    ['008', 'fairy-island-maze'],
+    ['009', 'fairy-island-pool'],
+  ]) {
+    const id = `e2e-${number}`
+    const stage = {
+      id,
+      kind: 'e2e-stage',
+      canonical: `e2e/stages/${number}-${slug}/report.md`,
+      index: `e2e/stages/${number}-${slug}/README.md`,
+      evidence: `e2e/evidence/${id}.json`,
+    }
+    published.entries.push(stage)
+    published._governance.entryReadings.push({
+      id,
+      conclusion: `Independent ${id} evidence review`,
+    })
+    const native = `${JSON.stringify({
+      schemaVersion: 2,
+      id,
+      kind: 'runtime-execution',
+      runtimeExecution: { performed: true },
+      claims: [{ result: 'runtime-backed' }],
+      _governance: { variant: 'execution' },
+    })}\n`
+    for (const [relative, templateId, body] of [
+      [stage.canonical, 'test-run-report-v1', '# Canonical report\n'],
+      [stage.index, 'test-e2e-stage-v1', '# Stage index\n'],
+      [stage.evidence, 'test-machine-evidence-v1', native],
+    ]) {
+      const path = `docs/testing/${relative}`
+      f.write(path, body)
+      f.manifest.additions.push({ path, templateId, afterSha256: hash(body), review: row.review })
+    }
+  }
+  const publishedBytes = `${JSON.stringify(published)}\n`
+  f.write(path, publishedBytes)
+  row.afterSha256 = hash(publishedBytes)
+  const publishedAdmission = () => ({
+    ...admission(),
+    testingCatalogStagePublicationBaseRevision: publicationBase,
+  })
+  const publication = loadDocumentLocations(f.root, publishedAdmission())
+  assert.deepEqual(publication.assertCurrent(path).current, Buffer.from(publishedBytes))
+  assert.deepEqual(publication.assertCurrent(path).previous, before)
+  publication.assertUnchanged()
+  assert.throws(() => loadDocumentLocations(f.root, admission()), /invalid or colliding addition/)
+  assert.throws(
+    () =>
+      loadDocumentLocations(f.root, {
+        ...publishedAdmission(),
+        testingCatalogStagePublicationBaseRevision: 'HEAD',
+      }),
+    /fixed stage publication base required/,
+  )
+  assert.throws(
+    () =>
+      loadDocumentLocations(f.root, {
+        ...publishedAdmission(),
+        testingCatalogMaintenanceRevision: undefined,
+      }),
+    /requires both fixed catalog source layers/,
+  )
+  const evidence = f.manifest.additions.find(
+    ({ path }) => path === 'docs/testing/e2e/evidence/e2e-008.json',
+  )
+  for (const [source, reason] of [
+    ['scripts/e2e/opening-trace.test.mjs', /source bytes differ/],
+    ['packages/game/src/core/inventory-state.ts', /sourceRef hash mismatch/],
+  ]) {
+    f.write(source, Buffer.concat([seedFiles[source], Buffer.from('\n// drift\n')]))
+    assert.throws(() => publication.assertUnchanged(), reason)
+    f.write(source, seedFiles[source])
+  }
+  const evidenceBytes = publication.read(evidence.path)
+  for (const [change, reason] of [
+    [{ id: 'e2e-009' }, /stage evidence identity differs/],
+    [{ runtimeExecution: { performed: false } }, /must declare its actual native execution/],
+  ]) {
+    const wrong = `${JSON.stringify({ ...JSON.parse(evidenceBytes), ...change })}\n`
+    f.write(evidence.path, wrong)
+    evidence.afterSha256 = hash(wrong)
+    assert.throws(() => loadDocumentLocations(f.root, publishedAdmission()), reason)
+  }
+  f.write(evidence.path, evidenceBytes)
+  evidence.afterSha256 = hash(evidenceBytes)
+  f.manifest.additions.push({ ...evidence, path: 'docs/testing/e2e/evidence/e2e-010.json' })
+  assert.throws(
+    () => loadDocumentLocations(f.root, publishedAdmission()),
+    /invalid or colliding addition: docs\/testing\/e2e\/evidence\/e2e-010.json/,
+  )
 })

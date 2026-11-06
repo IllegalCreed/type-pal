@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import test from 'node:test'
-import { assertTestingSourceBridge } from './testing-source-bridge.mjs'
+import {
+  assertTestingSourceBridge,
+  assertTestingStagePublication,
+} from './testing-source-bridge.mjs'
 import { testingSourceRefIssues } from './testing-source-refs.mjs'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -110,6 +113,93 @@ for (const [index, path] of evidencePaths.entries()) {
     )
   })
 }
+
+function stagePublicationFixture() {
+  const f = fixture()
+  f.before._governance = { entryReadings: [], runtimeExecutionPerformed: false }
+  f.current._governance = structuredClone(f.before._governance)
+  const published = structuredClone(f.current)
+  const additions = new Map()
+  for (const [id, slug] of [
+    ['007', '007-island-entrance'],
+    ['008', '008-fairy-island-maze'],
+    ['009', '009-fairy-island-pool'],
+  ]) {
+    const stage = {
+      id: `e2e-${id}`,
+      kind: 'e2e-stage',
+      canonical: `e2e/stages/${slug}/report.md`,
+      index: `e2e/stages/${slug}/README.md`,
+      evidence: `e2e/evidence/e2e-${id}.json`,
+    }
+    published.entries.push(stage)
+    published._governance.entryReadings.push({ id: stage.id, conclusion: `Review of ${stage.id}` })
+    for (const [path, templateId] of [
+      [stage.canonical, 'test-run-report-v1'],
+      [stage.index, 'test-e2e-stage-v1'],
+      [stage.evidence, 'test-machine-evidence-v1'],
+    ]) {
+      additions.set(`docs/testing/${path}`, { templateId })
+    }
+  }
+  return {
+    ...f,
+    published,
+    additions,
+    check: () => assertTestingStagePublication(bytes(f.current), bytes(published), additions),
+  }
+}
+
+test('only the separate publication layer accepts the three stages and their admitted pairs', () => {
+  const f = stagePublicationFixture()
+  assertTestingSourceBridge(catalogPath, bytes(f.before), bytes(f.current), f.read)
+  f.check()
+  assert.throws(
+    () => assertTestingSourceBridge(catalogPath, bytes(f.before), bytes(f.published), f.read),
+    /catalog membership changed/,
+  )
+  f.additions.delete('docs/testing/e2e/evidence/e2e-008.json')
+  assert.throws(f.check, /requires an admitted pair: e2e\/evidence\/e2e-008.json/)
+})
+
+test('publication cannot modify existing entries or governance, or widen the approved suffix', () => {
+  for (const [mutate, reason] of [
+    [
+      (f) => {
+        f.published.entries[0].status = 'verified'
+      },
+      /changed existing catalog facts/,
+    ],
+    [
+      (f) => {
+        f.published._governance.runtimeExecutionPerformed = true
+      },
+      /changed existing catalog facts/,
+    ],
+    [
+      (f) => {
+        f.published.entries.at(-1).evidence = 'e2e/evidence/e2e-010.json'
+      },
+      /three admitted stage entries/,
+    ],
+    [
+      (f) => {
+        f.published._governance.entryReadings.reverse()
+      },
+      /reading for each appended stage in order/,
+    ],
+    [
+      (f) => {
+        f.published._governance.entryReadings.at(-1).conclusion = ' '
+      },
+      /concrete reading conclusion/,
+    ],
+  ]) {
+    const f = stagePublicationFixture()
+    mutate(f)
+    assert.throws(f.check, reason)
+  }
+})
 
 const activeSceneEvidence = 'docs/testing/domains/runtime/scene/active-scene/evidence.json'
 const cameraTestPath = 'packages/reforge/src/world-camera.test.ts'
