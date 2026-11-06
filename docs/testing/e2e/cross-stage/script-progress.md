@@ -111707,6 +111707,19699 @@ node scripts/script-governance/progress-report.mjs --pending --json
       },
       "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
       "note": "对照首条指令前相关对象的可保存静态字段。实页选择、保存、重开和预览重置。队伍、帧游标、道具和脚本续跑由正式运行记录持有。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-822a4422d97ab4080a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s000",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v2:run2:command12",
+        "description": "E2E 001; s000/scene/onEnter/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=2; sceneSession=s000:1; runId=2; firstCommandOrder=12; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "eb3b36fa2c8c041ab8778f72ede2de9066a0624e67aafc8bb989f68d3593884c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s000.json",
+          "sha256": "9ff5e3c9b287d777f206c76beeb8e1a3900fd7716178721b58fcacfa2904636b"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e3c47248cec6fe86aa"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6f67b88b9a21f1753c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s000",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v2:run2:command12",
+        "description": "E2E 001; s000/scene/onEnter/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=2; sceneSession=s000:1; runId=2; firstCommandOrder=12; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "eb3b36fa2c8c041ab8778f72ede2de9066a0624e67aafc8bb989f68d3593884c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s000.json",
+          "sha256": "9ff5e3c9b287d777f206c76beeb8e1a3900fd7716178721b58fcacfa2904636b"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-edc68f3db38cf1ed78"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-215fce2bd29a505900",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e3",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v4:run5:command528",
+        "description": "E2E 002; s001/e3/trigger/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=528; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "52933ccec15caa62bb53f971e9331d61b56e1c3f4b2ab205f709ff63d7a0f547",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-fb30dbf2c7b63a7c56"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6a3bad2ff304f5a401",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e3",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v4:run5:command528",
+        "description": "E2E 002; s001/e3/trigger/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=528; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "52933ccec15caa62bb53f971e9331d61b56e1c3f4b2ab205f709ff63d7a0f547",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-94358797ccf2163aab"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-70fb48f27c567b4c56",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e7",
+        "channel": "trigger",
+        "schemeId": "carrying-dishes-blocked",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e7/trigger/carrying-dishes-blocked/initial",
+        "description": "001–006关联正文静态审查；s001/e7/trigger/carrying-dishes-blocked/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0245989b5368ceb605bd1506b7fa1b03b3e61ac54e7317e6920841b4c5243d88",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ea72c1c982b5f0da35"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-24991d6e6a70482d59",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e7",
+        "channel": "trigger",
+        "schemeId": "carrying-dishes-blocked",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e7/trigger/carrying-dishes-blocked/initial",
+        "description": "001–006关联正文静态审查；s001/e7/trigger/carrying-dishes-blocked/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "0245989b5368ceb605bd1506b7fa1b03b3e61ac54e7317e6920841b4c5243d88",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0440eb120048313baf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-dc5db67844b83a8eda",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e7",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e7/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e7/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "f700dbfb4080b6530f3146725e7573922575f0a55fc4c533cd4c10191af96b52",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-07393ac5a2a94c9545"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6055a26d07406655d8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e7",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e7/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e7/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "f700dbfb4080b6530f3146725e7573922575f0a55fc4c533cd4c10191af96b52",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-31cdb0887e25bb8332"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b78131ca5cdbc18638",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e9",
+        "channel": "trigger",
+        "schemeId": "carrying-dishes-blocked",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e9/trigger/carrying-dishes-blocked/initial",
+        "description": "001–006关联正文静态审查；s001/e9/trigger/carrying-dishes-blocked/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "3f163226c3416a3fdf04abcdd4624d975ecee4065fcaa420f1612c0e685a5755",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c4f5c5b6c4ddf684b3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e13c05997a13584490",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e9",
+        "channel": "trigger",
+        "schemeId": "carrying-dishes-blocked",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e9/trigger/carrying-dishes-blocked/initial",
+        "description": "001–006关联正文静态审查；s001/e9/trigger/carrying-dishes-blocked/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "3f163226c3416a3fdf04abcdd4624d975ecee4065fcaa420f1612c0e685a5755",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e8c0b4c562ba821fb8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-508c40cccd5d2ac5b2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e9",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e9/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e9/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "3a6ef978e8c137a23057f941d663ea7b31d65499e1fe1205c39e2366609c23dd",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1b1e5628cad91bbc20"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f144be10390b0ccfb2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e9",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e9/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e9/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "3a6ef978e8c137a23057f941d663ea7b31d65499e1fe1205c39e2366609c23dd",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-339fce81d246e40cd2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6edfd2b1f520b62365",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e10",
+        "channel": "auto",
+        "schemeId": "leave-bedroom",
+        "stageId": "leave"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run9:command6454",
+        "description": "E2E 001; s001/e10/auto/leave-bedroom/leave; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=9; firstCommandOrder=6454; path=[\"leave\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0a022070e95ff55ccfcd7379dc7df7df9ebe161f76e12d3e01ac189645324e20",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e1ade6955043018ac0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-06b72833131b1f9bdb",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e10",
+        "channel": "auto",
+        "schemeId": "leave-bedroom",
+        "stageId": "leave"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run9:command6454",
+        "description": "E2E 001; s001/e10/auto/leave-bedroom/leave; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=9; firstCommandOrder=6454; path=[\"leave\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "0a022070e95ff55ccfcd7379dc7df7df9ebe161f76e12d3e01ac189645324e20",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1a45127241a9a78f81"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0f94d48404abcdd4a3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e12",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run42:command9284",
+        "description": "E2E 004; s001/e12/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=42; firstCommandOrder=9284; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "f1038322522da25fbc3cce4d6141a7f757cb46ca96359852f32d7b58ab05ebda",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1ef62ceceaf44d9458"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-869da592d94e86669f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e12",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run42:command9284",
+        "description": "E2E 004; s001/e12/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=42; firstCommandOrder=9284; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "f1038322522da25fbc3cce4d6141a7f757cb46ca96359852f32d7b58ab05ebda",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f59f943b2b691aaeda"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-29b6862a038f02b412",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e15",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run36:command5697",
+        "description": "E2E 004; s001/e15/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=36; firstCommandOrder=5697; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "bfed6fe2213689028561635899b811b7f32f0babe6b670028f914c7c1619670d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2d99bfed9f2e6f8b4d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-84872abfea046cc423",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e15",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run36:command5697",
+        "description": "E2E 004; s001/e15/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=36; firstCommandOrder=5697; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "bfed6fe2213689028561635899b811b7f32f0babe6b670028f914c7c1619670d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6531a738315ec4b965"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a279a29d13c6bbdf4d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e18",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v4:run8:command1473",
+        "description": "E2E 004; s001/e18/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=4; sceneSession=s001:2; runId=8; firstCommandOrder=1473; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "feeec25df51817eebe058f4f5726f54c4342711fd6988240c1f947c3b088569a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d86332610881caee3c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-da5cd03a63a01f8f4c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e18",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v4:run8:command1473",
+        "description": "E2E 004; s001/e18/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=4; sceneSession=s001:2; runId=8; firstCommandOrder=1473; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "feeec25df51817eebe058f4f5726f54c4342711fd6988240c1f947c3b088569a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8cbbb3b6eda979eb52"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bb4db6c7126ca52877",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e18",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v6:run22:command4629",
+        "description": "E2E 005; s001/e18/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=6; sceneSession=s001:3; runId=22; firstCommandOrder=4629; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "feeec25df51817eebe058f4f5726f54c4342711fd6988240c1f947c3b088569a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8bfe5ca13d5c9fbee1"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f260fc5a6507b7cde0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e18",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v6:run22:command4629",
+        "description": "E2E 005; s001/e18/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=6; sceneSession=s001:3; runId=22; firstCommandOrder=4629; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "feeec25df51817eebe058f4f5726f54c4342711fd6988240c1f947c3b088569a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-eac27d8239ea6665c6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4a778db917b80c8388",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "busy-in-kitchen",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e19/trigger/busy-in-kitchen/initial",
+        "description": "001–006关联正文静态审查；s001/e19/trigger/busy-in-kitchen/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5bc6ec025ae6898c110594c10f28af99f4f93a3cc242316210a9540d6057e358",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-967b84b78e704ea8f4"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1cf591ce3e94de6487",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "busy-in-kitchen",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e19/trigger/busy-in-kitchen/initial",
+        "description": "001–006关联正文静态审查；s001/e19/trigger/busy-in-kitchen/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "5bc6ec025ae6898c110594c10f28af99f4f93a3cc242316210a9540d6057e358",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-13c423f733b29c2f5d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f666bd51174bec4f5b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "serve-guests",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v6:run34:command9394",
+        "description": "E2E 003; s001/e19/trigger/serve-guests/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=6; sceneSession=s001:3; runId=34; firstCommandOrder=9394; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "269fbb9597c5db666325593d5fabcc2e868f44e9e280a0c45991c9f79d5f4e79",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d5f07a9ab4f6e5b806"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-508d7249fc9e29c421",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "serve-guests",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v6:run34:command9394",
+        "description": "E2E 003; s001/e19/trigger/serve-guests/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=6; sceneSession=s001:3; runId=34; firstCommandOrder=9394; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "269fbb9597c5db666325593d5fabcc2e868f44e9e280a0c45991c9f79d5f4e79",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7f47046f0a9d3557c3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d4404eda62744c5ea5",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v6:run19:command2708",
+        "description": "E2E 005; s001/e19/trigger/c8-74bc98f07f8e/stage-1; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=6; sceneSession=s001:3; runId=19; firstCommandOrder=2708; path=[\"stage-1\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a0be0c48ba2a07c6521c0a721a5f10025d0d409d30e5727a1b632d01322309fd",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0bb445511e8aec1fac"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-093be94a40ed9232f3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v6:run19:command2708",
+        "description": "E2E 005; s001/e19/trigger/c8-74bc98f07f8e/stage-1; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=6; sceneSession=s001:3; runId=19; firstCommandOrder=2708; path=[\"stage-1\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "a0be0c48ba2a07c6521c0a721a5f10025d0d409d30e5727a1b632d01322309fd",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4b16fc071dd86745ab"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-60182fdc3fd0336d44",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-2"
+      },
+      "context": {
+        "id": "static-body-review:s001/e19/trigger/c8-74bc98f07f8e/stage-2",
+        "description": "001–006关联正文静态审查；s001/e19/trigger/c8-74bc98f07f8e/stage-2; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e96a0a30aba979fae48c70be23e7b8f7e0a9aec6c4cc375a4a7afcd0383a8890",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-a3bed2a5b879b07d7d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-dcfbb87371c56aed4f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-2"
+      },
+      "context": {
+        "id": "static-body-review:s001/e19/trigger/c8-74bc98f07f8e/stage-2",
+        "description": "001–006关联正文静态审查；s001/e19/trigger/c8-74bc98f07f8e/stage-2; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e96a0a30aba979fae48c70be23e7b8f7e0a9aec6c4cc375a4a7afcd0383a8890",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b30fb4fe30af4e9a26"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-11ea074590d6364308",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e20",
+        "channel": "trigger",
+        "schemeId": "take-dishes",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v4:run5:command541",
+        "description": "E2E 004; s001/e20/trigger/take-dishes/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=541; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "37e51b302ebcc3b66d4b676e957d8889b6b0b6e8cb935117323d07f7e9267007",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f74d912183e7d7a5bf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6e2c9bfeccff9fbfc0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e20",
+        "channel": "trigger",
+        "schemeId": "take-dishes",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v4:run5:command541",
+        "description": "E2E 004; s001/e20/trigger/take-dishes/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=541; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "37e51b302ebcc3b66d4b676e957d8889b6b0b6e8cb935117323d07f7e9267007",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-edcdd3ac798e09ff7d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c91acec7a248b8072d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b101adae9cd2d0dd43829924c4806085023e109f1f01fc878732a464e5f4ea6c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-64ddcac851c0279807"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0ad06f98c60d48ce70",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "b101adae9cd2d0dd43829924c4806085023e109f1f01fc878732a464e5f4ea6c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-207d52b570fb8056e2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-429143a6038717569e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "insist"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/insist",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/insist; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af6f34553dd903886faf2509420cdc67c5e5ad3812e11f962ec8dcb51ae78478",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4352f8291f897480f0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-33ae1ece8ae1f9fc30",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "insist"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/insist",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/insist; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "af6f34553dd903886faf2509420cdc67c5e5ad3812e11f962ec8dcb51ae78478",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-da7b97b33e0e9095fa"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6a2854837308eb758d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "dismiss"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/dismiss",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/dismiss; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "df15c8c8ff685b3d0619b51cf0a78f7fe1dfab8714340d356bc46cdc14f21469",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8391ec9b6b9513ac9a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d79e088c569e2b76d2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "decline-meal",
+        "stageId": "dismiss"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/decline-meal/dismiss",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/decline-meal/dismiss; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "df15c8c8ff685b3d0619b51cf0a78f7fe1dfab8714340d356bc46cdc14f21469",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-83858d637a1e367bb8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fe3727c7949979e358",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c8c43516201d195149fff97e5a9d6c4446c63169a74df6bfdba37c5b1cc54a1a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7df0a31347ddbabb2f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a1f7169c5ea447180c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "c8c43516201d195149fff97e5a9d6c4446c63169a74df6bfdba37c5b1cc54a1a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e7933246803701e9d6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d370290a5d4e04d38b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "296d5b779b1f00452d8d6d17123d6fc0895f1962e7ee7163349d9929129daf45",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-bd72b0e850a79f2b1b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-756e5e100297d9bf72",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e24",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e24/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e24/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "296d5b779b1f00452d8d6d17123d6fc0895f1962e7ee7163349d9929129daf45",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-312cc33acd6a6396de"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d95fb45fbcf763c04b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e25/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e25/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b75c3abbdccfeafedc3b21610c79bd481cee7d761417fecc28b141f85c6f48f6",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6b89dce01132c5e559"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-27fc62bdeead30e5e8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e25/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e25/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "b75c3abbdccfeafedc3b21610c79bd481cee7d761417fecc28b141f85c6f48f6",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7edfa49bb15b6393ff"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9ce079609516379899",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e25/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e25/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "73f1e0abc90f6040209b207a3804da72acb1c8ce4e816432b9e6de0eaccc8c12",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-22ed6bd77f940f4036"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4192439aafbf727149",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e25/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e25/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "73f1e0abc90f6040209b207a3804da72acb1c8ce4e816432b9e6de0eaccc8c12",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ba575f9875648f07a6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4187c925210c06ec4c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run12:command8739",
+        "description": "E2E 001; s001/e25/auto/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=12; firstCommandOrder=8739; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "50593b6d3e9aee58c0cb410154389d9732b1823ec9545858492687a83e8fccf4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-cf2dbacc647edabaee"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f5263c34ffeda5d5b7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run12:command8739",
+        "description": "E2E 001; s001/e25/auto/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=12; firstCommandOrder=8739; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "50593b6d3e9aee58c0cb410154389d9732b1823ec9545858492687a83e8fccf4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8177619b43d806c5fd"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-183026a37ee8e73b54",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-04T14-19-45-149Z:v4:run12:command8713",
+        "description": "2026-11-04 正常RF001新采样；s001/e25/auto/default/initial; native=build/e2e/reforge-001-2026-11-04T14-19-45-149Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=12; firstCommandOrder=8713; path=[\"initial\",0]; resumeAtRunStart=null。与旧001缺e25 pose的现场分开，不追溯授旧现场信用。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "50593b6d3e9aee58c0cb410154389d9732b1823ec9545858492687a83e8fccf4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-61ae1caa1e79f3bf6f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ef68124e0549997789",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e25",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-04T14-19-45-149Z:v4:run12:command8713",
+        "description": "2026-11-04 正常RF001新采样；s001/e25/auto/default/initial; native=build/e2e/reforge-001-2026-11-04T14-19-45-149Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=12; firstCommandOrder=8713; path=[\"initial\",0]; resumeAtRunStart=null。与旧001缺e25 pose的现场分开，不追溯授旧现场信用。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "50593b6d3e9aee58c0cb410154389d9732b1823ec9545858492687a83e8fccf4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e10fcfdd80ad63e2a3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3b560deba4d1cf707a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e26/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e26/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "1f3eb1633374506dcb2b9886a3778dc5b28888eff06135829c66982c2335b0bb",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8a66c975daf82d48b8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-cf938faa308d7a85a7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e26/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s001/e26/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "1f3eb1633374506dcb2b9886a3778dc5b28888eff06135829c66982c2335b0bb",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f4c75db7580da54f48"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b57700de694e1b0535",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e26/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e26/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b4146a0f57b13aaa8bca66ec38263bd93116c6d6329dba594ab2afbcd3a3ed71",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8512ba62963ee9fb26"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2c76546024c251ea71",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s001/e26/trigger/legacy-002/initial",
+        "description": "001–006关联正文静态审查；s001/e26/trigger/legacy-002/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "b4146a0f57b13aaa8bca66ec38263bd93116c6d6329dba594ab2afbcd3a3ed71",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2171fac4f1a7ad9dce"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a9e4d8cd99c532952d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run40:command8348",
+        "description": "E2E 004; s001/e26/auto/legacy-003/routine; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=40; firstCommandOrder=8348; path=[\"routine\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2b216859c3cdc703f39ad692a87b4374cce54b47e7cc9ad9e903008499e6961a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f603ca4124d3f19328"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6ba9334a90aa2672b0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e26",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v8:run40:command8348",
+        "description": "E2E 004; s001/e26/auto/legacy-003/routine; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=8; sceneSession=s001:4; runId=40; firstCommandOrder=8348; path=[\"routine\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "2b216859c3cdc703f39ad692a87b4374cce54b47e7cc9ad9e903008499e6961a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-382a0baab7023efd70"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a7df24bde5f1fe4f69",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run5:command963",
+        "description": "E2E 001; s001/scene/onEnter/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=963; path=[\"initial\",\"entry\",\"prepare\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "f31f05473872a484049d71849887bfa6553d4ab63b7958c856f2fe22840041f9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b0b9548b16df0a3ec3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-da4e80d12f3ad736a4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s001",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-001-2026-11-03T15-03-18-309Z:v4:run5:command963",
+        "description": "E2E 001; s001/scene/onEnter/default/initial; native build/e2e/reforge-001-2026-11-03T15-03-18-309Z/matrix.json; sceneVisit=4; sceneSession=s001:2; runId=5; firstCommandOrder=963; path=[\"initial\",\"entry\",\"prepare\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "f31f05473872a484049d71849887bfa6553d4ab63b7958c856f2fe22840041f9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7117639d26ab02a341"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-66ee6bb67c604aa469",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e32",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v8:run98:command28047",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=98; firstCommandOrder=28047; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "fff5e38e48a5b79ea565f704a5878f95c5adefdcf7b4c38286122b6b82363e2a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1e7d6352b283c0e727"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-739643400791568838",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e32",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v8:run98:command28047",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=98; firstCommandOrder=28047; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "fff5e38e48a5b79ea565f704a5878f95c5adefdcf7b4c38286122b6b82363e2a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-96049055854f260b6a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-24b4bd1956f37ffe88",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e35",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e35/trigger/default/initial:v8:r84:o23081",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=84; firstCommandOrder=23081; originalAuditRunStartedOrder=23080; UI File/Open/Play/Reset at 2026-10-27T01:18:06.543Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "00ccb8e9a56b850f1d3aaa9861f3a58457eed5fcf5784d0f375ca3fcc346e1e4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-9bc106aebd3235a02b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ae74e57c669d05f7dd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e35",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e35/trigger/default/initial:v8:r84:o23081",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=84; firstCommandOrder=23081; originalAuditRunStartedOrder=23080; UI File/Open/Play/Reset at 2026-10-27T01:18:06.543Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "00ccb8e9a56b850f1d3aaa9861f3a58457eed5fcf5784d0f375ca3fcc346e1e4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2c01a655c7d2415f53"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-278f509663a841927a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/initial:v8:r89:o25224",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=89; firstCommandOrder=25224; originalAuditRunStartedOrder=25223; UI File/Open/Play/Reset at 2026-10-27T01:18:16.416Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "aef8cd00abd9da66ea7f71dc1898ee373beae240b92c1b70274fdb9e1a8939cb",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0756e3db5f3a91b009"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f8a23662d42f6ddf53",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/initial:v8:r89:o25224",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=89; firstCommandOrder=25224; originalAuditRunStartedOrder=25223; UI File/Open/Play/Reset at 2026-10-27T01:18:16.416Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "aef8cd00abd9da66ea7f71dc1898ee373beae240b92c1b70274fdb9e1a8939cb",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b8ebd907b5d68eac24"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-cd967fba5f71d08ecc",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/legacy-002:v8:r92:o27019",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=92; firstCommandOrder=27019; originalAuditRunStartedOrder=27018; UI File/Open/Play/Reset at 2026-10-27T01:18:19.375Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "1052e6e2d9b313d0ec3c8bf227d838e1f87e690216cd85b06cd96c4da4c9bac3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ae25a80b0d022c0433"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6cac6d5d5c7aa55dca",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/legacy-002:v8:r92:o27019",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=92; firstCommandOrder=27019; originalAuditRunStartedOrder=27018; UI File/Open/Play/Reset at 2026-10-27T01:18:19.375Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "1052e6e2d9b313d0ec3c8bf227d838e1f87e690216cd85b06cd96c4da4c9bac3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d322bb37ca341fac9e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-60cdace7e0602e71f9",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/legacy-003:v8:r95:o27361",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=95; firstCommandOrder=27361; originalAuditRunStartedOrder=27360; UI File/Open/Play/Reset at 2026-10-27T01:18:22.328Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "28281a53d1f13221614e47c0372fb5eb614226c3317870ce1898991106006825",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f858af02c9812e26ce"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-51a60b4e54ee45fe9f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s002",
+        "entityId": "e36",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s002/e36/trigger/default/legacy-003:v8:r95:o27361",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=8; sceneSession=s002:4; runId=95; firstCommandOrder=27361; originalAuditRunStartedOrder=27360; UI File/Open/Play/Reset at 2026-10-27T01:18:22.328Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "28281a53d1f13221614e47c0372fb5eb614226c3317870ce1898991106006825",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2b72840447ca1d6f1b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0b6c004d305dc732b3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e44",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v8:run36:command6276",
+        "description": "E2E 005; s003/e44/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=8; sceneSession=s003:4; runId=36; firstCommandOrder=6276; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "1e80a9a130f8c5c4303b61a00df749040a94cbc83e9e97b8310eb423c479e11d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-a6b2454ddd556cafb7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bc660e97f3f84af7a8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e44",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v8:run36:command6276",
+        "description": "E2E 005; s003/e44/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=8; sceneSession=s003:4; runId=36; firstCommandOrder=6276; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "1e80a9a130f8c5c4303b61a00df749040a94cbc83e9e97b8310eb423c479e11d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-00aaa3bda1553fa255"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-08cf2be8d96394ef82",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e44",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v10:run121:command34895",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=121; firstCommandOrder=34895; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "1e80a9a130f8c5c4303b61a00df749040a94cbc83e9e97b8310eb423c479e11d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f6fdf462bdb11789ba"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-362f3fd7694455710a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e44",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v10:run121:command34895",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=121; firstCommandOrder=34895; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "1e80a9a130f8c5c4303b61a00df749040a94cbc83e9e97b8310eb423c479e11d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b50c96a81ed2aefb40"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2030c98aa528e560b4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e46",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v6:run25:command3133",
+        "description": "E2E 004; s003/e46/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=6; sceneSession=s003:3; runId=25; firstCommandOrder=3133; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "226619d3c8afbdd12e45d913f1b9225d7bae215f71099efdf8806052862fcaf2",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-90fe02032f696cbd76"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-aa254b9143f084f133",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e46",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v6:run25:command3133",
+        "description": "E2E 004; s003/e46/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=6; sceneSession=s003:3; runId=25; firstCommandOrder=3133; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "226619d3c8afbdd12e45d913f1b9225d7bae215f71099efdf8806052862fcaf2",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8afac59921f9822f23"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-daa4d73bd77d23bcd4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e47",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run14:command927",
+        "description": "E2E 003; s003/e47/trigger/default/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=14; firstCommandOrder=927; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "399c676e4d7b8a9455215c56497feb322702dc8d89766120ada82a57b1ba6ad5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-fddc58345ac912a888"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a753cfa47d1726ba53",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e47",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run14:command927",
+        "description": "E2E 003; s003/e47/trigger/default/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=14; firstCommandOrder=927; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "399c676e4d7b8a9455215c56497feb322702dc8d89766120ada82a57b1ba6ad5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e4dd7f4167bdb4821c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e52ed3235caae3b328",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e47",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v10:run59:command10948",
+        "description": "E2E 004; s003/e47/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=10; sceneSession=s003:5; runId=59; firstCommandOrder=10948; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "399c676e4d7b8a9455215c56497feb322702dc8d89766120ada82a57b1ba6ad5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ec20cfeba4388cd72c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8d1eaccd7768774d47",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e47",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v10:run59:command10948",
+        "description": "E2E 004; s003/e47/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=10; sceneSession=s003:5; runId=59; firstCommandOrder=10948; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "399c676e4d7b8a9455215c56497feb322702dc8d89766120ada82a57b1ba6ad5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4eb51cb6b2592fe239"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-201722f678bae2251f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e49",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v6:run79:command22166",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=6; sceneSession=s003:3; runId=79; firstCommandOrder=22166; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e43453a4f0bbc62980ecfa7f2889a7091fa69d5b4626feeee9b1b1af7485967f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e06a86f0f82f096e0e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-79cce60591f33abbc1",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e49",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v6:run79:command22166",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=6; sceneSession=s003:3; runId=79; firstCommandOrder=22166; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e43453a4f0bbc62980ecfa7f2889a7091fa69d5b4626feeee9b1b1af7485967f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-85e671c204a06ad527"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d39e8f4e90f7ab963a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e51",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v6:run28:command4915",
+        "description": "E2E 004; s003/e51/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=6; sceneSession=s003:3; runId=28; firstCommandOrder=4915; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c7ab5eb41092b750a246dd1b41cdec89d653049eaeed7fa8d465783ebcad2e3e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e35378e4ef3656a25d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4385d25cf5ce2a96c0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e51",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v6:run28:command4915",
+        "description": "E2E 004; s003/e51/trigger/default/initial; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=6; sceneSession=s003:3; runId=28; firstCommandOrder=4915; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "c7ab5eb41092b750a246dd1b41cdec89d653049eaeed7fa8d465783ebcad2e3e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-325ab36d8dfdef317d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fb3c6c2ecb74113b44",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e53",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run26:command7459",
+        "description": "E2E 003; s003/e53/trigger/default/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=26; firstCommandOrder=7459; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "596fc11311ec23729884dec48ca2635a891a6d4fdc75369ff405e7977f534004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6efa358040b5edc525"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f14751a4963c0a28ee",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e53",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run26:command7459",
+        "description": "E2E 003; s003/e53/trigger/default/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=26; firstCommandOrder=7459; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "596fc11311ec23729884dec48ca2635a891a6d4fdc75369ff405e7977f534004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-67475373fc80d5ccac"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9e9f9ac89f3feed88c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e53",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v4:run11:command1123",
+        "description": "E2E 005; s003/e53/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=4; sceneSession=s003:2; runId=11; firstCommandOrder=1123; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "596fc11311ec23729884dec48ca2635a891a6d4fdc75369ff405e7977f534004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-18b260bcaf069e4b59"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-17415d87e9c50ba937",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e53",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v4:run11:command1123",
+        "description": "E2E 005; s003/e53/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=4; sceneSession=s003:2; runId=11; firstCommandOrder=1123; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "596fc11311ec23729884dec48ca2635a891a6d4fdc75369ff405e7977f534004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-916491cf40aee8a0a5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0ae09ffe71ce9568d6",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run22:command2590",
+        "description": "E2E 002; s003/e56/trigger/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=22; firstCommandOrder=2590; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "616f53d7e539cf07811989d40b9ccb5276a5d529c45d370e3b8e98a24ed810c4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-25f02c2e173bf3d3e5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2988fe251fbcd7faf2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run22:command2590",
+        "description": "E2E 002; s003/e56/trigger/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=22; firstCommandOrder=2590; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "616f53d7e539cf07811989d40b9ccb5276a5d529c45d370e3b8e98a24ed810c4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-88ee13e97c2b881f47"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e025383f9d052f0059",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s003/e56/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s003/e56/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "d7de40b316c64dd058f784ce06ba19b3c4224502a2ef3980e6eacbf69a195fbc",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-059bbbbc93235682e5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c78b249ace2a5513f8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s003/e56/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s003/e56/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "d7de40b316c64dd058f784ce06ba19b3c4224502a2ef3980e6eacbf69a195fbc",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-faf564359d8eccfcdc"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-00d943db8642d20190",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run17:command2626",
+        "description": "E2E 003; s003/e56/trigger/greet-after-guests/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=17; firstCommandOrder=2626; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "aff12179109296d34552a12a47fe7692e0c273bb84f2314a20115f73f3cf606d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4ca6649c765b76f852"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3233a1a5eae6535215",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run17:command2626",
+        "description": "E2E 003; s003/e56/trigger/greet-after-guests/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=17; firstCommandOrder=2626; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "aff12179109296d34552a12a47fe7692e0c273bb84f2314a20115f73f3cf606d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-372ebc51fbf4a0e124"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c4d85e4acd63bf9621",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "stageId": "remind-kitchen"
+      },
+      "context": {
+        "id": "static-body-review:s003/e56/trigger/greet-after-guests/remind-kitchen",
+        "description": "001–006关联正文静态审查；s003/e56/trigger/greet-after-guests/remind-kitchen; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c138e2d466dcb81d2cfc5fa3a9f0c2f4078f83ddc50acea7078f17b930c86286",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0f983185b2752d2164"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0cee8053a5ae8ee018",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "greet-after-guests",
+        "stageId": "remind-kitchen"
+      },
+      "context": {
+        "id": "static-body-review:s003/e56/trigger/greet-after-guests/remind-kitchen",
+        "description": "001–006关联正文静态审查；s003/e56/trigger/greet-after-guests/remind-kitchen; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "c138e2d466dcb81d2cfc5fa3a9f0c2f4078f83ddc50acea7078f17b930c86286",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0492e7b9614c8059bd"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-19d21f412fe7089865",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "auto",
+        "schemeId": "go-to-kitchen",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run21:command3191",
+        "description": "E2E 003; s003/e56/auto/go-to-kitchen/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=21; firstCommandOrder=3191; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "f1bcce5025633992262096bb2c11ed843410427189ce503eb78f6039cbc5daa9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-62908da248618aed94"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-14c67d0045ca33a8cd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "auto",
+        "schemeId": "go-to-kitchen",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run21:command3191",
+        "description": "E2E 003; s003/e56/auto/go-to-kitchen/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=21; firstCommandOrder=3191; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "f1bcce5025633992262096bb2c11ed843410427189ce503eb78f6039cbc5daa9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8083271962cfd2fdd2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-dee641e381ff8cc7ac",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "auto",
+        "schemeId": "legacy-006",
+        "stageId": "leave-reception"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run26:command6576",
+        "description": "E2E 002; s003/e56/auto/legacy-006/leave-reception; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=26; firstCommandOrder=6576; path=[\"leave-reception\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "08022278d4249727be84171deb3b92fd2e80bd4e3f5a555c947d77db3198471b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-5d4cefe013878e52c5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8245c4ce109a9ff7c2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "auto",
+        "schemeId": "legacy-006",
+        "stageId": "leave-reception"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run26:command6576",
+        "description": "E2E 002; s003/e56/auto/legacy-006/leave-reception; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=26; firstCommandOrder=6576; path=[\"leave-reception\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "08022278d4249727be84171deb3b92fd2e80bd4e3f5a555c947d77db3198471b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-942940909837aa29e7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a3f9452297fc2f0f00",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/trigger/legacy-001/initial:v10:r115:o29921",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=115; firstCommandOrder=29921; originalAuditRunStartedOrder=29918; UI File/Open/Play/Reset at 2026-10-27T01:18:53.295Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "d8ceb1cb40e617f223213064afaa3940a12da8b9ac31c31f7cb857a0d0f76dad",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8d70c2a6558cccbbdc"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-137e67edabf9aa4783",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/trigger/legacy-001/initial:v10:r115:o29921",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=115; firstCommandOrder=29921; originalAuditRunStartedOrder=29918; UI File/Open/Play/Reset at 2026-10-27T01:18:53.295Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "d8ceb1cb40e617f223213064afaa3940a12da8b9ac31c31f7cb857a0d0f76dad",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3000c1e13fa817162b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a5a5987796977826a5",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/auto/legacy-001/initial:v10:r104:o28670",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=104; firstCommandOrder=28670; originalAuditRunStartedOrder=28660; UI File/Open/Play/Reset at 2026-10-27T01:18:44.794Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "35450872f76e91658acecec9e367bff3ba6229e882d71815f205869ac8a69e73",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7febd04d7c523ff735"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6cc96146f8834d3f49",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/auto/legacy-001/initial:v10:r104:o28670",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=104; firstCommandOrder=28670; originalAuditRunStartedOrder=28660; UI File/Open/Play/Reset at 2026-10-27T01:18:44.794Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "35450872f76e91658acecec9e367bff3ba6229e882d71815f205869ac8a69e73",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3c8b0ae1a8c00e61e0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-35c54ad0b92e4eb4f1",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/auto/legacy-002/routine:v10:r119:o34645",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=119; firstCommandOrder=34645; originalAuditRunStartedOrder=29986; UI File/Open/Play/Reset at 2026-10-27T01:18:48.304Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b0be7e26892084bc52949e580a3fb6fccd043777a0e351aa0391dede705a7595",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1b9656e1b8723f4dec"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b68f1abdbf026053ac",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s003/e59/auto/legacy-002/routine:v10:r119:o34645",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=10; sceneSession=s003:5; runId=119; firstCommandOrder=34645; originalAuditRunStartedOrder=29986; UI File/Open/Play/Reset at 2026-10-27T01:18:48.304Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b0be7e26892084bc52949e580a3fb6fccd043777a0e351aa0391dede705a7595",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-bf414bfedefa115d13"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-025e8a5e5d0c4cc12b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run29:command7041",
+        "description": "E2E 002; s003/e59/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=29; firstCommandOrder=7041; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2080f98b9e0900627bf1ba872f51d3bf6ce8334750e448c2c46dd4bb08743d38",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1c45975aba8176182e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b7cd0fb58d2e557d9b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e59",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run29:command7041",
+        "description": "E2E 002; s003/e59/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=29; firstCommandOrder=7041; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "2080f98b9e0900627bf1ba872f51d3bf6ce8334750e448c2c46dd4bb08743d38",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ad46f47e27d19021c9"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-157504c60cab5ae740",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e60",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run32:command7054",
+        "description": "E2E 002; s003/e60/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=32; firstCommandOrder=7054; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "13e6cc0ff6ef3648536590d019ec166dd8efcfa624cccd0991a546aa5ca9cc67",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-482ed8e6ef4ba43821"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-69ae146347e2e21141",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e60",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run32:command7054",
+        "description": "E2E 002; s003/e60/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=32; firstCommandOrder=7054; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "13e6cc0ff6ef3648536590d019ec166dd8efcfa624cccd0991a546aa5ca9cc67",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f0f231a617111290f6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-44ad32fdb255d2a51a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e61",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run35:command7066",
+        "description": "E2E 002; s003/e61/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=35; firstCommandOrder=7066; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "3c7320dfb727d36c0caa600fb09fdd0b9603dab992b41981769721aad4d2aac0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-19b93f6fa3df514daf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6f139dc724102aacfe",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e61",
+        "channel": "auto",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run35:command7066",
+        "description": "E2E 002; s003/e61/auto/legacy-003/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=35; firstCommandOrder=7066; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "3c7320dfb727d36c0caa600fb09fdd0b9603dab992b41981769721aad4d2aac0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2720d91a29c2587bc2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e02f5602633e7c90dd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beg-for-guest-wine",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beg-for-guest-wine/initial",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beg-for-guest-wine/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e53853a593b0e50464d589d8f9a75c1c6108d50a572a551804abfac0cd38d20c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-cacf3548e4fd554ba6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1ff6a4c182874c31a5",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beg-for-guest-wine",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beg-for-guest-wine/initial",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beg-for-guest-wine/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e53853a593b0e50464d589d8f9a75c1c6108d50a572a551804abfac0cd38d20c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f5fdda74f7c33a9d02"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e81af42adc94e7789c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run23:command4649",
+        "description": "E2E 003; s003/e62/trigger/beggar-first-talk/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=23; firstCommandOrder=4649; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "224af8529c93de06ce6f0c3d763e0b93ab88ebb6e046760594d7417c6bdef23c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-22b6f89d21f239e9db"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c9e24c7f0c1c11918f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-003-2026-11-03T15-06-34-895Z:v4:run23:command4649",
+        "description": "E2E 003; s003/e62/trigger/beggar-first-talk/initial; native build/e2e/reforge-003-2026-11-03T15-06-34-895Z/kitchen-trace.json; sceneVisit=4; sceneSession=s003:2; runId=23; firstCommandOrder=4649; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "224af8529c93de06ce6f0c3d763e0b93ab88ebb6e046760594d7417c6bdef23c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-bee4aa3fdddcb9ba7a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1ea190eb3c02bd1d50",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "ask-again"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beggar-first-talk/ask-again",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beggar-first-talk/ask-again; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a823e66c653300dd692b1fcb382f890fde71bbe04d06edcf2cf0c3cb8519a7e4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3de84b099c59615e4b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-713beb19b3305eca6f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "ask-again"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beggar-first-talk/ask-again",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beggar-first-talk/ask-again; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "a823e66c653300dd692b1fcb382f890fde71bbe04d06edcf2cf0c3cb8519a7e4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-db501e5e54e8e4bb37"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4557575edde3fe4662",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "persistent-begging"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beggar-first-talk/persistent-begging",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beggar-first-talk/persistent-begging; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "71d8750ffac95350ee6a2d974d2f9dd173086cff2c260db4f6a69a2bbdb9260e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-5faa580c028e442d39"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-663ef57039419c6643",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "beggar-first-talk",
+        "stageId": "persistent-begging"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/beggar-first-talk/persistent-begging",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/beggar-first-talk/persistent-begging; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "71d8750ffac95350ee6a2d974d2f9dd173086cff2c260db4f6a69a2bbdb9260e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-eeca67263b58c991c3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2b647c4633d712ea4f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "4e75f65249ceb0bbe16922edb6ff7e531cb676f05862f6b5b1af3092eb1ffcc3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-83d112e09168ae96cb"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-882001b94e3fa089a6",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s003/e62/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s003/e62/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "4e75f65249ceb0bbe16922edb6ff7e531cb676f05862f6b5b1af3092eb1ffcc3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-09ffbdefaaf807c5f7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a4c4d9accb654e2ea9",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "c8-321c0a7d7de1",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v10:run65:command13425",
+        "description": "E2E 004; s003/e62/trigger/c8-321c0a7d7de1/stage-1; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=10; sceneSession=s003:5; runId=65; firstCommandOrder=13425; path=[\"stage-1\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ae0a3f35616b09f7b471bb7e510c52c8694c64a45f3143eb0667bb3ef320f633",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-60b0458baba5a40df9"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-93d7f2b09226c0f28a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "trigger",
+        "schemeId": "c8-321c0a7d7de1",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "reforge-004-story-2026-11-03T15-07-47-754Z:v10:run65:command13425",
+        "description": "E2E 004; s003/e62/trigger/c8-321c0a7d7de1/stage-1; native build/e2e/reforge-004-story-2026-11-03T15-07-47-754Z/004-story.trace.json; sceneVisit=10; sceneSession=s003:5; runId=65; firstCommandOrder=13425; path=[\"stage-1\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "ae0a3f35616b09f7b471bb7e510c52c8694c64a45f3143eb0667bb3ef320f633",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-eeceaa7a0762f3c927"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d4f55b88b1a3576db8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run11:command1093",
+        "description": "E2E 002; s003/e62/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=11; firstCommandOrder=1093; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c658db58e4e18b148fb15102c9f2f514490e9e1545fca9181afd693cc8f4322e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c5dca153b2cb813c24"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2be4c9232e5f5217c1",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e62",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run11:command1093",
+        "description": "E2E 002; s003/e62/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=11; firstCommandOrder=1093; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "c658db58e4e18b148fb15102c9f2f514490e9e1545fca9181afd693cc8f4322e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-77f54408f260a8a56d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-261c8a34c43dea6b2e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e63",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run14:command1096",
+        "description": "E2E 002; s003/e63/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=14; firstCommandOrder=1096; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5ab3008ed7f6ca4ccd902b31cbb4dff26326d0b24c82fb2b4996e025933d3287",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d816ccbe30ed350f2b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-19a1c0e808d9ca82c7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e63",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run14:command1096",
+        "description": "E2E 002; s003/e63/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=14; firstCommandOrder=1096; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5ab3008ed7f6ca4ccd902b31cbb4dff26326d0b24c82fb2b4996e025933d3287",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4d29de9f248843f385"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6886d3d6824afdf70b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e64",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run17:command1097",
+        "description": "E2E 002; s003/e64/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=17; firstCommandOrder=1097; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "75e3192bbb111cbc7e69dfef4178dd0951f65f1977ad532d72339cb677ef9ed0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-50330381ff496ba256"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2ae462ccd1d6cac693",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e64",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run17:command1097",
+        "description": "E2E 002; s003/e64/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=17; firstCommandOrder=1097; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "75e3192bbb111cbc7e69dfef4178dd0951f65f1977ad532d72339cb677ef9ed0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-902ecb231a47829274"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-cc44c7dd6f7db0066c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e75",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run20:command1098",
+        "description": "E2E 002; s003/e75/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=20; firstCommandOrder=1098; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "28162e5df580b6bf21d9150d3966febff2a1991ea86968e210f12d4cb2be62f0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-93a6b5aac18a5fdc66"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e5ed1b35a143dec810",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e75",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-002-2026-11-03T15-04-56-325Z:v6:run20:command1098",
+        "description": "E2E 002; s003/e75/auto/default/initial; native build/e2e/reforge-002-2026-11-03T15-04-56-325Z/inn-trace.json; sceneVisit=6; sceneSession=s003:3; runId=20; firstCommandOrder=1098; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "28162e5df580b6bf21d9150d3966febff2a1991ea86968e210f12d4cb2be62f0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-5905a1ed8a1682b232"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-472ee4458e53fde6a3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e76",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run42:command7099",
+        "description": "E2E 005; s004/e76/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=42; firstCommandOrder=7099; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "dde869f4d0b92ace524545dfc018b4ab263cc814e29316cb4726eeec2b36467e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-564147bee2495b759b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fa6851cc63fb2ce016",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e76",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run42:command7099",
+        "description": "E2E 005; s004/e76/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=42; firstCommandOrder=7099; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "dde869f4d0b92ace524545dfc018b4ab263cc814e29316cb4726eeec2b36467e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-16cf13d3083fb4adb4"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4e970e82665286a513",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e77",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run45:command7100",
+        "description": "E2E 005; s004/e77/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=45; firstCommandOrder=7100; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2db5f866922d5895f3a186754d2e35bfbc03aac43d6d6793a9f281ec92753442",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-be0a449aefb0a54c54"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-afa130796876ebdee4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e77",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run45:command7100",
+        "description": "E2E 005; s004/e77/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=45; firstCommandOrder=7100; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "2db5f866922d5895f3a186754d2e35bfbc03aac43d6d6793a9f281ec92753442",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4c127ab797f6baff96"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-75d69805277b55185b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e82",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run48:command7101",
+        "description": "E2E 005; s004/e82/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=48; firstCommandOrder=7101; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a68c905c3b03ba2e86c3c1795c100c6a3643d2b5277682fd455a6a6422945cd1",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-171bea7454ab58709d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ac25f8c4f34a331ac7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e82",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run48:command7101",
+        "description": "E2E 005; s004/e82/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=48; firstCommandOrder=7101; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "a68c905c3b03ba2e86c3c1795c100c6a3643d2b5277682fd455a6a6422945cd1",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-9bc9147f6974be307d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d45f9d598929ccf9be",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e82",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "static-body-review:s004/e82/auto/legacy-001/routine",
+        "description": "001–006关联正文静态审查；s004/e82/auto/legacy-001/routine; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c7ebb2d2ac64329598dad66399ad08a98dbd963861584d8755f0e8641e9e4cd4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7fcbe3852e9c799c73"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-445e90f15b3e59c734",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e82",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "static-body-review:s004/e82/auto/legacy-001/routine",
+        "description": "001–006关联正文静态审查；s004/e82/auto/legacy-001/routine; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "c7ebb2d2ac64329598dad66399ad08a98dbd963861584d8755f0e8641e9e4cd4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1867926ce2278bc343"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5cf41929f38efc42bc",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "stageId": "report"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run219:command65702",
+        "description": "E2E 005; s004/e83/trigger/report-aunt-illness/report; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=219; firstCommandOrder=65702; path=[\"report\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2dde2a31bab6f9f4e279edeedfb1a943c7fd9f0bcc74e837a47417b49b478029",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3eedf6a80e0c07308f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fa15f93d683c6aa852",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "stageId": "report"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run219:command65702",
+        "description": "E2E 005; s004/e83/trigger/report-aunt-illness/report; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=219; firstCommandOrder=65702; path=[\"report\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "2dde2a31bab6f9f4e279edeedfb1a943c7fd9f0bcc74e837a47417b49b478029",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-610e92c9deb6eff81f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ef3c26f92889717b8a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "stageId": "urge-return"
+      },
+      "context": {
+        "id": "static-body-review:s004/e83/trigger/report-aunt-illness/urge-return",
+        "description": "001–006关联正文静态审查；s004/e83/trigger/report-aunt-illness/urge-return; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "dadad1321ac76b3566700f158b84f238b79002d5cb1eec6db547e63097fbbf3e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-cbf230e063977eecc0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2bdc6e3822cb6c22b2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "trigger",
+        "schemeId": "report-aunt-illness",
+        "stageId": "urge-return"
+      },
+      "context": {
+        "id": "static-body-review:s004/e83/trigger/report-aunt-illness/urge-return",
+        "description": "001–006关联正文静态审查；s004/e83/trigger/report-aunt-illness/urge-return; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "dadad1321ac76b3566700f158b84f238b79002d5cb1eec6db547e63097fbbf3e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "f8e0abbadfdb927b0766df77a16fbcd22fef18907b661c97978d0b7a15313e38"
+        },
+        {
+          "path": "projects/pal/content/scenes/s002.json",
+          "sha256": "2de49222e4c1e7d2e01f54db5b52617bd06d5976e6aa36f459d7dcf11153b60f"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6cd831728c0a28a620"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bb22ec84d5a2a3165c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run51:command7102",
+        "description": "E2E 005; s004/e83/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=51; firstCommandOrder=7102; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a2cf84c634c794841e3b3a22acdf9d4f434475547c0fb85a3d876bc3bf27063a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-52ff106cab6c8a2d51"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0bc13d17804cc6a903",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run51:command7102",
+        "description": "E2E 005; s004/e83/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=51; firstCommandOrder=7102; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "a2cf84c634c794841e3b3a22acdf9d4f434475547c0fb85a3d876bc3bf27063a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-7290010f61509b02d6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5671f6536ba16dfb81",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run225:command72752",
+        "description": "E2E 005; s004/e83/auto/legacy-002/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=225; firstCommandOrder=72752; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5f3270b4b57e0340ebbe58346c083231ba24e57e225f23010cc21d5caf8d0a2b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-bbd74c9ee86afdaf8a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d3e185445ef3db3d43",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e83",
+        "channel": "auto",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run225:command72752",
+        "description": "E2E 005; s004/e83/auto/legacy-002/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=225; firstCommandOrder=72752; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "5f3270b4b57e0340ebbe58346c083231ba24e57e225f23010cc21d5caf8d0a2b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-63d4ae48565c3596fc"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-07e08c879610d8d959",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e84",
+        "channel": "trigger",
+        "schemeId": "legacy-006",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s004/e84/trigger/legacy-006/initial",
+        "description": "001–006关联正文静态审查；s004/e84/trigger/legacy-006/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "7339d9f8ab47471047d754afa4efabe47f29573ea69ef39fef8f23d2973e96b9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-53fef669dc61ef205b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ec99d88eedeced556d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e84",
+        "channel": "trigger",
+        "schemeId": "legacy-006",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s004/e84/trigger/legacy-006/initial",
+        "description": "001–006关联正文静态审查；s004/e84/trigger/legacy-006/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "7339d9f8ab47471047d754afa4efabe47f29573ea69ef39fef8f23d2973e96b9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-cd7b12d2404324661e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a2f78037289995c3c4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e84",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run54:command7103",
+        "description": "E2E 005; s004/e84/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=54; firstCommandOrder=7103; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "20a8ecd5b615f4dbc52afdeb42c59c08a9c2ec8cb44effacf42e271cfeb5aa51",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-35543929bb25e271bf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-585bb9e591f6fafcf1",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e84",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run54:command7103",
+        "description": "E2E 005; s004/e84/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=54; firstCommandOrder=7103; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "20a8ecd5b615f4dbc52afdeb42c59c08a9c2ec8cb44effacf42e271cfeb5aa51",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-de2a6da42aba3125d9"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9143899ac2fe52c6ef",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e85",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run57:command7104",
+        "description": "E2E 005; s004/e85/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=57; firstCommandOrder=7104; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ff11594d8ccc5b42c1657c4639db07345fac742dc36895c60acd72b80c272637",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-aa992a0aab5fc4371c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a481a31da1686e4c74",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e85",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run57:command7104",
+        "description": "E2E 005; s004/e85/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=57; firstCommandOrder=7104; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ff11594d8ccc5b42c1657c4639db07345fac742dc36895c60acd72b80c272637",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-9dd0986908023de74c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-02565ddc6348aa6661",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e86",
+        "channel": "trigger",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s004/e86/trigger/legacy-003/initial",
+        "description": "001–006关联正文静态审查；s004/e86/trigger/legacy-003/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0bd76fde64da62519c2cdd3e06f7759b0843b6a2f35eec2d86896710ceb947d9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d345f94f4b32c2c439"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bdf687e59c6f3fd8b8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e86",
+        "channel": "trigger",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s004/e86/trigger/legacy-003/initial",
+        "description": "001–006关联正文静态审查；s004/e86/trigger/legacy-003/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "0bd76fde64da62519c2cdd3e06f7759b0843b6a2f35eec2d86896710ceb947d9",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0328fcd6b28593a567"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8712fb404cf01eb540",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e86",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run60:command7105",
+        "description": "E2E 005; s004/e86/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=60; firstCommandOrder=7105; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9f044cc0637b2f03b6112c3514057d1917d4095df01481f7f5052b65690ac194",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0d7dd3da194d48dfe6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d05638edfa68a78677",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e86",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run60:command7105",
+        "description": "E2E 005; s004/e86/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=60; firstCommandOrder=7105; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "9f044cc0637b2f03b6112c3514057d1917d4095df01481f7f5052b65690ac194",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-66a9ba30a1101a8be2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-aee0224ac198dccb9f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e87",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run63:command7106",
+        "description": "E2E 005; s004/e87/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=63; firstCommandOrder=7106; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cbd3254a27d1a9403c275bf6cb455ac2c603f30fd35f87507b6a990eb02cb269",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-07c30101b76969ca39"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f7c8cd8d828bbc9d10",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e87",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run63:command7106",
+        "description": "E2E 005; s004/e87/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=63; firstCommandOrder=7106; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "cbd3254a27d1a9403c275bf6cb455ac2c603f30fd35f87507b6a990eb02cb269",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-20234587938b13ab79"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-62e3e69927fbad2fbb",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run222:command72017",
+        "description": "E2E 005; s004/e88/auto/legacy-001/routine; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=222; firstCommandOrder=72017; path=[\"routine\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-a5e6f8c22ad6310e24"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bd29fe16c51620f4e4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run222:command72017",
+        "description": "E2E 005; s004/e88/auto/legacy-001/routine; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=222; firstCommandOrder=72017; path=[\"routine\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-60af12bfa0afe76e94"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1916deba556308f731",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run60:command12869",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=60; firstCommandOrder=12869; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d7474dbd0cc6cc8fc3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-326b9834839650e432",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run60:command12869",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=60; firstCommandOrder=12869; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-aa6c1b6689ab4da9fc"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-85d0ad48964a19497d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run63:command18026",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=63; firstCommandOrder=18026; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-5befe6907767e226d5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-cd549696b9279defbd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run63:command18026",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=63; firstCommandOrder=18026; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3ff0458595f457e25c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5a0aa29248c106a503",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run187:command42168",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=187; firstCommandOrder=42168; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-5b74eab605df621fc7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4966952da412b181cf",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run187:command42168",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=187; firstCommandOrder=42168; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e31b4a918b4f93cd9a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7bd3a950677f9a370c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run190:command49507",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=190; firstCommandOrder=49507; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0aaee38a658b4d8e69"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5bb58421d8e4c4907e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e88",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run190:command49507",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=190; firstCommandOrder=49507; path=[\"routine\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "53af7d7f948eb6f6c9c201273b4452f4591a823a9a952affd591a4be59bfb871",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-989b3148f63f989409"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e1d018b88e7b39a782",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e89",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run66:command7107",
+        "description": "E2E 005; s004/e89/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=66; firstCommandOrder=7107; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b07774ab83f98fffabfbedbf10b2ee083b4b1e2307fad43f1a9a184d5bdffb50",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b84b812eb9090054ca"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3917549f3e2b08d39a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e89",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run66:command7107",
+        "description": "E2E 005; s004/e89/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=66; firstCommandOrder=7107; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "b07774ab83f98fffabfbedbf10b2ee083b4b1e2307fad43f1a9a184d5bdffb50",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-23b871b4ca7e6a0579"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f96f1dff49964183fe",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e90",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run69:command7108",
+        "description": "E2E 005; s004/e90/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=69; firstCommandOrder=7108; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e4a6335ccab20684b645662963dc23c15e29d4b35e60315f40b918d390c0aef5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2cd6fcf36590ffc783"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-016724cd09212edd64",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e90",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run69:command7108",
+        "description": "E2E 005; s004/e90/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=69; firstCommandOrder=7108; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e4a6335ccab20684b645662963dc23c15e29d4b35e60315f40b918d390c0aef5",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ec6bcd3655f88bfee0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-feb9dc16fcf6bcf49f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e91",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run72:command7109",
+        "description": "E2E 005; s004/e91/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=72; firstCommandOrder=7109; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c96385c4f55ce6b9fd3a4a8f77f99b074fd1abbb2a71b434d7405e5c89450243",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8f30d7bc642cf9389e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2d532db9e7ac422e5f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e91",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run72:command7109",
+        "description": "E2E 005; s004/e91/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=72; firstCommandOrder=7109; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "c96385c4f55ce6b9fd3a4a8f77f99b074fd1abbb2a71b434d7405e5c89450243",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-988e2e889ba320e03d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0d090f28d1fdb6c0ef",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e92",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run75:command7110",
+        "description": "E2E 005; s004/e92/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=75; firstCommandOrder=7110; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "80af5f28840ca98072c4c61e29ad58d11c01e831f2c9fa101a9befe7945b4345",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2e47c0c9a3b1b67f72"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7e35e38c86a1a8c6d0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e92",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run75:command7110",
+        "description": "E2E 005; s004/e92/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=75; firstCommandOrder=7110; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "80af5f28840ca98072c4c61e29ad58d11c01e831f2c9fa101a9befe7945b4345",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1423e31b5390bbc854"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a440978a7c6eb626a7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e93",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run78:command7111",
+        "description": "E2E 005; s004/e93/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=78; firstCommandOrder=7111; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "474c74a7949647941acc3a7390295abed572626cfddc9422fe2a9c33f9cd2cb8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-26935ce0b506a8e63f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-cfa8eab1a4c820c7dd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e93",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run78:command7111",
+        "description": "E2E 005; s004/e93/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=78; firstCommandOrder=7111; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "474c74a7949647941acc3a7390295abed572626cfddc9422fe2a9c33f9cd2cb8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3cb8050f58016fad78"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bc3def4c8839179abf",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e94",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run65:command18751",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=65; firstCommandOrder=18751; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "3d091ea942c60e4d7556e1f91cb7bb75c55ba6ee3f42ab934e105783633c8764",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-eb71848c653aefdee2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-713bcc80a84f669ac7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e94",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v4:run65:command18751",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=4; sceneSession=s004:2; runId=65; firstCommandOrder=18751; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "3d091ea942c60e4d7556e1f91cb7bb75c55ba6ee3f42ab934e105783633c8764",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "61deef1b1ed2e74eb031635d8ba886be044900f21471213d1913973327ede867"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-d465c9c9e8ed05ea96"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-413a608a07ab945227",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e95",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run101:command23423",
+        "description": "E2E 005; s004/e95/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=101; firstCommandOrder=23423; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "557092054f1552b8b752478f16e36beba2c03d82e2634e7fba5edff80252035a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8d23b8b07be8d40995"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ee04367da5cfcf1363",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e95",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run101:command23423",
+        "description": "E2E 005; s004/e95/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=101; firstCommandOrder=23423; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "557092054f1552b8b752478f16e36beba2c03d82e2634e7fba5edff80252035a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-20f0fe4e9c69b2e144"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-45b9a9f0c7459e0be5",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e95",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run192:command51814",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=192; firstCommandOrder=51814; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "557092054f1552b8b752478f16e36beba2c03d82e2634e7fba5edff80252035a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-db3a150397fc1caec3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9d04b224af2c3e391e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e95",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-supplement:v12:run192:command51814",
+        "description": "006历史补充实际调用；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=12; sceneSession=s004:6; runId=192; firstCommandOrder=51814; path=[\"initial\",0]; resumeAtRunStart=null. 仅首命令时已观测当前场景NPC/区域字段，不代表2026-11-04新执行。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "557092054f1552b8b752478f16e36beba2c03d82e2634e7fba5edff80252035a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ec79a07222d24954ec"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ccc1e360ed89879f82",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e101",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run81:command7112",
+        "description": "E2E 005; s004/e101/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=81; firstCommandOrder=7112; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "f9ab0c364f23cba121a58b2c114bfbebcc6083635b1a72bd4c8518ae939c56ae",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-46fbcd7feaad3acdd4"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9395306db392dc2525",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e101",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run81:command7112",
+        "description": "E2E 005; s004/e101/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=81; firstCommandOrder=7112; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "f9ab0c364f23cba121a58b2c114bfbebcc6083635b1a72bd4c8518ae939c56ae",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-444410f0a7d810ab11"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a1c2fb409f675c9e33",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e102",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run84:command7113",
+        "description": "E2E 005; s004/e102/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=84; firstCommandOrder=7113; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0c78a397ee74e311977160fae19d875d7921cf5d2d0b65fad4d69b2457716db3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ef60feb97968b5bc79"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-32149819e9ba8f2e5c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e102",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run84:command7113",
+        "description": "E2E 005; s004/e102/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=84; firstCommandOrder=7113; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "0c78a397ee74e311977160fae19d875d7921cf5d2d0b65fad4d69b2457716db3",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-32e1af99580326167f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ae9fe99b8dae00a409",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e103",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run87:command7114",
+        "description": "E2E 005; s004/e103/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=87; firstCommandOrder=7114; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ddbaa70aae57aa76e06fbb5bab753198c2388693232bca16efa28c4aed71feb4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ae1ef27da9e02ee2ef"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8d88aa0c2126034d4f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e103",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run87:command7114",
+        "description": "E2E 005; s004/e103/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=87; firstCommandOrder=7114; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ddbaa70aae57aa76e06fbb5bab753198c2388693232bca16efa28c4aed71feb4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1da9b0c19173d7e378"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-05c374bacc04460be4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e104",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run90:command7115",
+        "description": "E2E 005; s004/e104/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=90; firstCommandOrder=7115; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ca4ed7e220d03a8dd0d249a1083657f2433d769469c8054dd018e6aae7cb7732",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3d32ccf7bfaa505ada"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-39e1cdfe58a655c558",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e104",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run90:command7115",
+        "description": "E2E 005; s004/e104/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=90; firstCommandOrder=7115; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ca4ed7e220d03a8dd0d249a1083657f2433d769469c8054dd018e6aae7cb7732",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c9535e30698cce0d97"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e094ed17dc84156fa9",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e112",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run93:command7116",
+        "description": "E2E 005; s004/e112/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=93; firstCommandOrder=7116; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0ae87b7461ec141f7fc8c1090916527e49a1b67473cd45aafff7d0aac0a26511",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-dcb98e74c25a83d436"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8311fbf4a19d6cc7ea",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e112",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run93:command7116",
+        "description": "E2E 005; s004/e112/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=93; firstCommandOrder=7116; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "0ae87b7461ec141f7fc8c1090916527e49a1b67473cd45aafff7d0aac0a26511",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-22702caf34ca6672c3"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-52b481a4614579356e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e114",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run96:command7117",
+        "description": "E2E 005; s004/e114/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=96; firstCommandOrder=7117; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "07ba1576a435f5f5f7bd74cfffcda87918b1fa33a5713321d64e580e7ccd0012",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f34a94edede9210809"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ab4310d0f87c753c31",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "entityId": "e114",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run96:command7117",
+        "description": "E2E 005; s004/e114/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=96; firstCommandOrder=7117; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "07ba1576a435f5f5f7bd74cfffcda87918b1fa33a5713321d64e580e7ccd0012",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-51f0a163bd8ca00a89"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-457a507306af89663f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run98:command7188",
+        "description": "E2E 005; s004/scene/onEnter/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=98; firstCommandOrder=7188; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c541d2b9f761fbff759e57d7a9aa1bc899a3e3902ed7cb68af3a850a8311d199",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-81052b91a188bb82b8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2c5a5d0b24f4e3c9a9",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v10:run98:command7188",
+        "description": "E2E 005; s004/scene/onEnter/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=10; sceneSession=s004:5; runId=98; firstCommandOrder=7188; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "c541d2b9f761fbff759e57d7a9aa1bc899a3e3902ed7cb68af3a850a8311d199",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-59347da75a324bf740"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b147647b7a88d28809",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run216:command65660",
+        "description": "E2E 005; s004/scene/onEnter/legacy-003/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=216; firstCommandOrder=65660; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2bef79679b997796bdfd5dd8f6172288284f854df4945bf3435ec588280a058d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-9fc86865c00629dbdf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6b7d1a7b3789b151cd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s004",
+        "channel": "onEnter",
+        "schemeId": "legacy-003",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v14:run216:command65660",
+        "description": "E2E 005; s004/scene/onEnter/legacy-003/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=14; sceneSession=s004:7; runId=216; firstCommandOrder=65660; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "2bef79679b997796bdfd5dd8f6172288284f854df4945bf3435ec588280a058d",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ce4957883dac753b98"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fa71ab972c8249acc3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e115",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run154:command63741",
+        "description": "E2E 005; s005/e115/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=154; firstCommandOrder=63741; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "992fb32aaef7d94f5e7fff10582534a7860cc66048702f01fdb00aa4955174a8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-49f4bbbf47d2216cf0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-28ca0de3bb3b03c971",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e115",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run154:command63741",
+        "description": "E2E 005; s005/e115/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=154; firstCommandOrder=63741; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "992fb32aaef7d94f5e7fff10582534a7860cc66048702f01fdb00aa4955174a8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s004.json",
+          "sha256": "003e2cc2ca3e8403d8fa06776a7e474bf63653a15b5d8e1f8f1d0049f44aaa13"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-90fa95527cf5789f02"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-997694a2b4064a2f31",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e116",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e116/trigger/legacy-001/initial:v14:r242:o77945",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=242; firstCommandOrder=77945; originalAuditRunStartedOrder=77935; UI File/Open/Play/Reset at 2026-10-27T01:19:07.779Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "6e200ae9c786db97aed859dc4f95b7ed26165d3f0fa86efe343a8e932acdc8ee",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e361cffa2e97e0b820"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9a0857f89e6fcbf653",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e116",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e116/trigger/legacy-001/initial:v14:r242:o77945",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=242; firstCommandOrder=77945; originalAuditRunStartedOrder=77935; UI File/Open/Play/Reset at 2026-10-27T01:19:07.779Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "6e200ae9c786db97aed859dc4f95b7ed26165d3f0fa86efe343a8e932acdc8ee",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8ef67172c1e2e9a21f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-752d87b43e9dbf9dae",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e117",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e117/auto/legacy-001/initial:v14:r246:o79753",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=246; firstCommandOrder=79753; originalAuditRunStartedOrder=79511; UI File/Open/Play/Reset at 2026-10-27T01:19:18.090Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "01b0260557da3b2d3dc7c3165d03165b7b7bad63d8e34b7cbb61ddd23b06179f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8a44b511346a47e685"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ce8cc0003a3ffc8b34",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e117",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e117/auto/legacy-001/initial:v14:r246:o79753",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=246; firstCommandOrder=79753; originalAuditRunStartedOrder=79511; UI File/Open/Play/Reset at 2026-10-27T01:19:18.090Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "01b0260557da3b2d3dc7c3165d03165b7b7bad63d8e34b7cbb61ddd23b06179f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-69a3218b8097a74b52"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d6a5fb82f04678b227",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e121",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run107:command25899",
+        "description": "E2E 005; s005/e121/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=107; firstCommandOrder=25899; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e4699338cc461e9c782e7ce55066835684642f272152569332b276f79994eb5a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e048533bccd81ee8f1"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-34efd414c25de80d2f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e121",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run107:command25899",
+        "description": "E2E 005; s005/e121/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=107; firstCommandOrder=25899; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e4699338cc461e9c782e7ce55066835684642f272152569332b276f79994eb5a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-f8ab628ecf54cd2a71"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-56159505cd0ba54d95",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e122",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run110:command25900",
+        "description": "E2E 005; s005/e122/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=110; firstCommandOrder=25900; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "1518f8d27ca45963b336d712770e5a0a0679b05a3c82046605f2943c8610babe",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-63102c4215c3c4a794"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d2de98f26f02fc055c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e122",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "patrol"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run110:command25900",
+        "description": "E2E 005; s005/e122/auto/default/patrol; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=110; firstCommandOrder=25900; path=[\"patrol\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "1518f8d27ca45963b336d712770e5a0a0679b05a3c82046605f2943c8610babe",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4b9d7dea451ca4e1d8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a754f6416e5296a4d0",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run151:command48752",
+        "description": "E2E 005; s005/e123/trigger/legacy-001/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=151; firstCommandOrder=48752; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "bda8c4d3b60b1bfd60f680af47d0aa6c4fa609513fc08650941c0a4013bea317",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b3894ba2886905bcbd"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-177b7d3a153241ebad",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run151:command48752",
+        "description": "E2E 005; s005/e123/trigger/legacy-001/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=151; firstCommandOrder=48752; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "bda8c4d3b60b1bfd60f680af47d0aa6c4fa609513fc08650941c0a4013bea317",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6463565f9cef9ee3b5"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1cabd2dde850021e75",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "return-to-inn"
+      },
+      "context": {
+        "id": "static-body-review:s005/e123/trigger/legacy-001/return-to-inn",
+        "description": "001–006关联正文静态审查；s005/e123/trigger/legacy-001/return-to-inn; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e33240badc88016f868cf06c7b8491c6c7bc6b3ef7ecc92c1b08707a6b6022c8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ffc4a86332120bf6ce"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3a93de4f2315fefd3a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "return-to-inn"
+      },
+      "context": {
+        "id": "static-body-review:s005/e123/trigger/legacy-001/return-to-inn",
+        "description": "001–006关联正文静态审查；s005/e123/trigger/legacy-001/return-to-inn; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e33240badc88016f868cf06c7b8491c6c7bc6b3ef7ecc92c1b08707a6b6022c8",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-aae3d466b50dc0bc2d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ba8fca9b02d4963b79",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "pray-for-catch"
+      },
+      "context": {
+        "id": "static-body-review:s005/e123/trigger/legacy-001/pray-for-catch",
+        "description": "001–006关联正文静态审查；s005/e123/trigger/legacy-001/pray-for-catch; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e8ee9ef15b17e1b634308c211ea0b2cf2c6b8c036d1cfc09176cb9b52fd40eba",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b51f4aa3f5c0b887d7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d054ae605b26cf7879",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "pray-for-catch"
+      },
+      "context": {
+        "id": "static-body-review:s005/e123/trigger/legacy-001/pray-for-catch",
+        "description": "001–006关联正文静态审查；s005/e123/trigger/legacy-001/pray-for-catch; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e8ee9ef15b17e1b634308c211ea0b2cf2c6b8c036d1cfc09176cb9b52fd40eba",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3005ba567f5dd7aefd"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7865ed2c25290ee246",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e123/trigger/legacy-002/initial:v14:r239:o67535",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=239; firstCommandOrder=67535; originalAuditRunStartedOrder=67534; UI File/Open/Play/Reset at 2026-10-27T01:19:26.057Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "c886f3f49255be94cc8168f33de5b6d52fe18b65974b627d3bf1a9ef19992746",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b1ecab7d5014a7aa33"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-340a1ae522d3cfe5d8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e123",
+        "channel": "trigger",
+        "schemeId": "legacy-002",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s005/e123/trigger/legacy-002/initial:v14:r239:o67535",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=14; sceneSession=s005:7; runId=239; firstCommandOrder=67535; originalAuditRunStartedOrder=67534; UI File/Open/Play/Reset at 2026-10-27T01:19:26.057Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "c886f3f49255be94cc8168f33de5b6d52fe18b65974b627d3bf1a9ef19992746",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2b2bd72e62776943bb"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c445060af37be1ce7e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run148:command40398",
+        "description": "E2E 005; s005/e124/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=148; firstCommandOrder=40398; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "4d71827e3028ea54e6da573ee99d108efec63e4f69a8cf4a72e3e25cfaa9d004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8be5d64ff5e9113bea"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-dc895d0328b397ba43",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run148:command40398",
+        "description": "E2E 005; s005/e124/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=148; firstCommandOrder=40398; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "4d71827e3028ea54e6da573ee99d108efec63e4f69a8cf4a72e3e25cfaa9d004",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-41f4faefee81c2ebfd"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-dbb6aa2ac473b89dec",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0cff8614f94badda23b8687c59e6171c5d523d1ef0f7763ebaf1f40a5523ad4f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4f838007bb4d22a663"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0b81b27faffc526a85",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "0cff8614f94badda23b8687c59e6171c5d523d1ef0f7763ebaf1f40a5523ad4f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-dbbc4ce135e58b120c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9be0ba69665c7824f6",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e5d61d8dcb006a86e6269bfa8cc25c0781fe461c302ba52ff1bafa9163cbd33f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-712be69575be1bfd64"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-00db503a181bd56c32",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e5d61d8dcb006a86e6269bfa8cc25c0781fe461c302ba52ff1bafa9163cbd33f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1df34fe99c9c62a564"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ab6356ef59b2c9678c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "phase-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/phase-002",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/phase-002; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ebb1a526305503ba424de5e83d155e7b4b53c27e93a9496a8eb2eaea20f49220",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c92a16dc93c41edc64"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1386a5e38fd1d2d374",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "phase-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/phase-002",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/phase-002; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ebb1a526305503ba424de5e83d155e7b4b53c27e93a9496a8eb2eaea20f49220",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8c40e512fdcecc987b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-4ab1420b1d758f33e9",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "after-checkpoint"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/after-checkpoint",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/after-checkpoint; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e99c1e76a4194d5162180c8b62ec680de5dd4c6ae3f771f6d189ab8a7e09f7b0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-56dfb8f6102e05a0bf"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-86045de31acde45c4a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e124",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "after-checkpoint"
+      },
+      "context": {
+        "id": "static-body-review:s005/e124/trigger/legacy-001/after-checkpoint",
+        "description": "001–006关联正文静态审查；s005/e124/trigger/legacy-001/after-checkpoint; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e99c1e76a4194d5162180c8b62ec680de5dd4c6ae3f771f6d189ab8a7e09f7b0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-44e04a0558eaa9a578"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-761870fe7cb61f92ca",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run145:command33759",
+        "description": "E2E 005; s005/e127/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=145; firstCommandOrder=33759; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0c1c42e7b87e1a8f04dffbb29c2a45e6988e120e84ead052fc5c8759fd9fcc33",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c1a163488220a41a0c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-52d31ad38646766bc6",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run145:command33759",
+        "description": "E2E 005; s005/e127/trigger/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=145; firstCommandOrder=33759; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "0c1c42e7b87e1a8f04dffbb29c2a45e6988e120e84ead052fc5c8759fd9fcc33",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-cc689914cb0ecaf117"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bccb7a4312c8d069cf",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e127/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s005/e127/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9c90b903cf362bee61f71b15ed2aaa6b43e48f53f5f24caf28cbd3339057d402",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-afa7038427402eaea1"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6416900e678f404c84",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "static-body-review:s005/e127/trigger/default/legacy-002",
+        "description": "001–006关联正文静态审查；s005/e127/trigger/default/legacy-002; scope=adjacent-stage-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "9c90b903cf362bee61f71b15ed2aaa6b43e48f53f5f24caf28cbd3339057d402",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b2a9f81a90d1ee9fea"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f9dac900d62ff9a528",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run113:command25901",
+        "description": "E2E 005; s005/e127/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=113; firstCommandOrder=25901; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "384697ee1a95809298087ce33a5f82e1bf8d7799a04ca3296e7892ad85231a44",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-4bf90af451d22d61fb"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3dd92d9fd88d694721",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e127",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run113:command25901",
+        "description": "E2E 005; s005/e127/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=113; firstCommandOrder=25901; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "384697ee1a95809298087ce33a5f82e1bf8d7799a04ca3296e7892ad85231a44",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-2a61e9a686ae8bd7ea"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-6582648aecef26272c",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e128",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run116:command25902",
+        "description": "E2E 005; s005/e128/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=116; firstCommandOrder=25902; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a5fed451f61274a1cf715e18a9cbd244db9bf638cc4486678eb1be1e1941a7d0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e5fbf783ac12621ea7"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bd27fb40c089e37f82",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e128",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run116:command25902",
+        "description": "E2E 005; s005/e128/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=116; firstCommandOrder=25902; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "a5fed451f61274a1cf715e18a9cbd244db9bf638cc4486678eb1be1e1941a7d0",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-495e5563b992b7a866"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8fbba8adb227912cbe",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e129",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run119:command25903",
+        "description": "E2E 005; s005/e129/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=119; firstCommandOrder=25903; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0f75eb58e1e6ce4aaceb4b94d6482702c0d5e118dc8a08f42799047e229abd82",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-55a32291c9e64482bb"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-50fa798454be186f25",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e129",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run119:command25903",
+        "description": "E2E 005; s005/e129/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=119; firstCommandOrder=25903; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "0f75eb58e1e6ce4aaceb4b94d6482702c0d5e118dc8a08f42799047e229abd82",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-536805fb1204d81c07"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-832bafda349ec8ccbe",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e130",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run122:command25904",
+        "description": "E2E 005; s005/e130/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=122; firstCommandOrder=25904; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "540e21b07d9dac43df32bc4118aae73a5a51a37f003fcb87018b906303d2675a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-6ca454323b132b390a"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-38a490af03d91f770e",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e130",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run122:command25904",
+        "description": "E2E 005; s005/e130/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=122; firstCommandOrder=25904; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "540e21b07d9dac43df32bc4118aae73a5a51a37f003fcb87018b906303d2675a",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b6f37352baec8600df"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-d71ccc169a1ba92bef",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e131",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run125:command25905",
+        "description": "E2E 005; s005/e131/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=125; firstCommandOrder=25905; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af3129d6d7b2712e272b400d67622edb1788d48e7a0ea4d064bc59dc191e354e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-0abd05d8822091c0b1"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8e81405bc363e98fcb",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e131",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run125:command25905",
+        "description": "E2E 005; s005/e131/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=125; firstCommandOrder=25905; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "af3129d6d7b2712e272b400d67622edb1788d48e7a0ea4d064bc59dc191e354e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-a1a1cc0a5efe75d6e2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c91469d611194361df",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e132",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run128:command25906",
+        "description": "E2E 005; s005/e132/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=128; firstCommandOrder=25906; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "fdea7d622d6a9089ee26cfc82b53f2cf96099d961cdb48bad1eae06eb1fd3452",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-8ff07a5d5aa172ebd0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e02bc2c4465b285e0d",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e132",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run128:command25906",
+        "description": "E2E 005; s005/e132/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=128; firstCommandOrder=25906; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "fdea7d622d6a9089ee26cfc82b53f2cf96099d961cdb48bad1eae06eb1fd3452",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-68b3442d95e2a11633"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7db883fd496ab71fcf",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e133",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run131:command25907",
+        "description": "E2E 005; s005/e133/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=131; firstCommandOrder=25907; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "2492db7c0571d8c43c69dfecb28d740f5894282cbf680c7349361fc6f68dcd24",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-335fbf8fb3e3b9d4f1"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ba711063eaa55d9a04",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e133",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run131:command25907",
+        "description": "E2E 005; s005/e133/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=131; firstCommandOrder=25907; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "2492db7c0571d8c43c69dfecb28d740f5894282cbf680c7349361fc6f68dcd24",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-69488d51ecc9e8205b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-18957f08b7479c15ff",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e134",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run134:command25908",
+        "description": "E2E 005; s005/e134/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=134; firstCommandOrder=25908; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ed47273260e0aeb77704dbfa43c66ec39214dc2627977972c86cfc5a44e5ea7e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-e3a1b0c628e4e0b4af"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ae7dfbbac39ce3c2ff",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e134",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run134:command25908",
+        "description": "E2E 005; s005/e134/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=134; firstCommandOrder=25908; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ed47273260e0aeb77704dbfa43c66ec39214dc2627977972c86cfc5a44e5ea7e",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-c5e7e6eb244c26a918"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-66db018c8c07327da4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e135",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run137:command25909",
+        "description": "E2E 005; s005/e135/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=137; firstCommandOrder=25909; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e037eeed9eca4dea6c645074df10b990b1a716a884b051c6e1c19955903321c4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-a95e4906188be2f635"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5195b0424bb9cb4bf7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e135",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run137:command25909",
+        "description": "E2E 005; s005/e135/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=137; firstCommandOrder=25909; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e037eeed9eca4dea6c645074df10b990b1a716a884b051c6e1c19955903321c4",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-ebef012e7bd7546039"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3b8cdfd3e2e95c1767",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e137",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run140:command25910",
+        "description": "E2E 005; s005/e137/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=140; firstCommandOrder=25910; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "4e27a4dc26e0e94746d6b230684e8bdad1dc02e8e974879d3e80939d2e7adc3f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-9ca1f6d53c6ac78770"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-551c9a96259f6fbd5b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e137",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run140:command25910",
+        "description": "E2E 005; s005/e137/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=140; firstCommandOrder=25910; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "4e27a4dc26e0e94746d6b230684e8bdad1dc02e8e974879d3e80939d2e7adc3f",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-80552bdd0cc1ea9d98"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b2a3d4e08ac2fd0eec",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e138",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run143:command25911",
+        "description": "E2E 005; s005/e138/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=143; firstCommandOrder=25911; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e60c7eba9d4872a5c06e2a461e5df7bb90a3f8d088939af930264528ea9e2c16",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-3f609f113a8c3d338f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-edd1f307cf55e12038",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s005",
+        "entityId": "e138",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-005-story-2026-11-03T15-11-09-507Z:v12:run143:command25911",
+        "description": "E2E 005; s005/e138/auto/default/initial; native build/e2e/reforge-005-story-2026-11-03T15-11-09-507Z/005-latest.trace.json; sceneVisit=12; sceneSession=s005:6; runId=143; firstCommandOrder=25911; path=[\"initial\",0]; resumeAtRunStart=null."
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "e60c7eba9d4872a5c06e2a461e5df7bb90a3f8d088939af930264528ea9e2c16",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "sha256": "92f9e4286ddcb91378bd1bcfa6a83f0b2fb660e2d0f3f2f91c62019559130560"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-b9fea16c2e8a98380c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e76a98654622740c50",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s010",
+        "entityId": "e191",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s010/e191/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s010/e191/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cdb1e592f23a164344eb185e976a067a94662ae753e06df380a21ececda29736",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1d0339e6624bfa6339"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-503b89b6f53159c264",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s010",
+        "entityId": "e191",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "static-body-review:s010/e191/trigger/legacy-001/initial",
+        "description": "001–006关联正文静态审查；s010/e191/trigger/legacy-001/initial; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "cdb1e592f23a164344eb185e976a067a94662ae753e06df380a21ececda29736",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-85b51ada303543a96e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-17baac9173ff050335",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s010",
+        "entityId": "e191",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "care-and-shop"
+      },
+      "context": {
+        "id": "static-body-review:s010/e191/trigger/legacy-001/care-and-shop",
+        "description": "001–006关联正文静态审查；s010/e191/trigger/legacy-001/care-and-shop; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "0896aef407fd2dc2ca6e6a1e4360511c74c008ccba6a44d152d24b157d18de9b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-347f8a7b75fefedad4"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7bdafc336f0da3051f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s010",
+        "entityId": "e191",
+        "channel": "trigger",
+        "schemeId": "legacy-001",
+        "stageId": "care-and-shop"
+      },
+      "context": {
+        "id": "static-body-review:s010/e191/trigger/legacy-001/care-and-shop",
+        "description": "001–006关联正文静态审查；s010/e191/trigger/legacy-001/care-and-shop; scope=directly-installed-successor-body-only; 已完整阅读该方案正文/相邻步骤或直接安装后继，不声明此步骤已实际执行、已有入口前态或已预览。后续实际调用须新建真实context，不改写此静态context。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "0896aef407fd2dc2ca6e6a1e4360511c74c008ccba6a44d152d24b157d18de9b",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s010.json",
+          "sha256": "b505cd441b738bdcbce2e2478da7ed4243e2a5632986aa336cd88eadd3153dbf"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-fd0a30edc8cb7140e8"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b3fb9605363227b96a",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s014/onEnter/default/initial:v16:r251:o96395",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=16; sceneSession=s014:8; runId=251; firstCommandOrder=96395; originalAuditRunStartedOrder=96394; UI File/Open/Play/Reset at 2026-10-27T01:17:15.455Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "a83d8537e256708ce40045aa0a7982adf8f039e6b196d693fc17caa5ef08c21c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-1e3c9cb541ec69e318"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-f31284e095c1af8fa7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s014",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "e2e006-20261027-reused:s014/onEnter/default/initial:v16:r251:o96395",
+        "description": "历史独立接受的006静态预览现场；native=recording/build/e2e/reforge-006-2026-10-26T15-40-08-433Z/006-trace.json; sceneVisit=16; sceneSession=s014:8; runId=251; firstCommandOrder=96395; originalAuditRunStartedOrder=96394; UI File/Open/Play/Reset at 2026-10-27T01:17:15.455Z; 不代表2026-11-04新run现场或新保存操作。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "a83d8537e256708ce40045aa0a7982adf8f039e6b196d693fc17caa5ef08c21c",
+      "dependencies": [
+        {
+          "path": "packages/content/src/grid.ts",
+          "sha256": "54ee8e84f7e64b551cef99b7efc877eaaec3a7d586a5020ffcfaeed90ef97da4"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-project-core.ts",
+          "sha256": "84d012f2f891bb2a5188c6e13def89460397abf4a8973fdbbf28b4a696adc2f5"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/actors.json",
+          "sha256": "70391b6323bc5e983519532dece143cb1a392726460a5593a9890b6c499999b0"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-applicability-13cb091390dbaa86d4"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-7448bc4d48cbe8f806",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r179:o16280",
+        "description": "E2E 008 实际 摘取雪莲子 / 摘得雪莲子，场景 s017:2，起点事件 16279，首条取证 16280。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "80237fd5e4c1b3917ad1be408170301ae7f4543bebdfdb902a46cc55a8a4a6ad",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-67e5a2f484350ad2851c"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-603e895ef17787d11b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r179:o16280",
+        "description": "E2E 008 实际 摘取雪莲子 / 摘得雪莲子，场景 s017:2，起点事件 16279，首条取证 16280。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "80237fd5e4c1b3917ad1be408170301ae7f4543bebdfdb902a46cc55a8a4a6ad",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-8b13be86f4fb4d41fbcf"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-43358d12f73b79f3e6",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r179:o16280",
+        "description": "E2E 008 实际 摘取雪莲子 / 摘得雪莲子，场景 s017:2，起点事件 16279，首条取证 16280。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "80237fd5e4c1b3917ad1be408170301ae7f4543bebdfdb902a46cc55a8a4a6ad",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-5cad68dce567e0435b4e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-21fd3ac9a3cbb4a5b7",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e237",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r101:o4860",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 4859，首条取证 4860。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5fb5596d1030393f7293583127476fe7a6ef1de8e1cf0e82a36827f4d512cbac",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-26bad8a302f1318e5f0f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-bb244fa0428a12c902",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e237",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r101:o4860",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 4859，首条取证 4860。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "5fb5596d1030393f7293583127476fe7a6ef1de8e1cf0e82a36827f4d512cbac",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-5558cb8234c04299c1c6"
+        }
+      ],
+      "preview": {
+        "stateId": "bc4159ba-7b26-485c-9932-41a8830ace66",
+        "selection": "default"
+      },
+      "previewFingerprint": "6cb660c838fca06964bab89bbfbe72338af41eda05f3e222b14e5bf33eae8a18",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-2ad2c6ba37f38fec56",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e237",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r101:o4860",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 4859，首条取证 4860。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "5fb5596d1030393f7293583127476fe7a6ef1de8e1cf0e82a36827f4d512cbac",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-a40838d7c05bbd171c5b"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-5c0d0f1fc24b51cc6f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e238",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r113:o6092",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 6091，首条取证 6092。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "eb5e3967236b4556e3a09b72e2a6fbccd736fbfc1c9f61b3c94020619f46e7b8",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-221947ded4e741a738b2"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-336dd70316fd8cc5a8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e238",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r113:o6092",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 6091，首条取证 6092。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "eb5e3967236b4556e3a09b72e2a6fbccd736fbfc1c9f61b3c94020619f46e7b8",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-24c34987e56837931c30"
+        }
+      ],
+      "preview": {
+        "stateId": "d0cf3e8a-80b6-4f76-b7a2-761f7ea64343",
+        "selection": "default"
+      },
+      "previewFingerprint": "8f20cb09ad3f1022f3d8f8f873febe64fd909ac331546ab6a09a9e4920db8f71",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-fc6ec3fba52d168b8b",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e238",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r113:o6092",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 6091，首条取证 6092。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "eb5e3967236b4556e3a09b72e2a6fbccd736fbfc1c9f61b3c94020619f46e7b8",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-a58b7c0ba561f8550720"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-86ab88fe39aa0178aa",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e239",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r86:o3512",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 3511，首条取证 3512。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9940cd87fa36ad85a1e6061c5d25615b910e918388ca8abcd372cc47d3ede0b5",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-2e78bb59ce3d7b33ee50"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-3ef9cda79ea4a7ff32",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e239",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r86:o3512",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 3511，首条取证 3512。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9940cd87fa36ad85a1e6061c5d25615b910e918388ca8abcd372cc47d3ede0b5",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-f8bff5fdc26634d8d8ff"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-9057a0db59b5cf06fa",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e239",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r86:o3512",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 3511，首条取证 3512。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "9940cd87fa36ad85a1e6061c5d25615b910e918388ca8abcd372cc47d3ede0b5",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-e2af15cc01e61724a2e9"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-79f59e150de3430bee",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e240",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r140:o8661",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 8660，首条取证 8661。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "bc252d3b04aaceec0a284e6e1d8426873c1725c25c57bd529c67d8c775447fe1",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-db4bbbb31dc5e6a59b90"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-8a412325d7fb7e27d2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e240",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r140:o8661",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 8660，首条取证 8661。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "bc252d3b04aaceec0a284e6e1d8426873c1725c25c57bd529c67d8c775447fe1",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-5f89d8834b00e7dc6477"
+        }
+      ],
+      "preview": {
+        "stateId": "a1496688-0079-4af9-9cee-6cbcb9ac46d1",
+        "selection": "default"
+      },
+      "previewFingerprint": "3a3960c228c89db517692d529e66ac6f9fcf7679278d23a5e54da12703b29651",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-ceab5b130126078919",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e240",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r140:o8661",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 8660，首条取证 8661。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "bc252d3b04aaceec0a284e6e1d8426873c1725c25c57bd529c67d8c775447fe1",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-f803964373172414991d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-73593533c9126f3c37",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e241",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r161:o10841",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 10840，首条取证 10841。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cbfc08bfe026f493fbf9892b4647b15cd5a195ccb21cff6782d559f779c1015c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-ad3cb7043332db4a866f"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/render-receipt.json; Reforge 第六座阿修罗破碎后的双行字幕"
+        }
+      ],
+      "note": "正式同引擎重跑复验末像调用与两行黄字。当前步骤和静态初态适用，末锤对白属于物品 279 私有脚本。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-97fe8b726eecac871f",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e241",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r161:o10841",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 10840，首条取证 10841。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cbfc08bfe026f493fbf9892b4647b15cd5a195ccb21cff6782d559f779c1015c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-214c6fc1494b0f757e4f"
+        }
+      ],
+      "preview": {
+        "stateId": "ab738e1b-062c-4178-bb6c-1d7e5da4d1b6",
+        "selection": "default"
+      },
+      "previewFingerprint": "567b8c0cb25f625387d34bd6fd3a542b70374b5efcb710f47be0b9afda1fed99",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-1dc842bd0b325ed7ea",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e241",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r161:o10841",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 10840，首条取证 10841。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "cbfc08bfe026f493fbf9892b4647b15cd5a195ccb21cff6782d559f779c1015c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-c14c8e804aa587a4155e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-0abaee05174f270711",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e242",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r131:o7779",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 7778，首条取证 7779。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ebc88319a3400a3e65828c34ba7e1bd1992a2414bc7bf4c0ed5c89863fc22275",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-cb2c27161f84b10dd6f0"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-eebfcd04afebdab9da",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e242",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r131:o7779",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 7778，首条取证 7779。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "ebc88319a3400a3e65828c34ba7e1bd1992a2414bc7bf4c0ed5c89863fc22275",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-c9cbe684a15b4a955cc1"
+        }
+      ],
+      "preview": {
+        "stateId": "aa4bca06-1cdd-483f-8d9b-24e58324d805",
+        "selection": "default"
+      },
+      "previewFingerprint": "6c3e7224bd776a2e1ea56280faef4bd6038326d9ef290c98b1463660700042e3",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b48ff6c88967ec0c88",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e242",
+        "channel": "trigger",
+        "schemeId": "break-with-hammer",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r131:o7779",
+        "description": "E2E 008 实际 用破天锤敲碎石像 / 石像碎裂，场景 s017:2，起点事件 7778，首条取证 7779。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "ebc88319a3400a3e65828c34ba7e1bd1992a2414bc7bf4c0ed5c89863fc22275",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-303a8de24fbe3d26d6d9"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-a8eada372c1d4861bd",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r74:o2746",
+        "description": "E2E 008 实际 开启宝箱领取五张灵符 / 领取五张灵符，场景 s017:2，起点事件 2745，首条取证 2746。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e65f0bf2118a40429f131c25c60fc0b74c333be9711aadb086a6ff4ac70a2b00",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-642014c24b8f5e4e509e"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-b0db7c9478d4e6e7e4",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r74:o2746",
+        "description": "E2E 008 实际 开启宝箱领取五张灵符 / 领取五张灵符，场景 s017:2，起点事件 2745，首条取证 2746。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e65f0bf2118a40429f131c25c60fc0b74c333be9711aadb086a6ff4ac70a2b00",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-a1710865a0f00168b7c8"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-653e111fdeb4838fee",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v4:r74:o2746",
+        "description": "E2E 008 实际 开启宝箱领取五张灵符 / 领取五张灵符，场景 s017:2，起点事件 2745，首条取证 2746。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "planned",
+      "sourceFingerprint": "e65f0bf2118a40429f131c25c60fc0b74c333be9711aadb086a6ff4ac70a2b00",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-006.json",
+          "sha256": "3a0c6280058fdb0ed3bbdc0ec66ea90d810ead81c3a28b92cafae30a87a85f7a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "14e9e09d79f68c246dc8de8a9a571ec4ddddff442a29734b7e5d9eeaeb05a841"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-1259d7ad501dcd33664f"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。",
+      "reviewer": "Codex /root/ui_final_doc_review"
+    },
+    {
+      "id": "e2e008-yellow-applicability-721e46c4e3f67f2dc8",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "5515f199f5a041b7565cc06b980182ab1118c6b52c36d4496251a7244ea1dd5b"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-f2b40b9ae8fcceacc7e6"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-e03f3f51105e5bc2c3",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "5515f199f5a041b7565cc06b980182ab1118c6b52c36d4496251a7244ea1dd5b"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-9fe68777d88787b25a8e"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
+    },
+    {
+      "id": "e2e008-yellow-applicability-c0931b801bc5bf0fe2",
+      "at": "2026-11-06T00:55:45.072Z",
+      "actor": "Codex /root",
+      "reviewer": "Codex /root/ui_final_doc_review",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "f5b9317e5aadbdd4b6fcbd99512418bb0b9cdb464b24e4b8041fb15916bd3120"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "5515f199f5a041b7565cc06b980182ab1118c6b52c36d4496251a7244ea1dd5b"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz",
+          "sha256": "8a7800eede4c3ddcc146c8146384d8dca9721b04007952730f24bc773f80854b",
+          "selector": "member=build/e2e-008/yellow-review/ledger-applicability.json; 旧事件=e2e008-3b4d431dfe0b48515a5d"
+        }
+      ],
+      "note": "沿用本调用与原结论。两处已变化的对白键只由 008 末锤物品私有脚本消费，原正文、可保存静态字段和本步骤选择按原回执适用。"
     }
   ]
 }

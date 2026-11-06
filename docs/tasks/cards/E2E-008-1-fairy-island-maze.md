@@ -1,6 +1,6 @@
 # E2E-008-1 — 仙灵岛迷宫与桃花林入口
 
-Status: review
+Status: rework
 Owner: Codex
 Last reviewed: 2026-11-06
 Template: task-card-v1 / 1.0.0
@@ -69,9 +69,30 @@ Reforge 补齐六像各自的触发正文，将最后一次判定放在破天锤
 
 初轮 Game 的可控记录晚于 F5 已修正。Reforge 旧基线用锤的失败、首轮录像时限和 JSON 可选键误判分别留证。录像采样调整后，两端同候选完整复跑通过。Reforge 最终浏览器原件保留 404 与 Canvas2D 读取提示，运行错误列表为空。工程内容、受影响测试工具、静态检查与持久证据分别记录。[复验原件](../evidence/E2E-008-1-fairy-island-maze-20261106.tar.gz)
 
+## 末锤对白颜色返工
+
+用户于 2026-11-06 对首次分屏指出末锤对白。Game 画出两行黄字，Reforge 画出白字及可见双引号。原版 `L_5024` 的 1849 开启黄色，第二行 1850 继承颜色再关闭。首次手补文案时保留了原始控制符。Reforge 中央字幕以每一行的闭合富文本标记解析颜色。修前的 PAL 对话表中，只有这两个值含 ASCII 双引号。
+
+build allowed。基点 `2bf5cfaa6`。Coding Owner `/root/reforge_007_probe` 在独立树修正 `dlg.1849`、`dlg.1850` 的作者文案标记。Codex 核真实坏帧、当前合法前驱、两端画面、正式终档与台账适用性。首次录像与用户指出的反例保留原身份。
+
+修复将这两行分别写成闭合的 `<yellow>…</yellow>`，保留行序与原文。用同一中心字幕的排版入口，修前实际输出白字与引号，修后每行各一个黄字片段。生产加载器复算 294 份场景的存档续跑材料，摘要保持 `705b9b05001890ad60843d3d43e38767c9e02e19836a300b20953cabfe3d5619`。修前两份正式 007 仍是各自合法输入。
+
+修复候选 `d848b2018716529b019ebed9f0edecb0b154e213` 的 Game 与 Reforge 均全程实跑并正式存读。Reforge 原生绘制记录显示两个原文行均完整出现，正常确认后才继续。两端实录的完整帧均显示两行黄色字形，去除了可见的引号。修前帧、两端修后帧、真实绘制与读档、色值检查及前驱适用性都可在原件中复验。[黄字返工原件](../evidence/E2E-008-1-hammer-dialogue-yellow-20261106.tar.gz)
+
+逐步骤台账保留原 1,266 条事件，续记 287 条 locale 依赖的适用性。两条改动文案仅由破天锤的末锤私有脚本使用。相关脚本结论与编辑器静态前态按原回执及本次差异复核适用，末锤颜色另有实际绘制原件。[逐步骤台账](../../testing/e2e/cross-stage/script-progress.md)
+
 ## 状态与交接
 
-技术验收通过，待用户观看分屏。左 Game，右 Reforge，按实际迷宫起点对齐，原速播放，各端先到时停在桃花林。视频裁到各自完整游戏画布，去除浏览器留白。本地视频为 `build/e2e-008/review/008-game-reforge-fairy-island-maze.mp4`，录像身份与合成校验见原件包内 `build/e2e-008/review/review-media.json`。
+修后技术复验通过，保持 `rework`，待用户复看末锤对白。修后短分屏 `build/e2e-008/yellow-review/008-hammer-yellow-dialogue.mp4` 取两端真实末锤画面，各端完整字幕帧停留约 2 秒。完整分屏在同目录 `008-game-reforge-fairy-island-maze.mp4`，左 Game，右 Reforge。
+
+| 引擎 | 修后正式 008 报告所在目录（归档成员） | `008.end.save.json` SHA256 |
+|---|---|---|
+| Game | `build/e2e/game-008-visual-review-2026-11-06T00-48-09-910Z/` | `9279b4f2a65d56609c43b789adc2f66bffdc2805d6911eefcc75a25b4723ffa9` |
+| Reforge | `build/e2e/reforge-008-2026-11-06T00-48-09-797Z/` | `79b52949038df0173a5e5641c80e9433de75b018a1de4944d295aec18b609b46` |
+
+### 首轮技术记录
+
+首轮技术验收通过，用户从该分屏指出上述颜色问题。左 Game，右 Reforge，按实际迷宫起点对齐，原速播放，各端先到时停在桃花林。视频裁到各自完整游戏画布，去除浏览器留白。本地视频为 `build/e2e-008/review/008-game-reforge-fairy-island-maze.mp4`，录像身份与合成校验见原件包内 `build/e2e-008/review/review-media.json`。
 
 Game 使用已验收的正式 007。Reforge canonical 改动会改变存档续跑摘要，因此从实际新游戏正常重建 001→007，004 和 005 使用 saves 路线，旧档按原身份保留。新 Reforge 007 终档为 `ff29bc2bcd6472c5bbd4d40de15ee2b8489c5bb4a648b203700b3180cb85b390`，实际链和读档报告在同一原件包内。
 
