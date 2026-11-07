@@ -124,6 +124,9 @@ content23 已接入四类意图。运行时、按需场景加载、编辑器预�
 - 2026-11-07 合并后清理原 70 个本地分支中的 67 个、4 个远程分支；46 棵工作树在原 HEAD 分离，逐树核未提交 patch 与未跟踪文件身份不变。其余 3 个原分支为用户主工作区的 main、其它治理任务的 `codex/code-quality-94-102` 和 `codex/slimming-local-resource-followup`，未认定退役。当前收尾分支只用于提交本次实际回执，合并后删除。
 - 2026-11-07 主线包含 16 个退役分支的原 HEAD，按固定 SHA 可恢复；其余 51 个非祖先候选由 112,401 字节的最小 Git bundle 保全，已实际 verify/unbundle，SHA256 `e69be4d3f560dd3ee7b4661d631d7fa290a0b1828996d48724af8ed94c62c9b0`。逐怪遇敌距离和旧诊断原型不重新授产品接受，model 草稿有最小 delta 恢复证明。没有删除 source、未提交文件或 ignored 原件，也没有回收工作树目录；本轮 Git 元数据实际新增 0 文件、删除 89 文件、改变 95 文件，净减少 73,301 字节。完整分类、原 SHA、实际命令与恢复入口见下方 cleanup 包。
 - 2026-11-07 清理后核本地只余 3 个保留分支与临时收尾分支，远程只余 main 与代码治理分支；三份分屏视频原绝对路径及 SHA 不变，6010/6016 均返回 HTTP 200。原生 build 的未分类旧尝试、editor 的独有诊断图及 dirty 工作树仍保留，不冒称已回收磁盘或已完成全部资源退役。
+- 2026-11-07 用户进一步要求“有用就提交没用就删了”，不继续把旧草稿当未提交进度保留。核 6 棵工作树的 101 项：82 处旧 tracked 修改已按精确清单还原；3 份重复 helper/路线、1 份过时瘦身草案和 1 份与 Win 原件完全相同的 DOS 词条副本已删除。没有独有的有用作者内容需要漏补提交，已接受语义由当前主线承接；不是将旧提案重新发布。主工作区从 `02a67c5aa639d43813511a552d44a1c4e5a99b78` 快进到 `d3be9f73d255a7bb329e06c9ecbae3d3af6b4c6b`，旧 CLAUDE 及旧目录状态随主线同步退出。
+- 2026-11-07 13 份英文补丁原件归现有本地原始输入边界，其中 5 份是提取器/既有脚本审计的一手输入，另 8 份是已识别的原包变体；不上传二进制。195 字节 committed 保存状态是与浏览器 receipt 配对的有效本地事务状态，保留其生命周期而不提交随机 operationId，也不直接 unlink。提交缺失的精确 `.gitignore` 规则及英文输入/工程生命周期说明；保留已跟踪的开发 sentinel 和所有作者正文。旧检出的本地 exclude 仅镜像相同四条规则，不排除代码或掩盖诊断。
+- 2026-11-07 旧 WIP 还原净减少 146,045 字节，5 个删除文件共 57,705 字节，本次废稿处置净减少 203,750 字节；主工作区快进与新增说明/证据分别计，不将源同步伪装成瘦身。已核其余 53 棵工作树清洁，本树只余本次要提交的规则/说明；提交后再核全部 54 棵。独立 Git 目录的 9 类真实路径检查、移除新规则后的 4 项反控及恢复后的 9 项均通过，原始输入/保存状态字节不变。
 
 ## 证据恢复与复跑
 
@@ -134,6 +137,7 @@ content23 已接入四类意图。运行时、按需场景加载、编辑器预�
 | [N6B-ITEM-FLOWS-1-20261107-media.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-media.tar.gz) | `b7e3ab4d3d16335bfb676e03976ae9db2116b54c510f8ddfb28235105c41296c` | 43,650,088 | 16 |
 | [N6B-ITEM-FLOWS-1-20261107-quality.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-quality.tar.gz) | `e7244ec945796f1239cdf7dfeaac5b5b19ecd00fca17f2b582dee2906fa76ae3` | 6,818,387 | 293 |
 | [N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz) | `d47afdb7517d4db6435df4f3f29ab5243c94b9d6607ccc62dd54cf8f121e024d` | 196,310 | 11 |
+| [N6B-ITEM-FLOWS-1-20261107-uncommitted.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-uncommitted.tar.gz) | `1aff285f2a86c366c0a1c2b9c3b1f09e96bde725f400de1d5e6e016c03d2cbd8` | 35,931 | 7 |
 
 prefix 包含 001–007、房间和领取后守卫、必要失败、执行链与来源复验；stories 包含正式 008–010 两轨的报告、原始 trace、原生存档、WebM 和离线比较；media 包含最终可暂停分屏及抽帧和合成身份。各包内 `build/item-flows/*-index.json` 可逐件重算 SHA。quality 包保全代码/测试逐文件审阅、必要失败、实际命令、真实反控、UI/OPFS 及当前集成离线复核；`build/item-flows/quality-index.json` 逐件给原路径/长度/SHA。补例的原 Git 候选以最小 `test-candidates.bundle` 保留，复核/恢复命令在 `test-candidates.json`；代码原件不复制整棵临时树。
 
@@ -145,7 +149,9 @@ git bundle verify build/item-flows/retired-branch-candidates.bundle
 git bundle unbundle build/item-flows/retired-branch-candidates.bundle
 ```
 
-unbundle 恢复 Git 对象并列出原 HEAD，不批量重建退役分支。按清单中的固定 SHA 用 `git show` 读取原候选；未提交原型由审阅原件中的 patch/delta 恢复，当前原目录仍完整保留。
+unbundle 恢复 Git 对象并列出原 HEAD，不批量重建退役分支。按清单中的固定 SHA 用 `git show` 读取原候选；原型可从审阅原件中的 patch/delta 恢复，原生证据目录仍保留，废弃 WIP 按下段后续收口退出。
+
+后续未提交收口由 uncommitted 包记录：101 项的具体处置与主线承接来源、82 项实际还原、5 项删除、13 份原始输入及 1 份本地事务状态的保全身份，以及隔离 Git 检查/反控。包内 `uncommitted-index.json` 核 6 个成员；新包只留必要处置证据，不重复存放整份废稿或原始补丁。已明确退役的未接收草稿不承诺逐字节恢复；有效正文与必要执行原件仍由固定 Git、已有归档和实际消费者保全。
 
 正式报告保留了原生执行目录的绝对前驱路径。恢复后复跑时，将 prefix/stories 的 `build/` 内容放回 `/Users/zhangxu/.codex/worktrees/item-flow-e2e/type-pal`，已有原件先按包内 index 核 SHA，不覆盖不同字节；Game 007 的四个原件也按下段入口恢复到同一目录。media 和质量包可在当前仓库展开。跨机器复跑需要同路径的目录或挂载映射；不改写报告中的前驱身份。
 

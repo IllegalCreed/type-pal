@@ -16,6 +16,14 @@ data/raw/*
 # OFL 字体 build asset,可入库
 !data/raw/unifont-cn.bdf
 
+# 用户提供的英文原始补丁及审计输入，同样只留本地；说明文档继续跟踪。
+data/en/*
+!data/en/README.md
+
+# 本机作者保存事务；开发身份 sentinel 与作者正文继续跟踪。
+/projects/*/.type-pal/save-state.json
+/projects/*/.type-pal/save-recovery/
+
 # pal-extract 的产出(由原始数据生成,不入库)
 data/extracted/
 
