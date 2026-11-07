@@ -145,6 +145,7 @@ export function runtimeCommandValidationOptions(
   return {
     ...options,
     commandKinds: RUNTIME_COMMAND_KINDS,
+    checkExtensionFlow: undefined,
     dialectLabel: 'current',
     checkExtensionCommand(command, path) {
       if (command.kind === 'vanishEntity')

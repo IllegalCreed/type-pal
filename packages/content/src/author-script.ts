@@ -2,10 +2,20 @@ import type { ActorDef } from './actor.js'
 import {
   type AuthorDialogueCue,
   checkAuthorDialogueCue,
+  dialogueCuesAtNode,
   resolveAuthorDialogueCue,
   resolveDialogueIdentity,
 } from './author-dialogue.js'
-import type { CommandValidationOptions, EntityAddress } from './author-script-core.js'
+import {
+  type CommandValidationOptions,
+  checkBaseAuthorCommands,
+  checkBaseEntityBehaviors,
+  checkBaseEntityPages,
+  checkBaseSceneHooks,
+  checkBaseScriptFlow,
+  checkBaseScriptLibrary,
+  type EntityAddress,
+} from './author-script-core.js'
 import type { DialogueCue } from './index.js'
 import {
   type AcquisitionItems,
@@ -18,43 +28,46 @@ import {
 } from './item-acquisition.js'
 import type {
   RuntimeCommand,
-  RuntimeEntityBehaviors,
+  RuntimeEntityBehavior,
   RuntimeEntityPage,
-  RuntimeSceneHooks,
+  RuntimeSceneHook,
   RuntimeScriptFlow,
   RuntimeScriptLibrary,
 } from './runtime-script.js'
-import {
-  checkRuntimeCommands,
-  checkRuntimeEntityBehaviors,
-  checkRuntimeEntityPages,
-  checkRuntimeSceneHooks,
-  checkRuntimeScriptFlow,
-  checkRuntimeScriptLibrary,
-  runtimeCommandValidationOptions,
-} from './runtime-script.js'
+import { runtimeCommandValidationOptions } from './runtime-script.js'
 
 /** 作者意图保留类型化参数；仅在运行态投影边界展开，不回写作者正文。 */
 export type RewriteAuthorDialogueTree<T> = T extends RuntimeScriptFlow
   ? AuthorScriptFlow
   : T extends { kind: 'dialog'; cue: DialogueCue }
     ? Omit<T, 'cue'> & { cue: AuthorDialogueCue }
-    : T extends readonly RuntimeCommand[]
-      ? AuthorCommand[]
-      : T extends readonly (infer Item)[]
-        ? RewriteAuthorDialogueTree<Item>[]
-        : T extends object
-          ? { [Key in keyof T]: RewriteAuthorDialogueTree<T[Key]> }
-          : T
+    : T extends readonly (infer Item)[]
+      ? RuntimeCommand extends Item
+        ? AuthorCommand[]
+        : RewriteAuthorDialogueTree<Item>[]
+      : T extends object
+        ? { [Key in keyof T]: RewriteAuthorDialogueTree<T[Key]> }
+        : T
 
 export type AuthorCommand = RewriteAuthorDialogueTree<RuntimeCommand> | AuthorGrantRewardCommand
 export interface AuthorStagesFlow extends Omit<RuntimeScriptFlow, 'stages'> {
   stages: RewriteAuthorDialogueTree<RuntimeScriptFlow['stages'][number]>[]
 }
 export type AuthorScriptFlow = AuthorStagesFlow | AuthorAcquisitionFlow
-export type AuthorEntityBehaviors = RewriteAuthorDialogueTree<RuntimeEntityBehaviors>
+export interface AuthorEntityBehaviors {
+  trigger?: Record<string, Omit<RuntimeEntityBehavior, 'flow'> & { flow: AuthorScriptFlow }>
+  auto?: Record<string, Omit<RuntimeEntityBehavior, 'flow'> & { flow: AuthorStagesFlow }>
+}
 export type AuthorEntityPage = RewriteAuthorDialogueTree<RuntimeEntityPage>
-export type AuthorSceneHooks = RewriteAuthorDialogueTree<RuntimeSceneHooks>
+export type AuthorSceneHooks = Partial<
+  Record<
+    'onEnter' | 'onTeleport',
+    {
+      initial?: string
+      variants: Record<string, Omit<RuntimeSceneHook, 'flow'> & { flow: AuthorStagesFlow }>
+    }
+  >
+>
 export type AuthorScriptLibrary = RewriteAuthorDialogueTree<RuntimeScriptLibrary>
 
 type ResolveArrayEntry<T> = T extends AuthorGrantRewardCommand
@@ -83,14 +96,27 @@ export interface AuthorScriptResolutionContext {
   self?: EntityAddress
 }
 
-/** 唯一运行时投影：展开内置意图，再把作者 identity 投成显示 cue。 */
-export function resolveAuthorDialogueTree<T>(
-  input: T,
-  actorsById: Readonly<Record<string, ActorDef>>,
-  rootPath = 'content',
-  context: AuthorScriptResolutionContext = {},
-): ResolveAuthorDialogueTree<T> {
-  const visit = (value: unknown, path: string, self = context.self): unknown => {
+type ExpandedArrayEntry<T> = T extends AuthorGrantRewardCommand
+  ? AuthorCommand
+  : ExpandedAuthorScriptTree<T>
+
+export type ExpandedAuthorScriptTree<T> = T extends AuthorAcquisitionFlow
+  ? AuthorStagesFlow
+  : T extends AuthorGrantRewardCommand
+    ? AuthorCommand[]
+    : T extends readonly (infer Item)[]
+      ? ExpandedArrayEntry<Item>[]
+      : T extends object
+        ? { [Key in keyof T]: ExpandedAuthorScriptTree<T[Key]> }
+        : T
+
+function transformAuthorScriptTree(
+  input: unknown,
+  rootPath: string,
+  context: AuthorScriptResolutionContext,
+  resolveCue?: (cue: AuthorDialogueCue, path: string) => DialogueCue,
+): unknown {
+  const visit = (value: unknown, path: string, self: EntityAddress | undefined): unknown => {
     if (Array.isArray(value))
       return value.flatMap((entry, index) => {
         const resolved = visit(entry, `${path}[${index}]`, self)
@@ -130,21 +156,42 @@ export function resolveAuthorDialogueTree<T>(
         ]),
       )
     }
-    if (value.kind === 'dialog') {
+    if (value.kind === 'dialog' && resolveCue) {
       if (!('cue' in value)) throw new Error(`${path}.cue: dialog 缺 cue`)
       const next = Object.fromEntries(
         Object.entries(value)
           .filter(([key]) => key !== 'cue')
           .map(([key, child]) => [key, visit(child, `${path}.${key}`, self)]),
       )
-      next.cue = resolveAuthorDialogueCue(value.cue as AuthorDialogueCue, actorsById, `${path}.cue`)
+      next.cue = resolveCue(value.cue as AuthorDialogueCue, `${path}.cue`)
       return next
     }
     return Object.fromEntries(
       Object.entries(value).map(([key, child]) => [key, visit(child, `${path}.${key}`, self)]),
     )
   }
-  return visit(input, rootPath) as ResolveAuthorDialogueTree<T>
+  return visit(input, rootPath, context.self)
+}
+
+/** Expand only authored recipe intent, preserving dialogue identities for source and trace tools. */
+export function expandAuthorScriptTree<T>(
+  input: T,
+  rootPath = 'content',
+  context: AuthorScriptResolutionContext = {},
+): ExpandedAuthorScriptTree<T> {
+  return transformAuthorScriptTree(input, rootPath, context) as ExpandedAuthorScriptTree<T>
+}
+
+/** 唯一运行时投影：展开内置意图，再把作者 identity 投成显示 cue。 */
+export function resolveAuthorDialogueTree<T>(
+  input: T,
+  actorsById: Readonly<Record<string, ActorDef>>,
+  rootPath = 'content',
+  context: AuthorScriptResolutionContext = {},
+): ResolveAuthorDialogueTree<T> {
+  return transformAuthorScriptTree(input, rootPath, context, (cue, path) =>
+    resolveAuthorDialogueCue(cue, actorsById, path),
+  ) as ResolveAuthorDialogueTree<T>
 }
 
 /** 全树 Actor/expression fail-closed；不靠 AssetId 或显示文本猜人物。 */
@@ -161,9 +208,10 @@ export function assertAuthorDialogueReferences(
       return
     }
     if (!isRecord(value)) return
-    if (value.kind === 'dialog') {
-      checkAuthorDialogueCue(value.cue, `${path}.cue`)
-      resolveDialogueIdentity(value.cue.identity, actorsById, `${path}.cue.identity`)
+    for (const site of dialogueCuesAtNode(value)) {
+      const cuePath = `${path}.${site.path.join('.')}`
+      checkAuthorDialogueCue(site.cue, cuePath)
+      resolveDialogueIdentity(site.cue.identity, actorsById, `${cuePath}.identity`)
     }
     for (const [key, child] of Object.entries(value)) visit(child, `${path}.${key}`)
   }
@@ -174,10 +222,29 @@ export function assertAuthorDialogueReferences(
 export function authorCommandValidationOptions(
   options: CommandValidationOptions = {},
 ): CommandValidationOptions {
-  return runtimeCommandValidationOptions({
+  const runtime = runtimeCommandValidationOptions({
     ...options,
     checkDialogueCue: checkAuthorDialogueCue,
   })
+  return {
+    ...runtime,
+    commandKinds: { ...runtime.commandKinds, grantReward: true },
+    checkExtensionCommand(command, path, validation) {
+      if (command.kind !== 'grantReward')
+        return runtime.checkExtensionCommand?.(command, path, validation) ?? false
+      checkGrantRewardCommand(command, path)
+      if (validation.rootScope === 'prepare' && command.notice.kind !== 'silent')
+        throw new Error(`${path}: 入场准备只允许静默发放奖励`)
+      return true
+    },
+    checkExtensionFlow(flow, path, owner) {
+      if (flow.kind !== 'acquisition') return false
+      if (owner !== undefined && owner !== 'trigger')
+        throw new Error(`${path}: 取物流程只能属于实体交互方案`)
+      checkAcquisitionFlow(flow, path)
+      return true
+    },
+  }
 }
 
 export function checkAuthorCommands(
@@ -185,7 +252,7 @@ export function checkAuthorCommands(
   path: string,
   options: CommandValidationOptions = {},
 ): asserts value is AuthorCommand[] {
-  checkRuntimeCommands(value, path, authorCommandValidationOptions(options))
+  checkBaseAuthorCommands(value, path, authorCommandValidationOptions(options))
 }
 
 export function checkAuthorScriptFlow(
@@ -193,14 +260,14 @@ export function checkAuthorScriptFlow(
   path: string,
   options: { allowSceneEntry?: boolean; forbidLoadScene?: boolean } = {},
 ): asserts value is AuthorScriptFlow {
-  checkRuntimeScriptFlow(value, path, authorCommandValidationOptions(options))
+  checkBaseScriptFlow(value, path, authorCommandValidationOptions(options))
 }
 
 export function checkAuthorEntityBehaviors(
   value: unknown,
   path: string,
 ): asserts value is AuthorEntityBehaviors {
-  checkRuntimeEntityBehaviors(value, path, authorCommandValidationOptions())
+  checkBaseEntityBehaviors(value, path, authorCommandValidationOptions())
 }
 
 export function checkAuthorEntityPages(
@@ -209,19 +276,19 @@ export function checkAuthorEntityPages(
   initialPage: unknown,
   path: string,
 ): asserts pages is AuthorEntityPage[] {
-  checkRuntimeEntityPages(pages, behaviors, initialPage, path, authorCommandValidationOptions())
+  checkBaseEntityPages(pages, behaviors, initialPage, path, authorCommandValidationOptions())
 }
 
 export function checkAuthorSceneHooks(
   value: unknown,
   path: string,
 ): asserts value is AuthorSceneHooks {
-  checkRuntimeSceneHooks(value, path, authorCommandValidationOptions())
+  checkBaseSceneHooks(value, path, authorCommandValidationOptions())
 }
 
 export function checkAuthorScriptLibrary(
   value: unknown,
   path = 'content/shared-scripts.json',
 ): asserts value is AuthorScriptLibrary {
-  checkRuntimeScriptLibrary(value, path, authorCommandValidationOptions())
+  checkBaseScriptLibrary(value, path, authorCommandValidationOptions())
 }

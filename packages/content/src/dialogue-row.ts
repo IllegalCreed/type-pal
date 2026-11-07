@@ -1,11 +1,15 @@
-import type { DialogueRow } from './index.js'
+import type { DialogueRow, TextId } from './index.js'
 import { type Locale, lookupText } from './locale.js'
 
 /** Standard rewards are typed rows; neither their text nor their count is parsed from prose. */
-export function resolveDialogueRowText(row: DialogueRow, locale: Locale): string {
-  if ('text' in row) return lookupText(row.text, locale)
+export function resolveDialogueRowText(
+  row: DialogueRow,
+  locale: Locale | ((id: TextId) => string),
+): string {
+  const resolve = typeof locale === 'function' ? locale : (id: TextId) => lookupText(id, locale)
+  if ('text' in row) return resolve(row.text)
   return row.reward.kind === 'item'
-    ? `获得${lookupText(row.reward.itemName, locale)} × ${row.reward.count}`
+    ? `获得${resolve(row.reward.itemName)} × ${row.reward.count}`
     : `获得${row.reward.amount}文钱`
 }
 
@@ -13,6 +17,8 @@ export function checkDialogueRow(value: unknown, path: string): asserts value is
   if (!value || typeof value !== 'object' || Array.isArray(value))
     throw new Error(`${path}: 期望对象`)
   const row = value as Record<string, unknown>
+  if (!Object.hasOwn(row, 'text') && !Object.hasOwn(row, 'reward'))
+    throw new Error(`${path}: 缺 text 或 reward`)
   const allowed = Object.hasOwn(row, 'text') ? ['text', 'speed'] : ['reward', 'speed']
   for (const key of Object.keys(row))
     if (!allowed.includes(key)) throw new Error(`${path}.${key}: 未知字段`)

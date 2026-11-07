@@ -1,4 +1,5 @@
 import type { ActorDef } from './actor.js'
+import { dialogueCuesAtNode } from './author-dialogue.js'
 import type { AuthorSceneDef } from './author-scene.js'
 import type { BattleSpriteDef } from './battle-sprite.js'
 import type { EntryPoint, WorldState } from './character.js'
@@ -397,29 +398,38 @@ export function commandAssetTaggedReferencesAtNode(
   if (record.kind === 'startBattle') push(record.music, 'music', '.music')
   if (record.kind === 'playVideo') push(record.asset, 'video', '.asset')
   if (record.kind === 'playFrameAnimation') push(record.asset, 'frame-animation', '.asset')
-  if (record.kind === 'dialog') {
-    const cue = record.cue
-    if (cue && typeof cue === 'object' && !Array.isArray(cue)) {
-      const cueRecord = cue as Record<string, unknown>
-      const portrait = cueRecord.portrait
-      if (portrait && typeof portrait === 'object' && !Array.isArray(portrait))
-        push((portrait as Record<string, unknown>).asset, 'portrait', '.cue.portrait.asset')
-      const identity = cueRecord.identity
-      if (identity && typeof identity === 'object' && !Array.isArray(identity)) {
-        const identityRecord = identity as Record<string, unknown>
-        const directPortrait = identityRecord.portrait
-        if (
-          identityRecord.kind === 'unbound' &&
-          directPortrait &&
-          typeof directPortrait === 'object' &&
-          !Array.isArray(directPortrait)
+  if (record.kind === 'acquisition') {
+    if (record.recipe === 'builtin/item/pickup' || record.recipe === 'builtin/item/search')
+      push(record.sound, 'sound', '.sound')
+    if (
+      record.recipe === 'builtin/item/chest' &&
+      record.opening &&
+      typeof record.opening === 'object' &&
+      !Array.isArray(record.opening)
+    )
+      push((record.opening as Record<string, unknown>).sound, 'sound', '.opening.sound')
+  }
+  for (const site of dialogueCuesAtNode(record)) {
+    const cueRecord = site.cue
+    const cuePath = `.${site.path.join('.')}`
+    const portrait = cueRecord.portrait
+    if (portrait && typeof portrait === 'object' && !Array.isArray(portrait))
+      push((portrait as Record<string, unknown>).asset, 'portrait', `${cuePath}.portrait.asset`)
+    const identity = cueRecord.identity
+    if (identity && typeof identity === 'object' && !Array.isArray(identity)) {
+      const identityRecord = identity as Record<string, unknown>
+      const directPortrait = identityRecord.portrait
+      if (
+        identityRecord.kind === 'unbound' &&
+        directPortrait &&
+        typeof directPortrait === 'object' &&
+        !Array.isArray(directPortrait)
+      )
+        push(
+          (directPortrait as Record<string, unknown>).asset,
+          'portrait',
+          `${cuePath}.identity.portrait.asset`,
         )
-          push(
-            (directPortrait as Record<string, unknown>).asset,
-            'portrait',
-            '.cue.identity.portrait.asset',
-          )
-      }
     }
   }
   if (record.kind === 'setActorAppearance') push(record.portrait, 'portrait', '.portrait')
