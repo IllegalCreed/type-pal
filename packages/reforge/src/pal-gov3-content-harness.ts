@@ -5,10 +5,12 @@ import {
   type RuntimeSceneDef,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
   type WorldState,
 } from '@type-pal/content'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
 import { ScriptProjectRuntime } from './runtime-script-project.js'
@@ -22,6 +24,8 @@ const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [act
 export const gov3Scenes = resolveAuthorDialogueTree(
   validateAuthorScenes(Object.values(modules).map((module) => module.default)),
   actors,
+  'scenes',
+  { items: validateAuthorItems(itemsJson) },
 )
 const references = buildEntityLifecycleReferenceIndex(gov3Scenes)
 

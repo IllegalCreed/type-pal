@@ -4,10 +4,12 @@ import {
   emptyWorldScriptState,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import locale from '../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import sickroomJson from '../../../projects/pal/content/scenes/s002.json' with { type: 'json' }
@@ -488,7 +490,9 @@ function deferred() {
 }
 
 test('actual village hook awaits the approach, commits the NPC cursor, and releases while her return is pending', async () => {
-  const runtimeScenes = resolveAuthorDialogueTree(scenes, actors)
+  const runtimeScenes = resolveAuthorDialogueTree(scenes, actors, 'scenes', {
+    items: validateAuthorItems(itemsJson),
+  })
   const village = runtimeScenes.find((scene) => scene.id === 's004')!
   const world: WorldState = {
     party: [],

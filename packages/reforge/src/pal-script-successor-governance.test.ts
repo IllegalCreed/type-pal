@@ -3,6 +3,7 @@ import {
   emptyWorldScriptState,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
   validateCurrentManifestStartup,
   type WorldState,
@@ -12,6 +13,7 @@ import repairReceipt from '../../../docs/testing/archive/legacy/batches/script-g
   type: 'json',
 }
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import locale from '../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import sickroomJson from '../../../projects/pal/content/scenes/s002.json' with { type: 'json' }
@@ -73,7 +75,9 @@ const authorScenes = validateAuthorScenes([
   templeJson,
 ])
 const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [actor.id, actor]))
-const scenes = resolveAuthorDialogueTree(authorScenes, actors)
+const scenes = resolveAuthorDialogueTree(authorScenes, actors, 'scenes', {
+  items: validateAuthorItems(itemsJson),
+})
 const lifecycleReferences = buildEntityLifecycleReferenceIndex(scenes)
 const manifest = validateCurrentManifestStartup(manifestJson).manifest
 const signal = new AbortController().signal

@@ -5,6 +5,7 @@ import {
   assembleCurrentProject,
   loadAuthorScene,
   loadCurrentProjectFrom,
+  loadScene,
 } from './project-loader.js'
 import { PROJECT_SAVE_STATE_PATH } from './project-save-state.js'
 
@@ -388,4 +389,97 @@ describe('current project loader', () => {
       loadCurrentProjectFrom(memorySource(files(oldManifest as CurrentManifest))),
     ).rejects.toThrow(/contentVersion: 期望 23/)
   })
+})
+
+test('author loader lowers grants in shared/item/hook roots and the lazy scene recipe with its own owner', async () => {
+  const data = files()
+  const reward = {
+    kind: 'grantReward',
+    rewards: [{ kind: 'item', itemId: 'gift', count: 4 }],
+    notice: { kind: 'standard', timing: 'after' },
+  }
+  const hook = {
+    label: 'Grant',
+    order: 0,
+    flow: { kind: 'stages', initial: 'entry', stages: [{ id: 'entry', body: [reward] }] },
+  }
+  data['content/items.json'] = [
+    {
+      id: 'gift',
+      name: 'item.gift',
+      desc: [],
+      buyPrice: 0,
+      sellPrice: 0,
+      sellable: false,
+      use: {
+        target: 'scene',
+        consuming: false,
+        effects: [{ kind: 'itemPrivateScript', script: { id: 'use', body: [reward] } }],
+      },
+    },
+  ]
+  data['content/shared-scripts.json'] = { grant: { name: 'Grant', self: 'none', body: [reward] } }
+  data['content/locale.json'] = { ...baseJsons.locale, 'item.gift': 'Gift' }
+  data['content/scenes/s001.json'] = {
+    ...scene,
+    hooks: { onEnter: { initial: 'gift', variants: { gift: hook } } },
+  }
+  const lazy = {
+    ...scene,
+    id: 's002',
+    entities: [
+      {
+        id: 'spot',
+        zone: true,
+        pos: { col: 1, row: 1, height: 0 },
+        behaviors: {
+          trigger: {
+            collect: {
+              label: 'Collect',
+              order: 0,
+              flow: {
+                kind: 'acquisition',
+                recipe: 'builtin/item/search',
+                afterCollect: 'disable',
+                stages: { available: { id: 'first' }, collected: { id: 'empty' } },
+                rewards: reward.rewards,
+                notice: reward.notice,
+              },
+            },
+          },
+        },
+      },
+    ],
+  }
+  data['content/scenes/s002.json'] = lazy
+  data['content/scenes/index.json'] = {
+    version: 1,
+    scenes: ['s001', 's002'].map((id) => ({ id, name: id, path: `content/scenes/${id}.json` })),
+  }
+  const before = structuredClone(data)
+  const project = await loadCurrentProjectFrom(memorySource(data))
+  const expected = [
+    { kind: 'giveItem', itemId: 'gift', count: 4 },
+    {
+      kind: 'dialog',
+      cue: {
+        slot: 'narration',
+        rows: [{ reward: { kind: 'item', itemName: 'item.gift', count: 4 } }],
+      },
+    },
+  ]
+  expect(project.sharedScripts.grant?.body).toEqual(expected)
+  expect(project.entryScene.hooks?.onEnter?.variants.gift?.flow.stages[0]?.body).toEqual(expected)
+  const effect = project.items.gift?.use?.effects[0]
+  if (effect?.kind !== 'itemPrivateScript') throw new Error('missing projected item private script')
+  expect(effect.script.body).toEqual(expected)
+  const projected = await loadScene(project, 's002')
+  expect(projected.entities[0]?.behaviors?.trigger?.collect?.flow.stages[0]?.body).toEqual([
+    ...expected,
+    { kind: 'setEntityState', target: { scene: 's002', entity: 'spot' }, state: 0 },
+  ])
+  expect(project.authorContent.sharedScripts.grant?.body[0]).toEqual(reward)
+  expect(data).toEqual(before)
+  data['content/items.json'] = []
+  await expect(loadCurrentProjectFrom(memorySource(data))).rejects.toThrow('奖励物品不存在: gift')
 })

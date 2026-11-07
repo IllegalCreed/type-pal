@@ -3,10 +3,12 @@ import {
   emptyWorldScriptState,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import type { BattleResult } from './battle/battle-result.js'
 import { SupersedingFadeDriver } from './fade-driver.js'
 import type { RuntimeLeafCommand } from './runtime-script-compiler.js'
@@ -21,6 +23,8 @@ const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [act
 const scenes = resolveAuthorDialogueTree(
   validateAuthorScenes(Object.values(modules).map((module) => module.default)),
   actors,
+  'scenes',
+  { items: validateAuthorItems(itemsJson) },
 )
 const references = buildEntityLifecycleReferenceIndex(scenes)
 const monsterCases = scenes.flatMap((scene) =>
