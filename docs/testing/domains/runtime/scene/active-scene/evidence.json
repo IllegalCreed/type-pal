@@ -49,7 +49,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
   "publicCallers": [
@@ -109,7 +109,11 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
     },
     {
       "date": "2026-11-06",
@@ -163,6 +167,22 @@
       ],
       "scope": "ActiveScene 和 WorldCamera 的构造接线逐字相同，资源发布、边界更新与预取消镜头的来源和判据沿固定父。",
       "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {
@@ -199,7 +219,12 @@
       {
         "date": "2026-10-15",
         "action": "actual full JSON machine-envelope migration",
-        "notRun": ["runtime", "E2E", "visual", "coverage"]
+        "notRun": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage"
+        ]
       }
     ],
     "supersedes": [],

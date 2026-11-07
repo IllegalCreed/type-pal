@@ -179,7 +179,7 @@ export function assertTestingStageEvidence(path, bytes) {
   )
 }
 
-function sourceSnapshot(readSource) {
+export function testingBridgeSources(readSource) {
   const cache = new Map()
   const read = (path) => {
     if (!cache.has(path)) cache.set(path, readSource(path))
@@ -188,7 +188,7 @@ function sourceSnapshot(readSource) {
   return { has: (path) => Buffer.isBuffer(read(path)), read }
 }
 
-function checkReference(reference, sources) {
+export function assertTestingBridgeReference(reference, sources) {
   const issues = testingSourceRefIssues([reference], 'testing source bridge', sources)
   assert.equal(issues.length, 0, issues.join('\n'))
 }
@@ -223,9 +223,9 @@ function restoreReferences(before, current, id, sources, fixedSources) {
     restored[index].sha256 = old.sha256
     restored[index].lines = old.lines
     assert.deepEqual(restored[index], old, 'only reference SHA and line range may change')
-    checkReference(reference, sources)
+    assertTestingBridgeReference(reference, sources)
     if (fixedSources) {
-      checkReference(old, fixedSources)
+      assertTestingBridgeReference(old, fixedSources)
       assert.equal(reference.lines, old.lines, 'chest source bridge must retain the caller range')
       assert.equal(
         referencedSource(sources, reference),
@@ -245,7 +245,14 @@ function restoreReferences(before, current, id, sources, fixedSources) {
   return { restored, changed }
 }
 
-function restoreHistory(before, current, changed, readSource, fixedRevision) {
+export function restoreTestingBridgeHistory(
+  before,
+  current,
+  changed,
+  readSource,
+  fixedRevision,
+  fixedReceipt = chestSourceReceipt,
+) {
   assert(Array.isArray(before) && Array.isArray(current), 'bridge history arrays required')
   assert.equal(current.length, before.length + 1, 'bridge appends exactly one history event')
   assert.deepEqual(current.slice(0, -1), before, 'old history changed')
@@ -282,16 +289,8 @@ function restoreHistory(before, current, changed, readSource, fixedRevision) {
     'bridge evidence must be a task receipt',
   )
   if (fixedRevision) {
-    assert.equal(
-      event.base,
-      fixedRevision,
-      'chest source bridge history must name the fixed 010 base',
-    )
-    assert.equal(
-      event.evidence,
-      chestSourceReceipt,
-      'chest source bridge requires its admitted receipt',
-    )
+    assert.equal(event.base, fixedRevision, 'source bridge history must name the fixed base')
+    assert.equal(event.evidence, fixedReceipt, 'source bridge requires its admitted receipt')
   }
   assert(readSource(event.evidence)?.length > 0, 'bridge evidence missing')
   return structuredClone(before)
@@ -349,8 +348,8 @@ function assertSourceBridge(path, previousBytes, currentBytes, readSource, fixed
     'native bridge objects required',
   )
   const restored = structuredClone(current)
-  const sources = sourceSnapshot(readSource)
-  const fixedSources = fixed && sourceSnapshot(fixed.readSource)
+  const sources = testingBridgeSources(readSource)
+  const fixedSources = fixed && testingBridgeSources(fixed.readSource)
   const admittedIds = fixed ? chestSourceIds : sourcePaths
   if (path === catalogPath) {
     assert(
@@ -377,7 +376,7 @@ function assertSourceBridge(path, previousBytes, currentBytes, readSource, fixed
         sources,
         fixedSources,
       )
-      const history = restoreHistory(
+      const history = restoreTestingBridgeHistory(
         old.revision?.history,
         entry.revision?.history,
         references.changed,
@@ -408,7 +407,7 @@ function assertSourceBridge(path, previousBytes, currentBytes, readSource, fixed
     )
     restored.sourceRefs = references.restored
     if (!fixed && id === activeSceneId) restoreActiveSceneCameraPointer(before, current, restored)
-    restored.history = restoreHistory(
+    restored.history = restoreTestingBridgeHistory(
       before.history,
       current.history,
       references.changed,

@@ -16,6 +16,12 @@ import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import {
+  assertTestingAcquisitionSourceBridge,
+  isTestingAcquisitionSourceBridgePath,
+  isTestingAcquisitionSourcePath,
+  testingAcquisitionSourceBase,
+} from './testing-acquisition-source-bridge.mjs'
+import {
   assertTestingChestSourceBridge,
   assertTestingPalaceStagePublication,
   assertTestingSourceBridge,
@@ -340,7 +346,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     assert(!changes.has(row.path), `document location: duplicate change: ${row.path}`)
     assert(
       ((row.path.endsWith('.md') && ['links', 'reviewed'].includes(row.mode)) ||
-        (isTestingSourceBridgePath(row.path) && row.mode === 'testing-source-bridge')) &&
+        ((isTestingSourceBridgePath(row.path) ||
+          (admission.testingAcquisitionSourceBaseRevision !== undefined &&
+            isTestingAcquisitionSourceBridgePath(row.path))) &&
+          row.mode === 'testing-source-bridge')) &&
         ((row.mode === 'links' && row.afterSha256 === undefined) ||
           /^[a-f\d]{64}$/u.test(row.afterSha256 ?? '')),
       `document location: unsupported body change: ${row.path}`,
@@ -394,6 +403,44 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     postPalaceRevision === undefined
       ? undefined
       : gitTree(root, postPalaceRevision, [testingCatalogPath])
+  const acquisitionRevision = admission.testingAcquisitionSourceBaseRevision
+  if (acquisitionRevision !== undefined)
+    assert(
+      postPalace && acquisitionRevision === testingAcquisitionSourceBase,
+      'acquisition source bridge requires the fixed accepted predecessor after 010',
+    )
+  const preAcquisition =
+    acquisitionRevision === undefined
+      ? undefined
+      : gitTree(root, acquisitionRevision, [testingCatalogPath])
+  const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  // Historical layers retain their original sources. Only the finite successor
+  // sources may differ from this accepted predecessor in the live checkout.
+  const readPredecessorSource = preAcquisition
+    ? (sourcePath) => {
+        const fixed = preAcquisition.read(sourcePath)
+        if (!isTestingAcquisitionSourcePath(sourcePath)) {
+          const live = readSource(sourcePath)
+          assert(
+            live && fixed?.equals(live),
+            `source outside acquisition bridge differs from fixed predecessor: ${sourcePath}`,
+          )
+        }
+        return fixed
+      }
+    : readSource
+  const acquisitionPrevious = (path, current) =>
+    preAcquisition && isTestingAcquisitionSourceBridgePath(path)
+      ? preAcquisition.read(path)
+      : current
+  const assertAcquisitionSuccessor = (path, previous, current) => {
+    if (previous.equals(current)) return
+    assert(preAcquisition, 'acquisition source snapshot missing')
+    assertTestingAcquisitionSourceBridge(path, previous, current, readSource, {
+      revision: acquisitionRevision,
+      readSource: preAcquisition.read,
+    })
+  }
   for (const row of manifest.additions) {
     safePath(row.path)
     const nativeStage =
@@ -527,11 +574,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     }
     const addition = additions.get(path)
     if (addition) {
-      if (postPalace && isPublishedTestingStagePath(path))
+      if (postPalace && isPublishedTestingStagePath(path)) {
+        const predecessor = acquisitionPrevious(path, current)
         assert(
-          postPalace.read(path)?.equals(current),
+          postPalace.read(path)?.equals(predecessor),
           `published stage differs from fixed 010 base: ${path}`,
         )
+        assertAcquisitionSuccessor(path, predecessor, current)
+      }
       assert.equal(hash(current), addition.afterSha256, `addition body drift: ${path}`)
       assert.equal(
         addition.review.reviewedLines,
@@ -599,15 +649,14 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           path,
           before: previous,
           current: bridgeSource,
-          readBuffer,
+          readBuffer: readPredecessorSource,
         })
       }
-      const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
       const readPublishedSource = postPalace
         ? (sourcePath) => {
             const fixed = postPalace.read(sourcePath)
             if (sourcePath !== testingChestSourcePath) {
-              const live = readSource(sourcePath)
+              const live = readPredecessorSource(sourcePath)
               assert(
                 live && fixed?.equals(live),
                 `published source differs from fixed 010 base: ${sourcePath}`,
@@ -615,9 +664,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
             }
             return fixed
           }
-        : readSource
+        : readPredecessorSource
+      const predecessor = acquisitionPrevious(path, current)
       const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
-      const publication = chestBridge ? postPalace.read(path) : current
+      const publication = chestBridge ? postPalace.read(path) : predecessor
       if (stagePublicationRevision !== undefined && path === testingCatalogPath) {
         const publicationBase = gitTree(root, stagePublicationRevision, [path]).read(path)
         assertTestingSourceBridge(path, bridgeSource, publicationBase, readPublishedSource)
@@ -628,14 +678,27 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         } else {
           assertTestingStagePublication(publicationBase, publication, additions)
         }
-      } else {
+      } else if (isTestingSourceBridgePath(path)) {
         assertTestingSourceBridge(path, bridgeSource, publication, readPublishedSource)
+      } else if (testingSourceMaintenanceAdmissions.some((entry) => entry.path === path)) {
+        assertTestingSourceMaintenance({
+          path,
+          before: bridgeSource,
+          current: predecessor,
+          readBuffer: readPredecessorSource,
+        })
+      } else {
+        assert(
+          bridgeSource.equals(predecessor),
+          `acquisition predecessor changed unadmitted historical facts: ${path}`,
+        )
       }
       if (chestBridge)
-        assertTestingChestSourceBridge(path, publication, current, readSource, {
+        assertTestingChestSourceBridge(path, publication, predecessor, readPredecessorSource, {
           revision: postPalaceRevision,
           readSource: postPalace.read,
         })
+      assertAcquisitionSuccessor(path, predecessor, current)
       return { current, previous, change }
     }
     {

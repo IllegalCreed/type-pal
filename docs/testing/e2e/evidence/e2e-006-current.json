@@ -73,14 +73,14 @@
       "lines": "21-21",
       "anchor": "export async function deliverBoatCheckpoint(",
       "role": "persistence",
-      "sha256": "34814eb48d16a35e750b8df594ac130a818b73072cf777a1552b9b523e3e5570"
+      "sha256": "814142fb0ad2704f9fa3571f5403619bf3d6ae8797cd2a59e7b8b52eba7a63e9"
     },
     {
       "path": "scripts/e2e/boat-checkpoint-contract.mjs",
       "lines": "15-15",
       "anchor": "export async function checkBoatCheckpoint(",
       "role": "oracle",
-      "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+      "sha256": "5295d6fb545f40881ccf5864906e3268ac8234027bfa00007a77410171dde871"
     },
     {
       "path": "scripts/e2e/boat-game-save-domain.mjs",
@@ -94,7 +94,7 @@
       "lines": "168-168",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
   "publicCallers": [
@@ -119,7 +119,11 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": ["e2e-005", "historical e2e-006 d022 publication", "2026-10-26 partial closeout"],
+    "against": [
+      "e2e-005",
+      "historical e2e-006 d022 publication",
+      "2026-10-26 partial closeout"
+    ],
     "notes": "005 establishes real inputs; old receipt identity is immutable. Current terminal save, fresh restore and static editor persistence are distinct; no004 items/005 guards/continuous regrant."
   },
   "steps": [
@@ -238,7 +242,10 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-10-27",
-    "engines": ["game", "reforge"],
+    "engines": [
+      "game",
+      "reforge"
+    ],
     "contentVersion": 22,
     "reforgeSaveVersion": 12,
     "producerRevision": "c68d369869dce63cb884e2203dab2b9e53f65e2f",
@@ -266,7 +273,9 @@
     {
       "id": "source-bound-complete-comparison",
       "result": "runtime-backed",
-      "evidence": ["build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json"]
+      "evidence": [
+        "build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json"
+      ]
     },
     {
       "id": "saved-static-npc-preview",
@@ -298,14 +307,22 @@
   "cleanup": {
     "complete": true,
     "scope": "Headless Game/RF producer contexts closed normally; raw retained. Interactive review editor is separate during Owner closeout.",
-    "retained": ["immutable raw archive", "original failed reports", "interactive preview project"]
+    "retained": [
+      "immutable raw archive",
+      "original failed reports",
+      "interactive preview project"
+    ]
   },
   "history": [
     {
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
     },
     {
       "revision": "c68d369869dce63cb884e2203dab2b9e53f65e2f",
@@ -321,6 +338,36 @@
         "coverage",
         "audio acceptance"
       ]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/boat-delivery.mjs",
+          "lines": "21-21",
+          "anchor": "export async function deliverBoatCheckpoint(",
+          "role": "persistence",
+          "sha256": "34814eb48d16a35e750b8df594ac130a818b73072cf777a1552b9b523e3e5570"
+        },
+        {
+          "path": "scripts/e2e/boat-checkpoint-contract.mjs",
+          "lines": "15-15",
+          "anchor": "export async function checkBoatCheckpoint(",
+          "role": "oracle",
+          "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-168",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "supersedes": {

@@ -21,28 +21,28 @@
       "lines": "67-111",
       "anchor": "export function validatePredecessor(",
       "role": "input",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "scripts/e2e/inn-contract.mjs",
       "lines": "340-388",
       "anchor": "export function assertInnEvidence(",
       "role": "oracle",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "scripts/e2e/inn-contract.mjs",
       "lines": "473-488",
       "anchor": "'money not committed between thanks and reward display'",
       "role": "oracle",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "scripts/e2e/inn-observer.mjs",
@@ -52,7 +52,11 @@
       "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"
     }
   ],
-  "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
+  "publicCallers": [
+    "pnpm e2e:002",
+    "pnpm e2e:002:reforge",
+    "pnpm e2e:002:both"
+  ],
   "legalInputs": [
     "same-engine current 001 end save",
     "normal movement into s003/e56",
@@ -68,7 +72,11 @@
   },
   "dedupe": {
     "result": "reviewed",
-    "against": ["e2e-001", "e2e-003", "docs/testing/e2e/stages/002-inn-guests-and-reward"],
+    "against": [
+      "e2e-001",
+      "e2e-003",
+      "docs/testing/e2e/stages/002-inn-guests-and-reward"
+    ],
     "notes": "e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"
   },
   "claims": [
@@ -104,7 +112,48 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "67-111",
+          "anchor": "export function validatePredecessor(",
+          "role": "input",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "340-388",
+          "anchor": "export function assertInnEvidence(",
+          "role": "oracle",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "473-488",
+          "anchor": "'money not committed between thanks and reward display'",
+          "role": "oracle",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {
@@ -318,7 +367,26 @@
           {
             "name": "正文与说话人",
             "textIds": [
-              25, 27, 29, 30, 32, 33, 34, 36, 37, 38, 40, 41, 43, 45, 46, 47, 49, 50, 51, 53
+              25,
+              27,
+              29,
+              30,
+              32,
+              33,
+              34,
+              36,
+              37,
+              38,
+              40,
+              41,
+              43,
+              45,
+              46,
+              47,
+              49,
+              50,
+              51,
+              53
             ],
             "source": "INN_ROWS与readInnContract构造rows；assertInnEvidence以page实例、累积行/顺序及normalized speaker核实际页面。同一normalize对文本与说话人都去空白、去末尾∶/：/:，并非原字节相等。底层原脚本/作者cue/locale文件本轮未打开或运行核对。"
           },
@@ -515,7 +583,10 @@
           "variant": "document-audit-v2",
           "lastReviewed": "2026-10-17",
           "owner": "Codex",
-          "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+          "provenance": [
+            "existing paired E2E evidence",
+            "R60 testing entry migration"
+          ],
           "sourceSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
           "sourceGitObject": "fe4b7dbc6be30fd74684b1cc094edcd712805560",
           "scope": "Document-audit of e2e-002; original versions/candidate/claims/history retained. No new runtime execution.",

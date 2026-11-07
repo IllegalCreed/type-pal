@@ -42,14 +42,14 @@ describe('design-system adoption gate', () => {
     const adopted = matrix.pages.map((page) => page.registry).sort()
 
     expect(matrix.version).toBe(4)
-    expect(matrix.catalogScrollOwners).toHaveLength(31)
+    expect(matrix.catalogScrollOwners).toHaveLength(32)
     expect(matrix.overlayExceptions).toHaveLength(7)
     expect(matrix.workspaceLegacyExceptions).toHaveLength(0)
     expect(adopted).toEqual(registered)
     expect(new Set(adopted).size).toBe(adopted.length)
-    expect(matrix.pages).toHaveLength(31)
+    expect(matrix.pages).toHaveLength(32)
     const scrollRecords = matrix.catalogScrollOwners.flatMap((page) => page.scroll)
-    expect(scrollRecords).toHaveLength(109)
+    expect(scrollRecords).toHaveLength(112)
     expect(
       scrollRecords.filter((record) => record.owner === 'DsObjectWorkspaceContent'),
     ).toHaveLength(24)
@@ -175,7 +175,7 @@ describe('design-system adoption gate', () => {
     )
     expect(shadowedAppDispatcher).not.toBe(appSource)
     expect(validateWorkspaceConnectors({ 'App.tsx': shadowedAppDispatcher })).toContain(
-      'App.tsx has no canonical map/actor/project/data route chain',
+      'App.tsx has no canonical initial-state/simulator/map/actor/project/data route chain',
     )
 
     const forgedActiveSubpage = appSource.replace(
@@ -306,7 +306,7 @@ describe('design-system adoption gate', () => {
     )
     expect(deadRouteChain).not.toBe(brokenLiveRoute)
     expect(validateWorkspaceConnectors({ 'App.tsx': deadRouteChain })).toContain(
-      'App.tsx has no canonical map/actor/project/data route chain',
+      'App.tsx has no canonical initial-state/simulator/map/actor/project/data route chain',
     )
 
     const returnedDeadRoute = brokenLiveRoute.replace(
@@ -325,7 +325,7 @@ describe('design-system adoption gate', () => {
     )
     expect(returnedDeadRoute).not.toBe(brokenLiveRoute)
     expect(validateWorkspaceConnectors({ 'App.tsx': returnedDeadRoute })).toContain(
-      'App.tsx has no canonical map/actor/project/data route chain',
+      'App.tsx has no canonical initial-state/simulator/map/actor/project/data route chain',
     )
 
     const deadBodySection = appSource
@@ -2007,10 +2007,13 @@ type DataStateProps`,
     )
 
     const borrowedProjectOwner = structuredClone(matrix)
-    borrowedProjectOwner.pages.find((page) => page.registry === 'scene/workspace').owners.field +=
-      ' + DsDraftNumberField'
+    const sceneField = borrowedProjectOwner.pages.find(
+      (page) => page.registry === 'scene/workspace',
+    )
+    expect(sceneField.owners.field).not.toContain('DsColorInput')
+    sceneField.owners.field += ' + DsColorInput'
     expect(validateAdoption(borrowedProjectOwner)).toContain(
-      'scene/workspace field owner DsDraftNumberField is not rendered by its routed field root',
+      'scene/workspace field owner DsColorInput is not rendered by its routed field root',
     )
 
     const dataEntrypoint = structuredClone(matrix)
@@ -2036,7 +2039,7 @@ type DataStateProps`,
       cwd: packageRoot,
       encoding: 'utf8',
     })
-    expect(output).toContain('design-system gate passed: 102 files, 2 evidence-bound exceptions')
+    expect(output).toContain('design-system gate passed: 104 files, 2 evidence-bound exceptions')
   }, 15_000)
 
   test('keeps legitimate native and dynamic geometry behind public boundaries', () => {

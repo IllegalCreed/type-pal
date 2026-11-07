@@ -35,7 +35,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "scripts/e2e/opening-matrix-observer.mjs",
@@ -59,8 +59,16 @@
       "sha256": "4d9c0fbd649e662ef3df4c668303457dfc1842ccad723257092e4d44f9962cda"
     }
   ],
-  "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
-  "legalInputs": ["fresh new story", "normal Enter/Escape/F5 flow", "same-engine save/load"],
+  "publicCallers": [
+    "pnpm e2e:001",
+    "pnpm e2e:001:reforge",
+    "pnpm e2e:001:both"
+  ],
+  "legalInputs": [
+    "fresh new story",
+    "normal Enter/Escape/F5 flow",
+    "same-engine save/load"
+  ],
   "businessOracle": {
     "type": "opening-dialogue-and-restore",
     "assertions": [
@@ -71,7 +79,11 @@
   },
   "dedupe": {
     "result": "reviewed",
-    "against": ["e2e-contract", "e2e-route", "e2e-002"],
+    "against": [
+      "e2e-contract",
+      "e2e-route",
+      "e2e-002"
+    ],
     "notes": "旧 SAVE/content 回执保留为历史，不升级为当前前驱。"
   },
   "claims": [
@@ -111,7 +123,27 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {
@@ -120,7 +152,10 @@
     "variant": "document-audit-v2",
     "lastReviewed": "2026-10-30",
     "owner": "Codex",
-    "provenance": ["existing paired testing evidence", "DOCS-FULL-TEMPLATE-1 structural migration"],
+    "provenance": [
+      "existing paired testing evidence",
+      "DOCS-FULL-TEMPLATE-1 structural migration"
+    ],
     "sourceSha256": "d5092910e75a0f40bbd5baea191c91a0005ab83bea111af6d87d2f37622430b7",
     "sourceGitObject": "9d4755265356c0e76af1cdbd469fa71783ce04f8",
     "scope": "Current bounded source/publication review of e2e-001 plus original document-audit/history. No new runtime, visual, editor preview or checkpoint execution.",
@@ -134,7 +169,13 @@
       "evidence": "docs/ops/evidence/QUALITY-PENDING-100-3/e2e001-publication-review.json",
       "reviewBy": "2026-11-29",
       "scope": "Seven current source pins/anchors, current55-dialogue source inventory and raw text agreement, real CLI contracts, paired report/evidence/history boundaries;64opening tool and9catalog tests. No new browser/runtime/visual/preview/checkpoint acceptance.",
-      "notRun": ["browser", "runtime E2E", "visual", "editor preview", "coverage"]
+      "notRun": [
+        "browser",
+        "runtime E2E",
+        "visual",
+        "editor preview",
+        "coverage"
+      ]
     }
   }
 }

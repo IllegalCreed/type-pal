@@ -1532,7 +1532,7 @@ test('the post-010 source bridge freezes published stages and three runtime reco
       (value) => {
         find(value, 'runtime-world-owners').revision.history.at(-1).base = '0'.repeat(40)
       },
-      /fixed 010 base/,
+      /source bridge history must name the fixed base/,
     ],
   ]
   for (const [mutate, diagnostic] of catalogMutants) {

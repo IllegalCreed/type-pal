@@ -42,7 +42,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "scripts/e2e/meal-contract.mjs",
@@ -59,7 +59,11 @@
       "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63"
     }
   ],
-  "publicCallers": ["pnpm e2e:004", "pnpm e2e:004:reforge", "pnpm e2e:004:both"],
+  "publicCallers": [
+    "pnpm e2e:004",
+    "pnpm e2e:004:reforge",
+    "pnpm e2e:004:both"
+  ],
   "legalInputs": [
     "same-engine current 003 kitchen save",
     "normal menu use",
@@ -75,7 +79,11 @@
   },
   "dedupe": {
     "result": "reviewed",
-    "against": ["e2e-003", "e2e-005", "e2e/stages/004-meal/report.md#历史"],
+    "against": [
+      "e2e-003",
+      "e2e-005",
+      "e2e/stages/004-meal/report.md#历史"
+    ],
     "notes": "旧 failed/诊断回执保留，不把 receipt-only revalidation 伪装成新演出。"
   },
   "claims": [
@@ -112,7 +120,27 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": ["runtime", "E2E", "coverage"]
+      "notRun": [
+        "runtime",
+        "E2E",
+        "coverage"
+      ]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {
@@ -440,9 +468,46 @@
     ],
     "sourceContracts": {
       "fortyRowIds": [
-        141, 142, 95, 96, 98, 99, 101, 102, 103, 104, 106, 107, 109, 111, 112, 172, 173, 175, 176,
-        178, 180, 182, 183, 185, 187, 188, 190, 192, 193, 195, 197, 198, 199, 201, 202, 203, 204,
-        205, 207, 209
+        141,
+        142,
+        95,
+        96,
+        98,
+        99,
+        101,
+        102,
+        103,
+        104,
+        106,
+        107,
+        109,
+        111,
+        112,
+        172,
+        173,
+        175,
+        176,
+        178,
+        180,
+        182,
+        183,
+        185,
+        187,
+        188,
+        190,
+        192,
+        193,
+        195,
+        197,
+        198,
+        199,
+        201,
+        202,
+        203,
+        204,
+        205,
+        207,
+        209
       ],
       "dialogue": "assertMealDialogue655-701对正文与speaker均normalize：去markup、引号、末尾左括号、空白和末尾冒号；逐page instance/累计行序拒缺行、乱序、重播，各阶段结束核完整行表。这里只核source合同，未打开实际locale/原脚本/作者正文或观察页面。",
       "uniqueOwner": "mealAuthorTextIds492-551静态遍历s003/e62的c8-321c0a7d7de1 flow，要求所得对话ID精确为最后25行、loseItem272命令恰一处。物品私有脚本若有dialog，其行只能是12538系列，并禁止私有脚本loseItem272；这不表示私有脚本只能有dialog。readMealContract553-652另核scene target/consuming=false/menuAfterUse=close及40行原始与作者绑定。静态命令计数不等于动态执行次数，实际数据/可达分支与producer未由本轮验收。",
@@ -625,7 +690,10 @@
           "variant": "document-audit-v2",
           "lastReviewed": "2026-10-17",
           "owner": "Codex",
-          "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+          "provenance": [
+            "existing paired E2E evidence",
+            "R60 testing entry migration"
+          ],
           "sourceSha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757",
           "sourceGitObject": "1f85d0ba7afe5b8b195255dd97ee3cbbae7e544c",
           "scope": "Document-audit of e2e-004; original versions/candidate/claims/history retained. No new runtime execution.",

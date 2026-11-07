@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { tsImport } from 'tsx/esm/api'
 import { acquisitionPreviewStages } from '../../packages/content/src/acquisition-preview-stages.ts'
-import {
-  parseScriptPreviewLibrary,
-  resolveScriptPreviewBinding,
-} from '../../packages/editor/src/core/script-preview-library.ts'
+
+const { parseScriptPreviewLibrary, resolveScriptPreviewBinding } = await tsImport(
+  '../../packages/editor/src/core/script-preview-library.ts',
+  import.meta.url,
+)
 
 export const PROGRESS_PATH = 'docs/testing/e2e/cross-stage/script-progress.md'
 export const AXES = {
