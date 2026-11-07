@@ -90,6 +90,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 007–010 已分段收口，剩余薄基线与取物 canary 见原卡 |
+| PAL-SHARED-CHEST-1 | [普通宝箱首次开盖复用](cards/PAL-SHARED-CHEST-1.md) | review | 第二阶段 / 固定逻辑复用 | 两只普通箱真实调用、空箱存读与编辑器复验；苗刀箱独立 | Codex / 受保护验证与独立集成 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |
@@ -101,7 +102,7 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 
 | 工作 | 已有入口 | 当前状态 | 阶段 | 依赖 | 下一步 |
 |---|---|---|---|---|---|
-| 公共脚本提取与 N6b 意图模式 | [共享脚本指南](../phase2/guides/shared-script-author-guide.md)、[N6b 范围](../phase2/design-backlog.md#n6b-强类型脚本模式库) | N6 基础能力已有；N6b 窄版未实施 | 第二阶段 | R4 前十段薄基线、四种取物 canary 和编辑器工作流 | 先以四种取物生命周期核类型参数/业务表单/单向展开；开卡时核当前格式，不预占旧版本号 |
+| 公共脚本提取与 N6b 意图模式 | [共享脚本指南](../phase2/guides/shared-script-author-guide.md)、[N6b 范围](../phase2/design-backlog.md#n6b-强类型脚本模式库) | N6 基础能力已有，普通开盖样本另卡；N6b 窄版未实施 | 第二阶段 | R4 前十段薄基线、四种取物 canary 和编辑器工作流 | 先以四种取物生命周期核类型参数/业务表单/单向展开；开卡时核当前格式，不预占旧版本号 |
 | 完整战斗、剧情与编辑器 E2E | [E2E 合同](../testing/e2e/contract.md)、[阶段路线](../phase2/roadmap.md) | 薄基线之后扩展，未全量完成 | 第二阶段 | N6b 变更后的同基线复验；编辑器综合前核敌队大目录滚动 | 分批推进 Q2、Q1 全剧情和空白工程创作保存试玩；与单元覆盖率分别验收 |
 | 录制与第二阶段发布闭环 | [能力地图](../phase2/capability-map.md)、[路线图](../phase2/roadmap.md) | 后续收口；不是当前已交付 | 第二阶段 | Q1/Q2 与编辑器工作流；当前 canonical 工程资源闭包 | 按既定顺序核 capture/录制、A1 版本化预制库、A8 独立可玩包及干净环境 E2E |
 

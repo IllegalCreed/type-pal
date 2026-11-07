@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "b1b14be9b5110c61afece13c9c11f72e8d26a438bd946a92edeced6d948277db",
+      "afterSha256": "9b537af28b1acaef831ecb2243437efba4b9e50512414978f72693a61a0296d0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/close_010",
         "date": "2026-11-07",
-        "conclusion": "核 010 退出活动、R4 仍有其它义务，跟报告和任务状态分开。",
-        "reviewedLines": 121,
-        "acceptanceScope": "核看板与任务卡终态、正式报告与台账范围。"
+        "conclusion": "普通箱试点按实际任务独立登记，N6b 未实施。",
+        "reviewedLines": 122,
+        "acceptanceScope": "核新增活跃行和规划路由，原 010 行与前序看板保持。"
       }
     },
     {
@@ -2097,17 +2097,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "39b8ae2db058965b550445c2ed4aef686346754793e2e4bfa575777c586345d9",
+      "afterSha256": "628112649c7cf7a05b319dbe9384893b65c126b48ad89be30d54d731164318ea",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root/close_010",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "复核 010 追加段的实际三层前缀、固定 Git 和逐值保全行为。",
-        "reviewedLines": 95,
-        "acceptanceScope": "核指南追加段和实际门禁的各固定层，旧文档规则继续沿用。"
+        "conclusion": "记录 010 后仅四个原样锚点的摘要维护。",
+        "reviewedLines": 97,
+        "acceptanceScope": "检查固定来源层、原验收字节和反控，不续授 runtime 信用。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "5df86ad7cded3e222d13f77d0d4c07d617042e2e16aa24474b757350d119586a",
+      "afterSha256": "fad2a6109dfb187c95ee8bcdafcc45b61f29e5a89d83335715dab79f8479df85",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/close_010",
         "date": "2026-11-07",
-        "conclusion": "重生成全文并比较字节；只接收 010 的 review 到 done 投影。",
-        "reviewedLines": 585,
-        "acceptanceScope": "以当前生成命令逐字节比对投影和卡面状态。"
+        "conclusion": "当前任务索引以生成器逐字重现。",
+        "reviewedLines": 586,
+        "acceptanceScope": "只核新增 review 状态的路由。"
       }
     },
     {
@@ -3404,14 +3404,14 @@
     {
       "path": "docs/phase2/specs/script-system.md",
       "mode": "reviewed",
-      "afterSha256": "12f125deb44c3a253ff0004e9e088549db1f425385d6d13089555cd68fa2b8fa",
+      "afterSha256": "6d38138966256d450f5eac4f3f9c0f9a55e21c5dcbaa56e7e200a37b9680d9b0",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "接受 cameraPan/clearDialog、普通明雷与 ride 实际世界步和呈现职责的增量。交互脚本显式站姿有独立的渲染边界。",
-        "reviewedLines": 313,
-        "acceptanceScope": "只核改动三段与 main、WorldCamera 及 006–009 对应原件。沿用未变规范，不授完整 runtime 或编辑器验收。"
+        "author": "Codex /root/chest_self_review",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "脚本系统补充明确的调用实体目标与真实使用边界。",
+        "reviewedLines": 314,
+        "acceptanceScope": "按作者和运行态校验、真实预览及保存回执核当前增量，原保全内容不重审。"
       }
     },
     {
@@ -4290,14 +4290,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "e8ae06e46d5e4919ccec4998a0bc935bec528435cfa84ffcbf5811b2b9da6785",
+      "afterSha256": "f1cc0a3575c9196c85a4cffa97e8bbe0effe5f7f579b620b414206e9ff2f5afd",
       "review": {
-        "author": "Codex /root/close_010",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "独立比较原 23 项及全部旧字段逐值不变，只添加与报告、回执匹配的 010 配对。",
-        "reviewedLines": 4035,
-        "acceptanceScope": "核新增 catalog 条目、当前源码、report/evidence 对照及前序逐值一致。"
+        "conclusion": "三条 runtime 记录只变四个 main.ts 指纹并保留各自历史。",
+        "reviewedLines": 4090,
+        "acceptanceScope": "核固定 010 先前对象、原出处逐字与三份配对，所有发布条目原样。"
       }
     },
     {
@@ -4342,79 +4342,79 @@
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/report.md",
       "mode": "reviewed",
-      "afterSha256": "46fcccc60ddfdfaadf1d5212befd3a105b62b98246f323431e79298688dd7801",
+      "afterSha256": "64db540192bd3b0d6b453a6349b13748bcba1a7fb019490dd60256c32bb8af8e",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "ActiveScene 构造原位保留。WorldCamera 构造接线下移两行，仍在既有锚点范围。预取消 oracle 指针维持本次已核 143–157。",
+        "date": "2026-11-07",
+        "conclusion": "报告源码元数据与配对同步；可见正文逐字不变。",
         "reviewedLines": 99,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "acceptanceScope": "只核固定 Git 报告、四个实际行范围与目录和原回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "fba1e8a778879334f7da754fcfce3d39e32ee7f37543cd57bb92b2a092e1101b",
+      "afterSha256": "98fc8ea19f4aa25dfaaa285f85237b2e91ece8004033266d0192bb69b3a5466c",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "ActiveScene 构造原位保留。WorldCamera 构造接线下移两行，仍在既有锚点范围。预取消 oracle 指针维持本次已核 143–157。",
-        "reviewedLines": 212,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "date": "2026-11-07",
+        "conclusion": "原业务证据对象可由还原源码指纹和末尾追加历史逐值恢复。",
+        "reviewedLines": 235,
+        "acceptanceScope": "四个主壳引用的片段无字节变化；原 native 与 publication 事实不动。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/report.md",
       "mode": "reviewed",
-      "afterSha256": "9d74655ff5ff948bc0d63139f867f18db75d7453b6ca4530d037c7b3a1529273",
+      "afterSha256": "47e729e1d271bc4012c8d6b13965ce409a5f039f226fc802f158556ea9b9196a",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "BattleHost 主壳端口下移两行，接线、owner 与原测试字节相同。",
+        "date": "2026-11-07",
+        "conclusion": "报告源码元数据与配对同步；可见正文逐字不变。",
         "reviewedLines": 98,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "acceptanceScope": "只核固定 Git 报告、四个实际行范围与目录和原回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "b460d5d555a0d84b75f764289a9b7ded99e6823de5665996d4c1d1ab4e7a3783",
+      "afterSha256": "e1148b24a087110eb5d436954d0f7648e41b7d5a9af79ebaf4e73b3ebf2fcfb4",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "BattleHost 主壳端口下移两行，接线、owner 与原测试字节相同。",
-        "reviewedLines": 184,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "date": "2026-11-07",
+        "conclusion": "原业务证据对象可由还原源码指纹和末尾追加历史逐值恢复。",
+        "reviewedLines": 200,
+        "acceptanceScope": "四个主壳引用的片段无字节变化；原 native 与 publication 事实不动。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/report.md",
       "mode": "reviewed",
-      "afterSha256": "96d1d20f0686f5cc2b4c40ec39a6bdfe9fdd80010a061a12e4606c3db3261286",
+      "afterSha256": "f662dc218a617cf18897b739dd3aac45d338939af6edfb1accbb5569d724b676",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行，字节相同。普通明雷与骑乘动态证据各归原段。",
+        "date": "2026-11-07",
+        "conclusion": "报告源码元数据与配对同步；可见正文逐字不变。",
         "reviewedLines": 99,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "acceptanceScope": "只核固定 Git 报告、四个实际行范围与目录和原回执。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "5308a149808731dcd7818e756b5bf39f47f73429f824d1b1168e5e3e2a86e008",
+      "afterSha256": "f8056aabb803c16c3f86f98670150fa465591addff45d88c0f0f521e7feeea17",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/chest_self_review",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行，字节相同。普通明雷与骑乘动态证据各归原段。",
-        "reviewedLines": 208,
-        "acceptanceScope": "只核本次来源差异、真实锚点及原判据。配对 ID、出版/版本/执行、旧 history 及保全附件沿固定原件。"
+        "date": "2026-11-07",
+        "conclusion": "原业务证据对象可由还原源码指纹和末尾追加历史逐值恢复。",
+        "reviewedLines": 224,
+        "acceptanceScope": "四个主壳引用的片段无字节变化；原 native 与 publication 事实不动。"
       }
     },
     {
@@ -4520,6 +4520,19 @@
         "reviewedLines": 251,
         "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
+    },
+    {
+      "path": "docs/phase2/guides/shared-script-author-guide.md",
+      "mode": "reviewed",
+      "afterSha256": "22a18ad8997761a80f78a002218dce60c43cab6d8785c86152acafb3f4a735df",
+      "review": {
+        "author": "Codex /root/chest_self_review",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "共享脚本指南补充明确的调用实体目标与真实使用边界。",
+        "reviewedLines": 281,
+        "acceptanceScope": "按作者和运行态校验、真实预览及保存回执核当前增量，原保全内容不重审。"
+      }
     }
   ],
   "additions": [
@@ -4591,14 +4604,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "2ba2c85823b1201452e97077fe63054497494029ee376c1b08c2263d196a0f80",
+      "afterSha256": "2003a96218e2e03a83367fdc37d5ce1ec2f5facd00cb5277086154c574507d18",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/close_010",
         "date": "2026-11-07",
-        "conclusion": "核唯一 010 概览变更及机器数据逐字节保全；后续三次开盖帧仍待核。",
-        "reviewedLines": 218078,
-        "acceptanceScope": "仅顶部行与真实 010 证据范围；对比 JSON 围栏及后续全部原字节。"
+        "conclusion": "四步定向证据与历史 3461 条事件分别保留。",
+        "reviewedLines": 219183,
+        "acceptanceScope": "逐一核新增 20 条、固定原件与 selector；旧运行状态和初态信用不外推。"
       }
     },
     {
@@ -4925,6 +4938,32 @@
         "reviewedLines": 533,
         "acceptanceScope": "核完整机器对象、模板、真实归档成员、前驱、源锚点、用户确认和证据范围。"
       }
+    },
+    {
+      "path": "docs/tasks/cards/PAL-SHARED-CHEST-1.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "27541470ae5f9563832013b5bae07aa6317b9e55ef4f2446c8c24ea0462c896f",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/close_010",
+        "date": "2026-11-07",
+        "conclusion": "普通两箱共享首开已逐项验证，四次苗刀专属调查不变。",
+        "reviewedLines": 62,
+        "acceptanceScope": "核实际输入、首开与复查、存档和实绘、编辑器保存重开及保留边界。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md",
+      "templateId": "evidence-receipt-v1",
+      "afterSha256": "9a9ffab4ca78967e0b7f8277f2d440aeee830e2a3f50c92bdff870da63c24a39",
+      "review": {
+        "author": "Codex /root/chest_self_review",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "四个 main.ts 构造锚点从两个固定 Git 对象逐段复算。",
+        "reviewedLines": 41,
+        "acceptanceScope": "全文复核实际 caller 和三份报告/evidence，明确没有旧场景新执行信用。"
+      }
     }
   ],
   "retired": [
@@ -5177,6 +5216,12 @@
       "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
       "bytes": 14050409,
       "purpose": "Retains native 010 journeys and fresh restores, rebuilt Reforge predecessors, original counterexamples and runtime-bound editor evidence for the author review."
+    },
+    {
+      "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+      "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+      "bytes": 2192889,
+      "purpose": "Original ordinary chest comparisons, fresh saves, isolated special chest and editor preview evidence with exact replay entrypoints and identified prior failures."
     }
   ],
   "artifactAliases": [],

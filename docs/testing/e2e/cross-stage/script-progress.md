@@ -24,9 +24,10 @@ Template: plan-status-v1 / 1.0.0
 | 当前步骤全量枚举与三个独立进度轴 | Codex | active | 查询工具按canonical身份读取；结构检查不授脚本或初态完成信用 |
 | 001–006逐入口实态与编辑器持久化记录 | Codex | 本轮有限完成 | 95个已观测当前场景静态现场已验；旧001缺pose现场保持未核，完整世界恢复不外推 |
 | 007 码头到迷宫入口 | Codex | 四个路线步骤已验证 | 两个触碰区、空进场和迷宫音乐的脚本、预览初态与优化判断分别记录。17 个环境入口留有首次循环取证。 [007 任务卡](../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md) |
-| 008 仙灵岛迷宫到桃花林 | Codex | 双轨与逐步初态复验 | 记录实际机关、取物和跨图入口，普通筏及变轨筏分别落到每次调用。宝箱列为共享脚本候选。 [008 任务卡](../../../tasks/cards/E2E-008-1-fairy-island-maze.md) |
+| 008 仙灵岛迷宫到桃花林 | Codex | 双轨与逐步初态复验 | 记录实际机关、取物和跨图入口，普通筏及变轨筏分别落到每次调用。五灵符箱首开另有普通宝箱抽取的定向复验。 [008 任务卡](../../../tasks/cards/E2E-008-1-fairy-island-maze.md) |
 | 009 桃花林采药与池塘初遇 | Codex | 双轨和作者分屏已验 | 双轨核对两段池塘演出，九个步骤的初态在编辑器复验，八处雷击逐现场记录。 [009 任务卡](../../../tasks/cards/E2E-009-1-fairy-island-pool.md) |
 | 010 水月宫取药 | Codex | 双轨和作者分屏已验 | 核对 10 个实际入口和 21 处静态前态。苗刀箱第 2–4 次单独预览的开启帧保留待核。 [010 正式报告](../stages/010-water-moon-palace/report.md) |
+| 普通宝箱首开复用 | Codex | 两只箱子定向复验 | 五灵符箱和绣花鞋箱首开已共享，复查仍为各箱单条空箱提示。010 苗刀箱独立。 [抽取与复验证据](../../../tasks/cards/PAL-SHARED-CHEST-1.md#独立验收) |
 | 后续片段与脚本优化持续推进 | Codex | planned | 沿逐步骤合同更新，不以片段总状态替代各轴记录 |
 
 ## 怎样看每条记录
@@ -49,6 +50,8 @@ node scripts/script-governance/progress-report.mjs --pending --json
 ```
 
 ## 当前状态
+
+普通箱定向核验另建调用现场，保留原 E2E 路线的运行身份及已保存初态。整文件依赖变动的历史记录仍按工具提示待复核。
 
 当前机器记录如下。事件按实际记录时间追加，`from`连接该入口/context/轴的上一个记录状态；
 查询分别保留记录状态和受源码、依赖、证据、预览变化影响后的待复核状态。本页不另维护手工完成总数。
@@ -218060,6 +218063,1108 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "交药首句前用显式指令面向逍遥，原对白、门口和张四接续顺序保留。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-review-in-review",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已核原箱体、调查触发、正文顺序、原始奖励和下次去向。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-review-verified",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "独立核展开共享调用后整份场景与原样等值；实跑核正确实体、开盖、清屏、一次音效和本箱奖励。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-optimization-planned",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "两只普通箱共享相同的首开动作，保留各自奖励、提示和后续脚本。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-optimization-changed",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "首开前四条指令替换为一个调用，所需实体从本箱交互继承。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-optimization-accepted",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "原样和候选的实际输入、画面、音效、奖励与读档复查逐项对照通过。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-initial-initialState-evidence-collected",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:initial",
+        "description": "五灵符宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "66d496ec87a70e56cb95bc3b9c9bf9c669a9bafa36657061c53a753576130f09",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        },
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "a49ddc06cb0d8762a0f17b5950acd5216cc3298095095e2178091d63d48afe20"
+        },
+        {
+          "path": "projects/pal/editor/script-preview.json",
+          "sha256": "7a70e994cfd294b766d81b7512073b48328f5740fdefaa06514750e36afd04ee"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-editor-final/reopen-actions.json"
+        }
+      ],
+      "note": "已采到真实调查前箱体关盖，编辑器另从既有默认布置播放并复位；本定向近点不新增正式剧情初态绑定。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-legacy-002-review-in-review",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:legacy-002",
+        "description": "五灵符宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "9e7e9e27ed2e71e43c26bffda7c70ef621bf46983989358429aed66e5d5e2fab",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已核原箱体、调查触发、正文顺序、原始奖励和下次去向。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-legacy-002-review-verified",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:legacy-002",
+        "description": "五灵符宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "9e7e9e27ed2e71e43c26bffda7c70ef621bf46983989358429aed66e5d5e2fab",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "独立核新会话正常加载原生终档，实际调查保留开盖帧和居中空箱对白，库存及音效无重复。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-legacy-002-optimization-not-needed",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:legacy-002",
+        "description": "五灵符宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "9e7e9e27ed2e71e43c26bffda7c70ef621bf46983989358429aed66e5d5e2fab",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "复查已有独立的单条空箱旁白且保持复查游标，无第二次开盖或奖励。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s017-e263-legacy-002-initialState-evidence-collected",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s017:e263:legacy-002",
+        "description": "五灵符宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "9e7e9e27ed2e71e43c26bffda7c70ef621bf46983989358429aed66e5d5e2fab",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "950e492ece5c07e577dddc5827be455bcbc6edfc22ddf6d97f6bb1a70e75b8da"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s017-e263-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已从真实新会话取证开盖帧；当前初态侧车没有单独保存这个运行时帧。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-review-in-review",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已核原箱体、调查触发、正文顺序、原始奖励和下次去向。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-review-verified",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "独立核展开共享调用后整份场景与原样等值；实跑核正确实体、开盖、清屏、一次音效和本箱奖励。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-optimization-planned",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "两只普通箱共享相同的首开动作，保留各自奖励、提示和后续脚本。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-optimization-changed",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "首开前四条指令替换为一个调用，所需实体从本箱交互继承。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-optimization-accepted",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "原样和候选的实际输入、画面、音效、奖励与读档复查逐项对照通过。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-initial-initialState-evidence-collected",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:initial",
+        "description": "绣花鞋宝箱；开发试玩近点走一格后原生调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "cca0879fde443a3ff876715fcca9b4021cdda63777a1e8cb3163d720a66e2b3f",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        },
+        {
+          "path": "projects/pal/content/shared-scripts.json",
+          "sha256": "b05c091a814bcbd0ad371f714908b30f55c38051418379f3297e43b26c867599"
+        },
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "a49ddc06cb0d8762a0f17b5950acd5216cc3298095095e2178091d63d48afe20"
+        },
+        {
+          "path": "projects/pal/editor/script-preview.json",
+          "sha256": "7a70e994cfd294b766d81b7512073b48328f5740fdefaa06514750e36afd04ee"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-open.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-editor-final/reopen-actions.json"
+        }
+      ],
+      "note": "已采到真实调查前箱体关盖，编辑器另从既有默认布置播放并复位；本定向近点不新增正式剧情初态绑定。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-legacy-002-review-in-review",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:legacy-002",
+        "description": "绣花鞋宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "1d62072bf0d6bf0be1a2ee6f30102704aada42855d71e90d06c1a69d4552bfdd",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已核原箱体、调查触发、正文顺序、原始奖励和下次去向。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-legacy-002-review-verified",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:legacy-002",
+        "description": "绣花鞋宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "1d62072bf0d6bf0be1a2ee6f30102704aada42855d71e90d06c1a69d4552bfdd",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "独立核新会话正常加载原生终档，实际调查保留开盖帧和居中空箱对白，库存及音效无重复。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-legacy-002-optimization-not-needed",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:legacy-002",
+        "description": "绣花鞋宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "1d62072bf0d6bf0be1a2ee6f30102704aada42855d71e90d06c1a69d4552bfdd",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "复查已有独立的单条空箱旁白且保持复查游标，无第二次开盖或奖励。"
+    },
+    {
+      "id": "ordinary-chest-pilot-s036-e607-legacy-002-initialState-evidence-collected",
+      "at": "2026-11-07T01:41:51.598Z",
+      "actor": "Codex /root/chest_self_review",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "ordinary-chest-pilot-20261107:s036:e607:legacy-002",
+        "description": "绣花鞋宝箱；同轮真实存档在全新会话读回后调查；Reforge 7fc107553。定向核验，不代替整段剧情前驱。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "1d62072bf0d6bf0be1a2ee6f30102704aada42855d71e90d06c1a69d4552bfdd",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "77f9d70af7ecef85b64930b194cb4118ea10ffdf088ab45e1137ac657f3be0f7"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-7fc107553-1794015313353/s036-e607-fresh.trace.json"
+        },
+        {
+          "path": "docs/tasks/evidence/PAL-SHARED-CHEST-1-20261107.tar.gz",
+          "sha256": "056a3313ad1a7f9f9182ca1dd0117cf699adb44017521c648dd4ff215846a3c6",
+          "selector": "build/shared-chest-canary/reforge-cb3556d83-to-7fc107553.json"
+        }
+      ],
+      "note": "已从真实新会话取证开盖帧；当前初态侧车没有单独保存这个运行时帧。"
     }
   ]
 }
