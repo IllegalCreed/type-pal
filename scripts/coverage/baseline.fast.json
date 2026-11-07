@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-07T01:16:35.267Z",
+  "generatedAt": "2026-11-07T02:06:23.855Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 832,
-  "testCount": 20310,
+  "testCount": 20322,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -214,7 +214,7 @@
       ],
       "scopeDigest": "9ee027f331c4496a8268826e5cd150defee5b2f491f1fc68b0add69fe7be1e3d",
       "fastTests": {
-        "testCount": 1473,
+        "testCount": 1475,
         "testFileCount": 138,
         "files": [
           "packages/content/src/actor-condition.boundaries.test.ts",
@@ -469,8 +469,8 @@
           },
           {
             "file": "packages/content/src/author-script-core.test.ts",
-            "testCount": 34,
-            "identityDigest": "adbe9fcd91893ccf281dd8b94e8a6a6068228e65c2697686b74c27b69291c016"
+            "testCount": 36,
+            "identityDigest": "1cea43478e13b09469b4ecc05a084644e8c3c777d9dab62a612cf086b8b85e4a"
           },
           {
             "file": "packages/content/src/author-script-core.wave2.test.ts",
@@ -1048,9 +1048,9 @@
             "identityDigest": "518ae693559a05507f40f86f16396e6e96f1be3ff15830e00946f1fd57a3a9bc"
           }
         ],
-        "identityDigest": "44c58ef2ef00d9e401b276434ad46f5ce645ba213a206d8377cc65bd95523716",
+        "identityDigest": "abb8494a4ceeb3d815aa6753bdf25ca053d76e23cdc15abf70e75949c0393f1d",
         "duplicateIdentityCount": 1,
-        "executionDigest": "83427af22d94b489b77963f5ee57c2daa4afa8cb23ecc185a61e239bd558029c"
+        "executionDigest": "764e22c4fa28c9c23a22637b6bf00ffb97c2509a607c93e4bbea253a3d52bbbe"
       },
       "metrics": {
         "statements": {
@@ -2233,7 +2233,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9017,
+        "testCount": 9020,
         "testFileCount": 368,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -4228,8 +4228,8 @@
           },
           {
             "file": "packages/reforge/src/script-host-adapter.test.ts",
-            "testCount": 7,
-            "identityDigest": "c9f3e020143894bb4ae3d081823a5645a1c648314a112b00b7bc33a0ff3030a1"
+            "testCount": 10,
+            "identityDigest": "868bb797f3fe1130f9343cd95cd1d5083ff0b9b9061c03f0cbdfb06bc97da83b"
           },
           {
             "file": "packages/reforge/src/script-host-adapter.wave2.test.ts",
@@ -4447,9 +4447,9 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "03870c42ee5081c244f119f8b16f425a15e126b52f2cc30916d7bee44cd281f8",
+        "identityDigest": "ca4294aaa2ae21ee129ab981d6bf65b6640e71c7c37e76feac3c1c739b6f4527",
         "duplicateIdentityCount": 3,
-        "executionDigest": "09896bfaf1e592ca90c67bf8ac2ffaee0c5a34620a4dc1e0108350416a35258f"
+        "executionDigest": "f7e498bf2fa4d5cc80130fa314d6f62d0f89fe1398f20b7fd0f467d9d7542d14"
       },
       "metrics": {
         "statements": {
@@ -7111,7 +7111,7 @@
       ],
       "scopeDigest": "a8675cee0c4c594b1cb910bd882a22dad4858ddcb4cb663ec45adc386bb23d22",
       "fastTests": {
-        "testCount": 4836,
+        "testCount": 4843,
         "testFileCount": 626,
         "files": [
           "packages/editor/scripts/author-project-source.test.ts",
@@ -8524,8 +8524,8 @@
           },
           {
             "file": "packages/editor/src/core/playback.entities.test.ts",
-            "testCount": 18,
-            "identityDigest": "d6a9bebd9191eeb52fc77070bab050575f20d4f4cef1be2a2ee7d01c4b92de69"
+            "testCount": 19,
+            "identityDigest": "df9efd86b2a70e7be2633dc59c432ba454fcb7efb5ef2e9e7100bcc37e240b19"
           },
           {
             "file": "packages/editor/src/core/playback.entity-trigger.test.ts",
@@ -8769,8 +8769,8 @@
           },
           {
             "file": "packages/editor/src/core/script-editor.test.ts",
-            "testCount": 31,
-            "identityDigest": "34d09a8dfb474ee761ce6fba40726748a8c99c6377ad44646722ef7387f69482"
+            "testCount": 32,
+            "identityDigest": "d52ea58c3f1940f7e2e3feb21991d45d1a2c1c4ee22df5c1953226042b74cca2"
           },
           {
             "file": "packages/editor/src/core/script-flow-preview.cursor-mid-1.test.ts",
@@ -9139,8 +9139,8 @@
           },
           {
             "file": "packages/editor/src/core/world-sprite-behavior.cov85-sampler.test.ts",
-            "testCount": 15,
-            "identityDigest": "cf1f6a33ce27018cce048036de282bdfcec51d29bb146fb0e35c3aca9a659bd1"
+            "testCount": 16,
+            "identityDigest": "2b64ea92a52a92ad6d5dfc1d93b1a9fbb95e14ae58f1bf908563cc2b825c215b"
           },
           {
             "file": "packages/editor/src/core/world-sprite-behavior.kimi-workflows.test.ts",
@@ -10169,8 +10169,8 @@
           },
           {
             "file": "packages/editor/src/ui/SharedScriptTab.test.tsx",
-            "testCount": 7,
-            "identityDigest": "53cc7f84bd5d4de345a5bbf62943ef689f8c027e114e1ee46624295db1ce0c6a"
+            "testCount": 11,
+            "identityDigest": "4e44758fd17f81635ef6577799618ac74f11ad84ca3bd2e7f965bf6731910ba5"
           },
           {
             "file": "packages/editor/src/ui/ShopTab.glm-leaf-wave.test.tsx",
@@ -10873,9 +10873,9 @@
             "identityDigest": "6d9b1e40775d9e105c4ed3770ae488e05c74d354e5c965aae87815ced020c2ff"
           }
         ],
-        "identityDigest": "6059e051a75811ec09606ea6eefaa4c24a388c975b826143b5c38f40c405d25b",
+        "identityDigest": "0be4d4c8086fa8eb4522e480552efaf58e113ce31363fccd307aa8ef71d78a09",
         "duplicateIdentityCount": 8,
-        "executionDigest": "5c23bf8d35600bed9803fba709638c7a7af834fbe020b1f39ab25f04ebd46548"
+        "executionDigest": "f2f0cb93d3910b84bb0f0acdcc3c6aafa62d76b12fa91dc6603c3335d31a55be"
       },
       "metrics": {
         "statements": {
