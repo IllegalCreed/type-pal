@@ -501,6 +501,109 @@ test.each([
   expectAcceptsUnchanged((value) => validateAuthorScenes(value), [scene(flow)])
 })
 
+test('silent pickup projects its authored sound and rewards after hiding the owner', () => {
+  const flow: AuthorAcquisitionFlow = {
+    kind: 'acquisition',
+    recipe: 'builtin/item/pickup',
+    rewards: grant.rewards,
+    notice: { kind: 'silent' },
+    sound: 'sound.find',
+    stages: { available: { id: 'found' } },
+  }
+  expect(collectCanonicalCommandAssetTaggedReferences(flow, 'pickup')).toEqual([
+    { asset: 'sound.find', expectedKind: 'sound', where: 'pickup.sound' },
+  ])
+  expect(resolveAuthorDialogueTree(flow, {}, 'pickup', { items, self })).toEqual({
+    kind: 'stages',
+    initial: 'found',
+    stages: [
+      {
+        id: 'found',
+        next: { kind: 'complete' },
+        body: [
+          { kind: 'setEntityState', target: self, state: 0 },
+          { kind: 'clearDialog' },
+          { kind: 'playSound', asset: 'sound.find' },
+          { kind: 'giveItem', itemId: 'herb', count: 3 },
+          { kind: 'giveMoney', delta: 50 },
+        ],
+      },
+    ],
+  })
+})
+
+test('repeat search retains a silent collected stage and only references a sound when authored', () => {
+  const flow: AuthorAcquisitionFlow = { ...search, notice: { kind: 'silent' } }
+  expect(collectCanonicalCommandAssetTaggedReferences(flow, 'search')).toEqual([])
+  expect(
+    collectCanonicalCommandAssetTaggedReferences({ ...flow, sound: 'sound.find' }, 'search'),
+  ).toEqual([{ asset: 'sound.find', expectedKind: 'sound', where: 'search.sound' }])
+  expect(resolveAuthorDialogueTree(flow, {}, 'search', { items, self })).toEqual({
+    kind: 'stages',
+    initial: 'unopened',
+    stages: [
+      {
+        id: 'unopened',
+        label: '打开',
+        next: 'empty',
+        body: [
+          { kind: 'giveItem', itemId: 'herb', count: 3 },
+          { kind: 'giveMoney', delta: 50 },
+        ],
+      },
+      { id: 'empty', label: '空箱', body: [] },
+    ],
+  })
+})
+
+test('scene-entry preparation accepts silent grants and rejects reward presentation before reveal', () => {
+  const command: AuthorGrantRewardCommand = {
+    kind: 'grantReward',
+    rewards: [{ kind: 'money', amount: 50 }],
+    notice: { kind: 'silent' },
+  }
+  function arrival(reward: AuthorGrantRewardCommand): AuthorSceneDef {
+    return {
+      ...scene(chest),
+      entities: [],
+      hooks: {
+        onEnter: {
+          variants: {
+            arrival: {
+              label: 'Arrival',
+              order: 0,
+              flow: {
+                kind: 'stages',
+                initial: 'arrive',
+                stages: [
+                  {
+                    id: 'arrive',
+                    entry: { prepare: [reward], reveal: { kind: 'cut' } },
+                    body: [],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    }
+  }
+  const authored = arrival(command)
+  expectAcceptsUnchanged((value) => validateAuthorScenes(value), [authored])
+  const runtime = resolveAuthorDialogueTree(authored, {})
+  expect(runtime.hooks?.onEnter?.variants.arrival?.flow.stages[0]?.entry?.prepare).toEqual([
+    { kind: 'giveMoney', delta: 50 },
+  ])
+  expectExactError(
+    () =>
+      validateAuthorScenes([
+        arrival({ ...command, notice: { kind: 'standard', timing: 'before' } }),
+      ]),
+    'scenes[0].hooks.onEnter.variants.arrival.flow.stages[0].entry.prepare[0]: 入场准备只允许静默发放奖励',
+  )
+})
+
 test('recipe expression rename reaches both raw notice fields and preserves other actor expressions', () => {
   const actorCue = (actor: string, expression = 'sad') => ({
     ...cue,
@@ -585,8 +688,8 @@ test('raw recipe references locate actual presentation parameters, including rep
   expect(() => assertAuthorDialogueReferences(flow, {})).toThrow('未知 Actor "spirit"')
 })
 
-test('semantic item and reward-name references retain raw editable parameter paths', () => {
-  const bundle: ContentBundle = {
+function sharedCommandBundle(body: AuthorCommand[]): ContentBundle {
+  return {
     scenes: [],
     actors: [],
     skills: [],
@@ -601,23 +704,27 @@ test('semantic item and reward-name references retain raw editable parameter pat
       grant: {
         name: 'Grant',
         self: 'none',
-        body: [
-          {
-            kind: 'grantReward',
-            rewards: [{ kind: 'item', itemId: 'missing', count: 1 }],
-            notice: { kind: 'silent' },
-          },
-          {
-            kind: 'dialog',
-            cue: {
-              identity: { kind: 'narration' },
-              rows: [{ reward: { kind: 'item', itemName: 'item.missing', count: 2 } }],
-            },
-          },
-        ],
+        body,
       },
     },
   }
+}
+
+test('semantic item and reward-name references retain raw editable parameter paths', () => {
+  const bundle = sharedCommandBundle([
+    {
+      kind: 'grantReward',
+      rewards: [{ kind: 'item', itemId: 'missing', count: 1 }],
+      notice: { kind: 'silent' },
+    },
+    {
+      kind: 'dialog',
+      cue: {
+        identity: { kind: 'narration' },
+        rows: [{ reward: { kind: 'item', itemName: 'item.missing', count: 2 } }],
+      },
+    },
+  ])
   expect(validateReferences(bundle)).toEqual([
     {
       severity: 'error',
@@ -634,6 +741,41 @@ test('semantic item and reward-name references retain raw editable parameter pat
     { id: 'missing', name: 'item.missing', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
   ]
   bundle.locale['item.missing'] = 'Known item'
+  expect(validateReferences(bundle)).toEqual([])
+})
+
+test('mixed custom reward rows diagnose item-name references at the raw notice path only', () => {
+  const commands: AuthorCommand[] = [
+    {
+      ...grant,
+      notice: {
+        kind: 'custom',
+        timing: 'after',
+        cue: {
+          identity: { kind: 'narration' },
+          rows: [
+            { reward: { kind: 'money', amount: 50 } },
+            { reward: { kind: 'item', itemName: 'item.missing', count: 3 } },
+            { text: 'line.reward' },
+          ],
+        },
+      },
+    },
+  ]
+  checkAuthorCommands(commands, 'commands')
+  const bundle = sharedCommandBundle(commands)
+  bundle.items = [
+    { id: 'herb', name: 'item.herb', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+  ]
+  bundle.locale = { 'item.herb': '止血草', 'line.reward': '找到草药。' }
+  expect(validateReferences(bundle)).toEqual([
+    {
+      severity: 'error',
+      where: 'sharedScripts["grant"].body[0].notice.cue.rows[1].reward.itemName',
+      message: '奖励物品名 "item.missing" 不在 locale',
+    },
+  ])
+  bundle.locale['item.missing'] = '止血草'
   expect(validateReferences(bundle)).toEqual([])
 })
 
