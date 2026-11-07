@@ -76,6 +76,20 @@ const reader: EditorAssetReader = {
     throw new Error('this form does not load asset bytes')
   },
 }
+const soundCatalog: CanonicalScriptEditorContext['assetCatalog'] = {
+  version: 1,
+  assets: {
+    'sound.pal.001': {
+      kind: 'sound',
+      path: 'assets/migrated/sounds/001.wav',
+      mediaType: 'audio/wav',
+      bytes: 9782,
+      sha256: 'ee9d7e88e858c66ebed3300fe274cb20779843437aa915cc0a4cd62c360d7948',
+      label: 'PAL 音效 001',
+      origin: { kind: 'legacy-migrated', ref: 'sounds/1.wav' },
+    },
+  },
+}
 function context(
   state: ScriptEditorState,
   assetCatalog: CanonicalScriptEditorContext['assetCatalog'] = { version: 1, assets: {} },
@@ -156,6 +170,14 @@ async function input(label: string, value: string, key = 'Enter') {
   await act(async () =>
     control!.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true })),
   )
+}
+async function typeNoticeText(value: string) {
+  const field = document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')
+  expect(field).not.toBeNull()
+  await act(async () => {
+    Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!.call(field, value)
+    field!.dispatchEvent(new Event('input', { bubbles: true }))
+  })
 }
 function currentFlow(session: ScriptEditSession) {
   return session.getStateSnapshot().scenes[0]!.entities[0]!.behaviors!.trigger!.collect!.flow
@@ -269,19 +291,8 @@ test('custom notice text stays a local draft until apply and remains editable af
   }
   const session = new ScriptEditSession(scriptState(original))
   await act(async () => root.render(<FlowHarness session={session} />))
-  const typeText = async (value: string) => {
-    const field = document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')
-    expect(field).not.toBeNull()
-    await act(async () => {
-      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!.call(
-        field,
-        value,
-      )
-      field!.dispatchEvent(new Event('input', { bubbles: true }))
-    })
-  }
   await click('编辑领取文字')
-  await typeText('取消的草稿。')
+  await typeNoticeText('取消的草稿。')
   expect(currentFlow(session)).toEqual(original)
   expect(session.getHistoryVersion()).toBe(0)
   await click('取消')
@@ -289,7 +300,7 @@ test('custom notice text stays a local draft until apply and remains editable af
   expect(document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')?.value).toBe(
     '原有文字。',
   )
-  await typeText('这株草药可以止血。')
+  await typeNoticeText('这株草药可以止血。')
   await click('应用文字')
   const edited: AuthorAcquisitionFlow = {
     ...original,
@@ -321,7 +332,7 @@ test('custom notice text stays a local draft until apply and remains editable af
   expect(document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')?.value).toBe(
     '这株草药可以止血。',
   )
-  await typeText('保存后继续修改的文字。')
+  await typeNoticeText('保存后继续修改的文字。')
   await click('应用文字')
   expect(currentFlow(reopened)).toHaveProperty('notice', {
     kind: 'custom',
@@ -341,21 +352,7 @@ test('custom notice text stays a local draft until apply and remains editable af
 
 test('authored chest opening parameters detach into the correct owner and ordered leaves', async () => {
   const session = new ScriptEditSession(scriptState())
-  const assetCatalog: CanonicalScriptEditorContext['assetCatalog'] = {
-    version: 1,
-    assets: {
-      'sound.pal.001': {
-        kind: 'sound',
-        path: 'assets/migrated/sounds/001.wav',
-        mediaType: 'audio/wav',
-        bytes: 9782,
-        sha256: 'ee9d7e88e858c66ebed3300fe274cb20779843437aa915cc0a4cd62c360d7948',
-        label: 'PAL 音效 001',
-        origin: { kind: 'legacy-migrated', ref: 'sounds/1.wav' },
-      },
-    },
-  }
-  await act(async () => root.render(<FlowHarness session={session} assetCatalog={assetCatalog} />))
+  await act(async () => root.render(<FlowHarness session={session} assetCatalog={soundCatalog} />))
   await choose('开盖朝向', '右')
   await input('开盖帧', '0')
   await choose('开盖音效', 'PAL 音效 001')
@@ -395,6 +392,93 @@ test('authored chest opening parameters detach into the correct owner and ordere
     ],
   })
   expect(session.getHistoryVersion()).toBe(4)
+})
+
+test.each([
+  ['builtin/item/pickup', '拾取音效'],
+  ['builtin/item/search', '搜刮音效'],
+] as const)('%s sound selections belong to the recipe and can be cancelled or cleared', async (recipe, label) => {
+  const original = createAcquisitionFlow(recipe, 'seed')
+  const session = new ScriptEditSession(scriptState(original))
+  await act(async () => root.render(<FlowHarness session={session} assetCatalog={soundCatalog} />))
+  await choose(label, 'PAL 音效 001')
+  const selected = { ...original, sound: 'sound.pal.001' }
+  expect(currentFlow(session)).toEqual(selected)
+  expect(session.getHistoryVersion()).toBe(1)
+  const control = host.querySelector<HTMLButtonElement>(`[role="combobox"][aria-label="${label}"]`)!
+  await act(async () => control.click())
+  await act(async () =>
+    control.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+  )
+  expect(currentFlow(session)).toEqual(selected)
+  expect(session.getHistoryVersion()).toBe(1)
+  await choose(label, '(无音效)')
+  expect(JSON.parse(JSON.stringify(currentFlow(session)))).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(2)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
+  expect(currentFlow(session)).toEqual(selected)
+})
+
+test('a disabled search gains silent repeat feedback before its custom empty cue is applied, reopened or cleared', async () => {
+  const original: AuthorAcquisitionFlow = {
+    kind: 'acquisition',
+    recipe: 'builtin/item/search',
+    afterCollect: 'disable',
+    stages: { available: { id: 'search-first' }, collected: { id: 'search-empty' } },
+    rewards: [{ kind: 'item', itemId: 'seed', count: 2 }],
+    notice: { kind: 'silent' },
+  }
+  const session = new ScriptEditSession(scriptState(original))
+  await act(async () => root.render(<FlowHarness session={session} />))
+  await choose('领取之后', '仍可调查')
+  const repeat = { ...original, afterCollect: 'repeat', empty: { kind: 'silent' } }
+  expect(currentFlow(session)).toEqual(repeat)
+  expect(session.getHistoryVersion()).toBe(1)
+  await choose('空置反馈', '自定文字')
+  const unedited = {
+    ...repeat,
+    empty: {
+      kind: 'custom',
+      cue: { identity: { kind: 'narration' }, rows: [{ text: '这里已经没有东西了。' }] },
+    },
+  }
+  await click('编辑空置文字')
+  await typeNoticeText('莲蓬已经空了。')
+  expect(currentFlow(session)).toEqual(unedited)
+  expect(session.getHistoryVersion()).toBe(2)
+  await click('应用文字')
+  const edited = {
+    ...repeat,
+    empty: {
+      kind: 'custom',
+      cue: { identity: { kind: 'narration' }, rows: [{ text: '莲蓬已经空了。' }] },
+    },
+  }
+  expect(currentFlow(session)).toEqual(edited)
+  expect(session.getHistoryVersion()).toBe(3)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
+  expect(currentFlow(session)).toEqual(unedited)
+  await act(async () => {
+    expect(session.redo()).toBe(true)
+  })
+  const reopened = new ScriptEditSession(JSON.parse(JSON.stringify(session.getState())))
+  await act(async () => root.render(<FlowHarness session={reopened} />))
+  await click('编辑空置文字')
+  expect(document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')?.value).toBe(
+    '莲蓬已经空了。',
+  )
+  await click('取消')
+  await choose('空置反馈', '不显示提示')
+  expect(currentFlow(reopened)).toEqual(repeat)
+  expect(reopened.getHistoryVersion()).toBe(1)
+  await act(async () => {
+    expect(reopened.undo()).toBe(true)
+  })
+  expect(currentFlow(reopened)).toEqual(edited)
 })
 
 test('detach confirmation reports a lost owner and cancellation preserves the recipe and history', async () => {
