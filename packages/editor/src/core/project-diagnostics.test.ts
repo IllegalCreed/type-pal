@@ -74,7 +74,7 @@ function state(overrides: Partial<EditorState> = {}): EditorState & { manifest: 
   const manifest: CurrentManifest = {
     id: 'test',
     name: 'Test',
-    contentVersion: 22,
+    contentVersion: 23,
     minimumSaveVersion: 12,
     defaultEntryId: 'new-game',
     content: {
@@ -1214,7 +1214,7 @@ describe('X7 项目诊断与保存门', () => {
       ...legacy,
       manifest: {
         ...legacy.manifest,
-        contentVersion: 22,
+        contentVersion: 23,
         minimumSaveVersion: 12,
         content: {
           ...legacy.manifest.content,

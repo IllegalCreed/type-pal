@@ -14,7 +14,7 @@ function currentState(): EditorState {
     manifest: {
       id: 'current-editor-test',
       name: 'Current editor test',
-      contentVersion: 22,
+      contentVersion: 23,
       defaultEntryId: 'main',
       content: {
         scenes: 'content/scenes/',

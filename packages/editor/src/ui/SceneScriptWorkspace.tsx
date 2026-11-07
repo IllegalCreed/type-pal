@@ -563,6 +563,7 @@ export function CanonicalSceneScriptWorkspace(props: {
               activeFlow && projection.canonical
                 ? (paused) =>
                     playback.playCanonical(previewSelectionKey, activeFlow, {
+                      items: props.state.items,
                       cursor: previewCursor,
                       scene: projection.canonical!,
                       scenes: projection.scenes!,

@@ -187,10 +187,10 @@ describe('reorder adoption gate', () => {
 
     expect(manifest.version).toBe(2)
     expect(manifest.baseline).toEqual({
-      families: 17,
-      adoptions: 27,
-      dataPaths: 30,
-      interactionOwnerFiles: 20,
+      families: 18,
+      adoptions: 28,
+      dataPaths: 32,
+      interactionOwnerFiles: 21,
     })
     expect(manifest.families).toHaveLength(manifest.baseline.families)
     expect(registered).toHaveLength(manifest.baseline.adoptions)

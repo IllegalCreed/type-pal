@@ -13,7 +13,7 @@ function shell(): EditorState {
     manifest: {
       id: 'demo',
       name: '演示项目',
-      contentVersion: 22,
+      contentVersion: 23,
       defaultEntryId: 'main',
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

@@ -9,7 +9,7 @@ import type {
   WorldVariableKindV1,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
-import { lookupText, parseRichText } from '@type-pal/content'
+import { lookupText, parseRichText, resolveDialogueRowText } from '@type-pal/content'
 
 export type PresentableEnemyDefeatedCommand = NonNullable<AuthorEnemyDef['onDefeated']>[number]
 
@@ -131,8 +131,11 @@ export function createEnemyDefeatedPresentationContext(args: {
     },
     dialog(command) {
       const cue = command.cue
-      const textIds = cue.rows.map((row) => row.text)
-      const text = textIds.map(plainText).join(' / ') || '空对白'
+      const textIds = cue.rows.flatMap((row) =>
+        'text' in row ? [row.text] : row.reward.kind === 'item' ? [row.reward.itemName] : [],
+      )
+      const text =
+        cue.rows.map((row) => resolveDialogueRowText(row, args.locale)).join(' / ') || '空对白'
       const missingText = textIds.some((id) => !hasLocaleText(id))
       let speaker: EnemyDefeatedResolvedReference | undefined
       let portraitId: string | undefined

@@ -81,7 +81,7 @@ function manifest(overrides: Partial<CurrentManifest> = {}): CurrentManifest {
   return {
     id: 'demo',
     name: 'Demo',
-    contentVersion: 22,
+    contentVersion: 23,
     minimumSaveVersion: 12,
     defaultEntryId: 'new-game',
     entryPoints: [

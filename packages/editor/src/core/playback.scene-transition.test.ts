@@ -71,7 +71,7 @@ test('scene transfer continues into the target onEnter rather than ending the pr
   expect(p.view.dialog).toBeNull()
   p.step()
   await settle()
-  expect(p.view.dialog?.cue.rows[0]?.text).toBe('arrived')
+  expect(p.view.dialog?.cue.rows[0]).toMatchObject({ text: 'arrived' })
   p.step()
   await settle()
   expect(p.mode).toBe('done')
@@ -166,7 +166,7 @@ test('remote writes and same-id entities survive A-B-A revisits while spawn and 
   )
   await advanceTo(p, () => p.view.dialog !== null)
   expect(p.presentation.scene.id).toBe('b')
-  expect(p.view.dialog?.cue.rows[0]?.text).toBe('first b')
+  expect(p.view.dialog?.cue.rows[0]).toMatchObject({ text: 'first b' })
   expect(p.view.player).toMatchObject({ pos: { col: 9, row: 8, height: 1 }, facing: 'left' })
   expect(p.view.entity.get('npc')).toMatchObject({
     pos: { col: 7, row: 7, height: 0 },
@@ -222,7 +222,7 @@ test('pause during preparation holds the source canvas; one step grants the whol
   expect(p.view.dialog).toBeNull()
   p.step()
   await settle()
-  expect(p.view.dialog?.cue.rows[0]?.text).toBe('arrival')
+  expect(p.view.dialog?.cue.rows[0]).toMatchObject({ text: 'arrival' })
   p.stop()
   expect(p.presentation.scene.id).toBe('a')
 })
@@ -261,7 +261,7 @@ test.each([
   expect(p.error).toBeNull()
   expect(p.mode).toBe('paused')
   expect(p.presentation.scene.id).toBe('a')
-  expect(p.view.dialog?.cue.rows[0]?.text).toBe('new run')
+  expect(p.view.dialog?.cue.rows[0]).toMatchObject({ text: 'new run' })
 })
 
 test('resource failure returns the original canvas with an explicit error and no source tail', async () => {
@@ -327,17 +327,13 @@ test('PAL 006 boat departure reveals s014, runs its arrival dialogue, and return
   expect(p.presentation.scene).toMatchObject({ id: 's014', mapId: 'map-003' })
   expect(p.view.fadeBlack).toBe(0)
   expect(p.view.player.pos).toEqual({ col: 74, row: 27, height: 0 })
-  expect(p.view.dialog?.cue.rows.map((row) => row.text)).toEqual(['dlg.1886'])
+  expect(p.view.dialog?.cue.rows).toEqual([{ text: 'dlg.1886' }])
   p.pause()
   p.tick(20_000)
   expect(p.presentation.scene.id).toBe('s014')
   p.step()
   await settle()
-  expect(p.view.dialog?.cue.rows.map((row) => row.text)).toEqual([
-    'dlg.1888',
-    'dlg.1889',
-    'dlg.1890',
-  ])
+  expect(p.view.dialog?.cue.rows).toEqual(['dlg.1888', 'dlg.1889', 'dlg.1890'])
   p.step()
   await settle()
   expect(p.mode).toBe('done')

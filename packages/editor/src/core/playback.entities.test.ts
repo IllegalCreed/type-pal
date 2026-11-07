@@ -30,7 +30,7 @@ describe('Canonical preview entity overlays', () => {
       },
     )
 
-    expect(r.p.view.dialog?.cue.rows[0]?.text).toBe('Opened')
+    expect(r.p.view.dialog?.cue.rows[0]).toMatchObject({ text: 'Opened' })
     expect([...r.p.view.entity]).toEqual([['other', { facing: 'down', frame: 1 }]])
     expect(r.p.poi).toEqual({ kind: 'entity', id: 'other' })
     r.unchanged()

@@ -265,9 +265,9 @@ describe('add picker adoption gate', () => {
 
     expect(manifest.version).toBe(1)
     expect(manifest.baseline).toEqual({
-      included: 8,
+      included: 9,
       deferredOwners: 7,
-      includedDataPaths: 17,
+      includedDataPaths: 19,
       deferredDataPaths: 7,
     })
     expect(manifest.included).toHaveLength(manifest.baseline.included)

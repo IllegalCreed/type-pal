@@ -2,7 +2,7 @@ import type {
   AuthorCommand,
   AuthorItemData,
   AuthorSceneDef,
-  AuthorScriptFlow,
+  AuthorStagesFlow,
 } from '@type-pal/content'
 import {
   fsaSource,
@@ -34,11 +34,11 @@ export const sourceScene = { kind: 'scene', id: 'start' } as const
 export const ownerKinds = ['onEnter', 'onTeleport', 'trigger', 'auto', 'shared', 'item'] as const
 export type GuardOwnerKind = (typeof ownerKinds)[number]
 
-export function stageFlow(body: AuthorCommand[] = []): AuthorScriptFlow {
+export function stageFlow(body: AuthorCommand[] = []): AuthorStagesFlow {
   return { kind: 'stages', initial: 'initial', stages: [{ id: 'initial', body }] }
 }
 
-export function transitionFlow(nested = false): AuthorScriptFlow {
+export function transitionFlow(nested = false): AuthorStagesFlow {
   return {
     kind: 'stages',
     initial: 'one',
@@ -85,7 +85,7 @@ export function sceneReferences(index: ProjectReferenceIndex) {
 
 /** Real seed → current loader → author/main sessions. No project or validator mocks. */
 export async function sceneGuardFixture(
-  flow: AuthorScriptFlow = stageFlow(),
+  flow: AuthorStagesFlow = stageFlow(),
   kind: GuardOwnerKind = 'onEnter',
 ) {
   const disk = memoryAuthorDirectory(await buildBlankProject('scene-reference-guard'))

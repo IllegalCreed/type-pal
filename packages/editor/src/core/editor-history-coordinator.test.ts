@@ -36,7 +36,7 @@ const legacyState = (): EditorState =>
     stamps: [],
     manifest: {
       id: 'test',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},

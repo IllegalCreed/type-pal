@@ -47,7 +47,7 @@ function state(): EditorState {
     manifest: {
       id: 'sprite-refs',
       name: 'sprite-refs',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       content: {},
       assets: { catalog: 'assets/index.json', roles: {} },

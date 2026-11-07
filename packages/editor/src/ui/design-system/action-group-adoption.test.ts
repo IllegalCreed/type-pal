@@ -22,16 +22,16 @@ function unwrapActionGroup(value: string, opening: string): string {
 }
 
 describe('action group adoption gate', () => {
-  test('closes sixteen adopted groups and classifies every raw move-button surface', () => {
+  test('closes all adopted groups and classifies every raw move-button surface', () => {
     expect(validateActionGroupAdoption(manifest)).toEqual([])
     expect(manifest.baseline).toEqual({
-      groups: 16,
-      moveButtons: 42,
-      adoptedMoveButtons: 24,
+      groups: 17,
+      moveButtons: 44,
+      adoptedMoveButtons: 26,
       rawMoveButtons: 18,
       candidateSurfaces: 9,
     })
-    expect(manifest.adopted).toHaveLength(16)
+    expect(manifest.adopted).toHaveLength(17)
     expect(manifest.candidates).toHaveLength(9)
     expect(
       Object.fromEntries(

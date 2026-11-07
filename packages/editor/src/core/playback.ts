@@ -25,12 +25,13 @@ import type {
   WorldState,
 } from '@type-pal/content'
 import {
+  type AcquisitionItems,
   buildEntityLifecycleReferenceIndex,
   emptyProjectedWorldScriptState,
   emptyWorldScriptState,
-  lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
+  resolveDialogueRowText,
 } from '@type-pal/content'
 import type {
   BaseRuntimeLeafCommand,
@@ -343,6 +344,7 @@ export class Playback {
       scene: AuthorSceneDef
       /** 起播时一次投影的独立定义；切场景不重新应用初态。 */
       scenes?: readonly AuthorSceneDef[]
+      items?: AcquisitionItems
       sharedScripts: AuthorScriptLibrary
       actorsById: Readonly<Record<string, ActorDef>>
       self?: EntityAddress
@@ -362,20 +364,21 @@ export class Playback {
     const ac = new AbortController()
     this.abort = ac
     const digest = 'e'.repeat(64)
-    const runtimeFlow = resolveAuthorDialogueTree(
-      flow,
-      options.actorsById,
-      'preview.flow',
-    ) as RuntimeScriptFlow
+    const runtimeFlow = resolveAuthorDialogueTree(flow, options.actorsById, 'preview.flow', {
+      items: options.items,
+      self: options.self,
+    }) as RuntimeScriptFlow
     const runtimeScene = resolveAuthorDialogueTree(
       options.scene,
       options.actorsById,
       'preview.scene',
+      { items: options.items },
     ) as RuntimeSceneDef
     const runtimeSharedScripts = resolveAuthorDialogueTree(
       options.sharedScripts,
       options.actorsById,
       'preview.sharedScripts',
+      { items: options.items },
     ) as RuntimeScriptLibrary
     const scratch: WorldState = {
       party: [],
@@ -397,6 +400,7 @@ export class Playback {
         source,
         options.actorsById,
         `preview.scene.${sceneId}`,
+        { items: options.items },
       )
       resolvedScenes.set(sceneId, resolved)
       return resolved
@@ -874,7 +878,7 @@ export class Playback {
       new Promise<void>((resolve) => {
         this.view.heldDialog = undefined
         const characters = cue.rows.reduce(
-          (count, row) => count + Array.from(lookupText(row.text, this.locale)).length,
+          (count, row) => count + Array.from(resolveDialogueRowText(row, this.locale)).length,
           0,
         )
         this.dialogTimeLeft = Math.min(8000, 1200 + characters * 80)

@@ -17,7 +17,7 @@ import type {
   AuthorCommand,
   AuthorEntityBehaviors,
   AuthorSceneHooks,
-  AuthorScriptFlow,
+  AuthorStagesFlow,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import type {
@@ -64,11 +64,14 @@ function selectionCommand(behaviorId: string): AuthorCommand {
   }
 }
 
-function stageFlow(body: AuthorCommand[] = []): AuthorScriptFlow {
+function stageFlow(body: AuthorCommand[] = []): AuthorStagesFlow {
   return { kind: 'stages', initial: 'start', stages: [{ id: 'start', body }] }
 }
 
-function behavior(id: string, flow?: AuthorScriptFlow): AuthorEntityBehavior {
+function behavior(
+  id: string,
+  flow?: AuthorStagesFlow,
+): AuthorEntityBehavior & { flow: AuthorStagesFlow } {
   return { label: id, order: 0, flow: flow ?? stageFlow() }
 }
 
@@ -384,7 +387,7 @@ function flattedMatches(haystack: string, pattern: RegExp): number {
 
 test('cov85-residual branch else 臂内的选择器遍历', () => {
   const state = editorState()
-  const flow: AuthorScriptFlow = {
+  const flow: AuthorStagesFlow = {
     kind: 'stages',
     initial: 'start',
     stages: [

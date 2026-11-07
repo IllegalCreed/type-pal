@@ -372,7 +372,7 @@ describe('CanonicalSharedScriptTab', () => {
       manifest: {
         id: 'test',
         name: 'Test',
-        contentVersion: 22,
+        contentVersion: 23,
         minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: {},

@@ -307,6 +307,7 @@ describe('CanonicalSceneScriptWorkspace', () => {
   test('each selected step restores its own binding in both idle canvas and actual playback', async () => {
     const author = structuredClone(state)
     const flow = author.scenes[0]!.entities[0]!.behaviors!.trigger!['legacy-001']!.flow
+    if (flow.kind !== 'stages') throw new Error('expected ordinary stages fixture')
     flow.stages.push({ id: 'later', body: [] })
     const entry = {
       sceneId: 'sA',

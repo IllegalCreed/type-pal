@@ -1,3 +1,4 @@
+import { resolveDialogueRowText } from '@type-pal/content'
 /**
  * 脚本树查看器（只读）—— 把迁移出来的结构化脚本（ScriptStage[] / Command[]）渲成可读中文树。
  * 单人开发的「验证眼睛」:一眼看出迁移的剧情对不对(设计:script-model-m3-design §4 编辑器侧)。
@@ -153,7 +154,13 @@ export function describeScriptCommand(
             : cmd.cue.slot === 'center'
               ? '中央'
               : '下'
-      const text = cue.rows.map((row) => scriptTreeText(row.text, locale)).join(' / ')
+      const text = cue.rows
+        .map((row) =>
+          'text' in row
+            ? scriptTreeText(row.text, locale)
+            : resolveDialogueRowText(row, locale ?? {}),
+        )
+        .join(' / ')
       return {
         icon: '💬',
         label: `${who}${text}`,

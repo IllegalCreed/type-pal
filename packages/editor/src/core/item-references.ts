@@ -9,8 +9,10 @@ import type {
 import type { EditorState } from './edit-session.js'
 import {
   type CanonicalScriptReference,
+  collectCanonicalAcquisitionVisits,
   describeCanonicalScriptReference,
   type ScriptCommandLocator,
+  type ScriptCommandOwner,
   type ScriptEditorState,
   visitCanonicalScriptCommands,
 } from './script-editor.js'
@@ -25,6 +27,7 @@ export type ItemReferenceLocator =
       pageIndex?: number
       commandPath?: string
     }
+  | { kind: 'script-owner'; owner: ScriptCommandOwner }
   | { kind: 'shared-script'; scriptId: string; commandPath?: string }
   | { kind: 'shop'; shopId: number }
   | { kind: 'actor'; actorId: string }
@@ -306,7 +309,12 @@ export function collectCanonicalItemTaggedReferences(
   ): void => {
     references.push({ itemId, access, detail, where: `${where}${suffix}` })
   }
-  if (command.kind === 'giveItem')
+  if (command.kind === 'grantReward')
+    command.rewards.forEach((reward, index) => {
+      if (reward.kind === 'item')
+        push(reward.itemId, 'reward', `获得 ×${reward.count}`, `.rewards[${index}].itemId`)
+    })
+  else if (command.kind === 'giveItem')
     push(command.itemId, 'reward', `获得 ×${command.count ?? 1}`, '.itemId')
   else if (command.kind === 'loseItem')
     push(command.itemId, 'lose', `失去 ×${command.count ?? 1}`, '.itemId')
@@ -376,9 +384,30 @@ function scanEnemyOnDefeatedCommands(
   })
 }
 
+/** Raw recipe parameters remain attributed to the editable scheme. */
+export function collectAcquisitionItemReferences(state: ScriptEditorState): ItemReference[] {
+  return collectCanonicalAcquisitionVisits(state).flatMap(({ flow, path, owner }) =>
+    flow.rewards.flatMap((reward, index): ItemReference[] =>
+      reward.kind === 'item'
+        ? [
+            {
+              itemId: reward.itemId,
+              access: 'reward',
+              source: 'scene',
+              label: `场景 ${owner.sceneId} / 实体 ${owner.entityId} / 取物流程`,
+              where: `${path}.rewards[${index}].itemId`,
+              detail: `获得 ×${reward.count}`,
+              locator: { kind: 'script-owner', owner },
+            },
+          ]
+        : [],
+    ),
+  )
+}
+
 /** 当前脚本中的物品读取/获得/失去引用；locator 直接复用脚本编辑器稳定定位。 */
 export function collectCanonicalItemReferences(state: ScriptEditorState): ItemReference[] {
-  const out: ItemReference[] = []
+  const out: ItemReference[] = collectAcquisitionItemReferences(state)
 
   visitCanonicalScriptCommands(state, (command: AuthorCommand, path, commandLocator) => {
     const tagged = collectCanonicalItemTaggedReferences(command, path)

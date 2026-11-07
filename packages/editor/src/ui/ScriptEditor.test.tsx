@@ -574,7 +574,9 @@ describe('CanonicalScriptEditor author presentation', () => {
     const cueRows = () => {
       const command = session.getState().sharedScripts[scriptId]!.body[0]!
       expect(command.kind).toBe('dialog')
-      return command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : []
+      return command.kind === 'dialog'
+        ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+        : []
     }
     await act(async () => root.render(<Harness />))
     await act(async () =>

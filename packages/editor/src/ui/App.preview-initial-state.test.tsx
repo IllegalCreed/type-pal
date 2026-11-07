@@ -115,8 +115,10 @@ async function mountApp(unavailableScenes = false) {
   const outside = structuredClone(scene)
   outside.id = 'outside'
   outside.entities[0]!.label = '院外守卫'
+  const later = outside.entities[0]!.behaviors!.trigger!.later!
+  if (later.flow.kind !== 'stages') throw new Error('expected ordinary stages fixture')
   outside.entities[0]!.behaviors!.auto = {
-    later: structuredClone(outside.entities[0]!.behaviors!.trigger!.later!),
+    later: { ...structuredClone(later), flow: structuredClone(later.flow) },
   }
   files['content/scenes/index.json'] = {
     version: 1,
@@ -417,6 +419,7 @@ test('scene-hook drafts retain runtime default and preview-only saves; deleted r
   await openStep(2)
   await click('打开初态编排')
   const flow = rig.script.getState().scenes[0]!.entities[0]!.behaviors!.trigger!.greet!.flow
+  if (flow.kind !== 'stages') throw new Error('expected ordinary stages fixture')
   await act(async () =>
     rig.script.dispatch(
       new UpdateEntityBehaviorCommand({ scene: 'start', entity: 'host' }, 'trigger', 'greet', {

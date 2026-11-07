@@ -151,6 +151,18 @@
       "component": "InitialStateWorkspace",
       "responsive": 1,
       "stacked": 0
+    },
+    {
+      "source": "ItemAcquisitionEditor.tsx",
+      "component": "AcquisitionFields",
+      "responsive": 4,
+      "stacked": 0
+    },
+    {
+      "source": "ItemAcquisitionEditor.tsx",
+      "component": "GrantRewardFields",
+      "responsive": 1,
+      "stacked": 0
     }
   ],
   "exceptions": {
