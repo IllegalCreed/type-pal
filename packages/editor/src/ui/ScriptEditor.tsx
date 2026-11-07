@@ -1006,7 +1006,10 @@ export function describeCanonicalCommand(
         children,
       }
     case 'callScript': {
-      const name = context?.state.sharedScripts[command.script]?.name
+      const scripts = context?.state.sharedScripts ?? {}
+      const name = Object.hasOwn(scripts, command.script)
+        ? scripts[command.script]?.name
+        : undefined
       return {
         icon: '↪',
         label: `调用共享脚本：${name ?? `${command.script}（未找到）`}`,

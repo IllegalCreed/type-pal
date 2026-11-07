@@ -287,8 +287,8 @@ test('behavior, page and shared-call summaries resolve semantic names', () => {
     ).detail,
   ).toBe('厨房阶段')
   expect(
-    describeCanonicalCommand({ kind: 'callScript', script: 'beggar-first-talk' }, context).detail,
-  ).toBe('醉道士首次交谈')
+    describeCanonicalCommand({ kind: 'callScript', script: 'beggar-first-talk' }, context).label,
+  ).toBe('调用共享脚本：醉道士首次交谈')
   expect(
     describeCanonicalCommand(
       {
