@@ -65,3 +65,5 @@ Game 的普通奖励旁白自动收起，两个 Reforge 比较版本均保留原
 ## 当前接续
 
 2026-11-07 用户将四类完整取物参数表单交由 [N6b](N6B-ITEM-FLOWS-1.md)统一实施。本卡固定开盖试点的原技术接受和归档保持上述候选身份；两只箱的作者接线现由完整宝箱流程继任，`pal/chest/open` 在零消费者后退役。通用调用实体姿态能力继续使用。本卡不再另起实现或独立合并，随 N6b 的最终集成一起收口；这里的 content22 实跑不改记为 content23。
+
+2026-11-07 已随 [PR #48](https://github.com/IllegalCreed/type-pal/pull/48) 合入 main `466af5e6e5102849c62172e1cb6e99d1d940efd6`，临时 `codex/shared-chest-opening` 分支已退役，原 HEAD `374ec2984b5f511cbbd5ab0089e199f9085dc910` 仍由主线可达。用户新版视觉判断继续由 N6b 原卡记录，不把集成与分支清理替代该判断。

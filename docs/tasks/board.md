@@ -90,8 +90,8 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 007–010 已分段收口，剩余薄基线与取物 canary 见原卡 |
-| PAL-SHARED-CHEST-1 | [普通宝箱首次开盖复用](cards/PAL-SHARED-CHEST-1.md) | review | 第二阶段 / 固定逻辑复用 | 两只普通箱真实调用、空箱存读与编辑器复验；苗刀箱独立 | Codex / 固定开盖试点由 N6b 完整流程接替，随其集成收口 |
-| N6B-ITEM-FLOWS-1 | [四类共享取物流程与参数表单](cards/N6B-ITEM-FLOWS-1.md) | review | 第二阶段 / 意图式创作 | 已有取物样本、持久步骤与统一预览；010 特殊箱独立 | Codex / 同路、存读、表单与统一质量门通过；待新版表单和分屏用户验收 |
+| PAL-SHARED-CHEST-1 | [普通宝箱首次开盖复用](cards/PAL-SHARED-CHEST-1.md) | review | 第二阶段 / 固定逻辑复用 | 两只普通箱真实调用、空箱存读与编辑器复验；苗刀箱独立 | Codex / 由 N6b 完整流程接替并随 PR #48 合入主线，临时分支已退役 |
+| N6B-ITEM-FLOWS-1 | [四类共享取物流程与参数表单](cards/N6B-ITEM-FLOWS-1.md) | review | 第二阶段 / 意图式创作 | 已有取物样本、持久步骤与统一预览；010 特殊箱独立 | Codex / 远端 CI 通过、PR #48 已合入；67 旧本地/4 远程分支已清理，待新版表单和分屏用户验收 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |

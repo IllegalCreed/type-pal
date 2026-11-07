@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "93d42bf18a5316ca9fbd6f246768ce3e71eeea1646e38f59eaf42e3fac91a7e9",
+      "afterSha256": "6af91b8fcd6a276fe1d7d2f40bb85e8d4fc8e828ddbadbf25e3a2f8fccc2bbb0",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
+        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
         "reviewedLines": 123,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
       }
     },
     {
@@ -5306,14 +5306,14 @@
     {
       "path": "docs/tasks/cards/PAL-SHARED-CHEST-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "896f3ea4d11e4453aa8c1922ce02410679c4b61290fe5a88c511166a9e209158",
+      "afterSha256": "e486da3ebf3bfb16278092a4327c228b87da6ed66c8ac4a9fae7ae9a4ba5dc09",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 68,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
+        "reviewedLines": 70,
+        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
       }
     },
     {
@@ -5332,14 +5332,14 @@
     {
       "path": "docs/tasks/cards/N6B-ITEM-FLOWS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "bf428a2181d0f21d11e811b762d2f14b783e766356f81a9b7650143d6c75de0b",
+      "afterSha256": "b608f1260b1d8e568c55b6a4b30b45e7d08df9547d0eff00546b5d3eef823854",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 149,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
+        "reviewedLines": 166,
+        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
       }
     },
     {
@@ -5636,6 +5636,12 @@
       "sha256": "e7244ec945796f1239cdf7dfeaac5b5b19ecd00fca17f2b582dee2906fa76ae3",
       "bytes": 6818387,
       "purpose": "N6b current acquisition quality: build/item-flows/quality-index.json; original source reviews, exact command results, meaningful controls, UI/native filesystem checks and failure recovery; no historical execution promotion."
+    },
+    {
+      "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz",
+      "sha256": "d47afdb7517d4db6435df4f3f29ab5243c94b9d6607ccc62dd54cf8f121e024d",
+      "bytes": 196310,
+      "purpose": "N6B merged branch cleanup: build/item-flows/cleanup-index.json; exact original refs, independent ownership/recovery review, actual guarded deletions, verified minimal Git bundle, PR48 CI/merge and preserved native paths; no new user visual acceptance or physical worktree retirement."
     }
   ],
   "artifactAliases": [],
