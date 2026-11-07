@@ -142,6 +142,7 @@ test.each<ItemReward>([
   await click('完成')
   expect(saved()).toEqual(original)
   expect(session.getHistoryVersion()).toBe(0)
+  expect(document.querySelector('dialog[open]')).toBeNull()
 
   await openDialogue()
   if (reward.kind === 'item') await input('奖励物品名称', '雪莲子')
