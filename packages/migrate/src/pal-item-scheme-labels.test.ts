@@ -2,7 +2,7 @@ import type {
   AuthorCommand,
   AuthorItemData,
   AuthorSceneDef,
-  AuthorScriptFlow,
+  AuthorStagesFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
@@ -20,7 +20,7 @@ const hook = (id: string): AuthorCommand => ({
   selection: { onEnter: { kind: 'use', value: id } },
 })
 
-const stages = (body: AuthorCommand[]): AuthorScriptFlow => ({
+const stages = (body: AuthorCommand[]): AuthorStagesFlow => ({
   kind: 'stages',
   initial: 'main',
   stages: [{ id: 'main', body }],
@@ -44,7 +44,7 @@ function item(id: string, name: string, body: AuthorCommand[]): AuthorItemData {
 
 function scene(args: {
   hookBody?: AuthorCommand[]
-  behaviors?: Record<string, { label: string; order: number; flow: AuthorScriptFlow }>
+  behaviors?: Record<string, { label: string; order: number; flow: AuthorStagesFlow }>
 }): AuthorSceneDef {
   return {
     id: 's001',
@@ -77,6 +77,33 @@ function scene(args: {
 }
 
 describe('PAL item scheme label invariant', () => {
+  test('取物奖励不会伪造成物品用途脚本的选择关系', () => {
+    const authored = scene({})
+    authored.entities[0]!.behaviors = {
+      trigger: {
+        search: {
+          label: '找到信物',
+          order: 0,
+          flow: {
+            kind: 'acquisition',
+            recipe: 'builtin/item/pickup',
+            stages: { available: { id: 'first' } },
+            rewards: [{ kind: 'item', itemId: '292', count: 1 }],
+            notice: { kind: 'silent' },
+          },
+        },
+      },
+    }
+    expect(
+      inspectPalItemSchemeRoots({
+        items: [item('292', '信物', [])],
+        scenes: [authored],
+        expectedSchemes: 0,
+        expectedItemRoots: 0,
+      }),
+    ).toMatchObject({ schemes: 0, itemRoots: 0, labels: [] })
+  })
+
   test('沿 hooks[channel].variants 与固有挂载方案闭包，并按 order + id 稳定消歧', () => {
     const result = inspectPalItemSchemeRoots({
       items: [item('292', '信物', [hook('c8-hook')])],

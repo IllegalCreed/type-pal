@@ -70,7 +70,7 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 ## Legal typed inputs
 
 输入须是当前 canonical 工程、同引擎且来源可追踪的检查点、已声明剧情碎片及 verify/capture profile。
-损坏记录的反控与真实产品输入合同分开。当前源码常量为 content22/minimumSave12、SAVE_VERSION=12；
+损坏记录的反控与真实产品输入合同分开。当前源码常量为 content23/minimumSave12、SAVE_VERSION=12；
 版本切换重建受影响输入，不给旧 SAVE 增加兼容链。下列带日期的旧准入、旧版本与实跑状态只描述原轮次，
 不覆盖现行规范，也不能替代各片段当前正式报告。
 

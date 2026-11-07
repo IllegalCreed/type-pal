@@ -1,4 +1,10 @@
+import { tsImport } from 'tsx/esm/api'
 import { callerContexts, digest, indexSource, sourceSegment } from './source.mjs'
+
+const { expandAuthorScriptTree } = await tsImport(
+  '../../packages/content/src/author-script.ts',
+  import.meta.url,
+)
 
 export function visitCommands(value, visit, path = '') {
   if (!value || typeof value !== 'object') return
@@ -34,15 +40,25 @@ export function canonicalTokens(body, owner) {
   return tokens
 }
 
-function canonicalIndex(scenes) {
+function canonicalIndex(scenes, items) {
   const entities = new Map()
+  const authoredEntities = new Map()
   const selectors = []
   for (const scene of scenes) {
     for (const entity of scene.entities ?? []) {
       const key = `${scene.id}/${entity.id}`
       if (entities.has(key)) throw new Error(`Duplicate canonical identity: ${key}`)
-      entities.set(key, entity)
+      entities.set(
+        key,
+        expandAuthorScriptTree(entity, key, {
+          items,
+          self: { scene: scene.id, entity: entity.id },
+        }),
+      )
+      authoredEntities.set(key, entity)
     }
+    // Recipes cannot select other schemes. Keep selection locations in the author tree,
+    // because expanding a reward changes later executable command indices.
     visitCommands(scene, (command, path) => {
       if (command.kind === 'selectEntityBehavior')
         selectors.push({
@@ -54,7 +70,7 @@ function canonicalIndex(scenes) {
         })
     })
   }
-  return { entities, selectors }
+  return { entities, authoredEntities, selectors }
 }
 
 const sameTokens = (left, right) =>
@@ -105,6 +121,8 @@ function classifyBinding({ edge, owner, source, canonical, competingTargets, pro
     }
   }
   const [behaviorId, behavior] = matches[0]
+  const authoredBehaviors = canonical.authoredEntities.get(`${identity.scene}/${identity.entity}`)
+    .behaviors[edge.channel]
   const callers = canonical.selectors.filter(
     (selector) =>
       selector.target?.scene === identity.scene &&
@@ -117,7 +135,7 @@ function classifyBinding({ edge, owner, source, canonical, competingTargets, pro
   const result = {
     ...base,
     behavior: behaviorId,
-    behaviorHash: digest(behavior),
+    behaviorHash: digest(authoredBehaviors[behaviorId]),
     mapping: 'unique-owner-channel-initial-body-and-unique-source-target',
     canonicalCallers: callers.map(({ scene, path }) => ({ scene, path })),
     status: 'mapped',
@@ -163,7 +181,7 @@ function classifyBinding({ edge, owner, source, canonical, competingTargets, pro
         reviewType: 'selection-handoff',
         reason: 'explicit-successor-handoff-content-present-cursor-unverified',
         handoffBehavior: directHandoffs[0].selection.value,
-        handoffBehaviorHash: digest(targetBehavior),
+        handoffBehaviorHash: digest(authoredBehaviors[directHandoffs[0].selection.value]),
       }
     }
   }
@@ -237,13 +255,14 @@ export function buildCensus({
   events,
   sourceScenes,
   canonicalScenes,
+  canonicalItems = [],
   externalTables = [],
   protectedSceneIds = ['s000', 's001', 's002', 's003', 's004', 's005'],
 }) {
   const source = indexSource(events, sourceScenes, externalTables)
   const contexts = callerContexts(source)
   const reachable = reachableRoots(source, contexts)
-  const canonical = canonicalIndex(canonicalScenes)
+  const canonical = canonicalIndex(canonicalScenes, canonicalItems)
   const protectedScenes = new Set(protectedSceneIds)
   const ownerEntries = new Map()
   const resolved = source.edges.map((edge) => {

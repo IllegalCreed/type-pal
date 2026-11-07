@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises'
 import { test } from 'node:test'
 import { buildCensus } from './census.mjs'
 import { loadCanonicalScenes } from './run.mjs'
-import { callerContexts, indexSource, sourceSegment } from './source.mjs'
+import { callerContexts, digest, indexSource, sourceSegment } from './source.mjs'
 
 const raw = (opcode, ...operands) => ({
   op: 'raw',
@@ -233,6 +233,46 @@ test('reward then source advance flags a risk even when the successor starts wit
   const binding = buildCensus(input).edges[0].bindings[0]
   assert.equal(binding.risk, 'repeat-reward-candidate')
   assert.equal(binding.successor.terminal.kind, 'nonlinear')
+})
+
+test('recipe body mapping uses the shared lowerer while evidence hashes remain authored parameters', () => {
+  const recipe = {
+    flow: {
+      kind: 'acquisition',
+      recipe: 'builtin/item/search',
+      stages: { available: { id: 'first' }, collected: { id: 'empty' } },
+      rewards: [{ kind: 'item', itemId: '107', count: 1 }],
+      notice: { kind: 'silent' },
+      afterCollect: 'repeat',
+      empty: {
+        kind: 'custom',
+        cue: { identity: { kind: 'narration' }, rows: [{ text: 'dlg.101' }] },
+      },
+    },
+  }
+  const input = fixture(
+    [
+      end(),
+      raw(0x25, 192, 3),
+      end(),
+      { op: 'giveItem', itemId: 107, count: 0 },
+      end({ advance: true }),
+      dialogue(101),
+      end(),
+    ],
+    { search: recipe },
+  )
+  input.canonicalItems = [
+    { id: '107', name: 'item.107' },
+    { id: '108', name: 'item.108' },
+  ]
+  const row = buildCensus(input).edges[0].bindings[0]
+  assert.equal(row.status, 'mapped')
+  assert.equal(row.behaviorHash, digest(recipe))
+  assert.deepEqual(row.missingSuccessorTokens, [])
+  assert.equal(row.reason, 'successor-content-present-cursor-not-proven')
+  recipe.flow.rewards[0].itemId = '108'
+  assert.equal(buildCensus(input).edges[0].bindings[0].status, 'unknown')
 })
 
 test('self-rebinding and explicit completion are not labelled a repeating reward', () => {

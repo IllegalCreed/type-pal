@@ -1767,29 +1767,5 @@
         ]
       }
     ]
-  },
-  "pal/chest/open": {
-    "name": "普通宝箱开盖",
-    "description": "打开玩家当前调查的普通宝箱。物品、提示和复查步骤由宝箱本身编排。",
-    "self": "required",
-    "body": [
-      {
-        "facing": "down",
-        "kind": "setEntityFacing",
-        "target": "self"
-      },
-      {
-        "frame": 1,
-        "kind": "setEntityFrame",
-        "target": "self"
-      },
-      {
-        "kind": "clearDialog"
-      },
-      {
-        "asset": "sound.pal.078",
-        "kind": "playSound"
-      }
-    ]
   }
 }
