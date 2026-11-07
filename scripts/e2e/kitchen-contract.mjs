@@ -181,7 +181,7 @@ export function validateKitchenPredecessor(report, payload, engine, bytes) {
     assert.equal(gs.PlayerRolesRuntime.rgwSpriteNum[0], 2)
   } else {
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
     assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's003')
     assert.equal(payload.world.money, 500)
@@ -389,7 +389,7 @@ function flowRows(flow) {
 export function assertKitchenEndPayload(payload, engine, predecessor, contract) {
   if (engine !== 'game') {
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
   }
   return assertKitchenStoryEnd(payload, engine, predecessor, contract)
 }

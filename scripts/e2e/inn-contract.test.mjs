@@ -101,7 +101,7 @@ const handoffPayload = (engine) =>
       }
     : {
         version: 12,
-        contentVersion: 22,
+        contentVersion: 23,
         projectId: 'pal',
         position: { sceneId: 's003' },
         world: {
@@ -279,10 +279,10 @@ test('failed predecessor, changed bytes and other fragment cannot become 002 adm
   )
   assert.throws(() => validatePredecessor(r, { ...p, gs: { ...p.gs, dwCash: 500 } }, 'game', bytes))
 })
-test('002 Reforge admission strictly requires the current SAVE12/content22 predecessor', () => {
+test('002 Reforge admission strictly requires the current SAVE12/content23 predecessor', () => {
   const payload = {
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'pal',
     position: { sceneId: 's001', pos: { col: 60, height: 0, row: -24 }, facing: 'down' },
     world: { money: 0, party: [{ id: 'li-xiaoyao' }] },
@@ -304,7 +304,7 @@ test('002 Reforge admission strictly requires the current SAVE12/content22 prede
   assert.equal(validate(payload).sha256, sha256(JSON.stringify(payload)))
   assert.throws(() => validate({ ...payload, version: 10, contentVersion: 21 }))
   assert.throws(() => validate({ ...payload, version: 8 }))
-  assert.throws(() => validate({ ...payload, contentVersion: 20 }))
+  assert.throws(() => validate({ ...payload, contentVersion: 22 }))
   assert.throws(() => validate({ ...payload, version: 8, contentVersion: 20 }))
 })
 test('002 real module AST write census retains all 001 anchors and adds normal input', () => {
@@ -382,7 +382,7 @@ test('committed restore DTO is detached and precedes scene commits in the same g
 const restorePayloadFixture = () => ({
   sceneRuntime: {},
   version: 12,
-  contentVersion: 22,
+  contentVersion: 23,
   projectId: 'pal',
   position: { sceneId: 's003', pos: { col: 126, row: 45, height: 0 }, facing: 'down' },
   world: {
@@ -565,7 +565,7 @@ test('actual transformed restore reads committed World before real auto call, no
     facing: 'down',
     inputProject: { manifest: { id: 'pal' } },
     SAVE_VERSION: 12,
-    CONTENT_VERSION: 22,
+    CONTENT_VERSION: 23,
     pendingChaseTerminal: new Map(),
     hasLivePendingChaseTerminal: () => false,
     assertRunnerActive: () => {},

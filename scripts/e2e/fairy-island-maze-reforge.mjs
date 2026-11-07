@@ -16,6 +16,7 @@ import {
 import { FAIRY_MAZE_LOOT, FAIRY_MAZE_STATUES, fairyMazePlan } from './fairy-island-maze-route.mjs'
 import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
+import { captureItemGuardSeed } from './item-acquisition-guard-contract.mjs'
 import { kitchenReady } from './kitchen-contract.mjs'
 import { readLongEvidenceArchive, writeLongEvidenceArtifact } from './long-evidence.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
@@ -364,6 +365,7 @@ await runBrowserJourney({
           observation.pickup = await takeLoot({ entity: target, items })
         } else observation.exit = target
         observation.endOrder = await readOrder()
+        if (observation.pickup) await captureItemGuardSeed(page, out, report, target)
         console.log(`[reforge-008] ${phase} ${target} ${position.join(',')}`)
       }
 

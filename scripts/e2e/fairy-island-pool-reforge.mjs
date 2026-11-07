@@ -16,6 +16,7 @@ import {
 import { fairyPoolRoutes } from './fairy-island-pool-route.mjs'
 import { executeFixedRoute } from './fixed-route-plan.mjs'
 import { canonicalInput, pressRecordedKey } from './input-ledger.mjs'
+import { captureItemGuardSeed } from './item-acquisition-guard-contract.mjs'
 import { kitchenReady } from './kitchen-contract.mjs'
 import { readLongEvidenceArchive, writeLongEvidenceArtifact } from './long-evidence.mjs'
 import { waitForOpeningFrame } from './opening-frame.mjs'
@@ -237,6 +238,7 @@ await runBrowserJourney({
       assert(readyAt(repeat, herbStop) && !repeat.actors.e233.visible)
       assert.equal(herbCount(await inventory()), 1)
       report.checks.herb = { entity: 'e233', item: herb, count: 1, repeat: 'passed' }
+      await captureItemGuardSeed(page, out, report, 'e233')
 
       phase = 'pool-approach'
       await walk(routes.pool)
