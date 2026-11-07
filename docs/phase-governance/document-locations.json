@@ -730,14 +730,14 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "9fd41c8fca438706eb3a14ea287c3766c8c901aeadf35ed2c4b391b446874c99",
+      "afterSha256": "4b2acb8c3bd1de1cb182538c55ec68e8ac78e3c33e0ad1758c28392046e99c3d",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "N6b及开盖试点退出活动表，新增实际视觉接受与下一项Q2有限准入；R4仍build。",
+        "conclusion": "N6b及开盖试点退出活动表，完成摘要只保留任务ID并由生成索引承接入口；新增实际视觉接受与下一项Q2有限准入，R4仍build。",
         "reviewedLines": 121,
         "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
