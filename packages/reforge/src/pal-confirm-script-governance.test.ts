@@ -56,7 +56,7 @@ function source(key: string) {
   const behavior = scenes
     .find((scene) => scene.id === sceneId)
     ?.entities.find((entity) => entity.id === entityId)?.behaviors?.trigger?.[behaviorId!]
-  if (!behavior) throw new Error(`missing ${key}`)
+  if (!behavior || behavior.flow.kind !== 'stages') throw new Error(`missing ordinary flow ${key}`)
   return behavior.flow
 }
 
@@ -144,7 +144,11 @@ test.each(
   if (key === 's009/e188/default') {
     const dialogue = historicalAuthor.stages.find((stage) => stage.id === 'legacy-003')?.body[0]
     if (dialogue?.kind !== 'dialog') throw new Error('missing corrected farewell')
-    expect(dialogue.cue.rows.map((row) => row.text)).toEqual(['dlg.1501', 'dlg.1502', 'dlg.1503'])
+    expect(dialogue.cue.rows.map((row) => ('text' in row ? row.text : undefined))).toEqual([
+      'dlg.1501',
+      'dlg.1502',
+      'dlg.1503',
+    ])
     dialogue.cue.rows.push({ text: 'dlg.1504' })
   }
   const current = resolveAuthorDialogueTree(historicalAuthor, actors)

@@ -2,6 +2,7 @@ import type {
   ActorDef,
   AuthorEnemyDef,
   AuthorItemCore,
+  AuthorItemData,
   AuthorSceneDef,
   AuthorScriptLibrary,
   WorldState,
@@ -81,7 +82,7 @@ export interface ScenarioOptions {
   actors?: ActorDef[]
   party?: string[]
   inventory?: WorldState['inventory']
-  items?: AuthorItemCore[]
+  items?: AuthorItemCore[] | AuthorItemData[]
   enemies?: AuthorEnemyDef[]
   sharedScripts?: AuthorScriptLibrary
   seedStats?: Record<string, { hp?: number; mp?: number }>
@@ -94,6 +95,7 @@ export async function scenarioProject(options: ScenarioOptions = {}) {
     second: options.second,
     party: options.party ?? ['hero'],
     seedStats: options.seedStats,
+    items: options.items,
   })
   const manifest = structuredClone(fixture.project.manifest)
   manifest.content.enemies = 'content/enemies.json'

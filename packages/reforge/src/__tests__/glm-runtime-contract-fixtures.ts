@@ -269,7 +269,7 @@ export function dProjectFiles(options: DProjectOptions = {}): Record<string, unk
     'manifest.json': {
       id: 'demo-d',
       name: 'Demo D',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'new-game',
       entryPoints: [

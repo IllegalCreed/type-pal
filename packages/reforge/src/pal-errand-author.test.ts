@@ -86,7 +86,9 @@ async function activate(
 
 function rows(commands: RuntimeLeafCommand[]) {
   return commands.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 
@@ -340,7 +342,9 @@ test('the restored Zhang Si rows have original text, speaker and portrait instea
   expect(
     restoredSteps.flatMap((stage) =>
       stage.body.flatMap((command) =>
-        command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+        command.kind === 'dialog'
+          ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+          : [],
       ),
     ),
   ).toEqual(Object.keys(restored))
@@ -450,7 +454,9 @@ test('the village entry only calls Xianglan; reporting and the reminder are her 
   expect(first.some((command) => command.kind === 'wait')).toBe(false)
   expect(
     first.flatMap((command) =>
-      command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+      command.kind === 'dialog'
+        ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+        : [],
     ),
   ).toEqual(reportRows)
   expect(
@@ -539,7 +545,10 @@ test('actual village hook awaits the approach, commits the NPC cursor, and relea
         const pos = world.script!.entityPos?.s004?.e83
         spokenAt.push({
           speaker: command.cue.speaker,
-          rows: command.cue.rows.map((row) => row.text),
+          rows: command.cue.rows.map((row) => {
+            if (!('text' in row)) throw new Error('unexpected reward row in errand dialogue')
+            return row.text
+          }),
           col: pos?.col,
           row: pos?.row,
           facing,

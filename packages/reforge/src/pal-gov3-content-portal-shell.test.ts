@@ -112,10 +112,11 @@ const cases = [
 ]
 
 function body(row: (typeof cases)[number]) {
-  const stage = scenes
+  const flow = scenes
     .find((scene) => scene.id === row.scene)
-    ?.entities.find((entity) => entity.id === row.entity)
-    ?.behaviors?.trigger?.[row.behavior]?.flow.stages.find((stage) => stage.id === row.stage)
+    ?.entities.find((entity) => entity.id === row.entity)?.behaviors?.trigger?.[row.behavior]?.flow
+  if (flow?.kind !== 'stages') throw new Error('missing canonical portal flow')
+  const stage = flow.stages.find((stage) => stage.id === row.stage)
   if (!stage) throw new Error('missing canonical portal root')
   return stage.body
 }

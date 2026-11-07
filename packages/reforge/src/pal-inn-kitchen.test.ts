@@ -60,7 +60,9 @@ async function run(source: RuntimeScriptFlow, stage?: string) {
     commands,
     cursors,
     rows: commands.flatMap((command) =>
-      command.kind === 'dialog' ? command.cue.rows.map((r) => r.text) : [],
+      command.kind === 'dialog'
+        ? command.cue.rows.map((r) => ('text' in r ? r.text : undefined))
+        : [],
     ),
   }
 }
@@ -174,11 +176,11 @@ test('first beggar conversation arms serving and dishes between refusal and fina
   expect(first.rows).toEqual([145, 146, 148, 149, 150, 152, 153, 155, 156].map((n) => `dlg.${n}`))
   const commands = first.commands
   const refusal = commands.findIndex(
-    (c) => c.kind === 'dialog' && c.cue.rows.some((r) => r.text === 'dlg.153'),
+    (c) => c.kind === 'dialog' && c.cue.rows.some((r) => 'text' in r && r.text === 'dlg.153'),
   )
   const arm = commands.findIndex((c) => c.kind === 'selectEntityBehavior')
   const pleading = commands.findIndex(
-    (c) => c.kind === 'dialog' && c.cue.rows.some((r) => r.text === 'dlg.155'),
+    (c) => c.kind === 'dialog' && c.cue.rows.some((r) => 'text' in r && r.text === 'dlg.155'),
   )
   expect(arm).toBeGreaterThan(refusal)
   expect(arm).toBeLessThan(pleading)

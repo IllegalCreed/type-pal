@@ -23,7 +23,7 @@ function payload(): CurrentSavePayload {
     version: SAVE_VERSION,
     sceneRuntime: {},
     projectId: 'demo',
-    contentVersion: 22,
+    contentVersion: 23,
     world,
     position: { sceneId: 's', pos: { col: 1, row: 2, height: 0 }, facing: 'down' },
   }

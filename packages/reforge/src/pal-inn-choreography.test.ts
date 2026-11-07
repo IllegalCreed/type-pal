@@ -52,6 +52,7 @@ async function runChoreography(flow: RuntimeScriptFlow) {
           break
         case 'dialog':
           for (const row of command.cue.rows) {
+            if (!('text' in row)) throw new Error('unexpected reward row in the inn choreography')
             rows.push(row.text)
             snapshots.push({ at: row.text, held: held() })
           }
