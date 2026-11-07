@@ -9,7 +9,7 @@ Visual Verification Owner: Codex
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-07
 Template: task-card-v1 / 1.0.0
-Branch: codex/shared-item-flows
+Branch: main（PR #48 已合并；codex/shared-item-flows 已退役，原 HEAD 481ac0b7b0b0adf395a7b1e8f54ffe29ded14246）
 
 ## 目标
 
@@ -112,12 +112,18 @@ content23 已接入四类意图。运行时、按需场景加载、编辑器预�
 
 本次实施范围与房间隐藏物补充已获用户明确授权。新版参数表单及四类取物的最终视觉判断待用户验收；010 原特殊箱的旧接受保留，本轮回归另按当前录制记录。分屏视频为 Game 左、Reforge 右，分别为 008 224.12 秒、009 129.84 秒、010 73.44 秒，可暂停查看。
 
+2026-11-07 用户要求“合并之后记得清理所有垃圾分支”。按该指令完成集成与分支清理；本卡继续保留 review，未将合并或清理写成用户已观看并接受新版表单、视频。
+
 ## 交接日志
 
 - 2026-11-07 Codex：按基点开卡，隔离分派模型、编辑器、原生 E2E，集成各自冻结候选。
 - 2026-11-07 用户补充逍遥房间隐藏物；核原盘 e4 后补齐搜刮停用与空反馈两种闭合生命周期。
 - 2026-11-07 原生 18 报告、三组正式对照、实际保存重开及 62 条步骤事件已接入。9 个 recipe 步骤和 3 个剧情发奖步骤各有审查/优化记录，初态只提升到实际支持的取证范围；旧事件 append-only，未 blanket 提升所有初态。
 - 2026-11-07 自有中间分屏压缩稿已退役 3 文件、173,525,751 字节；原生 WebM、执行身份、失败与最终分屏保留。统一门结果见下节质量原件；另退役三个可从原视频重建的诊断 PNG（2,202,406 字节），取样说明见 `media-visual-review.json`。保留原生目录与 6016 审阅服务供当前绝对前驱路径和用户视频/表单验收；其余临时树在用户接受后依原件恢复入口清理。
+- 2026-11-07 PR [#48](https://github.com/IllegalCreed/type-pal/pull/48) 的文档、覆盖率及安全检查全部通过，核定 HEAD `481ac0b7b0b0adf395a7b1e8f54ffe29ded14246` 后于 06:09:32 UTC 合入 main `466af5e6e5102849c62172e1cb6e99d1d940efd6`。CI 执行分别为 [Documentation](https://github.com/IllegalCreed/type-pal/actions/runs/42343626212)、[Coverage](https://github.com/IllegalCreed/type-pal/actions/runs/42343626172)，没有以本地通过代替远端结果。
+- 2026-11-07 合并后清理原 70 个本地分支中的 67 个、4 个远程分支；46 棵工作树在原 HEAD 分离，逐树核未提交 patch 与未跟踪文件身份不变。其余 3 个原分支为用户主工作区的 main、其它治理任务的 `codex/code-quality-94-102` 和 `codex/slimming-local-resource-followup`，未认定退役。当前收尾分支只用于提交本次实际回执，合并后删除。
+- 2026-11-07 主线包含 16 个退役分支的原 HEAD，按固定 SHA 可恢复；其余 51 个非祖先候选由 112,401 字节的最小 Git bundle 保全，已实际 verify/unbundle，SHA256 `e69be4d3f560dd3ee7b4661d631d7fa290a0b1828996d48724af8ed94c62c9b0`。逐怪遇敌距离和旧诊断原型不重新授产品接受，model 草稿有最小 delta 恢复证明。没有删除 source、未提交文件或 ignored 原件，也没有回收工作树目录；本轮 Git 元数据实际新增 0 文件、删除 89 文件、改变 95 文件，净减少 73,301 字节。完整分类、原 SHA、实际命令与恢复入口见下方 cleanup 包。
+- 2026-11-07 清理后核本地只余 3 个保留分支与临时收尾分支，远程只余 main 与代码治理分支；三份分屏视频原绝对路径及 SHA 不变，6010/6016 均返回 HTTP 200。原生 build 的未分类旧尝试、editor 的独有诊断图及 dirty 工作树仍保留，不冒称已回收磁盘或已完成全部资源退役。
 
 ## 证据恢复与复跑
 
@@ -127,8 +133,19 @@ content23 已接入四类意图。运行时、按需场景加载、编辑器预�
 | [N6B-ITEM-FLOWS-1-20261107-stories.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz) | `5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a` | 94,533,523 | 58 |
 | [N6B-ITEM-FLOWS-1-20261107-media.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-media.tar.gz) | `b7e3ab4d3d16335bfb676e03976ae9db2116b54c510f8ddfb28235105c41296c` | 43,650,088 | 16 |
 | [N6B-ITEM-FLOWS-1-20261107-quality.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-quality.tar.gz) | `e7244ec945796f1239cdf7dfeaac5b5b19ecd00fca17f2b582dee2906fa76ae3` | 6,818,387 | 293 |
+| [N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz](../evidence/N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz) | `d47afdb7517d4db6435df4f3f29ab5243c94b9d6607ccc62dd54cf8f121e024d` | 196,310 | 11 |
 
 prefix 包含 001–007、房间和领取后守卫、必要失败、执行链与来源复验；stories 包含正式 008–010 两轨的报告、原始 trace、原生存档、WebM 和离线比较；media 包含最终可暂停分屏及抽帧和合成身份。各包内 `build/item-flows/*-index.json` 可逐件重算 SHA。quality 包保全代码/测试逐文件审阅、必要失败、实际命令、真实反控、UI/OPFS 及当前集成离线复核；`build/item-flows/quality-index.json` 逐件给原路径/长度/SHA。补例的原 Git 候选以最小 `test-candidates.bundle` 保留，复核/恢复命令在 `test-candidates.json`；代码原件不复制整棵临时树。
+
+cleanup 是新增的 196,310 字节持久恢复包，不计作磁盘净收益。其 `cleanup-index.json` 核 10 个原件；`cleanup-plan.json` 给出 67 个退役名称与原 HEAD，`cleanup-execution.json` 记录逐树分离及精确 SHA 删除，两个独立审阅分别保留分类与工作树恢复边界。既有四包不重写、不复制。需要找回非主线旧候选时先核上表包 SHA，再执行：
+
+```sh
+tar -xzf docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-cleanup.tar.gz build/item-flows/cleanup-plan.json build/item-flows/retired-branch-candidates.bundle build/item-flows/cleanup-branch-review.json build/item-flows/cleanup-worktree-review.json
+git bundle verify build/item-flows/retired-branch-candidates.bundle
+git bundle unbundle build/item-flows/retired-branch-candidates.bundle
+```
+
+unbundle 恢复 Git 对象并列出原 HEAD，不批量重建退役分支。按清单中的固定 SHA 用 `git show` 读取原候选；未提交原型由审阅原件中的 patch/delta 恢复，当前原目录仍完整保留。
 
 正式报告保留了原生执行目录的绝对前驱路径。恢复后复跑时，将 prefix/stories 的 `build/` 内容放回 `/Users/zhangxu/.codex/worktrees/item-flow-e2e/type-pal`，已有原件先按包内 index 核 SHA，不覆盖不同字节；Game 007 的四个原件也按下段入口恢复到同一目录。media 和质量包可在当前仓库展开。跨机器复跑需要同路径的目录或挂载映射；不改写报告中的前驱身份。
 
@@ -145,4 +162,4 @@ Game 原生 007 前缀按 `E2E-008-1-mounted-pose-recheck-20261106.tar.gz` 的�
 
 ## 下一位 Agent 提示词
 
-实现和当前运行已冻结；接手先读顶部状态、最终质量门与独立回执。当前只收尾证据、保护门与用户验收，不再扩取物语言或机械迁移全项目。原生报告、旧失败与逐步事件不可重写。
+实现和当前运行已冻结并经 PR #48 合入 main；旧实现分支已退役。接手先读顶部状态、最终质量门与独立回执，按固定 SHA 或 cleanup 包恢复旧候选。当前保留用户验收与必要证据路径，不再扩取物语言或机械迁移全项目。原生报告、旧失败与逐步事件不可重写。
