@@ -226,21 +226,26 @@ export function expandGrantReward(
   )
   const notice = command.notice
   if (notice.kind === 'silent') return grants
-  const cue: AuthorDialogueCue =
+  const dialogues: AuthorCommand[] =
     notice.kind === 'custom'
-      ? copyCue(notice.cue)
-      : {
-          identity: { kind: 'narration' },
-          slot: 'narration',
-          rows: command.rewards.map((reward) => {
-            if (reward.kind === 'money') return { reward: { kind: 'money', amount: reward.amount } }
-            const item = items.find((entry) => entry.id === reward.itemId)
-            if (!item) throw new Error(`奖励物品不存在: ${reward.itemId}`)
-            return { reward: { kind: 'item', itemName: item.name, count: reward.count } }
-          }),
-        }
-  const dialogue: AuthorCommand = { kind: 'dialog', cue }
-  return notice.timing === 'before' ? [dialogue, ...grants] : [...grants, dialogue]
+      ? [{ kind: 'dialog', cue: copyCue(notice.cue) }]
+      : command.rewards.map((reward) => {
+          const row =
+            reward.kind === 'money'
+              ? { reward: { kind: 'money' as const, amount: reward.amount } }
+              : (() => {
+                  const item = items.find((entry) => entry.id === reward.itemId)
+                  if (!item) throw new Error(`奖励物品不存在: ${reward.itemId}`)
+                  return {
+                    reward: { kind: 'item' as const, itemName: item.name, count: reward.count },
+                  }
+                })()
+          return {
+            kind: 'dialog',
+            cue: { identity: { kind: 'narration' }, slot: 'narration', rows: [row] },
+          }
+        })
+  return notice.timing === 'before' ? [...dialogues, ...grants] : [...grants, ...dialogues]
 }
 
 /** The caller owns the persistent stages. Expanding never introduces a global claim flag. */
