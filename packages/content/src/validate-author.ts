@@ -8,11 +8,22 @@ import {
   authorCommandValidationOptions,
   checkAuthorScriptLibrary,
 } from './author-script.js'
-import { validateAuthorItemCore, validateEnemies } from './validate.js'
-import { validateRuntimeScenes } from './validate-runtime.js'
+import { checkBaseHostileBehavior } from './runtime-scene.js'
+import { validateAuthorItemCore, validateBaseScenes, validateEnemies } from './validate.js'
 
 export function validateAuthorScenes(json: unknown): AuthorSceneDef[] {
-  validateRuntimeScenes(json, authorCommandValidationOptions())
+  const options = authorCommandValidationOptions()
+  const scenes = validateBaseScenes(json, options)
+  scenes.forEach((scene, sceneIndex) => {
+    scene.entities.forEach((entity, entityIndex) => {
+      if (entity.hostile !== undefined)
+        checkBaseHostileBehavior(
+          entity.hostile,
+          `scenes[${sceneIndex}].entities[${entityIndex}].hostile`,
+          options,
+        )
+    })
+  })
   return json as AuthorSceneDef[]
 }
 
