@@ -480,6 +480,7 @@ export class Playback {
             const overlay = this.ov(target.entity, target.scene)
             if (command.kind === 'setEntityFacing') overlay.facing = command.facing
             else overlay.frame = command.frame
+            if (command.target === 'self') this.poi = { kind: 'entity', id: target.entity }
             return
           }
           if (
@@ -579,8 +580,9 @@ export class Playback {
       const command =
         event.command.kind === 'leaf' ? event.command.command : { kind: event.command.kind }
       const target = this.poiOf(command)
-      if ('target' in command && command.target?.scene === this.scene.id)
-        this.poi = { kind: 'entity', id: command.target.entity }
+      const address = 'target' in command ? command.target : undefined
+      if (address && address !== 'self' && address.scene === this.scene.id)
+        this.poi = { kind: 'entity', id: address.entity }
       if (target) this.poi = target
       this.onUi?.()
     }
