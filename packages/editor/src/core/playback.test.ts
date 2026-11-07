@@ -73,7 +73,9 @@ describe('Playback', () => {
       },
     ])
 
-    await vi.waitFor(() => expect(playback.view.dialog?.cue.rows[0]?.text).toBe('dlg.preview'))
+    await vi.waitFor(() =>
+      expect(playback.view.dialog?.cue.rows[0]).toMatchObject({ text: 'dlg.preview' }),
+    )
     expect(playback.mode).toBe('running')
     playback.stop()
   })
@@ -113,7 +115,7 @@ describe('Playback', () => {
     playback.tick(100)
     await vi.waitFor(() => {
       expect(playback.view.fadeBlack).toBe(0)
-      expect(playback.view.dialog?.cue.rows[0]?.text).toBe('dlg.after-fade')
+      expect(playback.view.dialog?.cue.rows[0]).toMatchObject({ text: 'dlg.after-fade' })
     })
     playback.confirmDialog()
     await vi.waitFor(() => expect(playback.mode).toBe('done'))

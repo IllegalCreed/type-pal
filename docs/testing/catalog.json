@@ -32,7 +32,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "publicCallers": [
@@ -73,6 +73,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -110,14 +126,14 @@
           "lines": "67-111",
           "anchor": "export function validatePredecessor(",
           "role": "input",
-          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+          "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
@@ -141,6 +157,29 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/inn-contract.mjs",
+                "lines": "67-111",
+                "anchor": "export function validatePredecessor(",
+                "role": "input",
+                "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -205,7 +244,7 @@
           "lines": "497-518",
           "anchor": "export function assertKitchenTrace(",
           "role": "oracle",
-          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+          "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
         },
         {
           "path": "scripts/e2e/render-evidence-observer.test.mjs",
@@ -272,6 +311,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/kitchen-contract.mjs",
+                "lines": "497-518",
+                "anchor": "export function assertKitchenTrace(",
+                "role": "oracle",
+                "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -330,7 +385,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "scripts/e2e/opening-matrix-observer.mjs",
@@ -379,6 +434,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -471,28 +542,28 @@
           "lines": "67-111",
           "anchor": "export function validatePredecessor(",
           "role": "input",
-          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+          "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
         },
         {
           "path": "scripts/e2e/inn-contract.mjs",
           "lines": "340-388",
           "anchor": "export function assertInnEvidence(",
           "role": "oracle",
-          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+          "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
         },
         {
           "path": "scripts/e2e/inn-contract.mjs",
           "lines": "473-488",
           "anchor": "'money not committed between thanks and reward display'",
           "role": "oracle",
-          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+          "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "scripts/e2e/inn-observer.mjs",
@@ -531,6 +602,43 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/inn-contract.mjs",
+                "lines": "67-111",
+                "anchor": "export function validatePredecessor(",
+                "role": "input",
+                "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+              },
+              {
+                "path": "scripts/e2e/inn-contract.mjs",
+                "lines": "340-388",
+                "anchor": "export function assertInnEvidence(",
+                "role": "oracle",
+                "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+              },
+              {
+                "path": "scripts/e2e/inn-contract.mjs",
+                "lines": "473-488",
+                "anchor": "'money not committed between thanks and reward display'",
+                "role": "oracle",
+                "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -575,35 +683,35 @@
           "lines": "117-199",
           "anchor": "export function validateKitchenPredecessor(",
           "role": "input",
-          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+          "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
           "lines": "534-557",
           "anchor": "'stairs must commit all twelve authored fragments'",
           "role": "oracle",
-          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+          "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
           "lines": "395-412",
           "anchor": "export function assertKitchenStoryEnd(",
           "role": "oracle",
-          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+          "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "scripts/e2e/kitchen-contract.mjs",
           "lines": "497-518",
           "anchor": "export function assertKitchenTrace(",
           "role": "collector consumer",
-          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+          "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
         },
         {
           "path": "scripts/e2e/kitchen-observer.mjs",
@@ -638,6 +746,50 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/kitchen-contract.mjs",
+                "lines": "117-199",
+                "anchor": "export function validateKitchenPredecessor(",
+                "role": "input",
+                "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+              },
+              {
+                "path": "scripts/e2e/kitchen-contract.mjs",
+                "lines": "534-557",
+                "anchor": "'stairs must commit all twelve authored fragments'",
+                "role": "oracle",
+                "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+              },
+              {
+                "path": "scripts/e2e/kitchen-contract.mjs",
+                "lines": "395-412",
+                "anchor": "export function assertKitchenStoryEnd(",
+                "role": "oracle",
+                "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              },
+              {
+                "path": "scripts/e2e/kitchen-contract.mjs",
+                "lines": "497-518",
+                "anchor": "export function assertKitchenTrace(",
+                "role": "collector consumer",
+                "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -703,7 +855,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "scripts/e2e/meal-contract.mjs",
@@ -749,6 +901,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -814,7 +982,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "scripts/e2e/errand-contract.mjs",
@@ -867,6 +1035,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -925,14 +1109,14 @@
           "lines": "21-21",
           "anchor": "export async function deliverBoatCheckpoint(",
           "role": "persistence",
-          "sha256": "34814eb48d16a35e750b8df594ac130a818b73072cf777a1552b9b523e3e5570"
+          "sha256": "814142fb0ad2704f9fa3571f5403619bf3d6ae8797cd2a59e7b8b52eba7a63e9"
         },
         {
           "path": "scripts/e2e/boat-checkpoint-contract.mjs",
           "lines": "15-15",
           "anchor": "export async function checkBoatCheckpoint(",
           "role": "oracle",
-          "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+          "sha256": "5295d6fb545f40881ccf5864906e3268ac8234027bfa00007a77410171dde871"
         },
         {
           "path": "scripts/e2e/boat-game-save-domain.mjs",
@@ -946,7 +1130,7 @@
           "lines": "168-168",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "publicCallers": [
@@ -1003,6 +1187,36 @@
               "coverage",
               "audio acceptance"
             ]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/boat-delivery.mjs",
+                "lines": "21-21",
+                "anchor": "export async function deliverBoatCheckpoint(",
+                "role": "persistence",
+                "sha256": "34814eb48d16a35e750b8df594ac130a818b73072cf777a1552b9b523e3e5570"
+              },
+              {
+                "path": "scripts/e2e/boat-checkpoint-contract.mjs",
+                "lines": "15-15",
+                "anchor": "export async function checkBoatCheckpoint(",
+                "role": "oracle",
+                "sha256": "a7fee751d036e52aa5b331ca8a8ae3b4dd3adf2cd8830fa145acb80da1e0a819"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1082,14 +1296,14 @@
           "lines": "407-414",
           "anchor": "const activeScene = new ActiveScene",
           "role": "caller",
-          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
         },
         {
           "path": "packages/reforge/src/main.ts",
           "lines": "448-455",
           "anchor": "const cameraSession = new WorldCamera",
           "role": "caller",
-          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
         },
         {
           "path": "packages/reforge/src/active-scene.ts",
@@ -1117,7 +1331,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1160,6 +1374,45 @@
             ],
             "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
             "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
+          },
+          {
+            "date": "2026-11-07",
+            "action": "pal-shared-chest-source-bridge",
+            "base": "8f6c0033d7351454608f9507067db9dd75dc9c90",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "407-414",
+                "anchor": "const activeScene = new ActiveScene",
+                "role": "caller",
+                "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+              },
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "448-455",
+                "anchor": "const cameraSession = new WorldCamera",
+                "role": "caller",
+                "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+              }
+            ],
+            "scope": "ActiveScene 和 WorldCamera 的构造接线逐字相同，资源发布、边界更新与预取消镜头的来源和判据沿固定父。",
+            "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1231,7 +1484,7 @@
           "lines": "1242-1261",
           "anchor": "const battleHost = new BattleHost",
           "role": "caller",
-          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
         },
         {
           "path": "packages/reforge/src/battle/battle-host.ts",
@@ -1259,7 +1512,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1288,6 +1541,38 @@
             ],
             "scope": "BattleHost 主壳端口下移两行，端口接线、owner 和测试字节相同。接敌选择与奖励窗变化归 007 各自证据。",
             "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
+          },
+          {
+            "date": "2026-11-07",
+            "action": "pal-shared-chest-source-bridge",
+            "base": "8f6c0033d7351454608f9507067db9dd75dc9c90",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "1242-1261",
+                "anchor": "const battleHost = new BattleHost",
+                "role": "caller",
+                "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+              }
+            ],
+            "scope": "BattleHost 的构造接线逐字相同，准备后读取 live 输入、身份取消及世界收尾的来源和判据沿固定父。",
+            "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1360,24 +1645,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "209-211",
+          "lines": "210-212",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "361-372",
+          "lines": "362-373",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1162-1171",
+          "lines": "1163-1172",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1398,7 +1683,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1411,6 +1696,43 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "209-211",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "361-372",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1162-1171",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1483,7 +1805,7 @@
           "lines": "434-445",
           "anchor": "const motion = new WorldMotionRuntime",
           "role": "caller",
-          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+          "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
         },
         {
           "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -1518,7 +1840,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1561,6 +1883,38 @@
             ],
             "scope": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行且字节相同。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
             "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
+          },
+          {
+            "date": "2026-11-07",
+            "action": "pal-shared-chest-source-bridge",
+            "base": "8f6c0033d7351454608f9507067db9dd75dc9c90",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/main.ts",
+                "lines": "434-445",
+                "anchor": "const motion = new WorldMotionRuntime",
+                "role": "caller",
+                "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+              }
+            ],
+            "scope": "WorldMotionRuntime 的构造接线逐字相同，移动提交、生命周期和绘制所有权的来源和判据沿固定父。",
+            "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1612,7 +1966,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "current version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "docs/testing/archive/migrations/legacy-full-closeout-plan.json",
@@ -1678,6 +2032,22 @@
             "date": "2026-10-04",
             "action": "legacy full closeout: 209 archive moves + 122 tool stop-lines",
             "notRun": ["product runtime", "old tests", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "current version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1755,10 +2125,10 @@
         },
         {
           "path": "packages/editor/src/ui/command-form-contract.ts",
-          "lines": "98-113",
+          "lines": "99-114",
           "anchor": "export function createAuthorCommandFormBridge",
           "role": "contract",
-          "sha256": "2ed252625cd4909141f6c72feb0d68b947a71e8686611eaae3b2692a3fc8d403"
+          "sha256": "e2c6e468eedec7aaeb6d9d15c07c49a971ce54eb2614fb3d0638564fdae82268"
         },
         {
           "path": "packages/editor/src/ui/command-form-family-ownership.test.ts",
@@ -1779,7 +2149,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1792,6 +2162,29 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/editor/src/ui/command-form-contract.ts",
+                "lines": "98-113",
+                "anchor": "export function createAuthorCommandFormBridge",
+                "role": "contract",
+                "sha256": "2ed252625cd4909141f6c72feb0d68b947a71e8686611eaae3b2692a3fc8d403"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -1891,7 +2284,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -1904,6 +2297,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -2013,7 +2422,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -2026,6 +2435,22 @@
             "date": "2026-10-04",
             "action": "source-and-publication-audit",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -2153,7 +2578,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "revision": {
@@ -2395,6 +2820,22 @@
             ],
             "scope": "inventory/equipment仅注释变化，完整typed去注释正文与08d67e28相同，负控能拒绝执行增量；owner出口与caller不变。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
             "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -2471,10 +2912,10 @@
         },
         {
           "path": "packages/reforge/src/pal-story-corrections.test.ts",
-          "lines": "11",
+          "lines": "13-13",
           "anchor": "test('鬼阴坛告别",
           "role": "oracle",
-          "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+          "sha256": "0618f38ae8fb21b0e1a25a077bbefb323bf8253f7def6faf0ee593bccf84c3d5"
         },
         {
           "path": "packages/reforge/src/battle/pal-cure-status-corrections.test.ts",
@@ -2800,6 +3241,22 @@
             ],
             "scope": "object-script-state/bootstrap仅注释，typed去注释正文相同；story改具名选项与拓扑typed方向、原14合同保留，当前两PAL文件14绿且stderr空。既有纠错规则/脚本/资产输入不变。 只回绑所列来源；发布status/lastVerified/currentSha/versions、原执行/失败/反控/SCC/token/browser/deploy范围不变。",
             "evidence": "docs/tasks/evidence/QUALITY-PHASE1-PENDING-93-1/README.md"
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/pal-story-corrections.test.ts",
+                "lines": "11",
+                "anchor": "test('鬼阴坛告别",
+                "role": "oracle",
+                "sha256": "caa2b63faa2c75691cbc8b4164f8949e63af4f46ce1bf5e9bcb816ed1d5adcf9"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -3094,9 +3551,9 @@
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-168",
-          "anchor": "export const CONTENT_VERSION = 22",
+          "anchor": "export const CONTENT_VERSION = 23",
           "role": "canonical content version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -3170,6 +3627,22 @@
               "clipSha256": "24b609ea42db5308b596dbb3556d889dc2ef6c595864a28988c81353983e05ad",
               "seconds": 28.12
             }
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION = 22",
+                "role": "canonical content version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -3202,10 +3675,10 @@
         },
         {
           "path": "scripts/e2e/fairy-island-maze-reforge.mjs",
-          "lines": "24-33",
+          "lines": "25-34",
           "anchor": "008 requires --from a formal Reforge 007 verify report",
           "role": "Reforge native verify caller",
-          "sha256": "63dd8305713c0bd65e02274d783a328d3c59c9876f6daa947b8f32480d568f43"
+          "sha256": "81ea8918563d63b4d0bdb264e50814774d2a88cf1d89ab060b017c7e0013c757"
         },
         {
           "path": "scripts/e2e/fairy-island-maze-comparison.mjs",
@@ -3233,7 +3706,7 @@
           "lines": "168-170",
           "anchor": "export const CONTENT_VERSION =",
           "role": "PAL content and Reforge minimum save version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         }
       ],
       "publicCallers": [
@@ -3275,6 +3748,29 @@
               "clipSha256": "bf0529928b54d58ca0ff586bd40fa598fe6204c5acddc53a771429cf1575c644"
             },
             "notRun": ["capture", "audio acceptance", "unvisited branches"]
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/fairy-island-maze-reforge.mjs",
+                "lines": "24-33",
+                "anchor": "008 requires --from a formal Reforge 007 verify report",
+                "role": "Reforge native verify caller",
+                "sha256": "63dd8305713c0bd65e02274d783a328d3c59c9876f6daa947b8f32480d568f43"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-170",
+                "anchor": "export const CONTENT_VERSION =",
+                "role": "PAL content and Reforge minimum save version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },
@@ -3307,10 +3803,10 @@
         },
         {
           "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
-          "lines": "48-70",
+          "lines": "49-71",
           "anchor": "await readCheckpointInput(",
           "role": "caller",
-          "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+          "sha256": "9c52b6d2d83c37f3cd1cdf0c6d510723beac207e94af981700172d99de94e639"
         },
         {
           "path": "scripts/e2e/fairy-island-pool-route.mjs",
@@ -3352,28 +3848,28 @@
           "lines": "121-121",
           "anchor": "\"id\": \"e212\"",
           "role": "authored-first-pool-entry",
-          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
         },
         {
           "path": "projects/pal/content/scenes/s016.json",
           "lines": "1146-1146",
           "anchor": "\"id\": \"e213\"",
           "role": "authored-return-trigger",
-          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
         },
         {
           "path": "projects/pal/content/scenes/s016.json",
           "lines": "4218-4218",
           "anchor": "\"id\": \"e233\"",
           "role": "authored-visible-pickup",
-          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
         },
         {
           "path": "packages/content/src/character.ts",
           "lines": "168-168",
-          "anchor": "export const CONTENT_VERSION = 22",
+          "anchor": "export const CONTENT_VERSION = 23",
           "role": "version",
-          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+          "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
         },
         {
           "path": "packages/reforge/src/save/types.ts",
@@ -3444,6 +3940,50 @@
               "clipSha256": "db199f27362d57ca33345c2595525fb0b402f423e4b4f2925b2828e5bc50c002",
               "seconds": 129.4
             }
+          },
+          {
+            "action": "content23-acquisition-source-rebinding",
+            "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+            "date": "2026-11-07",
+            "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
+                "lines": "48-70",
+                "anchor": "await readCheckpointInput(",
+                "role": "caller",
+                "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+              },
+              {
+                "path": "projects/pal/content/scenes/s016.json",
+                "lines": "121-121",
+                "anchor": "\"id\": \"e212\"",
+                "role": "authored-first-pool-entry",
+                "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+              },
+              {
+                "path": "projects/pal/content/scenes/s016.json",
+                "lines": "1146-1146",
+                "anchor": "\"id\": \"e213\"",
+                "role": "authored-return-trigger",
+                "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+              },
+              {
+                "path": "projects/pal/content/scenes/s016.json",
+                "lines": "4218-4218",
+                "anchor": "\"id\": \"e233\"",
+                "role": "authored-visible-pickup",
+                "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+              },
+              {
+                "path": "packages/content/src/character.ts",
+                "lines": "168-168",
+                "anchor": "export const CONTENT_VERSION = 22",
+                "role": "version",
+                "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+              }
+            ],
+            "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
           }
         ]
       },

@@ -141,9 +141,9 @@ export function validateActionGroupAdoption(document, overrides = {}) {
     ]
 
   const expectedBaseline = {
-    groups: 16,
-    moveButtons: 42,
-    adoptedMoveButtons: 24,
+    groups: 17,
+    moveButtons: 44,
+    adoptedMoveButtons: 26,
     rawMoveButtons: 18,
     candidateSurfaces: 9,
   }

@@ -7,12 +7,14 @@ import type {
 import {
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
   validateAuthorSharedScripts,
   validateSceneIndex,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import indexJson from '../../../projects/pal/content/scenes/index.json' with { type: 'json' }
 import sharedJson from '../../../projects/pal/content/shared-scripts.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
@@ -314,13 +316,16 @@ async function observe(
   return { trace, hash: await hash(trace), now, cursor }
 }
 
-test('all current scene scripts use steps; automatic phases are inside one step', () => {
+test('all current scene scripts project to steps; automatic phases are inside one step', () => {
+  const runtimeScenes = resolveAuthorDialogueTree(scenes, actors, 'scenes', {
+    items: validateAuthorItems(itemsJson),
+  })
   expect(scenes).toHaveLength(294)
   expect(autos.size).toBe(1320)
   let flows = 0
-  for (const scene of scenes) {
+  for (const scene of runtimeScenes) {
     for (const entity of scene.entities)
-      for (const group of Object.values(entity.behaviors ?? {}))
+      for (const group of [entity.behaviors?.trigger ?? {}, entity.behaviors?.auto ?? {}])
         for (const behavior of Object.values(group)) {
           flows++
           expect(behavior.flow.kind).toBe('stages')
@@ -501,7 +506,8 @@ test('non-script definitions preserve the source except for explicitly asserted 
 })
 
 test('shared sound routines are self-free and use only sound and local control', async () => {
-  expect(Object.keys(library).sort()).toEqual(ledger.sharedSources.map((row) => row.id).sort())
+  const soundIds = Object.keys(library).filter((id) => id.startsWith('environment-sound-'))
+  expect(soundIds.sort()).toEqual(ledger.sharedSources.map((row) => row.id).sort())
   for (const row of ledger.sharedSources) {
     const definition = library[row.id]
     if (!definition) throw new Error(row.id)

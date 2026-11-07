@@ -1,4 +1,5 @@
 import type { ActorDef, AuthorSceneDef, Locale } from '@type-pal/content'
+import { authorFlowPreviewStages } from '../core/script-flow-preview.js'
 import {
   type ScriptPreviewEntry,
   type ScriptPreviewSchemeEntry,
@@ -51,7 +52,8 @@ export function previewEntryDetails(
     entry.channel === 'trigger' || entry.channel === 'auto'
       ? entity?.behaviors?.[entry.channel]?.[entry.schemeId]
       : scene?.hooks?.[entry.channel]?.variants[entry.schemeId]
-  const index = scheme?.flow.stages.findIndex((stage) => stage.id === entry.stageId) ?? -1
+  const stages = scheme ? authorFlowPreviewStages(scheme.flow) : []
+  const index = stages.findIndex((stage) => stage.id === entry.stageId)
   return {
     owner: entry.entityId
       ? entity
@@ -64,9 +66,7 @@ export function previewEntryDetails(
     scheme: scheme ? scheme.label || '未命名脚本方案' : '已移除的脚本方案',
     ...(entry.stageId
       ? {
-          step:
-            scheme?.flow.stages[index]?.label ||
-            (index >= 0 ? `第 ${index + 1} 步` : '已移除的步骤'),
+          step: stages[index]?.label || (index >= 0 ? `第 ${index + 1} 步` : '已移除的步骤'),
         }
       : {}),
   }

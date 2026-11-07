@@ -14,7 +14,7 @@
       "lines": "434-445",
       "anchor": "const motion = new WorldMotionRuntime",
       "role": "caller",
-      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+      "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
     },
     {
       "path": "packages/reforge/src/world-motion-runtime.ts",
@@ -49,7 +49,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
   "publicCallers": [
@@ -141,6 +141,38 @@
       ],
       "scope": "WorldMotionRuntime 与 WorldScenePresentation 构造接线下移两行且字节相同。新增 static 明雷步态分支，原 directional fixture 及帧优先级、锚点和层几何断言保留。",
       "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
+    },
+    {
+      "date": "2026-11-07",
+      "action": "pal-shared-chest-source-bridge",
+      "base": "8f6c0033d7351454608f9507067db9dd75dc9c90",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "434-445",
+          "anchor": "const motion = new WorldMotionRuntime",
+          "role": "caller",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        }
+      ],
+      "scope": "WorldMotionRuntime 的构造接线逐字相同，移动提交、生命周期和绘制所有权的来源和判据沿固定父。",
+      "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {

@@ -2,8 +2,8 @@
 import {
   type AuthorCommand,
   type AuthorSceneDef,
-  type AuthorScriptFlow,
   type AuthorScriptLibrary,
+  type AuthorStagesFlow,
   checkAuthorScriptFlow,
   checkAuthorScriptLibrary,
   validateAuthorScenes,
@@ -15,8 +15,8 @@ import {
 } from '../../core/__tests__/battle-trial-project.js'
 import { toEditorState } from '../../core/project-io.js'
 
-export function currentFlow(body: AuthorCommand[]): AuthorScriptFlow {
-  const flow: AuthorScriptFlow = { kind: 'stages', initial: 'main', stages: [{ id: 'main', body }] }
+export function currentFlow(body: AuthorCommand[]): AuthorStagesFlow {
+  const flow: AuthorStagesFlow = { kind: 'stages', initial: 'main', stages: [{ id: 'main', body }] }
   checkAuthorScriptFlow(flow, 'fixture.flow')
   return flow
 }

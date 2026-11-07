@@ -5,6 +5,7 @@ import type {
   AuthorScriptFlow,
   AuthorScriptLibrary,
   Command,
+  EntityAddress,
   EntityDef,
   ScriptChunkV1,
   ScriptCondition,
@@ -13,7 +14,7 @@ import type {
   SpriteDef,
 } from '@type-pal/content'
 import { resolveEntitySpriteId } from '@type-pal/content'
-import { actualFrameIndex } from '@type-pal/reforge'
+import { actualFrameIndex, resolveEntityPoseTarget } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
 
@@ -155,11 +156,21 @@ function projectPreviewCommands(
   for (const command of commands) {
     switch (command.kind) {
       case 'setEntityFrame':
-        projected.push({
-          kind: 'setEntityFrame',
-          entity: command.target.entity,
-          frame: command.frame,
-        })
+      case 'setEntityFacing':
+        // Shared chunks have no caller address. Sample dynamic targets from the canonical flow.
+        if (command.target === 'self') projected.push(unsupportedVisualCommand(command))
+        else if (command.kind === 'setEntityFrame')
+          projected.push({
+            kind: command.kind,
+            entity: command.target.entity,
+            frame: command.frame,
+          })
+        else
+          projected.push({
+            kind: command.kind,
+            entity: command.target.entity,
+            facing: command.facing,
+          })
         break
       case 'setEntityState':
         projected.push({
@@ -195,13 +206,6 @@ function projectPreviewCommands(
           kind: 'setEntityLayer',
           entity: command.target.entity,
           layer: command.layer,
-        })
-        break
-      case 'setEntityFacing':
-        projected.push({
-          kind: 'setEntityFacing',
-          entity: command.target.entity,
-          facing: command.facing,
         })
         break
       case 'playEntityAction':
@@ -414,6 +418,7 @@ function projectPreviewFlow(
   self: { scene: string; entity: string },
   sharedScripts: AuthorScriptLibrary,
 ): ScriptStage[] {
+  if (flow.kind === 'acquisition') return []
   const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
   const ids = orderedIds(
     flow.initial,
@@ -1165,6 +1170,7 @@ function collectCanonicalFrameSamples(
   const pureBody = (
     body: readonly AuthorCommand[],
     calls: ReadonlySet<string>,
+    self: EntityAddress | undefined,
     loops: readonly (string | undefined)[] = [],
     root: 'flow' | 'script' = 'flow',
   ): boolean =>
@@ -1173,11 +1179,10 @@ function collectCanonicalFrameSamples(
       switch (command.kind) {
         case 'setEntityFrame':
         case 'setEntityFacing':
-        case 'animEntity':
-          return (
-            command.target.scene === source.self.scene &&
-            command.target.entity === source.self.entity
-          )
+        case 'animEntity': {
+          const target = resolveEntityPoseTarget(command.target, self)
+          return target?.scene === source.self.scene && target.entity === source.self.entity
+        }
         case 'wait':
           return true
         case 'breakLoop':
@@ -1191,15 +1196,15 @@ function collectCanonicalFrameSamples(
         case 'branch':
           return (
             pureCondition(projectPreviewCondition(command.cond)) &&
-            pureBody(command.then, calls, loops, root) &&
-            pureBody(command.else ?? [], calls, loops, root)
+            pureBody(command.then, calls, self, loops, root) &&
+            pureBody(command.else ?? [], calls, self, loops, root)
           )
         case 'repeat':
-          return pureBody(command.body, calls, [...loops, command.id], root)
+          return pureBody(command.body, calls, self, [...loops, command.id], root)
         case 'loop':
           return (
             (command.mode === 'forever' || pureCondition(projectPreviewCondition(command.cond))) &&
-            pureBody(command.body, calls, [...loops, command.id], root)
+            pureBody(command.body, calls, self, [...loops, command.id], root)
           )
         case 'callScript': {
           if (
@@ -1211,15 +1216,27 @@ function collectCanonicalFrameSamples(
           )
             return false
           const script = source.sharedScripts[command.script]
-          return Boolean(
-            script && pureBody(script.body, new Set([...calls, command.script]), [], 'script'),
+          if (!script || (script.self === 'none' && command.self)) return false
+          const inherited = command.self ?? self
+          if (script.self === 'required' && !inherited) return false
+          return pureBody(
+            script.body,
+            new Set([...calls, command.script]),
+            script.self === 'none' ? undefined : inherited,
+            [],
+            'script',
           )
         }
         default:
           return false
       }
     })
-  if (!source.flow.stages.every((stage) => !stage.entry && pureBody(stage.body, new Set())))
+  if (
+    source.flow.kind === 'acquisition' ||
+    !source.flow.stages.every(
+      (stage) => !stage.entry && pureBody(stage.body, new Set(), source.self),
+    )
+  )
     return undefined
 
   const variants = new Map<string, SpriteAutomaticScriptPreviewVariant>()
@@ -1383,9 +1400,11 @@ function describeAutomaticEntityBehavior(
     Number.isInteger(actualFrameCount) &&
     actualFrameCount > 0
   const canonical = entity.spritePreviewScript
-  const hasConditionalLoop = canonical?.flow.stages.some((stage) =>
-    containsConditionalVisualLoop(stage.body, canonical.sharedScripts),
-  )
+  const hasConditionalLoop =
+    canonical?.flow.kind === 'stages' &&
+    canonical.flow.stages.some((stage) =>
+      containsConditionalVisualLoop(stage.body, canonical.sharedScripts),
+    )
   const preview = canResolvePhysicalFrames
     ? hasConditionalLoop
       ? collectCanonicalFrameSamples(entity, actualFrameCount)

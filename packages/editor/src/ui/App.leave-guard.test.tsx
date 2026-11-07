@@ -664,7 +664,7 @@ test('save held at real IO cannot be replaced by other commands and a new comman
   await edit()
   await menu('打开项目')
   await click('先保存')
-  await entered.promise
+  await act(async () => entered.promise)
   expect(unload()).toBe(true)
   await act(async () => {
     window.dispatchEvent(

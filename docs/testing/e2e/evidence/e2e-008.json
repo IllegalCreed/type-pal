@@ -19,6 +19,29 @@
         "clipSha256": "bf0529928b54d58ca0ff586bd40fa598fe6204c5acddc53a771429cf1575c644"
       },
       "notRun": ["capture", "audio acceptance", "unvisited branches"]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/fairy-island-maze-reforge.mjs",
+          "lines": "24-33",
+          "anchor": "008 requires --from a formal Reforge 007 verify report",
+          "role": "Reforge native verify caller",
+          "sha256": "63dd8305713c0bd65e02274d783a328d3c59c9876f6daa947b8f32480d568f43"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "PAL content and Reforge minimum save version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "sourceRefs": [
@@ -31,10 +54,10 @@
     },
     {
       "path": "scripts/e2e/fairy-island-maze-reforge.mjs",
-      "lines": "24-33",
+      "lines": "25-34",
       "anchor": "008 requires --from a formal Reforge 007 verify report",
       "role": "Reforge native verify caller",
-      "sha256": "63dd8305713c0bd65e02274d783a328d3c59c9876f6daa947b8f32480d568f43"
+      "sha256": "81ea8918563d63b4d0bdb264e50814774d2a88cf1d89ab060b017c7e0013c757"
     },
     {
       "path": "scripts/e2e/fairy-island-maze-comparison.mjs",
@@ -62,7 +85,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "PAL content and Reforge minimum save version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
   "publicCallers": [

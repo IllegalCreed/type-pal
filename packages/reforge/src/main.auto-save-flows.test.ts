@@ -2,6 +2,7 @@
 import {
   type AuthorCommand,
   type AuthorScriptFlow,
+  type AuthorStagesFlow,
   gridToPixel,
   validateAuthorScenes,
 } from '@type-pal/content'
@@ -1244,7 +1245,7 @@ test('F9 cancels a real in-flight diagonal move without late position, reward or
   booted.assertInputUnchanged()
 })
 
-function departure(finish: 'next' | 'direct' | 'branch'): AuthorScriptFlow {
+function departure(finish: 'next' | 'direct' | 'branch'): AuthorStagesFlow {
   const body: AuthorCommand[] = [
     { kind: 'moveEntity', target, to: endpoint, speed: 'slow' },
     { kind: 'giveMoney', delta: 7 },

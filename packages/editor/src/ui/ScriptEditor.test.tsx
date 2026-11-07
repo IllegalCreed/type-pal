@@ -232,7 +232,9 @@ describe('CanonicalScriptEditor author presentation', () => {
       .filter(([, value]) => value)
       .map(([kind]) => kind)
       .sort()
-    expect(Object.keys(AUTHOR_COMMAND_PRESENTATION_).sort()).toEqual(enabled)
+    expect(Object.keys(AUTHOR_COMMAND_PRESENTATION_).sort()).toEqual(
+      [...enabled, 'grantReward'].sort(),
+    )
     for (const [kind, [, label]] of Object.entries(AUTHOR_COMMAND_PRESENTATION_)) {
       expect(label).not.toBe(kind)
       expect(label).toMatch(/[\u3400-\u9fff]/)
@@ -325,7 +327,7 @@ describe('CanonicalScriptEditor author presentation', () => {
           !['holdScreen', 'revealScreen', 'finishStep', 'breakLoop', 'continueLoop'].includes(kind),
       )
       .map(([kind]) => kind)
-    expect([...insertKinds].sort()).toEqual(enabledKinds.sort())
+    expect([...insertKinds].sort()).toEqual([...enabledKinds, 'grantReward'].sort())
     const unavailableShared = host.querySelector<HTMLButtonElement>(
       '[data-command-kinds="callScript"]',
     )
@@ -574,7 +576,9 @@ describe('CanonicalScriptEditor author presentation', () => {
     const cueRows = () => {
       const command = session.getState().sharedScripts[scriptId]!.body[0]!
       expect(command.kind).toBe('dialog')
-      return command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : []
+      return command.kind === 'dialog'
+        ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+        : []
     }
     await act(async () => root.render(<Harness />))
     await act(async () =>

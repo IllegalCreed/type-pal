@@ -1,3 +1,4 @@
+import { authorFlowInitial } from '../core/script-flow-preview.js'
 /**
  * 编辑器外壳。B1.1 壳/渲染 · B1.2 选中/编辑 · B1.3 工具(拖动/添加/删除)。
  * 五区布局照 docs/phase2/archive/mockups/place-mode.html 定稿。
@@ -914,7 +915,7 @@ export function App(props: {
     showInitialStateDetails({
       kind: 'scheme',
       target: entry,
-      origin: { ...entry, stageId: scheme.flow.initial },
+      origin: { ...entry, stageId: authorFlowInitial(scheme.flow) },
       label: '',
       draft: {
         name: scheme.label,

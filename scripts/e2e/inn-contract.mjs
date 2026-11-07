@@ -91,7 +91,7 @@ export function validatePredecessor(report, payload, engine, bytes) {
     assert.deepEqual(payload.gs.partyMembers, [0])
   } else {
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
     assert.equal(payload.projectId, 'pal')
     assert.deepEqual(payload.position, {
       sceneId: 's001',
@@ -123,7 +123,7 @@ export function assertInnHandoffPayload(payload, engine) {
   if (engine === 'game') assert.equal(payload.format, 'type-pal-save')
   else {
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
     assert.equal(payload.projectId, 'pal')
   }
   return assertInnStoryHandoff(payload, engine)

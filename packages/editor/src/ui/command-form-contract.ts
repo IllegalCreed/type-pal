@@ -6,6 +6,7 @@ import type { AuthorCommand, Command } from '@type-pal/content'
  * author-only dialogue identity.
  */
 export const AUTHOR_CUSTOM_COMMAND_KINDS = [
+  'grantReward',
   'cameraSnap',
   'chasePlayer',
   'endBattle',

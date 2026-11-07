@@ -87,9 +87,9 @@
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-168",
-      "anchor": "export const CONTENT_VERSION = 22",
+      "anchor": "export const CONTENT_VERSION = 23",
       "role": "canonical content version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "packages/reforge/src/save/types.ts",
@@ -441,6 +441,22 @@
         "clipSha256": "24b609ea42db5308b596dbb3556d889dc2ef6c595864a28988c81353983e05ad",
         "seconds": 28.12
       }
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-168",
+          "anchor": "export const CONTENT_VERSION = 22",
+          "role": "canonical content version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "runtimeExecution": {

@@ -8,6 +8,7 @@ import {
   renderTaskIndex,
   taskInfo,
 } from './check.mjs'
+import { currentSections } from './config.mjs'
 import { markdownLinks } from './markdown.mjs'
 
 test('links handle nested labels, code labels, spaces, balanced paths, titles and references', () => {
@@ -113,6 +114,23 @@ test('current versions are checked in a bounded contract, leaving historical for
     checkCurrentSection('contentVersion 20; 不支持 contentVersion 1..19 / SAVE 1..7', {}, expected),
     [],
   )
+})
+
+test('the shared-script guide checks every live declaration before its fixed original-source boundary', () => {
+  const rule = currentSections.find(
+    (entry) => entry.file === 'docs/phase2/guides/shared-script-author-guide.md',
+  )
+  const live = 'contentVersion 23 / SAVE12\n## 当前有效性\ncontent23\n'
+  const history = '### 本次来源与完整原文\n````text\ncontentVersion 22 / SAVE12\n````\n'
+  assert.deepEqual(checkCurrentSection(live + history, rule, { content: 23, save: 12 }), [])
+  assert.match(
+    checkCurrentSection(live.replace('contentVersion 23', 'contentVersion 22') + history, rule, {
+      content: 23,
+      save: 12,
+    }).join('\n'),
+    /content=23/,
+  )
+  assert.match(checkCurrentSection(live, rule, { content: 23, save: 12 })[0], /终点不存在/)
 })
 
 function fixture() {

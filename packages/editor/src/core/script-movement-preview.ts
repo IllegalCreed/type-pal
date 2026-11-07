@@ -64,6 +64,7 @@ const samePos = (a?: GridPos, b?: GridPos): boolean =>
   !!a && !!b && a.col === b.col && a.row === b.row && a.height === b.height
 
 function selectedBody(flow: AuthorScriptFlow, cursor?: FlowCursor) {
+  if (flow.kind === 'acquisition') return undefined
   const selected = previewFlowCursor(flow, cursor)
   if (selected.kind === 'stage') return flow.stages.find((stage) => stage.id === selected.stage)
   return undefined

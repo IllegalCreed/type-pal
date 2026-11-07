@@ -1,6 +1,9 @@
+import type { BaseAuthorCommand, Facing } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
+import { BaseSharedScriptResolver, compileBaseCommandRoot } from './script-compiler-core.js'
 import { executeScriptHostEffect } from './script-host-adapter.js'
 import type { ScriptHost } from './script-runner.js'
+import { ScriptRunnerCore } from './script-runner-core.js'
 
 function host(): ScriptHost {
   return {
@@ -76,6 +79,70 @@ function host(): ScriptHost {
 }
 
 describe('current script host adapter', () => {
+  test.each([
+    { name: 'inherited caller', self: undefined, opened: 'chest' },
+    { name: 'explicit caller', self: { scene: 's001', entity: 'other' }, opened: 'other' },
+    { name: 'off-scene namesake', self: { scene: 's002', entity: 'chest' }, opened: undefined },
+  ])('shared poses use the $name within the active scene', async ({ self, opened }) => {
+    const pose = new Map<string, { facing: Facing; frame: number }>([
+      ['chest', { facing: 'up', frame: 0 }],
+      ['other', { facing: 'left', frame: 0 }],
+    ])
+    const shell = host()
+    shell.setEntityFacing = (id, facing) => {
+      pose.get(id)!.facing = facing
+    }
+    shell.setEntityFrame = (id, frame) => {
+      pose.get(id)!.frame = frame
+    }
+    const canonicalContentDigest = 'b'.repeat(64)
+    const shared = new BaseSharedScriptResolver(
+      {
+        opening: {
+          name: 'Opening',
+          self: 'required',
+          body: [
+            { kind: 'setEntityFacing', target: 'self', facing: 'down' },
+            { kind: 'setEntityFrame', target: 'self', frame: 1 },
+          ],
+        },
+      },
+      canonicalContentDigest,
+    )
+    const signal = new AbortController().signal
+    const runner = new ScriptRunnerCore(
+      {
+        execute: (command, context, abort) =>
+          executeScriptHostEffect(shell, command, context, abort, { currentSceneId: () => 's001' }),
+        evalCondition: () => false,
+        wait: async () => {},
+        waitWorldTick: async () => {},
+        yieldMacroTask: async () => {},
+        confirm: async () => true,
+        startBattle: async () => 'victory',
+        teleportOut: async () => false,
+      },
+      signal,
+      shared,
+    )
+    const call: BaseAuthorCommand = {
+      kind: 'callScript',
+      script: 'opening',
+      ...(self ? { self } : {}),
+    }
+    await runner.runFlow(
+      compileBaseCommandRoot([call], { timing: 'interactive', canonicalContentDigest }),
+      {
+        self: { scene: 's001', entity: 'chest' },
+        cursorController: { checkpointEnabled: false, reachSafePoint: () => 'continue' },
+      },
+    )
+    expect([...pose]).toEqual([
+      ['chest', opened === 'chest' ? { facing: 'down', frame: 1 } : { facing: 'up', frame: 0 }],
+      ['other', opened === 'other' ? { facing: 'down', frame: 1 } : { facing: 'left', frame: 0 }],
+    ])
+  })
+
   test('faceEntityToParty cannot turn a namesake in a different scene or take control implicitly', async () => {
     const target = host()
     const signal = new AbortController().signal

@@ -20,6 +20,15 @@ import type {
   SpriteDef,
   WorldVariableRegistryV1,
 } from '@type-pal/content'
+import {
+  type AuthorAcquisitionFlow,
+  type AuthorGrantRewardCommand,
+  type AuthorStagesFlow,
+  checkGrantRewardCommand,
+  expandGrantReward,
+  ITEM_ACQUISITION_RECIPES,
+  resolveDialogueRowText,
+} from '@type-pal/content'
 import type { AssetBase, AudioAssetReader } from '@type-pal/reforge'
 import type { ReactElement, ReactNode } from 'react'
 import { cloneElement, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
@@ -63,6 +72,7 @@ import {
   DsReorderItem,
   DsReorderMoveButton,
   DsSelect,
+  DsSelectField,
   DsTextArea,
   DsTextInput,
   DsWorkbenchSection,
@@ -70,6 +80,13 @@ import {
 } from './design-system/index.js'
 import { ENTITY_FACING_OPTIONS } from './EntityFacingHelp.js'
 import { EntityStateSelect } from './EntityStateSelect.js'
+import {
+  AcquisitionFields,
+  AcquisitionFlowEditor,
+  createAcquisitionFlow,
+  GrantRewardFields,
+  rewardSummary,
+} from './ItemAcquisitionEditor.js'
 import { musicAssets } from './MusicPicker.js'
 import { describeScriptCommand, describeScriptCondition } from './ScriptTree.js'
 import { soundAssets } from './SoundPicker.js'
@@ -119,6 +136,7 @@ export interface CanonicalScriptEditorContext {
   ambiences?: AmbienceDef[]
   shops?: ShopDef[]
   hasImplicitSelf?: boolean
+  allowCallingEntityPoseTarget?: boolean
   currentEntityId?: string
   onOpenScript?: (id: string) => void
   onOpenWorldVariable?: (id: string) => void
@@ -227,7 +245,11 @@ export function ScriptSchemeStrip(props: {
               onClick={() => props.onSelect(option.id)}
             >
               <strong>{option.label}</strong>
-              <span>{`${option.flow.stages.length} 个步骤`}</span>
+              <span>
+                {option.flow.kind === 'acquisition'
+                  ? ITEM_ACQUISITION_RECIPES[option.flow.recipe]
+                  : `${option.flow.stages.length} 个步骤`}
+              </span>
               {option.isDefault ? <small>默认方案</small> : null}
             </DsPressable>
             <span className="script-scheme-card-actions">
@@ -523,24 +545,38 @@ export function ScriptSchemeCreateDialog(props: {
   title: string
   first: boolean
   onClose: () => void
-  onCreate: (name: string) => void
+  onCreate: (name: string, flow?: AuthorAcquisitionFlow) => void
+  acquisitionContext?: CanonicalScriptEditorContext
 }) {
+  const [recipe, setRecipe] = useState<AuthorAcquisitionFlow>()
   const [newName, setNewName] = useState('')
   const nameInputId = useId()
+  const formId = useId()
 
   return (
     <CanonicalScriptDialog
       title={`${props.title} · 新建方案`}
       className="script-scheme-create-dialog"
       onClose={props.onClose}
+      footer={
+        <>
+          <DsButton variant="secondary" onClick={props.onClose}>
+            取消
+          </DsButton>
+          <DsButton form={formId} type="submit" variant="primary" disabled={!newName.trim()}>
+            {recipe ? '创建取物方案' : '创建空白方案'}
+          </DsButton>
+        </>
+      }
     >
       <form
+        id={formId}
         className="script-scheme-create-form"
         onSubmit={(event) => {
           event.preventDefault()
           const name = newName.trim()
           if (!name) return
-          props.onCreate(name)
+          props.onCreate(name, recipe)
         }}
       >
         <div className="script-scheme-name-field">
@@ -549,7 +585,7 @@ export function ScriptSchemeCreateDialog(props: {
             <DsHelpTip label="新建脚本方案">
               {props.first
                 ? '创建这个脚本入口的第一套方案。'
-                : '新方案从空白内容开始，已有方案不会受到影响。'}
+                : '创建独立方案，可从空白脚本或共享取物流程开始。'}
             </DsHelpTip>
           </header>
           <DsTextInput
@@ -563,14 +599,46 @@ export function ScriptSchemeCreateDialog(props: {
             onChange={(event) => setNewName(event.target.value)}
           />
         </div>
-        <div className="script-scheme-create-actions">
-          <DsButton size="compact" variant="secondary" onClick={props.onClose}>
-            取消
-          </DsButton>
-          <DsButton size="compact" type="submit" variant="primary" disabled={!newName.trim()}>
-            创建空白方案
-          </DsButton>
-        </div>
+        {props.acquisitionContext ? (
+          <>
+            <DsSelectField
+              label="方案内容"
+              value={recipe?.recipe ?? 'blank'}
+              options={[
+                { value: 'blank', label: '空白脚本' },
+                ...Object.entries(ITEM_ACQUISITION_RECIPES).map(([value, label]) => ({
+                  value,
+                  label,
+                })),
+              ]}
+              onValueChange={(value) => {
+                if (value === (recipe?.recipe ?? 'blank')) return
+                if (
+                  value === 'builtin/item/chest' ||
+                  value === 'builtin/item/pickup' ||
+                  value === 'builtin/item/search'
+                ) {
+                  setRecipe(
+                    createAcquisitionFlow(value, props.acquisitionContext?.state.items[0]?.id),
+                  )
+                  if (
+                    !newName.trim() ||
+                    Object.values(ITEM_ACQUISITION_RECIPES).some((label) => label === newName)
+                  )
+                    setNewName(ITEM_ACQUISITION_RECIPES[value])
+                } else setRecipe(undefined)
+              }}
+            />
+            {recipe ? (
+              <AcquisitionFields
+                flow={recipe}
+                context={props.acquisitionContext}
+                scopeKey="new-acquisition"
+                onChange={setRecipe}
+              />
+            ) : null}
+          </>
+        ) : null}
       </form>
     </CanonicalScriptDialog>
   )
@@ -607,6 +675,7 @@ export const AUTHOR_COMMAND_PRESENTATION_ = {
   fleeBattle: ['🏃', '敌人逃离战斗'],
   gameOver: ['💀', '战败流程'],
   giveItem: ['🎁', '获得物品'],
+  grantReward: ['🎁', '剧情发放奖励'],
   giveMoney: ['💰', '增减金钱'],
   halveMoney: ['💸', '金钱减半'],
   holdScreen: ['⬛', '保持黑屏'],
@@ -804,9 +873,8 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
     case 'setEntityLayer':
       return { kind: command.kind, entity: command.target.entity, layer: command.layer }
     case 'setEntityFacing':
-      return { kind: command.kind, entity: command.target.entity, facing: command.facing }
     case 'setEntityFrame':
-      return { kind: command.kind, entity: command.target.entity, frame: command.frame }
+      return undefined
     case 'playEntityAction':
       return {
         ...command,
@@ -907,6 +975,13 @@ export function describeCanonicalCommand(
   context?: CanonicalScriptEditorContext,
 ): DescribedCommand {
   const children = commandChildren(command)
+  if (command.kind === 'grantReward')
+    return {
+      icon: '🎁',
+      label: '共享取物：剧情发放奖励',
+      detail: rewardSummary(command.rewards, context),
+      children,
+    }
   switch (command.kind) {
     case 'runEntityTrigger':
       return {
@@ -1005,14 +1080,17 @@ export function describeCanonicalCommand(
               : '恢复页面默认触发',
         children,
       }
-    case 'callScript':
+    case 'callScript': {
+      const scripts = context?.state.sharedScripts ?? {}
+      const name = Object.hasOwn(scripts, command.script)
+        ? scripts[command.script]?.name
+        : undefined
       return {
         icon: '↪',
-        label: '调用共享脚本',
-        detail:
-          context?.state.sharedScripts[command.script]?.name ?? `脚本 ${command.script}（未解析）`,
+        label: `调用共享脚本：${name ?? `${command.script}（未找到）`}`,
         children,
       }
+    }
     case 'moveEntity':
     case 'ride':
     case 'moveParty':
@@ -1027,6 +1105,10 @@ export function describeCanonicalCommand(
       }
     case 'faceEntityToParty':
       return { icon: '🧭', label: `${addressLabel(command.target, context)} 面向主角`, children }
+    case 'setEntityFrame': {
+      const target = command.target === 'self' ? '调用实体' : addressLabel(command.target, context)
+      return { icon: '🎞', label: `${target} 定帧 ${command.frame}`, children }
+    }
     case 'setEntityFacing':
     case 'setPartyFacing':
     case 'stepEntity': {
@@ -1037,7 +1119,7 @@ export function describeCanonicalCommand(
         label:
           command.kind === 'setPartyFacing'
             ? '队伍转向'
-            : `${addressLabel(command.target, context)} ${command.kind === 'stepEntity' ? '走一步' : '转向'}`,
+            : `${command.target === 'self' ? '调用实体' : addressLabel(command.target, context)} ${command.kind === 'stepEntity' ? '走一步' : '转向'}`,
         detail: facing ? `${facing.label} · ${facing.description}` : dir,
         children,
       }
@@ -1117,7 +1199,10 @@ export function describeCanonicalCommand(
   if (command.kind === 'dialog')
     return {
       icon: '💬',
-      label: command.cue.rows.map((row) => row.text).join(' / ') || '空对话',
+      label:
+        command.cue.rows
+          .map((row) => resolveDialogueRowText(row, context?.locale ?? {}))
+          .join(' / ') || '空对话',
       detail:
         command.cue.identity.kind === 'actor'
           ? (command.cue.identity.speakerOverride ?? command.cue.identity.actor)
@@ -1371,6 +1456,23 @@ type ScriptEditorEntity = ScriptEditorState['scenes'][number]['entities'][number
 
 function entitySupportsFacing(entity: ScriptEditorEntity): boolean {
   return 'actor' in entity || 'sprite' in entity
+}
+
+function firstSelectableEntityAddress(
+  context: CanonicalScriptEditorContext | undefined,
+  acceptsEntity: (entity: ScriptEditorEntity) => boolean,
+): EntityAddress | undefined {
+  const scenes = context?.state.scenes ?? []
+  const scene =
+    scenes.find(
+      (candidate) =>
+        candidate.id === context?.currentSceneId && candidate.entities.some(acceptsEntity),
+    ) ?? scenes.find((candidate) => candidate.entities.some(acceptsEntity))
+  const entity =
+    scene?.entities.find(
+      (candidate) => candidate.id === context?.currentEntityId && acceptsEntity(candidate),
+    ) ?? scene?.entities.find(acceptsEntity)
+  return scene && entity ? { scene: scene.id, entity: entity.id } : undefined
 }
 
 function EntityAddressEditor(props: {
@@ -1957,6 +2059,18 @@ function CanonicalCommandForm(props: {
 }) {
   const command = props.command
   const context = props.context
+  if (command.kind === 'grantReward')
+    return context ? (
+      <GrantRewardFields
+        value={command}
+        context={context}
+        scopeKey={props.reorderScopeKey ?? 'grantReward'}
+        onChange={(value) => props.onChange({ ...command, ...value })}
+      />
+    ) : (
+      <p>请从项目脚本中编辑领取内容。</p>
+    )
+
   const commandFormBridge = context ? createAuthorCommandFormBridge(command) : undefined
   if (commandFormBridge && context) {
     const scene =
@@ -2538,6 +2652,17 @@ function CanonicalCommandForm(props: {
     command.kind === 'setEntityTriggerActivation'
   ) {
     const target = command.target
+    const entityFilter =
+      command.kind === 'setEntityFacing' || command.kind === 'faceEntityToParty'
+        ? entitySupportsFacing
+        : undefined
+    const canSelectCallingEntity =
+      context?.allowCallingEntityPoseTarget &&
+      (command.kind === 'setEntityFacing' || command.kind === 'setEntityFrame')
+    const specificTarget =
+      canSelectCallingEntity && target === 'self'
+        ? firstSelectableEntityAddress(context, entityFilter ?? (() => true))
+        : undefined
     const ignored = new Set([
       'kind',
       'target',
@@ -2552,22 +2677,36 @@ function CanonicalCommandForm(props: {
         : undefined
     return (
       <div className="canonical-command-form-fields">
-        {target ? (
+        {canSelectCallingEntity ? (
+          <CanonicalField label="目标实体">
+            <DsSelect
+              size="compact"
+              value={target === 'self' ? 'self' : 'specific'}
+              options={[
+                { value: 'self', label: '调用实体' },
+                {
+                  value: 'specific',
+                  label: '指定实体',
+                  disabled: target === 'self' && !specificTarget,
+                },
+              ]}
+              onValueChange={(mode) => {
+                const next = mode === 'self' ? 'self' : specificTarget
+                if (next) props.onChange({ ...command, target: next })
+              }}
+            />
+          </CanonicalField>
+        ) : null}
+        {target !== 'self' ? (
           <EntityAddressEditor
             value={target}
             state={context?.state}
             sceneIndex={context?.sceneIndex}
             displayContext={context}
-            entityFilter={
-              command.kind === 'setEntityFacing' || command.kind === 'faceEntityToParty'
-                ? entitySupportsFacing
-                : undefined
-            }
+            entityFilter={entityFilter}
             onChange={(next) => props.onChange({ ...command, target: next } as AuthorCommand)}
           />
-        ) : (
-          <div className="hint">未指定目标：使用当前 self。</div>
-        )}
+        ) : null}
         {command.kind === 'runEntityTrigger' ? (
           <p className="hint">
             执行当前已选中的交互方案与步骤，等执行完成后继续。仅当前场景演出；切场、战斗在调用返回后编排。
@@ -2935,7 +3074,7 @@ function CanonicalCommandForm(props: {
       <CanonicalField label="对话正文（每行一行）" className="canonical-dialog-fallback">
         <DsTextArea
           size="compact"
-          value={command.cue.rows.map((row) => row.text).join('\n')}
+          value={command.cue.rows.map((row) => resolveDialogueRowText(row, {})).join('\n')}
           onChange={(event) =>
             props.onChange({
               ...command,
@@ -2993,6 +3132,7 @@ function projectCommandExamples(state: ScriptEditorState): AuthorCommand[] {
     for (const entity of scene.entities)
       for (const channel of ['trigger', 'auto'] as const)
         for (const behavior of Object.values(entity.behaviors?.[channel] ?? {})) {
+          if (behavior.flow.kind === 'acquisition') continue
           for (const stage of behavior.flow.stages) {
             visitCommandExamples(stage.entry?.prepare ?? [], examples)
             visitCommandExamples(stage.body, examples)
@@ -3183,6 +3323,7 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
     currentScene?.entities[0]
   const target = currentScene && entity ? { scene: currentScene.id, entity: entity.id } : undefined
   const facingTarget = target && entity && entitySupportsFacing(entity) ? target : undefined
+  const poseFacingTarget = context?.allowCallingEntityPoseTarget ? 'self' : facingTarget
   const pos = entity?.pos ?? currentScene?.entry.pos ?? { col: 0, row: 0, height: 0 }
   const groups: InsertionGroup[] = [
     {
@@ -3222,22 +3363,30 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
                 label: '👁 实体显隐',
                 commands: [{ kind: 'setEntityState', target, state: 1 }] as AuthorCommand[],
               },
-              ...(facingTarget
-                ? [
-                    {
-                      label: '🧭 实体转向',
-                      commands: [
-                        { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
-                      ] as AuthorCommand[],
-                    },
-                    {
-                      label: '🧭 实体面向主角',
-                      commands: [
-                        { kind: 'faceEntityToParty', target: facingTarget },
-                      ] as AuthorCommand[],
-                    },
-                  ]
-                : []),
+            ]
+          : []),
+        ...(poseFacingTarget
+          ? [
+              {
+                label: '🧭 实体转向',
+                commands: [{ kind: 'setEntityFacing', target: poseFacingTarget, facing: 'down' }],
+              } satisfies InsertionChoice,
+            ]
+          : []),
+        ...(facingTarget
+          ? [
+              {
+                label: '🧭 实体面向主角',
+                commands: [{ kind: 'faceEntityToParty', target: facingTarget }] as AuthorCommand[],
+              },
+            ]
+          : []),
+        ...(context?.allowCallingEntityPoseTarget
+          ? [
+              {
+                label: '🎞 设置实体画面帧',
+                commands: [{ kind: 'setEntityFrame', target: 'self', frame: 0 }],
+              } satisfies InsertionChoice,
             ]
           : []),
         { label: '🌓 淡入/淡出', commands: [{ kind: 'fade', dir: 'out', ms: 300 }] },
@@ -3338,6 +3487,18 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
               } as InsertionChoice,
             ]
           : []),
+        {
+          label: '🎁 共享取物：剧情发放奖励',
+          commands: [
+            {
+              kind: 'grantReward',
+              rewards: item
+                ? [{ kind: 'item', itemId: item, count: 1 }]
+                : [{ kind: 'money', amount: 1 }],
+              notice: { kind: 'standard', timing: 'before' },
+            },
+          ],
+        },
         { label: '💰 增减金钱', commands: [{ kind: 'giveMoney', delta: 100 }] },
         ...(shared
           ? [
@@ -3352,31 +3513,6 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
     {
       title: '常用事件模板（插入后仍是普通指令，可逐条修改）',
       choices: [
-        ...(target && item
-          ? [
-              ...(facingTarget
-                ? [
-                    {
-                      label: '📦 宝箱：开盖并给物品',
-                      commands: [
-                        { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
-                        { kind: 'setEntityFrame', target: facingTarget, frame: 1 },
-                        { kind: 'dialog', cue: { rows: [{ text: '(得到物品！)' }] } },
-                        { kind: 'giveItem', itemId: item },
-                      ],
-                    } as InsertionChoice,
-                  ]
-                : []),
-              {
-                label: '🌿 地上道具：拾取后消失',
-                commands: [
-                  { kind: 'dialog', cue: { rows: [{ text: '(得到物品！)' }] } },
-                  { kind: 'giveItem', itemId: item },
-                  { kind: 'setEntityState', target, state: 0 },
-                ],
-              } as InsertionChoice,
-            ]
-          : []),
         ...(facingTarget
           ? [
               {
@@ -3453,7 +3589,8 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
           unavailableReason: '触发区没有朝向；请先选择一个可见实体',
         } satisfies InsertionChoice
       const command = examples.get(kind)
-      if (!command) return fallbackInsertionChoice(kind, context, target)
+      if (!command || ('target' in command && command.target === 'self' && !target))
+        return fallbackInsertionChoice(kind, context, target)
       const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[kind]
       return {
         kind,
@@ -3515,6 +3652,12 @@ export function CanonicalScriptBodyEditor(props: {
     sourceBody: readonly AuthorCommand[]
     command: AuthorCommand
   }>()
+  const [grantInsertDraft, setGrantInsertDraft] = useState<{
+    path: string
+    sourceBody: readonly AuthorCommand[]
+    command: AuthorGrantRewardCommand
+  }>()
+  const [detachGrantOpen, setDetachGrantOpen] = useState(false)
   const editingPath = editingDraft?.path
   const [insertPath, setInsertPath] = useState<string>()
   const [insertSearch, setInsertSearch] = useState('')
@@ -3566,6 +3709,8 @@ export function CanonicalScriptBodyEditor(props: {
       if (bodyChanged && !locallyOwned) {
         if (selectedIdentityChanged) setSelectedPath(undefined)
         setEditingDraft(undefined)
+        setGrantInsertDraft(undefined)
+        setDetachGrantOpen(false)
         setInsertPath(undefined)
         const explicitFocusPending =
           props.focusRevision !== undefined &&
@@ -3662,7 +3807,7 @@ export function CanonicalScriptBodyEditor(props: {
             referenceFocusPath={props.focusCommandPath}
             referenceFocusRevision={props.focusRevision}
             reorderScopeKey={props.reorderScopeKey ?? `canonical:${fallbackReorderScope}`}
-            reorderDisabled={Boolean(editingDraft || insertPath)}
+            reorderDisabled={Boolean(editingDraft || insertPath || grantInsertDraft)}
             showEmptyAction={props.presentation !== 'workbench'}
             onSelect={(path) => {
               setSelectedPath(path)
@@ -3737,6 +3882,21 @@ export function CanonicalScriptBodyEditor(props: {
                       title={choice.unavailableReason}
                       onClick={() => {
                         if (choice.unavailableReason) return
+                        const first = choice.commands[0]
+                        if (
+                          choice.commands.length === 1 &&
+                          first?.kind === 'grantReward' &&
+                          props.context
+                        ) {
+                          setGrantInsertDraft({
+                            path: insertPath,
+                            sourceBody: props.body,
+                            command: structuredClone(first),
+                          })
+                          setInsertPath(undefined)
+                          setInsertSearch('')
+                          return
+                        }
                         const result = insertCommandsAfter(
                           props.body,
                           parseAuthorCommandPath(insertPath),
@@ -3763,27 +3923,86 @@ export function CanonicalScriptBodyEditor(props: {
         </CanonicalScriptDialog>
       ) : null}
 
+      {grantInsertDraft && props.context ? (
+        <CanonicalScriptDialog
+          title="剧情发放奖励"
+          onClose={() => setGrantInsertDraft(undefined)}
+          footer={
+            <>
+              <DsButton variant="secondary" onClick={() => setGrantInsertDraft(undefined)}>
+                取消
+              </DsButton>
+              <DsButton
+                variant="primary"
+                onClick={() => {
+                  if (props.body !== grantInsertDraft.sourceBody) return
+                  try {
+                    checkGrantRewardCommand(grantInsertDraft.command, '剧情奖励')
+                    const result = insertCommandsAfter(
+                      props.body,
+                      parseAuthorCommandPath(grantInsertDraft.path),
+                      [grantInsertDraft.command],
+                    )
+                    if (commit(result.body)) {
+                      setSelectedPath(result.selectedPath)
+                      setGrantInsertDraft(undefined)
+                    }
+                  } catch (error) {
+                    props.onError?.(error instanceof Error ? error.message : String(error))
+                  }
+                }}
+              >
+                添加奖励指令
+              </DsButton>
+            </>
+          }
+        >
+          <GrantRewardFields
+            value={grantInsertDraft.command}
+            context={props.context}
+            scopeKey="new-grantReward"
+            onChange={(value) =>
+              setGrantInsertDraft({
+                ...grantInsertDraft,
+                command: { kind: 'grantReward', ...value },
+              })
+            }
+          />
+        </CanonicalScriptDialog>
+      ) : null}
+
       {editing && editingPath ? (
         <CanonicalScriptDialog
           title={`编辑：${describeCanonicalCommand(editing, props.context).label}`}
           onClose={() => setEditingDraft(undefined)}
           footer={
-            <DsButton
-              size="compact"
-              variant="primary"
-              onClick={() => {
-                const path = parseAuthorCommandPath(editingPath)
-                const source = getAuthorCommandAt(props.body, path)
-                if (JSON.stringify(source) === JSON.stringify(editing)) {
-                  setEditingDraft(undefined)
-                  return
-                }
-                if (commit(updateAuthorCommandAt(props.body, path, editing)))
-                  setEditingDraft(undefined)
-              }}
-            >
-              完成
-            </DsButton>
+            <>
+              {editing.kind === 'grantReward' && props.context ? (
+                <DsButton
+                  size="compact"
+                  variant="secondary"
+                  onClick={() => setDetachGrantOpen(true)}
+                >
+                  展开为普通指令
+                </DsButton>
+              ) : null}
+              <DsButton
+                size="compact"
+                variant="primary"
+                onClick={() => {
+                  const path = parseAuthorCommandPath(editingPath)
+                  const source = getAuthorCommandAt(props.body, path)
+                  if (JSON.stringify(source) === JSON.stringify(editing)) {
+                    setEditingDraft(undefined)
+                    return
+                  }
+                  if (commit(updateAuthorCommandAt(props.body, path, editing)))
+                    setEditingDraft(undefined)
+                }}
+              >
+                完成
+              </DsButton>
+            </>
           }
         >
           <CanonicalCommandForm
@@ -3796,6 +4015,50 @@ export function CanonicalScriptBodyEditor(props: {
               )
             }
           />
+        </CanonicalScriptDialog>
+      ) : null}
+      {detachGrantOpen && editing?.kind === 'grantReward' && editingPath && props.context ? (
+        <CanonicalScriptDialog
+          title="展开为普通指令"
+          onClose={() => setDetachGrantOpen(false)}
+          footer={
+            <>
+              <DsButton
+                size="compact"
+                variant="secondary"
+                onClick={() => setDetachGrantOpen(false)}
+              >
+                取消
+              </DsButton>
+              <DsButton
+                size="compact"
+                variant="primary"
+                onClick={() => {
+                  try {
+                    const path = parseAuthorCommandPath(editingPath)
+                    const expanded = expandGrantReward(editing, props.context!.state.items)
+                    const previous = [...path.slice(0, -1), Number(path.at(-1)) - 1]
+                    const result = insertCommandsAfter(
+                      removeAuthorCommandAt(props.body, path),
+                      previous,
+                      expanded,
+                    )
+                    if (commit(result.body)) {
+                      setSelectedPath(result.selectedPath)
+                      setEditingDraft(undefined)
+                      setDetachGrantOpen(false)
+                    }
+                  } catch (error) {
+                    props.onError?.(error instanceof Error ? error.message : String(error))
+                  }
+                }}
+              >
+                确认展开
+              </DsButton>
+            </>
+          }
+        >
+          <p>将剧情发放奖励展开为普通对话和发放指令。之后逐条编辑；可以撤销恢复奖励表单。</p>
         </CanonicalScriptDialog>
       ) : null}
     </section>
@@ -4044,7 +4307,7 @@ export function removeTriggerStage(
   }
 }
 
-export function CanonicalScriptFlowEditor(props: {
+export interface CanonicalScriptFlowEditorProps {
   flow: AuthorScriptFlow
   previewCursor?: FlowCursor
   renderStepPreview?: (stageId: string, close: () => void) => ReactNode
@@ -4056,7 +4319,19 @@ export function CanonicalScriptFlowEditor(props: {
   onError?: (message: string) => void
   focusLocator?: ScriptCommandLocator
   focusRevision?: number
-}) {
+}
+
+export function CanonicalScriptFlowEditor(props: CanonicalScriptFlowEditorProps) {
+  return props.flow.kind === 'acquisition' ? (
+    <AcquisitionFlowEditor {...props} flow={props.flow} />
+  ) : (
+    <CanonicalStagesFlowEditor {...props} flow={props.flow} />
+  )
+}
+
+function CanonicalStagesFlowEditor(
+  props: Omit<CanonicalScriptFlowEditorProps, 'flow'> & { flow: AuthorStagesFlow },
+) {
   const ids = props.flow.stages.map((stage) => stage.id)
   const initialId = props.flow.initial
   const [localSelectedId, setLocalSelectedId] = useState(initialId)

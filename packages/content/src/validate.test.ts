@@ -1252,7 +1252,7 @@ describe('validateLocale · 对话行边界', () => {
   })
 })
 
-describe('validateCurrentManifestStartup · canonical content22 startup model', () => {
+describe('validateCurrentManifestStartup · canonical content23 startup model', () => {
   const world = () => ({ party: [], money: 0, inventory: [] })
   const entry = (id: string, scene = `scene-${id}`) => ({
     id,
@@ -1263,7 +1263,7 @@ describe('validateCurrentManifestStartup · canonical content22 startup model', 
   const manifest = () => ({
     id: 'demo',
     name: 'Demo',
-    contentVersion: 22,
+    contentVersion: 23,
     minimumSaveVersion: 12,
     defaultEntryId: 'main',
     entryPoints: [entry('main')],
@@ -1291,7 +1291,7 @@ describe('validateCurrentManifestStartup · canonical content22 startup model', 
     ],
     [{ ...manifest(), entryScene: 'scene-main' }, /entryScene: 未知字段/],
     [{ ...manifest(), startWorld: world() }, /startWorld: 未知字段/],
-    [{ ...manifest(), contentVersion: 21 }, /contentVersion: 期望 22/],
+    [{ ...manifest(), contentVersion: 22 }, /contentVersion: 期望 23/],
     [
       {
         ...manifest(),

@@ -28,6 +28,7 @@ import {
   type EntityAddressReferenceLocator,
 } from './entity-address-references.js'
 import {
+  collectAcquisitionItemReferences,
   collectCanonicalItemTaggedReferences,
   collectItemReferences,
   collectLegacyItemReferences,
@@ -54,6 +55,7 @@ import type {
 } from './script-editor.js'
 import {
   buildCanonicalSchemeReferenceIndexesFromVisits,
+  collectCanonicalAcquisitionVisits,
   collectCanonicalScriptCommandVisits,
   collectCanonicalSharedScriptReferencesFromVisits,
 } from './script-editor.js'
@@ -672,6 +674,19 @@ export function actorReferenceEdges(
   return [
     ...collectActorReferences(state, { includeScriptCommands: false }).map(actorReferenceEdge),
     ...canonicalActorReferenceEdges(visits, scriptState),
+    ...collectCanonicalAcquisitionVisits(scriptState).flatMap(({ flow, path, owner }) =>
+      collectCanonicalActorTaggedReferences(flow, path).map(
+        (reference): ProjectReferenceEdgeInput => ({
+          target: { kind: 'actor', id: reference.actorId },
+          source: sourceForScriptOwner(owner),
+          relation: { kind: 'actor-use', use: reference.kind },
+          where: reference.where,
+          detail: ACTOR_REFERENCE_POLICIES[reference.kind].label,
+          locator: { kind: 'script-owner', owner },
+          deletePolicy: 'replace-suggest',
+        }),
+      ),
+    ),
     ...legacyActorReferenceEdges(state.scriptChunks),
   ]
 }
@@ -705,6 +720,8 @@ function itemReferenceSource(reference: ItemReference): {
     locator: { kind: 'object', object, ...(section ? { section } : {}) },
   })
   switch (locator.kind) {
+    case 'script-owner':
+      return { source: sourceForScriptOwner(locator.owner), locator }
     case 'shop':
       return objectSource(
         { kind: 'shop', id: String(locator.shopId) },
@@ -826,6 +843,7 @@ export function itemReferenceEdges(
       includeLegacyScripts: false,
     }).map(itemReferenceEdge),
     ...canonicalItemReferenceEdges(commandVisits, scriptState),
+    ...collectAcquisitionItemReferences(scriptState).map(itemReferenceEdge),
     ...collectLegacyItemReferences(state).map(itemReferenceEdge),
   ]
 }
@@ -1089,7 +1107,8 @@ function assetReferenceEdge(
 }
 
 export interface CanonicalAssetReferenceEntry {
-  visit: CanonicalScriptCommandVisit
+  owner: ScriptCommandOwner
+  locator: ProjectReferenceLocator
   reference: LocatedAssetReference
 }
 
@@ -1128,10 +1147,15 @@ function canonicalAssetSite(owner: ScriptCommandOwner): string {
 
 export function collectCanonicalAssetReferenceEntries(
   visits: readonly CanonicalScriptCommandVisit[],
+  scriptState?: ScriptEditorState,
 ): CanonicalAssetReferenceEntry[] {
-  return visits.flatMap((visit) =>
+  const commands: CanonicalAssetReferenceEntry[] = visits.flatMap((visit) =>
     collectCanonicalCommandAssetTaggedReferences(visit.command, visit.path).map((reference) => ({
-      visit,
+      owner: visit.locator.owner,
+      locator: {
+        kind: 'canonical-script',
+        reference: { kind: 'command', path: reference.where, locator: visit.locator },
+      },
       reference: {
         ...reference,
         site: canonicalAssetSite(visit.locator.owner),
@@ -1139,23 +1163,36 @@ export function collectCanonicalAssetReferenceEntries(
       },
     })),
   )
+  const recipes = scriptState
+    ? collectCanonicalAcquisitionVisits(scriptState).flatMap(({ flow, path, owner }) =>
+        collectCanonicalCommandAssetTaggedReferences(flow, path).map(
+          (reference): CanonicalAssetReferenceEntry => ({
+            owner,
+            locator: { kind: 'script-owner', owner },
+            reference: {
+              ...reference,
+              site: canonicalAssetSite(owner),
+              origin: canonicalAssetOrigin(owner),
+            },
+          }),
+        ),
+      )
+    : []
+  return [...commands, ...recipes]
 }
 
 function canonicalAssetReferenceEdges(
   entries: readonly CanonicalAssetReferenceEntry[],
   scriptState: ScriptEditorState,
 ): ProjectReferenceEdgeInput[] {
-  return entries.map(({ visit, reference }) => {
-    const source = sourceForScriptOwner(visit.locator.owner, scriptState)
+  return entries.map(({ owner, locator, reference }) => {
+    const source = sourceForScriptOwner(owner, scriptState)
     return {
       target: { kind: 'asset' as const, id: reference.asset },
       source,
       relation: { kind: 'asset-use' as const, expectedKind: reference.expectedKind },
       where: reference.where,
-      locator: {
-        kind: 'canonical-script' as const,
-        reference: { kind: 'command' as const, path: reference.where, locator: visit.locator },
-      },
+      locator,
       deletePolicy: 'replace-suggest' as const,
     }
   })
@@ -1839,7 +1876,7 @@ export function collectCurrentProjectReferenceIndex(
   const assetReferences = collectEditorAssetReferences(currentAuthorState, undefined, {
     includeCanonicalAuthorCommands: false,
   })
-  const canonicalAssetReferences = collectCanonicalAssetReferenceEntries(commandVisits)
+  const canonicalAssetReferences = collectCanonicalAssetReferenceEntries(commandVisits, scriptState)
   const worldVariableReferences = collectWorldVariableReferencesV1FromVisits(
     scriptState,
     commandVisits,

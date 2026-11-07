@@ -1101,76 +1101,57 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
+              "kind": "acquisition",
+              "recipe": "builtin/item/chest",
+              "stages": {
+                "available": {
+                  "id": "initial"
+                },
+                "collected": {
+                  "id": "legacy-002"
+                }
+              },
+              "rewards": [
                 {
-                  "id": "initial",
-                  "body": [
+                  "kind": "item",
+                  "itemId": "238",
+                  "count": 1
+                }
+              ],
+              "notice": {
+                "kind": "custom",
+                "timing": "before",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s036",
-                        "entity": "e607"
-                      }
-                    },
-                    {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s036",
-                        "entity": "e607"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "asset": "sound.pal.078",
-                      "kind": "playSound"
-                    },
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.12317"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "itemId": "238",
-                      "kind": "giveItem"
+                      "text": "dlg.12317"
                     }
                   ],
-                  "next": "legacy-002"
-                },
-                {
-                  "id": "legacy-002",
-                  "body": [
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.12222"
-                          }
-                        ],
-                        "slot": "center"
-                      },
-                      "kind": "dialog"
-                    }
-                  ]
+                  "slot": "narration"
                 }
-              ]
+              },
+              "opening": {
+                "facing": "down",
+                "frame": 1,
+                "sound": "sound.pal.078"
+              },
+              "empty": {
+                "kind": "custom",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.12222"
+                    }
+                  ],
+                  "slot": "center"
+                }
+              }
             }
           }
         }

@@ -1,29 +1,29 @@
 # 当前存档合同
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-11-07
 Owner: Codex（文档治理；原作者与原任务 Owner 保留在历史原文）
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
 
-保存当前唯一 SAVE12/content22 合同、恢复边界和来源；现行规范整理不代表修复所有已知实现缺陷，也不改变 codec 或产品保存行为。
+保存当前唯一 SAVE12/content23 合同、恢复边界和来源；现行规范整理不代表修复所有已知实现缺陷，也不改变 codec 或产品保存行为。
 
-类型：现行规范（current）。当前产品为 contentVersion 22 / SAVE12；格式与实现以源码常量和校验器为准。
+类型：现行规范（current）。当前产品为 contentVersion 23 / SAVE12；格式与实现以源码常量和校验器为准。
 本页维护已确认合同，已知实现缺陷继续由 [代码审计](../../tasks/audits/pre-e2e/summary.md) 跟踪。
 原设计、旧版本与当时审查完整保留在 [历史快照](../archive/designs/save-system-design.md)，不作为当前执行入口。
 
 ## 真值与约束
 
-本批直接核 `save/types.ts` 的 `SAVE_VERSION=12`/CurrentSavePayload、`character.ts:168-170` 的 content22/minimumSave12，以及 `current-codec.ts` 的 preflight/normalize：版本与项目不匹配 fail-loud、结构校验后克隆。其余场景/动作续跑细节保留原合同与任务来源，本批不重新授予运行时通过。
+本批直接核 `save/types.ts` 的 `SAVE_VERSION=12`/CurrentSavePayload、`character.ts:168-170` 的 content23/minimumSave12，以及 `current-codec.ts` 的 preflight/normalize：版本与项目不匹配 fail-loud、结构校验后克隆。其余场景/动作续跑细节保留原合同与任务来源，本批不重新授予运行时通过。
 
 开发期不接旧版本、不读取 sidecar、不恢复 upgrader；world/sceneRuntime 中使用稳定身份，不能以文档迁移扩张跨版本兼容或中途战斗保存。
 
 ## 方案
 
-以下是原合同正文，字段、等待/动作/追逐与读档边界保留；只改变章节层级，原标题锚仍可定位。
+2026-11-07 取物模式切换作者内容至 content23；领取进度沿用实体方案的既有持久游标，SAVE12 的世界布局保持。当前读档不接受 content22；验证前驱须从 content23 真实流程重建。字段、等待/动作/追逐与读档边界继续按以下合同执行。
 
-### 当前实现 SAVE12 与 content22
+### 当前实现 SAVE12 与 content23
 
 `SAVE_VERSION` 与工程 `contentVersion` 是两个独立版本轴。正式上线前只支持当前 canonical，
 当前写出的唯一 payload 为：
@@ -32,7 +32,7 @@ Template: design-spec-v1 / 1.0.0
 interface CurrentSavePayload {
   version: 12
   projectId: string
-  contentVersion: 22
+  contentVersion: 23
   world: WorldState
   position: { sceneId: string; pos: GridPos; facing: Facing }
   sceneRuntime: Record<string, SceneRuntimeState>
@@ -104,18 +104,18 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 
 #### 当前读档边界
 
-1. `preflightCurrentSave` 只接受 `SAVE12/content22`；`normalizeCurrentSave` 校验后返回隔离副本，`sceneRuntime`缺失拒绝。
-2. 非当前 SAVE、非 content22、项目 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
+1. `preflightCurrentSave` 只接受 `SAVE12/content23`；`normalizeCurrentSave` 校验后返回隔离副本，`sceneRuntime`缺失拒绝。
+2. 非当前 SAVE、非 content23、项目 id 不匹配或非法 `minimumSaveVersion` 都 fail-loud；不读
    sidecar、不尝试升级、不提供产品迁移入口。
 3. PAL 与其他开发期工程重新生成 current 数据；开发期旧存档重新开档。历史实现由 Git 保存。
 
 `manifest.minimumSaveVersion` 当前必须为 12。
 
-| payload `version` | payload `contentVersion` | content22 项目结果 |
+| payload `version` | payload `contentVersion` | content23 项目结果 |
 |---:|---:|---|
-| 12 | 22 | current codec；校验并克隆返回 |
+| 12 | 23 | current codec；校验并克隆返回 |
 | 1..11 / 13+ | 任意 | 拒绝：不是当前 SAVE envelope |
-| 12 | 非 22 | 拒绝：不是当前 content epoch |
+| 12 | 非 23 | 拒绝：不是当前 content epoch |
 
 #### 角色临时状态的 restore 边界
 
@@ -140,7 +140,7 @@ DEV检查点导出使用`await window.__tpE2e.dumpSave()`，与普通槽保存�
 - `packages/reforge/src/save/current-codec.ts`：current-only preflight/normalize、边界拒绝与隔离克隆。
 - `packages/reforge/src/save/current-save.current-characterization.test.ts`：当前 round-trip 和非当前
   fail-loud 回归。
-- `packages/content/src/character.ts`：`CONTENT_VERSION = 22`、
+- `packages/content/src/character.ts`：`CONTENT_VERSION = 23`、
   `CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 12`。
 - [后台脚本快照修复任务](../../tasks/archive/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md)：前提、反控和当前交付状态。
 - [001–006连续验证任务](../../tasks/archive/done/E2E-CONTINUOUS-001-006.md)：SAVE12现场恢复修复及新版本E2E待验证状态；历史收据不改写为当前版本通过。

@@ -2,6 +2,7 @@
 import type { AuthorSceneDef, Facing, GridPos, SceneDef } from '@type-pal/content'
 import type { FileSource } from '@type-pal/reforge/author-io'
 import type { Command, EditorState } from './edit-session.js'
+import { authorFlowPreviewStages } from './script-flow-preview.js'
 
 export const SCRIPT_PREVIEW_PATH = 'editor/script-preview.json'
 
@@ -88,9 +89,8 @@ export function scriptPreviewEntryExists(
   entry: ScriptPreviewEntry,
   scenes: readonly AuthorSceneDef[],
 ): boolean {
-  return (
-    scriptPreviewFlow(entry, scenes)?.stages.some((stage) => stage.id === entry.stageId) ?? false
-  )
+  const flow = scriptPreviewFlow(entry, scenes)
+  return flow ? authorFlowPreviewStages(flow).some((stage) => stage.id === entry.stageId) : false
 }
 
 /** An explicit null blocks inheritance. Invalid IDs stay visible for repair, never fall through. */
@@ -114,7 +114,7 @@ export function scriptPreviewSceneEntries(scene: AuthorSceneDef): ScriptPreviewE
   for (const entity of scene.entities)
     for (const channel of ['trigger', 'auto'] as const)
       for (const [schemeId, scheme] of Object.entries(entity.behaviors?.[channel] ?? {}))
-        for (const stage of scheme.flow.stages)
+        for (const stage of authorFlowPreviewStages(scheme.flow))
           entries.push({
             sceneId: scene.id,
             entityId: entity.id,
@@ -124,7 +124,7 @@ export function scriptPreviewSceneEntries(scene: AuthorSceneDef): ScriptPreviewE
           })
   for (const channel of ['onEnter', 'onTeleport'] as const)
     for (const [schemeId, scheme] of Object.entries(scene.hooks?.[channel]?.variants ?? {}))
-      for (const stage of scheme.flow.stages)
+      for (const stage of authorFlowPreviewStages(scheme.flow))
         entries.push({ sceneId: scene.id, channel, schemeId, stageId: stage.id })
   return entries
 }

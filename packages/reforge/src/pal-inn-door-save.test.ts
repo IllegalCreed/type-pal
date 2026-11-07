@@ -49,7 +49,7 @@ function opening(caller: string): AuthorCommand[] {
   return stage.body.filter(
     (command) =>
       'target' in command &&
-      command.target &&
+      typeof command.target === 'object' &&
       'scene' in command.target &&
       command.target.scene === 's003' &&
       doors.includes(command.target.entity),
@@ -65,6 +65,7 @@ function fixtureOpening(caller: string): AuthorCommand[] {
       case 'setEntityFacing':
       case 'setEntityFrame':
       case 'selectEntityPage':
+        if (command.target === 'self') throw new Error('door command requires a concrete address')
         return { ...command, target: { scene: 'a', entity: command.target.entity } }
       default:
         throw new Error(`unexpected door command ${command.kind}`)

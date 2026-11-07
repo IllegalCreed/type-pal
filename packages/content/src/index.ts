@@ -30,12 +30,12 @@ export interface Vec2 {
   y: number
 }
 
-export interface DialogueRow {
-  /** 正文 textId,指向 locale 富文本(单色纯文本 / 多色带 <color> 标记)。 */
-  text: TextId
-  /** 打字速度(ms/字);省略 = 默认。原版 $NN。 */
-  speed?: number
-}
+export type DialogueRow = (
+  | { text: TextId }
+  | {
+      reward: { kind: 'item'; itemName: TextId; count: number } | { kind: 'money'; amount: number }
+    }
+) & { speed?: number }
 
 /** 一次连续显示单元。共享外观/收尾属性放 cue，逐行文本与速度放 rows。 */
 export interface DialogueCue {
@@ -167,6 +167,7 @@ export * from './battle-formulas.js'
 export * from './battle-sprite.js'
 export * from './character.js'
 export * from './command-target-reference.js'
+export * from './dialogue-row.js'
 export * from './enemy.js'
 export * from './enemy-ai.js'
 export * from './enemy-script.js'
@@ -176,6 +177,7 @@ export * from './entity-lifecycle.js'
 export * from './frame-sequence.js'
 export * from './grid.js'
 export * from './item.js'
+export * from './item-acquisition.js'
 export * from './item-script-runtime-ref.js'
 export * from './locale.js'
 export * from './map-index.js'

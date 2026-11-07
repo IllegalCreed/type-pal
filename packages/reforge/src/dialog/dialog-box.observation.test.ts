@@ -1,5 +1,10 @@
 // @vitest-environment jsdom
-import { type Dialogue, resolveAuthorDialogueCue, validateAuthorScenes } from '@type-pal/content'
+import {
+  type Dialogue,
+  type Locale,
+  resolveAuthorDialogueCue,
+  validateAuthorScenes,
+} from '@type-pal/content'
 import { afterEach, expect, test } from 'vitest'
 import authorInn from '../../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
 import { installShellHost, type ShellHost } from '../__tests__/runtime-shell/dom-host.js'
@@ -10,7 +15,7 @@ afterEach(async () => {
   host = undefined
 })
 
-async function box() {
+async function box(locale: Locale = {}) {
   host = await installShellHost()
   const { DialogBox } = await import('./dialog-box.js')
   const { startDialogue } = await import('../dialogue.js')
@@ -19,7 +24,7 @@ async function box() {
   // Legitimate fixed-width ASCII glyphs; real layout/typewriter/render functions, Canvas IO only is stubbed.
   const glyph = { width: 8, height: 8, bitmap: new Uint8Array(8).fill(255) }
   const glyphs = { has: () => true, get: () => glyph }
-  return { ui: new DialogBox(context, glyphs, []), startDialogue, h: host }
+  return { ui: new DialogBox(context, glyphs, [], new Map(), locale), startDialogue, h: host }
 }
 
 test('observing cannot type, draw, page or mutate the real cue; pagination follows rendered state', async () => {
@@ -121,7 +126,9 @@ test('canonical inn reward is fully shown then closes after 1400ms without anoth
   const command = flow.stages
     .find((stage) => stage.id === flow.initial)
     ?.body.find(
-      (entry) => entry.kind === 'dialog' && entry.cue.rows.some((row) => row.text === 'dlg.51'),
+      (entry) =>
+        entry.kind === 'dialog' &&
+        entry.cue.rows.some((row) => 'text' in row && row.text === 'dlg.51'),
     )
   if (command?.kind !== 'dialog') throw new Error('missing canonical reward cue')
   const cue = resolveAuthorDialogueCue(command.cue, {})
@@ -136,4 +143,39 @@ test('canonical inn reward is fully shown then closes after 1400ms without anoth
   expect(ui.observe()?.phase).toBe('auto-advance')
   ui.render(1500)
   expect(ui.observe()).toBeNull()
+})
+
+test('typed reward rows render current item names and amounts without manufactured text IDs', async () => {
+  const locale = { 'item.herb': '雪莲子' }
+  const { ui, startDialogue } = await box(locale)
+  const itemCue = {
+    slot: 'narration' as const,
+    rows: [{ reward: { kind: 'item' as const, itemName: 'item.herb', count: 3 } }],
+  }
+  const moneyCue = {
+    slot: 'narration' as const,
+    rows: [{ reward: { kind: 'money' as const, amount: 50 } }],
+  }
+  ui.open(startDialogue({ id: 'rewards', cues: [itemCue, moneyCue] }), 0)
+  ui.render(0)
+  expect(ui.observe()).toMatchObject({
+    pageText: '获得雪莲子 × 3',
+    rowTextIds: ['item.herb'],
+    pageTextIds: ['item.herb'],
+    phase: 'waiting-input',
+  })
+  ui.advance(1)
+  ui.render(1)
+  expect(ui.observe()).toMatchObject({
+    pageText: '获得50文钱',
+    rowTextIds: [],
+    pageTextIds: [],
+    phase: 'waiting-input',
+  })
+  ui.advance(2)
+  expect(ui.observe()).toBeNull()
+  locale['item.herb'] = '新名字'
+  ui.open(startDialogue({ id: 'renamed-item', cues: [itemCue] }), 3)
+  ui.render(3)
+  expect(ui.observe()?.pageText).toBe('获得新名字 × 3')
 })

@@ -20,6 +20,8 @@ export interface EntityAddress {
   entity: string
 }
 
+export type EntityPoseTarget = EntityAddress | 'self'
+
 export type Selection<T> = { kind: 'inherit' } | { kind: 'disabled' } | { kind: 'use'; value: T }
 
 export type PageSelection = { kind: 'inherit' } | { kind: 'use'; value: PageId }
@@ -186,9 +188,9 @@ export type BaseAuthorCommand =
   | { kind: 'setEntityPos'; target: EntityAddress; pos: GridPos }
   | { kind: 'setEntityPosRelParty'; target: EntityAddress; dcol: number; drow: number }
   | { kind: 'setEntityLayer'; target: EntityAddress; layer: number }
-  | { kind: 'setEntityFacing'; target: EntityAddress; facing: Facing }
+  | { kind: 'setEntityFacing'; target: EntityPoseTarget; facing: Facing }
   | { kind: 'faceEntityToParty'; target: EntityAddress }
-  | { kind: 'setEntityFrame'; target: EntityAddress; frame: number }
+  | { kind: 'setEntityFrame'; target: EntityPoseTarget; frame: number }
   | {
       kind: 'playEntityAction'
       target: EntityAddress
@@ -657,7 +659,7 @@ export function checkBaseAuthorCommands(
     const command = record(entry, `${path}[${index}]`)
     const commandPath = `${path}[${index}]`
     const kind = nonEmptyString(command.kind, `${commandPath}.kind`)
-    if (options.checkExtensionCommand?.(command, commandPath)) return
+    if (options.checkExtensionCommand?.(command, commandPath, options)) return
     const commandKinds = options.commandKinds ?? BASE_AUTHOR_COMMAND_KINDS
     if (commandKinds[kind] !== true)
       throw new Error(
@@ -743,7 +745,10 @@ export function checkBaseAuthorCommands(
     }
     if (ENTITY_TARGET_KINDS.has(kind)) {
       if ('entity' in command) throw new Error(`${commandPath}.entity: 当前作者态禁止裸实体 id`)
-      checkEntityAddress(command.target, `${commandPath}.target`)
+      if ((kind === 'setEntityFacing' || kind === 'setEntityFrame') && command.target === 'self') {
+        if (!options.allowCallingEntityPoseTarget)
+          throw new Error(`${commandPath}.target: 调用实体仅用于必须提供 self 的共享脚本`)
+      } else checkEntityAddress(command.target, `${commandPath}.target`)
     }
     if (kind === 'faceEntityToParty') exactKeys(command, ['kind', 'target'], commandPath)
     if (kind === 'vanishEntity' || kind === 'releaseEntity') {
@@ -936,6 +941,7 @@ export function checkBaseScriptFlow(
   options: CheckBaseScriptFlowOptions = {},
 ): asserts value is BaseScriptFlow {
   const flow = record(value, path)
+  if (options.checkExtensionFlow?.(flow, path, options.flowOwner)) return
   exactKeys(flow, ['kind', 'initial', 'stages'], path)
   if (flow.kind !== 'stages') throw new Error(`${path}.kind: 期望 stages`)
   const initial = nonEmptyString(flow.initial, `${path}.initial`)
@@ -999,6 +1005,7 @@ export function checkBaseEntityBehaviors(
         throw new Error(`${path}.behaviors.${channel}.${id}.order: 期望非负整数`)
       checkBaseScriptFlow(behavior.flow, `${path}.behaviors.${channel}.${id}.flow`, {
         ...options,
+        flowOwner: channel,
         forbidLoadScene: channel === 'auto',
         ...(channel === 'auto' ? { forbidRunEntityTrigger: 'auto' as const } : {}),
       })
@@ -1071,6 +1078,7 @@ export function checkBaseSceneHooks(
         throw new Error(`${path}.${slot}.variants.${id}.order: 期望非负整数`)
       checkBaseScriptFlow(hook.flow, `${path}.${slot}.variants.${id}.flow`, {
         ...options,
+        flowOwner: 'hook',
         allowSceneEntry: slot === 'onEnter',
       })
     }
@@ -1094,6 +1102,7 @@ export function checkBaseScriptLibrary(
       throw new Error(`${path}.${id}.self: 期望 none|optional|required`)
     checkBaseAuthorCommands(script.body, `${path}.${id}.body`, {
       ...options,
+      allowCallingEntityPoseTarget: script.self === 'required',
       rootScope: 'script',
       loopDepth: 0,
       stageIds: undefined,

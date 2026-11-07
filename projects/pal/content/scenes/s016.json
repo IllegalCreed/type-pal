@@ -4240,49 +4240,37 @@
             "label": "采摘止血草",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
+              "kind": "acquisition",
+              "recipe": "builtin/item/pickup",
+              "stages": {
+                "available": {
                   "id": "initial",
-                  "body": [
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s016",
-                        "entity": "e233"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "asset": "sound.pal.078",
-                      "kind": "playSound"
-                    },
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.12449"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "itemId": "99",
-                      "kind": "giveItem"
-                    }
-                  ],
                   "label": "拾取一株止血草"
                 }
-              ]
+              },
+              "rewards": [
+                {
+                  "kind": "item",
+                  "itemId": "99",
+                  "count": 1
+                }
+              ],
+              "notice": {
+                "kind": "custom",
+                "timing": "before",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.12449"
+                    }
+                  ],
+                  "slot": "narration"
+                }
+              },
+              "sound": "sound.pal.078"
             }
           }
         }

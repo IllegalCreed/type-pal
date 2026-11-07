@@ -1,4 +1,9 @@
-import { type FlowCursor, gridToPixel, validateAuthorScenes } from '@type-pal/content'
+import {
+  type FlowCursor,
+  gridToPixel,
+  resolveAuthorDialogueTree,
+  validateAuthorScenes,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
 import rooms from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import inn from '../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
@@ -123,7 +128,7 @@ test('one activation runs the actual aunt route as one step with six target comm
     startBattle: async () => unexpected(),
     teleportOut: async () => unexpected(),
   }
-  const executable = compileRuntimeScriptFlow(source, {
+  const executable = compileRuntimeScriptFlow(resolveAuthorDialogueTree(source, {}), {
     canonicalContentDigest: 'a'.repeat(64),
     timing: 'auto',
   })

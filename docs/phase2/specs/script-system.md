@@ -11,7 +11,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 真值与约束
 
-当前内容contentVersion 22 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
+当前内容contentVersion 23 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
 
 实体地址必须是EntityAddress{scene,entity}；实例label、人物名和精灵名只显示，不替代稳定id或合并同名实体。PageId选择外观/触发/具名BehaviorId，不内嵌匿名脚本；onEnter/onTeleport各有HookId registry及initial选择，切换走显式selectSceneHooks。跨处复用只进AuthorScriptLibrary共享库，callScript只存稳定script和可选复合self，不带chunk提示。物品私有脚本归单件物品，复杂NPC剧情回其具名方案，不复制到物品或等玩家再移动触发。
 
@@ -32,6 +32,16 @@ Template: design-spec-v1 / 1.0.0
 
 选择真正变更才推进owner epoch；同有效方案保留游标，换方案从initial重新开始。completed保留绑定但不再获取执行权；取消、过期epoch、settlement gate失败或未返回子调用不能制造完成。编译器只产内存/可删缓存执行树，compilerVersion/content digest不是作者机器状态；SAVE12续跑绑定同一digest，执行序号不能变为内容对象ID。
 
+### 四类类型化取物流程
+
+content23 作者树支持内联 `grantReward`（剧情奖励）及实体 trigger 专用 `flow.kind: acquisition`。后者使用固定 `builtin/item/chest`、`builtin/item/pickup`、`builtin/item/search` 名称与参数；不能挂到 auto、场景 hook、共享或物品私有根。物品/金钱奖励是有序非空列表，数量为正安全整数，物品、声音及自定义提示引用均按真实参数路径校验。
+
+参数是唯一作者真值。`expandAuthorScriptTree` 与 `resolveAuthorDialogueTree` 共用展开遍历，运行态、编辑器预览及显式脱离最终使用同一 `expandAcquisitionFlow` / `expandGrantReward` 实现。运行态仍消费普通 stages 和叶子指令，存档延用 SAVE12 的 owner/cursor；不新增全局领取表或 recipe 运行指令。稳定 available/collected 步骤 ID 维护既有预览绑定和逐步台账，生成位置不冒充作者参数地址。
+
+宝箱开盖后发奖，游标转到空箱步骤；拾取先隐藏实体，提示/发奖后完成方案；搜刮可在提示/发奖后停用本点，或保持可调查并转空反馈步骤。剧情奖励不自行决定外层剧情重复策略。提示分标准、静默、自定义，非静默必须明确 before/after；标准按奖励顺序生成独立对话，显式奖励行引用物品名称 TextId/数量或金钱数量，由显示层本地化，不使用魔法字符、伪文本 ID 或运行时额外发奖。特殊多次调查箱继续使用普通独立脚本。
+
+业务参数、作者操作及受影响 E2E 范围见[作者指南](../guides/shared-script-author-guide.md#四类取物流程)与 [N6b 任务](../../tasks/cards/N6B-ITEM-FLOWS-1.md)。
+
 ### 显式交互与场景呈现
 
 runEntityTrigger{target:{scene,entity}}等待目标当前trigger/当前步骤结束，不切方案/重置游标，也不模拟自然距离、按键或触碰。只允许interactive链；auto经共享调用也不行，prepare禁止。子self是目标，父self返回不变，共用同signal/host与真实活动lineage；busy/递归、缺目标、永久removed或异场景明确失败，无绑定/禁用/completed才是no-op，隐藏不等于removed。
@@ -42,6 +52,7 @@ onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面
 
 ### 姿态、condition与时间
 
+- `setEntityFacing` 和 `setEntityFrame` 的具体目标使用 `EntityAddress`。共享脚本声明 `self: 'required'` 时，这两条指令可在正文及其嵌套分支中选 `target: 'self'`。调用点显式传入的 `callScript.self` 优先，否则继承调用上下文。缺少调用实体会拒绝调用。解析后的姿态目标遵守现有场景与自动行为的权限约束；其它正文根仍须给出具体地址。
 - takeEntity暂停目标自身整条auto执行链，包括剩余等待、结构判断及由该链驱动的跨实体动作；release接原进度而非重启。已加载资源可完成，但暂停时不能提交效果；其他实体链不被全局冻结，对目标移动/姿态仍受其权威控制。原2026-10-07醉道士对白确认仅属该合同来源，不是本轮E2E。
 - faceEntityToParty是显式执行时实时坐标转向，同点保方向、异场景无现场副作用；不移动、不停步、不定帧、不接管。对白不隐式接管或朝向修正，需要时作者编排take→face→setFrame→dialog→release，恢复工作朝向也显式写。
 - applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
@@ -85,7 +96,7 @@ R33登记2026-10-07，原稿含更早作者模型与后续SAVE12/实体交互补
 
 ## 当前有效性
 
-适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
+适用当前产品合同：contentVersion 23 / SAVE12 / minimumSaveVersion 12。
 
 规范current，原文history overlay用于回读；设计合同、实现合规、独立语义接受和运行信用分别成立，不用静态通过相互替代。
 

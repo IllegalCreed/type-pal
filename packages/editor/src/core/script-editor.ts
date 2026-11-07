@@ -1,9 +1,11 @@
 import type {
+  AuthorAcquisitionFlow,
   AuthorCommand,
   AuthorItemData,
   AuthorSceneDef,
   AuthorScriptFlow,
   AuthorScriptLibrary,
+  AuthorStagesFlow,
   EntityAddress,
   Selection,
   TriggerActivation,
@@ -248,6 +250,7 @@ function walkFlowCommands(
   path: string,
   owner: ScriptCommandOwner,
 ): void {
+  if (flow.kind === 'acquisition') return
   for (const stage of flow.stages) {
     walkCommands(
       stage.entry?.prepare ?? [],
@@ -262,6 +265,35 @@ function walkFlowCommands(
       section: 'body',
     })
   }
+}
+
+/** Business recipes have editable parameters, never fabricated generated-command locations. */
+export interface CanonicalAcquisitionVisit {
+  flow: AuthorAcquisitionFlow
+  path: string
+  owner: Extract<ScriptCommandOwner, { kind: 'entity-behavior' }>
+}
+
+export function collectCanonicalAcquisitionVisits(
+  state: ScriptEditorState,
+): CanonicalAcquisitionVisit[] {
+  const visits: CanonicalAcquisitionVisit[] = []
+  for (const scene of state.scenes)
+    for (const entity of scene.entities)
+      for (const [behaviorId, behavior] of Object.entries(entity.behaviors?.trigger ?? {}))
+        if (behavior.flow.kind === 'acquisition')
+          visits.push({
+            flow: behavior.flow,
+            path: `scenes.${scene.id}.entities.${entity.id}.behaviors.trigger.${behaviorId}.flow`,
+            owner: {
+              kind: 'entity-behavior',
+              sceneId: scene.id,
+              entityId: entity.id,
+              channel: 'trigger',
+              behaviorId,
+            },
+          })
+  return visits
 }
 
 export function visitCanonicalScriptCommands(
@@ -396,9 +428,18 @@ function mapCommands(
 }
 
 function mapFlowCommands(
+  flow: AuthorStagesFlow,
+  map: (command: AuthorCommand) => AuthorCommand,
+): AuthorStagesFlow
+function mapFlowCommands(
+  flow: AuthorScriptFlow,
+  map: (command: AuthorCommand) => AuthorCommand,
+): AuthorScriptFlow
+function mapFlowCommands(
   flow: AuthorScriptFlow,
   map: (command: AuthorCommand) => AuthorCommand,
 ): AuthorScriptFlow {
+  if (flow.kind === 'acquisition') return clone(flow)
   return {
     ...clone(flow),
     stages: flow.stages.map((stage) => ({
@@ -838,7 +879,7 @@ function commandLocatorBody(
     return Array.isArray(hostile?.onLose) ? hostile.onLose : undefined
   }
   const flow = commandOwnerFlow(state, owner)
-  if (!flow || container.kind === 'body') return undefined
+  if (!flow || flow.kind === 'acquisition' || container.kind === 'body') return undefined
   const step = flow.stages.find((candidate) => candidate.id === container.stepId)
   return container.section === 'prepare' ? step?.entry?.prepare : step?.body
 }
@@ -1377,16 +1418,19 @@ export class AddEntityBehaviorCommand extends SnapshotCommand {
     checkBehaviorId(this.behaviorId)
     const { entity } = sceneAndEntity(state, this.target)
     entity.behaviors ??= {}
-    let registry = entity.behaviors[this.channel]
-    if (!registry) {
-      registry = {}
-      entity.behaviors[this.channel] = registry
-    }
+    const registry = entity.behaviors[this.channel] ?? {}
     if (registry[this.behaviorId]) throw new Error(`BehaviorId 已存在 ${this.behaviorId}`)
-    registry[this.behaviorId] = {
+    const value = {
       ...clone(this.value),
       order: Math.max(-1, ...Object.values(registry).map((candidate) => candidate.order)) + 1,
     }
+    if (this.channel === 'auto') {
+      if (value.flow.kind !== 'stages') throw new Error('共享取物流程只能用于交互脚本')
+      entity.behaviors.auto = {
+        ...entity.behaviors.auto,
+        [this.behaviorId]: { ...value, flow: value.flow },
+      }
+    } else entity.behaviors.trigger = { ...entity.behaviors.trigger, [this.behaviorId]: value }
   }
 }
 
@@ -2012,7 +2056,7 @@ function validateSharedScriptMetadataPatch(patch: SharedScriptMetadataPatch): vo
     throw new Error('共享脚本 self 契约必须是 none|optional|required')
 }
 
-/** Metadata-only fast path: scalar fields cannot invalidate command/reference structure. */
+/** The self contract can change which targets are valid in the shared body. */
 export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
   readonly label = '编辑共享脚本元数据'
   private before?: ScriptEditorState
@@ -2035,13 +2079,12 @@ export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
     if (this.after) return this.after
     const source = state.sharedScripts[this.scriptId]
     if (!source) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    const updated = { ...source, ...this.patch }
+    if (updated.self !== source.self) checkAuthorScriptLibrary({ [this.scriptId]: updated })
     this.before = state
     this.after = {
       ...state,
-      sharedScripts: {
-        ...state.sharedScripts,
-        [this.scriptId]: { ...source, ...this.patch },
-      },
+      sharedScripts: { ...state.sharedScripts, [this.scriptId]: updated },
     }
     return this.after
   }

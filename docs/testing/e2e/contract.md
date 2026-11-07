@@ -5,7 +5,7 @@ evidence: e2e/evidence/e2e-contract.json
 ---
 
 <!-- testing-meta
-{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]}]},"evidence":"e2e/evidence/e2e-contract.json"}
+{"schemaVersion":2,"id":"e2e-contract","sourceRefs":[{"path":"scripts/e2e/opening-both.mjs","lines":"2-9","anchor":"import { spawn }","role":"caller","sha256":"91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"},{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"}],"publicCallers":["pnpm e2e:001:both","pnpm e2e:002:both","pnpm e2e:003:both","pnpm e2e:004:both","pnpm e2e:005:both"],"legalInputs":["current canonical project","engine-owned checkpoint","verify or capture profile"],"businessOracle":{"type":"observable-business-contract","assertions":["正文/说话人/状态变化来自真实 caller","结束 checkpoint 可被同引擎正式恢复","capture 不冒充 verify"]},"dedupe":{"result":"reviewed","against":["docs/testing/e2e/stages/*/report.md","docs/testing/legacy-flat-classification.json"],"notes":"合同只定义共用门，不重复阶段报告的执行结论。"},"revision":{"currentSha":"d02278dc0154dd73b5db24388a35c30bb096cc81","contentVersion":22,"minimumSaveVersion":11,"history":[{"revision":"d02278dc0154dd73b5db24388a35c30bb096cc81","date":"2026-10-04","action":"source-and-publication-audit","notRun":["runtime","E2E","coverage"]},{"action":"content23-acquisition-source-rebinding","base":"0973c2c25795fd2aacf78daedebb8d8f2a5113fc","date":"2026-11-07","evidence":"docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md","previousSourceRefs":[{"path":"packages/content/src/character.ts","lines":"168-170","anchor":"export const CONTENT_VERSION =","role":"version","sha256":"8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"}],"scope":"核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"}]},"evidence":"e2e/evidence/e2e-contract.json"}
 -->
 
 # 两阶段 E2E 与录像验证合同
@@ -70,7 +70,7 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 ## Legal typed inputs
 
 输入须是当前 canonical 工程、同引擎且来源可追踪的检查点、已声明剧情碎片及 verify/capture profile。
-损坏记录的反控与真实产品输入合同分开。当前源码常量为 content22/minimumSave12、SAVE_VERSION=12；
+损坏记录的反控与真实产品输入合同分开。当前源码常量为 content23/minimumSave12、SAVE_VERSION=12；
 版本切换重建受影响输入，不给旧 SAVE 增加兼容链。下列带日期的旧准入、旧版本与实跑状态只描述原轮次，
 不覆盖现行规范，也不能替代各片段当前正式报告。
 

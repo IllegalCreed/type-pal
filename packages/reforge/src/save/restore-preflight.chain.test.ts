@@ -162,7 +162,7 @@ type Payload = ReturnType<typeof makePayload>
 const makePayload = () => ({
   sceneRuntime: {},
   version: 12 as const,
-  contentVersion: 22 as const,
+  contentVersion: 23 as const,
   projectId: 'audit',
   world: makeWorld(),
   position: { sceneId: 'saved-scene', pos: { col: 2, row: 3, height: 0 }, facing: 'down' as const },
@@ -186,7 +186,7 @@ function harness(
   ;(world.script as { flags: Record<string, unknown> }).flags.live = true
   const canonicalScript = world.script
   const project = {
-    manifest: { id: 'audit', name: 'audit', contentVersion: 22, minimumSaveVersion: 12 },
+    manifest: { id: 'audit', name: 'audit', contentVersion: 23, minimumSaveVersion: 12 },
     actorsById: { hero: actor },
     spritesById: { 'sprite.hero': { id: 'sprite.hero', asset: 'sprite.asset' } },
     items: {},

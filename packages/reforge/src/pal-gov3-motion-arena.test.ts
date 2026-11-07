@@ -1,5 +1,5 @@
 import type { AuthorCondition } from '@type-pal/content'
-import { validateAuthorScenes } from '@type-pal/content'
+import { resolveAuthorDialogueTree, validateAuthorScenes } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import sceneJson from '../../../projects/pal/content/scenes/s032.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
@@ -80,9 +80,10 @@ test.each(
   const host: ScriptRuntimeHost = {
     execute(command) {
       if (command.kind === 'wait') advance(command.ms)
-      else if (command.kind === 'setEntityFrame')
+      else if (command.kind === 'setEntityFrame') {
+        if (command.target === 'self') throw new Error('arena frame requires a concrete address')
         entity(command.target.entity).frame = command.frame
-      else if (command.kind === 'nudgeEntity') {
+      } else if (command.kind === 'nudgeEntity') {
         entity(command.target.entity).x += command.dx
         entity(command.target.entity).y += command.dy
       } else if (command.kind === 'playSound') sounds.push(Number(command.asset.split('.').at(-1)))
@@ -98,7 +99,10 @@ test.each(
   }
   try {
     await new RuntimeScriptRunner(host, controller.signal).runFlow(
-      compileRuntimeScriptFlow(flow, { timing: 'auto', canonicalContentDigest: 'a'.repeat(64) }),
+      compileRuntimeScriptFlow(resolveAuthorDialogueTree(flow, {}), {
+        timing: 'auto',
+        canonicalContentDigest: 'a'.repeat(64),
+      }),
       {
         cursorController: { checkpointEnabled: false, reachSafePoint: () => 'continue' },
       },

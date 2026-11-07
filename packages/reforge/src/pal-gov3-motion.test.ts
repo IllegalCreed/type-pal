@@ -4,12 +4,14 @@ import {
   emptyWorldScriptState,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
   validateCurrentManifestStartup,
   validateSprites,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import scene16Json from '../../../projects/pal/content/scenes/s016.json' with { type: 'json' }
 import scene20Json from '../../../projects/pal/content/scenes/s020.json' with { type: 'json' }
 import scene32Json from '../../../projects/pal/content/scenes/s032.json' with { type: 'json' }
@@ -38,7 +40,9 @@ const authors = validateAuthorScenes([
 ])
 const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [actor.id, actor]))
 const sprites = new Map(validateSprites(spritesJson).map((sprite) => [sprite.id, sprite]))
-const scenes = resolveAuthorDialogueTree(authors, actors)
+const scenes = resolveAuthorDialogueTree(authors, actors, 'scenes', {
+  items: validateAuthorItems(itemsJson),
+})
 
 function scene(id: string) {
   const value = scenes.find((candidate) => candidate.id === id)
@@ -71,7 +75,10 @@ function arenaPath(id: string): RuntimeScriptFlow {
   else if (id === 'legacy-003') body = variation.then
   else {
     const first = loop.body.findIndex(
-      (command) => command.kind === 'setEntityFrame' && command.target.entity === 'e549',
+      (command) =>
+        command.kind === 'setEntityFrame' &&
+        command.target !== 'self' &&
+        command.target.entity === 'e549',
     )
     body = loop.body.slice(first - 1, loop.body.indexOf(phase))
   }
@@ -138,7 +145,11 @@ test.each([
   expect(nudges.reduce((sum, command) => sum + command.dy, 0)).toBe(0)
   expect(
     run.effects.flatMap(({ command }) =>
-      command.kind === 'setEntityFrame' && command.target.entity === 'e549' ? [command.frame] : [],
+      command.kind === 'setEntityFrame' &&
+      command.target !== 'self' &&
+      command.target.entity === 'e549'
+        ? [command.frame]
+        : [],
     ),
   ).toEqual(frames)
   expect(

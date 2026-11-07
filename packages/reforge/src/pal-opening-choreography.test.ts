@@ -50,7 +50,10 @@ test('the waking aunt retains the original exploration beats between her four po
   const commands = await openingCommands()
   const first = commands.findIndex(
     (command) =>
-      command.kind === 'setEntityFrame' && command.target.entity === 'e11' && command.frame === 1,
+      command.kind === 'setEntityFrame' &&
+      command.target !== 'self' &&
+      command.target.entity === 'e11' &&
+      command.frame === 1,
   )
   expect(first).toBeGreaterThanOrEqual(0)
   const nextDialogue = commands.findIndex(
@@ -105,7 +108,9 @@ test('fixed opening pauses retain exploration timing outside the concurrent aunt
     ['dlg.1379', false, 500],
   ] as const) {
     const index = commands.findIndex(
-      (command) => command.kind === 'dialog' && command.cue.rows.some((row) => row.text === line),
+      (command) =>
+        command.kind === 'dialog' &&
+        command.cue.rows.some((row) => 'text' in row && row.text === line),
     )
     expect(index, line).toBeGreaterThanOrEqual(0)
     const side = before ? commands.slice(0, index).reverse() : commands.slice(index + 1)
@@ -121,7 +126,8 @@ test('fixed opening pauses retain exploration timing outside the concurrent aunt
   expect(commands[crawling - 1]).toEqual({ kind: 'wait', ms: 200 })
   const protest = commands.findIndex(
     (command) =>
-      command.kind === 'dialog' && command.cue.rows.some((row) => row.text === 'dlg.1381'),
+      command.kind === 'dialog' &&
+      command.cue.rows.some((row) => 'text' in row && row.text === 'dlg.1381'),
   )
   expect(commands.slice(protest + 1, protest + 6)).toEqual([
     { kind: 'clearDialog' },

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { AssetCatalogV1, SceneDef } from '@type-pal/content'
+import type { AssetCatalogV1, SceneDef, SceneIndexV1 } from '@type-pal/content'
 import { act, type ComponentProps, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -23,7 +23,7 @@ import {
 } from '../core/script-editor.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
+import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { CanonicalSharedScriptTab as CanonicalSharedScriptTabContent } from './SharedScriptTab.js'
 
 function currentSharedScriptReferences(candidate: ScriptEditorState) {
@@ -103,6 +103,36 @@ const projectProps = {
   tilesets: [],
 }
 
+function buttonWithText(container: HTMLElement, text: string): HTMLButtonElement {
+  const button = [...container.querySelectorAll('button')].find(
+    (candidate) => candidate.textContent?.trim() === text,
+  )
+  expect(button, `按钮「${text}」`).toBeDefined()
+  return button!
+}
+
+async function openOptions(container: HTMLElement, name: string): Promise<HTMLElement> {
+  const label = [...container.querySelectorAll('label')].find(
+    (candidate) => candidate.textContent?.trim() === name,
+  )
+  const control =
+    container.querySelector<HTMLButtonElement>(`button[role="combobox"][aria-label="${name}"]`) ??
+    label?.control
+  expect(control?.getAttribute('role'), `选择器「${name}」`).toBe('combobox')
+  await act(async () => control!.click())
+  const options = document.getElementById(control!.getAttribute('aria-controls')!)
+  expect(options?.getAttribute('role'), `选项列表「${name}」`).toBe('listbox')
+  return options!
+}
+
+function optionWithText(listbox: HTMLElement, text: string): HTMLElement {
+  const option = [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find(
+    (candidate) => candidate.textContent?.trim() === text,
+  )
+  expect(option, `选项「${text}」`).toBeDefined()
+  return option!
+}
+
 describe('CanonicalSharedScriptTab', () => {
   let host: HTMLDivElement
   let root: Root
@@ -118,6 +148,31 @@ describe('CanonicalSharedScriptTab', () => {
     await act(async () => root.unmount())
     host.remove()
   })
+
+  async function renderSession(
+    session: ScriptEditSession,
+    sceneIndex: SceneIndexV1 = { version: 1, scenes: [] },
+    onError?: (message: string) => void,
+  ): Promise<void> {
+    function Harness() {
+      useSyncExternalStore(
+        (listener) => session.subscribe(listener),
+        () => session.getVersion(),
+      )
+      const editorState = session.getState()
+      return (
+        <CanonicalSharedScriptTab
+          tabBar={null}
+          state={editorState}
+          session={session}
+          context={{ ...context, state: editorState, sceneIndex }}
+          {...projectProps}
+          onError={onError}
+        />
+      )
+    }
+    await act(async () => root.render(<Harness />))
+  }
 
   test('reads the canonical library and mounts the shared body editor', () => {
     const html = renderToStaticMarkup(
@@ -317,7 +372,7 @@ describe('CanonicalSharedScriptTab', () => {
       manifest: {
         id: 'test',
         name: 'Test',
-        contentVersion: 22,
+        contentVersion: 23,
         minimumSaveVersion: 12,
         defaultEntryId: 'main',
         content: {},
@@ -440,5 +495,169 @@ describe('CanonicalSharedScriptTab', () => {
     expect(html.match(/<span>添加指令<\/span>/g)).toHaveLength(1)
     expect(html).not.toContain('添加第一条指令')
     expect(html).toContain('请使用右上角“添加指令”')
+  })
+
+  test('共享脚本调用行显示当前名称，引用失效时保留可定位的 ID', async () => {
+    const callState: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/user/caller': {
+          name: '调查箱子',
+          self: 'none',
+          body: [{ kind: 'callScript', script: 'shared/user/open-chest' }],
+        },
+        'shared/user/open-chest': { name: '普通宝箱开盖', self: 'none', body: [] },
+      },
+    }
+    const rowLabels = () =>
+      [...host.querySelectorAll('[role="treeitem"] .cmd-label')].map((label) => label.textContent)
+    await renderSession(new ScriptEditSession(callState))
+    expect(rowLabels()).toEqual(['调用共享脚本：普通宝箱开盖'])
+
+    // 会话拒绝载入悬空引用，直接从正文编辑器的展示入口核对旧引用的可读回退。
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[
+            { kind: 'callScript', script: 'shared/user/missing' },
+            { kind: 'callScript', script: 'constructor' },
+          ]}
+          context={{ ...context, state: callState }}
+          onChange={() => {}}
+        />,
+      ),
+    )
+    expect(rowLabels()).toEqual([
+      '调用共享脚本：shared/user/missing（未找到）',
+      '调用共享脚本：constructor（未找到）',
+    ])
+  })
+
+  test.each([
+    { title: '实体转向', command: { kind: 'setEntityFacing', target: 'self', facing: 'up' } },
+    { title: '设置实体画面帧', command: { kind: 'setEntityFrame', target: 'self', frame: 3 } },
+  ] as const)('$title可在调用实体和选定的场景对象间切换，完成后才写入正文', async ({ command }) => {
+    const id = 'shared/user/chest-pose'
+    const session = new ScriptEditSession({
+      items: [],
+      scenes: [
+        {
+          id: 'courtyard',
+          mapId: 'courtyard-map',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            { id: 'guard', label: '门卫', sprite: 'guard', pos: { col: 1, row: 0, height: 0 } },
+          ],
+        },
+        {
+          id: 'storeroom',
+          mapId: 'storeroom-map',
+          entry: { pos: { col: 0, row: 0, height: 0 }, facing: 'down' },
+          entities: [
+            { id: 'entrance', zone: true, pos: { col: 0, row: 2, height: 0 } },
+            { id: 'shelf', label: '货架', sprite: 'shelf', pos: { col: 1, row: 1, height: 0 } },
+            { id: 'chest', label: '木箱', sprite: 'chest', pos: { col: 2, row: 1, height: 0 } },
+          ],
+        },
+      ],
+      sharedScripts: {
+        [id]: {
+          name: '调整箱子姿态',
+          self: 'required',
+          body: [command],
+        },
+      },
+    })
+    await renderSession(session, {
+      version: 1,
+      scenes: [
+        { id: 'courtyard', name: '庭院', path: 'content/scenes/courtyard.json' },
+        { id: 'storeroom', name: '储物间', path: 'content/scenes/storeroom.json' },
+      ],
+    })
+
+    const edit = () =>
+      act(async () => host.querySelector<HTMLButtonElement>('button[aria-label="编辑"]')!.click())
+    await edit()
+    const dialog = host.querySelector<HTMLElement>('dialog[open]')!
+    const targets = await openOptions(dialog, '目标实体')
+    expect(optionWithText(targets, '调用实体').getAttribute('aria-selected')).toBe('true')
+    await act(async () => optionWithText(targets, '指定实体').click())
+    expect(dialog.querySelector('button[aria-label="实体"]')?.textContent).toContain('门卫 · guard')
+    const scenes = await openOptions(dialog, '场景')
+    expect(optionWithText(scenes, '庭院 · courtyard').getAttribute('aria-selected')).toBe('true')
+    await act(async () => optionWithText(scenes, '储物间 · storeroom').click())
+    const entities = await openOptions(dialog, '实体')
+    const offeredEntities = [...entities.querySelectorAll('[role="option"]')].map(
+      (option) => option.textContent,
+    )
+    expect(offeredEntities.includes('storeroom / entrance')).toBe(command.kind === 'setEntityFrame')
+    await act(async () => optionWithText(entities, 'storeroom / 木箱 · chest').click())
+    expect(session.getHistoryVersion()).toBe(0)
+
+    await act(async () => buttonWithText(dialog, '完成').click())
+    expect(session.getState().sharedScripts[id]?.body).toEqual([
+      { ...command, target: { scene: 'storeroom', entity: 'chest' } },
+    ])
+    expect(session.getHistoryVersion()).toBe(1)
+
+    await edit()
+    const reopened = host.querySelector<HTMLElement>('dialog[open]')!
+    const savedTargets = await openOptions(reopened, '目标实体')
+    expect(optionWithText(savedTargets, '指定实体').getAttribute('aria-selected')).toBe('true')
+    await act(async () => optionWithText(savedTargets, '调用实体').click())
+    await act(async () => buttonWithText(reopened, '完成').click())
+    expect(session.getState().sharedScripts[id]?.body).toEqual([command])
+    expect(session.getHistoryVersion()).toBe(2)
+  })
+
+  test('空工程的必需调用实体脚本可添加两条姿态指令并保护 self 契约', async () => {
+    const id = 'shared/user/chest-pose'
+    const session = new ScriptEditSession({
+      scenes: [],
+      items: [],
+      sharedScripts: { [id]: { name: '准备开箱姿态', self: 'required', body: [] } },
+    })
+    const onError = vi.fn()
+    await renderSession(session, undefined, onError)
+
+    for (const kind of ['setEntityFacing', 'setEntityFrame']) {
+      await act(async () => buttonWithText(host, '添加指令').click())
+      const picker = host.querySelector<HTMLElement>('dialog[open][aria-label="添加指令"]')!
+      await act(async () =>
+        picker.querySelector<HTMLButtonElement>(`button[data-command-kinds="${kind}"]`)!.click(),
+      )
+    }
+    const body = [
+      { kind: 'setEntityFacing', target: 'self', facing: 'down' },
+      { kind: 'setEntityFrame', target: 'self', frame: 0 },
+    ]
+    expect(session.getState().sharedScripts[id]?.body).toEqual(body)
+
+    await act(async () =>
+      host
+        .querySelector<HTMLButtonElement>('[data-command-path="1"] button[aria-label="编辑"]')!
+        .click(),
+    )
+    const dialog = host.querySelector<HTMLElement>('dialog[open]')!
+    const targets = await openOptions(dialog, '目标实体')
+    const specific = optionWithText(targets, '指定实体')
+    expect(specific.getAttribute('aria-disabled')).toBe('true')
+    await act(async () => specific.click())
+    expect(optionWithText(targets, '调用实体').getAttribute('aria-selected')).toBe('true')
+    await act(async () => buttonWithText(dialog, '完成').click())
+
+    const contract = await openOptions(host, 'self 契约')
+    await act(async () => optionWithText(contract, '可选').click())
+    expect(onError).toHaveBeenCalledExactlyOnceWith(
+      expect.stringContaining('调用实体仅用于必须提供 self 的共享脚本'),
+    )
+    expect(session.getState().sharedScripts[id]).toEqual({
+      name: '准备开箱姿态',
+      self: 'required',
+      body,
+    })
+    expect(session.getHistoryVersion()).toBe(2)
   })
 })

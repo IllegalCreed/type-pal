@@ -18,10 +18,10 @@
     },
     {
       "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
-      "lines": "48-70",
+      "lines": "49-71",
       "anchor": "await readCheckpointInput(",
       "role": "caller",
-      "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+      "sha256": "9c52b6d2d83c37f3cd1cdf0c6d510723beac207e94af981700172d99de94e639"
     },
     {
       "path": "scripts/e2e/fairy-island-pool-route.mjs",
@@ -63,28 +63,28 @@
       "lines": "121-121",
       "anchor": "\"id\": \"e212\"",
       "role": "authored-first-pool-entry",
-      "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+      "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
     },
     {
       "path": "projects/pal/content/scenes/s016.json",
       "lines": "1146-1146",
       "anchor": "\"id\": \"e213\"",
       "role": "authored-return-trigger",
-      "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+      "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
     },
     {
       "path": "projects/pal/content/scenes/s016.json",
       "lines": "4218-4218",
       "anchor": "\"id\": \"e233\"",
       "role": "authored-visible-pickup",
-      "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+      "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-168",
-      "anchor": "export const CONTENT_VERSION = 22",
+      "anchor": "export const CONTENT_VERSION = 23",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "packages/reforge/src/save/types.ts",
@@ -627,6 +627,50 @@
         "clipSha256": "db199f27362d57ca33345c2595525fb0b402f423e4b4f2925b2828e5bc50c002",
         "seconds": 129.4
       }
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/fairy-island-pool-reforge.mjs",
+          "lines": "48-70",
+          "anchor": "await readCheckpointInput(",
+          "role": "caller",
+          "sha256": "7fe002a0b689c0f85385b9f7b11ed01f198e6956c4f094f5b09c4d2f28a8a48e"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "121-121",
+          "anchor": "\"id\": \"e212\"",
+          "role": "authored-first-pool-entry",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "1146-1146",
+          "anchor": "\"id\": \"e213\"",
+          "role": "authored-return-trigger",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "lines": "4218-4218",
+          "anchor": "\"id\": \"e233\"",
+          "role": "authored-visible-pickup",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-168",
+          "anchor": "export const CONTENT_VERSION = 22",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {

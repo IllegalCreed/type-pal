@@ -198,7 +198,7 @@ import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-ho
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
-import { executeScriptHostEffect } from './script-host-adapter.js'
+import { executeScriptHostEffect, resolveEntityPoseTarget } from './script-host-adapter.js'
 import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'
@@ -3416,17 +3416,18 @@ export async function bootGame(
       }
       return
     }
-    const automaticPoseTarget =
+    const automaticPoseAddress =
       context.timing === 'auto' &&
       (command.kind === 'setEntityFacing' ||
-        command.kind === 'faceEntityToParty' ||
         command.kind === 'setEntityFrame' ||
+        command.kind === 'faceEntityToParty' ||
         command.kind === 'animEntity' ||
         command.kind === 'playEntityAction' ||
-        command.kind === 'stopEntityAction') &&
-      command.target.scene === activeScene.scene.id
-        ? command.target.entity
+        command.kind === 'stopEntityAction')
+        ? resolveEntityPoseTarget(command.target, context.self)
         : undefined
+    const automaticPoseTarget =
+      automaticPoseAddress?.scene === activeScene.scene.id ? automaticPoseAddress.entity : undefined
     if (automaticPoseTarget) {
       const activation = autoActivationBySignal.get(signal)
       if (!activation) throw asyncIntentAbortError('automatic pose has no live activation')

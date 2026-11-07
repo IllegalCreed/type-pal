@@ -1,6 +1,6 @@
 import {
   type AuthorSceneDef,
-  type AuthorScriptFlow,
+  type AuthorStagesFlow,
   buildEntityLifecycleReferenceIndex,
   buildWorld,
   type CurrentManifest,
@@ -18,7 +18,7 @@ import { type ProjectScriptHostOptions, ScriptProjectRuntime } from '../runtime-
 import { enemyProfile, wfEnemy, wfHealItem } from './battle-workflows/catalog.js'
 import { projectData, shellProject, shellScene } from './runtime-shell/project.js'
 
-const flow = (flag: string): AuthorScriptFlow => ({
+const flow = (flag: string): AuthorStagesFlow => ({
   kind: 'stages',
   initial: 'first',
   stages: [{ id: 'first', body: [{ kind: 'setFlag', flag, value: true }] }],

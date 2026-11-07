@@ -681,8 +681,10 @@ export function createEditorDiagnosticsSnapshotCollector(
       author,
       { includeCanonicalAuthorCommands: false },
     )
-    const canonicalAssetReferences =
-      dependencies.collectCanonicalAssetReferenceEntries(commandVisits)
+    const canonicalAssetReferences = dependencies.collectCanonicalAssetReferenceEntries(
+      commandVisits,
+      scriptState,
+    )
     assetSnapshot.references.push(...canonicalAssetReferences.map((entry) => entry.reference))
     const assetDiagnostics = dependencies.collectEditorAssetDiagnostics(
       currentAuthorState.assetCatalog,

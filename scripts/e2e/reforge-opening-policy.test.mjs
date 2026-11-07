@@ -89,7 +89,7 @@ test('checkpoint comparison is read-only and only normalizes explicitly optional
   // This is the comparison DTO, not a fixture claiming to pass the production SAVE12 structural guard.
   const save = {
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'pal',
     position: { sceneId: 's001' },
     world: { party: [{ id: 'p', hp: 100, poisons: [] }], inventory: [], money: 7 },
@@ -104,6 +104,6 @@ test('checkpoint comparison is read-only and only normalizes explicitly optional
   assert.throws(() => openingSaveView(poisoned), /unexpectedly carries/)
   assert.throws(() => openingSaveView({ ...save, version: 7 }))
   assert.throws(() => openingSaveView({ ...save, version: 8 }))
-  assert.throws(() => openingSaveView({ ...save, contentVersion: 20 }))
+  assert.throws(() => openingSaveView({ ...save, contentVersion: 22 }))
   assert.throws(() => openingSaveView({ ...save, projectId: 'other' }))
 })

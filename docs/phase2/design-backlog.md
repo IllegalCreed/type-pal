@@ -54,6 +54,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
+- N6b 四类取物的现行合同转由[脚本系统](specs/script-system.md#四类类型化取物流程)、[作者指南](guides/shared-script-author-guide.md#四类取物流程)及[实施任务](../tasks/cards/N6B-ITEM-FLOWS-1.md)维护；下方旧排期与预占版本保持历史。
 - 当前 phase2/lore canonical 文档、代码、测试和 fresh primary-source review。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 

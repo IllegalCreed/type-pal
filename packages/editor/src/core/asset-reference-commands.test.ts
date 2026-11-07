@@ -11,7 +11,7 @@ function state(): EditorState {
     manifest: {
       id: 'asset-delete',
       name: 'asset-delete',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},

@@ -74,7 +74,7 @@ export function assertReforgeOpening(report, introPath) {
 /** SAVE12 explicitly defaults the use-count container and clears transient actor conditions on load. */
 export function openingSaveView(payload) {
   assert.equal(payload.version, 12)
-  assert.equal(payload.contentVersion, 22)
+  assert.equal(payload.contentVersion, 23)
   assert.equal(payload.projectId, 'pal')
   const value = structuredClone(payload)
   value.world.skillUseCounts ??= {}

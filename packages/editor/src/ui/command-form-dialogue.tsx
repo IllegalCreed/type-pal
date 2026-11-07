@@ -3,9 +3,10 @@ import type {
   AuthorDialogueCue,
   DialogueCue,
   DialogueIdentity,
+  DialogueRow,
   Locale,
 } from '@type-pal/content'
-import { type ActorDef, lookupText } from '@type-pal/content'
+import { type ActorDef, lookupText, resolveDialogueRowText } from '@type-pal/content'
 import type { EditorAssetReader } from '../core/editor-asset-reader.js'
 import type { CommandFormCommand } from './command-form-contract.js'
 import { JsonForm, Num, Row, Sel, Txt } from './command-form-controls.js'
@@ -13,6 +14,7 @@ import {
   DsActionGroup,
   DsButton,
   DsCheckbox,
+  DsDraftNumberField,
   DsIconButton,
   DsReorderCollection,
   type DsReorderIntent,
@@ -21,6 +23,7 @@ import {
   DsRepeatRow,
   DsSelect,
   DsTextArea,
+  DsTextField,
   reorderDsItems,
   sameDsSerializableValue,
   useDsReorderKeys,
@@ -70,6 +73,8 @@ export function DialogueCommandForm(props: DialogueCommandFormProps) {
     setCue({
       rows: cue.rows.map((row, rowIndex) => (rowIndex === index ? { ...row, ...patch } : row)),
     })
+  const setReward = (index: number, reward: Extract<DialogueRow, { reward: unknown }>['reward']) =>
+    setRow(index, { reward })
   const reorderRows = (intent: DsReorderIntent): boolean => {
     const rows = reorderDsItems(cue.rows, intent, 'insert', sameDsSerializableValue)
     if (rows === cue.rows) return false
@@ -191,13 +196,53 @@ export function DialogueCommandForm(props: DialogueCommandFormProps) {
             return (
               <DsReorderItem itemKey={rowKey} key={rowKey}>
                 <DsRepeatRow density="compact" className="cf-dialog-row">
-                  <Row label={`第 ${index + 1} 行`}>
-                    <DsTextArea
-                      value={lookupText(row.text, locale)}
-                      onChange={(event) => setRow(index, { text: event.target.value })}
-                      spellCheck={false}
-                    />
-                  </Row>
+                  {'text' in row ? (
+                    <Row label={`第 ${index + 1} 行`}>
+                      <DsTextArea
+                        value={lookupText(row.text, locale)}
+                        onChange={(event) => setRow(index, { text: event.target.value })}
+                        spellCheck={false}
+                      />
+                    </Row>
+                  ) : (
+                    <div className="acquisition-dialogue-reward">
+                      <p>{resolveDialogueRowText(row, locale)}</p>
+                      {row.reward.kind === 'item' ? (
+                        <DsTextField
+                          label="奖励物品名称"
+                          value={lookupText(row.reward.itemName, locale)}
+                          onChange={(event) => {
+                            if (row.reward.kind === 'item')
+                              setReward(index, { ...row.reward, itemName: event.target.value })
+                          }}
+                        />
+                      ) : null}
+                      <DsDraftNumberField
+                        label={row.reward.kind === 'item' ? '提示数量' : '提示金额'}
+                        aria-label={`对话第 ${index + 1} 行${row.reward.kind === 'item' ? '提示数量' : '提示金额'}`}
+                        name={`dialogue-reward-${index + 1}-amount`}
+                        autoComplete="off"
+                        draftKey={`${reorderScopeKey}:${rowKey}:reward-amount`}
+                        syncToken={JSON.stringify(command)}
+                        min={1}
+                        max={Number.MAX_SAFE_INTEGER}
+                        step={1}
+                        integer
+                        enforceRange
+                        value={row.reward.kind === 'item' ? row.reward.count : row.reward.amount}
+                        onCommit={(amount) =>
+                          amount === undefined
+                            ? false
+                            : setReward(
+                                index,
+                                row.reward.kind === 'item'
+                                  ? { ...row.reward, count: amount }
+                                  : { ...row.reward, amount },
+                              )
+                        }
+                      />
+                    </div>
+                  )}
                   <div className="cf-dialog-row-footer">
                     <fieldset className="cf-dialog-row-speed">
                       <legend className="ds-visually-hidden">对话第 {index + 1} 行打字速度</legend>

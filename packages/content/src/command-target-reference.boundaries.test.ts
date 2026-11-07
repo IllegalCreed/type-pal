@@ -122,7 +122,7 @@ test('copy deeply detaches non-reference dialogue data and leaves literal source
   expect(copied).toEqual(before)
   const command = copied[0]
   if (command?.kind !== 'dialog') throw new Error('fixture lost dialog')
-  command.cue.rows[0]!.text = 'changed copy'
+  command.cue.rows[0] = { text: 'changed copy' }
   expect(input).toEqual(before)
 })
 

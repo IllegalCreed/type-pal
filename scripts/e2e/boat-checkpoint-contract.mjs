@@ -65,7 +65,7 @@ export async function checkBoatCheckpoint(reportPath, report) {
     })
   } else {
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
     assert.equal(payload.projectId, 'pal')
     assert.equal(payload.position.sceneId, 's014')
     assert.deepEqual(payload.position, report.endWorld.position)

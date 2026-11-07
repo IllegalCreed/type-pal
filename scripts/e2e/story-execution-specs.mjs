@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { tsImport } from 'tsx/esm/api'
 import items from '../../projects/pal/content/items.json' with { type: 'json' }
 import s000 from '../../projects/pal/content/scenes/s000.json' with { type: 'json' }
 import s001 from '../../projects/pal/content/scenes/s001.json' with { type: 'json' }
@@ -8,7 +9,15 @@ import s004 from '../../projects/pal/content/scenes/s004.json' with { type: 'jso
 import s005 from '../../projects/pal/content/scenes/s005.json' with { type: 'json' }
 import s014 from '../../projects/pal/content/scenes/s014.json' with { type: 'json' }
 
-const scenes = { s000, s001, s002, s003, s004, s005, s014 }
+const { expandAuthorScriptTree } = await tsImport(
+  '../../packages/content/src/author-script.ts',
+  import.meta.url,
+)
+// Pin the real lowering path, then independently check every emitted leaf and its
+// dialogue identity. Author metadata and occurrence indices remain source-bound.
+const scenes = expandAuthorScriptTree({ s000, s001, s002, s003, s004, s005, s014 }, 'story', {
+  items,
+})
 const entity = (scene, id, channel, behavior, name, stage) => {
   const flow = scenes[scene].entities.find((e) => e.id === id)?.behaviors?.[channel]?.[behavior]
     ?.flow

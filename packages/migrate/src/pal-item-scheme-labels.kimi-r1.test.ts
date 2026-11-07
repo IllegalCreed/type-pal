@@ -18,7 +18,7 @@ import type {
   AuthorCommand,
   AuthorItemData,
   AuthorSceneDef,
-  AuthorScriptFlow,
+  AuthorStagesFlow,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import { inspectPalItemSchemeRoots } from './pal-item-scheme-labels.js'
@@ -36,7 +36,7 @@ const hook = (id: string): AuthorCommand => ({
   selection: { onEnter: { kind: 'use', value: id } },
 })
 
-const stages = (body: AuthorCommand[]): AuthorScriptFlow => ({
+const stages = (body: AuthorCommand[]): AuthorStagesFlow => ({
   kind: 'stages',
   initial: 'main',
   stages: [{ id: 'main', body }],

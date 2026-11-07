@@ -14,7 +14,7 @@ function state(): EditorState {
     manifest: {
       id: 'variables',
       name: 'Variables',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: { worldVariables: 'content/world-variables.json' },

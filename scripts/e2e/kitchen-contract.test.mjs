@@ -196,7 +196,7 @@ test('003 CLI requires a real 002 report and rejects scene/position controls', (
 test('002 predecessor admission rejects fake bytes, wrong story, missing restore and old versions; 001 admission stays strict', () => {
   const payload = {
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'pal',
     position: { sceneId: 's003' },
     world: {
@@ -252,7 +252,7 @@ test('002 predecessor admission rejects fake bytes, wrong story, missing restore
     () => validateKitchenPredecessor(report, payload, 'reforge', `${bytes} `),
     /bytes differ/,
   )
-  for (const change of [{ version: 8 }, { contentVersion: 20 }])
+  for (const change of [{ version: 8 }, { contentVersion: 22 }])
     assert.throws(() =>
       validateKitchenPredecessor(report, { ...payload, ...change }, 'reforge', bytes),
     )
@@ -773,7 +773,7 @@ test('003 actual save contract refuses fake ready placeholder, any pickup, inven
   }
   const payload = {
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     position: { sceneId: 's001' },
     world: {
       money: 500,

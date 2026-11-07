@@ -25,12 +25,13 @@ import type {
   WorldState,
 } from '@type-pal/content'
 import {
+  type AcquisitionItems,
   buildEntityLifecycleReferenceIndex,
   emptyProjectedWorldScriptState,
   emptyWorldScriptState,
-  lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
+  resolveDialogueRowText,
 } from '@type-pal/content'
 import type {
   BaseRuntimeLeafCommand,
@@ -43,6 +44,7 @@ import {
   executeScriptHostEffect,
   interactionFacingToward,
   type RuntimeScriptRunner,
+  resolveEntityPoseTarget,
   resolveSceneSpawn,
   runtimeSceneView,
   ScriptProjectRuntime,
@@ -342,6 +344,7 @@ export class Playback {
       scene: AuthorSceneDef
       /** 起播时一次投影的独立定义；切场景不重新应用初态。 */
       scenes?: readonly AuthorSceneDef[]
+      items?: AcquisitionItems
       sharedScripts: AuthorScriptLibrary
       actorsById: Readonly<Record<string, ActorDef>>
       self?: EntityAddress
@@ -361,20 +364,21 @@ export class Playback {
     const ac = new AbortController()
     this.abort = ac
     const digest = 'e'.repeat(64)
-    const runtimeFlow = resolveAuthorDialogueTree(
-      flow,
-      options.actorsById,
-      'preview.flow',
-    ) as RuntimeScriptFlow
+    const runtimeFlow = resolveAuthorDialogueTree(flow, options.actorsById, 'preview.flow', {
+      items: options.items,
+      self: options.self,
+    }) as RuntimeScriptFlow
     const runtimeScene = resolveAuthorDialogueTree(
       options.scene,
       options.actorsById,
       'preview.scene',
+      { items: options.items },
     ) as RuntimeSceneDef
     const runtimeSharedScripts = resolveAuthorDialogueTree(
       options.sharedScripts,
       options.actorsById,
       'preview.sharedScripts',
+      { items: options.items },
     ) as RuntimeScriptLibrary
     const scratch: WorldState = {
       party: [],
@@ -396,6 +400,7 @@ export class Playback {
         source,
         options.actorsById,
         `preview.scene.${sceneId}`,
+        { items: options.items },
       )
       resolvedScenes.set(sceneId, resolved)
       return resolved
@@ -474,9 +479,12 @@ export class Playback {
             return
           }
           if (command.kind === 'setEntityFacing' || command.kind === 'setEntityFrame') {
-            const overlay = this.ov(command.target.entity, command.target.scene)
+            const target = resolveEntityPoseTarget(command.target, context.self)
+            if (!target || (command.target === 'self' && target.scene !== this.scene.id)) return
+            const overlay = this.ov(target.entity, target.scene)
             if (command.kind === 'setEntityFacing') overlay.facing = command.facing
             else overlay.frame = command.frame
+            if (command.target === 'self') this.poi = { kind: 'entity', id: target.entity }
             return
           }
           if (
@@ -576,8 +584,9 @@ export class Playback {
       const command =
         event.command.kind === 'leaf' ? event.command.command : { kind: event.command.kind }
       const target = this.poiOf(command)
-      if ('target' in command && command.target?.scene === this.scene.id)
-        this.poi = { kind: 'entity', id: command.target.entity }
+      const address = 'target' in command ? command.target : undefined
+      if (address && address !== 'self' && address.scene === this.scene.id)
+        this.poi = { kind: 'entity', id: address.entity }
       if (target) this.poi = target
       this.onUi?.()
     }
@@ -869,7 +878,7 @@ export class Playback {
       new Promise<void>((resolve) => {
         this.view.heldDialog = undefined
         const characters = cue.rows.reduce(
-          (count, row) => count + Array.from(lookupText(row.text, this.locale)).length,
+          (count, row) => count + Array.from(resolveDialogueRowText(row, this.locale)).length,
           0,
         )
         this.dialogTimeLeft = Math.min(8000, 1200 + characters * 80)

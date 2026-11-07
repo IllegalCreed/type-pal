@@ -2,6 +2,8 @@ export interface CommandValidationOptions {
   /** Lexical command root. Standalone command lists are scripts, never implicit owner flows. */
   rootScope?: 'flow' | 'script' | 'prepare'
   stageIds?: ReadonlySet<string>
+  /** Pose leaves may select the calling entity only in a required-self shared body. */
+  allowCallingEntityPoseTarget?: boolean
   /** Lexical nesting only; reset at every shared/private command root. */
   loopDepth?: number
   loopAncestors?: readonly (string | undefined)[]
@@ -10,7 +12,17 @@ export interface CommandValidationOptions {
   forbidRunEntityTrigger?: 'auto' | 'prepare'
   /** Current author dialect extensions are validated in place; no tree-shape downgrade. */
   commandKinds?: Readonly<Record<string, boolean>>
-  checkExtensionCommand?: (command: Record<string, unknown>, path: string) => boolean
+  checkExtensionCommand?: (
+    command: Record<string, unknown>,
+    path: string,
+    options: Readonly<CommandValidationOptions>,
+  ) => boolean
+  flowOwner?: 'trigger' | 'auto' | 'hook'
+  checkExtensionFlow?: (
+    flow: Record<string, unknown>,
+    path: string,
+    owner: CommandValidationOptions['flowOwner'],
+  ) => boolean
   checkDialogueCue?: (cue: unknown, path: string) => void
   dialectLabel?: string
 }

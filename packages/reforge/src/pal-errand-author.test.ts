@@ -4,10 +4,12 @@ import {
   emptyWorldScriptState,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import locale from '../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import sickroomJson from '../../../projects/pal/content/scenes/s002.json' with { type: 'json' }
@@ -86,7 +88,9 @@ async function activate(
 
 function rows(commands: RuntimeLeafCommand[]) {
   return commands.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 
@@ -106,7 +110,12 @@ test('the sickroom doctor faces the live party before speaking, then hides witho
   expect(
     commands
       .slice(firstDialogue, hidden)
-      .filter((command) => command.kind === 'setEntityFacing' && command.target.entity === 'e35'),
+      .filter(
+        (command) =>
+          command.kind === 'setEntityFacing' &&
+          command.target !== 'self' &&
+          command.target.entity === 'e35',
+      ),
   ).toEqual([])
 })
 
@@ -335,7 +344,9 @@ test('the restored Zhang Si rows have original text, speaker and portrait instea
   expect(
     restoredSteps.flatMap((stage) =>
       stage.body.flatMap((command) =>
-        command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+        command.kind === 'dialog'
+          ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+          : [],
       ),
     ),
   ).toEqual(Object.keys(restored))
@@ -445,7 +456,9 @@ test('the village entry only calls Xianglan; reporting and the reminder are her 
   expect(first.some((command) => command.kind === 'wait')).toBe(false)
   expect(
     first.flatMap((command) =>
-      command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+      command.kind === 'dialog'
+        ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+        : [],
     ),
   ).toEqual(reportRows)
   expect(
@@ -477,7 +490,9 @@ function deferred() {
 }
 
 test('actual village hook awaits the approach, commits the NPC cursor, and releases while her return is pending', async () => {
-  const runtimeScenes = resolveAuthorDialogueTree(scenes, actors)
+  const runtimeScenes = resolveAuthorDialogueTree(scenes, actors, 'scenes', {
+    items: validateAuthorItems(itemsJson),
+  })
   const village = runtimeScenes.find((scene) => scene.id === 's004')!
   const world: WorldState = {
     party: [],
@@ -523,14 +538,21 @@ test('actual village hook awaits the approach, commits the NPC cursor, and relea
         returnEntered.resolve()
         await returnFinished.promise
       }
-      if (command.kind === 'setEntityFacing' && command.target.entity === 'e83')
+      if (
+        command.kind === 'setEntityFacing' &&
+        command.target !== 'self' &&
+        command.target.entity === 'e83'
+      )
         facing = command.facing
       if (command.kind === 'dialog') {
         expect(context.self).toEqual(xianglan)
         const pos = world.script!.entityPos?.s004?.e83
         spokenAt.push({
           speaker: command.cue.speaker,
-          rows: command.cue.rows.map((row) => row.text),
+          rows: command.cue.rows.map((row) => {
+            if (!('text' in row)) throw new Error('unexpected reward row in errand dialogue')
+            return row.text
+          }),
           col: pos?.col,
           row: pos?.row,
           facing,

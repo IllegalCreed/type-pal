@@ -98,6 +98,8 @@ function walkFlow(
   path: string,
   visit: (command: AuthorCommand, path: string) => void,
 ): void {
+  // Built-in acquisition recipes cannot select another entity or scene scheme.
+  if (flow.kind === 'acquisition') return
   flow.stages.forEach((stage, index) => {
     walkCommands(stage.entry?.prepare ?? [], `${path}.stages[${index}].entry.prepare`, visit)
     walkCommands(stage.body, `${path}.stages[${index}].body`, visit)

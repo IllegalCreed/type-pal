@@ -4,6 +4,7 @@ import {
   type RuntimeCommand,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
   validateCurrentManifestStartup,
   validateSkills,
@@ -12,6 +13,7 @@ import {
 } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import actorsJson from '../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../projects/pal/content/items.json' with { type: 'json' }
 import skillsJson from '../../../projects/pal/content/skills.json' with { type: 'json' }
 import spritesJson from '../../../projects/pal/content/sprites.json' with { type: 'json' }
 import manifestJson from '../../../projects/pal/manifest.json' with { type: 'json' }
@@ -31,6 +33,8 @@ const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [act
 const scenes = resolveAuthorDialogueTree(
   validateAuthorScenes(Object.values(sceneModules).map((module) => module.default)),
   actors,
+  'scenes',
+  { items: validateAuthorItems(itemsJson) },
 )
 const references = buildEntityLifecycleReferenceIndex(scenes)
 const manifest = validateCurrentManifestStartup(manifestJson).manifest
@@ -44,7 +48,9 @@ function scene(id: string) {
 
 function leaves(commands: RuntimeLeafCommand[]) {
   return commands.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 

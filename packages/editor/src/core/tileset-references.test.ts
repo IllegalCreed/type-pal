@@ -44,7 +44,7 @@ function state(
     manifest: {
       id: 'map-reference-test',
       name: 'Map Reference Test',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: { maps: 'content/maps.json' },

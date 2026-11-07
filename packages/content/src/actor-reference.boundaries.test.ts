@@ -102,7 +102,7 @@ test('rename returns a detached full tree even when no expression matches', () =
   expect(result).toEqual({ value: before, rewritten: 0 })
   const first = result.value[0]
   if (first?.kind !== 'dialog') throw new Error('fixture lost dialog')
-  first.cue.rows[0]!.text = 'changed output row'
+  first.cue.rows[0] = { text: 'changed output row' }
   result.value.push({ kind: 'wait', ms: 1 })
   expect(input).toEqual(before)
 })

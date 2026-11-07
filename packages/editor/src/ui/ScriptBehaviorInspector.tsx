@@ -1,4 +1,10 @@
-import type { AuthorSceneDef, EntityAddress, FlowCursor, Selection } from '@type-pal/content'
+import type {
+  AuthorAcquisitionFlow,
+  AuthorSceneDef,
+  EntityAddress,
+  FlowCursor,
+  Selection,
+} from '@type-pal/content'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { EditorDerivedStatus } from '../core/editor-derived-contract.js'
 import type { ProjectReferenceEdge, ProjectReferenceIndex } from '../core/project-reference.js'
@@ -187,11 +193,14 @@ export function ScriptBehaviorInspector(props: {
     }
   }
 
-  const createScheme = (label: string): void => {
+  const createScheme = (label: string, flow?: AuthorAcquisitionFlow): void => {
     const id = nextGeneratedScriptSchemeId(Object.keys(registry), props.channel)
     if (
       dispatch(
-        new AddEntityBehaviorCommand(props.target, props.channel, id, defaultBehavior(label)),
+        new AddEntityBehaviorCommand(props.target, props.channel, id, {
+          ...defaultBehavior(label),
+          ...(flow ? { flow } : {}),
+        }),
       )
     ) {
       props.onSelectBehavior?.(id)
@@ -358,6 +367,7 @@ export function ScriptBehaviorInspector(props: {
       {createOpen ? (
         <ScriptSchemeCreateDialog
           title={title}
+          acquisitionContext={props.channel === 'trigger' ? props.editorContext : undefined}
           first={!entries.length}
           onClose={() => setCreateOpen(false)}
           onCreate={createScheme}

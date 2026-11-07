@@ -81,7 +81,7 @@ export async function deliverBoatCheckpoint({
     // can contain optional undefined properties that JSON correctly omits.
     payload = JSON.parse(bytes)
     assert.equal(payload.version, 12)
-    assert.equal(payload.contentVersion, 22)
+    assert.equal(payload.contentVersion, 23)
     assert.equal(payload.projectId, 'pal')
     assert.deepEqual(payload.position, report.endWorld.position)
     captureProof = { source: 'public __tpE2e.dumpSave after actual006 control return' }

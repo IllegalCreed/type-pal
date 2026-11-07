@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "209-211",
+      "lines": "210-212",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "361-372",
+      "lines": "362-373",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1162-1171",
+      "lines": "1163-1172",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -49,7 +49,7 @@
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
   "publicCallers": [
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:209-211",
-        "packages/reforge/src/battle/battle-session.ts:361-372",
-        "packages/reforge/src/battle/battle-session.ts:1162-1171",
+        "packages/reforge/src/battle/battle-session.ts:210-212",
+        "packages/reforge/src/battle/battle-session.ts:362-373",
+        "packages/reforge/src/battle/battle-session.ts:1163-1172",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -108,6 +108,43 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "209-211",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "361-372",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1162-1171",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "cd4bb233eacac2d2c175d7e1d8b466a90d7c8173dbd0308bf5160b19e6936b19"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {

@@ -21,7 +21,7 @@
       "lines": "497-518",
       "anchor": "export function assertKitchenTrace(",
       "role": "oracle",
-      "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+      "sha256": "9df5377733ab2c1ddf9e423788a3841ed6bec887c58e323e41923918f0ca728c"
     },
     {
       "path": "scripts/e2e/render-evidence-observer.test.mjs",
@@ -113,6 +113,22 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "lines": "497-518",
+          "anchor": "export function assertKitchenTrace(",
+          "role": "oracle",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {

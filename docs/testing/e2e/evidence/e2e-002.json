@@ -21,28 +21,28 @@
       "lines": "67-111",
       "anchor": "export function validatePredecessor(",
       "role": "input",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "scripts/e2e/inn-contract.mjs",
       "lines": "340-388",
       "anchor": "export function assertInnEvidence(",
       "role": "oracle",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "scripts/e2e/inn-contract.mjs",
       "lines": "473-488",
       "anchor": "'money not committed between thanks and reward display'",
       "role": "oracle",
-      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      "sha256": "05bf2774aa5f4d98ebd0efea6cdbf4a6576cf32c802b9f317c663ab917b8ebf9"
     },
     {
       "path": "packages/content/src/character.ts",
       "lines": "168-170",
       "anchor": "export const CONTENT_VERSION =",
       "role": "version",
-      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     },
     {
       "path": "scripts/e2e/inn-observer.mjs",
@@ -105,6 +105,43 @@
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
       "notRun": ["runtime", "E2E", "coverage"]
+    },
+    {
+      "action": "content23-acquisition-source-rebinding",
+      "base": "0973c2c25795fd2aacf78daedebb8d8f2a5113fc",
+      "date": "2026-11-07",
+      "evidence": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "67-111",
+          "anchor": "export function validatePredecessor(",
+          "role": "input",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "340-388",
+          "anchor": "export function assertInnEvidence(",
+          "role": "oracle",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "lines": "473-488",
+          "anchor": "'money not committed between thanks and reward display'",
+          "role": "oracle",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "lines": "168-170",
+          "anchor": "export const CONTENT_VERSION =",
+          "role": "version",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        }
+      ],
+      "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
     }
   ],
   "_governance": {

@@ -3,7 +3,7 @@ import type {
   AssetRecordV1,
   AuthorCommand,
   AuthorSceneDef,
-  AuthorScriptFlow,
+  AuthorStagesFlow,
   EntityDef,
   SceneDef,
   SpriteDef,
@@ -120,7 +120,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 22,
+      contentVersion: 23,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {
@@ -2382,13 +2382,13 @@ describe('地图资产命令', () => {
     const s1 = command.apply(s0)
     expect(s1.mapIndex.maps).toEqual([{ id: 'home', name: '民居', path: 'content/maps/home.json' }])
     expect(s1.maps.home).toBeDefined()
-    expect(s1.manifest.contentVersion).toBe(22)
+    expect(s1.manifest.contentVersion).toBe(23)
     expect(s1.manifest.content.maps).toBe('content/maps/index.json')
     expect(s0.mapIndex.maps).toEqual([])
     const back = command.invert(s1)
     expect(back.mapIndex.maps).toEqual([])
     expect(back.maps.home).toBeUndefined()
-    expect(back.manifest.contentVersion).toBe(22)
+    expect(back.manifest.contentVersion).toBe(23)
     expect(back.manifest.content.maps).toBe('content/maps/index.json')
   })
 
@@ -2838,7 +2838,7 @@ describe('X7 manifest 命令', () => {
 
 describe('current canonical script command lifecycle boundaries', () => {
   const target = { scene: 'canonical-scene', entity: 'owner' }
-  function flow(id: string, body: AuthorCommand[] = []): AuthorScriptFlow {
+  function flow(id: string, body: AuthorCommand[] = []): AuthorStagesFlow {
     return { kind: 'stages', initial: id, stages: [{ id, body }] }
   }
   function canonicalState(): ScriptEditorState {
@@ -3038,7 +3038,7 @@ describe('current canonical script command lifecycle boundaries', () => {
   test('replaces a multi-step entry hook while preserving stable step ids, the teleport hook and default selection', () => {
     const initial = canonicalState()
     const session = new ScriptEditSession(initial)
-    const replacement: AuthorScriptFlow = {
+    const replacement: AuthorStagesFlow = {
       kind: 'stages',
       initial: 'arrive',
       stages: [
@@ -3071,7 +3071,7 @@ describe('current canonical script command lifecycle boundaries', () => {
     const before = session.getStateSnapshot()
     const notify = vi.fn()
     session.subscribe(notify)
-    const invalid: AuthorScriptFlow = {
+    const invalid: AuthorStagesFlow = {
       kind: 'stages',
       initial: 'absent',
       stages: [{ id: 'actual', body: [] }],
