@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（规格维护；本轮仅文档与静态核读）
-Last reviewed: 2026-10-24
+Last reviewed: 2026-11-07
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -11,12 +11,14 @@ Template: design-spec-v1 / 1.0.0
 
 ## 真值与约束
 
-- 当前唯一内容格式为contentVersion 22；SAVE12及minimumSaveVersion 12是另一轴。直接来源为[CurrentManifest](../../../packages/content/src/character.ts)、[存档类型](../../../packages/reforge/src/save/types.ts)与[公开装配入口](../../../packages/reforge/src/project-loader.ts)。旧1..21内容、SAVE11等开发档不进入当前loader，不恢复upgrader/transition或脚本分片。
+- 当前唯一内容格式为contentVersion 23；SAVE12及minimumSaveVersion 12是另一轴。直接来源为[CurrentManifest](../../../packages/content/src/character.ts)、[存档类型](../../../packages/reforge/src/save/types.ts)与[公开装配入口](../../../packages/reforge/src/project-loader.ts)。旧1..22内容、SAVE11等开发档不进入当前loader，不恢复upgrader/transition或脚本分片。
 - manifest必须有非空entryPoints，每项完整保存稳定id、label、scene、可选introVideo和独立startWorld；defaultEntryId只选择真实入口，入口无继承/合成fallback。顶层entryScene/startWorld不是当前manifest字段；存档保存完整世界和玩家位置，不以入口id代替世界。
 - 场景/共享/技能/敌AI正文按[READ-FIRST维护权](../READ-FIRST.md)作为canonical作者内容；资源/地图等仍归批准的窄供应分区。不能因文件位于projects/pal就恢复退役的完整脚本转换。
 - 本轮静态核类型、目录guard和公开loader切片，未重跑PAL数据、上传/保存、渲染或迁移。固定原稿里的“已落地”与223/56等数量只属于原验收时点。
 
 ## 方案
+
+2026-11-07，[四类取物流程](../../tasks/cards/N6B-ITEM-FLOWS-1.md)原子切换作者内容格式至 content23；SAVE12 与最低存档版本12保持独立。该任务正在实施，旧 E2E 原件保留原版本，新检查点由当前内容的真实流程重建。
 
 ### 世界与角色初值
 
@@ -72,7 +74,7 @@ R33登记日期2026-07-14不是全部内容的发布日期；原稿含08-19地�
 
 ## 当前有效性
 
-适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
+适用当前产品合同：contentVersion 23 / SAVE12 / minimumSaveVersion 12。
 
 现行规格current；archive overlay只保留原时点材料。规范适用性、当前实现合规、本文独立接受、产品运行分别裁定。
 
