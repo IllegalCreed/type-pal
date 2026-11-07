@@ -181,7 +181,10 @@ const harness = {
       ...semanticAction(action.idx, action),
       before: beforeAction,
       after: snapshot(),
-      native: { lastAction: clone(action), actionLog: state.log.slice(beforeLog) },
+      native: {
+        lastAction: JSON.parse(JSON.stringify(action)),
+        actionLog: state.log.slice(beforeLog),
+      },
       source: 'BattleSession:stepBattle:before-lastAction-consumption',
     })
   },

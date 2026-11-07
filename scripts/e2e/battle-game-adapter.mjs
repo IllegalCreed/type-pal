@@ -184,6 +184,8 @@ export function installGameBattleAdapter() {
       liveRoles = roles
       evidence().action({
         ...action,
+        // Omit native optional undefined properties using their actual JSON representation.
+        native: JSON.parse(JSON.stringify(action.native)),
         after: snapshot(),
         source: 'game:tickPerformAction:index-advanced',
       })
