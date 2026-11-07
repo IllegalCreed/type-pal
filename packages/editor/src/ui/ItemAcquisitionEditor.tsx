@@ -308,6 +308,7 @@ export function GrantRewardFields(props: {
               { value: 'silent', label: '不显示提示' },
             ]}
             onValueChange={(kind) =>
+              kind !== notice.kind &&
               changeNotice(
                 kind === 'silent'
                   ? { kind }
@@ -476,6 +477,7 @@ export function AcquisitionFields(props: {
                 { value: 'disable', label: '停用搜刮点' },
               ]}
               onValueChange={(value) => {
+                if (value === flow.afterCollect) return
                 if (value === 'repeat')
                   props.onChange({ ...flow, afterCollect: 'repeat', empty: { kind: 'silent' } })
                 else {
@@ -510,6 +512,7 @@ export function AcquisitionFields(props: {
                 { value: 'custom', label: '自定文字' },
               ]}
               onValueChange={(kind) =>
+                kind !== flow.empty.kind &&
                 changeEmpty(
                   kind === 'custom'
                     ? {

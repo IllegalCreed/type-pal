@@ -114,7 +114,9 @@ describe('ED-3 PAL project reference index', () => {
     // Pin the authored PAL census and independent deletion-blocker parity together.
     // Content edits must account for the changed dependency, not merely adjust this total.
     // s005/e116's carrier bob now belongs to its page animation, not four self-target commands.
-    expect(diagnostics.entityAddressReferences).toHaveLength(22_664)
+    // E2E 008/009 moved the hammer targets and simplified pond movement; acquisition
+    // recipes also remove generated self-targets from authored reference scans.
+    expect(diagnostics.entityAddressReferences).toHaveLength(22_642)
     // GAME-SCRIPT-CORRECTIONS-1 adds seven cross-scene cleanup targets and Anu's
     // explicit entry reveal. Pin those new dependencies as well as the total census.
     expect(
@@ -194,7 +196,9 @@ describe('ED-3 PAL project reference index', () => {
           reference.path.includes('.behaviors.trigger.take-dishes.flow.'),
       ),
     ).toHaveLength(5) // Four pose targets plus the unchanged post-pickup behavior selection.
-    expect(actualEntityBlockers).toHaveLength(4_376)
+    // Pond e212→e217 loses 20 targets, e213→e218 gains 9; the reed route
+    // loses two e260 targets and the hammer gains seven explicit target reads.
+    expect(actualEntityBlockers).toHaveLength(4_370)
   })
 
   test('keeps scene-entry, shop, map and environment reference facts', () => {
@@ -511,7 +515,7 @@ describe('ED-3 PAL project reference index', () => {
 
     const itemEdges = edges.filter((edge) => edge.relation.kind === 'item-use')
     const oldItemReferences = collectItemReferences(state, canonical)
-    expect(itemEdges).toHaveLength(1_182)
+    expect(itemEdges).toHaveLength(1_183)
     expect(
       itemEdges
         .map((edge) => {
@@ -545,9 +549,40 @@ describe('ED-3 PAL project reference index', () => {
           ).length,
         ]),
       ),
-    ).toEqual({ read: 46, lose: 39, consume: 9, reward: 899, hold: 34, configure: 155 })
-    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(807)
-    expect(itemEdges.filter((edge) => edge.locator.kind === 'script-owner')).toHaveLength(0)
+    ).toEqual({ read: 46, lose: 40, consume: 9, reward: 899, hold: 34, configure: 155 })
+    expect(itemEdges.filter((edge) => edge.locator.kind === 'canonical-script')).toHaveLength(799)
+    // The ninth recipe reward and the hammer's scripted self-removal have different
+    // ownership: recipes point at their form, while direct grants keep a command locator.
+    expect(
+      itemEdges
+        .filter((edge) => edge.locator.kind === 'script-owner')
+        .map((edge) => [edge.target.kind === 'item' ? edge.target.id : '', edge.where])
+        .sort(),
+    ).toEqual(
+      [
+        ['99', 'scenes.s001.entities.e4.behaviors.trigger.default.flow.rewards[0].itemId'],
+        ['99', 'scenes.s016.entities.e233.behaviors.trigger.default.flow.rewards[0].itemId'],
+        ['108', 'scenes.s017.entities.e235.behaviors.trigger.default.flow.rewards[0].itemId'],
+        ...['67', '68', '69', '70', '71'].map((id, index) => [
+          id,
+          `scenes.s017.entities.e263.behaviors.trigger.default.flow.rewards[${index}].itemId`,
+        ]),
+        ['238', 'scenes.s036.entities.e607.behaviors.trigger.default.flow.rewards[0].itemId'],
+      ].sort(),
+    )
+    expect(
+      itemEdges.filter(
+        (edge) =>
+          edge.where ===
+          'scenes.s020.entities.e342.behaviors.trigger.default.flow.stages.initial.body[4].rewards[0].itemId',
+      ),
+    ).toMatchObject([
+      {
+        target: { kind: 'item', id: '273' },
+        relation: { kind: 'item-use', access: 'reward' },
+        locator: { kind: 'canonical-script' },
+      },
+    ])
     expect(
       itemEdges.filter(
         (edge) => edge.source.owner.kind === 'enemy' && edge.locator.kind === 'object',
@@ -770,7 +805,38 @@ describe('ED-3 PAL project reference index', () => {
     const { state, canonical, diagnostics, edges } = referenceContext()
 
     const assetEdges = edges.filter((edge) => edge.relation.kind === 'asset-use')
-    expect(assetEdges).toHaveLength(5_968)
+    expect(assetEdges).toHaveLength(5_974)
+    // Six explicit Asura hit sounds are now owned by the six hammer-trigger flows.
+    expect(
+      assetEdges
+        .filter(
+          (edge) =>
+            edge.source.owner.kind === 'script-owner' &&
+            edge.source.owner.owner.kind === 'entity-behavior' &&
+            edge.source.owner.owner.sceneId === 's017' &&
+            edge.source.owner.owner.behaviorId === 'break-with-hammer',
+        )
+        .map((edge) => [edge.target.kind === 'asset' ? edge.target.id : '', edge.where])
+        .sort(),
+    ).toEqual(
+      ['e237', 'e238', 'e239', 'e240', 'e241', 'e242']
+        .map((id) => [
+          'sound.pal.262',
+          `scenes.s017.entities.${id}.behaviors.trigger.break-with-hammer.flow.stages.initial.body[3].asset`,
+        ])
+        .sort(),
+    )
+    expect(
+      assetEdges
+        .filter((edge) => edge.locator.kind === 'script-owner')
+        .map((edge) => edge.where)
+        .sort(),
+    ).toEqual([
+      'scenes.s001.entities.e4.behaviors.trigger.default.flow.sound',
+      'scenes.s016.entities.e233.behaviors.trigger.default.flow.sound',
+      'scenes.s017.entities.e263.behaviors.trigger.default.flow.opening.sound',
+      'scenes.s036.entities.e607.behaviors.trigger.default.flow.opening.sound',
+    ])
     // The restored Xiulan/Ling'er follow-ups add one portrait each, and Anu's farewell
     // adds both speakers' portraits. Preserve exact canonical ownership and command paths.
     const restoredPortraitSteps = new Set([
@@ -903,7 +969,34 @@ describe('ED-3 PAL project reference index', () => {
   test('preserves behavior, hook and parent-scene dependency locators', () => {
     const { edges, index } = referenceContext()
 
-    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_451)
+    // Six hammer trigger page bindings replace one retired Ling'er auto selection.
+    expect(edges.filter((edge) => edge.relation.kind === 'behavior-reference')).toHaveLength(4_456)
+    expect(
+      edges
+        .filter(
+          (edge) =>
+            edge.relation.kind === 'behavior-reference' &&
+            edge.locator.kind === 'scene-page' &&
+            edge.locator.sceneId === 's017' &&
+            edge.target.kind === 'entity-behavior' &&
+            edge.target.behaviorId === 'break-with-hammer',
+        )
+        .map((edge) => edge.where)
+        .sort(),
+    ).toEqual(
+      ['e237', 'e238', 'e239', 'e240', 'e241', 'e242'].map(
+        (id) => `scenes.s017.entities.${id}.pages.default.trigger`,
+      ),
+    )
+    expect(
+      index.referencesTo({
+        kind: 'entity-behavior',
+        sceneId: 's019',
+        entityId: 'e270',
+        channel: 'auto',
+        behaviorId: 'legacy-001',
+      }),
+    ).toEqual([])
     expect(
       index.referencesTo({
         kind: 'entity-behavior',
@@ -1055,8 +1148,8 @@ describe('ED-3 PAL project reference index', () => {
   test('transports the compact reference snapshot through a fresh worker runtime', () => {
     const { state, canonical, diagnostics } = referenceContext()
 
-    expect(diagnostics.projectReferences.rows).toHaveLength(25_224)
-    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_137)
+    expect(diagnostics.projectReferences.rows).toHaveLength(25_230)
+    expect(diagnostics.projectReferences.targetEdgeIds).toHaveLength(28_150)
     expect('targetKeys' in diagnostics.projectReferences).toBe(false)
     expect(diagnostics.projectReferences.sources.every((source) => !('key' in source))).toBe(true)
     expect(

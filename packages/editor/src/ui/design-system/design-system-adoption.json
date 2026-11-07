@@ -1826,6 +1826,7 @@
         "EntityPageAnimationEditor.tsx",
         "EntityStateSelect.tsx",
         "ImageAssetPicker.tsx",
+        "ItemAcquisitionEditor.tsx",
         "MusicPicker.tsx",
         "NamedIdPicker.tsx",
         "PreviewCanvas.tsx",
@@ -1845,7 +1846,7 @@
         "catalog": "N/A: single project mechanism",
         "scroll": "editor shell center / Inspector single owners",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
+        "field": "DsCheckbox + DsControlGroup + DsDraftNumberInput + DsDraftTextInput + DsField + DsNumberInput + DsPropertyRow + DsReadonlyValue + DsRepeatRow + DsSelect + DsTextArea + DsTextInput + DsSelectField + DsDraftNumberField + DsFieldGroup + DsTextField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {
@@ -2022,6 +2023,7 @@
         "BattleFieldPicker.tsx",
         "EntityStateSelect.tsx",
         "ImageAssetPicker.tsx",
+        "ItemAcquisitionEditor.tsx",
         "MusicPicker.tsx",
         "NamedIdPicker.tsx",
         "ScriptEditor.tsx",
@@ -2037,7 +2039,7 @@
         "catalog": "DsCatalogControls + DsCatalogRow",
         "scroll": "DsCatalogWorkspace + DsObjectWorkspaceContent + custom:.shared-script-inspector",
         "overlay": "DsDialog + DsFloatingLayer",
-        "field": "DsCheckbox + DsControlGroup + DsDraftTextArea + DsDraftTextInput + DsField + DsNumberInput + DsRepeatRow + DsSelect + DsTextArea + DsTextInput",
+        "field": "DsCheckbox + DsControlGroup + DsDraftTextArea + DsDraftTextInput + DsField + DsNumberInput + DsRepeatRow + DsSelect + DsTextArea + DsTextInput + DsSelectField + DsDraftNumberField + DsFieldGroup + DsTextField",
         "action": "DsButton + DsIconButton"
       },
       "ownerEvidence": {

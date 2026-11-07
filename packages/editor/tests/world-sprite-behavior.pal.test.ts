@@ -2,11 +2,14 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   type AssetRecordV1,
-  type BaseSceneDef,
-  type BaseScriptLibrary,
+  type AuthorSceneDef,
+  type AuthorScriptLibrary,
   emptyWorldScriptState,
+  resolveAuthorDialogueTree,
   type SceneIndexV1,
   type SpriteDef,
+  validateActors,
+  validateAuthorItems,
 } from '@type-pal/content'
 import { baseSceneView, decodeWorldSpriteAssetBytes } from '@type-pal/reforge'
 import { expect, test } from 'vitest'
@@ -105,18 +108,26 @@ async function actualFrameCount(
 function palPreviewState(): EditorState {
   const sceneIndex = readJson<SceneIndexV1>('projects/pal/content/scenes/index.json')
   const canonicalScenes = sceneIndex.scenes.map((entry) =>
-    readJson<BaseSceneDef>(`projects/pal/${entry.path}`),
+    readJson<AuthorSceneDef>(`projects/pal/${entry.path}`),
   )
+  const actors = validateActors(readJson('projects/pal/content/actors.json'))
+  const actorsById = Object.fromEntries(actors.map((actor) => [actor.id, actor]))
+  const items = validateAuthorItems(readJson('projects/pal/content/items.json'))
   const world = emptyWorldScriptState()
   const shell = {
-    actors: readJson('projects/pal/content/actors.json'),
-    scenes: canonicalScenes.map((scene) => baseSceneView(scene, world)),
+    actors,
+    scenes: canonicalScenes.map((scene) =>
+      baseSceneView(
+        resolveAuthorDialogueTree(scene, actorsById, 'pal.sprite-preview', { items }),
+        world,
+      ),
+    ),
     sceneIndex,
     scriptChunks: {},
   } as unknown as EditorState
   return projectCanonicalSpritePreviewState(shell, {
     scenes: canonicalScenes,
-    sharedScripts: readJson<BaseScriptLibrary>('projects/pal/content/shared-scripts.json'),
+    sharedScripts: readJson<AuthorScriptLibrary>('projects/pal/content/shared-scripts.json'),
   })
 }
 

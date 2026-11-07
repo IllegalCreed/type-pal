@@ -13230,8 +13230,7 @@ button.sprite-frame-cell[draggable="true"]:active {
 .script-scheme-delete-confirm p {
   margin: 0;
 }
-.script-scheme-delete-confirm > div,
-.script-scheme-create-actions {
+.script-scheme-delete-confirm > div {
   display: flex;
   justify-content: flex-end;
   gap: 7px;

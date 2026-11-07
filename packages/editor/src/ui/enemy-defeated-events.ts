@@ -135,7 +135,11 @@ export function createEnemyDefeatedPresentationContext(args: {
         'text' in row ? [row.text] : row.reward.kind === 'item' ? [row.reward.itemName] : [],
       )
       const text =
-        cue.rows.map((row) => resolveDialogueRowText(row, args.locale)).join(' / ') || '空对白'
+        cue.rows
+          .map((row) =>
+            'text' in row ? plainText(row.text) : resolveDialogueRowText(row, args.locale),
+          )
+          .join(' / ') || '空对白'
       const missingText = textIds.some((id) => !hasLocaleText(id))
       let speaker: EnemyDefeatedResolvedReference | undefined
       let portraitId: string | undefined
