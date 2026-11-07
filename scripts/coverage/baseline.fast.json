@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-06T12:57:34.455Z",
+  "generatedAt": "2026-11-07T01:16:35.267Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 832,
-  "testCount": 20314,
+  "testCount": 20310,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2233,7 +2233,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9021,
+        "testCount": 9017,
         "testFileCount": 368,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3759,7 +3759,7 @@
           {
             "file": "packages/reforge/src/pal-gov3-content-world-wait.test.ts",
             "testCount": 1,
-            "identityDigest": "419e7b4ef47871abe58603ff3a92ac92fda449b1898a9e0da95b3425a04ade6f"
+            "identityDigest": "3307a6b132b75bf666e1d1cf07cc238a589509073f5dd6c424f5c0a6f9efae6c"
           },
           {
             "file": "packages/reforge/src/pal-gov3-content.test.ts",
@@ -3853,8 +3853,8 @@
           },
           {
             "file": "packages/reforge/src/pal-unified-steps-content.test.ts",
-            "testCount": 5410,
-            "identityDigest": "00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450"
+            "testCount": 5406,
+            "identityDigest": "3fbc8654e47b43b9a3a377a57acb507751bff58afac3b4d7e250bb883e566efa"
           },
           {
             "file": "packages/reforge/src/project-image-cache.decode-lifecycle.test.ts",
@@ -4447,9 +4447,9 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "01d284af57c6b32c6cec7af433de82c10b2a289e7f226b296fa098eaf6294ce3",
+        "identityDigest": "03870c42ee5081c244f119f8b16f425a15e126b52f2cc30916d7bee44cd281f8",
         "duplicateIdentityCount": 3,
-        "executionDigest": "47d7273c64f3c3dd82e132cb6a34a18c945ec47fe6879cb68e6a795eb787b0e9"
+        "executionDigest": "09896bfaf1e592ca90c67bf8ac2ffaee0c5a34620a4dc1e0108350416a35258f"
       },
       "metrics": {
         "statements": {
@@ -4457,7 +4457,7 @@
           "total": 18922
         },
         "branches": {
-          "covered": 10892,
+          "covered": 10893,
           "total": 13135
         },
         "functions": {
@@ -10903,7 +10903,7 @@
       "total": 81545
     },
     "branches": {
-      "covered": 53452,
+      "covered": 53453,
       "total": 63536
     },
     "functions": {
