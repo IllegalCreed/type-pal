@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "6af91b8fcd6a276fe1d7d2f40bb85e8d4fc8e828ddbadbf25e3a2f8fccc2bbb0",
+      "afterSha256": "0f2e084b694eaf75ba4af2dd87811a25b28773042bb4b09782b5126e110876b7",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
+        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
+        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
         "reviewedLines": 123,
-        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
+        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
       }
     },
     {
@@ -3391,14 +3391,14 @@
     {
       "path": "docs/phase2/specs/project-lifecycle.md",
       "mode": "reviewed",
-      "afterSha256": "75901461a8c178527659d73482feb9673ffe03963e5c2108dd400949c2ca3ef0",
+      "afterSha256": "35769dc1a0531f59de6024a89997272153e1c74f5bb802c76eb8db9955c98c51",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 265,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
+        "reviewedLines": 267,
+        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
       },
       "templateId": "design-spec-v1"
     },
@@ -4897,6 +4897,19 @@
         "reviewedLines": 17,
         "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
       }
+    },
+    {
+      "path": "data/en/README.md",
+      "mode": "reviewed",
+      "afterSha256": "b897bd7df2dea223866cd608b9ee1dd61a64efc015ac344349fd72111279560a",
+      "review": {
+        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
+        "reviewer": "Codex /root/item_flow_final_review",
+        "date": "2026-11-07",
+        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
+        "reviewedLines": 33,
+        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
+      }
     }
   ],
   "additions": [
@@ -5332,14 +5345,14 @@
     {
       "path": "docs/tasks/cards/N6B-ITEM-FLOWS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "b608f1260b1d8e568c55b6a4b30b45e7d08df9547d0eff00546b5d3eef823854",
+      "afterSha256": "6c15c3205f029d38f851083484b62811acbb1b684b3f38bf941c6a08d717c52f",
       "review": {
-        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
+        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
-        "reviewedLines": 166,
-        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
+        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
+        "reviewedLines": 172,
+        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
       }
     },
     {
@@ -5642,6 +5655,12 @@
       "sha256": "d47afdb7517d4db6435df4f3f29ab5243c94b9d6607ccc62dd54cf8f121e024d",
       "bytes": 196310,
       "purpose": "N6B merged branch cleanup: build/item-flows/cleanup-index.json; exact original refs, independent ownership/recovery review, actual guarded deletions, verified minimal Git bundle, PR48 CI/merge and preserved native paths; no new user visual acceptance or physical worktree retirement."
+    },
+    {
+      "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-uncommitted.tar.gz",
+      "sha256": "1aff285f2a86c366c0a1c2b9c3b1f09e96bde725f400de1d5e6e016c03d2cbd8",
+      "bytes": 35931,
+      "purpose": "N6B uncommitted retirement: build/item-flows/uncommitted-index.json; compact101-path dispositions, actual82restores/5deletions and primary fast-forward, classified source/transaction preservation and isolated Git controls. No obsolete full-WIP copy or original binary upload; no new runtime/user acceptance."
     }
   ],
   "artifactAliases": [],
