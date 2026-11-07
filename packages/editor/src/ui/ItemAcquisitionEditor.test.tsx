@@ -1,5 +1,10 @@
 // @vitest-environment jsdom
-import type { AuthorCommand, AuthorScriptFlow } from '@type-pal/content'
+import type {
+  AuthorAcquisitionFlow,
+  AuthorCommand,
+  AuthorScriptFlow,
+  FlowCursor,
+} from '@type-pal/content'
 import { act, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, test } from 'vitest'
@@ -15,6 +20,7 @@ import {
   CanonicalScriptBodyEditor,
   type CanonicalScriptEditorContext,
   CanonicalScriptFlowEditor,
+  type CanonicalScriptFlowEditorProps,
   ScriptSchemeCreateDialog,
 } from './ScriptEditor.js'
 
@@ -70,7 +76,10 @@ const reader: EditorAssetReader = {
     throw new Error('this form does not load asset bytes')
   },
 }
-function context(state: ScriptEditorState): CanonicalScriptEditorContext {
+function context(
+  state: ScriptEditorState,
+  assetCatalog: CanonicalScriptEditorContext['assetCatalog'] = { version: 1, assets: {} },
+): CanonicalScriptEditorContext {
   return {
     state,
     currentSceneId: target.scene,
@@ -84,7 +93,7 @@ function context(state: ScriptEditorState): CanonicalScriptEditorContext {
       },
     ],
     locale: {},
-    assetCatalog: { version: 1, assets: {} },
+    assetCatalog,
     assetReader: reader,
     audioResolver: reader,
     battleSprites: [],
@@ -127,9 +136,13 @@ async function choose(label: string, option: string) {
     (field ? document.getElementById(field.htmlFor) : null)
   expect(control, label).not.toBeNull()
   await act(async () => control!.click())
-  const choice = [...document.querySelectorAll<HTMLElement>('[role="option"]')].find((entry) =>
-    entry.textContent?.includes(option),
-  )
+  const listbox = document.getElementById(control!.getAttribute('aria-controls')!)
+  expect(listbox?.getAttribute('role'), label).toBe('listbox')
+  const options = [...listbox!.querySelectorAll<HTMLElement>('[role="option"]')]
+  const choice =
+    options.find(
+      (entry) => entry.querySelector('.ds-select-option__label')?.textContent === option,
+    ) ?? options.find((entry) => entry.textContent?.includes(option))
   expect(choice, option).toBeDefined()
   await act(async () => choice!.click())
 }
@@ -147,15 +160,23 @@ async function input(label: string, value: string, key = 'Enter') {
 function currentFlow(session: ScriptEditSession) {
   return session.getStateSnapshot().scenes[0]!.entities[0]!.behaviors!.trigger!.collect!.flow
 }
-function FlowHarness({ session }: { session: ScriptEditSession }) {
+type FlowHarnessProps = {
+  session: ScriptEditSession
+  assetCatalog?: CanonicalScriptEditorContext['assetCatalog']
+} & Pick<
+  CanonicalScriptFlowEditorProps,
+  'previewCursor' | 'onSelectPreviewCursor' | 'renderStepPreview' | 'detailsRequest'
+>
+function FlowHarness({ session, assetCatalog, ...preview }: FlowHarnessProps) {
   const state = useSyncExternalStore(
     session.subscribe.bind(session),
     session.getStateSnapshot.bind(session),
   )
   return (
     <CanonicalScriptFlowEditor
+      {...preview}
       flow={currentFlow(session)}
-      context={context(state)}
+      context={context(state, assetCatalog)}
       ownerLabel="room/box/collect"
       onChange={(flow) =>
         session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'collect', { flow }))
@@ -163,6 +184,271 @@ function FlowHarness({ session }: { session: ScriptEditSession }) {
     />
   )
 }
+
+test('edits mixed rewards after reopening and keeps the last reward when removing an item', async () => {
+  const original = createAcquisitionFlow('builtin/item/chest', 'potion')
+  const session = new ScriptEditSession(JSON.parse(JSON.stringify(scriptState(original))))
+  await act(async () => root.render(<FlowHarness session={session} />))
+  await click('添加金钱')
+  expect(currentFlow(session)).toEqual({
+    ...original,
+    rewards: [
+      { kind: 'item', itemId: 'potion', count: 1 },
+      { kind: 'money', amount: 1 },
+    ],
+  })
+  expect(session.getHistoryVersion()).toBe(1)
+  await input('奖励 2 文钱', '57')
+  await choose('奖励 1 物品', '雪莲子')
+  const mixed: AuthorAcquisitionFlow = {
+    ...original,
+    rewards: [
+      { kind: 'item', itemId: 'seed', count: 1 },
+      { kind: 'money', amount: 57 },
+    ],
+  }
+  expect(currentFlow(session)).toEqual(mixed)
+  expect(host.textContent).toContain('雪莲子 × 1、57 文钱')
+  expect(session.getHistoryVersion()).toBe(3)
+  await click('删除奖励 1')
+  expect(currentFlow(session)).toEqual({ ...original, rewards: [{ kind: 'money', amount: 57 }] })
+  expect(host.querySelector<HTMLInputElement>('[aria-label="奖励 1 文钱"]')?.value).toBe('57')
+  expect(host.querySelector<HTMLButtonElement>('[aria-label="删除奖励 1"]')?.disabled).toBe(true)
+  expect(session.getHistoryVersion()).toBe(4)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
+  expect(currentFlow(session)).toEqual(mixed)
+  expect(host.querySelector<HTMLInputElement>('[aria-label="奖励 2 文钱"]')?.value).toBe('57')
+})
+
+test('switches notice modes with exact compatible fields and preserves an explicit timing', async () => {
+  const original = createAcquisitionFlow('builtin/item/pickup', 'potion')
+  const session = new ScriptEditSession(scriptState(original))
+  await act(async () => root.render(<FlowHarness session={session} />))
+  await choose('提示方式', '自定文字')
+  await choose('提示时机', '领取后显示提示')
+  expect(currentFlow(session)).toHaveProperty('notice', {
+    kind: 'custom',
+    timing: 'after',
+    cue: { identity: { kind: 'narration' }, rows: [{ text: '获得了物品。' }] },
+  })
+  await choose('提示方式', '按领取内容显示')
+  expect(currentFlow(session)).toEqual({
+    ...original,
+    notice: { kind: 'standard', timing: 'after' },
+  })
+  expect(host.textContent).not.toContain('编辑领取文字')
+  await choose('提示方式', '不显示提示')
+  expect(currentFlow(session)).toEqual({ ...original, notice: { kind: 'silent' } })
+  expect(host.textContent).not.toContain('提示时机')
+  await choose('提示方式', '自定文字')
+  expect(currentFlow(session)).toHaveProperty('notice', {
+    kind: 'custom',
+    timing: 'before',
+    cue: { identity: { kind: 'narration' }, rows: [{ text: '获得了物品。' }] },
+  })
+  await choose('提示方式', '按领取内容显示')
+  expect(currentFlow(session)).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(6)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
+  expect(currentFlow(session)).toHaveProperty('notice.kind', 'custom')
+})
+
+test('custom notice text stays a local draft until apply and remains editable after save/reopen', async () => {
+  const original: AuthorAcquisitionFlow = {
+    ...createAcquisitionFlow('builtin/item/pickup', 'potion'),
+    notice: {
+      kind: 'custom',
+      timing: 'after',
+      cue: { identity: { kind: 'narration' }, slot: 'narration', rows: [{ text: '原有文字。' }] },
+    },
+  }
+  const session = new ScriptEditSession(scriptState(original))
+  await act(async () => root.render(<FlowHarness session={session} />))
+  const typeText = async (value: string) => {
+    const field = document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')
+    expect(field).not.toBeNull()
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')!.set!.call(
+        field,
+        value,
+      )
+      field!.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+  }
+  await click('编辑领取文字')
+  await typeText('取消的草稿。')
+  expect(currentFlow(session)).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(0)
+  await click('取消')
+  await click('编辑领取文字')
+  expect(document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')?.value).toBe(
+    '原有文字。',
+  )
+  await typeText('这株草药可以止血。')
+  await click('应用文字')
+  const edited: AuthorAcquisitionFlow = {
+    ...original,
+    notice: {
+      kind: 'custom',
+      timing: 'after',
+      cue: {
+        identity: { kind: 'narration' },
+        slot: 'narration',
+        rows: [{ text: '这株草药可以止血。' }],
+      },
+    },
+  }
+  expect(currentFlow(session)).toEqual(edited)
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(session.getHistoryVersion()).toBe(1)
+  await act(async () => {
+    expect(session.undo()).toBe(true)
+  })
+  expect(currentFlow(session)).toEqual(original)
+  expect(session.canUndo()).toBe(false)
+  await act(async () => {
+    expect(session.redo()).toBe(true)
+  })
+  expect(currentFlow(session)).toEqual(edited)
+  const reopened = new ScriptEditSession(JSON.parse(JSON.stringify(session.getState())))
+  await act(async () => root.render(<FlowHarness session={reopened} />))
+  await click('编辑领取文字')
+  expect(document.querySelector<HTMLTextAreaElement>('dialog[open] textarea')?.value).toBe(
+    '这株草药可以止血。',
+  )
+  await typeText('保存后继续修改的文字。')
+  await click('应用文字')
+  expect(currentFlow(reopened)).toHaveProperty('notice', {
+    kind: 'custom',
+    timing: 'after',
+    cue: {
+      identity: { kind: 'narration' },
+      slot: 'narration',
+      rows: [{ text: '保存后继续修改的文字。' }],
+    },
+  })
+  expect(reopened.getHistoryVersion()).toBe(1)
+  await act(async () => {
+    expect(reopened.undo()).toBe(true)
+  })
+  expect(currentFlow(reopened)).toEqual(edited)
+})
+
+test('authored chest opening parameters detach into the correct owner and ordered leaves', async () => {
+  const session = new ScriptEditSession(scriptState())
+  const assetCatalog: CanonicalScriptEditorContext['assetCatalog'] = {
+    version: 1,
+    assets: {
+      'sound.pal.001': {
+        kind: 'sound',
+        path: 'assets/migrated/sounds/001.wav',
+        mediaType: 'audio/wav',
+        bytes: 9782,
+        sha256: 'ee9d7e88e858c66ebed3300fe274cb20779843437aa915cc0a4cd62c360d7948',
+        label: 'PAL 音效 001',
+        origin: { kind: 'legacy-migrated', ref: 'sounds/1.wav' },
+      },
+    },
+  }
+  await act(async () => root.render(<FlowHarness session={session} assetCatalog={assetCatalog} />))
+  await choose('开盖朝向', '右')
+  await input('开盖帧', '0')
+  await choose('开盖音效', 'PAL 音效 001')
+  expect(currentFlow(session)).toHaveProperty('opening', {
+    facing: 'right',
+    frame: 0,
+    sound: 'sound.pal.001',
+  })
+  expect(session.getHistoryVersion()).toBe(3)
+  await click('展开为普通脚本')
+  await click('确认展开')
+  expect(currentFlow(session)).toEqual({
+    kind: 'stages',
+    initial: 'available',
+    stages: [
+      {
+        id: 'available',
+        label: '首次领取',
+        next: 'collected',
+        body: [
+          { kind: 'setEntityFacing', target, facing: 'right' },
+          { kind: 'setEntityFrame', target, frame: 0 },
+          { kind: 'clearDialog' },
+          { kind: 'playSound', asset: 'sound.pal.001' },
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              slot: 'narration',
+              rows: [{ reward: { kind: 'item', itemName: '止血草', count: 1 } }],
+            },
+          },
+          { kind: 'giveItem', itemId: 'potion', count: 1 },
+        ],
+      },
+      { id: 'collected', label: '已经取走', body: [] },
+    ],
+  })
+  expect(session.getHistoryVersion()).toBe(4)
+})
+
+test('preview selection and detail requests retain saved stage ids without author history', async () => {
+  const original: AuthorAcquisitionFlow = {
+    kind: 'acquisition',
+    recipe: 'builtin/item/chest',
+    rewards: [{ kind: 'money', amount: 35 }],
+    notice: { kind: 'silent' },
+    opening: { facing: 'down', frame: 1 },
+    empty: { kind: 'silent' },
+    stages: {
+      available: { id: 'chest-unopened', label: '箱盖未开' },
+      collected: { id: 'chest-empty', label: '箱中已空' },
+    },
+  }
+  const session = new ScriptEditSession(JSON.parse(JSON.stringify(scriptState(original))))
+  const selected: FlowCursor[] = []
+  const select = (cursor: FlowCursor) => selected.push(cursor)
+  const preview: CanonicalScriptFlowEditorProps['renderStepPreview'] = (id, close) => (
+    <button type="button" onClick={close}>
+      关闭预览 {id}
+    </button>
+  )
+  const render = async (detailsRequest?: FlowHarnessProps['detailsRequest']) =>
+    act(async () =>
+      root.render(
+        <FlowHarness
+          session={session}
+          onSelectPreviewCursor={select}
+          renderStepPreview={preview}
+          detailsRequest={detailsRequest}
+        />,
+      ),
+    )
+  await render()
+  await choose('预览轮次', '已经取走后再次调查')
+  expect(selected).toEqual([{ kind: 'stage', stage: 'chest-empty' }])
+  await click('此步骤的预览初始状态')
+  expect(document.querySelector('dialog[open]')?.textContent).toContain('箱中已空 · 预览初始状态')
+  await click('关闭预览 chest-empty')
+  await render({ stageId: 'chest-unopened', revision: 1 })
+  expect(selected).toEqual([
+    { kind: 'stage', stage: 'chest-empty' },
+    { kind: 'stage', stage: 'chest-unopened' },
+  ])
+  expect(document.querySelector('dialog[open]')?.textContent).toContain('箱盖未开 · 预览初始状态')
+  await click('关闭预览 chest-unopened')
+  await render({ stageId: 'chest-unopened', revision: 1 })
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(selected).toHaveLength(2)
+  expect(currentFlow(session)).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(0)
+  expect(session.canUndo()).toBe(false)
+  expect(session.isDirty()).toBe(false)
+})
 
 test('search post-collection mode removes incompatible repeat feedback in one reversible edit', async () => {
   const session = new ScriptEditSession(
