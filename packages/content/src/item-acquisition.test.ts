@@ -8,12 +8,14 @@ import {
   acquisitionPreviewStages,
   assertAuthorDialogueReferences,
   type ContentBundle,
+  checkAcquisitionFlow,
   checkAuthorCommands,
   checkAuthorDialogueCue,
   checkAuthorEntityBehaviors,
   checkAuthorEntityPages,
   checkAuthorSceneHooks,
   checkAuthorScriptFlow,
+  checkGrantRewardCommand,
   checkRuntimeCommands,
   checkRuntimeScriptFlow,
   collectCanonicalActorTaggedReferences,
@@ -283,6 +285,20 @@ test('pickup hides before presentation, hidden search after presentation, and re
   expect(expandAcquisitionFlow(repeat, self, items).stages[1]?.body).toEqual([
     { kind: 'dialog', cue: { ...cue, rows: [{ text: 'line.empty' }] } },
   ])
+})
+
+test('public grant assertion rejects a complete reward shape with a different command kind', () => {
+  expectExactError(
+    () => checkGrantRewardCommand({ ...grant, kind: 'giveItem' }, 'grant'),
+    'grant.kind: 期望 grantReward',
+  )
+})
+
+test('public acquisition assertion rejects a complete recipe shape with a different flow kind', () => {
+  expectExactError(
+    () => checkAcquisitionFlow({ ...chest, kind: 'stages' }, 'recipe'),
+    'recipe.kind: 期望 acquisition',
+  )
 })
 
 test.each([
