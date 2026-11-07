@@ -163,11 +163,12 @@ function currentFlow(session: ScriptEditSession) {
 type FlowHarnessProps = {
   session: ScriptEditSession
   assetCatalog?: CanonicalScriptEditorContext['assetCatalog']
+  ownerContext?: Pick<CanonicalScriptEditorContext, 'currentSceneId' | 'currentEntityId'>
 } & Pick<
   CanonicalScriptFlowEditorProps,
-  'previewCursor' | 'onSelectPreviewCursor' | 'renderStepPreview' | 'detailsRequest'
+  'previewCursor' | 'onSelectPreviewCursor' | 'renderStepPreview' | 'detailsRequest' | 'onError'
 >
-function FlowHarness({ session, assetCatalog, ...preview }: FlowHarnessProps) {
+function FlowHarness({ session, assetCatalog, ownerContext, ...preview }: FlowHarnessProps) {
   const state = useSyncExternalStore(
     session.subscribe.bind(session),
     session.getStateSnapshot.bind(session),
@@ -176,7 +177,7 @@ function FlowHarness({ session, assetCatalog, ...preview }: FlowHarnessProps) {
     <CanonicalScriptFlowEditor
       {...preview}
       flow={currentFlow(session)}
-      context={context(state, assetCatalog)}
+      context={{ ...context(state, assetCatalog), ...ownerContext }}
       ownerLabel="room/box/collect"
       onChange={(flow) =>
         session.dispatch(new UpdateEntityBehaviorCommand(target, 'trigger', 'collect', { flow }))
@@ -394,6 +395,37 @@ test('authored chest opening parameters detach into the correct owner and ordere
     ],
   })
   expect(session.getHistoryVersion()).toBe(4)
+})
+
+test('detach confirmation reports a lost owner and cancellation preserves the recipe and history', async () => {
+  const original = scriptState(createAcquisitionFlow('builtin/item/chest', 'potion'))
+  const session = new ScriptEditSession(original)
+  const errors: string[] = []
+  const onError = (message: string) => errors.push(message)
+  await act(async () => root.render(<FlowHarness session={session} onError={onError} />))
+  await click('展开为普通脚本')
+  const confirmation = document.querySelector('dialog[open]')
+  expect(confirmation).not.toBeNull()
+  await act(async () =>
+    root.render(
+      <FlowHarness
+        session={session}
+        onError={onError}
+        ownerContext={{ currentSceneId: undefined, currentEntityId: undefined }}
+      />,
+    ),
+  )
+  await click('确认展开')
+  expect(errors).toEqual(['无法确定当前取物实体，请重新打开交互脚本。'])
+  expect(session.getState()).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(0)
+  expect(document.querySelector('dialog[open]')).toBe(confirmation)
+  await click('取消')
+  expect(document.querySelector('dialog[open]')).toBeNull()
+  expect(session.getState()).toEqual(original)
+  expect(session.getHistoryVersion()).toBe(0)
+  expect(session.canUndo()).toBe(false)
+  expect(session.isDirty()).toBe(false)
 })
 
 test('preview selection and detail requests retain saved stage ids without author history', async () => {
