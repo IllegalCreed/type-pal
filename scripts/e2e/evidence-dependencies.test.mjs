@@ -76,6 +76,27 @@ test('producer manifest follows actual nested imports, rejects omitted receipts 
   assert.throws(() => assertDependencyClosure(recorded, changed), /omitted a dependency/)
   await write('dynamic.mjs', 'export const load = (name) => import(name)')
   await assert.rejects(localDependencyGraph(root, ['dynamic.mjs']), /explicit loader contract/)
+  await write(
+    'typed.mjs',
+    "import { tsImport as load } from 'tsx/esm/api'; await load('./typed.ts', import.meta.url)",
+  )
+  await write('typed.ts', "export { value } from './typed-leaf.js'")
+  await write('typed-leaf.ts', 'export const value = 1')
+  assert.deepEqual((await localDependencyGraph(root, ['typed.mjs'])).files, [
+    'typed-leaf.ts',
+    'typed.mjs',
+    'typed.ts',
+  ])
+  await write(
+    'typed.mjs',
+    "import { tsImport } from 'tsx/esm/api'; await tsImport(process.argv[2], import.meta.url)",
+  )
+  await assert.rejects(localDependencyGraph(root, ['typed.mjs']), /literal local path/)
+  await write(
+    'typed.mjs',
+    "import { tsImport } from 'tsx/esm/api'; await tsImport('./typed.ts', otherRoot)",
+  )
+  await assert.rejects(localDependencyGraph(root, ['typed.mjs']), /import.meta.url/)
   await assert.rejects(localDependencyGraph(root, ['../external.mjs']), /escaped repository/)
   const outside = await mkdtemp(join(tmpdir(), 'pal-producer-external-'))
   t.after(() => rm(outside, { recursive: true, force: true }))

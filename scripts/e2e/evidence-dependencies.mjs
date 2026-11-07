@@ -77,6 +77,19 @@ export async function localDependencyGraph(root, entries, browserPackage) {
     const ast = ts.createSourceFile(path, source, ts.ScriptTarget.Latest, true)
     assert.equal(ast.parseDiagnostics.length, 0, `dependency source does not parse: ${path}`)
     const specifiers = []
+    const typescriptImports = new Set()
+    for (const statement of ast.statements) {
+      if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== 'tsx/esm/api')
+        continue
+      const bindings = statement.importClause?.namedBindings
+      assert(
+        bindings && ts.isNamedImports(bindings),
+        `unsupported TypeScript loader import: ${path}`,
+      )
+      for (const binding of bindings.elements)
+        if ((binding.propertyName ?? binding.name).text === 'tsImport')
+          typescriptImports.add(binding.name.text)
+    }
     const visit = (node) => {
       if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier)
         specifiers.push(node.moduleSpecifier.text)
@@ -86,6 +99,25 @@ export async function localDependencyGraph(root, entries, browserPackage) {
           `dynamic module dependency needs an explicit loader contract: ${path}`,
         )
         specifiers.push(node.arguments[0].text)
+      }
+      if (
+        ts.isCallExpression(node) &&
+        ts.isIdentifier(node.expression) &&
+        typescriptImports.has(node.expression.text)
+      ) {
+        const [specifier, parent] = node.arguments
+        assert(
+          node.arguments.length === 2 &&
+            ts.isStringLiteralLike(specifier) &&
+            specifier.text.startsWith('.') &&
+            ts.isPropertyAccessExpression(parent) &&
+            parent.name.text === 'url' &&
+            ts.isMetaProperty(parent.expression) &&
+            parent.expression.keywordToken === ts.SyntaxKind.ImportKeyword &&
+            parent.expression.name.text === 'meta',
+          `TypeScript dependency needs a literal local path and import.meta.url: ${path}`,
+        )
+        specifiers.push(specifier.text)
       }
       ts.forEachChild(node, visit)
     }
