@@ -134,8 +134,17 @@
                       }
                     },
                     {
-                      "itemId": "273",
-                      "kind": "giveItem"
+                      "kind": "grantReward",
+                      "rewards": [
+                        {
+                          "kind": "item",
+                          "itemId": "273",
+                          "count": 1
+                        }
+                      ],
+                      "notice": {
+                        "kind": "silent"
+                      }
                     },
                     {
                       "cue": {

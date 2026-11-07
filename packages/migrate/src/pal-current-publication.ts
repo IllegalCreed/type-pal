@@ -4,7 +4,6 @@ import type {
   EnemyTeamDef,
   ItemData,
   MigrationDiagnosticsV1,
-  RuntimeSceneDef,
   SceneIndexV1,
 } from '@type-pal/content'
 import {
@@ -309,10 +308,16 @@ export function validatePalCurrentPublication(args: {
     enemies: authorEnemies,
     actors,
   })
-  const scenes = resolveAuthorDialogueTree(authorScenes, actorsById, 'scenes') as RuntimeSceneDef[]
-  const items = resolveAuthorDialogueTree(authorItems, actorsById, 'items')
-  const enemies = resolveAuthorDialogueTree(authorEnemies, actorsById, 'enemies')
-  const runtimeSharedScripts = resolveAuthorDialogueTree(sharedScripts, actorsById, 'sharedScripts')
+  const scriptContext = { items: authorItems }
+  const scenes = resolveAuthorDialogueTree(authorScenes, actorsById, 'scenes', scriptContext)
+  const items = resolveAuthorDialogueTree(authorItems, actorsById, 'items', scriptContext)
+  const enemies = resolveAuthorDialogueTree(authorEnemies, actorsById, 'enemies', scriptContext)
+  const runtimeSharedScripts = resolveAuthorDialogueTree(
+    sharedScripts,
+    actorsById,
+    'sharedScripts',
+    scriptContext,
+  )
   const equipIssues = validateEquipBattleSpriteReferences(items, actors, battleSprites)
   if (equipIssues.length) throw new Error(`${equipIssues[0]!.where}: ${equipIssues[0]!.message}`)
   const poisons = validatePoisons(

@@ -11,7 +11,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 真值与约束
 
-当前内容contentVersion 22 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
+当前内容contentVersion 23 / SAVE12，版本常量与[内容格式](content-schema.md)分轴；作者类型和guard来自[author-script-core](../../../packages/content/src/author-script-core.ts)，实体子调用来自[当前project runtime](../../../packages/reforge/src/runtime-script-project.ts)。本页维护已定合同，当前实现的全路径正确性仍由具体任务、合法输入和运行回执证明，本轮没有执行游戏/E2E/预览。
 
 实体地址必须是EntityAddress{scene,entity}；实例label、人物名和精灵名只显示，不替代稳定id或合并同名实体。PageId选择外观/触发/具名BehaviorId，不内嵌匿名脚本；onEnter/onTeleport各有HookId registry及initial选择，切换走显式selectSceneHooks。跨处复用只进AuthorScriptLibrary共享库，callScript只存稳定script和可选复合self，不带chunk提示。物品私有脚本归单件物品，复杂NPC剧情回其具名方案，不复制到物品或等玩家再移动触发。
 
@@ -31,6 +31,16 @@ Template: design-spec-v1 / 1.0.0
 有名循环仅在内层需指向外层时使用，复制重映射内部引用，移动后非法祖先引用不能静默保存。步骤列表单步/多步均完整显示；label不写入执行树身份，选择方案卡只选编辑/预览对象，不改变游戏运行态。
 
 选择真正变更才推进owner epoch；同有效方案保留游标，换方案从initial重新开始。completed保留绑定但不再获取执行权；取消、过期epoch、settlement gate失败或未返回子调用不能制造完成。编译器只产内存/可删缓存执行树，compilerVersion/content digest不是作者机器状态；SAVE12续跑绑定同一digest，执行序号不能变为内容对象ID。
+
+### 四类类型化取物流程
+
+content23 作者树支持内联 `grantReward`（剧情奖励）及实体 trigger 专用 `flow.kind: acquisition`。后者使用固定 `builtin/item/chest`、`builtin/item/pickup`、`builtin/item/search` 名称与参数；不能挂到 auto、场景 hook、共享或物品私有根。物品/金钱奖励是有序非空列表，数量为正安全整数，物品、声音及自定义提示引用均按真实参数路径校验。
+
+参数是唯一作者真值。`expandAuthorScriptTree` 与 `resolveAuthorDialogueTree` 共用展开遍历，运行态、编辑器预览及显式脱离最终使用同一 `expandAcquisitionFlow` / `expandGrantReward` 实现。运行态仍消费普通 stages 和叶子指令，存档延用 SAVE12 的 owner/cursor；不新增全局领取表或 recipe 运行指令。稳定 available/collected 步骤 ID 维护既有预览绑定和逐步台账，生成位置不冒充作者参数地址。
+
+宝箱开盖后发奖，游标转到空箱步骤；拾取先隐藏实体，提示/发奖后完成方案；搜刮可在提示/发奖后停用本点，或保持可调查并转空反馈步骤。剧情奖励不自行决定外层剧情重复策略。提示分标准、静默、自定义，非静默必须明确 before/after；标准按奖励顺序生成独立对话，显式奖励行引用物品名称 TextId/数量或金钱数量，由显示层本地化，不使用魔法字符、伪文本 ID 或运行时额外发奖。特殊多次调查箱继续使用普通独立脚本。
+
+业务参数、作者操作及受影响 E2E 范围见[作者指南](../guides/shared-script-author-guide.md#四类取物流程)与 [N6b 任务](../../tasks/cards/N6B-ITEM-FLOWS-1.md)。
 
 ### 显式交互与场景呈现
 
@@ -86,7 +96,7 @@ R33登记2026-10-07，原稿含更早作者模型与后续SAVE12/实体交互补
 
 ## 当前有效性
 
-适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
+适用当前产品合同：contentVersion 23 / SAVE12 / minimumSaveVersion 12。
 
 规范current，原文history overlay用于回读；设计合同、实现合规、独立语义接受和运行信用分别成立，不用静态通过相互替代。
 

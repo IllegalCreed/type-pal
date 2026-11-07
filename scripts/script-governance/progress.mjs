@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { acquisitionPreviewStages } from '../../packages/content/src/acquisition-preview-stages.ts'
 import {
   parseScriptPreviewLibrary,
   resolveScriptPreviewBinding,
@@ -93,11 +94,13 @@ export function inventoryScenes(scenes) {
     // Conservative scene boundary includes other participants and callers in this scene.
     const sceneHash = fingerprint(scene)
     const add = (owner, schemeId, scheme, ownerLabel) => {
-      assert(
-        scheme.flow?.kind === 'stages' && Array.isArray(scheme.flow.stages),
-        'expected canonical stage flow',
-      )
-      for (const stage of scheme.flow.stages) {
+      const flow = scheme.flow
+      assert(flow?.kind === 'stages' || flow?.kind === 'acquisition', 'expected canonical flow')
+      if (flow.kind === 'acquisition')
+        assert.equal(owner.channel, 'trigger', 'acquisition flow requires entity trigger owner')
+      const stages = flow.kind === 'acquisition' ? acquisitionPreviewStages(flow) : flow.stages
+      assert(Array.isArray(stages), 'expected canonical stages')
+      for (const stage of stages) {
         const entry = { ...owner, schemeId, stageId: stage.id }
         const key = entryKey(entry)
         assert(!entries.has(key), `duplicate step: ${key}`)

@@ -19,7 +19,7 @@ const validJsonContracts = () =>
     ['data/extracted/data/scene/1.json', { sceneId: 1 }],
     ['data/extracted/data/scene/14.json', { sceneId: 14 }],
     ['data/extracted/data/scene/17.json', { sceneId: 17 }],
-    ['projects/pal/manifest.json', { id: 'pal', contentVersion: 22, minimumSaveVersion: 12 }],
+    ['projects/pal/manifest.json', { id: 'pal', contentVersion: 23, minimumSaveVersion: 12 }],
     [
       'packages/migrate/baselines/pal/_state.json',
       { version: 1, managedFiles: ['manifest.json'], files: {} },
@@ -77,17 +77,17 @@ test('full JSON contract 拒绝错版本 current 工程与错误 scene identity'
   const wrongVersion = validJsonContracts()
   wrongVersion.set('projects/pal/manifest.json', {
     id: 'pal',
-    contentVersion: 21,
+    contentVersion: 22,
     minimumSaveVersion: 12,
   })
-  assert.throws(() => assertFullJsonContracts(wrongVersion), /content22\/SAVE12/)
+  assert.throws(() => assertFullJsonContracts(wrongVersion), /content23\/SAVE12/)
   const wrongSaveFloor = validJsonContracts()
   wrongSaveFloor.set('projects/pal/manifest.json', {
     id: 'pal',
-    contentVersion: 22,
+    contentVersion: 23,
     minimumSaveVersion: 11,
   })
-  assert.throws(() => assertFullJsonContracts(wrongSaveFloor), /content22\/SAVE12/)
+  assert.throws(() => assertFullJsonContracts(wrongSaveFloor), /content23\/SAVE12/)
   const wrongScene = validJsonContracts()
   wrongScene.set('data/extracted/data/scene/14.json', { sceneId: 17 })
   assert.throws(() => assertFullJsonContracts(wrongScene), /sceneId 不匹配/)

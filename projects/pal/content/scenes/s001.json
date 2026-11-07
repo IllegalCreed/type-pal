@@ -340,45 +340,41 @@
             "label": "默认触发行为",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
-                  "id": "initial",
-                  "body": [
-                    {
-                      "asset": "sound.pal.078",
-                      "kind": "playSound"
-                    },
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.685"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "itemId": "99",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "kind": "setEntityState",
-                      "state": 0,
-                      "target": {
-                        "scene": "s001",
-                        "entity": "e4"
-                      }
-                    }
-                  ]
+              "kind": "acquisition",
+              "recipe": "builtin/item/search",
+              "stages": {
+                "available": {
+                  "id": "initial"
+                },
+                "collected": {
+                  "id": "collected",
+                  "label": "已搜刮"
                 }
-              ]
+              },
+              "rewards": [
+                {
+                  "kind": "item",
+                  "itemId": "99",
+                  "count": 1
+                }
+              ],
+              "notice": {
+                "kind": "custom",
+                "timing": "before",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.685"
+                    }
+                  ],
+                  "slot": "narration"
+                }
+              },
+              "sound": "sound.pal.078",
+              "afterCollect": "disable"
             }
           }
         }
@@ -1661,27 +1657,27 @@
                       },
                       "to": {
                         "col": 60,
-                      "row": -12,
-                      "height": 0
+                        "row": -12,
+                        "height": 0
+                      },
+                      "speed": "normal"
                     },
-                    "speed": "normal"
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 100
-                  },
-                  {
-                    "kind": "setEntityState",
-                    "target": {
-                      "scene": "s001",
-                      "entity": "e3"
+                    {
+                      "kind": "wait",
+                      "ms": 100
                     },
-                    "state": 1
-                  },
-                  {
-                    "kind": "wait",
-                    "ms": 100
-                  },
+                    {
+                      "kind": "setEntityState",
+                      "target": {
+                        "scene": "s001",
+                        "entity": "e3"
+                      },
+                      "state": 1
+                    },
+                    {
+                      "kind": "wait",
+                      "ms": 100
+                    },
                     {
                       "kind": "setEntityState",
                       "target": {
@@ -2800,8 +2796,16 @@
                       }
                     },
                     {
-                      "kind": "giveMoney",
-                      "delta": 50
+                      "kind": "grantReward",
+                      "rewards": [
+                        {
+                          "kind": "money",
+                          "amount": 50
+                        }
+                      ],
+                      "notice": {
+                        "kind": "silent"
+                      }
                     },
                     {
                       "kind": "clearDialog"

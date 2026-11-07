@@ -157,6 +157,39 @@ test('inventory includes unvisited and empty steps in both entity and scene chan
   assert.throws(() => inventoryScenes([duplicate]), /duplicate step/)
 })
 
+test('recipe steps retain stable progress identities and invalidate evidence when parameters change', () => {
+  const source = scene()
+  source.entities[0].behaviors.trigger = {
+    search: {
+      flow: {
+        kind: 'acquisition',
+        recipe: 'builtin/item/search',
+        stages: { available: { id: 'first' }, collected: { id: 'empty' } },
+        rewards: [{ kind: 'item', itemId: '99', count: 1 }],
+        notice: { kind: 'silent' },
+        afterCollect: 'repeat',
+        empty: { kind: 'silent' },
+      },
+    },
+  }
+  const inventory = inventoryScenes([source])
+  const first = [...inventory.values()].filter((row) => row.entry.channel === 'trigger')
+  assert.deepEqual(
+    first.map((row) => row.entry.stageId),
+    ['first', 'empty'],
+  )
+  const recipe = source.entities[0].behaviors.trigger.search.flow
+  recipe.rewards[0].count = 2
+  const changed = inventoryScenes([source])
+  for (const row of first) {
+    const after = changed.get(entryKey(row.entry))
+    assert.deepEqual(after.entry, row.entry)
+    assert.notEqual(after.sourceFingerprint, row.sourceFingerprint)
+  }
+  recipe.stages.collected.id = 'first'
+  assert.throws(() => inventoryScenes([source]), /duplicate step/)
+})
+
 test('linear events keep review, saved initial state, optimization and invocation contexts independent', async () => {
   const preview = { stateId: 'door', selection: 'default' }
   const result = await report([
