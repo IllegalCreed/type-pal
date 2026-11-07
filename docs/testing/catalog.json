@@ -4103,6 +4103,115 @@
         ]
       },
       "reviewScope": "候选双轨与终档存读通过，用户确认 73.20 秒分屏。两处跨场景和静态初态保存重开通过，苗刀箱第 2–4 次单独预览的开盖帧仍待核。"
+    },
+    {
+      "id": "q2-battle-foundation",
+      "kind": "report",
+      "title": "Q2 首批正常战斗入口与对照闭环",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": [
+        "Native Game public fixture and Reforge public trial executions",
+        "Independent finite business oracle and original-byte offline rejudging",
+        "Contributor source review and root independent acceptance; user visual pending"
+      ],
+      "domain": "cross-phase",
+      "module": "battle-foundation",
+      "canonical": "domains/cross-phase/battle-foundation/report.md",
+      "index": "domains/cross-phase/battle-foundation/README.md",
+      "evidence": "domains/cross-phase/battle-foundation/evidence.json",
+      "tags": ["battle", "Q2", "foundation", "normal-combat"],
+      "lastVerified": "2026-11-07",
+      "dependsOn": [],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/battle-foundation.mjs",
+          "lines": "45",
+          "anchor": "await runBrowserJourney({",
+          "role": "caller",
+          "sha256": "7494783fc9ae92f230a104eb66990fce89ac931af54000f4b70e0b12206f564d"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-scenarios.mjs",
+          "lines": "13",
+          "anchor": "function defineScenario(",
+          "role": "input-and-independent-oracle",
+          "sha256": "695f1e25cabd9c7fc3b7766064162523728277830f11e253e69c735c94b505ea"
+        },
+        {
+          "path": "scripts/e2e/battle-game-adapter.mjs",
+          "lines": "215",
+          "anchor": "launch(input) {",
+          "role": "public-fixture-adapter",
+          "sha256": "a7119fc64a6d860a0c7825f87732ab6243946efe31114305a21dbd0ac3683bd8"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-adapter.mjs",
+          "lines": "121",
+          "anchor": "running = runBattleTrial(",
+          "role": "public-trial-adapter",
+          "sha256": "906825f69dc5edb3f65dbcb650518890ddc8061d66a2395128525fe8a832b251"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-contract.mjs",
+          "lines": "558",
+          "anchor": "export function validateBattleTrace(",
+          "role": "oracle",
+          "sha256": "2cee6fda2ece4e7b189e2bd9ae70ba84155b0200c36dd54acd7b14eff16278d6"
+        },
+        {
+          "path": "scripts/e2e/battle-foundation-compare.mjs",
+          "lines": "23",
+          "anchor": "export async function compareBattleReports(",
+          "role": "offline-caller",
+          "sha256": "488d425ec25444c28e30acff9a4387923bd2e61e2ec5de570d352b0cb6ee8c91"
+        }
+      ],
+      "publicCallers": [
+        "node scripts/e2e/battle-foundation.mjs --engine=game",
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge",
+        "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY",
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=herb-settlement --repeat=1 --counter=double-herb"
+      ],
+      "legalInputs": [
+        "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
+        "Each engine runs each setup twice in fresh contexts. Public Game applyFixture and Reforge runBattleTrial prepare the state; all later commands use real keyboard/menu selection.",
+        "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used."
+      ],
+      "businessOracle": {
+        "type": "q2-finite-state-and-native-repeat",
+        "assertions": [
+          "Exact start state and five enemy slots, submitted command actor/target/order and completed action before/after state.",
+          "One/three distinct HP30 lanterns receive the selected lethal ordinary attacks, with no undeclared autonomous enemy action.",
+          "Herb99 heals hero50 to100 and consumes exactly one of two; formal victory yields hero125, exp1 and cash3. Party victory gives each member exp3 and cash9.",
+          "Formal settlement commits exactly once; all three cases pass independent state oracles, cross-engine effective-state comparison and same-engine native/rule-RNG repeat checks.",
+          "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry."
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": [
+          "Q1 001-010 speed-win story verification",
+          "battle-host and battle-session source audits",
+          "existing rule/unit tests"
+        ],
+        "notes": "New runtime entry/collector/comparison obligations only. No full-rule, raw-damage, AI, audiovisual or world/save lifecycle credit."
+      },
+      "revision": {
+        "currentSha": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+        "contentVersion": 23,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "revision": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+            "date": "2026-11-07",
+            "action": "first-batch-native-normal-battle-foundation",
+            "scope": "12 clean native battles plus real item counter/restoration, original-byte offline comparison and entry integrity controls; human visual pending"
+          }
+        ]
+      }
     }
   ],
   "_governance": {
@@ -4233,6 +4342,10 @@
       {
         "id": "e2e-010",
         "conclusion": "同路 279 步、宫外引路实绘、四次开箱、饮水、交药与实际终档通过。用户确认 73.20 秒分屏，三次续查的开盖帧仍待单独预览复核。"
+      },
+      {
+        "id": "q2-battle-foundation",
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

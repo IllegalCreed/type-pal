@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 24 个唯一 ID、5 个状态组：active 1；current 11；proposal 1；rework 1；verified 10。每个 ID 仅落入自己的原状态组。
+当前 25 个唯一 ID、5 个状态组：active 1；current 11；proposal 1；rework 1；verified 11。每个 ID 仅落入自己的原状态组。
 
 ## 当前状态
 
@@ -79,6 +79,7 @@ Template: governance-index-v1 / 1.0.0
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
 | e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | verified | Codex |
+| q2-battle-foundation | [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md) | verified | Codex |
 
 ## 证据与下一步
 
