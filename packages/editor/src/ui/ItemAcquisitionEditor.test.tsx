@@ -280,6 +280,47 @@ test('switches notice modes with exact compatible fields and preserves an explic
   expect(currentFlow(session)).toHaveProperty('notice.kind', 'custom')
 })
 
+test('enables a standard notice from silence and reversibly changes its timing without altering the recipe', async () => {
+  const original: AuthorAcquisitionFlow = {
+    kind: 'acquisition',
+    recipe: 'builtin/item/pickup',
+    stages: {
+      available: { id: 'pickup-found', label: '尚未领取' },
+    },
+    rewards: [
+      { kind: 'item', itemId: 'seed', count: 2 },
+      { kind: 'money', amount: 35 },
+    ],
+    notice: { kind: 'silent' },
+  }
+  const session = new ScriptEditSession(scriptState(original))
+  await act(async () => root.render(<FlowHarness session={session} />))
+  await choose('提示方式', '按领取内容显示')
+  const before: AuthorAcquisitionFlow = {
+    ...original,
+    notice: { kind: 'standard', timing: 'before' },
+  }
+  expect(currentFlow(session)).toEqual(before)
+  expect(session.getHistoryVersion()).toBe(1)
+  await choose('提示时机', '领取后显示提示')
+  const after: AuthorAcquisitionFlow = {
+    ...original,
+    notice: { kind: 'standard', timing: 'after' },
+  }
+  expect(currentFlow(session)).toEqual(after)
+  expect(session.getHistoryVersion()).toBe(2)
+  await choose('提示时机', '确认提示后领取')
+  expect(currentFlow(session)).toEqual(before)
+  expect(session.getHistoryVersion()).toBe(3)
+  for (const expected of [after, before, original]) {
+    await act(async () => {
+      expect(session.undo()).toBe(true)
+    })
+    expect(currentFlow(session)).toEqual(expected)
+  }
+  expect(session.canUndo()).toBe(false)
+})
+
 test('custom notice text stays a local draft until apply and remains editable after save/reopen', async () => {
   const original: AuthorAcquisitionFlow = {
     ...createAcquisitionFlow('builtin/item/pickup', 'potion'),
