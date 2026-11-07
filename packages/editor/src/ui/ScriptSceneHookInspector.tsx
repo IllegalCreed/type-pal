@@ -235,6 +235,7 @@ export function ScriptSceneHookInspector(props: {
                 : undefined
             }
             onChange={(flow) =>
+              flow.kind === 'stages' &&
               dispatch(new UpdateSceneHookCommand(props.sceneId, props.slot, selectedId, { flow }))
             }
           />

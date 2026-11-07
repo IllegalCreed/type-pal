@@ -418,6 +418,7 @@ function projectPreviewFlow(
   self: { scene: string; entity: string },
   sharedScripts: AuthorScriptLibrary,
 ): ScriptStage[] {
+  if (flow.kind === 'acquisition') return []
   const byId = new Map(flow.stages.map((stage) => [stage.id, stage]))
   const ids = orderedIds(
     flow.initial,
@@ -1231,6 +1232,7 @@ function collectCanonicalFrameSamples(
       }
     })
   if (
+    source.flow.kind === 'acquisition' ||
     !source.flow.stages.every(
       (stage) => !stage.entry && pureBody(stage.body, new Set(), source.self),
     )
@@ -1398,9 +1400,11 @@ function describeAutomaticEntityBehavior(
     Number.isInteger(actualFrameCount) &&
     actualFrameCount > 0
   const canonical = entity.spritePreviewScript
-  const hasConditionalLoop = canonical?.flow.stages.some((stage) =>
-    containsConditionalVisualLoop(stage.body, canonical.sharedScripts),
-  )
+  const hasConditionalLoop =
+    canonical?.flow.kind === 'stages' &&
+    canonical.flow.stages.some((stage) =>
+      containsConditionalVisualLoop(stage.body, canonical.sharedScripts),
+    )
   const preview = canResolvePhysicalFrames
     ? hasConditionalLoop
       ? collectCanonicalFrameSamples(entity, actualFrameCount)

@@ -68,7 +68,7 @@ const commandVisit = (
 const manifest = {
   id: 'test',
   name: 'Test',
-  contentVersion: 22,
+  contentVersion: 23,
   defaultEntryId: 'main',
   entryPoints: [
     {

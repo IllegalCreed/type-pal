@@ -101,7 +101,7 @@ function state(): EditorState {
     manifest: {
       id: 'test-project',
       name: '测试项目',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},

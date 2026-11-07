@@ -3,6 +3,7 @@ import {
   type AuthorSceneDef,
   type AuthorScriptFlow,
   type AuthorScriptLibrary,
+  type AuthorStagesFlow,
   checkAuthorScriptFlow,
   checkAuthorScriptLibrary,
   type Locale,
@@ -23,7 +24,7 @@ afterEach(async () => {
 })
 
 export const target = { scene: 'preview-room', entity: 'npc' }
-export function flowOf(body: AuthorCommand[]): AuthorScriptFlow {
+export function flowOf(body: AuthorCommand[]): AuthorStagesFlow {
   return { kind: 'stages', initial: 'main', stages: [{ id: 'main', body }] }
 }
 export function dialogue(text = 'preview.question'): AuthorCommand {

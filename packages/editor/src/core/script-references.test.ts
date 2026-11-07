@@ -27,7 +27,7 @@ function baseState(): EditorState {
     manifest: {
       id: 'test',
       name: 'test',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {

@@ -16,7 +16,8 @@
         "command-form-dialogue.tsx",
         "command-form-world.tsx",
         "ScriptSceneHookInspector.tsx",
-        "ScriptBehaviorInspector.tsx"
+        "ScriptBehaviorInspector.tsx",
+        "ItemAcquisitionEditor.tsx"
       ],
       "transactions": [
         {
@@ -80,6 +81,16 @@
           "controlOwners": ["ScriptSchemeDetailsDialog"],
           "fields": ["scriptScheme.name", "scriptScheme.default"],
           "verification": "ScriptEditor.test.tsx"
+        },
+        {
+          "id": "shared-acquisition-parameters",
+          "kind": "field-draft",
+          "fields": [
+            "entity.behaviors.trigger[*].flow.rewards[*].count",
+            "entity.behaviors.trigger[*].flow.rewards[*].amount",
+            "entity.behaviors.trigger[*].flow.opening.frame"
+          ],
+          "verification": "ItemAcquisitionEditor.test.tsx"
         }
       ]
     },

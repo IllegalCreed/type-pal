@@ -1,3 +1,4 @@
+import { resolveAuthorDialogueTree } from '@type-pal/content'
 /**
  * EDITOR-SAVE-RECOVERY-1 · preflight-r1 · B组：序列化完整性（S01–S04）。
  * 全部状态由真实 buildBlankProject/finishOpen/toEditorState 构造；序列化与 loader 为生产实现。
@@ -121,7 +122,7 @@ test('entity names survive actual dual-session serialization and current loader 
   ])
   expect(saved.entities[0]!.behaviors).toEqual(scene.entities[0]!.behaviors)
   expect(saved.entities[0]).toMatchObject({ actor: 'hero' })
-  expect(reopened.manifest.contentVersion).toBe(22)
+  expect(reopened.manifest.contentVersion).toBe(23)
   expect(reopened.manifest.minimumSaveVersion).toBe(12)
 })
 
@@ -156,7 +157,7 @@ test('named steps survive canonical scene serialization and real current loader 
   const reopened = await loadCurrentProjectFrom(fsaSource(output.dir))
   const scenes = await loadAllAuthorScenes(reopened)
   expect(scenes[0]?.hooks).toEqual(scene.hooks)
-  expect(reopened.manifest.contentVersion).toBe(22)
+  expect(reopened.manifest.contentVersion).toBe(23)
   expect(reopened.manifest.minimumSaveVersion).toBe(12)
 })
 
@@ -224,7 +225,9 @@ test('nested confirmation, named loop control and shared returns survive current
   }
   const before = structuredClone({ scene, sharedScripts })
   const state = toEditorState(opened.project, [scene], {}, {}, [])
-  state.sharedScripts = sharedScripts
+  state.sharedScripts = resolveAuthorDialogueTree(sharedScripts, {}, 'test.sharedScripts', {
+    items: state.items,
+  })
   const files = await serializeProjectWithMapCopies(state, fsaSource(disk.dir))
   const reopened = await loadCurrentProjectFrom(
     fsaSource(memoryAuthorDirectory(structuredClone(files)).dir),

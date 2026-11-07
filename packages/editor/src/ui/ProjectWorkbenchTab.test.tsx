@@ -158,7 +158,7 @@ function projectState(): EditorState {
     manifest: {
       id: 'project-test',
       name: '测试项目',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {},
@@ -1854,7 +1854,7 @@ describe('项目设置工作区', () => {
       ),
     )
 
-    expect(host.textContent).toContain('内容版本 22')
+    expect(host.textContent).toContain('内容版本 23')
     expect(host.textContent).toContain('最低存档版本 12')
 
     await act(async () =>

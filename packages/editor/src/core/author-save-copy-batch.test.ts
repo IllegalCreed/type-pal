@@ -256,7 +256,7 @@ function batchPlan(): AuthorSavePlan {
     {
       kind: 'type-pal-author-save-plan',
       version: 2,
-      contentVersion: 22,
+      contentVersion: 23,
       operationId: crypto.randomUUID(),
       identity,
       barriers: ['manifest.json', 'assets/catalog.json'],

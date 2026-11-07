@@ -1,13 +1,13 @@
 {
   "version": 1,
   "baseline": {
-    "files": 41,
-    "leafCalls": 122,
+    "files": 43,
+    "leafCalls": 125,
     "controls": {
       "DsNumberInput": 56,
       "DsDraftNumberInput": 29,
       "DsNumberField": 5,
-      "DsDraftNumberField": 32
+      "DsDraftNumberField": 35
     }
   },
   "modes": [
@@ -22,7 +22,10 @@
     {
       "source": "ShopTab.tsx",
       "component": "ShopTab",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsNumberField",
@@ -36,7 +39,10 @@
     {
       "source": "ActorMode.tsx",
       "component": "ActorStatField",
-      "match": { "context": "none", "fieldClass": "actor-stat-field" },
+      "match": {
+        "context": "none",
+        "fieldClass": "actor-stat-field"
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -50,7 +56,10 @@
     {
       "source": "AmbienceTab.tsx",
       "component": "AmbienceTintFields",
-      "match": { "context": "field", "fieldClass": "" },
+      "match": {
+        "context": "field",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "range-timeline",
       "control": "DsNumberInput",
@@ -64,7 +73,10 @@
     {
       "source": "App.tsx",
       "component": "EntityInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 8,
       "mode": "coordinate-frame",
       "control": "DsDraftNumberInput",
@@ -78,7 +90,10 @@
     {
       "source": "App.tsx",
       "component": "EntryInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 3,
       "mode": "coordinate-frame",
       "control": "DsDraftNumberInput",
@@ -92,7 +107,10 @@
     {
       "source": "App.tsx",
       "component": "NamedEntryInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "coordinate-frame",
       "control": "DsDraftNumberInput",
@@ -106,7 +124,10 @@
     {
       "source": "App.tsx",
       "component": "PlacePalette",
-      "match": { "context": "field-measure", "fieldClass": "" },
+      "match": {
+        "context": "field-measure",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -120,7 +141,10 @@
     {
       "source": "BattleFieldTab.tsx",
       "component": "BattleFieldTab",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -134,7 +158,10 @@
     {
       "source": "BattleFieldTab.tsx",
       "component": "BattleFieldTab",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -148,7 +175,10 @@
     {
       "source": "BattleSpriteLibrary.tsx",
       "component": "BattleSpriteLibrary",
-      "match": { "context": "native-label", "fieldClass": "" },
+      "match": {
+        "context": "native-label",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -162,7 +192,10 @@
     {
       "source": "BattleSpriteLibrary.tsx",
       "component": "NumberField",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "id-code-readout",
       "control": "DsNumberInput",
@@ -176,7 +209,10 @@
     {
       "source": "BattleSpriteUploader.tsx",
       "component": "BattleSpriteUploader",
-      "match": { "context": "field-measure", "fieldClass": "" },
+      "match": {
+        "context": "field-measure",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -190,7 +226,10 @@
     {
       "source": "CasualtyEditor.tsx",
       "component": "BranchEditor",
-      "match": { "context": "native-label", "fieldClass": "" },
+      "match": {
+        "context": "native-label",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -204,7 +243,10 @@
     {
       "source": "CasualtyEditor.tsx",
       "component": "CasualtyEditor",
-      "match": { "context": "none", "fieldClass": "casualty-chance-field" },
+      "match": {
+        "context": "none",
+        "fieldClass": "casualty-chance-field"
+      },
       "count": 1,
       "mode": "bounded-exception",
       "control": "DsDraftNumberField",
@@ -218,7 +260,10 @@
     {
       "source": "command-form-controls.tsx",
       "component": "Num",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
@@ -232,7 +277,10 @@
     {
       "source": "command-form-actor.tsx",
       "component": "ActorCommandForm",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
@@ -246,7 +294,10 @@
     {
       "source": "CutsceneTab.tsx",
       "component": "CutsceneTab",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsNumberField",
@@ -260,7 +311,10 @@
     {
       "source": "EnemyAnimPreview.tsx",
       "component": "NumberInput",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "coordinate-frame",
       "control": "DsDraftNumberInput",
@@ -274,7 +328,10 @@
     {
       "source": "EnemyTab.tsx",
       "component": "EnemyTab",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 4,
       "mode": "bounded-exception",
       "control": "DsDraftNumberField",
@@ -288,7 +345,10 @@
     {
       "source": "EnemyTab.tsx",
       "component": "EnemyTab",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -302,7 +362,10 @@
     {
       "source": "EnemyTab.tsx",
       "component": "RuleRow",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 3,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -316,7 +379,10 @@
     {
       "source": "EntityPageAnimationEditor.tsx",
       "component": "EntityPageAnimationFields",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "range-timeline",
       "control": "DsDraftNumberInput",
@@ -330,7 +396,10 @@
     {
       "source": "FrameAnimationEditor.tsx",
       "component": "FrameAnimationEditor",
-      "match": { "context": "field", "fieldClass": "" },
+      "match": {
+        "context": "field",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "range-timeline",
       "control": "DsNumberInput",
@@ -344,7 +413,10 @@
     {
       "source": "ItemTab.tsx",
       "component": "ItemTab",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -358,7 +430,10 @@
     {
       "source": "ItemTab.tsx",
       "component": "Num",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -372,7 +447,10 @@
     {
       "source": "ItemAlchemyEditors.tsx",
       "component": "RecipeAmountField",
-      "match": { "context": "none", "fieldClass": "item-alchemy-amount-count-field" },
+      "match": {
+        "context": "none",
+        "fieldClass": "item-alchemy-amount-count-field"
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberField",
@@ -386,7 +464,10 @@
     {
       "source": "ItemAlchemyEditors.tsx",
       "component": "ResourceRewardTierList",
-      "match": { "context": "none", "fieldClass": "item-alchemy-reward-count" },
+      "match": {
+        "context": "none",
+        "fieldClass": "item-alchemy-reward-count"
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberField",
@@ -400,7 +481,10 @@
     {
       "source": "ItemAlchemyTab.tsx",
       "component": "ItemAlchemyTab",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -414,7 +498,10 @@
     {
       "source": "ItemUseEffectEditor.tsx",
       "component": "NumberField",
-      "match": { "context": "field-group", "fieldClass": "item-effect-field" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": "item-effect-field"
+      },
       "count": 1,
       "mode": "bounded-exception",
       "control": "DsDraftNumberField",
@@ -428,7 +515,10 @@
     {
       "source": "LevelCurveEditor.tsx",
       "component": "LevelCurveEditor",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -442,7 +532,10 @@
     {
       "source": "LevelCurveEditor.tsx",
       "component": "LevelCurveEditor",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "main-form-short",
       "control": "DsNumberField",
@@ -456,7 +549,10 @@
     {
       "source": "LevelingEditor.tsx",
       "component": "LevelingEditorImpl",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "bounded-exception",
       "control": "DsDraftNumberInput",
@@ -470,7 +566,10 @@
     {
       "source": "MapMode.tsx",
       "component": "MapMode",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -484,7 +583,10 @@
     {
       "source": "MapSelectionInspector.tsx",
       "component": "MapSelectionInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 3,
       "mode": "id-code-readout",
       "control": "DsNumberInput",
@@ -498,7 +600,10 @@
     {
       "source": "PoisonTab.tsx",
       "component": "Num",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -512,7 +617,10 @@
     {
       "source": "ProjectWorkbenchTab.tsx",
       "component": "StartWorldFields",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -526,7 +634,10 @@
     {
       "source": "ProjectWorkbenchTab.tsx",
       "component": "StartWorldFields",
-      "match": { "context": "none", "fieldClass": "project-inventory-count" },
+      "match": {
+        "context": "none",
+        "fieldClass": "project-inventory-count"
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberField",
@@ -540,7 +651,10 @@
     {
       "source": "ProjectWorkbenchTab.tsx",
       "component": "StartWorldFields",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -554,7 +668,10 @@
     {
       "source": "ProjectWorkbenchTab.tsx",
       "component": "StartWorldFields",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -568,7 +685,10 @@
     {
       "source": "ProjectWorkbenchTab.tsx",
       "component": "ActorConditionSeedDialog",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -582,7 +702,10 @@
     {
       "source": "ScriptEditor.tsx",
       "component": "CanonicalCommandForm",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 13,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
@@ -596,7 +719,10 @@
     {
       "source": "ScriptEditor.tsx",
       "component": "ConditionEditor",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 6,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
@@ -610,7 +736,10 @@
     {
       "source": "ScriptEditor.tsx",
       "component": "primitiveField",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsNumberInput",
@@ -624,7 +753,10 @@
     {
       "source": "ScriptTree.tsx",
       "component": "SceneEntrySections",
-      "match": { "context": "native-label", "fieldClass": "" },
+      "match": {
+        "context": "native-label",
+        "fieldClass": ""
+      },
       "count": 3,
       "mode": "range-timeline",
       "control": "DsNumberInput",
@@ -638,7 +770,10 @@
     {
       "source": "SkillAnimationEditor.tsx",
       "component": "AnimationNumberField",
-      "match": { "context": "none", "fieldClass": "skill-animation-field" },
+      "match": {
+        "context": "none",
+        "fieldClass": "skill-animation-field"
+      },
       "count": 1,
       "mode": "bounded-exception",
       "control": "DsDraftNumberField",
@@ -652,7 +787,10 @@
     {
       "source": "SkillTab.tsx",
       "component": "N",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -666,7 +804,10 @@
     {
       "source": "SkillTab.tsx",
       "component": "SkillTab",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 4,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -680,7 +821,10 @@
     {
       "source": "SkillTab.tsx",
       "component": "SkillTab",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "compact-repeat-row",
       "control": "DsDraftNumberInput",
@@ -694,7 +838,10 @@
     {
       "source": "SpriteActionEditor.tsx",
       "component": "StepDurationInput",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "range-timeline",
       "control": "DsDraftNumberInput",
@@ -708,7 +855,10 @@
     {
       "source": "SpriteResourceViewer.tsx",
       "component": "SpriteResourceViewer",
-      "match": { "context": "field", "fieldClass": "" },
+      "match": {
+        "context": "field",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -722,7 +872,10 @@
     {
       "source": "SpriteUploadWizard.tsx",
       "component": "SpriteUploadWizard",
-      "match": { "context": "field-measure", "fieldClass": "" },
+      "match": {
+        "context": "field-measure",
+        "fieldClass": ""
+      },
       "count": 5,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -736,7 +889,10 @@
     {
       "source": "StampContentEditor.tsx",
       "component": "StampContentEditor",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -750,7 +906,10 @@
     {
       "source": "StampPlacementSelectionInspector.tsx",
       "component": "StampPlacementSelectionInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 3,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -764,7 +923,10 @@
     {
       "source": "StampTemplateDialog.tsx",
       "component": "StampTemplateDialog",
-      "match": { "context": "field-measure", "fieldClass": "" },
+      "match": {
+        "context": "field-measure",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -778,7 +940,10 @@
     {
       "source": "TilesetTab.tsx",
       "component": "TilesetTab",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsNumberInput",
@@ -792,7 +957,10 @@
     {
       "source": "VarsTab.tsx",
       "component": "VarsTab",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsNumberField",
@@ -806,7 +974,10 @@
     {
       "source": "WorldSpriteLibrary.tsx",
       "component": "WorldSpriteLibrary",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "id-code-readout",
       "control": "DsDraftNumberInput",
@@ -820,7 +991,10 @@
     {
       "source": "BattleSimulatorForms.tsx",
       "component": "TrialBagEditor",
-      "match": { "context": "none", "fieldClass": "" },
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -834,7 +1008,10 @@
     {
       "source": "BattleSimulatorForms.tsx",
       "component": "TrialPartyEditor",
-      "match": { "context": "number-grid", "fieldClass": "" },
+      "match": {
+        "context": "number-grid",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -848,7 +1025,10 @@
     {
       "source": "BattleSimulatorForms.tsx",
       "component": "TrialPoolField",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -862,7 +1042,10 @@
     {
       "source": "BattleSimulatorWorkbench.tsx",
       "component": "BattleSimulatorWorkbench",
-      "match": { "context": "field-group", "fieldClass": "" },
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
       "count": 1,
       "mode": "main-form-short",
       "control": "DsDraftNumberField",
@@ -876,7 +1059,10 @@
     {
       "source": "SceneInitialStateEditor.tsx",
       "component": "SceneInitialStateInspector",
-      "match": { "context": "property-row", "fieldClass": "" },
+      "match": {
+        "context": "property-row",
+        "fieldClass": ""
+      },
       "count": 2,
       "mode": "coordinate-frame",
       "control": "DsDraftNumberInput",
@@ -886,6 +1072,57 @@
       "reason": "三轴坐标与画序偏置位于右侧初始状态 Inspector，仅提交预览侧车。",
       "verification": "SceneScriptWorkspace.test.tsx + core/editor-history-coordinator.test.ts",
       "removalCondition": "状态属性移出 Inspector 时改用数字字段主表单合同。"
+    },
+    {
+      "source": "ItemAcquisitionEditor.tsx",
+      "component": "RewardList",
+      "match": {
+        "context": "none",
+        "fieldClass": "acquisition-reward-count"
+      },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:N6B-ITEM-FLOWS-1",
+      "reason": "取物奖励数量、开盖帧与展开后提示数量使用公共数字草稿字段。",
+      "verification": "ItemAcquisitionEditor.test.tsx",
+      "removalCondition": "取物参数表单退役时删除。"
+    },
+    {
+      "source": "ItemAcquisitionEditor.tsx",
+      "component": "AcquisitionFields",
+      "match": {
+        "context": "field-group",
+        "fieldClass": ""
+      },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:N6B-ITEM-FLOWS-1",
+      "reason": "取物奖励数量、开盖帧与展开后提示数量使用公共数字草稿字段。",
+      "verification": "ItemAcquisitionEditor.test.tsx",
+      "removalCondition": "取物参数表单退役时删除。"
+    },
+    {
+      "source": "command-form-dialogue.tsx",
+      "component": "DialogueCommandForm",
+      "match": {
+        "context": "none",
+        "fieldClass": ""
+      },
+      "count": 1,
+      "mode": "main-form-short",
+      "control": "DsDraftNumberField",
+      "measure": "canonical-short",
+      "grid": "single",
+      "owner": "card:N6B-ITEM-FLOWS-1",
+      "reason": "取物奖励数量、开盖帧与展开后提示数量使用公共数字草稿字段。",
+      "verification": "ItemAcquisitionEditor.test.tsx",
+      "removalCondition": "取物参数表单退役时删除。"
     }
   ],
   "wrappers": [
@@ -1058,6 +1295,26 @@
       "reason": "命名预设与临时覆写复用同一数值字段。",
       "verification": "scripts/battle-simulator-ui.test.tsx",
       "removalCondition": "删除对应组件时移除。"
+    },
+    {
+      "source": "ItemAcquisitionEditor.tsx",
+      "component": "AcquisitionFields",
+      "consumerCount": 2,
+      "context": "form",
+      "owner": "card:N6B-ITEM-FLOWS-1",
+      "reason": "方案新建与编辑、普通对话与取物自定文字复用同一参数字段。",
+      "verification": "ItemAcquisitionEditor.test.tsx",
+      "removalCondition": "消费者合并或退役时删除。"
+    },
+    {
+      "source": "command-form-dialogue.tsx",
+      "component": "DialogueCommandForm",
+      "consumerCount": 2,
+      "context": "form",
+      "owner": "card:N6B-ITEM-FLOWS-1",
+      "reason": "方案新建与编辑、普通对话与取物自定文字复用同一参数字段。",
+      "verification": "ItemAcquisitionEditor.test.tsx",
+      "removalCondition": "消费者合并或退役时删除。"
     }
   ],
   "renderMultiplicities": [

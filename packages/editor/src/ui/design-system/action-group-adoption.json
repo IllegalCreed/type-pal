@@ -1,9 +1,9 @@
 {
   "version": 1,
   "baseline": {
-    "groups": 16,
-    "moveButtons": 42,
-    "adoptedMoveButtons": 24,
+    "groups": 17,
+    "moveButtons": 44,
+    "adoptedMoveButtons": 26,
     "rawMoveButtons": 18,
     "candidateSurfaces": 9
   },
@@ -167,6 +167,16 @@
       "actionMode": "icon-only",
       "moveButtonCount": 0,
       "verification": "InitialStateWorkspace.test.tsx"
+    },
+    {
+      "id": "script/item-rewards/actions",
+      "source": "ItemAcquisitionEditor.tsx",
+      "fingerprint": "className=\"acquisition-reward-actions\"",
+      "occurrence": 1,
+      "density": "default",
+      "actionMode": "icon-only",
+      "moveButtonCount": 2,
+      "verification": "ItemAcquisitionEditor.test.tsx"
     }
   ],
   "candidates": [

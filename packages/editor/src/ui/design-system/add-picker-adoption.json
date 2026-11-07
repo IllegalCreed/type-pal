@@ -1,9 +1,9 @@
 {
   "version": 1,
   "baseline": {
-    "included": 8,
+    "included": 9,
     "deferredOwners": 7,
-    "includedDataPaths": 17,
+    "includedDataPaths": 19,
     "deferredDataPaths": 7
   },
   "included": [
@@ -121,6 +121,22 @@
       "verification": {
         "file": "ui/InitialStateWorkspace.test.tsx",
         "marker": "[add-picker:scene/initial-state-scene]"
+      }
+    },
+    {
+      "adoptionId": "script/item-rewards",
+      "source": "ItemAcquisitionEditor.tsx",
+      "owner": "RewardList",
+      "dataPaths": [
+        "entity.behaviors.trigger[*].flow.rewards",
+        "AuthorCommand.grantReward.rewards"
+      ],
+      "candidateOwner": "live project items",
+      "mutationOwner": "UpdateEntityBehaviorCommand or current ScriptBody command",
+      "callsiteFingerprint": "aac56200dbfd6114",
+      "verification": {
+        "file": "ui/ItemAcquisitionEditor.test.tsx",
+        "marker": "[add-picker:script/item-rewards]"
       }
     }
   ],

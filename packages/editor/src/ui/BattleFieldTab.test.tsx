@@ -29,7 +29,7 @@ function state(fields: BattleFieldDef[], declared = true): EditorState {
     manifest: {
       id: 'test',
       name: '测试',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'main',
       content: {

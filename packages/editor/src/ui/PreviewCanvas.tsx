@@ -1,3 +1,4 @@
+import { resolveDialogueRowText } from '@type-pal/content'
 /**
  * 演出预览画布(v0)—— 事件模式内嵌:播放/暂停/单步/重置/倍速 + 对话条。
  * 渲染复用 reforge renderSceneFrame;演出态来自 Playback.view(overlay,不碰编辑数据)。
@@ -223,6 +224,7 @@ function collectCanonicalScriptSprites(
       }
     }
   }
+  if (flow.kind === 'acquisition') return []
   for (const stage of flow.stages) {
     walk(stage.entry?.prepare ?? [])
     walk(stage.body)
@@ -431,9 +433,10 @@ export function PreviewCanvas(props: {
           Object.values(slot?.variants ?? {}).map((hook) => hook.flow),
         ),
         ...source.entities.flatMap((entity) =>
-          Object.values(entity.behaviors ?? {}).flatMap((channel) =>
-            Object.values(channel ?? {}).map((behavior) => behavior.flow),
-          ),
+          [
+            ...Object.values(entity.behaviors?.trigger ?? {}),
+            ...Object.values(entity.behaviors?.auto ?? {}),
+          ].map((behavior) => behavior.flow),
         ),
       ]
       for (const flow of flows)
@@ -672,7 +675,9 @@ export function PreviewCanvas(props: {
   const activeConfirm = v.confirm
   const shownCue = dlg?.cue ?? (activeConfirm ? v.heldDialog : undefined)
   const speaker = shownCue?.speaker ? lookupText(shownCue.speaker, locale) : null
-  const text = shownCue ? shownCue.rows.map((row) => lookupText(row.text, locale)).join('\n') : null
+  const text = shownCue
+    ? shownCue.rows.map((row) => resolveDialogueRowText(row, locale)).join('\n')
+    : null
   useEffect(() => {
     if (activeConfirm) confirmNoRef.current?.focus()
   }, [activeConfirm])

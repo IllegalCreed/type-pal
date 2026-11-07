@@ -223,7 +223,7 @@ test.each([
   for (let step = 0; step < 200 && p.mode !== 'done'; step++) {
     await settle()
     if (p.view.dialog) {
-      rows.push(...p.view.dialog.cue.rows.map((row) => row.text))
+      rows.push(...p.view.dialog.cue.rows.flatMap((row) => ('text' in row ? [row.text] : [])))
       p.confirmDialog()
     } else p.tick(10_000)
   }

@@ -4,6 +4,7 @@ import type {
   AuthorSceneDef,
   AuthorSceneHooks,
   AuthorScriptFlow,
+  AuthorStagesFlow,
 } from '@type-pal/content'
 import { describe, expect, test, vi } from 'vitest'
 import {
@@ -65,7 +66,7 @@ const currentSharedScriptReferences = (state: ScriptEditorState) => {
 
 const target = { scene: 's001', entity: 'e1' }
 
-function firstRepeatStages(): AuthorScriptFlow {
+function firstRepeatStages(): AuthorStagesFlow {
   return {
     kind: 'stages',
     initial: 'first',
@@ -169,7 +170,7 @@ function selectionCommand(behaviorId: string): AuthorCommand {
   }
 }
 
-function stageFlow(stageId = 'start', body: AuthorCommand[] = []): AuthorScriptFlow {
+function stageFlow(stageId = 'start', body: AuthorCommand[] = []): AuthorStagesFlow {
   return {
     kind: 'stages',
     initial: stageId,

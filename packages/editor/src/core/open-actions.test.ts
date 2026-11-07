@@ -50,7 +50,7 @@ const PAL_WORKSPACE_ID = 'b71e6905-4422-4f0b-9bc4-a65f23f4c721'
 const palManifest = {
   id: 'pal',
   name: 'PAL',
-  contentVersion: 22,
+  contentVersion: 23,
   minimumSaveVersion: 12,
   defaultEntryId: 'main',
   assets: { catalog: 'assets/index.json', roles: {} },
@@ -264,7 +264,7 @@ describe('project creation and Save As target policy', () => {
     buildBlankProjectMock.mockResolvedValue({
       'manifest.json': {
         version: 1,
-        contentVersion: 22,
+        contentVersion: 23,
         minimumSaveVersion: 12,
         id: 'blank',
         name: 'Blank',

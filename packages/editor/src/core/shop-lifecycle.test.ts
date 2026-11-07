@@ -22,7 +22,7 @@ function state(shops: ShopDef[] = []): EditorState {
   return {
     manifest: {
       id: 'test',
-      contentVersion: 22,
+      contentVersion: 23,
       content: {},
       entryPoints: [],
       assets: { catalog: 'assets/index.json', roles: {} },

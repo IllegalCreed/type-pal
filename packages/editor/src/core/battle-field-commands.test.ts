@@ -40,7 +40,7 @@ function st(): EditorState {
     manifest: {
       id: 'test',
       name: 'Test',
-      contentVersion: 22,
+      contentVersion: 23,
       defaultEntryId: 'main',
       content: { maps: 'content/maps/index.json' },
       assets: {

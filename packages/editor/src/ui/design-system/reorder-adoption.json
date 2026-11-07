@@ -1,10 +1,10 @@
 {
   "version": 2,
   "baseline": {
-    "families": 17,
-    "adoptions": 27,
-    "dataPaths": 30,
-    "interactionOwnerFiles": 20
+    "families": 18,
+    "adoptions": 28,
+    "dataPaths": 32,
+    "interactionOwnerFiles": 21
   },
   "interactionOwnerFiles": [
     "ActorMode.tsx",
@@ -26,7 +26,8 @@
     "ScriptTree.tsx",
     "ShopTab.tsx",
     "SkillTab.tsx",
-    "SpriteActionEditor.tsx"
+    "SpriteActionEditor.tsx",
+    "ItemAcquisitionEditor.tsx"
   ],
   "families": [
     {
@@ -713,6 +714,38 @@
           "contentOwner": {
             "file": "ScriptEditor.tsx",
             "fingerprint": "script-scheme-card"
+          },
+          "railLayout": "inline",
+          "railOwner": {
+            "file": "design-system/reorder.css",
+            "fingerprint": ".ds-reorder-item[data-layout=\"inline\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "script-item-rewards",
+      "integrationVerification": {
+        "file": "ui/ItemAcquisitionEditor.test.tsx",
+        "marker": "[reorder-family:script-item-rewards]"
+      },
+      "adoptions": [
+        {
+          "adoptionId": "script/item-rewards",
+          "source": "ItemAcquisitionEditor.tsx",
+          "dataPaths": [
+            "entity.behaviors.trigger[*].flow.rewards",
+            "AuthorCommand.grantReward.rewards"
+          ],
+          "adapter": "linear-insert",
+          "identity": "editor-local-token",
+          "commandOwner": "UpdateEntityBehaviorCommand or current ScriptBody command",
+          "revisionOwner": "current recipe/reward draft",
+          "verification": ["ui/ItemAcquisitionEditor.test.tsx"],
+          "contentSurface": "repeat-row",
+          "contentOwner": {
+            "file": "ItemAcquisitionEditor.tsx",
+            "fingerprint": "className=\"acquisition-reward-row\""
           },
           "railLayout": "inline",
           "railOwner": {
