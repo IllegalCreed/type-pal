@@ -151,7 +151,32 @@ export function installGameBattleAdapter() {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
       liveRoles = roles
-      action = { ...describe(state, actor, nativeAction), before: snapshot() }
+      action = {
+        ...describe(state, actor, nativeAction),
+        before: snapshot(),
+        native: {
+          actor: structuredClone(actor),
+          command: structuredClone(nativeAction),
+          animationEffects: [],
+        },
+      }
+    })
+  globalThis.__battleGameActionProduced = (state) =>
+    observe(() => {
+      if (!scenario || state !== battle || !action) return
+      action.native.animationEffects = (state.battleAnim?.frames ?? []).flatMap((frame, index) => {
+        const { damageNum, damageNums, sound } = frame
+        return damageNum || damageNums || sound !== undefined
+          ? [
+              {
+                frame: index,
+                ...(damageNum ? { damageNum: structuredClone(damageNum) } : {}),
+                ...(damageNums ? { damageNums: structuredClone(damageNums) } : {}),
+                ...(sound !== undefined ? { sound } : {}),
+              },
+            ]
+          : []
+      })
     })
   globalThis.__battleGameActionComplete = (state, gs, roles) =>
     observe(() => {

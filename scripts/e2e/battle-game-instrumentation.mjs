@@ -51,12 +51,14 @@ export function instrumentGameBattle(source, file) {
             'tick',
             'globalThis.__battleGameTick?.(gs, gs.battleState, getBattleResources(gs)?.playerRoles);',
           )
-        if (name === 'performBattleAction')
+        if (name === 'performBattleAction') {
+          wrapFinally(node, 'action-produced', 'globalThis.__battleGameActionProduced?.(state);')
           add(
             'actionStart',
             node.body.getStart(ast) + 1,
             '\nglobalThis.__battleGameActionStart?.(state, gs, actor, action, res.playerRoles);\n',
           )
+        }
       }
       if (file.endsWith('/battle/battle-settlement.ts') && name === 'buildBattleWonSettlement')
         add(
@@ -122,7 +124,14 @@ export function instrumentGameBattle(source, file) {
         ? { settlement: 1 }
         : file.endsWith('/battle/battle-finalization.ts')
           ? { terminal: 1 }
-          : { start: 1, tick: 1, command: 10, actionStart: 1, actionComplete: 4 }
+          : {
+              start: 1,
+              tick: 1,
+              command: 10,
+              actionStart: 1,
+              'action-produced': 1,
+              actionComplete: 4,
+            }
   assert.deepEqual(anchors, expected, 'Q2 Game native observation boundary census changed')
   let code = source
   for (const edit of edits.sort((a, b) => b.at - a.at))
