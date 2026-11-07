@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 3 个适用阶段组、38 个成员关系、23 个唯一 ID：ops 1；phase1 16；phase2 21。跨组出现指向同一报告。
+当前 3 个适用阶段组、40 个成员关系、24 个唯一 ID：ops 1；phase1 17；phase2 22。跨组出现指向同一报告。
 
 ## 当前状态
 
@@ -45,6 +45,7 @@ catalog.phase 决定组别，报告分别提供各阶段 primary source 与执�
 | e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
 | e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
+| e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |
@@ -67,6 +68,7 @@ catalog.phase 决定组别，报告分别提供各阶段 primary source 与执�
 | e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
 | e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
+| e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |

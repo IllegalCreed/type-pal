@@ -86,7 +86,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "离开桃花林，前往水月宫外",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -107,13 +107,15 @@
                         "evidenceId": "pal-load-scene-5194"
                       }
                     }
-                  ]
+                  ],
+                  "label": "切换到水月宫外"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "水月宫外入口"
     },
     {
       "id": "e212",

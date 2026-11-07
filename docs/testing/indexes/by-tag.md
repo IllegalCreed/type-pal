@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 41 个标签组、88 个成员关系、23 个唯一 ID；标签成员数不是测试数。
+当前 42 个标签组、92 个成员关系、24 个唯一 ID；标签成员数不是测试数。
 
 ## 当前状态
 
@@ -51,6 +51,10 @@ Template: governance-index-v1 / 1.0.0
 - e2e-004 — [004 端菜、赠酒与道士离场](../e2e/stages/004-meal/report.md)（verified）
 - e2e-005 — [005 买虾、报信与返程](../e2e/stages/005-shrimp/report.md)（verified）
 - e2e-route — [双阶段快速通关路线方案](../e2e/route-proposal.md)（proposal）
+
+### chest
+
+- e2e-010 — [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md)（verified）
 
 ### commands
 
@@ -156,6 +160,7 @@ Template: governance-index-v1 / 1.0.0
 - e2e-006 — [006 求药、出海与仙灵岛入口](../e2e/stages/006-doctor-boat/report.md)（rework）
 - e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
 - e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
+- e2e-010 — [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md)（verified）
 
 ### opening
 
@@ -224,6 +229,7 @@ Template: governance-index-v1 / 1.0.0
 - e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
 - e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
 - e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
+- e2e-010 — [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md)（verified）
 
 ### visual
 
@@ -231,6 +237,7 @@ Template: governance-index-v1 / 1.0.0
 - e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
 - e2e-008 — [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md)（verified）
 - e2e-009 — [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md)（verified）
+- e2e-010 — [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md)（verified）
 
 ### world
 

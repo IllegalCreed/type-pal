@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 5 个引擎组、41 个成员关系、23 个唯一 ID：content 1；editor 4；game 16；pal-extract 1；reforge 19。多引擎成员不是新增测试。
+当前 5 个引擎组、43 个成员关系、24 个唯一 ID：content 1；editor 4；game 17；pal-extract 1；reforge 20。多引擎成员不是新增测试。
 
 ## 当前状态
 
@@ -55,6 +55,7 @@ catalog.engines 决定成员；下游回报告核 source audit 与 runtime-execu
 | e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
 | e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
+| e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |
@@ -84,6 +85,7 @@ catalog.engines 决定成员；下游回报告核 source audit 与 runtime-execu
 | e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
 | e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
+| e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | e2e-common-issues | [001–005 共性问题族](../e2e/cross-stage/common-issues.md) | current | Codex |
 | e2e-contract | [两阶段 E2E 与录像合同](../e2e/contract.md) | current | Codex |
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |

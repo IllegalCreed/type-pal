@@ -3,7 +3,7 @@
 Status: active
 Validity: current
 Owner: Codex
-Last reviewed: 2026-11-06
+Last reviewed: 2026-11-07
 Template: plan-status-v1 / 1.0.0
 
 ## 目标与时间范围
@@ -25,7 +25,8 @@ Template: plan-status-v1 / 1.0.0
 | 001–006逐入口实态与编辑器持久化记录 | Codex | 本轮有限完成 | 95个已观测当前场景静态现场已验；旧001缺pose现场保持未核，完整世界恢复不外推 |
 | 007 码头到迷宫入口 | Codex | 四个路线步骤已验证 | 两个触碰区、空进场和迷宫音乐的脚本、预览初态与优化判断分别记录。17 个环境入口留有首次循环取证。 [007 任务卡](../../../tasks/cards/E2E-007-1-island-entrance-to-maze.md) |
 | 008 仙灵岛迷宫到桃花林 | Codex | 双轨与逐步初态复验 | 记录实际机关、取物和跨图入口，普通筏及变轨筏分别落到每次调用。宝箱列为共享脚本候选。 [008 任务卡](../../../tasks/cards/E2E-008-1-fairy-island-maze.md) |
-| 009 桃花林采药与池塘初遇 | Codex | 逐步骤复核，等待作者分屏 | 以双轨新实跑核对两段池塘演出，九个步骤的初态在当前编辑器复验，八处雷击逐现场记录。 [009 任务卡](../../../tasks/cards/E2E-009-1-fairy-island-pool.md) |
+| 009 桃花林采药与池塘初遇 | Codex | 双轨和作者分屏已验 | 双轨核对两段池塘演出，九个步骤的初态在编辑器复验，八处雷击逐现场记录。 [009 任务卡](../../../tasks/cards/E2E-009-1-fairy-island-pool.md) |
+| 010 水月宫取药 | Codex | 双轨和作者分屏已验 | 核对 10 个实际入口和 21 处静态前态。苗刀箱第 2–4 次单独预览的开启帧保留待核。 [010 正式报告](../stages/010-water-moon-palace/report.md) |
 | 后续片段与脚本优化持续推进 | Codex | planned | 沿逐步骤合同更新，不以片段总状态替代各轴记录 |
 
 ## 怎样看每条记录
@@ -51,6 +52,8 @@ node scripts/script-governance/progress-report.mjs --pending --json
 
 当前机器记录如下。事件按实际记录时间追加，`from`连接该入口/context/轴的上一个记录状态；
 查询分别保留记录状态和受源码、依赖、证据、预览变化影响后的待复核状态。本页不另维护手工完成总数。
+
+2026-11-07，010 按正式 Reforge 的首叶前现场核对入宫、引路、开箱、饮水和交药。跨图预览、两份状态的引用、原生保存和重开单步复位分别留证。桃花林出口补名触及场景指纹，008/009 既有现场以原脚本和绑定的精确差异及新前驱复验续核，原历史事件保留。
 
 2026-11-06 双轨回归保留 009 及 008 桃花林交接的原现场标识。新运行作为适用性证据，引用各自的首条有效指令。
 009 以原保存字节在独立编辑器重开、单步和重置。008 出口及进场步骤沿用原编辑器原件，以新运行复核原默认布置。
@@ -212250,6 +212253,5813 @@ node scripts/script-governance/progress-report.mjs --pending --json
         {"path":"docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz","sha256":"e45bce10751d3c7f8acac8acd1c6de6c1f8b177127f28cd5af02ea12aed3b0a9","selector":"member=build/e2e/reforge-008-2026-11-06T08-08-55-136Z/008-trace.json; visit=6; run=191; before-leaf-order=15647"}
       ],
       "note": "新共同路线在该步骤首叶前复核原已记录的实体字段，原保存与重开回执继续适用。"
+    },
+    {
+      "id": "e2e010-label-applicability-8b56b25a29bd25e43c",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cc0e8c9582d4ad3106cb05d1324c9cd573557f568ebeff6b165f2e1a6dedb634",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.ts",
+          "sha256": "299ad4551dfda75402f01c1592234ed6141a22c5327c0c3253426790e5bb1e25"
+        },
+        {
+          "path": "packages/shared/src/index.ts",
+          "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-5a7dfcaf2cf845302f; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-3cc41f1335de21579a",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "cc0e8c9582d4ad3106cb05d1324c9cd573557f568ebeff6b165f2e1a6dedb634",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-90247818b7c1eaa360; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-4620f92491c5b39df3",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e212",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r17:o5690",
+        "description": "009 在池畔发现衣物 / 藏起衣物并向赵灵儿求药，原生执行启动 5689，首个有效指令前 5690。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "cc0e8c9582d4ad3106cb05d1324c9cd573557f568ebeff6b165f2e1a6dedb634",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "packages/reforge/src/world-camera.ts",
+          "sha256": "299ad4551dfda75402f01c1592234ed6141a22c5327c0c3253426790e5bb1e25"
+        },
+        {
+          "path": "packages/shared/src/index.ts",
+          "sha256": "6c8ccd23db2b01611579e30ac005018a6085abb5db6c4fb7f08927ccf1d18d35"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-a345d23ec41632ffab; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-7f999203848b4d5418",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af1c7f88ac6da098e9e53b8682ac099058c3581aea324eb5d37135319ec3da93",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-b5981602dae819bbfc; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-93d4f2d7e79642787f",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af1c7f88ac6da098e9e53b8682ac099058c3581aea324eb5d37135319ec3da93",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-c74e3d51e722cc3fbb; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "5c591c47-7bb5-4fd8-a558-4d7adc238705",
+        "selection": "default"
+      },
+      "previewFingerprint": "a20db4e71d9221f85c0485fd47e721e956399a26ad7b0776100338764d261e8c",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-99f5c956d2a0ff2e14",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e213",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r26:o12893",
+        "description": "009 折返池畔后躲雷求药 / 躲过雷击，说明来意并获准跟随；折返池塘：衣物与沐浴演出已收尾，原生执行启动 12892，首个有效指令前 12893。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "af1c7f88ac6da098e9e53b8682ac099058c3581aea324eb5d37135319ec3da93",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-69abf3945929f108c9; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-5f180092a3dab95f24",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e07055e3182a04548062a897eebac4b9af9a6d5ae66301ea4e85ab84e823fcab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-d80e112c465468b529; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-e19ced926aa1426599",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e07055e3182a04548062a897eebac4b9af9a6d5ae66301ea4e85ab84e823fcab",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-845273d684202e7dca; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-54c6651b1f16ae6d0d",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e217",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r6:o103",
+        "description": "009 沐浴动作循环 / 连续播放沐浴姿态，原生执行启动 93，首个有效指令前 103。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e07055e3182a04548062a897eebac4b9af9a6d5ae66301ea4e85ab84e823fcab",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-dcdc3e2929e667de55; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-556d2bbd62b20e882e",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-27c0f181fe63c44424; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-ae8c3f1cff55d5ddc5",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-66d8b91291d4fe33ca; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "6dc84558-12bc-4185-83aa-9873af3ffd4b",
+        "selection": "default"
+      },
+      "previewFingerprint": "9bec3147658f4f75e1ac20bdcb34bd03acf3330a6c66df09a4356c30cff20615",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-2c8df7743780ac7e33",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r30:o13169",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 1 次，原生执行启动 13165，首个有效指令前 13169。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-d9d1b6fb7d1dfa38b0; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-ff4a6a071729c87756",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-040700035c028799f2; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-a735170837470a6564",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-17104d2e4f26ccc574; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "7bff2935-06b1-42eb-bfc9-c9d8b743354d",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a2f310ca1438e5ac5fcd01cedeca626a897107ded6fa5531be0eb5f45b8f735e",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-2d6bb7310195e59a34",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r35:o13596",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 2 次，原生执行启动 13592，首个有效指令前 13596。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-b916cfd5e4e92a752b; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-47d79fab58e41954d7",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-2c43184e352d901838; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-1020c034cef3e5a9cf",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-da2072bf65d54019ba; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "8ca1955b-3b68-43a7-81c6-f783bf7d97c3",
+        "selection": "manual"
+      },
+      "previewFingerprint": "b36a794dd5b7c550131f085dfcd059b7d8c9ad2248d84177e14ae9fe44641094",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-cbf9c026b9a3445ece",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r40:o13932",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 3 次，原生执行启动 13928，首个有效指令前 13932。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-4f970d61f709b70448; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-21d16d05db34da655f",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-bb3a1d8e725fdd93ca; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-622eaeb3136b1a5377",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-8cdbf49b6b9305a4c2; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "9e7f5f54-5fe0-487c-8f28-592227385316",
+        "selection": "manual"
+      },
+      "previewFingerprint": "876b2f84b7ca88ebb41a8b068ff92ddf4f4344887f11f48e61bcdd928f18a3b3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-c6c1d1adbe4662dfe1",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r45:o14228",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 4 次，原生执行启动 14224，首个有效指令前 14228。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-1e02fbe67aa3f2f0eb; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-8eec16ac08e5c5cdab",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-43a634e1abcfe67e85; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-2551f8f09d0a7e7684",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-25b3a0a4a5a334108b; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "cfea2560-cf71-44bb-a500-df866ea78c56",
+        "selection": "manual"
+      },
+      "previewFingerprint": "f8c754faff37594d8e7644b0a61fb385a2b99aeea412c140307fd70bc8c159a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-04598b5dac0b8d81e1",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r48:o14326",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 5 次，原生执行启动 14322，首个有效指令前 14326。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-c4a69df3080045a8cb; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-4282a8f8e73028cf0e",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-dfb5a16110235b75a8; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-57e0982e6176972695",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-1546c4a4a63bc92ecd; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "edea2e82-c739-4815-ae2c-23fcce19de74",
+        "selection": "manual"
+      },
+      "previewFingerprint": "51c33a8fe77a51e5a3bf5b01454121c66eb132e3e73497dce293d80c6b1f11e2",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-aeb5e6dfc273806a60",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r53:o14537",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 6 次，原生执行启动 14533，首个有效指令前 14537。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-42e87fc8a392e37c78; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-f47fc5bca715b2076c",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-3c8909d27debea65c5; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-f6ae3db23e5eb85be6",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-883bc60246dbbe0711; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "e3207dc1-7fb2-475c-b05f-46b492a5ddff",
+        "selection": "manual"
+      },
+      "previewFingerprint": "0da068e097d81c382b0fea9375ac21f93f3e641e004279e0771d4c1e144e7dbb",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-35fb80efd0a3a3b218",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r58:o14804",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 7 次，原生执行启动 14800，首个有效指令前 14804。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-a08aae37c236ce9b7c; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-25c1212b98a2b29772",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-95cf73cb2ba4621ee6; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-bedc9abc64684c10e6",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-39f11a15b77563e2c9; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "c8545b29-3662-4894-bfa6-a1adc5168e05",
+        "selection": "manual"
+      },
+      "previewFingerprint": "a3307991877c9cf90055006365b1f0728155e4e80f4716d333bfba4c41619fc1",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-9bc5e6876bdad4fa9c",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e218",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r63:o16425",
+        "description": "009 显现后播放一次雷击 / 四帧雷击后隐藏；池塘雷击：第 8 次，原生执行启动 16421，首个有效指令前 16425。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "60604e6bef5f4631d538b5aa4314c8d9457a098261890cdb5504a0b3752d905c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-5561221a841fdea69b; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-f8af41e5d09ae84c23",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "71a5f530717d53060ad015d516711869369a775a8d746dc914b70ab4b8f41da7",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-cdc8191980150c0097; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-23d63c5547285ff687",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "71a5f530717d53060ad015d516711869369a775a8d746dc914b70ab4b8f41da7",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-8321163fb28d669cc0; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "15295c0e-2e5d-495a-84f4-3f05e1b81539",
+        "selection": "default"
+      },
+      "previewFingerprint": "66184e9330c280c826d5cceda181f79b94cf58442fc57f77ee3f2c991ac7bdb9",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-915915a9516592e86d",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r10:o15099",
+        "description": "009 出场滑行姿态 / 循环播放出场姿态；赵灵儿：出场姿态开始，原生执行启动 95，首个有效指令前 15099。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "71a5f530717d53060ad015d516711869369a775a8d746dc914b70ab4b8f41da7",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-db5ef59ee15a1d9924; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-cb04c1300a9f5729ae",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9c7eb8c3281c8d36f777ee0a9b53cef7fea580dc14d16befc625525ae0873a96",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-745895e4fc5757b403; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-977afc4f54a7ae66e0",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "9c7eb8c3281c8d36f777ee0a9b53cef7fea580dc14d16befc625525ae0873a96",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-82b0ccd59fbb98a05d; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "d1ff4a00-6e86-47f1-816b-2764f307cac7",
+        "selection": "default"
+      },
+      "previewFingerprint": "fce60d6e729a97a24cff660e2e80fe623453a3a825e63eebd5a5f17b59e41839",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-1355c54930d5c6ab6e",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e219",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r68:o19479",
+        "description": "009 听完求药缘由后的反应 / 播放赵灵儿的反应；赵灵儿：听完求药缘由，原生执行启动 19476，首个有效指令前 19479。"
+      },
+      "axis": "optimization",
+      "from": "accepted",
+      "to": "accepted",
+      "sourceFingerprint": "9c7eb8c3281c8d36f777ee0a9b53cef7fea580dc14d16befc625525ae0873a96",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-35bfeb210fae2d53e0; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-5be6cd947354b087cd",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "4ca890c9eca5038ff667d383543c6e8aaeeb983014656de08df085be987427fe",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-a3f6747e2a124c2efe; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-3dbce2c679fee38ecb",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "4ca890c9eca5038ff667d383543c6e8aaeeb983014656de08df085be987427fe",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-b6209f9413e88ccfb4; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "cbb83606-e0c5-4927-a8d1-8e30d3e6a751",
+        "selection": "default"
+      },
+      "previewFingerprint": "32f72bdf797a17090c03afe299034583630f6297ca6b9ae1a23ba7649f4bda09",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-dba1b780d60c851aa7",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e220",
+        "channel": "auto",
+        "schemeId": "default",
+        "stageId": "routine"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r12:o15108",
+        "description": "009 滑行入场 / 分段减速滑到池畔；赵灵儿：开始滑行，原生执行启动 96，首个有效指令前 15108。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "4ca890c9eca5038ff667d383543c6e8aaeeb983014656de08df085be987427fe",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-109b5f0de7520549d2; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-849637bb89430f75f0",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af23ebcdea3fce85d1bf688613b09ebfff48d6cb8def0fd673b8ffc357ce5613",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-c3bd9172751717e0ba; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-c6e356447cbba575a0",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "af23ebcdea3fce85d1bf688613b09ebfff48d6cb8def0fd673b8ffc357ce5613",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-b395e0e6808e57dfcc; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": "7f3b5bd9-48cc-4aea-bcfe-b397aba50bca",
+        "selection": "default"
+      },
+      "previewFingerprint": "568dbf9f3c16b2a42c9c8c879b0f55ca57f719b9b9c69399b2d7a4ac5f3aec4d",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-f2561c012a26276bd2",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e221",
+        "channel": "auto",
+        "schemeId": "legacy-001",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r71:o21014",
+        "description": "009 带路离开池畔 / 先走后跑并离场；赵灵儿：准备带路离开池塘，原生执行启动 21010，首个有效指令前 21014。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "af23ebcdea3fce85d1bf688613b09ebfff48d6cb8def0fd673b8ffc357ce5613",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-542f8ef879edc5df5a; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-5d1ba1e490e3d56574",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e7a91879e2d87b333f48c960a76e2cdd0f23d9a9c03109bc491a2698c3ca0171",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-652ccfb83ed6ec6842; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-62eac0689b1fdc6852",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "e7a91879e2d87b333f48c960a76e2cdd0f23d9a9c03109bc491a2698c3ca0171",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-c9094506f4e55d8ae3; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-7c7f702797e57aa939",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-009-2026-11-06T03-07-22-247Z:v4:r14:o1932",
+        "description": "009 采摘止血草 / 拾取一株止血草，原生执行启动 1931，首个有效指令前 1932。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "e7a91879e2d87b333f48c960a76e2cdd0f23d9a9c03109bc491a2698c3ca0171",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/sprites.json",
+          "sha256": "fd4f38f353aa599c6fe525d0c304feb032a35d09da537d6e7389c8b59869450c"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-4012323914def63e9b; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-8db74f7bca47828115",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "afc8aa004f745ed2f4832ef09f515de3b2bfc16a71a6cdcf7d696bcbcf9e4697",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-9a9717697066745221; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-499f81e699dae971a8",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "afc8aa004f745ed2f4832ef09f515de3b2bfc16a71a6cdcf7d696bcbcf9e4697",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-0dddaf4dc5a540e603; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-26ffbac2fc8b97bd1b",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v8:r211:o18944",
+        "description": "E2E 008 实际 到达仙灵岛桃花林：播放场景音乐 / 播放桃花林音乐，场景 s016:4，起点事件 18942，首条取证 18944。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "afc8aa004f745ed2f4832ef09f515de3b2bfc16a71a6cdcf7d696bcbcf9e4697",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-81621d3923fcc8eb4d; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-8a132a16a9b4e98c8a",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "review",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-21d2442e4486422873; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-e4e777dd6f534e3c6e",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "initialState",
+      "from": "verified",
+      "to": "verified",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/editor/src/ui/InitialStateWorkspace.tsx",
+          "sha256": "f82b9fce5a40fce290c83f59205255b51e2452dcaeb9698802c31b0e1aba1016"
+        },
+        {
+          "path": "packages/editor/src/ui/PreviewCanvas.tsx",
+          "sha256": "8229e90ac6b2dd00c2ede1d95e37e00ccf18063c2fd37bd0b2f74481985ae026"
+        },
+        {
+          "path": "packages/editor/src/ui/SceneScriptWorkspace.tsx",
+          "sha256": "97ba835d5e6bda2c8f3eec31e7f271b835c8894e1b8c9b29100d39b9ef0e34ce"
+        },
+        {
+          "path": "packages/reforge/src/entity-lifecycle.ts",
+          "sha256": "cd3c4742b664371e6f8b9e660cc53af0a9b8f17281b40f482b636699346653c9"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-050f2f7d4df0a4645d; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-label-applicability-5b986f30790ceb2603",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s018",
+        "entityId": "e265",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "reforge-008-2026-11-05T17-09-34-075Z:v6:r194:o18658",
+        "description": "E2E 008 实际 穿过通道进入桃花林 / 逍遥独白后进入桃花林，场景 s018:3，起点事件 18657，首条取证 18658。"
+      },
+      "axis": "optimization",
+      "from": "not-needed",
+      "to": "not-needed",
+      "sourceFingerprint": "b1f719a785e476c14c5675fd9ee5ba912d67ef9b6e2c4e8db125d4c04fcc7808",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-runner.ts",
+          "sha256": "b647c2afdb1f21090868bfea2ff957b8c2d6641390f7e3365a18e14e8a7109cd"
+        },
+        {
+          "path": "packages/reforge/src/script-world.ts",
+          "sha256": "224d654b4e83debb12940a3e3b2e720283373fa0227fd1c147fb0249ac88f52e"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/maps/map-025.json",
+          "sha256": "b556f0f7fc4d9d4b099479ccd88825a0e841a2ad53328d701dc4f0fcf5bd5f72"
+        },
+        {
+          "path": "projects/pal/content/maps/map-119.json",
+          "sha256": "e50c999d716439190fb963e3fdde9e4fde21940765971979b8c6669c03cf038c"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s018.json",
+          "sha256": "e61994ea0546819836e5802d37691e3bb7d09aae4cc3e2f3385e47c564a38f95"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/independent/prior-source-applicability.json; prior=e2e-mounted-pose-applicability-f4ea5c5c4b146c059f; s016/e211 name-only"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/rebuild-final/receipts.json; 008 and 009 rebuilt in Reforge"
+        }
+      ],
+      "note": "桃花林仅 e211 的三处名称变化。旧入口脚本和绑定保持原样，复核现行适用性，沿用原范围的裁定。"
+    },
+    {
+      "id": "e2e010-f0dd56d3de48c2add9b5",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e211",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v4:r5:o820",
+        "description": "离开桃花林，前往水月宫外 / 切换到水月宫外 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "3645c8301935c23c3f8935f702bc2c096c94c271c2d8373c46b84424fc3cafa7",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=4; run=5; before-leaf=820"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s016\",\"e211\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-110c5506cda43f06a000",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e211",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v4:r5:o820",
+        "description": "离开桃花林，前往水月宫外 / 切换到水月宫外 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "3645c8301935c23c3f8935f702bc2c096c94c271c2d8373c46b84424fc3cafa7",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=4; run=5; before-leaf=820"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s016\",\"e211\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": "a59e7488-54e5-44eb-891e-21207e1f9a69",
+        "selection": "default"
+      },
+      "previewFingerprint": "277ba58d3e5c2654a2e6c46ebe0ac177682c4682833042e15b0ab15179a503d6",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-6556261684610f97c458",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e211",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v4:r5:o820",
+        "description": "离开桃花林，前往水月宫外 / 切换到水月宫外 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "3645c8301935c23c3f8935f702bc2c096c94c271c2d8373c46b84424fc3cafa7",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=4; run=5; before-leaf=820"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s016\",\"e211\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "现有切场叶明确表达前往水月宫外。补入口、方案和步骤名称。"
+    },
+    {
+      "id": "e2e010-9f9f6bbfd2ac9f1aec85",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r94:o1136",
+        "description": "初到水月宫外，收起桃花林引路角色 / 隐去桃花林的赵灵儿 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "2fc127ad693df4559872559551c1176ae2b819bed5b219c0a45512dbf577f48b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=94; before-leaf=1136"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",null,\"onEnter\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-10b0884b734708808ec6",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r94:o1136",
+        "description": "初到水月宫外，收起桃花林引路角色 / 隐去桃花林的赵灵儿 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "2fc127ad693df4559872559551c1176ae2b819bed5b219c0a45512dbf577f48b",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=94; before-leaf=1136"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s019\",null,\"onEnter\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": "a59e7488-54e5-44eb-891e-21207e1f9a69",
+        "selection": "default"
+      },
+      "previewFingerprint": "277ba58d3e5c2654a2e6c46ebe0ac177682c4682833042e15b0ab15179a503d6",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-527909e69dc7cfea05e8",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "channel": "onEnter",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r94:o1136",
+        "description": "初到水月宫外，收起桃花林引路角色 / 隐去桃花林的赵灵儿 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "2fc127ad693df4559872559551c1176ae2b819bed5b219c0a45512dbf577f48b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "d9b459033cb62ff1f1dabd77dabe19421f97d783e8bb73e935e71d30140b6f41"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=94; before-leaf=1136"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",null,\"onEnter\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "只负责收起桃花林的灵儿，保留独立进场时机和明确目标。"
+    },
+    {
+      "id": "e2e010-cf4e01992e440c382335",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e270",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r97:o2675",
+        "description": "邀逍遥入宫取药 / 招呼逍遥并带路 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "e050fa5d5b08f367aa61ab9e1df8b1902ce26cfc32ffe5c65ed116033cdb6462",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-walk.ts",
+          "sha256": "d4e487c2b7995e39e67accd5c4b303a421759f283fa8516f3728c2d4865aab50"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=97; before-leaf=2675"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",\"e270\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-4219aff188314f9dbbcd",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e270",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r97:o2675",
+        "description": "邀逍遥入宫取药 / 招呼逍遥并带路 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "e050fa5d5b08f367aa61ab9e1df8b1902ce26cfc32ffe5c65ed116033cdb6462",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/entity-walk.ts",
+          "sha256": "d4e487c2b7995e39e67accd5c4b303a421759f283fa8516f3728c2d4865aab50"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=97; before-leaf=2675"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s019\",\"e270\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-a61822e141039573bf11",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e270",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r97:o2675",
+        "description": "邀逍遥入宫取药 / 招呼逍遥并带路 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "e050fa5d5b08f367aa61ab9e1df8b1902ce26cfc32ffe5c65ed116033cdb6462",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/entity-walk.ts",
+          "sha256": "d4e487c2b7995e39e67accd5c4b303a421759f283fa8516f3728c2d4865aab50"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=97; before-leaf=2675"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",\"e270\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "第一句后独立实绘右转。末句清屏后以单条前台走位替代自动脚本、计时器和远端目标。"
+    },
+    {
+      "id": "e2e010-fbf4e8404dbcc72b2ed9",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e268",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r100:o6412",
+        "description": "进入水月宫内 / 切换到水月宫内 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "7512afcac3f28644636305fe00fbdda09af639c8fc4560df864c10e1abe1919b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=100; before-leaf=6412"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",\"e268\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-a81b7ffb01a5aa207ca4",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e268",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r100:o6412",
+        "description": "进入水月宫内 / 切换到水月宫内 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "7512afcac3f28644636305fe00fbdda09af639c8fc4560df864c10e1abe1919b",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=100; before-leaf=6412"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s019\",\"e268\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": "6184b866-a53d-4644-85fb-92962c877be2",
+        "selection": "default"
+      },
+      "previewFingerprint": "082a404a99ef76f6860fd35abdb92651d3f0a0d87125267128a51bd82a10f740",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-800c751fef2d96fc67de",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s019",
+        "entityId": "e268",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v6:r100:o6412",
+        "description": "进入水月宫内 / 切换到水月宫内 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "7512afcac3f28644636305fe00fbdda09af639c8fc4560df864c10e1abe1919b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/scenes/s019.json",
+          "sha256": "6b551fbb958efb4611bad494cc98c948680119e2fdfe89b12ce8ae5085cd97e6"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=6; run=100; before-leaf=6412"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s019\",\"e268\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "现有切场叶明确表达进入宫内，保留双方退出和落点。"
+    },
+    {
+      "id": "e2e010-6fcf0edf0bcd0bb3feed",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r114:o8089",
+        "description": "调查宝箱，翻找观音符和苗刀 / 开箱取得三张观音符 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "a96a61703392c48f3c96ea850ff9bff1824d0317aa1ce837655ab62b5d3d3d91",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=114; before-leaf=8089"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-2d45a77721b0c8ea9b96",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r114:o8089",
+        "description": "调查宝箱，翻找观音符和苗刀 / 开箱取得三张观音符 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "a96a61703392c48f3c96ea850ff9bff1824d0317aa1ce837655ab62b5d3d3d91",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=114; before-leaf=8089"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-35cd03eed8716e6abff3",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r114:o8089",
+        "description": "调查宝箱，翻找观音符和苗刀 / 开箱取得三张观音符 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "a96a61703392c48f3c96ea850ff9bff1824d0317aa1ce837655ab62b5d3d3d91",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=114; before-leaf=8089"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "各次提示明确自行结束，保留四次调查顺序、开盖帧和奖励。"
+    },
+    {
+      "id": "e2e010-78222cc1fd1d1d2ebbca",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "010:v8:r117:o8354",
+        "description": "调查宝箱，翻找观音符和苗刀 / 复查时只见空箱 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "444edc4572a37d548ba15a92f6965dded3434be063734b753db16c9bf067574c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=117; before-leaf=8354"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-002\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-470d5158fe0371f2ce6a",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "010:v8:r117:o8354",
+        "description": "调查宝箱，翻找观音符和苗刀 / 复查时只见空箱 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "needs-review",
+      "sourceFingerprint": "444edc4572a37d548ba15a92f6965dded3434be063734b753db16c9bf067574c",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=117; before-leaf=8354"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-002\"]"
+        }
+      ],
+      "note": "静态属性经原生保存与重开复位核对。运行时开盖帧 1 无法用当前初态字段保存。"
+    },
+    {
+      "id": "e2e010-b0416f90a4cbbc13e629",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "010:v8:r117:o8354",
+        "description": "调查宝箱，翻找观音符和苗刀 / 复查时只见空箱 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "444edc4572a37d548ba15a92f6965dded3434be063734b753db16c9bf067574c",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=117; before-leaf=8354"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-002\"]"
+        }
+      ],
+      "note": "各次提示明确自行结束，保留四次调查顺序、开盖帧和奖励。"
+    },
+    {
+      "id": "e2e010-d5108f50fb32b7407bce",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003"
+      },
+      "context": {
+        "id": "010:v8:r120:o8599",
+        "description": "调查宝箱，翻找观音符和苗刀 / 从箱底取出苗刀 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "c54405fe9dbe403a64d3e8543e7ebed06f65a257d1843360af27c87b0daea5f2",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=120; before-leaf=8599"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-003\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-064b6d50a2bf84d3a9f0",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003"
+      },
+      "context": {
+        "id": "010:v8:r120:o8599",
+        "description": "调查宝箱，翻找观音符和苗刀 / 从箱底取出苗刀 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "needs-review",
+      "sourceFingerprint": "c54405fe9dbe403a64d3e8543e7ebed06f65a257d1843360af27c87b0daea5f2",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=120; before-leaf=8599"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-003\"]"
+        }
+      ],
+      "note": "静态属性经原生保存与重开复位核对。运行时开盖帧 1 无法用当前初态字段保存。"
+    },
+    {
+      "id": "e2e010-b035ae9d81561c13945d",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-003"
+      },
+      "context": {
+        "id": "010:v8:r120:o8599",
+        "description": "调查宝箱，翻找观音符和苗刀 / 从箱底取出苗刀 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "c54405fe9dbe403a64d3e8543e7ebed06f65a257d1843360af27c87b0daea5f2",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=120; before-leaf=8599"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-003\"]"
+        }
+      ],
+      "note": "各次提示明确自行结束，保留四次调查顺序、开盖帧和奖励。"
+    },
+    {
+      "id": "e2e010-0d39854113174e964947",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-004"
+      },
+      "context": {
+        "id": "010:v8:r123:o8849",
+        "description": "调查宝箱，翻找观音符和苗刀 / 取完物品后复查空箱 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "df19b52531f2d8aba504c869d21932916703fd798fdfec66890e76b051915798",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=123; before-leaf=8849"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-004\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-5f1a51512f86706d899a",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-004"
+      },
+      "context": {
+        "id": "010:v8:r123:o8849",
+        "description": "调查宝箱，翻找观音符和苗刀 / 取完物品后复查空箱 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "needs-review",
+      "sourceFingerprint": "df19b52531f2d8aba504c869d21932916703fd798fdfec66890e76b051915798",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=123; before-leaf=8849"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-004\"]"
+        }
+      ],
+      "note": "静态属性经原生保存与重开复位核对。运行时开盖帧 1 无法用当前初态字段保存。"
+    },
+    {
+      "id": "e2e010-2fa34b47d312e335b94b",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e363",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-004"
+      },
+      "context": {
+        "id": "010:v8:r123:o8849",
+        "description": "调查宝箱，翻找观音符和苗刀 / 取完物品后复查空箱 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "df19b52531f2d8aba504c869d21932916703fd798fdfec66890e76b051915798",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=123; before-leaf=8849"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e363\",\"trigger\",\"default\",\"legacy-004\"]"
+        }
+      ],
+      "note": "各次提示明确自行结束，保留四次调查顺序、开盖帧和奖励。"
+    },
+    {
+      "id": "e2e010-0ddd7f9e743b25dca09a",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e362",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r126:o10135",
+        "description": "饮用灵池泉水 / 初饮泉水，恢复体力和真气 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "3750051b04562670f742390c2b3672dccce05597deae9678510f2a6d34ae7177",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=126; before-leaf=10135"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e362\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-726a5d89e5e544b3c92e",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e362",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r126:o10135",
+        "description": "饮用灵池泉水 / 初饮泉水，恢复体力和真气 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "3750051b04562670f742390c2b3672dccce05597deae9678510f2a6d34ae7177",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=126; before-leaf=10135"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e362\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-f7eeeed72634fe8f9ba4",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e362",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r126:o10135",
+        "description": "饮用灵池泉水 / 初饮泉水，恢复体力和真气 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "3750051b04562670f742390c2b3672dccce05597deae9678510f2a6d34ae7177",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=126; before-leaf=10135"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e362\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "保留先询问、发声、恢复体力真气和结果对白的既有编排。"
+    },
+    {
+      "id": "e2e010-4227924e518c89d097d3",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r129:o11886",
+        "description": "交付紫金丹 / 交付紫金丹，约定逛庙会 的第一个实际指令前。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "84a54e22b43f432d5b238816441f0b6e2d6f23f407380bc70556cb882353066b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=129; before-leaf=11886"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e342\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "核对原始入口、实际调用、脚本正文和退出状态。"
+    },
+    {
+      "id": "e2e010-e36423890d0532d453b3",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_game",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r129:o11886",
+        "description": "交付紫金丹 / 交付紫金丹，约定逛庙会 的第一个实际指令前。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "verified",
+      "sourceFingerprint": "84a54e22b43f432d5b238816441f0b6e2d6f23f407380bc70556cb882353066b",
+      "dependencies": [
+        {
+          "path": "packages/editor/src/core/playback.ts",
+          "sha256": "e0de47ff795f76782cac2243160ab9cebeaa5608e84ef2e660eba9e928ea5cf4"
+        },
+        {
+          "path": "packages/editor/src/core/script-preview-library.ts",
+          "sha256": "32fe530bb9124790f36edfc0eae4d33dc8bb2f55deacd17b89b3bba24f1656f9"
+        },
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=129; before-leaf=11886"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/editor/editor-runtime-binding.json; [\"s020\",\"e342\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "preview": {
+        "stateId": null,
+        "selection": "default"
+      },
+      "previewFingerprint": "683929c1a8d41952e9550b55914b3fa889b2ed0052c3edeb521c257c2b5541a3",
+      "note": "按真实步骤执行前的现场核对静态布置，保存后重开并单步、复位。"
+    },
+    {
+      "id": "e2e010-264bffa5637687287dac",
+      "at": "2026-11-06T15:53:52.986Z",
+      "actor": "Codex /root/palace_author",
+      "reviewer": "Codex /root",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "010:v8:r129:o11886",
+        "description": "交付紫金丹 / 交付紫金丹，约定逛庙会 的第一个实际指令前。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "accepted",
+      "sourceFingerprint": "84a54e22b43f432d5b238816441f0b6e2d6f23f407380bc70556cb882353066b",
+      "dependencies": [
+        {
+          "path": "packages/reforge/src/runtime-script-project.ts",
+          "sha256": "188f11c7e6102c00cef86271e723fc84e064b4ef921e7660f87602fc79f0b8ad"
+        },
+        {
+          "path": "packages/reforge/src/script-host-adapter.ts",
+          "sha256": "b41426fe798e60e0dc2da8da0de403030c55d64c6aa84bcf6029a8a2e7f6adba"
+        },
+        {
+          "path": "projects/pal/content/items.json",
+          "sha256": "50286174e865ac76a6412ac0505eb9a739ce27cc4a14c9f8f8b7bb284d0642d3"
+        },
+        {
+          "path": "projects/pal/content/locale.json",
+          "sha256": "c7553ea974193c02d1baac24f655c3b283e06308a84cae6b5b23718bdcb2d733"
+        },
+        {
+          "path": "projects/pal/content/scenes/s014.json",
+          "sha256": "b94b7da48dec57b608cb13e251e95b11ec5aea52eb6aad7ce3bbf151c7d33b2a"
+        },
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "e16bc7cc106af5c324d595c8155f87a267d53007ae3d036e8c5673969c7a2016"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json; visit=8; run=129; before-leaf=11886"
+        },
+        {
+          "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+          "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+          "selector": "member=build/e2e-010/acceptance.json; [\"s020\",\"e342\",\"trigger\",\"default\",\"initial\"]"
+        }
+      ],
+      "note": "交药首句前用显式指令面向逍遥，原对白、门口和张四接续顺序保留。"
     }
   ]
 }

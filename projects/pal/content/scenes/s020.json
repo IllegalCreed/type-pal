@@ -88,7 +88,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "交付紫金丹",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -99,6 +99,13 @@
                   "body": [
                     {
                       "kind": "clearDialog"
+                    },
+                    {
+                      "kind": "faceEntityToParty",
+                      "target": {
+                        "scene": "s020",
+                        "entity": "e342"
+                      }
                     },
                     {
                       "kind": "setEntityTriggerActivation",
@@ -510,7 +517,8 @@
                       }
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "交付紫金丹，约定逛庙会"
                 },
                 {
                   "id": "legacy-002",
@@ -5479,7 +5487,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "饮用灵池泉水",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5530,7 +5538,8 @@
                       }
                     }
                   ],
-                  "next": "after-checkpoint"
+                  "next": "after-checkpoint",
+                  "label": "初饮泉水，恢复体力和真气"
                 },
                 {
                   "id": "after-checkpoint",
@@ -5560,13 +5569,15 @@
                         "slot": "center"
                       }
                     }
-                  ]
+                  ],
+                  "label": "再饮泉水，恢复体力和真气"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "灵池泉水"
     },
     {
       "id": "e363",
@@ -5591,7 +5602,7 @@
       "behaviors": {
         "trigger": {
           "default": {
-            "label": "默认触发行为",
+            "label": "调查宝箱，翻找观音符和苗刀",
             "order": 0,
             "flow": {
               "kind": "stages",
@@ -5633,6 +5644,7 @@
                             "text": "dlg.1891"
                           }
                         ],
+                        "autoAdvance": 1400,
                         "slot": "narration"
                       },
                       "kind": "dialog"
@@ -5643,7 +5655,8 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-002"
+                  "next": "legacy-002",
+                  "label": "开箱取得三张观音符"
                 },
                 {
                   "id": "legacy-002",
@@ -5658,12 +5671,14 @@
                             "text": "dlg.1892"
                           }
                         ],
+                        "autoAdvance": 1400,
                         "slot": "narration"
                       },
                       "kind": "dialog"
                     }
                   ],
-                  "next": "legacy-003"
+                  "next": "legacy-003",
+                  "label": "复查时只见空箱"
                 },
                 {
                   "id": "legacy-003",
@@ -5678,6 +5693,7 @@
                             "text": "dlg.1893"
                           }
                         ],
+                        "autoAdvance": 1400,
                         "slot": "narration"
                       },
                       "kind": "dialog"
@@ -5687,7 +5703,8 @@
                       "kind": "giveItem"
                     }
                   ],
-                  "next": "legacy-004"
+                  "next": "legacy-004",
+                  "label": "从箱底取出苗刀"
                 },
                 {
                   "id": "legacy-004",
@@ -5702,17 +5719,20 @@
                             "text": "dlg.1894"
                           }
                         ],
+                        "autoAdvance": 1400,
                         "slot": "narration"
                       },
                       "kind": "dialog"
                     }
-                  ]
+                  ],
+                  "label": "取完物品后复查空箱"
                 }
               ]
             }
           }
         }
-      }
+      },
+      "label": "苗刀宝箱"
     },
     {
       "id": "e364",

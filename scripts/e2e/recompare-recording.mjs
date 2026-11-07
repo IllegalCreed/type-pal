@@ -43,7 +43,11 @@ export async function recompareRecording(fragment, gamePath, reforgePath) {
     const { recompareFairyIslandPool } = await import('./fairy-island-pool-comparison.mjs')
     return recompareFairyIslandPool(root, resolve(gamePath), resolve(reforgePath))
   }
-  assert(Object.hasOwn(STORY_PRODUCERS, fragment), 'offline acceptance scope is 001–009')
+  if (fragment === '010') {
+    const { recompareWaterMoonPalace } = await import('./water-moon-palace-comparison.mjs')
+    return recompareWaterMoonPalace(root, resolve(gamePath), resolve(reforgePath))
+  }
+  assert(Object.hasOwn(STORY_PRODUCERS, fragment), 'offline acceptance scope is 001–010')
   const contract = await readStoryContract(fragment, root)
   const loaded = await Promise.all([gamePath, reforgePath].map(readNpcTrace))
   const recordings = [],

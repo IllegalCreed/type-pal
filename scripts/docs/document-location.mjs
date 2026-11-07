@@ -16,6 +16,7 @@ import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import {
+  assertTestingPalaceStagePublication,
   assertTestingSourceBridge,
   assertTestingStageEvidence,
   assertTestingStagePublication,
@@ -373,10 +374,19 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       'stage publication requires both fixed catalog source layers',
     )
   }
+  const palacePublicationRevision = admission.testingCatalogPalacePublicationBaseRevision
+  if (palacePublicationRevision !== undefined)
+    assert(
+      stagePublicationRevision !== undefined && /^[a-f\d]{40}$/u.test(palacePublicationRevision),
+      '010 stage publication requires both fixed stage publication bases',
+    )
   for (const row of manifest.additions) {
     safePath(row.path)
     const nativeStage =
-      stagePublicationRevision !== undefined && isTestingStageEvidencePath(row.path)
+      stagePublicationRevision !== undefined &&
+      isTestingStageEvidencePath(row.path) &&
+      (row.path !== 'docs/testing/e2e/evidence/e2e-010.json' ||
+        palacePublicationRevision !== undefined)
     assert(
       row.path.startsWith('docs/') &&
         (row.path.endsWith('.md') ||
@@ -577,7 +587,13 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       if (stagePublicationRevision !== undefined && path === testingCatalogPath) {
         const publicationBase = gitTree(root, stagePublicationRevision, [path]).read(path)
         assertTestingSourceBridge(path, bridgeSource, publicationBase, readSource)
-        assertTestingStagePublication(publicationBase, current, additions)
+        if (palacePublicationRevision !== undefined) {
+          const palaceBase = gitTree(root, palacePublicationRevision, [path]).read(path)
+          assertTestingStagePublication(publicationBase, palaceBase, additions)
+          assertTestingPalaceStagePublication(palaceBase, current, additions)
+        } else {
+          assertTestingStagePublication(publicationBase, current, additions)
+        }
       } else {
         assertTestingSourceBridge(path, bridgeSource, current, readSource)
       }
