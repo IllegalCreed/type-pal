@@ -1,4 +1,4 @@
-import type { EntityAddress, SceneSpawn } from '@type-pal/content'
+import { type EntityAddress, resolveEntityPoseTarget, type SceneSpawn } from '@type-pal/content'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import type { ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost } from './script-runner.js'
@@ -175,12 +175,12 @@ export async function executeScriptHostEffect(
       return
     }
     case 'setEntityFacing': {
-      const entity = activeEntity(command.target, options)
+      const entity = activeEntity(resolveEntityPoseTarget(command.target, context.self), options)
       if (entity) host.setEntityFacing(entity, command.facing)
       return
     }
     case 'setEntityFrame': {
-      const entity = activeEntity(command.target, options)
+      const entity = activeEntity(resolveEntityPoseTarget(command.target, context.self), options)
       if (entity) host.setEntityFrame(entity, command.frame)
       return
     }

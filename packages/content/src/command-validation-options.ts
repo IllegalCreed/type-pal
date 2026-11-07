@@ -2,6 +2,8 @@ export interface CommandValidationOptions {
   /** Lexical command root. Standalone command lists are scripts, never implicit owner flows. */
   rootScope?: 'flow' | 'script' | 'prepare'
   stageIds?: ReadonlySet<string>
+  /** Pose leaves may select the calling entity only in a required-self shared body. */
+  allowCallingEntityPoseTarget?: boolean
   /** Lexical nesting only; reset at every shared/private command root. */
   loopDepth?: number
   loopAncestors?: readonly (string | undefined)[]

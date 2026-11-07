@@ -119,6 +119,7 @@ export interface CanonicalScriptEditorContext {
   ambiences?: AmbienceDef[]
   shops?: ShopDef[]
   hasImplicitSelf?: boolean
+  allowCallingEntityPoseTarget?: boolean
   currentEntityId?: string
   onOpenScript?: (id: string) => void
   onOpenWorldVariable?: (id: string) => void
@@ -804,9 +805,8 @@ function presentationCommand(command: AuthorCommand): Command | undefined {
     case 'setEntityLayer':
       return { kind: command.kind, entity: command.target.entity, layer: command.layer }
     case 'setEntityFacing':
-      return { kind: command.kind, entity: command.target.entity, facing: command.facing }
     case 'setEntityFrame':
-      return { kind: command.kind, entity: command.target.entity, frame: command.frame }
+      return undefined
     case 'playEntityAction':
       return {
         ...command,
@@ -1027,6 +1027,10 @@ export function describeCanonicalCommand(
       }
     case 'faceEntityToParty':
       return { icon: '🧭', label: `${addressLabel(command.target, context)} 面向主角`, children }
+    case 'setEntityFrame': {
+      const target = command.target === 'self' ? '调用实体' : addressLabel(command.target, context)
+      return { icon: '🎞', label: `${target} 定帧 ${command.frame}`, children }
+    }
     case 'setEntityFacing':
     case 'setPartyFacing':
     case 'stepEntity': {
@@ -1037,7 +1041,7 @@ export function describeCanonicalCommand(
         label:
           command.kind === 'setPartyFacing'
             ? '队伍转向'
-            : `${addressLabel(command.target, context)} ${command.kind === 'stepEntity' ? '走一步' : '转向'}`,
+            : `${command.target === 'self' ? '调用实体' : addressLabel(command.target, context)} ${command.kind === 'stepEntity' ? '走一步' : '转向'}`,
         detail: facing ? `${facing.label} · ${facing.description}` : dir,
         children,
       }
@@ -1371,6 +1375,23 @@ type ScriptEditorEntity = ScriptEditorState['scenes'][number]['entities'][number
 
 function entitySupportsFacing(entity: ScriptEditorEntity): boolean {
   return 'actor' in entity || 'sprite' in entity
+}
+
+function firstSelectableEntityAddress(
+  context: CanonicalScriptEditorContext | undefined,
+  acceptsEntity: (entity: ScriptEditorEntity) => boolean,
+): EntityAddress | undefined {
+  const scenes = context?.state.scenes ?? []
+  const scene =
+    scenes.find(
+      (candidate) =>
+        candidate.id === context?.currentSceneId && candidate.entities.some(acceptsEntity),
+    ) ?? scenes.find((candidate) => candidate.entities.some(acceptsEntity))
+  const entity =
+    scene?.entities.find(
+      (candidate) => candidate.id === context?.currentEntityId && acceptsEntity(candidate),
+    ) ?? scene?.entities.find(acceptsEntity)
+  return scene && entity ? { scene: scene.id, entity: entity.id } : undefined
 }
 
 function EntityAddressEditor(props: {
@@ -2538,6 +2559,17 @@ function CanonicalCommandForm(props: {
     command.kind === 'setEntityTriggerActivation'
   ) {
     const target = command.target
+    const entityFilter =
+      command.kind === 'setEntityFacing' || command.kind === 'faceEntityToParty'
+        ? entitySupportsFacing
+        : undefined
+    const canSelectCallingEntity =
+      context?.allowCallingEntityPoseTarget &&
+      (command.kind === 'setEntityFacing' || command.kind === 'setEntityFrame')
+    const specificTarget =
+      canSelectCallingEntity && target === 'self'
+        ? firstSelectableEntityAddress(context, entityFilter ?? (() => true))
+        : undefined
     const ignored = new Set([
       'kind',
       'target',
@@ -2552,22 +2584,36 @@ function CanonicalCommandForm(props: {
         : undefined
     return (
       <div className="canonical-command-form-fields">
-        {target ? (
+        {canSelectCallingEntity ? (
+          <CanonicalField label="目标实体">
+            <DsSelect
+              size="compact"
+              value={target === 'self' ? 'self' : 'specific'}
+              options={[
+                { value: 'self', label: '调用实体' },
+                {
+                  value: 'specific',
+                  label: '指定实体',
+                  disabled: target === 'self' && !specificTarget,
+                },
+              ]}
+              onValueChange={(mode) => {
+                const next = mode === 'self' ? 'self' : specificTarget
+                if (next) props.onChange({ ...command, target: next })
+              }}
+            />
+          </CanonicalField>
+        ) : null}
+        {target !== 'self' ? (
           <EntityAddressEditor
             value={target}
             state={context?.state}
             sceneIndex={context?.sceneIndex}
             displayContext={context}
-            entityFilter={
-              command.kind === 'setEntityFacing' || command.kind === 'faceEntityToParty'
-                ? entitySupportsFacing
-                : undefined
-            }
+            entityFilter={entityFilter}
             onChange={(next) => props.onChange({ ...command, target: next } as AuthorCommand)}
           />
-        ) : (
-          <div className="hint">未指定目标：使用当前 self。</div>
-        )}
+        ) : null}
         {command.kind === 'runEntityTrigger' ? (
           <p className="hint">
             执行当前已选中的交互方案与步骤，等执行完成后继续。仅当前场景演出；切场、战斗在调用返回后编排。
@@ -3183,6 +3229,7 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
     currentScene?.entities[0]
   const target = currentScene && entity ? { scene: currentScene.id, entity: entity.id } : undefined
   const facingTarget = target && entity && entitySupportsFacing(entity) ? target : undefined
+  const poseFacingTarget = context?.allowCallingEntityPoseTarget ? 'self' : facingTarget
   const pos = entity?.pos ?? currentScene?.entry.pos ?? { col: 0, row: 0, height: 0 }
   const groups: InsertionGroup[] = [
     {
@@ -3222,22 +3269,30 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
                 label: '👁 实体显隐',
                 commands: [{ kind: 'setEntityState', target, state: 1 }] as AuthorCommand[],
               },
-              ...(facingTarget
-                ? [
-                    {
-                      label: '🧭 实体转向',
-                      commands: [
-                        { kind: 'setEntityFacing', target: facingTarget, facing: 'down' },
-                      ] as AuthorCommand[],
-                    },
-                    {
-                      label: '🧭 实体面向主角',
-                      commands: [
-                        { kind: 'faceEntityToParty', target: facingTarget },
-                      ] as AuthorCommand[],
-                    },
-                  ]
-                : []),
+            ]
+          : []),
+        ...(poseFacingTarget
+          ? [
+              {
+                label: '🧭 实体转向',
+                commands: [{ kind: 'setEntityFacing', target: poseFacingTarget, facing: 'down' }],
+              } satisfies InsertionChoice,
+            ]
+          : []),
+        ...(facingTarget
+          ? [
+              {
+                label: '🧭 实体面向主角',
+                commands: [{ kind: 'faceEntityToParty', target: facingTarget }] as AuthorCommand[],
+              },
+            ]
+          : []),
+        ...(context?.allowCallingEntityPoseTarget
+          ? [
+              {
+                label: '🎞 设置实体画面帧',
+                commands: [{ kind: 'setEntityFrame', target: 'self', frame: 0 }],
+              } satisfies InsertionChoice,
             ]
           : []),
         { label: '🌓 淡入/淡出', commands: [{ kind: 'fade', dir: 'out', ms: 300 }] },
@@ -3453,7 +3508,8 @@ function insertionGroups(context?: CanonicalScriptEditorContext): InsertionGroup
           unavailableReason: '触发区没有朝向；请先选择一个可见实体',
         } satisfies InsertionChoice
       const command = examples.get(kind)
-      if (!command) return fallbackInsertionChoice(kind, context, target)
+      if (!command || ('target' in command && command.target === 'self' && !target))
+        return fallbackInsertionChoice(kind, context, target)
       const [icon, label] = AUTHOR_COMMAND_PRESENTATION_[kind]
       return {
         kind,

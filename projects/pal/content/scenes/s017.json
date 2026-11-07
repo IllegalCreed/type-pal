@@ -3207,27 +3207,8 @@
                   "id": "initial",
                   "body": [
                     {
-                      "facing": "down",
-                      "kind": "setEntityFacing",
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e263"
-                      }
-                    },
-                    {
-                      "frame": 1,
-                      "kind": "setEntityFrame",
-                      "target": {
-                        "scene": "s017",
-                        "entity": "e263"
-                      }
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "asset": "sound.pal.078",
-                      "kind": "playSound"
+                      "kind": "callScript",
+                      "script": "pal/chest/open"
                     },
                     {
                       "kind": "clearDialog"

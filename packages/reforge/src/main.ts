@@ -22,6 +22,7 @@ import {
   type RuntimeScriptBinding,
   removeOwnedItems,
   resolveAmbienceTint,
+  resolveEntityPoseTarget,
   resolveEntitySpriteId,
   type SceneDef,
   type SceneReveal,
@@ -3416,17 +3417,18 @@ export async function bootGame(
       }
       return
     }
-    const automaticPoseTarget =
+    const automaticPoseAddress =
       context.timing === 'auto' &&
       (command.kind === 'setEntityFacing' ||
-        command.kind === 'faceEntityToParty' ||
         command.kind === 'setEntityFrame' ||
+        command.kind === 'faceEntityToParty' ||
         command.kind === 'animEntity' ||
         command.kind === 'playEntityAction' ||
-        command.kind === 'stopEntityAction') &&
-      command.target.scene === activeScene.scene.id
-        ? command.target.entity
+        command.kind === 'stopEntityAction')
+        ? resolveEntityPoseTarget(command.target, context.self)
         : undefined
+    const automaticPoseTarget =
+      automaticPoseAddress?.scene === activeScene.scene.id ? automaticPoseAddress.entity : undefined
     if (automaticPoseTarget) {
       const activation = autoActivationBySignal.get(signal)
       if (!activation) throw asyncIntentAbortError('automatic pose has no live activation')

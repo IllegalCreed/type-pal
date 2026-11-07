@@ -2012,7 +2012,7 @@ function validateSharedScriptMetadataPatch(patch: SharedScriptMetadataPatch): vo
     throw new Error('共享脚本 self 契约必须是 none|optional|required')
 }
 
-/** Metadata-only fast path: scalar fields cannot invalidate command/reference structure. */
+/** The self contract can change which targets are valid in the shared body. */
 export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
   readonly label = '编辑共享脚本元数据'
   private before?: ScriptEditorState
@@ -2035,13 +2035,12 @@ export class UpdateSharedScriptMetadataCommand implements ScriptEditorCommand {
     if (this.after) return this.after
     const source = state.sharedScripts[this.scriptId]
     if (!source) throw new Error(`共享脚本不存在 ${this.scriptId}`)
+    const updated = { ...source, ...this.patch }
+    if (updated.self !== source.self) checkAuthorScriptLibrary({ [this.scriptId]: updated })
     this.before = state
     this.after = {
       ...state,
-      sharedScripts: {
-        ...state.sharedScripts,
-        [this.scriptId]: { ...source, ...this.patch },
-      },
+      sharedScripts: { ...state.sharedScripts, [this.scriptId]: updated },
     }
     return this.after
   }

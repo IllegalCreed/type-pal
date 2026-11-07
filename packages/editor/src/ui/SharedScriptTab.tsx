@@ -310,7 +310,11 @@ export function CanonicalSharedScriptTab(props: {
             presentation="workbench"
             label="正文"
             body={selected.body}
-            context={{ ...props.context, hasImplicitSelf: selected.self === 'required' }}
+            context={{
+              ...props.context,
+              hasImplicitSelf: selected.self === 'required',
+              allowCallingEntityPoseTarget: selected.self === 'required',
+            }}
             onError={props.onError}
             onChange={updateBody}
             focusCommandPath={

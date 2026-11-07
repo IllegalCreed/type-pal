@@ -20,6 +20,15 @@ export interface EntityAddress {
   entity: string
 }
 
+export type EntityPoseTarget = EntityAddress | 'self'
+
+export function resolveEntityPoseTarget(
+  target: EntityPoseTarget,
+  self: EntityAddress | undefined,
+): EntityAddress | undefined {
+  return target === 'self' ? self : target
+}
+
 export type Selection<T> = { kind: 'inherit' } | { kind: 'disabled' } | { kind: 'use'; value: T }
 
 export type PageSelection = { kind: 'inherit' } | { kind: 'use'; value: PageId }
@@ -186,9 +195,9 @@ export type BaseAuthorCommand =
   | { kind: 'setEntityPos'; target: EntityAddress; pos: GridPos }
   | { kind: 'setEntityPosRelParty'; target: EntityAddress; dcol: number; drow: number }
   | { kind: 'setEntityLayer'; target: EntityAddress; layer: number }
-  | { kind: 'setEntityFacing'; target: EntityAddress; facing: Facing }
+  | { kind: 'setEntityFacing'; target: EntityPoseTarget; facing: Facing }
   | { kind: 'faceEntityToParty'; target: EntityAddress }
-  | { kind: 'setEntityFrame'; target: EntityAddress; frame: number }
+  | { kind: 'setEntityFrame'; target: EntityPoseTarget; frame: number }
   | {
       kind: 'playEntityAction'
       target: EntityAddress
@@ -743,7 +752,10 @@ export function checkBaseAuthorCommands(
     }
     if (ENTITY_TARGET_KINDS.has(kind)) {
       if ('entity' in command) throw new Error(`${commandPath}.entity: 当前作者态禁止裸实体 id`)
-      checkEntityAddress(command.target, `${commandPath}.target`)
+      if ((kind === 'setEntityFacing' || kind === 'setEntityFrame') && command.target === 'self') {
+        if (!options.allowCallingEntityPoseTarget)
+          throw new Error(`${commandPath}.target: 调用实体仅用于必须提供 self 的共享脚本`)
+      } else checkEntityAddress(command.target, `${commandPath}.target`)
     }
     if (kind === 'faceEntityToParty') exactKeys(command, ['kind', 'target'], commandPath)
     if (kind === 'vanishEntity' || kind === 'releaseEntity') {
@@ -1094,6 +1106,7 @@ export function checkBaseScriptLibrary(
       throw new Error(`${path}.${id}.self: 期望 none|optional|required`)
     checkBaseAuthorCommands(script.body, `${path}.${id}.body`, {
       ...options,
+      allowCallingEntityPoseTarget: script.self === 'required',
       rootScope: 'script',
       loopDepth: 0,
       stageIds: undefined,

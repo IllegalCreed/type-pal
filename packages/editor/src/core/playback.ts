@@ -31,6 +31,7 @@ import {
   lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
+  resolveEntityPoseTarget,
 } from '@type-pal/content'
 import type {
   BaseRuntimeLeafCommand,
@@ -474,7 +475,9 @@ export class Playback {
             return
           }
           if (command.kind === 'setEntityFacing' || command.kind === 'setEntityFrame') {
-            const overlay = this.ov(command.target.entity, command.target.scene)
+            const target = resolveEntityPoseTarget(command.target, context.self)
+            if (!target || (command.target === 'self' && target.scene !== this.scene.id)) return
+            const overlay = this.ov(target.entity, target.scene)
             if (command.kind === 'setEntityFacing') overlay.facing = command.facing
             else overlay.frame = command.frame
             return

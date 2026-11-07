@@ -42,6 +42,7 @@ onEnter只有initial步骤可声明entry{prepare,reveal}；先准备目标画面
 
 ### 姿态、condition与时间
 
+- `setEntityFacing` 和 `setEntityFrame` 的具体目标使用 `EntityAddress`。共享脚本声明 `self: 'required'` 时，这两条指令可在正文及其嵌套分支中选 `target: 'self'`。调用点显式传入的 `callScript.self` 优先，否则继承调用上下文。缺少调用实体会拒绝调用。解析后的姿态目标遵守现有场景与自动行为的权限约束；其它正文根仍须给出具体地址。
 - takeEntity暂停目标自身整条auto执行链，包括剩余等待、结构判断及由该链驱动的跨实体动作；release接原进度而非重启。已加载资源可完成，但暂停时不能提交效果；其他实体链不被全局冻结，对目标移动/姿态仍受其权威控制。原2026-10-07醉道士对白确认仅属该合同来源，不是本轮E2E。
 - faceEntityToParty是显式执行时实时坐标转向，同点保方向、异场景无现场副作用；不移动、不停步、不定帧、不接管。对白不隐式接管或朝向修正，需要时作者编排take→face→setFrame→dialog→release，恢复工作朝向也显式写。
 - applyActorCondition/clearActorCondition引用稳定ActorId，目标必须已在party/reserve且唯一；setParty只改阵容。施毒走显式必中合同，定时状态排除puppet且回合1..999，坏状态不刷新、好状态取更长且不施给倒下角色；脚本不复制condition owner或让世界自行衰减。
