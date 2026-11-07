@@ -1,4 +1,4 @@
-import type { CommandValidationOptions } from './author-script-core.js'
+import { type CommandValidationOptions, checkBaseAuthorCommands } from './author-script-core.js'
 import type { EntityRef } from './index.js'
 import type {
   RuntimeCommand,
@@ -6,7 +6,7 @@ import type {
   RuntimeEntityPage,
   RuntimeSceneHooks,
 } from './runtime-script.js'
-import { checkRuntimeCommands } from './runtime-script.js'
+import { runtimeCommandValidationOptions } from './runtime-script.js'
 import type {
   BaseHostileBehavior,
   BaseSceneDef,
@@ -106,11 +106,11 @@ function checkChase(value: unknown, path: string): void {
 }
 
 /** 当前运行态 hostile 的严格单表 guard；禁止 respawnSeconds/success 和隐式策略。 */
-export function checkRuntimeHostileBehavior(
+export function checkBaseHostileBehavior(
   value: unknown,
   path = 'hostile',
   options: CommandValidationOptions = {},
-): asserts value is RuntimeHostileBehavior {
+): asserts value is BaseHostileBehavior {
   const hostile = record(value, path)
   exactKeys(
     hostile,
@@ -126,9 +126,17 @@ export function checkRuntimeHostileBehavior(
     throw new Error(`${path}.battleFieldId: 期望非负安全整数`)
   if (hostile.chase !== undefined) checkChase(hostile.chase, `${path}.chase`)
   if (hostile.onLose !== undefined && hostile.onLose !== 'gameOver')
-    checkRuntimeCommands(hostile.onLose, `${path}.onLose`, options)
+    checkBaseAuthorCommands(hostile.onLose, `${path}.onLose`, options)
   if (hostile.onVictory === undefined) throw new Error(`${path}: 缺键 "onVictory"`)
   if (hostile.onPlayerFlee === undefined) throw new Error(`${path}: 缺键 "onPlayerFlee"`)
   checkVictoryPolicy(hostile.onVictory, `${path}.onVictory`)
   checkPlayerFleePolicy(hostile.onPlayerFlee, `${path}.onPlayerFlee`)
+}
+
+export function checkRuntimeHostileBehavior(
+  value: unknown,
+  path = 'hostile',
+  options: CommandValidationOptions = {},
+): asserts value is RuntimeHostileBehavior {
+  checkBaseHostileBehavior(value, path, runtimeCommandValidationOptions(options))
 }
