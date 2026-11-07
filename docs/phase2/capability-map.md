@@ -20,7 +20,7 @@ current只指入口与参考职责。原表最近全表对账为2026-09-05、统
 
 2026-11-07已核[内容常量](../../packages/content/src/character.ts)与[存档常量](../../packages/reforge/src/save/types.ts)：当前唯一格式为content23、SAVE12，工程最低可读SAVE12；两个版本轴独立，合同见[存档规范](specs/save-system.md#实现锚点)。X1的SAVE10/content21及旧SAVE8/content20是历史检查点，不作为当前格式或兼容许可。
 
-[R4](../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)仍在build；[001–006连续链](../tasks/archive/done/E2E-CONTINUOUS-001-006.md)已有对应候选的独立接受，不等于前十段、四取物canary、编辑保存重开试玩或完整Q1/Q2已完成。001–010 已按各阶段报告完成用户验收；[N6b 四类取物](../tasks/cards/N6B-ITEM-FLOWS-1.md)已获准实施，content23 的同路线、存读和编辑器复验仍在该卡推进；后续顺序和具体剩余义务由[当前任务与后续工作](../tasks/board.md#第二阶段功能开发)及原卡维护。本次未重验63格或新增E2E/视觉信用。
+[R4](../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md)仍在build；[001–006连续链](../tasks/archive/done/E2E-CONTINUOUS-001-006.md)的有限接受保持原候选身份。001–010 已按各阶段报告完成用户验收；[N6b 四类取物](../tasks/cards/N6B-ITEM-FLOWS-1.md)已完成 content23 同路线、存读和编辑器复验，用户于 2026-11-07 接受新版参数表单与 008–010 分屏，任务 done。父卡退出边界及后续 Q2、Q1、编辑器综合 E2E 由[当前任务与后续工作](../tasks/board.md#第二阶段功能开发)及原卡维护。本次只写回该范围裁决，不重验63格或增加新的运行信用。
 
 ## 入口与责任
 

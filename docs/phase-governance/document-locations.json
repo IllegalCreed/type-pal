@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "0f2e084b694eaf75ba4af2dd87811a25b28773042bb4b09782b5126e110876b7",
+      "afterSha256": "9fd41c8fca438706eb3a14ea287c3766c8c901aeadf35ed2c4b391b446874c99",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
-        "reviewedLines": 123,
-        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
+        "conclusion": "N6b及开盖试点退出活动表，新增实际视觉接受与下一项Q2有限准入；R4仍build。",
+        "reviewedLines": 121,
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
@@ -2337,14 +2337,14 @@
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
       "mode": "reviewed",
-      "afterSha256": "9a56d8a0ab531647359a431c9e74230c806f309a5b2f62e7fe4e559f48ec54e4",
+      "afterSha256": "999043902f3950ef13a151e86e9821ee9978edf0a609dbd48b03b5100733af9d",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "接受 007–009 正式收口、PR 内容一致性复验及官方覆盖率基线。核失败身份、原测试判据、反例和与远端一致的逐包精确结果。",
+        "author": "Codex /root（用户裁决与现行状态写回）",
+        "reviewer": "Codex /root/item_flow_final_review",
+        "date": "2026-11-07",
+        "conclusion": "只承接N6b同基线技术原件和本次视觉裁决；保留R4 build、006有限接受及父卡退出边界。",
         "reviewedLines": 533,
-        "acceptanceScope": "沿用三段已接受的实跑与分屏。增量核第二轮 CI、官方 ratchet 和范围差异，R4 与 006 全段的边界按原卡。"
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "82e2d95a7efe370c5d129b5dcc83d353ed8730ee0fd1a5753575ab427b4799d0",
+      "afterSha256": "b1f38e3201f26bd2e74d2b1a7ab21e5e7cd728dc2725baedb59a815cc0871bf7",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
+        "conclusion": "核真实生成器输出，仅两张卡由review移入done，其他卡状态与历史均不变。",
         "reviewedLines": 587,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
@@ -3291,14 +3291,14 @@
     {
       "path": "docs/phase2/capability-map.md",
       "mode": "reviewed",
-      "afterSha256": "9ae2c4e70e89340b4c73929b686b653f640cbc05dfb26886cf342b87ceb8c26c",
+      "afterSha256": "45efa25e5086c6a08ab8f7b9e5208ecced016d71ba59079f0029091085ae7aa2",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
+        "conclusion": "当前层仅同步N6b完成及明确用户视觉范围；R4及全量63格、Q1/Q2保持各自边界。",
         "reviewedLines": 387,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       },
       "templateId": "governance-index-v1",
       "historyOverlay": false,
@@ -3375,14 +3375,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "1cd3838d5bf6871fbd716b8378691d004b9b13a207eeda18087e5bfe1b6c4322",
+      "afterSha256": "24744b5180c9fc6ef5e61c26f51b5a70d740dd6a94d5a342eea4aa0a44f7f8f9",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
+        "conclusion": "承接N6b完成，下一项先核Q2准入再扩Q1，保留既定五批顺序及全部固定历史。",
         "reviewedLines": 355,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -4623,14 +4623,14 @@
       "path": "docs/phase2/specs/content-schema.md",
       "mode": "reviewed",
       "templateId": "design-spec-v1",
-      "afterSha256": "f52d4b15260ebbd2ba8261927c71777dd112bc56bf0cccb8a07621b5868b3843",
+      "afterSha256": "e1f572be0c66454ae0bdb459468c65e8e114c7506cd70a13fc9811c4caa0c899",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
+        "conclusion": "修正四类取物由实施中至已完成并获本次视觉接受；content23/SAVE12及旧执行身份不变。",
         "reviewedLines": 224,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
@@ -5319,14 +5319,14 @@
     {
       "path": "docs/tasks/cards/PAL-SHARED-CHEST-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "e486da3ebf3bfb16278092a4327c228b87da6ed66c8ac4a9fae7ae9a4ba5dc09",
+      "afterSha256": "cdb08a084d4482492f2513772e10ff3a0871bf86f2cd9ef8dc9bd6563f8576db",
       "review": {
-        "author": "Codex /root（合并与分支清理执行、原卡事实写回）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "仅核 PR48 实际 CI/合并、67旧本地与4远程ref清理、最小恢复来源及当前剩余义务；既有产品/执行身份和用户视觉待定保留。",
-        "reviewedLines": 70,
-        "acceptanceScope": "只核当前文档实际增量及cleanup原件/字节恢复，不新增产品、runtime、whole-file代码或用户视觉接受。全文行数只作载体边界。"
+        "conclusion": "已被完整取物流程接替的试点随N6b收口；旧content22执行不升格，苗刀箱继续独立。",
+        "reviewedLines": 72,
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
@@ -5345,14 +5345,14 @@
     {
       "path": "docs/tasks/cards/N6B-ITEM-FLOWS-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "6c15c3205f029d38f851083484b62811acbb1b684b3f38bf941c6a08d717c52f",
+      "afterSha256": "ccb1982d6a767f42156ef44af101ed82426d10594a0168ab6bb03961401deb5c",
       "review": {
-        "author": "Codex /root（明确旧WIP退役及本地输入/事务边界）",
+        "author": "Codex /root（用户裁决与现行状态写回）",
         "reviewer": "Codex /root/item_flow_final_review",
         "date": "2026-11-07",
-        "conclusion": "核本次实际增量、101项有界处置与必要保全；无独有作者成果漏合。原始输入与有效事务留在本地，未变运行/恢复/版本与用户视觉边界。",
-        "reviewedLines": 172,
-        "acceptanceScope": "只授当前文档/规则语义和已执行处置接受；不新增原盘许可、runtime、whole-file代码或用户视觉信用。行数仅用于载体边界。"
+        "conclusion": "据用户对新版四类表单及008–010分屏的直接接受收口；核PR50实际闭合、独占服务退出与必要原件保留。",
+        "reviewedLines": 177,
+        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
       }
     },
     {
