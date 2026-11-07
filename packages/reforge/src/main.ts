@@ -22,7 +22,6 @@ import {
   type RuntimeScriptBinding,
   removeOwnedItems,
   resolveAmbienceTint,
-  resolveEntityPoseTarget,
   resolveEntitySpriteId,
   type SceneDef,
   type SceneReveal,
@@ -199,7 +198,7 @@ import { runWithPresentationFinalizer, ScreenHoldTransaction } from './screen-ho
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import { ScriptConfirmModalQueue } from './script-confirm-modal.js'
 import { atScriptExecutionGate } from './script-execution-gate.js'
-import { executeScriptHostEffect } from './script-host-adapter.js'
+import { executeScriptHostEffect, resolveEntityPoseTarget } from './script-host-adapter.js'
 import type { MoveEntityCommitControl, ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost, ScriptRunner } from './script-runner.js'
 import type { ScriptGateBoundary, ScriptRuntimeContext } from './script-runner-core.js'

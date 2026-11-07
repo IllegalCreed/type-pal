@@ -22,13 +22,6 @@ export interface EntityAddress {
 
 export type EntityPoseTarget = EntityAddress | 'self'
 
-export function resolveEntityPoseTarget(
-  target: EntityPoseTarget,
-  self: EntityAddress | undefined,
-): EntityAddress | undefined {
-  return target === 'self' ? self : target
-}
-
 export type Selection<T> = { kind: 'inherit' } | { kind: 'disabled' } | { kind: 'use'; value: T }
 
 export type PageSelection = { kind: 'inherit' } | { kind: 'use'; value: PageId }

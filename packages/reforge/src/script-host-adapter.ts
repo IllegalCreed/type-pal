@@ -1,4 +1,4 @@
-import { type EntityAddress, resolveEntityPoseTarget, type SceneSpawn } from '@type-pal/content'
+import type { EntityAddress, EntityPoseTarget, SceneSpawn } from '@type-pal/content'
 import type { BaseRuntimeLeafCommand } from './script-compiler-core.js'
 import type { ScriptEffectCommitControl } from './script-project-core.js'
 import type { ScriptHost } from './script-runner.js'
@@ -7,6 +7,13 @@ import type { ScriptRuntimeContext } from './script-runner-core.js'
 export interface ScriptHostAdapterOptions {
   currentSceneId(): string
   commitControl?: ScriptEffectCommitControl
+}
+
+export function resolveEntityPoseTarget(
+  target: EntityPoseTarget,
+  self: EntityAddress | undefined,
+): EntityAddress | undefined {
+  return target === 'self' ? self : target
 }
 
 function activeEntity(

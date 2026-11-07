@@ -31,7 +31,6 @@ import {
   lookupText,
   pixelDeltaToGridDelta,
   resolveAuthorDialogueTree,
-  resolveEntityPoseTarget,
 } from '@type-pal/content'
 import type {
   BaseRuntimeLeafCommand,
@@ -44,6 +43,7 @@ import {
   executeScriptHostEffect,
   interactionFacingToward,
   type RuntimeScriptRunner,
+  resolveEntityPoseTarget,
   resolveSceneSpawn,
   runtimeSceneView,
   ScriptProjectRuntime,

@@ -13,8 +13,8 @@ import type {
   ScriptStage,
   SpriteDef,
 } from '@type-pal/content'
-import { resolveEntityPoseTarget, resolveEntitySpriteId } from '@type-pal/content'
-import { actualFrameIndex } from '@type-pal/reforge'
+import { resolveEntitySpriteId } from '@type-pal/content'
+import { actualFrameIndex, resolveEntityPoseTarget } from '@type-pal/reforge'
 import type { EditorState } from './edit-session.js'
 import type { ProjectReferenceEdge } from './project-reference.js'
 
