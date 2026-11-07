@@ -23,7 +23,7 @@ import {
 } from '../core/script-editor.js'
 import { setCatalogSearch } from './catalog-controls-test-utils.js'
 import { verifyCatalogWorkspace } from './catalog-workspace-test-utils.js'
-import type { CanonicalScriptEditorContext } from './ScriptEditor.js'
+import { CanonicalScriptBodyEditor, type CanonicalScriptEditorContext } from './ScriptEditor.js'
 import { CanonicalSharedScriptTab as CanonicalSharedScriptTabContent } from './SharedScriptTab.js'
 
 function currentSharedScriptReferences(candidate: ScriptEditorState) {
@@ -495,6 +495,36 @@ describe('CanonicalSharedScriptTab', () => {
     expect(html.match(/<span>添加指令<\/span>/g)).toHaveLength(1)
     expect(html).not.toContain('添加第一条指令')
     expect(html).toContain('请使用右上角“添加指令”')
+  })
+
+  test('共享脚本调用行显示当前名称，引用失效时保留可定位的 ID', async () => {
+    const callState: ScriptEditorState = {
+      scenes: [],
+      items: [],
+      sharedScripts: {
+        'shared/user/caller': {
+          name: '调查箱子',
+          self: 'none',
+          body: [{ kind: 'callScript', script: 'shared/user/open-chest' }],
+        },
+        'shared/user/open-chest': { name: '普通宝箱开盖', self: 'none', body: [] },
+      },
+    }
+    const rowLabel = () => host.querySelector('[role="treeitem"] .cmd-label')?.textContent
+    await renderSession(new ScriptEditSession(callState))
+    expect(rowLabel()).toBe('调用共享脚本：普通宝箱开盖')
+
+    // 会话拒绝载入悬空引用，直接从正文编辑器的展示入口核对旧引用的可读回退。
+    await act(async () =>
+      root.render(
+        <CanonicalScriptBodyEditor
+          body={[{ kind: 'callScript', script: 'shared/user/missing' }]}
+          context={{ ...context, state: callState }}
+          onChange={() => {}}
+        />,
+      ),
+    )
+    expect(rowLabel()).toBe('调用共享脚本：shared/user/missing（未找到）')
   })
 
   test.each([
