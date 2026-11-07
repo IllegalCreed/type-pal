@@ -59,7 +59,7 @@ export function captureOpeningSaveBaseline(
   let baseline: Map<string, string> | undefined
   return async () => {
     if (!baseline) {
-      if (!opening) throw new Error('缺少编辑前保存快照，请重新打开工程')
+      if (!opening) throw new Error('缺少编辑前保存快照，请重新打开项目')
       baseline = await projectFileSnapshot(await serializeEditorSaveSnapshot(opening, source))
       opening = undefined
     }

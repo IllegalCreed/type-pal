@@ -204,7 +204,7 @@ export function InitialStateWorkspace(props: {
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
-        <nav className="initial-state-groups" aria-label="工程初始状态">
+        <nav className="initial-state-groups" aria-label="项目初始状态">
           {[...groups].map(([id, states]) => (
             <details
               key={id}
@@ -431,7 +431,7 @@ export function InitialStateWorkspace(props: {
                   triggerLabel="添加场景"
                   triggerSize="default"
                   title="添加场景"
-                  description="为这份初始状态添加场景，不修改工程场景或脚本引用。"
+                  description="为这份初始状态添加场景，不修改项目场景或脚本引用。"
                   confirmLabel="添加所选场景"
                   scopeKey={selected.id}
                   revision={JSON.stringify([
@@ -442,7 +442,7 @@ export function InitialStateWorkspace(props: {
                   options={props.state.scenes
                     .filter((scene) => !selected.scenes.some((slice) => slice.sceneId === scene.id))
                     .map((scene) => ({ id: scene.id, label: sceneName(scene.id) }))}
-                  emptyMessage="所有工程场景都已加入这份初始状态。"
+                  emptyMessage="所有项目场景都已加入这份初始状态。"
                   onConfirm={(id) => {
                     const current = props.session.getState()
                     const currentLibrary = current.scriptPreview
