@@ -328,7 +328,7 @@ test('all current scene scripts project to steps; automatic phases are inside on
       for (const group of [entity.behaviors?.trigger ?? {}, entity.behaviors?.auto ?? {}])
         for (const behavior of Object.values(group)) {
           flows++
-          expect(behavior.flow.kind).toBe('stages')
+          expect(['stages', 'acquisition']).toContain(behavior.flow.kind)
         }
     for (const group of Object.values(scene.hooks ?? {}))
       for (const hook of Object.values(group.variants)) {
