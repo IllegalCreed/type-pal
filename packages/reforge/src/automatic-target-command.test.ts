@@ -175,7 +175,7 @@ test.each([
     {
       kind: 'current',
       projectId: 'pose-project',
-      contentVersion: 22,
+      contentVersion: 23,
       saveVersion: 12,
     },
     references,

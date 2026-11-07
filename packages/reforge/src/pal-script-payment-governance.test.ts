@@ -328,7 +328,9 @@ test.each(
     expect(repeat.every((command) => command.kind === 'dialog')).toBe(true)
     expect(
       repeat.flatMap((command) =>
-        command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+        command.kind === 'dialog'
+          ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+          : [],
       ),
     ).toEqual(entry.kind === 'gate' ? ['dlg.4937'] : ['dlg.6327'])
   }
@@ -353,7 +355,9 @@ test.each(
   )
   expect(run.cursor()).toEqual({ kind: 'stage', stage })
   const spoken = run.effects.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
   expect(spoken).toEqual(
     paid
@@ -369,7 +373,9 @@ test.each(
       expect(repeat.every((command) => command.kind === 'dialog')).toBe(true)
       expect(
         repeat.flatMap((command) =>
-          command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+          command.kind === 'dialog'
+            ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+            : [],
         ),
       ).toEqual([paid ? 'dlg.5342' : 'dlg.5350'])
       expect(current.world.money).toBe(balance)

@@ -1,5 +1,5 @@
 import type { AuthorCondition } from '@type-pal/content'
-import { validateAuthorScenes } from '@type-pal/content'
+import { resolveAuthorDialogueTree, validateAuthorScenes } from '@type-pal/content'
 import { expect, test } from 'vitest'
 import sceneJson from '../../../projects/pal/content/scenes/s032.json' with { type: 'json' }
 import { sha256Bytes } from './hash.js'
@@ -99,7 +99,10 @@ test.each(
   }
   try {
     await new RuntimeScriptRunner(host, controller.signal).runFlow(
-      compileRuntimeScriptFlow(flow, { timing: 'auto', canonicalContentDigest: 'a'.repeat(64) }),
+      compileRuntimeScriptFlow(resolveAuthorDialogueTree(flow, {}), {
+        timing: 'auto',
+        canonicalContentDigest: 'a'.repeat(64),
+      }),
       {
         cursorController: { checkpointEnabled: false, reachSafePoint: () => 'continue' },
       },

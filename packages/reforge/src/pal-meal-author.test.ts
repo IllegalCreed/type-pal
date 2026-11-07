@@ -63,7 +63,9 @@ test('wine private use only guards, selects and explicitly awaits the NPC-owned 
   const gift = body('s003', 'e62', 'c8-321c0a7d7de1')
   expect(
     gift.flatMap((command) =>
-      command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+      command.kind === 'dialog'
+        ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+        : [],
     ),
   ).toEqual(giftRows)
   expect(gift.filter((command) => command.kind === 'loseItem')).toEqual([
@@ -101,6 +103,7 @@ test('drinking freezes only the beggar pose loop before changing its pose or dit
 test('every kitchen-aunt interaction explicitly faces the party for dialogue then restores her work pose', () => {
   const aunt = entity('s001', 'e19')
   for (const behavior of Object.values(aunt.behaviors?.trigger ?? {})) {
+    if (behavior.flow.kind !== 'stages') throw new Error('aunt interaction is not ordinary steps')
     for (const stage of behavior.flow.stages) {
       const target = { scene: 's001', entity: 'e19' }
       expect(stage.body.slice(0, 2), `${behavior.label}/${stage.id}`).toEqual([
@@ -127,7 +130,8 @@ test('kitchen idle is static; taking dishes turns the aunt back up after her com
   ])
   const instruction = commands.findIndex(
     (command) =>
-      command.kind === 'dialog' && command.cue.rows.some((row) => row.text === 'dlg.142'),
+      command.kind === 'dialog' &&
+      command.cue.rows.some((row) => 'text' in row && row.text === 'dlg.142'),
   )
   expect(commands.slice(instruction + 1, instruction + 4)).toEqual([
     { kind: 'clearDialog' },

@@ -16,18 +16,18 @@ const d: Dialogue = {
 
 describe('dialogue 序列指针', () => {
   test('startDialogue → 当前是首句', () => {
-    expect(currentCue(startDialogue(d))?.rows[0]?.text).toBe('t0')
+    expect(currentCue(startDialogue(d))?.rows[0]).toEqual({ text: 't0' })
   })
 
   test('advanceLine → 推进到下一句', () => {
     const s1 = advanceCue(startDialogue(d))
-    expect(s1 && currentCue(s1)?.rows[0]?.text).toBe('t1')
+    expect(s1 && currentCue(s1)?.rows[0]).toEqual({ text: 't1' })
   })
 
   test('推进到末句后再 advanceLine → null(对话结束)', () => {
     let s: ReturnType<typeof startDialogue> | null = startDialogue(d)
     for (let i = 0; i < 4; i++) s = advanceCue(s as NonNullable<typeof s>)
-    expect(s && currentCue(s)?.rows[0]?.text).toBe('t4') // 第 5 个 cue(末项)
+    expect(s && currentCue(s)?.rows[0]).toEqual({ text: 't4' }) // 第 5 个 cue(末项)
     expect(advanceCue(s as NonNullable<typeof s>)).toBeNull() // 再推进 → 结束
   })
 })

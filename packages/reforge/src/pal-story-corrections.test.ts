@@ -4,7 +4,9 @@ import { correctionRuntime } from './__tests__/pal-corrections-harness.js'
 
 function dialogueTexts(run: ReturnType<typeof correctionRuntime>) {
   return run.effects.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 

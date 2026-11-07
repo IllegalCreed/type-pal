@@ -41,7 +41,7 @@ test('menu storage ports write the selected real slot, retain rejected load UI, 
   expect(good).toEqual({
     sceneRuntime: { a: { entities: {}, automatic: {}, chaseClaims: [], actions: [] } },
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'shell-project',
     world: before,
     position: { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },

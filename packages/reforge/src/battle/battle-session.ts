@@ -28,6 +28,7 @@ import {
   itemUseSupportsContext,
   lookupText,
   POISON_CURE_RANK,
+  resolveDialogueRowText,
   resolveSkillExecution,
 } from '@type-pal/content'
 import type { Palette } from '@type-pal/shared'
@@ -826,7 +827,7 @@ export class BattleSession {
           this.choreoBanner = {
             name: this.choreoName,
             text: action.cue.rows
-              .map((row) => lookupText(row.text, this.opts.locale ?? {}))
+              .map((row) => resolveDialogueRowText(row, this.opts.locale ?? {}))
               .join('\n'),
           }
         }

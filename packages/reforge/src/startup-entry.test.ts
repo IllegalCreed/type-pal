@@ -12,7 +12,7 @@ const world = (party: string[]) => ({ party, money: 0, inventory: [] })
 const manifest = (): CurrentManifest => ({
   id: 'demo',
   name: 'Demo',
-  contentVersion: 22,
+  contentVersion: 23,
   minimumSaveVersion: 12,
   defaultEntryId: 'second',
   entryPoints: [

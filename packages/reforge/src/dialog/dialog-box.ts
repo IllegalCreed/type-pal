@@ -9,6 +9,7 @@ import {
   type Locale,
   lookupText,
   parseRichText,
+  resolveDialogueRowText,
   type TextSpan,
 } from '@type-pal/content'
 import type { RleFrame } from '@type-pal/shared'
@@ -182,7 +183,9 @@ export class DialogBox {
     )) {
       const row = cue.rows[line.srcRowIdx]
       if (!row) throw new Error('reforge: dialogue page observation has no source row')
-      if (!pageTextIds.includes(row.text)) pageTextIds.push(row.text)
+      const textId =
+        'text' in row ? row.text : row.reward.kind === 'item' ? row.reward.itemName : undefined
+      if (textId !== undefined && !pageTextIds.includes(textId)) pageTextIds.push(textId)
     }
     return Object.freeze({
       dialogueId: render.dialogueId,
@@ -197,7 +200,11 @@ export class DialogBox {
           ? 'waiting-input'
           : 'auto-advance',
       speaker: cue.speaker ?? null,
-      rowTextIds: Object.freeze(cue.rows.map((row) => row.text)),
+      rowTextIds: Object.freeze(
+        cue.rows.flatMap((row) =>
+          'text' in row ? [row.text] : row.reward.kind === 'item' ? [row.reward.itemName] : [],
+        ),
+      ),
       pageTextIds: Object.freeze(pageTextIds),
       pageText: render.displayLines
         .slice(render.pageStart, render.pageStart + LINES_PER_PAGE)
@@ -226,7 +233,7 @@ export class DialogBox {
       maxRight,
       startX,
     )
-    const singleLineText = cue.rows.map((row) => lookupText(row.text, this.locale)).join('')
+    const singleLineText = cue.rows.map((row) => resolveDialogueRowText(row, this.locale)).join('')
     return {
       slot,
       render: {

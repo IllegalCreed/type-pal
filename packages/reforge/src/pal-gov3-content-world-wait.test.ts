@@ -37,7 +37,9 @@ function stageFor(path: string) {
     stageIndex = 4
   } else {
     const entity = scene.entities.find((candidate) => candidate.id === parts[1])
-    flow = entity?.behaviors?.trigger?.[parts[3] ?? '']?.flow
+    const candidate = entity?.behaviors?.trigger?.[parts[3] ?? '']?.flow
+    if (candidate?.kind !== 'stages') throw new Error(`missing ordinary flow ${path}`)
+    flow = candidate
     stageIndex = 5
   }
   const stage = flow?.stages.find((candidate) => candidate.id === parts[stageIndex - 1])

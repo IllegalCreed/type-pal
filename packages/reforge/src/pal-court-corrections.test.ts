@@ -4,7 +4,9 @@ import { gov3Scene } from './pal-gov3-content-harness.js'
 
 function texts(run: ReturnType<typeof correctionRuntime>) {
   return run.effects.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 
@@ -16,7 +18,8 @@ test.each([0, 2])('扬州审讯否认 %i 次：每次命令对应一次挨打，
   expect(texts(run).filter((text) => text === 'dlg.4891')).toHaveLength(denials)
   const repeatedBeatingStart = run.effects.findIndex(
     (command) =>
-      command.kind === 'dialog' && command.cue.rows.some((row) => row.text === 'dlg.4889'),
+      command.kind === 'dialog' &&
+      command.cue.rows.some((row) => 'text' in row && row.text === 'dlg.4889'),
   )
   expect(repeatedBeatingStart).toBeGreaterThanOrEqual(0)
   const blows = run.effects.flatMap((command, index) =>

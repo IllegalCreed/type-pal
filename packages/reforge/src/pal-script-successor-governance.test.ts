@@ -204,7 +204,9 @@ function harness(
 
 function rows(commands: RuntimeLeafCommand[]) {
   return commands.flatMap((command) =>
-    command.kind === 'dialog' ? command.cue.rows.map((row) => row.text) : [],
+    command.kind === 'dialog'
+      ? command.cue.rows.map((row) => ('text' in row ? row.text : undefined))
+      : [],
   )
 }
 

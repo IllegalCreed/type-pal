@@ -320,10 +320,10 @@ test('all current scene scripts use steps; automatic phases are inside one step'
   let flows = 0
   for (const scene of scenes) {
     for (const entity of scene.entities)
-      for (const group of Object.values(entity.behaviors ?? {}))
+      for (const group of [entity.behaviors?.trigger ?? {}, entity.behaviors?.auto ?? {}])
         for (const behavior of Object.values(group)) {
           flows++
-          expect(behavior.flow.kind).toBe('stages')
+          expect(['stages', 'acquisition']).toContain(behavior.flow.kind)
         }
     for (const group of Object.values(scene.hooks ?? {}))
       for (const hook of Object.values(group.variants)) {

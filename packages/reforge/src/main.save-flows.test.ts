@@ -53,7 +53,7 @@ test('H5 F5 stores real SAVE12 data, F9 restores after actual menu spell, and sc
   expect(payload).toEqual({
     sceneRuntime: { a: { entities: {}, automatic: {}, chaseClaims: [], actions: [] } },
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'shell-project',
     world: before,
     position: { sceneId: 'a', pos: { col: 2, row: 2, height: 0 }, facing: 'down' },
