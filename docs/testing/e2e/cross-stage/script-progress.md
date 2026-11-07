@@ -28,6 +28,7 @@ Template: plan-status-v1 / 1.0.0
 | 009 桃花林采药与池塘初遇 | Codex | 双轨和作者分屏已验 | 双轨核对两段池塘演出，九个步骤的初态在编辑器复验，八处雷击逐现场记录。 [009 任务卡](../../../tasks/cards/E2E-009-1-fairy-island-pool.md) |
 | 010 水月宫取药 | Codex | 双轨和作者分屏已验 | 核对 10 个实际入口和 21 处静态前态。苗刀箱第 2–4 次单独预览的开启帧保留待核。 [010 正式报告](../stages/010-water-moon-palace/report.md) |
 | 普通宝箱首开复用 | Codex | 两只箱子定向复验 | 五灵符箱和绣花鞋箱首开已共享，复查仍为各箱单条空箱提示。010 苗刀箱独立。 [抽取与复验证据](../../../tasks/cards/PAL-SHARED-CHEST-1.md#独立验收) |
+| 四类类型化取物 | Codex | 当前内容已接入并复验 | 8 处作者入口、12 个步骤分别记录审查、优化与初态取证；绣花鞋箱仅本轮静态等值，不伪称林家堡剧情实跑。旧开盖试点由完整流程接替，010 特殊箱独立。[N6b 任务](../../../tasks/cards/N6B-ITEM-FLOWS-1.md) |
 | 后续片段与脚本优化持续推进 | Codex | planned | 沿逐步骤合同更新，不以片段总状态替代各轴记录 |
 
 ## 怎样看每条记录
@@ -219165,6 +219166,3904 @@ node scripts/script-governance/progress-report.mjs --pending --json
         }
       ],
       "note": "已从真实新会话取证开盖帧；当前初态侧车没有单独保存这个运行时帧。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:initial",
+        "description": "四类类型化取物 hidden-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "b5b0f86915c1bfd6f06fbe51272137f071c59ef7a3e927149d1520e276453a95",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-collected-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "collected"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:collected",
+        "description": "四类类型化取物 hidden-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "81765ecb4a2c9531874019c2619829f35592f8f539227e39f8e8837aca0e2971",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/collected; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-collected-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "collected"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:collected",
+        "description": "四类类型化取物 hidden-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "81765ecb4a2c9531874019c2619829f35592f8f539227e39f8e8837aca0e2971",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/collected; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-collected-optimization-not-needed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "collected"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:collected",
+        "description": "四类类型化取物 hidden-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "81765ecb4a2c9531874019c2619829f35592f8f539227e39f8e8837aca0e2971",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/collected; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "领取后步骤只有原空提示或明确的空正文；无重复开盖、音效或发奖指令，不再拆分。"
+    },
+    {
+      "id": "n6b-content23-s001-e4-collected-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e4",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "collected"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e4:collected",
+        "description": "四类类型化取物 hidden-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "81765ecb4a2c9531874019c2619829f35592f8f539227e39f8e8837aca0e2971",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e4/trigger/default/collected; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e4"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:initial",
+        "description": "四类类型化取物 chest；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "ae48209efc167ca52838bcc21b2e0b8e0d234c9c2aed5855c7fe5797303d1b60",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-legacy-002-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:legacy-002",
+        "description": "四类类型化取物 chest；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "45c23cfda4b7937a56236c4d216328816fe0b798f13c4fc8bdfee175785b80a4",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-legacy-002-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:legacy-002",
+        "description": "四类类型化取物 chest；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "45c23cfda4b7937a56236c4d216328816fe0b798f13c4fc8bdfee175785b80a4",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-legacy-002-optimization-not-needed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:legacy-002",
+        "description": "四类类型化取物 chest；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "45c23cfda4b7937a56236c4d216328816fe0b798f13c4fc8bdfee175785b80a4",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "领取后步骤只有原空提示或明确的空正文；无重复开盖、音效或发奖指令，不再拆分。"
+    },
+    {
+      "id": "n6b-content23-s017-e263-legacy-002-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e263",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e263:legacy-002",
+        "description": "四类类型化取物 chest；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "45c23cfda4b7937a56236c4d216328816fe0b798f13c4fc8bdfee175785b80a4",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e263/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e263"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:initial",
+        "description": "四类类型化取物 chest-static-equivalence；首次奖励入口。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "47539753bfae4792b46e92d3bc737b606e0b4372c7715abd2df540226dbbb3a2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:initial",
+        "description": "四类类型化取物 chest-static-equivalence；首次奖励入口。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "47539753bfae4792b46e92d3bc737b606e0b4372c7715abd2df540226dbbb3a2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "独立核原盘与作者树；公共展开在显式本实体地址下逐叶等值，稳定步骤和预览绑定身份保持。未授新剧情运行信用。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:initial",
+        "description": "四类类型化取物 chest-static-equivalence；首次奖励入口。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "47539753bfae4792b46e92d3bc737b606e0b4372c7715abd2df540226dbbb3a2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:initial",
+        "description": "四类类型化取物 chest-static-equivalence；首次奖励入口。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "47539753bfae4792b46e92d3bc737b606e0b4372c7715abd2df540226dbbb3a2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:initial",
+        "description": "四类类型化取物 chest-static-equivalence；首次奖励入口。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "47539753bfae4792b46e92d3bc737b606e0b4372c7715abd2df540226dbbb3a2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "作者树公共展开与原叶等值；同类流程已由当前实际宝箱及 SAVE12 守卫验证。此实例只接受静态等值迁移。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-legacy-002-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:legacy-002",
+        "description": "四类类型化取物 chest-static-equivalence；领取后再次调查现场。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "20d25dcc0753787f3470d0fda480b918165cb67eb100262be91ece1cfa2ecb84",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-legacy-002-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:legacy-002",
+        "description": "四类类型化取物 chest-static-equivalence；领取后再次调查现场。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "20d25dcc0753787f3470d0fda480b918165cb67eb100262be91ece1cfa2ecb84",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "独立核原盘与作者树；公共展开在显式本实体地址下逐叶等值，稳定步骤和预览绑定身份保持。未授新剧情运行信用。"
+    },
+    {
+      "id": "n6b-content23-s036-e607-legacy-002-optimization-not-needed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s036",
+        "entityId": "e607",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s036:e607:legacy-002",
+        "description": "四类类型化取物 chest-static-equivalence；领取后再次调查现场。本轮仅作者树与公共展开等值，旧两箱近点运行保持原 content22 身份，不声明新林家堡剧情实跑。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "20d25dcc0753787f3470d0fda480b918165cb67eb100262be91ece1cfa2ecb84",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "sha256": "8353cb6089e5a47268ca56c343dd3605b0a7c2c8f45839a19382a7d384df0c20"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "projects/pal/content/scenes/s036.json",
+          "revision": "e05bc11ed83feadf0aadc0e4d51f23d32dde9ded",
+          "sha256": "29da3cb0f76c6f98387fe783f17a00432c03381611347db528ac043466f52a9e",
+          "selector": "e607 default; compare common expansion to original leaf body, next and cue"
+        }
+      ],
+      "note": "领取后步骤只有原空提示或明确的空正文；无重复开盖、音效或发奖指令，不再拆分。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:initial",
+        "description": "四类类型化取物 repeat-search；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "438f81a20a8ab529ab2f39e081d8e886162c6e6ac150e850d107f8b9522259cb",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-legacy-002-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:legacy-002",
+        "description": "四类类型化取物 repeat-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "0702a33287edd301a4e919bdc336f956e515cbc206a55cd54927aa044c8da403",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-legacy-002-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:legacy-002",
+        "description": "四类类型化取物 repeat-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "0702a33287edd301a4e919bdc336f956e515cbc206a55cd54927aa044c8da403",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-legacy-002-optimization-not-needed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:legacy-002",
+        "description": "四类类型化取物 repeat-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "not-needed",
+      "sourceFingerprint": "0702a33287edd301a4e919bdc336f956e515cbc206a55cd54927aa044c8da403",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "领取后步骤只有原空提示或明确的空正文；无重复开盖、音效或发奖指令，不再拆分。"
+    },
+    {
+      "id": "n6b-content23-s017-e235-legacy-002-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s017",
+        "entityId": "e235",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "legacy-002"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s017:e235:legacy-002",
+        "description": "四类类型化取物 repeat-search；领取后再次调查现场。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "0702a33287edd301a4e919bdc336f956e515cbc206a55cd54927aa044c8da403",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s017.json",
+          "sha256": "470545d3541e6a8e6b3fba64576c75510cc1dc5d0e1c3637c72a905d828fa247"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s017/e235/trigger/default/legacy-002; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e235"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s016-e233-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s016",
+        "entityId": "e233",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s016:e233:initial",
+        "description": "四类类型化取物 pickup；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "b4083ac6464e447cde5543f19d2f31fe738195f30b488c4e29ff0ac0f2bb69a6",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s016.json",
+          "sha256": "2290610b8fc80ade1f34dc630614ffb40702a054a7a168cdce22ed85f1cb5c74"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s016/e233/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e233"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s020-e342-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s020",
+        "entityId": "e342",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s020:e342:initial",
+        "description": "四类类型化取物 direct-item；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "44e6760540f36c7abfaa63f2736e174e908d380dda858fab5106043bfe143e99",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s020.json",
+          "sha256": "8ea64c78395268874d215e7eaac425e44e9a0305e235b20b2c397b55ff9307f6"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-stories.tar.gz",
+          "sha256": "5ad2c5c1a2b47dd9636a819d9d6c89d65b126c2e3874ac8c788050956b861a9a",
+          "selector": "native report/trace owner s020/e342/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e342"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s001-e19-stage-1-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s001",
+        "entityId": "e19",
+        "channel": "trigger",
+        "schemeId": "c8-74bc98f07f8e",
+        "stageId": "stage-1"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s001:e19:stage-1",
+        "description": "四类类型化取物 direct-money50；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "14ac0d9decae72f3fefe1a72533806be56ce55432758fae899e9c910746649e2",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s001.json",
+          "sha256": "7758411ea84533b13939739bd65f09ee85ec41e015c2e5ff2b6651fd137cd4bd"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s001/e19/trigger/c8-74bc98f07f8e/stage-1; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e19"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-review-in-review",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "unreviewed",
+      "to": "in-review",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "按本实体、方案与步骤核奖励、提示、时序、去向和真实参数引用。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-review-verified",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "review",
+      "from": "in-review",
+      "to": "verified",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "独立核原盘、作者参数与公共展开；对应实际输入与离线比较、原生存读/重复守卫按各自范围留存。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-optimization-planned",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "unassessed",
+      "to": "planned",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "以具名业务参数替代重复的领取编排，复用持久游标和公共实现。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-optimization-changed",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "planned",
+      "to": "changed",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "已接入类型化取物流程或剧情奖励；奖励与提示仍在单一作者参数中，可回表单编辑。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-optimization-accepted",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "reviewer": "Codex /root/item_flow_final_review（独立源码与原盘核验）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "optimization",
+      "from": "changed",
+      "to": "accepted",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "原提示、奖励时机、显隐与步骤生命周期按对应 E2E 实跑、原生保存/恢复及公共展开核验；不改变外层剧情。"
+    },
+    {
+      "id": "n6b-content23-s003-e56-initial-initialState-evidence-collected",
+      "at": "2026-11-07T04:02:03.207Z",
+      "actor": "Codex /root（作者参数接入）",
+      "entry": {
+        "sceneId": "s003",
+        "entityId": "e56",
+        "channel": "trigger",
+        "schemeId": "default",
+        "stageId": "initial"
+      },
+      "context": {
+        "id": "n6b-content23-20261107:s003:e56:initial",
+        "description": "四类类型化取物 direct-money500；首次奖励入口。当前原生输入、保存字节与真实采集；正常路线和近点重复守卫分别留证。 不扩大旧初态保存或用户视觉信用。"
+      },
+      "axis": "initialState",
+      "from": "unreviewed",
+      "to": "evidence-collected",
+      "sourceFingerprint": "1a81da1cbd407070d349dd4e019e992c5ad46c589db373d1154e651c17d4d6e8",
+      "dependencies": [
+        {
+          "path": "projects/pal/content/scenes/s003.json",
+          "sha256": "2220dde583a10750c69260952221568bd617a4ec14db31e6c2a54bdb79625751"
+        },
+        {
+          "path": "packages/content/src/item-acquisition.ts",
+          "sha256": "b241b51492b2a2b80eb8f4c026ca33a77902f5bebcb1e736d7055f9ed285b95e"
+        },
+        {
+          "path": "packages/content/src/author-script.ts",
+          "sha256": "abaec94ad98ae0c2e6479b70d04ae0d289dd008a3926eb9d507d538d14878f59"
+        },
+        {
+          "path": "packages/content/src/dialogue-row.ts",
+          "sha256": "6e842a8cd9850628dc3f51973a5e874ae44b3692231afed8d0619b40966f265a"
+        },
+        {
+          "path": "packages/reforge/src/runnable-project-loader.ts",
+          "sha256": "f57d800219c5de06c196b77d7a76c5f1b242dbfcbd54794f21d1b346aeb5a865"
+        },
+        {
+          "path": "packages/reforge/src/script-runner-core.ts",
+          "sha256": "885ddfef0a74e8a70ed51cb345979f640bec8df4f46c32d5e891e6d34ee2aef5"
+        },
+        {
+          "path": "packages/reforge/src/dialog/dialog-box.ts",
+          "sha256": "745c6dacd3aaa65a6fb3cb5cfc3430f9ddda0bc5f1ff6ec31ea3443b081c6517"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "native report/trace owner s003/e56/trigger/default/initial; first acquire and native saved restore"
+        },
+        {
+          "path": "docs/tasks/evidence/N6B-ITEM-FLOWS-1-20261107-prefix.tar.gz",
+          "sha256": "733d071ad69428993645bf6bd62dd9d2ef63f3075b0fef85e67c12e68bbfdd41",
+          "selector": "source-verification.json and separate lifecycle/room guard records for e56"
+        }
+      ],
+      "note": "当前实际运行与原生保存包含本入口现场；仅记已取证。既有预览绑定保持，不把整段实跑冒充每步已配置、保存和重开验证。"
     }
   ]
 }

@@ -18,11 +18,7 @@
         "result": "accepted",
         "clipSha256": "bf0529928b54d58ca0ff586bd40fa598fe6204c5acddc53a771429cf1575c644"
       },
-      "notRun": [
-        "capture",
-        "audio acceptance",
-        "unvisited branches"
-      ]
+      "notRun": ["capture", "audio acceptance", "unvisited branches"]
     },
     {
       "action": "content23-acquisition-source-rebinding",
@@ -113,11 +109,7 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": [
-      "e2e-contract",
-      "e2e-007",
-      "e2e-009"
-    ],
+    "against": ["e2e-contract", "e2e-007", "e2e-009"],
     "notes": "007 supplies native inputs. 008 owns the maze and first control in the grove. 009 owns the subsequent pickup and pool sequences."
   },
   "execution": {
@@ -162,10 +154,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-06",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
     "independentAcceptance": "passed"
   },

@@ -65,11 +65,7 @@
   ],
   "businessOracle": {
     "type": "issue-family-closure",
-    "assertions": [
-      "公共根因按族收敛",
-      "路线/演出/存档失败分开归因",
-      "源码核读不计作实跑"
-    ]
+    "assertions": ["公共根因按族收敛", "路线/演出/存档失败分开归因", "源码核读不计作实跑"]
   },
   "dedupe": {
     "result": "reviewed",
@@ -116,11 +112,7 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "action": "content23-acquisition-source-rebinding",

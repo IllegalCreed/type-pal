@@ -107,11 +107,7 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "action": "content23-acquisition-source-rebinding",
@@ -185,12 +181,7 @@
       {
         "date": "2026-10-15",
         "action": "actual full JSON machine-envelope migration",
-        "notRun": [
-          "runtime",
-          "E2E",
-          "visual",
-          "coverage"
-        ]
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
       }
     ],
     "supersedes": [],

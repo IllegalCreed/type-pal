@@ -121,12 +121,7 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": [
-      "e2e-contract",
-      "e2e-006",
-      "旧 007 不同遭遇与奖励窗执行",
-      "008 迷宫机关"
-    ],
+    "against": ["e2e-contract", "e2e-006", "旧 007 不同遭遇与奖励窗执行", "008 迷宫机关"],
     "notes": "006 证明实际前驱，007 只授本段运行结果；编辑器逐步骤证据和作者观感分别按原裁定记录。"
   },
   "steps": [
@@ -467,10 +462,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-06",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
     "technicalResult": "passed",
     "userReviewCurrent": "accepted"
@@ -494,9 +486,7 @@
     {
       "id": "speed-win-single-request-boundary",
       "result": "source-backed",
-      "evidence": [
-        "scripts/e2e/island-entrance.mjs:290-337"
-      ]
+      "evidence": ["scripts/e2e/island-entrance.mjs:290-337"]
     },
     {
       "id": "editor-save-reopen-and-preview-reset",
@@ -552,10 +542,7 @@
     "variant": "execution",
     "lastReviewed": "2026-11-06",
     "owner": "Codex",
-    "provenance": [
-      "两端原生 verify 报告及接续子进程回执",
-      "正式比较、录制对齐与编辑器独立取证"
-    ],
+    "provenance": ["两端原生 verify 报告及接续子进程回执", "正式比较、录制对齐与编辑器独立取证"],
     "sourceSha256": "64f2e7b0e9a3ad17618bb7b4769ddb4aa3b23be65fc6b2e0ae0bf833173fd5c1",
     "sourceGitObject": "d80ee5dad289b470b35ef7827a56176ee17924d6",
     "sourceGitRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",

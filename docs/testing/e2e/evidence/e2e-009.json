@@ -116,11 +116,7 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": [
-      "e2e-008",
-      "e2e-009 首轮 bf3071ecb 录制",
-      "e2e-009 的单独编辑器初态验收"
-    ],
+    "against": ["e2e-008", "e2e-009 首轮 bf3071ecb 录制", "e2e-009 的单独编辑器初态验收"],
     "notes": "008 只提供合法输入。009 发布配对只认当前两条实跑，旧反例和原保存证据各保留本轮身份。"
   },
   "execution": {
@@ -216,10 +212,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-11-06",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "contentVersion": 22,
     "reforgeSaveVersion": 12,
     "producerRevision": "743be436c70bf3519e1324ec356dafcf0f6d040a",
@@ -239,16 +232,9 @@
     {
       "name": "unified recompare-recording 009",
       "result": "passed",
-      "routeSteps": [
-        70,
-        144,
-        25
-      ],
+      "routeSteps": [70, 144, 25],
       "cameraDraws": 48,
-      "reforgeDialogueDraws": [
-        476,
-        133
-      ],
+      "reforgeDialogueDraws": [476, 133],
       "findings": 0,
       "sourceChanges": 0,
       "evidence": [
@@ -579,11 +565,7 @@
     {
       "case": "first-recording-business-counterexamples",
       "revision": "bf3071ecb048cdc3ab5eb6398e8acad359bcf50a",
-      "fields": [
-        "route",
-        "camera",
-        "dialogue"
-      ],
+      "fields": ["route", "camera", "dialogue"],
       "status": "rejected",
       "evidence": [
         "docs/tasks/evidence/E2E-R4-1-007-009-route-parity-20261106.tar.gz#build/e2e-rework/009-old-integrated.json"

@@ -31,6 +31,8 @@ Template: evidence-receipt-v1 / 1.0.0
 
 战斗会话与指令表单两个既有 source-contract claim 内，合计四个现有 `path:lines` 指针随相应 sourceRef 的真实行范围同步。桥接先精确核原指针唯一位置和新指针，再反向恢复；claim ID、result、文字及其它 evidence 指针保持，不能借移动来源修改判据或授予执行信用。
 
+007、008、009 三个确切已刊 report.md 仅同步唯一 `testing-meta` 内的同组来源与新增 history。元数据反向恢复后须逐值等于原对象，再替换回原 JSON 字节后整份 Markdown 须等于固定原件；标题、正文、front matter、原执行版本和其它元数据均不能改变。010 及其它 Markdown 不能借该分支更新。
+
 ## 结果
 
 catalog、配对 evidence 与 Markdown metadata 同步这次来源及历史。原条目的状态、成员、角色、候选、版本、合法输入说明、执行、附件和旧 history 保留原值；claim 仅移动上述四个声明来源指针。该层只记录新源码对原测试合同的适用性；四类取物的当前游戏、存读及编辑器结果使用 [N6b 任务](../cards/N6B-ITEM-FLOWS-1.md)的新原件。

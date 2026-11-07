@@ -139,10 +139,7 @@
       "sourceSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
       "scope": "Only correct closeTopMenu timing prose. Emitted JavaScript identical;resumeAfterMenusClosed owner/signature/body unchanged. No new D1 SCC/token/mutant/browser execution;historical status/candidate/versions/dates retained.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
-      "notRun": [
-        "historical D1 audit/needles",
-        "new browser/story E2E"
-      ]
+      "notRun": ["historical D1 audit/needles", "new browser/story E2E"]
     },
     {
       "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
@@ -152,10 +149,7 @@
       "sourceSha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8",
       "scope": "Only correct separate cure/heal prose;helper emitted JavaScript and owner signature identical to prior CODE53 proof. No new D1 SCC/token/needles/browser/execution credit;historical publication/versions/candidate/dates retained.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "notRun": [
-        "historical D1 audit/needles",
-        "browser/story E2E"
-      ],
+      "notRun": ["historical D1 audit/needles", "browser/story E2E"],
       "previousSourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
     },
     {
@@ -167,11 +161,7 @@
       "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
       "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
       "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
-      "notRun": [
-        "D1 historical audit and needles",
-        "browser",
-        "E2E route execution"
-      ]
+      "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"]
     },
     {
       "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
@@ -195,11 +185,7 @@
       "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "date": "2026-10-22",
@@ -430,12 +416,7 @@
       {
         "date": "2026-10-15",
         "action": "actual machine evidence semantic/template migration",
-        "notRun": [
-          "runtime",
-          "E2E",
-          "visual",
-          "coverage"
-        ]
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
       }
     ],
     "supersedes": [],

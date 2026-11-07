@@ -98,11 +98,7 @@
       "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "action": "content23-acquisition-source-rebinding",

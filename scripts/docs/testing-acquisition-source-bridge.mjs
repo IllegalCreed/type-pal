@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { isDeepStrictEqual as same } from 'node:util'
-import { parseTerminalJson } from './terminal-json.mjs'
+import { decodeTerminalUtf8, parseTerminalJson } from './terminal-json.mjs'
 import {
   assertTestingBridgeReference,
   restoreTestingBridgeHistory,
@@ -109,9 +109,14 @@ export const testingAcquisitionSourceBindings = Object.freeze(
 
 const bindingsById = new Map(testingAcquisitionSourceBindings.map((entry) => [entry.id, entry]))
 const bindingsByPath = new Map(testingAcquisitionSourceBindings.map((entry) => [entry.path, entry]))
+const reportBindings = new Map([
+  ['docs/testing/e2e/stages/007-island-entrance/report.md', bindingsById.get('e2e-007')],
+  ['docs/testing/e2e/stages/008-fairy-island-maze/report.md', bindingsById.get('e2e-008')],
+  ['docs/testing/e2e/stages/009-fairy-island-pool/report.md', bindingsById.get('e2e-009')],
+])
 const sourcePaths = new Set(testingAcquisitionSourceBindings.flatMap((entry) => entry.sourcePaths))
 export const isTestingAcquisitionSourceBridgePath = (path) =>
-  path === catalogPath || bindingsByPath.has(path)
+  path === catalogPath || bindingsByPath.has(path) || reportBindings.has(path)
 export const isTestingAcquisitionSourcePath = (path) => sourcePaths.has(path)
 
 function restoreReferences(before, current, binding, sources, fixedSources) {
@@ -213,6 +218,51 @@ function restoreSourceClaimPointers(before, current, restored, binding) {
   }
 }
 
+function metadataSpan(bytes) {
+  const text = decodeTerminalUtf8(bytes)
+  const matches = [...text.matchAll(/<!-- testing-meta\s*(\{[\s\S]*?\})\s*-->/gu)]
+  assert.equal(matches.length, 1, 'published report requires exactly one metadata block')
+  const match = matches[0]
+  const start = match.index + match[0].indexOf(match[1])
+  return { text, start, end: start + match[1].length, json: match[1] }
+}
+
+function assertReportMetadataBridge(
+  binding,
+  previousBytes,
+  currentBytes,
+  readSource,
+  fixedSources,
+) {
+  const previous = metadataSpan(previousBytes)
+  const current = metadataSpan(currentBytes)
+  const before = parseTerminalJson(Buffer.from(previous.json))
+  const after = parseTerminalJson(Buffer.from(current.json))
+  assert.equal(before.id, binding.id, 'published report predecessor ID differs')
+  assert.equal(after.id, binding.id, 'published report ID changed')
+  const references = restoreReferences(
+    before.sourceRefs,
+    after.sourceRefs,
+    binding,
+    testingBridgeSources(readSource),
+    fixedSources,
+  )
+  const restored = structuredClone(after)
+  restored.sourceRefs = references.restored
+  restored.revision.history = restoreHistory(
+    before.revision.history,
+    after.revision.history,
+    references.changed,
+    readSource,
+  )
+  assert.deepEqual(restored, before, 'published report changed metadata outside source bindings')
+  assert.equal(
+    current.text.slice(0, current.start) + previous.json + current.text.slice(current.end),
+    previous.text,
+    'published report changed body outside metadata',
+  )
+}
+
 /** Rebind the finite content23 sources without changing any accepted execution,
  * publication, candidate, version, claim, artifact or older history field. */
 export function assertTestingAcquisitionSourceBridge(
@@ -231,6 +281,17 @@ export function assertTestingAcquisitionSourceBridge(
     Buffer.isBuffer(previousBytes) && fixed.readSource(path)?.equals(previousBytes),
     'acquisition predecessor differs from its fixed Git object',
   )
+  const reportBinding = reportBindings.get(path)
+  if (reportBinding) {
+    assertReportMetadataBridge(
+      reportBinding,
+      previousBytes,
+      currentBytes,
+      readSource,
+      testingBridgeSources(fixed.readSource),
+    )
+    return
+  }
   const before = parseTerminalJson(previousBytes)
   const current = parseTerminalJson(currentBytes)
   assert(

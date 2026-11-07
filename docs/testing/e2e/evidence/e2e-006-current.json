@@ -119,11 +119,7 @@
   },
   "dedupe": {
     "result": "bounded-distinct",
-    "against": [
-      "e2e-005",
-      "historical e2e-006 d022 publication",
-      "2026-10-26 partial closeout"
-    ],
+    "against": ["e2e-005", "historical e2e-006 d022 publication", "2026-10-26 partial closeout"],
     "notes": "005 establishes real inputs; old receipt identity is immutable. Current terminal save, fresh restore and static editor persistence are distinct; no004 items/005 guards/continuous regrant."
   },
   "steps": [
@@ -242,10 +238,7 @@
   "runtimeExecution": {
     "performed": true,
     "date": "2026-10-27",
-    "engines": [
-      "game",
-      "reforge"
-    ],
+    "engines": ["game", "reforge"],
     "contentVersion": 22,
     "reforgeSaveVersion": 12,
     "producerRevision": "c68d369869dce63cb884e2203dab2b9e53f65e2f",
@@ -273,9 +266,7 @@
     {
       "id": "source-bound-complete-comparison",
       "result": "runtime-backed",
-      "evidence": [
-        "build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json"
-      ]
+      "evidence": ["build/e2e/both-006-2026-10-27T01-06-28-897Z/comparison.json"]
     },
     {
       "id": "saved-static-npc-preview",
@@ -307,22 +298,14 @@
   "cleanup": {
     "complete": true,
     "scope": "Headless Game/RF producer contexts closed normally; raw retained. Interactive review editor is separate during Owner closeout.",
-    "retained": [
-      "immutable raw archive",
-      "original failed reports",
-      "interactive preview project"
-    ]
+    "retained": ["immutable raw archive", "original failed reports", "interactive preview project"]
   },
   "history": [
     {
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "revision": "c68d369869dce63cb884e2203dab2b9e53f65e2f",

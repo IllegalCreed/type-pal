@@ -52,10 +52,7 @@
       "sha256": "01eb6b7156e958d68435f558cb35b4d2859f44f2b0c032500bd536cf28ba593f"
     }
   ],
-  "publicCallers": [
-    "node scripts/docs/classify-testing-legacy.mjs",
-    "pnpm check:testing-docs"
-  ],
+  "publicCallers": ["node scripts/docs/classify-testing-legacy.mjs", "pnpm check:testing-docs"],
   "legalInputs": [
     "tracked docs/testing root files",
     "legacy-flat.json entries and retired records",
@@ -85,30 +82,22 @@
     {
       "id": "full-census",
       "result": "source-backed",
-      "evidence": [
-        "scripts/docs/classify-testing-legacy.mjs:24-45"
-      ]
+      "evidence": ["scripts/docs/classify-testing-legacy.mjs:24-45"]
     },
     {
       "id": "closeout-plan",
       "result": "source-backed",
-      "evidence": [
-        "docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16"
-      ]
+      "evidence": ["docs/testing/archive/migrations/legacy-full-closeout-plan.json:1-16"]
     },
     {
       "id": "archive-moves",
       "result": "source-backed",
-      "evidence": [
-        "docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16"
-      ]
+      "evidence": ["docs/testing/archive/migrations/legacy-full-closeout-relocation.json:1-16"]
     },
     {
       "id": "layout-closeout",
       "result": "source-backed",
-      "evidence": [
-        "docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"
-      ]
+      "evidence": ["docs/testing/archive/migrations/testing-layout-closeout-20261004.json:1-16"]
     }
   ],
   "runtimeExecution": {
@@ -141,21 +130,13 @@
       "revision": "35e2b8d07c310a15c69f5e013a6d748c2146042e",
       "date": "2026-10-04",
       "action": "full census + representative migration batch",
-      "notRun": [
-        "product runtime",
-        "old tests",
-        "coverage"
-      ]
+      "notRun": ["product runtime", "old tests", "coverage"]
     },
     {
       "revision": "fecf1dab93468b40752667987c7c75a29fe9af6b",
       "date": "2026-10-04",
       "action": "legacy full closeout: 209 archive moves + 122 tool stop-lines",
-      "notRun": [
-        "product runtime",
-        "old tests",
-        "coverage"
-      ]
+      "notRun": ["product runtime", "old tests", "coverage"]
     },
     {
       "action": "content23-acquisition-source-rebinding",

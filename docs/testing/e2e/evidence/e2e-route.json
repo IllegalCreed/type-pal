@@ -24,26 +24,15 @@
       "sha256": "0a67777ed9a2ee576a292cb7281936e4f5183542877fbb170be8c82d19249259"
     }
   ],
-  "publicCallers": [
-    "pnpm e2e:001:both",
-    "pnpm e2e:002:both"
-  ],
-  "legalInputs": [
-    "fresh current project",
-    "current-version checkpoint only"
-  ],
+  "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+  "legalInputs": ["fresh current project", "current-version checkpoint only"],
   "businessOracle": {
     "type": "route-admission",
-    "assertions": [
-      "每段有明确前驱/终止条件",
-      "路线失败不能被跳场景隐藏"
-    ]
+    "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
   },
   "dedupe": {
     "result": "reviewed",
-    "against": [
-      "e2e/stages/*/README.md"
-    ],
+    "against": ["e2e/stages/*/README.md"],
     "notes": "方案不宣称任何阶段已运行通过。"
   },
   "claims": [
@@ -74,11 +63,7 @@
       "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
       "date": "2026-10-04",
       "action": "source-and-publication-audit",
-      "notRun": [
-        "runtime",
-        "E2E",
-        "coverage"
-      ]
+      "notRun": ["runtime", "E2E", "coverage"]
     },
     {
       "action": "content23-acquisition-source-rebinding",
@@ -181,22 +166,12 @@
                 "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
                 "date": "2026-10-04",
                 "action": "source-and-publication-audit",
-                "notRun": [
-                  "runtime",
-                  "E2E",
-                  "coverage"
-                ]
+                "notRun": ["runtime", "E2E", "coverage"]
               }
             ]
           }
         },
-        "notRun": [
-          "runtime",
-          "E2E",
-          "visual",
-          "editor-preview",
-          "coverage"
-        ],
+        "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
         "semanticMigrationCreditAdded": 0
       },
       {
@@ -247,23 +222,14 @@
                 "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
                 "date": "2026-10-04",
                 "action": "source-and-publication-audit",
-                "notRun": [
-                  "runtime",
-                  "E2E",
-                  "coverage"
-                ]
+                "notRun": ["runtime", "E2E", "coverage"]
               }
             ]
           },
           "evidenceCandidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
           "runtimePerformed": false
         },
-        "notRun": [
-          "route execution",
-          "new E2E chain",
-          "visual",
-          "coverage"
-        ],
+        "notRun": ["route execution", "new E2E chain", "visual", "coverage"],
         "semanticMigrationCreditAdded": 0
       }
     ]

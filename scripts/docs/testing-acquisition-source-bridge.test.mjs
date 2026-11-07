@@ -271,3 +271,40 @@ test('predecessor bytes and commit cannot be substituted or inferred from curren
   g.sources.delete(testingAcquisitionSourceReceipt)
   assert.throws(g.check, /bridge evidence missing/)
 })
+
+test('the three published Markdown reports update only their exact source metadata', () => {
+  const f = fixture()
+  for (const [id, path] of [
+    ['e2e-007', 'docs/testing/e2e/stages/007-island-entrance/report.md'],
+    ['e2e-008', 'docs/testing/e2e/stages/008-fairy-island-maze/report.md'],
+    ['e2e-009', 'docs/testing/e2e/stages/009-fairy-island-pool/report.md'],
+  ]) {
+    const before = readFixed(path)
+    const text = before.toString('utf8')
+    const match = /<!-- testing-meta\s*(\{[\s\S]*?\})\s*-->/u.exec(text)
+    const metadata = JSON.parse(match[1])
+    metadata.sourceRefs = structuredClone(f.entry(id).sourceRefs)
+    metadata.revision.history = structuredClone(f.entry(id).revision.history)
+    const render = (next) => Buffer.from(text.replace(match[1], JSON.stringify(next)))
+    const check = (current) =>
+      assertTestingAcquisitionSourceBridge(path, before, current, f.read, f.fixed)
+    check(render(metadata))
+    assert.throws(
+      () => check(Buffer.concat([render(metadata), Buffer.from('\nA new assertion.\n')])),
+      /changed body outside metadata/,
+    )
+    const changedVersion = structuredClone(metadata)
+    changedVersion.revision.contentVersion = 23
+    assert.throws(() => check(render(changedVersion)), /metadata outside source bindings/)
+    assert.throws(
+      () => check(Buffer.concat([render(metadata), Buffer.from(`\n${match[0]}`)])),
+      /exactly one metadata block/,
+    )
+  }
+  const path = 'docs/testing/e2e/stages/010-water-moon-palace/report.md'
+  assert.throws(
+    () =>
+      assertTestingAcquisitionSourceBridge(path, readFixed(path), readFixed(path), f.read, f.fixed),
+    /unadmitted acquisition source bridge path/,
+  )
+})

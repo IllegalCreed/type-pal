@@ -949,7 +949,8 @@ function entryFixture(t) {
     'docs/tasks/cards/index.md': renderTaskIndex([]),
     'docs/phase2/README.md': '# Phase2\n\n[guides](guides/README.md) [specs](specs/README.md)\n',
     'docs/phase2/guides/README.md': '# Guides\n\n[shared](shared-script-author-guide.md)\n',
-    'docs/phase2/guides/shared-script-author-guide.md': '# Shared\n\ncontent22 SAVE12\n',
+    'docs/phase2/guides/shared-script-author-guide.md':
+      '# Shared\n\ncontent22 SAVE12\n\n### 本次来源与完整原文\n\n````text\ncontent19 SAVE8\n````\n',
     'docs/phase2/specs/README.md':
       '# Specs\n\n' +
       ['script-system', 'content-schema', 'save-system', 'project-lifecycle', 'editor-architecture']
@@ -991,7 +992,8 @@ const entry = (fixture, path, args = []) =>
   })
 test('actual docs CLI json/index hooks reject canonical-name NOT_GZIP before success output', (t) => {
   const fixture = entryFixture(t)
-  assert.equal(entry(fixture, 'scripts/docs/check.mjs', ['--json']).status, 0)
+  const clean = entry(fixture, 'scripts/docs/check.mjs', ['--json'])
+  assert.equal(clean.status, 0, clean.stdout + clean.stderr)
   put(fixture.root, fixture.path, 'NOT_GZIP')
   const json = entry(fixture, 'scripts/docs/check.mjs', ['--json'])
   assert.equal(json.status, 1)

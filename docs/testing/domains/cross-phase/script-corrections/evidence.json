@@ -431,9 +431,7 @@
     {
       "id": "map204-independent-exit-old-save-and-two-phase-contact",
       "result": "runtime-backed",
-      "evidence": [
-        "docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"
-      ]
+      "evidence": ["docs/ops/evidence/GAME-NANZHAO-ROOM-EXIT-1/review.json"]
     }
   ],
   "artifacts": [
@@ -550,11 +548,7 @@
       "sha256": "377ce9166785ab668bfad3b1ea1c18d062fd807df63a8f12f1ee430f897bd88b"
     }
   ],
-  "notRun": [
-    "complete story browser E2E",
-    "visual",
-    "deployment"
-  ],
+  "notRun": ["complete story browser E2E", "visual", "deployment"],
   "kind": "runtime-execution",
   "runtimeExecution": {
     "performed": true,

@@ -3,7 +3,10 @@
 export const currentSections = [
   { file: 'packages/content/README.md' },
   { file: 'packages/migrate/README.md', end: /^## 当前发布模型/m },
-  { file: 'docs/phase2/guides/shared-script-author-guide.md' },
+  {
+    file: 'docs/phase2/guides/shared-script-author-guide.md',
+    end: /^### 本次来源与完整原文/m,
+  },
   { file: 'docs/phase2/specs/script-system.md' },
   { file: 'docs/phase2/specs/content-schema.md' },
   { file: 'docs/phase2/specs/save-system.md' },
