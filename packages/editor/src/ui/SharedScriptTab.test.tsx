@@ -510,21 +510,28 @@ describe('CanonicalSharedScriptTab', () => {
         'shared/user/open-chest': { name: '普通宝箱开盖', self: 'none', body: [] },
       },
     }
-    const rowLabel = () => host.querySelector('[role="treeitem"] .cmd-label')?.textContent
+    const rowLabels = () =>
+      [...host.querySelectorAll('[role="treeitem"] .cmd-label')].map((label) => label.textContent)
     await renderSession(new ScriptEditSession(callState))
-    expect(rowLabel()).toBe('调用共享脚本：普通宝箱开盖')
+    expect(rowLabels()).toEqual(['调用共享脚本：普通宝箱开盖'])
 
     // 会话拒绝载入悬空引用，直接从正文编辑器的展示入口核对旧引用的可读回退。
     await act(async () =>
       root.render(
         <CanonicalScriptBodyEditor
-          body={[{ kind: 'callScript', script: 'shared/user/missing' }]}
+          body={[
+            { kind: 'callScript', script: 'shared/user/missing' },
+            { kind: 'callScript', script: 'constructor' },
+          ]}
           context={{ ...context, state: callState }}
           onChange={() => {}}
         />,
       ),
     )
-    expect(rowLabel()).toBe('调用共享脚本：shared/user/missing（未找到）')
+    expect(rowLabels()).toEqual([
+      '调用共享脚本：shared/user/missing（未找到）',
+      '调用共享脚本：constructor（未找到）',
+    ])
   })
 
   test.each([
