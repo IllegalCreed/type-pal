@@ -16,12 +16,16 @@ import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
 import { rewriteLinks } from './relocate.mjs'
 import { fileState } from './review-record-storage-io.mjs'
 import {
+  assertTestingChestSourceBridge,
   assertTestingPalaceStagePublication,
   assertTestingSourceBridge,
   assertTestingStageEvidence,
   assertTestingStagePublication,
+  isPublishedTestingStagePath,
+  isTestingChestSourceBridgePath,
   isTestingSourceBridgePath,
   isTestingStageEvidencePath,
+  testingChestSourcePath,
 } from './testing-source-bridge.mjs'
 import { assertTestingSourceMaintenance } from './testing-source-maintenance.mjs'
 import { testingSourceMaintenanceAdmissions } from './testing-source-maintenance-admission.mjs'
@@ -380,6 +384,16 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       stagePublicationRevision !== undefined && /^[a-f\d]{40}$/u.test(palacePublicationRevision),
       '010 stage publication requires both fixed stage publication bases',
     )
+  const postPalaceRevision = admission.testingCatalogPostPalaceBaseRevision
+  if (postPalaceRevision !== undefined)
+    assert(
+      palacePublicationRevision !== undefined && /^[a-f\d]{40}$/u.test(postPalaceRevision),
+      'chest source bridge requires the fixed 010 publication',
+    )
+  const postPalace =
+    postPalaceRevision === undefined
+      ? undefined
+      : gitTree(root, postPalaceRevision, [testingCatalogPath])
   for (const row of manifest.additions) {
     safePath(row.path)
     const nativeStage =
@@ -513,6 +527,11 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     }
     const addition = additions.get(path)
     if (addition) {
+      if (postPalace && isPublishedTestingStagePath(path))
+        assert(
+          postPalace.read(path)?.equals(current),
+          `published stage differs from fixed 010 base: ${path}`,
+        )
       assert.equal(hash(current), addition.afterSha256, `addition body drift: ${path}`)
       assert.equal(
         addition.review.reviewedLines,
@@ -584,19 +603,39 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         })
       }
       const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+      const readPublishedSource = postPalace
+        ? (sourcePath) => {
+            const fixed = postPalace.read(sourcePath)
+            if (sourcePath !== testingChestSourcePath) {
+              const live = readSource(sourcePath)
+              assert(
+                live && fixed?.equals(live),
+                `published source differs from fixed 010 base: ${sourcePath}`,
+              )
+            }
+            return fixed
+          }
+        : readSource
+      const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
+      const publication = chestBridge ? postPalace.read(path) : current
       if (stagePublicationRevision !== undefined && path === testingCatalogPath) {
         const publicationBase = gitTree(root, stagePublicationRevision, [path]).read(path)
-        assertTestingSourceBridge(path, bridgeSource, publicationBase, readSource)
+        assertTestingSourceBridge(path, bridgeSource, publicationBase, readPublishedSource)
         if (palacePublicationRevision !== undefined) {
           const palaceBase = gitTree(root, palacePublicationRevision, [path]).read(path)
           assertTestingStagePublication(publicationBase, palaceBase, additions)
-          assertTestingPalaceStagePublication(palaceBase, current, additions)
+          assertTestingPalaceStagePublication(palaceBase, publication, additions)
         } else {
-          assertTestingStagePublication(publicationBase, current, additions)
+          assertTestingStagePublication(publicationBase, publication, additions)
         }
       } else {
-        assertTestingSourceBridge(path, bridgeSource, current, readSource)
+        assertTestingSourceBridge(path, bridgeSource, publication, readPublishedSource)
       }
+      if (chestBridge)
+        assertTestingChestSourceBridge(path, publication, current, readSource, {
+          revision: postPalaceRevision,
+          readSource: postPalace.read,
+        })
       return { current, previous, change }
     }
     {

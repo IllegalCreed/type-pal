@@ -14,14 +14,14 @@
       "lines": "407-414",
       "anchor": "const activeScene = new ActiveScene",
       "role": "caller",
-      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+      "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
     },
     {
       "path": "packages/reforge/src/main.ts",
       "lines": "448-455",
       "anchor": "const cameraSession = new WorldCamera",
       "role": "caller",
-      "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+      "sha256": "da7ffb6591f607b1950a179c61b2a5d4e0eaa34873f2ed78a699ed3cd39cb42c"
     },
     {
       "path": "packages/reforge/src/active-scene.ts",
@@ -140,6 +140,29 @@
       ],
       "scope": "ActiveScene 构造和资源接线原位相同，WorldCamera 构造接线下移两行且字节相同。预取消测试跟随新镜头节拍，拒绝已取消信号、旧 pan 不提前结束及最终位移判据保留。",
       "evidence": "docs/tasks/evidence/E2E-R4-1-runtime-source-bindings-20261106.md"
+    },
+    {
+      "date": "2026-11-07",
+      "action": "pal-shared-chest-source-bridge",
+      "base": "8f6c0033d7351454608f9507067db9dd75dc9c90",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "407-414",
+          "anchor": "const activeScene = new ActiveScene",
+          "role": "caller",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        },
+        {
+          "path": "packages/reforge/src/main.ts",
+          "lines": "448-455",
+          "anchor": "const cameraSession = new WorldCamera",
+          "role": "caller",
+          "sha256": "ed8224efc4537a60b4a6c8a570ccbed78216604448b6b267024cc2a238f02654"
+        }
+      ],
+      "scope": "ActiveScene 和 WorldCamera 的构造接线逐字相同，资源发布、边界更新与预取消镜头的来源和判据沿固定父。",
+      "evidence": "docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md"
     }
   ],
   "_governance": {

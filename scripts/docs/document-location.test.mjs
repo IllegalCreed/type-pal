@@ -24,6 +24,7 @@ import {
 } from './document-location.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { preservedMarkdownRanges } from './markdown-source-spans.mjs'
+import { assertTestingChestSourceBridge, testingChestSourcePath } from './testing-source-bridge.mjs'
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const original =
@@ -1438,6 +1439,148 @@ test('admitted testing source bridges retain publication bytes and recheck sourc
   locations.assertUnchanged()
   f.write(source, 'export const count = 3\n')
   assert.throws(() => locations.assertUnchanged(), /sourceRef hash mismatch/)
+})
+
+test('the post-010 source bridge freezes published stages and three runtime records except their caller hashes', () => {
+  const root = fileURLToPath(new URL('../../', import.meta.url))
+  const revision = '8f6c0033d7351454608f9507067db9dd75dc9c90'
+  const fixed = {
+    revision,
+    readSource: (path) => execFileSync('git', ['show', `${revision}:${path}`], { cwd: root }),
+  }
+  const catalogPath = 'docs/testing/catalog.json'
+  const receipt = 'docs/tasks/evidence/PAL-SHARED-CHEST-1-source-applicability.md'
+  const pathsById = new Map([
+    ['runtime-active-scene', 'scene/active-scene'],
+    ['runtime-battle-host', 'battle/battle-host'],
+    ['runtime-world-owners', 'world/world-runtime'],
+  ])
+  const baseCatalog = fixed.readSource(catalogPath)
+  const oldSource = fixed.readSource(testingChestSourcePath)
+  const currentSource = Buffer.concat([oldSource, Buffer.from('\n// Unrelated source change.\n')])
+  const encode = (value) => Buffer.from(JSON.stringify(value))
+  const find = (catalog, id) => catalog.entries.find((entry) => entry.id === id)
+  const reader = (source) => (path) =>
+    path === testingChestSourcePath
+      ? source
+      : path === receipt
+        ? Buffer.from('# Receipt\n')
+        : undefined
+  const rebound = (source) => {
+    const catalog = JSON.parse(baseCatalog)
+    for (const id of pathsById.keys()) {
+      const entry = find(catalog, id)
+      const refs = entry.sourceRefs.filter((reference) => reference.path === testingChestSourcePath)
+      const previousSourceRefs = structuredClone(refs)
+      for (const ref of refs) ref.sha256 = hash(source)
+      entry.revision.history.push({
+        date: '2026-11-07',
+        action: 'source-binding',
+        base: revision,
+        previousSourceRefs,
+        scope: 'Refresh the caller file digest only.',
+        evidence: receipt,
+      })
+    }
+    return catalog
+  }
+  const accepted = rebound(currentSource)
+  const checkCatalog = (catalog, source = currentSource) =>
+    assertTestingChestSourceBridge(catalogPath, baseCatalog, encode(catalog), reader(source), fixed)
+  checkCatalog(accepted)
+
+  const catalogMutants = [
+    [
+      (value) => {
+        find(value, 'e2e-010').status = 'rework'
+      },
+      /ID\/order outside admitted bridge/,
+    ],
+    [
+      (value) => {
+        find(value, 'runtime-active-scene').revision.minimumSaveVersion += 1
+      },
+      /unrelated native facts/,
+    ],
+    [
+      (value) => {
+        find(value, 'runtime-battle-host').publicCallers = ['a different caller']
+      },
+      /unrelated native facts/,
+    ],
+    [
+      (value) => {
+        find(value, 'runtime-world-owners').revision.history[0].action = 'rewrite'
+      },
+      /old history changed/,
+    ],
+    [
+      (value) => {
+        const entry = find(value, 'runtime-active-scene')
+        entry.sourceRefs.find((ref) => ref.path.endsWith('world-camera.test.ts')).sha256 =
+          '0'.repeat(64)
+      },
+      /outside admitted bridge/,
+    ],
+    [
+      (value) => {
+        find(value, 'runtime-battle-host').sourceRefs[0].lines = '1242-1260'
+      },
+      /retain the caller range/,
+    ],
+    [
+      (value) => {
+        find(value, 'runtime-world-owners').revision.history.at(-1).base = '0'.repeat(40)
+      },
+      /fixed 010 base/,
+    ],
+  ]
+  for (const [mutate, diagnostic] of catalogMutants) {
+    const changed = structuredClone(accepted)
+    mutate(changed)
+    assert.throws(() => checkCatalog(changed), diagnostic)
+  }
+  const editedCaller = Buffer.from(
+    currentSource
+      .toString('utf8')
+      .replace(
+        'const activeScene = new ActiveScene',
+        'const activeScene = new ActiveScene /* changed in declared range */',
+      ),
+  )
+  assert.throws(
+    () => checkCatalog(rebound(editedCaller), editedCaller),
+    /changed the referenced caller bytes/,
+  )
+
+  for (const [id, directory] of pathsById) {
+    const path = `docs/testing/domains/runtime/${directory}/evidence.json`
+    const base = fixed.readSource(path)
+    const entry = find(accepted, id)
+    const evidence = {
+      ...JSON.parse(base),
+      sourceRefs: entry.sourceRefs,
+      history: entry.revision.history,
+    }
+    const checkEvidence = (value) =>
+      assertTestingChestSourceBridge(path, base, encode(value), reader(currentSource), fixed)
+    checkEvidence(evidence)
+    const executed = structuredClone(evidence)
+    executed.runtimeExecution.performed = true
+    assert.throws(() => checkEvidence(executed), /unrelated native facts/)
+  }
+
+  assert.throws(
+    () =>
+      assertTestingChestSourceBridge(
+        'docs/testing/e2e/evidence/e2e-010.json',
+        baseCatalog,
+        encode(accepted),
+        reader(currentSource),
+        fixed,
+      ),
+    /unadmitted chest source bridge path/,
+  )
 })
 
 test('catalog source bridge composes the exact accepted maintenance Git layer without borrowing execution credit', (t) => {
