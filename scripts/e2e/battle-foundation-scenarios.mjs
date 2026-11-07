@@ -188,7 +188,7 @@ export function battleLaunchSpec(scenario) {
 /** Snapshot the available author/raw JSON inputs; runtime assets remain outside pixel/audio acceptance. */
 export async function battleFoundationInputSources(root) {
   const paths = []
-  for (const directory of ['data/extracted/data', 'projects/pal']) {
+  for (const directory of ['data/extracted', 'projects/pal']) {
     for (const name of await readdir(resolve(root, directory), { recursive: true }))
       if (name.endsWith('.json')) paths.push(`${directory}/${name}`)
   }
