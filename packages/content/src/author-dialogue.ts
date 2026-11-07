@@ -1,5 +1,6 @@
 import type { ActorDef } from './actor.js'
 import type { AssetId } from './asset.js'
+import { checkDialogueRow } from './dialogue-row.js'
 import type { DialogueCue, DialogueRow, TextId } from './index.js'
 
 export type DialogueSide = 'left' | 'right'
@@ -131,14 +132,7 @@ export function checkAuthorDialogueCue(
   if (!Array.isArray(cue.rows) || cue.rows.length === 0)
     throw new Error(`${path}.rows: 期望非空数组`)
   cue.rows.forEach((rawRow, index) => {
-    const row = record(rawRow, `${path}.rows[${index}]`)
-    exactKeys(row, ['text', 'speed'], `${path}.rows[${index}]`)
-    nonEmptyString(row.text, `${path}.rows[${index}].text`)
-    if (
-      row.speed !== undefined &&
-      (typeof row.speed !== 'number' || !Number.isFinite(row.speed) || row.speed < 0)
-    )
-      throw new Error(`${path}.rows[${index}].speed: 期望非负有限数`)
+    checkDialogueRow(rawRow, `${path}.rows[${index}]`)
   })
   if (
     cue.autoAdvance !== undefined &&

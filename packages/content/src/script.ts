@@ -7,6 +7,7 @@
 
 import { type ActorConditionCommand, checkActorConditionCommandShape } from './actor-condition.js'
 import type { AssetId } from './asset.js'
+import { checkDialogueRow } from './dialogue-row.js'
 import type { GridPos } from './grid.js'
 import type { DialogueCue, Facing } from './index.js'
 import type { ScriptRef } from './script-library.js'
@@ -489,7 +490,11 @@ export function checkCommands(
       if (!cue || !Array.isArray(cue.rows) || cue.rows.length === 0)
         throw new Error(`${path}[${i}]: dialog 缺非空 cue.rows`)
       cue.rows.forEach((row, rowIdx) => {
-        if (!row || typeof row.text !== 'string')
+        if (row && 'reward' in row) {
+          checkDialogueRow(row, `${path}[${i}].cue.rows[${rowIdx}]`)
+          return
+        }
+        if (!row || !('text' in row) || typeof row.text !== 'string')
           throw new Error(`${path}[${i}].cue.rows[${rowIdx}]: 缺 text`)
         if (row.speed !== undefined && (!Number.isFinite(row.speed) || row.speed < 0))
           throw new Error(`${path}[${i}].cue.rows[${rowIdx}].speed: 期望非负有限数`)
