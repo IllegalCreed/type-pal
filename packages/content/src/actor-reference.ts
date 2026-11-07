@@ -5,6 +5,8 @@
  * 删除门禁、诊断和 UI 必须复用这些 kind，禁止各自维护一份容易漏项的字符串清单。
  */
 
+import { dialogueCuesAtNode } from './author-dialogue.js'
+
 export type ActorReferenceKind =
   | 'scene-entity-actor'
   | 'entry-point-party'
@@ -178,18 +180,15 @@ export function actorTaggedReferencesAtNode(value: unknown, path: string): Actor
     case 'playActorCastEffect':
       push(record.actor, 'enemy-play-actor-cast-effect', 'actor')
       break
-    case 'dialog': {
-      const cue = record.cue
-      if (!cue || typeof cue !== 'object' || Array.isArray(cue)) break
-      const identity = (cue as Record<string, unknown>).identity
-      if (!identity || typeof identity !== 'object' || Array.isArray(identity)) break
-      const identityRecord = identity as Record<string, unknown>
-      if (identityRecord.kind === 'actor')
-        push(identityRecord.actor, 'dialogue-actor', 'cue.identity.actor')
-      break
-    }
     default:
       break
+  }
+  for (const site of dialogueCuesAtNode(record)) {
+    const identity = site.cue.identity
+    if (!identity || typeof identity !== 'object' || Array.isArray(identity)) continue
+    const identityRecord = identity as Record<string, unknown>
+    if (identityRecord.kind === 'actor')
+      push(identityRecord.actor, 'dialogue-actor', `${site.path.join('.')}.identity.actor`)
   }
   return out
 }
@@ -254,12 +253,8 @@ export function collectDialoguePortraitReferences(
     }
     if (!node || typeof node !== 'object') return
     const record = node as Record<string, unknown>
-    if (record.kind === 'dialog') {
-      const cue = record.cue
-      const identity =
-        cue && typeof cue === 'object' && !Array.isArray(cue)
-          ? (cue as Record<string, unknown>).identity
-          : undefined
+    for (const site of dialogueCuesAtNode(record)) {
+      const identity = site.cue.identity
       const identityRecord =
         identity && typeof identity === 'object' && !Array.isArray(identity)
           ? (identity as Record<string, unknown>)
@@ -280,7 +275,7 @@ export function collectDialoguePortraitReferences(
           ...(portraitRecord.kind === 'expression' && typeof portraitRecord.expression === 'string'
             ? { expression: portraitRecord.expression }
             : {}),
-          where: `${path}.cue.identity.portrait`,
+          where: `${path}.${site.path.join('.')}.identity.portrait`,
         })
     }
     for (const [key, child] of Object.entries(record)) visit(child, `${path}.${key}`)
@@ -300,13 +295,12 @@ export function renameDialoguePortraitExpression<T>(
   const visit = (node: unknown): unknown => {
     if (Array.isArray(node)) return node.map(visit)
     if (!node || typeof node !== 'object') return node
-    const record = node as Record<string, unknown>
-    if (record.kind === 'dialog') {
-      const cue = record.cue
-      const identity =
-        cue && typeof cue === 'object' && !Array.isArray(cue)
-          ? (cue as Record<string, unknown>).identity
-          : undefined
+    const record = Object.fromEntries(
+      Object.entries(node as Record<string, unknown>).map(([key, child]) => [key, visit(child)]),
+    )
+    for (const site of dialogueCuesAtNode(record)) {
+      const cue = site.cue
+      const identity = cue.identity
       const identityRecord =
         identity && typeof identity === 'object' && !Array.isArray(identity)
           ? (identity as Record<string, unknown>)
@@ -323,19 +317,22 @@ export function renameDialoguePortraitExpression<T>(
         portraitRecord.expression === from
       ) {
         rewritten++
-        return {
-          ...Object.fromEntries(Object.entries(record).map(([key, child]) => [key, visit(child)])),
-          cue: {
-            ...(cue as Record<string, unknown>),
-            identity: {
-              ...identityRecord,
-              portrait: { ...portraitRecord, expression: to },
-            },
+        const changed = {
+          ...cue,
+          identity: {
+            ...identityRecord,
+            portrait: { ...portraitRecord, expression: to },
           },
+        }
+        if (site.path.length === 1) record.cue = changed
+        else {
+          const key = site.path[0]
+          if (!key) throw new Error('dialogue cue path 缺容器')
+          record[key] = { ...(record[key] as Record<string, unknown>), cue: changed }
         }
       }
     }
-    return Object.fromEntries(Object.entries(record).map(([key, child]) => [key, visit(child)]))
+    return record
   }
   return { value: visit(value) as T, rewritten }
 }

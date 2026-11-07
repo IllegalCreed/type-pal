@@ -49,11 +49,14 @@ export type AuthorAcquisitionFlow = AcquisitionFlowBase &
         stages: { available: AcquisitionStage }
         sound?: AssetId
       }
-    | {
+    | ({
         recipe: 'builtin/item/search'
         stages: { available: AcquisitionStage; collected: AcquisitionStage }
-        empty: AcquisitionEmptyFeedback
-      }
+        sound?: AssetId
+      } & (
+        | { afterCollect: 'repeat'; empty: AcquisitionEmptyFeedback }
+        | { afterCollect: 'disable' }
+      ))
   )
 
 export const ITEM_ACQUISITION_RECIPES = {
@@ -63,6 +66,24 @@ export const ITEM_ACQUISITION_RECIPES = {
 } as const
 
 export type AcquisitionItems = readonly Pick<ItemData, 'id' | 'name'>[]
+
+/** Raw parameter paths are editable identities; generated giveItem commands are not references. */
+export function acquisitionItemReferencesAtNode(
+  value: unknown,
+  where: string,
+): Array<{ itemId: string; where: string }> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  const node = value as Record<string, unknown>
+  if ((node.kind !== 'grantReward' && node.kind !== 'acquisition') || !Array.isArray(node.rewards))
+    return []
+  return node.rewards.flatMap((value, index) => {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+    const reward = value as Record<string, unknown>
+    return reward.kind === 'item' && typeof reward.itemId === 'string'
+      ? [{ itemId: reward.itemId, where: `${where}.rewards[${index}].itemId` }]
+      : []
+  })
+}
 
 function copyCue(cue: AuthorDialogueCue): AuthorDialogueCue {
   return JSON.parse(JSON.stringify(cue)) as AuthorDialogueCue
@@ -142,6 +163,7 @@ export function checkAcquisitionFlow(
     throw new Error(`${path}.recipe: 未知内置取物流程`)
   const pickup = flow.recipe === 'builtin/item/pickup'
   const chest = flow.recipe === 'builtin/item/chest'
+  const search = flow.recipe === 'builtin/item/search'
   keys(
     flow,
     [
@@ -150,8 +172,10 @@ export function checkAcquisitionFlow(
       'stages',
       'rewards',
       'notice',
-      ...(pickup ? ['sound'] : ['empty']),
+      ...(pickup || search ? ['sound'] : []),
+      ...(chest || (search && flow.afterCollect === 'repeat') ? ['empty'] : []),
       ...(chest ? ['opening'] : []),
+      ...(search ? ['afterCollect'] : []),
     ],
     path,
   )
@@ -170,7 +194,10 @@ export function checkAcquisitionFlow(
     ids.add(String(stage.id))
     if (stage.label !== undefined) nonEmpty(stage.label, `${stagePath}.label`)
   }
-  if (!pickup) checkNotice(flow.empty, `${path}.empty`, false)
+  if (search && flow.afterCollect !== 'repeat' && flow.afterCollect !== 'disable')
+    throw new Error(`${path}.afterCollect: 期望 repeat|disable`)
+  if (chest || (search && flow.afterCollect === 'repeat'))
+    checkNotice(flow.empty, `${path}.empty`, false)
   if (chest) {
     const opening = record(flow.opening, `${path}.opening`)
     keys(opening, ['facing', 'frame', 'sound'], `${path}.opening`)
@@ -180,20 +207,18 @@ export function checkAcquisitionFlow(
       throw new Error(`${path}.opening.frame: 期望非负安全整数`)
     if (opening.sound !== undefined) nonEmpty(opening.sound, `${path}.opening.sound`)
   }
-  if (pickup && flow.sound !== undefined) nonEmpty(flow.sound, `${path}.sound`)
+  if ((pickup || search) && flow.sound !== undefined) nonEmpty(flow.sound, `${path}.sound`)
 }
 
-/** Pure metadata projection for preview bindings; owner and runtime state are not needed. */
-export function acquisitionPreviewStages(flow: AuthorAcquisitionFlow): AcquisitionStage[] {
-  return flow.recipe === 'builtin/item/pickup'
-    ? [flow.stages.available]
-    : [flow.stages.available, flow.stages.collected]
-}
+export { acquisitionPreviewStages } from './acquisition-preview-stages.js'
 
 export function expandGrantReward(
   command: AuthorGrantRewardCommand,
   items: AcquisitionItems,
 ): AuthorCommand[] {
+  for (const reward of command.rewards)
+    if (reward.kind === 'item' && !items.some((item) => item.id === reward.itemId))
+      throw new Error(`奖励物品不存在: ${reward.itemId}`)
   const grants: AuthorCommand[] = command.rewards.map((reward) =>
     reward.kind === 'item'
       ? { kind: 'giveItem', itemId: reward.itemId, count: reward.count }
@@ -236,13 +261,15 @@ export function expandAcquisitionFlow(
     // The entity is no longer searchable while its reward message is being acknowledged.
     body.push({ kind: 'setEntityState', target: { ...self }, state: 0 }, { kind: 'clearDialog' })
     if (flow.sound) body.push({ kind: 'playSound', asset: flow.sound })
-  }
+  } else if (flow.sound) body.push({ kind: 'playSound', asset: flow.sound })
   body.push(
     ...expandGrantReward(
       { kind: 'grantReward', rewards: flow.rewards, notice: flow.notice },
       items,
     ),
   )
+  if (flow.recipe === 'builtin/item/search' && flow.afterCollect === 'disable')
+    body.push({ kind: 'setEntityState', target: { ...self }, state: 0 })
   const initial = { ...flow.stages.available, body }
   if (flow.recipe === 'builtin/item/pickup')
     return {
@@ -258,7 +285,9 @@ export function expandAcquisitionFlow(
       {
         ...flow.stages.collected,
         body:
-          flow.empty.kind === 'silent' ? [] : [{ kind: 'dialog', cue: copyCue(flow.empty.cue) }],
+          'empty' in flow && flow.empty.kind === 'custom'
+            ? [{ kind: 'dialog', cue: copyCue(flow.empty.cue) }]
+            : [],
       },
     ],
   }
