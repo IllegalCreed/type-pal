@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "94028ae4bcd0ef9915b859ac1ac328ca7e432ec80273e580eae4bb19a3cc74f6",
+      "afterSha256": "86091e8e49aeac9cbb3d10a6c4a81624e80991b5e4de789951996e4d1a042d26",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 1025,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 1027,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "4b2acb8c3bd1de1cb182538c55ec68e8ac78e3c33e0ad1758c28392046e99c3d",
+      "afterSha256": "b582ac8d44c9637430c5cfe44884a84d52358da6736448e1792551182da0fcb2",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（用户裁决与现行状态写回）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "N6b及开盖试点退出活动表，完成摘要只保留任务ID并由生成索引承接入口；新增实际视觉接受与下一项Q2有限准入，R4仍build。",
-        "reviewedLines": 121,
-        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 122,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -2097,17 +2097,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "fd1d66cd0576c933602f63c3aeb4b0ddf459961770dbc157499a5cbef9fd5b21",
+      "afterSha256": "6c36a5a98f8990b2362b434142fe33651f9b88131e395bf196258b8b578d387a",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 101,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 103,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "b1f38e3201f26bd2e74d2b1a7ab21e5e7cd728dc2725baedb59a815cc0871bf7",
+      "afterSha256": "9b82453c772180e868881afb43527c79e56ced0773881c5deab3738bd5583194",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（用户裁决与现行状态写回）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "核真实生成器输出，仅两张卡由review移入done，其他卡状态与历史均不变。",
-        "reviewedLines": 587,
-        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 588,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -3375,14 +3375,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "24744b5180c9fc6ef5e61c26f51b5a70d740dd6a94d5a342eea4aa0a44f7f8f9",
+      "afterSha256": "b1fe91d1775b6f4cf296a1785020d45b2babcbb1c9caec1f11d8164cb2f16a9f",
       "review": {
-        "author": "Codex /root（用户裁决与现行状态写回）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "承接N6b完成，下一项先核Q2准入再扩Q1，保留既定五批顺序及全部固定历史。",
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
         "reviewedLines": 355,
-        "acceptanceScope": "独立核本次实际增量、用户直接裁决及其明确范围、生成索引与固定原件保全；未重验未变产品或全量历史，不把文档检查记作新runtime/E2E/音频/覆盖率执行。行数仅为当前载体边界。"
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -3987,14 +3987,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "9b39848e627f4e68197701c446761db9905824f6adc06d7fadf4de250639d66d",
+      "afterSha256": "0f4242a00417f8349106df958a826aa1578e136057c6b80c70bbf1176588f94c",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 634,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 635,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4357,14 +4357,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c2f361cb224a7a54d8dcf6bffb1a1a7b6ef7024efe7826426dbdbd908e487883",
+      "afterSha256": "0e52b7bc82394ce800ffeb8b387b7131a086435e11feca7814054906c0840956",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 4575,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "conclusion": "固定43fea旧24条、readings及其它字段逐值保全，仅追加唯一Q2首批和配对入口。",
+        "reviewedLines": 4688,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -4490,66 +4490,66 @@
     {
       "path": "docs/testing/indexes/by-domain.md",
       "mode": "reviewed",
-      "afterSha256": "dd15b1e3c4831fe088bf89c59f9cefb4469cbd9f71e07e7cfe2d6a72cc46d904",
+      "afterSha256": "b1abce71435a826f602bee2519243650434ad064de82b302a82798be69b1a393",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 92,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 93,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
       "path": "docs/testing/indexes/by-engine.md",
       "mode": "reviewed",
-      "afterSha256": "78645adba4609b6c91836d9d752270d0f2a00018358e827eecdfe36a40932bb3",
+      "afterSha256": "a49c6663229267ce1a08814b0ff03370b7a8ad53a1c23705869edf0ed6fc2732",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 105,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 107,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
       "path": "docs/testing/indexes/by-module.md",
       "mode": "reviewed",
-      "afterSha256": "d66eea4872e54acd610857cbe368516cea6179cda848cd06f65c908cf4ddf0a6",
+      "afterSha256": "371cdc83c0b9c9cec8923f583b3795bf3a10bf21fe2b430da25b9cea471b7f36",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 194,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 201,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
       "path": "docs/testing/indexes/by-owner.md",
       "mode": "reviewed",
-      "afterSha256": "80f3d5c2e14ddd632b87f8a83600af987d48b4b1cbae613a67e75d86995e3339",
+      "afterSha256": "5a6e4173a2085274703ff5a51fee45a437d9edb7ba22df53eeef2992a90a94de",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 60,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 61,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
       "path": "docs/testing/indexes/by-phase.md",
       "mode": "reviewed",
-      "afterSha256": "95384928c52691e48fc03f38a00b80ba8555c5e6f8595d55fd90a60409b4c770",
+      "afterSha256": "dfa817cd0d6a58deac8bd6fa506acf115488343e60514b572027410e010fa5e8",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 90,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 92,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -4568,27 +4568,27 @@
     {
       "path": "docs/testing/indexes/by-status.md",
       "mode": "reviewed",
-      "afterSha256": "eee220293c276f738e3234d7d651453e59b4f1552486ce1524b93486ac292c21",
+      "afterSha256": "87e170614fb4619e6be124aedcfc11bb557c0eab01748357dc40d0ad4765c4a0",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 88,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 89,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
       "path": "docs/testing/indexes/by-tag.md",
       "mode": "reviewed",
-      "afterSha256": "864cbac3a0949aca12c9bba628ab7ee0485c1b120000557e53ee652e729f0121",
+      "afterSha256": "394573aeafe808b5442984113b2fe034d0eaf5952fc6285ad167b37800645ccc",
       "review": {
-        "author": "Codex /root/close_010",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
         "date": "2026-11-07",
-        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
-        "reviewedLines": 251,
-        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 264,
+        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
       }
     },
     {
@@ -5367,6 +5367,58 @@
         "reviewedLines": 43,
         "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
       }
+    },
+    {
+      "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
+      "templateId": "task-card-v1",
+      "afterSha256": "8706cec0b84a539979a5db1096f41cfd33a2cf079b4302e0752c2a10ed8c502f",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
+        "date": "2026-11-07",
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 96,
+        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
+      "templateId": "governance-index-v1",
+      "afterSha256": "09278bfb6630526107848afde2bf5640302885841069435b0caf7d5df04e37f3",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
+        "date": "2026-11-07",
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 30,
+        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
+      "templateId": "test-machine-evidence-v1",
+      "afterSha256": "d7c6ea28547f9cd9925ee14e941d84637840b79a35d48562285c4fa8166faa8b",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
+        "date": "2026-11-07",
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 1238,
+        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+      }
+    },
+    {
+      "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
+      "templateId": "test-domain-report-v1",
+      "afterSha256": "a12c89a9c3fffdca05cafe0b54d44198cd2809423c2ec453975b4fa11f166fef",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_catalog_audit",
+        "date": "2026-11-07",
+        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewedLines": 74,
+        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+      }
     }
   ],
   "retired": [
@@ -5661,6 +5713,12 @@
       "sha256": "1aff285f2a86c366c0a1c2b9c3b1f09e96bde725f400de1d5e6e016c03d2cbd8",
       "bytes": 35931,
       "purpose": "N6B uncommitted retirement: build/item-flows/uncommitted-index.json; compact101-path dispositions, actual82restores/5deletions and primary fast-forward, classified source/transaction preservation and isolated Git controls. No obsolete full-WIP copy or original binary upload; no new runtime/user acceptance."
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz",
+      "sha256": "3a51ab9608efc2e593a94c82a7bc7242a688c262bd43d1b56d87fef37ba67137",
+      "bytes": 11749301,
+      "purpose": "Q2首批正常战斗：原生十二场、双扣药业务反控及恢复、输入完整性控制、逐字节离线比较、独立交付/失败身份、原速分屏与贡献者Git恢复bundle。无原始资产或整树临时复制；完整规则/音画/世界存读和用户视觉未授信。"
     }
   ],
   "artifactAliases": [],

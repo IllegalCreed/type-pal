@@ -11,8 +11,11 @@ export function installHistoricalLocationFixture(root) {
     resolve(root),
     fileURLToPath(new URL('../../', import.meta.url)).replace(/\/$/u, ''),
   )
-  const { testingAcquisitionSourceBaseRevision: _acquisitionBase, ...historicalAdmission } =
-    documentLocationAdmission
+  const {
+    testingAcquisitionSourceBaseRevision: _acquisitionBase,
+    testingCatalogBattlePublicationBaseRevision: _battlePublicationBase,
+    ...historicalAdmission
+  } = documentLocationAdmission
   writeFileSync(
     join(root, 'scripts/docs/document-location-admission.mjs'),
     `export const documentLocationAdmission = Object.freeze(${JSON.stringify({ ...historicalAdmission, manifestSha256: null })})\n`,

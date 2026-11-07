@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 42 个标签组、92 个成员关系、24 个唯一 ID；标签成员数不是测试数。
+当前 45 个标签组、96 个成员关系、25 个唯一 ID；标签成员数不是测试数。
 
 ## 当前状态
 
@@ -25,6 +25,10 @@ Template: governance-index-v1 / 1.0.0
 维护者只在 catalog 增删 tags，使用者按主题检索；标签不得改变 Owner、执行状态或证据范围。
 本页由 [generate-testing-index.mjs](../../../scripts/docs/generate-testing-index.mjs) 生成，不能手工维护派生行；人工总入口是 [README](README.md)。
 
+### Q2
+
+- q2-battle-foundation — [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md)（verified）
+
 ### audit
 
 - e2e-common-issues — [001–005 共性问题族](../e2e/cross-stage/common-issues.md)（current）
@@ -32,6 +36,7 @@ Template: governance-index-v1 / 1.0.0
 
 ### battle
 
+- q2-battle-foundation — [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md)（verified）
 - runtime-battle-host — [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md)（current）
 - runtime-battle-session-owners — [战斗会话 readiness、结算与指令选择](../domains/runtime/battle/battle-session-owners/report.md)（current）
 
@@ -89,6 +94,10 @@ Template: governance-index-v1 / 1.0.0
 ### editor-preview
 
 - e2e-007 — [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md)（verified）
+
+### foundation
+
+- q2-battle-foundation — [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md)（verified）
 
 ### gamepad
 
@@ -152,6 +161,10 @@ Template: governance-index-v1 / 1.0.0
 ### mobile
 
 - game-input-rotation — [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md)（verified）
+
+### normal-combat
+
+- q2-battle-foundation — [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md)（verified）
 
 ### npc
 

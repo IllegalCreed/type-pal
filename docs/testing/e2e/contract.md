@@ -467,6 +467,7 @@ Type Pal 只拥有上述项目事实和稳定 `fragmentId`。Content Studio 拥�
 
 - `?win`是历史设计称谓，不表示当前两引擎已有该参数。速胜仅用于已分类的非战斗专题verify，
   不可机械改变剧情Boss胜负/回合条件，不可用于Q2或战斗展示。
+- Q2 正常战斗首批使用 `node scripts/e2e/battle-foundation.mjs --engine=game|reforge`：公开 fixture/trial 仅准备合法局面，后续走真实按键、指令消费、原生行动和正式结算，不接速胜。`battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY` 重读绑定原件，先核当前源码/JSON输入、输入回执及新context，再判独立业务预期。每例同端重复与跨端有效状态分开核；真实业务反控必须失败于指定业务断言，不能用IO/采集失败代替。首批具体覆盖和未授信边界取[唯一报告](../domains/cross-phase/battle-foundation/report.md)，不推广为原始伤害/随机分配、AI、音画或世界存读通过。短片仍走正常速度的Game左/Reforge右人工验收。
 - 007 的 verify 入口使用 `node scripts/e2e/island-entrance.mjs --engine game|reforge --from <006-report>`。专用 Vite 配置在实际岛口接敌及首轮开场处理完成后，核场景、事件、敌队和逍遥单人队伍，接受一次速胜请求。执行器在请求前释放方向键，按正式结算屏确认，核经验、隐藏策略和原格恢复。终点为迷宫首次入场并恢复操控。两引擎各自保存和读回正式终档。[007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)
 - 008 分别运行 `node scripts/e2e/fairy-island-maze-game.mjs --from <Game-007-report>` 和 `node scripts/e2e/fairy-island-maze-reforge.mjs --from <Reforge-007-report>`。核实实际踩漂与变轨、两处取物、六像与踏板，首次到桃花林恢复操控时保存终档。需要作者分屏时，两端加 `--visual-review`。[008 任务卡](../../tasks/cards/E2E-008-1-fairy-island-maze.md)
 - 009 分别运行 `node scripts/e2e/fairy-island-pool-game.mjs --from <Game-008-report>` 和 `node scripts/e2e/fairy-island-pool-reforge.mjs --from <Reforge-008-report>`。核实可见止血草只领取一次、两次独立的池塘触发、实际雷击与灵儿离场。在桃花林留存正式终档并读回；作者分屏用 `--visual-review`。[009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)

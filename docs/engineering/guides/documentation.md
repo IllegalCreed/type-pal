@@ -49,6 +49,8 @@ content23 四类取物的来源维护再以固定 `0973c2c25795fd2aacf78daedebb8
 
 该有限层另接 007–009 三个确切发布报告的唯一 `testing-meta`：只同步同组来源及 history，恢复旧 metadata 后整份 Markdown 必须逐字节等于固定原文。正文、标题、front matter 和原运行字段保持；不扩至 010 或任意新 Markdown。
 
+Q2 首批测试域出版另固定已接受的 `43fea71735236272cfb7f6a1c61c3ac2e691a349` catalog。既有维护/来源桥先按原件复核，现行层只追加 `q2-battle-foundation` 和对应 `entryReadings`；旧成员、顺序与字段不变。报告、入口和原生 execution evidence 按三个精确路径配对，使用现行 `test-machine-evidence-v1 / 1.5.0`，由 `check-testing` 继续核实际源码、完整metadata及原件SHA。唯一覆盖台账取[首批报告](../../testing/domains/cross-phase/battle-foundation/report.md)，出版准入不代替真实运行或人工视觉。
+
 ### 留存附件的压缩与读取
 
 开发留痕中的大文本可按已独立准入的位置合同无损 gzip；保留每份逻辑路径、固定 Git blob、原载体 SHA/字节及压缩文件 SHA/字节，不合并执行。历史 display 副本与 original 原件按原映射区分，压缩 display 不使其成为原执行输出。

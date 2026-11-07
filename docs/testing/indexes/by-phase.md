@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 3 个适用阶段组、40 个成员关系、24 个唯一 ID：ops 1；phase1 17；phase2 22。跨组出现指向同一报告。
+当前 3 个适用阶段组、42 个成员关系、25 个唯一 ID：ops 1；phase1 18；phase2 23。跨组出现指向同一报告。
 
 ## 当前状态
 
@@ -53,6 +53,7 @@ catalog.phase 决定组别，报告分别提供各阶段 primary source 与执�
 | game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
 | phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |
+| q2-battle-foundation | [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md) | verified | Codex |
 
 
 ### phase2
@@ -76,6 +77,7 @@ catalog.phase 决定组别，报告分别提供各阶段 primary source 与执�
 | editor-map-workspace-sessions | [编辑器地图工作区会话所有权](../domains/editor/map/map-workspace-sessions/report.md) | current | Codex |
 | game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
+| q2-battle-foundation | [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md) | verified | Codex |
 | reforge-menu-session | [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md) | current | Codex |
 | runtime-active-scene | [活动场景资源与镜头所有权](../domains/runtime/scene/active-scene/report.md) | current | Codex |
 | runtime-battle-host | [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md) | current | Codex |

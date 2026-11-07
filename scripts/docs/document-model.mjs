@@ -24,6 +24,7 @@ import { incrementalDocumentIssues } from './incremental-review.mjs'
 import { mainSuccessorDocumentIssues } from './main-successor-document.mjs'
 import { markdownLinks, withoutFences } from './markdown.mjs'
 import { rollforwardDocumentIssues } from './rollforward-document-contract.mjs'
+import { isTestingBattleEvidencePath } from './testing-battle-publication.mjs'
 import { testingEvidenceLineageIssues } from './testing-evidence-lineage.mjs'
 import { isTestingStageEvidencePath } from './testing-source-bridge.mjs'
 
@@ -363,9 +364,9 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
         ),
       )
     }
-    // assertCurrent has checked the complete native object against the accepted
-    // source and the finite metadata-only bridge contract. JSON is not Markdown;
-    // its unchanged publication/execution facts retain the original native type.
+    // assertCurrent has checked the preserved native facts and the finite source
+    // or publication successor. New carriers retain their separate native check;
+    // they do not turn the old catalog's audit into another execution receipt.
     if (change.mode === 'testing-source-bridge') return issues
     const currentDoc = {
       ...doc,
@@ -393,7 +394,10 @@ export function checkMigratedDocument(doc, registry, read, options = {}) {
     const contract = currentDoc.variant ? template.variants?.[currentDoc.variant] : template
     if (!contract) return [...issues, 'current body variant missing']
     issues.push(...publicationIssues(text, contract, read, doc.path))
-    if (addition && isTestingStageEvidencePath(addition.path)) {
+    if (
+      addition &&
+      (isTestingStageEvidencePath(addition.path) || isTestingBattleEvidencePath(addition.path))
+    ) {
       issues.push(
         ...machineDeclarationIssues(
           text,

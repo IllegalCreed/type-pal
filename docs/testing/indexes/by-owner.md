@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 1 个 Owner 组、24 个唯一 ID：Codex 24。不覆盖 catalog 之外未登记贡献者。
+当前 1 个 Owner 组、25 个唯一 ID：Codex 25。不覆盖 catalog 之外未登记贡献者。
 
 ## 当前状态
 
@@ -46,6 +46,7 @@ Template: governance-index-v1 / 1.0.0
 - game-script-corrections — [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md)（active）
 - legacy-flat-audit — [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md)（current）
 - phase1-dependency-ownership — [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md)（current）
+- q2-battle-foundation — [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md)（verified）
 - reforge-menu-session — [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md)（current）
 - runtime-active-scene — [活动场景资源与镜头所有权](../domains/runtime/scene/active-scene/report.md)（current）
 - runtime-battle-host — [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md)（current）

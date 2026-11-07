@@ -22,6 +22,12 @@ import {
   testingAcquisitionSourceBase,
 } from './testing-acquisition-source-bridge.mjs'
 import {
+  assertTestingBattleEvidence,
+  assertTestingBattlePublication,
+  isTestingBattleEvidencePath,
+  testingBattlePublicationBase,
+} from './testing-battle-publication.mjs'
+import {
   assertTestingChestSourceBridge,
   assertTestingPalaceStagePublication,
   assertTestingSourceBridge,
@@ -413,6 +419,16 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     acquisitionRevision === undefined
       ? undefined
       : gitTree(root, acquisitionRevision, [testingCatalogPath])
+  const battlePublicationRevision = admission.testingCatalogBattlePublicationBaseRevision
+  if (battlePublicationRevision !== undefined)
+    assert(
+      preAcquisition && battlePublicationRevision === testingBattlePublicationBase,
+      'battle publication requires the fixed accepted acquisition predecessor',
+    )
+  const preBattle =
+    battlePublicationRevision === undefined
+      ? undefined
+      : gitTree(root, battlePublicationRevision, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   // Historical layers retain their original sources. Only the finite successor
   // sources may differ from this accepted predecessor in the live checkout.
@@ -448,10 +464,12 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       isTestingStageEvidencePath(row.path) &&
       (row.path !== 'docs/testing/e2e/evidence/e2e-010.json' ||
         palacePublicationRevision !== undefined)
+    const nativeBattle =
+      battlePublicationRevision !== undefined && isTestingBattleEvidencePath(row.path)
     assert(
       row.path.startsWith('docs/') &&
         (row.path.endsWith('.md') ||
-          (nativeStage &&
+          ((nativeStage || nativeBattle) &&
             row.templateId === 'test-machine-evidence-v1' &&
             row.variant === undefined &&
             row.historyOverlay === undefined)) &&
@@ -589,6 +607,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         `candidate body line extent differs: ${path}`,
       )
       if (isTestingStageEvidencePath(path)) assertTestingStageEvidence(path, current)
+      if (isTestingBattleEvidencePath(path)) assertTestingBattleEvidence(path, current)
       return { current, change: addition }
     }
     const change = changes.get(path)
@@ -665,7 +684,9 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
             return fixed
           }
         : readPredecessorSource
-      const predecessor = acquisitionPrevious(path, current)
+      const acceptedCurrent =
+        preBattle && path === testingCatalogPath ? preBattle.read(path) : current
+      const predecessor = acquisitionPrevious(path, acceptedCurrent)
       const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
       const publication = chestBridge ? postPalace.read(path) : predecessor
       if (stagePublicationRevision !== undefined && path === testingCatalogPath) {
@@ -698,7 +719,9 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           revision: postPalaceRevision,
           readSource: postPalace.read,
         })
-      assertAcquisitionSuccessor(path, predecessor, current)
+      assertAcquisitionSuccessor(path, predecessor, acceptedCurrent)
+      if (preBattle && path === testingCatalogPath)
+        assertTestingBattlePublication(acceptedCurrent, current, additions)
       return { current, previous, change }
     }
     {

@@ -181,7 +181,7 @@ function fixture(t) {
   }
 }
 
-test('catalog default1.2 preserves the original18 plus correction and input publications and both consumer responsibilities', async (t) => {
+test('catalog default1.2 preserves original18 and the exact admitted publications and both consumer responsibilities', async (t) => {
   const f = fixture(t)
   const beforeRegistry = JSON.parse(
     execFileSync('git', ['show', `${beforeRevision}:${registryPath}`], {
@@ -238,10 +238,18 @@ test('catalog default1.2 preserves the original18 plus correction and input publ
     catalog.entries.slice(0, 18).map((entry) => entry.id),
     beforeCatalog.entries.slice(0, 18).map((entry) => entry.id),
   )
-  assert.equal(catalog.entries.length, 24)
+  assert.equal(catalog.entries.length, 25)
   assert.deepEqual(
     catalog.entries.slice(18).map((entry) => entry.id),
-    ['game-script-corrections', 'game-input-rotation', 'e2e-007', 'e2e-008', 'e2e-009', 'e2e-010'],
+    [
+      'game-script-corrections',
+      'game-input-rotation',
+      'e2e-007',
+      'e2e-008',
+      'e2e-009',
+      'e2e-010',
+      'q2-battle-foundation',
+    ],
   )
   const cases = [
     ['canonical', () => {}, false, false],

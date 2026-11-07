@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 5 个引擎组、43 个成员关系、24 个唯一 ID：content 1；editor 4；game 17；pal-extract 1；reforge 20。多引擎成员不是新增测试。
+当前 5 个引擎组、45 个成员关系、25 个唯一 ID：content 1；editor 4；game 18；pal-extract 1；reforge 21。多引擎成员不是新增测试。
 
 ## 当前状态
 
@@ -63,6 +63,7 @@ catalog.engines 决定成员；下游回报告核 source audit 与 runtime-execu
 | game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
 | phase1-dependency-ownership | [第一阶段依赖所有权拆分](../domains/phase1-runtime/dependencies/dependency-ownership/report.md) | current | Codex |
+| q2-battle-foundation | [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md) | verified | Codex |
 
 
 ### pal-extract
@@ -91,6 +92,7 @@ catalog.engines 决定成员；下游回报告核 source audit 与 runtime-execu
 | e2e-route | [双阶段快速通关路线方案](../e2e/route-proposal.md) | proposal | Codex |
 | game-script-corrections | [两阶段脚本纠错与持久入口回归](../domains/cross-phase/script-corrections/report.md) | active | Codex |
 | legacy-flat-audit | [Legacy flat 内容深审总账](../domains/ops/testing-governance/legacy-flat-audit.md) | current | Codex |
+| q2-battle-foundation | [Q2 首批正常战斗入口与对照闭环](../domains/cross-phase/battle-foundation/report.md) | verified | Codex |
 | reforge-menu-session | [Reforge 菜单与物品会话所有权](../domains/runtime/menu/menu-session/report.md) | current | Codex |
 | runtime-active-scene | [活动场景资源与镜头所有权](../domains/runtime/scene/active-scene/report.md) | current | Codex |
 | runtime-battle-host | [战斗宿主启动、取消与世界提交](../domains/runtime/battle/battle-host/report.md) | current | Codex |
