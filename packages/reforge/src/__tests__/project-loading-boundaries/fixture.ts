@@ -212,7 +212,7 @@ export function lbProjectFiles(options: LbProjectOptions = {}): Record<string, u
     'manifest.json': {
       id: 'demo-lb',
       name: 'Demo Loading Boundaries',
-      contentVersion: 22,
+      contentVersion: 23,
       minimumSaveVersion: 12,
       defaultEntryId: 'new-game',
       entryPoints: [

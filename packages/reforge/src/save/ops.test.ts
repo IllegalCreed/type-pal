@@ -28,7 +28,7 @@ describe('current save operations', () => {
     })
   })
 
-  test('the only builder writes SAVE12/content22 without startup-entry identity', () => {
+  test('the only builder writes SAVE12/content23 without startup-entry identity', () => {
     const world = currentWorld()
     const position = {
       sceneId: 's001',
@@ -39,7 +39,7 @@ describe('current save operations', () => {
     expect(payload).toEqual({
       version: 12,
       sceneRuntime: {},
-      contentVersion: 22,
+      contentVersion: 23,
       projectId: 'demo',
       world,
       position,

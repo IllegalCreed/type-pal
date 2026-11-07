@@ -242,9 +242,20 @@ export function assembleCurrentProject(
     if (issue) throw new Error(`${issue.where}: ${issue.message}`)
   }
 
-  const items = resolveAuthorDialogueTree(authorItems, actorsById, 'items')
-  const enemies = resolveAuthorDialogueTree(authorEnemies, actorsById, 'enemies')
-  const sharedScripts = resolveAuthorDialogueTree(authorSharedScripts, actorsById, 'sharedScripts')
+  const acquisitionContext = { items: authorItems }
+  const items = resolveAuthorDialogueTree(authorItems, actorsById, 'items', acquisitionContext)
+  const enemies = resolveAuthorDialogueTree(
+    authorEnemies,
+    actorsById,
+    'enemies',
+    acquisitionContext,
+  )
+  const sharedScripts = resolveAuthorDialogueTree(
+    authorSharedScripts,
+    actorsById,
+    'sharedScripts',
+    acquisitionContext,
+  )
   const { skills, levelUp } = validateSkills(jsons.skills)
   const startupIssue = validateEntryPointStartWorldReferences(
     manifest.entryPoints,
@@ -264,6 +275,7 @@ export function assembleCurrentProject(
     authorEntryScene,
     actorsById,
     `entryPoints[${defaultEntry.id}].scene`,
+    acquisitionContext,
   )
   const locale = validateLocale(jsons.locale, { allowSoftWrap: true })
   const sprites = validateSprites(jsons.sprites, assetCatalog)
@@ -488,6 +500,7 @@ export async function loadScene(
     await loadAuthorScene(project, sceneId),
     project.actorsById,
     `scene ${sceneId}`,
+    { items: Object.values(project.items) },
   )
 }
 

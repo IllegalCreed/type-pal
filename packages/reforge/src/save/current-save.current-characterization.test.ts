@@ -81,7 +81,7 @@ function payload(): CurrentSavePayload {
 
 const references = buildEntityLifecycleReferenceIndex([{ id: 's001', entities: [{ id: 'e001' }] }])
 
-describe('current SAVE12/content22 contract', () => {
+describe('current SAVE12/content23 contract', () => {
   test('round-trips the current envelope without mutating input or resetting world values', async () => {
     const raw = payload()
     const before = structuredClone(raw)

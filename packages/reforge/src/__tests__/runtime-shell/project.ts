@@ -3,6 +3,8 @@ import type {
   AssetCatalogV1,
   AssetKind,
   AuthorCommand,
+  AuthorItemCore,
+  AuthorItemData,
   AuthorSceneDef,
   CurrentManifest,
   SkillData,
@@ -87,6 +89,7 @@ export function sceneWithCommands(id: string, body: AuthorCommand[]): AuthorScen
 export async function shellProject(
   options: {
     party?: string[]
+    items?: AuthorItemCore[] | AuthorItemData[]
     first?: AuthorSceneDef
     second?: AuthorSceneDef
     money?: number
@@ -96,7 +99,7 @@ export async function shellProject(
   const manifest: CurrentManifest = {
     id: 'shell-project',
     name: 'Shell Project',
-    contentVersion: 22,
+    contentVersion: 23,
     minimumSaveVersion: 12,
     defaultEntryId: 'start',
     entryPoints: [
@@ -148,7 +151,7 @@ export async function shellProject(
     'manifest.json': manifest,
     'assets/index.json': catalog,
     'content/actors.json': [shellActor('hero'), shellActor('friend')],
-    'content/items.json': [],
+    'content/items.json': options.items ?? [],
     'content/skills.json': { skills: [skill], levelUp: {} },
     'content/locale.json': {
       'name.hero': 'Hero',

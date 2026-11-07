@@ -3,7 +3,13 @@
  * 纯函数,不碰 DOM/canvas——宽度计算靠 GlyphTable(渲染资产)。
  * 自动换行:长句折成多 DisplayLine,使内容不被分辨率绑架。
  */
-import { type DialogColor, type DialogueRow, parseRichText, type TextId } from '@type-pal/content'
+import {
+  type DialogColor,
+  type DialogueRow,
+  parseRichText,
+  resolveDialogueRowText,
+  type TextId,
+} from '@type-pal/content'
 import type { GlyphTable } from '../text/glyph.js'
 
 export interface DisplayLine {
@@ -35,7 +41,7 @@ export function layoutLines(
   for (let rowIdx = 0; rowIdx < rows.length; rowIdx++) {
     const src = rows[rowIdx]
     if (!src) continue
-    const spans = parseRichText(resolveText(src.text).replace(/\r\n?/g, '\n'))
+    const spans = parseRichText(resolveDialogueRowText(src, resolveText).replace(/\r\n?/g, '\n'))
     // 展开成字符流(带 color),逐字符测宽分组
     const chars: CharRun[] = []
     for (const span of spans) {

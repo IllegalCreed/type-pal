@@ -121,7 +121,9 @@ test('canonical inn reward is fully shown then closes after 1400ms without anoth
   const command = flow.stages
     .find((stage) => stage.id === flow.initial)
     ?.body.find(
-      (entry) => entry.kind === 'dialog' && entry.cue.rows.some((row) => row.text === 'dlg.51'),
+      (entry) =>
+        entry.kind === 'dialog' &&
+        entry.cue.rows.some((row) => 'text' in row && row.text === 'dlg.51'),
     )
   if (command?.kind !== 'dialog') throw new Error('missing canonical reward cue')
   const cue = resolveAuthorDialogueCue(command.cue, {})

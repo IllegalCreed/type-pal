@@ -33,7 +33,7 @@ test('actual DEV zero-argument export survives JSON and the current codec/restor
   const result = JSON.parse(JSON.stringify(await exported))
   expect(result).toMatchObject({
     version: 12,
-    contentVersion: 22,
+    contentVersion: 23,
     projectId: 'checkpoint',
     world: { money: 10, party: [{ template: 'hero' }], audio: { currentMusic: null } },
     position: { sceneId: 'target', pos: { col: 1.5, row: 2.5, height: 0 }, facing: 'down' },
