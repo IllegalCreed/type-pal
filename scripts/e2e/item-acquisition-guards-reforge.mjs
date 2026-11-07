@@ -217,8 +217,8 @@ await runBrowserJourney({
           report.contextTraces.push(raw)
           await page.screenshot({ path: resolve(out, `${label}-ready.png`) })
           result.contexts.push({ label, proof, assertions, checkpoint, trace: raw })
-          payload = after
           bytes = await readFile(resolve(out, checkpoint.path))
+          payload = JSON.parse(bytes)
         } catch (error) {
           await page.screenshot({ path: resolve(out, `${label}-failed.png`) }).catch(() => {})
           try {

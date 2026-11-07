@@ -52,10 +52,10 @@ export function assertItemGuardSeed(payload, entity) {
 
 /** Read-only native serialization at a normal-route boundary; no extra story input is issued. */
 export async function captureItemGuardSeed(page, out, report, entity) {
-  const { payload, order } = await page.evaluate(() => ({
-    payload: window.__tpE2e.dumpSave(),
-    order: window.__readErrandDrive(Number.MAX_SAFE_INTEGER).order,
-  }))
+  const { payload, order } = await page.evaluate(async () => {
+    const payload = await window.__tpE2e.dumpSave()
+    return { payload, order: window.__readErrandDrive(Number.MAX_SAFE_INTEGER).order }
+  })
   const sample = assertItemGuardSeed(payload, entity)
   assert.equal(report.fragment, sample.fragment)
   assert(Number.isSafeInteger(order) && order >= 0)

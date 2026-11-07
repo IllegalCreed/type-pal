@@ -203,9 +203,21 @@ await runBrowserJourney({
       assert.equal((await snapshot()).scene, scene)
       const trace = await readLongEvidenceArchive(page)
       assertErrandCollector(trace, label)
-      const proof = game
-        ? assertBoatGameRestore(payload, trace.gameRestores[0]?.payload)
-        : assertReforgeRestoreInput(trace, payload)
+      let proof
+      if (game) {
+        const expected = structuredClone(payload)
+        assert([0, 1].includes(expected.gs.currentSaveSlot), 'unexpected native bedroom save slot')
+        // The first new-game F5 records slot 0. loadGameFromSlot explicitly selects
+        // slot 1 (bootstrap.ts); model that real menu choice without editing save bytes.
+        expected.gs.currentSaveSlot = 1
+        proof = {
+          ...assertBoatGameRestore(expected, trace.gameRestores[0]?.payload),
+          contract: 'bedroom-game-complete-save-domain/1',
+          normalizedFields: ['needToFadeIn', 'currentSaveSlot'],
+          savedSlot: payload.gs.currentSaveSlot,
+          loadedSlot: 1,
+        }
+      } else proof = assertReforgeRestoreInput(trace, payload)
       report.contextsProof.push({ label, restore: proof })
       await waitForOpeningFrame(page, until)
     }
@@ -394,8 +406,8 @@ await runBrowserJourney({
         assertBoatGameSaveCapture(savedPayload, captured.payload)
         report.save = { captureOrder: captured.order, acknowledgementOrder: completed.order }
       } else {
-        savedPayload = await page.evaluate(() => window.__tpE2e.dumpSave())
-        savedBytes = JSON.stringify(savedPayload)
+        savedBytes = JSON.stringify(await page.evaluate(() => window.__tpE2e.dumpSave()))
+        savedPayload = JSON.parse(savedBytes)
       }
       await writeFile(resolve(out, 'collected-room.save.json'), savedBytes, { flag: 'wx' })
       report.checkpoint = {
