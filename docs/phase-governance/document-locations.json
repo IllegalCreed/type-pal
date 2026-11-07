@@ -50,14 +50,14 @@
       "mode": "reviewed",
       "templateId": "plan-status-v1",
       "historyOverlay": true,
-      "afterSha256": "0e69c0b47d5bd36dbe08521afb769d878c94935e02ff8b6c33db02a2bf3c1561",
+      "afterSha256": "200541dec654b0244053ede7f5d85d7157f25ae9b0a0984a8df592c5580d974d",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "新增 010 经水月宫外到宫内取药的叙事和停止范围，脚本入口、宝箱顺序、泉水效果与复控边界有据。历史引文逐字节保留。",
+        "conclusion": "核 010 更新行、实际停止线、用户原话及正式报告链接；原历史不重审。",
         "reviewedLines": 573,
-        "acceptanceScope": "核本次叙事增量、真实脚本入口、与执行信用的职责分界及历史引文保全。"
+        "acceptanceScope": "核当前一行与真实报告，剧情历史字节保持。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "ecad73c4b6501005d42beb17f60faa8cc2e4ed215f243f49c6cd41ef55c3c1c2",
+      "afterSha256": "b1b14be9b5110c61afece13c9c11f72e8d26a438bd946a92edeced6d948277db",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "更新 010 的 review 路由，保留开盖帧预览限制和作者分屏待验。其他看板条目保留。",
-        "reviewedLines": 120,
-        "acceptanceScope": "核实际增量、卡面状态、依赖及下一步。"
+        "conclusion": "核 010 退出活动、R4 仍有其它义务，跟报告和任务状态分开。",
+        "reviewedLines": 121,
+        "acceptanceScope": "核看板与任务卡终态、正式报告与台账范围。"
       }
     },
     {
@@ -2097,17 +2097,17 @@
     {
       "path": "docs/ops/guides/documentation.md",
       "mode": "reviewed",
-      "afterSha256": "317f24574d97d77ec7f94c135404018bd05980992ff7c43bc1de39952966cd26",
+      "afterSha256": "39b8ae2db058965b550445c2ed4aef686346754793e2e4bfa575777c586345d9",
       "templateId": "guide-runbook-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
-        "author": "Codex /root/pond_dialogue",
+        "author": "Codex /root/close_010",
         "reviewer": "Codex /root",
-        "date": "2026-11-06",
-        "conclusion": "接受固定原件上的追加式阶段出版。源维护、原来源桥与有限登记分别核对，既有证据保持原范围。",
-        "reviewedLines": 93,
-        "acceptanceScope": "仅核 007–009 的目录准入、三个正式载体及实际消费路径。先前规则和原文保全保持。"
+        "date": "2026-11-07",
+        "conclusion": "复核 010 追加段的实际三层前缀、固定 Git 和逐值保全行为。",
+        "reviewedLines": 95,
+        "acceptanceScope": "核指南追加段和实际门禁的各固定层，旧文档规则继续沿用。"
       }
     },
     {
@@ -2595,16 +2595,16 @@
     {
       "path": "docs/ops/tasks/index.md",
       "mode": "reviewed",
-      "afterSha256": "6a9972cc7a41805694b7c264b4fd92a0e20c9b175a95df08dc7358eca207129a",
+      "afterSha256": "5df86ad7cded3e222d13f77d0d4c07d617042e2e16aa24474b757350d119586a",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "生成索引与当前文件逐字节一致，010 正确投影为 review。",
+        "conclusion": "重生成全文并比较字节；只接收 010 的 review 到 done 投影。",
         "reviewedLines": 585,
-        "acceptanceScope": "核当前生成器实际结果及最终卡面。"
+        "acceptanceScope": "以当前生成命令逐字节比对投影和卡面状态。"
       }
     },
     {
@@ -4012,14 +4012,14 @@
     {
       "path": "docs/testing/e2e/README.md",
       "mode": "reviewed",
-      "afterSha256": "d319535ef3ff617bda604032436e18126fcab038d81bf12c474825fab240e71f",
+      "afterSha256": "7c7abf9f2f284662f3e1adb134efb235b106060121b6d0abee0bc22a55a19d39",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "接受 007–009 的正式阶段导航，以及目录出版依赖和实际同引擎前驱的分别核定。原引文保留其历史时点。",
-        "reviewedLines": 96,
-        "acceptanceScope": "仅新入口和现行边界差异，历史 quote 按原范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "复核 010 当前路由、前驱和实际读回结果，旧轮次不重审。",
+        "reviewedLines": 99,
+        "acceptanceScope": "核入口和具体差异，前批次保持原样。"
       }
     },
     {
@@ -4197,14 +4197,14 @@
     {
       "path": "projects/pal/e2e-checkpoints/README.md",
       "mode": "reviewed",
-      "afterSha256": "58e3728b61832c7b2cc3c73599f7309b2f576baaecb8c53c922534a92f68e67a",
+      "afterSha256": "b38e507ed0f459ce6a80f47eb62856ac0024adc8587a3b60eeba6770fafefc47",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "新增 010 起止、两引擎坐标及后续证据入口，前轮正文原样保留。",
+        "conclusion": "核 010 两端正式保存与新会话终点、原报告和承接说明。",
         "reviewedLines": 159,
-        "acceptanceScope": "核路线与停止目标。正式双轨结果由本段任务卡与独立执行证据持有。"
+        "acceptanceScope": "核新链接、原档和两引擎停止点，历史不变。"
       }
     },
     {
@@ -4290,14 +4290,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0e6c224f309a3c88353ee0bffd385a665461de7453830b53cf13c9e19f5d23ee",
+      "afterSha256": "e8ae06e46d5e4919ccec4998a0bc935bec528435cfa84ffcbf5811b2b9da6785",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "007 与 009 仅更新已核来源指纹、行区间与审查范围说明。目录其它值与基点一致。",
-        "reviewedLines": 3916,
-        "acceptanceScope": "核整个目录对象、三个分派块、桃花林 e211 三处名称和两条发布配对。原候选与历史执行保持。"
+        "conclusion": "独立比较原 23 项及全部旧字段逐值不变，只添加与报告、回执匹配的 010 配对。",
+        "reviewedLines": 4035,
+        "acceptanceScope": "核新增 catalog 条目、当前源码、report/evidence 对照及前序逐值一致。"
       }
     },
     {
@@ -4420,105 +4420,105 @@
     {
       "path": "docs/testing/indexes/by-domain.md",
       "mode": "reviewed",
-      "afterSha256": "2c18ba317c0581250c068233da9c67b4979bcae89e5cf16ff86ac482493be083",
+      "afterSha256": "dd15b1e3c4831fe088bf89c59f9cefb4469cbd9f71e07e7cfe2d6a72cc46d904",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 91,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：工程域归类与 e2e 的三条新增成员。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 92,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-engine.md",
       "mode": "reviewed",
-      "afterSha256": "468e2435b6ed88bd03f22f894998e58b13169256ea0b2e9f76a6e678a9189db2",
+      "afterSha256": "78645adba4609b6c91836d9d752270d0f2a00018358e827eecdfe36a40932bb3",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 103,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：Game 与 Reforge 各三条双引擎成员关系。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 105,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-module.md",
       "mode": "reviewed",
-      "afterSha256": "095a0b167939e1c6af140a49d9d38a0ee73684a8c0fb65dbeb35f08513e80d3c",
+      "afterSha256": "d66eea4872e54acd610857cbe368516cea6179cda848cd06f65c908cf4ddf0a6",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 187,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段各自的工程域/模块归类与报告链接。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 194,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-owner.md",
       "mode": "reviewed",
-      "afterSha256": "0707f4261bba8bebdef85a8b0cfd603857f448dc976a0a7c21613d7d551ea491",
+      "afterSha256": "80f3d5c2e14ddd632b87f8a83600af987d48b4b1cbae613a67e75d86995e3339",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 59,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段归入 Codex 的发布维护责任。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 60,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-phase.md",
       "mode": "reviewed",
-      "afterSha256": "d1632902ab3ac55673db10e6e897df236ea77a0b3a9e1283046c274e8cc0cb5a",
+      "afterSha256": "95384928c52691e48fc03f38a00b80ba8555c5e6f8595d55fd90a60409b4c770",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 88,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：第一阶段与第二阶段各三条适用成员关系。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 90,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-stage.md",
       "mode": "reviewed",
-      "afterSha256": "2c8b9cacf96d20cb64fb7c44bb2d6f70c8238b2bd5ac4bb48ad619d486221f43",
+      "afterSha256": "fb59886678a064e35f23bfb0c2fa152ea23702e5f3ebea8e4c9df83f3dea8a07",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 63,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段状态、正式报告和冻结实跑版本行，006 rework 及原六段版本保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 65,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-status.md",
       "mode": "reviewed",
-      "afterSha256": "0a16a348e90ad487f46b983ca9c9a38550ac2f231b6dbaa4267944af9d5402e9",
+      "afterSha256": "eee220293c276f738e3234d7d651453e59b4f1552486ce1524b93486ac292c21",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 87,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三条 verified 成员、006 rework 保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 88,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     },
     {
       "path": "docs/testing/indexes/by-tag.md",
       "mode": "reviewed",
-      "afterSha256": "26ba8a8ccfb50a4d377c9b757386c1ebd384f0e5c2d793accd2081c72267ffad",
+      "afterSha256": "864cbac3a0949aca12c9bba628ab7ee0485c1b120000557e53ee652e729f0121",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "accept",
-        "reviewedLines": 244,
-        "acceptanceScope": "只核固定 catalog 原 20 条与当前 23 条经原 generate-testing-index.mjs 的同路径导航投影：三段 14 条标签成员，原标签与成员保留。历史行逐字保留，当前与索引暂存和实际重生成字节一致。报告、实跑与用户验收仍取各自已冻结原件，索引不重新授予其范围。"
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "010 现行目录变更由原生成器逐字复现，前序来源未改。",
+        "reviewedLines": 251,
+        "acceptanceScope": "只核既有索引投影、010 归类和导航；不另授测试或运行信用。"
       }
     }
   ],
@@ -4591,14 +4591,14 @@
     {
       "path": "docs/testing/e2e/cross-stage/script-progress.md",
       "templateId": "plan-status-v1",
-      "afterSha256": "4f11631c49ce88e9297caeee03120dc8a10c8673045c70099e5b9d0ffa1125e1",
+      "afterSha256": "2ba2c85823b1201452e97077fe63054497494029ee376c1b08c2263d196a0f80",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "保留 3377 个历史事件的原 JSON 字节，追加 54 条既有现场适用性与 30 条 010 三轴事件。七个静态初态验证，三个续查开盖帧保持待核。",
+        "conclusion": "核唯一 010 概览变更及机器数据逐字节保全；后续三次开盖帧仍待核。",
         "reviewedLines": 218078,
-        "acceptanceScope": "核旧事件保全、现行归档成员指针、编辑器前态证据与旧 009 已确认投影。实际 check 无来源漂移或孤儿。"
+        "acceptanceScope": "仅顶部行与真实 010 证据范围；对比 JSON 围栏及后续全部原字节。"
       }
     },
     {
@@ -4877,14 +4877,53 @@
     {
       "path": "docs/tasks/cards/E2E-010-1-water-moon-palace.md",
       "templateId": "task-card-v1",
-      "afterSha256": "12ff76a1f06ce4659daefcdb1e6ecf11c1c8c29a3f7a774642d43154dcd14eb7",
+      "afterSha256": "28ee719fb146426d1286c2e362e5fb33cc153691f2b4f2cb51f7b82f1b813735",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/palace_doc_review",
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
         "date": "2026-11-07",
-        "conclusion": "接受同候选双轨路线、宫外绘制、苗刀箱、恢复与紫金丹、正式存读及绑定的编辑器证据。记录开盖帧待核，作者分屏仍待确认。",
-        "reviewedLines": 91,
-        "acceptanceScope": "核全文、010 双轨原件和独立重跑、终档与前驱身份、归档成员、错误原件保留、编辑器重开及实际媒体指纹。接受 review 停止线。"
+        "conclusion": "核最终候选与原 010 轨迹、分屏指纹、用户确认及三处静态预览边界。",
+        "reviewedLines": 93,
+        "acceptanceScope": "核原卡差异、原始媒体字节指纹、用户原话及正式报告路由。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/010-water-moon-palace/README.md",
+      "templateId": "test-e2e-stage-v1",
+      "afterSha256": "c8396eca46f491830f04f1179d5f691bde289647ff0f9fd9143d801a976782d8",
+      "review": {
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "全文核对正式配对、009 依赖、用户分屏及单独预览限制。",
+        "reviewedLines": 34,
+        "acceptanceScope": "核全文、模板、009 依赖与报告和机器证据路由。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/stages/010-water-moon-palace/report.md",
+      "templateId": "test-run-report-v1",
+      "afterSha256": "6484052cb543ef701515fa99c78690330f6eaf613ea637dabf27823a4d8db465",
+      "review": {
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "全文按实跑、重新离线比对的 279 步、独立验证归档与媒体指纹、静态前态及用户确认验收。",
+        "reviewedLines": 62,
+        "acceptanceScope": "核全文、机器元数据、真实归档、旧反例和静态预览限制。"
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-010.json",
+      "templateId": "test-machine-evidence-v1",
+      "afterSha256": "c4e958a39babb8b1d17c7390f9b64ea19ff00347fbcc20d3488629d518d9fb12",
+      "review": {
+        "author": "Codex /root/close_010",
+        "reviewer": "Codex /root",
+        "date": "2026-11-07",
+        "conclusion": "复算两份前驱、执行产物、新会话读回与归档成员；分别核原生、编辑器和作者验收，不混入历史失败。",
+        "reviewedLines": 533,
+        "acceptanceScope": "核完整机器对象、模板、真实归档成员、前驱、源锚点、用户确认和证据范围。"
       }
     }
   ],
