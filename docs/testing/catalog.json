@@ -3448,6 +3448,121 @@
         ]
       },
       "reviewScope": "同候选双轨技术、存读和保存的静态预览通过，用户确认 129.4 秒池塘分屏。 010 新分派和桃花林出口名称只改变来源指纹与行号，009 调用和剧情正文保持原样。"
+    },
+    {
+      "id": "e2e-010",
+      "kind": "e2e-stage",
+      "title": "010 水月宫取苗刀与紫金丹",
+      "status": "verified",
+      "phase": ["phase1", "phase2"],
+      "engines": ["game", "reforge"],
+      "owner": "Codex",
+      "provenance": ["Codex", "User"],
+      "domain": "e2e",
+      "module": "water-moon-palace",
+      "canonical": "e2e/stages/010-water-moon-palace/report.md",
+      "index": "e2e/stages/010-water-moon-palace/README.md",
+      "evidence": "e2e/evidence/e2e-010.json",
+      "tags": ["story", "npc", "chest", "visual"],
+      "lastVerified": "2026-11-07",
+      "dependsOn": ["e2e-009"],
+      "sourceRefs": [
+        {
+          "path": "scripts/e2e/water-moon-palace-game.mjs",
+          "lines": "61-67",
+          "anchor": "readCheckpointInput(predecessorRef, 'game', '009')",
+          "role": "caller",
+          "sha256": "6b8f47223414c90139d08762862d101ea0e428fa1fe443db7bdbe09022834d46"
+        },
+        {
+          "path": "scripts/e2e/water-moon-palace-reforge.mjs",
+          "lines": "68-77",
+          "anchor": "} = await readCheckpointInput(",
+          "role": "caller",
+          "sha256": "673cac6ab503d979dec6ba6f824d3ef6db93bbc584e5d1bca610ff316f7e9283"
+        },
+        {
+          "path": "scripts/e2e/recompare-recording.mjs",
+          "lines": "46-49",
+          "anchor": "if (fragment === '010')",
+          "role": "caller",
+          "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+        },
+        {
+          "path": "scripts/e2e/water-moon-palace-comparison.mjs",
+          "lines": "516-529",
+          "anchor": "export async function recompareWaterMoonPalace",
+          "role": "oracle",
+          "sha256": "26d687d586111c84f385f9309cef0ecf998a67f07036e95ac1355de71a252c21"
+        },
+        {
+          "path": "scripts/e2e/water-moon-palace-route.mjs",
+          "lines": "88-92",
+          "anchor": "export function waterMoonPalaceRoutes",
+          "role": "input",
+          "sha256": "9a841a8852326fb7ac7364707c664e7538bc9dd37b7becf7a1cc5881329da034"
+        }
+      ],
+      "publicCallers": [
+        "node scripts/e2e/water-moon-palace-game.mjs --headless --verify --visual-review --from <Game-009-report>",
+        "node scripts/e2e/water-moon-palace-reforge.mjs --headless --verify --visual-review --from <Reforge-009-report>",
+        "node scripts/e2e/recompare-recording.mjs 010 <Game-010-report> <Reforge-010-report> <new-output-json>"
+      ],
+      "legalInputs": [
+        "Game 接续已发布的同引擎 009 实际报告及终档，Reforge 以现行内容重建同引擎 009 报告及终档。",
+        "同一份真实走格序列，使用生产方向键、调查键和对白确认。四次独立开箱依次执行。",
+        "内容 22，Reforge SAVE12。正式 Game F5 保存和 Reforge 原生保存导出后分别在新会话读回。"
+      ],
+      "businessOracle": {
+        "type": "dual010-water-moon-palace-route-render-and-restore",
+        "assertions": [
+          "两端六段实际方向及落点序列为 48、33、26、51、51、70 步。",
+          "宫外引路一帧朝右，清除旧对白后向上行走 14 步，前 13 步可见，末步同帧隐藏。",
+          "四次独立调查箱子依次取得三张观音符、看到空箱、从箱底取得苗刀和确认无物。首次开盖后保持开启，提示都自动清除。",
+          "灵池确实触发恢复体力与真气的指令。正式起点满值，非满值效果另取独立样本。",
+          "完成 16 页交药、实际获得一颗紫金丹并恢复操控，灵儿实际绘制向下且在独立读档后维持。",
+          "两端宫内新会话读回同一端的正式 010 终档并保持操控。"
+        ]
+      },
+      "dedupe": {
+        "result": "bounded-distinct",
+        "against": [
+          "e2e-009",
+          "010 旧候选实跑",
+          "010 非满值饮水诊断",
+          "010 单独保存和重开的编辑器验证"
+        ],
+        "notes": "009 提供合法前驱。当前双轨、旧失败、机制诊断、静态预览和用户分屏各自记录执行范围。"
+      },
+      "revision": {
+        "currentSha": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+        "contentVersion": 22,
+        "minimumSaveVersion": 12,
+        "history": [
+          {
+            "revision": "e86265cf5d8499487e96293d2ad4c42631cdc141",
+            "date": "2026-11-07",
+            "action": "prior dual run rejected for rendered pellet-scene facing"
+          },
+          {
+            "revision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+            "date": "2026-11-07",
+            "action": "native dual 010 with fresh restores, offline comparison and separately verified editor preview"
+          },
+          {
+            "revision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+            "date": "2026-11-07",
+            "action": "user-accepted-current-split-screen",
+            "visualReview": {
+              "result": "accepted",
+              "quote": "010通过，先把这段收口吧。",
+              "clipSha256": "3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a",
+              "seconds": 73.2
+            }
+          }
+        ]
+      },
+      "reviewScope": "候选双轨与终档存读通过，用户确认 73.20 秒分屏。两处跨场景和静态初态保存重开通过，苗刀箱第 2–4 次单独预览的开盖帧仍待核。"
     }
   ],
   "_governance": {
@@ -3574,6 +3689,10 @@
       {
         "id": "e2e-009",
         "conclusion": "同路 239 步、48 步平移、两处换镜对白和实际终档通过。用户确认 129.4 秒分屏。"
+      },
+      {
+        "id": "e2e-010",
+        "conclusion": "同路 279 步、宫外引路实绘、四次开箱、饮水、交药与实际终档通过。用户确认 73.20 秒分屏，三次续查的开盖帧仍待单独预览复核。"
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

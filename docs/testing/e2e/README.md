@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-本页导航覆盖 001–009、共用验收与编辑器预览起点、路线 proposal、横向问题和 PAL 检查点目录。阶段正文、执行工具和原始回执分别在各自入口维护。
+本页导航覆盖 001–010、共用验收与编辑器预览起点、路线 proposal、横向问题和 PAL 检查点目录。阶段正文、执行工具和原始回执分别在各自入口维护。
 
 ## 当前状态
 
@@ -34,6 +34,7 @@ Template: governance-index-v1 / 1.0.0
 | e2e-007 · 从仙灵岛码头到迷宫入口 | [阶段页](stages/007-island-entrance/README.md) | [正式报告](stages/007-island-entrance/report.md) |
 | e2e-008 · 仙灵岛迷宫与桃花林入口 | [阶段页](stages/008-fairy-island-maze/README.md) | [正式报告](stages/008-fairy-island-maze/report.md) |
 | e2e-009 · 桃花林采药与池塘初遇 | [阶段页](stages/009-fairy-island-pool/README.md) | [正式报告](stages/009-fairy-island-pool/report.md) |
+| e2e-010 · 水月宫取苗刀与紫金丹 | [阶段页](stages/010-water-moon-palace/README.md) | [正式报告](stages/010-water-moon-palace/report.md) |
 
 ### 共用合同与工作入口
 
@@ -49,6 +50,8 @@ Codex 维护本页导航。Agent 先按 catalog 的稳定 `id` 找 `index`，再
 ## 证据与下一步
 
 2026-11-06 登记 007–009 的阶段页、正式报告和机器回执。三段绑定候选 `743be436c` 的实际双轨原件，用户复看范围和当前任务状态由各段报告及任务卡持有。[本轮任务入口](../../tasks/cards/E2E-R4-1-route-and-checkpoint-foundation.md#2026-11-06-007009-正式报告收口)
+
+2026-11-07 登记 010 的阶段页、正式报告与机器回执。对应候选 `5af4380bc` 的双轨同路、终档存读和用户确认的 73.20 秒分屏。[010 正式报告](stages/010-water-moon-palace/report.md)
 
 2026-10-18 核对了固定原文、当时六个阶段的导航字段、by-stage 投影，以及共同合同的演出、预览和收口边界。该次核对的执行范围限文档。
 

@@ -1,6 +1,6 @@
 # E2E-010-1 — 水月宫取苗刀与紫金丹
 
-Status: review
+Status: done
 Owner: Codex
 Last reviewed: 2026-11-07
 Template: task-card-v1 / 1.0.0
@@ -87,4 +87,6 @@ node scripts/e2e/recompare-recording.mjs 010 GAME_REPORT REFORGE_REPORT NEW_OUTP
 
 ## 分屏验收
 
-候选同版实跑分屏为 `build/e2e-010/review/010-game-reforge-water-moon-palace.mp4`，时长 73.20 秒，SHA256 `3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a`。左 Game，右 Reforge，各保留实跑节奏，先到的一侧停在本段终点。视频为无声视觉验收素材。当前等待作者分屏确认。
+候选同版实跑分屏为 `build/e2e-010/review/010-game-reforge-water-moon-palace.mp4`，时长 73.20 秒，SHA256 `3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a`。左 Game，右 Reforge，各保留实跑节奏，先到的一侧停在本段终点。视频为无声视觉验收素材。
+
+2026-11-07，用户确认「010通过，先把这段收口吧。」。候选 `5af4380bcab0e9d412f874e5bae7c7ce88e68c13` 的双轨、离线核验、终档存读和该分屏收口。宝箱第 2–4 次单独预览的开启帧继续在台账待核。原始运行、预览和先前失败按各自身份保留。[010 正式报告](../../testing/e2e/stages/010-water-moon-palace/report.md)

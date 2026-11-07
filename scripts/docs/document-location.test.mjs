@@ -1558,12 +1558,7 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
     'source-bridged catalog',
   )
   const publicationBase = git('rev-parse', 'HEAD')
-  const published = structuredClone(current)
-  for (const [number, slug] of [
-    ['007', 'island-entrance'],
-    ['008', 'fairy-island-maze'],
-    ['009', 'fairy-island-pool'],
-  ]) {
+  function appendStage(catalog, number, slug) {
     const id = `e2e-${number}`
     const stage = {
       id,
@@ -1572,8 +1567,8 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
       index: `e2e/stages/${number}-${slug}/README.md`,
       evidence: `e2e/evidence/${id}.json`,
     }
-    published.entries.push(stage)
-    published._governance.entryReadings.push({
+    catalog.entries.push(stage)
+    catalog._governance.entryReadings.push({
       id,
       conclusion: `Independent ${id} evidence review`,
     })
@@ -1595,6 +1590,10 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
       f.manifest.additions.push({ path, templateId, afterSha256: hash(body), review: row.review })
     }
   }
+  const published = structuredClone(current)
+  appendStage(published, '007', 'island-entrance')
+  appendStage(published, '008', 'fairy-island-maze')
+  appendStage(published, '009', 'fairy-island-pool')
   const publishedBytes = `${JSON.stringify(published)}\n`
   f.write(path, publishedBytes)
   row.afterSha256 = hash(publishedBytes)
@@ -1650,5 +1649,59 @@ test('catalog source bridge composes the exact accepted maintenance Git layer wi
   assert.throws(
     () => loadDocumentLocations(f.root, publishedAdmission()),
     /invalid or colliding addition: docs\/testing\/e2e\/evidence\/e2e-010.json/,
+  )
+  f.manifest.additions.pop()
+
+  git('add', '-f', path)
+  git(
+    '-c',
+    'user.name=Fixture',
+    '-c',
+    'user.email=fixture@example.invalid',
+    'commit',
+    '-qm',
+    'accepted 007–009 catalog',
+  )
+  const palaceBase = git('rev-parse', 'HEAD')
+  const palaceCatalog = structuredClone(published)
+  appendStage(palaceCatalog, '010', 'water-moon-palace')
+  const writePalaceCatalog = () => {
+    const bytes = Buffer.from(`${JSON.stringify(palaceCatalog)}\n`)
+    f.write(path, bytes)
+    row.afterSha256 = hash(bytes)
+    return bytes
+  }
+  const palaceAdmission = () => ({
+    ...publishedAdmission(),
+    testingCatalogPalacePublicationBaseRevision: palaceBase,
+  })
+  const palaceBytes = writePalaceCatalog()
+  const palace = loadDocumentLocations(f.root, palaceAdmission())
+  assert.deepEqual(palace.assertCurrent(path).current, palaceBytes)
+  palace.assertUnchanged()
+  assert.throws(
+    () => loadDocumentLocations(f.root, publishedAdmission()),
+    /invalid or colliding addition: docs\/testing\/e2e\/evidence\/e2e-010.json/,
+  )
+  assert.throws(
+    () =>
+      loadDocumentLocations(f.root, {
+        ...palaceAdmission(),
+        testingCatalogPalacePublicationBaseRevision: 'HEAD',
+      }),
+    /requires both fixed stage publication bases/,
+  )
+  palaceCatalog.entries.at(-2).status = 'verified'
+  writePalaceCatalog()
+  assert.throws(
+    () => loadDocumentLocations(f.root, palaceAdmission()),
+    /stage publication changed existing catalog facts/,
+  )
+  delete palaceCatalog.entries.at(-2).status
+  palaceCatalog.entries.at(-1).evidence = 'e2e/evidence/e2e-011.json'
+  writePalaceCatalog()
+  assert.throws(
+    () => loadDocumentLocations(f.root, palaceAdmission()),
+    /only the admitted 010 stage entry may be appended/,
   )
 })

@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 2,
+  "id": "e2e-010",
+  "kind": "runtime-execution",
+  "status": "verified",
+  "candidateSha": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+  "versions": {
+    "content": 22,
+    "minimumSave": 12
+  },
+  "sourceRefs": [
+    {
+      "path": "scripts/e2e/water-moon-palace-game.mjs",
+      "lines": "61-67",
+      "anchor": "readCheckpointInput(predecessorRef, 'game', '009')",
+      "role": "caller",
+      "sha256": "6b8f47223414c90139d08762862d101ea0e428fa1fe443db7bdbe09022834d46"
+    },
+    {
+      "path": "scripts/e2e/water-moon-palace-reforge.mjs",
+      "lines": "68-77",
+      "anchor": "} = await readCheckpointInput(",
+      "role": "caller",
+      "sha256": "673cac6ab503d979dec6ba6f824d3ef6db93bbc584e5d1bca610ff316f7e9283"
+    },
+    {
+      "path": "scripts/e2e/recompare-recording.mjs",
+      "lines": "46-49",
+      "anchor": "if (fragment === '010')",
+      "role": "caller",
+      "sha256": "7425f57f441bc43f362ee88bb6a38e181af3fdd7fc6ce4484b41ff3787265cd7"
+    },
+    {
+      "path": "scripts/e2e/water-moon-palace-comparison.mjs",
+      "lines": "516-529",
+      "anchor": "export async function recompareWaterMoonPalace",
+      "role": "oracle",
+      "sha256": "26d687d586111c84f385f9309cef0ecf998a67f07036e95ac1355de71a252c21"
+    },
+    {
+      "path": "scripts/e2e/water-moon-palace-route.mjs",
+      "lines": "88-92",
+      "anchor": "export function waterMoonPalaceRoutes",
+      "role": "input",
+      "sha256": "9a841a8852326fb7ac7364707c664e7538bc9dd37b7becf7a1cc5881329da034"
+    }
+  ],
+  "publicCallers": [
+    "node scripts/e2e/water-moon-palace-game.mjs --headless --verify --visual-review --from <Game-009-report>",
+    "node scripts/e2e/water-moon-palace-reforge.mjs --headless --verify --visual-review --from <Reforge-009-report>",
+    "node scripts/e2e/recompare-recording.mjs 010 <Game-010-report> <Reforge-010-report> <new-output-json>"
+  ],
+  "legalInputs": [
+    "Game 接续已发布的同引擎 009 实际报告及终档，Reforge 以现行内容重建同引擎 009 报告及终档。",
+    "同一份真实走格序列，使用生产方向键、调查键和对白确认。四次独立开箱依次执行。",
+    "内容 22，Reforge SAVE12。正式 Game F5 保存和 Reforge 原生保存导出后分别在新会话读回。"
+  ],
+  "businessOracle": {
+    "type": "dual010-water-moon-palace-route-render-and-restore",
+    "assertions": [
+      "两端六段实际方向及落点序列为 48、33、26、51、51、70 步。",
+      "宫外引路一帧朝右，清除旧对白后向上行走 14 步，前 13 步可见，末步同帧隐藏。",
+      "四次独立调查箱子依次取得三张观音符、看到空箱、从箱底取得苗刀和确认无物。首次开盖后保持开启，提示都自动清除。",
+      "灵池确实触发恢复体力与真气的指令。正式起点满值，非满值效果另取独立样本。",
+      "完成 16 页交药、实际获得一颗紫金丹并恢复操控，灵儿实际绘制向下且在独立读档后维持。",
+      "两端宫内新会话读回同一端的正式 010 终档并保持操控。"
+    ]
+  },
+  "dedupe": {
+    "result": "bounded-distinct",
+    "against": [
+      "e2e-009",
+      "010 旧候选实跑",
+      "010 非满值饮水诊断",
+      "010 单独保存和重开的编辑器验证"
+    ],
+    "notes": "009 提供合法前驱。当前双轨、旧失败、机制诊断、静态预览和用户分屏各自记录执行范围。"
+  },
+  "execution": {
+    "commands": [
+      [
+        "node",
+        "scripts/e2e/water-moon-palace-game.mjs",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-010-water-moon-palace/type-pal/build/e2e-010/predecessor/build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+        "--verify",
+        "--visual-review",
+        "--headless"
+      ],
+      [
+        "node",
+        "scripts/e2e/water-moon-palace-reforge.mjs",
+        "--from",
+        "/Users/zhangxu/.codex/worktrees/e2e-010-water-moon-palace/type-pal/build/e2e/reforge-009-2026-11-06T15-49-31-715Z/report.json",
+        "--verify",
+        "--visual-review",
+        "--headless"
+      ]
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/e2e-010-water-moon-palace/type-pal",
+    "startedAt": "2026-11-06T15:42:59.241Z",
+    "startTimeSource": "UTC output-directory allocation in each native runner",
+    "exitCode": 0,
+    "signal": null,
+    "producerRevision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+    "profile": "verify with real-time author-review recording",
+    "runs": [
+      {
+        "engine": "game",
+        "argv": [
+          "node",
+          "scripts/e2e/water-moon-palace-game.mjs",
+          "--from",
+          "/Users/zhangxu/.codex/worktrees/e2e-010-water-moon-palace/type-pal/build/e2e-010/predecessor/build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+          "--verify",
+          "--visual-review",
+          "--headless"
+        ],
+        "allocatedAt": "2026-11-06T15:42:59.241Z",
+        "exitCode": 0,
+        "signal": null,
+        "report": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/report.json",
+        "predecessor": {
+          "report": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+          "reportSha256": "2ea6e3d50041a0fcd4e69f50c1a6c6e1a8bf963c7059adc1759720fefaecff27",
+          "checkpoint": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009.end.save.json",
+          "checkpointSha256": "6c5e96f596f0dd1af07c898a6aeb75cde08c42afb5549709cc4211664ffb0804",
+          "archive": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz"
+        },
+        "terminal": {
+          "path": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010.end.save.json",
+          "sha256": "e8635faf8d3d6c190bb9632d50dcffc85751580647f0feaba6d324e8f0a14f22"
+        },
+        "warnings": []
+      },
+      {
+        "engine": "reforge",
+        "argv": [
+          "node",
+          "scripts/e2e/water-moon-palace-reforge.mjs",
+          "--from",
+          "/Users/zhangxu/.codex/worktrees/e2e-010-water-moon-palace/type-pal/build/e2e/reforge-009-2026-11-06T15-49-31-715Z/report.json",
+          "--verify",
+          "--visual-review",
+          "--headless"
+        ],
+        "allocatedAt": "2026-11-06T15:51:07.133Z",
+        "exitCode": 0,
+        "signal": null,
+        "report": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/report.json",
+        "predecessor": {
+          "report": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/report.json",
+          "reportSha256": "82dc2d094052fad091d605769fe2bdb06010348481acc5d3eef5dbf8b31c7e34",
+          "checkpoint": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/009.end.save.json",
+          "checkpointSha256": "1890f720f918ce94cd2d55327b91849a8098e3a68245db2c9863f9e8340b5db0",
+          "archive": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz"
+        },
+        "terminal": {
+          "path": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010.end.save.json",
+          "sha256": "bde8255e09c36e713f1dec7305638add36e017c334b6272d17c1d8804fb5f516"
+        },
+        "warnings": [
+          "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+        ]
+      }
+    ]
+  },
+  "runtimeExecution": {
+    "performed": true,
+    "date": "2026-11-07",
+    "engines": ["game", "reforge"],
+    "contentVersion": 22,
+    "reforgeSaveVersion": 12,
+    "producerRevision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+    "result": "passed",
+    "verification": "byte-bound native runs, actual fresh restores and unified offline comparison",
+    "continuous": false
+  },
+  "steps": [
+    {
+      "name": "native 010 Game and Reforge verify and fresh restore",
+      "result": "passed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/report.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/reforge-010-2026-11-06T15-51-07-133Z/report.json"
+      ]
+    },
+    {
+      "name": "unified recompare-recording 010",
+      "result": "passed",
+      "routeSteps": [48, 33, 26, 51, 51, 70],
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/acceptance.json"
+      ]
+    },
+    {
+      "name": "native editor save, separate reopen, step and reset",
+      "result": "passed",
+      "entrySteps": 10,
+      "staticEntityStates": 21,
+      "savedPresets": 2,
+      "pending": "standalone open-lid frame for chest interactions 2–4",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/configure-actions.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/verify-actions.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/editor-runtime-binding.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/editor-plan-final.json"
+      ]
+    },
+    {
+      "name": "author side-by-side review",
+      "result": "accepted",
+      "videoSeconds": 73.2,
+      "localVideo": {
+        "path": "build/e2e-010/review/010-game-reforge-water-moon-palace.mp4",
+        "sha256": "3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a"
+      },
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/review/review-media.json"
+      ]
+    }
+  ],
+  "hashes": [
+    {
+      "path": "projects/pal/editor/script-preview.json",
+      "sha256": "7a70e994cfd294b766d81b7512073b48328f5740fdefaa06514750e36afd04ee",
+      "scope": "Native editor sidecar saved and reopened in this candidate."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+      "sha256": "a35936ee66779420ed850c669ecbd0d0ff873eb05d90b975a38deb592521ba34",
+      "bytes": 14050409,
+      "manifest": {
+        "path": "build/e2e-010/archive-index.json",
+        "sha256": "6f49f30cbed1c81881bf206c9743c77dfc37eea42e11a322effccd1008b99044",
+        "bytes": 27429
+      },
+      "members": [
+        {
+          "path": "build/e2e-010/acceptance.json",
+          "sha256": "ca5582018d29782ffc1205fdc2659b1316e6a6ee8152d11973e4dec629134031",
+          "bytes": 232958
+        },
+        {
+          "path": "build/e2e-010/review/review-media.json",
+          "sha256": "8d750a758f6159bc6a1ea22ae5dc06b819f9286fdfb3f52a54839e18a54a0f07",
+          "bytes": 4262
+        },
+        {
+          "path": "build/e2e-010/author/water-recovery-probe/recovery-receipt.json",
+          "sha256": "a00178eebee1001f72eaee36ee404c40cab6cbaf1080008f17edca53cfb96c50",
+          "bytes": 2348
+        },
+        {
+          "path": "build/e2e-010/author/game-recovery-vitest.log",
+          "sha256": "749582695f4a425b3ac185844acecff7c5203970c0b2036342b41b832ed632e4",
+          "bytes": 438
+        },
+        {
+          "path": "build/e2e-010/rebuild-final/receipts.json",
+          "sha256": "098f23718f981b472c0c1ab36dda6f5e761761c82927302f73b47f630ed6501a",
+          "bytes": 4383
+        },
+        {
+          "path": "build/e2e-010/editor/configure-actions.json",
+          "sha256": "660a22d253f41c8e76b374bfad2068f1f4bd9e8b7284f2c1916b69ca2742eeac",
+          "bytes": 3862
+        },
+        {
+          "path": "build/e2e-010/editor/verify-actions.json",
+          "sha256": "ce31e94533789f002c89d3750280a7656b9adaa82e53a543e3d4f7ffafd1dd54",
+          "bytes": 9696
+        },
+        {
+          "path": "build/e2e-010/editor/editor-runtime-binding.json",
+          "sha256": "3be9d1740047fed3624e8dc84f86f34c9ada171c8592b59616f36b9d4668c7e0",
+          "bytes": 32149
+        },
+        {
+          "path": "build/e2e-010/editor/editor-plan-final.json",
+          "sha256": "81d44b500cb2011871882f815f0637aa1f3d4921ed896023e185bdacd6e28df3",
+          "bytes": 33830
+        },
+        {
+          "path": "build/e2e-010/independent/guide-counterproof.json",
+          "sha256": "769142b16619235910a89f418d1016bc57821c96542e873a634199c3bc15dd98",
+          "bytes": 3995
+        },
+        {
+          "path": "build/e2e-010/independent/pellet-facing-counterproof.json",
+          "sha256": "b6d0dd7a8629775d9250df8ff9f2f4dc79e9525c2d8a514023d616b4634732d1",
+          "bytes": 799
+        },
+        {
+          "path": "build/e2e-010/diagnostics/pellet-facing/acceptance.json",
+          "sha256": "ddad4836383c2a525994aee922591d952e77712ef19e0787428e3b5375ce28b3",
+          "bytes": 232641
+        },
+        {
+          "path": "build/e2e-010/diagnostics/game-first-oracle/report.json",
+          "sha256": "7debcf55261ba2b6fa15ceadcb2694ac4199fdce609bef5a356d3143f529a27a",
+          "bytes": 352977
+        },
+        {
+          "path": "build/e2e-010/diagnostics/reforge-original/report.json",
+          "sha256": "ecebdac65c45ba53944a24ee8dfab3533d5980e41ba03b7340cceacbfb6f8ff1",
+          "bytes": 380375
+        },
+        {
+          "path": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/report.json",
+          "sha256": "fde9023156b104ce709da5a1c74429d53c5e8b9291ded02695a93b299e924fa3",
+          "bytes": 404705
+        },
+        {
+          "path": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010-trace.json",
+          "sha256": "eea4c7e639d4218d0ac961a38652a87106b6ac623f3d72d9d48a7ff6f5d26d1b",
+          "bytes": 3801429
+        },
+        {
+          "path": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010-fresh-trace.json",
+          "sha256": "e4878250aa08db86632e60a71ffd2a6e28236edd8f22123863791b5b1a0ffde9",
+          "bytes": 2159480
+        },
+        {
+          "path": "build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010.end.save.json",
+          "sha256": "e8635faf8d3d6c190bb9632d50dcffc85751580647f0feaba6d324e8f0a14f22",
+          "bytes": 1067612
+        },
+        {
+          "path": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/report.json",
+          "sha256": "c3092e9bdf4201b7a5ca9083d0f928a1ee3cd694c67d2c52035d7fa1ac66faff",
+          "bytes": 420147
+        },
+        {
+          "path": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-trace.json",
+          "sha256": "013e1f0436e3edf74dc58478fea7496b846df4eca54583dfdf1fe255ad20e45f",
+          "bytes": 11793245
+        },
+        {
+          "path": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-fresh-trace.json",
+          "sha256": "3623e22ae758f149d5c51f6bbae5363bf2ee07224150fbd371dca39aa2d17d3e",
+          "bytes": 783573
+        },
+        {
+          "path": "build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010.end.save.json",
+          "sha256": "bde8255e09c36e713f1dec7305638add36e017c334b6272d17c1d8804fb5f516",
+          "bytes": 98548
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/report.json",
+          "sha256": "82dc2d094052fad091d605769fe2bdb06010348481acc5d3eef5dbf8b31c7e34",
+          "bytes": 543743
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/009-trace.json",
+          "sha256": "997115b389125a71d8e8b081c56924d27b921f9ce5bb7a7dff06ac45549d5ced",
+          "bytes": 17683780
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/009-fresh-trace.json",
+          "sha256": "e58217c127fcf68e206a8e2ebd6aa5000797e988bec16bdf5735ab982c85389f",
+          "bytes": 446229
+        },
+        {
+          "path": "build/e2e/reforge-009-2026-11-06T15-49-31-715Z/009.end.save.json",
+          "sha256": "1890f720f918ce94cd2d55327b91849a8098e3a68245db2c9863f9e8340b5db0",
+          "bytes": 61275
+        }
+      ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz",
+      "sha256": "e45bce10751d3c7f8acac8acd1c6de6c1f8b177127f28cd5af02ea12aed3b0a9",
+      "bytes": 10805917,
+      "manifest": {
+        "path": "manifest.json",
+        "sha256": "84ca7372d2098a126b97442b1882619dae8b892699593243043b444fc192c9af",
+        "bytes": 16400
+      },
+      "members": [
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/report.json",
+          "sha256": "2ea6e3d50041a0fcd4e69f50c1a6c6e1a8bf963c7059adc1759720fefaecff27",
+          "bytes": 357644
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009-trace.json",
+          "sha256": "42a2e28eeb2a1d510d8c068be5d26038c18934fb60c1c0142005388addb9eda9",
+          "bytes": 4737313
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009-fresh-trace.json",
+          "sha256": "d4d5404d1ffd5f1c732c15c57c9085765d2d30109361bd1486dafebd668f1430",
+          "bytes": 2053041
+        },
+        {
+          "path": "build/e2e/game-009-visual-review-2026-11-06T08-16-03-954Z/009.end.save.json",
+          "sha256": "6c5e96f596f0dd1af07c898a6aeb75cde08c42afb5549709cc4211664ffb0804",
+          "bytes": 1018579
+        }
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "native-palace-route-guide-chest-water-pellet",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/report.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/reforge-010-2026-11-06T15-51-07-133Z/report.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/acceptance.json"
+      ]
+    },
+    {
+      "id": "native-palace-save-and-fresh-restore",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010.end.save.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/game-010-visual-review-2026-11-06T15-42-59-241Z/010-fresh-trace.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010.end.save.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e/reforge-010-2026-11-06T15-51-07-133Z/010-fresh-trace.json"
+      ]
+    },
+    {
+      "id": "isolated-water-recovery-below-maximum",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/author/water-recovery-probe/recovery-receipt.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/author/game-recovery-vitest.log"
+      ]
+    },
+    {
+      "id": "bounded-native-editor-static-preview-reopen",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/configure-actions.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/verify-actions.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/editor-runtime-binding.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/editor/editor-plan-final.json"
+      ]
+    },
+    {
+      "id": "author-accepted-current-split-screen",
+      "result": "accepted-by-user",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/review/review-media.json",
+        "docs/tasks/cards/E2E-010-1-water-moon-palace.md#分屏验收"
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "case": "original-reforge-guide-turn-movement-stale-dialogue-and-chest-wait",
+      "status": "rejected",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/independent/guide-counterproof.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/diagnostics/reforge-original/report.json"
+      ]
+    },
+    {
+      "case": "pellet-scene-facing",
+      "revision": "e86265cf5d8499487e96293d2ad4c42631cdc141",
+      "status": "rejected",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/independent/pellet-facing-counterproof.json",
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/diagnostics/pellet-facing/acceptance.json"
+      ]
+    },
+    {
+      "case": "old-combined-empty-frame-and-return-control-oracle",
+      "status": "superseded-after-native-trace-review",
+      "evidence": [
+        "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz#build/e2e-010/diagnostics/game-first-oracle/report.json"
+      ]
+    }
+  ],
+  "cleanup": {
+    "complete": true,
+    "scope": "Native runners closed owned contexts and servers. Raw evidence and local video fingerprint retained.",
+    "retained": [
+      "docs/tasks/evidence/E2E-010-1-water-moon-palace-20261107.tar.gz",
+      "docs/tasks/evidence/E2E-008-1-mounted-pose-recheck-20261106.tar.gz"
+    ]
+  },
+  "history": [
+    {
+      "revision": "e86265cf5d8499487e96293d2ad4c42631cdc141",
+      "date": "2026-11-07",
+      "action": "prior dual run rejected for rendered pellet-scene facing"
+    },
+    {
+      "revision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+      "date": "2026-11-07",
+      "action": "native dual 010 with fresh restores, offline comparison and separately verified editor preview"
+    },
+    {
+      "revision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+      "date": "2026-11-07",
+      "action": "user-accepted-current-split-screen",
+      "visualReview": {
+        "result": "accepted",
+        "quote": "010通过，先把这段收口吧。",
+        "clipSha256": "3b15e8b1bc90d02a80e5aa429b4a6b593fef219c355fa574b2e06a6ab9de3c8a",
+        "seconds": 73.2
+      }
+    }
+  ],
+  "_governance": {
+    "templateId": "test-machine-evidence-v1",
+    "templateVersion": "1.5.0",
+    "variant": "execution",
+    "lastReviewed": "2026-11-07",
+    "owner": "Codex",
+    "provenance": [
+      "Native 010 execution reports and trace bytes",
+      "Unified offline re-comparison",
+      "Native editor Save and isolated re-open",
+      "User-accepted split-screen"
+    ],
+    "sourceSha256": "6b8f47223414c90139d08762862d101ea0e428fa1fe443db7bdbe09022834d46",
+    "sourceGitObject": "3f05d4b04e434d365ea5e621ffc85f8da219c6eb",
+    "sourceGitRevision": "5af4380bcab0e9d412f874e5bae7c7ce88e68c13",
+    "sourceRole": "Native Game runner entrypoint blob",
+    "scope": "010 native execution, bounded editor preview and accepted split-screen",
+    "beforeAfter": "New formal 010 publication pair. Earlier candidates and counterexamples retain their original bytes.",
+    "stopLine": "Native 010 ends at free control in Water Moon Palace after the medicine scene. Chest continuation open-lid frame remains pending in standalone preview.",
+    "nextStep": "为后继片段保留两端 010 正式终档。分别保留当前机器验收与作者确认所用原件。"
+  }
+}

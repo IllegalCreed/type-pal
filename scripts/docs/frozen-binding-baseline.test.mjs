@@ -238,10 +238,10 @@ test('catalog default1.2 preserves the original18 plus correction and input publ
     catalog.entries.slice(0, 18).map((entry) => entry.id),
     beforeCatalog.entries.slice(0, 18).map((entry) => entry.id),
   )
-  assert.equal(catalog.entries.length, 23)
+  assert.equal(catalog.entries.length, 24)
   assert.deepEqual(
     catalog.entries.slice(18).map((entry) => entry.id),
-    ['game-script-corrections', 'game-input-rotation', 'e2e-007', 'e2e-008', 'e2e-009'],
+    ['game-script-corrections', 'game-input-rotation', 'e2e-007', 'e2e-008', 'e2e-009', 'e2e-010'],
   )
   const cases = [
     ['canonical', () => {}, false, false],

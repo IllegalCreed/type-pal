@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-当前 23 个唯一 ID、5 个状态组：active 1；current 11；proposal 1；rework 1；verified 9。每个 ID 仅落入自己的原状态组。
+当前 24 个唯一 ID、5 个状态组：active 1；current 11；proposal 1；rework 1；verified 10。每个 ID 仅落入自己的原状态组。
 
 ## 当前状态
 
@@ -77,6 +77,7 @@ Template: governance-index-v1 / 1.0.0
 | e2e-007 | [007 从仙灵岛码头到迷宫入口](../e2e/stages/007-island-entrance/report.md) | verified | Codex |
 | e2e-008 | [008 仙灵岛迷宫与桃花林入口](../e2e/stages/008-fairy-island-maze/report.md) | verified | Codex |
 | e2e-009 | [009 桃花林采药与池塘初遇](../e2e/stages/009-fairy-island-pool/report.md) | verified | Codex |
+| e2e-010 | [010 水月宫取苗刀与紫金丹](../e2e/stages/010-water-moon-palace/report.md) | verified | Codex |
 | game-input-rotation | [第一阶段可选45°方向控制回归](../domains/phase1-runtime/control-rotation/report.md) | verified | Codex |
 
 ## 证据与下一步
