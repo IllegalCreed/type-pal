@@ -6,7 +6,9 @@ import {
   type AuthorSceneDef,
   acquisitionPreviewStages,
   assertAuthorDialogueReferences,
+  type ContentBundle,
   checkAuthorCommands,
+  checkAuthorDialogueCue,
   checkAuthorScriptFlow,
   checkRuntimeCommands,
   checkRuntimeScriptFlow,
@@ -16,6 +18,7 @@ import {
   expandAuthorScriptTree,
   resolveAuthorDialogueTree,
   validateAuthorScenes,
+  validateReferences,
 } from './index.js'
 
 const items = [{ id: 'herb', name: 'item.herb' }]
@@ -294,4 +297,74 @@ test('raw recipe references locate actual presentation parameters, including rep
     { actorId: 'spirit', kind: 'dialogue-actor', where: 'flow.empty.cue.identity.actor' },
   ])
   expect(() => assertAuthorDialogueReferences(flow, {})).toThrow('未知 Actor "spirit"')
+})
+
+test('semantic item and reward-name references retain raw editable parameter paths', () => {
+  const bundle: ContentBundle = {
+    scenes: [],
+    actors: [],
+    skills: [],
+    levelUp: {},
+    items: [],
+    locale: {},
+    sprites: [],
+    battleSprites: [],
+    entryPoints: [],
+    mapIndex: { version: 1, maps: [] },
+    sharedScripts: {
+      grant: {
+        name: 'Grant',
+        self: 'none',
+        body: [
+          {
+            kind: 'grantReward',
+            rewards: [{ kind: 'item', itemId: 'missing', count: 1 }],
+            notice: { kind: 'silent' },
+          },
+          {
+            kind: 'dialog',
+            cue: {
+              identity: { kind: 'narration' },
+              rows: [{ reward: { kind: 'item', itemName: 'item.missing', count: 2 } }],
+            },
+          },
+        ],
+      },
+    },
+  }
+  expect(validateReferences(bundle)).toEqual([
+    {
+      severity: 'error',
+      where: 'sharedScripts["grant"].body[0].rewards[0].itemId',
+      message: '奖励物品 "missing" 不在 items',
+    },
+    {
+      severity: 'error',
+      where: 'sharedScripts["grant"].body[1].cue.rows[0].reward.itemName',
+      message: '奖励物品名 "item.missing" 不在 locale',
+    },
+  ])
+  bundle.items = [
+    { id: 'missing', name: 'item.missing', desc: [], buyPrice: 0, sellPrice: 0, sellable: false },
+  ]
+  bundle.locale['item.missing'] = 'Known item'
+  expect(validateReferences(bundle)).toEqual([])
+})
+
+test('detached explicit reward rows reject mixed text and non-integral amounts at the author boundary', () => {
+  expect(() =>
+    checkAuthorDialogueCue(
+      {
+        identity: { kind: 'narration' },
+        rows: [{ text: 'line', reward: { kind: 'money', amount: 5 } }],
+      },
+      'cue',
+    ),
+  ).toThrow('cue.rows[0].reward: 未知字段')
+  expect(() =>
+    checkAuthorDialogueCue(
+      { identity: { kind: 'narration' }, rows: [{ reward: { kind: 'money', amount: 1.5 } }] },
+      'cue',
+    ),
+  ).toThrow('cue.rows[0].reward.amount: 期望正安全整数')
 })
