@@ -659,7 +659,7 @@ export function checkBaseAuthorCommands(
     const command = record(entry, `${path}[${index}]`)
     const commandPath = `${path}[${index}]`
     const kind = nonEmptyString(command.kind, `${commandPath}.kind`)
-    if (options.checkExtensionCommand?.(command, commandPath)) return
+    if (options.checkExtensionCommand?.(command, commandPath, options)) return
     const commandKinds = options.commandKinds ?? BASE_AUTHOR_COMMAND_KINDS
     if (commandKinds[kind] !== true)
       throw new Error(
@@ -941,6 +941,7 @@ export function checkBaseScriptFlow(
   options: CheckBaseScriptFlowOptions = {},
 ): asserts value is BaseScriptFlow {
   const flow = record(value, path)
+  if (options.checkExtensionFlow?.(flow, path, options.flowOwner)) return
   exactKeys(flow, ['kind', 'initial', 'stages'], path)
   if (flow.kind !== 'stages') throw new Error(`${path}.kind: 期望 stages`)
   const initial = nonEmptyString(flow.initial, `${path}.initial`)
@@ -1004,6 +1005,7 @@ export function checkBaseEntityBehaviors(
         throw new Error(`${path}.behaviors.${channel}.${id}.order: 期望非负整数`)
       checkBaseScriptFlow(behavior.flow, `${path}.behaviors.${channel}.${id}.flow`, {
         ...options,
+        flowOwner: channel,
         forbidLoadScene: channel === 'auto',
         ...(channel === 'auto' ? { forbidRunEntityTrigger: 'auto' as const } : {}),
       })
@@ -1076,6 +1078,7 @@ export function checkBaseSceneHooks(
         throw new Error(`${path}.${slot}.variants.${id}.order: 期望非负整数`)
       checkBaseScriptFlow(hook.flow, `${path}.${slot}.variants.${id}.flow`, {
         ...options,
+        flowOwner: 'hook',
         allowSceneEntry: slot === 'onEnter',
       })
     }

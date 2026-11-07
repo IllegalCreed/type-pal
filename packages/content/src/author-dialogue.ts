@@ -38,6 +38,31 @@ export interface AuthorDialogueCue {
   cursorFrame?: 0 | 1 | 2
 }
 
+/** Exact authored cue containers, including the two presentation fields of acquisition recipes. */
+export function dialogueCuesAtNode(value: unknown): Array<{
+  cue: Record<string, unknown>
+  path: readonly string[]
+}> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+  const node = value as Record<string, unknown>
+  const result: Array<{ cue: Record<string, unknown>; path: readonly string[] }> = []
+  const add = (cue: unknown, path: readonly string[]) => {
+    if (cue && typeof cue === 'object' && !Array.isArray(cue))
+      result.push({ cue: cue as Record<string, unknown>, path })
+  }
+  if (node.kind === 'dialog') add(node.cue, ['cue'])
+  if (node.kind === 'grantReward' || node.kind === 'acquisition') {
+    for (const key of ['notice', ...(node.kind === 'acquisition' ? ['empty'] : [])]) {
+      const notice = node[key]
+      if (notice && typeof notice === 'object' && !Array.isArray(notice)) {
+        const presentation = notice as Record<string, unknown>
+        if (presentation.kind === 'custom') add(presentation.cue, [key, 'cue'])
+      }
+    }
+  }
+  return result
+}
+
 /** runtime、编辑器预览与树摘要共享的唯一解析结果。 */
 export interface ResolvedDialogueIdentity {
   speaker?: TextId
@@ -207,7 +232,9 @@ export function resolveAuthorDialogueCue(
   const resolved = resolveDialogueIdentity(cue.identity, actorsById, `${path}.identity`)
   return {
     ...resolved,
-    rows: cue.rows.map((row) => ({ ...row })),
+    rows: cue.rows.map((row) =>
+      'reward' in row ? { ...row, reward: { ...row.reward } } : { ...row },
+    ),
     ...(cue.autoAdvance !== undefined ? { autoAdvance: cue.autoAdvance } : {}),
     ...(cue.slot !== undefined ? { slot: cue.slot } : {}),
     ...(cue.cursorFrame !== undefined ? { cursorFrame: cue.cursorFrame } : {}),

@@ -14,6 +14,7 @@
 import { isActorEntity } from './actor.js'
 import { ACTOR_STATUS_DEFINITIONS, isCarryableStatusId } from './actor-condition.js'
 import { ACTOR_REFERENCE_POLICIES, collectActorTaggedReferences } from './actor-reference.js'
+import { dialogueCuesAtNode } from './author-dialogue.js'
 import { collectWorldActorReferences, collectWorldBattleDataReferences } from './character.js'
 import { visitCommandTargetReferences } from './command-target-reference.js'
 import type {
@@ -25,6 +26,7 @@ import type {
   AuthorItemCore,
   AuthorItemData,
   AuthorSceneDef,
+  AuthorScriptLibrary,
   BattleChoreographyAction,
   BattleFieldDef,
   BattleSpriteDef,
@@ -55,6 +57,7 @@ import type {
   TilesetDef,
   WorldState,
 } from './index.js'
+import { acquisitionItemReferencesAtNode } from './item-acquisition.js'
 import { collectPoisonDefinitionReferences } from './poison.js'
 import {
   authoredSkillExecutionLayers,
@@ -107,7 +110,7 @@ export interface ContentBundle {
   /** 作者共享脚本目录；仅登记项与 scene 私有根拥有可编辑的精确命令定位。 */
   scriptIndex?: ScriptIndexV1
   /** 当前作者共享脚本正文；纯运行时调用方可缺省。 */
-  sharedScripts?: RuntimeScriptLibrary
+  sharedScripts?: RuntimeScriptLibrary | AuthorScriptLibrary
   /** 可见存档/运行态；删除保护可选传入，普通工程闭包可缺省。 */
   worlds?: readonly WorldState[]
   /** 迁移工具显式写出的作者待处理 sidecar；空白/纯作者工程缺省为空。 */
@@ -1268,6 +1271,41 @@ export function validateReferences(b: ContentBundle): Issue[] {
     if (issues.some((issue) => issue.where === where && issue.message === message)) return
     issues.push({ severity, where, message })
   }
+  const validateAcquisitionParameters = (value: unknown, where: string): void => {
+    if (Array.isArray(value)) {
+      value.forEach((child, index) => {
+        validateAcquisitionParameters(child, `${where}[${index}]`)
+      })
+      return
+    }
+    if (!value || typeof value !== 'object') return
+    for (const reference of acquisitionItemReferencesAtNode(value, where))
+      if (!itemIds.has(reference.itemId))
+        addTargetIssue('error', reference.where, `奖励物品 "${reference.itemId}" 不在 items`)
+    for (const site of dialogueCuesAtNode(value)) {
+      if (!Array.isArray(site.cue.rows)) continue
+      site.cue.rows.forEach((row, index) => {
+        if (!row || typeof row !== 'object' || !('reward' in row)) return
+        const reward = row.reward
+        if (
+          !reward ||
+          typeof reward !== 'object' ||
+          reward.kind !== 'item' ||
+          typeof reward.itemName !== 'string'
+        )
+          return
+        if (!localeKeys.has(reward.itemName))
+          addTargetIssue(
+            'error',
+            `${where}.${site.path.join('.')}.rows[${index}].reward.itemName`,
+            `奖励物品名 "${reward.itemName}" 不在 locale`,
+          )
+      })
+    }
+    for (const [key, child] of Object.entries(value))
+      validateAcquisitionParameters(child, `${where}.${key}`)
+  }
+  for (const root of commandTargetRoots) validateAcquisitionParameters(root.value, root.where)
   for (const root of commandTargetRoots)
     visitCommandTargetReferences(root.value, root.where, (reference) => {
       const target = reference.target
