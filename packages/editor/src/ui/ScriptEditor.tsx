@@ -1005,14 +1005,14 @@ export function describeCanonicalCommand(
               : '恢复页面默认触发',
         children,
       }
-    case 'callScript':
+    case 'callScript': {
+      const name = context?.state.sharedScripts[command.script]?.name
       return {
         icon: '↪',
-        label: '调用共享脚本',
-        detail:
-          context?.state.sharedScripts[command.script]?.name ?? `脚本 ${command.script}（未解析）`,
+        label: `调用共享脚本：${name ?? `${command.script}（未找到）`}`,
         children,
       }
+    }
     case 'moveEntity':
     case 'ride':
     case 'moveParty':

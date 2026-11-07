@@ -75,7 +75,7 @@ type AuthorScriptLibrary = Record<
 
 ### 调用与跳转
 
-从 Behavior、Hook、物品私有或其他共享脚本插入“调用可复用脚本”，选择目标后保存：
+从 Behavior、Hook、物品私有或其他共享脚本插入「调用共享脚本」，选择目标后保存。指令行直接显示「调用共享脚本：显示名」；找不到目标时显示原脚本 ID 并标记「未找到」，便于修复引用。
 
 ```ts
 { kind: 'callScript', script: 'shared/user/door-sequence' }
