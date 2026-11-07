@@ -89,55 +89,55 @@
             "label": "摘取雪莲子",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
+              "kind": "acquisition",
+              "recipe": "builtin/item/search",
+              "stages": {
+                "available": {
                   "id": "initial",
-                  "body": [
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.1574"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "itemId": "108",
-                      "kind": "giveItem"
-                    }
-                  ],
-                  "next": "legacy-002",
                   "label": "摘得雪莲子"
                 },
-                {
+                "collected": {
                   "id": "legacy-002",
-                  "body": [
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.1575"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    }
-                  ],
                   "label": "查看空莲蓬"
                 }
-              ]
+              },
+              "rewards": [
+                {
+                  "kind": "item",
+                  "itemId": "108",
+                  "count": 1
+                }
+              ],
+              "notice": {
+                "kind": "custom",
+                "timing": "before",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.1574"
+                    }
+                  ],
+                  "slot": "narration"
+                }
+              },
+              "afterCollect": "repeat",
+              "empty": {
+                "kind": "custom",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.1575"
+                    }
+                  ],
+                  "slot": "narration"
+                }
+              }
             }
           }
         }
@@ -3200,78 +3200,79 @@
             "label": "开启宝箱领取五张灵符",
             "order": 0,
             "flow": {
-              "kind": "stages",
-              "initial": "initial",
-              "stages": [
-                {
+              "kind": "acquisition",
+              "recipe": "builtin/item/chest",
+              "stages": {
+                "available": {
                   "id": "initial",
-                  "body": [
-                    {
-                      "kind": "callScript",
-                      "script": "pal/chest/open"
-                    },
-                    {
-                      "kind": "clearDialog"
-                    },
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.1895"
-                          }
-                        ],
-                        "slot": "narration"
-                      },
-                      "kind": "dialog"
-                    },
-                    {
-                      "itemId": "67",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "itemId": "68",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "itemId": "69",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "itemId": "70",
-                      "kind": "giveItem"
-                    },
-                    {
-                      "itemId": "71",
-                      "kind": "giveItem"
-                    }
-                  ],
-                  "next": "legacy-002",
                   "label": "领取五张灵符"
                 },
-                {
+                "collected": {
                   "id": "legacy-002",
-                  "body": [
-                    {
-                      "cue": {
-                        "identity": {
-                          "kind": "narration"
-                        },
-                        "rows": [
-                          {
-                            "text": "dlg.12222"
-                          }
-                        ],
-                        "slot": "center"
-                      },
-                      "kind": "dialog"
-                    }
-                  ],
                   "label": "查看空宝箱"
                 }
-              ]
+              },
+              "rewards": [
+                {
+                  "kind": "item",
+                  "itemId": "67",
+                  "count": 1
+                },
+                {
+                  "kind": "item",
+                  "itemId": "68",
+                  "count": 1
+                },
+                {
+                  "kind": "item",
+                  "itemId": "69",
+                  "count": 1
+                },
+                {
+                  "kind": "item",
+                  "itemId": "70",
+                  "count": 1
+                },
+                {
+                  "kind": "item",
+                  "itemId": "71",
+                  "count": 1
+                }
+              ],
+              "notice": {
+                "kind": "custom",
+                "timing": "before",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.1895"
+                    }
+                  ],
+                  "slot": "narration"
+                }
+              },
+              "opening": {
+                "facing": "down",
+                "frame": 1,
+                "sound": "sound.pal.078"
+              },
+              "empty": {
+                "kind": "custom",
+                "cue": {
+                  "identity": {
+                    "kind": "narration"
+                  },
+                  "rows": [
+                    {
+                      "text": "dlg.12222"
+                    }
+                  ],
+                  "slot": "center"
+                }
+              }
             }
           }
         }

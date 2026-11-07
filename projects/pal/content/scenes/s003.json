@@ -1227,8 +1227,16 @@
                       }
                     },
                     {
-                      "delta": 500,
-                      "kind": "giveMoney"
+                      "kind": "grantReward",
+                      "rewards": [
+                        {
+                          "kind": "money",
+                          "amount": 500
+                        }
+                      ],
+                      "notice": {
+                        "kind": "silent"
+                      }
                     },
                     {
                       "kind": "clearDialog"

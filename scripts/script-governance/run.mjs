@@ -39,19 +39,28 @@ export async function loadCanonicalScenes(index, readScene) {
 export async function run() {
   if (process.argv.length > 2)
     throw new Error('No input, output, repair, or write-project overrides are supported')
-  const [events, sourceScenes, canonicalScenes, externalTables] = await Promise.all([
-    readJson('data/extracted/events/all.json'),
-    readDirectory('data/extracted/data/scene'),
-    readJson('projects/pal/content/scenes/index.json').then((index) =>
-      loadCanonicalScenes(index, (path) => readJson(`projects/pal/${path}`)),
-    ),
-    Promise.all(
-      ['items', 'object-magics', 'enemy-objects', 'object-players', 'object-poisons'].map(
-        async (name) => ({ name, rows: await readJson(`data/extracted/data/${name}.json`) }),
+  const [events, sourceScenes, canonicalScenes, externalTables, canonicalItems] = await Promise.all(
+    [
+      readJson('data/extracted/events/all.json'),
+      readDirectory('data/extracted/data/scene'),
+      readJson('projects/pal/content/scenes/index.json').then((index) =>
+        loadCanonicalScenes(index, (path) => readJson(`projects/pal/${path}`)),
       ),
-    ),
-  ])
-  const report = buildCensus({ events, sourceScenes, canonicalScenes, externalTables })
+      Promise.all(
+        ['items', 'object-magics', 'enemy-objects', 'object-players', 'object-poisons'].map(
+          async (name) => ({ name, rows: await readJson(`data/extracted/data/${name}.json`) }),
+        ),
+      ),
+      readJson('projects/pal/content/items.json'),
+    ],
+  )
+  const report = buildCensus({
+    events,
+    sourceScenes,
+    canonicalScenes,
+    externalTables,
+    canonicalItems,
+  })
   const output = join(root, 'build/script-governance')
   await mkdir(output, { recursive: true })
   if ((await realpath(output)) !== output) throw new Error('Refusing a symlinked report directory')

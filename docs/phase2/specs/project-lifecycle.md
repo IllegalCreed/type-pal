@@ -11,7 +11,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 真值与约束
 
-工程只消费contentVersion 22 / SAVE12 / minimumSaveVersion 12，见[内容规格](content-schema.md)。SAVE12必需sceneRuntime，位置仍在entityPos，正常返回跑onEnter、读档不重跑；这些是运行态，不新增作者方案。HTTP/FSA克隆、保存、ZIP、运行/预览使用AssetResolver/FileSource；不恢复旧版本upgrader、transition或脚本分片。
+工程只消费contentVersion 23 / SAVE12 / minimumSaveVersion 12，见[内容规格](content-schema.md)。SAVE12必需sceneRuntime，位置仍在entityPos，正常返回跑onEnter、读档不重跑；这些是运行态，不新增作者方案。HTTP/FSA克隆、保存、ZIP、运行/预览使用AssetResolver/FileSource；不恢复旧版本upgrader、transition或脚本分片。
 
 [WorkspaceContext](../../../packages/editor/src/core/workspace-context.ts)是不可变会话身份；[persistence policy](../../../packages/editor/src/core/workspace-persistence.ts)以模块私有WeakMap持有一次授权及活动mutation；[AuthorDiskBaseline](../../../packages/editor/src/core/author-disk-baseline.ts)保存loader实际读到的字节证据。它们既不是manifest字段，也不是存档/输出差异表，不能用对象展开或重新扫描新磁盘冒充旧会话证据。
 
@@ -92,7 +92,7 @@ manifest.id不是工作区写权，三mode矩阵、一次capability、关键proo
 
 ## 当前有效性
 
-适用当前产品合同：contentVersion 22 / SAVE12 / minimumSaveVersion 12。
+适用当前产品合同：contentVersion 23 / SAVE12 / minimumSaveVersion 12。
 
 工程生命周期规范current，history overlay只保存原结论与日期；静态核读不足以证明所有目录写入/恢复及当前UI完全合规。
 

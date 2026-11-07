@@ -40,7 +40,8 @@ function targetBranches(scenes: readonly AuthorSceneDef[]) {
   const flowOf = (sceneId: string, entityId: string) => {
     const flow = byId.get(sceneId)?.entities.find(({ id }) => id === entityId)?.behaviors?.trigger
       ?.default?.flow
-    if (!flow) throw new Error(`missing target flow ${sceneId}/${entityId}`)
+    if (!flow || flow.kind !== 'stages')
+      throw new Error(`expected ordinary target flow ${sceneId}/${entityId}`)
     return flow
   }
   const s023 = flowOf('s023', 'e433')
