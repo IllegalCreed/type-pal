@@ -501,7 +501,8 @@ test('non-script definitions preserve the source except for explicitly asserted 
 })
 
 test('shared sound routines are self-free and use only sound and local control', async () => {
-  expect(Object.keys(library).sort()).toEqual(ledger.sharedSources.map((row) => row.id).sort())
+  const soundIds = Object.keys(library).filter((id) => id.startsWith('environment-sound-'))
+  expect(soundIds.sort()).toEqual(ledger.sharedSources.map((row) => row.id).sort())
   for (const row of ledger.sharedSources) {
     const definition = library[row.id]
     if (!definition) throw new Error(row.id)
