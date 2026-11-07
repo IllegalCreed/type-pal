@@ -551,14 +551,26 @@ export function ScriptSchemeCreateDialog(props: {
   const [recipe, setRecipe] = useState<AuthorAcquisitionFlow>()
   const [newName, setNewName] = useState('')
   const nameInputId = useId()
+  const formId = useId()
 
   return (
     <CanonicalScriptDialog
       title={`${props.title} · 新建方案`}
       className="script-scheme-create-dialog"
       onClose={props.onClose}
+      footer={
+        <>
+          <DsButton variant="secondary" onClick={props.onClose}>
+            取消
+          </DsButton>
+          <DsButton form={formId} type="submit" variant="primary" disabled={!newName.trim()}>
+            {recipe ? '创建取物方案' : '创建空白方案'}
+          </DsButton>
+        </>
+      }
     >
       <form
+        id={formId}
         className="script-scheme-create-form"
         onSubmit={(event) => {
           event.preventDefault()
@@ -600,6 +612,7 @@ export function ScriptSchemeCreateDialog(props: {
                 })),
               ]}
               onValueChange={(value) => {
+                if (value === (recipe?.recipe ?? 'blank')) return
                 if (
                   value === 'builtin/item/chest' ||
                   value === 'builtin/item/pickup' ||
@@ -626,14 +639,6 @@ export function ScriptSchemeCreateDialog(props: {
             ) : null}
           </>
         ) : null}
-        <div className="script-scheme-create-actions">
-          <DsButton size="compact" variant="secondary" onClick={props.onClose}>
-            取消
-          </DsButton>
-          <DsButton size="compact" type="submit" variant="primary" disabled={!newName.trim()}>
-            {recipe ? '创建取物方案' : '创建空白方案'}
-          </DsButton>
-        </div>
       </form>
     </CanonicalScriptDialog>
   )

@@ -706,7 +706,7 @@
       "specificity": [0, 1, 1],
       "producer": {
         "source": "ScriptEditor.tsx",
-        "component": "CanonicalScriptFlowEditor",
+        "component": "CanonicalStagesFlowEditor",
         "callsite": "class:canonical-stage-card-heading"
       },
       "policy": "compact-token",
@@ -723,7 +723,7 @@
       "specificity": [0, 1, 1],
       "producer": {
         "source": "ScriptEditor.tsx",
-        "component": "CanonicalScriptFlowEditor",
+        "component": "CanonicalStagesFlowEditor",
         "callsite": "class:canonical-stage-card-heading"
       },
       "policy": "compact-token",

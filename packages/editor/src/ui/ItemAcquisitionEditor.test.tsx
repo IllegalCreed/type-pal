@@ -188,6 +188,33 @@ test('search post-collection mode removes incompatible repeat feedback in one re
   expect(host.textContent).toContain('编辑空置文字')
 })
 
+test('reselecting custom notices and repeat mode preserves both authored cues without a history entry', async () => {
+  const flow = createAcquisitionFlow('builtin/item/search', 'seed')
+  if (flow.recipe !== 'builtin/item/search') throw new Error('expected search recipe')
+  const session = new ScriptEditSession(
+    scriptState({
+      ...flow,
+      afterCollect: 'repeat',
+      notice: {
+        kind: 'custom',
+        timing: 'after',
+        cue: { identity: { kind: 'narration' }, rows: [{ text: '找到一颗雪莲子。' }] },
+      },
+      empty: {
+        kind: 'custom',
+        cue: { identity: { kind: 'narration' }, rows: [{ text: '只剩空莲蓬。' }] },
+      },
+    }),
+  )
+  await act(async () => root.render(<FlowHarness session={session} />))
+  const before = session.getState()
+  await choose('提示方式', '自定文字')
+  await choose('空置反馈', '自定文字')
+  await choose('领取之后', '仍可调查')
+  expect(session.getState()).toEqual(before)
+  expect(session.getHistoryVersion()).toBe(0)
+})
+
 test.each([
   ['宝箱领取', 'builtin/item/chest'],
   ['拾取地面物品', 'builtin/item/pickup'],

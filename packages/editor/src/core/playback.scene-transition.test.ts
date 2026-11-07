@@ -333,7 +333,11 @@ test('PAL 006 boat departure reveals s014, runs its arrival dialogue, and return
   expect(p.presentation.scene.id).toBe('s014')
   p.step()
   await settle()
-  expect(p.view.dialog?.cue.rows).toEqual(['dlg.1888', 'dlg.1889', 'dlg.1890'])
+  expect(p.view.dialog?.cue.rows).toEqual([
+    { text: 'dlg.1888' },
+    { text: 'dlg.1889' },
+    { text: 'dlg.1890' },
+  ])
   p.step()
   await settle()
   expect(p.mode).toBe('done')

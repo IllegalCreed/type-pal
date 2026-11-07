@@ -4,11 +4,13 @@ import {
   type Locale,
   resolveAuthorDialogueTree,
   validateActors,
+  validateAuthorItems,
   validateAuthorScenes,
 } from '@type-pal/content'
 import { runtimeSceneView } from '@type-pal/reforge'
 import { afterEach, expect, test } from 'vitest'
 import actorsJson from '../../../../projects/pal/content/actors.json' with { type: 'json' }
+import itemsJson from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import locale from '../../../../projects/pal/content/locale.json' with { type: 'json' }
 import roomsJson from '../../../../projects/pal/content/scenes/s001.json' with { type: 'json' }
 import innJson from '../../../../projects/pal/content/scenes/s003.json' with { type: 'json' }
@@ -183,6 +185,7 @@ test.each([
   'caller',
 ])('actual PAL gift %s preview completes through aunt 207 and hero 209 without author writeback', async (entry) => {
   const scenes = validateAuthorScenes([roomsJson, innJson])
+  const items = validateAuthorItems(itemsJson)
   const author = scenes.find((entry) => entry.id === 's003')!
   const actors = Object.fromEntries(validateActors(actorsJson).map((actor) => [actor.id, actor]))
   const gift = author.entities.find((entity) => entity.id === 'e62')!.behaviors!.trigger![
@@ -191,7 +194,7 @@ test.each([
   const before = structuredClone({ scenes, actors, gift })
   const p = new Playback(
     runtimeSceneView(
-      resolveAuthorDialogueTree(author, actors, 'pal.preview'),
+      resolveAuthorDialogueTree(author, actors, 'pal.preview', { items }),
       emptyWorldScriptState(),
     ),
     undefined,
@@ -218,6 +221,7 @@ test.each([
     scenes,
     sharedScripts: {},
     actorsById: actors,
+    items,
     ...(entry === 'npc' ? { self: target } : {}),
   })
   for (let step = 0; step < 200 && p.mode !== 'done'; step++) {
