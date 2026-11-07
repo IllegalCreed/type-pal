@@ -83,12 +83,13 @@ Codex按原卡现有范围推进剩余有界工作，复用已核原件；新的
 薄 E2E（前十段、四种取物 canary、编辑保存重开试玩）→ N6b 窄版 → 同一基线复验 → 完整战斗/剧情与编辑器综合验证 → 录制与发布闭环。
 代码、文档和覆盖率按影响范围提供门禁，不要求全部存量先清零。实体初态与脚本用途整理随实际剧情一起推进。
 
+010 已完成同路双轨、终档存读与作者分屏验收。苗刀箱续查的开启帧仍在预览台账待核。[010 正式报告](../testing/e2e/stages/010-water-moon-palace/report.md)
+
 ### 当前执行任务
 
 | ID | 原任务入口 | 卡面状态 | 阶段 | 依赖 / 当前范围 | Owner / 下一步 |
 |---|---|---|---|---|---|
-| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 007–009 已收口，剩余薄基线与取物 canary 见原卡 |
-| E2E-010-1 | [水月宫取苗刀与紫金丹](cards/E2E-010-1-water-moon-palace.md) | review | 双阶段对照与作者内容 | 同路双轨及新会话读回，开盖帧预览限制留台账 | 作者分屏验收 |
+| E2E-R4-1 | [路线驱动与合法检查点薄基线](cards/E2E-R4-1-route-and-checkpoint-foundation.md) | build | 第二阶段与双阶段对照 | 同引擎真实前驱与检查点，完整战斗专项后置 | Codex / 007–010 已分段收口，剩余薄基线与取物 canary 见原卡 |
 | E2E-005-1 | [买虾出门与香兰报信](cards/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 第二阶段；双阶段对照 | 原卡技术接收与用户观感分开；005 也是 006 前驱 | Codex / 核后继连续链和用户裁决覆盖范围，回写原卡；后继跑通不自动接收未覆盖专项 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案与编辑器预览](cards/ED-ENTITY-STATE-PLAN-1.md) | review | 第二阶段 | 初态编排UI已获用户接受；跨场景预览已接入，006船入口到仙灵岛对白/暂停/返回实页通过 | /root/ui_affordances / Codex；编辑选择与起播视角保持，载具/音乐等预览桩限制保留；001–006当前场景静态前态与保存已在R4有限收尾，完整现场恢复不外推 |
 | SCRIPT-AUTHOR-2 | [脚本用途命名与编排整理](cards/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | 第二阶段 / 作者内容 | 已核正文、真实调用和 E2E 现场；保存 counter 已有后继闭合 | Codex / 按实际剧情补用途名、整理复杂流程；不猜未读剧情、不恢复退役转换规则 |

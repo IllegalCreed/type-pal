@@ -50,24 +50,52 @@ const sourcePaths = new Map([
 
 export const isTestingSourceBridgePath = (path) => path === catalogPath || evidenceIds.has(path)
 
+function stagePublication(number, slug) {
+  return {
+    id: `e2e-${number}`,
+    kind: 'e2e-stage',
+    canonical: `e2e/stages/${number}-${slug}/report.md`,
+    index: `e2e/stages/${number}-${slug}/README.md`,
+    evidence: `e2e/evidence/e2e-${number}.json`,
+  }
+}
+
 const stagePublications = [
-  ['007', 'island-entrance'],
-  ['008', 'fairy-island-maze'],
-  ['009', 'fairy-island-pool'],
-].map(([number, slug]) => ({
-  id: `e2e-${number}`,
-  kind: 'e2e-stage',
-  canonical: `e2e/stages/${number}-${slug}/report.md`,
-  index: `e2e/stages/${number}-${slug}/README.md`,
-  evidence: `e2e/evidence/e2e-${number}.json`,
-}))
+  stagePublication('007', 'island-entrance'),
+  stagePublication('008', 'fairy-island-maze'),
+  stagePublication('009', 'fairy-island-pool'),
+]
+const palaceStagePublication = stagePublication('010', 'water-moon-palace')
 const stageEvidenceIds = new Map(
-  stagePublications.map(({ evidence, id }) => [`docs/testing/${evidence}`, id]),
+  [...stagePublications, palaceStagePublication].map(({ evidence, id }) => [
+    `docs/testing/${evidence}`,
+    id,
+  ]),
 )
 export const isTestingStageEvidencePath = (path) => stageEvidenceIds.has(path)
 
 /** A publication is a separate layer over the already verified source bridge. */
 export function assertTestingStagePublication(previousBytes, currentBytes, additions) {
+  assertStageAppend(
+    previousBytes,
+    currentBytes,
+    additions,
+    stagePublications,
+    'only the three admitted stage entries may be appended in order',
+  )
+}
+
+export function assertTestingPalaceStagePublication(previousBytes, currentBytes, additions) {
+  assertStageAppend(
+    previousBytes,
+    currentBytes,
+    additions,
+    [palaceStagePublication],
+    'only the admitted 010 stage entry may be appended',
+  )
+}
+
+function assertStageAppend(previousBytes, currentBytes, additions, stages, suffixError) {
   const before = parseTerminalJson(previousBytes)
   const current = parseTerminalJson(currentBytes)
   const oldEntries = before?.entries
@@ -90,15 +118,15 @@ export function assertTestingStagePublication(previousBytes, currentBytes, addit
     before,
     'stage publication changed existing catalog facts',
   )
-  const stageIds = stagePublications.map(({ id }) => id)
+  const stageIds = stages.map(({ id }) => id)
   assert(!oldEntries.some((entry) => stageIds.includes(entry?.id)), 'stage was already published')
   assert.deepEqual(
     entries.slice(oldEntries.length).map((entry) => {
       const { id, kind, canonical, index, evidence } = entry ?? {}
       return { id, kind, canonical, index, evidence }
     }),
-    stagePublications,
-    'only the three admitted stage entries may be appended in order',
+    stages,
+    suffixError,
   )
   const newReadings = readings.slice(oldReadings.length)
   assert.deepEqual(
@@ -110,7 +138,7 @@ export function assertTestingStagePublication(previousBytes, currentBytes, addit
     newReadings.every(({ conclusion }) => typeof conclusion === 'string' && conclusion.trim()),
     'stage publication requires a concrete reading conclusion',
   )
-  for (const { canonical, index, evidence } of stagePublications) {
+  for (const { canonical, index, evidence } of stages) {
     for (const [path, templateId] of [
       [canonical, 'test-run-report-v1'],
       [index, 'test-e2e-stage-v1'],

@@ -59,6 +59,17 @@ export const approvedTestRetirements = Object.freeze(
       currentIdentityDigest: '00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450',
       fileSha256: '6dc2404d5fac5ea54fd62ec4101d830405842a352395ce9f32b47f8707ca1523',
     },
+    // E2E010 author acceptance 2026-11-07: retire only the four scenarios for the
+    // removed s019/e270 auto. The original oracle hashes remain in the content
+    // test; the foreground replacement is checked by its wait proof and native dual run.
+    {
+      file: 'packages/reforge/src/pal-unified-steps-content.test.ts',
+      previous: 5410,
+      current: 5406,
+      previousIdentityDigest: '00b739bc6c5e5465fe69a24cda7beeedd7a9c95d4e4c657cf1241e37cab2e450',
+      currentIdentityDigest: '3fbc8654e47b43b9a3a377a57acb507751bff58afac3b4d7e250bb883e566efa',
+      fileSha256: '2efbeacc654c8df2dbfc1cebb0b61f85259a34c2d5bddd9e26664a7adf7feea5',
+    },
     // User2026-11-01: split message resolution from playback/wrap/steal consumers.
     // All13 old identities preserved; proof.json maps54 across the whole module.
     {
@@ -968,10 +979,10 @@ export const approvedTestRetirements = Object.freeze(
 )
 
 export function isApprovedTestRetirement({ removal, previous, current, fileSha256 }) {
-  const approval = approvedTestRetirements.find((entry) => entry.file === removal.value)
-  return Boolean(
-    approval &&
-      removal.kind === 'test-count' &&
+  if (removal.kind !== 'test-count') return false
+  return approvedTestRetirements.some(
+    (approval) =>
+      removal.value === approval.file &&
       removal.previous === approval.previous &&
       removal.current === approval.current &&
       previous?.file === approval.file &&
