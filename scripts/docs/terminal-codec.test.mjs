@@ -911,6 +911,7 @@ function entryFixture(t) {
     'scripts/docs/document-location.mjs',
     'scripts/docs/testing-source-bridge.mjs',
     'scripts/docs/testing-acquisition-source-bridge.mjs',
+    'scripts/docs/testing-battle-publication.mjs',
     'scripts/docs/testing-source-refs.mjs',
     'scripts/docs/artifact-compression.mjs',
     'scripts/docs/artifact-content-alias.mjs',
