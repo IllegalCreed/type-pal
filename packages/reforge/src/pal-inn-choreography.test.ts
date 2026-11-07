@@ -315,6 +315,7 @@ describe('canonical PAL inn participant choreography', () => {
     const facingIndex = body.findIndex(
       (command) =>
         command.kind === 'setEntityFacing' &&
+        command.target !== 'self' &&
         command.target.entity === 'e59' &&
         command.facing === 'left',
     )

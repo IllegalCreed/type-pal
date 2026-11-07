@@ -106,7 +106,12 @@ test('the sickroom doctor faces the live party before speaking, then hides witho
   expect(
     commands
       .slice(firstDialogue, hidden)
-      .filter((command) => command.kind === 'setEntityFacing' && command.target.entity === 'e35'),
+      .filter(
+        (command) =>
+          command.kind === 'setEntityFacing' &&
+          command.target !== 'self' &&
+          command.target.entity === 'e35',
+      ),
   ).toEqual([])
 })
 
@@ -523,7 +528,11 @@ test('actual village hook awaits the approach, commits the NPC cursor, and relea
         returnEntered.resolve()
         await returnFinished.promise
       }
-      if (command.kind === 'setEntityFacing' && command.target.entity === 'e83')
+      if (
+        command.kind === 'setEntityFacing' &&
+        command.target !== 'self' &&
+        command.target.entity === 'e83'
+      )
         facing = command.facing
       if (command.kind === 'dialog') {
         expect(context.self).toEqual(xianglan)

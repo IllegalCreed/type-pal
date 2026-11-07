@@ -28,7 +28,11 @@ import type {
   AuthorScriptLibrary,
   EntityDef,
 } from '@type-pal/content'
-import { checkAuthorScriptFlow, validateAuthorScenes } from '@type-pal/content'
+import {
+  checkAuthorScriptFlow,
+  checkAuthorScriptLibrary,
+  validateAuthorScenes,
+} from '@type-pal/content'
 import { expect, test } from 'vitest'
 import {
   loadBoundaryProject,
@@ -127,6 +131,33 @@ async function sample(
   if (!definition) throw new Error('cov85-static 用途未登记')
   return collectSpriteAutomaticScriptBehaviors(projected, definition, FRAME_COUNT)
 }
+
+test('canonical sprite preview samples a shared pose using its scene caller', async () => {
+  const shared: AuthorScriptLibrary = {
+    turn: {
+      name: 'Turn',
+      self: 'required',
+      body: [
+        { kind: 'setEntityFacing', target: 'self', facing: 'left' },
+        { kind: 'setEntityFrame', target: 'self', frame: 4 },
+        { kind: 'wait', ms: 180 },
+      ],
+    },
+  }
+  checkAuthorScriptLibrary(shared)
+  expect(
+    await sample(
+      'calling-entity',
+      [
+        { kind: 'callScript', script: 'turn' },
+        { kind: 'finishStep', next: { kind: 'complete' } },
+      ],
+      shared,
+    ),
+  ).toEqual([
+    singleStageSummary([{ frame: 4, holdMs: 180 }], '分支示例：连续命中', '代表性合法路径'),
+  ])
+})
 
 test('cov85-sampler chance 0% 恒未命中：安全投影走 else 臂定格帧', async () => {
   expect(

@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
+import { checkAuthorCommands, checkAuthorScriptLibrary } from './author-script.js'
 import {
+  type BaseAuthorCommand,
   checkBaseAuthorCommands,
   checkBaseEntityPages,
   checkBaseSceneHooks,
@@ -9,9 +11,45 @@ import {
   emptyWorldScriptState,
 } from './author-script-core.js'
 
+import { checkRuntimeCommands, checkRuntimeScriptLibrary } from './runtime-script.js'
+
 const target = { scene: 's001', entity: 'e1' }
 
 describe('canonical author script schema', () => {
+  test.each([
+    { dialect: 'author', library: checkAuthorScriptLibrary, commands: checkAuthorCommands },
+    { dialect: 'runtime', library: checkRuntimeScriptLibrary, commands: checkRuntimeCommands },
+  ])('$dialect pose leaves can target self only in a required-self shared body', ({
+    library,
+    commands,
+  }) => {
+    const body: BaseAuthorCommand[] = [
+      {
+        kind: 'repeat',
+        count: 1,
+        body: [{ kind: 'setEntityFacing', target: 'self', facing: 'down' }],
+      },
+      { kind: 'setEntityFrame', target: 'self', frame: 1 },
+      { kind: 'setEntityFrame', target, frame: 2 },
+    ]
+    expect(() => library({ opening: { name: 'Opening', self: 'required', body } })).not.toThrow()
+    for (const self of ['optional', 'none'])
+      expect(() => library({ opening: { name: 'Opening', self, body } })).toThrow(
+        /body\[0\].body\[0\].target: 调用实体仅用于/,
+      )
+    expect(() => commands(body, 'flow.body', { rootScope: 'flow' })).toThrow(/调用实体仅用于/)
+    expect(() => commands(body, 'private.body', { rootScope: 'script' })).toThrow(/调用实体仅用于/)
+    expect(() =>
+      library({
+        opening: {
+          name: 'Opening',
+          self: 'required',
+          body: [{ kind: 'faceEntityToParty', target: 'self' }],
+        },
+      }),
+    ).toThrow(/body\[0\].target/)
+  })
+
   test('mountParty accepts a carrier alone or distinct same-scene riders with optional finite offsets', () => {
     expect(() =>
       checkBaseAuthorCommands(

@@ -80,9 +80,10 @@ test.each(
   const host: ScriptRuntimeHost = {
     execute(command) {
       if (command.kind === 'wait') advance(command.ms)
-      else if (command.kind === 'setEntityFrame')
+      else if (command.kind === 'setEntityFrame') {
+        if (command.target === 'self') throw new Error('arena frame requires a concrete address')
         entity(command.target.entity).frame = command.frame
-      else if (command.kind === 'nudgeEntity') {
+      } else if (command.kind === 'nudgeEntity') {
         entity(command.target.entity).x += command.dx
         entity(command.target.entity).y += command.dy
       } else if (command.kind === 'playSound') sounds.push(Number(command.asset.split('.').at(-1)))

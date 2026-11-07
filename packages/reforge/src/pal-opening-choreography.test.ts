@@ -50,7 +50,10 @@ test('the waking aunt retains the original exploration beats between her four po
   const commands = await openingCommands()
   const first = commands.findIndex(
     (command) =>
-      command.kind === 'setEntityFrame' && command.target.entity === 'e11' && command.frame === 1,
+      command.kind === 'setEntityFrame' &&
+      command.target !== 'self' &&
+      command.target.entity === 'e11' &&
+      command.frame === 1,
   )
   expect(first).toBeGreaterThanOrEqual(0)
   const nextDialogue = commands.findIndex(

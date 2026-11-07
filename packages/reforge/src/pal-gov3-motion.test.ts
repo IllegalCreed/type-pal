@@ -71,7 +71,10 @@ function arenaPath(id: string): RuntimeScriptFlow {
   else if (id === 'legacy-003') body = variation.then
   else {
     const first = loop.body.findIndex(
-      (command) => command.kind === 'setEntityFrame' && command.target.entity === 'e549',
+      (command) =>
+        command.kind === 'setEntityFrame' &&
+        command.target !== 'self' &&
+        command.target.entity === 'e549',
     )
     body = loop.body.slice(first - 1, loop.body.indexOf(phase))
   }
@@ -138,7 +141,11 @@ test.each([
   expect(nudges.reduce((sum, command) => sum + command.dy, 0)).toBe(0)
   expect(
     run.effects.flatMap(({ command }) =>
-      command.kind === 'setEntityFrame' && command.target.entity === 'e549' ? [command.frame] : [],
+      command.kind === 'setEntityFrame' &&
+      command.target !== 'self' &&
+      command.target.entity === 'e549'
+        ? [command.frame]
+        : [],
     ),
   ).toEqual(frames)
   expect(

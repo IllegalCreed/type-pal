@@ -1,8 +1,41 @@
 import type { Facing } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { flowOf, preview, settle, target } from './__tests__/playback-canonical-fixtures.js'
+import {
+  dialogue,
+  flowOf,
+  preview,
+  settle,
+  target,
+} from './__tests__/playback-canonical-fixtures.js'
 
 describe('Canonical preview entity overlays', () => {
+  test('a shared pose in a running preview updates and focuses its effective caller', async () => {
+    const r = preview()
+    const other = { scene: target.scene, entity: 'other' }
+    await r.start(
+      flowOf([{ kind: 'callScript', script: 'opening', self: other }, dialogue('Opened')]),
+      {
+        self: target,
+        ownerId: target.entity,
+        sharedScripts: {
+          opening: {
+            name: 'Opening',
+            self: 'required',
+            body: [
+              { kind: 'setEntityFacing', target: 'self', facing: 'down' },
+              { kind: 'setEntityFrame', target: 'self', frame: 1 },
+            ],
+          },
+        },
+      },
+    )
+
+    expect(r.p.view.dialog?.cue.rows[0]?.text).toBe('Opened')
+    expect([...r.p.view.entity]).toEqual([['other', { facing: 'down', frame: 1 }]])
+    expect(r.p.poi).toEqual({ kind: 'entity', id: 'other' })
+    r.unchanged()
+  })
+
   test.each<{ col: number; row: number; facing: Facing }>([
     { col: 8, row: 7, facing: 'up' },
     { col: 8, row: 9, facing: 'down' },

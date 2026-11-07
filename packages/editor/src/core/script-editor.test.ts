@@ -819,6 +819,26 @@ describe('canonical script editor commands', () => {
     expect(session.getHistoryVersion()).toBe(history)
   })
 
+  test('keeps shared script metadata and history when downgrading self would invalidate a pose', () => {
+    const session = new ScriptEditSession(editorState())
+    const id = 'shared/user/opening'
+    session.dispatch(
+      new AddSharedScriptCommand(id, {
+        name: 'Opening',
+        self: 'required',
+        body: [{ kind: 'setEntityFrame', target: 'self', frame: 1 }],
+      }),
+    )
+    const before = session.getStateSnapshot()
+    const history = session.getHistoryVersion()
+
+    expect(() =>
+      session.dispatch(new UpdateSharedScriptMetadataCommand(id, { self: 'optional' })),
+    ).toThrow(/调用实体仅用于/)
+    expect(session.getStateSnapshot()).toBe(before)
+    expect(session.getHistoryVersion()).toBe(history)
+  })
+
   test('validates nested entity-state commands in a shared script and preserves undo/redo', () => {
     const nestedBodies: Record<string, AuthorCommand[]> = {
       branch: [
