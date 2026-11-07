@@ -86,6 +86,13 @@ await runBrowserJourney({
             `${runId}: public entry ready`,
             60_000,
           )
+          if (engine === 'game') {
+            const reject = page.getByRole('button', { name: '拒绝', exact: true })
+            if (await reject.isVisible()) {
+              await reject.click()
+              report.events.push({ kind: 'bootstrap-consent', runId, choice: 'denied' })
+            }
+          }
           await page.evaluate((spec) => globalThis.__battleHarness.launch(spec), result.configured)
           result.initial = await until(
             () => page.evaluate(() => globalThis.__battleHarness.read()),
