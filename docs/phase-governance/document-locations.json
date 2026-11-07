@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "01bea90a52ee65ca579b0f3bb33ecfd99649c84a99be0d3771eff5ef2db947ef",
+      "afterSha256": "68feab447baeb16667684e8084465ec9bc38020d4f197de514ee4535056a95aa",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/pond_dialogue",
-        "date": "2026-11-06",
-        "conclusion": "新增 007–009 复验的运行时测试来源回执导航，实际目标与已验收原件一致。",
-        "reviewedLines": 40,
-        "acceptanceScope": "仅日期和一条导航增量，原证据及运行结论沿各自既有范围。"
+        "reviewer": "Codex /root/chest_self_review",
+        "date": "2026-11-07",
+        "conclusion": "新增普通宝箱定向原件与运行时来源回执的真实入口。",
+        "reviewedLines": 41,
+        "acceptanceScope": "核相邻当前索引、两个实际链接及历史行保全。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -4524,14 +4524,14 @@
     {
       "path": "docs/phase2/guides/shared-script-author-guide.md",
       "mode": "reviewed",
-      "afterSha256": "22a18ad8997761a80f78a002218dce60c43cab6d8785c86152acafb3f4a735df",
+      "afterSha256": "ffbf13668d117e9357c53b3aee919061715300a6a4d0056f695bfbcc056816bd",
       "review": {
-        "author": "Codex /root/chest_self_review",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/chest_self_review",
         "date": "2026-11-07",
-        "conclusion": "共享脚本指南补充明确的调用实体目标与真实使用边界。",
+        "conclusion": "共享调用指令主标题显示实际脚本名；目标失效可定位原 ID。",
         "reviewedLines": 281,
-        "acceptanceScope": "按作者和运行态校验、真实预览及保存回执核当前增量，原保全内容不重审。"
+        "acceptanceScope": "核当前显示规则、有效名字、失效 ID 和实际通用添加入口；旧指南保全。"
       }
     }
   ],
@@ -4942,14 +4942,14 @@
     {
       "path": "docs/tasks/cards/PAL-SHARED-CHEST-1.md",
       "templateId": "task-card-v1",
-      "afterSha256": "27541470ae5f9563832013b5bae07aa6317b9e55ef4f2446c8c24ea0462c896f",
+      "afterSha256": "e1113cb6bfefbc7b613e1f07e1fe53657a81f6369c8c2d67a65a2299a2280413",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/close_010",
+        "reviewer": "Codex /root/chest_self_review",
         "date": "2026-11-07",
-        "conclusion": "普通两箱共享首开已逐项验证，四次苗刀专属调查不变。",
-        "reviewedLines": 62,
-        "acceptanceScope": "核实际输入、首开与复查、存档和实绘、编辑器保存重开及保留边界。"
+        "conclusion": "共享调用指令主标题显示实际脚本名；目标失效可定位原 ID。",
+        "reviewedLines": 64,
+        "acceptanceScope": "核用户对标题的补充、两条引用实际定位、两宽不遮挡及旧红新绿，沿用之前独立运行验收。"
       }
     },
     {
