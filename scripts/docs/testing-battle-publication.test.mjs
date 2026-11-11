@@ -19,6 +19,7 @@ import {
   isTestingBattleEvidencePath,
   testingBattlePublicationBase,
   testingBattleSessionMechanismBase,
+  testingBattleSessionPortraitBase,
   testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 
@@ -157,8 +158,9 @@ const registry = JSON.parse(
 
 function sessionRebindingFixture(revision = testingBattlePublicationBase) {
   const original = fixture()
-  const isMechanism = revision === testingBattleSessionMechanismBase
-  const current = isMechanism ? JSON.parse(readFixed(revision, catalogPath)) : original.current
+  const published = revision !== testingBattlePublicationBase
+  const portrait = revision === testingBattleSessionPortraitBase
+  const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
   const evidence = JSON.parse(readFixed(revision, sessionEvidence))
@@ -167,19 +169,19 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     Buffer.from('\n'),
     readFixed(revision, testingBattleSessionSourcePath),
   ])
+  const snapshot = (fixedRevision) => ({
+    revision: fixedRevision,
+    readSource: (path) => readFixed(fixedRevision, path),
+  })
   const bridge = {
     readSource(path) {
       if (path === testingBattleSessionSourcePath) return sessionSource
       if (path === sessionReceipt) return Buffer.from('# Synthetic test receipt\n')
       return undefined
     },
-    fixed: {
-      revision: testingBattlePublicationBase,
-      readSource: (path) => readFixed(testingBattlePublicationBase, path),
-    },
-    ...(isMechanism
-      ? { mechanismFixed: { revision, readSource: (path) => readFixed(revision, path) } }
-      : {}),
+    fixed: snapshot(testingBattlePublicationBase),
+    ...(published ? { mechanismFixed: snapshot(testingBattleSessionMechanismBase) } : {}),
+    ...(portrait ? { portraitFixed: snapshot(testingBattleSessionPortraitBase) } : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -194,9 +196,11 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     return { ...reference, lines, sha256: hash(sessionSource) }
   })
   const event = {
-    action: isMechanism
-      ? 'q2-battle-session-mechanism-source-rebinding'
-      : 'q2-battle-session-source-rebinding',
+    action: portrait
+      ? 'q2-battle-session-portrait-source-rebinding'
+      : published
+        ? 'q2-battle-session-mechanism-source-rebinding'
+        : 'q2-battle-session-source-rebinding',
     base: revision,
     date: '2026-11-11',
     evidence: sessionReceipt,
@@ -263,6 +267,17 @@ test('the mechanism rebind accepts one source update and preserves the first acc
   assert.throws(rebinding.checkEvidence, /old history changed/u)
   rebinding.owner.revision.history.at(-1).base = testingBattlePublicationBase
   assert.throws(rebinding.checkCatalog, /history must name the fixed base/u)
+})
+
+test('the portrait rebind retains both previously accepted histories', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionPortraitBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-3).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).previousSourceRefs.pop()
+  assert.throws(rebinding.checkCatalog, /previousSourceRefs do not match/u)
 })
 
 function pairedFixture(t) {
