@@ -12,12 +12,12 @@ evidence: e2e/evidence/e2e-contract.json
 
 Owner: Codex
 Status: current（验收合同；不表示片段或完整链已通过）
-Last reviewed: 2026-11-06
+Last reviewed: 2026-11-11
 Template: test-contract-v1 / 1.0.0
 
 ## Contract question
 
-本合同定义两阶段剧情与编辑器 E2E 的共同验收义务、录像前提和证据边界。两引擎共用剧情语义，
+本合同定义两阶段剧情、正常战斗专项与编辑器 E2E 的共同验收义务、录像前提和证据边界。两引擎共用剧情语义，
 分别拥有操作、checkpoint 与真实执行记录；合同规范生效不授予任何片段新的 passed/capture-ready。
 公开出版身份为 catalog 的 `e2e-contract`。testing-meta 和 evidence 继续记录各自原执行版本。
 
@@ -26,7 +26,7 @@ Template: test-contract-v1 / 1.0.0
 1. **定边界。** 在本段任务卡写清作者确认的起点、停止点、各引擎的正式前驱和必要观察项。
 2. **冻结可比路线后实跑。** Game 与 Reforge 各读各的正式前驱。将同一组有意义的步行落点、交互对象、机关与遭遇锚点写进路线合同。两端各用正式输入和观测适配器实跑、保存终档并在新会话读回。普通遇敌按 verify 速胜并完成正式结算。
 3. **用原始记录做双轨复核。** 用统一的离线入口读取两端原件，先核路线提交与遭遇，再核实际动作、绘制、对白清除、时序与结算。剧情专用义务接入同一比较结果。同步核对脚本编排与预览初态。任务卡和逐步骤台账引用实际核验与差异原件。
-4. **作者分屏验收。** 技术复核完成后，默认交付一份可暂停、可拖动进度的左右分屏实跑视频。左边是 Game，右边是 Reforge，取同一候选的两端 verify 画面，按本段剧情起点对齐并保留实跑节奏。先到的一侧停在终点。交付时注明回放入口、有意保留的差异，任务卡记录用户实际看过的范围和观感结论。用户需要现场复查时，打开两端浏览器实跑。首次等待用户确认时保持 `review`。已有用户观感反例时保持 `rework`，直至用户复看确认。
+4. **证据验收与分屏回放（用户，2026-11-11）。** Codex 先依据双端日志、原版资料和实际绘制解决可判定的差异，实跑复验后交付一份可暂停、可拖动进度的左右分屏。左边是 Game，右边是 Reforge，取同一候选的两端 verify 画面，按本段剧情起点对齐并保留实跑节奏。先到的一侧停在终点。交付时注明回放入口和有证据的差异。任务卡只在证据不足以裁定正确表现且确需产品取舍时，请用户决定。收到的用户反馈按实际观看范围和原话结论记录。明确的缺陷保持 `rework`，直到按证据修复并通过复验。
 
 通用顺序以本节为准。各片段任务卡只维护自己的边界、差异、执行证据和验收状态。
 
@@ -38,7 +38,7 @@ Template: test-contract-v1 / 1.0.0
 node scripts/e2e/recompare-recording.mjs FRAGMENT GAME_REPORT REFORGE_REPORT NEW_OUTPUT_JSON
 ```
 
-逐段任务卡引用这条命令的原件和结果。独立 verify 跑完后，按比较回执裁定双轨状态。两端同候选且 `status: passed`、记录来源适用于本次范围时，进入作者分屏。调试分屏可先提供给用户定位，任务卡仍按实际门禁保留状态。
+逐段任务卡引用这条命令的原件和结果。独立 verify 跑完后，按比较回执裁定双轨状态。两端同候选且 `status: passed`、记录来源适用于本次范围时，交付分屏回放。若需用户决策，附同一语义点的原件、备选表现和影响。
 
 ### 1. 产品定位与前置关系
 
@@ -118,7 +118,7 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
 
 #### 演出验收标准：意图优先，差异不等于缺陷（用户，2026-10-07）
 
-本节适用于001及之后所有剧情碎片、双轨比较与连续演示，是后续共同验收标准。
+本节适用于001及之后所有剧情碎片、正常战斗专项、双轨比较与连续演示，是后续共同验收标准。
 与旧任务卡中“第一阶段绝对正确”“必须逐帧严丝合缝一致”的表述冲突时，以本节为准；
 既有报告保留当时真实执行结果，不追溯改写为新标准下已通过。
 
@@ -152,6 +152,11 @@ AI仅参与开发/路线校准/失败诊断；运行时不调用模型，不等A
    全部槽的成功绘制、清除caller与beforeSlots/afterSlots；验收核清除发生在动作/释放前，
    以及后续真实draw未复活旧槽。环境auto继续活动不意味着当前对白应消失，切场捕获旧帧
    另按对应演出合同核，不把旧引擎每opcode清屏规则搬进新runtime。
+8. **先用双端日志对照演出（用户，2026-11-11）**。用同一路线或固定战斗、语义一致的操作和合法起点实跑两端。
+   采集实际动作和绘制边界、参与对象、位置、姿态、显隐、变化数字及顺序和时间。对齐同一语义动作，
+   离线比较器逐项给出首个异常、双方实际值和原件位置。必要记录缺失时补采，直到可以判定相应义务。
+   Codex 对照原始资源、原版证据、两端调用链及原速画面归因，修复有明确依据的差异并跑回归。
+   分屏短片供暂停复核。确需用户裁决时，交付具体分歧、双方证据和各选项对玩家可见的影响。
 
 #### 录制与判定分离、最小重跑（用户，2026-10-08）
 
@@ -467,7 +472,7 @@ Type Pal 只拥有上述项目事实和稳定 `fragmentId`。Content Studio 拥�
 
 - `?win`是历史设计称谓，不表示当前两引擎已有该参数。速胜仅用于已分类的非战斗专题verify，
   不可机械改变剧情Boss胜负/回合条件，不可用于Q2或战斗展示。
-- Q2 正常战斗首批使用 `node scripts/e2e/battle-foundation.mjs --engine=game|reforge`：公开 fixture/trial 仅准备合法局面，后续走真实按键、指令消费、原生行动和正式结算，不接速胜。`battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY` 重读绑定原件，先核当前源码/JSON输入、输入回执及新context，再判独立业务预期。每例同端重复与跨端有效状态分开核；真实业务反控必须失败于指定业务断言，不能用IO/采集失败代替。首批具体覆盖和未授信边界取[唯一报告](../domains/cross-phase/battle-foundation/report.md)，不推广为原始伤害/随机分配、AI、音画或世界存读通过。短片仍走正常速度的Game左/Reforge右人工验收。
+- Q2 正常战斗使用 `node scripts/e2e/battle-foundation.mjs --engine=game` 和 `node scripts/e2e/battle-foundation.mjs --engine=reforge`。公开 fixture/trial 准备合法局面，后续走真实按键、指令消费、原生行动和正式结算。`node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY` 核源码、JSON输入、输入回执和新context，再判独立业务预期与该批应验的实际演出。同端重复与跨端有效状态各有独立判定。按动作和对象对照选招底栏、出手、死亡淡出、用物回位、变化数字和结算的画面边界。真实业务反控须由指定业务断言检出。实际接入、已测范围及原件取[唯一报告](../domains/cross-phase/battle-foundation/report.md)。分屏左Game、右Reforge，保留原速供复核。
 - 007 的 verify 入口使用 `node scripts/e2e/island-entrance.mjs --engine game|reforge --from <006-report>`。专用 Vite 配置在实际岛口接敌及首轮开场处理完成后，核场景、事件、敌队和逍遥单人队伍，接受一次速胜请求。执行器在请求前释放方向键，按正式结算屏确认，核经验、隐藏策略和原格恢复。终点为迷宫首次入场并恢复操控。两引擎各自保存和读回正式终档。[007 任务卡](../../tasks/cards/E2E-007-1-island-entrance-to-maze.md)
 - 008 分别运行 `node scripts/e2e/fairy-island-maze-game.mjs --from <Game-007-report>` 和 `node scripts/e2e/fairy-island-maze-reforge.mjs --from <Reforge-007-report>`。核实实际踩漂与变轨、两处取物、六像与踏板，首次到桃花林恢复操控时保存终档。需要作者分屏时，两端加 `--visual-review`。[008 任务卡](../../tasks/cards/E2E-008-1-fairy-island-maze.md)
 - 009 分别运行 `node scripts/e2e/fairy-island-pool-game.mjs --from <Game-008-report>` 和 `node scripts/e2e/fairy-island-pool-reforge.mjs --from <Reforge-008-report>`。核实可见止血草只领取一次、两次独立的池塘触发、实际雷击与灵儿离场。在桃花林留存正式终档并读回；作者分屏用 `--visual-review`。[009 任务卡](../../tasks/cards/E2E-009-1-fairy-island-pool.md)

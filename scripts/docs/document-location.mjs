@@ -24,8 +24,11 @@ import {
 import {
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
+  assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
+  isTestingBattleSessionEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 import {
   assertTestingChestSourceBridge,
@@ -430,6 +433,13 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
       ? undefined
       : gitTree(root, battlePublicationRevision, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
+  const battleBridge = preBattle && {
+    readSource,
+    fixed: { revision: battlePublicationRevision, readSource: preBattle.read },
+  }
+  // The acquisition bridge replays the session caller it accepted before Q2.
+  const readAcquisitionSource = (path) =>
+    preBattle && path === testingBattleSessionSourcePath ? preBattle.read(path) : readSource(path)
   // Historical layers retain their original sources. Only the finite successor
   // sources may differ from this accepted predecessor in the live checkout.
   const readPredecessorSource = preAcquisition
@@ -452,7 +462,7 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
   const assertAcquisitionSuccessor = (path, previous, current) => {
     if (previous.equals(current)) return
     assert(preAcquisition, 'acquisition source snapshot missing')
-    assertTestingAcquisitionSourceBridge(path, previous, current, readSource, {
+    assertTestingAcquisitionSourceBridge(path, previous, current, readAcquisitionSource, {
       revision: acquisitionRevision,
       readSource: preAcquisition.read,
     })
@@ -685,7 +695,9 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
           }
         : readPredecessorSource
       const acceptedCurrent =
-        preBattle && path === testingCatalogPath ? preBattle.read(path) : current
+        preBattle && (path === testingCatalogPath || isTestingBattleSessionEvidencePath(path))
+          ? preBattle.read(path)
+          : current
       const predecessor = acquisitionPrevious(path, acceptedCurrent)
       const chestBridge = postPalace && isTestingChestSourceBridgePath(path)
       const publication = chestBridge ? postPalace.read(path) : predecessor
@@ -721,7 +733,9 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
         })
       assertAcquisitionSuccessor(path, predecessor, acceptedCurrent)
       if (preBattle && path === testingCatalogPath)
-        assertTestingBattlePublication(acceptedCurrent, current, additions)
+        assertTestingBattlePublication(acceptedCurrent, current, additions, battleBridge)
+      if (preBattle && isTestingBattleSessionEvidencePath(path))
+        assertTestingBattleSessionSourceBridge(path, acceptedCurrent, current, battleBridge)
       return { current, previous, change }
     }
     {

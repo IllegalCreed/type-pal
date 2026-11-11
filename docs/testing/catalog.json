@@ -1645,24 +1645,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "210-212",
+          "lines": "209-211",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "362-373",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1163-1172",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1733,6 +1733,36 @@
               }
             ],
             "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+          },
+          {
+            "action": "q2-battle-session-source-rebinding",
+            "base": "43fea71735236272cfb7f6a1c61c3ac2e691a349",
+            "date": "2026-11-11",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "210-212",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "362-373",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1163-1172",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+              }
+            ],
+            "scope": "校准战斗会话的三个 caller。原候选、版本、业务义务与执行回执保持原出版身份。Q2 本轮独立结果见正常战斗覆盖报告。"
           }
         ]
       },
@@ -4128,45 +4158,59 @@
       "sourceRefs": [
         {
           "path": "scripts/e2e/battle-foundation.mjs",
-          "lines": "45",
+          "lines": "47",
           "anchor": "await runBrowserJourney({",
           "role": "caller",
-          "sha256": "7494783fc9ae92f230a104eb66990fce89ac931af54000f4b70e0b12206f564d"
+          "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
         },
         {
           "path": "scripts/e2e/battle-foundation-scenarios.mjs",
           "lines": "13",
           "anchor": "function defineScenario(",
           "role": "input-and-independent-oracle",
-          "sha256": "695f1e25cabd9c7fc3b7766064162523728277830f11e253e69c735c94b505ea"
+          "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
-          "lines": "215",
+          "lines": "276",
           "anchor": "launch(input) {",
           "role": "public-fixture-adapter",
-          "sha256": "a7119fc64a6d860a0c7825f87732ab6243946efe31114305a21dbd0ac3683bd8"
+          "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
         },
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
-          "lines": "121",
+          "lines": "129",
           "anchor": "running = runBattleTrial(",
           "role": "public-trial-adapter",
-          "sha256": "906825f69dc5edb3f65dbcb650518890ddc8061d66a2395128525fe8a832b251"
+          "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
         },
         {
           "path": "scripts/e2e/battle-trace-contract.mjs",
-          "lines": "558",
+          "lines": "621",
           "anchor": "export function validateBattleTrace(",
           "role": "oracle",
-          "sha256": "2cee6fda2ece4e7b189e2bd9ae70ba84155b0200c36dd54acd7b14eff16278d6"
+          "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
         },
         {
           "path": "scripts/e2e/battle-foundation-compare.mjs",
-          "lines": "23",
+          "lines": "34",
           "anchor": "export async function compareBattleReports(",
           "role": "offline-caller",
-          "sha256": "488d425ec25444c28e30acff9a4387923bd2e61e2ec5de570d352b0cb6ee8c91"
+          "sha256": "522349d1889d4a6be3e02cac43a85f2f402aeaddc5119b2729e9d7ec68feb1c1"
+        },
+        {
+          "path": "scripts/e2e/battle-presentation.mjs",
+          "anchor": "export function validateBattlePresentation(",
+          "role": "render-oracle",
+          "lines": "70",
+          "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+        },
+        {
+          "path": "scripts/e2e/battle-rules.mjs",
+          "anchor": "export function validateBattleRules(",
+          "role": "rule-oracle",
+          "lines": "90",
+          "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
         }
       ],
       "publicCallers": [
@@ -4178,7 +4222,8 @@
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
         "Each engine runs each setup twice in fresh contexts. Public Game applyFixture and Reforge runBattleTrial prepare the state; all later commands use real keyboard/menu selection.",
-        "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used."
+        "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used.",
+        "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4187,7 +4232,10 @@
           "One/three distinct HP30 lanterns receive the selected lethal ordinary attacks, with no undeclared autonomous enemy action.",
           "Herb99 heals hero50 to100 and consumes exactly one of two; formal victory yields hero125, exp1 and cash3. Party victory gives each member exp3 and cash9.",
           "Formal settlement commits exactly once; all three cases pass independent state oracles, cross-engine effective-state comparison and same-engine native/rule-RNG repeat checks.",
-          "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry."
+          "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry.",
+          "Real rendered frames show the manual selection HUD, hide it during action and settlement, finish each enemy fade before the next action, and draw herb50 on the returned actor with the original recipient anchor.",
+          "The fixed ordinary attack cases check CLASSIC draw purposes, queue jitter, untruncated attack numbers and clamped enemy HP. Actual draws are logged at their producers.",
+          "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement."
         ]
       },
       "dedupe": {
@@ -4200,7 +4248,7 @@
         "notes": "New runtime entry/collector/comparison obligations only. No full-rule, raw-damage, AI, audiovisual or world/save lifecycle credit."
       },
       "revision": {
-        "currentSha": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+        "currentSha": "54d7b378d5094950c10b73bb38a81883cd3d375d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4209,6 +4257,15 @@
             "date": "2026-11-07",
             "action": "first-batch-native-normal-battle-foundation",
             "scope": "12 clean native battles plus real item counter/restoration, original-byte offline comparison and entry integrity controls; human visual pending"
+          },
+          {
+            "revision": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+            "date": "2026-11-11",
+            "action": "native-battle-presentation-and-two-round-rules",
+            "scope": "First-batch rendered regressions, ordinary single-target rolls and damage text, and manual two-round defend/use/cast/cancel/retarget.",
+            "predecessor": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+            "historicalReceiptRevision": "18fac8f47fbb002bf76a4c97283225c7156447f2",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz"
           }
         ]
       }

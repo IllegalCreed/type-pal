@@ -15,13 +15,17 @@ import {
 import {
   assertTestingBattleEvidence,
   assertTestingBattlePublication,
+  assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 
 const repository = fileURLToPath(new URL('../../', import.meta.url))
 const catalogPath = 'docs/testing/catalog.json'
 const evidencePath = 'docs/testing/domains/cross-phase/battle-foundation/evidence.json'
+const sessionEvidence = 'docs/testing/domains/runtime/battle/battle-session-owners/evidence.json'
+const sessionReceipt = 'docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md'
 const bytes = (value) => Buffer.from(JSON.stringify(value))
 const hash = (value) => createHash('sha256').update(value).digest('hex')
 const fixed = new Map()
@@ -149,6 +153,97 @@ const raw = 'Synthetic schema validator fixture; no gameplay execution credit.\n
 const registry = JSON.parse(
   readFileSync(join(repository, 'docs/phase-governance/templates/registry.json')),
 )
+
+function sessionRebindingFixture() {
+  const { current, additions } = fixture()
+  const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
+  const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
+  const evidence = JSON.parse(previousEvidence)
+  const owner = current.entries.find(({ id }) => id === evidence.id)
+  const sessionSource = Buffer.concat([
+    Buffer.from('\n'),
+    readFixed(testingBattlePublicationBase, testingBattleSessionSourcePath),
+  ])
+  const bridge = {
+    readSource(path) {
+      if (path === testingBattleSessionSourcePath) return sessionSource
+      if (path === sessionReceipt) return Buffer.from('# Synthetic test receipt\n')
+      return undefined
+    },
+    fixed: {
+      revision: testingBattlePublicationBase,
+      readSource: (path) => readFixed(testingBattlePublicationBase, path),
+    },
+  }
+  const previousSourceRefs = evidence.sourceRefs.filter(
+    ({ path }) => path === testingBattleSessionSourcePath,
+  )
+  const newRefs = evidence.sourceRefs.map((reference) => {
+    if (reference.path !== testingBattleSessionSourcePath) return reference
+    const lines = reference.lines.replace(/\d+/gu, (line) => String(Number(line) + 1))
+    const claimPointers = evidence.claims[0].evidence
+    const pointerIndex = claimPointers.indexOf(`${reference.path}:${reference.lines}`)
+    assert(pointerIndex >= 0)
+    claimPointers[pointerIndex] = `${reference.path}:${lines}`
+    return { ...reference, lines, sha256: hash(sessionSource) }
+  })
+  const event = {
+    action: 'q2-battle-session-source-rebinding',
+    base: testingBattlePublicationBase,
+    date: '2026-11-11',
+    evidence: sessionReceipt,
+    previousSourceRefs,
+    scope: 'Synthetic source shift for the admitted battle session callers.',
+  }
+  evidence.sourceRefs = newRefs
+  owner.sourceRefs = structuredClone(newRefs)
+  evidence.history.push(structuredClone(event))
+  owner.revision.history.push(structuredClone(event))
+  return {
+    catalog: current,
+    evidence,
+    checkCatalog: () =>
+      assertTestingBattlePublication(previousCatalog, bytes(current), additions, bridge),
+    checkEvidence: () =>
+      assertTestingBattleSessionSourceBridge(
+        sessionEvidence,
+        previousEvidence,
+        bytes(evidence),
+        bridge,
+      ),
+  }
+}
+
+test('the admitted battle session rebind preserves the old owner and the single Q2 append', () => {
+  const rebinding = sessionRebindingFixture()
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+})
+
+test('the battle session bridge rejects stale references, claim pointers and audit promotion', () => {
+  const rebinding = sessionRebindingFixture()
+  const [first] = rebinding.evidence.sourceRefs
+  const sha = first.sha256
+  first.sha256 = 'a'.repeat(64)
+  assert.throws(rebinding.checkEvidence, /sourceRef hash mismatch/u)
+  first.sha256 = sha
+  const pointers = rebinding.evidence.claims[0].evidence
+  const [originalPointer] = pointers
+  pointers[0] = `${first.path}:1`
+  assert.throws(rebinding.checkEvidence, /pointer must follow/u)
+  pointers[0] = originalPointer
+  rebinding.evidence.runtimeExecution.performed = true
+  assert.throws(rebinding.checkEvidence, /changed publication, execution or unrelated evidence/u)
+})
+
+test('rebind history and the rest of the accepted catalog remain fixed', () => {
+  const rebinding = sessionRebindingFixture()
+  const history = rebinding.evidence.history.at(-1)
+  history.previousSourceRefs.pop()
+  assert.throws(rebinding.checkEvidence, /previousSourceRefs do not match/u)
+  rebinding.catalog.entries[0].title += ' changed'
+  assert.throws(rebinding.checkCatalog, /changed existing catalog facts/u)
+})
 
 function pairedFixture(t) {
   const f = fixture()

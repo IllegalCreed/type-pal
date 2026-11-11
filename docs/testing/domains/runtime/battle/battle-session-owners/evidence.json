@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "210-212",
+      "lines": "209-211",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "362-373",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1163-1172",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,7 +83,7 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:210-212",
+        "packages/reforge/src/battle/battle-session.ts:209-211",
         "packages/reforge/src/battle/battle-session.ts:362-373",
         "packages/reforge/src/battle/battle-session.ts:1163-1172",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
@@ -145,6 +145,36 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-battle-session-source-rebinding",
+      "base": "43fea71735236272cfb7f6a1c61c3ac2e691a349",
+      "date": "2026-11-11",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "210-212",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "362-373",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1163-1172",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "818b2c6b19e1c98c2e2a33627e342f801378e5c3d3e090451baebdea50b83bbc"
+        }
+      ],
+      "scope": "校准战斗会话的三个 caller。原候选、版本、业务义务与执行回执保持原出版身份。Q2 本轮独立结果见正常战斗覆盖报告。"
     }
   ],
   "_governance": {
