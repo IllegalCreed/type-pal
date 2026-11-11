@@ -9,7 +9,7 @@ import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-work
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
 import type { MenuAssets } from '../menu/menu-box.js'
-import type { BattleSessionAssets, BattleTurnReadinessSnapshot } from './battle-session.js'
+import type { BattleTurnReadinessSnapshot } from './battle-session.js'
 
 /** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
 const flush = async (): Promise<void> => {
@@ -26,17 +26,25 @@ const settleDone = async (h: ReturnType<typeof makeWfSession>): Promise<string> 
   return h.session.done
 }
 
+function bitmap(width: number, height: number, color: string): ImageBitmap {
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')!
+  ctx.fillStyle = color
+  ctx.fillRect(0, 0, width, height)
+  return Object.assign(canvas, { close() {} })
+}
+
+function battleCanvas(): CanvasRenderingContext2D {
+  const canvas = document.createElement('canvas')
+  canvas.width = 320
+  canvas.height = 200
+  return canvas.getContext('2d')!
+}
+
 function infoBoxAssets(): MenuAssets {
-  const image = document.createElement('canvas')
-  image.width = 1
-  image.height = 1
-  const blank = Object.assign(image, { close() {} })
-  const panel = Object.assign(document.createElement('canvas'), { close() {} })
-  panel.width = 75
-  panel.height = 35
-  const ctx = panel.getContext('2d')!
-  ctx.fillStyle = '#ff0000'
-  ctx.fillRect(0, 0, panel.width, panel.height)
+  const blank = bitmap(1, 1, 'transparent')
   const box = { tiles: Array.from({ length: 9 }, () => blank) }
   const digits = Array.from({ length: 10 }, () => blank)
   return {
@@ -52,7 +60,7 @@ function infoBoxAssets(): MenuAssets {
     slash: blank,
     itemIcons: {},
     redBox: box,
-    magicPlayerBox: panel,
+    magicPlayerBox: bitmap(75, 35, '#ff0000'),
     cursorGrid: blank,
     cursorUp: blank,
     cursorUpRed: blank,
@@ -82,10 +90,7 @@ describe('W3 执行时间线接线', () => {
       enemies: [wfEnemy('tank', { health: 900, attackStrength: 1 })],
     })
     h.assets.ui = infoBoxAssets()
-    const canvas = document.createElement('canvas')
-    canvas.width = 320
-    canvas.height = 200
-    const ctx = canvas.getContext('2d')!
+    const ctx = battleCanvas()
     const panelVisible = (): boolean => {
       h.session.render(ctx, 1)
       return ctx.getImageData(91, 165, 1, 1).data[0] === 255
@@ -243,17 +248,32 @@ describe('W3 执行时间线接线', () => {
     h.press(['Escape'])
   })
 
-  test('sfx 记录器：真实行动产生的 AssetId 序列经 assets.sfx 播放路径', () => {
+  test('致死普攻绘出完整伤害，收尾播放一次敌人死亡音效', () => {
     const sfx = recordingSfx()
     const h = makeWfSession({
       players: [wfPlayer('p1', { attackStrength: 60 })],
       enemies: [wfEnemy('e1', { health: 20, defense: 0, attackStrength: 1 })],
     })
-    Object.assign(h.assets, { sfx: sfx.player } satisfies Partial<BattleSessionAssets>)
+    h.assets.sfx = sfx.player
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
     h.press([' '])
     h.press([' '])
-    h.idle(500)
-    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'over'; i += 1) h.idle(500)
-    expect(sfx.plays.length).toBeGreaterThanOrEqual(1) // 敌 attack/death 音等真实到达
+    let firstNumber: number[] | undefined
+    for (let i = 0; i < 80 && !sfx.plays.includes('sound.pal.030'); i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 单敌位置 (100,110)，首帧数字右缘 106、y=10。每个数字的蓝通道用来识别该字模。
+      const blue = [88, 94, 100].map((x) => ctx.getImageData(x, 10, 1, 1).data[2] ?? 0)
+      if (!firstNumber && blue.some((value) => value > 0)) firstNumber = blue
+    }
+    // 固定 RNG 下攻 60、防 28，基础伤害 75，追加 1 后暴击 ×3 = 228。
+    expect(firstNumber).toEqual([48, 48, 144])
+    expect(sfx.plays).toEqual(['sound.pal.030'])
   })
 })

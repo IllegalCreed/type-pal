@@ -1797,7 +1797,8 @@ export class BattleSession {
       if (!attackerPos || !targetPos) return null
       const totalDmg = (eHp[t] ?? 0) - (s.enemies[t]?.hp ?? 0)
       const second = la.secondDamage // 连击第二击(present 追加一挥,音效自然落不同帧)
-      const firstDmg = totalDmg - (second ?? 0)
+      // 敌 HP 钳到 0，飘字仍显示本击算出的完整伤害(fight.c:638,3665)。
+      const firstDmg = la.firstDamage ?? totalDmg - (second ?? 0)
       const snd = this.opts.playerSounds?.[la.idx]
       const attackInput = (damage: number, windup: boolean) => ({
         frames: this.playerFrames(la.idx),
