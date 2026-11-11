@@ -68,7 +68,9 @@ function validFrame(entry, source, playerCount) {
 
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
-  const frames = trace?.presentations?.filter(({ kind }) => kind === 'battle-frame') ?? []
+  const frames = Array.isArray(trace?.presentations)
+    ? trace.presentations.filter((entry) => entry?.kind === 'battle-frame')
+    : []
   const playerCount = scenario.expected.start.players.length
   const findings = [],
     deaths = [],
@@ -156,11 +158,18 @@ export function validateBattlePresentation(trace, scenario) {
             : { settlement: next.payload.settlement }),
         },
         durationMs: gone.clockMs - firstFade.clockMs,
+        nextDelayMs: next.clockMs - gone.clockMs,
       }
       deaths.push(observed)
       if (Math.abs(observed.durationMs - DEATH_FADE_MS) > EDGE_TOLERANCE_MS)
         fail('business', 'death-fade-duration', observed)
       if (next.seq < gone.seq) fail('business', 'death-fade-overlaps-next-presentation', observed)
+      else if (
+        scenario.id === 'party-lanterns' &&
+        next.payload.animation?.kind === 'attack' &&
+        observed.nextDelayMs > EDGE_TOLERANCE_MS
+      )
+        fail('business', 'death-fade-delays-next-attack', observed)
     }
 
     if (action.kind !== 'item' || action.itemId !== '99') continue

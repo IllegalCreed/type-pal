@@ -74,7 +74,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
           add(
             'enemy-draw-identity',
             node.end,
-            `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, fade !== undefined && !dyingNow")}\n`,
+            `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, e.hp <= 0 && !dyingNow")}\n`,
           )
         if (source.includes('players.push('))
           add(

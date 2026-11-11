@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { mkdir, readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { isDeepStrictEqual as same } from 'node:util'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
 import {
   BATTLE_FOUNDATION_SCENARIOS,
@@ -19,6 +20,14 @@ const expectedRunIds = BATTLE_FOUNDATION_SCENARIOS.flatMap(({ id }) => [
   `${id}-1`,
   `${id}-2`,
 ]).sort()
+const herbPlacement = ({ heals }) =>
+  heals.map(({ actorId, targetId, casterBase, targetBase, draw }) => ({
+    actorId,
+    targetId,
+    casterBase,
+    targetBase,
+    number: { right: draw.right, birthY: draw.y + draw.age },
+  }))
 
 /** Rejudge original hash-bound bytes. A runner's status never substitutes for business evidence. */
 export async function compareBattleReports(gamePath, reforgePath) {
@@ -140,6 +149,14 @@ export async function compareBattleReports(gamePath, reforgePath) {
       for (const side of presentation)
         for (const finding of side.findings)
           comparison.findings.push({ engine: side.engine, ...finding })
+      const [leftHerb, rightHerb] = presentation.map(herbPlacement)
+      if (!same(leftHerb, rightHerb))
+        comparison.findings.push({
+          domain: 'business',
+          rule: 'cross-engine-herb-placement',
+          game: leftHerb,
+          reforge: rightHerb,
+        })
       return {
         ...comparison,
         status: comparison.findings.length ? 'rejected' : 'passed',
