@@ -58,6 +58,8 @@ function validFrame(entry, source, playerCount) {
         ['yellow', 'blue'].includes(draw?.tone) &&
         uniqueSlots([draw.slot], draw.side === 'player' ? playerCount : 5) &&
         ['player', 'enemy'].includes(draw.side) &&
+        (draw.numberId === undefined ||
+          (Number.isSafeInteger(draw.numberId) && draw.numberId >= 0)) &&
         [draw.value, draw.right, draw.y, draw.age].every(Number.isFinite) &&
         Number.isInteger(draw.age) &&
         draw.age >= 0 &&

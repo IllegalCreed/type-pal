@@ -39,6 +39,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     overflow = false
   let frame, previousFrame
   let markedRandom
+  let nextNumberId = 0
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
   const recorder = createRecorder({
@@ -128,7 +129,8 @@ export function installBattleTraceObserver(context, createRecorder) {
       if (frame) frame.panels.push(slot)
     },
     labelNumber(number, side, slot) {
-      if (starts.length === 1 && !closed) floatTargets.set(number, { side, slot })
+      if (starts.length === 1 && !closed)
+        floatTargets.set(number, { side, slot, numberId: nextNumberId++ })
     },
     numberDrawn(number, value, tone, right, y, age) {
       if (!frame || !['yellow', 'blue'].includes(tone)) return

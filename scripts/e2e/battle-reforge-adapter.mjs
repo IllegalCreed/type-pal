@@ -116,7 +116,16 @@ function semanticAction(index, action) {
   )
   let targetId = null
   if (action.kind !== 'defend') {
-    const allySlot = isEnemy ? action.targetPlayerIdx : action.targetAllyIdx
+    const itemTarget =
+      action.kind === 'item' ? nativeState.items[action.itemId]?.use?.target : undefined
+    // A one-ally item commits immediately in a solo party; core resolves its omitted slot to the actor.
+    const implicitAllySlot =
+      itemTarget === 'oneAlly' && nativeState.players.length === 1 ? index : undefined
+    const allySlot = isEnemy
+      ? action.targetPlayerIdx
+      : itemTarget === 'self'
+        ? index
+        : (action.targetAllyIdx ?? implicitAllySlot)
     targetId =
       allySlot === undefined
         ? enemyLabel(action.targetEnemyIdx)

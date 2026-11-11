@@ -368,20 +368,37 @@ describe('battle business conformance and comparison', () => {
         turn: selecting ? 2 : 1,
         selecting,
         animation: selecting ? null : attack,
-        numbers: [{ tone: 'blue', side: 'player', slot: 0, value, right: 244, y: 95, age: 0 }],
+        numbers: [
+          {
+            numberId: seq,
+            tone: 'blue',
+            side: 'player',
+            slot: 0,
+            value,
+            right: 244,
+            y: 95,
+            age: 0,
+          },
+        ],
       },
     })
+    const cast = frame(0, 94)
+    cast.payload.animation = { ...attack, kind: 'cast' }
+    const strike = frame(1, 1)
+    // The preceding spell's number remains visible. The first sampled strike draw can be late.
+    strike.payload.numbers[0].age = 1
+    strike.payload.numbers.unshift({ ...cast.payload.numbers[0], age: 8 })
     const trace = {
       engine: 'reforge',
       actions: [{ ...attack, before, after: hit, native: { lastAction: { damage: 1 } } }],
-      rounds: [{ turn: 1, order: 3, atMs: 70, before: hit, after: tick }],
+      rounds: [{ turn: 1, order: 4, atMs: 110, before: hit, after: tick }],
       randomDraws: [],
-      presentations: [frame(0, 1), frame(2, 7, true)],
+      presentations: [cast, strike, frame(3, 7, true)],
     }
     const good = validateBattleRules(trace, scenario)
     assert.equal(good.status, 'passed')
     assert.equal(good.strikes[0].poisonRound.draw.afterRoundMs, 10)
-    trace.presentations.splice(1, 0, frame(1, 7))
+    trace.presentations.splice(2, 0, frame(2, 7))
     assert.deepEqual(
       validateBattleRules(trace, scenario).findings.map(({ rule }) => rule),
       ['extra-blue-number-before-poison-round'],

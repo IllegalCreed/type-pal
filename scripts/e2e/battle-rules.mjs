@@ -59,6 +59,20 @@ const isDrawnAction = ({ payload }, action) =>
   payload.animation.kind === action.kind &&
   payload.animation.targetId === action.targetId
 
+function firstNumberDraws(frames) {
+  const draws = []
+  const seen = new Set()
+  for (const frame of frames)
+    for (const number of frame.payload.numbers) {
+      const { numberId, age } = number
+      // Old trace format stored only the initial age of the actual draw.
+      if (numberId === undefined ? age !== 0 : seen.has(numberId)) continue
+      draws.push({ frame, number })
+      if (numberId !== undefined) seen.add(numberId)
+    }
+  return draws
+}
+
 function observedRawStrike(engine, native, side) {
   if (engine === 'game') {
     const blue = native.animationEffects
@@ -113,6 +127,7 @@ export function validateBattleRules(trace, scenario) {
     }
   }
   const frames = trace.presentations.filter(({ kind }) => kind === 'battle-frame')
+  const numberDraws = firstNumberDraws(frames)
   const animationStarts = trace.actions.map((action) =>
     frames.find((frame) => isDrawnAction(frame, action)),
   )
@@ -136,13 +151,13 @@ export function validateBattleRules(trace, scenario) {
       const next = animationStarts.slice(index + 1).find(Boolean)
       const matches = ({ tone, side, slot }) =>
         tone === 'blue' && side === targetSide && slot === before.slot
-      const drawFrame =
+      const drawing =
         start &&
-        frames.find(
-          ({ seq, payload }) =>
-            seq >= start.seq && (!next || seq < next.seq) && payload.numbers.some(matches),
+        numberDraws.find(
+          ({ frame, number }) =>
+            frame.seq >= start.seq && (!next || frame.seq < next.seq) && matches(number),
         )
-      const visible = drawFrame?.payload.numbers.find(matches)
+      const { frame: drawFrame, number: visible } = drawing ?? {}
       const observed = {
         actionIndex: index,
         actorId: action.actorId,
@@ -162,30 +177,32 @@ export function validateBattleRules(trace, scenario) {
         const extra =
           start &&
           round &&
-          frames.find(
-            ({ seq, order, payload }) =>
-              seq >= start.seq &&
-              order < round.order &&
-              payload.numbers.some((number) => matches(number) && number.value !== expectedRaw),
+          numberDraws.find(
+            ({ frame, number }) =>
+              frame.seq >= start.seq &&
+              frame.order < round.order &&
+              matches(number) &&
+              number.value !== expectedRaw,
           )
         if (extra)
           fail('extra-blue-number-before-poison-round', {
             actionIndex: index,
             actorId: action.actorId,
             targetId: action.targetId,
-            frame: extra.seq,
-            clockMs: extra.clockMs,
-            numbers: extra.payload.numbers.filter(matches),
+            frame: extra.frame.seq,
+            clockMs: extra.frame.clockMs,
+            number: extra.number,
           })
         if (round) {
           const tickDamage =
             round.before.players[before.slot].hp - round.after.players[before.slot].hp
-          const tickFrame = frames.find(
-            ({ order, seq, payload }) =>
-              order > round.order &&
-              (!next || seq < next.seq) &&
-              payload.numbers.some((number) => matches(number) && number.value === tickDamage),
-          )
+          const tickFrame = numberDraws.find(
+            ({ frame, number }) =>
+              frame.order > round.order &&
+              (!next || frame.seq < next.seq) &&
+              matches(number) &&
+              number.value === tickDamage,
+          )?.frame
           const nextSelection = frames.find(
             ({ order, payload }) =>
               order > round.order && payload.turn === round.turn + 1 && payload.selecting,
