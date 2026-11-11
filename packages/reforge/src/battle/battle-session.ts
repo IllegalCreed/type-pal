@@ -1864,7 +1864,7 @@ export class BattleSession {
             },
           }
         : {}),
-      damage: (pHp[t] ?? 0) - (s.players[t]?.hp ?? 0),
+      damage: la.damage ?? 0,
       targetDied: (s.players[t]?.hp ?? 0) <= 0,
     })
   }

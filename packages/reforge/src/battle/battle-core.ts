@@ -482,8 +482,8 @@ interface PoisonHost {
 }
 
 /**
- * 执行一条活跃毒的当前 tick 并返回下一游标。逐回合 tick 与 0x28 成功施毒当下的
- * enemy-script 首次执行必须共用这里，避免 HP、产物、自解或游标推进出现两套语义。
+ * 执行一条活跃毒的当前 tick 并返回下一游标。逐回合与施毒当下的首次执行共用这里，
+ * 使 HP、产物、自解和游标推进一致。
  */
 function tickPoison(
   s: BattleState,
@@ -915,10 +915,11 @@ function resolveEnemyAiAction(
   }
 }
 
-/** 按完整玩家槽拒绝死亡角色；保护上限只防止异常 RNG/全死状态死循环。 */
+/** 按完整玩家槽拒绝死亡角色；调用方保证存在活目标。 */
 function sampleLivePlayerSlot(s: BattleState, rng: () => number): number {
   const upper = s.players.length - 1
   if (upper < 0) return -1
+  if (upper === 0) return 0 // util.c:244-247，RandomLong(0,0) 不取 RNG。
   let target = Math.floor(Math.max(0, Math.min(0.999999999, rng())) * (upper + 1))
   let guard = 0
   while ((s.players[target]?.hp ?? 0) <= 0 && guard++ < 64)
@@ -939,8 +940,8 @@ export function decideEnemyAction(
 ): EnemyDecision {
   const targets = alivePlayers(s)
   if (targets.length === 0) return { kind: 'pass' }
-  // SDL PAL 在 sleep/paralyzed/confused 分支前无条件按完整玩家槽抽一次目标；
-  // confused 会丢弃它，但不能省略这次 RNG 消耗。
+  // SDL PAL 在 sleep/paralyzed/confused 分支前按完整玩家槽确定目标；
+  // confused 会丢弃目标，多槽时仍消耗抽样所需的 RNG。
   const preselectedTarget = sampleLivePlayerSlot(s, rng)
   // sleep/paralyzed 优先于 confused：带有任一抑制状态的敌人本回合不行动，
   // 但仍保留上面的玩家目标抽样消耗。silence 不在 canAct 中，因此
@@ -2718,15 +2719,14 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   if (dmg > p.hp) dmg = p.hp
   if (dmg <= 0) dmg = 1
   p.hp = Math.max(0, p.hp - dmg)
+  s.lastAction.damage = dmg
   s.log.push(`${e.def.id} 攻击 ${p.roleId} 造成 ${dmg}`)
   if (p.hp > 0) applyEnemyEquivItem(p, e, s, rng) // 敌普攻附带道具(附毒攻击:尸腐肉/毒蛇卵等)
 }
 
 /**
- * 敌普攻附带道具效果(fight.c:5139-5146 「attackEquivItem」):命中后掷 `rate >= R(1,10)` 触发,
- * 再过**玩家毒抗门**(`毒抗 < R(1,100)` 才中,fight.c:5141)→ 跑该道具 use 的 applyPoison 到玩家。
- * = 附毒攻击(尸腐肉/毒蛇卵 equiv 的蛇妖类)。毒抗越高越难中(大蒜临时毒抗即缩此门);
- * 三段链走 applyPoisonToPlayer(相克/致死/自毒同路)。仅处理 applyPoison(附毒攻击的用途)。
+ * 敌普攻附毒依次判定附带率、附带道具毒抗 (fight.c:5139-5146) 和施毒脚本的
+ * 0x29 毒抗 (script.c:1280)。新毒立即执行一次玩家毒脚本 (global.c:1496-1515)。
  */
 export function applyEnemyEquivItem(
   p: BattlePlayerState,
@@ -2742,10 +2742,16 @@ export function applyEnemyEquivItem(
   if (!item?.use) return
   if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) return // 毒抗门:毒抗 ≥ R(1,100) → 抗掉
   for (const eff of item.use.effects) {
-    if (eff.kind === 'applyPoison') {
-      const r = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
-      if (r === 'applied') s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
-    }
+    if (eff.kind !== 'applyPoison') continue
+    if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) continue
+    const poisonIndex = p.poisons.length
+    const result = applyPoisonToPlayer(p, Number(eff.poisonId), s.poisonDefs)
+    const active = p.poisons[poisonIndex]
+    if (result !== 'applied' || !active) continue
+    s.log.push(`${p.roleId} 中了 ${item.name} 的毒`)
+    const next = tickPoison(s, p, 'player', active)
+    if (next) p.poisons[poisonIndex] = next
+    else p.poisons.splice(poisonIndex, 1)
   }
 }
 

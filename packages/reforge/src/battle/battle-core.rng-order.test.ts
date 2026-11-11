@@ -1,6 +1,14 @@
 import type { EnemyDef, SkillData } from '@type-pal/content'
+import { validateEnemies, validateItems, validatePoisons, validateSkills } from '@type-pal/content'
 import { expect, test } from 'vitest'
+import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
+import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
+import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
+import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
+import { wfPlayer } from '../__tests__/battle-workflows/catalog.js'
+import { expectDefined } from '../defined.js'
 import {
+  applyEnemyEquivItem,
   type CreatePlayerInput,
   createBattleState,
   healthyPlayerCount,
@@ -161,8 +169,8 @@ test('a cooperative attack falls back to the single-hit draw order if a contribu
 })
 
 test('a landed enemy attack without an equiv item consumes the rate draw before the next round', () => {
-  // Queue, target, block, two damage draws, equiv rate, then the next two queue draws.
-  const rng = fixedDraws([0.5, 0.5, 0.25, 0.1, 0.25, 0.25, 0.8, 0.6, 0.6])
+  // Queue, block, two damage draws, equiv rate, then the next two queue draws.
+  const rng = fixedDraws([0.5, 0.5, 0.1, 0.25, 0.25, 0.8, 0.6, 0.6])
   const state = createBattleState({
     players: [{ ...wuHou, baseDexterity: 4 }],
     enemySlots: [lantern],
@@ -182,4 +190,136 @@ test('a landed enemy attack without an equiv item consumes the rate draw before 
     { isEnemy: true, idx: 0, dex: 21, fIsSecond: false },
     { isEnemy: false, idx: 0, dex: 20, fIsSecond: false },
   ])
+})
+
+test('the sole player needs no target roll before the two independent enemy actions', () => {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-414'))
+  const slash = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '339'))
+  const rng = fixedDraws([
+    // Mulberry32 seed 64. Round 1 queue, cast gate/defense/float, physical gate/block/bonuses/equiv.
+    0.84591693,
+    0.425869884, 0.661409723, 0.306843673, 0.889850487, 0.992746293, 0.786205746, 0.458142749,
+    0.876674742, 0.655779845, 0.615956283,
+    // Round 2 queue, then the player's four hit draws and hidden growth.
+    0.863999527, 0.10810903, 0.567365941, 0.035652935, 0.817424394, 0.205908426, 0.582629329,
+    0.802532919,
+  ])
+  const state = createBattleState({
+    players: [
+      wfPlayer('li-xiaoyao', {
+        hp: 400,
+        maxHp: 400,
+        attackStrength: 902,
+        defense: 109,
+        baseDexterity: 153,
+      }),
+    ],
+    enemySlots: [enemy],
+    skills: { [slash.id]: slash },
+  })
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'defend' })
+  stepBattle(state, rng)
+  expect(state.actionQueue.map(({ dex, fIsSecond }) => [dex, fIsSecond])).toEqual([
+    [789, false],
+    [130, false],
+    [120, true],
+  ])
+  stepBattle(state, rng) // defend
+  stepBattle(state, rng)
+  // fight.c:4540 and util.c:244-247: 0..0 leaves the first magic gate at draw 3, which rolls 3.
+  expect(state.lastAction).toMatchObject({ kind: 'cast', skillId: '339', targetPlayerIdx: 0 })
+  expect(state.players[0]?.hp).toBe(306)
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({ kind: 'attack', damage: 44, targetPlayerIdx: 0 })
+  expect(state.players[0]?.hp).toBe(262)
+  stepBattle(state, rng) // turn end
+  state.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({ kind: 'attack', firstDamage: 865 })
+  expect(state).toMatchObject({ phase: 'won', expGained: 110, cashGained: 220 })
+})
+
+function bloodWormBattle() {
+  const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+  const items = validateItems(palItems.filter(({ id }) => id === '117' || id === '87'))
+  const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+  return {
+    players: [
+      wfPlayer('li-xiaoyao', {
+        hp: 150,
+        maxHp: 150,
+        attackStrength: 452,
+        defense: 259,
+        baseDexterity: 903,
+      }),
+    ],
+    enemySlots: [enemy],
+    items: Object.fromEntries(items.map((item) => [item.id, item])),
+    poisonDefs: { [redPoison.id]: redPoison },
+    inventory: [{ itemId: '87', count: 2 }],
+  }
+}
+
+test('the blood worm starts red poison on hit, ticks again at turn end, and red sulfur cures it', () => {
+  const rng = fixedDraws([
+    // Mulberry32 seed 72. Round 1 queue, physical block/bonuses, equiv rate and both resistance rolls.
+    0.20860595,
+    0.15407627, 0.27076954, 0.1212119, 0.07027551, 0.33176822, 0.82964625, 0.9120957,
+    // Round 2 queue and enemy hit. Equiv rate roll 7 fails, so cured poison stays gone.
+    0.82732467, 0.32723454, 0.56938923, 0.21580437, 0.07883221, 0.66864745,
+    // Round 3 queue and the lethal player hit.
+    0.1257016, 0.48066431, 0.48407086, 0.72779004, 0.64045726, 0.42850434, 0.17432523,
+  ])
+  const state = createBattleState(bloodWormBattle())
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'defend' })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.players[0]).toMatchObject({ hp: 142, poisons: [{ poisonId: 551, tickIndex: 0 }] })
+  expect(state.lastAction).toMatchObject({ kind: 'attack', damage: 1, targetPlayerIdx: 0 })
+  stepBattle(state, rng)
+  expect(state.players[0]?.hp).toBe(135)
+
+  state.pendingActions.set(0, { kind: 'item', itemId: '87', targetAllyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.players[0]?.poisons).toEqual([])
+  expect(state.inventory).toEqual([{ itemId: '87', count: 1 }])
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.players[0]).toMatchObject({ hp: 134, poisons: [] })
+
+  state.pendingActions.set(0, { kind: 'attack', targetEnemyIdx: 0 })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  expect(state.lastAction).toMatchObject({ kind: 'attack', firstDamage: 407 })
+  expect(state).toMatchObject({ phase: 'won', expGained: 14, cashGained: 9 })
+})
+
+test('the attached poison script can fail resistance after the equivalent item gate passes', () => {
+  const input = bloodWormBattle()
+  const playerInput = expectDefined(input.players[0])
+  const state = createBattleState({ ...input, players: [{ ...playerInput, poisonRes: 50 }] })
+  const player = expectDefined(state.players[0])
+  const enemy = expectDefined(state.enemies[0])
+
+  // Rate 4 >= 1 and outer roll 61 > 50, but the 0x29 script roll is 11.
+  applyEnemyEquivItem(player, enemy, state, fixedDraws([0, 0.6, 0.1]))
+  expect(player.poisons).toEqual([])
+  expect(player.hp).toBe(150)
+})
+
+test('the immediate equivalent-item tick only runs when a new poison entry is added', () => {
+  const state = createBattleState(bloodWormBattle())
+  const player = expectDefined(state.players[0])
+  const enemy = expectDefined(state.enemies[0])
+  const successfulRolls = fixedDraws([0, 0, 0, 0, 0, 0])
+
+  applyEnemyEquivItem(player, enemy, state, successfulRolls)
+  applyEnemyEquivItem(player, enemy, state, successfulRolls)
+  expect(player.poisons).toEqual([{ poisonId: 551, tickIndex: 0 }])
+  expect(player.hp).toBe(143)
 })

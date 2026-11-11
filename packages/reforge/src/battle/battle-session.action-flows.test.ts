@@ -276,4 +276,53 @@ describe('W3 执行时间线接线', () => {
     expect(firstNumber).toEqual([48, 48, 144])
     expect(sfx.plays).toEqual(['sound.pal.030'])
   })
+
+  test('敌普攻蓝字仅显示物理伤害，附毒立即单独扣血', () => {
+    const egg = {
+      ...wfHealItem('117'),
+      use: {
+        target: 'oneAlly' as const,
+        consuming: true,
+        effects: [{ kind: 'applyPoison' as const, poisonId: '551' }],
+      },
+    }
+    const h = makeWfSession({
+      players: [wfPlayer('p1', { defense: 100 })],
+      enemies: [
+        wfEnemy('e1', { attackStrength: 0 }, { attackEquivItem: { itemId: '117', rate: 4 } }),
+      ],
+      extraOpts: {
+        items: { [egg.id]: egg },
+        poisonDefs: {
+          551: {
+            id: 551,
+            name: '赤毒',
+            color: 16,
+            curability: 'common',
+            playerTicks: [{ hpDelta: -7 }],
+          },
+        },
+      },
+    })
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    h.press(['d'])
+    let blue = 0
+    for (let i = 0; i < 80 && blue === 0; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 单人脚底 (240,170)，命中蓝字的个位从 (240,95) 起画。
+      blue = ctx.getImageData(240, 95, 1, 1).data[2] ?? 0
+    }
+    expect(blue).toBe(32) // 字模 1；把赤毒合并会画出字模 8。
+    expect(h.session.debugPlayers()[0]).toMatchObject({
+      hp: 92,
+      poisons: [{ poisonId: 551, tickIndex: 0 }],
+    })
+  })
 })
