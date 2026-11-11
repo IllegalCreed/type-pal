@@ -100,7 +100,7 @@ export function validateBattlePresentation(trace, scenario) {
   if (!ready) fail('integrity', 'selection-frame-missing')
   const extraHud =
     frames.find(({ payload }) => payload.panels.length && payload.phase === 'performAction') ??
-    frames.find(({ payload }) => payload.panels.length && !payload.selecting)
+    frames.find(({ payload }) => payload.panels.length && payload.phase !== 'selectAction')
   if (extraHud)
     fail('business', 'hud-visible-outside-selection', {
       ...at(extraHud),
