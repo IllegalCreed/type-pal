@@ -426,7 +426,16 @@ export function performAttack(
           bus,
           runtimeMode: 'battle',
           eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
-          battleCtx: { state, target: { type: 'player', idx: targetIdx }, gs: equivPoison.gs },
+          battleCtx: {
+            state,
+            target: { type: 'player', idx: targetIdx },
+            gs: equivPoison.gs,
+            playerRoles,
+            commands: equivPoison.commands,
+            runScript: equivPoison.runScript,
+            // fight.c:5080/5143 先绘物理伤害，附带脚本的扣血不额外弹数字。
+            pendingDamageNums: [],
+          },
         })
         setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
       }

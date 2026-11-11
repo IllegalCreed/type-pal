@@ -1,5 +1,5 @@
 /** Direct physical-attack contracts; controller scheduling and browser presentation are separate. */
-import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
+import type { Command, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { afterEach, describe, expect, it } from 'vitest'
 import { recordingRng } from '../../../__tests__/scripted-rng.js'
 import type { CommandBus } from '../../command-bus.js'
@@ -596,18 +596,31 @@ describe('performAttack', () => {
     expect(playerRoles.roles[0]!.hp).toBe(99)
   })
   // 敌人普攻 attackEquivItem 中毒(fight.c:5139-5146)—— 29 个敌人(蜜蜂/僵尸/蜘蛛…)普攻附带毒物品
-  it('敌普攻 equivItem 中毒:rate+抗性过 → 跑毒物品 scriptOnUse(0x29)单体毒队员', () => {
-    setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 0, enemyScript: 0 }])
+  it('敌普攻附毒物品 117 立即运行 551 的扣血入口，已有同种毒时不重跑', () => {
+    // 原盘 39335 与 40862 的操作数保持原样，脚本入口移到本地命令表。
+    setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 3, enemyScript: 0 }])
     const { state, playerRoles, bus, gs } = makeActionFixture({
-      enemies: [{ attackEquivItem: 117, attackEquivItemRate: 10 }],
+      role: { hp: 150, defense: 259 },
+      enemies: [{ level: 12, attackStrength: 16, attackEquivItem: 117, attackEquivItemRate: 4 }],
+      rolls: [4, 2, 1, 4, 83, 92, 4, 2, 1, 4, 83, 92],
     })
-    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, {
-      gs,
-      items: [makeItem({ id: 117, scriptOnUse: 1 })],
-      commands: [{ op: 'end' }, { op: 'raw', opcode: 0x29, operands: [0, 551, 0] }, { op: 'end' }],
-      runScript,
-    })
-    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 551, wPoisonScript: 0 })
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x29, operands: [0, 551, 0] },
+      { op: 'end' },
+      { op: 'raw', opcode: 0x1b, operands: [0, 0xfff9, 0] },
+      { op: 'end' },
+    ]
+    const poison = { gs, items: [makeItem({ id: 117, scriptOnUse: 1 })], commands, runScript }
+    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, poison)
+    expect(gs.rgPoisonStatus['0_0']).toEqual({ wPoisonID: 551, wPoisonScript: 3 })
+    expect(playerRoles.roles[0]!.hp).toBe(142) // physical 1 + first poison entry 7
+    expect(
+      bus.drain().flatMap(({ cmd }) => (cmd.op === 'showDamageNum' ? [cmd.value] : [])),
+    ).toEqual([1])
+
+    performAttack(state, enemyActor, 0, bus, playerRoles, undefined, poison)
+    expect(playerRoles.roles[0]!.hp).toBe(141) // only the next physical hit
   })
   it('敌普攻 equivItem:rate roll 不过 → 不中毒', () => {
     setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 0, enemyScript: 0 }])
