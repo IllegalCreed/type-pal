@@ -6,6 +6,7 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle-trial-session.ts',
   'packages/reforge/src/battle-trial-host.ts',
   'packages/reforge/src/battle/battle-session.ts',
+  'packages/reforge/src/battle/battle-ui.ts',
   'packages/reforge/src/audio/sfx.ts',
   'packages/reforge/src/battle/present-battle.ts',
   'packages/reforge/src/battle/battle-core.ts',
@@ -16,6 +17,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   assert(['none', 'double-herb'].includes(counter), `unknown battle counter: ${counter}`)
   if (!REFORGE_BATTLE_TARGETS.includes(file)) return { code, anchors: {} }
   const isCore = file.endsWith('/battle/battle-core.ts')
+  const isBattleUi = file.endsWith('/battle/battle-ui.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -28,6 +30,22 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const evidenceCall = (method, args = '') => `globalThis.__battleEvidence?.${method}(${args});\n`
   const visit = (node) => {
     const source = node.getText(ast)
+    if (
+      isBattleUi &&
+      ts.isExpressionStatement(node) &&
+      ts.isCallExpression(node.expression) &&
+      node.expression.expression.getText(ast) === 'ctx.drawImage' &&
+      ts.findAncestor(node, ts.isFunctionDeclaration)?.name?.text === 'drawPlayerInfoBox' &&
+      node.expression.arguments[1]?.getText(ast) === 'x - 2' &&
+      node.expression.arguments[2]?.getText(ast) === 'y - 4'
+    ) {
+      add(
+        'portrait-before',
+        node.getStart(ast),
+        'const __battleReadFace = globalThis.__battleEvidence?.captureCanvasPortrait(slot, p.hp, ctx, face, x - 2, y - 4);\n',
+      )
+      add('portrait-after', node.end, '\n__battleReadFace?.();\n')
+    }
     if (
       isCore &&
       ts.isIfStatement(node) &&
@@ -190,31 +208,33 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         ? ['sound-request']
         : file.endsWith('/battle/present-battle.ts')
           ? ['fighter-draw', 'dissolved-fighter-draw']
-          : isCore
-            ? ['incapacitated']
-            : [
-                'constructed',
-                'tick-begin',
-                'tick-end',
-                'frame-begin',
-                'frame-end',
-                'enemy-draw-identity',
-                'player-draw-identity',
-                'number-identity',
-                'number-draw',
-                'panel-draw',
-                'settlement-draw-begin',
-                'settlement-draw-end',
-                'command-begin',
-                'command-end',
-                'target-cancel-before',
-                'target-cancel-after',
-                'action-before',
-                'action-after',
-              ]
+          : isBattleUi
+            ? ['portrait-before', 'portrait-after']
+            : isCore
+              ? ['incapacitated']
+              : [
+                  'constructed',
+                  'tick-begin',
+                  'tick-end',
+                  'frame-begin',
+                  'frame-end',
+                  'enemy-draw-identity',
+                  'player-draw-identity',
+                  'number-identity',
+                  'number-draw',
+                  'panel-draw',
+                  'settlement-draw-begin',
+                  'settlement-draw-end',
+                  'command-begin',
+                  'command-end',
+                  'target-cancel-before',
+                  'target-cancel-after',
+                  'action-before',
+                  'action-after',
+                ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
-    assert.equal(count, 1, `duplicate battle producer: ${file}`)
+    assert.equal(count, isBattleUi ? 3 : 1, `unexpected battle producer count: ${file}`)
   for (const edit of edits.sort((a, b) => b.at - a.at))
     code = code.slice(0, edit.at) + edit.text + code.slice(edit.at)
   const output = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)

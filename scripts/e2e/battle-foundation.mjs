@@ -78,7 +78,13 @@ await runBrowserJourney({
         const runId = `${scenario.id}-${index + 1}`
         const page = await newPage(runId, { visualReviewVideo: index === 0 })
         await page.addInitScript(
-          battleObserverScript({ engine, scenarioId: scenario.id, runId, random: scenario.random }),
+          battleObserverScript({
+            engine,
+            scenarioId: scenario.id,
+            runId,
+            random: scenario.random,
+            ...(scenario.portraitProbe ? { portraitProbe: scenario.portraitProbe } : {}),
+          }),
         )
         let trace
         const result = { scenarioId: scenario.id, runId, configured: battleLaunchSpec(scenario) }

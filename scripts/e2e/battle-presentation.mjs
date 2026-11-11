@@ -18,6 +18,116 @@ const animationMatches = (frame, action) =>
   frame.payload.animation.kind === action.kind &&
   frame.payload.animation.targetId === action.targetId
 
+const byte = (value) => Number.isInteger(value) && value >= 0 && value <= 255
+const validChannels = (values, count) =>
+  Array.isArray(values) && values.length === count && values.every(byte)
+const equalChannels = (left, right) => left.every((value, i) => value === right[i])
+
+function comparePortraitSamples(frames, scenario, engine, fail) {
+  const expected = scenario.expected.portraitSamples
+  const probe = scenario.portraitProbe
+  const size = scenario.expected.portraitSize
+  if (
+    !Array.isArray(expected) ||
+    !expected.length ||
+    !Number.isInteger(probe?.slot) ||
+    !Array.isArray(probe?.points) ||
+    !probe.points.length ||
+    !Array.isArray(size) ||
+    size.length !== 2 ||
+    !size.every((value) => Number.isInteger(value) && value > 0) ||
+    !expected.every(
+      (entry) =>
+        Number.isInteger(entry?.turn) &&
+        entry.turn > 0 &&
+        Number.isInteger(entry.hp) &&
+        entry.hp >= 0 &&
+        Array.isArray(entry.rgbs) &&
+        entry.rgbs.length === probe.points.length &&
+        entry.rgbs.every((rgb) => rgb === null || validChannels(rgb, 3)),
+    )
+  ) {
+    fail('oracle', 'portrait-expectation')
+    return []
+  }
+  const observed = frames.filter(({ payload }) => payload.portrait !== undefined)
+  if (observed.length !== expected.length)
+    fail('integrity', 'portrait-sample-count', {
+      expected: expected.length,
+      actual: observed.length,
+    })
+  const source = engine === 'game' ? 'game:blitPortrait' : 'reforge:drawPlayerInfoBox'
+  const pixel = (value) =>
+    validChannels(value?.rgba, 4) &&
+    (engine === 'game' ? byte(value.index) : value.index === undefined)
+  return observed.flatMap((frame, i) => {
+    const { portrait, turn, selecting, panels } = frame.payload
+    const frameAt = at(frame)
+    if (
+      portrait?.source !== source ||
+      !Number.isInteger(portrait.x) ||
+      !Number.isInteger(portrait.y) ||
+      !Array.isArray(portrait.samples) ||
+      portrait.samples.length !== probe.points.length ||
+      !portrait.samples.every(
+        (entry, j) =>
+          entry?.x === probe.points[j].x &&
+          entry.y === probe.points[j].y &&
+          pixel(entry.before) &&
+          pixel(entry.after),
+      ) ||
+      !selecting ||
+      !panels.includes(portrait.slot)
+    ) {
+      fail('integrity', 'portrait-native-pixels', { ...frameAt, turn, portrait })
+      return []
+    }
+    const drawn = { ...frameAt, turn, ...portrait }
+    const wanted = expected[i]
+    if (!wanted) return [drawn]
+    if (
+      turn !== wanted.turn ||
+      portrait.hp !== wanted.hp ||
+      portrait.slot !== probe.slot ||
+      portrait.width !== size[0] ||
+      portrait.height !== size[1]
+    )
+      fail('business', 'portrait-selection-state', {
+        ...frameAt,
+        turn,
+        hp: portrait.hp,
+        slot: portrait.slot,
+        size: [portrait.width, portrait.height],
+        expected: { turn: wanted.turn, hp: wanted.hp, slot: probe.slot, size },
+      })
+    const palette = [],
+      transparent = []
+    for (const [j, sample] of portrait.samples.entries()) {
+      const rgb = wanted.rgbs[j]
+      const facts = { ...sample, logicalX: portrait.x + sample.x, logicalY: portrait.y + sample.y }
+      if (rgb === null) {
+        if (
+          !equalChannels(sample.before.rgba, sample.after.rgba) ||
+          sample.before.index !== sample.after.index
+        )
+          transparent.push(facts)
+      } else if (!equalChannels([...rgb, 255], sample.after.rgba)) {
+        palette.push({ ...facts, expected: [...rgb, 255] })
+      }
+    }
+    if (palette.length)
+      fail('business', 'portrait-palette', { ...frameAt, turn, hp: portrait.hp, samples: palette })
+    if (transparent.length)
+      fail('business', 'portrait-transparent-pixel', {
+        ...frameAt,
+        turn,
+        hp: portrait.hp,
+        samples: transparent,
+      })
+    return [drawn]
+  })
+}
+
 function uniqueSlots(entries, size) {
   return (
     Array.isArray(entries) &&
@@ -77,6 +187,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
+  let portraits
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -84,6 +195,7 @@ export function validateBattlePresentation(trace, scenario) {
     frames: frames.length,
     deaths,
     heals,
+    ...(portraits === undefined ? {} : { portraits }),
     findings,
   })
   if (
@@ -117,6 +229,8 @@ export function validateBattlePresentation(trace, scenario) {
       ...at(missingHud),
       slots: missingHud.payload.panels,
     })
+  if (scenario.expected.portraitSamples !== undefined)
+    portraits = comparePortraitSamples(frames, scenario, trace.engine, fail)
 
   const settlement = frames.find(({ payload }) => payload.settlement !== null)
   if (!settlement) fail('integrity', 'settlement-draw-missing')

@@ -16,6 +16,7 @@ export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/core/battle/battle-system.ts',
   '/packages/game/src/core/battle/battle-settlement.ts',
   '/packages/game/src/core/battle/battle-finalization.ts',
+  '/packages/game/src/present/player-info-box.ts',
   '/packages/game/src/present/battle/present-battle.ts',
   '/packages/game/src/present/battle/draw-battle-sprites.ts',
   '/packages/game/src/present/battle/draw-battle-ui.ts',
@@ -100,8 +101,31 @@ export function instrumentGameBattle(source, file) {
       ts.isExpressionStatement(node) &&
       ts.isCallExpression(node.expression) &&
       node.expression.expression.getText(ast) === 'drawPlayerInfoBox'
-    )
+    ) {
       visualCall('panel-draw', node, 'panelDrawn', 'i')
+      add(
+        'portrait-arguments',
+        node.expression.arguments.at(-1).end,
+        ', { slot: i, colors: gs.palette?.colors }',
+      )
+    }
+    if (file.endsWith('/player-info-box.ts')) {
+      if (ts.isFunctionDeclaration(node) && node.name?.text === 'drawPlayerInfoBox')
+        add('portrait-parameter', node.parameters.at(-1).end, ', __battlePortrait?')
+      if (
+        ts.isIfStatement(node) &&
+        owner(node) === 'drawPlayerInfoBox' &&
+        node.expression.getText(ast) === 'face' &&
+        node.thenStatement.getText(ast) === 'blitPortrait(fb, face, x - 2, y - 4, view.faceColor)'
+      ) {
+        add(
+          'portrait-before',
+          node.thenStatement.getStart(ast),
+          '{\nconst __battleReadFace = globalThis.__battleEvidence?.captureIndexedPortrait(__battlePortrait?.slot, view.hp, fb, face, x - 2, y - 4, __battlePortrait?.colors);\n',
+        )
+        add('portrait-after', node.thenStatement.end, '\n__battleReadFace?.();\n}\n')
+      }
+    }
     if (file.endsWith('/draw-battle-num.ts')) {
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'emit')
         add('number-parameter', node.parameters.end, ', __battleTarget')
@@ -246,7 +270,8 @@ export function instrumentGameBattle(source, file) {
       'player-draw-identity': 1,
       'fighter-draw': 1,
     },
-    'draw-battle-ui.ts': { 'panel-draw': 1 },
+    'draw-battle-ui.ts': { 'panel-draw': 1, 'portrait-arguments': 1 },
+    'player-info-box.ts': { 'portrait-parameter': 1, 'portrait-before': 1, 'portrait-after': 1 },
     'draw-battle-num.ts': { 'number-parameter': 1, 'number-identity': 1, 'number-draw': 1 },
   }
   const expected =
