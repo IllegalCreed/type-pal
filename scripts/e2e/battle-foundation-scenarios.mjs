@@ -10,41 +10,32 @@ const roles = {
 const random = { algorithm: 'mulberry32', seed: 1729 }
 const copy = (value) => structuredClone(value)
 
-function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
-  const party = actorIds.map((actorId, slot) => ({
+function defineSetup({
+  id,
+  title,
+  members,
+  enemies,
+  team,
+  enemyHP,
+  seed = random.seed,
+  inventory = [],
+}) {
+  const party = members.map(({ id: actorId, hp, speed }) => ({
     id: actorId,
     actorId,
     gameRole: roles[actorId],
-    hp: medicine && slot === 0 ? 50 : 150,
-    speed: [900, 500, 100][slot],
+    hp,
+    speed,
   }))
-  const enemies = Array.from({ length: enemyCount }, (_, slot) => ({
-    id: `lantern-${String.fromCharCode(97 + slot)}`,
-    slot,
-    templateId: 'enemy-399',
-  }))
-  const inventory = medicine ? [{ itemId: '99', count: 2 }] : []
-  const team = enemyCount === 1 ? 1 : 3
-  const commands = medicine
-    ? [
-        { turn: 1, actorId: party[0].id, kind: 'item', itemId: '99', targetId: party[0].id },
-        { turn: 1, actorId: party[1].id, kind: 'attack', targetId: enemies[0].id },
-      ]
-    : party.map((player, slot) => ({
-        turn: 1,
-        actorId: player.id,
-        kind: 'attack',
-        targetId: enemies[slot].id,
-      }))
   const initial = {
-    players: party.map((player, slot) => ({
-      id: player.id,
+    players: members.map(({ id, hp, maxHP, level }, slot) => ({
+      id,
       slot,
-      hp: player.hp,
-      maxHP: 150,
+      hp,
+      maxHP,
       mp: 100,
       maxMP: 100,
-      level: 1,
+      level,
       exp: 0,
       statuses: {},
     })),
@@ -52,8 +43,8 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
       enemies[slot]
         ? {
             ...enemies[slot],
-            hp: 30,
-            maxHP: 30,
+            hp: enemyHP,
+            maxHP: enemyHP,
             alive: true,
             statuses: {},
           }
@@ -62,32 +53,10 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
     inventory: copy(inventory),
     money: 0,
   }
-  let state = copy(initial)
-  // Independent finite oracle: these fixtures use only lethal ordinary attacks and healHp50.
-  // Raw rolled damage, queue-jitter allocation, AI and equipment specials are later obligations.
-  const actions = commands.map((command) => {
-    const before = copy(state)
-    if (command.kind === 'item') {
-      state.players[0].hp = 100
-      state.inventory[0].count = 1
-    } else {
-      const target = state.enemies.find((enemy) => enemy?.id === command.targetId)
-      assert(target, `scenario ${id} references a missing enemy`)
-      target.hp = 0
-      target.alive = false
-    }
-    return { ...command, before, after: copy(state) }
-  })
-  state = copy(state)
-  state.money = enemyCount * 3
-  for (const player of state.players) {
-    player.exp = enemyCount
-    if (medicine && player.id === party[0].id) player.hp = 125
-  }
   return {
     id,
     title,
-    random: copy(random),
+    random: { ...random, seed },
     party,
     enemies,
     game: {
@@ -96,24 +65,24 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
         label: title,
         partyMembers: party.map((player) => player.gameRole),
         playerOverrides: Object.fromEntries(
-          party.map((player) => [
-            player.gameRole,
+          members.map(({ id, hp, maxHP, level, attack, defense, speed }) => [
+            roles[id],
             {
-              level: 1,
-              hp: player.hp,
-              maxHP: 150,
+              level,
+              hp,
+              maxHP,
               mp: 100,
               maxMP: 100,
-              attackStrength: 250,
-              defense: 100,
+              attackStrength: attack,
+              defense,
               magicStrength: 50,
-              dexterity: player.speed,
+              dexterity: speed,
               fleeRate: 30,
             },
           ]),
         ),
         expOverrides: Object.fromEntries(
-          party.map((player) => [player.gameRole, { wExp: 0, wLevel: 1 }]),
+          members.map(({ id, level }) => [roles[id], { wExp: 0, wLevel: level }]),
         ),
         inventory: inventory.map((item) => ({ itemId: Number(item.itemId), count: item.count })),
         enemyTeamId: team,
@@ -123,21 +92,21 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
     reforge: {
       config: {
         party: {
-          members: party.map((player) => ({
-            actorId: player.actorId,
+          members: members.map(({ id: actorId, hp, maxHP, level, attack, defense, speed }) => ({
+            actorId,
             stats: {
-              level: 1,
-              maxHP: 150,
+              level,
+              maxHP,
               maxMP: 100,
-              attack: 250,
-              defense: 100,
+              attack,
+              defense,
               magicAttack: 50,
-              speed: player.speed,
+              speed,
               luck: 30,
             },
             equipment: {},
             skills: { kind: 'replace', ids: [] },
-            hp: { kind: 'value', value: player.hp },
+            hp: { kind: 'value', value: hp },
             mp: { kind: 'full' },
           })),
         },
@@ -152,13 +121,74 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
         boss: false,
       },
     },
-    expected: {
-      start: initial,
-      commands,
-      actions,
-      terminal: { result: 'victory', settlementCount: 1, after: state },
-    },
+    expected: { start: initial },
   }
+}
+
+function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
+  const inventory = medicine ? [{ itemId: '99', count: 2 }] : []
+  const scenario = defineSetup({
+    id,
+    title,
+    inventory,
+    team: enemyCount === 1 ? 1 : 3,
+    enemyHP: 30,
+    enemies: Array.from({ length: enemyCount }, (_, slot) => ({
+      id: `lantern-${String.fromCharCode(97 + slot)}`,
+      slot,
+      templateId: 'enemy-399',
+    })),
+    members: actorIds.map((actorId, slot) => ({
+      id: actorId,
+      hp: medicine && slot === 0 ? 50 : 150,
+      maxHP: 150,
+      level: 1,
+      attack: 250,
+      defense: 100,
+      speed: [900, 500, 100][slot],
+    })),
+  })
+  const {
+    party,
+    enemies,
+    expected: { start },
+  } = scenario
+  const commands = medicine
+    ? [
+        { turn: 1, actorId: party[0].id, kind: 'item', itemId: '99', targetId: party[0].id },
+        { turn: 1, actorId: party[1].id, kind: 'attack', targetId: enemies[0].id },
+      ]
+    : party.map((player, slot) => ({
+        turn: 1,
+        actorId: player.id,
+        kind: 'attack',
+        targetId: enemies[slot].id,
+      }))
+  const state = copy(start)
+  const actions = commands.map((command) => {
+    const before = copy(state)
+    if (command.kind === 'item') {
+      state.players[0].hp = 100
+      state.inventory[0].count = 1
+    } else {
+      const target = state.enemies.find((enemy) => enemy?.id === command.targetId)
+      assert(target, `scenario ${id} references a missing enemy`)
+      target.hp = 0
+      target.alive = false
+    }
+    return { ...command, before, after: copy(state) }
+  })
+  state.money = enemyCount * 3
+  for (const player of state.players) {
+    player.exp = enemyCount
+    if (medicine && player.id === party[0].id) player.hp = 125
+  }
+  Object.assign(scenario.expected, {
+    commands,
+    actions,
+    terminal: { result: 'victory', settlementCount: 1, after: state },
+  })
+  return scenario
 }
 
 function defineTwoRoundScenario() {
@@ -238,11 +268,270 @@ function defineTwoRoundScenario() {
   return scenario
 }
 
+const mechanismEnemies = {
+  weasel: { id: 'sickle-weasel', team: 294, object: 414, raw: 17, hp: 710, exp: 110, cash: 220 },
+  tree: { id: 'half-tree-demon', team: 204, object: 507, raw: 108, hp: 800, exp: 135, cash: 60 },
+  worm: { id: 'bloodworm', team: 115, object: 406, raw: 9, hp: 310, exp: 14, cash: 9 },
+}
+const hero = 'li-xiaoyao'
+const anu = 'anu'
+const mechanismMember = (id, hp, attack, defense, speed, level = 5) => ({
+  id,
+  hp,
+  maxHP: hp,
+  level,
+  attack,
+  defense,
+  speed,
+})
+const queueDraw = (turn, side, slot, speed, extra = false) => ({
+  purpose: 'queue-dexterity',
+  queue: { turn, side, slot, speed, extra },
+})
+const draws = (...purposes) => purposes.map((purpose) => ({ purpose }))
+const finishEnemy = ({ enemies }) => Object.assign(enemies[0], { hp: 0, alive: false })
+const keepState = () => {}
+
+/** Build expected snapshots from authored test assertions only, without a runtime or recorder. */
+function mechanismScenario(id, title, enemy, seed, members, inventory) {
+  const scenario = defineSetup({
+    id,
+    title,
+    seed,
+    members,
+    inventory,
+    team: enemy.team,
+    enemyHP: enemy.hp,
+    enemies: [{ id: enemy.id, slot: 0, templateId: `enemy-${enemy.object}` }],
+  })
+  const state = copy(scenario.expected.start)
+  const actions = []
+  const rounds = []
+  const step = (command, apply = keepState, facts = {}) => {
+    const before = copy(state)
+    apply(state)
+    actions.push({ ...command, ...facts, before, after: copy(state) })
+  }
+  const round = (turn, apply = keepState) => {
+    const before = copy(state)
+    apply(state)
+    rounds.push({ turn, before, after: copy(state) })
+  }
+  const complete = (commands, ruleDraws, recoveredHP) => {
+    state.money = enemy.cash
+    for (const [slot, player] of state.players.entries()) {
+      player.exp = enemy.exp
+      player.hp = recoveredHP[slot]
+      player.statuses = {}
+    }
+    Object.assign(scenario.expected, {
+      commands,
+      actions,
+      rounds,
+      ruleDraws,
+      terminal: { result: 'victory', settlementCount: 1, after: copy(state) },
+    })
+    return scenario
+  }
+  return { step, round, complete }
+}
+
+function defineDualSickleWeasel() {
+  const enemy = mechanismEnemies.weasel
+  const { step, round, complete } = mechanismScenario(
+    'dual-sickle-weasel',
+    '镰刀鼬双动，先弦月斩再普攻',
+    enemy,
+    64,
+    [mechanismMember(hero, 400, 900, 100, 150)],
+  )
+  const defend = { turn: 1, actorId: hero, kind: 'defend', targetId: null }
+  const attack = { turn: 2, actorId: hero, kind: 'attack', targetId: enemy.id }
+  step(defend, keepState, { guard: { before: false, after: true } })
+  const enemyAction = { turn: 1, actorId: enemy.id, actorSide: 'enemy', targetId: hero }
+  // CLASSIC selects a singleton without a draw. Seed64 then yields magic 94 and physical 44.
+  step({ ...enemyAction, kind: 'cast', skillId: '339' }, ({ players }) => {
+    players[0].hp = 306
+  })
+  step(
+    { ...enemyAction, kind: 'attack' },
+    ({ players }) => {
+      players[0].hp = 262
+    },
+    { rawDamage: 44, guard: { before: true, after: true } },
+  )
+  round(1)
+  step(attack, finishEnemy, { rawDamage: 865 })
+  return complete(
+    [defend, attack],
+    [
+      queueDraw(1, 'enemy', 0, 122),
+      queueDraw(1, 'enemy', 0, 122, true),
+      queueDraw(1, 'player', 0, 765),
+      ...draws('enemy-magic-choice', 'enemy-magic-block', 'enemy-magic-damage-float'),
+      ...draws(
+        'enemy-magic-choice',
+        'enemy-block',
+        'enemy-attack-bonus',
+        'enemy-damage-bonus',
+        'enemy-equivalent-item',
+      ),
+      queueDraw(2, 'enemy', 0, 122),
+      queueDraw(2, 'enemy', 0, 122, true),
+      queueDraw(2, 'player', 0, 153),
+      ...draws(
+        'strike-bonus',
+        'strike-critical',
+        'strike-hero-critical',
+        'strike-variance',
+        'attack-growth',
+      ),
+    ],
+    [331],
+  )
+}
+
+function defineEnemySleep() {
+  const enemy = mechanismEnemies.tree
+  const { step, round, complete } = mechanismScenario(
+    'enemy-sleep',
+    '半人树妖回梦，睡眠衰减与跳过行动',
+    enemy,
+    4,
+    [mechanismMember(hero, 150, 250, 400, 900, 6), mechanismMember(anu, 150, 900, 400, 500, 6)],
+  )
+  const defendHero = { turn: 1, actorId: hero, kind: 'defend', targetId: null }
+  const defendAnu = { ...defendHero, actorId: anu }
+  const nextDefend = { ...defendAnu, turn: 2 }
+  const attack = { turn: 3, actorId: anu, kind: 'attack', targetId: enemy.id }
+  const guard = { before: false, after: true }
+  step(defendHero, keepState, { guard })
+  step(defendAnu, keepState, { guard })
+  const enemyAction = { actorId: enemy.id, actorSide: 'enemy' }
+  // Seed4 rolls 8 against the enemy script's strict <70. Its real effect is sleep3 plus HP−1.
+  step({ ...enemyAction, turn: 1, kind: 'cast', skillId: '303', targetId: hero }, ({ players }) => {
+    players[0].hp = 149
+    players[0].statuses.sleep = 3
+  })
+  round(1, ({ players }) => {
+    players[0].statuses.sleep = 2
+  })
+  step(nextDefend, keepState, { guard })
+  step(
+    { ...enemyAction, turn: 2, kind: 'attack', targetId: anu },
+    ({ players }) => {
+      players[1].hp = 149
+    },
+    { rawDamage: 1, guard: { before: true, after: true } },
+  )
+  step({ turn: 2, actorId: hero, kind: 'pass', targetId: null })
+  round(2, ({ players }) => {
+    players[0].statuses.sleep = 1
+  })
+  step(attack, finishEnemy, { rawDamage: 925 })
+  return complete(
+    [defendHero, defendAnu, nextDefend, attack],
+    [
+      queueDraw(1, 'enemy', 0, 114),
+      queueDraw(1, 'player', 0, 4515),
+      queueDraw(1, 'player', 1, 2500),
+      ...draws('enemy-target', 'enemy-magic-choice', 'enemy-magic-block', 'battle-script-chance'),
+      queueDraw(2, 'enemy', 0, 114),
+      queueDraw(2, 'player', 1, 2500),
+      ...draws(
+        'enemy-target',
+        'enemy-magic-choice',
+        'enemy-block',
+        'enemy-attack-bonus',
+        'enemy-damage-bonus',
+        'enemy-equivalent-item',
+      ),
+      queueDraw(3, 'enemy', 0, 114),
+      queueDraw(3, 'player', 1, 500),
+      ...draws('strike-bonus', 'strike-critical', 'strike-variance', 'attack-growth'),
+    ],
+    [149, 149],
+  )
+}
+
+function defineEquivalentPoison() {
+  const enemy = mechanismEnemies.worm
+  const { step, round, complete } = mechanismScenario(
+    'equivalent-poison',
+    '血口虫附带赤毒，回合扣血与雄黄解毒',
+    enemy,
+    72,
+    [mechanismMember(hero, 150, 450, 250, 900)],
+    [{ itemId: '87', count: 2 }],
+  )
+  const defend = { turn: 1, actorId: hero, kind: 'defend', targetId: null }
+  const antidote = { turn: 2, actorId: hero, kind: 'item', itemId: '87', targetId: hero }
+  const attack = { turn: 3, actorId: hero, kind: 'attack', targetId: enemy.id }
+  const enemyAttack = { actorId: enemy.id, actorSide: 'enemy', kind: 'attack', targetId: hero }
+  const physicalDraws = draws(
+    'enemy-block',
+    'enemy-attack-bonus',
+    'enemy-damage-bonus',
+    'enemy-equivalent-item',
+  )
+  step(defend, keepState, { guard: { before: false, after: true } })
+  step(
+    { ...enemyAttack, turn: 1 },
+    ({ players }) => {
+      players[0].hp = 142
+      players[0].poisons = [551]
+    },
+    { rawDamage: 1, effectiveHpLoss: 8, guard: { before: true, after: true } },
+  )
+  round(1, ({ players }) => {
+    players[0].hp = 135
+  })
+  step(antidote, ({ players, inventory }) => {
+    delete players[0].poisons
+    inventory[0].count = 1
+  })
+  step(
+    { ...enemyAttack, turn: 2 },
+    ({ players }) => {
+      players[0].hp = 134
+    },
+    { rawDamage: 1 },
+  )
+  round(2)
+  step(attack, finishEnemy, { rawDamage: 407 })
+  // The first hit rolls equivalent rate 4, then resistance 83 and 92. The second rolls rate 7.
+  return complete(
+    [defend, antidote, attack],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 4515),
+      ...physicalDraws,
+      ...draws('enemy-equivalent-poison-resist', 'enemy-equivalent-poison-script'),
+      queueDraw(2, 'enemy', 0, 54),
+      queueDraw(2, 'player', 0, 2709),
+      ...physicalDraws,
+      queueDraw(3, 'enemy', 0, 54),
+      queueDraw(3, 'player', 0, 903),
+      ...draws(
+        'strike-bonus',
+        'strike-critical',
+        'strike-hero-critical',
+        'strike-variance',
+        'attack-growth',
+      ),
+    ],
+    [142],
+  )
+}
+
 export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze([
   defineScenario('solo-lantern', '单人单灯笼', ['li-xiaoyao'], 1),
   defineScenario('party-lanterns', '三名队员分别选择三个灯笼', ['li-xiaoyao', 'wu-hou', 'anu'], 3),
   defineScenario('herb-settlement', '止血草治疗、消耗与正式结算', ['li-xiaoyao', 'anu'], 1, true),
   defineTwoRoundScenario(),
+  defineDualSickleWeasel(),
+  defineEnemySleep(),
+  defineEquivalentPoison(),
 ])
 
 export function battleFoundationScenario(id) {
@@ -276,18 +565,33 @@ export async function battleFoundationInputSources(root) {
 /** Verify the few independent data premises before either engine is launched. */
 export async function verifyBattleFoundationSources(root) {
   const json = async (path) => JSON.parse(await readFile(resolve(root, path), 'utf8'))
-  const [rawTeams, rawEnemies, enemies, teams, items, rawSpells, rawMagic, events, skills] =
-    await Promise.all([
-      json('data/extracted/data/enemy-teams.json'),
-      json('data/extracted/data/enemies.json'),
-      json('projects/pal/content/enemies.json'),
-      json('projects/pal/content/enemy-teams.json'),
-      json('projects/pal/content/items.json'),
-      json('data/extracted/data/spells.json'),
-      json('data/extracted/data/magic.json'),
-      json('data/extracted/events/all.json'),
-      json('projects/pal/content/skills.json'),
-    ])
+  const [
+    rawTeams,
+    rawEnemies,
+    enemies,
+    teams,
+    items,
+    rawSpells,
+    rawMagic,
+    events,
+    skills,
+    rawItems,
+    rawPoisons,
+    poisons,
+  ] = await Promise.all([
+    json('data/extracted/data/enemy-teams.json'),
+    json('data/extracted/data/enemies.json'),
+    json('projects/pal/content/enemies.json'),
+    json('projects/pal/content/enemy-teams.json'),
+    json('projects/pal/content/items.json'),
+    json('data/extracted/data/spells.json'),
+    json('data/extracted/data/magic.json'),
+    json('data/extracted/events/all.json'),
+    json('projects/pal/content/skills.json'),
+    json('data/extracted/data/items.json'),
+    json('data/extracted/data/object-poisons.json'),
+    json('projects/pal/content/poisons.json'),
+  ])
   const rawEnemy = rawEnemies.find((enemy) => enemy.id === 2)
   const enemy = enemies.find((entry) => entry.id === 'enemy-399')
   assert.equal(rawEnemy.health, 30)
@@ -312,9 +616,8 @@ export async function verifyBattleFoundationSources(root) {
   assert.equal(herb.use.target, 'oneAlly')
   assert.deepEqual(herb.use.effects, [{ kind: 'healHp', amount: 50 }])
   const cure = rawSpells.find((spell) => spell.id === 296)
-  const cureCode = events.segments
-    .find(({ name }) => name === 'all')
-    .commands.find(({ label }) => label === `L_${cure.scriptOnSuccess}`)
+  const commands = events.segments.find(({ name }) => name === 'all').commands
+  const cureCode = commands[cure.scriptOnSuccess]
   assert.equal(cure.flags.usableInBattle, true)
   assert.equal(cure.flags.usableToEnemy, false)
   assert.equal(cure.flags.applyToAll, false)
@@ -325,6 +628,88 @@ export async function verifyBattleFoundationSources(root) {
     [currentCure.target, currentCure.cost.mp, currentCure.effects],
     ['oneAlly', 6, [{ kind: 'healHp', amount: 75 }]],
   )
+  for (const { team, object, raw, hp, exp, cash } of Object.values(mechanismEnemies)) {
+    const rawTeam = rawTeams.find(({ id }) => id === team)
+    assert.deepEqual(rawTeam.enemies, [raw, 65535, 65535, 65535, 65535])
+    assert.deepEqual(rawTeam.enemyObjectIndexes, [object, 65535, 65535, 65535, 65535])
+    const templateId = `enemy-${object}`
+    assert.deepEqual(teams.find(({ id }) => id === `team-${team}`).slots, [templateId])
+    const rawStats = rawEnemies.find(({ id }) => id === raw)
+    const current = enemies.find(({ id }) => id === templateId)
+    const { stats, ai } = current
+    assert.deepEqual([rawStats.health, rawStats.exp, rawStats.cash], [hp, exp, cash])
+    assert.deepEqual([stats.health, stats.exp, stats.cash], [hp, exp, cash])
+    for (const key of [
+      'level',
+      'attackStrength',
+      'magicStrength',
+      'defense',
+      'dexterity',
+      'physicalResistance',
+    ])
+      assert.equal(stats[key], rawStats[key], `${templateId}: ${key}`)
+    assert.equal(stats.dualMove, Boolean(rawStats.dualMove))
+    assert.equal(ai.hooks, undefined)
+    assert.equal(ai.rules, undefined)
+    assert.deepEqual(
+      ai.fallback,
+      rawStats.magic
+        ? {
+            action: { kind: 'cast', skillId: String(rawStats.magic) },
+            chancePercent: rawStats.magicRate * 10,
+          }
+        : undefined,
+    )
+    assert.deepEqual(
+      current.attackEquivItem,
+      rawStats.attackEquivItem
+        ? {
+            itemId: String(rawStats.attackEquivItem),
+            rate: rawStats.attackEquivItemRate,
+          }
+        : undefined,
+    )
+  }
+  const weaselSpell = rawSpells.find(({ id }) => id === 339)
+  assert.equal(weaselSpell.flags.applyToAll, false)
+  assert.deepEqual([weaselSpell.scriptOnUse, weaselSpell.scriptOnSuccess], [0, 0])
+  const weaselMagic = rawMagic.find(({ id }) => id === weaselSpell.magicNumber)
+  assert.deepEqual([weaselMagic.baseDamage, weaselMagic.elemental], [150, 0])
+  assert.deepEqual(skills.skills.find(({ id }) => id === '339').effects, [
+    { kind: 'damage', power: 150, elemental: 0 },
+  ])
+  const sleepSpell = rawSpells.find(({ id }) => id === 303)
+  assert.equal(sleepSpell.scriptOnSuccess, 43085)
+  assert.equal(rawMagic.find(({ id }) => id === sleepSpell.magicNumber).baseDamage, 64537)
+  const opcode = (ip) => [commands[ip].opcode, commands[ip].operands]
+  assert.deepEqual(opcode(43085), [0x68, [43089, 0, 0]])
+  assert.deepEqual(opcode(43089), [0x06, [70, 43072, 0]])
+  assert.equal(commands[43090].to, 'L_39391')
+  assert.deepEqual(opcode(39391), [0x2d, [2, 3, 0]])
+  assert.deepEqual(opcode(39392), [0x1b, [0, 65535, 0]])
+  assert.deepEqual(skills.skills.find(({ id }) => id === '303').execution.enemy.effects, [
+    { kind: 'gate', chance: 70 },
+    { kind: 'applyStatus', status: 'sleep', turns: 3 },
+    { kind: 'resourceDelta', resource: 'hp', delta: -1 },
+  ])
+  const poison = rawPoisons.find(({ id }) => id === 551)
+  assert.deepEqual(opcode(poison.playerScript), [0x1b, [0, 65529, 0]])
+  assert.equal(commands[poison.playerScript + 1].op, 'end')
+  assert.deepEqual(poisons.find(({ id }) => id === 551).playerTicks, [{ hpDelta: -7 }])
+  for (const [id, operation, effect] of [
+    [117, 0x29, 'applyPoison'],
+    [87, 0x2b, 'curePoison'],
+  ]) {
+    const rawItem = rawItems.find((entry) => entry.id === id)
+    assert.deepEqual(opcode(rawItem.scriptOnUse), [operation, [0, 551, 0]])
+    assert.equal(rawItem.flags.consuming, true)
+    assert.equal(rawItem.flags.applyToAll, false)
+    assert.deepEqual(items.find((entry) => entry.id === String(id)).use, {
+      target: 'oneAlly',
+      consuming: true,
+      effects: [{ kind: effect, poisonId: '551' }],
+    })
+  }
   return {
     enemy: 'enemy-399',
     hp: 30,
@@ -334,5 +719,9 @@ export async function verifyBattleFoundationSources(root) {
     healing: 50,
     cure: '296',
     cureMP: 6,
+    mechanismTeams: Object.values(mechanismEnemies).map(({ team }) => team),
+    sleep: '303',
+    poison: 551,
+    antidote: '87',
   }
 }
