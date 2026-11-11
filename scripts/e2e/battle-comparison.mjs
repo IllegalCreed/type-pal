@@ -63,9 +63,12 @@ export function compareBattleTraces(game, reforge, scenario) {
   const semanticKeys = new Set([
     'turn',
     'actorId',
+    'actorSide',
     'kind',
     'targetId',
     'itemId',
+    'skillId',
+    'guard',
     'before',
     'after',
     ...omitted,

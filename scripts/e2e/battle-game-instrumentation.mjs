@@ -179,6 +179,13 @@ export function instrumentGameBattle(source, file) {
     if (
       file.endsWith('/battle/battle-system.ts') &&
       ts.isExpressionStatement(node) &&
+      owner(node) === 'handlePlayerTargetSelect' &&
+      node.expression.getText(ast) === 'state.pendingActionDraft = undefined'
+    )
+      add('target-cancel', node.end, '\nglobalThis.__battleGameTargetCancel?.(state, draft);\n')
+    if (
+      file.endsWith('/battle/battle-system.ts') &&
+      ts.isExpressionStatement(node) &&
       ts.isPostfixUnaryExpression(node.expression) &&
       node.expression.operand.getText(ast) === 'state.currentActionIndex' &&
       owner(node) === 'tickPerformAction'
@@ -221,6 +228,7 @@ export function instrumentGameBattle(source, file) {
                 start: 1,
                 tick: 1,
                 command: 10,
+                'target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
                 actionComplete: 4,

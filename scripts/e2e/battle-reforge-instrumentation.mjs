@@ -85,6 +85,18 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       }
       if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
         const name = node.expression.expression.getText(ast)
+        if (name === 'this.selection.advance') {
+          add(
+            'target-cancel-before',
+            node.getStart(ast),
+            'const __battleSelection = this.selection.view;\n',
+          )
+          add(
+            'target-cancel-after',
+            node.end,
+            `\nif (pressed.has('Escape') && __battleSelection.phase === 'target' && __battleSelection.targetSide === 'ally' && this.selection.phase === 'skill') {\n${call('targetCancel', 'sel, __battleSelection.targetIndex, context.player.skills[__battleSelection.skillIndex]')} }\n`,
+          )
+        }
         if (name === 'this.floats.push' && source.includes('num: value'))
           add(
             'number-identity',
@@ -177,6 +189,8 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
               'settlement-draw-end',
               'command-begin',
               'command-end',
+              'target-cancel-before',
+              'target-cancel-after',
               'action-before',
               'action-after',
             ]

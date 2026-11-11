@@ -92,6 +92,20 @@ export async function compareBattleReports(gamePath, reforgePath) {
       assert.equal(value.engine, engine)
       assert.equal(value.runId, entry.runId)
       assert.equal(value.scenarioId, entry.scenarioId)
+      for (const [commandIndex, command] of battleFoundationScenario(
+        entry.scenarioId,
+      ).expected.commands.entries())
+        if (command.cancelTargetId)
+          assert(
+            report.actions.some(
+              (input) =>
+                input.context === entry.runId &&
+                input.commandIndex === commandIndex &&
+                input.key === 'Escape' &&
+                input.execution.status === 'completed',
+            ),
+            `no completed physical target cancellation: ${entry.runId}/${commandIndex}`,
+          )
       assert(!traces.has(value.runId), 'duplicate execution identity')
       traces.set(value.runId, value)
       traceBindings.push({
@@ -168,8 +182,16 @@ export async function compareBattleReports(gamePath, reforgePath) {
     )
     results.push({ scenarioId: id, paired, repeats })
   }
-  assert.equal(game.traces.size, 6, 'unexpected Game execution outside the first batch')
-  assert.equal(reforge.traces.size, 6, 'unexpected Reforge execution outside the first batch')
+  assert.equal(
+    game.traces.size,
+    expectedRunIds.length,
+    'unexpected Game execution outside the matrix',
+  )
+  assert.equal(
+    reforge.traces.size,
+    expectedRunIds.length,
+    'unexpected Reforge execution outside the matrix',
+  )
   return {
     kind: 'battle-foundation-comparison',
     schemaVersion: 1,

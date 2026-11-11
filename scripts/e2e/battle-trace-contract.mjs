@@ -183,9 +183,11 @@ function semantic(event) {
   return {
     turn: event.turn,
     actorId: event.actorId,
+    ...(own(event, 'actorSide') ? { actorSide: event.actorSide } : {}),
     kind: event.kind,
     targetId: event.targetId,
     ...(own(event, 'itemId') ? { itemId: event.itemId } : {}),
+    ...(own(event, 'skillId') ? { skillId: event.skillId } : {}),
   }
 }
 
@@ -194,13 +196,15 @@ function action(value, path, domain) {
     record(value) &&
       integer(value.turn) &&
       text(value.actorId) &&
-      text(value.kind) &&
-      text(value.targetId) &&
-      (value.kind !== 'item' || text(value.itemId)),
+      ['attack', 'item', 'defend', 'cast'].includes(value.kind) &&
+      (value.kind === 'defend' ? value.targetId === null : text(value.targetId)) &&
+      (!own(value, 'actorSide') || value.actorSide === 'enemy') &&
+      (value.kind !== 'item' || text(value.itemId)) &&
+      (value.kind !== 'cast' || text(value.skillId)),
     domain,
     'action-shape',
     path,
-    'turn, actor, kind, target and itemId for item use',
+    'turn, actor, legal action and target, with itemId or skillId where required',
     value,
   )
 }
@@ -523,6 +527,13 @@ function assertBusinessConformance(trace, expected) {
       'action-after',
       `actions[${i}].after`,
     )
+    if (expected.actions[i].guard)
+      equalBusiness(
+        trace.actions[i].guard,
+        expected.actions[i].guard,
+        'guard-state',
+        `actions[${i}]`,
+      )
   }
   equalBusiness(
     actual.terminal,
@@ -536,6 +547,17 @@ function assertBusinessConformance(trace, expected) {
   )
   const submitted = new Set()
   for (const [i, entry] of trace.actions.entries()) {
+    if (entry.actorSide === 'enemy') {
+      requireValue(
+        entry.before.enemies.some((enemy) => enemy?.id === entry.actorId && enemy.alive),
+        'integrity',
+        'enemy-action-producer',
+        `actions[${i}]`,
+        'one living enemy acting autonomously',
+        entry,
+      )
+      continue
+    }
     const index = trace.commands.findIndex(
       (command, commandIndex) =>
         !submitted.has(commandIndex) &&
@@ -551,6 +573,47 @@ function assertBusinessConformance(trace, expected) {
       entry,
     )
     submitted.add(index)
+  }
+
+  const planned = expected.commands
+    .map((command, index) => ({ command, index }))
+    .filter(({ command }) => command.cancelTargetId)
+  const cancelled = trace.presentations.filter(({ kind }) => kind === 'target-cancel')
+  equalBusiness(cancelled.length, planned.length, 'target-cancel-count', 'presentations')
+  for (const [i, { command, index }] of planned.entries()) {
+    const event = cancelled[i]
+    const path = `target-cancel[${i}]`
+    const { state, ...facts } = event.payload ?? {}
+    equalBusiness(
+      facts,
+      {
+        turn: command.turn,
+        actorId: command.actorId,
+        targetId: command.cancelTargetId,
+        skillId: command.skillId,
+        commandCount: index,
+        pending: false,
+      },
+      'target-cancel',
+      path,
+    )
+    const execution = expected.actions.find((entry) => same(semantic(entry), semantic(command)))
+    snapshot(state, path)
+    equalBusiness(
+      canonicalSnapshot(state),
+      canonicalSnapshot(execution.before),
+      'target-cancel-state',
+      path,
+    )
+    requireValue(
+      event.order < trace.commands[index].order &&
+        (index === 0 || event.order > trace.commands[index - 1].order),
+      'integrity',
+      'target-cancel-order',
+      path,
+      'native target cancellation between the previous and replacement commits',
+      event.order,
+    )
   }
 }
 

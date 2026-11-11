@@ -18,12 +18,14 @@ let nativeState
 let world
 let selection
 let beforeAction
+let beforeGuards
 let visualAction
 let beforeLog = 0
 let terminal
 let sessionReady = false
 let settlementCount = 0
 let commandCount = 0
+let targetCancels = 0
 let seeded
 let failure
 let running
@@ -84,23 +86,28 @@ function snapshot(persistent = false) {
   }
 }
 
-function semanticAction(playerIndex, action) {
-  const player = nativeState.players[playerIndex]
-  invariant(player, `action player ${playerIndex} is absent`)
+function semanticAction(index, action) {
+  const isEnemy = action.side === 'enemy'
   invariant(
-    ['attack', 'item'].includes(action.kind),
-    `unsupported foundation action ${action.kind}`,
+    ['attack', 'item', 'defend', 'cast'].includes(action.kind),
+    `unsupported Reforge action ${action.kind}`,
   )
-  const targetId =
-    action.kind === 'item'
-      ? partyLabel(nativeState.players[action.targetAllyIdx])
-      : enemyLabel(action.targetEnemyIdx)
+  let targetId = null
+  if (action.kind !== 'defend') {
+    const allySlot = isEnemy ? action.targetPlayerIdx : action.targetAllyIdx
+    targetId =
+      allySlot === undefined
+        ? enemyLabel(action.targetEnemyIdx)
+        : partyLabel(nativeState.players[allySlot])
+  }
   return {
     turn: nativeState.turn,
-    actorId: partyLabel(player),
+    actorId: isEnemy ? enemyLabel(index) : partyLabel(nativeState.players[index]),
+    ...(isEnemy ? { actorSide: 'enemy' } : {}),
     kind: action.kind,
     targetId,
     ...(action.kind === 'item' ? { itemId: action.itemId } : {}),
+    ...(action.kind === 'cast' ? { skillId: action.skillId } : {}),
   }
 }
 
@@ -184,21 +191,42 @@ const harness = {
       source: 'BattleCommandSelection:submit:pendingActions.set',
     })
   },
+  targetCancel(playerIndex, targetIndex, skillId) {
+    targetCancels++
+    evidence().presentation({
+      kind: 'target-cancel',
+      source: 'reforge:BattleCommandSelection.advance:target-to-skill',
+      payload: {
+        turn: nativeState.turn,
+        actorId: partyLabel(nativeState.players[playerIndex]),
+        targetId: partyLabel(nativeState.players[targetIndex]),
+        skillId,
+        commandCount,
+        pending: nativeState.pendingActions.has(playerIndex),
+        state: snapshot(),
+      },
+    })
+  },
   beforeStep(state) {
     nativeState = state
     beforeAction = snapshot()
+    beforeGuards = state.players.map(({ defending }) => defending)
     beforeLog = state.log.length
   },
   afterStep(state) {
     nativeState = state
     const action = state.lastAction
     if (!action) return
-    invariant(action.side === 'player', `unexpected foundation enemy action ${action.kind}`)
     visualAction = semanticAction(action.idx, action)
+    const guardSlot = action.side === 'enemy' ? action.targetPlayerIdx : action.idx
     evidence().action({
       ...visualAction,
       before: beforeAction,
       after: snapshot(),
+      guard: {
+        before: beforeGuards[guardSlot] ?? false,
+        after: state.players[guardSlot]?.defending ?? false,
+      },
       native: {
         lastAction: JSON.parse(JSON.stringify(action)),
         actionLog: state.log.slice(beforeLog),
@@ -219,6 +247,9 @@ const harness = {
       evidence().presentation({ kind, source, payload: clone(payload) })
   },
   read() {
+    const selecting = nativeState?.players.find(
+      (player, index) => player.hp > 0 && !nativeState.pendingActions.has(index),
+    )
     return {
       engine: 'reforge',
       ready: harness.ready,
@@ -226,13 +257,24 @@ const harness = {
       phase: nativeState?.phase,
       turn: nativeState?.turn,
       selection: clone(selection),
-      selectingPlayerId: nativeState
-        ? nativeState.players
-            .filter((player) => player.hp > 0)
-            .map((player) => ({ player, index: nativeState.players.indexOf(player) }))
-            .filter(({ index }) => !nativeState.pendingActions.has(index))
-            .map(({ player }) => partyLabel(player))[0]
-        : undefined,
+      selectingPlayerId: selecting ? partyLabel(selecting) : undefined,
+      skillMenu:
+        selection?.phase === 'skill' && selecting
+          ? {
+              cursor: selection.skillIndex,
+              items: selecting.skills.map((skillId) => {
+                const skill = nativeState.skills[skillId]
+                return {
+                  skillId,
+                  disabled:
+                    !skill ||
+                    selecting.mp < (skill.cost.mp ?? 0) ||
+                    world.money < (skill.cost.money ?? 0),
+                }
+              }),
+            }
+          : null,
+      targetCancels,
       commands: commandCount,
       nativePlayers: nativeState
         ? nativeState.players.map((player, slot) => {

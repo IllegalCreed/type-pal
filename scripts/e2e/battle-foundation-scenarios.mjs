@@ -161,10 +161,88 @@ function defineScenario(id, title, actorIds, enemyCount, medicine = false) {
   }
 }
 
+function defineTwoRoundScenario() {
+  const scenario = defineScenario(
+    'two-round-commands',
+    '防御、替队友用药、取消后施法与普攻',
+    ['li-xiaoyao', 'wu-hou'],
+    1,
+    true,
+  )
+  scenario.random.seed = 4
+  const {
+    party,
+    game: { fixture },
+    reforge: { config },
+    expected: { start },
+  } = scenario
+  party[1].hp = 50
+  start.players[1].hp = 50
+  Object.assign(fixture.playerOverrides[0], { defense: 31, magic: [296] })
+  Object.assign(fixture.playerOverrides[3], { hp: 50, magic: [] })
+  config.party.members[0].stats.defense = 31
+  config.party.members[0].skills.ids = ['296']
+  config.party.members[1].hp.value = 50
+
+  const [hero, ally] = party.map(({ id }) => id)
+  const lantern = scenario.enemies[0].id
+  const commands = [
+    { turn: 1, actorId: hero, kind: 'defend', targetId: null },
+    { turn: 1, actorId: ally, kind: 'item', itemId: '99', targetId: hero },
+    { turn: 2, actorId: hero, kind: 'cast', skillId: '296', targetId: ally, cancelTargetId: hero },
+    { turn: 2, actorId: ally, kind: 'attack', targetId: lantern },
+  ]
+  const state = copy(start)
+  const step = (command, apply) => {
+    const before = copy(state)
+    apply(state)
+    return { ...command, before, after: copy(state) }
+  }
+  const actions = [
+    step(commands[0], () => {}),
+    step(commands[1], ({ players, inventory }) => {
+      players[0].hp = 100
+      inventory[0].count = 1
+    }),
+    step(
+      { turn: 1, actorId: lantern, actorSide: 'enemy', kind: 'attack', targetId: hero },
+      ({ players }) => {
+        // Seed 4 targets slot 0 without a block. Attack 43 meets doubled defense 80,
+        // which is below the physical threshold and therefore deals the minimum 1.
+        players[0].hp = 99
+      },
+    ),
+    step(commands[2], ({ players }) => {
+      players[0].mp = 94
+      players[1].hp = 125
+    }),
+    step(commands[3], ({ enemies }) => {
+      enemies[0].hp = 0
+      enemies[0].alive = false
+    }),
+  ]
+  actions[0].guard = { before: false, after: true }
+  actions[2].guard = { before: true, after: true }
+  actions[3].guard = { before: false, after: false }
+  state.players[0].hp = 124
+  state.players[0].mp = 97
+  state.players[1].hp = 137
+  state.money = 3
+  for (const player of state.players) player.exp = 1
+  scenario.expected = {
+    start,
+    commands,
+    actions,
+    terminal: { result: 'victory', settlementCount: 1, after: state },
+  }
+  return scenario
+}
+
 export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze([
   defineScenario('solo-lantern', '单人单灯笼', ['li-xiaoyao'], 1),
   defineScenario('party-lanterns', '三名队员分别选择三个灯笼', ['li-xiaoyao', 'wu-hou', 'anu'], 3),
   defineScenario('herb-settlement', '止血草治疗、消耗与正式结算', ['li-xiaoyao', 'anu'], 1, true),
+  defineTwoRoundScenario(),
 ])
 
 export function battleFoundationScenario(id) {
@@ -198,13 +276,18 @@ export async function battleFoundationInputSources(root) {
 /** Verify the few independent data premises before either engine is launched. */
 export async function verifyBattleFoundationSources(root) {
   const json = async (path) => JSON.parse(await readFile(resolve(root, path), 'utf8'))
-  const [rawTeams, rawEnemies, enemies, teams, items] = await Promise.all([
-    json('data/extracted/data/enemy-teams.json'),
-    json('data/extracted/data/enemies.json'),
-    json('projects/pal/content/enemies.json'),
-    json('projects/pal/content/enemy-teams.json'),
-    json('projects/pal/content/items.json'),
-  ])
+  const [rawTeams, rawEnemies, enemies, teams, items, rawSpells, rawMagic, events, skills] =
+    await Promise.all([
+      json('data/extracted/data/enemy-teams.json'),
+      json('data/extracted/data/enemies.json'),
+      json('projects/pal/content/enemies.json'),
+      json('projects/pal/content/enemy-teams.json'),
+      json('projects/pal/content/items.json'),
+      json('data/extracted/data/spells.json'),
+      json('data/extracted/data/magic.json'),
+      json('data/extracted/events/all.json'),
+      json('projects/pal/content/skills.json'),
+    ])
   const rawEnemy = rawEnemies.find((enemy) => enemy.id === 2)
   const enemy = enemies.find((entry) => entry.id === 'enemy-399')
   assert.equal(rawEnemy.health, 30)
@@ -228,5 +311,28 @@ export async function verifyBattleFoundationSources(root) {
   assert.equal(herb.use.consuming, true)
   assert.equal(herb.use.target, 'oneAlly')
   assert.deepEqual(herb.use.effects, [{ kind: 'healHp', amount: 50 }])
-  return { enemy: 'enemy-399', hp: 30, exp: 1, cash: 3, herb: '99', healing: 50 }
+  const cure = rawSpells.find((spell) => spell.id === 296)
+  const cureCode = events.segments
+    .find(({ name }) => name === 'all')
+    .commands.find(({ label }) => label === `L_${cure.scriptOnSuccess}`)
+  assert.equal(cure.flags.usableInBattle, true)
+  assert.equal(cure.flags.usableToEnemy, false)
+  assert.equal(cure.flags.applyToAll, false)
+  assert.equal(rawMagic.find(({ id }) => id === cure.magicNumber).costMP, 6)
+  assert.deepEqual([cureCode.opcode, cureCode.operands], [0x1b, [0, 75, 0]])
+  const currentCure = skills.skills.find(({ id }) => id === '296')
+  assert.deepEqual(
+    [currentCure.target, currentCure.cost.mp, currentCure.effects],
+    ['oneAlly', 6, [{ kind: 'healHp', amount: 75 }]],
+  )
+  return {
+    enemy: 'enemy-399',
+    hp: 30,
+    exp: 1,
+    cash: 3,
+    herb: '99',
+    healing: 50,
+    cure: '296',
+    cureMP: 6,
+  }
 }

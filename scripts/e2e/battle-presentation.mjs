@@ -119,10 +119,11 @@ export function validateBattlePresentation(trace, scenario) {
   const settlement = frames.find(({ payload }) => payload.settlement !== null)
   if (!settlement) fail('integrity', 'settlement-draw-missing')
   const animations = scenario.expected.actions.map((action) =>
-    frames.find((frame) => animationMatches(frame, action)),
+    action.kind === 'defend' ? null : frames.find((frame) => animationMatches(frame, action)),
   )
 
   for (const [index, action] of scenario.expected.actions.entries()) {
+    if (action.kind === 'defend') continue
     const current = animations[index]
     if (!current) {
       fail('integrity', 'action-animation-draw-missing', {
@@ -131,7 +132,7 @@ export function validateBattlePresentation(trace, scenario) {
       })
       continue
     }
-    const next = animations[index + 1] ?? settlement
+    const next = animations.slice(index + 1).find(Boolean) ?? settlement
     for (const unit of action.before.enemies) {
       if (!unit?.alive || action.after.enemies[unit.slot]?.alive) continue
       const firstFade = frames.find(
