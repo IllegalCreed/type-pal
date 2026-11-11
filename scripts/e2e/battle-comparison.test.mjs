@@ -212,6 +212,89 @@ describe('battle business conformance and comparison', () => {
     ])
   })
 
+  test('portrait color, transparency and cure are judged from separate native selection draws', () => {
+    const fixture = scenario()
+    fixture.portraitProbe = {
+      slot: 0,
+      points: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+      ],
+    }
+    fixture.expected.actions = []
+    fixture.expected.portraitSize = [2, 1]
+    fixture.expected.portraitSamples = [
+      { turn: 1, hp: 150, rgbs: [[0, 0, 0], null] },
+      { turn: 2, hp: 135, rgbs: [[178, 56, 44], null] },
+      { turn: 3, hp: 134, rgbs: [[0, 0, 0], null] },
+    ]
+    installBattleTraceObserver(
+      {
+        engine: 'game',
+        scenarioId: fixture.id,
+        runId: `run-${++run}`,
+        random,
+        portraitProbe: fixture.portraitProbe,
+      },
+      createEvidenceRecorder,
+    )
+    const observer = globalThis.__battleEvidence
+    observer.start(fixture.expected.start, 'battle:start')
+    const begin = (turn, phase, selecting) =>
+      observer.beginFrame('game:BattlePresent.draw', {
+        clockMs: turn * 40,
+        turn,
+        phase,
+        selecting,
+        animation: null,
+      })
+    const colors = [
+      [0, 0, 0],
+      [10, 30, 50],
+      [178, 56, 44],
+    ]
+    const box = { width: 2, height: 1, indices: new Uint8Array([1, 1]) }
+    for (const [turn, hp, faceIndex] of [
+      [1, 150, 0],
+      [2, 135, 2],
+      [3, 134, 0],
+    ]) {
+      box.indices[0] = 1
+      begin(turn, 'selectAction', true)
+      const afterDraw = observer.captureIndexedPortrait(0, hp, box, box, 0, 0, colors)
+      box.indices[0] = faceIndex
+      afterDraw()
+      observer.panelDrawn(0)
+      observer.panelDrawn(1)
+      observer.endFrame()
+    }
+    begin(3, 'won', false)
+    observer.settlementDrawn('exp-cash')
+    observer.endFrame()
+    const actual = observer.read()
+    assert.equal(validateBattlePresentation(actual, fixture).status, 'passed')
+
+    const dark = structuredClone(actual)
+    dark.presentations[1].payload.portrait.samples[0].after.rgba = [33, 0, 0, 255]
+    assert.deepEqual(
+      validateBattlePresentation(dark, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+      [['portrait-palette', 2]],
+    )
+
+    const covered = structuredClone(actual)
+    covered.presentations[1].payload.portrait.samples[1].after.index = 0
+    assert.deepEqual(
+      validateBattlePresentation(covered, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+      [['portrait-transparent-pixel', 2]],
+    )
+
+    delete actual.presentations[2].payload.portrait
+    assert.deepEqual(
+      validateBattlePresentation(actual, fixture).findings.map(({ rule }) => rule),
+      ['portrait-sample-count'],
+    )
+  })
+
   test('independent runs prove effective action states while exposing unaccepted native damage', () => {
     const game = capture('game').trace
     const reforge = capture('reforge').trace
