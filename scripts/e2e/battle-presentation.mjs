@@ -55,7 +55,7 @@ function validFrame(entry, source, playerCount) {
     Array.isArray(p.numbers) &&
     p.numbers.every(
       (draw) =>
-        draw?.tone === 'yellow' &&
+        ['yellow', 'blue'].includes(draw?.tone) &&
         uniqueSlots([draw.slot], draw.side === 'player' ? playerCount : 5) &&
         ['player', 'enemy'].includes(draw.side) &&
         [draw.value, draw.right, draw.y, draw.age].every(Number.isFinite) &&
@@ -193,10 +193,9 @@ export function validateBattlePresentation(trace, scenario) {
       itemFrames.find(
         (frame) => frame.seq > departed.seq && samePose(pose(frame, actorSlot), casterBase),
       )
-    const visible = itemFrames.find(({ payload }) =>
-      payload.numbers.some(({ value }) => value === 50),
-    )
-    const number = visible?.payload.numbers.find(({ value }) => value === 50)
+    const herbNumber = ({ tone, value }) => tone === 'yellow' && value === 50
+    const visible = itemFrames.find(({ payload }) => payload.numbers.some(herbNumber))
+    const number = visible?.payload.numbers.find(herbNumber)
     if (!casterBase || !targetBase || !departed || !returned || !visible || !number) {
       fail('integrity', 'herb-render-edges-missing', {
         actorId: action.actorId,

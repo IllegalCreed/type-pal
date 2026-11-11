@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import ts from 'typescript'
+import { instrumentBattleRandomDraws } from './battle-random-instrumentation.mjs'
 
 export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/dev/dev-panel.ts',
@@ -11,12 +12,16 @@ export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/present/battle/draw-battle-sprites.ts',
   '/packages/game/src/present/battle/draw-battle-ui.ts',
   '/packages/game/src/present/battle/draw-battle-num.ts',
+  '/packages/game/src/core/battle/actions/attack.ts',
+  '/packages/game/src/core/battle/enemy-ai.ts',
 ]
 
 /** Guarded observation-only edits exist only in this test Vite server's module responses. */
 export function instrumentGameBattle(source, file) {
   assert(GAME_BATTLE_TARGETS.includes(file), `unexpected Q2 Game source ${file}`)
   assert(!/__battle(?:Game|Evidence)/.test(source), 'Game source was instrumented twice')
+  if (file.endsWith('/actions/attack.ts') || file.endsWith('/enemy-ai.ts'))
+    return instrumentBattleRandomDraws(source, file)
   const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true)
   const edits = [],
     anchors = {}
@@ -241,6 +246,10 @@ export function instrumentGameBattle(source, file) {
     ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true).parseDiagnostics.length,
     0,
   )
+  if (file.endsWith('/battle-system.ts')) {
+    const ruleDraws = instrumentBattleRandomDraws(code, file)
+    return { code: ruleDraws.code, anchors: { ...anchors, ...ruleDraws.anchors } }
+  }
   return { code, anchors }
 }
 

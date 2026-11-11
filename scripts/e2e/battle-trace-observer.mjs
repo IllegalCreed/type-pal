@@ -37,6 +37,7 @@ export function installBattleTraceObserver(context, createRecorder) {
   let closed = false,
     overflow = false
   let frame, previousFrame
+  let markedRandom
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
   const recorder = createRecorder({
@@ -81,7 +82,17 @@ export function installBattleTraceObserver(context, createRecorder) {
         recorder.fail('invalid random draw')
         return
       }
-      append(randomDraws, { kind: 'random-draw', index: randomDraws.length, value, source }, false)
+      append(
+        randomDraws,
+        { kind: 'random-draw', index: randomDraws.length, value, source, ...markedRandom },
+        false,
+      )
+      markedRandom = undefined
+    },
+    markRandom(purpose, queue) {
+      if (closed || starts.length !== 1) return
+      if (markedRandom) recorder.fail('a marked random draw was not consumed')
+      markedRandom = { purpose, ...(queue ? { queue } : {}) }
     },
     presentation(value) {
       append(presentations, value)
@@ -116,10 +127,10 @@ export function installBattleTraceObserver(context, createRecorder) {
       if (starts.length === 1 && !closed) floatTargets.set(number, { side, slot })
     },
     numberDrawn(number, value, tone, right, y, age) {
-      if (!frame || tone !== 'yellow') return
+      if (!frame || !['yellow', 'blue'].includes(tone)) return
       const target = floatTargets.get(number)
       if (!target) {
-        recorder.fail('a drawn HP gain has no native target')
+        recorder.fail('a drawn HP number has no native target')
         return
       }
       frame.numbers.push({ ...target, value, tone, right, y, age })
@@ -145,6 +156,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     },
     terminal(value) {
       if (frame) recorder.fail('battle ended before the current frame completed')
+      if (markedRandom) recorder.fail('battle ended with an unconsumed random draw marker')
       if (append(terminals, value)) closed = true
     },
     fail(error) {

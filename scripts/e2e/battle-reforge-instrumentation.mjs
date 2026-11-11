@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import ts from 'typescript'
+import { instrumentBattleRandomDraws } from './battle-random-instrumentation.mjs'
 
 export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle-trial-session.ts',
@@ -7,12 +8,14 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle/battle-session.ts',
   'packages/reforge/src/audio/sfx.ts',
   'packages/reforge/src/battle/present-battle.ts',
+  'packages/reforge/src/battle/battle-core.ts',
 ]
 
 /** Serve-only hooks at existing producers. Normal mode never replaces a native expression. */
 export function instrumentReforgeBattle(code, file, counter = 'none') {
   assert(['none', 'double-herb'].includes(counter), `unknown battle counter: ${counter}`)
   if (!REFORGE_BATTLE_TARGETS.includes(file)) return { code, anchors: {} }
+  if (file.endsWith('/battle/battle-core.ts')) return instrumentBattleRandomDraws(code, file)
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []

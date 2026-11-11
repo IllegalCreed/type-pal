@@ -123,6 +123,13 @@ export function installGameBattleAdapter() {
     }
   }
   const guardedSlot = (actor, nativeAction) => (actor.isEnemy ? nativeAction.target : actor.idx)
+  const hiddenCounts = (gs, roleId) => ({
+    attack: gs.Exp.rgAttackExp[roleId].wCount,
+    maxHP: gs.Exp.rgHealthExp[roleId].wCount,
+    maxMP: gs.Exp.rgMagicExp[roleId].wCount,
+    magicAttack: gs.Exp.rgMagicPowerExp[roleId].wCount,
+    defense: gs.Exp.rgDefenseExp[roleId].wCount,
+  })
 
   globalThis.__battleGameRegister = (deps, launch) => {
     require(!dependencies, 'Game battle dependencies were registered twice')
@@ -199,6 +206,9 @@ export function installGameBattleAdapter() {
           actor: structuredClone(actor),
           command: structuredClone(nativeAction),
           animationEffects: [],
+          ...(actor.isEnemy
+            ? {}
+            : { growthBefore: hiddenCounts(gs, state.players[actor.idx].roleId) }),
         },
         guard: { before: state.players[guardedSlot(actor, nativeAction)]?.defending ?? false },
       }
@@ -224,6 +234,9 @@ export function installGameBattleAdapter() {
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs || !action) return
       liveRoles = roles
+      const actor = action.native.actor
+      if (!actor.isEnemy)
+        action.native.growthAfter = hiddenCounts(gs, state.players[actor.idx].roleId)
       evidence().action({
         ...action,
         guard: {

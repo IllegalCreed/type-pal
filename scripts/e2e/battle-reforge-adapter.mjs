@@ -19,6 +19,7 @@ let world
 let selection
 let beforeAction
 let beforeGuards
+let beforeGrowth
 let visualAction
 let beforeLog = 0
 let terminal
@@ -211,6 +212,7 @@ const harness = {
     nativeState = state
     beforeAction = snapshot()
     beforeGuards = state.players.map(({ defending }) => defending)
+    beforeGrowth = state.players.map(({ hiddenCounts }) => ({ ...hiddenCounts }))
     beforeLog = state.log.length
   },
   afterStep(state) {
@@ -230,6 +232,12 @@ const harness = {
       native: {
         lastAction: JSON.parse(JSON.stringify(action)),
         actionLog: state.log.slice(beforeLog),
+        ...(action.side === 'player'
+          ? {
+              growthBefore: beforeGrowth[action.idx],
+              growthAfter: { ...state.players[action.idx].hiddenCounts },
+            }
+          : {}),
       },
       source: 'BattleSession:stepBattle:before-lastAction-consumption',
     })

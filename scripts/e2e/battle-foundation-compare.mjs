@@ -11,6 +11,7 @@ import {
   battleFoundationScenario,
 } from './battle-foundation-scenarios.mjs'
 import { validateBattlePresentation } from './battle-presentation.mjs'
+import { validateBattleRules } from './battle-rules.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { assertDependencyClosure, recordingDependencies } from './evidence-dependencies.mjs'
 import { assertInputLedger } from './input-ledger.mjs'
@@ -130,6 +131,8 @@ export async function compareBattleReports(gamePath, reforgePath) {
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
+    'scripts/e2e/battle-random-instrumentation.mjs',
+    'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
     'scripts/e2e/battle-trace-observer.mjs',
   ]) {
@@ -171,10 +174,25 @@ export async function compareBattleReports(gamePath, reforgePath) {
           game: leftHerb,
           reforge: rightHerb,
         })
+      const rules = [left, right].flatMap((trace, index) =>
+        comparison.validations[index].status === 'passed'
+          ? [validateBattleRules(trace, scenario)]
+          : [],
+      )
+      for (const side of rules)
+        for (const finding of side.findings)
+          comparison.findings.push({ engine: side.engine, ...finding })
+      if (comparison.randomObservation?.firstValueDifference)
+        comparison.findings.push({
+          domain: 'business',
+          rule: 'cross-engine-rule-random-value',
+          ...comparison.randomObservation.firstValueDifference,
+        })
       return {
         ...comparison,
         status: comparison.findings.length ? 'rejected' : 'passed',
         presentation,
+        rules,
       }
     })
     const repeats = bundles.map(({ traces }) =>
