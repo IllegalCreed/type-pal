@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+  "candidateSha": "e746620556cf961eed871ec3f8038f5223d37357",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -18,31 +18,31 @@
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "lines": "13",
+      "lines": "128",
       "anchor": "function defineScenario(",
       "role": "input-and-independent-oracle",
-      "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
+      "sha256": "4ad507c65e333494f36465c1538489397411f1c9d499cdcb01b586e6000aca19"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "lines": "276",
+      "lines": "335",
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
-      "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
+      "sha256": "acc3a60c8a0955079dd2b0d99df9cc2dc00331ff9131b52ceebbc25242be7cf0"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
-      "lines": "129",
+      "lines": "159",
       "anchor": "running = runBattleTrial(",
       "role": "public-trial-adapter",
-      "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
+      "sha256": "b22ba9130a7ba363d69ddb69b13cff111ce928370eee82633e1d3205ddf84cca"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "lines": "621",
+      "lines": "752",
       "anchor": "export function validateBattleTrace(",
       "role": "oracle",
-      "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
+      "sha256": "778d3ced2bb1cbc23eed30b2bedb556b4ea82a87448067cbe050be6912828bea"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -55,15 +55,15 @@
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "70",
-      "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+      "lines": "72",
+      "sha256": "d37bae2f1efc2951d1b04648532df92dabda6fe1bbc408acce6cdcfdcbdcb87e"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
       "anchor": "export function validateBattleRules(",
       "role": "rule-oracle",
-      "lines": "90",
-      "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
+      "lines": "107",
+      "sha256": "314ccc2adea59b88db2be651529951de3214583e139ab999b819ab9b6b413fe6"
     }
   ],
   "publicCallers": [
@@ -76,7 +76,10 @@
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
     "Each engine runs each setup twice in fresh contexts. Public Game applyFixture and Reforge runBattleTrial prepare the state; all later commands use real keyboard/menu selection.",
     "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used.",
-    "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape."
+    "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape.",
+    "Solo hero/team294, field7, seed64, defend then attack. Full original two-entry enemy queue.",
+    "Level-six hero and Anu/team204, seed4, native enemy sleep. The awake actor defends and finishes the battle.",
+    "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -88,7 +91,10 @@
       "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry.",
       "Real rendered frames show the manual selection HUD, hide it during action and settlement, finish each enemy fade before the next action, and draw herb50 on the returned actor with the original recipient anchor.",
       "The fixed ordinary attack cases check CLASSIC draw purposes, queue jitter, untruncated attack numbers and clamped enemy HP. Actual draws are logged at their producers.",
-      "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement."
+      "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement.",
+      "Team294 consumes no singleton target draw. Native dual actions use 339 for HP94 then normal attack for HP44, with separate raw and rendered results.",
+      "Team204 consumes the native battle script chance draw. Sleep3 applies to hero, round ends tick 3→2→1, and the incapacitated slot passes without a submitted action.",
+      "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round."
     ]
   },
   "dedupe": {
@@ -98,7 +104,7 @@
       "battle-host and battle-session source audits",
       "existing rule/unit tests"
     ],
-    "notes": "New runtime entry/collector/comparison obligations only. No full-rule, raw-damage, AI, audiovisual or world/save lifecycle credit."
+    "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
   },
   "runtimeExecution": {
     "performed": true,
@@ -106,9 +112,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+    "producerRevision": "e746620556cf961eed871ec3f8038f5223d37357",
     "result": "passed",
-    "verification": "16 native manual battles across four scenarios, two fresh contexts per engine and case; eight same-engine repeats and eight original-byte cross-engine comparisons.",
+    "verification": "28 native manual battles across seven scenarios, two fresh contexts per engine and case, with 14 original-byte cross-engine pairs and 14 same-engine repeats.",
     "continuous": false
   },
   "execution": {
@@ -186,19 +192,19 @@
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
+      "sha256": "4ad507c65e333494f36465c1538489397411f1c9d499cdcb01b586e6000aca19"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
+      "sha256": "acc3a60c8a0955079dd2b0d99df9cc2dc00331ff9131b52ceebbc25242be7cf0"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
-      "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
+      "sha256": "b22ba9130a7ba363d69ddb69b13cff111ce928370eee82633e1d3205ddf84cca"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
+      "sha256": "778d3ced2bb1cbc23eed30b2bedb556b4ea82a87448067cbe050be6912828bea"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -206,11 +212,11 @@
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+      "sha256": "d37bae2f1efc2951d1b04648532df92dabda6fe1bbc408acce6cdcfdcbdcb87e"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
-      "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
+      "sha256": "314ccc2adea59b88db2be651529951de3214583e139ab999b819ab9b6b413fe6"
     }
   ],
   "artifacts": [
@@ -1923,6 +1929,984 @@
           "bytes": 14621
         }
       ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz",
+      "sha256": "84c8526a499cf1ac865e0d04d605dccd15f6909454d9000acb03caadc1fa6f61",
+      "bytes": 12865123,
+      "purpose": "Original execution reports and trace bytes, actual native counters, isolated runtime receipts, and original-speed review media for the three new scenarios.",
+      "manifest": {
+        "path": "build/q2/mechanisms/archive-index.json",
+        "sha256": "3761930ce4af511d5eb462af2de056b809cd530aad77f963bd8b5cac84f5debb",
+        "bytes": 38572
+      },
+      "members": [
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "abc66b41116452c4aaec1acdad991ad1b273ac540e71080584cb92a28e778fb8",
+          "bytes": 41791
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "37cd383b265088f30d68762699b34803e668106d5845fe85db7173649eaf49f6",
+          "bytes": 39529
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/enemy-sleep-1-trace.json",
+          "sha256": "e11507dbc4a2aa7429c7490722092624823b160331c57041b9887f601c017c0d",
+          "bytes": 48747
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/enemy-sleep-2-trace.json",
+          "sha256": "76351dd61bb626d90987c4b57ce78a3d038449fe800b0cebed5e633c7a520405",
+          "bytes": 48697
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/equivalent-poison-1-trace.json",
+          "sha256": "4a028fdbacfcb01894c7d4babb2d13dad72fd4bc896ca708855d95915caeefe1",
+          "bytes": 49732
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/equivalent-poison-2-trace.json",
+          "sha256": "4cf8efed361daeb6d7599f7e31b32ef481af3f74c6633531a76c6435781d4c93",
+          "bytes": 49585
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/herb-settlement-1-trace.json",
+          "sha256": "4069cf4dfd5765e542edfb97bbb837869660b09266138a816927bf23ca23126b",
+          "bytes": 22397
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/herb-settlement-2-trace.json",
+          "sha256": "5ecb0480c7837b766132f9f52534669ee1b45a54352c751dc1afd9c5ec6c84d8",
+          "bytes": 22407
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/party-lanterns-1-trace.json",
+          "sha256": "4d44fd43d84f298e6b4f8d0c757ae682044f868e73264c4503ce4b2fd06924d5",
+          "bytes": 44457
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/party-lanterns-2-trace.json",
+          "sha256": "ae990ce70e6d7330f41eb05dbfc7966de13a35cf101b11e24939f38b4e335d66",
+          "bytes": 44421
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/report.json",
+          "sha256": "0d27aaec8cf59e8b7ade01f8b1f9e22da23a633117c6222f8b718ecb3317cefd",
+          "bytes": 884596
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/solo-lantern-1-trace.json",
+          "sha256": "a95362ab5396dfbba847b75de195ededf08062c7c1b75214fff6c55b3029a464",
+          "bytes": 14943
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/solo-lantern-2-trace.json",
+          "sha256": "85c7a3688f158f8d0319634614bf1a1986c2015e5989411398b397ed4b9dc838",
+          "bytes": 14913
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/two-round-commands-1-trace.json",
+          "sha256": "f489efc0fd412c5df28cdb86e4d19b36e8b03bde2247abfc733bee59cd88f2e9",
+          "bytes": 47728
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/two-round-commands-2-trace.json",
+          "sha256": "c0dd2f5e7fa6d8403a4053dc84d8b5fc7e774f688f5991ee39bebb5d4496f76e",
+          "bytes": 48429
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/visual-review-5.webm",
+          "sha256": "d8354f514ac8251665c6a3e28cc3426dc8d177c379687ef3241ddd970b7f8186",
+          "bytes": 1414864
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/visual-review-6.webm",
+          "sha256": "b4d9f0a43cd00b1f0c025b63aed27ca27b3fedcd2300cd04f37a8032d6959bff",
+          "bytes": 1356040
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/visual-review-7.webm",
+          "sha256": "d397091c4c2e5e075b03cacb9ad198abc41ed2603e19315f3f68b2635aa0e3b1",
+          "bytes": 1133997
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-16-45-710Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "61f9ff5c630286b0224784025520a88233fbfb465b3d034deb66d3ffa6edcb25",
+          "bytes": 34761
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-16-45-710Z/report.json",
+          "sha256": "a4c8f8897d7d74ee4943483ef54fe641a635d38a1924f24ad4d319451f3dc695",
+          "bytes": 680734
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-18-40-918Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "86c2e34b5ae85573f97f5d8a0869cada8cac2363e48857ab65bab02455ad3e4c",
+          "bytes": 41700
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-18-40-918Z/report.json",
+          "sha256": "5005a752385c3c462a19abe3f6ec81a616c06a03a732e22ce129a88df1a00d0d",
+          "bytes": 657535
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "d95d44be4726569e29c7647ee5a4cdaf568ab0c6dad07f17e51926f3241608b1",
+          "bytes": 42463
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "7ff6a1e35895c8e3cbf004271043499136137d86e9241be11c8b4db993b6c077",
+          "bytes": 40355
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/enemy-sleep-1-trace.json",
+          "sha256": "026279800133d9a492ec5ea2d64452c612c1126a341a62e8b23563c552be3307",
+          "bytes": 50909
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/enemy-sleep-2-trace.json",
+          "sha256": "ec99a91a6fd2ccc2b2e3f7a76e6d08208b3cf313c1a3bcf5d98f6b51b597267b",
+          "bytes": 50652
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/equivalent-poison-1-trace.json",
+          "sha256": "1099672e19d6e43ab74ba5494d9017a80613492b5c8fe38c72dcde76272f17d7",
+          "bytes": 57450
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/equivalent-poison-2-trace.json",
+          "sha256": "24b9dddb207ec7f3c64f94f5568c52a46f79d32ebb71356423fba9e15824d3b1",
+          "bytes": 57152
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/herb-settlement-1-trace.json",
+          "sha256": "552832e13f8167986ce4a870fcb014d9548b6b3cbd8fed907091401cd131a68e",
+          "bytes": 28312
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/herb-settlement-2-trace.json",
+          "sha256": "0ecd08d50e2b22180c7c47e227080b59a3b8fdc0509aed43b09b7be2fd8825a5",
+          "bytes": 28272
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/party-lanterns-1-trace.json",
+          "sha256": "21300c248e20cf3e0d37d037a742e2a75172e3eaccbdc393c720976a6f836682",
+          "bytes": 45301
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/party-lanterns-2-trace.json",
+          "sha256": "b68998a667588462be4bdc808702ad06c5676d8124c2b27ec9b7f8899da5c80d",
+          "bytes": 45254
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/report.json",
+          "sha256": "236fc2ca62670eaa5f6ba6ec3d10b05eb90da57d2f8d498af988e2bb2800b57f",
+          "bytes": 1352023
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/solo-lantern-1-trace.json",
+          "sha256": "b747aabbf278101d83dde1755376ea8d5920f348b2758343c916ea7df531c571",
+          "bytes": 14703
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/solo-lantern-2-trace.json",
+          "sha256": "7b218dbd7f44b0319baa62cf13d010db9623fd52ee1be83d8c082df49b9e6388",
+          "bytes": 14725
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/two-round-commands-1-trace.json",
+          "sha256": "258f370f0bfa72a6717c877ea0e2778ef53523716ee634ddfc507b99ba09ecdf",
+          "bytes": 57956
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/two-round-commands-2-trace.json",
+          "sha256": "f24cc5b66a975fb18f14c823cdd16a6559bb9b0dfbbfc8fd6c9d59c6a88f20b2",
+          "bytes": 57756
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/visual-review-5.webm",
+          "sha256": "2c8b794ac5d1674d3fbd8e7043f331e9d22b2f9cde6ee55c1b86d05e34ddf5e8",
+          "bytes": 767864
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/visual-review-6.webm",
+          "sha256": "93d462586bd5422b5fc5d184af4de9d429bc3c30160410190213397a3bb9e008",
+          "bytes": 904392
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/visual-review-7.webm",
+          "sha256": "fc02ed7c01373b4b9c089099b6b5029ec859b4385dbdc0b49752bed8024e8a42",
+          "bytes": 818659
+        },
+        {
+          "path": "build/q2/mechanisms/comparison/comparison.json",
+          "sha256": "d214c9ed9aa395b902b277312ae5696bc32b5fc643b933a034cebc00654fec15",
+          "bytes": 460935
+        },
+        {
+          "path": "build/q2/mechanisms/counters/game-chance/enemy-sleep-1-trace.json",
+          "sha256": "db38ab02ad7d300a8b9c62dcdfad107862d35ed6bf7840945c6bdcbdb45d6b0f",
+          "bytes": 13210
+        },
+        {
+          "path": "build/q2/mechanisms/counters/game-chance/journey.log",
+          "sha256": "2e6535a3ca8b0f4516538baf654862cb0bb967470f0850d442a87ffbafad4a80",
+          "bytes": 1431
+        },
+        {
+          "path": "build/q2/mechanisms/counters/game-chance/report.json",
+          "sha256": "b51afb7fc3209484da9425701cb406f1fc11797c095694a3cbb96fe22f60e360",
+          "bytes": 611630
+        },
+        {
+          "path": "build/q2/mechanisms/counters/game-chance/source.patch",
+          "sha256": "1c926b75055126a2b955b73e0411900cecb7dd4037c93682cdd9bb6b85ccf7db",
+          "bytes": 2398
+        },
+        {
+          "path": "build/q2/mechanisms/counters/poison-resist/equivalent-poison-1-trace.json",
+          "sha256": "3ae2a87354bb568bfd98ce71383ed5e36e988659275a55086cb8382f465369ba",
+          "bytes": 63400
+        },
+        {
+          "path": "build/q2/mechanisms/counters/poison-resist/judge.log",
+          "sha256": "d47eb0889efb10f9019d344e5e639df882c356c8f3a6ea7398b5f1b7e3dc7455",
+          "bytes": 1193
+        },
+        {
+          "path": "build/q2/mechanisms/counters/poison-resist/missing-local-data.log",
+          "sha256": "9171613c24caf697c79423d89d208c2544d123b3a2ec96bc25bee1396f7d829d",
+          "bytes": 1045
+        },
+        {
+          "path": "build/q2/mechanisms/counters/poison-resist/report.json",
+          "sha256": "d7e72b241b2e74101d9e3f0f3f96e7a05c07ae847e43317f1f57992ceabcf9b8",
+          "bytes": 688522
+        },
+        {
+          "path": "build/q2/mechanisms/counters/poison-resist/source.patch",
+          "sha256": "9aef90764cb0fbe4bd74a90cf1d4a05aa11ffed7bcc8d5bef0cd98e8e2eb899f",
+          "bytes": 1780
+        },
+        {
+          "path": "build/q2/mechanisms/coverage-frozen.log",
+          "sha256": "a6661a83639d2e165f41d1774a31bcda7ec9e1975366e6adecc17daad782d93b",
+          "bytes": 182304
+        },
+        {
+          "path": "build/q2/mechanisms/coverage-ratchet.log",
+          "sha256": "1864170f1a5869f44d4a2f5787820ffdad1ebc34479c395d6e9c823d3cecb11f",
+          "bytes": 42084
+        },
+        {
+          "path": "build/q2/mechanisms/docs-tools.tap",
+          "sha256": "49efe1a1f95760f3f214d60e326716205721d98df2fc7f54ff2b3aa7789c8df5",
+          "bytes": 136033
+        },
+        {
+          "path": "build/q2/mechanisms/e2e-tools.tap",
+          "sha256": "54811a80f94e559a453204dd0a1dc125f020faaf6406f7a733508f51ae9ae36d",
+          "bytes": 127566
+        },
+        {
+          "path": "build/q2/mechanisms/native-counters.json",
+          "sha256": "e9f383975c4f81a32e11964c09cccb209e74c30099c6d60950dfa7c70d49cf83",
+          "bytes": 4796
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/battle-chance-before.native.json",
+          "sha256": "dc71e05c0a037c06486898dad67ed9655e9d5054ff679cc3748156a16823c578",
+          "bytes": 7836
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/battle-chance-before.receipt.json",
+          "sha256": "a58cf86a63748b59ba7a1007ce4019ea0c6cc8e0bc1c72c3a8a3a24038614cbd",
+          "bytes": 615
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/battle-chance-before.stderr.log",
+          "sha256": "3e506847b8ce072fa5d21629b34a9122a9b25930ce4f4ef1a5cf6f35cdc7a0b7",
+          "bytes": 899
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/battle-chance-before.stdout.log",
+          "sha256": "f980947f1b9705a31c6f689fcaaac2074f1f2c65f6cb9e8c8c5f022b82c3fcf1",
+          "bytes": 2063
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-before.native.json",
+          "sha256": "8128a2ab4c935f1b8f87748198e4338bb136686b6fa021cf563d38a35bd33adc",
+          "bytes": 13017
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-before.receipt.json",
+          "sha256": "1272c3ecdd87dea3c1365e0cecbea9d2e14f3b90aa3d5672ad29eff2cad68f0f",
+          "bytes": 613
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-before.stderr.log",
+          "sha256": "ca36fca8bbab273cfe04c23b946028667e2c8f0060c894eae2d27c4ab7a9733d",
+          "bytes": 857
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-before.stdout.log",
+          "sha256": "8a0e02dad50515bb336558c48e34f498a14c8133890400f88b0b035b198f7ecc",
+          "bytes": 4030
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-number-before.native.json",
+          "sha256": "3c1456641e401556525cc57e764a23f3beeb4662eb67f96d9f224ecabc586e53",
+          "bytes": 13011
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-number-before.patch",
+          "sha256": "2a82ce4cf93e2780b09585f770742e31574708fb1cd930365a66930fe75eb4ed",
+          "bytes": 8993
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-number-before.receipt.json",
+          "sha256": "400a06623c25703afb39a8c038d3e15e47e9941cd92d6b8ddaca57a51a932568",
+          "bytes": 620
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-number-before.stderr.log",
+          "sha256": "7e7a27552256ebe0c908d037cbdfbad929b4ec8a2e96af9c0b94b8a1ac8e122d",
+          "bytes": 862
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-number-before.stdout.log",
+          "sha256": "01bbb2a28b235f8d1d76a6d20eca1f455bc1ccf601d9bd187bded39a3066ee61",
+          "bytes": 4044
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-after.native.json",
+          "sha256": "d87e9bb35b0dfe8496519d628ad50ea5339898c88956574e7ed9e57de61d9102",
+          "bytes": 101725
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-after.receipt.json",
+          "sha256": "65ca68ebba9395b4260e8ec7cf7da63511954e2993f94018a3ab13d42741f93b",
+          "bytes": 986
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-after.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-after.stdout.log",
+          "sha256": "a3e7c9b2cd7aae999d0f08b526cc74d849a9c388b97beb13959f15362975b404",
+          "bytes": 982
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-before.native.json",
+          "sha256": "266128f53837c4ed018f18c1abb2c201943db9fff688f4e6e9be9272a768ae2b",
+          "bytes": 13598
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-before.receipt.json",
+          "sha256": "c7d43df64522c423b5842b8010a3666f60e2173cc97772b73b6e3cab9465b887",
+          "bytes": 639
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-before.stderr.log",
+          "sha256": "e19ffc77e6383b8643609e8ede0feecef28818c2310e1b0d7b668808e4007957",
+          "bytes": 758
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/equiv-poison-recovery-before.stdout.log",
+          "sha256": "35d444b4b65c3eaccbbfbdf6175a006fc360e6a7ed0e78d713b0428a5a46750c",
+          "bytes": 4242
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/review.md",
+          "sha256": "3b4347ae1a6c484331f27f232248c6eea03ddabcf57fcda5283c499fd274c3ee",
+          "bytes": 8214
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/runtime-before-git-blobs.txt",
+          "sha256": "dc8129a4444c66d5e797a9b5a0b13c16c3e130245c145339de76cd6cc1d9fbcc",
+          "bytes": 123
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/runtime-before.sha256",
+          "sha256": "64233006515bf452223db49c8aa610c6ca0ebfd77f4888ab6d6c4da0dcb89fd2",
+          "bytes": 1251
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/runtime-regressions.patch",
+          "sha256": "62c0de26cfc2dc3b873258ef39e2ded23e9b567d33aac270ae04bea37231a26b",
+          "bytes": 5203
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-after.native.json",
+          "sha256": "b11ea4244147ae48253ec16a7ce01ead7c5aea9002f68971b74956395bc4f4a8",
+          "bytes": 3559
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-after.receipt.json",
+          "sha256": "a616c9c292ca06ae67aac23a00a4d9c931f601a1e722e8f6f933e35900fe5818",
+          "bytes": 665
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-after.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-after.stdout.log",
+          "sha256": "690bf8b426d8a0085dc54659a36a4568215908469a636fe7e732ab8f92592863",
+          "bytes": 476
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-before.native.json",
+          "sha256": "164f2ebbee4246af77c282ebc364fe38fa3ba25ac2688c1b2703086ab04d479b",
+          "bytes": 6464
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-before.receipt.json",
+          "sha256": "c28f9de5b279913cdbb3357fd7f67ad7cffd4ac8d43d1304e567e0830c9988ce",
+          "bytes": 677
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-before.stderr.log",
+          "sha256": "77393b5f772a55872832852573b232fb2e1f6d65f48fd988baaaf3f5469621e3",
+          "bytes": 1508
+        },
+        {
+          "path": "build/q2/mechanisms/owner-game/settlement-drop-before.stdout.log",
+          "sha256": "0ffa18c49402f56f875588519b9c1874a3749857c31bf1a8a40715b11231e494",
+          "bytes": 1624
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dedupe.execution.json",
+          "sha256": "8bf329f51f6bd7441105098e405fbfa0ef512cb59c00542f0e3746547ac5090a",
+          "bytes": 1203
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dedupe.json",
+          "sha256": "abb458a257103c4924da8ca4f886c7e158850fee2e490295c9e21a8d31326b15",
+          "bytes": 4795
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dedupe.stderr",
+          "sha256": "5d01ba73aba60a8ca01177fa8be064360eabcd833babc4f994a178829babc102",
+          "bytes": 661
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dedupe.stdout",
+          "sha256": "05c0e691650df30b3cfc035e834303c33feedd84a7eab30c15c32d1554d08996",
+          "bytes": 1754
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dual.execution.json",
+          "sha256": "dd40c541493a62a7e0660f5c2495add156b5bd006b73152ab5465afc26da5e01",
+          "bytes": 1193
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dual.json",
+          "sha256": "13c039c975b7633a1e6b2a98b2e73c69eb98a5bec4961091c9dce25f645cea76",
+          "bytes": 5038
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dual.stderr",
+          "sha256": "c21adae0fa5920e4f80ec9cb16fce492fe46b70c45d4c6acee8b52d26e1775d9",
+          "bytes": 931
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-dual.stdout",
+          "sha256": "6a30b1f516756fe243954e4601f51db66a3bf3ee2a5a39e95ae6ec0505f85cfa",
+          "bytes": 1743
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-float.execution.json",
+          "sha256": "9336d6be3b13e91262f329ce80647132edbd5ba7de49d2c1393f533db279cd1a",
+          "bytes": 1242
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-float.json",
+          "sha256": "311d354012f3680fd916e4476a723b805f53ce5465c888e2eb49caf104872f76",
+          "bytes": 5361
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-float.stderr",
+          "sha256": "3be0e5bf26a8b1ba1b1320f490fa62c20664070feab880302791c9d09f42a1ea",
+          "bytes": 959
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-float.stdout",
+          "sha256": "3e7ac817bd26d9d63b78f3388036138188c4b8dc46c69cf9efad4c7a046f0365",
+          "bytes": 1709
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-poison.execution.json",
+          "sha256": "d20de1a4acfa60b949496685addd5e56b4ec7db571e6d1e0c5db4549245f7948",
+          "bytes": 1198
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-poison.json",
+          "sha256": "5d46ecdfb06d8b33f36f328d141d1efcfd03caec8ed245a21b8c75ae395dc26e",
+          "bytes": 5035
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-poison.stderr",
+          "sha256": "61e9433ded3f369fe85315fb2722f491b0cd427e68c25c24c3c63b5422fce414",
+          "bytes": 972
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-poison.stdout",
+          "sha256": "53b1de085e0acb6546f6da693118cbb111e46295d2e94932053816c9e72a4bec",
+          "bytes": 1750
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-resist.execution.json",
+          "sha256": "517361b39cc0dda2181babe683fbe0779a002545fa22d2523f828a9ff70b49cf",
+          "bytes": 1205
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-resist.json",
+          "sha256": "be9efafff40ac1e64e09b0d17175b8cb82bb69bd4781ffe8bd8c47d9c473551a",
+          "bytes": 4816
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-resist.stderr",
+          "sha256": "4c43ecd10eb5ac6d56f4cccb35f81a417c80dd01d1a8a6ef515b144cd9ce4938",
+          "bytes": 805
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/before-resist.stdout",
+          "sha256": "40281d63398e54c1c228e30e3a569948aaa268afaf8189fde44b66f55c8fe7a1",
+          "bytes": 1757
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dedupe.execution.json",
+          "sha256": "365859cd4a6911d3c2aa912c2a3f963708ed73fb648f113f94c82423c20f288e",
+          "bytes": 1226
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dedupe.json",
+          "sha256": "830eecc60f381d70e6175a6d695041c3f3848961380df8ffe7f42a6a72f9677a",
+          "bytes": 3208
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dedupe.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dedupe.stdout",
+          "sha256": "9f1e56e9dcfa64c8a675f1c3cc51cfce644b82dae1fe980c12cb0ba4e2be4685",
+          "bytes": 490
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dual.execution.json",
+          "sha256": "755a3d8359e5ad65dc3bb23f2214856e322e85ec5c742e6992a86ad79e3796f9",
+          "bytes": 1216
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dual.json",
+          "sha256": "502446005bed7cfb1570dfd7ba375817d7a397e041090194dbb67089b1048ffe",
+          "bytes": 3210
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dual.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-dual.stdout",
+          "sha256": "469786e8197fa282abba4f3cd7d4df7db48fb4c9a8df53725d7e975bca6186f4",
+          "bytes": 488
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-float.execution.json",
+          "sha256": "13096d0c7711766d5335dc51069514dc10e71cf2736f47554c0e23f6f9b11de1",
+          "bytes": 1265
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-float.json",
+          "sha256": "adddba2ab09dd9e3104b6ad071693c2f884142b7ccea4e4cd7e1a2fc4ba9c441",
+          "bytes": 3533
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-float.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-float.stdout",
+          "sha256": "aa8f1be195ff387cdcb8a00cc6f7064dea64004dfc409b059bf4af775df67f51",
+          "bytes": 579
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-poison.execution.json",
+          "sha256": "73b09e67977a3165f4edd6ad1e489399b16250e140d2504e45e639719c7edd5d",
+          "bytes": 1221
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-poison.json",
+          "sha256": "18a39e4b04353ab2288f96674b31ad1c55b677857c330be7b38ed73018842109",
+          "bytes": 3210
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-poison.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-poison.stdout",
+          "sha256": "1f2ad91511fef679f42e7ca1e7e4f43c7f5f409069f30315566e89f70dd023e9",
+          "bytes": 490
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-resist.execution.json",
+          "sha256": "24434cb7854980b222f17aef39ab169746f494edc37f11d28f821766f5c0d7fc",
+          "bytes": 1228
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-resist.json",
+          "sha256": "23f64d0e9ba84bcdecd4488f0a37aea1a20d2cd8074a47c505d673befce4c956",
+          "bytes": 3210
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-resist.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-resist.stdout",
+          "sha256": "b8a7dbd31542aab08c1f690659bb834927788bf8fbac21925a49f45058a2a3a2",
+          "bytes": 488
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-roster.execution.json",
+          "sha256": "42d49000a39fe8da8d0e64a270e9fb1d3f8d0dd65a10e6a8223a15a7c6c8439e",
+          "bytes": 1284
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-roster.json",
+          "sha256": "1b5746f55af28a11118eb511e7a0bd1617b50863c2e85f63322d941a98c2d732",
+          "bytes": 4846
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-roster.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/candidate-roster.stdout",
+          "sha256": "fc49329ed78bf10821b1bbb58d8e2db5dc33d7060702531abf2f3d88e5cf0157",
+          "bytes": 492
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-dedupe-dedupe.execution.json",
+          "sha256": "e61452c1dfc93fd280c8b5e78e1d3eebf4001223b6090d2fcad65e670139bd0b",
+          "bytes": 1486
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-dedupe-dedupe.json",
+          "sha256": "b9649b5335aa2f87b3b27e2e8c6ca2c0d4b318333abda1d1313a6d3a5a4c04cf",
+          "bytes": 4795
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-dedupe-dedupe.stderr",
+          "sha256": "608c341c55d8a378516fb7c912ba56ccad0907377bed30e5de27406116b69bf4",
+          "bytes": 661
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-dedupe-dedupe.stdout",
+          "sha256": "4d05b658e2a0e652b4938be55b13d14e1cace467cf7a1c98eee6248fb2f7b418",
+          "bytes": 2178
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-float-float.execution.json",
+          "sha256": "aa4d194ef233bb20a1a749df7af08885050372262ead7965655770864b5e627f",
+          "bytes": 1523
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-float-float.json",
+          "sha256": "c8fd097b6b4400a89881f0ae2efebc2f4acfdb6e8ac3b936488a4b6e0c198d9f",
+          "bytes": 5124
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-float-float.stderr",
+          "sha256": "4e4ce680fa1ef6212b404769b80d9c3ea87305f725c6a2a44d5a8ad6a96453bf",
+          "bytes": 729
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-float-float.stdout",
+          "sha256": "de489c481684c27d29dccbbcc6be4930fcdcafc15deac053e332e79b496c19f2",
+          "bytes": 2132
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-resist-poison.execution.json",
+          "sha256": "23036ea6ec861786ea23d0dd13f724c8b34757ca875d69d4c3411d66be85a5e6",
+          "bytes": 1481
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-resist-poison.json",
+          "sha256": "5e753a52484444a3ea44e1e1d298c3e18e847adf1da5dbc0c6ce94b0a7e00845",
+          "bytes": 5023
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-resist-poison.stderr",
+          "sha256": "43bc9be347f053280cc0534574440b198616f335f6f72f5efee5e6850ffa02b1",
+          "bytes": 923
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-resist-poison.stdout",
+          "sha256": "04bd1e4a8b09ede72e1e48e4a7d2ca1f0828d17b8f4afab1937867e7f49da28a",
+          "bytes": 2173
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-roster-roster.execution.json",
+          "sha256": "b4e4aa91b248cead4defd8d1629adfb7a113ba6f8f506bae58e76c2e9f0ce4f8",
+          "bytes": 1544
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-roster-roster.json",
+          "sha256": "9607567623ddd6c4d3edeb91c264c4c1e4fd38d4942cde5251206f3e1b787a03",
+          "bytes": 6429
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-roster-roster.stderr",
+          "sha256": "e38d407e3fe40e2dbdf2b19664d9db5772149685c2587ac6f1626150fed32ecd",
+          "bytes": 743
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-roster-roster.stdout",
+          "sha256": "b05180eb73ead0e697745014c621d691c093e5cd95ed0b2e8ae2c09e3e96e364",
+          "bytes": 2346
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-tick-poison.execution.json",
+          "sha256": "26b6b519db86edce2cebc3790c679cbea66225ee5afb66215dcd7d8458c7cbc3",
+          "bytes": 1477
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-tick-poison.json",
+          "sha256": "ba7b3e723874d9fdc59b57d4f0574517cb76013a07040fa2e5f7053996984d6d",
+          "bytes": 5035
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-tick-poison.stderr",
+          "sha256": "b1dce61a5048a18e3a1de5555e70536624346f5ebb5353f12d21bc1a48cdbc1e",
+          "bytes": 958
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/counter-tick-poison.stdout",
+          "sha256": "4d9e03d158e647d28031e3ab704837f1fd8527b8422b5c57bdc162f5d4fa56be",
+          "bytes": 2167
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-physical.execution.json",
+          "sha256": "f114fa338a3eda3b80011822675fef1f5ee8cd87e8319944a85b75cd53f3eb00",
+          "bytes": 1234
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-physical.json",
+          "sha256": "d960f53c471ac53b5d3b0e74f5e3a3ec75581ce9fad1173827d1ea3604f8c178",
+          "bytes": 4234
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-physical.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-physical.stdout",
+          "sha256": "41ef2f68845f12e62bdad6f90084e9e537ce6d13e0be8320fe0ae7884a216e9a",
+          "bytes": 633
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-poison.execution.json",
+          "sha256": "fe3a7b6289df5612d7faf63ac797c8a2192de8f773684797cbe45a9e949290ec",
+          "bytes": 1232
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-poison.json",
+          "sha256": "5571a65ccdfde68c9884bccf24e1b46477fe376fc55ffda256e97eaa963e590c",
+          "bytes": 5826
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-poison.stderr",
+          "sha256": "f60084d2efeef912871586bfdc840397ad320801df5bb50bf582735b1f03cea2",
+          "bytes": 794
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-before-final-pose-poison.stdout",
+          "sha256": "117395ebd01d6efd5d471c34dbe082914c771039724d5acab8f99656ff7c7327",
+          "bytes": 1939
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-float.execution.json",
+          "sha256": "0887f3ff2d129b7ccd5679e1466bf3b0d724df62e9287962254c79b8e1b69fc4",
+          "bytes": 1271
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-float.json",
+          "sha256": "d05f8e65e56cf57499d24795f3ba3eed360078dc26ec5a1960a527c0931a3ab0",
+          "bytes": 4235
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-float.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-float.stdout",
+          "sha256": "05b2438f8cb0c414e09287ab129a245d8d86c8196e872b79dbf9e94031da1b30",
+          "bytes": 591
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-physical.execution.json",
+          "sha256": "0769bbb0bbd1370396a50c8181bc1f3b612619ee4e3825c90c4e935377dc5252",
+          "bytes": 1231
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-physical.json",
+          "sha256": "609964f219aaef6638e464055150fa11749f83056430b4d556709e7a6a6637db",
+          "bytes": 4234
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-physical.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-physical.stdout",
+          "sha256": "3dc10e5fe1a779e390ed31cd2fef5192185a2c26947246272e3b811d02e5df1a",
+          "bytes": 631
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-poison.execution.json",
+          "sha256": "20398df7cb06a8f1d455d235236e1940d8c175f61490274ad5a0eef650da884f",
+          "bytes": 1229
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-poison.json",
+          "sha256": "e3934b3e28b6f9979048b4e027e9c2d58e06a5eff61559dbe0b10e31f3885b13",
+          "bytes": 4235
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-poison.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-candidate-pose-poison.stdout",
+          "sha256": "9103303967ff6620f9e35bc986b00d9acd97e61b7181edd5ed2e6786d01439c7",
+          "bytes": 631
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-battle.execution.json",
+          "sha256": "e4a784242cfffdc4e9ff1404990dc7196653eb29ff96db81c49157d61e62ca84",
+          "bytes": 636
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-battle.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-battle.stdout",
+          "sha256": "406717e4f435a01e842aebf26664b41ae65db24f3b43d7b32c6c6361c3408f63",
+          "bytes": 6181
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-format.execution.json",
+          "sha256": "74398a82507a3f815cd21bca02929c03ae64f10fb2fcd858a6729f3b15c288e8",
+          "bytes": 728
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-format.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-format.stdout",
+          "sha256": "b916db90f0477f193a1fd69e3278bcd51eabcb1a74e5e81e81efb66b49d2e9c1",
+          "bytes": 43
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-lint.execution.json",
+          "sha256": "ed226bfc88094b2296a0c262ff6a5c7d3b5a65da506aa879008dbe46a2467373",
+          "bytes": 573
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-lint.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-lint.stdout",
+          "sha256": "6ca46bbc7294568709ee3667f260280b1c369e12b282b39fc50be1a400ccdc16",
+          "bytes": 201
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-typecheck.execution.json",
+          "sha256": "ec7391f58410e33d454f2faf9ba967df46d659c77aba6ead614ca5cc3e762a8f",
+          "bytes": 629
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-typecheck.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/death-final-typecheck.stdout",
+          "sha256": "d29edf15df99ad2b8aab18d82d7e0d5c88a2a90b51ee4066ddae71be6d6bdcf3",
+          "bytes": 139
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/final-reforge-check.execution.json",
+          "sha256": "90817908dd0035299aff7c46db52e34269ec8d57f6dfaeee0f1c393985800daa",
+          "bytes": 621
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/final-reforge-check.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/final-reforge-check.stdout",
+          "sha256": "8d9996d7f4671a58b14b407e1611add215bb53a80d3fc9c63d6622c78aa86faf",
+          "bytes": 83222
+        },
+        {
+          "path": "build/q2/mechanisms/owner-reforge/owner-review.md",
+          "sha256": "3b6ca27424054b870a81bb57dacdc2bee45a8be58f0f5e2a20dbb8b298c8fdfb",
+          "bytes": 8839
+        },
+        {
+          "path": "build/q2/mechanisms/replay.bundle",
+          "sha256": "3bdc17991378ce26e5ede08fc5a843c63b81d8c16ac77e24ebe177cb0b01afa4",
+          "bytes": 46015
+        },
+        {
+          "path": "build/q2/mechanisms/review/dual-sickle-weasel-split.mp4",
+          "sha256": "f315da898e3948d1ddbf68ea0838f72b981414f9cc1473bd3544e3b1633d825a",
+          "bytes": 1826572
+        },
+        {
+          "path": "build/q2/mechanisms/review/enemy-sleep-split.mp4",
+          "sha256": "1ad724f523bd55852c00b87161bc27017ff2f825bc3bf9194ffdc29b3f549f7f",
+          "bytes": 1708587
+        },
+        {
+          "path": "build/q2/mechanisms/review/equivalent-poison-split.mp4",
+          "sha256": "aa41e75948e9f3c3220d8f73abe65f4e8afb827db3927a549385c0daaffd6751",
+          "bytes": 1742767
+        },
+        {
+          "path": "build/q2/mechanisms/review/media.json",
+          "sha256": "bbfbbacd9db851c4f8b556e744c5f92a80ed766cffe0e7e459c6e123bd2a08ab",
+          "bytes": 3187
+        }
+      ]
     }
   ],
   "claims": [
@@ -2016,6 +3000,47 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-1-trace.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-2-trace.json"
       ]
+    },
+    {
+      "id": "dual-sickle-weasel",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/dual-sickle-weasel-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/dual-sickle-weasel-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/dual-sickle-weasel-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/dual-sickle-weasel-2-trace.json"
+      ]
+    },
+    {
+      "id": "enemy-sleep",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/enemy-sleep-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/enemy-sleep-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/enemy-sleep-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/enemy-sleep-2-trace.json"
+      ]
+    },
+    {
+      "id": "equivalent-poison",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/equivalent-poison-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/equivalent-poison-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/equivalent-poison-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/equivalent-poison-2-trace.json"
+      ]
+    },
+    {
+      "id": "enemy-mechanism-native-counter-and-restoration",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/native-counters.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json"
+      ]
     }
   ],
   "findings": [
@@ -2033,6 +3058,12 @@
       "id": "absent-project-save-state",
       "status": "expected-default-state",
       "scope": "Reforge native report retains one 404 warning. Existing browser-journey console path classification allows only /projects/pal/.type-pal/save-state.json absence; report.errors is empty. No generic asset-error exemption or browser-zero-warning claim."
+    },
+    {
+      "id": "poison-round-number-to-next-selection",
+      "status": "open-later-batch",
+      "scope": "Both engines drew the end-of-round poison number 7. Milliseconds from its first draw to the next selection were 348.2/348.5 in Game and 16.6/16.6 in Reforge. Fourth-batch presentation timing follow-up.",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json"
     }
   ],
   "failures": [
@@ -2082,6 +3113,15 @@
       "predecessor": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
       "historicalReceiptRevision": "18fac8f47fbb002bf76a4c97283225c7156447f2",
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz"
+    },
+    {
+      "revision": "e746620556cf961eed871ec3f8038f5223d37357",
+      "date": "2026-11-11",
+      "action": "native-battle-enemy-ai-sleep-and-equivalent-poison",
+      "scope": "Fixed native PAL teams 294, 204 and 115, dual action, enemy sleep and equivalent poison application, decay and cure.",
+      "predecessor": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+      "historicalReceiptRevision": "3a921678f20950cccee3f631dfbb1e60bb8efa3b",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz"
     }
   ],
   "_governance": {
@@ -2125,5 +3165,30 @@
       "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/first-comparison/comparison.json",
       "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/rounds-comparison/comparison.json"
     ]
+  },
+  "mechanismExecution": {
+    "date": "2026-11-11",
+    "producerRevision": "e746620556cf961eed871ec3f8038f5223d37357",
+    "commands": [
+      "node scripts/e2e/battle-foundation.mjs --engine=game",
+      "node scripts/e2e/battle-foundation.mjs --engine=reforge",
+      "node scripts/e2e/battle-foundation-compare.mjs build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/report.json build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/report.json build/q2/mechanisms/comparison"
+    ],
+    "reports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T06-28-11-033Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T06-28-11-046Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json"
+    ],
+    "nativeCounters": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/native-counters.json",
+    "visualReview": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/review/media.json",
+    "settlementTestReconciliation": {
+      "commit": "909be869537d6307ab237ecc30e8b7969e9be2c1",
+      "scope": "Existing Game black puffball after-battle drop test binds a real seeded roll of 21 and 22. Runtime and browser producer dependencies retain the frozen candidate.",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/coverage-frozen.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/owner-game/settlement-drop-before.native.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/owner-game/settlement-drop-after.native.json"
+      ]
+    }
   }
 }

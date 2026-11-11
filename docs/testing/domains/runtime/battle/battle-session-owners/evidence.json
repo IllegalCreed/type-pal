@@ -14,21 +14,21 @@
       "lines": "209-211",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+      "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "362-373",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+      "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1163-1172",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+      "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -175,6 +175,36 @@
         }
       ],
       "scope": "校准战斗会话的三个 caller。原候选、版本、业务义务与执行回执保持原出版身份。Q2 本轮独立结果见正常战斗覆盖报告。"
+    },
+    {
+      "action": "q2-battle-session-mechanism-source-rebinding",
+      "base": "3a921678f20950cccee3f631dfbb1e60bb8efa3b",
+      "date": "2026-11-11",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "209-211",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "362-373",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1163-1172",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+        }
+      ],
+      "scope": "重绑三处已接收的会话归属 caller。敌普攻时间线改用直接物理伤害，既有归属合同及其历史执行身份按原记录保留。"
     }
   ],
   "_governance": {

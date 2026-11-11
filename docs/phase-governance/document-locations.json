@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "9a4fdc94dc3fff0393722b7b578bd0b544fa8b3d34b142f26c0366d9fa494898",
+      "afterSha256": "e8a2bbb1bef02537f9eb7162c045153546d12897d5090af9d930b3026e97c5ac",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
         "reviewedLines": 122,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "5bdb7c0ea7a450ef95f3fde2bdde0d2071fd7239c100af1a561763851e8521e6",
+      "afterSha256": "58abd53fb18ac0b704a120417f91a3cfb90fd8e2df01e1627835a5511885fead",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
         "reviewedLines": 43,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3205,7 +3205,16 @@
     },
     {
       "path": "docs/phase1/game-mechanics.md",
-      "mode": "links"
+      "mode": "reviewed",
+      "afterSha256": "c791eb3b8bb2e85d55cdf952f8044333a6201982f7bdbd0213276044fb7bb1df",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 1702,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-05-30-opcode-2-remaining.md",
@@ -3375,14 +3384,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "391db8a11ef311e16e9920e4ab8a1b8d71d6d9f3b5784221414dc785a9f8ff01",
+      "afterSha256": "c5f7e7ca2ef538f300ef0581b8d9cae130ca2c962600add62dee9d2149cbbde2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 355,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 357,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -4357,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "220c7242b2b3ad29166115f7470be50fb77768d90e2699fda8afdef1b98f1d56",
+      "afterSha256": "8287aa24b0302d511e99ee2cabb207c145beee57ac248911bc7e484235748a87",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 4745,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 4790,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
@@ -4717,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c737b2d567074d63a34c6aff6115b655328c94cfd23bb88126d9c570146439a7",
+      "afterSha256": "7308a6c093997bf63e3ea69a258b3495d2438e972d99e890328e57738f04307e",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
-        "reviewedLines": 222,
-        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
+        "conclusion": "接受当前三个会话 caller 的源码适用性重绑。固定前驱、原业务义务和历史执行保留。",
+        "reviewedLines": 252,
+        "acceptanceScope": "仅当前源码摘要与三个已接收范围，旧会话归属执行不重授。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "4527f96be57c7c2bf8594e802394b9552213a1a763eb4c71b66a145c8867b308",
+      "afterSha256": "67def7272f776c1d2cd18dbf30ada0473a6abbc00ac5ea7fe18900e12ecd85d5",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
+        "conclusion": "接受当前三个会话 caller 的源码适用性重绑。固定前驱、原业务义务和历史执行保留。",
         "reviewedLines": 93,
-        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
+        "acceptanceScope": "仅当前源码摘要与三个已接收范围，旧会话归属执行不重授。"
       }
     },
     {
@@ -5371,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "9a66a2cbb70458f3f02c6187e082f40a253d1733fa4c4bc8a244c5069581d431",
+      "afterSha256": "1cc3c7c0bde00248b49c586853e1c1fd6abd9a21d781ebdca1dbce05727826c4",
       "review": {
-        "author": "Codex /root/q2_panel",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
-        "conclusion": "核用户原话「通过」、交付的两段分屏、归档成员及对应合并提交。",
-        "reviewedLines": 152,
-        "acceptanceScope": "用户确认范围为三灯笼和止血草两段分屏。技术结论及原件取已合并版本 89cb749a4dc63d4adf23669c98c0f043578568ad。"
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 184,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "168e7abd2940d7a62c022efc93a76505c5765e59327787e4bf44aa3c0d40e74d",
+      "afterSha256": "cae51a4f1409673af40da095f177da21570fb77d0a355f8810c7ae15f140a309",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
         "reviewedLines": 30,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "7d20d0bbd69046fb09501d952a5fcd0c4d5972734e94cca45c9622e5c790cb48",
+      "afterSha256": "05f99e82e02b8efddb0321c8e8a2354de8f5e334adf89da777a2df451b4b50d5",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 2130,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 3195,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "65491c75c5c38b1ebf9b99e678a4f8f6dec549c4d2f03dfed892ebaee68a4840",
+      "afterSha256": "ce5a472336787793b8c042daffc053d48385159a7ecdd207f623c65cfa119350",
       "review": {
-        "author": "Codex /root/q2_panel",
-        "reviewer": "Codex /root",
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "核首批表现段的用户验收回链及旧执行范围保全。",
-        "reviewedLines": 105,
-        "acceptanceScope": "用户确认范围为三灯笼和止血草两段分屏。技术结论及原件取已合并版本 89cb749a4dc63d4adf23669c98c0f043578568ad。"
+        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "reviewedLines": 121,
+        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "c0267f52e63c178841807cbece60e9f850f2e7ab528052d12305f451712e0a87",
+      "afterSha256": "693dac935b03346b66f1988b9f8eeaf981165de7d3d5358ac5c7fed95b007398",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-11",
-        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
-        "reviewedLines": 33,
-        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
+        "conclusion": "接受当前三个会话 caller 的源码适用性重绑。固定前驱、原业务义务和历史执行保留。",
+        "reviewedLines": 39,
+        "acceptanceScope": "仅当前源码摘要与三个已接收范围，旧会话归属执行不重授。"
       }
     }
   ],
@@ -5738,6 +5747,12 @@
       "sha256": "f5f96712787ae256b93044ce2080b2a37aa4714b1a3ed5652b32602e1ad9a5b6",
       "bytes": 14930786,
       "purpose": "Q2 首批表现复验与第二批双回合、规则及蓝字原件，旧运行时反例、工具误报与恢复、四段原速分屏、测试日志与候选恢复 bundle。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz",
+      "sha256": "84c8526a499cf1ac865e0d04d605dccd15f6909454d9000acb03caadc1fa6f61",
+      "bytes": 12865123,
+      "purpose": "第三批七局面双端原件、敌双动/睡眠/附毒反例、低体力受击回归与三段可暂停分屏。"
     }
   ],
   "artifactAliases": [],
