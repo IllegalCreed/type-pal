@@ -27,10 +27,25 @@ export function installBattleTraceObserver(context, createRecorder) {
     runId: input.runId,
   }
   const random = structuredClone(input.random)
+  const portraitProbe = input.portraitProbe
+  if (
+    portraitProbe !== undefined &&
+    (!Number.isInteger(portraitProbe?.slot) ||
+      portraitProbe.slot < 0 ||
+      portraitProbe.slot > 2 ||
+      !Array.isArray(portraitProbe.points) ||
+      !portraitProbe.points.length ||
+      portraitProbe.points.length > 16 ||
+      portraitProbe.points.some(
+        (point) => ![point?.x, point?.y].every((value) => Number.isInteger(value) && value >= 0),
+      ))
+  )
+    throw new Error('invalid battle portrait probe')
   const errors = [],
     starts = [],
     commands = [],
     actions = [],
+    rounds = [],
     randomDraws = [],
     presentations = [],
     terminals = []
@@ -38,6 +53,8 @@ export function installBattleTraceObserver(context, createRecorder) {
     overflow = false
   let frame, previousFrame
   let markedRandom
+  let nextNumberId = 0
+  let lastPortraitTurn
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
   const recorder = createRecorder({
@@ -63,6 +80,45 @@ export function installBattleTraceObserver(context, createRecorder) {
       return undefined
     }
   }
+  const capturePortrait = (slot, hp, face, x, y, source, read) => {
+    if (
+      !portraitProbe ||
+      slot !== portraitProbe.slot ||
+      !frame?.selecting ||
+      frame.turn === lastPortraitTurn
+    )
+      return undefined
+    const captured = frame
+    const { width, height } = face
+    const points = portraitProbe.points
+    try {
+      if (points.some((point) => point.x >= width || point.y >= height))
+        throw new Error('portrait probe outside the drawn face')
+      const before = read(points)
+      return () => {
+        try {
+          if (frame !== captured) throw new Error('portrait draw crossed a battle frame')
+          const after = read(points)
+          frame.portrait = {
+            source,
+            slot,
+            hp,
+            x,
+            y,
+            width,
+            height,
+            samples: points.map((point, i) => ({ ...point, before: before[i], after: after[i] })),
+          }
+          lastPortraitTurn = frame.turn
+        } catch (error) {
+          recorder.fail(error)
+        }
+      }
+    } catch (error) {
+      recorder.fail(error)
+      return undefined
+    }
+  }
   const port = {
     start(state, source) {
       if (starts.length) {
@@ -76,6 +132,9 @@ export function installBattleTraceObserver(context, createRecorder) {
     },
     action(value) {
       append(actions, value)
+    },
+    round(value) {
+      append(rounds, value)
     },
     random(value, source) {
       if (!Number.isFinite(value) || value < 0 || value >= 1) {
@@ -123,8 +182,51 @@ export function installBattleTraceObserver(context, createRecorder) {
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
     },
+    captureIndexedPortrait(slot, hp, fb, face, x, y, colors) {
+      return capturePortrait(slot, hp, face, x, y, 'game:blitPortrait', (points) =>
+        points.map((point) => {
+          const sx = x + point.x,
+            sy = y + point.y
+          if (sx < 0 || sx >= fb.width || sy < 0 || sy >= fb.height)
+            throw new Error('portrait probe outside the Game framebuffer')
+          const index = fb.indices[sy * fb.width + sx]
+          const rgb = colors?.[index]
+          if (!rgb) throw new Error('battle portrait has no live palette entry')
+          return { index, rgba: [...rgb, 255] }
+        }),
+      )
+    },
+    captureCanvasPortrait(slot, hp, ctx, face, x, y) {
+      return capturePortrait(slot, hp, face, x, y, 'reforge:drawPlayerInfoBox', (points) => {
+        const transform = ctx.getTransform()
+        const positions = points.map((point) => {
+          const pixel = transform.transformPoint({ x: x + point.x + 0.5, y: y + point.y + 0.5 })
+          return { x: Math.floor(pixel.x), y: Math.floor(pixel.y) }
+        })
+        const left = Math.min(...positions.map((point) => point.x))
+        const right = Math.max(...positions.map((point) => point.x))
+        const top = Math.min(...positions.map((point) => point.y))
+        const bottom = Math.max(...positions.map((point) => point.y))
+        if (left < 0 || top < 0 || right >= ctx.canvas.width || bottom >= ctx.canvas.height)
+          throw new Error('portrait probe outside the Reforge canvas')
+        const width = right - left + 1,
+          height = bottom - top + 1
+        // Read the real destination pixels without changing the product context's readback mode.
+        const scratch = new OffscreenCanvas(width, height).getContext('2d', {
+          willReadFrequently: true,
+        })
+        if (!scratch) throw new Error('battle portrait readback canvas unavailable')
+        scratch.drawImage(ctx.canvas, left, top, width, height, 0, 0, width, height)
+        const { data } = scratch.getImageData(0, 0, width, height)
+        return positions.map((point) => {
+          const offset = ((point.y - top) * width + point.x - left) * 4
+          return { rgba: Array.from(data.subarray(offset, offset + 4)) }
+        })
+      })
+    },
     labelNumber(number, side, slot) {
-      if (starts.length === 1 && !closed) floatTargets.set(number, { side, slot })
+      if (starts.length === 1 && !closed)
+        floatTargets.set(number, { side, slot, numberId: nextNumberId++ })
     },
     numberDrawn(number, value, tone, right, y, age) {
       if (!frame || !['yellow', 'blue'].includes(tone)) return
@@ -171,6 +273,7 @@ export function installBattleTraceObserver(context, createRecorder) {
         start: starts[0] ?? null,
         commands,
         actions,
+        ...(rounds.length ? { rounds } : {}),
         randomDraws,
         presentations,
         resources: recorder.resources(),

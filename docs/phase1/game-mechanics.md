@@ -3,10 +3,16 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-11-11
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-11 敌普攻附毒与战内随机
+
+CLASSIC 敌方选目标从完整队伍槽开始，抽到死亡槽才重摇。区间只有一个元素时 `RandomLong` 直接返回。对一人队伍，能进入施法判断且配置了法术的敌人从法术率开始抽样。敌回梦在法术格挡抽样后按同一随机序列执行 0x06，掷 1–100 严格小于 70 后给目标睡眠 3 与 HP −1。睡眠队员进回合队列时身法为 0 且无抖动抽样。回合末状态自减。 [目标选择](../../reference/sdlpal/fight.c#L4540) · [单元素随机区间](../../reference/sdlpal/util.c#L244) · [脚本跳转](../../reference/sdlpal/script.c#L3299) · [队列](../../reference/sdlpal/fight.c#L1505) · [回合末](../../reference/sdlpal/fight.c#L1611)
+
+血口虫普攻附带毒蛇卵的脚本确认了下方旧引文悬置的第二次毒抗判定。普攻有效命中后依次掷附带率和外层玩家毒抗。毒蛇卵 117 的 0x29 再掷玩家毒抗，成功新增赤毒 551 时立刻执行玩家毒入口并保留续点。该入口扣 7，0x00 保留起点，毒仍在槽时回合末另执行一次。物理飘字在附毒前绘制。封技、昏睡等 0x2D 附带异常仍按各自道具脚本核验。 [普攻附带](../../reference/sdlpal/fight.c#L5139) · [0x29 抗性](../../reference/sdlpal/script.c#L1257) · [施毒入口](../../reference/sdlpal/global.c#L1511) · [双端执行范围](../testing/domains/cross-phase/battle-foundation/report.md)
 
 ## 2026-10-20 风险道具当前勘误
 

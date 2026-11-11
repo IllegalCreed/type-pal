@@ -55,7 +55,7 @@ export function compareBattleTraces(game, reforge, scenario) {
   if (findings.length) return result
   const left = projectBattleBusinessTrace(game),
     right = projectBattleBusinessTrace(reforge)
-  for (const key of ['start', 'commands', 'actions', 'terminal'])
+  for (const key of ['start', 'commands', 'actions', 'rounds', 'terminal'])
     if (!same(left[key], right[key])) {
       findings.push(finding(`cross-engine-${key}`, left[key], right[key]))
       break
@@ -111,6 +111,7 @@ export function compareBattleRepeats(first, second, scenario) {
   for (const [rule, left, right] of [
     ['repeat-business', projectBattleBusinessTrace(first), projectBattleBusinessTrace(second)],
     ['repeat-native-actions', first.actions.map(native), second.actions.map(native)],
+    ['repeat-native-rounds', (first.rounds ?? []).map(native), (second.rounds ?? []).map(native)],
     [
       'repeat-random-draws',
       first.randomDraws.map(({ index, value, source, purpose, queue }) => ({

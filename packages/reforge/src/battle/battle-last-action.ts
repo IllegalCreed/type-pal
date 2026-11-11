@@ -53,7 +53,12 @@ export type BattleLastAction =
   | (PlayerActionBase & { kind: 'flee' })
   // Enemy actions
   | (EnemyActionBase & { kind: 'pass' })
-  | (EnemyActionBase & { kind: 'attack'; targetPlayerIdx: number })
+  | (EnemyActionBase & {
+      kind: 'attack'
+      targetPlayerIdx: number
+      /** 命中时的物理扣血，附带道具在其后结算；格挡时省略。 */
+      damage?: number
+    })
   | (EnemyActionBase & { kind: 'attackMate'; targetEnemyIdx: number; damage: number })
   | (EnemyActionBase & { kind: 'cast'; skillId: string; targetPlayerIdx: number })
   | (EnemyActionBase & { kind: 'transform' })

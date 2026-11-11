@@ -10,6 +10,10 @@ const invariant = (condition, message) => {
 }
 const activeStatuses = (status) =>
   Object.fromEntries(Object.entries(status).filter(([, rounds]) => rounds > 0))
+const poisonFields = (entries) => {
+  const poisons = [...new Set(entries.map(({ poisonId }) => poisonId))].sort((a, b) => a - b)
+  return poisons.length ? { poisons } : {}
+}
 const clone = (value) => structuredClone(value)
 
 let scenario
@@ -17,9 +21,13 @@ let project
 let nativeState
 let world
 let selection
+let selectingSlot
 let beforeAction
 let beforeGuards
 let beforeGrowth
+let beforeTurn
+let beforeRoundPoisons
+let incapacitatedSlot
 let visualAction
 let beforeLog = 0
 let terminal
@@ -65,6 +73,7 @@ function snapshot(persistent = false) {
                 .map((entry) => [entry.status, entry.turns]),
             )
           : activeStatuses(player.status),
+        ...(persistent ? {} : poisonFields(player.poisons)),
       }
     }),
     enemies: Array.from({ length: 5 }, (_, slot) => {
@@ -78,6 +87,7 @@ function snapshot(persistent = false) {
         maxHP: enemy.def.stats.health,
         alive: enemy.hp > 0,
         statuses: activeStatuses(enemy.status),
+        ...poisonFields(enemy.poisons),
       }
     }),
     inventory: (persistent ? world.inventory : nativeState.inventory)
@@ -85,6 +95,17 @@ function snapshot(persistent = false) {
       .map(({ itemId, count }) => ({ itemId, count })),
     money: world.money,
   }
+}
+
+function nativePoisons(state) {
+  return [
+    ...state.players.flatMap((unit, partySlot) =>
+      unit.poisons.map(({ poisonId, tickIndex }) => ({ partySlot, poisonId, tickIndex })),
+    ),
+    ...state.enemies.flatMap((unit, enemySlot) =>
+      (unit?.poisons ?? []).map(({ poisonId, tickIndex }) => ({ enemySlot, poisonId, tickIndex })),
+    ),
+  ]
 }
 
 function semanticAction(index, action) {
@@ -95,7 +116,16 @@ function semanticAction(index, action) {
   )
   let targetId = null
   if (action.kind !== 'defend') {
-    const allySlot = isEnemy ? action.targetPlayerIdx : action.targetAllyIdx
+    const itemTarget =
+      action.kind === 'item' ? nativeState.items[action.itemId]?.use?.target : undefined
+    // A one-ally item commits immediately in a solo party; core resolves its omitted slot to the actor.
+    const implicitAllySlot =
+      itemTarget === 'oneAlly' && nativeState.players.length === 1 ? index : undefined
+    const allySlot = isEnemy
+      ? action.targetPlayerIdx
+      : itemTarget === 'self'
+        ? index
+        : (action.targetAllyIdx ?? implicitAllySlot)
     targetId =
       allySlot === undefined
         ? enemyLabel(action.targetEnemyIdx)
@@ -164,9 +194,10 @@ const harness = {
     sessionReady = true
     evidence().start(snapshot(), 'BattleSession:constructor:committed')
   },
-  observe(state, view) {
+  observe(state, view, currentSelectingSlot) {
     nativeState = state
     selection = view
+    selectingSlot = currentSelectingSlot
   },
   beginFrame(state, clockMs, animating, selecting) {
     if (!sessionReady || terminal) return
@@ -210,19 +241,46 @@ const harness = {
   },
   beforeStep(state) {
     nativeState = state
+    beforeTurn = state.turn
     beforeAction = snapshot()
     beforeGuards = state.players.map(({ defending }) => defending)
     beforeGrowth = state.players.map(({ hiddenCounts }) => ({ ...hiddenCounts }))
     beforeLog = state.log.length
+    beforeRoundPoisons = state.actionQueue.length ? undefined : nativePoisons(state)
+    incapacitatedSlot = undefined
+  },
+  incapacitated(slot) {
+    invariant(incapacitatedSlot === undefined, 'two incapacitated actors in one core step')
+    incapacitatedSlot = slot
   },
   afterStep(state) {
     nativeState = state
+    if (state.turn === beforeTurn + 1) {
+      evidence().round({
+        turn: beforeTurn,
+        before: beforeAction,
+        after: snapshot(),
+        native: { poisonsBefore: beforeRoundPoisons, poisonsAfter: nativePoisons(state) },
+        source: 'BattleSession:stepBattle:round-ended',
+      })
+      return
+    }
     const action = state.lastAction
-    if (!action) return
-    visualAction = semanticAction(action.idx, action)
-    const guardSlot = action.side === 'enemy' ? action.targetPlayerIdx : action.idx
+    if (!action && incapacitatedSlot === undefined) return
+    const isEnemy = action?.side === 'enemy'
+    const slot = action?.idx ?? incapacitatedSlot
+    const guardSlot = isEnemy ? action.targetPlayerIdx : slot
+    const executed = action
+      ? semanticAction(slot, action)
+      : {
+          turn: state.turn,
+          actorId: partyLabel(state.players[slot]),
+          kind: 'pass',
+          targetId: null,
+        }
+    if (action) visualAction = executed
     evidence().action({
-      ...visualAction,
+      ...executed,
       before: beforeAction,
       after: snapshot(),
       guard: {
@@ -230,16 +288,19 @@ const harness = {
         after: state.players[guardSlot]?.defending ?? false,
       },
       native: {
-        lastAction: JSON.parse(JSON.stringify(action)),
+        lastAction: action ? JSON.parse(JSON.stringify(action)) : null,
         actionLog: state.log.slice(beforeLog),
-        ...(action.side === 'player'
+        ...(!action ? { inaction: 'incapacitated' } : {}),
+        ...(!isEnemy
           ? {
-              growthBefore: beforeGrowth[action.idx],
-              growthAfter: { ...state.players[action.idx].hiddenCounts },
+              growthBefore: beforeGrowth[slot],
+              growthAfter: { ...state.players[slot].hiddenCounts },
             }
           : {}),
       },
-      source: 'BattleSession:stepBattle:before-lastAction-consumption',
+      source: action
+        ? 'BattleSession:stepBattle:before-lastAction-consumption'
+        : 'performPlayerAction:incapacitated-return',
     })
   },
   settled() {
@@ -255,9 +316,7 @@ const harness = {
       evidence().presentation({ kind, source, payload: clone(payload) })
   },
   read() {
-    const selecting = nativeState?.players.find(
-      (player, index) => player.hp > 0 && !nativeState.pendingActions.has(index),
-    )
+    const selecting = nativeState?.players[selectingSlot]
     return {
       engine: 'reforge',
       ready: harness.ready,

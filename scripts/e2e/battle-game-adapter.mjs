@@ -55,6 +55,27 @@ export function installGameBattleAdapter() {
         .map((name, index) => [name, dependencies.gs.rgPlayerStatus[roleId]?.[index] ?? 0])
         .filter(([, value]) => value > 0),
     )
+  const playerPoisonSlots = (gs, partySlot) => {
+    const entries = []
+    for (let poisonSlot = 0; poisonSlot < 16; poisonSlot++) {
+      const native = gs.rgPoisonStatus[`${poisonSlot}_${partySlot}`]
+      if (native?.wPoisonID > 0) {
+        entries.push({
+          partySlot,
+          poisonSlot,
+          poisonId: native.wPoisonID,
+          scriptEntry: native.wPoisonScript,
+        })
+      }
+    }
+    return entries
+  }
+  const poisonIds = (entries) => {
+    const poisons = entries.map(({ poisonId }) => poisonId).filter((id) => id > 0)
+    return poisons.length ? { poisons: poisons.sort((a, b) => a - b) } : {}
+  }
+  const roundPoisonSlots = (state, gs) =>
+    state.players.flatMap((_, partySlot) => playerPoisonSlots(gs, partySlot))
   const snapshot = () => {
     require(scenario && dependencies && battle, 'Game battle has not started')
     const gs = dependencies.gs
@@ -75,6 +96,7 @@ export function installGameBattleAdapter() {
           level: inBattle ? role.level : runtime.rgwLevel[roleId],
           exp: gs.Exp.rgPrimaryExp[roleId].wExp,
           statuses: inBattle ? activeStatuses(player.status) : persistentStatuses(roleId),
+          ...poisonIds(playerPoisonSlots(gs, slot)),
         }
       }),
       enemies: Array.from({ length: 5 }, (_, slot) => {
@@ -88,6 +110,7 @@ export function installGameBattleAdapter() {
           maxHP: enemy.maxHealth,
           alive: !enemy.defeated && enemy.e.health > 0,
           statuses: activeStatuses(enemy.status),
+          ...poisonIds(enemy.poisons ?? []),
         }
       }),
       inventory: gs.inventory
@@ -98,16 +121,17 @@ export function installGameBattleAdapter() {
   }
   const describe = (nativeState, actor, nativeAction) => {
     const kind = nativeAction.type === 'magic' ? 'cast' : nativeAction.type
-    require(['attack', 'item', 'defend', 'cast'].includes(kind), `unsupported Game action ${kind}`)
+    const supported = ['attack', 'item', 'defend', 'cast', 'pass'].includes(kind)
+    require(supported, `unsupported Game action ${kind}`)
     const isEnemy = actor.isEnemy
     const toPlayer = nativeAction.targetSide === 'player' || kind === 'item' || isEnemy
-    require(kind === 'defend' ||
-      nativeAction.target >= 0, 'Game action needs an actual single target')
+    const targeted = kind !== 'defend' && kind !== 'pass'
+    require(!targeted || nativeAction.target >= 0, 'Game action needs an actual single target')
     const actorId = isEnemy
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
     let targetId = null
-    if (kind !== 'defend')
+    if (targeted)
       targetId = toPlayer
         ? playerIdentity(nativeState.players[nativeAction.target].roleId)
         : enemyIdentity(nativeAction.target)
@@ -199,6 +223,13 @@ export function installGameBattleAdapter() {
       if (!scenario || state !== battle || gs !== dependencies.gs) return
       require(!action, 'Game action started before the previous native action completed')
       liveRoles = roles
+      const inaction = nativeAction.type === 'pass'
+      if (inaction) {
+        const player = actor.isEnemy ? undefined : state.players[actor.idx]
+        const alive = player && liveRoles.roles[player.roleId]?.hp > 0
+        const disabled = player && (player.status.sleep > 0 || player.status.paralyzed > 0)
+        require(alive && disabled, 'Q2 Game pass requires a live incapacitated player')
+      }
       action = {
         ...describe(state, actor, nativeAction),
         before: snapshot(),
@@ -206,6 +237,7 @@ export function installGameBattleAdapter() {
           actor: structuredClone(actor),
           command: structuredClone(nativeAction),
           animationEffects: [],
+          ...(inaction ? { inaction: 'incapacitated' } : {}),
           ...(actor.isEnemy
             ? {}
             : { growthBefore: hiddenCounts(gs, state.players[actor.idx].roleId) }),
@@ -252,6 +284,33 @@ export function installGameBattleAdapter() {
       })
       action = undefined
     })
+  globalThis.__battleGameRoundStart = (state, gs, roles) =>
+    observe(() => {
+      if (!scenario || state !== battle || gs !== dependencies.gs) return
+      require(!action, 'Game postAction began before the native action completed')
+      liveRoles = roles
+      return {
+        turn: state.turn,
+        before: snapshot(),
+        poisonsBefore: roundPoisonSlots(state, gs),
+      }
+    })
+  globalThis.__battleGameRoundEnd = (state, gs, roles, start) =>
+    observe(() => {
+      if (!start) return
+      require(state.turn === start.turn + 1, 'Game postAction did not advance exactly one round')
+      liveRoles = roles
+      evidence().round({
+        turn: start.turn + 1,
+        before: start.before,
+        after: snapshot(),
+        native: {
+          poisonsBefore: start.poisonsBefore,
+          poisonsAfter: roundPoisonSlots(state, gs),
+        },
+        source: 'game:tickPostAction:turn-advanced',
+      })
+    })
   globalThis.__battleGameRandom = (seed, state, value) =>
     observe(() => {
       if (!scenario || seed !== scenario.seed || terminal) return
@@ -267,7 +326,7 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs) return
       require(!terminal, 'Game terminal cleanup ran twice')
       require(!action, 'Game terminated before a native action completed')
-      require(result === 'won', `first-batch Game battle ended with ${result}`)
+      require(result === 'won', `Q2 Game battle ended with ${result}`)
       terminal = { result: 'victory', settlementCount, after: snapshot() }
       evidence().terminal({ ...terminal, source: 'game:finalizeBattleCleanup' })
     })
@@ -307,6 +366,7 @@ export function installGameBattleAdapter() {
           gs?.paletteFadeState ||
           state?.battleFade ||
           state?.battleAnim ||
+          state?.roundEndDelayTicks ||
           state?.battleDialogQueue?.length ||
           state?.enemyEscapeAnim ||
           state?.fleeAnim,

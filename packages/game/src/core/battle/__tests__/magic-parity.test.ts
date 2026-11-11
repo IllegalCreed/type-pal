@@ -217,6 +217,53 @@ describe('SDLPal 0x66 raw runtime attack (script.c:2007-2014)', () => {
   })
 })
 
+describe('SDLPal battle script chance (script.c:3299-3312)', () => {
+  it('uses the battle seed for enemy 回梦 instead of the world random source', () => {
+    const b = battle()
+    b.state.rng = createSeedableRng(7)
+    const spell: Spell = {
+      ...objectMagic(),
+      id: 303,
+      magicNumber: 66,
+      scriptOnSuccess: 1,
+      _name: '回梦',
+      scriptDesc: 0,
+    }
+    // 整理原盘 43085/43089/39391 的敌方分支，跳转入口按本地命令表映射。
+    const commands: Command[] = [
+      { op: 'end' },
+      { op: 'raw', opcode: 0x68, operands: [3, 0, 0] },
+      { op: 'end' },
+      { op: 'raw', opcode: 0x06, operands: [70, 6, 0] },
+      { op: 'raw', opcode: 0x2d, operands: [2, 3, 0] },
+      { op: 'raw', opcode: 0x1b, operands: [0, 0xffff, 0] },
+      { op: 'end' },
+    ]
+    const worldRandom = vi.spyOn(Math, 'random').mockReturnValue(0.99)
+    try {
+      performMagic({
+        ...b,
+        casterIsEnemy: true,
+        casterIdx: 0,
+        spellId: 303,
+        targetIsEnemy: false,
+        targetIdx: 0,
+        spells: [spell],
+        magics: [{ ...magic(0), id: 66 }],
+        objectMagics: [spell],
+        commands,
+        runScript,
+        magicSpriteFrameCounts: new Map([[7, 1]]),
+      })
+      expect(b.state.players.map((p) => p.status.sleep ?? 0)).toEqual([3, 0])
+      expect(b.playerRoles.roles.map((r) => r.hp)).toEqual([500, 500, 499])
+      expect(b.state.rng.next()).toBe(0.97690763277933) // guard and 0x06 consumed two draws
+    } finally {
+      worldRandom.mockRestore()
+    }
+  })
+})
+
 describe('SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768)', () => {
   it.each([
     'normal',

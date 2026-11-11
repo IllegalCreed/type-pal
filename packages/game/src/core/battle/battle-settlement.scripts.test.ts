@@ -1,6 +1,7 @@
 /** Post-battle scripts, queued/active dialogue, runtime effects and final cleanup. */
 import { describe, expect, it, vi } from 'vitest'
 import { runScript } from '../event-system.js'
+import { createSeedableRng } from '../rng.js'
 import { createBattleLifecycleFixture } from './battle-lifecycle.test-fixtures.js'
 import { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'
 import { tickBattleSettlement } from './battle-settlement.js'
@@ -239,48 +240,53 @@ describe('Phase E→对话→恢复与释放', () => {
 
 describe('Post-battle drop branching', () => {
   it.each([
-    { roll: 21, sample: 0.2, count: 1 },
-    { roll: 22, sample: 0.21, count: 0 },
-  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ sample, count }) => {
-    // SSS原盘41017–41021的同一leaf,仅搬到ip1;跳转0仍保留L_0。
-    // C的RandomLong(1,100)>=22跳走;这里只控制其TS实际宿主Math.random,不mock解释器。
-    const random = vi.spyOn(Math, 'random').mockReturnValue(sample)
-    try {
-      const fixture = makeWonBattle({
-        expGained: 0,
-        cashGained: 0,
-        scriptOnBattleEnd: 1,
-        commands: [
-          { op: 'end', label: 'L_0' },
-          { op: 'raw', opcode: 6, operands: [22, 0, 0] },
-          { op: 'giveItem', itemId: 99, count: 0 },
-          { op: 'setDialogStyleNarration' },
-          { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },
-          { op: 'end' },
-        ],
-      })
-      enterWonSettlement(fixture)
+    { roll: 21, seed: 72, count: 1 },
+    { roll: 22, seed: 29, count: 0 },
+  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ roll, seed, count }) => {
+    // 原盘41017–41021搬到ip1，保留跳转L_0。C的RandomLong(1,100)>=22跳走。
+    const fixture = makeWonBattle({
+      expGained: 0,
+      cashGained: 0,
+      scriptOnBattleEnd: 1,
+      commands: [
+        { op: 'end', label: 'L_0' },
+        { op: 'raw', opcode: 6, operands: [22, 0, 0] },
+        { op: 'giveItem', itemId: 99, count: 0 },
+        { op: 'setDialogStyleNarration' },
+        { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },
+        { op: 'end' },
+      ],
+    })
+    fixture.state.rng = createSeedableRng(seed)
+    const chance = vi.spyOn(fixture.state.rng, 'rangeInclusive')
+
+    const settlement = enterWonSettlement(fixture)
+    tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
+    expect(settlement.postBattleScriptsDone).toBe(true)
+    expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
+    if (count === 1) {
+      expect(fixture.gs.mode).toBe('battle')
       tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
-      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
-      if (count === 1) {
-        expect(fixture.gs.mode).toBe('battle')
-        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
-        expect(fixture.gs.dialogBox).toMatchObject({
-          style: 'narration',
-          currentLineText: '获得一棵止血草',
-        })
-        tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)
-        tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
-      } else {
-        expect(fixture.state.battleDialogQueue ?? []).toEqual([])
-        expect(fixture.gs.dialogBox).toBeUndefined()
-      }
-      expect(random).toHaveBeenCalledTimes(1)
-      expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
-      expect(fixture.gs.battleState).toBeUndefined()
-      expect(fixture.gs.mode).toBe('explore')
-    } finally {
-      random.mockRestore()
+      expect(fixture.gs.dialogBox).toMatchObject({
+        style: 'narration',
+        currentLineText: '获得一棵止血草',
+      })
+      expect(fixture.gs.PlayerRolesRuntime.rgwHP[0]).toBe(300)
+      tickBattle(fixture.gs, CONFIRM_INPUT, fixture.bus)
+      tickBattle(fixture.gs, IDLE_INPUT, fixture.bus)
+    } else {
+      expect(fixture.state.battleDialogQueue ?? []).toEqual([])
+      expect(fixture.gs.dialogBox).toBeUndefined()
     }
+    expect(chance).toHaveBeenCalledExactlyOnceWith(1, 100)
+    expect(chance).toHaveReturnedWith(roll)
+    expect(fixture.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
+    expect([
+      fixture.gs.PlayerRolesRuntime.rgwHP[0],
+      fixture.gs.PlayerRolesRuntime.rgwMP[0],
+    ]).toEqual([400, 25])
+    expect(fixture.gs.battleState).toBeUndefined()
+    expect(getBattleResources(fixture.gs)).toBeUndefined()
+    expect(fixture.gs.mode).toBe('explore')
   })
 })

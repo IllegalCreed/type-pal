@@ -4,11 +4,25 @@
  * 选择经公开 tick 提交后由真 core 执行；资源恰扣一次；prepareTurnSounds 快照核对
  * **实际动作集合**（cast 与 attack 分栏），不只数数量。断言用 MP/终态/声音记录器。
  */
+import { validateItems, validatePoisons } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
-import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
+import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
+  type: 'json',
+}
+import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
+import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
+import {
+  PLAYER_PROFILE,
+  wfEnemy,
+  wfHealItem,
+  wfPlayer,
+  wfSkill,
+} from '../__tests__/battle-workflows/catalog.js'
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
+import { expectDefined } from '../defined.js'
 import type { MenuAssets } from '../menu/menu-box.js'
+import type { CreatePlayerInput } from './battle-core.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
 
 /** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
@@ -68,6 +82,33 @@ function infoBoxAssets(): MenuAssets {
     settleArrow: blank,
     battleIcons: [],
   }
+}
+
+function enemyPoisonAttackSession(players: CreatePlayerInput[], attackStrength = 0) {
+  const egg = {
+    ...wfHealItem('117'),
+    use: {
+      target: 'oneAlly' as const,
+      consuming: true,
+      effects: [{ kind: 'applyPoison' as const, poisonId: '551' }],
+    },
+  }
+  return makeWfSession({
+    players,
+    enemies: [wfEnemy('e1', { attackStrength }, { attackEquivItem: { itemId: '117', rate: 4 } })],
+    extraOpts: {
+      items: { [egg.id]: egg },
+      poisonDefs: {
+        551: {
+          id: 551,
+          name: '赤毒',
+          color: 16,
+          curability: 'common',
+          playerTicks: [{ hpDelta: -7 }],
+        },
+      },
+    },
+  })
 }
 
 describe('W3 执行时间线接线', () => {
@@ -275,5 +316,143 @@ describe('W3 执行时间线接线', () => {
     // 固定 RNG 下攻 60、防 28，基础伤害 75，追加 1 后暴击 ×3 = 228。
     expect(firstNumber).toEqual([48, 48, 144])
     expect(sfx.plays).toEqual(['sound.pal.030'])
+  })
+
+  test('敌普攻蓝字仅显示物理伤害，附毒立即单独扣血', () => {
+    const h = enemyPoisonAttackSession([wfPlayer('p1', { defense: 100 })])
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    h.press(['d'])
+    let blue = 0
+    for (let i = 0; i < 80 && blue === 0; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 单人脚底 (240,170)，命中蓝字的个位从 (240,95) 起画。
+      blue = ctx.getImageData(240, 95, 1, 1).data[2] ?? 0
+    }
+    expect(blue).toBe(32) // 字模 1；把赤毒合并会画出字模 8。
+    expect(h.session.debugPlayers()[0]).toMatchObject({
+      hp: 92,
+      poisons: [{ poisonId: 551, tickIndex: 0 }],
+    })
+  })
+
+  test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
+    const antidote = expectDefined(validateItems(palItems.filter(({ id }) => id === '87'))[0])
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { poisons: [{ poisonId: redPoison.id, tickIndex: 0 }] })],
+      enemies: [
+        wfEnemy(
+          'waiting',
+          {},
+          { ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'pass' } }] } },
+        ),
+      ],
+      extraOpts: {
+        items: { [antidote.id]: antidote },
+        poisonDefs: { [redPoison.id]: redPoison },
+        inventory: [{ itemId: antidote.id, count: 1 }],
+      },
+    })
+    h.assets.palette = {
+      colors: standardPalette.colors.map(([red, green, blue]) => [
+        expectDefined(red),
+        expectDefined(green),
+        expectDefined(blue),
+      ]),
+      cycles: [],
+    }
+    h.assets.ui = infoBoxAssets()
+    const portrait = document.createElement('canvas')
+    portrait.width = 4
+    portrait.height = 1
+    const portraitCtx = expectDefined(portrait.getContext('2d'))
+    const source = portraitCtx.createImageData(4, 1)
+    // PAL frame-48 (14,4) / (12,12) 为索引 2 / 153；再放未入色表的作者灰与透明像素。
+    source.data.set([40, 40, 40, 255, 203, 146, 121, 255, 128, 128, 128, 255, 0, 0, 0, 0])
+    portraitCtx.putImageData(source, 0, 0)
+    h.assets.faces = { 'li-xiaoyao': Object.assign(portrait, { close() {} }) }
+
+    const ctx = battleCanvas()
+    const drawFace = () => {
+      h.session.render(ctx, 1)
+      return Array.from(ctx.getImageData(89, 161, 4, 1).data)
+    }
+    h.idle()
+    expect(drawFace()).toEqual([81, 0, 0, 255, 178, 56, 44, 255, 166, 40, 32, 255, 0, 0, 0, 255])
+
+    h.press(['e'])
+    h.press([' '])
+    h.press([' '])
+    h.idle()
+    for (let i = 0; i < 60 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle(40)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(h.session.debugPlayers()[0]?.poisons).toEqual([])
+    expect(drawFace()).toEqual([
+      40, 40, 40, 255, 203, 146, 121, 255, 128, 128, 128, 255, 0, 0, 0, 255,
+    ])
+  })
+
+  test.each([
+    { cause: '附毒致死', attackStrength: 0, returnPose: 40, poisonCount: 1 },
+    { cause: '物理致死', attackStrength: 300, returnPose: 140, poisonCount: 0 },
+  ])('$cause 的敌普攻归位姿势由物理扣血决定，下一轮队员框显示最终 HP', ({
+    attackStrength,
+    returnPose,
+    poisonCount,
+  }) => {
+    const h = enemyPoisonAttackSession(
+      [wfPlayer('p1', { hp: 8, defense: 100 }), wfPlayer('p2')],
+      attackStrength,
+    )
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    const frames = sprite.sprite.frames.map((frame, index) => ({
+      ...frame,
+      height: 8,
+      pixels: new Uint8Array([index === PLAYER_PROFILE.frames.dead ? 2 : 1, 0, 0, 0, 0, 0, 0, 0]),
+      opaque: new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0]),
+    }))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, {
+      ...sprite,
+      sprite: { ...sprite.sprite, frames },
+    })
+    const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])
+    colors[1] = [40, 0, 0]
+    colors[2] = [140, 0, 0]
+    h.assets.palette = { colors, cycles: [] }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      nums: Array.from({ length: 10 }, (_, digit) => bitmap(6, 8, `rgb(0,${(digit + 1) * 16},0)`)),
+    }
+    const ctx = battleCanvas()
+    h.press(['d'])
+    h.press(['d'])
+    let knockedBack = false
+    let firstReturnPose: number | undefined
+    for (let i = 0; i < 100 && firstReturnPose === undefined; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 两人队首脚底 (200,176)；后坐到 (210,181) 后才识别归位帧。取精灵顶部避开队员框。
+      if (ctx.getImageData(210, 173, 1, 1).data[0] === 40) knockedBack = true
+      const pose = ctx.getImageData(200, 168, 1, 1).data[0]
+      if (knockedBack && pose) firstReturnPose = pose
+    }
+    expect(firstReturnPose).toBe(returnPose)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(h.session.debugPlayers()[0]?.poisons).toHaveLength(poisonCount)
+
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle()
+    h.session.render(ctx, 1)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(ctx.getImageData(200, 168, 1, 1).data[0]).toBe(140)
+    expect(ctx.getImageData(135, 170, 1, 1).data[1]).toBe(16) // 当前 HP 的字模 0。
   })
 })

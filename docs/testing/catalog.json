@@ -1648,21 +1648,21 @@
           "lines": "209-211",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "362-373",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1163-1172",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1763,6 +1763,66 @@
               }
             ],
             "scope": "校准战斗会话的三个 caller。原候选、版本、业务义务与执行回执保持原出版身份。Q2 本轮独立结果见正常战斗覆盖报告。"
+          },
+          {
+            "action": "q2-battle-session-mechanism-source-rebinding",
+            "base": "3a921678f20950cccee3f631dfbb1e60bb8efa3b",
+            "date": "2026-11-11",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "209-211",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "362-373",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1163-1172",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "a684cfacbdb5bc8ab8c71a015ef6add169d30ed9986a2ebf23f554c54293f038"
+              }
+            ],
+            "scope": "重绑三处已接收的会话归属 caller。敌普攻时间线改用直接物理伤害，既有归属合同及其历史执行身份按原记录保留。"
+          },
+          {
+            "action": "q2-battle-session-portrait-source-rebinding",
+            "base": "18bfe998333912bf2b1449e534133ce73cafca44",
+            "date": "2026-11-11",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "209-211",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "362-373",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1163-1172",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f"
+              }
+            ],
+            "scope": "赤毒头像返工后的三个现行 caller 来源重绑。保留前两次适用性事件和原会话归属执行身份。"
           }
         ]
       },
@@ -4161,35 +4221,35 @@
           "lines": "47",
           "anchor": "await runBrowserJourney({",
           "role": "caller",
-          "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
+          "sha256": "e0d0da082fb2b8a532a3a1666602eba05db8ecb2242737f9070851b69c532fe1"
         },
         {
           "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-          "lines": "13",
+          "lines": "128",
           "anchor": "function defineScenario(",
           "role": "input-and-independent-oracle",
-          "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
+          "sha256": "500b8151774e8dfa68090c5cb026f506b7f348326a6720b9664f4f0677dc3bfd"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
-          "lines": "276",
+          "lines": "335",
           "anchor": "launch(input) {",
           "role": "public-fixture-adapter",
-          "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
+          "sha256": "acc3a60c8a0955079dd2b0d99df9cc2dc00331ff9131b52ceebbc25242be7cf0"
         },
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
-          "lines": "129",
+          "lines": "159",
           "anchor": "running = runBattleTrial(",
           "role": "public-trial-adapter",
-          "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
+          "sha256": "b22ba9130a7ba363d69ddb69b13cff111ce928370eee82633e1d3205ddf84cca"
         },
         {
           "path": "scripts/e2e/battle-trace-contract.mjs",
-          "lines": "621",
+          "lines": "752",
           "anchor": "export function validateBattleTrace(",
           "role": "oracle",
-          "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
+          "sha256": "778d3ced2bb1cbc23eed30b2bedb556b4ea82a87448067cbe050be6912828bea"
         },
         {
           "path": "scripts/e2e/battle-foundation-compare.mjs",
@@ -4202,15 +4262,15 @@
           "path": "scripts/e2e/battle-presentation.mjs",
           "anchor": "export function validateBattlePresentation(",
           "role": "render-oracle",
-          "lines": "70",
-          "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+          "lines": "182",
+          "sha256": "e5e831688e45a76ecd2e4e644ffd73958c80433b40882f6402a03638bf3f91f1"
         },
         {
           "path": "scripts/e2e/battle-rules.mjs",
           "anchor": "export function validateBattleRules(",
           "role": "rule-oracle",
-          "lines": "90",
-          "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
+          "lines": "107",
+          "sha256": "314ccc2adea59b88db2be651529951de3214583e139ab999b819ab9b6b413fe6"
         }
       ],
       "publicCallers": [
@@ -4223,7 +4283,11 @@
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
         "Each engine runs each setup twice in fresh contexts. Public Game applyFixture and Reforge runBattleTrial prepare the state; all later commands use real keyboard/menu selection.",
         "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used.",
-        "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape."
+        "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape.",
+        "Solo hero/team294, field7, seed64, defend then attack. Full original two-entry enemy queue.",
+        "Level-six hero and Anu/team204, seed4, native enemy sleep. The awake actor defends and finishes the battle.",
+        "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
+        "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4235,7 +4299,11 @@
           "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry.",
           "Real rendered frames show the manual selection HUD, hide it during action and settlement, finish each enemy fade before the next action, and draw herb50 on the returned actor with the original recipient anchor.",
           "The fixed ordinary attack cases check CLASSIC draw purposes, queue jitter, untruncated attack numbers and clamped enemy HP. Actual draws are logged at their producers.",
-          "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement."
+          "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement.",
+          "Team294 consumes no singleton target draw. Native dual actions use 339 for HP94 then normal attack for HP44, with separate raw and rendered results.",
+          "Team204 consumes the native battle script chance draw. Sleep3 applies to hero, round ends tick 3→2→1, and the incapacitated slot passes without a submitted action.",
+          "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round.",
+          "The actual Li Xiaoyao portrait shows the original RGBA values before poison and after item87, and exact SDLPal palette-ramp RGBs while poison551 is active. Two transparent pixels preserve their drawn destination."
         ]
       },
       "dedupe": {
@@ -4245,10 +4313,10 @@
           "battle-host and battle-session source audits",
           "existing rule/unit tests"
         ],
-        "notes": "New runtime entry/collector/comparison obligations only. No full-rule, raw-damage, AI, audiovisual or world/save lifecycle credit."
+        "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
       },
       "revision": {
-        "currentSha": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+        "currentSha": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4266,6 +4334,24 @@
             "predecessor": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
             "historicalReceiptRevision": "18fac8f47fbb002bf76a4c97283225c7156447f2",
             "archive": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz"
+          },
+          {
+            "revision": "e746620556cf961eed871ec3f8038f5223d37357",
+            "date": "2026-11-11",
+            "action": "native-battle-enemy-ai-sleep-and-equivalent-poison",
+            "scope": "Fixed native PAL teams 294, 204 and 115, dual action, enemy sleep and equivalent poison application, decay and cure.",
+            "predecessor": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+            "historicalReceiptRevision": "3a921678f20950cccee3f631dfbb1e60bb8efa3b",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz"
+          },
+          {
+            "revision": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
+            "date": "2026-11-11",
+            "action": "native-equivalent-poison-portrait-colors",
+            "scope": "User-reported red poison portrait. Real selection-frame samples confirm four opaque shades, two holes and normal color after the antidote.",
+            "predecessor": "e746620556cf961eed871ec3f8038f5223d37357",
+            "historicalReceiptRevision": "18bfe998333912bf2b1449e534133ce73cafca44",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz"
           }
         ]
       }

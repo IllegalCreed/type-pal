@@ -18,6 +18,8 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionMechanismBase,
+  testingBattleSessionPortraitBase,
   testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 
@@ -154,26 +156,32 @@ const registry = JSON.parse(
   readFileSync(join(repository, 'docs/phase-governance/templates/registry.json')),
 )
 
-function sessionRebindingFixture() {
-  const { current, additions } = fixture()
+function sessionRebindingFixture(revision = testingBattlePublicationBase) {
+  const original = fixture()
+  const published = revision !== testingBattlePublicationBase
+  const portrait = revision === testingBattleSessionPortraitBase
+  const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
-  const evidence = JSON.parse(previousEvidence)
+  const evidence = JSON.parse(readFixed(revision, sessionEvidence))
   const owner = current.entries.find(({ id }) => id === evidence.id)
   const sessionSource = Buffer.concat([
     Buffer.from('\n'),
-    readFixed(testingBattlePublicationBase, testingBattleSessionSourcePath),
+    readFixed(revision, testingBattleSessionSourcePath),
   ])
+  const snapshot = (fixedRevision) => ({
+    revision: fixedRevision,
+    readSource: (path) => readFixed(fixedRevision, path),
+  })
   const bridge = {
     readSource(path) {
       if (path === testingBattleSessionSourcePath) return sessionSource
       if (path === sessionReceipt) return Buffer.from('# Synthetic test receipt\n')
       return undefined
     },
-    fixed: {
-      revision: testingBattlePublicationBase,
-      readSource: (path) => readFixed(testingBattlePublicationBase, path),
-    },
+    fixed: snapshot(testingBattlePublicationBase),
+    ...(published ? { mechanismFixed: snapshot(testingBattleSessionMechanismBase) } : {}),
+    ...(portrait ? { portraitFixed: snapshot(testingBattleSessionPortraitBase) } : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -188,8 +196,12 @@ function sessionRebindingFixture() {
     return { ...reference, lines, sha256: hash(sessionSource) }
   })
   const event = {
-    action: 'q2-battle-session-source-rebinding',
-    base: testingBattlePublicationBase,
+    action: portrait
+      ? 'q2-battle-session-portrait-source-rebinding'
+      : published
+        ? 'q2-battle-session-mechanism-source-rebinding'
+        : 'q2-battle-session-source-rebinding',
+    base: revision,
     date: '2026-11-11',
     evidence: sessionReceipt,
     previousSourceRefs,
@@ -201,9 +213,10 @@ function sessionRebindingFixture() {
   owner.revision.history.push(structuredClone(event))
   return {
     catalog: current,
+    owner,
     evidence,
     checkCatalog: () =>
-      assertTestingBattlePublication(previousCatalog, bytes(current), additions, bridge),
+      assertTestingBattlePublication(previousCatalog, bytes(current), original.additions, bridge),
     checkEvidence: () =>
       assertTestingBattleSessionSourceBridge(
         sessionEvidence,
@@ -243,6 +256,28 @@ test('rebind history and the rest of the accepted catalog remain fixed', () => {
   assert.throws(rebinding.checkEvidence, /previousSourceRefs do not match/u)
   rebinding.catalog.entries[0].title += ' changed'
   assert.throws(rebinding.checkCatalog, /changed existing catalog facts/u)
+})
+
+test('the mechanism rebind accepts one source update and preserves the first accepted rebind', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionMechanismBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-2).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).base = testingBattlePublicationBase
+  assert.throws(rebinding.checkCatalog, /history must name the fixed base/u)
+})
+
+test('the portrait rebind retains both previously accepted histories', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionPortraitBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-3).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).previousSourceRefs.pop()
+  assert.throws(rebinding.checkCatalog, /previousSourceRefs do not match/u)
 })
 
 function pairedFixture(t) {

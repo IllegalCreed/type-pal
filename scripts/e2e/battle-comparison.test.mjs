@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { afterEach, describe, test } from 'node:test'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
 import { validateBattlePresentation } from './battle-presentation.mjs'
+import { validateBattleRules } from './battle-rules.mjs'
 import { validateBattleTrace } from './battle-trace-contract.mjs'
 import { battleObserverScript, installBattleTraceObserver } from './battle-trace-observer.mjs'
 import { createEvidenceRecorder } from './evidence-recorder.mjs'
@@ -211,6 +212,89 @@ describe('battle business conformance and comparison', () => {
     ])
   })
 
+  test('portrait color, transparency and cure are judged from separate native selection draws', () => {
+    const fixture = scenario()
+    fixture.portraitProbe = {
+      slot: 0,
+      points: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+      ],
+    }
+    fixture.expected.actions = []
+    fixture.expected.portraitSize = [2, 1]
+    fixture.expected.portraitSamples = [
+      { turn: 1, hp: 150, rgbs: [[0, 0, 0], null] },
+      { turn: 2, hp: 135, rgbs: [[178, 56, 44], null] },
+      { turn: 3, hp: 134, rgbs: [[0, 0, 0], null] },
+    ]
+    installBattleTraceObserver(
+      {
+        engine: 'game',
+        scenarioId: fixture.id,
+        runId: `run-${++run}`,
+        random,
+        portraitProbe: fixture.portraitProbe,
+      },
+      createEvidenceRecorder,
+    )
+    const observer = globalThis.__battleEvidence
+    observer.start(fixture.expected.start, 'battle:start')
+    const begin = (turn, phase, selecting) =>
+      observer.beginFrame('game:BattlePresent.draw', {
+        clockMs: turn * 40,
+        turn,
+        phase,
+        selecting,
+        animation: null,
+      })
+    const colors = [
+      [0, 0, 0],
+      [10, 30, 50],
+      [178, 56, 44],
+    ]
+    const box = { width: 2, height: 1, indices: new Uint8Array([1, 1]) }
+    for (const [turn, hp, faceIndex] of [
+      [1, 150, 0],
+      [2, 135, 2],
+      [3, 134, 0],
+    ]) {
+      box.indices[0] = 1
+      begin(turn, 'selectAction', true)
+      const afterDraw = observer.captureIndexedPortrait(0, hp, box, box, 0, 0, colors)
+      box.indices[0] = faceIndex
+      afterDraw()
+      observer.panelDrawn(0)
+      observer.panelDrawn(1)
+      observer.endFrame()
+    }
+    begin(3, 'won', false)
+    observer.settlementDrawn('exp-cash')
+    observer.endFrame()
+    const actual = observer.read()
+    assert.equal(validateBattlePresentation(actual, fixture).status, 'passed')
+
+    const dark = structuredClone(actual)
+    dark.presentations[1].payload.portrait.samples[0].after.rgba = [33, 0, 0, 255]
+    assert.deepEqual(
+      validateBattlePresentation(dark, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+      [['portrait-palette', 2]],
+    )
+
+    const covered = structuredClone(actual)
+    covered.presentations[1].payload.portrait.samples[1].after.index = 0
+    assert.deepEqual(
+      validateBattlePresentation(covered, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+      [['portrait-transparent-pixel', 2]],
+    )
+
+    delete actual.presentations[2].payload.portrait
+    assert.deepEqual(
+      validateBattlePresentation(actual, fixture).findings.map(({ rule }) => rule),
+      ['portrait-sample-count'],
+    )
+  })
+
   test('independent runs prove effective action states while exposing unaccepted native damage', () => {
     const game = capture('game').trace
     const reforge = capture('reforge').trace
@@ -265,6 +349,142 @@ describe('battle business conformance and comparison', () => {
     assert.equal(
       compareBattleRepeats(first, first, scenario()).findings[0].rule,
       'independent-run-identity',
+    )
+  })
+
+  test('round evidence distinguishes a poison tick from an incapacitated action and later input', () => {
+    const defend = decision('ally', 'defend', null)
+    const pass = decision('hero', 'pass', null)
+    const finish = { ...strike, turn: 2 }
+    const start = state(50, 30, 2)
+    Object.assign(start.players[0], { statuses: { sleep: 2 }, poisons: [551] })
+    const afterRound = structuredClone(start)
+    Object.assign(afterRound.players[0], { hp: 43, statuses: { sleep: 1 } })
+    const won = structuredClone(afterRound)
+    Object.assign(won.enemies[0], { hp: 0, alive: false })
+    const fixture = {
+      id: 'poisoned-round',
+      random,
+      expected: {
+        start,
+        commands: [defend, finish],
+        actions: [
+          { ...defend, before: start, after: start },
+          { ...pass, before: start, after: start },
+          { ...finish, before: afterRound, after: won },
+        ],
+        rounds: [{ turn: 1, before: start, after: afterRound }],
+        terminal: { result: 'victory', settlementCount: 1, after: state(118, 0, 2, 1, 13) },
+      },
+    }
+    const collect = (engine) => {
+      installBattleTraceObserver(
+        { scenarioId: fixture.id, runId: `run-${++run}`, engine, random },
+        createEvidenceRecorder,
+      )
+      const observer = globalThis.__battleEvidence
+      observer.start(start, 'battle:start')
+      observer.command({ ...defend, source: 'selection:commit' })
+      observer.random(0.25, 'rng:queue')
+      observer.action({ ...fixture.expected.actions[0], source: 'action:defend' })
+      observer.action({
+        ...fixture.expected.actions[1],
+        native: { inaction: 'incapacitated' },
+        source: 'action:incapacitated',
+      })
+      const slots = [{ partySlot: 0, poisonId: 551 }]
+      observer.round({
+        ...fixture.expected.rounds[0],
+        native: { poisonsBefore: slots, poisonsAfter: slots },
+        source: 'round:end',
+      })
+      observer.command({ ...finish, source: 'selection:commit' })
+      observer.action({ ...fixture.expected.actions[2], source: 'action:attack' })
+      observer.terminal({ ...fixture.expected.terminal, source: 'battle:commit' })
+      return observer.read()
+    }
+    const game = collect('game')
+    const reforge = collect('reforge')
+    assert.equal(compareBattleTraces(game, reforge, fixture).status, 'passed')
+
+    const staleTick = structuredClone(reforge)
+    staleTick.rounds[0].after.players[0].hp++
+    assert.deepEqual(
+      compareBattleTraces(game, staleTick, fixture).findings.map(({ domain, rule, path }) => [
+        domain,
+        rule,
+        path,
+      ]),
+      [['business', 'round-after', 'rounds[0].after']],
+    )
+
+    const forgedPass = structuredClone(reforge)
+    delete forgedPass.actions[1].native.inaction
+    assert.equal(
+      compareBattleTraces(game, forgedPass, fixture).findings[0].rule,
+      'incapacitated-action-producer',
+    )
+
+    const outOfOrder = structuredClone(reforge)
+    const [round] = outOfOrder.rounds
+    const command = outOfOrder.commands[1]
+    ;[round.order, command.order] = [command.order, round.order]
+    ;[round.atMs, command.atMs] = [command.atMs, round.atMs]
+    assert.equal(compareBattleTraces(game, outOfOrder, fixture).findings[0].rule, 'round-order')
+  })
+
+  test('a round-end poison number cannot substitute for the physical number or appear during the hit', () => {
+    const before = state(150, 30, 2)
+    const hit = state(142, 30, 2)
+    const tick = state(135, 30, 2)
+    const attack = { ...decision('lantern-a', 'attack', 'hero'), actorSide: 'enemy' }
+    const scenario = {
+      expected: { ruleDraws: [], actions: [{ rawDamage: 1, effectiveHpLoss: 8 }] },
+    }
+    const frame = (seq, value, selecting = false) => ({
+      kind: 'battle-frame',
+      seq,
+      order: seq + (selecting ? 3 : 1),
+      clockMs: seq * 40,
+      atMs: seq * 40,
+      payload: {
+        turn: selecting ? 2 : 1,
+        selecting,
+        animation: selecting ? null : attack,
+        numbers: [
+          {
+            numberId: seq,
+            tone: 'blue',
+            side: 'player',
+            slot: 0,
+            value,
+            right: 244,
+            y: 95,
+            age: 0,
+          },
+        ],
+      },
+    })
+    const cast = frame(0, 94)
+    cast.payload.animation = { ...attack, kind: 'cast' }
+    const strike = frame(1, 1)
+    // The preceding spell's number remains visible. The first sampled strike draw can be late.
+    strike.payload.numbers[0].age = 1
+    strike.payload.numbers.unshift({ ...cast.payload.numbers[0], age: 8 })
+    const trace = {
+      engine: 'reforge',
+      actions: [{ ...attack, before, after: hit, native: { lastAction: { damage: 1 } } }],
+      rounds: [{ turn: 1, order: 4, atMs: 110, before: hit, after: tick }],
+      randomDraws: [],
+      presentations: [cast, strike, frame(3, 7, true)],
+    }
+    const good = validateBattleRules(trace, scenario)
+    assert.equal(good.status, 'passed')
+    assert.equal(good.strikes[0].poisonRound.draw.afterRoundMs, 10)
+    trace.presentations.splice(2, 0, frame(2, 7))
+    assert.deepEqual(
+      validateBattleRules(trace, scenario).findings.map(({ rule }) => rule),
+      ['extra-blue-number-before-poison-round'],
     )
   })
 

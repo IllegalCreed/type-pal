@@ -24,16 +24,21 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
     assert.match(observed.code, /__battle(?:Game|Evidence)/)
     assert.throws(() => instrumentGameBattle(observed.code, file), /instrumented twice/)
     if (file.endsWith('/battle/battle-system.ts')) {
-      assert.equal(observed.anchors.command, 10)
+      assert.equal(observed.anchors.command, 7)
+      assert.equal(observed.anchors.placeholder, 3)
+      assert.equal(observed.anchors['round-start'], 1)
+      assert.equal(observed.anchors['round-end'], 1)
       assert.equal(observed.anchors.actionComplete, 4)
-      assert.throws(
-        () =>
-          instrumentGameBattle(
-            native.replace('function tickPerformAction(', 'function movedTick('),
-            file,
-          ),
-        /boundary census changed/,
-      )
+      for (const name of ['tickPerformAction', 'tickPostAction', 'autoFillIncapacitatedActions']) {
+        assert.throws(
+          () =>
+            instrumentGameBattle(
+              native.replace(`function ${name}(`, `function moved${name}(`),
+              file,
+            ),
+          /boundary census changed/,
+        )
+      }
     }
   }
 })

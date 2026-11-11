@@ -632,6 +632,7 @@ export function dispatchBattleOpcode(
                         state,
                         target: { type: 'player', idx: pIdx },
                         gs: ctx.gs!,
+                        playerRoles: ctx.playerRoles,
                         bus: ctx.bus,
                         commands: ctx.commands,
                         runScript: ctx.runScript,

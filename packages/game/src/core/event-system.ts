@@ -76,6 +76,7 @@ import {
   resolveNightColors,
 } from './palette-fade.js'
 import { isPlayerPoisoned } from './player-poison-state.js'
+import type { SeedableRng } from './rng.js'
 import { getCurrentMapNum } from './scene-identity.js'
 import {
   getCmds,
@@ -3026,7 +3027,14 @@ export function runScript(opts: RunScriptOptions): number {
               callStack,
               currentEventObjectId: curEventObjId,
             }
-            applyRawOpcode(battleCtx.gs, cmd.opcode, cmd.operands, curEventObjId, cursor)
+            applyRawOpcode(
+              battleCtx.gs,
+              cmd.opcode,
+              cmd.operands,
+              curEventObjId,
+              cursor,
+              battleCtx.state.rng,
+            )
             // 战斗中 0x19/0x1A 改base、0x8D升级后，回灌战斗属性snapshot，使效果当场
             //   生效(镇狱明王力量觉醒:此前加成战内无效 + 后续 0x1D 治疗封顶旧 maxHP + 菜单/战斗对不上)。
             //   resync 全队(读 runtime+装备 authoritative,未变 role 是 no-op;省去 op2==0 角色解析)。
@@ -3423,6 +3431,7 @@ function applyRawOpcode(
    * 这样 trigger / autoScript 共用同一套解释器(架构统一,2026-05-28)。
    */
   cursor: ScriptCursor | null = null,
+  battleRng?: SeedableRng,
 ): void {
   if (
     applyPlayerOpcode({
@@ -4171,7 +4180,10 @@ function applyRawOpcode(
     case OP_JUMP_BY_RATE: {
       // sdlpal script.c:3299-3312:if RandomLong(1,100) >= operand[0] → jump operand[1]
       const rate = operands[0] ?? 0
-      if (Math.floor(Math.random() * 100) + 1 >= rate) {
+      const roll = battleRng
+        ? battleRng.rangeInclusive(1, 100)
+        : Math.floor(Math.random() * 100) + 1
+      if (roll >= rate) {
         jumpToGlobalIp(cursor, operands[1] ?? 0) // cursor.ip = target-1,caller ip++ → target
       }
       break

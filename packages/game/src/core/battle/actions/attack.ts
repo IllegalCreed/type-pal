@@ -397,6 +397,17 @@ export function performAttack(
   targetRole.hp = Math.max(0, targetRole.hp - damage)
   const dealtDamage = hpBefore - targetRole.hp
 
+  // 物理受击的恢复姿态取附毒前的 HP（fight.c:5107–5148）。
+  const built = buildAttackTimeline({
+    state,
+    actor,
+    targetIdx,
+    isPlayerTarget,
+    damage: dealtDamage,
+    battleEffectIndex,
+    playerRoles,
+  })
+
   // —— 敌人普通攻击附带等价物品中毒(sdlpal fight.c:5139-5146)——
   //   敌→我 命中后:`attackEquivItemRate >= RandomLong(1,10)` && `poisonResistance < RandomLong(1,100)`
   //   → 跑 rgObject[attackEquivItem].item.wScriptOnUse(wEventObjectID = 被打队员 role)。该毒物品脚本是
@@ -426,7 +437,16 @@ export function performAttack(
           bus,
           runtimeMode: 'battle',
           eventObjectId: roleId, // wEventObjectID = 被打队员 → 脚本 0x29 单体毒之
-          battleCtx: { state, target: { type: 'player', idx: targetIdx }, gs: equivPoison.gs },
+          battleCtx: {
+            state,
+            target: { type: 'player', idx: targetIdx },
+            gs: equivPoison.gs,
+            playerRoles,
+            commands: equivPoison.commands,
+            runScript: equivPoison.runScript,
+            // fight.c:5080/5143 先绘物理伤害，附带脚本的扣血不额外弹数字。
+            pendingDamageNums: [],
+          },
         })
         setItemScriptEntry(equivPoison.gs, poisonItem, 'scriptOnUse', nextEntry)
       }
@@ -436,18 +456,6 @@ export function performAttack(
   // —— emit 敌攻击音命令(shell/audio 按 enemy.attackSound 播)——
   bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
 
-  // —— D17a:建物理攻击/受击动画时间线(damageNum 由时间线 i==0 / 命中帧 emit)——
-  // 缺 fighter render-state pos(旧 fixture)→ 不建时间线,直接即时 emit showDamageNum
-  // (向后兼容:tickPerformAction 见 state.battleAnim 仍 undefined → currentActionIndex++)。
-  const built = buildAttackTimeline({
-    state,
-    actor,
-    targetIdx,
-    isPlayerTarget,
-    damage: dealtDamage,
-    battleEffectIndex,
-    playerRoles,
-  })
   if (built) {
     startBattleAnim(state, built, bus)
     return

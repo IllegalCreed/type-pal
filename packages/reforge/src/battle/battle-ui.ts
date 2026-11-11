@@ -6,6 +6,7 @@
  * 320 逻辑坐标,调用方已 ctx.scale。资产缺省时调用方走文字兜底(单测/加载失败容错)。
  */
 
+import type { Palette } from '@type-pal/shared'
 import {
   COLOR_DISABLED,
   COLOR_DISABLED_SEL,
@@ -89,8 +90,8 @@ export interface InfoBoxPlayer {
   maxMp: number
   /** 坏状态剩余回合(状态字:乱/定/眠/封;缺省不画)。 */
   status?: { confused?: number; paralyzed?: number; sleep?: number; silence?: number }
-  /** 中毒头像单色化的颜色([r,g,b];最高级 ≤3 毒的 wColor 经调色板;undefined = 无毒正常)。 */
-  poisonRgb?: readonly [number, number, number]
+  /** 中毒头像的调色板索引，其高四位选择 16 色段。 */
+  poisonColor?: number
 }
 
 /**
@@ -111,16 +112,42 @@ const STATUS_WORDS: ReadonlyArray<{
   { key: 'silence', text: '封', dx: 55, dy: 20, colorIdx: 0x3c },
 ]
 
-/** 毒色头像缓存(roleId+rgb → 单色化位图;每帧 getImageData 太贵)。 */
-const poisonFaceCache = new Map<string, HTMLCanvasElement>()
+const poisonFaceCache = new WeakMap<
+  Palette,
+  {
+    shades: ReadonlyMap<number, number>
+    faces: WeakMap<ImageBitmap, Map<number, HTMLCanvasElement>>
+  }
+>()
 
-/** PAL_RLEBlitMonoColor 的 RGBA 近似:保亮度,色相/饱和取毒色(乘法调制)。 */
+function rgbKey(red: number, green: number, blue: number): number {
+  return (red << 16) | (green << 8) | blue
+}
+
+function poisonFacePalette(palette: Palette) {
+  const cached = poisonFaceCache.get(palette)
+  if (cached) return cached
+  const shades = new Map<number, number>()
+  palette.colors.forEach(([red, green, blue], index) => {
+    const key = rgbKey(red, green, blue)
+    // 作者色表的同色索引若有歧义，取表中首项。
+    if (!shades.has(key)) shades.set(key, index & 0x0f)
+  })
+  const entry = { shades, faces: new WeakMap<ImageBitmap, Map<number, HTMLCanvasElement>>() }
+  poisonFaceCache.set(palette, entry)
+  return entry
+}
+
+/** PAL_RLEBlitMonoColor (palcommon.c:530,601-616)：毒色段 + 原像素亮度档。 */
 function monoColorFace(
   face: ImageBitmap,
-  rgb: readonly [number, number, number],
-  key: string,
+  palette: Palette,
+  poisonColor: number,
 ): HTMLCanvasElement {
-  const hit = poisonFaceCache.get(key)
+  const band = poisonColor & 0xf0
+  const { shades, faces } = poisonFacePalette(palette)
+  const variants = faces.get(face) ?? new Map<number, HTMLCanvasElement>()
+  const hit = variants.get(band)
   if (hit) return hit
   const cvs = document.createElement('canvas')
   cvs.width = face.width
@@ -132,14 +159,22 @@ function monoColorFace(
   const d = img.data
   for (let i = 0; i < d.length; i += 4) {
     if (d[i + 3] === 0) continue
-    // 亮度 × 毒色(原版 mono 色阶按调色板同色系渐变;RGBA 近似 = luma 调制)
-    const luma = ((d[i] ?? 0) * 0.299 + (d[i + 1] ?? 0) * 0.587 + (d[i + 2] ?? 0) * 0.114) / 255
-    d[i] = Math.round(rgb[0] * luma)
-    d[i + 1] = Math.round(rgb[1] * luma)
-    d[i + 2] = Math.round(rgb[2] * luma)
+    const red = d[i] ?? 0
+    const green = d[i + 1] ?? 0
+    const blue = d[i + 2] ?? 0
+    // PAL 头像的 RGB 可从工程标准色表恢复低四位，表外作者像素按亮度分到 16 档。
+    const shade =
+      shades.get(rgbKey(red, green, blue)) ??
+      Math.round((red * 0.299 + green * 0.587 + blue * 0.114) / 17)
+    const color = palette.colors[band | shade]
+    if (!color) continue
+    d[i] = color[0]
+    d[i + 1] = color[1]
+    d[i + 2] = color[2]
   }
   c.putImageData(img, 0, 0)
-  poisonFaceCache.set(key, cvs)
+  variants.set(band, cvs)
+  faces.set(face, variants)
   return cvs
 }
 
@@ -151,7 +186,7 @@ export function drawPlayerInfoBox(
   p: InfoBoxPlayer,
   slot: number,
   glyphs?: GlyphTable,
-  palette?: import('@type-pal/shared').Palette,
+  palette?: Palette,
 ): void {
   const x = INFO_X_BASE + slot * INFO_X_STEP
   const y = INFO_Y
@@ -162,13 +197,9 @@ export function drawPlayerInfoBox(
       ctx.filter = 'grayscale(1) brightness(0.6)' // 死亡:一阶段 mono 黑白的 RGBA 等价
       ctx.drawImage(face, x - 2, y - 4)
       ctx.restore()
-    } else if (p.poisonRgb) {
+    } else if (p.poisonColor !== undefined && palette) {
       // 中毒:头像按最高级毒 wColor 单色化(uibattle.c:158-161 PAL_RLEBlitMonoColor)
-      ctx.drawImage(
-        monoColorFace(face, p.poisonRgb, `${p.roleId}:${p.poisonRgb.join(',')}`),
-        x - 2,
-        y - 4,
-      )
+      ctx.drawImage(monoColorFace(face, palette, p.poisonColor), x - 2, y - 4)
     } else {
       ctx.drawImage(face, x - 2, y - 4)
     }

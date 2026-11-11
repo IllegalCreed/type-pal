@@ -65,8 +65,10 @@ function sequence(values: readonly number[], fallback = 0) {
   }
 }
 
-function confusedState(slots: Array<EnemyDef | null>): BattleState {
-  const state = createBattleState({ players: [player()], enemySlots: slots })
+const fallenAlly = player({ roleId: 'ally', actorTemplateId: 'ally', hp: 0 })
+
+function confusedState(slots: Array<EnemyDef | null>, players = [player()]): BattleState {
+  const state = createBattleState({ players, enemySlots: slots })
   state.enemies[0]!.status.confused = 3
   return state
 }
@@ -87,7 +89,7 @@ function expectedMateDamage(attacker: EnemyDef, target: EnemyDef): number {
 }
 
 function performOneConfusedAttack(attacker: EnemyDef, target: EnemyDef) {
-  const random = sequence([0, 0, 0, 0, 0.9])
+  const random = sequence([0, 0, 0, 0.9])
   const state = confusedState([attacker, null, target])
   stepBattle(state, random.rng)
   state.pendingActions.set(0, { kind: 'defend' })
@@ -98,7 +100,7 @@ function performOneConfusedAttack(attacker: EnemyDef, target: EnemyDef) {
 }
 
 describe('B10 敌人混乱决策与专用结算', () => {
-  test('无活玩家不抽签；眠/定先消耗一次玩家目标后 Pass', () => {
+  test('无活玩家不抽签；眠/定先按完整玩家槽拒绝死亡目标再 Pass', () => {
     const noPlayer = confusedState([enemy('source'), enemy('mate')])
     noPlayer.players[0]!.hp = 0
     const none = sequence([])
@@ -106,11 +108,11 @@ describe('B10 敌人混乱决策与专用结算', () => {
     expect(none.calls()).toBe(0)
 
     for (const status of ['sleep', 'paralyzed'] as const) {
-      const state = confusedState([enemy('source'), enemy('mate')])
+      const state = confusedState([enemy('source'), enemy('mate')], [player(), fallenAlly])
       state.enemies[0]!.status[status] = 2
-      const random = sequence([0])
+      const random = sequence([0.9, 0]) // 玩家槽 1 已死，重抽槽 0。
       expect(decideEnemyAction(state, state.enemies[0]!, random.rng)).toEqual({ kind: 'pass' })
-      expect(random.calls()).toBe(1)
+      expect(random.calls()).toBe(2)
     }
   })
 
@@ -118,7 +120,7 @@ describe('B10 敌人混乱决策与专用结算', () => {
     const source = enemy('source')
     const dead = enemy('dead')
     const mate = enemy('mate')
-    const state = confusedState([source, null, dead, mate])
+    const state = confusedState([source, null, dead, mate], [player(), fallenAlly])
     state.enemies[0]!.status.silence = 2
     state.enemies[2]!.hp = 0
     // 玩家槽 0 → 敌槽 1(null) → 敌槽 2(dead) → 敌槽 3(mate)。
@@ -132,15 +134,15 @@ describe('B10 敌人混乱决策与专用结算', () => {
 
   test('抽到自己直接 Pass；异常 RNG 连续命中空槽在 64 次后有界退出', () => {
     const self = confusedState([enemy('source'), enemy('mate')])
-    const pickSelf = sequence([0, 0])
+    const pickSelf = sequence([0])
     expect(decideEnemyAction(self, self.enemies[0]!, pickSelf.rng)).toEqual({ kind: 'pass' })
-    expect(pickSelf.calls()).toBe(2)
+    expect(pickSelf.calls()).toBe(1)
 
     const guarded = confusedState([enemy('source'), null])
     const stuck = sequence([], 0.9)
     expect(decideEnemyAction(guarded, guarded.enemies[0]!, stuck.rng)).toEqual({ kind: 'pass' })
-    // 1 次玩家抽签 + 1 次敌初抽 + 64 次拒绝重抽。
-    expect(stuck.calls()).toBe(66)
+    // 单一玩家槽不抽签，1 次敌初抽 + 64 次拒绝重抽。
+    expect(stuck.calls()).toBe(65)
   })
 
   test('confused 在普通 rules 与 fallback 前截断，不消费 once', () => {
@@ -158,7 +160,7 @@ describe('B10 敌人混乱决策与专用结算', () => {
         rules: [{ at: 'act', do: action, once: true }],
       }
       const state = confusedState([source, null, enemy('mate')])
-      const random = sequence([0, 0.9])
+      const random = sequence([0.9])
       expect(decideEnemyAction(state, state.enemies[0]!, random.rng)).toEqual({
         kind: 'attackMate',
         targetEnemyIdx: 2,
@@ -172,7 +174,7 @@ describe('B10 敌人混乱决策与专用结算', () => {
       fallback: { action: { kind: 'cast', skillId: 'missing' }, chancePercent: 100 },
     }
     const state = confusedState([fallback, null, enemy('mate')])
-    expect(decideEnemyAction(state, state.enemies[0]!, sequence([0, 0.9]).rng)).toEqual({
+    expect(decideEnemyAction(state, state.enemies[0]!, sequence([0.9]).rng)).toEqual({
       kind: 'attackMate',
       targetEnemyIdx: 2,
     })
@@ -202,7 +204,7 @@ describe('B10 敌人混乱决策与专用结算', () => {
       targetEnemyIdx: 2,
       damage: expected,
     })
-    expect(random.calls()).toBe(5)
+    expect(random.calls()).toBe(4)
   })
 
   test.each([
@@ -239,9 +241,9 @@ describe('B10 敌人混乱决策与专用结算', () => {
     })
     const mate1 = enemy('mate-1', { health: 999, defense: 0, dexterity: 0 })
     const mate2 = enemy('mate-2', { health: 999, defense: 0, dexterity: 0 })
-    // queue:player,source×2,mate1,mate2 共 5 抽；两次行动各 2 抽。
-    const random = sequence([0, 0, 0, 0, 0, 0, 0.4, 0, 0.9])
-    const state = confusedState([source, mate1, mate2])
+    // 队列 5 抽；首动拒绝死亡玩家槽后击同伴 1，第二动独立选目标后击同伴 2。
+    const random = sequence([0, 0, 0, 0, 0, 0.9, 0, 0.4, 0, 0.9])
+    const state = confusedState([source, mate1, mate2], [player(), fallenAlly])
     stepBattle(state, random.rng)
     state.pendingActions.set(0, { kind: 'defend' })
     stepBattle(state, random.rng)
@@ -255,7 +257,7 @@ describe('B10 敌人混乱决策与专用结算', () => {
     expect(state.lastAction).toMatchObject({ kind: 'attackMate', targetEnemyIdx: 2 })
     expect(state.enemies[1]!.hp).toBeLessThan(999)
     expect(state.enemies[2]!.hp).toBeLessThan(999)
-    expect(random.calls()).toBe(9)
+    expect(random.calls()).toBe(10)
   })
 })
 
