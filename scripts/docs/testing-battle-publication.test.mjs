@@ -18,6 +18,7 @@ import {
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionMechanismBase,
   testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 
@@ -154,15 +155,17 @@ const registry = JSON.parse(
   readFileSync(join(repository, 'docs/phase-governance/templates/registry.json')),
 )
 
-function sessionRebindingFixture() {
-  const { current, additions } = fixture()
+function sessionRebindingFixture(revision = testingBattlePublicationBase) {
+  const original = fixture()
+  const isMechanism = revision === testingBattleSessionMechanismBase
+  const current = isMechanism ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
-  const evidence = JSON.parse(previousEvidence)
+  const evidence = JSON.parse(readFixed(revision, sessionEvidence))
   const owner = current.entries.find(({ id }) => id === evidence.id)
   const sessionSource = Buffer.concat([
     Buffer.from('\n'),
-    readFixed(testingBattlePublicationBase, testingBattleSessionSourcePath),
+    readFixed(revision, testingBattleSessionSourcePath),
   ])
   const bridge = {
     readSource(path) {
@@ -174,6 +177,9 @@ function sessionRebindingFixture() {
       revision: testingBattlePublicationBase,
       readSource: (path) => readFixed(testingBattlePublicationBase, path),
     },
+    ...(isMechanism
+      ? { mechanismFixed: { revision, readSource: (path) => readFixed(revision, path) } }
+      : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -188,8 +194,10 @@ function sessionRebindingFixture() {
     return { ...reference, lines, sha256: hash(sessionSource) }
   })
   const event = {
-    action: 'q2-battle-session-source-rebinding',
-    base: testingBattlePublicationBase,
+    action: isMechanism
+      ? 'q2-battle-session-mechanism-source-rebinding'
+      : 'q2-battle-session-source-rebinding',
+    base: revision,
     date: '2026-11-11',
     evidence: sessionReceipt,
     previousSourceRefs,
@@ -201,9 +209,10 @@ function sessionRebindingFixture() {
   owner.revision.history.push(structuredClone(event))
   return {
     catalog: current,
+    owner,
     evidence,
     checkCatalog: () =>
-      assertTestingBattlePublication(previousCatalog, bytes(current), additions, bridge),
+      assertTestingBattlePublication(previousCatalog, bytes(current), original.additions, bridge),
     checkEvidence: () =>
       assertTestingBattleSessionSourceBridge(
         sessionEvidence,
@@ -243,6 +252,17 @@ test('rebind history and the rest of the accepted catalog remain fixed', () => {
   assert.throws(rebinding.checkEvidence, /previousSourceRefs do not match/u)
   rebinding.catalog.entries[0].title += ' changed'
   assert.throws(rebinding.checkCatalog, /changed existing catalog facts/u)
+})
+
+test('the mechanism rebind accepts one source update and preserves the first accepted rebind', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionMechanismBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-2).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).base = testingBattlePublicationBase
+  assert.throws(rebinding.checkCatalog, /history must name the fixed base/u)
 })
 
 function pairedFixture(t) {

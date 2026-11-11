@@ -28,6 +28,7 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleSessionEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionMechanismBase,
   testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 import {
@@ -432,10 +433,16 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     battlePublicationRevision === undefined
       ? undefined
       : gitTree(root, battlePublicationRevision, [testingCatalogPath])
+  const preBattleMechanisms =
+    preBattle && gitTree(root, testingBattleSessionMechanismBase, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   const battleBridge = preBattle && {
     readSource,
     fixed: { revision: battlePublicationRevision, readSource: preBattle.read },
+    mechanismFixed: {
+      revision: testingBattleSessionMechanismBase,
+      readSource: preBattleMechanisms.read,
+    },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.
   const readAcquisitionSource = (path) =>

@@ -7,6 +7,7 @@ import {
 } from './testing-source-bridge.mjs'
 
 export const testingBattlePublicationBase = '43fea71735236272cfb7f6a1c61c3ac2e691a349'
+export const testingBattleSessionMechanismBase = '3a921678f20950cccee3f631dfbb1e60bb8efa3b'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -14,7 +15,14 @@ const sessionId = 'runtime-battle-session-owners'
 const sessionEvidencePath =
   'docs/testing/domains/runtime/battle/battle-session-owners/evidence.json'
 const sessionReceipt = 'docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md'
-const sessionAction = 'q2-battle-session-source-rebinding'
+const sessionBinding = {
+  revision: testingBattlePublicationBase,
+  action: 'q2-battle-session-source-rebinding',
+}
+const sessionMechanismBinding = {
+  revision: testingBattleSessionMechanismBase,
+  action: 'q2-battle-session-mechanism-source-rebinding',
+}
 
 const publication = {
   id: 'q2-battle-foundation',
@@ -28,9 +36,9 @@ const evidencePath = `docs/testing/${publication.evidence}`
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
-function sessionSourceChanged(path, previousBytes, { readSource, fixed }) {
+function sessionSourceChanged(path, previousBytes, { readSource, fixed }, binding) {
   assert(
-    fixed?.revision === testingBattlePublicationBase &&
+    fixed?.revision === binding.revision &&
       typeof fixed.readSource === 'function' &&
       typeof readSource === 'function',
     'battle session source bridge requires the fixed accepted predecessor',
@@ -43,6 +51,25 @@ function sessionSourceChanged(path, previousBytes, { readSource, fixed }) {
   const current = readSource(testingBattleSessionSourcePath)
   assert(Buffer.isBuffer(before) && Buffer.isBuffer(current), 'battle session source missing')
   return !before.equals(current)
+}
+
+// Preserve the first publication's audit before admitting one more live source rebind.
+function mechanismSessionBridge({ readSource, fixed, mechanismFixed }) {
+  if (!mechanismFixed) return undefined
+  assert(
+    mechanismFixed.revision === sessionMechanismBinding.revision &&
+      typeof mechanismFixed.readSource === 'function' &&
+      typeof readSource === 'function',
+    'battle session mechanism bridge requires the fixed published predecessor',
+  )
+  const before = mechanismFixed.readSource(testingBattleSessionSourcePath)
+  const current = readSource(testingBattleSessionSourcePath)
+  assert(Buffer.isBuffer(before) && Buffer.isBuffer(current), 'battle session source missing')
+  if (before.equals(current)) return undefined
+  return {
+    published: { readSource: mechanismFixed.readSource, fixed },
+    live: { readSource, fixed: mechanismFixed },
+  }
 }
 
 function assertSessionReferences(before, current, { readSource, fixed }) {
@@ -73,25 +100,23 @@ function assertSessionReferences(before, current, { readSource, fixed }) {
   return changed
 }
 
-function restoreSessionHistory(before, current, changed, readSource) {
+function restoreSessionHistory(before, current, changed, readSource, binding) {
   const restored = restoreTestingBridgeHistory(
     before,
     current,
     changed,
     readSource,
-    testingBattlePublicationBase,
+    binding.revision,
     sessionReceipt,
   )
   const event = current.at(-1)
-  assert.equal(event.action, sessionAction, 'battle session bridge history action differs')
+  assert.equal(event.action, binding.action, 'battle session bridge history action differs')
   assert.equal(event.date, '2026-11-11', 'battle session bridge history date differs')
   return restored
 }
 
-/** Rebind the owner evidence to the current caller ranges while retaining the accepted audit. */
-export function assertTestingBattleSessionSourceBridge(path, previousBytes, currentBytes, bridge) {
-  assert(isTestingBattleSessionEvidencePath(path), 'unadmitted battle session evidence path')
-  if (!sessionSourceChanged(path, previousBytes, bridge)) {
+function assertSessionEvidenceRebinding(path, previousBytes, currentBytes, bridge, binding) {
+  if (!sessionSourceChanged(path, previousBytes, bridge, binding)) {
     assert(
       previousBytes.equals(currentBytes),
       'battle session evidence changed without source drift',
@@ -103,7 +128,13 @@ export function assertTestingBattleSessionSourceBridge(path, previousBytes, curr
   assert.equal(before.id, sessionId, 'battle session evidence predecessor ID differs')
   assert.equal(current.id, sessionId, 'battle session evidence ID changed')
   const changed = assertSessionReferences(before.sourceRefs, current.sourceRefs, bridge)
-  const history = restoreSessionHistory(before.history, current.history, changed, bridge.readSource)
+  const history = restoreSessionHistory(
+    before.history,
+    current.history,
+    changed,
+    bridge.readSource,
+    binding,
+  )
   const claims = structuredClone(current.claims)
   const claimIndex = before.claims.findIndex(
     ({ id, result }) => id === `${sessionId}-source-contract` && result === 'source-backed',
@@ -132,6 +163,49 @@ export function assertTestingBattleSessionSourceBridge(path, previousBytes, curr
   )
 }
 
+/** Rebind the owner evidence to the current caller ranges while retaining the accepted audit. */
+export function assertTestingBattleSessionSourceBridge(path, previousBytes, currentBytes, bridge) {
+  assert(isTestingBattleSessionEvidencePath(path), 'unadmitted battle session evidence path')
+  const mechanism = mechanismSessionBridge(bridge)
+  if (!mechanism) {
+    assertSessionEvidenceRebinding(path, previousBytes, currentBytes, bridge, sessionBinding)
+    return
+  }
+  const published = mechanism.live.fixed.readSource(path)
+  assertSessionEvidenceRebinding(
+    path,
+    previousBytes,
+    published,
+    mechanism.published,
+    sessionBinding,
+  )
+  assertSessionEvidenceRebinding(
+    path,
+    published,
+    currentBytes,
+    mechanism.live,
+    sessionMechanismBinding,
+  )
+}
+
+function restoreSessionCatalogEntry(before, current, bridge, binding) {
+  assert.equal(before?.id, sessionId, 'battle session owner is absent from the accepted catalog')
+  assert.equal(current?.id, sessionId, 'battle session owner catalog identity or order changed')
+  const changed = assertSessionReferences(before.sourceRefs, current.sourceRefs, bridge)
+  const history = restoreSessionHistory(
+    before.revision.history,
+    current.revision.history,
+    changed,
+    bridge.readSource,
+    binding,
+  )
+  return {
+    ...current,
+    sourceRefs: before.sourceRefs,
+    revision: { ...current.revision, history },
+  }
+}
+
 /** The accepted predecessor is verified by the historical bridges before this append. */
 export function assertTestingBattlePublication(previousBytes, currentBytes, additions, bridge) {
   const before = parseTerminalJson(previousBytes)
@@ -144,24 +218,28 @@ export function assertTestingBattlePublication(previousBytes, currentBytes, addi
     [oldEntries, oldReadings, entries, readings].every(Array.isArray),
     'battle publication requires catalog entries and entry readings',
   )
-  if (bridge && sessionSourceChanged(catalogPath, previousBytes, bridge)) {
+  const mechanism = bridge && mechanismSessionBridge(bridge)
+  const publishedBridge = mechanism?.published ?? bridge
+  if (
+    publishedBridge &&
+    sessionSourceChanged(catalogPath, previousBytes, publishedBridge, sessionBinding)
+  ) {
     const index = oldEntries.findIndex(({ id }) => id === sessionId)
     assert(index >= 0, 'battle session owner is absent from the accepted catalog')
-    const old = oldEntries[index]
-    const entry = entries[index]
-    assert.equal(entry?.id, sessionId, 'battle session owner catalog identity or order changed')
-    const changed = assertSessionReferences(old.sourceRefs, entry.sourceRefs, bridge)
-    const history = restoreSessionHistory(
-      old.revision.history,
-      entry.revision.history,
-      changed,
-      bridge.readSource,
-    )
-    entries[index] = {
-      ...entry,
-      sourceRefs: old.sourceRefs,
-      revision: { ...entry.revision, history },
+    let entry = entries[index]
+    if (mechanism) {
+      const published = parseTerminalJson(mechanism.live.fixed.readSource(catalogPath)).entries[
+        index
+      ]
+      entry = restoreSessionCatalogEntry(published, entry, mechanism.live, sessionMechanismBinding)
+      assert.deepEqual(entry, published, 'battle publication changed existing catalog facts')
     }
+    entries[index] = restoreSessionCatalogEntry(
+      oldEntries[index],
+      entry,
+      publishedBridge,
+      sessionBinding,
+    )
   }
   assert.deepEqual(
     {
