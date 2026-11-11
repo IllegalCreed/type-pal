@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-11T07:07:04.819Z",
+  "generatedAt": "2026-11-11T08:02:09.206Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 836,
-  "testCount": 20443,
+  "testCount": 20444,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2248,7 +2248,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9040,
+        "testCount": 9041,
         "testFileCount": 370,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3000,8 +3000,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 11,
-            "identityDigest": "d45c386308d727c3676e392d2ed43bd4115de2a969fe41456e5b99421064f3d6"
+            "testCount": 12,
+            "identityDigest": "c8d2e896323bb0e8610837fde7bec2432e182545242fbf997a1f299930ceb5f0"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -3076,7 +3076,7 @@
           {
             "file": "packages/reforge/src/battle/battle-ui.glm-n.test.ts",
             "testCount": 6,
-            "identityDigest": "5957a2a31ff7f5f3ccbcfdcd4cf99b6944b1cfc6209daef14d2140fb8c202c27"
+            "identityDigest": "8b5be2f978c3f8ac89193987450182da6f9e5470e01c0c5043cc034bf05cec2a"
           },
           {
             "file": "packages/reforge/src/battle/battle-ui.residual.test.ts",
@@ -4474,26 +4474,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "be94cf7049eb831284a2b5be65bfdec34ae105175e83bb5675e242a0cb445bbf",
+        "identityDigest": "5734f4ec45f832b705cddd1d209fb002005b0f362ff9b1d8f05618dfc25f7ffb",
         "duplicateIdentityCount": 3,
-        "executionDigest": "adedc35ce4a8c415455a38e889577efb39eb73f0f421e90c1c8a2a09c515ae17"
+        "executionDigest": "1c4cbcbf85ed7f25993cb36259d0b04e820573d0fead8f793f3f206985a46ccf"
       },
       "metrics": {
         "statements": {
-          "covered": 17159,
-          "total": 18953
+          "covered": 17185,
+          "total": 18975
         },
         "branches": {
-          "covered": 10941,
-          "total": 13169
+          "covered": 10956,
+          "total": 13179
         },
         "functions": {
-          "covered": 2791,
-          "total": 3082
+          "covered": 2794,
+          "total": 3085
         },
         "lines": {
-          "covered": 15355,
-          "total": 16536
+          "covered": 15377,
+          "total": 16555
         }
       }
     },
@@ -10945,20 +10945,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74401,
-      "total": 82086
+      "covered": 74427,
+      "total": 82108
     },
     "branches": {
-      "covered": 54077,
-      "total": 64214
+      "covered": 54092,
+      "total": 64224
     },
     "functions": {
-      "covered": 14144,
-      "total": 15701
+      "covered": 14147,
+      "total": 15704
     },
     "lines": {
-      "covered": 66462,
-      "total": 71840
+      "covered": 66484,
+      "total": 71859
     }
   }
 }

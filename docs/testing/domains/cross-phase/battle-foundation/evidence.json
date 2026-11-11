@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "e746620556cf961eed871ec3f8038f5223d37357",
+  "candidateSha": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -14,14 +14,14 @@
       "lines": "47",
       "anchor": "await runBrowserJourney({",
       "role": "caller",
-      "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
+      "sha256": "e0d0da082fb2b8a532a3a1666602eba05db8ecb2242737f9070851b69c532fe1"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
       "lines": "128",
       "anchor": "function defineScenario(",
       "role": "input-and-independent-oracle",
-      "sha256": "4ad507c65e333494f36465c1538489397411f1c9d499cdcb01b586e6000aca19"
+      "sha256": "500b8151774e8dfa68090c5cb026f506b7f348326a6720b9664f4f0677dc3bfd"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -55,8 +55,8 @@
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "72",
-      "sha256": "d37bae2f1efc2951d1b04648532df92dabda6fe1bbc408acce6cdcfdcbdcb87e"
+      "lines": "182",
+      "sha256": "e5e831688e45a76ecd2e4e644ffd73958c80433b40882f6402a03638bf3f91f1"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -79,7 +79,8 @@
     "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape.",
     "Solo hero/team294, field7, seed64, defend then attack. Full original two-entry enemy queue.",
     "Level-six hero and Anu/team204, seed4, native enemy sleep. The awake actor defends and finishes the battle.",
-    "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack."
+    "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
+    "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -94,7 +95,8 @@
       "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement.",
       "Team294 consumes no singleton target draw. Native dual actions use 339 for HP94 then normal attack for HP44, with separate raw and rendered results.",
       "Team204 consumes the native battle script chance draw. Sleep3 applies to hero, round ends tick 3→2→1, and the incapacitated slot passes without a submitted action.",
-      "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round."
+      "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round.",
+      "The actual Li Xiaoyao portrait shows the original RGBA values before poison and after item87, and exact SDLPal palette-ramp RGBs while poison551 is active. Two transparent pixels preserve their drawn destination."
     ]
   },
   "dedupe": {
@@ -112,9 +114,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "e746620556cf961eed871ec3f8038f5223d37357",
+    "producerRevision": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
     "result": "passed",
-    "verification": "28 native manual battles across seven scenarios, two fresh contexts per engine and case, with 14 original-byte cross-engine pairs and 14 same-engine repeats.",
+    "verification": "28 native manual battles across seven scenarios, 14 original-byte pairs and 14 same-engine repeats. The poison fixture verifies actual normal, tinted and cured portrait pixels in both engines.",
     "continuous": false
   },
   "execution": {
@@ -188,11 +190,11 @@
   "hashes": [
     {
       "path": "scripts/e2e/battle-foundation.mjs",
-      "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
+      "sha256": "e0d0da082fb2b8a532a3a1666602eba05db8ecb2242737f9070851b69c532fe1"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "4ad507c65e333494f36465c1538489397411f1c9d499cdcb01b586e6000aca19"
+      "sha256": "500b8151774e8dfa68090c5cb026f506b7f348326a6720b9664f4f0677dc3bfd"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -212,7 +214,7 @@
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "d37bae2f1efc2951d1b04648532df92dabda6fe1bbc408acce6cdcfdcbdcb87e"
+      "sha256": "e5e831688e45a76ecd2e4e644ffd73958c80433b40882f6402a03638bf3f91f1"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -2907,6 +2909,359 @@
           "bytes": 3187
         }
       ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz",
+      "sha256": "cfee477d9b30c5d449d2f39e8d5d5184ea381805d79761e53fc52aedfe6079fc",
+      "bytes": 4337757,
+      "purpose": "Original portrait source premises, real painted-color mismatch and restoration, refreshed browser comparison and paused review video.",
+      "manifest": {
+        "path": "build/q2/poison-face/archive-index.json",
+        "sha256": "3258b86f39fdcd83fa92f1a6b4f522e9a79dc0e642bc2ad2b27021cb197248b4",
+        "bytes": 13778
+      },
+      "members": [
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-42-33-060Z/equivalent-poison-1-trace.json",
+          "sha256": "ed05e8bf2d6497d64706ab8308f0cbdb2a5cc82018d64d16806a0b9c0abfa040",
+          "bytes": 51827
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-42-33-060Z/report.json",
+          "sha256": "bec97e53c5a5c8660b4c123a2f074491cf83a12ac3bc1394e1251329e50cb290",
+          "bytes": 627027
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "477e73b86e68af70b07e6c11ea4940d5f73844b9831d768aea5c77af5c0c2a2f",
+          "bytes": 41781
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "398b9f4c4ac59e69238b935856aa5121778d077570beb30bdd4791811389296d",
+          "bytes": 41809
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/enemy-sleep-1-trace.json",
+          "sha256": "31acc78f1f1893127f95a6890781e6e76d525132dffa2e19492037bee846470f",
+          "bytes": 48555
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/enemy-sleep-2-trace.json",
+          "sha256": "4cb128d51369536c2d529ac0bc714a69aa016a28f0248fe17debb6ee22489346",
+          "bytes": 48655
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/equivalent-poison-1-trace.json",
+          "sha256": "20da64b99632af3f0032a57b64629236350e13c49afa8664013c5e9c29fd5a21",
+          "bytes": 52167
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/equivalent-poison-2-trace.json",
+          "sha256": "20b53eed45ec974e427b70f0f32002103a806fdd92688228b251a1920e819732",
+          "bytes": 52278
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/herb-settlement-1-trace.json",
+          "sha256": "b82bc2b4ed5621f323cd05afecc79a5222b98fef5dc6ff1ee7f6f43ea8d49572",
+          "bytes": 22293
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/herb-settlement-2-trace.json",
+          "sha256": "b7e0a3bf74e0bf5d6460a08c9601a5f49851dbe6f40e399667289787ae1d8e20",
+          "bytes": 22372
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/party-lanterns-1-trace.json",
+          "sha256": "285b9b469ca4c2fd88361275b4fe35614ad4896c01b7e7a8069df68717210b52",
+          "bytes": 44421
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/party-lanterns-2-trace.json",
+          "sha256": "2080b5b7a99d9c65dd202e034885146fc1a2ed80f7f7d873e38578a6d6077111",
+          "bytes": 44428
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/report.json",
+          "sha256": "46e3c9057d3cae774171aff72cd225492838b42aa030622483ad00177f223226",
+          "bytes": 916781
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/solo-lantern-1-trace.json",
+          "sha256": "3df3bd7b9a80d3bc8297d1b8b2078baed09b0a2e0f9c2946c59f8bcbc1f8fd62",
+          "bytes": 15005
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/solo-lantern-2-trace.json",
+          "sha256": "d85255829f062b5dcaaa5cfbbd79a2d1d937da9369a4e7f69a23235aea0ee686",
+          "bytes": 14989
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/two-round-commands-1-trace.json",
+          "sha256": "7261945aeb383da6a3ca1a85d0f8775b2e59becaea8be345e09331cea29cae4c",
+          "bytes": 47589
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/two-round-commands-2-trace.json",
+          "sha256": "2907d7f02fb3a94e66b1f4df0d8ea750fe4fba3654563de01f1caf6e187d1242",
+          "bytes": 47562
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/visual-review-7.webm",
+          "sha256": "655dfc5ab9931bb72597fb085650dc551fa995083de77a438904e0bf1bbd0b23",
+          "bytes": 1008298
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-42-33-060Z/equivalent-poison-1-trace.json",
+          "sha256": "9ade354d1d395b7f4a232a918e300f7bf5ade0e9147862c5af8ce74f40280b9b",
+          "bytes": 60135
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-42-33-060Z/report.json",
+          "sha256": "ffc487388bff90c4b01c45e6fcc4778d5e71dc8030321e147e67dba05681321e",
+          "bytes": 700187
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "a3065f23c00c6ef5184badc78a2951d0b45db01e833805b45d330a2b9943ae46",
+          "bytes": 42131
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "f01a250a5024531fbb60576e5034227ac8623b8f5e7d52927a4c5ee84729ae60",
+          "bytes": 42160
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/enemy-sleep-1-trace.json",
+          "sha256": "a56a7f33ed65ae6d1fdc83e3f855666f260dc900fa683845fa84d1200d9faa3f",
+          "bytes": 51246
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/enemy-sleep-2-trace.json",
+          "sha256": "3497c8fcb06ddd5bf8a3ab5242c3e1cfafacaaa000e2b861a570bd145be43458",
+          "bytes": 50752
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/equivalent-poison-1-trace.json",
+          "sha256": "8422c51983f635146615a3a31c391f589246f120455e0ceba751b8b9e5c3c84c",
+          "bytes": 61293
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/equivalent-poison-2-trace.json",
+          "sha256": "42c4a69ff1d354a97aa22219c4b849fbee645022438564430fe4b4c534d99090",
+          "bytes": 60850
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/herb-settlement-1-trace.json",
+          "sha256": "9f1ff7f2b3038180bd5a6339721bd34de8863acd7a69678878d467cd9e55a530",
+          "bytes": 28314
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/herb-settlement-2-trace.json",
+          "sha256": "264be0a6403502263e789abe369ee3f890bd624687e0c230ede078122483b637",
+          "bytes": 28359
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/party-lanterns-1-trace.json",
+          "sha256": "e1374da8d686b479fd63f185706ef86fd1f347dd5f28bb6688f82eb11d06806e",
+          "bytes": 45285
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/party-lanterns-2-trace.json",
+          "sha256": "44432bc30c2abbb3f2d6cf4c89e7f5fa7b1ed83303194eff0a3d315017c83470",
+          "bytes": 45335
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/report.json",
+          "sha256": "23cfc4b5153270cbda0517b9b1fdb87000b13709c3dfc464c1fd853927a9c519",
+          "bytes": 1698828
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/solo-lantern-1-trace.json",
+          "sha256": "909efbb89e4e99752030914ad47fd9a84e3d66d5164a4f1a0c535b7f16e661a8",
+          "bytes": 14730
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/solo-lantern-2-trace.json",
+          "sha256": "c0de0fe75e67145c3b97f6cdb7a1c3d400d1d34908eafcbb8553db5c1a105f64",
+          "bytes": 14719
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/two-round-commands-1-trace.json",
+          "sha256": "6f54e031d20eaeae88d1d727871a3abd8508f73329462307edba4058a12dc780",
+          "bytes": 58160
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/two-round-commands-2-trace.json",
+          "sha256": "62a6086d4b26d07c5a44f794573e454e8ccdf1a9ba6d1010eb37a430021beadc",
+          "bytes": 57609
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/visual-review-7.webm",
+          "sha256": "0e02272a080cd0c346aa4377ae9c8f2a177d7bcff9845b938aeea603f56678d0",
+          "bytes": 690725
+        },
+        {
+          "path": "build/q2/poison-face/comparison/comparison.json",
+          "sha256": "8627bd5ab66f2be3ca22ce60e8344215836de147166c924655bbb0ff2e1b0a1a",
+          "bytes": 469702
+        },
+        {
+          "path": "build/q2/poison-face/e2e-tools.tap",
+          "sha256": "b0dc881565a6fc7f48e63bae9eaf7004f6c886d5eecfff1e481d089f8eac31c2",
+          "bytes": 127791
+        },
+        {
+          "path": "build/q2/poison-face/native-readback.json",
+          "sha256": "ba51a558887e4ce118f804f2424cb8cf61760acde6bc5764d058afacba4b2231",
+          "bytes": 12328
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/baseline.config.ts",
+          "sha256": "3b2bad0349a4ea1683bf251a3121457e2129110eb7f63d9f1770536622bbbf81",
+          "bytes": 1165
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/battle.execution.json",
+          "sha256": "00da568e76c94e6c127b82a9729b119332a4bc905e66fea0e28d727ea0c41a3f",
+          "bytes": 1215
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/battle.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/battle.stdout",
+          "sha256": "f8ba37dc496b06a4d10d0a768087cc0c7e60a546ef84971c09c58dc845a204f5",
+          "bytes": 4422
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-after.execution.json",
+          "sha256": "e053a8175c2a35283c5289f7c917e7bda36bc4e744020a42e32c2530830d71d6",
+          "bytes": 1547
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-after.json",
+          "sha256": "3dbf13ebb8ca1d55cdc7472ebee7a4128aba713347b80447b4a2157fe126a104",
+          "bytes": 4506
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-after.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-after.stdout",
+          "sha256": "d7a8a9ddea6605b0ba5f0d4545092be9ddf00ff8b138408b9aa451554cb81656",
+          "bytes": 579
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-before.execution.json",
+          "sha256": "ccdb4c526c3428a3a7ff72fecd1a1179f0cb20282fe63b136d2c1fd6ec8711bf",
+          "bytes": 1813
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-before.json",
+          "sha256": "cb1b8169d18eb3e6a7b39749fa2f1a6508652b74c6c22dffd44a26c61a678371",
+          "bytes": 6158
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-before.stderr",
+          "sha256": "97e3c52f08275a1e0684beb9d8252cc4fdd2e30e5421dd66d99c074b8baa96a5",
+          "bytes": 883
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/final-before.stdout",
+          "sha256": "a74b80d2421a376f065c4a7f357d3df53bc32166ce67c2e10986590386f5ffac",
+          "bytes": 2624
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/format.execution.json",
+          "sha256": "5e511b59d2bb6d2969e8536fbf21c80aa87f8a10c7c339a2633b50228d42d199",
+          "bytes": 1414
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/format.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/format.stdout",
+          "sha256": "5a75d5106adcc88eceeea58225a34c5321abec7ee2cdab116ba8a4e46a836cec",
+          "bytes": 43
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/lint.execution.json",
+          "sha256": "e323b27ae8c56457263d876a6b3742d4eb7c11669974a8adb808d5e9fc3b1df2",
+          "bytes": 1152
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/lint.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/lint.stdout",
+          "sha256": "6ca46bbc7294568709ee3667f260280b1c369e12b282b39fc50be1a400ccdc16",
+          "bytes": 201
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/owner-review.md",
+          "sha256": "27242d300e6dfd5072b59bfacc61eb156f54a98e33c926eaf61a7dba71fadc5d",
+          "bytes": 5739
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/run.py",
+          "sha256": "c9b6ef343c56f26f72888b4ebdae3825681e0ca866147d48055536bfe1b9df00",
+          "bytes": 3158
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/typecheck.execution.json",
+          "sha256": "869de00457da0cf9c4e4d2d9771431221271af13e2a5305f655bf86b4809ef8b",
+          "bytes": 1208
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/typecheck.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/poison-face/owner-reforge/typecheck.stdout",
+          "sha256": "d29edf15df99ad2b8aab18d82d7e0d5c88a2a90b51ee4066ddae71be6d6bdcf3",
+          "bytes": 139
+        },
+        {
+          "path": "build/q2/poison-face/replay.bundle",
+          "sha256": "7d379fb6f5ade6c345e2e58531649645bfdb301c39bf23244f12f6fd94535ee1",
+          "bytes": 16481
+        },
+        {
+          "path": "build/q2/poison-face/review/equivalent-poison-split.mp4",
+          "sha256": "48375e42d6c977c2fe375a8ec7c54bc67ac33002122f9899dd735410d1f5bc54",
+          "bytes": 1605612
+        },
+        {
+          "path": "build/q2/poison-face/review/matched-portrait.json",
+          "sha256": "acda88c39350ec1bd81d9d99f8801018038d6afcfaf5f5be5a9f8249a41b5091",
+          "bytes": 946
+        },
+        {
+          "path": "build/q2/poison-face/review/media.json",
+          "sha256": "b96acf1f48166bb6437b1e995c94fae65067ffc617a94f368d65d6a3d272ada0",
+          "bytes": 1185
+        },
+        {
+          "path": "build/q2/poison-face/review/portrait-comparison.png",
+          "sha256": "ccfe1a9f36e2b6978cc9c07ffca2e9d43206bad45a7d6c5208a60fbf812597d1",
+          "bytes": 49175
+        },
+        {
+          "path": "build/q2/poison-face/source-facts.json",
+          "sha256": "34d0a5d22666e97d02b49da8a58b263a992a729a143c85daf3a7a2eef81ed467",
+          "bytes": 4159
+        }
+      ]
     }
   ],
   "claims": [
@@ -3041,6 +3396,18 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/native-counters.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json"
       ]
+    },
+    {
+      "id": "native-equivalent-poison-portrait-shades-and-restoration",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/native-readback.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/equivalent-poison-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/equivalent-poison-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/equivalent-poison-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/equivalent-poison-2-trace.json"
+      ]
     }
   ],
   "findings": [
@@ -3064,6 +3431,12 @@
       "status": "open-later-batch",
       "scope": "Both engines drew the end-of-round poison number 7. Milliseconds from its first draw to the next selection were 348.2/348.5 in Game and 16.6/16.6 in Reforge. Fourth-batch presentation timing follow-up.",
       "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/comparison/comparison.json"
+    },
+    {
+      "id": "poison-portrait-palette",
+      "status": "resolved-in-verified-fixture",
+      "scope": "Old Reforge R2 made the four selected face pixels [33,0,0], [24,0,0], [14,0,0] and [0,0,0]. Both engines now draw the corresponding full ramp at HP135 and restore the same normal pixels after using item87.",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/native-readback.json"
     }
   ],
   "failures": [
@@ -3122,6 +3495,15 @@
       "predecessor": "54d7b378d5094950c10b73bb38a81883cd3d375d",
       "historicalReceiptRevision": "3a921678f20950cccee3f631dfbb1e60bb8efa3b",
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz"
+    },
+    {
+      "revision": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
+      "date": "2026-11-11",
+      "action": "native-equivalent-poison-portrait-colors",
+      "scope": "User-reported red poison portrait. Real selection-frame samples confirm four opaque shades, two holes and normal color after the antidote.",
+      "predecessor": "e746620556cf961eed871ec3f8038f5223d37357",
+      "historicalReceiptRevision": "18bfe998333912bf2b1449e534133ce73cafca44",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz"
     }
   ],
   "_governance": {
@@ -3190,5 +3572,16 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz#build/q2/mechanisms/owner-game/settlement-drop-after.native.json"
       ]
     }
+  },
+  "poisonPortraitExecution": {
+    "date": "2026-11-11",
+    "producerRevision": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
+    "reports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T07-44-25-423Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T07-44-25-521Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/comparison/comparison.json"
+    ],
+    "nativeCounterAndRestoration": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/native-readback.json",
+    "visualReview": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/review/media.json"
   }
 }

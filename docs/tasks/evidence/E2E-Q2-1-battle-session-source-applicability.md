@@ -36,3 +36,7 @@ Template: evidence-receipt-v1 / 1.0.0
 后继基点 `3a921678f20950cccee3f631dfbb1e60bb8efa3b`，本轮运行候选 `e746620556cf961eed871ec3f8038f5223d37357`。本轮候选改敌普攻时间线的直接伤害和物理命中倒地判定。三个已接收 caller 的源码片段与基点逐字节相同。当前行范围为 `209-211`, `362-373`, `1163-1172`，SHA-256 为 `4e77e5ee0c50144b19c5fe9bb316cb900532577eef508a696c6a0ccd4dcf203f`。
 
 目录、配对报告与机器证据追加本轮适用性历史，前次重绑和原发布的候选、版本、执行业务义务均按原记录核查。第三批运行结果取 [Q2 覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md)。
+
+## 2026-11-11 赤毒头像返工后的现行绑定
+
+新冻结候选 `4f1bea68f897ca59d4a2cd892e7619ffdebe479e` 将战斗头像的毒色索引交给绘制层。三个会话 caller 片段仍与固定基点逐字节相同，当前源码 SHA-256 为 `e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c`。首次第三批候选与第三批原件保留各自身份，目录、配对报告和机器证据的当前指针绑定返工后的源码。 [头像验收范围](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-11-赤毒头像返工)
