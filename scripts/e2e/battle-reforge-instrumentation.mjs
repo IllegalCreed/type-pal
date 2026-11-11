@@ -65,7 +65,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add(
           'frame-begin',
           node.body.getStart(ast) + 1,
-          `\n${call('beginFrame', "this.state, this.nowMs, this.actionPresentation.active, this.state.phase === 'selectAction' && this.nextSelecting() !== undefined")}`,
+          `\n${call('beginFrame', "this.state, this.nowMs, this.actionPresentation.active, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' && this.nextSelecting() !== undefined")}`,
         )
         add('frame-end', node.body.end - 1, `\n${evidenceCall('endFrame')}\n`)
       }
