@@ -5371,13 +5371,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1360abc1d923103e567644091a016199e6ede9bb5a040d9e24eec66d2ba00eae",
+      "afterSha256": "fbd2ef6cb1ab926e8e1874cffb8d588b77248fdc39aad5d7601d37491a1dc6d9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
         "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 146,
+        "reviewedLines": 148,
         "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
@@ -5410,7 +5410,7 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "3abbc513b9f36af5ca6ebfd7bf91f9ad0b70c87237153e6b9204226ea9297ab2",
+      "afterSha256": "5e0a7066665eac8b6dbf86791ae59704cf6450a08569127ca8e381a1d7584b66",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",

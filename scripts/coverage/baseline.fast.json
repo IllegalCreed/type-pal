@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-07T05:26:52.106Z",
+  "generatedAt": "2026-11-11T03:28:14.345Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 836,
-  "testCount": 20426,
+  "testCount": 20433,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2248,8 +2248,8 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9026,
-        "testFileCount": 369,
+        "testCount": 9033,
+        "testFileCount": 370,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
           "packages/reforge/scripts/battle-trial-host.test.ts",
@@ -2312,6 +2312,7 @@
           "packages/reforge/src/battle/battle-core.c85-branches.test.ts",
           "packages/reforge/src/battle/battle-core.enemy-cast-residual.test.ts",
           "packages/reforge/src/battle/battle-core.glm-next-wave.test.ts",
+          "packages/reforge/src/battle/battle-core.rng-order.test.ts",
           "packages/reforge/src/battle/battle-core.test.ts",
           "packages/reforge/src/battle/battle-enemy-confused.test.ts",
           "packages/reforge/src/battle/battle-finalization.world-result.test.ts",
@@ -2928,6 +2929,11 @@
             "identityDigest": "c6b284e166bb0cbe8c2d6f2b70bd1786021ebe44e5b7b165a4eabbce297f85b4"
           },
           {
+            "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
+            "testCount": 5,
+            "identityDigest": "6cf41dc13f935152b0e2e7a16da9bdedbaa9892b006b70cf05bd6478d7008f87"
+          },
+          {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
             "testCount": 115,
             "identityDigest": "13bff5bc4c7efe63be6489460fa4e293d56049840a78216d974f0dc53efdbb3d"
@@ -2994,8 +3000,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 6,
-            "identityDigest": "420144f76772b62e1379eaa267998a72173fa8f5fc5fb61f7f2f59dcf5df17e8"
+            "testCount": 8,
+            "identityDigest": "5aa2ca1231f73b491b1c8a5a4bfd2ba9c1ddf5bbc6e116a524236177558cf497"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4468,26 +4474,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "92caa9f3490b0f8b8eba96c79cd09af0595a3b960b14ea9f2568eccb895551a1",
+        "identityDigest": "9c2e21f9be0deec94e133d1919052aa46df63470de98ae79327d290b2811863b",
         "duplicateIdentityCount": 3,
-        "executionDigest": "7f7a56a523aca88f035db92066facadcdd9c7c6ee1a6e01dbc2ed9c51839f710"
+        "executionDigest": "5a3c925b0373b3b3e83069f1da30dee3295e5ddb25467fd177cf16276eeb6bbd"
       },
       "metrics": {
         "statements": {
-          "covered": 17126,
-          "total": 18926
+          "covered": 17138,
+          "total": 18939
         },
         "branches": {
-          "covered": 10905,
-          "total": 13148
+          "covered": 10923,
+          "total": 13163
         },
         "functions": {
-          "covered": 2785,
-          "total": 3078
+          "covered": 2789,
+          "total": 3082
         },
         "lines": {
-          "covered": 15328,
-          "total": 16516
+          "covered": 15338,
+          "total": 16526
         }
       }
     },
@@ -10939,20 +10945,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74366,
-      "total": 82058
+      "covered": 74378,
+      "total": 82071
     },
     "branches": {
-      "covered": 54037,
-      "total": 64191
+      "covered": 54055,
+      "total": 64206
     },
     "functions": {
-      "covered": 14137,
-      "total": 15697
+      "covered": 14141,
+      "total": 15701
     },
     "lines": {
-      "covered": 66433,
-      "total": 71819
+      "covered": 66443,
+      "total": 71829
     }
   }
 }
