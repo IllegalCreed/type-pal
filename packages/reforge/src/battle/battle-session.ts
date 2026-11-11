@@ -1836,6 +1836,7 @@ export class BattleSession {
     const targetPos = getPlayerBasePos(s.players.length, t)
     const def = s.enemies[la.idx]?.def
     if (!enemyPos || !targetPos || !def) return null
+    const damage = la.damage ?? 0
     return buildEnemyPhysical({
       enemyIdx: la.idx,
       enemyPos,
@@ -1864,8 +1865,9 @@ export class BattleSession {
             },
           }
         : {}),
-      damage: la.damage ?? 0,
-      targetDied: (s.players[t]?.hp ?? 0) <= 0,
+      damage,
+      // fight.c:5108-5145，普攻按物理扣血决定归位姿势，随后才结算附毒。
+      targetDied: expectDefined(pHp[t]) <= damage,
     })
   }
 

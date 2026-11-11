@@ -5,10 +5,18 @@
  * **实际动作集合**（cast 与 attack 分栏），不只数数量。断言用 MP/终态/声音记录器。
  */
 import { describe, expect, test } from 'vitest'
-import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
+import {
+  PLAYER_PROFILE,
+  wfEnemy,
+  wfHealItem,
+  wfPlayer,
+  wfSkill,
+} from '../__tests__/battle-workflows/catalog.js'
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
+import { expectDefined } from '../defined.js'
 import type { MenuAssets } from '../menu/menu-box.js'
+import type { CreatePlayerInput } from './battle-core.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
 
 /** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
@@ -68,6 +76,33 @@ function infoBoxAssets(): MenuAssets {
     settleArrow: blank,
     battleIcons: [],
   }
+}
+
+function enemyPoisonAttackSession(players: CreatePlayerInput[], attackStrength = 0) {
+  const egg = {
+    ...wfHealItem('117'),
+    use: {
+      target: 'oneAlly' as const,
+      consuming: true,
+      effects: [{ kind: 'applyPoison' as const, poisonId: '551' }],
+    },
+  }
+  return makeWfSession({
+    players,
+    enemies: [wfEnemy('e1', { attackStrength }, { attackEquivItem: { itemId: '117', rate: 4 } })],
+    extraOpts: {
+      items: { [egg.id]: egg },
+      poisonDefs: {
+        551: {
+          id: 551,
+          name: '赤毒',
+          color: 16,
+          curability: 'common',
+          playerTicks: [{ hpDelta: -7 }],
+        },
+      },
+    },
+  })
 }
 
 describe('W3 执行时间线接线', () => {
@@ -278,32 +313,7 @@ describe('W3 执行时间线接线', () => {
   })
 
   test('敌普攻蓝字仅显示物理伤害，附毒立即单独扣血', () => {
-    const egg = {
-      ...wfHealItem('117'),
-      use: {
-        target: 'oneAlly' as const,
-        consuming: true,
-        effects: [{ kind: 'applyPoison' as const, poisonId: '551' }],
-      },
-    }
-    const h = makeWfSession({
-      players: [wfPlayer('p1', { defense: 100 })],
-      enemies: [
-        wfEnemy('e1', { attackStrength: 0 }, { attackEquivItem: { itemId: '117', rate: 4 } }),
-      ],
-      extraOpts: {
-        items: { [egg.id]: egg },
-        poisonDefs: {
-          551: {
-            id: 551,
-            name: '赤毒',
-            color: 16,
-            curability: 'common',
-            playerTicks: [{ hpDelta: -7 }],
-          },
-        },
-      },
-    })
+    const h = enemyPoisonAttackSession([wfPlayer('p1', { defense: 100 })])
     h.assets.ui = {
       ...infoBoxAssets(),
       numsBlue: Array.from({ length: 10 }, (_, digit) =>
@@ -324,5 +334,62 @@ describe('W3 执行时间线接线', () => {
       hp: 92,
       poisons: [{ poisonId: 551, tickIndex: 0 }],
     })
+  })
+
+  test.each([
+    { cause: '附毒致死', attackStrength: 0, returnPose: 40, poisonCount: 1 },
+    { cause: '物理致死', attackStrength: 300, returnPose: 140, poisonCount: 0 },
+  ])('$cause 的敌普攻归位姿势由物理扣血决定，下一轮队员框显示最终 HP', ({
+    attackStrength,
+    returnPose,
+    poisonCount,
+  }) => {
+    const h = enemyPoisonAttackSession(
+      [wfPlayer('p1', { hp: 8, defense: 100 }), wfPlayer('p2')],
+      attackStrength,
+    )
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    const frames = sprite.sprite.frames.map((frame, index) => ({
+      ...frame,
+      height: 8,
+      pixels: new Uint8Array([index === PLAYER_PROFILE.frames.dead ? 2 : 1, 0, 0, 0, 0, 0, 0, 0]),
+      opaque: new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0]),
+    }))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, {
+      ...sprite,
+      sprite: { ...sprite.sprite, frames },
+    })
+    const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])
+    colors[1] = [40, 0, 0]
+    colors[2] = [140, 0, 0]
+    h.assets.palette = { colors, cycles: [] }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      nums: Array.from({ length: 10 }, (_, digit) => bitmap(6, 8, `rgb(0,${(digit + 1) * 16},0)`)),
+    }
+    const ctx = battleCanvas()
+    h.press(['d'])
+    h.press(['d'])
+    let knockedBack = false
+    let firstReturnPose: number | undefined
+    for (let i = 0; i < 100 && firstReturnPose === undefined; i++) {
+      h.idle()
+      h.session.render(ctx, 1)
+      // 两人队首脚底 (200,176)；后坐到 (210,181) 后才识别归位帧。取精灵顶部避开队员框。
+      if (ctx.getImageData(210, 173, 1, 1).data[0] === 40) knockedBack = true
+      const pose = ctx.getImageData(200, 168, 1, 1).data[0]
+      if (knockedBack && pose) firstReturnPose = pose
+    }
+    expect(firstReturnPose).toBe(returnPose)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(h.session.debugPlayers()[0]?.poisons).toHaveLength(poisonCount)
+
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle()
+    h.session.render(ctx, 1)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(ctx.getImageData(200, 168, 1, 1).data[0]).toBe(140)
+    expect(ctx.getImageData(135, 170, 1, 1).data[1]).toBe(16) // 当前 HP 的字模 0。
   })
 })
