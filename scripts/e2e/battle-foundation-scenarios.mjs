@@ -500,7 +500,7 @@ function defineEquivalentPoison() {
   round(2)
   step(attack, finishEnemy, { rawDamage: 407 })
   // The first hit rolls equivalent rate 4, then resistance 83 and 92. The second rolls rate 7.
-  return complete(
+  const scenario = complete(
     [defend, antidote, attack],
     [
       queueDraw(1, 'enemy', 0, 54),
@@ -522,6 +522,26 @@ function defineEquivalentPoison() {
     ],
     [142],
   )
+  // Original UI frame 48 and palette 0. The opaque palette-zero pixel differs from both holes.
+  scenario.portraitProbe = {
+    slot: 0,
+    points: [
+      { x: 12, y: 14 },
+      { x: 20, y: 14 },
+      { x: 24, y: 14 },
+      { x: 16, y: 8 },
+      { x: 0, y: 0 },
+      { x: 33, y: 18 },
+    ],
+  }
+  const normal = [[203, 146, 121], [174, 101, 77], [113, 52, 32], [0, 0, 0], null, null]
+  scenario.expected.portraitSize = [36, 35]
+  scenario.expected.portraitSamples = [
+    { turn: 1, hp: 150, rgbs: normal },
+    { turn: 2, hp: 135, rgbs: [[178, 56, 44], [121, 16, 12], [69, 0, 0], [52, 0, 0], null, null] },
+    { turn: 3, hp: 134, rgbs: normal },
+  ]
+  return scenario
 }
 
 export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze([
@@ -552,9 +572,12 @@ export function battleLaunchSpec(scenario) {
   })
 }
 
-/** Snapshot the available author/raw JSON inputs; runtime assets remain outside pixel/audio acceptance. */
+/** Bind raw/author JSON and the two portrait sources used by the pixel comparison. */
 export async function battleFoundationInputSources(root) {
-  const paths = []
+  const paths = [
+    'data/extracted/images/ui/frame-48.png',
+    'projects/pal/assets/migrated/faces/li-xiaoyao.png',
+  ]
   for (const directory of ['data/extracted', 'projects/pal']) {
     for (const name of await readdir(resolve(root, directory), { recursive: true }))
       if (name.endsWith('.json')) paths.push(`${directory}/${name}`)
