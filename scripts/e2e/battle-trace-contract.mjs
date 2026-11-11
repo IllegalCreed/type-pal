@@ -101,6 +101,17 @@ function snapshot(value, path, domain = 'integrity') {
         unit,
       )
       statuses(unit.statuses, `${location}.statuses`, domain)
+      if (own(unit, 'poisons'))
+        requireValue(
+          Array.isArray(unit.poisons) &&
+            unit.poisons.length <= 16 &&
+            unit.poisons.every((id, i) => integer(id, 1) && (i === 0 || id > unit.poisons[i - 1])),
+          domain,
+          'active-poisons',
+          `${location}.poisons`,
+          'sorted unique positive poison IDs',
+          unit.poisons,
+        )
       if (side === 'players')
         requireValue(
           integer(unit.maxMP) &&
@@ -148,17 +159,20 @@ function snapshot(value, path, domain = 'integrity') {
 
 function canonicalSnapshot(value) {
   return {
-    players: value.players.map(({ id, slot, hp, maxHP, mp, maxMP, level, exp, statuses }) => ({
-      id,
-      slot,
-      hp,
-      maxHP,
-      mp,
-      maxMP,
-      level,
-      exp,
-      statuses,
-    })),
+    players: value.players.map(
+      ({ id, slot, hp, maxHP, mp, maxMP, level, exp, statuses, poisons }) => ({
+        id,
+        slot,
+        hp,
+        maxHP,
+        mp,
+        maxMP,
+        level,
+        exp,
+        statuses,
+        ...(poisons?.length ? { poisons } : {}),
+      }),
+    ),
     enemies: value.enemies.map((unit) =>
       unit === null
         ? null
@@ -170,6 +184,7 @@ function canonicalSnapshot(value) {
             maxHP: unit.maxHP,
             alive: unit.alive,
             statuses: unit.statuses,
+            ...(unit.poisons?.length ? { poisons: unit.poisons } : {}),
           },
     ),
     inventory: value.inventory
@@ -191,13 +206,14 @@ function semantic(event) {
   }
 }
 
-function action(value, path, domain) {
+function action(value, path, domain, allowPass = false) {
   requireValue(
     record(value) &&
       integer(value.turn) &&
       text(value.actorId) &&
-      ['attack', 'item', 'defend', 'cast'].includes(value.kind) &&
-      (value.kind === 'defend' ? value.targetId === null : text(value.targetId)) &&
+      (['attack', 'item', 'defend', 'cast'].includes(value.kind) ||
+        (allowPass && value.kind === 'pass' && !own(value, 'actorSide'))) &&
+      (['defend', 'pass'].includes(value.kind) ? value.targetId === null : text(value.targetId)) &&
       (!own(value, 'actorSide') || value.actorSide === 'enemy') &&
       (value.kind !== 'item' || text(value.itemId)) &&
       (value.kind !== 'cast' || text(value.skillId)),
@@ -208,6 +224,25 @@ function action(value, path, domain) {
     value,
   )
 }
+
+function round(value, path, domain) {
+  requireValue(
+    record(value) && integer(value.turn, 1),
+    domain,
+    'round-shape',
+    path,
+    'positive completed turn with before and after states',
+    value,
+  )
+  snapshot(value.before, `${path}.before`, domain)
+  snapshot(value.after, `${path}.after`, domain)
+}
+
+const roundState = ({ turn, before, after }) => ({
+  turn,
+  before: canonicalSnapshot(before),
+  after: canonicalSnapshot(after),
+})
 
 function equalBusiness(actual, expected, rule, path) {
   requireValue(same(actual, expected), 'business', rule, path, expected, actual)
@@ -223,6 +258,7 @@ export function projectBattleBusinessTrace(trace) {
       before: canonicalSnapshot(event.before),
       after: canonicalSnapshot(event.after),
     })),
+    ...(trace.rounds?.length ? { rounds: trace.rounds.map(roundState) } : {}),
     terminal: {
       result: trace.terminal.result,
       settlementCount: trace.terminal.settlementCount,
@@ -273,22 +309,57 @@ function validateScenario(scenario) {
   )
   for (const [i, entry] of expected.commands.entries())
     action(entry, `expected.commands[${i}]`, 'oracle')
+  const rounds = expected.rounds
+  if (rounds !== undefined)
+    requireValue(
+      Array.isArray(rounds),
+      'oracle',
+      'expected-rounds',
+      'expected.rounds',
+      'list',
+      rounds,
+    )
+  let roundIndex = 0
   for (const [i, entry] of expected.actions.entries()) {
-    action(entry, `expected.actions[${i}]`, 'oracle')
+    action(entry, `expected.actions[${i}]`, 'oracle', true)
     snapshot(entry.before, `expected.actions[${i}].before`, 'oracle')
     snapshot(entry.after, `expected.actions[${i}].after`, 'oracle')
+    const previous = expected.actions[i - 1]
+    let preceding = previous?.after ?? expected.start
+    if (rounds !== undefined && previous && entry.turn !== previous.turn) {
+      const completed = rounds[roundIndex]
+      const path = `expected.rounds[${roundIndex++}]`
+      round(completed, path, 'oracle')
+      requireValue(
+        completed.turn === previous.turn &&
+          entry.turn === completed.turn + 1 &&
+          same(canonicalSnapshot(completed.before), canonicalSnapshot(preceding)),
+        'oracle',
+        'expected-round-continuity',
+        path,
+        { turn: previous.turn, before: preceding, nextTurn: previous.turn + 1 },
+        { turn: completed.turn, before: completed.before, nextTurn: entry.turn },
+      )
+      preceding = completed.after
+    }
     requireValue(
-      same(
-        canonicalSnapshot(entry.before),
-        canonicalSnapshot(i === 0 ? expected.start : expected.actions[i - 1].after),
-      ),
+      same(canonicalSnapshot(entry.before), canonicalSnapshot(preceding)),
       'oracle',
       'expected-action-continuity',
       `expected.actions[${i}].before`,
-      i === 0 ? expected.start : expected.actions[i - 1].after,
+      preceding,
       entry.before,
     )
   }
+  if (rounds !== undefined)
+    requireValue(
+      rounds.length === roundIndex,
+      'oracle',
+      'expected-round-count',
+      'expected.rounds',
+      roundIndex,
+      rounds.length,
+    )
   requireValue(
     record(expected.terminal) &&
       text(expected.terminal.result) &&
@@ -354,7 +425,9 @@ function validateRecording(trace, scenario) {
   )
   snapshot(trace.start.state, 'start.state')
   snapshot(trace.terminal.after, 'terminal.after')
-  for (const key of ['commands', 'actions', 'randomDraws', 'presentations'])
+  const traceLists = ['commands', 'actions', 'randomDraws', 'presentations']
+  if (own(trace, 'rounds')) traceLists.push('rounds')
+  for (const key of traceLists)
     requireValue(
       Array.isArray(trace[key]) && trace[key].length <= 16000,
       'integrity',
@@ -373,9 +446,24 @@ function validateRecording(trace, scenario) {
   )
   for (const [i, entry] of trace.commands.entries()) action(entry, `commands[${i}]`, 'integrity')
   for (const [i, entry] of trace.actions.entries()) {
-    action(entry, `actions[${i}]`, 'integrity')
+    action(entry, `actions[${i}]`, 'integrity', true)
     snapshot(entry.before, `actions[${i}].before`)
     snapshot(entry.after, `actions[${i}].after`)
+  }
+  const rounds = trace.rounds ?? []
+  for (const [i, entry] of rounds.entries()) {
+    const path = `rounds[${i}]`
+    round(entry, path, 'integrity')
+    requireValue(
+      record(entry.native) &&
+        Array.isArray(entry.native.poisonsBefore) &&
+        Array.isArray(entry.native.poisonsAfter),
+      'integrity',
+      'round-native-poisons',
+      `${path}.native`,
+      'native before and after poison slots',
+      entry.native,
+    )
   }
   for (const [i, entry] of trace.randomDraws.entries())
     requireValue(
@@ -431,6 +519,7 @@ function validateRecording(trace, scenario) {
   for (const [name, entries] of [
     ['commands', trace.commands],
     ['actions', trace.actions],
+    ['rounds', rounds],
     ['randomDraws', trace.randomDraws],
     ['presentations', trace.presentations],
     ['resources', resources],
@@ -456,6 +545,7 @@ function validateRecording(trace, scenario) {
     trace.start,
     ...trace.commands,
     ...trace.actions,
+    ...rounds,
     ...trace.randomDraws,
     ...trace.presentations,
     ...resources,
@@ -490,7 +580,7 @@ function validateRecording(trace, scenario) {
     )
   requireValue(
     trace.terminal.order === all.length - 1 &&
-      [...trace.commands, ...trace.actions, ...trace.presentations].every(
+      [...trace.commands, ...trace.actions, ...rounds, ...trace.presentations].every(
         (entry) => entry.order > trace.start.order,
       ),
     'integrity',
@@ -535,6 +625,30 @@ function assertBusinessConformance(trace, expected) {
         `actions[${i}]`,
       )
   }
+  if (expected.rounds !== undefined) {
+    const rounds = trace.rounds ?? []
+    equalBusiness(rounds.length, expected.rounds.length, 'round-count', 'rounds')
+    for (const [i, entry] of rounds.entries()) {
+      const path = `rounds[${i}]`
+      const wanted = roundState(expected.rounds[i])
+      const observed = roundState(entry)
+      equalBusiness(observed.turn, wanted.turn, 'round-turn', `${path}.turn`)
+      equalBusiness(observed.before, wanted.before, 'round-before', `${path}.before`)
+      equalBusiness(observed.after, wanted.after, 'round-after', `${path}.after`)
+      const prior = trace.actions.findLast(({ turn }) => turn === entry.turn)
+      const next = trace.actions.find(({ turn }) => turn === entry.turn + 1)
+      requireValue(
+        prior?.order < entry.order &&
+          entry.order < next?.order &&
+          trace.commands.every(({ turn, order }) => turn !== entry.turn + 1 || order > entry.order),
+        'integrity',
+        'round-order',
+        path,
+        'round end between the previous turn action and next turn input or action',
+        entry.order,
+      )
+    }
+  }
   equalBusiness(
     actual.terminal,
     {
@@ -554,6 +668,23 @@ function assertBusinessConformance(trace, expected) {
         'enemy-action-producer',
         `actions[${i}]`,
         'one living enemy acting autonomously',
+        entry,
+      )
+      continue
+    }
+    if (entry.kind === 'pass') {
+      const actor = entry.before.players.find(({ id }) => id === entry.actorId)
+      requireValue(
+        entry.native?.inaction === 'incapacitated' &&
+          actor?.hp > 0 &&
+          (actor.statuses.sleep > 0 || actor.statuses.paralyzed > 0) &&
+          !trace.commands.some(
+            ({ actorId, turn }) => actorId === entry.actorId && turn === entry.turn,
+          ),
+        'integrity',
+        'incapacitated-action-producer',
+        `actions[${i}]`,
+        'native inaction of a living incapacitated player with no command this turn',
         entry,
       )
       continue
@@ -631,6 +762,7 @@ export function validateBattleTrace(trace, scenario) {
       checked: {
         commands: trace.commands.length,
         actions: trace.actions.length,
+        ...(trace.rounds?.length ? { rounds: trace.rounds.length } : {}),
         randomDraws: trace.randomDraws.length,
         presentations: trace.presentations.length,
       },

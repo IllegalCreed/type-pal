@@ -12,6 +12,7 @@ const ordinaryStrikes = {
 
 function expectedDraws(scenario) {
   const { expected, party } = scenario
+  if (expected.ruleDraws) return expected.ruleDraws
   const draws = []
   for (const turn of new Set(expected.actions.map(({ turn }) => turn))) {
     const actions = expected.actions.filter((action) => action.turn === turn)
@@ -58,13 +59,15 @@ const isDrawnAction = ({ payload }, action) =>
   payload.animation.kind === action.kind &&
   payload.animation.targetId === action.targetId
 
-function observedRawStrike(engine, native) {
+function observedRawStrike(engine, native, side) {
   if (engine === 'game') {
     const blue = native.animationEffects
       .flatMap((effect) => [effect.damageNum, ...(effect.damageNums ?? [])])
-      .filter((number) => number?.color === 'blue' && number.target.kind === 'enemy')
+      .filter((number) => number?.color === 'blue' && number.target.kind === side)
     return { value: blue.length === 1 ? blue[0].value : null, source: 'game-animation-effect' }
   }
+  if (side === 'player' && Number.isSafeInteger(native.lastAction?.damage))
+    return { value: native.lastAction.damage, source: 'reforge-lastAction-damage' }
   if (Number.isSafeInteger(native.lastAction?.firstDamage))
     return { value: native.lastAction.firstDamage, source: 'reforge-lastAction-firstDamage' }
   // Earlier captures expose the unbounded hit in the native action log.
@@ -86,7 +89,7 @@ function growthDelta(native) {
   )
 }
 
-/** Finite oracle for the four declared PAL fixtures, including the overkill display boundary. */
+/** Finite rule oracle for the declared PAL fixtures and their physical display boundaries. */
 export function validateBattleRules(trace, scenario) {
   const planned = expectedDraws(scenario)
   const findings = []
@@ -94,12 +97,17 @@ export function validateBattleRules(trace, scenario) {
   const fail = (rule, facts) => findings.push({ domain: 'business', rule, ...facts })
   for (let i = 0; i < Math.max(planned.length, trace.randomDraws.length); i++) {
     const draw = trace.randomDraws[i]
-    const actual = draw && { purpose: draw.purpose, ...(draw.queue ? { queue: draw.queue } : {}) }
+    const actual = draw && {
+      purpose: draw.purpose,
+      ...(draw.queue ? { queue: draw.queue } : {}),
+      ...(Object.hasOwn(planned[i] ?? {}, 'value') ? { value: draw.value } : {}),
+    }
     if (!same(planned[i], actual)) {
       fail('random-draw-purpose', {
         index: i,
         expected: planned[i] ?? null,
         actual: actual ?? null,
+        ...(draw ? { atMs: draw.atMs, source: draw.source } : {}),
       })
       break
     }
@@ -119,14 +127,15 @@ export function validateBattleRules(trace, scenario) {
       (unit) => unit?.id === action.targetId,
     )
     if (action.kind === 'attack') {
-      const expectedRaw = isEnemy ? 1 : damages[strikeIndex++]
-      const raw = isEnemy
-        ? { value: before.hp - after.hp, source: 'unclamped-enemy-hit' }
-        : observedRawStrike(trace.engine, action.native)
+      const wanted = scenario.expected.actions[index]
+      const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
+      const expectedHpLost = wanted.effectiveHpLoss ?? Math.min(before.hp, expectedRaw)
+      const targetSide = isEnemy ? 'player' : 'enemy'
+      const raw = observedRawStrike(trace.engine, action.native, targetSide)
       const start = animationStarts[index]
       const next = animationStarts.slice(index + 1).find(Boolean)
       const matches = ({ tone, side, slot }) =>
-        tone === 'blue' && side === (isEnemy ? 'player' : 'enemy') && slot === before.slot
+        tone === 'blue' && side === targetSide && slot === before.slot
       const drawFrame =
         start &&
         frames.find(
@@ -146,12 +155,61 @@ export function validateBattleRules(trace, scenario) {
           ? { frame: drawFrame.seq, clockMs: drawFrame.clockMs, right: visible.right, y: visible.y }
           : null,
         hpLost: before.hp - after.hp,
+        ...(wanted.effectiveHpLoss !== undefined ? { expectedHpLost } : {}),
+      }
+      if (wanted.effectiveHpLoss !== undefined) {
+        const round = trace.rounds?.find(({ turn }) => turn === action.turn)
+        const extra =
+          start &&
+          round &&
+          frames.find(
+            ({ seq, order, payload }) =>
+              seq >= start.seq &&
+              order < round.order &&
+              payload.numbers.some((number) => matches(number) && number.value !== expectedRaw),
+          )
+        if (extra)
+          fail('extra-blue-number-before-poison-round', {
+            actionIndex: index,
+            actorId: action.actorId,
+            targetId: action.targetId,
+            frame: extra.seq,
+            clockMs: extra.clockMs,
+            numbers: extra.payload.numbers.filter(matches),
+          })
+        if (round) {
+          const tickDamage =
+            round.before.players[before.slot].hp - round.after.players[before.slot].hp
+          const tickFrame = frames.find(
+            ({ order, seq, payload }) =>
+              order > round.order &&
+              (!next || seq < next.seq) &&
+              payload.numbers.some((number) => matches(number) && number.value === tickDamage),
+          )
+          const nextSelection = frames.find(
+            ({ order, payload }) =>
+              order > round.order && payload.turn === round.turn + 1 && payload.selecting,
+          )
+          observed.poisonRound = {
+            turn: round.turn,
+            hpLost: tickDamage,
+            draw: tickFrame
+              ? {
+                  frame: tickFrame.seq,
+                  clockMs: tickFrame.clockMs,
+                  afterRoundMs: tickFrame.atMs - round.atMs,
+                  untilSelectionMs: nextSelection
+                    ? nextSelection.clockMs - tickFrame.clockMs
+                    : null,
+                }
+              : null,
+          }
+        }
       }
       strikes.push(observed)
       if (raw.value !== expectedRaw) fail('physical-raw-damage', observed)
       if (visible?.value !== expectedRaw) fail('physical-damage-number', observed)
-      if (observed.hpLost !== Math.min(before.hp, expectedRaw))
-        fail('physical-effective-hp', observed)
+      if (observed.hpLost !== expectedHpLost) fail('physical-effective-hp', observed)
     }
     if (isEnemy) continue
     const growthDraw = trace.randomDraws

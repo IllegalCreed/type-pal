@@ -15,7 +15,7 @@ export const REFORGE_BATTLE_TARGETS = [
 export function instrumentReforgeBattle(code, file, counter = 'none') {
   assert(['none', 'double-herb'].includes(counter), `unknown battle counter: ${counter}`)
   if (!REFORGE_BATTLE_TARGETS.includes(file)) return { code, anchors: {} }
-  if (file.endsWith('/battle/battle-core.ts')) return instrumentBattleRandomDraws(code, file)
+  const isCore = file.endsWith('/battle/battle-core.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -28,6 +28,19 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const evidenceCall = (method, args = '') => `globalThis.__battleEvidence?.${method}(${args});\n`
   const visit = (node) => {
     const source = node.getText(ast)
+    if (
+      isCore &&
+      ts.isIfStatement(node) &&
+      node.expression.getText(ast) === '!canAct(p.status)' &&
+      ts.isBlock(node.parent) &&
+      ts.isFunctionDeclaration(node.parent.parent) &&
+      node.parent.parent.name?.text === 'performPlayerAction'
+    ) {
+      assert(ts.isBlock(node.thenStatement), 'incapacitated action guard lost its block')
+      const exit = node.thenStatement.statements.at(-1)
+      assert(exit && ts.isReturnStatement(exit), 'incapacitated action no longer returns')
+      add('incapacitated', exit.getStart(ast), call('incapacitated', 'idx'))
+    }
     if (file.endsWith('/battle-trial-session.ts')) {
       if (ts.isVariableStatement(node) && source.includes('const { world, players, items,'))
         add('prepared', node.end, `\n${call('prepared', 'prepared')}`)
@@ -61,7 +74,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add(
           'tick-end',
           node.body.end - 1,
-          `\n} finally { ${call('observe', 'this.state, this.selection.view')} }\n`,
+          `\n} finally { ${call('observe', "this.state, this.selection.view, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' ? this.nextSelecting() : undefined")} }\n`,
         )
       }
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'render') {
@@ -177,26 +190,28 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         ? ['sound-request']
         : file.endsWith('/battle/present-battle.ts')
           ? ['fighter-draw', 'dissolved-fighter-draw']
-          : [
-              'constructed',
-              'tick-begin',
-              'tick-end',
-              'frame-begin',
-              'frame-end',
-              'enemy-draw-identity',
-              'player-draw-identity',
-              'number-identity',
-              'number-draw',
-              'panel-draw',
-              'settlement-draw-begin',
-              'settlement-draw-end',
-              'command-begin',
-              'command-end',
-              'target-cancel-before',
-              'target-cancel-after',
-              'action-before',
-              'action-after',
-            ]
+          : isCore
+            ? ['incapacitated']
+            : [
+                'constructed',
+                'tick-begin',
+                'tick-end',
+                'frame-begin',
+                'frame-end',
+                'enemy-draw-identity',
+                'player-draw-identity',
+                'number-identity',
+                'number-draw',
+                'panel-draw',
+                'settlement-draw-begin',
+                'settlement-draw-end',
+                'command-begin',
+                'command-end',
+                'target-cancel-before',
+                'target-cancel-after',
+                'action-before',
+                'action-after',
+              ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
     assert.equal(count, 1, `duplicate battle producer: ${file}`)
@@ -204,5 +219,9 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     code = code.slice(0, edit.at) + edit.text + code.slice(edit.at)
   const output = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(output.parseDiagnostics.length, 0, `invalid instrumented source: ${file}`)
+  if (isCore) {
+    const random = instrumentBattleRandomDraws(code, file)
+    return { code: random.code, anchors: { ...anchors, ...random.anchors } }
+  }
   return { code, anchors }
 }

@@ -31,6 +31,7 @@ export function installBattleTraceObserver(context, createRecorder) {
     starts = [],
     commands = [],
     actions = [],
+    rounds = [],
     randomDraws = [],
     presentations = [],
     terminals = []
@@ -76,6 +77,9 @@ export function installBattleTraceObserver(context, createRecorder) {
     },
     action(value) {
       append(actions, value)
+    },
+    round(value) {
+      append(rounds, value)
     },
     random(value, source) {
       if (!Number.isFinite(value) || value < 0 || value >= 1) {
@@ -171,6 +175,7 @@ export function installBattleTraceObserver(context, createRecorder) {
         start: starts[0] ?? null,
         commands,
         actions,
+        ...(rounds.length ? { rounds } : {}),
         randomDraws,
         presentations,
         resources: recorder.resources(),
