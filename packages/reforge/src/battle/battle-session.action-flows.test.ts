@@ -4,7 +4,13 @@
  * 选择经公开 tick 提交后由真 core 执行；资源恰扣一次；prepareTurnSounds 快照核对
  * **实际动作集合**（cast 与 attack 分栏），不只数数量。断言用 MP/终态/声音记录器。
  */
+import { validateItems, validatePoisons } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
+import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
+  type: 'json',
+}
+import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
+import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
 import {
   PLAYER_PROFILE,
   wfEnemy,
@@ -334,6 +340,63 @@ describe('W3 执行时间线接线', () => {
       hp: 92,
       poisons: [{ poisonId: 551, tickIndex: 0 }],
     })
+  })
+
+  test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
+    const antidote = expectDefined(validateItems(palItems.filter(({ id }) => id === '87'))[0])
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { poisons: [{ poisonId: redPoison.id, tickIndex: 0 }] })],
+      enemies: [
+        wfEnemy(
+          'waiting',
+          {},
+          { ai: { resistanceToSorcery: 5, rules: [{ at: 'act', do: { kind: 'pass' } }] } },
+        ),
+      ],
+      extraOpts: {
+        items: { [antidote.id]: antidote },
+        poisonDefs: { [redPoison.id]: redPoison },
+        inventory: [{ itemId: antidote.id, count: 1 }],
+      },
+    })
+    h.assets.palette = {
+      colors: standardPalette.colors.map(([red, green, blue]) => [
+        expectDefined(red),
+        expectDefined(green),
+        expectDefined(blue),
+      ]),
+      cycles: [],
+    }
+    h.assets.ui = infoBoxAssets()
+    const portrait = document.createElement('canvas')
+    portrait.width = 4
+    portrait.height = 1
+    const portraitCtx = expectDefined(portrait.getContext('2d'))
+    const source = portraitCtx.createImageData(4, 1)
+    // PAL frame-48 (14,4) / (12,12) 为索引 2 / 153；再放未入色表的作者灰与透明像素。
+    source.data.set([40, 40, 40, 255, 203, 146, 121, 255, 128, 128, 128, 255, 0, 0, 0, 0])
+    portraitCtx.putImageData(source, 0, 0)
+    h.assets.faces = { 'li-xiaoyao': Object.assign(portrait, { close() {} }) }
+
+    const ctx = battleCanvas()
+    const drawFace = () => {
+      h.session.render(ctx, 1)
+      return Array.from(ctx.getImageData(89, 161, 4, 1).data)
+    }
+    h.idle()
+    expect(drawFace()).toEqual([81, 0, 0, 255, 178, 56, 44, 255, 166, 40, 32, 255, 0, 0, 0, 255])
+
+    h.press(['e'])
+    h.press([' '])
+    h.press([' '])
+    h.idle()
+    for (let i = 0; i < 60 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle(40)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(h.session.debugPlayers()[0]?.poisons).toEqual([])
+    expect(drawFace()).toEqual([
+      40, 40, 40, 255, 203, 146, 121, 255, 128, 128, 128, 255, 0, 0, 0, 255,
+    ])
   })
 
   test.each([

@@ -200,7 +200,7 @@ function texts() {
 }
 
 describe('N04 信息框头像形态与状态字调色门', () => {
-  test('死亡头像走灰化滤镜直绘位图；中毒头像经单色化画布并按 roleId+rgb 缓存', () => {
+  test('死亡头像保留灰化，中毒头像按位图、调色板与色段复用', () => {
     const host = drawHost()
     const face = host.image(8, 8)
     const dead: Parameters<typeof drawPlayerInfoBox>[3] = {
@@ -222,31 +222,38 @@ describe('N04 信息框头像形态与状态字调色门', () => {
       maxHp: 100,
       mp: 10,
       maxMp: 40,
-      poisonRgb: [200, 100, 50],
     }
-    drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 0, host.glyphs, palette())
-    // mono 画布 = 调用里唯一真实 HTMLCanvasElement 实参（其余是替身位图对象）。
-    const canvasArgs = () =>
-      drawImageSpy.mock.calls.map((call: unknown[]) => call[0]).filter(canvasLike)
-    const first = canvasArgs()[0]
+    const sourcePalette = palette()
+    sourcePalette.colors[0x1f] = [200, 100, 50]
+    sourcePalette.colors[0x2f] = [10, 20, 30]
+    const drawPoison = (image: ImageBitmap, poisonColor: number, colors = sourcePalette) => {
+      drawImageSpy.mockClear()
+      drawPlayerInfoBox(
+        host.ctx,
+        host.menu,
+        image,
+        { ...poisoned, poisonColor },
+        0,
+        host.glyphs,
+        colors,
+      )
+      return drawImageSpy.mock.calls
+        .map((call: unknown[]) => call[0])
+        .filter(canvasLike)
+        .at(-1)
+    }
+    const first = drawPoison(face, 0x10)
     if (!first) throw new Error('mono canvas not drawn')
     expect(first.width).toBe(8)
     expect(first.height).toBe(8)
-    // 白底（luma 1）× 毒色 → 单色化调制在真画布上产出毒色（PAL_RLEBlitMonoColor RGBA 近似）。
+    // 宿主白像素在表外，落最亮一档。相同色段的毒色索引共用成图。
     expect(readBack(first)).toEqual([200, 100, 50, 255])
-    // 同 roleId+rgb 再绘 → 命中缓存返回同一画布；换色 → 新画布。
-    drawPlayerInfoBox(host.ctx, host.menu, face, poisoned, 1, host.glyphs, palette())
-    expect(canvasArgs()[1]).toBe(first)
-    drawPlayerInfoBox(
-      host.ctx,
-      host.menu,
-      face,
-      { ...poisoned, roleId: 'n-poison-b', poisonRgb: [10, 20, 30] },
-      0,
-      host.glyphs,
-      palette(),
-    )
-    expect(canvasArgs()[2]).not.toBe(first)
+    expect(drawPoison(face, 0x1a)).toBe(first)
+    expect(drawPoison(host.image(8, 8), 0x10)).not.toBe(first)
+    expect(readBack(drawPoison(face, 0x20))).toEqual([10, 20, 30, 255])
+    const otherPalette = palette()
+    otherPalette.colors[0x1f] = [220, 10, 3]
+    expect(readBack(drawPoison(face, 0x10, otherPalette))).toEqual([220, 10, 3, 255])
   })
 
   test('状态字只在活人、有字模且有调色板色时绘制', () => {

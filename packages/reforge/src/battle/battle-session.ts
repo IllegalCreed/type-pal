@@ -2394,24 +2394,23 @@ export class BattleSession {
       s.players.forEach((p, i) => {
         const shownHp = this.visual.players[i]?.displayHp ?? p.hp
         if (ui?.magicPlayerBox) {
-          // 中毒头像色:最高级(≤3)毒的 wColor 查调色板(uibattle.c:126-149;伪毒 99/无影 173 不染)
-          // 中毒头像色:染色可解毒中可解度最高者(原版 level≤3 染色 = common/severe,incurable 不染)
+          // 取可染色毒中可解度最高者，保留 wColor 供头像选色段（uibattle.c:126-161）。
           let maxRank = -1
-          let poisonRgb: readonly [number, number, number] | undefined
+          let poisonColor: number | undefined
           for (const ap of p.poisons) {
             const def = s.poisonDefs[ap.poisonId]
             if (!def || def.curability === 'incurable' || def.color <= 0) continue
             const rank = POISON_CURE_RANK[def.curability]
             if (rank >= maxRank) {
               maxRank = rank
-              poisonRgb = this.assets.palette.colors[def.color & 0xff]
+              poisonColor = def.color & 0xff
             }
           }
           drawPlayerInfoBox(
             ctx,
             ui,
             this.assets.faces?.[p.roleId],
-            { ...p, hp: shownHp, status: p.status, ...(poisonRgb ? { poisonRgb } : {}) },
+            { ...p, hp: shownHp, status: p.status, poisonColor },
             i,
             g,
             this.assets.palette,
