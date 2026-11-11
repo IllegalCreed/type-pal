@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 /**
  * TEST-BATTLE-WORKFLOWS-1 W3：执行时间线接线。
  * 选择经公开 tick 提交后由真 core 执行；资源恰扣一次；prepareTurnSounds 快照核对
@@ -7,6 +8,7 @@ import { describe, expect, test } from 'vitest'
 import { wfEnemy, wfHealItem, wfPlayer, wfSkill } from '../__tests__/battle-workflows/catalog.js'
 import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
 import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
+import type { MenuAssets } from '../menu/menu-box.js'
 import type { BattleSessionAssets, BattleTurnReadinessSnapshot } from './battle-session.js'
 
 /** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
@@ -24,6 +26,42 @@ const settleDone = async (h: ReturnType<typeof makeWfSession>): Promise<string> 
   return h.session.done
 }
 
+function infoBoxAssets(): MenuAssets {
+  const image = document.createElement('canvas')
+  image.width = 1
+  image.height = 1
+  const blank = Object.assign(image, { close() {} })
+  const panel = Object.assign(document.createElement('canvas'), { close() {} })
+  panel.width = 75
+  panel.height = 35
+  const ctx = panel.getContext('2d')!
+  ctx.fillStyle = '#ff0000'
+  ctx.fillRect(0, 0, panel.width, panel.height)
+  const box = { tiles: Array.from({ length: 9 }, () => blank) }
+  const digits = Array.from({ length: 10 }, () => blank)
+  return {
+    box,
+    itembox: box,
+    statusBg: blank,
+    equipSlot: blank,
+    scroll: box,
+    nums: digits,
+    avatar: undefined,
+    numsBlue: digits,
+    numsCyan: digits,
+    slash: blank,
+    itemIcons: {},
+    redBox: box,
+    magicPlayerBox: panel,
+    cursorGrid: blank,
+    cursorUp: blank,
+    cursorUpRed: blank,
+    cursorDown: blank,
+    settleArrow: blank,
+    battleIcons: [],
+  }
+}
+
 describe('W3 执行时间线接线', () => {
   test('攻击选择→真 core 执行→敌死亡→victory 终态（精确 done 结果）', async () => {
     const h = makeWfSession({
@@ -36,6 +74,70 @@ describe('W3 执行时间线接线', () => {
     for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'over'; i += 1) h.idle(500)
     expect(h.session.debugReadiness().phase).toBe('over')
     await expect(settleDone(h)).resolves.toBe('victory')
+  })
+
+  test('实际选指令与目标时显示人物框，攻击执行时隐藏，下轮重新选指令时恢复', () => {
+    const h = makeWfSession({
+      players: [wfPlayer('p1')],
+      enemies: [wfEnemy('tank', { health: 900, attackStrength: 1 })],
+    })
+    h.assets.ui = infoBoxAssets()
+    const canvas = document.createElement('canvas')
+    canvas.width = 320
+    canvas.height = 200
+    const ctx = canvas.getContext('2d')!
+    const panelVisible = (): boolean => {
+      h.session.render(ctx, 1)
+      return ctx.getImageData(91, 165, 1, 1).data[0] === 255
+    }
+
+    const visibleBeforeSelection = panelVisible()
+    h.idle()
+    expect(panelVisible()).toBe(true)
+    h.press([' ']) // 进入目标选择
+    expect(panelVisible()).toBe(true)
+    h.press([' '])
+    h.idle() // 提交本轮指令
+    h.idle(240) // 真实攻击进入时间线
+    expect(h.session.debugLog()).toContainEqual(expect.stringMatching(/^p1 .*攻击 tank 造成 /))
+    expect(panelVisible()).toBe(false)
+    expect(visibleBeforeSelection).toBe(false)
+
+    for (let i = 0; i < 160 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect(panelVisible()).toBe(true)
+    h.press(['a'])
+    expect(panelVisible()).toBe(false)
+  })
+
+  test('非末敌死亡淡出期间阻塞下一行动，且无绘制也会恢复', () => {
+    const sfx = recordingSfx()
+    const h = makeWfSession({
+      players: [wfPlayer('first', { baseDexterity: 200, attackStrength: 60 }), wfPlayer('next')],
+      enemies: [
+        wfEnemy('doomed', { health: 20, defense: 0, attackStrength: 1 }),
+        wfEnemy('survivor', { health: 900, attackStrength: 1 }),
+      ],
+    })
+    h.assets.sfx = sfx.player
+    h.press([' '])
+    h.press([' ']) // first 攻击首槽
+    h.press([' '])
+    h.press(['ArrowRight'])
+    h.press([' ']) // next 攻击仍存活的第二槽
+
+    const deathSound = 'sound.pal.030'
+    for (let i = 0; i < 100 && !sfx.plays.includes(deathSound); i++) h.idle()
+    expect(sfx.plays).toContain(deathSound) // 死音与淡出同拍开始
+    const nextAttack = () =>
+      h.session.debugLog().find((event) => /^next .*攻击 survivor 造成 /.test(event))
+    for (let i = 0; i < 71; i++) h.idle() // 1152ms 淡出尚未结束
+    expect(nextAttack()).toBeUndefined()
+
+    h.idle() // 完成淡出，留出这一拍的终帧
+    expect(nextAttack()).toBeUndefined()
+    h.idle() // 正常下一拍开始后续行动
+    expect(nextAttack()).toBeDefined()
   })
 
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {

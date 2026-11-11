@@ -134,10 +134,9 @@ function assertNever(value: never, context: string): never {
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
-/** 敌人死亡淡出时长(一阶段 PAL_BattleFadeScene 12×6 步 ≈ 900ms;RGBA 用 alpha 渐隐等价)。 */
-// 死亡溶解时长 = 原版 72 步 × 16ms(PAL_BattleFadeScene,battle.c:608-682;曾 900ms alpha
-// 渐隐,作者报「死亡动画有些怪」→ 改颗粒溶解形态,见 present-battle drawDissolved)
+/** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
+const DEATH_SETTLEMENT_PAUSE_MS = 240
 
 interface FloatNum {
   x: number
@@ -211,6 +210,7 @@ export class BattleSession {
   private readonly actionPresentation = new BattleActionPresentationScheduler()
   private readonly state: BattleState
   private sessionUi: SessionUiPhase | null = null
+  private selectionStartedForTurn: number | null = null
   private floats: FloatNum[] = []
   private nowMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
@@ -230,8 +230,8 @@ export class BattleSession {
   private prevHidden = false
   /** 本步演出收尾跳过 resetVisual(逃跑成功/敌逃:人已离场,归位会闪回)。 */
   private skipNextReset = false
-  /** 敌槽 → 淡出开始时刻(动画收尾后登记;渲染 alpha 渐隐)。 */
-  private deathFades = new Map<number, number>()
+  /** 同一步死亡的敌槽共用一次淡出，完成后才继续推进战斗。 */
+  private deathFade: { startedAtMs: number; enemySlots: readonly number[] } | null = null
   /** 本步结算中死掉的敌槽(动画播完后统一开淡出 + death 音)。 */
   private pendingDeaths: number[] = []
   /** 本步刚获得 confused 的敌槽；core 已结算，但 OffMagic 收尾前不得提前抖动。 */
@@ -1122,14 +1122,13 @@ export class BattleSession {
         return
       }
       this.sessionUi = 'over'
-      // 死亡溶解 hold:最后一敌的溶解播完 + 短拍(240ms)才起胜利乐/结算屏 —— 原版
-      // PostActionCheck 的 FadeScene 是阻塞式(fight.c:889-894),溶解期间什么都不发生
-      // (作者报「结算画面这么快?」= 此 hold 缺失)。render 清过期项,空表 = 直接过。
-      for (const t of this.deathFades.values()) if (this.nowMs < t + DEATH_FADE_MS + 240) return
+      if (this.advanceDeathFade(DEATH_SETTLEMENT_PAUSE_MS)) return
       const completed = this.settlementPresentation.advance(dtMs, pressed)
       if (completed) this.complete(completed)
       return
     }
+
+    if (this.advanceDeathFade()) return
 
     if (s.phase === 'selectAction') {
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
@@ -1159,6 +1158,7 @@ export class BattleSession {
         this.selection.beginRound()
         this.sessionUi = null
       }
+      this.selectionStartedForTurn = s.turn
       const context = this.selectionContext(sel)
       this.selection.advance(context, pressed, {
         submit: (playerIndex, action) => this.state.pendingActions.set(playerIndex, action),
@@ -1544,8 +1544,7 @@ export class BattleSession {
     if (la.kind === 'coop') return this.buildCastTimeline(la, pHp, eHp)
     // 使用物品(fight.c:2266 举物 + 目标彩色呼吸;v1 施己 → 目标 = 自己)。
     // 物品名走时间线 banner 帧(与举物/音效同帧起显,作者对照原版确认「三同步」);
-    // 玩家侧涨益数字从收尾统一弹**挪进时间线**(归位前弹 = 作者对照原版时序;
-    // 从 pendingGains 取走防双弹,敌侧涨益仍走收尾)。
+    // 玩家侧涨益由归位帧派发，数字从归位后的目标锚点起显。敌侧涨益仍走收尾。
     if (la.kind === 'item' && la.side === 'player') {
       const casterPos = getPlayerBasePos(s.players.length, la.idx)
       if (!casterPos) return null
@@ -1941,6 +1940,17 @@ export class BattleSession {
     }
   }
 
+  /** PostActionCheck 等待 FadeScene (fight.c:889-894)。由游戏时间释放，与绘制频率无关。 */
+  private advanceDeathFade(pauseAfterMs = 0): boolean {
+    const fade = this.deathFade
+    if (!fade) return false
+    if (this.nowMs - fade.startedAtMs < DEATH_FADE_MS + pauseAfterMs) return true
+    this.deathFade = null
+    if (this.state.phase === 'performAction') this.actionPresentation.satisfyActionCadence()
+    // 没有结算停拍时，把淡出完成的这一帧留给战场终帧。
+    return pauseAfterMs === 0
+  }
+
   /** 每步收尾:表现层复位 + 死亡淡出登记(death 音)+ displayHp 兜底同步。 */
   private finishStepVisuals(): void {
     if (this.skipNextReset) this.skipNextReset = false
@@ -1952,12 +1962,14 @@ export class BattleSession {
     // 涨益飘字(回血黄/回 MP 青;特效播完后弹 = DisplayStatChange 时序)
     for (const g of this.pendingGains) this.applyDamageFx(g.target, g.value, g.tone)
     this.pendingGains = []
-    for (const i of this.pendingDeaths) {
-      this.deathFades.set(i, this.nowMs)
-      const e = this.state.enemies[i]
-      if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
+    if (this.pendingDeaths.length) {
+      this.deathFade = { startedAtMs: this.nowMs, enemySlots: this.pendingDeaths }
+      for (const i of this.pendingDeaths) {
+        const e = this.state.enemies[i]
+        if (e?.def.sounds.death) this.assets.sfx?.play(e.def.sounds.death)
+      }
+      this.pendingDeaths = []
     }
-    this.pendingDeaths = []
     this.pendingConfusedReveal.clear()
     this.state.players.forEach((p, i) => {
       const v = this.visual.players[i]
@@ -2174,7 +2186,8 @@ export class BattleSession {
       targetBlink
         ? alive[selection.targetIndex % alive.length]
         : undefined
-    // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = 颗粒溶解)
+    // 场景(M4d-2:visual 层驱动 —— 动画位移/帧/受击染色;死亡 = alpha 渐隐)
+    const deathFade = this.deathFade
     const enemies: BattleSpriteDraw[] = []
     s.enemies.forEach((e, i) => {
       if (!e) return
@@ -2182,7 +2195,6 @@ export class BattleSession {
       const sprite = appearance.sprite
       const v = this.visual.enemies[i]
       if (!sprite || !v) return
-      const fade = this.deathFades.get(i)
       // 死亡可见性(2026-07-05 作者报「施法时怪物消失」):真 hp 在时间线**播放前**已结算,
       // 不能凭它判死否则强力术一出手怪就没、整段演出打空气。用 pendingDeaths(本步正被这次
       // 演出击杀的敌)区分两类:① 正被击杀 → 演出全程照画,收尾(finishStepVisuals)才登记
@@ -2190,13 +2202,9 @@ export class BattleSession {
       const dyingNow = this.pendingDeaths.includes(i) || this.fleeingEnemies?.includes(i) === true
       let alpha = 1
       if (e.hp <= 0 && !dyingNow) {
-        if (fade === undefined) return // 早死无淡出登记(逃跑清场等)= 不画
-        // 渐隐(形态两轮裁决 2026-07-05:溶解试后作者选回正常渐隐;时长保持原版 72×16ms)
-        alpha = 1 - (now - fade) / DEATH_FADE_MS
-        if (alpha <= 0) {
-          this.deathFades.delete(i)
-          return
-        }
+        if (!deathFade?.enemySlots.includes(i)) return
+        alpha = 1 - (now - deathFade.startedAtMs) / DEATH_FADE_MS
+        if (alpha <= 0) return
       }
       // idle 呼吸帧:visual.frame===0(站立默认)时循环 idleFrames;时间线设过的特殊帧原样
       const anim = appearance.definition.profile
@@ -2373,9 +2381,13 @@ export class BattleSession {
     // 对话框活跃期:一阶段真值「整个战斗 UI 都不画」(信息框 + 菜单全隐,只留场景 + 对话框)。
     const dialogActive = this.assets.dialogBox?.active ?? false
 
-    // 底部队员信息框(playerbox+头像+黄青数字;无 UI 资产 → 文字兜底)。
-    // HP 显示用 displayHp(伤害数字帧才同步,动画命中前不剧透)。
-    if (!dialogActive)
+    // CLASSIC 只在选招期间绘制人物框(uibattle.c:888-928)。等本轮起手脚本播完才进入选招。
+    if (
+      !dialogActive &&
+      s.phase === 'selectAction' &&
+      this.selectionStartedForTurn === s.turn &&
+      !this.selection.isAutoAttacking
+    )
       s.players.forEach((p, i) => {
         const shownHp = this.visual.players[i]?.displayHp ?? p.hp
         if (ui?.magicPlayerBox) {

@@ -77,6 +77,10 @@ export class BattleCommandSelection {
     return this.currentPhase
   }
 
+  get isAutoAttacking(): boolean {
+    return this.autoAttack
+  }
+
   get view(): BattleCommandSelectionView {
     return {
       phase: this.currentPhase,

@@ -350,9 +350,10 @@ describe('M4d-2 战斗动画时间线', () => {
     expect(bannerAt).toBeGreaterThanOrEqual(0)
     expect(Math.abs(bannerAt - events.indexOf('snd:sound.pal.028'))).toBeLessThanOrEqual(2)
     expect(bannerAt).toBeLessThan(events.indexOf('f:player1c1'))
-    // 涨益数字先于归位(作者对照原版:先显血量、后瞬移归位)
-    expect(events).toContain('dmg:player1:50')
-    expect(events.indexOf('dmg:player1:50')).toBeLessThan(events.indexOf('f:player1#0@240,170'))
+    // 先归位再从目标当前位置取数字锚点，且一次用药只出一次数字。
+    const returnAt = events.indexOf('f:player1#0@240,170')
+    expect(events.slice(returnAt)).toEqual(['f:player1#0@240,170', 'dmg:player1:50'])
+    expect(events.filter((event) => event === 'dmg:player1:50')).toHaveLength(1)
   })
 
   test('投掷物品:纯施毒不显数字；即时伤害在目标闪色帧显示蓝字', () => {
