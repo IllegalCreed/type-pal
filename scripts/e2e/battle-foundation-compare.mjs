@@ -9,6 +9,7 @@ import {
   battleFoundationInputSources,
   battleFoundationScenario,
 } from './battle-foundation-scenarios.mjs'
+import { validateBattlePresentation } from './battle-presentation.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { assertDependencyClosure, recordingDependencies } from './evidence-dependencies.mjs'
 import { assertInputLedger } from './input-ledger.mjs'
@@ -105,6 +106,7 @@ export async function compareBattleReports(gamePath, reforgePath) {
   for (const source of [
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
+    'scripts/e2e/battle-presentation.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
     'scripts/e2e/battle-trace-observer.mjs',
   ]) {
@@ -133,7 +135,16 @@ export async function compareBattleReports(gamePath, reforgePath) {
           .initial.nativePlayers.map(({ gameRole: _gameRole, ...player }) => player),
       )
       assert.deepEqual(setup[0], setup[1], `paired effective equipment/stats differ: ${runId}`)
-      return compareBattleTraces(left, right, scenario)
+      const comparison = compareBattleTraces(left, right, scenario)
+      const presentation = [left, right].map((trace) => validateBattlePresentation(trace, scenario))
+      for (const side of presentation)
+        for (const finding of side.findings)
+          comparison.findings.push({ engine: side.engine, ...finding })
+      return {
+        ...comparison,
+        status: comparison.findings.length ? 'rejected' : 'passed',
+        presentation,
+      }
     })
     const repeats = bundles.map(({ traces }) =>
       compareBattleRepeats(traces.get(`${id}-1`), traces.get(`${id}-2`), scenario),

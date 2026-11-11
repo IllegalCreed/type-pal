@@ -137,6 +137,20 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs || state !== battle) return
       if (roles) liveRoles = roles
     })
+  globalThis.__battleGameFrame = (state) =>
+    observe(() => {
+      if (!scenario || state !== battle || terminal) return
+      evidence().beginFrame('game:BattlePresent.draw', {
+        clockMs: performance.now(),
+        phase: state.phase,
+        turn: state.turn + 1,
+        selecting: state.phase === 'selectAction' && state.selectingPlayerIdx !== undefined,
+        animation:
+          state.battleAnim && action
+            ? { actorId: action.actorId, kind: action.kind, targetId: action.targetId }
+            : null,
+      })
+    })
   globalThis.__battleGameCommand = (state, slot) =>
     observe(() => {
       if (!scenario || state !== battle) return

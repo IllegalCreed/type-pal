@@ -10,6 +10,7 @@ import {
 } from './battle-foundation-scenarios.mjs'
 import { installGameBattleAdapter } from './battle-game-adapter.mjs'
 import { nextGameBattleKey } from './battle-game-input.mjs'
+import { validateBattlePresentation } from './battle-presentation.mjs'
 import { nextReforgeBattleKey } from './battle-reforge-input.mjs'
 import { validateBattleTrace } from './battle-trace-contract.mjs'
 import { battleObserverScript } from './battle-trace-observer.mjs'
@@ -56,6 +57,7 @@ await runBrowserJourney({
     'scripts/e2e/battle-foundation.mjs',
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
+    'scripts/e2e/battle-presentation.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
     'scripts/e2e/battle-trace-observer.mjs',
     'scripts/e2e/battle-reforge-input.mjs',
@@ -143,6 +145,7 @@ await runBrowserJourney({
           await page.close()
         }
         result.judge = validateBattleTrace(trace, scenario)
+        result.presentation = validateBattlePresentation(trace, scenario)
         if (counter !== 'none') {
           assert.equal(
             result.judge.status,

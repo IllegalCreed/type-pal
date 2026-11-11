@@ -18,6 +18,7 @@ let nativeState
 let world
 let selection
 let beforeAction
+let visualAction
 let beforeLog = 0
 let terminal
 let sessionReady = false
@@ -26,7 +27,6 @@ let commandCount = 0
 let seeded
 let failure
 let running
-const presented = new Set()
 const controller = new AbortController()
 
 function partyLabel(player) {
@@ -160,6 +160,23 @@ const harness = {
     nativeState = state
     selection = view
   },
+  beginFrame(state, clockMs, animating, selecting) {
+    if (!sessionReady || terminal) return
+    evidence().beginFrame('reforge:BattleSession.render', {
+      clockMs,
+      phase: state.phase,
+      turn: state.turn,
+      selecting,
+      animation:
+        animating && visualAction
+          ? {
+              actorId: visualAction.actorId,
+              kind: visualAction.kind,
+              targetId: visualAction.targetId,
+            }
+          : null,
+    })
+  },
   command(playerIndex, action) {
     commandCount++
     evidence().command({
@@ -177,8 +194,9 @@ const harness = {
     const action = state.lastAction
     if (!action) return
     invariant(action.side === 'player', `unexpected foundation enemy action ${action.kind}`)
+    visualAction = semanticAction(action.idx, action)
     evidence().action({
-      ...semanticAction(action.idx, action),
+      ...visualAction,
       before: beforeAction,
       after: snapshot(),
       native: {
@@ -197,9 +215,6 @@ const harness = {
     evidence().terminal({ ...terminal, source: 'finishBattleWorldState:trial:committed' })
   },
   presentation(kind, source, payload) {
-    const identity = `${kind}:${JSON.stringify(payload)}`
-    if (kind === 'render-call' && presented.has(identity)) return
-    presented.add(identity)
     if (sessionReady && !terminal)
       evidence().presentation({ kind, source, payload: clone(payload) })
   },

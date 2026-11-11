@@ -6,6 +6,7 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle-trial-host.ts',
   'packages/reforge/src/battle/battle-session.ts',
   'packages/reforge/src/audio/sfx.ts',
+  'packages/reforge/src/battle/present-battle.ts',
 ]
 
 /** Serve-only hooks at existing producers. Normal mode never replaces a native expression. */
@@ -21,6 +22,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     edits.push({ at, text })
   }
   const call = (method, args) => `globalThis.__battleHarness.${method}(${args});\n`
+  const evidenceCall = (method, args = '') => `globalThis.__battleEvidence?.${method}(${args});\n`
   const visit = (node) => {
     const source = node.getText(ast)
     if (file.endsWith('/battle-trial-session.ts')) {
@@ -51,17 +53,60 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
           node.body.end - 1,
           call('constructed', 'this.state, this.selection.view'),
         )
-      if (ts.isMethodDeclaration(node) && ['tick', 'render'].includes(node.name.getText(ast))) {
-        const method = node.name.getText(ast)
-        const observation =
-          method === 'tick'
-            ? call('observe', 'this.state, this.selection.view')
-            : call(
-                'presentation',
-                "'render-call', 'BattleSession:render:completed', { phase: this.state.phase, turn: this.state.turn }",
-              )
-        add(`${method}-begin`, node.body.getStart(ast) + 1, '\ntry {\n')
-        add(`${method}-end`, node.body.end - 1, `\n} finally { ${observation} }\n`)
+      if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'tick') {
+        add('tick-begin', node.body.getStart(ast) + 1, '\ntry {\n')
+        add(
+          'tick-end',
+          node.body.end - 1,
+          `\n} finally { ${call('observe', 'this.state, this.selection.view')} }\n`,
+        )
+      }
+      if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'render') {
+        add(
+          'frame-begin',
+          node.body.getStart(ast) + 1,
+          `\n${call('beginFrame', "this.state, this.nowMs, this.actionPresentation.active, this.state.phase === 'selectAction' && this.nextSelecting() !== undefined")}`,
+        )
+        add('frame-end', node.body.end - 1, `\n${evidenceCall('endFrame')}\n`)
+      }
+      if (ts.isIfStatement(node) && node.expression.getText(ast) === 'transition') {
+        if (source.includes('enemies.push('))
+          add(
+            'enemy-draw-identity',
+            node.end,
+            `\n${evidenceCall('labelFighter', "enemies.at(-1), 'enemy', i, fade !== undefined && !dyingNow")}\n`,
+          )
+        if (source.includes('players.push('))
+          add(
+            'player-draw-identity',
+            node.end,
+            `\n${evidenceCall('labelFighter', "players.at(-1), 'player', i")}\n`,
+          )
+      }
+      if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
+        const name = node.expression.expression.getText(ast)
+        if (name === 'this.floats.push' && source.includes('num: value'))
+          add(
+            'number-identity',
+            node.end,
+            `\n${evidenceCall('labelNumber', 'this.floats.at(-1), t.side, t.idx')}\n`,
+          )
+        if (name === 'drawNumber' && source === 'drawNumber(ctx, f.num, f.x, f.y - age, nums)')
+          add(
+            'number-draw',
+            node.end,
+            `\n${evidenceCall('numberDrawn', 'f, f.num, f.tone, f.x, f.y - age, age')}\n`,
+          )
+        if (name === 'drawPlayerInfoBox')
+          add('panel-draw', node.end, `\n${evidenceCall('panelDrawn', 'i')}\n`)
+        if (name === 'drawSettlementScreen') {
+          add('settlement-draw-begin', node.getStart(ast), '{\n')
+          add(
+            'settlement-draw-end',
+            node.end,
+            `\n${evidenceCall('settlementDrawn', 'settlementScreen.kind')}\n}\n`,
+          )
+        }
       }
       if (ts.isPropertyAssignment(node) && node.name.getText(ast) === 'submit') {
         const fn = node.initializer
@@ -83,6 +128,18 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add('action-after', node.end, `\n${mutation}${call('afterStep', 's')}`)
       }
     }
+    if (file.endsWith('/battle/present-battle.ts') && ts.isIfStatement(node)) {
+      if (node.expression.getText(ast) === 'draw.dissolve !== undefined') {
+        const draw = node.thenStatement.statements[0]
+        assert(draw.getText(ast).startsWith('drawDissolved('))
+        add('dissolved-fighter-draw', draw.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+      }
+      if (
+        node.expression.getText(ast) === 'alpha < 1' &&
+        source.includes('ctx.drawImage(img, dx, dy)')
+      )
+        add('fighter-draw', node.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+    }
     if (
       file.endsWith('/audio/sfx.ts') &&
       ts.isMethodDeclaration(node) &&
@@ -103,17 +160,26 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       ? ['seeded-input', 'finished']
       : file.endsWith('/audio/sfx.ts')
         ? ['sound-request']
-        : [
-            'constructed',
-            'tick-begin',
-            'tick-end',
-            'render-begin',
-            'render-end',
-            'command-begin',
-            'command-end',
-            'action-before',
-            'action-after',
-          ]
+        : file.endsWith('/battle/present-battle.ts')
+          ? ['fighter-draw', 'dissolved-fighter-draw']
+          : [
+              'constructed',
+              'tick-begin',
+              'tick-end',
+              'frame-begin',
+              'frame-end',
+              'enemy-draw-identity',
+              'player-draw-identity',
+              'number-identity',
+              'number-draw',
+              'panel-draw',
+              'settlement-draw-begin',
+              'settlement-draw-end',
+              'command-begin',
+              'command-end',
+              'action-before',
+              'action-after',
+            ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
     assert.equal(count, 1, `duplicate battle producer: ${file}`)
