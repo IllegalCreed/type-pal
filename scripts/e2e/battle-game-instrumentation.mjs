@@ -2,6 +2,14 @@ import assert from 'node:assert/strict'
 import ts from 'typescript'
 import { instrumentBattleRandomDraws } from './battle-random-instrumentation.mjs'
 
+const gameRandomTargets = [
+  '/packages/game/src/core/battle/actions/attack.ts',
+  '/packages/game/src/core/battle/enemy-ai.ts',
+  '/packages/game/src/core/battle/magic-damage.ts',
+  '/packages/game/src/core/battle/battle-opcodes.ts',
+  '/packages/game/src/core/event-system.ts',
+]
+
 export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/dev/dev-panel.ts',
   '/packages/game/src/core/rng.ts',
@@ -12,16 +20,20 @@ export const GAME_BATTLE_TARGETS = [
   '/packages/game/src/present/battle/draw-battle-sprites.ts',
   '/packages/game/src/present/battle/draw-battle-ui.ts',
   '/packages/game/src/present/battle/draw-battle-num.ts',
-  '/packages/game/src/core/battle/actions/attack.ts',
-  '/packages/game/src/core/battle/enemy-ai.ts',
+  ...gameRandomTargets,
 ]
+
+const commandPlaceholderOwners = new Set([
+  'tickSelectAction',
+  'applyCoopConsumesOthers',
+  'autoFillIncapacitatedActions',
+])
 
 /** Guarded observation-only edits exist only in this test Vite server's module responses. */
 export function instrumentGameBattle(source, file) {
   assert(GAME_BATTLE_TARGETS.includes(file), `unexpected Q2 Game source ${file}`)
   assert(!/__battle(?:Game|Evidence)/.test(source), 'Game source was instrumented twice')
-  if (file.endsWith('/actions/attack.ts') || file.endsWith('/enemy-ai.ts'))
-    return instrumentBattleRandomDraws(source, file)
+  if (gameRandomTargets.includes(file)) return instrumentBattleRandomDraws(source, file)
   const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true)
   const edits = [],
     anchors = {}
@@ -132,6 +144,19 @@ export function instrumentGameBattle(source, file) {
             'tick',
             'globalThis.__battleGameTick?.(gs, gs.battleState, getBattleResources(gs)?.playerRoles);',
           )
+        if (name === 'tickPostAction') {
+          add(
+            'round-start',
+            node.body.getStart(ast) + 1,
+            '\nconst __battleRoundStart = globalThis.__battleGameRoundStart?.(state, gs, res.playerRoles);\n',
+          )
+          // Victory and defeat return before the controller advances its turn.
+          add(
+            'round-end',
+            node.body.end - 1,
+            '\nglobalThis.__battleGameRoundEnd?.(state, gs, res.playerRoles, __battleRoundStart);\n',
+          )
+        }
         if (name === 'performBattleAction') {
           wrapFinally(node, 'action-produced', 'globalThis.__battleGameActionProduced?.(state);')
           add(
@@ -172,14 +197,19 @@ export function instrumentGameBattle(source, file) {
       ts.isCallExpression(node) &&
       node.expression.getText(ast) === 'state.pendingActions.set'
     ) {
-      const slot = node.arguments[0]
-      assert(ts.isIdentifier(slot), 'Game command slot is no longer a simple native variable')
-      add(
-        'command',
-        node.getStart(ast),
-        `(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
-        node.end,
-      )
+      // Queue placeholders reserve a native slot without accepting a player input.
+      if (commandPlaceholderOwners.has(owner(node))) {
+        anchors.placeholder = (anchors.placeholder ?? 0) + 1
+      } else {
+        const slot = node.arguments[0]
+        assert(ts.isIdentifier(slot), 'Game command slot is no longer a simple native variable')
+        add(
+          'command',
+          node.getStart(ast),
+          `(${node.getText(ast)}, globalThis.__battleGameCommand?.(state, ${slot.getText(ast)}), state.pendingActions)`,
+          node.end,
+        )
+      }
     }
     if (
       file.endsWith('/battle/battle-system.ts') &&
@@ -232,7 +262,10 @@ export function instrumentGameBattle(source, file) {
             : {
                 start: 1,
                 tick: 1,
-                command: 10,
+                command: 7,
+                placeholder: 3,
+                'round-start': 1,
+                'round-end': 1,
                 'target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
