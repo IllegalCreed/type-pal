@@ -21,7 +21,7 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
   for (const file of GAME_BATTLE_TARGETS) {
     const native = await source(file)
     const observed = instrumentGameBattle(native, file)
-    assert(observed.code.includes('__battleGame'))
+    assert.match(observed.code, /__battle(?:Game|Evidence)/)
     assert.throws(() => instrumentGameBattle(observed.code, file), /instrumented twice/)
     if (file.endsWith('/battle/battle-system.ts')) {
       assert.equal(observed.anchors.command, 10)

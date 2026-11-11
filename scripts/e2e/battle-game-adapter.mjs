@@ -7,6 +7,7 @@ export function installGameBattleAdapter() {
     battle,
     action,
     terminal,
+    targetCancels = 0,
     settlementCount = 0
   const commands = [],
     errors = []
@@ -96,26 +97,39 @@ export function installGameBattleAdapter() {
     }
   }
   const describe = (nativeState, actor, nativeAction) => {
-    const kind = nativeAction.type
-    require(kind === 'attack' || kind === 'item', `unsupported first-batch Game action ${kind}`)
+    const kind = nativeAction.type === 'magic' ? 'cast' : nativeAction.type
+    require(['attack', 'item', 'defend', 'cast'].includes(kind), `unsupported Game action ${kind}`)
     const isEnemy = actor.isEnemy
-    const toPlayer = kind === 'item' || isEnemy
-    require(nativeAction.target >= 0, 'first-batch Game action needs an actual single target')
+    const toPlayer = nativeAction.targetSide === 'player' || kind === 'item' || isEnemy
+    require(kind === 'defend' ||
+      nativeAction.target >= 0, 'Game action needs an actual single target')
     const actorId = isEnemy
       ? enemyIdentity(actor.idx)
       : playerIdentity(nativeState.players[actor.idx].roleId)
-    const targetId = toPlayer
-      ? playerIdentity(nativeState.players[nativeAction.target].roleId)
-      : enemyIdentity(nativeAction.target)
+    let targetId = null
+    if (kind !== 'defend')
+      targetId = toPlayer
+        ? playerIdentity(nativeState.players[nativeAction.target].roleId)
+        : enemyIdentity(nativeAction.target)
     return {
       // Native createBattleState initializes turn=0; the common Q2 contract starts at 1.
       turn: nativeState.turn + 1,
       actorId,
+      ...(isEnemy ? { actorSide: 'enemy' } : {}),
       kind,
       targetId,
       ...(kind === 'item' ? { itemId: String(nativeAction.actionId) } : {}),
+      ...(kind === 'cast' ? { skillId: String(nativeAction.actionId) } : {}),
     }
   }
+  const guardedSlot = (actor, nativeAction) => (actor.isEnemy ? nativeAction.target : actor.idx)
+  const hiddenCounts = (gs, roleId) => ({
+    attack: gs.Exp.rgAttackExp[roleId].wCount,
+    maxHP: gs.Exp.rgHealthExp[roleId].wCount,
+    maxMP: gs.Exp.rgMagicExp[roleId].wCount,
+    magicAttack: gs.Exp.rgMagicPowerExp[roleId].wCount,
+    defense: gs.Exp.rgDefenseExp[roleId].wCount,
+  })
 
   globalThis.__battleGameRegister = (deps, launch) => {
     require(!dependencies, 'Game battle dependencies were registered twice')
@@ -137,6 +151,20 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs || state !== battle) return
       if (roles) liveRoles = roles
     })
+  globalThis.__battleGameFrame = (state) =>
+    observe(() => {
+      if (!scenario || state !== battle || terminal) return
+      evidence().beginFrame('game:BattlePresent.draw', {
+        clockMs: performance.now(),
+        phase: state.phase,
+        turn: state.turn + 1,
+        selecting: state.phase === 'selectAction' && state.selectingPlayerIdx !== undefined,
+        animation:
+          state.battleAnim && action
+            ? { actorId: action.actorId, kind: action.kind, targetId: action.targetId }
+            : null,
+      })
+    })
   globalThis.__battleGameCommand = (state, slot) =>
     observe(() => {
       if (!scenario || state !== battle) return
@@ -145,6 +173,26 @@ export function installGameBattleAdapter() {
       const command = describe(state, { isEnemy: false, idx: slot }, actual)
       commands.push(structuredClone(command))
       evidence().command({ ...command, source: 'game:pendingActions.set' })
+    })
+  globalThis.__battleGameTargetCancel = (state, draft) =>
+    observe(() => {
+      if (!scenario || state !== battle || draft.type !== 'magic') return
+      const slot = state.selectingPlayerIdx
+      require(slot !== undefined, 'target cancel lost its caster')
+      targetCancels++
+      evidence().presentation({
+        kind: 'target-cancel',
+        source: 'game:handlePlayerTargetSelect:discard-draft',
+        payload: {
+          turn: state.turn + 1,
+          actorId: playerIdentity(state.players[slot].roleId),
+          targetId: playerIdentity(state.players[state.uiCursor].roleId),
+          skillId: String(draft.actionId),
+          commandCount: commands.length,
+          pending: state.pendingActions.has(slot),
+          state: snapshot(),
+        },
+      })
     })
   globalThis.__battleGameActionStart = (state, gs, actor, nativeAction, roles) =>
     observe(() => {
@@ -158,7 +206,11 @@ export function installGameBattleAdapter() {
           actor: structuredClone(actor),
           command: structuredClone(nativeAction),
           animationEffects: [],
+          ...(actor.isEnemy
+            ? {}
+            : { growthBefore: hiddenCounts(gs, state.players[actor.idx].roleId) }),
         },
+        guard: { before: state.players[guardedSlot(actor, nativeAction)]?.defending ?? false },
       }
     })
   globalThis.__battleGameActionProduced = (state) =>
@@ -182,8 +234,17 @@ export function installGameBattleAdapter() {
     observe(() => {
       if (!scenario || state !== battle || gs !== dependencies.gs || !action) return
       liveRoles = roles
+      const actor = action.native.actor
+      if (!actor.isEnemy)
+        action.native.growthAfter = hiddenCounts(gs, state.players[actor.idx].roleId)
       evidence().action({
         ...action,
+        guard: {
+          ...action.guard,
+          after:
+            state.players[guardedSlot(action.native.actor, action.native.command)]?.defending ??
+            false,
+        },
         // Omit native optional undefined properties using their actual JSON representation.
         native: JSON.parse(JSON.stringify(action.native)),
         after: snapshot(),
@@ -282,6 +343,16 @@ export function installGameBattleAdapter() {
               })),
             }
           : null,
+        skillMenu: state?.magicSelect
+          ? {
+              cursor: state.magicSelect.cursor,
+              items: state.magicSelect.items.map((item) => ({
+                skillId: String(item.id),
+                disabled: Boolean(item.disabled),
+              })),
+            }
+          : null,
+        targetCancels,
         canConfirmSettlement: Boolean(screen && state.settlement.shownMs >= 40 && !busy),
         settlement: screen ? { index: state.settlement.index, kind: screen.kind } : null,
         snapshot: battle ? snapshot() : null,

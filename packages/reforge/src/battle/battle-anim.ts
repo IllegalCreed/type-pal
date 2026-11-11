@@ -444,7 +444,7 @@ export interface BuildUseItemInput {
 /**
  * 战斗使用物品(fight.c:2266-2335 PAL_BattleShowPlayerUseItemAnim 主体):
  * Delay(4) → 走近 → frame5(举物)+ sound 28 + 物品名同帧起显 13 帧 →
- * 目标 colorShift 0..6 再 5..0(每级 Delay(1))→ 先弹涨益数字 → 瞬移归位。
+ * 目标 colorShift 0..6 再 5..0(每级 Delay(1))→ 瞬移归位 → 从归位后的目标锚点弹涨益数字。
  * ⚠ 走近形制:sdlpal 此函数是单帧赋值,但作者实测原版 pal.exe 为连续插值;
  * 采用原版同类位移的通用形制 = **6 步线性插值,每步 Delay(1),整数除法**
  * (合击聚拢原样保留在 fight.c:3876-3925:`(orig×(6−i)+target×i)/6`)—— 照抄,
@@ -490,22 +490,16 @@ export function buildUseItem(input: BuildUseItemInput): AnimFrame[] {
     })
   }
   for (let i = 5; i >= 0; i--) frames.push({ durationMs: delayMs(1), fighters: targets(i) })
-  // 涨益数字:归位**之前**弹(作者对照原版:先显血量、人仍在前移位停一拍,后瞬移归位;
-  // sdlpal fight.c:4404 是复位后 DisplayStatChange —— 跟原版不跟 sdlpal)
-  if (gains?.length) {
-    frames.push({
-      durationMs: delayMs(8),
-      damageNums: gains.map((g) => ({
-        target: { side: 'player' as const, idx: g.idx },
-        value: g.value,
-        tone: g.tone,
-      })),
-    })
-  }
-  // 归位 = 瞬移 + DM12 收尾停顿
+  // fight.c:4404-4406 先复位再 DisplayStatChange + Delay(8)。AnimPlayer 在同帧先提交位移。
+  const damageNums = gains?.map((g) => ({
+    target: { side: 'player' as const, idx: g.idx },
+    value: g.value,
+    tone: g.tone,
+  }))
   frames.push({
     durationMs: delayMs(8),
     fighters: [{ side: 'player', idx: casterIdx, pos: casterPos, frame: input.casterFrames.idle }],
+    ...(damageNums?.length ? { damageNums } : {}),
   })
   return frames
 }

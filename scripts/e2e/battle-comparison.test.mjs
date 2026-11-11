@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { afterEach, describe, test } from 'node:test'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
+import { validateBattlePresentation } from './battle-presentation.mjs'
 import { validateBattleTrace } from './battle-trace-contract.mjs'
 import { battleObserverScript, installBattleTraceObserver } from './battle-trace-observer.mjs'
 import { createEvidenceRecorder } from './evidence-recorder.mjs'
@@ -199,6 +200,17 @@ describe('battle evidence observer', () => {
 })
 
 describe('battle business conformance and comparison', () => {
+  test('a complete logical trace still requires native render observations', () => {
+    const fixture = scenario()
+    const trace = capture('game').trace
+    assert.equal(validateBattleTrace(trace, fixture).status, 'passed')
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'rejected')
+    assert.deepEqual(result.findings, [
+      { domain: 'integrity', rule: 'rendered-frame-stream', count: 0 },
+    ])
+  })
+
   test('independent runs prove effective action states while exposing unaccepted native damage', () => {
     const game = capture('game').trace
     const reforge = capture('reforge').trace

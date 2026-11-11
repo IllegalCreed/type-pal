@@ -1097,17 +1097,9 @@ export function stepBattle(s: BattleState, rng: () => number): void {
         if (!s.pendingActions.has(i))
           s.pendingActions.set(i, { kind: 'attack', targetEnemyIdx: -1 })
       // 逃跑改为行动(轮到该队员时掷骰;fight.c:4143 语义)——不再选了即逃
-      // 队列 dex 装配(fight.c:1497-1565 classic 队列口;stat 级的 slow/dying 修正是非 classic,
-      // 不在此):动作系数 防御×5/辅助法×3/物品×3/逃÷2(合体×10 待 P3) → 濒死÷2 → ×[0.9,1.1)。
+      // CLASSIC 队列身法（fight.c:1463-1565）：动作系数 → 濒死÷2 → ×[0.9,1.1)。
       // 防御×5 与"fDefending 出手时才置位"成对:防御者靠排序提前,原版才显得"防得住"。
-      const players = s.players.map((p, i) => {
-        // 死者 dex 0 排尾(除傀儡:死傀儡照常出手,取正常 dex);活者被眠/定压制也 dex 0
-        if ((p.hp <= 0 && !puppetActs(p)) || !canAct(p.status)) return { idx: i, dex: 0 }
-        let dex = getPlayerActualDexterity(p.baseDexterity, hasPlayerStatus(p, 'haste'))
-        dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
-        if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
-        return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
-      })
+      // CLASSIC 先抽完敌方身法（含双动），再抽玩家身法（fight.c:1463-1498）。
       const enemies = aliveEnemies(s).map((i) => {
         const st = expectDefined(s.enemies[i]).def.stats
         const base = getEnemyDexterity(st.level, st.dexterity)
@@ -1118,6 +1110,14 @@ export function stepBattle(s: BattleState, rng: () => number): void {
           // dualMove 第二行动独立二抽(fight.c:1485-1489)
           ...(st.dualMove ? { dex2: Math.trunc(base * (0.9 + rng() * 0.2)) } : {}),
         }
+      })
+      const players = s.players.map((p, i) => {
+        // 死者 dex 0 排尾(除傀儡:死傀儡照常出手,取正常 dex);活者被眠/定压制也 dex 0
+        if ((p.hp <= 0 && !puppetActs(p)) || !canAct(p.status)) return { idx: i, dex: 0 }
+        let dex = getPlayerActualDexterity(p.baseDexterity, hasPlayerStatus(p, 'haste'))
+        dex = Math.trunc(dex * actionDexMult(s.pendingActions.get(i), s.skills))
+        if (isPlayerDying(p.hp, p.maxHp)) dex = Math.trunc(dex / 2)
+        return { idx: i, dex: Math.trunc(dex * (0.9 + rng() * 0.2)) }
       })
       // 合击标记:本回合有人选合击 → 其余队员出手作废(fight.c fThisTurnCoop;perform 侧 pass)
       s.coopThisTurn = [...s.pendingActions.values()].some((a) => a.kind === 'coop')
@@ -1635,13 +1635,18 @@ function performCoopMagic(
       s.lastAction = { side: 'player', idx: casterIdx, kind: 'pass' }
       return
     }
-    s.lastAction = { side: 'player', idx: casterIdx, kind: 'attack', targetEnemyIdx: ti }
-    caster.hiddenCounts.attack = (caster.hiddenCounts.attack ?? 0) + 1
-    caster.hiddenCounts.maxHP = (caster.hiddenCounts.maxHP ?? 0) + 2 + Math.floor(rng() * 2)
     const hit = resolvePlayerAttackHit(caster, e, rng)
-    if (s.lastAction) s.lastAction.crit = hit.crit
+    s.lastAction = {
+      side: 'player',
+      idx: casterIdx,
+      kind: 'attack',
+      targetEnemyIdx: ti,
+      firstDamage: hit.dmg,
+      crit: hit.crit,
+    }
     e.hp = Math.max(0, e.hp - hit.dmg)
     s.log.push(`${caster.roleId} 合击人手不足,改普攻 ${e.def.id} 造成 ${hit.dmg}`)
+    recordPlayerAttackGrowth(caster, rng)
     return
   }
   // HP 代价:每贡献者扣 skill.cost.mp 作 HP,钳 ≥1(fight.c:3961-3967)
@@ -2138,17 +2143,16 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
     // 长鞭攻全体(装备 live 派生;fight.c:3683-3730 扫全场,逐敌减半):走专用多目标结算
     if (p.attackAll && aliveEnemies(s).length > 0) {
       performAttackAll(s, p, _rng)
-      addHidden('attack', 1)
-      addHidden('maxHP', 2 + Math.floor(_rng() * 2))
+      recordPlayerAttackGrowth(p, _rng)
       return
     }
     const e = s.enemies[act.targetEnemyIdx]
     if (!e || e.hp <= 0) return // 验证已环扫改选;仍无活敌 = 理论不可达(全灭已判胜),兜底空过
-    // B7c:物攻 → attack 池 +1、maxHP 池 +R(2,3)(fight.c:3756-3757,序固定)
-    addHidden('attack', 1)
-    addHidden('maxHP', 2 + Math.floor(_rng() * 2))
     const hit1 = resolvePlayerAttackHit(p, e, _rng)
-    if (s.lastAction) s.lastAction.crit = hit1.crit
+    if (s.lastAction?.side === 'player' && s.lastAction.kind === 'attack') {
+      s.lastAction.firstDamage = hit1.dmg
+      s.lastAction.crit = hit1.crit
+    }
     e.hp = Math.max(0, e.hp - hit1.dmg)
     s.log.push(`${p.roleId} ${hit1.crit ? '会心一击 ' : ''}攻击 ${e.def.id} 造成 ${hit1.dmg}`)
     // 连击(装备授 dualAttack;仙女剑170):敌未死则第二击(独立 rng 掷)
@@ -2158,6 +2162,7 @@ function performPlayerAction(s: BattleState, idx: number, _rng: () => number): v
       e.hp = Math.max(0, e.hp - hit2.dmg)
       s.log.push(`${p.roleId} 连击 ${hit2.crit ? '会心一击 ' : ''}造成 ${hit2.dmg}`)
     }
+    recordPlayerAttackGrowth(p, _rng)
   }
 }
 
@@ -2341,6 +2346,12 @@ function performThrow(
   if (s.lastAction) s.lastAction.throwHits = hits
 }
 
+/** CLASSIC 在普攻所有击次结算后累计隐藏经验权重（fight.c:3751-3757）。 */
+function recordPlayerAttackGrowth(p: BattlePlayerState, rng: () => number): void {
+  p.hiddenCounts.attack = (p.hiddenCounts.attack ?? 0) + 1
+  p.hiddenCounts.maxHP = (p.hiddenCounts.maxHP ?? 0) + 2 + Math.floor(rng() * 2)
+}
+
 /**
  * 长鞭攻全体(fight.c:3683-3730):中心向外顺序 {2,1,0,4,3} 逐敌打,暴击掷一次(全体共享),
  * 伤害逐个活敌减半(division 每打中一个活敌 ×2)。**无 +R 噪声/无浮动/无李逍遥彩蛋**(异于单体);
@@ -2378,9 +2389,9 @@ function resolvePlayerAttackHit(
   rng: () => number,
 ): { dmg: number; crit: boolean } {
   const def = e.def.stats.defense + (e.def.stats.level + 6) * 4
-  const crit = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
   let dmg = resolveAttack(p.attackStrength, def, e.def.stats.physicalResistance, e.defending)
   dmg += 1 + Math.floor(rng() * 2)
+  const crit = Math.floor(rng() * 6) === 0 || hasPlayerStatus(p, 'bravery')
   if (crit) dmg *= 3
   let bonus = false
   if (p.roleId === 'li-xiaoyao' && Math.floor(rng() * 12) === 0) {
@@ -2724,9 +2735,11 @@ export function applyEnemyEquivItem(
   rng: () => number,
 ): void {
   const equiv = e.def.attackEquivItem
-  const item = equiv ? s.items[equiv.itemId] : undefined
-  if (!equiv || !item?.use) return
-  if (equiv.rate < Math.floor(rng() * 10) + 1) return // rate < R(1,10) → 不触发
+  // 原版先掷附带率，无附带物品时相当于率为零，只短路后续毒抗判定。
+  const rateRoll = Math.floor(rng() * 10) + 1
+  if (!equiv || equiv.rate < rateRoll) return
+  const item = s.items[equiv.itemId]
+  if (!item?.use) return
   if ((p.poisonRes ?? 0) >= Math.floor(rng() * 100) + 1) return // 毒抗门:毒抗 ≥ R(1,100) → 抗掉
   for (const eff of item.use.effects) {
     if (eff.kind === 'applyPoison') {

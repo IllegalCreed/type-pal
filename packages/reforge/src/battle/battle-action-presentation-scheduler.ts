@@ -27,6 +27,11 @@ export class BattleActionPresentationScheduler {
     this.actionElapsedMs = 0
   }
 
+  /** 上一步演出的停顿已满足行动间隔，下一次消费立即放行。 */
+  satisfyActionCadence(): void {
+    this.actionElapsedMs = ACTION_INTERVAL_MS
+  }
+
   /** 达到门槛时同拍消费且归零；不携带超额时间，保持旧 actTimer 语义。 */
   consumeActionCadence(dtMs: number): boolean {
     this.actionElapsedMs += dtMs

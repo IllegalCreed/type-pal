@@ -674,17 +674,17 @@
     {
       "path": "docs/ops/audits/code-quality-file-ledger.md",
       "mode": "reviewed",
-      "afterSha256": "86091e8e49aeac9cbb3d10a6c4a81624e80991b5e4de789951996e4d1a042d26",
+      "afterSha256": "63affb2e394c71de49d933a79fb97622ed8405ae09181c669fff876655f97307",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "historyDisposition": "fixed-git-source",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 1027,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 1029,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "b582ac8d44c9637430c5cfe44884a84d52358da6736448e1792551182da0fcb2",
+      "afterSha256": "9a4fdc94dc3fff0393722b7b578bd0b544fa8b3d34b142f26c0366d9fa494898",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
         "reviewedLines": 122,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "71bbe7001fc3a035f62504483138483a1e4c5cdd0d21a1883e47e79722199ea5",
+      "afterSha256": "5bdb7c0ea7a450ef95f3fde2bdde0d2071fd7239c100af1a561763851e8521e6",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "现行取物合同、版本、职责与本卡具体证据边界独立接受；固定历史保全。",
-        "reviewedLines": 42,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 43,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3375,14 +3375,14 @@
     {
       "path": "docs/phase2/roadmap.md",
       "mode": "reviewed",
-      "afterSha256": "b1fe91d1775b6f4cf296a1785020d45b2babcbb1c9caec1f11d8164cb2f16a9f",
+      "afterSha256": "391db8a11ef311e16e9920e4ab8a1b8d71d6d9f3b5784221414dc785a9f8ff01",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
         "reviewedLines": 355,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       },
       "templateId": "plan-status-v1",
       "historyOverlay": false,
@@ -3987,14 +3987,14 @@
     {
       "path": "docs/testing/e2e/contract.md",
       "mode": "reviewed",
-      "afterSha256": "0f4242a00417f8349106df958a826aa1578e136057c6b80c70bbf1176588f94c",
+      "afterSha256": "d79eff28650cc0ad72343f5876f75177c5a619eba2e5d39431d346aacc0b4258",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 635,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 640,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       },
       "templateId": "test-contract-v1"
     },
@@ -4357,14 +4357,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "0e52b7bc82394ce800ffeb8b387b7131a086435e11feca7814054906c0840956",
+      "afterSha256": "220c7242b2b3ad29166115f7470be50fb77768d90e2699fda8afdef1b98f1d56",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "固定43fea旧24条、readings及其它字段逐值保全，仅追加唯一Q2首批和配对入口。",
-        "reviewedLines": 4688,
-        "acceptanceScope": "实读本次现行增量及生成投影/固定旧对象；未变正文和历史不重签。行数仅为当前载体边界，独立读域取本卡与审查回执。"
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 4745,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
@@ -4717,28 +4717,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "88df13da90bf06786d939d38a04011dce5979b868e9d6fa0760292aaa8661ff5",
+      "afterSha256": "c737b2d567074d63a34c6aff6115b655328c94cfd23bb88126d9c570146439a7",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 192,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
+        "reviewedLines": 222,
+        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "fbb8adfa46fb54aa5d74d4aff92c82176fcea924d860060d674efdde73ee00aa",
+      "afterSha256": "4527f96be57c7c2bf8594e802394b9552213a1a763eb4c71b66a145c8867b308",
       "review": {
-        "author": "Codex /root（本次集成与现行正文维护）",
-        "reviewer": "Codex /root/item_flow_final_review",
-        "date": "2026-11-07",
-        "conclusion": "有限来源、四旧指针或62项增量的静态/结构核验；原执行身份和不可变历史保持。",
-        "reviewedLines": 91,
-        "acceptanceScope": "只核本任务实际增量、固定原件/quote和当前消费者；不签新的runtime、OPFS、用户视觉或尚未完成的统一质量门。全文行数仅用于当前载体边界校验，实际读域见独立回执。"
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
+        "reviewedLines": 93,
+        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
       }
     },
     {
@@ -5371,53 +5371,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "8706cec0b84a539979a5db1096f41cfd33a2cf079b4302e0752c2a10ed8c502f",
+      "afterSha256": "fbd2ef6cb1ab926e8e1874cffb8d588b77248fdc39aad5d7601d37491a1dc6d9",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 96,
-        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 148,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "09278bfb6630526107848afde2bf5640302885841069435b0caf7d5df04e37f3",
+      "afterSha256": "168e7abd2940d7a62c022efc93a76505c5765e59327787e4bf44aa3c0d40e74d",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
+        "reviewer": "Codex /root/q2_panel",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
         "reviewedLines": 30,
-        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "d7c6ea28547f9cd9925ee14e941d84637840b79a35d48562285c4fa8166faa8b",
+      "afterSha256": "7d20d0bbd69046fb09501d952a5fcd0c4d5972734e94cca45c9622e5c790cb48",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 1238,
-        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 2130,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "a12c89a9c3fffdca05cafe0b54d44198cd2809423c2ec453975b4fa11f166fef",
+      "afterSha256": "5e0a7066665eac8b6dbf86791ae59704cf6450a08569127ca8e381a1d7584b66",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_catalog_audit",
-        "date": "2026-11-07",
-        "conclusion": "核首批实际增量、配对metadata、原件指纹、导航及已测/未测边界；原历史和用户视觉pending保留。",
-        "reviewedLines": 74,
-        "acceptanceScope": "新增正文全文及其真实caller、独立oracle、原件附件和覆盖边界定向复核；不推广为完整战斗/音画/世界存读或用户验收。"
+        "reviewer": "Codex /root/q2_panel",
+        "date": "2026-11-11",
+        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
+        "reviewedLines": 103,
+        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+      }
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "templateId": "evidence-receipt-v1",
+      "afterSha256": "c0267f52e63c178841807cbece60e9f850f2e7ab528052d12305f451712e0a87",
+      "review": {
+        "author": "Codex /root",
+        "reviewer": "Codex /root/q2_rules",
+        "date": "2026-11-11",
+        "conclusion": "按固定来源和实际源码核三个 caller 的 SHA、范围、相应 claim 指针和一次历史追加，旧出版和执行字段按原值接受。",
+        "reviewedLines": 33,
+        "acceptanceScope": "旧归属来源重绑。原业务结论及候选仍以对应出版记录核验。"
       }
     }
   ],
@@ -5719,6 +5732,12 @@
       "sha256": "3a51ab9608efc2e593a94c82a7bc7242a688c262bd43d1b56d87fef37ba67137",
       "bytes": 11749301,
       "purpose": "Q2首批正常战斗：原生十二场、双扣药业务反控及恢复、输入完整性控制、逐字节离线比较、独立交付/失败身份、原速分屏与贡献者Git恢复bundle。无原始资产或整树临时复制；完整规则/音画/世界存读和用户视觉未授信。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz",
+      "sha256": "f5f96712787ae256b93044ce2080b2a37aa4714b1a3ed5652b32602e1ad9a5b6",
+      "bytes": 14930786,
+      "purpose": "Q2 首批表现复验与第二批双回合、规则及蓝字原件，旧运行时反例、工具误报与恢复、四段原速分屏、测试日志与候选恢复 bundle。"
     }
   ],
   "artifactAliases": [],

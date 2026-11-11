@@ -4,13 +4,27 @@ import assert from 'node:assert/strict'
 export function nextReforgeBattleKey(readout, command) {
   if (readout.canConfirmSettlement) return 'Enter'
   if (readout.busy || readout.phase !== 'selectAction' || !command) return null
-  assert(['attack', 'item'].includes(command.kind), 'unsupported first-batch Reforge command')
+  assert(['attack', 'item', 'cast', 'defend'].includes(command.kind), 'unsupported Reforge command')
+  if (command.turn !== undefined && readout.turn !== undefined && readout.turn !== command.turn)
+    return null
   if (readout.selectingPlayerId !== command.actorId) return null
   const view = readout.selection
   assert(view, 'ready battle has no command-selection view')
   if (view.phase === 'menu') {
+    if (command.kind === 'defend') return 'KeyD'
+    if (command.kind === 'cast') return view.menuIndex === 1 ? 'Enter' : 'ArrowLeft'
     const wanted = command.kind === 'attack' ? 0 : 3
     return view.menuIndex === wanted ? 'Enter' : wanted === 0 ? 'ArrowUp' : 'ArrowDown'
+  }
+  if (view.phase === 'skill' && command.kind === 'cast') {
+    const index = readout.skillMenu.items.findIndex(({ skillId }) => skillId === command.skillId)
+    assert(index >= 0, `Reforge skill ${command.skillId} is absent from the real menu`)
+    assert(!readout.skillMenu.items[index].disabled, `Reforge skill ${command.skillId} is disabled`)
+    return view.skillIndex === index
+      ? 'Enter'
+      : view.skillIndex < index
+        ? 'ArrowRight'
+        : 'ArrowLeft'
   }
   if (command.kind === 'item') {
     if (view.phase === 'misc') return view.miscIndex === 1 ? 'Enter' : 'ArrowDown'
@@ -22,9 +36,11 @@ export function nextReforgeBattleKey(readout, command) {
       view.targetSide === 'ally'
         ? readout.snapshot.players
         : readout.snapshot.enemies.filter((enemy) => enemy?.alive)
-    const index = targets.findIndex((target) => target.id === command.targetId)
-    assert(index >= 0, `requested battle target ${command.targetId} is absent`)
-    return view.targetIndex === index ? 'Enter' : 'ArrowRight'
+    const cancel = command.cancelTargetId && readout.targetCancels === 0
+    const targetId = cancel ? command.cancelTargetId : command.targetId
+    const index = targets.findIndex((target) => target.id === targetId)
+    assert(index >= 0, `requested battle target ${targetId} is absent`)
+    return view.targetIndex === index ? (cancel ? 'Escape' : 'Enter') : 'ArrowRight'
   }
   throw new Error(`unexpected foundation selection phase ${view.phase}`)
 }

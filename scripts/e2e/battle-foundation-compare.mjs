@@ -3,12 +3,15 @@ import { createHash } from 'node:crypto'
 import { mkdir, readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { isDeepStrictEqual as same } from 'node:util'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
 import {
   BATTLE_FOUNDATION_SCENARIOS,
   battleFoundationInputSources,
   battleFoundationScenario,
 } from './battle-foundation-scenarios.mjs'
+import { validateBattlePresentation } from './battle-presentation.mjs'
+import { validateBattleRules } from './battle-rules.mjs'
 import { readEvidenceArtifact, writeEvidenceArtifact } from './evidence-artifact.mjs'
 import { assertDependencyClosure, recordingDependencies } from './evidence-dependencies.mjs'
 import { assertInputLedger } from './input-ledger.mjs'
@@ -18,6 +21,14 @@ const expectedRunIds = BATTLE_FOUNDATION_SCENARIOS.flatMap(({ id }) => [
   `${id}-1`,
   `${id}-2`,
 ]).sort()
+const herbPlacement = ({ heals }) =>
+  heals.map(({ actorId, targetId, casterBase, targetBase, draw }) => ({
+    actorId,
+    targetId,
+    casterBase,
+    targetBase,
+    number: { right: draw.right, birthY: draw.y + draw.age },
+  }))
 
 /** Rejudge original hash-bound bytes. A runner's status never substitutes for business evidence. */
 export async function compareBattleReports(gamePath, reforgePath) {
@@ -82,6 +93,20 @@ export async function compareBattleReports(gamePath, reforgePath) {
       assert.equal(value.engine, engine)
       assert.equal(value.runId, entry.runId)
       assert.equal(value.scenarioId, entry.scenarioId)
+      for (const [commandIndex, command] of battleFoundationScenario(
+        entry.scenarioId,
+      ).expected.commands.entries())
+        if (command.cancelTargetId)
+          assert(
+            report.actions.some(
+              (input) =>
+                input.context === entry.runId &&
+                input.commandIndex === commandIndex &&
+                input.key === 'Escape' &&
+                input.execution.status === 'completed',
+            ),
+            `no completed physical target cancellation: ${entry.runId}/${commandIndex}`,
+          )
       assert(!traces.has(value.runId), 'duplicate execution identity')
       traces.set(value.runId, value)
       traceBindings.push({
@@ -105,6 +130,9 @@ export async function compareBattleReports(gamePath, reforgePath) {
   for (const source of [
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
+    'scripts/e2e/battle-presentation.mjs',
+    'scripts/e2e/battle-random-instrumentation.mjs',
+    'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',
     'scripts/e2e/battle-trace-observer.mjs',
   ]) {
@@ -133,15 +161,55 @@ export async function compareBattleReports(gamePath, reforgePath) {
           .initial.nativePlayers.map(({ gameRole: _gameRole, ...player }) => player),
       )
       assert.deepEqual(setup[0], setup[1], `paired effective equipment/stats differ: ${runId}`)
-      return compareBattleTraces(left, right, scenario)
+      const comparison = compareBattleTraces(left, right, scenario)
+      const presentation = [left, right].map((trace) => validateBattlePresentation(trace, scenario))
+      for (const side of presentation)
+        for (const finding of side.findings)
+          comparison.findings.push({ engine: side.engine, ...finding })
+      const [leftHerb, rightHerb] = presentation.map(herbPlacement)
+      if (!same(leftHerb, rightHerb))
+        comparison.findings.push({
+          domain: 'business',
+          rule: 'cross-engine-herb-placement',
+          game: leftHerb,
+          reforge: rightHerb,
+        })
+      const rules = [left, right].flatMap((trace, index) =>
+        comparison.validations[index].status === 'passed'
+          ? [validateBattleRules(trace, scenario)]
+          : [],
+      )
+      for (const side of rules)
+        for (const finding of side.findings)
+          comparison.findings.push({ engine: side.engine, ...finding })
+      if (comparison.randomObservation?.firstValueDifference)
+        comparison.findings.push({
+          domain: 'business',
+          rule: 'cross-engine-rule-random-value',
+          ...comparison.randomObservation.firstValueDifference,
+        })
+      return {
+        ...comparison,
+        status: comparison.findings.length ? 'rejected' : 'passed',
+        presentation,
+        rules,
+      }
     })
     const repeats = bundles.map(({ traces }) =>
       compareBattleRepeats(traces.get(`${id}-1`), traces.get(`${id}-2`), scenario),
     )
     results.push({ scenarioId: id, paired, repeats })
   }
-  assert.equal(game.traces.size, 6, 'unexpected Game execution outside the first batch')
-  assert.equal(reforge.traces.size, 6, 'unexpected Reforge execution outside the first batch')
+  assert.equal(
+    game.traces.size,
+    expectedRunIds.length,
+    'unexpected Game execution outside the matrix',
+  )
+  assert.equal(
+    reforge.traces.size,
+    expectedRunIds.length,
+    'unexpected Reforge execution outside the matrix',
+  )
   return {
     kind: 'battle-foundation-comparison',
     schemaVersion: 1,

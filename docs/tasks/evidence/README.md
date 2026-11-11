@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex（导航维护）；各任务Owner维护原件与caller
-Last reviewed: 2026-11-07
+Last reviewed: 2026-11-11
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -30,6 +30,7 @@ current只指导航；当前状态以原卡顶部及明确后继裁决为准。[
 | 007–009 复验期间的测试来源核验 | [运行时测试来源回执](E2E-R4-1-runtime-source-bindings-20261106.md) |
 | 普通宝箱提取后的原件与来源 | [定向复跑原件](PAL-SHARED-CHEST-1-20261107.tar.gz)、[运行时来源核验](PAL-SHARED-CHEST-1-source-applicability.md) |
 | 四类取物 content23 的来源与原件 | [来源适用性](N6B-ITEM-FLOWS-1-source-applicability.md)、[N6b 任务及三份原生归档](../cards/N6B-ITEM-FLOWS-1.md#证据恢复与复跑) |
+| Q2 正常战斗复验 | [双端原件与分屏](E2E-Q2-1-battle-followup-20261111.tar.gz)、[战斗会话来源校准](E2E-Q2-1-battle-session-source-applicability.md) |
 | 已归档的时点记录 | [历史归档](../archive/README.md) |
 
 任务Owner记录实际command/cwd、候选和输入身份、起止/exit/signal、完整输出与失败/恢复原件；复用现有原件与唯一review，不为每次核验复制全套日志或新增sidecar。Codex按[文档证据验收协议](../../engineering/guides/document-quality.md)独立裁定，作者自验不代签。

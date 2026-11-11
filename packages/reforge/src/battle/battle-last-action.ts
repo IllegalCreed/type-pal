@@ -2,7 +2,6 @@
  * Core/session 共用的最近行动证据。
  *
  * `side + kind` 是真正的双判别联合：目标字段只出现在与其阵营/行动相容的变体中，
- * 结算字段也不再以 optional 形式把 malformed action 放进生产表现层。尤其是
  * enemy attackMate 必须携带敌槽目标和完整公式伤害（可大于目标余血）。
  */
 
@@ -34,7 +33,12 @@ type EnemyActionBase = BattleLastActionBase & { side: 'enemy' }
 export type BattleLastAction =
   // Player actions
   | (PlayerActionBase & { kind: 'pass' })
-  | (PlayerActionBase & { kind: 'attack'; targetEnemyIdx: number })
+  | (PlayerActionBase & {
+      kind: 'attack'
+      targetEnemyIdx: number
+      /** 单体首击的完整计算伤害，可超过目标剩余生命。 */
+      firstDamage?: number
+    })
   | (PlayerActionBase & { kind: 'attackMate'; targetAllyIdx: number; damage: number })
   | (PlayerActionBase & {
       kind: 'cast'

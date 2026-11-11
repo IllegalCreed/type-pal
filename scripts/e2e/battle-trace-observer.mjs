@@ -36,6 +36,10 @@ export function installBattleTraceObserver(context, createRecorder) {
     terminals = []
   let closed = false,
     overflow = false
+  let frame, previousFrame
+  let markedRandom
+  const fighterDraws = new WeakMap()
+  const floatTargets = new WeakMap()
   const recorder = createRecorder({
     context: () => identity,
     errors,
@@ -78,12 +82,81 @@ export function installBattleTraceObserver(context, createRecorder) {
         recorder.fail('invalid random draw')
         return
       }
-      append(randomDraws, { kind: 'random-draw', index: randomDraws.length, value, source }, false)
+      append(
+        randomDraws,
+        { kind: 'random-draw', index: randomDraws.length, value, source, ...markedRandom },
+        false,
+      )
+      markedRandom = undefined
+    },
+    markRandom(purpose, queue) {
+      if (closed || starts.length !== 1) return
+      if (markedRandom) recorder.fail('a marked random draw was not consumed')
+      markedRandom = { purpose, ...(queue ? { queue } : {}) }
     },
     presentation(value) {
       append(presentations, value)
     },
+    beginFrame(source, state) {
+      if (closed || starts.length !== 1) return
+      if (frame) recorder.fail('a battle frame was replaced before its draw completed')
+      frame = {
+        source,
+        ...state,
+        enemies: new Map(),
+        players: new Map(),
+        panels: [],
+        numbers: [],
+        settlement: null,
+      }
+    },
+    labelFighter(draw, side, slot, fading = false) {
+      if (frame) fighterDraws.set(draw, { side, slot, fading })
+    },
+    fighterDrawn(draw) {
+      const fighter = frame && fighterDraws.get(draw)
+      if (!fighter) return
+      const { side, slot, fading } = fighter
+      if (side === 'enemy') frame.enemies.set(slot, { slot, fading })
+      else frame.players.set(slot, { slot, x: draw.x, y: draw.y })
+    },
+    panelDrawn(slot) {
+      if (frame) frame.panels.push(slot)
+    },
+    labelNumber(number, side, slot) {
+      if (starts.length === 1 && !closed) floatTargets.set(number, { side, slot })
+    },
+    numberDrawn(number, value, tone, right, y, age) {
+      if (!frame || !['yellow', 'blue'].includes(tone)) return
+      const target = floatTargets.get(number)
+      if (!target) {
+        recorder.fail('a drawn HP number has no native target')
+        return
+      }
+      frame.numbers.push({ ...target, value, tone, right, y, age })
+    },
+    settlementDrawn(kind) {
+      if (frame) frame.settlement = kind
+    },
+    endFrame() {
+      if (!frame) return
+      const { clockMs, source, enemies, players, ...state } = frame
+      frame = undefined
+      const bySlot = (a, b) => a.slot - b.slot
+      const payload = {
+        ...state,
+        enemies: [...enemies.values()].sort(bySlot),
+        players: [...players.values()].sort(bySlot),
+      }
+      // Keep every observable transition, including the first frame without a faded sprite.
+      const signature = JSON.stringify(payload)
+      if (signature === previousFrame) return
+      previousFrame = signature
+      append(presentations, { kind: 'battle-frame', source, clockMs, payload })
+    },
     terminal(value) {
+      if (frame) recorder.fail('battle ended before the current frame completed')
+      if (markedRandom) recorder.fail('battle ended with an unconsumed random draw marker')
       if (append(terminals, value)) closed = true
     },
     fail(error) {

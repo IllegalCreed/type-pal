@@ -63,9 +63,12 @@ export function compareBattleTraces(game, reforge, scenario) {
   const semanticKeys = new Set([
     'turn',
     'actorId',
+    'actorSide',
     'kind',
     'targetId',
     'itemId',
+    'skillId',
+    'guard',
     'before',
     'after',
     ...omitted,
@@ -110,8 +113,20 @@ export function compareBattleRepeats(first, second, scenario) {
     ['repeat-native-actions', first.actions.map(native), second.actions.map(native)],
     [
       'repeat-random-draws',
-      first.randomDraws.map(({ index, value, source }) => ({ index, value, source })),
-      second.randomDraws.map(({ index, value, source }) => ({ index, value, source })),
+      first.randomDraws.map(({ index, value, source, purpose, queue }) => ({
+        index,
+        value,
+        source,
+        purpose,
+        queue,
+      })),
+      second.randomDraws.map(({ index, value, source, purpose, queue }) => ({
+        index,
+        value,
+        source,
+        purpose,
+        queue,
+      })),
     ],
   ])
     if (!same(left, right)) {

@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+  "candidateSha": "54d7b378d5094950c10b73bb38a81883cd3d375d",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -11,45 +11,59 @@
   "sourceRefs": [
     {
       "path": "scripts/e2e/battle-foundation.mjs",
-      "lines": "45",
+      "lines": "47",
       "anchor": "await runBrowserJourney({",
       "role": "caller",
-      "sha256": "7494783fc9ae92f230a104eb66990fce89ac931af54000f4b70e0b12206f564d"
+      "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
       "lines": "13",
       "anchor": "function defineScenario(",
       "role": "input-and-independent-oracle",
-      "sha256": "695f1e25cabd9c7fc3b7766064162523728277830f11e253e69c735c94b505ea"
+      "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "lines": "215",
+      "lines": "276",
       "anchor": "launch(input) {",
       "role": "public-fixture-adapter",
-      "sha256": "a7119fc64a6d860a0c7825f87732ab6243946efe31114305a21dbd0ac3683bd8"
+      "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
-      "lines": "121",
+      "lines": "129",
       "anchor": "running = runBattleTrial(",
       "role": "public-trial-adapter",
-      "sha256": "906825f69dc5edb3f65dbcb650518890ddc8061d66a2395128525fe8a832b251"
+      "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "lines": "558",
+      "lines": "621",
       "anchor": "export function validateBattleTrace(",
       "role": "oracle",
-      "sha256": "2cee6fda2ece4e7b189e2bd9ae70ba84155b0200c36dd54acd7b14eff16278d6"
+      "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
-      "lines": "23",
+      "lines": "34",
       "anchor": "export async function compareBattleReports(",
       "role": "offline-caller",
-      "sha256": "488d425ec25444c28e30acff9a4387923bd2e61e2ec5de570d352b0cb6ee8c91"
+      "sha256": "522349d1889d4a6be3e02cac43a85f2f402aeaddc5119b2729e9d7ec68feb1c1"
+    },
+    {
+      "path": "scripts/e2e/battle-presentation.mjs",
+      "anchor": "export function validateBattlePresentation(",
+      "role": "render-oracle",
+      "lines": "70",
+      "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+    },
+    {
+      "path": "scripts/e2e/battle-rules.mjs",
+      "anchor": "export function validateBattleRules(",
+      "role": "rule-oracle",
+      "lines": "90",
+      "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
     }
   ],
   "publicCallers": [
@@ -61,7 +75,8 @@
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
     "Each engine runs each setup twice in fresh contexts. Public Game applyFixture and Reforge runBattleTrial prepare the state; all later commands use real keyboard/menu selection.",
-    "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used."
+    "Effective starting equipment/stats are read from each engine and compared; content23/minimumSAVE12, exact raw and author JSON source pool is hashed. No Q1 speed-win or user save data is used.",
+    "Two-round seed4: hero and Wu Hou, one ordinary team1 lantern, heal296 and two herb99, one guarded enemy hit and one confirmed ally retarget after Escape."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -70,7 +85,10 @@
       "One/three distinct HP30 lanterns receive the selected lethal ordinary attacks, with no undeclared autonomous enemy action.",
       "Herb99 heals hero50 to100 and consumes exactly one of two; formal victory yields hero125, exp1 and cash3. Party victory gives each member exp3 and cash9.",
       "Formal settlement commits exactly once; all three cases pass independent state oracles, cross-engine effective-state comparison and same-engine native/rule-RNG repeat checks.",
-      "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry."
+      "A real isolated double-consumption mutant fails business/action-after at actions[0].after with inventory2 tozero; restoring normal serve mode passes. Missing hashes, input receipts and fresh contexts are rejected by the offline entry.",
+      "Real rendered frames show the manual selection HUD, hide it during action and settlement, finish each enemy fade before the next action, and draw herb50 on the returned actor with the original recipient anchor.",
+      "The fixed ordinary attack cases check CLASSIC draw purposes, queue jitter, untruncated attack numbers and clamped enemy HP. Actual draws are logged at their producers.",
+      "The two-round case checks guard, real enemy damage, a single herb consumption, cancellation and same-actor retarget, heal296 MP and recipient HP, and single settlement."
     ]
   },
   "dedupe": {
@@ -84,13 +102,13 @@
   },
   "runtimeExecution": {
     "performed": true,
-    "date": "2026-11-07",
+    "date": "2026-11-11",
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+    "producerRevision": "54d7b378d5094950c10b73bb38a81883cd3d375d",
     "result": "passed",
-    "verification": "12 fresh-context normal battles, exact public setup, real menu input, byte-bound cross-engine and repeated-business comparison; one valid business mutant plus normal restoration",
+    "verification": "16 native manual battles across four scenarios, two fresh contexts per engine and case; eight same-engine repeats and eight original-byte cross-engine comparisons.",
     "continuous": false
   },
   "execution": {
@@ -164,27 +182,35 @@
   "hashes": [
     {
       "path": "scripts/e2e/battle-foundation.mjs",
-      "sha256": "7494783fc9ae92f230a104eb66990fce89ac931af54000f4b70e0b12206f564d"
+      "sha256": "495556ec6d335bdbeffffe55f53a98fbcfcccdf036207cb0af4fde2e05e0d249"
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "695f1e25cabd9c7fc3b7766064162523728277830f11e253e69c735c94b505ea"
+      "sha256": "ad02b557c9f985d38260d96ad0ba0449de33dc4fbe5bc2f825708a9b8e4451a1"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
-      "sha256": "a7119fc64a6d860a0c7825f87732ab6243946efe31114305a21dbd0ac3683bd8"
+      "sha256": "892923c81ed5ade7eee9d2d051127bbf0b02aca6f30ebc4ffc68c6b341e99724"
     },
     {
       "path": "scripts/e2e/battle-reforge-adapter.mjs",
-      "sha256": "906825f69dc5edb3f65dbcb650518890ddc8061d66a2395128525fe8a832b251"
+      "sha256": "0e615e73435fa4aba0083dfacce4ec897e0d76f343709fb64a98ca57e8c6c9fd"
     },
     {
       "path": "scripts/e2e/battle-trace-contract.mjs",
-      "sha256": "2cee6fda2ece4e7b189e2bd9ae70ba84155b0200c36dd54acd7b14eff16278d6"
+      "sha256": "a3555b860df60e7a718c4101edc5ba033d2202e2a3b09918d2ef36901e698afc"
     },
     {
       "path": "scripts/e2e/battle-foundation-compare.mjs",
-      "sha256": "488d425ec25444c28e30acff9a4387923bd2e61e2ec5de570d352b0cb6ee8c91"
+      "sha256": "522349d1889d4a6be3e02cac43a85f2f402aeaddc5119b2729e9d7ec68feb1c1"
+    },
+    {
+      "path": "scripts/e2e/battle-presentation.mjs",
+      "sha256": "197630cbcd2499ce89203a04ad9e1a3b75b7ea39d8419bb701346f1bc4ce9725"
+    },
+    {
+      "path": "scripts/e2e/battle-rules.mjs",
+      "sha256": "31dc15c28cbe50797de68ff9fb5c24759718705767ba40962a65a0661eedba0b"
     }
   ],
   "artifacts": [
@@ -1099,6 +1125,804 @@
           "bytes": 1222
         }
       ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz",
+      "sha256": "f5f96712787ae256b93044ce2080b2a37aa4714b1a3ed5652b32602e1ad9a5b6",
+      "bytes": 14930786,
+      "purpose": "Original native trace/report pairs, actual presentation counterexample, targeted runtime checks and restoration, rejudgement receipts, paused-review media, and replay sources.",
+      "manifest": {
+        "path": "build/q2/followup/archive-index.json",
+        "sha256": "4457e3ca7a77fe1834f7145dcc7ce8a1bf8fce9e37b788541130d73e15895cab",
+        "bytes": 32672
+      },
+      "members": [
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/herb-settlement-1-trace.json",
+          "sha256": "98135fc3875a40bb1ae1a914d2b53c22e5712592847f9d3353537530206324b6",
+          "bytes": 17311
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/herb-settlement-2-trace.json",
+          "sha256": "e0cce9e0dc51ad69befdfbcf2811a8f7b6ff9fa2572c69eb3a7ff316f6c3f6b3",
+          "bytes": 17295
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/party-lanterns-1-trace.json",
+          "sha256": "31ec113983f32b2c272950982675339d987b8b350287d9e9dd7d434758af530b",
+          "bytes": 24707
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/party-lanterns-2-trace.json",
+          "sha256": "10610fbc291b44e1e2a67fe3b6eb51d4eb44cd57abb5f1c7473ee726824d4119",
+          "bytes": 24800
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/report.json",
+          "sha256": "6d3bbf65ebfae6339976d70fbcbf11fcd8542c527b6d856032fbad2f07f8ad91",
+          "bytes": 718892
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/solo-lantern-1-trace.json",
+          "sha256": "4dc49e4f2eaeecd35b24cddba6530aa8243371922a98df19fd8ea2a7f503c2fc",
+          "bytes": 9191
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-06-03-554Z/solo-lantern-2-trace.json",
+          "sha256": "95ee9d7a636790cd5addc1fda10faa7bed2769957fdf6fff888d861f169c2d2e",
+          "bytes": 9192
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/herb-settlement-1-trace.json",
+          "sha256": "250065e541b5ea6a2d9fb0e3a9ce809eea3d384d5d586ec3e8ad91866b2bcf27",
+          "bytes": 17350
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/herb-settlement-2-trace.json",
+          "sha256": "60a527100a0c37a351b32e93f104c38b27f5cf9487434fbda8f3fc9a2a34021a",
+          "bytes": 17297
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/party-lanterns-1-trace.json",
+          "sha256": "50533a4f32e609dd5c5acfde973684be8a94b50be19d9201ba3fac9355d62039",
+          "bytes": 24692
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/party-lanterns-2-trace.json",
+          "sha256": "6339b963bf44f4189d4e91e39c841c1a34e9b442150e9ae492c52cdb88b53f5c",
+          "bytes": 24703
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/report.json",
+          "sha256": "1951ecd0fa6f9446c6f9acb46eef90bd99e7d4b0a8c614a69acedc99b1005fb4",
+          "bytes": 723731
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/solo-lantern-1-trace.json",
+          "sha256": "baefc0426be913eec1cbf1659619f7b00af88dc42046514c867b1b7200e99fda",
+          "bytes": 9200
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-10-28-900Z/solo-lantern-2-trace.json",
+          "sha256": "b323aad4f7533c2de6a3b7506527bce655ff8f03d571fce5dc4fcbf0db7d20c8",
+          "bytes": 9242
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/herb-settlement-1-trace.json",
+          "sha256": "cfb487ea1b971870c78aa10359b560e72b20381158ac9465a6a2a5bfd14ccf42",
+          "bytes": 17314
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/herb-settlement-2-trace.json",
+          "sha256": "1460532f84c14b65aa24361eb11c6203491ee33df7bc4c458e65db3e53872bbd",
+          "bytes": 17349
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/party-lanterns-1-trace.json",
+          "sha256": "c8050904e84fc55e402f972fc7c10042cc5379590c20bca3c48506159780cab2",
+          "bytes": 24716
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/party-lanterns-2-trace.json",
+          "sha256": "b76738503306dde6e835a8e3102cd269306c3fee27819d244d8f8c95baaf87a7",
+          "bytes": 24735
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/report.json",
+          "sha256": "b158cd666f1d4e9990d7625c200c1bd97d8cec7c2ff277b84d4920ba195bafbe",
+          "bytes": 721020
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/solo-lantern-1-trace.json",
+          "sha256": "6cd6c0f02db685ca52283344fbb715faa6d23d3704424fc0fca6715eb777fbb2",
+          "bytes": 9211
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-13-04-532Z/solo-lantern-2-trace.json",
+          "sha256": "9bfec86fee7ef63c18795d6a24611629e4767a4837a98d7bed4b6151e6b5e891",
+          "bytes": 9244
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/herb-settlement-1-trace.json",
+          "sha256": "21a4988d19ce4ac0220b26a3a2c5f89cc811e43ca0102e00c4b3e2a292fc4bf0",
+          "bytes": 17427
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/herb-settlement-2-trace.json",
+          "sha256": "0886cb773fc3b047042f37cc106c7893929a348867855b80bd3f5bb63aee4374",
+          "bytes": 17409
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/party-lanterns-1-trace.json",
+          "sha256": "ee727aa4d11b9b823e4b07a63d0d2e5555bd487755cce98fdcc03d4de954d0fc",
+          "bytes": 24914
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/party-lanterns-2-trace.json",
+          "sha256": "85dd2a312a290a949ea05d51ada374aa3aa1d2ca8eec2890e98c2fcec99b499c",
+          "bytes": 24827
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/report.json",
+          "sha256": "b71764350cf363ec1adcb3a455f60e2d9a5aff4a8d3c3e0f0e7660dac2b01390",
+          "bytes": 780593
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/solo-lantern-1-trace.json",
+          "sha256": "8dc37f50b5d748a25c735ca2bea4db5febcc6791c00adc2c07c8688734a213f3",
+          "bytes": 9211
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/solo-lantern-2-trace.json",
+          "sha256": "958eaedbfb3259914739c928ebecc5feb5587badf5991a27894580adfc347e4d",
+          "bytes": 9288
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/two-round-commands-1-trace.json",
+          "sha256": "bd3f7c7d7632c2dbaa29909168428479b69391fb52d8a1834bfa23c5214e186d",
+          "bytes": 36315
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-18-09-613Z/two-round-commands-2-trace.json",
+          "sha256": "66f0d1fe7a9e48df7bce0898ab72ba78cc2275c786de3726ea2468dce5b71aa4",
+          "bytes": 36175
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/herb-settlement-1-trace.json",
+          "sha256": "dce14406a981369eb2596da40e21f2e1af4a3c27a56c2a0c9740175296d2e27e",
+          "bytes": 22052
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/herb-settlement-2-trace.json",
+          "sha256": "5dec40eb9428e72f3663a337b4cf234f20cc53ee216f136574d9aafd2b4a072c",
+          "bytes": 22160
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+          "sha256": "ed2ea1145faa5e81ef8664bfa4aa57332cbc8ef20ba2b8d963244b20d6312509",
+          "bytes": 43984
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json",
+          "sha256": "9d088dc77727538be7d5d0c0afc6e699bf7905d77a394607dd827554be0eea3f",
+          "bytes": 43967
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/report.json",
+          "sha256": "e2d94add1fca05224efe3eadc8571a19161ea522805862af894d67bd14ecd3fa",
+          "bytes": 791530
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/solo-lantern-1-trace.json",
+          "sha256": "56716cf119ff7ca0db431fb3bde0d48ff55b5217b441e99372da55f25a5d8d2c",
+          "bytes": 14849
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/solo-lantern-2-trace.json",
+          "sha256": "b7a03117f791120153e44b52d03a4bc84be81cedcedc6c1950aeba08533aec78",
+          "bytes": 14866
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/two-round-commands-1-trace.json",
+          "sha256": "6bf439e4b5114c92e8bb2bb50b5347a77290f9fa72347f6af52fb05c9f063f81",
+          "bytes": 45961
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/two-round-commands-2-trace.json",
+          "sha256": "cc55cab3c5544d3362860805817c6454baaea9b28c8ecacddec41650a8ca0b16",
+          "bytes": 46044
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/visual-review-1.webm",
+          "sha256": "94423e7f96dced5dd68569e0ab2e95829eb8435952e721516bbcbaece72017b2",
+          "bytes": 550221
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/visual-review-2.webm",
+          "sha256": "79ef06661044d2b71d31ca701f2e5cd1c34ce07743e9c2aae495cd11cd6ef29c",
+          "bytes": 995367
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/visual-review-3.webm",
+          "sha256": "6b965e966bb933d7ce34969514a252eda275fc37ddfc10c563656fa689a2fa22",
+          "bytes": 749489
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/visual-review-4.webm",
+          "sha256": "a476cacf1939ac932d11c89dbe2e78c1696c4c683daaafe84c96b646aec73eac",
+          "bytes": 1083851
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/herb-settlement-1-trace.json",
+          "sha256": "81df5dcd11fe389d94ff40308c47f243ee71b7baae1fb52abda0d2afe503aab6",
+          "bytes": 22051
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/herb-settlement-2-trace.json",
+          "sha256": "6532bc3fd413ff9815fc6e29d2d2cdf579c1e3ce3ac2218a4c611bbb100d01f0",
+          "bytes": 22049
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/party-lanterns-1-trace.json",
+          "sha256": "9875d711330245bcf29886dbc84faf041fd28cd7a2edd01d4e06f7272255182f",
+          "bytes": 44013
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/party-lanterns-2-trace.json",
+          "sha256": "08f13898b2292de48b448134a9966135c5ffbaafbb3540c622eadd48761cc463",
+          "bytes": 44052
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/report.json",
+          "sha256": "316a0b403133aabfeca2a5a5321bd4b958215929c6ce74740f8a38646233a1da",
+          "bytes": 785313
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/solo-lantern-1-trace.json",
+          "sha256": "b2db25c3f480f3c44495a3510dd2dae60f3e260c6efa9c7fe9128019a2c21653",
+          "bytes": 14818
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/solo-lantern-2-trace.json",
+          "sha256": "81c30f663afbbd886aad12769137cb7899a48a21444837f4698ac4c78fdcb9d4",
+          "bytes": 14821
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/two-round-commands-1-trace.json",
+          "sha256": "f0c4fd42f068509dbabcf3f3c1bedcda9b8213496e460af80457acb294604f57",
+          "bytes": 45923
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-11T02-27-29-514Z/two-round-commands-2-trace.json",
+          "sha256": "70427e04b5dea80ec03c89a060bf4aaf468a7fe8a360377f0f6d208927ae741f",
+          "bytes": 46027
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-double-herb-2026-11-11T02-27-26-489Z/herb-settlement-1-trace.json",
+          "sha256": "5dfc1ae0ff8a35f1ccecb15a2f9191b60f714afc12a79cc72c4f88b7e6c4ebb1",
+          "bytes": 27883
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-double-herb-2026-11-11T02-27-26-489Z/report.json",
+          "sha256": "bfdfc3ff932da997bcb778041a4373bfd236386dd5e68cbb8f43096689042c6c",
+          "bytes": 676396
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/herb-settlement-1-trace.json",
+          "sha256": "5c41e9f780189170524ae737a515062eb3556cd4652610950d633ac8a97eb2f7",
+          "bytes": 22994
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/herb-settlement-2-trace.json",
+          "sha256": "06907602c2d1fdcfed01a8d90b4747b37ff463909a418b66b78056e68e1288b2",
+          "bytes": 22957
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/party-lanterns-1-trace.json",
+          "sha256": "596b1a7eeb5a3e6d01641838205f84743dd42be178fd6b706254e634e2416e19",
+          "bytes": 26309
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/party-lanterns-2-trace.json",
+          "sha256": "dc1059ae0b59dcac71531b600965d29e9268901efabbb191fae4c9ddedc3b95f",
+          "bytes": 26329
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/report.json",
+          "sha256": "f262f4e20d65adf0240b765ff7c25852452ad526b8ae2e36b0454f973e123a9e",
+          "bytes": 1050069
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/solo-lantern-1-trace.json",
+          "sha256": "86dc369e845161704c21f5855f84b12f1b1cad3d2d6a5cdac44015ae91b05fb2",
+          "bytes": 9198
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-06-03-554Z/solo-lantern-2-trace.json",
+          "sha256": "803c2ad0997d6af01c79fcc086ea18bedb252e8444abe42a3d357a42bd0b6d5c",
+          "bytes": 9165
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/herb-settlement-1-trace.json",
+          "sha256": "dae9ffde7d43fa34e9b1e88706654b3fa4f261d93eb2af89d2e8000d17bb491f",
+          "bytes": 22151
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/herb-settlement-2-trace.json",
+          "sha256": "89614901d73c903637b470179500ba285d925d9227349c7dd05d89dfed9886d8",
+          "bytes": 22183
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/party-lanterns-1-trace.json",
+          "sha256": "784b02e6725396c1cf637062f2f16a3bb7735dc528f16834fe43faa940a16b72",
+          "bytes": 25991
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/party-lanterns-2-trace.json",
+          "sha256": "7099bf0236e349b7c78ea3a8b4e5ba51281e24fb4c9eea87bdb8b386188b3d88",
+          "bytes": 25959
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/report.json",
+          "sha256": "0e07f07c41407d900f165bb142c9f1ac3eb6240aec0672c77f305e0a2e487775",
+          "bytes": 1076157
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/solo-lantern-1-trace.json",
+          "sha256": "51b8988b5359b8ffff61db8f208d451d71962d25c11eeb47bfc534cbe17e39d0",
+          "bytes": 9158
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-10-28-897Z/solo-lantern-2-trace.json",
+          "sha256": "be5a1ac2cf21bb1565412f73e17c7b6fc4cfa59ce17abd43a73c78d463ebebf7",
+          "bytes": 9137
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/herb-settlement-1-trace.json",
+          "sha256": "08a60e220ac05cf10d62e2b76e5fb80439ab55147b23af190bf6ac7ff6809908",
+          "bytes": 22204
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/herb-settlement-2-trace.json",
+          "sha256": "e3dd16cf1bb1e97108cc460f5c43447b97a2992ef78a08a7f6f3bcc384bcf796",
+          "bytes": 22166
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/party-lanterns-1-trace.json",
+          "sha256": "3b278a6d95fefa6193b1c0f6e752b13e086a71c25f5ab45da3d93ab5298ddeb8",
+          "bytes": 25894
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/party-lanterns-2-trace.json",
+          "sha256": "00a9702c1bb0332e435ceb41b8bcd1ec0fe41d26629f0b8e296bb14c69c37a83",
+          "bytes": 25992
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/report.json",
+          "sha256": "b2a631c516277818ccd67e99af4e0e875c1aae170e184ecaa2f4844f085c679e",
+          "bytes": 1070879
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/solo-lantern-1-trace.json",
+          "sha256": "09edf06087509a285cc023a1fe2ef8189f08869fe942c776030847cb4e13e4d8",
+          "bytes": 9168
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-13-04-532Z/solo-lantern-2-trace.json",
+          "sha256": "7b8cc7941905b1223530ce52b63c7b1360ab3b7d8c24a7167d4bd0d6cbc913a8",
+          "bytes": 9150
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/herb-settlement-1-trace.json",
+          "sha256": "2082d24fa132e8de3f3365aa8972eee23cec7eb28a43b5f97e8bcd0aeaad4e1f",
+          "bytes": 22325
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/herb-settlement-2-trace.json",
+          "sha256": "3726fb56aa9cace872b324acd24f2d63b45596b02a9e83d0697873116b676e8c",
+          "bytes": 22248
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/party-lanterns-1-trace.json",
+          "sha256": "0ce79654eebe2c201b14b80a2a86cd4e941ff1a7e739340a5b22cad0865cbd9d",
+          "bytes": 26086
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/party-lanterns-2-trace.json",
+          "sha256": "9030667e4ef94df4b6c54771d11ac3fe0edc97da3c762dc195fe7776a6f1d85f",
+          "bytes": 26043
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/report.json",
+          "sha256": "c3f4e7ce92a9bbf8e72baeabe8654dbc3cecae4f53e89a96f46d2e6e6ef76141",
+          "bytes": 1243908
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/solo-lantern-1-trace.json",
+          "sha256": "a3559c427b655d65b0d8ef8c6b4b3bbd65f86c9346a1969f5c12bca0f779edf0",
+          "bytes": 9170
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/solo-lantern-2-trace.json",
+          "sha256": "b60fa95868b372dc7ad436f3a2d2641a985043f9896b65de467493f79f81ad8d",
+          "bytes": 9199
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/two-round-commands-1-trace.json",
+          "sha256": "7735babe6ce228568182620fdcc60e087664419153899bbb71d7eb879ab11d44",
+          "bytes": 43003
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-18-09-613Z/two-round-commands-2-trace.json",
+          "sha256": "80539b909f5b57fcce89b04f41222e489c69a8fdc2a4e10d71b13da5360108a4",
+          "bytes": 42862
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/herb-settlement-1-trace.json",
+          "sha256": "604bda26ec14c2b660b96b1c457c26f6e35bcbbdc4fbd9e046b5e5a0a3244667",
+          "bytes": 28066
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/herb-settlement-2-trace.json",
+          "sha256": "53672e6fd0240caa01090ff752d4f1c4de9914747702b6534eb35bc694c7d302",
+          "bytes": 28014
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+          "sha256": "4d5388da8d923ad3939bff93e3f98266eb2e839c5282581bc5c5240ac1a8b2b5",
+          "bytes": 44865
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json",
+          "sha256": "e64935c06d830f262c21a7c1bf3daf3cf550825cdb40cd56d7507909b2cdf88c",
+          "bytes": 44843
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/report.json",
+          "sha256": "7119e1c5ab7a20fa988121d2aae0e6dbb3c9e422ce622b0ed09e10c94d0ab4b0",
+          "bytes": 1260390
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/solo-lantern-1-trace.json",
+          "sha256": "ea1c4f482795c4edf724b659b3860409b3d2d9aea056d198e52623eae0acb460",
+          "bytes": 14572
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/solo-lantern-2-trace.json",
+          "sha256": "fc3053a83c1a7504949cb344a2d35ec6343821a0acc0157dbaf8d469222605f5",
+          "bytes": 14613
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-1-trace.json",
+          "sha256": "a1d6ac4a8f54ebceb0708251b49144b05c97e56a76421b7414fe7ff1be5b82bd",
+          "bytes": 55950
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-2-trace.json",
+          "sha256": "f6aace0d42f24e6cb7dd042e09a253eeeb959e30d9d0930b11995c4a489718da",
+          "bytes": 56546
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/visual-review-1.webm",
+          "sha256": "73f3333eaecc2498f4bd123fbe72efd36b18f08f23af171879680bbb7eb21c89",
+          "bytes": 373624
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/visual-review-2.webm",
+          "sha256": "a25d9abc81a637088eba833febfd0d2f5d335709b5328c15a517e87c8138e34c",
+          "bytes": 636257
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/visual-review-3.webm",
+          "sha256": "67131c50eba7000e21dba8169aceae6658e66cb53875312975b9ebe89f5abeb2",
+          "bytes": 444382
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/visual-review-4.webm",
+          "sha256": "3710701d2acc313c4fb95f50affaed0c9bf50b396fd9f1baba1c6f5258c8c54d",
+          "bytes": 792108
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/herb-settlement-1-trace.json",
+          "sha256": "3b9048f55371c73f582735c37863f35958ad825bb0b2c05795aa4c2e7cd1b608",
+          "bytes": 28739
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/herb-settlement-2-trace.json",
+          "sha256": "e7c1869a778d479719d3fa464fbf6bfcef66ce9d88e60cf67426c18f99aabfe3",
+          "bytes": 28871
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/party-lanterns-1-trace.json",
+          "sha256": "0e11cbbd12ae258fddaef85344461509c79818e3c59106c4536046e2262262f2",
+          "bytes": 45830
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/party-lanterns-2-trace.json",
+          "sha256": "17b51f94eb23afec877b79779d4427bf7b183825204bb854ec6e5f17279ee626",
+          "bytes": 45871
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/report.json",
+          "sha256": "efd887609a2a7ccbb8d588e424131341c4184626313cfccbbde017e695b68eef",
+          "bytes": 1144004
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/solo-lantern-1-trace.json",
+          "sha256": "d0e2233d65560b781ee849836e4d7810dd1ac1f14f237fe763ecea043da52052",
+          "bytes": 14589
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/solo-lantern-2-trace.json",
+          "sha256": "22e712ed358264f56864186a3f9cf707553e62f603a252d9520239c36df5a44c",
+          "bytes": 14578
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/two-round-commands-1-trace.json",
+          "sha256": "032aaaafa62728ee7765e741b05b87b78a50b332686fbd89e31bcfe80ca40b8b",
+          "bytes": 56514
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-27-29-514Z/two-round-commands-2-trace.json",
+          "sha256": "f1c3ec7f724cddb76438f5dac0a3786362386e4216d81185d4b0e85f59573808",
+          "bytes": 56517
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-28-34-608Z/herb-settlement-1-trace.json",
+          "sha256": "6d082e870f928ff77efc9212f59c893914351d013a59572188dc1af36debd35d",
+          "bytes": 28102
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-11T02-28-34-608Z/report.json",
+          "sha256": "2eb308e6221fcfa11455fd25e8388ea9238e351b1728d61b981314cd9f7084cd",
+          "bytes": 689492
+        },
+        {
+          "path": "build/q2/followup/candidates.bundle",
+          "sha256": "b4404501c10e26e3c9b3c059998ceaa563ff104412d3068d9e1e87c829cdc6e9",
+          "bytes": 40151
+        },
+        {
+          "path": "build/q2/followup/compose.py",
+          "sha256": "5e1c7389d6c2f7df87d4622749fc6935bc53c42edc9a2896ea5c5b5746196cfe",
+          "bytes": 3174
+        },
+        {
+          "path": "build/q2/followup/e2e-tools.tap",
+          "sha256": "344c7a4f19f3536c6e308d2cca058aa9c02c4f197f471cd98100b916fda5bd01",
+          "bytes": 127092
+        },
+        {
+          "path": "build/q2/followup/final-comparison/comparison.json",
+          "sha256": "e415d91dec2688bf70f42dad9a86634dbbef58f50d223f6aad0f91589b104cef",
+          "bytes": 414192
+        },
+        {
+          "path": "build/q2/followup/final-review/herb-settlement-split.mp4",
+          "sha256": "05f5c3e861f4045f69fa176757643279ee8b61d1ad99948176645b20578fb2d3",
+          "bytes": 1242991
+        },
+        {
+          "path": "build/q2/followup/final-review/media.json",
+          "sha256": "5a78c1a2b806a2d1653a25e87669627c9c248ebdc86b6f5a6f5467a07abd0520",
+          "bytes": 4189
+        },
+        {
+          "path": "build/q2/followup/final-review/party-lanterns-split.mp4",
+          "sha256": "8600e1d754465b34926311e126469818f22169b489e7d9044d1bfd0ca277e6cb",
+          "bytes": 1351022
+        },
+        {
+          "path": "build/q2/followup/final-review/solo-lantern-split.mp4",
+          "sha256": "4a62608a96a3a978516757af360f187d931540042dba77110df19ec6fc92a2b7",
+          "bytes": 901637
+        },
+        {
+          "path": "build/q2/followup/final-review/two-round-commands-split.mp4",
+          "sha256": "2f815cb911e57c06323fc4c4602a094b3fba23e6792bb76dcb8a4dde1019a8ec",
+          "bytes": 2168816
+        },
+        {
+          "path": "build/q2/followup/first-comparison/comparison.json",
+          "sha256": "5766dfc2dac6ca76abad8018852e44c142c18e5be6e951c1112627343d5d1ad4",
+          "bytes": 391077
+        },
+        {
+          "path": "build/q2/followup/lint.log",
+          "sha256": "cf605cd5e64dd9e948aae26d947fcb0dd594c3cdad57005cda81a81154a636ef",
+          "bytes": 191
+        },
+        {
+          "path": "build/q2/followup/rounds-comparison/comparison.json",
+          "sha256": "6ecf3e725cd23ef5efbf33f8f8a48e316707c8ba95089a34a5f04bcb20a2af30",
+          "bytes": 402671
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/combined-final.json",
+          "sha256": "5220da216de5b3406ebf0086bffc844ed38af0a4ecc9271a3830e99d529d3293",
+          "bytes": 2969105
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/fade-before.json",
+          "sha256": "158b303bfaf39c35ca39f9b78bd7c2d666617f1761c36ad44d9856fc3b88e400",
+          "bytes": 5101
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/fade-serial-cadence.json",
+          "sha256": "80e39c00dd69ccfd387fa448dae962e1636d1f7575b90b02d65ff7917e08ddde",
+          "bytes": 5063
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/hud-before.json",
+          "sha256": "ef300a5e43c7e90f7e1fe7c3364c3cad2733306580de74fbab7819cb1831da6a",
+          "bytes": 5071
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/item-before.json",
+          "sha256": "c75fd52586ab4107ef524dcb6e8b9d3b4bc34e8319ac0086ebefd549d313aa84",
+          "bytes": 10283
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/raw-hit-after.json",
+          "sha256": "9907bf097cde30e139ae94c2ebc024ec0f4ddb367ba9da3afeeb87e405446e6f",
+          "bytes": 3512
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/raw-hit-before.json",
+          "sha256": "97435f26a20a3493aefb2520d249b1ce1e0292e17ae545ca41246b0a1da0d75c",
+          "bytes": 5066
+        },
+        {
+          "path": "build/q2/followup/runtime-presentation/typecheck-combined.log",
+          "sha256": "01c4e2bbecbf839c05c7b67d1f433a49cf72e656e98e8dc922c63b90be10627e",
+          "bytes": 132
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-coop.execution.json",
+          "sha256": "42adc14f050bbf74af58616218709f2e005695d88bd310dde44995189d55dea0",
+          "bytes": 1069
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-coop.json",
+          "sha256": "a9cf37b178b62dd421e1d6d02342fa653044ece877900f042d9dc5088b8d1b67",
+          "bytes": 3823
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-dual.execution.json",
+          "sha256": "4a6d1ff5180e3a33bcdb73824b6fb8504675cf4ea4a1f70b76308ebfbeb3cd8e",
+          "bytes": 1063
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-dual.json",
+          "sha256": "cbfc1521590c4e532d5a7d00f1236a8bc52471c1d71cb4e46a45ee75686db2c7",
+          "bytes": 3713
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-equiv.execution.json",
+          "sha256": "16c6c62500bc4dc9b79bf1bbc2c628ccc55ab7846e567f84b7e0b4aa666dcc05",
+          "bytes": 1068
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-equiv.json",
+          "sha256": "868599af40667f9b1099ca3cb133fe38d065f49300cbb14c4832ec0f2b9c9d38",
+          "bytes": 3714
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-queue.execution.json",
+          "sha256": "c5e63eed465dd8a515df1e6e26c54cb4e7ab784bc4c4dfca343e252412198742",
+          "bytes": 1061
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-queue.json",
+          "sha256": "be6b4a7b8ffc3592add14c66f14c0ecafa438aedeab611fb9a067df0b02fca60",
+          "bytes": 3713
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-single.execution.json",
+          "sha256": "f0ea80fa4f8ea7c0b94d84cd1ab440d3e2d5b34a291eb6e531dc47f5f7307e82",
+          "bytes": 1066
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/baseline-single.json",
+          "sha256": "e6d5070e0a858a572f002014f72a4eddaa7a328e93d6d8ba5e8f293bb3e93cb4",
+          "bytes": 3778
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-coop.execution.json",
+          "sha256": "921338eab4db45958dceb3c4c46d4144924950a03799e1924e5496f099359907",
+          "bytes": 1067
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-coop.json",
+          "sha256": "fed63c12708bfcf95e0975264513443c5611dded5e96068c77aa46d5ee8b9ddf",
+          "bytes": 2127
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-diff.execution.json",
+          "sha256": "b1741f848b4ae7feb7541e06313d3870ae24b11d2ab9c99ee1181c05a9658e4f",
+          "bytes": 395
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-dual.execution.json",
+          "sha256": "bb6765b7c102605c57aa98e44baa406302cc3796169bc898d4705b8edfe3644c",
+          "bytes": 1061
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-dual.json",
+          "sha256": "67076cf7ebe28f6bef8357d798c7779034dcfbb090a6b18f0175ab785870ecaf",
+          "bytes": 2127
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-equiv.execution.json",
+          "sha256": "a748e0e52dfefcd60efaf38c561fcfb79cfb663ece66dde936ffd0eef9093a52",
+          "bytes": 1066
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-equiv.json",
+          "sha256": "363e6b20b1460b915c71421cb49602105495e256c7ec9fca32f571e1f7d97cf9",
+          "bytes": 2126
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-queue.execution.json",
+          "sha256": "9f26f2c5fd4bb8040c930b0b1a48f1b199ec178aa1839ae797cba0fc95ca8b44",
+          "bytes": 1059
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-queue.json",
+          "sha256": "99ee18f905e2cc1a30c94cd8862f2b78bf076dcfa7bbaabdcf8e78ac0a235055",
+          "bytes": 2128
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-single.execution.json",
+          "sha256": "1d56aad309f439bd1fb1a0aaa24c1048e119f59c784fa227f047b7adf3ee4114",
+          "bytes": 1064
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/frozen-single.json",
+          "sha256": "61b6ffa722e2732629ce16f3a3cc99c7cc87d8d4d02ee222c369a7cc26a57265",
+          "bytes": 2128
+        },
+        {
+          "path": "build/q2/followup/runtime-rules/party-lanterns-core-replay.json",
+          "sha256": "177be0f2d19360ea64b9c7700fd32327e21eb38e274fa6b92229e218484e5c52",
+          "bytes": 657
+        },
+        {
+          "path": "build/q2/followup/typecheck.log",
+          "sha256": "0c0c58a62736093ab40b9f61991abb0342c18f2296be6b2f21c843ff8ab57aa6",
+          "bytes": 710
+        },
+        {
+          "path": "build/q2/followup/verified-comparison/comparison.json",
+          "sha256": "4481ffb1be9fc734c231317ec3c2df0bd880966221ff16bbf7952068aeb37099",
+          "bytes": 389221
+        },
+        {
+          "path": "build/q2-observation-review.md",
+          "sha256": "0f8e32c9c22c670554fe668151d169f043fcd92da07c44c67efe2a64564807be",
+          "bytes": 8041
+        },
+        {
+          "path": "build/q2-rule-baseline-compare/comparison.json",
+          "sha256": "01e8d4abe6e9f4c232f1516980c00e5f2f15ed3c1de791c21f829c1785c3fd26",
+          "bytes": 441453
+        },
+        {
+          "path": "build/q2-rule-baseline-compare/source-binding.json",
+          "sha256": "57804e8ab187fb91a8545dfaabb28874112e545b54511b4268dcd6c5b0d9f301",
+          "bytes": 18693
+        },
+        {
+          "path": "build/q2-visual-baseline-compare/comparison.json",
+          "sha256": "650096f87efbb03d55f5696dca3f7a4f52d5133991a0d04808583157f8c78906",
+          "bytes": 397094
+        },
+        {
+          "path": "build/q2-visual-baseline-compare/source-binding.json",
+          "sha256": "4780dc59184f36ff08184b49512269fa55e416705325759a8b4af33ff474f1e1",
+          "bytes": 14621
+        }
+      ]
     }
   ],
   "claims": [
@@ -1155,6 +1979,43 @@
       "id": "complete-battle-rules-audiovisual-world-save",
       "result": "uncovered",
       "evidence": []
+    },
+    {
+      "id": "normal-battle-rendered-milestones",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/final-comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/herb-settlement-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/herb-settlement-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/herb-settlement-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/herb-settlement-2-trace.json"
+      ]
+    },
+    {
+      "id": "classic-single-target-raw-draws-and-damage",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/final-comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/party-lanterns-2-trace.json"
+      ]
+    },
+    {
+      "id": "two-round-cancel-and-retarget",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/final-comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/two-round-commands-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/two-round-commands-2-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-1-trace.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/two-round-commands-2-trace.json"
+      ]
     }
   ],
   "findings": [
@@ -1212,13 +2073,22 @@
       "date": "2026-11-07",
       "action": "first-batch-native-normal-battle-foundation",
       "scope": "12 clean native battles plus real item counter/restoration, original-byte offline comparison and entry integrity controls; human visual pending"
+    },
+    {
+      "revision": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+      "date": "2026-11-11",
+      "action": "native-battle-presentation-and-two-round-rules",
+      "scope": "First-batch rendered regressions, ordinary single-target rolls and damage text, and manual two-round defend/use/cast/cancel/retarget.",
+      "predecessor": "a8673cfcc9fc5767a6d02a3895964e7977bd7e16",
+      "historicalReceiptRevision": "18fac8f47fbb002bf76a4c97283225c7156447f2",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz"
     }
   ],
   "_governance": {
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "execution",
-    "lastReviewed": "2026-11-07",
+    "lastReviewed": "2026-11-11",
     "owner": "Codex",
     "provenance": [
       "Native Game public fixture and Reforge public trial executions",
@@ -1233,5 +2103,27 @@
     "beforeAfter": "One bounded publication appended after fixed43fea. Existing catalog entries/readings, Q1 stage and source/audit claims preserved.",
     "stopLine": "No original damage/RNG allocation, AI, full audiovisual, encounter/map/save lifecycle or user visual acceptance.",
     "nextStep": "User reviews native split-screen clips; then scope batch2 rule and operation fixtures without expanding first-batch credit."
+  },
+  "followupExecution": {
+    "date": "2026-11-11",
+    "producerRevision": "54d7b378d5094950c10b73bb38a81883cd3d375d",
+    "commands": [
+      "node scripts/e2e/battle-foundation.mjs --engine=game",
+      "node scripts/e2e/battle-foundation.mjs --engine=reforge",
+      "node scripts/e2e/battle-foundation-compare.mjs build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/report.json build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/report.json build/q2/followup/final-comparison"
+    ],
+    "reports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-game-none-2026-11-11T02-25-52-292Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-11T02-25-52-292Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/final-comparison/comparison.json"
+    ],
+    "negativeControls": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2-visual-baseline-compare/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2-rule-baseline-compare/comparison.json"
+    ],
+    "documentedOlderHudJudgeFailures": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/first-comparison/comparison.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz#build/q2/followup/rounds-comparison/comparison.json"
+    ]
   }
 }
