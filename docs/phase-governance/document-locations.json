@@ -5371,14 +5371,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "fbd2ef6cb1ab926e8e1874cffb8d588b77248fdc39aad5d7601d37491a1dc6d9",
+      "afterSha256": "9a66a2cbb70458f3f02c6187e082f40a253d1733fa4c4bc8a244c5069581d431",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "author": "Codex /root/q2_panel",
+        "reviewer": "Codex /root",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 148,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "conclusion": "核用户原话「通过」、交付的两段分屏、归档成员及对应合并提交。",
+        "reviewedLines": 152,
+        "acceptanceScope": "用户确认范围为三灯笼和止血草两段分屏。技术结论及原件取已合并版本 89cb749a4dc63d4adf23669c98c0f043578568ad。"
       }
     },
     {
@@ -5410,14 +5410,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "5e0a7066665eac8b6dbf86791ae59704cf6450a08569127ca8e381a1d7584b66",
+      "afterSha256": "65491c75c5c38b1ebf9b99e678a4f8f6dec549c4d2f03dfed892ebaee68a4840",
       "review": {
-        "author": "Codex /root",
-        "reviewer": "Codex /root/q2_panel",
+        "author": "Codex /root/q2_panel",
+        "reviewer": "Codex /root",
         "date": "2026-11-11",
-        "conclusion": "接受本轮现行增量。核双端原生执行、规则与绘制对照、原件保全和待覆盖边界，任务与导航同步。",
-        "reviewedLines": 103,
-        "acceptanceScope": "按实际增量审查，当前战斗验证限四个固定局面的执行、判定和指定规则，适用范围见覆盖报告。"
+        "conclusion": "核首批表现段的用户验收回链及旧执行范围保全。",
+        "reviewedLines": 105,
+        "acceptanceScope": "用户确认范围为三灯笼和止血草两段分屏。技术结论及原件取已合并版本 89cb749a4dc63d4adf23669c98c0f043578568ad。"
       }
     },
     {
