@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-11T03:28:14.345Z",
+  "generatedAt": "2026-11-11T07:07:04.819Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 836,
-  "testCount": 20433,
+  "testCount": 20443,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2248,7 +2248,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9033,
+        "testCount": 9040,
         "testFileCount": 370,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -2930,8 +2930,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-core.rng-order.test.ts",
-            "testCount": 5,
-            "identityDigest": "6cf41dc13f935152b0e2e7a16da9bdedbaa9892b006b70cf05bd6478d7008f87"
+            "testCount": 9,
+            "identityDigest": "edf957c351a2d299908d230d4a5d832c1493a686886bb745d9bb43e1bd7025fc"
           },
           {
             "file": "packages/reforge/src/battle/battle-core.test.ts",
@@ -2941,7 +2941,7 @@
           {
             "file": "packages/reforge/src/battle/battle-enemy-confused.test.ts",
             "testCount": 13,
-            "identityDigest": "95f449458e2e02ab70617af88d195c23cb3dea16bc56f0446d91448b9581cfae"
+            "identityDigest": "20c04e1438aea46581db7248d237b26e8b5b0faa105cf99f0da596927915a6d0"
           },
           {
             "file": "packages/reforge/src/battle/battle-finalization.world-result.test.ts",
@@ -3000,8 +3000,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 8,
-            "identityDigest": "5aa2ca1231f73b491b1c8a5a4bfd2ba9c1ddf5bbc6e116a524236177558cf497"
+            "testCount": 11,
+            "identityDigest": "d45c386308d727c3676e392d2ed43bd4115de2a969fe41456e5b99421064f3d6"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4474,26 +4474,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "9c2e21f9be0deec94e133d1919052aa46df63470de98ae79327d290b2811863b",
+        "identityDigest": "be94cf7049eb831284a2b5be65bfdec34ae105175e83bb5675e242a0cb445bbf",
         "duplicateIdentityCount": 3,
-        "executionDigest": "5a3c925b0373b3b3e83069f1da30dee3295e5ddb25467fd177cf16276eeb6bbd"
+        "executionDigest": "adedc35ce4a8c415455a38e889577efb39eb73f0f421e90c1c8a2a09c515ae17"
       },
       "metrics": {
         "statements": {
-          "covered": 17138,
-          "total": 18939
+          "covered": 17159,
+          "total": 18953
         },
         "branches": {
-          "covered": 10923,
-          "total": 13163
+          "covered": 10941,
+          "total": 13169
         },
         "functions": {
-          "covered": 2789,
+          "covered": 2791,
           "total": 3082
         },
         "lines": {
-          "covered": 15338,
-          "total": 16526
+          "covered": 15355,
+          "total": 16536
         }
       }
     },
@@ -4728,7 +4728,7 @@
       ],
       "scopeDigest": "403c415be8be079cb8c32909fea9e104e86bbf9660ef0829d12966e903c14b9a",
       "fastTests": {
-        "testCount": 3780,
+        "testCount": 3783,
         "testFileCount": 344,
         "files": [
           "packages/game/src/__tests__/battle-fixture.test.ts",
@@ -5384,8 +5384,8 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/magic-parity.test.ts",
-            "testCount": 15,
-            "identityDigest": "580a542eee36825cbb200993d5f1abb2c1e4a20c338d9b5cf1313c3c55684748"
+            "testCount": 16,
+            "identityDigest": "b592fd0e7afadc502376097f8618c5bf24377159fd094ce05e9c9ffe2308f341"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/magic-scripts.test.ts",
@@ -5399,8 +5399,8 @@
           },
           {
             "file": "packages/game/src/core/battle/__tests__/physical-attack.test.ts",
-            "testCount": 39,
-            "identityDigest": "f7d5efb5bef7351d65db915553496de86910d7f6f04c9dbfafe4c062a3bcea25"
+            "testCount": 41,
+            "identityDigest": "ae4a396685a8dfd25f06b306fc0a92be17b97fb2abe7f7d9c659898d285b2f80"
           },
           {
             "file": "packages/game/src/core/battle/__tests__/player-magic-animation.test.ts",
@@ -6798,26 +6798,26 @@
             "identityDigest": "b86986a2de3c86ddb7630a8ad3b68a2adf31c12094cff520150c69dc5a13e5e2"
           }
         ],
-        "identityDigest": "5ad77efe8523630c0f63e0f39d52a06a3f2251293a1a1cf609bcd95402ccf084",
+        "identityDigest": "d86e37f6d9018428d2e0d26ecec4e1c1e7788e3ed0b03da7d267fe9f928f7605",
         "duplicateIdentityCount": 0,
-        "executionDigest": "8a7793c8175a2bf7bba795f30607a53791536c6c62c5c231832d96155fd86395"
+        "executionDigest": "aff0c94e1bff76c56f14b2de7f09128cd09aece68503499085ea1b59a447a90b"
       },
       "metrics": {
         "statements": {
-          "covered": 15549,
-          "total": 17187
+          "covered": 15551,
+          "total": 17188
         },
         "branches": {
-          "covered": 9961,
-          "total": 12278
+          "covered": 9965,
+          "total": 12280
         },
         "functions": {
-          "covered": 1893,
+          "covered": 1894,
           "total": 2171
         },
         "lines": {
-          "covered": 13872,
-          "total": 15076
+          "covered": 13874,
+          "total": 15077
         }
       }
     },
@@ -10945,20 +10945,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74378,
-      "total": 82071
+      "covered": 74401,
+      "total": 82086
     },
     "branches": {
-      "covered": 54055,
-      "total": 64206
+      "covered": 54077,
+      "total": 64214
     },
     "functions": {
-      "covered": 14141,
+      "covered": 14144,
       "total": 15701
     },
     "lines": {
-      "covered": 66443,
-      "total": 71829
+      "covered": 66462,
+      "total": 71840
     }
   }
 }

@@ -5380,13 +5380,13 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "1cc3c7c0bde00248b49c586853e1c1fd6abd9a21d781ebdca1dbce05727826c4",
+      "afterSha256": "f2df15093b511ca606793903eddac0f7968f86d701c488e3f39c84eef72478b6",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-11",
         "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
-        "reviewedLines": 184,
+        "reviewedLines": 186,
         "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
       }
     },
