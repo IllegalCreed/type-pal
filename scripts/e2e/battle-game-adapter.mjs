@@ -175,18 +175,32 @@ export function installGameBattleAdapter() {
       if (!scenario || gs !== dependencies.gs || state !== battle) return
       if (roles) liveRoles = roles
     })
-  globalThis.__battleGameFrame = (state) =>
+  globalThis.__battleGameFrame = (state, gs) =>
     observe(() => {
       if (!scenario || state !== battle || terminal) return
       evidence().beginFrame('game:BattlePresent.draw', {
         clockMs: performance.now(),
         phase: state.phase,
         turn: state.turn + 1,
-        selecting: state.phase === 'selectAction' && state.selectingPlayerIdx !== undefined,
+        selecting:
+          state.phase === 'selectAction' &&
+          state.selectingPlayerIdx !== undefined &&
+          !gs.dialogBox &&
+          !gs.dialogBoxKept &&
+          !state.battleDialogQueue?.length,
         animation:
           state.battleAnim && action
             ? { actorId: action.actorId, kind: action.kind, targetId: action.targetId }
             : null,
+      })
+    })
+  globalThis.__battleGameDialogueConfirm = (state, box, before, result) =>
+    observe(() => {
+      if (!scenario || state !== battle || terminal) return
+      evidence().presentation({
+        kind: 'battle-dialogue-confirm',
+        source: 'game:advanceBattleDialog:confirmDialog',
+        payload: { turn: state.turn + 1, slot: box.style, before, after: box.phase, result },
       })
     })
   globalThis.__battleGameCommand = (state, slot) =>
@@ -446,6 +460,8 @@ export function installGameBattleAdapter() {
             }
           : null,
         targetCancels,
+        canConfirmDialogue:
+          !!state && ['waiting-page-key', 'waiting-end-key'].includes(gs?.dialogBox?.phase),
         canConfirmSettlement: Boolean(screen && state.settlement.shownMs >= 40 && !busy),
         settlement: screen ? { index: state.settlement.index, kind: screen.kind } : null,
         snapshot: battle ? snapshot() : null,

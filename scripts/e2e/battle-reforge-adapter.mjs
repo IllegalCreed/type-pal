@@ -30,6 +30,7 @@ let beforeClockMs
 let beforeRoundPoisons
 let incapacitatedSlot
 let visualAction
+let activeDialogue
 let beforeLog = 0
 let terminal
 let sessionReady = false
@@ -195,10 +196,11 @@ const harness = {
     sessionReady = true
     evidence().start(snapshot(), 'BattleSession:constructor:committed')
   },
-  observe(state, view, currentSelectingSlot) {
+  observe(state, view, currentSelectingSlot, dialogue) {
     nativeState = state
     selection = view
     selectingSlot = currentSelectingSlot
+    activeDialogue = dialogue
   },
   beginFrame(state, clockMs, animating, selecting) {
     if (!sessionReady || terminal) return
@@ -222,6 +224,23 @@ const harness = {
     evidence().command({
       ...semanticAction(playerIndex, action),
       source: 'BattleCommandSelection:submit:pendingActions.set',
+    })
+  },
+  dialogueConfirm(before, after) {
+    if (!before || !sessionReady || terminal) return
+    evidence().presentation({
+      kind: 'battle-dialogue-confirm',
+      source: 'reforge:DialogBox.advance',
+      payload: {
+        turn: nativeState.turn,
+        slot: before.slot,
+        before: before.phase,
+        after: after?.phase ?? null,
+        cue: before.cueIndex,
+        page: before.pageIndex,
+        nextCue: after?.cueIndex ?? null,
+        nextPage: after?.pageIndex ?? null,
+      },
     })
   },
   targetCancel(playerIndex, targetIndex, skillId) {
@@ -363,7 +382,8 @@ const harness = {
       snapshot: nativeState ? snapshot() : undefined,
       terminal: clone(terminal),
       failure,
-      canConfirmSettlement: nativeState?.phase === 'won' && !terminal,
+      canConfirmDialogue: activeDialogue?.phase === 'waiting-input' && !terminal,
+      canConfirmSettlement: nativeState?.phase === 'won' && !activeDialogue && !terminal,
     }
   },
 }

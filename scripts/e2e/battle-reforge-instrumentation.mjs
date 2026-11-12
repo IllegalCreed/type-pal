@@ -10,6 +10,7 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/audio/sfx.ts',
   'packages/reforge/src/battle/present-battle.ts',
   'packages/reforge/src/battle/battle-core.ts',
+  'packages/reforge/src/dialog/dialog-box.ts',
 ]
 
 function observeSfx(node, ast, source, add, evidenceCall) {
@@ -68,6 +69,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const isBattleUi = file.endsWith('/battle/battle-ui.ts')
   const isSfx = file.endsWith('/audio/sfx.ts')
   const isBattleScene = file.endsWith('/battle/present-battle.ts')
+  const isDialogBox = file.endsWith('/dialog/dialog-box.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -80,6 +82,39 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const evidenceCall = (method, args = '') => `globalThis.__battleEvidence?.${method}(${args});\n`
   const visit = (node) => {
     const source = node.getText(ast)
+    if (isDialogBox) {
+      const method = ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast)
+      if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'advance') {
+        add(
+          'dialogue-confirm-before',
+          node.body.getStart(ast) + 1,
+          '\nconst __battleDialogBefore = this.observe(); try {\n',
+        )
+        add(
+          'dialogue-confirm-after',
+          node.body.end - 1,
+          `\n} finally { ${call('dialogueConfirm', '__battleDialogBefore, this.observe()')} }\n`,
+        )
+      }
+      if (ts.isExpressionStatement(node) && method === 'render') {
+        if (source === 'this.renderSlot(slotId, r, isActive, nowMs)')
+          add(
+            'dialogue-slot',
+            node.end,
+            `\n${evidenceCall('dialogueDrawn', "r, slotId, isActive ? this.observeSlot(slotId, r).phase : 'retained', isActive, 'reforge:DialogBox.renderSlot', r.visibleText")}\n`,
+          )
+      }
+      if (
+        ts.isExpressionStatement(node) &&
+        method === 'renderSlot' &&
+        source === 'this.ctx.drawImage(portraitImg, px, py)'
+      )
+        add(
+          'dialogue-portrait',
+          node.end,
+          `\n${evidenceCall('dialoguePortrait', 'r, cue.portrait.asset, px, py, portraitImg.width, portraitImg.height')}\n`,
+        )
+    }
     if (
       isBattleUi &&
       ts.isExpressionStatement(node) &&
@@ -142,14 +177,14 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add(
           'tick-end',
           node.body.end - 1,
-          `\n} finally { ${call('observe', "this.state, this.selection.view, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' ? this.nextSelecting() : undefined")} }\n`,
+          `\n} finally { ${call('observe', "this.state, this.selection.view, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' ? this.nextSelecting() : undefined, this.assets.dialogBox?.observe()")} }\n`,
         )
       }
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'render') {
         add(
           'frame-begin',
           node.body.getStart(ast) + 1,
-          `\n${call('beginFrame', "this.state, this.nowMs, this.actionPresentation.active, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' && this.nextSelecting() !== undefined")}`,
+          `\n${call('beginFrame', "this.state, this.nowMs, this.actionPresentation.active, this.state.phase === 'selectAction' && this.sessionUi !== 'acting' && this.nextSelecting() !== undefined && !this.assets.dialogBox?.active")}`,
         )
         add('frame-end', node.body.end - 1, `\n${evidenceCall('endFrame')}\n`)
       }
@@ -263,28 +298,35 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
           ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw']
           : isBattleUi
             ? ['portrait-before', 'portrait-after']
-            : isCore
-              ? ['incapacitated']
-              : [
-                  'constructed',
-                  'tick-begin',
-                  'tick-end',
-                  'frame-begin',
-                  'frame-end',
-                  'enemy-draw-identity',
-                  'player-draw-identity',
-                  'number-identity',
-                  'number-draw',
-                  'panel-draw',
-                  'settlement-draw-begin',
-                  'settlement-draw-end',
-                  'command-begin',
-                  'command-end',
-                  'target-cancel-before',
-                  'target-cancel-after',
-                  'action-before',
-                  'action-after',
+            : isDialogBox
+              ? [
+                  'dialogue-confirm-before',
+                  'dialogue-confirm-after',
+                  'dialogue-slot',
+                  'dialogue-portrait',
                 ]
+              : isCore
+                ? ['incapacitated']
+                : [
+                    'constructed',
+                    'tick-begin',
+                    'tick-end',
+                    'frame-begin',
+                    'frame-end',
+                    'enemy-draw-identity',
+                    'player-draw-identity',
+                    'number-identity',
+                    'number-draw',
+                    'panel-draw',
+                    'settlement-draw-begin',
+                    'settlement-draw-end',
+                    'command-begin',
+                    'command-end',
+                    'target-cancel-before',
+                    'target-cancel-after',
+                    'action-before',
+                    'action-after',
+                  ]
   assert.deepEqual(Object.keys(anchors).sort(), expected.sort(), `battle producer drift: ${file}`)
   for (const count of Object.values(anchors))
     assert.equal(count, isBattleUi ? 3 : 1, `unexpected battle producer count: ${file}`)
