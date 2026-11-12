@@ -66,3 +66,96 @@ test('observed native mulberry32 preserves each value, draw count and final stat
   assert.equal(observations.at(-1).state, original.getState())
   assert.equal(observations[0].value, compile(native).createSeedableRng(1729).next())
 })
+
+test('Game SFX observes its decoded buffer and request only after a successful start', async () => {
+  const file = '/packages/game/src/shell/audio.ts'
+  const native = await source(file)
+  assert.throws(
+    () => instrumentGameBattle(native.replace('src.start()', 'src.stop()'), file),
+    /boundary census changed/,
+  )
+  const { code } = instrumentGameBattle(native, file)
+  const firstResponse = Promise.withResolvers()
+  const requested = [],
+    decoded = [],
+    started = [],
+    nativeSources = [],
+    fetched = []
+  const buffers = new Map([
+    [28, { id: 28 }],
+    [37, { id: 37 }],
+  ])
+  const response = (id) => ({
+    ok: true,
+    url: `http://127.0.0.1/extracted/sounds/${id}.wav`,
+    arrayBuffer: async () => ({ id }),
+  })
+  const startError = new Error('native start failed')
+  let failStart = false
+  const nativeContext = {
+    state: 'running',
+    destination: {},
+    async decodeAudioData(bytes) {
+      return buffers.get(bytes.id)
+    },
+    createGain() {
+      return { gain: { value: 1 }, connect() {} }
+    },
+    createBufferSource() {
+      return {
+        connect(gain) {
+          return gain
+        },
+        start() {
+          if (failStart) throw startError
+          nativeSources.push(this)
+        },
+      }
+    },
+  }
+  const { createAudioManager } = compile(code, {
+    window: {
+      AudioContext: function AudioContext() {
+        return nativeContext
+      },
+    },
+    async fetch(path) {
+      fetched.push(path)
+      return path.endsWith('/28.wav') ? firstResponse.promise : response(37)
+    },
+    __battleGameAudioRequested: (id) => requested.push(id),
+    __battleGameAudioDecoded: (id, buffer, url) => decoded.push({ id, buffer, url }),
+    __battleGameAudioStarted(cueId, id, buffer, context) {
+      assert.equal(buffer, nativeSources.at(-1).buffer)
+      assert.equal(context, nativeContext)
+      started.push({ cueId, id, buffer })
+    },
+  })
+
+  const audio = createAudioManager('/extracted')
+  audio.playSound(28)
+  audio.playSound(37)
+  await new Promise(setImmediate)
+  firstResponse.resolve(response(28))
+  await new Promise(setImmediate)
+  nativeSources.at(-1).onended()
+  audio.playSound(28)
+  nativeSources.at(-1).onended()
+  failStart = true
+  assert.throws(
+    () => audio.playSound(28),
+    (error) => error === startError,
+  )
+
+  assert.deepEqual(requested, [28, 37, 28, 28])
+  assert.deepEqual(fetched, ['/extracted/sounds/28.wav', '/extracted/sounds/37.wav'])
+  assert.deepEqual(
+    decoded,
+    [37, 28].map((id) => ({ id, buffer: buffers.get(id), url: response(id).url })),
+  )
+  assert.deepEqual(started, [
+    { cueId: 2, id: 37, buffer: buffers.get(37) },
+    { cueId: 1, id: 28, buffer: buffers.get(28) },
+    { cueId: 3, id: 28, buffer: buffers.get(28) },
+  ])
+})

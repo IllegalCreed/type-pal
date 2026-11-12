@@ -312,6 +312,38 @@ export function installGameBattleAdapter() {
         source: 'game:tickPostAction:turn-advanced',
       })
     })
+  const sfxAssetId = (soundId) => `sound.pal.${String(soundId).padStart(3, '0')}`
+  globalThis.__battleGameAudioDecoded = (soundId, buffer, responseUrl) =>
+    observe(() => {
+      const port = globalThis.__battleEvidence
+      if (!port?.audioDecoded) return
+      const url = new URL(responseUrl)
+      require(url.origin === globalThis.location.origin, 'Game battle SFX response left its origin')
+      port.audioDecoded(
+        sfxAssetId(soundId),
+        buffer,
+        url.pathname,
+        'game:AudioManager.loadSfx:decodeAudioData',
+      )
+    })
+  globalThis.__battleGameAudioRequested = (soundId) =>
+    observe(() =>
+      globalThis.__battleEvidence?.audioRequested?.(
+        sfxAssetId(soundId),
+        'game:AudioManager.playSfx',
+      ),
+    )
+  globalThis.__battleGameAudioStarted = (cueId, soundId, buffer, context) =>
+    observe(() => {
+      if (cueId === undefined) return
+      globalThis.__battleEvidence?.audioStarted?.(
+        cueId,
+        sfxAssetId(soundId),
+        buffer,
+        context,
+        'game:AudioManager.play:AudioBufferSourceNode.start',
+      )
+    })
   globalThis.__battleGameRandom = (seed, state, value) =>
     observe(() => {
       if (!scenario || seed !== scenario.seed || terminal) return
