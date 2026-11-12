@@ -2532,6 +2532,7 @@ function applyEnemySkill(
         for (const ti of targets) {
           const p = expectDefined(s.players[ti])
           if (p.hp <= 0) continue // 已死跳过(fight.c:4782;AoE 前效果可能致死)
+          const elemRes = p.elemRes ?? ZERO
           // 除因子(fight.c:4801-4803/4836-4838):(防御2)×(护体2)+(格挡1)
           let dmg = Math.trunc(
             calcMagicDamage({
@@ -2539,9 +2540,15 @@ function applyEnemySkill(
               def: p.defense,
               rngFactor: 1 + rng() * 0.1, // fight.c RandomFloat(1, 1.1)
               magicData: { baseDamage: eff.power, elemental: eff.elemental },
-              // 玩家元素/毒抗:装备 live 派生(effectiveResistances → 建态时算好,红线不烙)
-              elemRes: p.elemRes ?? ZERO,
-              poisonRes: p.poisonRes ?? 0,
+              // 玩家方基础抗性 100 加实际装备抗性，再使用玩家侧除数 20（fight.c:4792–4799,4827–4834）。
+              elemRes: {
+                wind: 100 + elemRes.wind,
+                thunder: 100 + elemRes.thunder,
+                water: 100 + elemRes.water,
+                fire: 100 + elemRes.fire,
+                earth: 100 + elemRes.earth,
+              },
+              poisonRes: 100 + (p.poisonRes ?? 0),
               resistMult: 20, // 玩家侧抗性除数 20(fight.c:4798/4833;敌侧是 1)
               fieldEffect: s.fieldEffect, // 战场五灵加成(fight.c:244,双向同表)
             }) /
