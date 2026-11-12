@@ -1851,6 +1851,17 @@ export class BattleSession {
     const def = s.enemies[la.idx]?.def
     if (!enemyPos || !targetPos || !def) return null
     const damage = la.damage ?? 0
+    const playerFrames = s.players.map((_, index) => this.playerFrames(index))
+    const targetPose = expectDefined(playerFrames[t])
+    // 保留受击前画帧，仅由本次物理扣血覆盖死/濒死姿态；附毒在原版复位后结算。
+    // fight.c:4915,5108-5145
+    const hpAfterPhysicalHit = expectDefined(pHp[t]) - damage
+    const targetRecoveryFrame =
+      hpAfterPhysicalHit <= 0
+        ? targetPose.dead
+        : isPlayerDying(hpAfterPhysicalHit, expectDefined(s.players[t]).maxHp)
+          ? targetPose.dying
+          : expectDefined(this.visual.players[t]).frame
     return buildEnemyPhysical({
       enemyIdx: la.idx,
       enemyPos,
@@ -1861,7 +1872,7 @@ export class BattleSession {
         if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
         return profile
       })(),
-      playerFrames: s.players.map((_, index) => this.playerFrames(index)),
+      playerFrames,
       sounds: def.sounds,
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
@@ -1880,8 +1891,7 @@ export class BattleSession {
           }
         : {}),
       damage,
-      // fight.c:5108-5145，普攻按物理扣血决定归位姿势，随后才结算附毒。
-      targetDied: expectDefined(pHp[t]) <= damage,
+      targetRecoveryFrame,
     })
   }
 

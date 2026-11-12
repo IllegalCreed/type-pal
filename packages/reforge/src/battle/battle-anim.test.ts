@@ -298,7 +298,7 @@ describe('M4d-2 战斗动画时间线', () => {
       playerFrames: [PLAYER_FRAMES],
       sounds: { action: 'sound.pal.355', call: 'sound.pal.002' },
       damage: 7,
-      targetDied: false,
+      targetRecoveryFrame: PLAYER_FRAMES.idle,
     })
     const { events, player } = record(frames)
     player.tick(0)
@@ -609,7 +609,7 @@ describe('M4d-2 战斗动画时间线', () => {
       playerFrames: [PLAYER_FRAMES, PLAYER_FRAMES],
       sounds,
       damage: 0,
-      targetDied: false,
+      targetRecoveryFrame: PLAYER_FRAMES.idle,
       blocked: true,
       cover: { idx: 0, sound: 'sound.pal.015' },
     })
@@ -640,7 +640,7 @@ describe('M4d-2 战斗动画时间线', () => {
       playerFrames: [PLAYER_FRAMES],
       sounds: {},
       damage: 1,
-      targetDied: true,
+      targetRecoveryFrame: PLAYER_FRAMES.dead,
     })
     const { events, player } = record(frames)
     let ticks = 0
