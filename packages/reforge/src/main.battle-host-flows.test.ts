@@ -249,12 +249,13 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
   h.assertInputUnchanged()
 })
 
-test('normal hostile defeat keeps the battle frame through the red prompt without drawing the world', async () => {
+test('normal hostile defeat keeps the battle frame through confirmation and black fade before reload', async () => {
   host = await installShellHost()
   vi.spyOn(Math, 'random').mockReturnValue(0.5)
   const { WorldScenePresentation } = await import('./world-scene-presentation.js')
   const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
-  const reload = vi.fn()
+  let blackAlpha = 0
+  const reload = vi.fn(() => blackAlpha)
   vi.stubGlobal('location', { ...location, reload })
   const hero = combatActor()
   if (!hero.battler) throw new Error('missing battler')
@@ -283,9 +284,31 @@ test('normal hostile defeat keeps the battle frame through the red prompt withou
   await advance(host, () => !state().renderDebug.inBattle && state().dialogue)
   expect(state().world.party[0]?.hp).toBe(0)
   expect(drawWorld.mock.calls.length).toBe(worldFrames)
+  const ctx = document.querySelector('canvas')?.getContext('2d')
+  if (!ctx) throw new Error('game canvas is missing')
+  const fillRect = ctx.fillRect.bind(ctx)
+  vi.spyOn(ctx, 'fillRect').mockImplementation((x, y, width, height) => {
+    fillRect(x, y, width, height)
+    if (
+      ctx.fillStyle === '#000' &&
+      x === 0 &&
+      y === 0 &&
+      width === ctx.canvas.width &&
+      height === ctx.canvas.height
+    )
+      blackAlpha = ctx.globalAlpha
+  })
   for (let i = 0; i < 6 && state().dialogue; i++) await key(host, 'Enter', 200)
+  expect(state().dialogue).toBe(false)
+  for (let i = 0; i < 5; i++) {
+    await host.frame(100)
+    await drain()
+  }
+  expect(reload).not.toHaveBeenCalled()
+  expect(blackAlpha).toBeCloseTo(5 / 6)
   await advance(host, () => reload.mock.calls.length > 0)
   expect(reload).toHaveBeenCalledOnce()
+  expect(reload).toHaveReturnedWith(1)
   h.assertInputUnchanged()
 })
 

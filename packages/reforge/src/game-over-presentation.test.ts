@@ -3,7 +3,7 @@ import { expect, test } from 'vitest'
 import { expectDefined } from './defined.js'
 import { GameOverPresentation } from './game-over-presentation.js'
 
-test('red steps tint two preserved battle colors and release the frame only for its owner', () => {
+test('a held battle frame tints red then fades to black at its exit deadline', async () => {
   const canvas = document.createElement('canvas')
   canvas.width = 2
   canvas.height = 1
@@ -29,6 +29,17 @@ test('red steps tint two preserved battle colors and release the frame only for 
 
   presentation.release(new AbortController().signal)
   expect(presentation.draw(ctx, 2501)).toBe(true)
+  let complete = false
+  const exit = presentation.fadeOut(owner, 2501).then(() => {
+    complete = true
+  })
+  presentation.draw(ctx, 2801)
+  expect(pixels()).toEqual([72, 0, 0, 255, 46, 0, 0, 255])
+  await Promise.resolve()
+  expect(complete).toBe(false)
+  presentation.draw(ctx, 3101)
+  expect(pixels()).toEqual([0, 0, 0, 255, 0, 0, 0, 255])
+  await exit
   presentation.release(owner)
-  expect(presentation.draw(ctx, 2501)).toBe(false)
+  expect(presentation.draw(ctx, 3101)).toBe(false)
 })

@@ -2270,6 +2270,8 @@ export async function bootGame(
         assertRunnerActive(owner, '战败流程所属 runner 已取消')
         await host.dialog(createGameOverDialogueCue(), owner)
         assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await gameOverPresentation.fadeOut(owner, frames.now)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
         await host.loadLastSave(owner)
       } finally {
         gameOverPresentation.release(owner)
@@ -5755,15 +5757,6 @@ export async function bootGame(
     ctx.restore()
   }
 
-  function drawDialogueLayer(): void {
-    if (!dialogBox.visible) return
-    ctx.save()
-    ctx.scale(WORLD_SCALE, WORLD_SCALE)
-    ctx.imageSmoothingEnabled = false
-    dialogBox.render(performance.now())
-    ctx.restore()
-  }
-
   /**
    * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
@@ -5790,94 +5783,101 @@ export async function bootGame(
       scriptConfirmModal.presented()
       return
     }
-    if (gameOverPresentation.draw(ctx, frames.now)) {
-      drawDialogueLayer()
-      return
-    }
-    // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
-    if (preserveClosedDialogFrame) return
-    // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
-    // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
-    const heldEntryFrame = sceneEntrySession.heldFrame
-    if (heldEntryFrame) {
-      ctx.putImageData(heldEntryFrame, 0, 0)
-      drawFadeCurtain()
-      syncDitherDebugDataset()
-      return
-    }
-    updateCamera() // 相机跟随玩家
-    // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
-    // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
-    deriveFollowers()
-    // Mounted travel updates steering and trail without replacing a leader's authored pose.
-    const renderedFacing =
-      authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
-        ? authoredPartyFacing.facing
-        : facing
-    const sprites = worldPresentation.sprites({
-      entities: activeScene.scene.entities,
-      visible: (entity) => entityLifecycleGates(entity).visible,
-      entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
-      loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
-      // User choice: a taken automatic walk draws idle while its phase is retained for release.
-      entityGait: (id) =>
-        motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
-          ? undefined
-          : motion.gaitPhase(id),
-      entityGaitSource: (id) => motion.gaitOwner(id)?.source,
-      entityExplicitAnimation: (id) => motion.explicitAnimation(id),
-      entityActionFrame: (id) => entityActions.frame(id),
-      entityLayer: (id) => runtimeScript.entityLayer?.[id],
-      party: world.party,
-      partyVisual,
-      player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
-      followers: followerPos,
-      extraFollowerSpriteIds: runtimeScript.followers ?? [],
-      extraFollowerPosition: (partyIndex) => {
-        const derived = computeFollowerPos(
-          { party: player.pos, trail, walking, frozenOffset: followerFrozen },
-          partyIndex,
-          (col, row) => !isBlocked({ col, row, height: 0 }),
-        )
-        return { pos: derived?.pos ?? player.pos, facing: derived?.dir ?? facing }
-      },
-      spriteById: (id) => project.spritesById[id],
-      now: () => performance.now(),
-    })
-    worldPresentation.renderWorld({
-      scene: activeScene,
-      camera,
-      sprites,
-      vars: runtimeScript.vars,
-      now: frames.now,
-      advanceWaveFrame: motion.worldTicksThisFrame > 0,
-    })
-    // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
-    if (debugLayers.collision || debugLayers.triggers) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      drawCollisionOverlay()
-      ctx.restore()
-    }
-    // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
-    const cinematicLayerDrawn = drawCinematicLayer()
-    // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
-    drawFadeCurtain()
-    // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
-    if (shop) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      drawShop(ctx, shop.ui, world, project.items, menuAssets, glyphs, performance.now(), {
-        no: lookupText('menu.system.no', project.locale),
-        yes: lookupText('menu.system.yes', project.locale),
+    const showingGameOver = gameOverPresentation.draw(ctx, frames.now)
+    let cinematicLayerDrawn = false
+    if (!showingGameOver) {
+      // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
+      if (preserveClosedDialogFrame) return
+      // SceneEntry Prepare 从 preflight 起冻结上一张完整 presented frame。fade-out 也在这张
+      // 冻结帧上加幕布；目标世界可在背后切换/准备，直到 reveal 原子提交。
+      const heldEntryFrame = sceneEntrySession.heldFrame
+      if (heldEntryFrame) {
+        ctx.putImageData(heldEntryFrame, 0, 0)
+        drawFadeCurtain()
+        syncDitherDebugDataset()
+        return
+      }
+      updateCamera() // 相机跟随玩家
+      // trail 只在真实 player position commit 点推进；render 必须保持纯读，尤其 sidestep 的
+      // 离格方向与 visual facing 不同，不能在这里用当前 facing 猜测。
+      deriveFollowers()
+      // Mounted travel updates steering and trail without replacing a leader's authored pose.
+      const renderedFacing =
+        authority.get('party')?.kind === 'mount' && authoredPartyFacing?.owner === runner
+          ? authoredPartyFacing.facing
+          : facing
+      const sprites = worldPresentation.sprites({
+        entities: activeScene.scene.entities,
+        visible: (entity) => entityLifecycleGates(entity).visible,
+        entitySprite: (id) => activeScene.entitySpriteDefs.get(id),
+        loadedSprite: (definition) => spriteCache.get(project.assetResolver, definition.asset),
+        // User choice: a taken automatic walk draws idle while its phase is retained for release.
+        entityGait: (id) =>
+          motion.gaitOwner(id)?.source === 'auto' && authority.has(id)
+            ? undefined
+            : motion.gaitPhase(id),
+        entityGaitSource: (id) => motion.gaitOwner(id)?.source,
+        entityExplicitAnimation: (id) => motion.explicitAnimation(id),
+        entityActionFrame: (id) => entityActions.frame(id),
+        entityLayer: (id) => runtimeScript.entityLayer?.[id],
+        party: world.party,
+        partyVisual,
+        player: { pos: player.pos, facing: renderedFacing, walking, stepFrame, layer: partyLayer },
+        followers: followerPos,
+        extraFollowerSpriteIds: runtimeScript.followers ?? [],
+        extraFollowerPosition: (partyIndex) => {
+          const derived = computeFollowerPos(
+            { party: player.pos, trail, walking, frozenOffset: followerFrozen },
+            partyIndex,
+            (col, row) => !isBlocked({ col, row, height: 0 }),
+          )
+          return { pos: derived?.pos ?? player.pos, facing: derived?.dir ?? facing }
+        },
+        spriteById: (id) => project.spritesById[id],
+        now: () => performance.now(),
       })
-      ctx.restore()
+      worldPresentation.renderWorld({
+        scene: activeScene,
+        camera,
+        sprites,
+        vars: runtimeScript.vars,
+        now: frames.now,
+        advanceWaveFrame: motion.worldTicksThisFrame > 0,
+      })
+      // debug 碰撞叠加层(reforge 自己的 dev 拐杖;非编辑器叠加层)—— 在底图之上、独立变换块。
+      if (debugLayers.collision || debugLayers.triggers) {
+        ctx.save()
+        ctx.scale(WORLD_SCALE, WORLD_SCALE)
+        ctx.imageSmoothingEnabled = false
+        drawCollisionOverlay()
+        ctx.restore()
+      }
+      // Presentation Pass 2:Cinematic Layer(RNG)。不活动时 World Layer 原样可见。
+      cinematicLayerDrawn = drawCinematicLayer()
+      // Presentation Pass 3:fade 遮罩；Presentation Pass 4 的对话/菜单仍在它之上。
+      drawFadeCurtain()
+      // 商店/当铺(openShop;320 逻辑坐标 ×WORLD_SCALE,同菜单)
+      if (shop) {
+        ctx.save()
+        ctx.scale(WORLD_SCALE, WORLD_SCALE)
+        ctx.imageSmoothingEnabled = false
+        drawShop(ctx, shop.ui, world, project.items, menuAssets, glyphs, performance.now(), {
+          no: lookupText('menu.system.no', project.locale),
+          yes: lookupText('menu.system.yes', project.locale),
+        })
+        ctx.restore()
+      }
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
-    drawDialogueLayer()
+    if (dialogBox.visible) {
+      ctx.save()
+      ctx.scale(WORLD_SCALE, WORLD_SCALE)
+      ctx.imageSmoothingEnabled = false
+      dialogBox.render(performance.now())
+      ctx.restore()
+    }
+    if (showingGameOver) return
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
     if (menus.active) {
       const {

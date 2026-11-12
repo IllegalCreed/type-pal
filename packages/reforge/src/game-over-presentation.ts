@@ -1,8 +1,12 @@
+import { asyncIntentAbortError } from './async-intent.js'
 import { expectDefined } from './defined.js'
+import { SupersedingFadeDriver } from './fade-driver.js'
 
 const RED_STEP_MS = 75
 const RED_STEPS = 32
 export const GAME_OVER_FADE_MS = RED_STEP_MS * RED_STEPS
+// The final 0x4E uses PAL_FadeOut(1): 60 steps at 10ms (palette.c:163–185).
+const GAME_OVER_EXIT_MS = 600
 
 function tintFrame(source: ImageData, output: ImageData, step: number): void {
   const original = source.data
@@ -29,6 +33,7 @@ export class GameOverPresentation {
     layer: CanvasRenderingContext2D
     startedAtMs?: number
     step: number
+    exitFade?: SupersedingFadeDriver
   }
 
   hold(ctx: CanvasRenderingContext2D, owner: AbortSignal): void {
@@ -39,12 +44,20 @@ export class GameOverPresentation {
     canvas.height = height
     const layer = expectDefined(canvas.getContext('2d'))
     layer.putImageData(source, 0, 0)
+    if (this.frame) this.release(this.frame.owner)
     this.frame = { owner, source, output: layer.createImageData(width, height), layer, step: 0 }
   }
 
   begin(ctx: CanvasRenderingContext2D, owner: AbortSignal, nowMs: number): void {
     if (this.frame?.owner !== owner) this.hold(ctx, owner)
     expectDefined(this.frame).startedAtMs = nowMs
+  }
+
+  fadeOut(owner: AbortSignal, nowMs: number): Promise<void> {
+    const frame = this.frame
+    if (frame?.owner !== owner) throw asyncIntentAbortError('战败画面已被替换')
+    frame.exitFade ??= new SupersedingFadeDriver()
+    return frame.exitFade.begin(1, nowMs, GAME_OVER_EXIT_MS, owner, owner)
   }
 
   draw(ctx: CanvasRenderingContext2D, nowMs: number): boolean {
@@ -66,10 +79,20 @@ export class GameOverPresentation {
     ctx.globalCompositeOperation = 'copy'
     ctx.drawImage(frame.layer.canvas, 0, 0, ctx.canvas.width, ctx.canvas.height)
     ctx.restore()
+    if (frame.exitFade) {
+      // Complete the wait in the same draw as the final black frame, before restoring the save.
+      ctx.save()
+      ctx.globalAlpha = frame.exitFade.advance(nowMs)
+      ctx.fillStyle = '#000'
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      ctx.restore()
+    }
     return true
   }
 
   release(owner: AbortSignal): void {
-    if (this.frame?.owner === owner) this.frame = undefined
+    if (this.frame?.owner !== owner) return
+    this.frame.exitFade?.cancelOwned(owner, 0)
+    this.frame = undefined
   }
 }
