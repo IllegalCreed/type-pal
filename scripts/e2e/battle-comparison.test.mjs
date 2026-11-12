@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict'
 import { afterEach, describe, test } from 'node:test'
+import {
+  compareCasualtyDialogue,
+  compareMagicCasualty,
+  comparePoisonCasualty,
+} from './battle-casualty-presentation.mjs'
 import { compareBattleRepeats, compareBattleTraces } from './battle-comparison.mjs'
-import { validateBattlePresentation } from './battle-presentation.mjs'
+import { firstNumberDraws, validateBattlePresentation } from './battle-presentation.mjs'
 import { validateBattleRules } from './battle-rules.mjs'
 import { validateBattleTrace } from './battle-trace-contract.mjs'
 import { battleObserverScript, installBattleTraceObserver } from './battle-trace-observer.mjs'
@@ -670,6 +675,225 @@ describe('battle business conformance and comparison', () => {
       validateBattlePresentation(trace, fixture).findings.map(({ rule, kind }) => [rule, kind]),
       [['player-casualty-sound-start-edge', 'player-death']],
     )
+  })
+
+  test('a complete drawn dialogue page cannot briefly hide a printed timing control', () => {
+    const page = {
+      slot: 'bottom',
+      phase: 'auto-advance',
+      active: true,
+      lines: ['我还撑得住'],
+      portrait: { id: 15, x: 229, y: 97, width: 83, height: 94 },
+      source: 'game:drawDialogBox',
+    }
+    const rows = [
+      [0, { actorId: 'lantern-a' }],
+      [200, { actorId: 'lantern-a' }],
+      [400, null],
+      [800, null, [page]],
+      [1120, null, [page]],
+      [1485, null],
+      [1525, null],
+    ]
+    const frames = rows.map(([clockMs, animation, dialogue], seq) => ({
+      seq,
+      order: seq * 2,
+      clockMs,
+      atMs: clockMs,
+      payload: { animation, dialogue },
+    }))
+    const next = { ...decision('ally', 'defend', null), order: 11, atMs: 1510 }
+    const expected = { actions: [{}, next] }
+    const trace = { engine: 'game', actions: [{ order: 3 }, next], presentations: [] }
+    const motion = {
+      action: { turn: 1, targetId: 'hero' },
+      start: frames[0],
+      next: frames.at(-1),
+      observed: { returned: { frame: 1 } },
+    }
+    const probe = {
+      actionIndex: 0,
+      nextActionIndex: 1,
+      pages: [
+        {
+          slot: 'bottom',
+          portraitId: 15,
+          lines: ['我还撑得住'],
+          holdMs: 685,
+          advance: 'auto',
+        },
+      ],
+    }
+    const judge = () => {
+      const findings = []
+      compareCasualtyDialogue(trace, frames, expected, probe, motion, (_, rule) =>
+        findings.push(rule),
+      )
+      return findings
+    }
+    assert.deepEqual(judge(), [])
+    frames[4].payload.dialogue = [{ ...page, lines: ['我还撑得住~60'] }]
+    assert.deepEqual(judge(), ['casualty-dialogue-text'])
+  })
+
+  test('the first blue spell numeral belongs to the original-position hurt frame', () => {
+    const before = state(24, 30, 2)
+    const cast = {
+      ...decision('lantern-a', 'cast', 'hero'),
+      actorSide: 'enemy',
+      skillId: '316',
+      before,
+      after: state(0, 30, 2),
+    }
+    const rows = [
+      [0, 240, 170, 0, 0],
+      [100, 240, 170, 3, 0],
+      [300, 240, 170, 4, 6],
+      [340, 244, 172, 4, 6],
+      [380, 246, 173, 4, 6],
+      [420, 247, 173, 4, 0],
+      [540, 240, 170, 2, 0],
+    ]
+    const frames = rows.map(([clockMs, x, y, frameIndex, colorShift], seq) => ({
+      seq,
+      order: seq,
+      clockMs,
+      atMs: clockMs,
+      payload: {
+        turn: 1,
+        selecting: seq === 0,
+        players: [{ slot: 0, x, y, frameIndex, colorShift }],
+        numbers: [],
+      },
+    }))
+    const next = { ...strike, order: 10, atMs: 860 }
+    const expected = { actions: [cast, next] }
+    const trace = { actions: [cast, next] }
+    const probe = {
+      actionIndex: 0,
+      targetId: 'hero',
+      damage: 24,
+      recoveryFrame: 2,
+      soundKind: 'player-death',
+    }
+    const number = { numberId: 0, tone: 'blue', value: 24, side: 'player', slot: 0 }
+    frames[2].payload.numbers.push(number)
+    const judge = () => {
+      const findings = []
+      compareMagicCasualty(
+        trace,
+        frames,
+        firstNumberDraws(frames),
+        expected,
+        [frames[1]],
+        probe,
+        (_, rule) => findings.push(rule),
+      )
+      return findings
+    }
+    assert.deepEqual(judge(), [])
+    frames[2].payload.numbers.length = 0
+    frames[5].payload.numbers.push(number)
+    assert.deepEqual(judge(), ['magic-casualty-number-edge'])
+  })
+
+  test('round-end poison retains the old pose through the displayed damage hold', () => {
+    const round = {
+      turn: 1,
+      order: 3,
+      clockMs: 100,
+      before: state(7, 30, 2),
+      after: state(0, 30, 2),
+    }
+    const trace = { rounds: [round], actions: [{ turn: 1, order: 1 }] }
+    const frames = [
+      { order: 2, clockMs: 60, frameIndex: 1 },
+      { order: 4, clockMs: 100, frameIndex: 1, number: true },
+      { order: 5, clockMs: 380, frameIndex: 1 },
+      { order: 6, clockMs: 420, frameIndex: 2, selecting: true },
+    ].map(({ order, clockMs, frameIndex, selecting, number }, seq) => ({
+      seq,
+      order,
+      clockMs,
+      atMs: clockMs,
+      payload: {
+        turn: order === 2 ? 1 : 2,
+        selecting,
+        players: [{ slot: 0, x: 240, y: 170, frameIndex, colorShift: 0 }],
+        numbers: number ? [{ numberId: 0, side: 'player', slot: 0, value: 7, tone: 'blue' }] : [],
+      },
+    }))
+    const probe = {
+      turn: 1,
+      targetId: 'hero',
+      damage: 7,
+      holdFrame: 1,
+      recoveryFrame: 2,
+      forbiddenSounds: ['sound.pal.023'],
+    }
+    const judge = () => {
+      const findings = []
+      comparePoisonCasualty(trace, frames, firstNumberDraws(frames), probe, (_, rule) =>
+        findings.push(rule),
+      )
+      return findings
+    }
+    assert.deepEqual(judge(), [])
+    frames[1].payload.players[0].frameIndex = 2
+    assert.deepEqual(judge(), ['poison-casualty-pose-hold'])
+  })
+
+  test('the next action can consume deferred healing only with the native effect receipt', () => {
+    const start = state(5, 30, 2)
+    start.players[1].hp = 100
+    const dead = state(0, 30, 2)
+    dead.players[1].hp = 100
+    const healed = state(0, 30, 2)
+    const attack = {
+      ...decision('lantern-a', 'attack', 'hero'),
+      actorSide: 'enemy',
+      before: start,
+      after: dead,
+    }
+    const reply = { ...strike, before: healed, after: state(0, 0, 2) }
+    const effect = {
+      targetId: 'ally',
+      before: { hp: 100, attack: 902 },
+      after: { hp: 150, attack: 947 },
+    }
+    const terminal = { result: 'victory', settlementCount: 1, after: state(75, 0, 2, 1, 13) }
+    const fixture = {
+      id: 'deferred-casualty',
+      random,
+      expected: {
+        start,
+        commands: [strike],
+        actions: [attack, reply],
+        terminal,
+        casualtyDialogue: [{ actionIndex: 0, nextActionIndex: 1 }],
+        casualtyEffects: [{ afterActionIndex: 0, ...effect }],
+      },
+    }
+    installBattleTraceObserver(
+      { scenarioId: fixture.id, runId: `run-${++run}`, engine: 'game', random },
+      createEvidenceRecorder,
+    )
+    const observer = globalThis.__battleEvidence
+    observer.start(start, 'battle:start')
+    observer.random(0.25, 'rng:queue')
+    observer.command({ ...strike, source: 'selection:commit' })
+    observer.action({ ...attack, source: 'action:attack' })
+    observer.presentation({
+      kind: 'battle-casualty-effect',
+      source: 'game:tickActionFollowup:friend-death-effects',
+      payload: { turn: 1, ...effect },
+    })
+    observer.action({ ...reply, source: 'action:attack' })
+    observer.terminal({ ...terminal, source: 'settlement:commit' })
+    const trace = observer.read()
+    assert.equal(validateBattleTrace(trace, fixture).status, 'passed')
+    trace.presentations[0].kind = 'dialogue-draw'
+    assert.equal(validateBattleTrace(trace, fixture).findings[0].rule, 'casualty-effect-count')
   })
 
   test('a complete logical trace still requires native render observations', () => {
