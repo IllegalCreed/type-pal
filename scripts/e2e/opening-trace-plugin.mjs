@@ -190,22 +190,24 @@ export function instrumentOpeningTrace(code, file) {
     if (file.endsWith('/reforge/src/main.ts')) {
       if (
         ts.isIfStatement(node) &&
-        node.expression.getText(ast) === 'dialogBox.visible' &&
-        node.thenStatement.getText(ast).includes('dialogBox.render(performance.now())')
+        node.expression.getText(ast) === '!dialogBox.visible' &&
+        ts.isReturnStatement(node.thenStatement)
       ) {
         let owner = node.parent
         while (owner && !ts.isFunctionLike(owner)) owner = owner.parent
         assert(
-          ts.isFunctionDeclaration(owner) && owner.name?.text === 'render' && !node.elseStatement,
+          ts.isFunctionDeclaration(owner) &&
+            owner.name?.text === 'drawDialogueLayer' &&
+            !node.elseStatement,
           `trace anchors changed: ${file}: inactive dialogue draw branch`,
         )
         count('inactiveDialogueDraw')
-        // This branch is reached only after the actual world pass. Do not clear in
-        // finally or after the active branch: autoAdvance closes AFTER drawing its page.
+        // Only observe the inactive draw. A visible auto-advanced page closes after being drawn.
         insert(
-          node.end,
-          ' else { globalThis.__openingCauseDialogueDraw?.("reforge",[]); globalThis.__openingMatrixRendered?.(null); }\n',
+          node.thenStatement.getStart(ast),
+          '{ globalThis.__openingCauseDialogueDraw?.("reforge",[]); globalThis.__openingMatrixRendered?.(null); ',
         )
+        insert(node.thenStatement.end, '; }')
       }
       if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'refreshRuntimeProjection') {
         assert(
