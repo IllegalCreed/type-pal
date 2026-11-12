@@ -42,7 +42,7 @@
  * 端口（生产由 worker 驱动），这里用实现同一 EditorDerivedStore 接口的受控发布器驱动（与
  * ConnectedEditorPages.test.tsx 同口径），被测组件与命令全链保持真实。
  */
-import type { AssetRecordV1 } from '@type-pal/content'
+import { ASSET_ROLES, type AssetRecordV1 } from '@type-pal/content'
 import { act, useState, useSyncExternalStore } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -460,7 +460,7 @@ describe('K08 ProjectWorkbenchTab 项目页真实业务工作流', () => {
 
     expect(session.getState().manifest.assets.roles['video.startupTrademark']).toBeUndefined()
     expect(startupGroupMeta()).toBe('0/3 已配置')
-    expect(heroMeta().textContent).toContain('1/12 已配置')
+    expect(heroMeta().textContent).toContain(`1/${ASSET_ROLES.length} 已配置`)
 
     // 绑定：DsSelect onValueChange → UpdateManifestAssetRolesCommand 真实落 session。
     const bindHistory = session.getHistoryVersion()
@@ -474,7 +474,7 @@ describe('K08 ProjectWorkbenchTab 项目页真实业务工作流', () => {
       record.path,
     )
     expect(startupGroupMeta()).toBe('1/3 已配置')
-    expect(heroMeta().textContent).toContain('2/12 已配置')
+    expect(heroMeta().textContent).toContain(`2/${ASSET_ROLES.length} 已配置`)
 
     expect(undo(session)).toBe(true)
     expect(session.getState().manifest.assets.roles['video.startupTrademark']).toBeUndefined()
