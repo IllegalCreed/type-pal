@@ -4,11 +4,18 @@
  * 选择经公开 tick 提交后由真 core 执行；资源恰扣一次；prepareTurnSounds 快照核对
  * **实际动作集合**（cast 与 attack 分栏），不只数数量。断言用 MP/终态/声音记录器。
  */
-import { validateItems, validatePoisons } from '@type-pal/content'
+import type { BattleChoreography } from '@type-pal/content'
+import {
+  checkBattleChoreography,
+  validateEnemies,
+  validateItems,
+  validatePoisons,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
   type: 'json',
 }
+import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
 import {
@@ -340,6 +347,108 @@ describe('W3 执行时间线接线', () => {
       hp: 92,
       poisons: [{ poisonId: 551, tickIndex: 0 }],
     })
+  })
+
+  test('回合末毒伤显示 320ms 后开放选招，解毒后无数字的回合直接开放', () => {
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-406'))[0],
+    )
+    const [antidote, egg] = validateItems(palItems.filter(({ id }) => id === '87' || id === '117'))
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const turnStartSound = 'sound.pal.077'
+    const encounterChoreo: BattleChoreography[] = [
+      {
+        at: 'turnStart',
+        when: { kind: 'turn', op: '==', value: 2 },
+        body: [{ kind: 'playSound', asset: turnStartSound }],
+      },
+    ]
+    checkBattleChoreography(encounterChoreo, '血口虫起手')
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', {
+          hp: 150,
+          maxHp: 150,
+          defense: 259,
+          initialStatuses: { protect: 2 },
+        }),
+      ],
+      enemies: [
+        {
+          ...enemy,
+          // 固定随机数可复现首轮附毒，次轮让敌方跳过以单独观测解毒后的节拍。
+          ai: {
+            ...enemy.ai,
+            rules: [
+              { at: 'act', when: { kind: 'turn', op: '>=', value: 2 }, do: { kind: 'pass' } },
+            ],
+          },
+        },
+      ],
+      extraOpts: {
+        items: { 87: expectDefined(antidote), 117: expectDefined(egg) },
+        poisonDefs: { [redPoison.id]: redPoison },
+        inventory: [{ itemId: '87', count: 1 }],
+        encounterChoreo,
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const finger = bitmap(1, 1, '#00ff00')
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      cursorDown: finger,
+      cursorGrid: finger,
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    let nowMs = 0
+    const tick = (dtMs = 16, keys: readonly string[] = []) => {
+      nowMs += dtMs
+      h.session.tick(dtMs, new Set(keys), nowMs)
+    }
+    const player = () => expectDefined(h.session.debugPlayers()[0])
+
+    tick(16, ['d'])
+    // 护体的计数独立标出真实空队列步，避免以菜单何时打开倒推回合末。
+    for (let i = 0; i < 100 && player().status.protect === 2; i++) tick()
+    expect(player()).toMatchObject({ hp: 135, status: { protect: 1 } })
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(240, 95, 1, 1).data[2]).toBe(128) // 首帧蓝字 7。
+    const feedbackAtMs = nowMs
+
+    tick(16, ['e'])
+    tick(16, ['e'])
+    expect(h.session.debugReadiness().phase).toBe('acting')
+    expect(sfx.plays).not.toContain(turnStartSound)
+    while (nowMs + 16 < feedbackAtMs + 319) tick()
+    tick(feedbackAtMs + 319 - nowMs, ['e'])
+    tick(0, ['e'])
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(91, 165, 1, 1).data[0]).toBe(0)
+    expect(ctx.getImageData(232, 96, 1, 1).data[1]).toBe(0)
+    expect(sfx.plays).not.toContain(turnStartSound)
+
+    tick(1)
+    expect(sfx.plays.filter((id) => id === turnStartSound)).toEqual([turnStartSound])
+    tick()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(91, 165, 1, 1).data[0]).toBe(255)
+
+    tick(16, ['e'])
+    expect(h.session.debugReadiness().phase).toBe('item')
+    tick(16, [' '])
+    tick(16, [' '])
+    for (let i = 0; i < 100 && player().status.protect === 1; i++) tick(40)
+    expect(player()).toMatchObject({ hp: 135, poisons: [], status: { protect: 0 } })
+    const inventory = [{ itemId: '87', count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+    tick()
+    expect(h.session.debugReadiness().phase).toBe('menu')
   })
 
   test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
