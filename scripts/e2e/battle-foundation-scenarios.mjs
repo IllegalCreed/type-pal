@@ -542,7 +542,15 @@ function defineEquivalentPoison() {
     { turn: 2, hp: 135, rgbs: [[178, 56, 44], [121, 16, 12], [69, 0, 0], [52, 0, 0], null, null] },
     { turn: 3, hp: 134, rgbs: normal },
   ]
-  scenario.expected.defendRecovery = { actionIndex: 1, hitFrame: 4, guardFrame: 3, idleFrame: 0 }
+  scenario.expected.defendRecovery = {
+    actionIndex: 1,
+    hitFrame: 4,
+    guardFrame: 3,
+    idleFrame: 0,
+    // CLASSIC dispatches one action per 40 ms tick (battle.h:28-29, fight.c:1710-1769).
+    // Allow render sampling around each queue tick and one tick around the 320 ms attack.
+    cadenceMs: { commandToGuard: [20, 65], guardToEnemy: [20, 65], enemyToDamage: [280, 360] },
+  }
   return scenario
 }
 

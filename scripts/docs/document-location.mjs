@@ -28,6 +28,7 @@ import {
   isTestingBattleEvidencePath,
   isTestingBattleSessionEvidencePath,
   testingBattlePublicationBase,
+  testingBattleSessionCadenceBase,
   testingBattleSessionMechanismBase,
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
@@ -441,6 +442,8 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     preBattle && gitTree(root, testingBattleSessionPortraitBase, [testingCatalogPath])
   const preBattlePresentation =
     preBattle && gitTree(root, testingBattleSessionPresentationBase, [testingCatalogPath])
+  const preBattleCadence =
+    preBattle && gitTree(root, testingBattleSessionCadenceBase, [testingCatalogPath])
   const readSource = (sourcePath) => ordinaryBytes(root, sourcePath)
   const battleBridge = preBattle && {
     readSource,
@@ -456,6 +459,10 @@ export function loadDocumentLocations(root, admission = documentLocationAdmissio
     presentationFixed: {
       revision: testingBattleSessionPresentationBase,
       readSource: preBattlePresentation.read,
+    },
+    cadenceFixed: {
+      revision: testingBattleSessionCadenceBase,
+      readSource: preBattleCadence.read,
     },
   }
   // The acquisition bridge replays the session caller it accepted before Q2.
