@@ -17,6 +17,7 @@ import type {
   AiBattleView,
   BattleStatus,
   CarriedStatus,
+  CasualtyEffect,
   CasualtyLine,
   CasualtyScript,
   ElementVec,
@@ -262,7 +263,11 @@ export interface BattleState {
   /** 技能一生限用计数副本(characterId → skillId → 已用次数;入账经 skillUse mutation 回写)。 */
   skillUseCounts: Record<string, Record<string, number>>
   /** 最近一次伤亡脚本的台词(表现层展示;每次 sweep 覆写)。 */
-  casualtyDialogue?: { speakerRoleId: string; lines: CasualtyLine[] }
+  casualtyDialogue?: {
+    speakerRoleId: string
+    lines: CasualtyLine[]
+    effects?: readonly CasualtyEffect[]
+  }
   /** 最近一步已结算的行动(表现层读:音效/动画时机;每次 perform*Action 覆写)。 */
   lastAction: BattleLastAction | null
   /** 战斗用品产生、必须在任意终局按顺序写回大世界的通用 mutation 队列。 */
@@ -685,9 +690,9 @@ function applyStatBuff(
  *  (含装备、不含既有 Extra;多次不叠加),delta = base × percent / 100 截断。 */
 function applyCasualtyBranchEffects(
   target: BattlePlayerState,
-  branch: CasualtyScript['fallback'],
+  effects: readonly CasualtyEffect[],
 ): void {
-  for (const effect of branch.effects) {
+  for (const effect of effects) {
     if (effect.kind === 'heal') {
       if (effect.resource === 'hp') target.hp = target.maxHp
       else target.mp = target.maxMp
@@ -707,7 +712,7 @@ function applyCasualtyBranchEffects(
   }
 }
 
-/** 命中一个伤亡脚本:顺序概率门(0x06 r≥阈值,命中即停)→ 台词记录 + 效果。 */
+/** 选择原版概率分支；效果等对白结束后应用（原脚本的 0x1B/0x1C/0x30 位于对白后）。 */
 function executeCasualtyScript(
   s: BattleState,
   target: BattlePlayerState,
@@ -720,11 +725,24 @@ function executeCasualtyScript(
       branch = gate.branch
       break
     }
-  applyCasualtyBranchEffects(target, branch)
-  s.casualtyDialogue = { speakerRoleId: target.roleId, lines: branch.lines }
+  s.casualtyDialogue = {
+    speakerRoleId: target.roleId,
+    lines: branch.lines,
+    ...(branch.effects.length ? { effects: branch.effects } : {}),
+  }
   s.log.push(
     `${target.roleId} 伤亡脚本:${branch.lines.map((line) => line.text).join(' / ') || '无台词'}`,
   )
+}
+
+export function completeCasualtyEffects(s: BattleState): void {
+  const reaction = s.casualtyDialogue
+  if (!reaction?.effects) return
+  const { effects } = reaction
+  delete reaction.effects
+  const target = expectDefined(s.players.find((player) => player.roleId === reaction.speakerRoleId))
+  applyCasualtyBranchEffects(target, effects)
+  refreshCasualtyPrevHp(s)
 }
 
 function casualtyGuardianDisabled(p: BattlePlayerState): boolean {
@@ -1087,6 +1105,8 @@ export function applyEnemyEffect(
  * @param rng 注入随机（dex jitter / AI 选目标 / 逃跑）。
  */
 export function stepBattle(s: BattleState, rng: () => number): void {
+  // 无会话表现的规则驱动在下一步前完成上一步的伤亡效果。
+  completeCasualtyEffects(s)
   switch (s.phase) {
     case 'preBattle':
       s.phase = 'selectAction'

@@ -73,6 +73,7 @@ import {
   type CastFxParams,
   type OverlayDraw,
 } from './battle-anim.js'
+import { battleCasualtyCues } from './battle-casualty-presentation.js'
 import {
   BattleCommandSelection,
   type BattleCommandSelectionContext,
@@ -82,6 +83,7 @@ import {
   type BattleState,
   buildAiView,
   type CreatePlayerInput,
+  completeCasualtyEffects,
   createBattleState,
   healthyPlayerCount,
   isPlayerHealthy,
@@ -138,6 +140,7 @@ const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as cons
 /** 回合末数值反馈停 8 帧，每帧 40ms（fight.c:1664-1668，battle.h:28-29）。 */
 const ROUND_END_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
+const CASUALTY_DIALOGUE_DELAY_MS = 10 * BATTLE_FRAME_MS
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -292,6 +295,7 @@ export class BattleSession {
   private persistentEffectsWritten = false
   /** B11-1:当前伤亡对话是否已交给 dialogBox/横幅(防止同一 dialogue 反复重开)。 */
   private casualtyDialogueShown = false
+  private casualtyDialogueReadyAtMs = 0
 
   constructor(
     players: CreatePlayerInput[],
@@ -555,6 +559,7 @@ export class BattleSession {
     this.pendingTerminal = null
     this.pendingHookActivations = []
     this.activeHook = null
+    if (this.casualtyDialogueShown) this.assets.dialogBox?.close()
     this.state.casualtyDialogue = undefined
     this.casualtyDialogueShown = false
     const abortError = new Error('BattleSession 已取消')
@@ -939,26 +944,20 @@ export class BattleSession {
     else this.resetVisual()
   }
 
-  private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
-    const box = this.assets.dialogBox
-    // B11-1:伤亡脚本台词经战斗内对话逐条展示,放完前暂停推进(P5)。
+  private pumpCasualtyDialogue(pressed: ReadonlySet<string>): boolean {
     const casualty = this.state.casualtyDialogue
-    if (casualty && !this.casualtyDialogueShown) {
-      const speaker = this.nameOf(casualty.speakerRoleId)
+    if (!casualty || this.actionPresentation.active) return false
+    if (this.nowMs < this.casualtyDialogueReadyAtMs) return true
+    const box = this.assets.dialogBox
+    if (!this.casualtyDialogueShown && casualty.lines.length) {
       if (box) {
         box.open(
-          startDialogue({
-            id: '__casualty',
-            cues: casualty.lines.map((line) => ({
-              rows: [{ text: line.text }],
-              slot: line.style,
-            })),
-          }),
+          startDialogue({ id: '__casualty', cues: battleCasualtyCues(casualty.lines) }),
           this.nowMs,
         )
       } else {
         this.choreoBanner = {
-          name: speaker,
+          name: this.nameOf(casualty.speakerRoleId),
           text: casualty.lines
             .map((line) => lookupText(line.text, this.opts.locale ?? {}))
             .join('\n'),
@@ -967,11 +966,26 @@ export class BattleSession {
       this.casualtyDialogueShown = true
       return true
     }
-    if (this.casualtyDialogueShown && !box?.active && !this.choreoBanner) {
-      // 对话放完(或横幅被空格清掉)→ 清引用,允许下一次 sweep 再开。
-      this.state.casualtyDialogue = undefined
-      this.casualtyDialogueShown = false
+    if (box?.active) {
+      if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
+      return true
     }
+    if (this.choreoBanner) {
+      if (pressed.has(' ') || pressed.has('Enter')) this.choreoBanner = null
+      return true
+    }
+    completeCasualtyEffects(this.state)
+    this.state.casualtyDialogue = undefined
+    this.casualtyDialogueShown = false
+    this.casualtyDialogueReadyAtMs = 0
+    this.syncPlayerDisplayHp()
+    this.beginEnemyCastRecovery()
+    return true
+  }
+
+  private pumpScriptExecution(dtMs: number, pressed: ReadonlySet<string>): boolean {
+    if (this.pumpCasualtyDialogue(pressed)) return true
+    const box = this.assets.dialogBox
     if (box?.active) {
       if (pressed.has(' ') || pressed.has('Enter')) box.advance(this.nowMs)
       return true
@@ -1130,6 +1144,7 @@ export class BattleSession {
         this.finishStepVisuals()
         return
       }
+      if (this.pumpCasualtyDialogue(pressed)) return
       // 动作收尾可能刚打开失败 narration；终态也必须等它自动/手动关闭后再 finalize。
       const terminalDialog = this.assets.dialogBox
       if (terminalDialog?.active) {
@@ -2021,16 +2036,26 @@ export class BattleSession {
       this.pendingDeaths = []
     }
     this.pendingConfusedReveal.clear()
+    this.syncPlayerDisplayHp()
+    // 原版完整复位后等十帧才进伤亡脚本（fight.c:804–819,865–882）。
+    if (this.state.casualtyDialogue)
+      this.casualtyDialogueReadyAtMs = this.nowMs + CASUALTY_DIALOGUE_DELAY_MS
+    else this.beginEnemyCastRecovery()
+    this.presentPendingFailureFeedback()
+  }
+
+  private syncPlayerDisplayHp(): void {
     this.state.players.forEach((p, i) => {
       const v = this.visual.players[i]
       if (v) v.displayHp = p.hp
     })
+  }
+
+  private beginEnemyCastRecovery(): void {
     // 原版敌法在受击复位及伤亡检查后保持八帧（fight.c:4904–4908）。
-    if (this.enemyCastRecoveryPending) {
-      this.enemyCastRecoveryPending = false
-      this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
-    }
-    this.presentPendingFailureFeedback()
+    if (!this.enemyCastRecoveryPending) return
+    this.enemyCastRecoveryPending = false
+    this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
   }
 
   /** dev:战斗日志只读视图(M4c 验证)。 */

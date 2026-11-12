@@ -41,6 +41,7 @@ import {
 } from '../__tests__/battle-workflows/session-driver.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { expectDefined } from '../defined.js'
+import { DialogBox } from '../dialog/dialog-box.js'
 import type { MenuAssets } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
@@ -918,6 +919,75 @@ describe('W3 执行时间线接线', () => {
     expect(result).toBe('victory')
     expect(sfx.plays).toContain('sound.pal.004')
     expect(casualtySounds()).toEqual(['sound.pal.019', 'sound.pal.023'])
+  })
+
+  test('队友阵亡对白在回位和十帧停拍后开始，旁白结束才结算回血和增益', () => {
+    const lantern = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-399'))
+    const actors = validateActors(
+      palActors.filter(({ id }) => id === 'zhao-linger' || id === 'li-xiaoyao'),
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 3,
+          maxHp: 24,
+          defense: 13,
+          baseDexterity: 6,
+          coveredBy: 'li-xiaoyao',
+        }),
+        wfPlayer('li-xiaoyao', { hp: 100, maxHp: 150, attackStrength: 902, baseDexterity: 3 }),
+      ],
+      enemies: [lantern],
+      extraOpts: {
+        actorsById: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+      },
+    })
+    const ctx = battleCanvas()
+    const portrait = bitmap(8, 8, '#00ff00')
+    const box = new DialogBox(ctx, stubGlyphs, [], new Map([['portrait.pal.005', portrait]]))
+    h.assets.dialogBox = box
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    const deadPose = () =>
+      ctx.getImageData(200, 168, 1, 1).data[0] === poseRed(PLAYER_PROFILE.frames.dead)
+
+    h.press(['d'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 160 && !deadPose() && !box.active; i += 1) draw(8)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(box.active).toBe(false)
+    expect(deadPose()).toBe(true)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+    draw(200) // 播完正常的回位帧。
+    draw(399)
+    expect(box.active).toBe(false)
+    draw(1)
+    expect(box.observe()).toMatchObject({ slot: 'bottom', rowTextIds: ['dlg.13499'] })
+    expect(box.observeSlots()).toContainEqual(
+      expect.objectContaining({ active: true, portraitAsset: 'portrait.pal.005' }),
+    )
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+
+    draw(2000)
+    expect(box.observe()).toMatchObject({ slot: 'narration', rowTextIds: ['dlg.13500'] })
+    draw(1399)
+    expect(box.active).toBe(true)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(100)
+    draw(1)
+    expect(box.active).toBe(false)
+    draw(40)
+    expect(h.session.debugPlayers()[1]?.hp).toBe(150)
+    draw(40)
+    draw(40)
+    // 攻击 902 + 5% = 947，灯笼有效防御 28、物抗 2，固定骰首击 (924+1)×3×2。
+    expect(h.session.debugLog()).toContain('li-xiaoyao 会心一击 攻击 enemy-399 造成 5550')
   })
 
   test.each([
