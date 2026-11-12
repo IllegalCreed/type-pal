@@ -140,22 +140,24 @@ export function advanceBattleDialog(
 
   // line-done 自动推进(sdlpal 行间不停):喂下一行 / 满页等键 / 队列空等结束键
   if (box.phase === 'line-done') {
-    const next = state.battleDialogQueue?.[0]
     if (box.currentLineEndedWithTilde) {
       // TEXT_DisplayText resets the line count before PAL_ClearDialog can ask for a key.
       if (box.lineDoneRenderPending && !wasFullyRevealed) {
         box.lineDoneRenderPending = false
         return true
       }
-      if (next?.style === box.style && !next.clearBefore) {
-        resetDialogBody(box)
-        feedNextBattleDialogLine(state, gs)
-      } else {
-        closeBattleDialogPage(state, gs, box)
-        if (next && !next.effect) feedNextBattleDialogLine(state, gs)
-      }
+      // A localized page clear carries no style. Resolve it before checking the next page.
+      const queue = state.battleDialogQueue
+      const clearPage = queue?.[0]?.clearPage
+      while (queue?.[0]?.clearPage) queue.shift()
+      const next = queue?.[0]
+      const continuesPage = next?.style === box.style && !next.clearBefore
+      if (clearPage || continuesPage) resetDialogBody(box)
+      if (!continuesPage) closeBattleDialogPage(state, gs, box)
+      if (next && !next.effect) feedNextBattleDialogLine(state, gs)
       return true
     }
+    const next = state.battleDialogQueue?.[0]
     if (!next) {
       setWaitingEndKey(box) // 无后续 → 等结束键(Confirm 关 box)
     } else if (next.clearPage) {
