@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "d267ed8d7138b008bb24b2c42dc40b555dbb733a76aeca3a6f607761abfca522",
+      "afterSha256": "32caaff90ee4b68d7ae0649417cf534db190d269700bf33fb2608f95c9ca9ad7",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-12",
-        "conclusion": "接受活动看板的第四批状态。按本轮真实执行和仍待范围核对。",
+        "conclusion": "接受第四批已执行状态与仍待玩家伤亡及其他音画范围。",
         "reviewedLines": 122,
-        "acceptanceScope": "血口虫回合反馈、七局面音效及明确后续边界。"
+        "acceptanceScope": "八个固定局面的正常战斗和第四批剩余项。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "0c66f3ba1a01fbfdcf5aa5d7786ed751e986a8da968caf5dbf7005a424ffd11f",
+      "afterSha256": "b915370362c40f17a94b861314c3d1f0eb3e1fcb29f4b8ff142c55d1950b6ab5",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-12",
-        "conclusion": "接受原件索引中的新归档定位，旧 Q2 原件链接保留。",
+        "conclusion": "接受复位与自动格挡的真实归档入口，历史原件入口逐一保留。",
         "reviewedLines": 43,
-        "acceptanceScope": "第四批动画与带声分屏归档。"
+        "acceptanceScope": "本次与旧次运行的可恢复位置。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "5cc1c7bfd00b2ad74dd3877bef4383e5b65e4e973b16a0647c15c781facc4cfc",
+      "afterSha256": "558eb4f5e2d277db63b5f3759ff11810f423accb5675f64a38942b24ac308821",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-12",
-        "conclusion": "接受所引 CLASSIC 回合反馈和敌普攻三处声音来源。历史引文完整保留。",
-        "reviewedLines": 1706,
-        "acceptanceScope": "原版回合顺序、8 帧及三个敌普攻声源，包含 Win95 双动条件。"
+        "conclusion": "接受主动防御、自动格挡、普通命中和复位顺序的 CLASSIC 源码引文。",
+        "reviewedLines": 1708,
+        "acceptanceScope": "防御加成、独立掷骰、帧和音效边界。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "6a16d9216e43eb0a03dc612a754dccbc64147319ff45d6539f62517d2548e086",
+      "afterSha256": "c37ae719ca4e8b66f7d6bb1569c7e28549995c663e48248745b94edc4d2ac811",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受 Q2 现行报告、原生回执与第四次会话来源绑定。固定前驱和原记录按原 Git 对象核对。",
-        "reviewedLines": 4896,
-        "acceptanceScope": "两个既有 catalog 条目的当前出版和来源。"
+        "conclusion": "接受现行 Q2 配对元数据与会话归属来源。",
+        "reviewedLines": 4910,
+        "acceptanceScope": "八个局面、实绘与格挡音、旧历史和当前 caller。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "68b0010eb09e6e4ed184cb0f44e7a8b84b215bfa437736dbd04c82df86c014a5",
+      "afterSha256": "db922601cdd158955ed050d27167e8052bf456ab068860f3d5c6a4dc720b4a5a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受当前三个 caller 来源摘要、范围及一次适用性追加，旧执行按各原件保留。",
+        "conclusion": "接受现行 caller SHA 与原配对记录。",
         "reviewedLines": 312,
-        "acceptanceScope": "只核三个真实 caller、现行 SHA、指针和保全的历史。"
+        "acceptanceScope": "三处实际 caller 和原出版证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "be3544a68d6d3dcb07af2a48ea7631b29d0991d3984344e3b960c7517c5f0eea",
+      "afterSha256": "284b1d31a0b3e7d0b833f8200836117133f90f59b3a1f672ae1c23fac5bc63c2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受配对报告的当前会话来源与新增适用性历史。",
+        "conclusion": "接受三处相同 caller 的现行来源校准。",
         "reviewedLines": 93,
-        "acceptanceScope": "当前源码绑定与配对 evidence/catalog 一致。"
+        "acceptanceScope": "固定前驱和原运行结论。"
       }
     },
     {
@@ -5380,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "310e06586e268fd63bc936f0b2f2d126e07a9bb9cffae5eb367780a65dc6904a",
+      "afterSha256": "7b3a2bca2f2dd7c87f3fb535a8e999387415de40d9957f9385cd34c34fa50f79",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-12",
-        "conclusion": "接受第四批阶段、Owner、运行与反例记录。原版依据、同候选双端帧及真实声音原件一致。",
-        "reviewedLines": 234,
-        "acceptanceScope": "本轮血口虫回合节拍、七局面具名音效、实际回放及留待范围。"
+        "conclusion": "接受防御返工准入、同输入实跑、两项原生红例、复位和格挡结论。",
+        "reviewedLines": 251,
+        "acceptanceScope": "现行卡状态、精确候选、32 场、200 次启动和质量门。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "29d5f5d1edfd55c14762c2b80015ee827ce18386727e750b27f90d2e2317a5b9",
+      "afterSha256": "ec787f4278dbccae0088c558832d73c107ece2e0fb8db54c99789c0c71b2f75d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受验证和独立带声复核入口。范围与执行、配对证据一致。",
+        "conclusion": "接受当前覆盖入口和两个可复演局面的带声用法。",
         "reviewedLines": 32,
-        "acceptanceScope": "当前七局面与单个带声复核入口。"
+        "acceptanceScope": "八个局面和按单场捕获的实际入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "431db2d9d71a56f4a68092c2ac4d21650c1514db854d2a40dbc033d15fbffbf0",
+      "afterSha256": "696a02025416f3c4a196d11e2a7c3342a63ac40e73bc47f77fd702a90e3da902",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受最新冻结候选、两个原生音画复核、实际红绿和全部归档成员。旧原件及执行历史保留。",
-        "reviewedLines": 4495,
-        "acceptanceScope": "28 场正常战斗、真实反馈与音效、分屏及独立原件。"
+        "conclusion": "接受精确源绑定、各次原生执行和可恢复归档。",
+        "reviewedLines": 5355,
+        "acceptanceScope": "已验证的原件、媒体、比较及原历史。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "aaec61f95993ae1324728c453e34549d3636bd77ff8a5aa738c69c890abe194c",
+      "afterSha256": "38ba795f501ec770ece312a5eb8d94ec423f64c225ef20935829a276a054cb1d",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受具名回合、动作音效、捕获和测量值，按同候选原件重比。",
-        "reviewedLines": 146,
-        "acceptanceScope": "血口虫回合、24 种源、180 次实际启动和明确未验范围。"
+        "conclusion": "接受实绘、原生动作、声效及双端比较结论。",
+        "reviewedLines": 156,
+        "acceptanceScope": "两项旧版姿态差异、双端恢复与剩余范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "2f08a308c9c80fd425c783e778332c3810e4317a227923894205ff8e85bbf734",
+      "afterSha256": "5ab1c7a19add8cd054ccb210f5100211c4cdb498709c5c51ba9ddb75fbb92f52",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
         "date": "2026-11-12",
-        "conclusion": "接受现行三个会话 caller 来源绑定。固定前驱三个已接受源码片段逐字节相同。",
-        "reviewedLines": 49,
-        "acceptanceScope": "当前 SHA、范围和第四次源码适用性，原历史保持。"
+        "conclusion": "接受现行会话源码及三个 caller 字节与固定前驱相同。",
+        "reviewedLines": 51,
+        "acceptanceScope": "受击返工候选适用性与旧三个绑定历史。"
       }
     }
   ],
@@ -5765,6 +5765,12 @@
       "sha256": "af4b834e351375605581541133324899bf41df369cac73a6cbb94f7eb6c083ff",
       "bytes": 17498786,
       "purpose": "第四批真实回合与声效红绿原件、当前双端 28 场、实际 Web Audio 启动与原速带声分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz",
+      "sha256": "559a52576599c41ecf0503ce2031bd6649a02f03ca4b493e311af1033e4e8a1b",
+      "bytes": 17342122,
+      "purpose": "主动防御与自动格挡的原生姿态红绿证据、八局面 32 场复验和两段原速带声分屏。"
     }
   ],
   "artifactAliases": [],

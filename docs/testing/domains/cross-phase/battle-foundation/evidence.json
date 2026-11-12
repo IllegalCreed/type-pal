@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
+  "candidateSha": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -21,7 +21,7 @@
       "lines": "129",
       "anchor": "function defineScenario(",
       "role": "input-and-independent-oracle",
-      "sha256": "882d796b38c3c4f3dcb252962617f6ca3940d7688d86c06211482e0b78753fcf"
+      "sha256": "0019680fa4b671659ace2df9fbc14a99715ab31ff5de6e1cd668960a42109a6b"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -55,36 +55,36 @@
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "445",
-      "sha256": "ff5f77406961007e34101de6337b1fbaa2cc4e976f1ec6694f27abc9944ffd74"
+      "lines": "656",
+      "sha256": "6669e74d84c02e6588d6ce34ad9d2d57f604df7c97225c9264507ff86b34fa3e"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
       "anchor": "export function validateBattleRules(",
       "role": "rule-oracle",
       "lines": "94",
-      "sha256": "9eb3f7d5a8ff424fc6891c2003109244c084dd9addf6c976ecfd3fa4a5f69da9"
+      "sha256": "6ae0910e42220f02ddabd5bbcf02cfdc070b2bd760f48d2a8b0c82d8d6b31002"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
       "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
       "role": "native-audio-observer",
       "lines": "198",
-      "sha256": "bec75ac64a2b82201da4b056ff553b63546b2d52c0a1917f00b95b9432afc30b"
+      "sha256": "f9169de66e0d4c68e97fd5ff824bb06bc217d3c27da329d36a107a3960c33404"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
       "anchor": "export function instrumentGameBattle(",
       "role": "game-audio-producer-binding",
       "lines": "37",
-      "sha256": "8628ca2fb00d19ff9929e75043a368b311cbe60906a950e2c719685003e16fe9"
+      "sha256": "1b71085e0366bdc038657650c3748ceae154aee515132298f8087c6820f5fae2"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
       "anchor": "function observeSfx(",
       "role": "reforge-audio-producer-binding",
       "lines": "15",
-      "sha256": "2d2af5120ab13962f4b2eeecec39188e5a26fbbf759c86288b4ec168259fd593"
+      "sha256": "38304c11c183165574b0c20440fe1d1222a05b8c160062dd6ff2d3bda3c52f13"
     }
   ],
   "publicCallers": [
@@ -93,7 +93,9 @@
     "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY",
     "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=herb-settlement --repeat=1 --counter=double-herb",
     "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review",
-    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=equivalent-poison --audio-review"
+    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=equivalent-poison --audio-review",
+    "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=automatic-block --audio-review",
+    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -104,7 +106,8 @@
     "Level-six hero and Anu/team204, seed4, native enemy sleep. The awake actor defends and finishes the battle.",
     "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
     "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3.",
-    "Use the seven existing native fixtures for the audiovisual pass. The twenty-four original and authored WAV pairs bind byte identity and original mono PCM frame counts. Single-context browser audio reviews use the same candidate and normal input, with Game starting after its loading surface naturally detaches."
+    "Use the seven existing native fixtures for the audiovisual pass. The twenty-four original and authored WAV pairs bind byte identity and original mono PCM frame counts. Single-context browser audio reviews use the same candidate and normal input, with Game starting after its loading surface naturally detaches.",
+    "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -122,7 +125,9 @@
       "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round.",
       "The actual Li Xiaoyao portrait shows the original RGBA values before poison and after item87, and exact SDLPal palette-ramp RGBs while poison551 is active. Two transparent pixels preserve their drawn destination.",
       "In team115, first actual round-end blue7 precedes the next selection HUD by the original eight-tick feedback hold. The cured round has no new number and opens selection on normal scheduling.",
-      "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked."
+      "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked.",
+      "In seed72, the first drawn impact and recoil use frame4. The first actual return and the remaining turn1 recovery use frame3, then the round-end poison number appears in idle frame0.",
+      "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015."
     ]
   },
   "dedupe": {
@@ -140,9 +145,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
+    "producerRevision": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
     "result": "passed",
-    "verification": "28 native manual battles across seven scenarios. Fourteen cross-engine pairs and fourteen same-engine repeats. 180 native starts from 24 audio sources and two separately captured browser mixes.",
+    "verification": "32 native manual battles in eight scenarios, 16 cross-engine pairs and 16 native repeats. 200 named SFX starts from 25 bound sources. The two guard cases also have independent paired audio captures.",
     "continuous": false
   },
   "execution": {
@@ -220,7 +225,7 @@
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "882d796b38c3c4f3dcb252962617f6ca3940d7688d86c06211482e0b78753fcf"
+      "sha256": "0019680fa4b671659ace2df9fbc14a99715ab31ff5de6e1cd668960a42109a6b"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -240,23 +245,23 @@
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "ff5f77406961007e34101de6337b1fbaa2cc4e976f1ec6694f27abc9944ffd74"
+      "sha256": "6669e74d84c02e6588d6ce34ad9d2d57f604df7c97225c9264507ff86b34fa3e"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
-      "sha256": "9eb3f7d5a8ff424fc6891c2003109244c084dd9addf6c976ecfd3fa4a5f69da9"
+      "sha256": "6ae0910e42220f02ddabd5bbcf02cfdc070b2bd760f48d2a8b0c82d8d6b31002"
     },
     {
       "path": "scripts/e2e/battle-trace-observer.mjs",
-      "sha256": "bec75ac64a2b82201da4b056ff553b63546b2d52c0a1917f00b95b9432afc30b"
+      "sha256": "f9169de66e0d4c68e97fd5ff824bb06bc217d3c27da329d36a107a3960c33404"
     },
     {
       "path": "scripts/e2e/battle-game-instrumentation.mjs",
-      "sha256": "8628ca2fb00d19ff9929e75043a368b311cbe60906a950e2c719685003e16fe9"
+      "sha256": "1b71085e0366bdc038657650c3748ceae154aee515132298f8087c6820f5fae2"
     },
     {
       "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
-      "sha256": "2d2af5120ab13962f4b2eeecec39188e5a26fbbf759c86288b4ec168259fd593"
+      "sha256": "38304c11c183165574b0c20440fe1d1222a05b8c160062dd6ff2d3bda3c52f13"
     }
   ],
   "artifacts": [
@@ -4083,6 +4088,739 @@
           "bytes": 710
         }
       ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz",
+      "sha256": "559a52576599c41ecf0503ce2031bd6649a02f03ca4b493e311af1033e4e8a1b",
+      "bytes": 17342122,
+      "purpose": "Original frame and sound receipts, red pose observations, final replay source and separate stereo review.",
+      "manifest": {
+        "path": "build/q2/av/guard-recovery/archive-index.json",
+        "sha256": "d52402097a0be25d58f6f8bced777d0dcd8051bf78d777be8fdf62c462de762d",
+        "bytes": 29511
+      },
+      "members": [
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-53-43-415Z/automatic-block-1-trace.json",
+          "sha256": "ab26b2e33fdeeddb105f086b414d0a17f3bd4835145ec73e3e1fa7ddff3377f0",
+          "bytes": 24044
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-53-43-415Z/report.json",
+          "sha256": "88e03d94015c7485b07c7349592834b058dccf6f156cadfe40d54fee275e9188",
+          "bytes": 643585
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/automatic-block-1-trace.json",
+          "sha256": "743d20540afc1561902622c78043f4aa066b9837d759c06e1e631ea3eb41e606",
+          "bytes": 28590
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "31595f2ecfb32bcf73dc202dc9438d82457d34cda5e6d12a0a0e6c8b0ed54ced",
+          "bytes": 58080
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/enemy-sleep-1-trace.json",
+          "sha256": "f6cb4640699748db2bc3a1119e3d87533bfd0870f8ccb0f53a8a13febdb35d95",
+          "bytes": 65298
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/equivalent-poison-1-trace.json",
+          "sha256": "1e290794dd9bbb7293f4f6200f028b569d0079e15286773850ba63bd244a83fc",
+          "bytes": 75639
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/herb-settlement-1-trace.json",
+          "sha256": "8895a936fb489b023a3010e4059936f0a43e2c03f415be264ec4d48294231029",
+          "bytes": 38569
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/party-lanterns-1-trace.json",
+          "sha256": "d758a1c3b1d1a6bb75c120e34e077dc2a23799eb907e6c7494b298db9a80678c",
+          "bytes": 62522
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/report.json",
+          "sha256": "ee7f88989ec842259f84a6fa53923efa4ee1a5ee5f92dde9c894c2f7fbb82e00",
+          "bytes": 914455
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/solo-lantern-1-trace.json",
+          "sha256": "687affd93821dc640b3dafc847eed712263f915d01eff78ca5bfe6bb1da49e78",
+          "bytes": 19569
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/two-round-commands-1-trace.json",
+          "sha256": "14366a54ed50f1114f4d1cef1244b8a487c2b390878ac1d56bc59f966da1514c",
+          "bytes": 78734
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/automatic-block-1-trace.json",
+          "sha256": "e46ca3e8c05e9348bba060d07d091b161ffddb26dee4cef0bd5fa9f89dafca39",
+          "bytes": 28671
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/automatic-block-2-trace.json",
+          "sha256": "9b5f2d2317b449e3f2985ff30d18c8f9551b924f49c044bb3042d10722783c02",
+          "bytes": 28594
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "12275f3665fc7e2022d1e211afae8a573454c326b576d245073dd57c540f5247",
+          "bytes": 59270
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "07d31d088c5e74c95d4fff919a6a5da28c6a38fefad1242b81692a731f5d5b16",
+          "bytes": 55929
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/enemy-sleep-1-trace.json",
+          "sha256": "22da556ad94e199d8f8fd4412dababcd67305ff2eaea78daf622ee785ab54579",
+          "bytes": 66552
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/enemy-sleep-2-trace.json",
+          "sha256": "b55c89e1efabcb91f9ce31a5d13dc4b23bb73089ddf38fe7d4ef40a2bf041c54",
+          "bytes": 65352
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/equivalent-poison-1-trace.json",
+          "sha256": "0b9cb1d002d5848db6db53d01b1eb789a949564b86c598a562fc208531e4651a",
+          "bytes": 75680
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/equivalent-poison-2-trace.json",
+          "sha256": "b0dcdcdf52f842b354391eac57c068cd412667f61877de34e7b0e94a019a4c66",
+          "bytes": 75290
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/herb-settlement-1-trace.json",
+          "sha256": "b77cd772807b5f3ab225d77e3786089e6e7bf9c3cd36790d74c7c24dda4e78a4",
+          "bytes": 38500
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/herb-settlement-2-trace.json",
+          "sha256": "ce5e1919293d9b3357cffe011b43507c98997fa569ac5ca2080f026430596915",
+          "bytes": 38511
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/party-lanterns-1-trace.json",
+          "sha256": "e929064a4486c81cb3df2d571f671188e8d20dc09004fb296cf0d3d2d73c747e",
+          "bytes": 62520
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/party-lanterns-2-trace.json",
+          "sha256": "02978735fd129ce36bbe2e95045789e8298184f3c90dfd13a9baaabb2aa93121",
+          "bytes": 62630
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/report.json",
+          "sha256": "a7b31e4cfae5e6acf76010828bfa726b6b093c42145b47cd32bc36161065fc0e",
+          "bytes": 1238406
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/solo-lantern-1-trace.json",
+          "sha256": "d17d5967f449459c39077f9bc46dce9e6871577b6fdebabf82e7dab7a332f56b",
+          "bytes": 19115
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/solo-lantern-2-trace.json",
+          "sha256": "7f69980a9eb1477e951bd3bbc9d1a30b4071792ea462424e78a581a971b447f0",
+          "bytes": 19567
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/two-round-commands-1-trace.json",
+          "sha256": "724213f87a176aa615b8e3a454a4d8ca36aa9e119df2f2abc3d1726a57f0a776",
+          "bytes": 78732
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/two-round-commands-2-trace.json",
+          "sha256": "ef8a9a4067e0db6e2c4d8fd333da5e5c0aa37d55c8d0348437e4db3720c5134d",
+          "bytes": 78632
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-05-39-926Z/equivalent-poison-1-trace.json",
+          "sha256": "331810cfd86478a0e1b9033edc02c31f4b849894f3b143d1e2068bc3443f94d9",
+          "bytes": 74740
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-05-39-926Z/report.json",
+          "sha256": "d8a363236864378a75182df2fc1f82b7c72db9f9472f1e607fd42aecf95b23d9",
+          "bytes": 879864
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-05-39-926Z/story.webm",
+          "sha256": "49f5a07d724e367df3c8f4dd2236e71f47333444fbae26e087d7be97ce2fc563",
+          "bytes": 3521040
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-08-06-120Z/automatic-block-1-trace.json",
+          "sha256": "9900725b2d39cf3b5f1c3122ab8e008523b094973f218f44042ebfc439dfab81",
+          "bytes": 28116
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-08-06-120Z/report.json",
+          "sha256": "aef1fbd741afcad33673afd1fda33b580c9178d3e22903d3b5c52e1bf2e85a25",
+          "bytes": 852843
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-08-06-120Z/story.webm",
+          "sha256": "180a2be25e8780ac5ee82db02deae003f4e4fb7a9db238cc428abbaaf7e2f3f2",
+          "bytes": 1938984
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-53-43-415Z/automatic-block-1-trace.json",
+          "sha256": "d1582bf4298ab852da53415eef6f1e7f9ff43048e83e4146c6d65afac7c5589e",
+          "bytes": 26137
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-53-43-415Z/report.json",
+          "sha256": "6b8d733b78e8a6a4a6d97ea60bdc355d8c311b9867468a3ff78e710decbb0e0a",
+          "bytes": 710526
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/automatic-block-1-trace.json",
+          "sha256": "987c2903d9241d278936ef8b54b703a5b16982b3aa582ae18d3036fbff242018",
+          "bytes": 32236
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "b9bb966fe88f01a4143a22e961f9d61fc2651ba56c82db35439ddab396bc6367",
+          "bytes": 57226
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/enemy-sleep-1-trace.json",
+          "sha256": "9c1ee81d79785b4aac0cdc0f6f4d8405ec6e8a3a39181a80d9a634f774f4c321",
+          "bytes": 72179
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/equivalent-poison-1-trace.json",
+          "sha256": "0528aab8ba4d564149a7fbb835ce74f1570b1c351f194e58a7c7cf042dbe1194",
+          "bytes": 94072
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/herb-settlement-1-trace.json",
+          "sha256": "506947be6a427aa935ce62328f0442b9c78cd4360ea7ee98144c7cdbe4612497",
+          "bytes": 53183
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/party-lanterns-1-trace.json",
+          "sha256": "d5392c3520cf71e72b459c07f404cdc1999e9d0d50a607792510b13a3ead204e",
+          "bytes": 77786
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/report.json",
+          "sha256": "c41f07ca817fb52322793ea3f010ee9bfa7720095b38db8ddf2676c6d6e70f9f",
+          "bytes": 1375819
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/solo-lantern-1-trace.json",
+          "sha256": "e3516cc98732b428ef89c9f8a173d9e3cd3014f21bfcefd2bc3368f8647c67de",
+          "bytes": 22802
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/two-round-commands-1-trace.json",
+          "sha256": "45a85c066699058e4fc5a0f679dbf90b94a0a4fcef0d41ba73f15d978619dc79",
+          "bytes": 101456
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/automatic-block-1-trace.json",
+          "sha256": "c4faa71a246c7e2d8afb0e93a7effe5d3bddea2142bdac561c64db7ad285262e",
+          "bytes": 32646
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/automatic-block-2-trace.json",
+          "sha256": "3f8c48338b6de649f1c13c883155fcfe089c8e0f52b44cc63c230e7cfb50a82d",
+          "bytes": 32764
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "1b42130a44a1f6ab525648bab2f8205c72972502c93e77a11ae5618663d50a80",
+          "bytes": 57262
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "d71c7dfcd4dee32d004335089b9c4accfef82f97d25c4f2c32c3fdbcc4b6ff67",
+          "bytes": 58476
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/enemy-sleep-1-trace.json",
+          "sha256": "00adc8b00e6b473a724d7b4e8e0ed0f34188e12991a9c760710f85d380ee5f5b",
+          "bytes": 70878
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/enemy-sleep-2-trace.json",
+          "sha256": "4564e8098a92494e2b0a584c412b0008587646fe0e8395c86d6b926654259838",
+          "bytes": 72189
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/equivalent-poison-1-trace.json",
+          "sha256": "0f2a62d711d6b57d419fe3f6ba69efd98629f8be515687f5d1eea733883b7231",
+          "bytes": 93338
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/equivalent-poison-2-trace.json",
+          "sha256": "523a0b959a6a0e4b4c6ced04e7d1d36501ac533ba9eb266fe2c2dc7621fc9ab5",
+          "bytes": 92670
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/herb-settlement-1-trace.json",
+          "sha256": "62a75814741e005f17d0d3cdb07ce9871e2c1259c06e51565852e97b6e1acc5e",
+          "bytes": 52299
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/herb-settlement-2-trace.json",
+          "sha256": "c6d2aa3c74439fe2e89a5e7129a024fa939991af7efe3737f6e5410c3f08a8cd",
+          "bytes": 54339
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/party-lanterns-1-trace.json",
+          "sha256": "283730732fac4ff0b216ad66cff8437da60314abb01e7dd13b91c822830a6cf7",
+          "bytes": 82132
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/party-lanterns-2-trace.json",
+          "sha256": "8c6e9a1857b8d688a1d0b23a16f443ca3e2e553dba058d3a5b2a372ad223c46d",
+          "bytes": 80582
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/report.json",
+          "sha256": "eed30ff1155b77f7cbd753d52be37c7060129c31a8535527c8c9c7e0e9a4f9a2",
+          "bytes": 2149280
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/solo-lantern-1-trace.json",
+          "sha256": "497c0b6f966bb8b2856129860d49a71494857c1a1c9354451e36b055d2bc2f5d",
+          "bytes": 24044
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/solo-lantern-2-trace.json",
+          "sha256": "56ef6e2b8fe49adde6dd351ef30417bb8671aed7b44a45e93684121bdea655d4",
+          "bytes": 22959
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/two-round-commands-1-trace.json",
+          "sha256": "f443b88602fb7ebc1eac277c11550153c3565d8b869b8b6215f1ca0a2c2131d5",
+          "bytes": 102640
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/two-round-commands-2-trace.json",
+          "sha256": "86322e60a53c82a1315574423ba0b46a0558703bb10296c832407c992e2e0512",
+          "bytes": 102864
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-05-39-926Z/report.json",
+          "sha256": "afc348a6b083f8c6beb19d6a08136aed84a34f1758a56b4129578514ac6d5d70",
+          "bytes": 629048
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-05-39-926Z/server.log",
+          "sha256": "d2de8187a263e8593082609b501cbff36b698253ad43c2c7914602c6fab9f8f0",
+          "bytes": 74
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-07-01-488Z/equivalent-poison-1-trace.json",
+          "sha256": "de80251a02defaefadbb5236be22048c634aefa2e503bed05f6f3f12c5fea95e",
+          "bytes": 93501
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-07-01-488Z/report.json",
+          "sha256": "0fd83d4608f84ecabd38e4cfb4247aa86585a756cdc46bd55784c142000fe87a",
+          "bytes": 956040
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-07-01-488Z/story.webm",
+          "sha256": "9010a5bad146620573fea6bb0f295707703a535f65c51d70b11790536ea1e10e",
+          "bytes": 4557949
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-08-33-381Z/automatic-block-1-trace.json",
+          "sha256": "926f4e759d2abc39980e0b575c531c818d8732d4037d607aa6c031bfaa66f0d1",
+          "bytes": 32230
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-08-33-381Z/report.json",
+          "sha256": "b1b05c060c807e4e35efde0457a3c73a325139640357365f956ad6c4e55b73cc",
+          "bytes": 928693
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-08-33-381Z/story.webm",
+          "sha256": "d05a368bc97bc8e5078dd7f8aa47604c5255f9aa2767c5d5d163b921f84fb479",
+          "bytes": 2133544
+        },
+        {
+          "path": "build/q2/av/guard-recovery/automatic-block-media.json",
+          "sha256": "b1be5dccbd5273679a575e331f53a088fc9b048c12f3e54f0382eeec04366a5f",
+          "bytes": 3408
+        },
+        {
+          "path": "build/q2/av/guard-recovery/automatic-block-preflight-game.log",
+          "sha256": "1be8f6267c526cc880a220673f7c40ca0e488b9e1d4be1a0878369367a7f2bd4",
+          "bytes": 141
+        },
+        {
+          "path": "build/q2/av/guard-recovery/automatic-block-preflight-reforge.log",
+          "sha256": "4b8780e8cf593244793d088725bbead942bb7776e0a656e3aaed0ad3764ad70c",
+          "bytes": 147
+        },
+        {
+          "path": "build/q2/av/guard-recovery/automatic-block-split.mp4",
+          "sha256": "18b3c63d2c96d871062156c0a3f7c3b039933b11781ef62beb545d1a4cd70a34",
+          "bytes": 836411
+        },
+        {
+          "path": "build/q2/av/guard-recovery/capture-automatic-block-game.log",
+          "sha256": "232fa3e0ae23cf7d6bc4ecee53faafa0c6ba7ab2fce6e9b05df2ff6ba4b4664c",
+          "bytes": 167
+        },
+        {
+          "path": "build/q2/av/guard-recovery/capture-automatic-block-reforge.log",
+          "sha256": "06420085055e6b65eaddfa5c90d536afb84b0660b7aaf4a69578fda27d3418a7",
+          "bytes": 173
+        },
+        {
+          "path": "build/q2/av/guard-recovery/capture-equivalent-poison-game.log",
+          "sha256": "59fa9fd6420269d7a3fae87230e515dffd819e768a10eeddc4e851ef31d0c5fe",
+          "bytes": 167
+        },
+        {
+          "path": "build/q2/av/guard-recovery/capture-equivalent-poison-reforge-retry.log",
+          "sha256": "73af1195b1861668fc1f51036818e0def63afb18a0d89995c7761727f2aab75f",
+          "bytes": 173
+        },
+        {
+          "path": "build/q2/av/guard-recovery/capture-equivalent-poison-reforge.log",
+          "sha256": "7326ca410b03bbd99e646b0b0c84d5eaab35d8eae6a0cc2ff4715eb83711028b",
+          "bytes": 476
+        },
+        {
+          "path": "build/q2/av/guard-recovery/compare.log",
+          "sha256": "5c5477f6bf7caadf7a39bbb97b489020d008b5be5e1e04661a134cd23f8e1c19",
+          "bytes": 123
+        },
+        {
+          "path": "build/q2/av/guard-recovery/comparison/comparison.json",
+          "sha256": "7128b5d8da51f8196e7e57c31c804df6dc356f64130c5104d16cc6fd36ddfc76",
+          "bytes": 761629
+        },
+        {
+          "path": "build/q2/av/guard-recovery/e2e-tools.tap",
+          "sha256": "9c12f4ea3e4cc8d785cb38ddea9e72e8d73d8f9cf61bedd4ef4c9cd8392f121e",
+          "bytes": 129451
+        },
+        {
+          "path": "build/q2/av/guard-recovery/equivalent-poison-media.json",
+          "sha256": "aedb16cff51ea44b7e56233811172e9394272d7987982ee50d3eb91e3d1f25ba",
+          "bytes": 3423
+        },
+        {
+          "path": "build/q2/av/guard-recovery/equivalent-poison-split.mp4",
+          "sha256": "e650e94160d88d46e94b701411f6bd657a0e4869ff83754a9d59152022fedf2a",
+          "bytes": 1557614
+        },
+        {
+          "path": "build/q2/av/guard-recovery/execution.json",
+          "sha256": "eca21072dcd3fdcd6f9b0f54ea4e7f7b175dadf5052851a3fb2d283581fe586f",
+          "bytes": 3115
+        },
+        {
+          "path": "build/q2/av/guard-recovery/final-game.log",
+          "sha256": "d18aa2300f5dd6876d4de475e9a0e2746a2c1a26000bf8220976eab23fd5e8db",
+          "bytes": 141
+        },
+        {
+          "path": "build/q2/av/guard-recovery/final-reforge.log",
+          "sha256": "7f524a73b54909e5cf4e52257e0e2df58c374b299e03d3941ee015f7f2640728",
+          "bytes": 147
+        },
+        {
+          "path": "build/q2/av/guard-recovery/judge-old.mjs",
+          "sha256": "57156f535435aa90f365d9b85aa3774e431ac5314f1999ae450b92da5bcdf62e",
+          "bytes": 2929
+        },
+        {
+          "path": "build/q2/av/guard-recovery/old-pose-comparison.json",
+          "sha256": "4cd31575be24200e2ba8a13fe09fd2db94e7731aa9d2a1b45375f3483287ae14",
+          "bytes": 121523
+        },
+        {
+          "path": "build/q2/av/guard-recovery/old-pose-game.log",
+          "sha256": "517410aea991b193ff794e375a9215d6cc3dae23f3383fcf8e8652ba293f0904",
+          "bytes": 141
+        },
+        {
+          "path": "build/q2/av/guard-recovery/old-pose-reforge.log",
+          "sha256": "fe455f88cf9b2f72cc0ab337de3638106f75bb7ceaf5157e4f38d7667f14173c",
+          "bytes": 147
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/after.tap",
+          "sha256": "191ff5bdc8540ef541d23fbd0093fc62fb9a173997eb24873240839d167eb501",
+          "bytes": 1664
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/before.tap",
+          "sha256": "eacde86815c1285db22e1394b5382fbb47666081a8ae8a1d9bfafd28c44325e9",
+          "bytes": 1905
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/biome.log",
+          "sha256": "ea8da84394d5ebdf969f7e609674657186a865817df5f1fb6313a14101b57d1e",
+          "bytes": 42
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/nominal-index-counter.json",
+          "sha256": "2d6efc62b63a2b22d4cfff9af5f3ce29bf551ecda20b6691850eeb7dd36ca4c1",
+          "bytes": 738
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/nominal-index-counter.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/nominal-index-counter.tap",
+          "sha256": "bf10c12a2d75ab2cfd943c0eb468b56c7eea8d31dbc182a241cdfd20b85ca364",
+          "bytes": 1912
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/restored.json",
+          "sha256": "2c00f65d1342aa32123c210c58569251163d031e1bdde4c2f296a12a17b0ed71",
+          "bytes": 738
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/restored.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-game/restored.tap",
+          "sha256": "bc30535e6514492614d0f62f0d048253befc7b128f7704d9b168e08efda8c202",
+          "bytes": 341
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-before.execution.json",
+          "sha256": "6d546d170607163e99eeb1ea6f32580b38d7db6632124c07ea45e865fc7d23ca",
+          "bytes": 1658
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-before.json",
+          "sha256": "fe755694e5eea00ce9c1506e4a0479d6d8f9564421c6dd497919be96aaac5f63",
+          "bytes": 7505
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-before.stderr",
+          "sha256": "c3bf2fcef6ed0aff2ac0a73e8d118b0a8ca62996f5b9176deb97d015c9dfdc4b",
+          "bytes": 782
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-before.stdout",
+          "sha256": "2ade7e5707c13597db79d51c42767f66f6a8bd9a4f7cbc77fdead36a78cde3f8",
+          "bytes": 2433
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-candidate.execution.json",
+          "sha256": "a11c083ef2c63c340d4274e1eda21cf676032cc328ef6180f0d7f6b5a680b26f",
+          "bytes": 1819
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-candidate.json",
+          "sha256": "eea455f2303be2301f173b9b2f0140493cc3a44392d6c8bbb4fde2a5af70042a",
+          "bytes": 5913
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-candidate.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/active-candidate.stdout",
+          "sha256": "bd5a68354d48717250c4b5843b061947ca33b0077f7e86c9cf7fbc786fe0563e",
+          "bytes": 505
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/battle.execution.json",
+          "sha256": "e76a551a51a6f85a4d255ef71717b69c3caff042a8ac77b0a67c8774a35d6e48",
+          "bytes": 1172
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/battle.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/battle.stdout",
+          "sha256": "a73c1c93ec57f976d56c26db5f7c7e6adf584dc9ec5c3bd3282cc715be973c5d",
+          "bytes": 4202
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-before.execution.json",
+          "sha256": "a0a3289e3ce43c3092c6a9ed54ba3363098935f982f8c2e408dd027a308ab3fc",
+          "bytes": 1623
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-before.json",
+          "sha256": "f7cd68895baf21d9abf7dae7219054ea6351c0102c97054eaa019a4dee2fa1b0",
+          "bytes": 5915
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-before.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-before.stdout",
+          "sha256": "cdd8310ab611913d0dce75c8452e9d682a3866ca3887ce01caaa26e573bfeef2",
+          "bytes": 500
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-candidate.execution.json",
+          "sha256": "12db535ba09e60f9237ec9c12f94b35c2749cb3035ec6b6df78cdd5f4d6595be",
+          "bytes": 1784
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-candidate.json",
+          "sha256": "8eef694539d83b1f15e52db44c1dacae58837064307a72fade1249a3a3e3e99c",
+          "bytes": 5914
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-candidate.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dead-candidate.stdout",
+          "sha256": "1a3da9e9b4e633642e67d77d5a5f774fc9fc4543e27d38c2dda8046278ce9ba8",
+          "bytes": 503
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-before.execution.json",
+          "sha256": "32919f3a04cc4428e96998981af01c8924924bd56db26af6c4c4549313bed9ea",
+          "bytes": 1651
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-before.json",
+          "sha256": "8acbc4cc7308e672d63fad6292d57852bb300c8dae84e12e0444013dd9962542",
+          "bytes": 7505
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-before.stderr",
+          "sha256": "9c7a902f6af90eb1b4002b79a5e26f231e8c24623323eff1aea4a7706e34ebf4",
+          "bytes": 779
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-before.stdout",
+          "sha256": "dbcdb0675493b5487d7f495e19db4e13e34677bfb2a4dccda0edbd93fa10287b",
+          "bytes": 2428
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-candidate.execution.json",
+          "sha256": "269c7b1d706c5295e80a9465a72c64aa8a0f783ada2009ec9def3b6171102afb",
+          "bytes": 1812
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-candidate.json",
+          "sha256": "501fe1af8b083ffe80f709cecda1fe04524e4533974aef3193c298475fba23d7",
+          "bytes": 5914
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-candidate.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/dying-candidate.stdout",
+          "sha256": "bb473982d87b9c75cf8236ebe69899fc613a3b34a3a143f4907c724684f4026a",
+          "bytes": 504
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/lint.execution.json",
+          "sha256": "7de83fc8d13544f19ec09b0ab17702dfbe4476d23aa75d5529d0084c03e11084",
+          "bytes": 1109
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/lint.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/lint.stdout",
+          "sha256": "6ca46bbc7294568709ee3667f260280b1c369e12b282b39fc50be1a400ccdc16",
+          "bytes": 201
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/owner-review.md",
+          "sha256": "cf223ab315cf05d74b4eff358f432c78f39da0f317d7b513d109aa15d1db933d",
+          "bytes": 6607
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-before.execution.json",
+          "sha256": "2a0196cdc8ea42fa9c5cbf0c3144941e34bba8622210a60a203c41ddbd0a8d45",
+          "bytes": 1665
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-before.json",
+          "sha256": "81cd81cbd6f40beea8e98ed342afc038e5bf148311ba5d302f024376e93f14cf",
+          "bytes": 7505
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-before.stderr",
+          "sha256": "9061ed5e71710d2be3f0a22dbd4cde5482e07c2c213762d0215cfda68bc8541d",
+          "bytes": 791
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-before.stdout",
+          "sha256": "8d2d0d296e7633d425a215032878a33607eea6de45b375107e18bc999f7a0b7e",
+          "bytes": 2438
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-candidate.execution.json",
+          "sha256": "bd0879f6f7f63d9a14e53a5cd3498d2ec9bdfe052842aa8b87d85a05f417473e",
+          "bytes": 1826
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-candidate.json",
+          "sha256": "e39aba36ec970e0ef5a1f5ca36fe379e0c4f0f9dd043716fc928c76ee0ea3f5f",
+          "bytes": 5907
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-candidate.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/passive-candidate.stdout",
+          "sha256": "a5133f2700cb549926b1c6cc4b2b22c57ad6723f785a68c842b3453566d743cc",
+          "bytes": 506
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/typecheck.execution.json",
+          "sha256": "85aee228e6ce16d23ca2d1bcc239bb135ddbbce65699ffc5de9d07289ed7e119",
+          "bytes": 1165
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/typecheck.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "build/q2/av/guard-recovery/owner-rules/typecheck.stdout",
+          "sha256": "d29edf15df99ad2b8aab18d82d7e0d5c88a2a90b51ee4066ddae71be6d6bdcf3",
+          "bytes": 139
+        },
+        {
+          "path": "build/q2/av/guard-recovery/replay.bundle",
+          "sha256": "38806d6ac7ec521542ac81fbd6aa5411fd83e1ec44ba7cab23bf4e31ec3672e8",
+          "bytes": 18383
+        },
+        {
+          "path": "build/q2/av/guard-recovery/split.py",
+          "sha256": "cf17e03875039dcc20c82b1bed5c4ed827182501c01f7d99f2fed8f11de4baa9",
+          "bytes": 4215
+        }
+      ]
     }
   ],
   "claims": [
@@ -4261,6 +4999,36 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz#build/q2/av/review/media.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz#build/q2/av/review/equivalent-poison-split.mp4"
       ]
+    },
+    {
+      "id": "native-active-defend-physical-hit-and-recovery",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/old-pose-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/report.json"
+      ]
+    },
+    {
+      "id": "native-automatic-block-pose-and-impact-sound",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/old-pose-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/comparison/comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/report.json"
+      ]
+    },
+    {
+      "id": "guard-recovery-and-block-browser-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/equivalent-poison-media.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/equivalent-poison-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/automatic-block-media.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/automatic-block-split.mp4"
+      ]
     }
   ],
   "findings": [
@@ -4290,6 +5058,42 @@
       "status": "resolved-in-verified-fixture",
       "scope": "Old Reforge R2 made the four selected face pixels [33,0,0], [24,0,0], [14,0,0] and [0,0,0]. Both engines now draw the corresponding full ramp at HP135 and restore the same normal pixels after using item87.",
       "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz#build/q2/poison-face/native-readback.json"
+    },
+    {
+      "id": "first-defend-command-to-enemy-attack-cadence",
+      "status": "open-later-batch",
+      "scope": "Both engines draw the same guarded hit and recovery poses in this fixture. Native submit-to-hit differs; most elapsed difference precedes the actual enemy attack animation.",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/execution.json",
+      "observations": {
+        "game": [
+          {
+            "trace": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/equivalent-poison-1-trace.json",
+            "commandToAttackMs": 69.6,
+            "commandToHitMs": 400.4,
+            "attackToHitMs": 330.8
+          },
+          {
+            "trace": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/equivalent-poison-2-trace.json",
+            "commandToAttackMs": 85.7,
+            "commandToHitMs": 399.9,
+            "attackToHitMs": 314.2
+          }
+        ],
+        "reforge": [
+          {
+            "trace": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/equivalent-poison-1-trace.json",
+            "commandToAttackMs": 516.9,
+            "commandToHitMs": 849.5,
+            "attackToHitMs": 332.6
+          },
+          {
+            "trace": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/equivalent-poison-2-trace.json",
+            "commandToAttackMs": 518.3,
+            "commandToHitMs": 850.4,
+            "attackToHitMs": 332.1
+          }
+        ]
+      }
     }
   ],
   "failures": [
@@ -4334,6 +5138,25 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz#build/q2/av/audio-review-game.log"
       ],
       "result": "The capture gate rejected a still-visible non-interactive overlay. A bounded capture-only wait for normal Game overlay removal restored both actual video and audio."
+    },
+    {
+      "kind": "reforge-guard-recovery-and-auto-block-charge",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/old-pose-comparison.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/comparison/comparison.json"
+      ],
+      "result": "The old build completed the native battles. Its first guarded return drew idle and its first automatic block charge still drew idle. The same native comparison passes on the frozen recovery build."
+    },
+    {
+      "kind": "reforge-guard-review-browser-context-timeout",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-05-39-926Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/capture-equivalent-poison-reforge.log",
+        "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-07-01-488Z/report.json"
+      ],
+      "result": "The separate Reforge audio capture hit the owned browser new-context deadline before battle input. The same frozen revision captured the full scene and its native audio after retry."
     }
   ],
   "cleanup": {
@@ -4384,6 +5207,15 @@
       "predecessor": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
       "historicalReceiptRevision": "5a3093c93746d6e04e8f569ef526e07778aa439f",
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz"
+    },
+    {
+      "revision": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
+      "date": "2026-11-12",
+      "action": "native-physical-guard-pose-and-block-sound",
+      "scope": "Actual drawn fighter pose at ordinary impact, guard recovery and first auto-block charge, with independent native action, damage and audio receipts. Eight finite browser fixtures.",
+      "predecessor": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
+      "historicalReceiptRevision": "8cc7f427e64cdff70a12454f601c8c17747fd58e",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz"
     }
   ],
   "_governance": {
@@ -4490,5 +5322,33 @@
       "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T03-32-03-732Z/report.json",
       "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T03-30-04-599Z/report.json"
     ]
+  },
+  "guardPresentationExecution": {
+    "date": "2026-11-12",
+    "producerRevision": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
+    "priorCollector": "f42a309c85661cd4c4596de6e0c432459d9890b4",
+    "verificationReports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T05-03-41-342Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T05-03-41-342Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/comparison/comparison.json"
+    ],
+    "fights": 32,
+    "nativeStarts": 200,
+    "oldComparison": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/old-pose-comparison.json",
+    "baselineReports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T04-56-17-977Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T04-56-17-977Z/report.json"
+    ],
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/equivalent-poison-media.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/equivalent-poison-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-05-39-926Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-07-01-488Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/automatic-block-media.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/automatic-block-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-12T05-08-06-120Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T05-08-33-381Z/report.json"
+    ],
+    "executionSummary": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz#build/q2/av/guard-recovery/execution.json"
   }
 }

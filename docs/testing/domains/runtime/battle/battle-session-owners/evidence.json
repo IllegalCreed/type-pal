@@ -14,21 +14,21 @@
       "lines": "211-213",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "3ace4643724f0df7411de03c4a92cec1badb3ca1d92e96d83fef1241f122ec15"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "365-376",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "3ace4643724f0df7411de03c4a92cec1badb3ca1d92e96d83fef1241f122ec15"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1167-1176",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "3ace4643724f0df7411de03c4a92cec1badb3ca1d92e96d83fef1241f122ec15"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -264,7 +264,7 @@
           "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
         }
       ],
-      "scope": "回合末状态数字的停拍及敌普攻起手声使用同一 BattleSession。三个已接受 caller 片段逐字节相同，现行 SHA、行范围和既有主张指针随源码校准。"
+      "scope": "回合末数值反馈、敌普攻起手声和受击复位使用同一 BattleSession。三个已接收 caller 片段逐字节相同，现行 SHA、行范围和主张指针随源码校准。"
     }
   ],
   "_governance": {

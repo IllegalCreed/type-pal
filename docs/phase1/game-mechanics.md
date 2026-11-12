@@ -12,6 +12,8 @@ Template: reference-canon-v1 / 1.0.0
 
 队列耗尽后先运行回合末毒脚本及伤亡检查，再调用 `PAL_BattleDisplayStatChange()`。该函数返回真时等待 8 个 40 ms 战斗帧，随后处理下一轮起手脚本。敌普攻的 `wAttackSound` 位于前摇起点，`wActionSound` 位于前摇结束，`wCallSound` 位于命中。目标自行格挡时用目标的 `wCoverSound`，替挡时用守护者的 `wCoverSound`。Win95 中当前队列槽标为第二动且敌人的 `wMagic` 为零时，物攻起点用 `wMagicSound`。 [回合边界](../../reference/sdlpal/fight.c#L1600) · [战斗帧长](../../reference/sdlpal/battle.h#L28) · [敌普攻演出](../../reference/sdlpal/fight.c#L4910)
 
+主动防御由自己的防御指令置位，物攻计算时使防御力加倍。敌方物攻另掷 `RandomLong(0,16)`，达到 10 且目标可格挡时，冲锋起始即把目标切到防御帧 3，命中拍使用目标格挡音并跳过伤害。普通命中使用受击帧 4，包括主动防御后仍被击中的情形。击退后恢复敌方出手前保存的姿态，物理伤害造成的死亡或濒死优先。 [防御指令](../../reference/sdlpal/fight.c#L4110) · [物防与自动格挡抽样](../../reference/sdlpal/fight.c#L4915) · [格挡和命中](../../reference/sdlpal/fight.c#L5010) · [伤亡与复位](../../reference/sdlpal/fight.c#L5108)
+
 ## 2026-11-11 敌普攻附毒与战内随机
 
 CLASSIC 敌方选目标从完整队伍槽开始，抽到死亡槽才重摇。区间只有一个元素时 `RandomLong` 直接返回。对一人队伍，能进入施法判断且配置了法术的敌人从法术率开始抽样。敌回梦在法术格挡抽样后按同一随机序列执行 0x06，掷 1–100 严格小于 70 后给目标睡眠 3 与 HP −1。睡眠队员进回合队列时身法为 0 且无抖动抽样。回合末状态自减。 [目标选择](../../reference/sdlpal/fight.c#L4540) · [单元素随机区间](../../reference/sdlpal/util.c#L244) · [脚本跳转](../../reference/sdlpal/script.c#L3299) · [队列](../../reference/sdlpal/fight.c#L1505) · [回合末](../../reference/sdlpal/fight.c#L1611)
