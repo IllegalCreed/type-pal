@@ -586,7 +586,7 @@ export interface BuildEnemyPhysicalInput {
   targetPos: { x: number; y: number }
   anim: EnemyBattleSpriteProfile
   playerFrames: readonly PlayerFighterFrames[]
-  sounds: { action?: AssetId; call?: AssetId }
+  sounds: { attack?: AssetId; action?: AssetId; call?: AssetId }
   damage: number
   targetDied: boolean
   /** 被动格挡(7/17「闪避」):frame3 免伤免数字,音换 coverSound,仍击退(fight.c:5052-5105)。 */
@@ -599,9 +599,10 @@ export interface BuildEnemyPhysicalInput {
 }
 
 /**
- * 敌人物攻时间线(fight.c:4910-5149 主干,含被动格挡;替挡 cover 待多队员):
- * magic 起手帧(each 2) → 前移 3−magicFrames 步(each 1) → action 音(1) → 冲至队员前(−44,−16)
- * attack 帧循环 → 命中:队员 frame4+染色+数字+call 音(1) → 击退(+8,+4)(1) → 后坐(+2,+1)(3)
+ * 敌人物攻时间线(fight.c:4910-5149,含格挡与替挡):
+ * attack 起手音与首帧同拍。magic 起手帧(each 2) → 前移 3−magicFrames 步(each 1)
+ * → action 音(1) → 冲至队员前(−44,−16) → attack 帧循环
+ * → 命中:队员 frame4+染色+数字+call 音(1) → 击退(+8,+4)(1) → 后坐(+2,+1)(3)
  * → 敌回位 frame0(1) → 队员恢复(死2/站0)(1+4)。
  */
 export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] {
@@ -625,6 +626,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       fighters: [{ side: 'enemy', idx: enemyIdx, pos: { x: ex, y: ey } }],
     })
   }
+  if (sounds.attack) expectDefined(frames[0]).sound = sounds.attack
   frames.push({ durationMs: delayMs(1), ...(sounds.action ? { sound: sounds.action } : {}) })
   const chargeX = targetPos.x - 44
   const chargeY = targetPos.y - 16

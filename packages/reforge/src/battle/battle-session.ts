@@ -1862,7 +1862,7 @@ export class BattleSession {
         return profile
       })(),
       playerFrames: s.players.map((_, index) => this.playerFrames(index)),
-      sounds: { action: def.sounds.action, call: def.sounds.call },
+      sounds: def.sounds,
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
       ...(la.blocked && this.opts.playerSounds?.[t]?.cover

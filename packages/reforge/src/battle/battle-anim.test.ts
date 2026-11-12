@@ -1,4 +1,4 @@
-import type { EnemyBattleSpriteProfile, PlayerFighterFrames } from '@type-pal/content'
+import type { EnemyBattleSpriteProfile, EnemySounds, PlayerFighterFrames } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import {
   type AnimFrame,
@@ -301,12 +301,16 @@ describe('M4d-2 战斗动画时间线', () => {
       targetDied: false,
     })
     const { events, player } = record(frames)
+    player.tick(0)
+    expect(events).toEqual(['f:enemy0@98,99'])
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
-    expect(events).toContain('snd:sound.pal.355')
+    expect(events.filter((event) => event.startsWith('snd:'))).toEqual([
+      'snd:sound.pal.355',
+      'snd:sound.pal.002',
+    ])
     expect(events).toContain('f:enemy0#5@196,154') // 冲锋帧:idle4+magic0+2−1=5 @ (240−44,170−16)
     expect(events).toContain('f:player0#4c6')
-    expect(events).toContain('snd:sound.pal.002')
     expect(events).toContain('dmg:player0:7')
     expect(events).toContain('f:player0@248,174c0') // 击退 +8,+4
     expect(events).toContain('f:enemy0#0@100,100') // 敌回位
@@ -591,24 +595,35 @@ describe('M4d-2 战斗动画时间线', () => {
   })
 
   test('替挡演出(fight.c:5012-5099):守护者 frame3 瞬移目标前接刀 → 敌被架开 + 守护者小退,零伤害', () => {
+    const sounds: EnemySounds = {
+      attack: 'sound.pal.368',
+      action: 'sound.pal.355',
+      call: 'sound.pal.094',
+    }
     const frames = buildEnemyPhysical({
       enemyIdx: 0,
       enemyPos: { x: 100, y: 100 },
       targetIdx: 1,
       targetPos: { x: 240, y: 170 },
-      anim: enemyProfile(4, 0, 2, 1),
+      anim: enemyProfile(1, 1, 2, 2),
       playerFrames: [PLAYER_FRAMES, PLAYER_FRAMES],
-      sounds: { call: 'sound.pal.002' },
+      sounds,
       damage: 0,
       targetDied: false,
       blocked: true,
       cover: { idx: 0, sound: 'sound.pal.015' },
     })
     const { events, player } = record(frames)
+    player.tick(0)
+    expect(events).toEqual(['f:enemy0#1', 'snd:sound.pal.368'])
     let guard = 0
     while (!player.tick(50) && guard++ < 200) {}
     expect(events).toContain('f:player0#3@216,158') // 守护者瞬移目标前 (−24,−12)
-    expect(events).toContain('snd:sound.pal.015') // 音 = 守护者的 coverSound(非敌 call)
+    expect(events.filter((event) => event.startsWith('snd:'))).toEqual([
+      'snd:sound.pal.368',
+      'snd:sound.pal.355',
+      'snd:sound.pal.015', // 守护者的 coverSound。
+    ])
     expect(events).toContain('f:enemy0@186,146') // 敌被架开(冲锋位 (196,154) −10,−8)
     expect(events).toContain('f:player0@220,160') // 守护者小退(目标 −20,−10)
     expect(events.some((e) => e.startsWith('dmg:'))).toBe(false) // 完全免伤

@@ -7,12 +7,16 @@
 import type { BattleChoreography } from '@type-pal/content'
 import {
   checkBattleChoreography,
+  validateBattleSprites,
   validateEnemies,
   validateItems,
   validatePoisons,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
+  type: 'json',
+}
+import palBattleSprites from '../../../../projects/pal/content/battle-sprites.json' with {
   type: 'json',
 }
 import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
@@ -323,6 +327,47 @@ describe('W3 执行时间线接线', () => {
     // 固定 RNG 下攻 60、防 28，基础伤害 75，追加 1 后暴击 ×3 = 228。
     expect(firstNumber).toEqual([48, 48, 144])
     expect(sfx.plays).toEqual(['sound.pal.030'])
+  })
+
+  test('灯笼普攻在首帧播放起手音，命中与死亡保留原声', async () => {
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-399'))[0],
+    )
+    const definition = expectDefined(
+      validateBattleSprites(palBattleSprites.filter(({ id }) => id === enemy.battleSprite))[0],
+    )
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { defense: 100 })],
+      enemies: [enemy],
+    })
+    const sprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(enemy.battleSprite, {
+      ...sprite,
+      definition,
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+
+    h.press(['d'])
+    const playerHp = () => expectDefined(h.readParty()[0]).hp
+    for (let i = 0; i < 80 && playerHp() === 100; i++) h.idle()
+    expect(playerHp()).toBe(99)
+    expect(sfx.plays).toEqual(['sound.pal.050'])
+
+    // 3 步前摇、1 拍 action、2 拍各 80ms 的冲锋帧，共 320ms 后命中。
+    for (let i = 0; i < 7; i++) h.idle(40)
+    h.idle(39)
+    expect(sfx.plays).toEqual(['sound.pal.050'])
+    h.idle(1)
+    expect(sfx.plays).toEqual(['sound.pal.050', 'sound.pal.352'])
+
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle(40)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'over'; i++) h.idle(40)
+    await expect(settleDone(h)).resolves.toBe('victory')
+    expect(sfx.plays).toEqual(['sound.pal.050', 'sound.pal.352', 'sound.pal.032'])
   })
 
   test('敌普攻蓝字仅显示物理伤害，附毒立即单独扣血', () => {
