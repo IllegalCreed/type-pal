@@ -456,23 +456,25 @@ export class BattleSession {
   /** 队员表现层复位(召唤 out 相起点单独用:溶回目标必须是复位后的队员)。 */
   private resetPlayersVisual(): void {
     const s = this.state
+    const holdRoundEndPoses = this.nowMs < this.roundEndFeedbackUntilMs
     this.visual.players = s.players.map((p, i) => {
       const frames = this.playerFrames(i)
       const pos = getPlayerBasePos(s.players.length, i) ?? { x: 0, y: 0 }
       const prev = this.visual.players[i]
+      const restFrame =
+        p.hp <= 0
+          ? p.status.puppet > 0
+            ? frames.idle
+            : frames.dead
+          : p.status.sleep > 0 || isPlayerDying(p.hp, p.maxHp)
+            ? frames.dying
+            : p.defending
+              ? frames.defend
+              : frames.idle
       return {
         x: pos.x,
         y: pos.y,
-        frame:
-          p.hp <= 0
-            ? p.status.puppet > 0
-              ? frames.idle
-              : frames.dead
-            : p.status.sleep > 0 || p.hp < Math.min(100, Math.floor(p.maxHp / 5))
-              ? frames.dying
-              : p.defending
-                ? frames.defend
-                : frames.idle,
+        frame: holdRoundEndPoses && prev ? prev.frame : restFrame,
         colorShift: 0,
         displayHp: prev?.displayHp ?? p.hp,
       }
@@ -1108,6 +1110,11 @@ export class BattleSession {
         this.cancel(this.readiness.error ?? undefined)
       return
     }
+    if (this.nowMs < this.roundEndFeedbackUntilMs) return
+    if (this.roundEndFeedbackUntilMs !== 0) {
+      this.roundEndFeedbackUntilMs = 0
+      this.resetPlayersVisual()
+    }
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
@@ -1134,7 +1141,6 @@ export class BattleSession {
     if (this.advanceDeathFade()) return
 
     if (s.phase === 'selectAction') {
-      if (this.nowMs < this.roundEndFeedbackUntilMs) return
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
       if (this.choreoTurn < s.turn) {
         this.choreoTurn = s.turn
@@ -1282,16 +1288,15 @@ export class BattleSession {
         const d = (eHp[i] ?? e.hp) - e.hp
         if (d > 0) this.applyDamageFx({ side: 'enemy', idx: i }, d)
       })
-      this.finishStepVisuals()
-      // 只在空队列步确实弹出数字时停拍；死亡淡出已有独立节拍。
+      // 原版先回原坐标，数字停拍中保留玩家姿势，下一普通战斗帧才复位。
+      // fight.c:1604–1668 的 Delay 只更新敌方姿态。
       if (
         !queueHead &&
-        this.floats.length > previousFloatCount &&
-        !this.deathFade &&
-        s.players.some((p) => p.hp > 0 || p.status.puppet > 0) &&
-        s.enemies.some((e) => e && e.hp > 0)
+        !this.pendingDeaths.length &&
+        (this.floats.length > previousFloatCount || this.pendingGains.length > 0)
       )
         this.roundEndFeedbackUntilMs = this.nowMs + ROUND_END_FEEDBACK_MS
+      this.finishStepVisuals()
     }
   }
 

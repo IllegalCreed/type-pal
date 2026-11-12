@@ -7,6 +7,7 @@
 import type { BattleChoreography } from '@type-pal/content'
 import {
   checkBattleChoreography,
+  validateActors,
   validateBattleSprites,
   validateEnemies,
   validateItems,
@@ -16,6 +17,7 @@ import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
   type: 'json',
 }
+import palActors from '../../../../projects/pal/content/actors.json' with { type: 'json' }
 import palBattleSprites from '../../../../projects/pal/content/battle-sprites.json' with {
   type: 'json',
 }
@@ -556,6 +558,72 @@ describe('W3 执行时间线接线', () => {
     expect(inventory).toEqual([])
     tick()
     expect(h.session.debugReadiness().phase).toBe('menu')
+  })
+
+  test('回合末毒伤的数字停拍保留原姿势，随后切濒死或倒地且无伤亡音', () => {
+    const worm = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-406'))
+    const egg = expectDefined(validateItems(palItems.filter(({ id }) => id === '117'))[0])
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const actors = validateActors(
+      palActors.filter(({ id }) => id === 'zhao-linger' || id === 'li-xiaoyao'),
+    )
+    const h = makeWfSession({
+      players: [
+        wfPlayer('zhao-linger', {
+          hp: 19,
+          maxHp: 50,
+          defense: 263,
+          baseDexterity: 906,
+          coveredBy: 'li-xiaoyao',
+        }),
+        wfPlayer('li-xiaoyao', { baseDexterity: 503 }),
+      ],
+      enemies: [worm],
+      extraOpts: {
+        items: { [egg.id]: egg },
+        poisonDefs: { [redPoison.id]: redPoison },
+        actorsById: Object.fromEntries(actors.map((actor) => [actor.id, actor])),
+        playerSounds: [{ dying: 'sound.pal.020', death: 'sound.pal.024' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const readPose = () => {
+      h.session.render(ctx, 1)
+      return ctx.getImageData(200, 168, 1, 1).data[0]
+    }
+    const player = () => expectDefined(h.session.debugPlayers()[0])
+    for (const [hp, damage, before, after] of [
+      [4, 7, PLAYER_PROFILE.frames.defend, PLAYER_PROFILE.frames.dying],
+      [0, 3, PLAYER_PROFILE.frames.dying, PLAYER_PROFILE.frames.dead],
+    ] as const) {
+      h.press(['d'])
+      h.press(['d'])
+      for (let i = 0; i < 100 && player().hp !== hp; i++) h.idle()
+      expect(player().hp).toBe(hp)
+      // PAL 回合末只恢复坐标。新数字与毒伤前的队员姿势同帧实绘。
+      expect(readPose()).toBe(poseRed(before))
+      expect(ctx.getImageData(200, 101, 1, 1).data[2]).toBe((damage + 1) * 16)
+      h.idle(319)
+      expect(readPose()).toBe(poseRed(before))
+      expect(h.session.debugReadiness().phase).toBe('acting')
+      h.idle(1)
+      expect(readPose()).toBe(poseRed(after))
+      expect(h.session.debugReadiness().phase).toBe('menu')
+    }
+    expect(sfx.plays.filter((id) => id === 'sound.pal.020' || id === 'sound.pal.024')).toEqual([])
   })
 
   test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
