@@ -265,6 +265,7 @@ export function formatPalBattleSpriteReport(
 export const PAL_AUDIO_ROLES = {
   'audio.midiSoundfont': 'soundfont.default',
   'audio.defaultBattleMusic': palMusicAssetId(37),
+  'audio.defeatMusic': palMusicAssetId(1),
   // SDL PAL_BattleWon 在不可逃战胜利结算时选择 002；升级屏随后沿用当前播放曲，
   // 没有独立的 levelUp 音乐 role，故保留现有稳定 role 名。
   'audio.bossVictoryMusic': palMusicAssetId(2),
