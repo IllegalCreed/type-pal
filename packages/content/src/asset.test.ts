@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { heroActor } from './__tests__/glm-item-logic-fixtures.js'
 import type { ActorDef } from './actor.js'
 import {
   type AssetCatalogV1,
@@ -28,6 +29,7 @@ import {
 import type { EnemyDef } from './enemy.js'
 import type { ItemData } from './item.js'
 import type { SkillData } from './skill.js'
+import { validateActors } from './validate.js'
 
 const hash = 'a'.repeat(64)
 const catalog: AssetCatalogV1 = {
@@ -182,6 +184,28 @@ describe('catalog 与当前 manifest', () => {
     expect(validateManifestAssetConfig(assets, catalog)).toEqual(assets)
   })
 
+  test('战败音乐可省略；配置时必须引用已登记的音乐', () => {
+    expect(validateManifestAssetConfig(assets, catalog).roles['audio.defeatMusic']).toBeUndefined()
+    const withDefeatMusic = (asset: string): ManifestAssetConfig => ({
+      ...assets,
+      roles: { ...assets.roles, 'audio.defeatMusic': asset },
+    })
+    const configured = validateManifestAssetConfig(withDefeatMusic('music.pal.002'), catalog)
+    expect(collectAssetReferences({ assets: configured })).toContainEqual({
+      asset: 'music.pal.002',
+      expectedKind: 'music',
+      where: 'manifest.assets.roles.audio.defeatMusic',
+      site: 'manifest.assets.roles.audio.defeatMusic',
+      origin: { kind: 'manifest-role', role: 'audio.defeatMusic' },
+    })
+    expect(() => validateManifestAssetConfig(withDefeatMusic('music.missing'), catalog)).toThrow(
+      new Error('manifest.assets.roles.audio.defeatMusic: AssetId "music.missing" 不存在'),
+    )
+    expect(() => validateManifestAssetConfig(withDefeatMusic('sound.pal.045'), catalog)).toThrow(
+      new Error('manifest.assets.roles.audio.defeatMusic: 期望 music，实际 sound'),
+    )
+  })
+
   test('未知角色、角色 kind 错、缺角色均 fail-loud', () => {
     expect(() =>
       validateManifestAssetConfig(
@@ -239,6 +263,91 @@ describe('catalog 与当前 manifest', () => {
       validateManifestAssetConfig({ ...assets, legacy: { families: ['sprite'] } }, catalog),
     ).toThrow('manifest.assets.legacy')
   })
+})
+
+test('概率分支和兜底分支的伤亡肖像分别进入资源闭包', () => {
+  const hero = heroActor()
+  const actors = validateActors([
+    {
+      ...hero,
+      battler: {
+        ...hero.battler,
+        casualty: {
+          friendDeath: {
+            gates: [
+              {
+                chance: 75,
+                branch: {
+                  lines: [
+                    {
+                      text: 'dlg.casualty.first',
+                      style: 'bottom',
+                      portrait: { asset: 'portrait.hero.shocked', side: 'right' },
+                    },
+                    { text: 'dlg.casualty.narration', style: 'narration' },
+                  ],
+                  effects: [],
+                },
+              },
+            ],
+            fallback: {
+              lines: [
+                {
+                  text: 'dlg.casualty.reply',
+                  style: 'top',
+                  portrait: { asset: 'portrait.hero.concerned', side: 'left' },
+                },
+              ],
+              effects: [],
+            },
+          },
+        },
+      },
+    },
+  ])
+  const references = collectAssetReferences({ actors })
+  const gatedPath = 'actors[0].battler.casualty.friendDeath.gates[0].branch.lines[0].portrait.asset'
+  const fallbackPath = 'actors[0].battler.casualty.friendDeath.fallback.lines[0].portrait.asset'
+  const use = { expectedKind: 'portrait', site: 'actor:hero:casualty' }
+  const origin = { kind: 'actor', id: 'hero', section: 'portraits' }
+  expect(references).toEqual([
+    { ...use, asset: 'portrait.hero.shocked', where: gatedPath, origin },
+    { ...use, asset: 'portrait.hero.concerned', where: fallbackPath, origin },
+  ])
+  const portrait = {
+    kind: 'portrait',
+    mediaType: 'image/png',
+    bytes: 3,
+    sha256: hash,
+    origin: { kind: 'authored' },
+  }
+  const portraits = validateAssetCatalog({
+    version: 1,
+    assets: {
+      'portrait.hero.shocked': { ...portrait, path: 'assets/authored/shocked.png' },
+      'portrait.hero.concerned': { ...portrait, path: 'assets/authored/concerned.png' },
+    },
+  })
+  expect(validateAssetReferenceClosure(portraits, references)).toEqual([])
+
+  const invalidReferences = validateAssetCatalog({
+    version: 1,
+    assets: { 'portrait.hero.concerned': catalog.assets['sound.pal.045'] },
+  })
+  expect(validateAssetReferenceClosure(invalidReferences, references)).toEqual([
+    {
+      severity: 'error',
+      code: 'missing-asset',
+      where: gatedPath,
+      message: 'AssetId "portrait.hero.shocked" 不在 catalog',
+    },
+    {
+      severity: 'error',
+      code: 'kind-mismatch',
+      where: fallbackPath,
+      message: 'AssetId "portrait.hero.concerned" 期望 portrait，实际 sound',
+    },
+  ])
 })
 
 test('PAL 数字号只在迁移边界确定性映射', () => {
