@@ -42,6 +42,7 @@ export async function compareBattleReports(gamePath, reforgePath) {
     const report = JSON.parse(bytes)
     assert.equal(report.engine, engine)
     assert.equal(report.counter, 'none', 'a counter cannot be published as a normal execution')
+    assert.equal(report.profile, 'verify', 'review capture is separate from verification')
     assert.equal(report.status, 'passed', 'execution did not finish cleanly')
     assert.equal(report.errors.length, 0, 'execution contains runtime errors')
     assert.equal(report.dependencies?.definition?.entry, 'scripts/e2e/battle-foundation.mjs')
