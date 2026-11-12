@@ -51,7 +51,6 @@ export type AssetRole = (typeof ASSET_ROLES)[number]
 export const AUDIO_ASSET_ROLES = {
   'audio.midiSoundfont': 'soundfont',
   'audio.defaultBattleMusic': 'music',
-  'audio.defeatMusic': 'music',
   'audio.bossVictoryMusic': 'music',
   'audio.normalVictoryMusic': 'music',
   'audio.openingMenuMusic': 'music',
@@ -69,6 +68,7 @@ export type SoundAssetRole = keyof typeof SOUND_ASSET_ROLES
 
 export const ASSET_ROLE_KINDS = {
   ...AUDIO_ASSET_ROLES,
+  'audio.defeatMusic': 'music',
   ...SOUND_ASSET_ROLES,
   'video.startupTrademark': 'video',
   'video.startupSplash': 'video',
