@@ -115,6 +115,7 @@ import {
 } from './frame-animation-player.js'
 import { FrameAnimationPresentationState } from './frame-animation-presentation.js'
 import { createGameOverDialogueCue } from './game-over-dialog.js'
+import { GAME_OVER_FADE_MS, GameOverPresentation } from './game-over-presentation.js'
 import { sha256Bytes } from './hash.js'
 import { Keyboard } from './input.js'
 import { executeWorldItemUse, runWorldItemScript } from './item-use-executor.js'
@@ -1079,7 +1080,9 @@ export async function bootGame(
   // A restored auto gait is already a valid projected pose during that interval.
   let autoRunnersGatePending = false
   const fadeDriver = new SupersedingFadeDriver(0) // 0 透明 → 1 全黑；新事务连续接管并兑现旧 Promise
-  let fadeCurtain: 'black' | 'red' = 'black' // 幕布色(gameOver 渐红;fade-in 结束回黑)
+  let fadeCurtain: 'black' | 'red' = 'black'
+  const gameOverPresentation = new GameOverPresentation()
+  let ordinaryDefeatSignal: AbortSignal | undefined
   /** 0x76/ShowFBP 的黑屏保持事务；只存在呈现层，不能进入 WorldState/SAVE。 */
   const screenHold = new ScreenHoldTransaction()
   // ── W6 氛围(昼夜):全帧 multiply 滤镜(docs/phase2/archive/designs/ambience-design.md)──
@@ -1254,6 +1257,9 @@ export async function bootGame(
         settleBattleVictory(session, world, canonicalProject, playVictory),
       finishWorld: (session, result) =>
         finishBattleWorldState(session, result, world, canonicalProject),
+      captureDefeatFrame: (signal) => {
+        if (ordinaryDefeatSignal === signal) gameOverPresentation.hold(ctx, signal)
+      },
       runDefeated: async (definitions, signal, assertCurrent) => {
         const scripted = definitions.filter((def) => def.onDefeated?.length)
         if (scripted.length && !scriptRuntime)
@@ -2253,12 +2259,21 @@ export async function bootGame(
       location.reload() // 无档:重开
     },
     gameOver: async (signal) => {
-      // 原版 GameOver 枢纽(L_41075)一等化:渐红 + 经典文案 + 读最近档
-      await hostFade('out', 900, 'red', signal)
-      assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.dialog(createGameOverDialogueCue(), signal)
-      assertRunnerActive(signal, '战败流程所属 runner 已取消')
-      await host.loadLastSave(signal)
+      const owner = signal ?? new AbortController().signal
+      assertRunnerActive(owner, '战败流程所属 runner 已取消')
+      gameOverPresentation.begin(ctx, owner, frames.now)
+      try {
+        // L_41075 先单次播放死亡曲，再把当前战斗画面逐步染红。
+        const track = project.manifest.assets.roles['audio.defeatMusic']
+        if (track) bgm.play(track, false)
+        await presentation.waitPassive(GAME_OVER_FADE_MS, owner)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await host.dialog(createGameOverDialogueCue(), owner)
+        assertRunnerActive(owner, '战败流程所属 runner 已取消')
+        await host.loadLastSave(owner)
+      } finally {
+        gameOverPresentation.release(owner)
+      }
     },
     // auto 实体、明雷重生等后台逻辑也复用 host.wait；它们只需要 gameplay-clock 计时和
     // AbortSignal，不得占用全局呈现锁。交互脚本仍由 presentation.busy() 的 runner 分量锁住。
@@ -4821,6 +4836,9 @@ export async function bootGame(
   ): Promise<void> {
     hostileBusy = true
     const encounterSignal = new AbortController().signal
+    const onLose = h.onLose
+    const gameOverOnDefeat = onLose === 'gameOver' || onLose === undefined
+    if (gameOverOnDefeat) ordinaryDefeatSignal = encounterSignal
     const finishWork = scriptWork.begin(encounterSignal)
     try {
       // 明雷怪专属战场(三层解析第二层;缺省走场景覆写/默认)
@@ -4845,10 +4863,12 @@ export async function bootGame(
       } else if (result === 'playerFled') {
         applyHostileLifecyclePolicy(e, result)
       } else if (result === 'defeat') {
-        if (h.onLose === 'gameOver' || h.onLose === undefined) await host.gameOver(encounterSignal)
-        else startScript(`hostile:${e.id}`, [{ body: h.onLose }], e.id)
+        if (gameOverOnDefeat) await host.gameOver(encounterSignal)
+        else startScript(`hostile:${e.id}`, [{ body: onLose }], e.id)
       } // enemyFled/terminated:回场景,怪留原地
     } finally {
+      if (ordinaryDefeatSignal === encounterSignal) ordinaryDefeatSignal = undefined
+      gameOverPresentation.release(encounterSignal)
       hostileBusy = false
       finishWork()
     }
@@ -5735,6 +5755,15 @@ export async function bootGame(
     ctx.restore()
   }
 
+  function drawDialogueLayer(): void {
+    if (!dialogBox.visible) return
+    ctx.save()
+    ctx.scale(WORLD_SCALE, WORLD_SCALE)
+    ctx.imageSmoothingEnabled = false
+    dialogBox.render(performance.now())
+    ctx.restore()
+  }
+
   /**
    * 主呈现栈：World Layer → Cinematic Layer(RNG)→ fade → UI Layer → 输出特效(dither)。
    * RNG 是不透明的中间层，不改写/暂停世界渲染；对话始终由 UI Layer 最后叠加。
@@ -5759,6 +5788,10 @@ export async function bootGame(
       )
       ctx.restore()
       scriptConfirmModal.presented()
+      return
+    }
+    if (gameOverPresentation.draw(ctx, frames.now)) {
+      drawDialogueLayer()
       return
     }
     // 对话状态已结束，但持久屏幕的最后文字像素须留给紧随的 loadScene 快照。
@@ -5844,13 +5877,7 @@ export async function bootGame(
     }
     // 对话框(UI)同样在 320 逻辑坐标画 + ×WORLD_SCALE 放大:POS 常量、字模 drawImage、
     // 折行 usable 全是 320 系,scale 后统一 ×4 —— 字模点阵整数倍放大锐利、版面比例不变(D16)。
-    if (dialogBox.visible) {
-      ctx.save()
-      ctx.scale(WORLD_SCALE, WORLD_SCALE)
-      ctx.imageSmoothingEnabled = false
-      dialogBox.render(performance.now())
-      ctx.restore()
-    }
+    drawDialogueLayer()
     // 菜单(UI,最上层)同样 320 逻辑坐标 + ×4 高清(D17)
     if (menus.active) {
       const {

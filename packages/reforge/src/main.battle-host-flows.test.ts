@@ -249,6 +249,46 @@ test('H9 real defeat writes zero HP, skips victory hooks and follows only onLose
   h.assertInputUnchanged()
 })
 
+test('normal hostile defeat keeps the battle frame through the red prompt without drawing the world', async () => {
+  host = await installShellHost()
+  vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  const { WorldScenePresentation } = await import('./world-scene-presentation.js')
+  const drawWorld = vi.spyOn(WorldScenePresentation.prototype, 'renderWorld')
+  const reload = vi.fn()
+  vi.stubGlobal('location', { ...location, reload })
+  const hero = combatActor()
+  if (!hero.battler) throw new Error('missing battler')
+  hero.battler.baseStats.hp = 1
+  const foe = opponent()
+  foe.stats.health = 999
+  foe.stats.attackStrength = 300
+  const first = shellScene('a')
+  first.entities = [
+    {
+      id: 'chaser',
+      sprite: 'walker',
+      pos: { col: 4, row: 2, height: 0 },
+      hostile: {
+        enemyTeamId: 'encounter',
+        onVictory: { kind: 'remain' },
+        onPlayerFlee: { kind: 'remain' },
+      },
+    },
+  ]
+  const h = await bootScenario(host, { first, actors: [hero], enemies: [foe] })
+  await key(host, 'ArrowRight')
+  await advance(host, () => state().renderDebug.inBattle)
+  const worldFrames = drawWorld.mock.calls.length
+  await key(host, 'd')
+  await advance(host, () => !state().renderDebug.inBattle && state().dialogue)
+  expect(state().world.party[0]?.hp).toBe(0)
+  expect(drawWorld.mock.calls.length).toBe(worldFrames)
+  for (let i = 0; i < 6 && state().dialogue; i++) await key(host, 'Enter', 200)
+  await advance(host, () => reload.mock.calls.length > 0)
+  expect(reload).toHaveBeenCalledOnce()
+  h.assertInputUnchanged()
+})
+
 test('H9 thrown inventory is consumed by real battle and reaches the host world after victory', async () => {
   host = await installShellHost()
   const dart = medicine('dart')

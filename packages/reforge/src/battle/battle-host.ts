@@ -17,6 +17,7 @@ export interface BattleHostPorts {
   captureScriptOwner(team: string): () => void
   settleVictory(session: BattleSession, playVictory: () => void): SettlementScreen[]
   finishWorld(session: BattleSession, result: BattleResult): void
+  captureDefeatFrame?(signal: AbortSignal): void
   runDefeated(
     definitions: readonly EnemyDef[],
     signal: AbortSignal,
@@ -133,6 +134,10 @@ export class BattleHost {
       result = await scriptWorkWait<BattleResult>(signal, (resolve, reject) => {
         void session.done.then(resolve, reject)
       })
+      if (result === 'defeat') {
+        assertCurrent()
+        this.ports.captureDefeatFrame?.(signal)
+      }
     } catch (error) {
       if (!isBattleAbort(error)) {
         await scriptWorkIO(this.ports.restoreSceneSounds(), signal).catch((error) =>
