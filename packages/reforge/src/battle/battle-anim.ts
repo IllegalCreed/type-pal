@@ -589,6 +589,8 @@ export interface BuildEnemyPhysicalInput {
   sounds: { attack?: AssetId; action?: AssetId; call?: AssetId }
   damage: number
   targetRecoveryFrame: number
+  targetDeathSound?: AssetId
+  targetDyingSound?: AssetId
   /** 被动格挡从冲锋首帧起摆防御姿，命中拍免伤且播格挡音(fight.c:5023-5026,5052-5086)。 */
   blocked?: boolean
   /** 目标玩家的格挡音(rgwCoverSound;blocked 时替代 call)。 */
@@ -733,6 +735,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
   frames.push({
     durationMs: delayMs(3),
     fighters: [{ side: 'player', idx: targetIdx, pos: { x: knockX + 2, y: knockY + 1 } }],
+    ...(!blocked && input.targetDeathSound ? { sound: input.targetDeathSound } : {}),
   })
   // 敌回位 + 队员恢复姿势
   frames.push({
@@ -750,6 +753,9 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       },
     ],
   })
+  // 回位完整播完后检查濒死(fight.c:5132-5148,824-850)，声音不占下一行动的时长。
+  if (!blocked && input.targetDyingSound)
+    frames.push({ durationMs: 0, sound: input.targetDyingSound })
   return frames
 }
 

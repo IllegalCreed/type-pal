@@ -14,6 +14,12 @@ Template: reference-canon-v1 / 1.0.0
 
 主动防御由自己的防御指令置位，物攻计算时使防御力加倍。敌方物攻另掷 `RandomLong(0,16)`，达到 10 且目标可格挡时，冲锋起始即把目标切到防御帧 3，命中拍使用目标格挡音并跳过伤害。普通命中使用受击帧 4，包括主动防御后仍被击中的情形。击退后恢复敌方出手前保存的姿态，物理伤害造成的死亡或濒死优先。 [防御指令](../../reference/sdlpal/fight.c#L4110) · [物防与自动格挡抽样](../../reference/sdlpal/fight.c#L4915) · [格挡和命中](../../reference/sdlpal/fight.c#L5010) · [伤亡与复位](../../reference/sdlpal/fight.c#L5108)
 
+## 2026-11-12 CLASSIC 玩家物攻伤亡与结算
+
+敌方普通物攻直接致死时，目标先保持受击姿态。第一段击退结束后播放目标的阵亡声，再绘制第二段后坐。敌人归位后，目标切倒地帧 2。直接物攻使存活目标跨入濒死时先恢复濒死帧 1，再在动作收尾判定濒死声。该判定使用当前 HP 小于 `min(100, floor(maxHP / 5))`、受击前 HP 至少为 `floor(maxHP / 5)` 以及相关失能门。守护者是否在队、是否仍存活只限制后续对白。 [物攻击退与复位](../../reference/sdlpal/fight.c#L5088) · [濒死音与对白](../../reference/sdlpal/fight.c#L824)
+
+未被格挡的敌普攻在复位后仍抽附带道具概率，灯笼的原始概率为零。目标 HP 为零也进入该抽样。胜利结算先按当时 HP 资格发主经验和属性经验，阵亡者跳过，再对全队结算半恢复。 [附带道具抽样](../../reference/sdlpal/fight.c#L5139) · [经验资格](../../reference/sdlpal/battle.c#L1087) · [半恢复](../../reference/sdlpal/battle.c#L1342)
+
 ## 2026-11-11 敌普攻附毒与战内随机
 
 CLASSIC 敌方选目标从完整队伍槽开始，抽到死亡槽才重摇。区间只有一个元素时 `RandomLong` 直接返回。对一人队伍，能进入施法判断且配置了法术的敌人从法术率开始抽样。敌回梦在法术格挡抽样后按同一随机序列执行 0x06，掷 1–100 严格小于 70 后给目标睡眠 3 与 HP −1。睡眠队员进回合队列时身法为 0 且无抖动抽样。回合末状态自减。 [目标选择](../../reference/sdlpal/fight.c#L4540) · [单元素随机区间](../../reference/sdlpal/util.c#L244) · [脚本跳转](../../reference/sdlpal/script.c#L3299) · [队列](../../reference/sdlpal/fight.c#L1505) · [回合末](../../reference/sdlpal/fight.c#L1611)

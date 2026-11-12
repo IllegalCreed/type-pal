@@ -1853,6 +1853,7 @@ export class BattleSession {
     const damage = la.damage ?? 0
     const playerFrames = s.players.map((_, index) => this.playerFrames(index))
     const targetPose = expectDefined(playerFrames[t])
+    const targetSounds = this.opts.playerSounds?.[t]
     // 保留受击前画帧，仅由本次物理扣血覆盖死/濒死姿态；附毒在原版复位后结算。
     // fight.c:4915,5108-5145
     const hpAfterPhysicalHit = expectDefined(pHp[t]) - damage
@@ -1876,8 +1877,12 @@ export class BattleSession {
       sounds: def.sounds,
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
-      ...(la.blocked && this.opts.playerSounds?.[t]?.cover
-        ? { coverSound: expectDefined(this.opts.playerSounds[t]).cover }
+      ...(la.blocked && targetSounds?.cover ? { coverSound: targetSounds.cover } : {}),
+      ...(damage > 0 && hpAfterPhysicalHit <= 0 && targetSounds?.death
+        ? { targetDeathSound: targetSounds.death }
+        : {}),
+      ...(la.targetEnteredDying && targetSounds?.dying
+        ? { targetDyingSound: targetSounds.dying }
         : {}),
       // 替挡(coveredBy):守护者顶身前接刀,音 = **守护者**的 coverSound
       ...(la.blocked && la.coverIdx !== undefined
@@ -2126,12 +2131,16 @@ export class BattleSession {
     }
   }
 
-  /** 战后把队员 HP/MP 写回 world.party(战斗内伤害/耗蓝持久;原版同,逃跑也保留伤害)。 */
-  writeBackHp(party: { id: string; hp: number; mp: number }[]): void {
+  /** 战后把队员 HP/MP 写回 world.party；胜利奖励先按实际 HP 判断是否发经验。 */
+  writeBackHp(
+    party: { id: string; hp: number; mp: number }[],
+    options: { preserveZeroHp?: boolean } = {},
+  ): void {
+    const minHp = options.preserveZeroHp || this.state.phase === 'lost' ? 0 : 1
     for (const p of this.state.players) {
       const c = party.find((x) => x.id === p.roleId)
       if (!c) continue
-      c.hp = this.state.phase === 'lost' ? Math.max(p.hp, 0) : Math.max(p.hp, 1) // 胜/逃至少留 1
+      c.hp = Math.max(p.hp, minHp)
       c.mp = p.mp
     }
   }

@@ -3,7 +3,7 @@
   "id": "q2-battle-foundation",
   "kind": "runtime-execution",
   "status": "verified",
-  "candidateSha": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+  "candidateSha": "55d5512d81a87660185b17afad621a3d33e9e5a0",
   "versions": {
     "content": 23,
     "minimumSave": 12
@@ -21,7 +21,7 @@
       "lines": "129",
       "anchor": "function defineScenario(",
       "role": "input-and-independent-oracle",
-      "sha256": "3742e117fee1752dab2cf5a96f6e15a4646e3c1f4e69fb299433afba2df1c25f"
+      "sha256": "0d69f7d17541958944aca36e1aafb798faab6bc2f5515ce7409a0999fd522cc7"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -55,8 +55,8 @@
       "path": "scripts/e2e/battle-presentation.mjs",
       "anchor": "export function validateBattlePresentation(",
       "role": "render-oracle",
-      "lines": "785",
-      "sha256": "56248cd7f9b8e3e2006100f04b87f68e7746efc330765efb42d561109416ffae"
+      "lines": "969",
+      "sha256": "cd1417c20254734630795024be6759b0f6eb4c4d6e7120de4c3f7cf498947280"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -95,7 +95,9 @@
     "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review",
     "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=equivalent-poison --audio-review",
     "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=automatic-block --audio-review",
-    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review"
+    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review",
+    "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=lantern-player-casualty --audio-review",
+    "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=lantern-player-casualty --audio-review"
   ],
   "legalInputs": [
     "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -107,7 +109,8 @@
     "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
     "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3.",
     "Use the seven existing native fixtures for the audiovisual pass. The twenty-four original and authored WAV pairs bind byte identity and original mono PCM frame counts. Single-context browser audio reviews use the same candidate and normal input, with Game starting after its loading surface naturally detaches.",
-    "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged."
+    "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged.",
+    "Two normal turns against raw team 1, field 7, seed 6, level-five Li Xiaoyao and Anu. Li enters with 40/40 HP and 9 equipped defense. Both defend in turn 1. Li defends and Anu attacks in turn 2. Li’s guardian is absent."
   ],
   "businessOracle": {
     "type": "q2-finite-state-and-native-repeat",
@@ -128,7 +131,9 @@
       "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked.",
       "In seed72, the first drawn impact and recoil use frame4. The first actual return and the remaining turn1 recovery use frame3, then the round-end poison number appears in idle frame0.",
       "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015.",
-      "In seed72, the native active-defend commit, executed guard action, first drawn defense, first drawn enemy windup and first blue physical damage occur in that order. The two one-tick intervals must each lie in 20–65 ms; the attack-to-damage interval is 280–360 ms. Two native cross-engine pairs also verify a command-to-windup difference within one CLASSIC tick."
+      "In seed72, the native active-defend commit, executed guard action, first drawn defense, first drawn enemy windup and first blue physical damage occur in that order. The two one-tick intervals must each lie in 20–65 ms; the attack-to-damage interval is 280–360 ms. Two native cross-engine pairs also verify a command-to-windup difference within one CLASSIC tick.",
+      "The lantern hits Li for 35 then 5. The actual impact frame 4 and two recoil positions precede first return frames 1 and 2. Native sound 019 starts after the dying pose; 023 starts around second recoil and before the fallen pose. Each appears once and the regular hit sound 352 still starts at each impact.",
+      "After lethal damage the native equivalent-item roll is consumed, with zero rate. Li’s selected action is skipped and Anu’s real 976 raw damage wins. The original victory reward leaves Li with zero earned EXP and 20 HP after half recovery, Anu with one EXP and 150 HP, and awards cash 3 once."
     ]
   },
   "dedupe": {
@@ -146,9 +151,9 @@
     "engines": ["game", "reforge"],
     "contentVersion": 23,
     "reforgeSaveVersion": 12,
-    "producerRevision": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+    "producerRevision": "55d5512d81a87660185b17afad621a3d33e9e5a0",
     "result": "passed",
-    "verification": "32 native manual fights, 16 cross-engine pairs and 16 native repeats. 200 actual audio starts, two bloodworm cadence pairs plus a separate native-speed audio capture pair.",
+    "verification": "36 native manual fights, 18 cross-engine pairs and 18 native repeats. 236 actual action audio starts, plus independent stereo capture for the two-round player casualty fight.",
     "continuous": false
   },
   "execution": {
@@ -226,7 +231,7 @@
     },
     {
       "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-      "sha256": "3742e117fee1752dab2cf5a96f6e15a4646e3c1f4e69fb299433afba2df1c25f"
+      "sha256": "0d69f7d17541958944aca36e1aafb798faab6bc2f5515ce7409a0999fd522cc7"
     },
     {
       "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -246,7 +251,7 @@
     },
     {
       "path": "scripts/e2e/battle-presentation.mjs",
-      "sha256": "56248cd7f9b8e3e2006100f04b87f68e7746efc330765efb42d561109416ffae"
+      "sha256": "cd1417c20254734630795024be6759b0f6eb4c4d6e7120de4c3f7cf498947280"
     },
     {
       "path": "scripts/e2e/battle-rules.mjs",
@@ -5255,6 +5260,439 @@
           "bytes": 4090
         }
       ]
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz",
+      "sha256": "7f098de5fc5d4b986f3b06146357975d6654612020e3162b5d66439b2dc9127b",
+      "bytes": 7845424,
+      "purpose": "Same-input player casualty counterexamples, nine-fixture native battle traces, and the original-speed stereo replay.",
+      "manifest": {
+        "path": "build/q2/av/player-casualties/archive-index.json",
+        "sha256": "c401215cb89c2c26228ad9b73a4500432b665c9fe6a198c0c1933b9d86eca349",
+        "bytes": 17438
+      },
+      "members": [
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/automatic-block-1-trace.json",
+          "sha256": "9ce017f1c2e64d2bcdbf585589daa1245604abe692813d9144ce7c2698a482e8",
+          "bytes": 28634
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/automatic-block-2-trace.json",
+          "sha256": "c4ddd4f1f356cbd28c74580e995d27cef19cc9e8b0332217dae7dde92944edf6",
+          "bytes": 28629
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "fefc0199b4627944f726c45fe7c18dfc3501669959567d14b821958ca8c27161",
+          "bytes": 56139
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "28c21e10d2910db80abb62331a0882a43ae7c1271eb0316847b00a706c75ceae",
+          "bytes": 57508
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/enemy-sleep-1-trace.json",
+          "sha256": "25fee08d1345c34a65684be5df98132ad53fee85c8158c810c92c55b9d273590",
+          "bytes": 65226
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/enemy-sleep-2-trace.json",
+          "sha256": "9c637f0238beb8dcd3711ac557aaafb374efc56d3f06d3a6779245c6ed0e4b52",
+          "bytes": 65289
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/equivalent-poison-1-trace.json",
+          "sha256": "ce0ef8515c537fa3eecdfd2454c681839534290e43a81956d60ae2d0178c74f0",
+          "bytes": 75648
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/equivalent-poison-2-trace.json",
+          "sha256": "cc468551406932f2a5b0ee1485049aabdeaced148e0fffa0feac91fce5a67bdc",
+          "bytes": 75259
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/herb-settlement-1-trace.json",
+          "sha256": "28814f109d7558c2dd583155716c08749c530df2e8cbd1c44d0f34981616a960",
+          "bytes": 38505
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/herb-settlement-2-trace.json",
+          "sha256": "62bf316d71b314a4fa587e5ad652be2c82d66fd994504f970401573cd54ae2fc",
+          "bytes": 38413
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/lantern-player-casualty-1-trace.json",
+          "sha256": "966eed965c4b76ea1eb61e7fbd79511ed11a87f3e01028badeef2d0e2c3e37f5",
+          "bytes": 62768
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/lantern-player-casualty-2-trace.json",
+          "sha256": "fc74d1a3a1f0a1a1ca3f1a36e04824c023a3cc97f4beb77c4ac67d85c4b427e5",
+          "bytes": 62609
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/party-lanterns-1-trace.json",
+          "sha256": "9573ac55ef4c7d52f3b87ef5ddb17ad63b1a9e032b93ae482782438262f07ca5",
+          "bytes": 62607
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/party-lanterns-2-trace.json",
+          "sha256": "cf7441a0ddfd370719f08b6a1d015197c8fc12135017eecbb3f6b935cf2e8f16",
+          "bytes": 62663
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/report.json",
+          "sha256": "108a586716f90eaebb84beaed51e44b8705d262d7285d5a134f7d068e067f6c0",
+          "bytes": 1372402
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/solo-lantern-1-trace.json",
+          "sha256": "d560a3daf2468133a531a91363d9eab3d2895f76ceae1e7a40882f11084ec167",
+          "bytes": 19629
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/solo-lantern-2-trace.json",
+          "sha256": "63e704dd4d22b1c4fd12286a7191f240ab8040118f892c94b3c693c63ad53c73",
+          "bytes": 19530
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/two-round-commands-1-trace.json",
+          "sha256": "535773d096da01ad1b57267399335b7f6eaa8cc653548cd23aa74a6415b3f104",
+          "bytes": 78680
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/two-round-commands-2-trace.json",
+          "sha256": "e974227b8b8c1d4b74d69752eee5f9d8b2d1e191e6a642a0bae3dc6a0bd1a195",
+          "bytes": 78669
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T12-53-05-023Z/lantern-player-casualty-1-trace.json",
+          "sha256": "89296cf46c6e8ca1c5c855dccd3c127bc5c5133b70cdde6fcbe24eeef0faf194",
+          "bytes": 61943
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T12-53-05-023Z/report.json",
+          "sha256": "763e35cb27d0642aaf212bc8dfaa6a04e9ef2106d6f31df59627cb8b7de27dba",
+          "bytes": 892551
+        },
+        {
+          "path": "build/e2e/q2-battle-game-none-audio-review-2026-11-12T12-53-05-023Z/story.webm",
+          "sha256": "0879517d03cf927ba5e5b589dc72a5b1956ae6e40937479a78d391765d9e2b79",
+          "bytes": 2690035
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/automatic-block-1-trace.json",
+          "sha256": "89d0fe7a7edbe68b6a84b41ea1705527a0a93a4d33f9dbf58e38ae3a03c18a55",
+          "bytes": 31353
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/automatic-block-2-trace.json",
+          "sha256": "487f3eb64d52cd1d7a7d48e97ff17bef1790d5bb50c2bcf68bc06914a193b6ce",
+          "bytes": 31355
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/dual-sickle-weasel-1-trace.json",
+          "sha256": "957c57b0c514e49a837f2b99fd4c67d98a2adccb8cb1d9264f1bc1d5beaf51f6",
+          "bytes": 58456
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/dual-sickle-weasel-2-trace.json",
+          "sha256": "efa6df75b815c867787a762b45cdf58b110698f4c0a5ff55c6c6fa95c85c7d8d",
+          "bytes": 58363
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/enemy-sleep-1-trace.json",
+          "sha256": "b0ed89f167713d69afa31480a0a8a50d797b0dc0937db06a532e68c718a43ffe",
+          "bytes": 71843
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/enemy-sleep-2-trace.json",
+          "sha256": "2beb28cd598334a795d76453302c1df16ad86fe8543c4b0e52f14455ceb395bb",
+          "bytes": 71826
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/equivalent-poison-1-trace.json",
+          "sha256": "1054d6d6a80291ef39542904d52b59274414b8f6b4dec30c258cd94755068540",
+          "bytes": 90684
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/equivalent-poison-2-trace.json",
+          "sha256": "11bd4560dd6fed93af50a2c29dcb56367fa569a9fbe825f1a1f186886f7fd3a1",
+          "bytes": 90692
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/herb-settlement-1-trace.json",
+          "sha256": "160bb23d77f9409007bab2ac4679fa6cfafeca5e07faf42b803a62a33d95d365",
+          "bytes": 50608
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/herb-settlement-2-trace.json",
+          "sha256": "3f8c9d89a0a326082680557ee5c45db8c70c02a92aca0ff2a535d20ba20b56fc",
+          "bytes": 53533
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/lantern-player-casualty-1-trace.json",
+          "sha256": "a78d619d86d6177a206439f7489d5bf1580b4a122bd5b3160bb8ff61f1ca96a2",
+          "bytes": 74785
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/lantern-player-casualty-2-trace.json",
+          "sha256": "332dd9cf2d23313f001dd5af4e0883851b30401bfb8726bf4fa629bfcdff2f8d",
+          "bytes": 74844
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/party-lanterns-1-trace.json",
+          "sha256": "3d27b4bc5881755bb0d2a4222cdfe7253c71ce500124dc6fa9009795db1d4240",
+          "bytes": 80065
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/party-lanterns-2-trace.json",
+          "sha256": "ed77b13fb9af4822d1a1e2c914a717a87f8ed12f2804f2516d36f39e2d4bf662",
+          "bytes": 80041
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/report.json",
+          "sha256": "67cbdbfacee5f86b75663f487fc16e235b377fed02ffe921421fd57b0f6d7923",
+          "bytes": 2400549
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/solo-lantern-1-trace.json",
+          "sha256": "5bc3add42e94d6d3e18ebde7f66f7a6e26e8aa36e9f580f23b73cb663a12eada",
+          "bytes": 23628
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/solo-lantern-2-trace.json",
+          "sha256": "78a207ba11f096915381ea2c549d7f109985f4473e31d09cb72af922071f96db",
+          "bytes": 22943
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/two-round-commands-1-trace.json",
+          "sha256": "857fb9e031b207a3bff148274ee4ac3779a1bd16d64ef4cf9849f78c5d3cdd90",
+          "bytes": 96298
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/two-round-commands-2-trace.json",
+          "sha256": "a7cc33944c3991a459d951ae6e9eb7e15a7cfc2caaefc2068697c447a26d248a",
+          "bytes": 94801
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T12-53-49-026Z/lantern-player-casualty-1-trace.json",
+          "sha256": "04f4a026f6f79a9e96987b3dc5b7ee1347f8080067bf6c7ba77ec36092c7d03c",
+          "bytes": 75707
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T12-53-49-026Z/report.json",
+          "sha256": "d043987ce31983acc117145be30c9ee303755344dd15e1a0b0ce88d5a34ea4ac",
+          "bytes": 966394
+        },
+        {
+          "path": "build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T12-53-49-026Z/story.webm",
+          "sha256": "31b69a9b94885565e66f14eaba974c4af4cf069dc8054ffa818e3e8942b757be",
+          "bytes": 2479435
+        },
+        {
+          "path": "build/e2e/q2-casualty-v1-roundtrip-game-seed-6-2026-11-12T12-49-08-599Z/lantern-player-casualty-6-trace.json",
+          "sha256": "99908ecc7a0e4b9ff6c3d5352bbad28a2e3517480808569a3f6f827bb2b22354",
+          "bytes": 62115
+        },
+        {
+          "path": "build/e2e/q2-casualty-v1-roundtrip-game-seed-6-2026-11-12T12-49-08-599Z/report.json",
+          "sha256": "2a1f7ded7ffd3400366f50c263b0c77f506dd38949f96601ccddbe2b7ca83b6e",
+          "bytes": 96394
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-game/lantern-player-casualty-6-trace.json",
+          "sha256": "c35ce27e1c5f5dbf36995a0e39ed5f4886b39a658f450213093a1b96fb65a6c1",
+          "bytes": 61110
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-game/report.json",
+          "sha256": "a409cc85da15279a0fc0e0766b0257e7a1a3d56d68eaf52967837c4e39ce42aa",
+          "bytes": 141789
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-reforge/lantern-player-casualty-6-trace.json",
+          "sha256": "d8b36c20cf2d93681b4869d90e3fc0ff7a358724f8dade895f0e94cccc1a2774",
+          "bytes": 72586
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-reforge/report.json",
+          "sha256": "d70d0a2b80ec26e7715b1649e5e8cfc2622294cc3e75db413676afb19cd5afdc",
+          "bytes": 164172
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-reforge-probe-error.log",
+          "sha256": "094cfc74e9267e84e0bfb5ca367aa5f33d77e8fbf7c3119ca072241fcab19c08",
+          "bytes": 203
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-reforge.log",
+          "sha256": "f2942ea7b3e871d209eebea0ab25577d1046ed05887858078ae1cb1a4ae20d56",
+          "bytes": 167
+        },
+        {
+          "path": "build/q2/av/player-casualties/baseline-replay.json",
+          "sha256": "b2465b2de9c9200443f0f8f3e1e9b26c2d0b92615af514e108ecfff8ef755f9b",
+          "bytes": 64438
+        },
+        {
+          "path": "build/q2/av/player-casualties/battle-publication.tap",
+          "sha256": "19b01733c65a20aa1f69e4823e763a88a011f3369845d97dec6dbc790da269f2",
+          "bytes": 5350
+        },
+        {
+          "path": "build/q2/av/player-casualties/bundle-receipt.log",
+          "sha256": "422df91a1293109021e10d22f096fe3102e5f1b18066eed55565bd885deb6449",
+          "bytes": 513
+        },
+        {
+          "path": "build/q2/av/player-casualties/capture-game.log",
+          "sha256": "aed4dfe71b1eb80c56bc9b6e8a941eac8afb6df20d37f89b89508a0005728790",
+          "bytes": 167
+        },
+        {
+          "path": "build/q2/av/player-casualties/capture-reforge.log",
+          "sha256": "c7ff726e1b6aa5b3ec1a7eb42a48ad9b34c9385b001554ce9f112b620189ba57",
+          "bytes": 173
+        },
+        {
+          "path": "build/q2/av/player-casualties/casualty-timing.json",
+          "sha256": "e648c292e8ca00dfedcf0d39a85c180627c1bc060c13525c12bb0f159634bf3d",
+          "bytes": 18357
+        },
+        {
+          "path": "build/q2/av/player-casualties/comparison/comparison.json",
+          "sha256": "608a101143c8839cc5b857bd2a52f3984f1129b7f4451e195b81f288a189ac02",
+          "bytes": 864326
+        },
+        {
+          "path": "build/q2/av/player-casualties/e2e-tools.tap",
+          "sha256": "8be5e70cdd74065bca9014bb7b32a66405cf39752c5dff3cb1f6be0be6ca3f0f",
+          "bytes": 130469
+        },
+        {
+          "path": "build/q2/av/player-casualties/execution.json",
+          "sha256": "e2463964ab2d139980c96319da092bf4b9dfef3fe50aa1e3fbf307275822610e",
+          "bytes": 1601
+        },
+        {
+          "path": "build/q2/av/player-casualties/final-compare.log",
+          "sha256": "be2acf7e69e961bae0fd0d4ca5ee460ef32eb464e975876506b2a462e3b94219",
+          "bytes": 123
+        },
+        {
+          "path": "build/q2/av/player-casualties/final-verify-game.log",
+          "sha256": "f1e3d6509d8db23e9c059a7821e2d8816d98e3ef0ce821c740fa2997d6c8829e",
+          "bytes": 141
+        },
+        {
+          "path": "build/q2/av/player-casualties/final-verify-reforge.log",
+          "sha256": "d80478e77ee16b0df3bdaefaec185d43c12d3a8745358affe6e839a060de1bf3",
+          "bytes": 147
+        },
+        {
+          "path": "build/q2/av/player-casualties/lantern-player-casualty-media.json",
+          "sha256": "a1422f6ae4548a037676a41388d5ee659139a9cadbe83c37f2e747c018890973",
+          "bytes": 3447
+        },
+        {
+          "path": "build/q2/av/player-casualties/lantern-player-casualty-split.mp4",
+          "sha256": "d82f01c9c352f6eb4851200ffcb95749461bec02b47defa9c49f6aa79b946d35",
+          "bytes": 1119732
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-counter-exact-death.json",
+          "sha256": "1d3751beb71954707814ff28a4eeda53c73f7a923ccefcb86288012b15a1f7d8",
+          "bytes": 7432
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-counter-exact-dying.json",
+          "sha256": "9969c52c48c21e055f522a6ad17f232f1afeb4cd987dfa36d3735effe0d6e8b7",
+          "bytes": 7413
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-counter-restored.json",
+          "sha256": "b636661f29cdba8474cc7e2e60de0d350139a0c254e0d67e8685485f567d88c7",
+          "bytes": 5857
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-counter-source-sha.txt",
+          "sha256": "f34abf298be0b4fd9b45a0b00417631163fc0888806e1c2e1d2fb3c23c743d06",
+          "bytes": 594
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-final-suite.log",
+          "sha256": "4b22565145a381fe1a6b646e3509da62ec8b5b532336cb294b4b4c87234d2694",
+          "bytes": 2686
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-final-unit.log",
+          "sha256": "e9487613bbb0f764e3c02fbdb1b4e27cbbb19ec1d3eafbaaba80ad2b47a80c85",
+          "bytes": 130
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-game/game-review.md",
+          "sha256": "508e6b96af35ac70ee63b38e8b4c435c37087bcb3da2eda0e5cdafca66df5df2",
+          "bytes": 7339
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-reforge/battle.log",
+          "sha256": "6edecee195e403cff69a150029d05eb0f094ea4954a89022259465872a2ae510",
+          "bytes": 4203
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-reforge/green.log",
+          "sha256": "30deb74c4c550c81a5f7b80249783d6cf58f644fd218f8006c25fa4cee056cf0",
+          "bytes": 786
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-reforge/owner-review.md",
+          "sha256": "3ae55ef241853e6905cb1fa158523282a9e4e8fe04d4a7526fa79674b9c08883",
+          "bytes": 6799
+        },
+        {
+          "path": "build/q2/av/player-casualties/owner-reforge/red-final.log",
+          "sha256": "bfd4dc1a0418d1c75ace92bce9bef5c42790664284ce773cfc9acd0eb61ebc47",
+          "bytes": 9564
+        },
+        {
+          "path": "build/q2/av/player-casualties/reforge-probe.mjs",
+          "sha256": "6c53ba78b35a24eb447b14103f08d030fe173b99a73041b9f4214157bdad112b",
+          "bytes": 5841
+        },
+        {
+          "path": "build/q2/av/player-casualties/replay-baseline.mjs",
+          "sha256": "13747266e640d1d59dc4524918cf0794322a5d32720063c64ef47130e29383fb",
+          "bytes": 3596
+        },
+        {
+          "path": "build/q2/av/player-casualties/replay.bundle",
+          "sha256": "f212a40a7925fec129082cb156c96ad96fd33d384df027a8e76b23f641aebacd",
+          "bytes": 24214
+        },
+        {
+          "path": "build/q2/av/player-casualties/split.py",
+          "sha256": "e2175b6585daf7c93c419d858c5dc0f0b299b9d74e311d62e4ec96b6c33b3be2",
+          "bytes": 4218
+        },
+        {
+          "path": "build/q2/av/player-casualties/verify-receipts.mjs",
+          "sha256": "d153891e9798a1d5a9067f6301677f28d2deb8b4fae67f8b143b1be31aaa3992",
+          "bytes": 4166
+        },
+        {
+          "path": "build/q2/casualty-probe/game-probe.mjs",
+          "sha256": "5cfc98a3a0dc9b4346bc61e91996bf084f44f2e6071be5a850deabcd093ee107",
+          "bytes": 5754
+        },
+        {
+          "path": "build/q2/casualty-probe/game-v1-probe.mjs",
+          "sha256": "58560970da0dc3670f4d602ca3e0ad9831b1ed0c8d703aa39f1f8aeb13b04f39",
+          "bytes": 7156
+        }
+      ]
     }
   ],
   "claims": [
@@ -5484,6 +5922,36 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-12T11-46-06-715Z/report.json",
         "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T11-46-35-041Z/report.json"
       ]
+    },
+    {
+      "id": "native-physical-player-dying-and-death",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/baseline-replay.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/comparison/comparison.json"
+      ]
+    },
+    {
+      "id": "native-lethal-strike-rng-and-survivor-victory",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/baseline-replay.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/comparison/comparison.json"
+      ]
+    },
+    {
+      "id": "physical-player-casualty-browser-review",
+      "result": "runtime-backed",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/lantern-player-casualty-media.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/lantern-player-casualty-split.mp4",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-12T12-53-05-023Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T12-53-49-026Z/report.json"
+      ]
     }
   ],
   "findings": [
@@ -5623,6 +6091,16 @@
         "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz#build/q2/av/action-cadence/intervals.json"
       ],
       "result": "Two original seed72 Reforge battles legally completed, but their actual command-to-guard and guard-to-enemy intervals were independently rejected. The two Game controls and the two frozen Reforge repeats passed."
+    },
+    {
+      "kind": "physical-player-casualty-baseline",
+      "evidence": [
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/baseline-replay.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/report.json",
+        "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/comparison/comparison.json"
+      ],
+      "result": "Both baseline fights reached victory after the same commands. Game omitted the dying sound and played death after the survivor’s attack. Reforge omitted both sounds, skipped the lethal hit’s probability draw and awarded EXP to the fallen player. The frozen matrix passes all respective oracles."
     }
   ],
   "cleanup": {
@@ -5691,6 +6169,15 @@
       "predecessor": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
       "historicalReceiptRevision": "d0020e0749483651d9b0f86cf79ef738ac34663e",
       "archive": "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz"
+    },
+    {
+      "revision": "55d5512d81a87660185b17afad621a3d33e9e5a0",
+      "date": "2026-11-12",
+      "action": "native-player-physical-casualties-and-survivor-continuation",
+      "scope": "Rendered direct physical dying, fallen poses and actual sounds, lethal RNG consumption and victory reward eligibility in a legal two-round fixture.",
+      "predecessor": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+      "historicalReceiptRevision": "58812c028ebd87dd75a9c5dda46a4ec997fb4b09",
+      "archive": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz"
     }
   ],
   "_governance": {
@@ -5843,5 +6330,22 @@
       "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T11-46-35-041Z/report.json"
     ],
     "executionSummary": "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz#build/q2/av/action-cadence/execution.json"
+  },
+  "playerCasualtyExecution": {
+    "date": "2026-11-12",
+    "producerRevision": "55d5512d81a87660185b17afad621a3d33e9e5a0",
+    "verificationReports": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-2026-11-12T12-50-26-487Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-2026-11-12T12-50-26-487Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/comparison/comparison.json"
+    ],
+    "oldComparison": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/baseline-replay.json",
+    "browserReview": [
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/lantern-player-casualty-media.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/lantern-player-casualty-split.mp4",
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-game-none-audio-review-2026-11-12T12-53-05-023Z/report.json",
+      "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/e2e/q2-battle-reforge-none-audio-review-2026-11-12T12-53-49-026Z/report.json"
+    ],
+    "executionSummary": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz#build/q2/av/player-casualties/execution.json"
   }
 }

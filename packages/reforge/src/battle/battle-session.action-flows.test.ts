@@ -671,6 +671,80 @@ describe('W3 执行时间线接线', () => {
     expect(pixel(250, 167)).toBe(poseRed(PLAYER_PROFILE.frames.defend))
   })
 
+  test('灯笼使李逍遥濒死再倒地，伤亡声各在实际受击时间线内播一次', async () => {
+    const lantern = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-399'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', {
+          hp: 40,
+          maxHp: 40,
+          defense: 9,
+          baseDexterity: 3,
+          coveredBy: 'lin-yueru',
+        }),
+        wfPlayer('anu', { attackStrength: 950, baseDexterity: 1 }),
+      ],
+      enemies: [lantern],
+      extraOpts: {
+        playerSounds: [
+          { dying: 'sound.pal.019', death: 'sound.pal.023' },
+          { weapon: 'sound.pal.004' },
+        ],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    const drawUntil = (x: number, y: number, frame: number) => {
+      for (let i = 0; i < 80; i += 1) {
+        h.idle()
+        h.session.render(ctx, 1)
+        if (pixel(x, y) === poseRed(frame)) return
+      }
+      expect(pixel(x, y)).toBe(poseRed(frame))
+    }
+    const casualtySounds = () =>
+      sfx.plays.filter((sound) => sound === 'sound.pal.019' || sound === 'sound.pal.023')
+
+    h.press(['d'])
+    h.press(['d'])
+    // 两人队首归位 (200,176)，读取精灵顶部。
+    drawUntil(200, 168, PLAYER_PROFILE.frames.dying)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(5)
+    expect(casualtySounds()).toEqual([])
+    h.idle(160)
+    expect(casualtySounds()).toEqual([])
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i += 1) h.idle()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    expect.soft(casualtySounds()).toEqual(['sound.pal.019'])
+
+    h.press(['d'])
+    h.press([' '])
+    h.press([' '])
+    drawUntil(208, 172, PLAYER_PROFILE.frames.hurt)
+    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(casualtySounds()).not.toContain('sound.pal.023')
+    drawUntil(210, 173, PLAYER_PROFILE.frames.hurt)
+    expect.soft(casualtySounds()).toContain('sound.pal.023')
+    drawUntil(200, 168, PLAYER_PROFILE.frames.dead)
+    expect(sfx.plays).not.toContain('sound.pal.004')
+
+    let result: string | undefined
+    void h.session.done.then((value) => {
+      result = value
+    })
+    for (let i = 0; i < 100; i += 1) h.idle(40)
+    await flush()
+    expect(result).toBe('victory')
+    expect(sfx.plays).toContain('sound.pal.004')
+    expect(casualtySounds()).toEqual(['sound.pal.019', 'sound.pal.023'])
+  })
+
   test.each([
     {
       cause: '附毒后濒死仍先恢复主动防御姿态',
@@ -696,7 +770,7 @@ describe('W3 执行时间线接线', () => {
       maxHp: 40,
       attackStrength: 300,
       returnFrame: PLAYER_PROFILE.frames.dead,
-      poisonCount: 0,
+      poisonCount: 1,
       nextHp: 0,
     },
   ])('$cause，敌普攻归位姿势由物理扣血决定且下一轮队员框显示最终 HP', ({

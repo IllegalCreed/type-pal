@@ -137,6 +137,51 @@ afterEach(() => {
 })
 
 // Deterministic renderer facts exercise the judge. The native captures provide product evidence.
+function battlePainter(observer, attack) {
+  let clockMs = 0
+  return function paint({
+    player = [240, 170, 0, 0],
+    foe = [100, 110, 0],
+    fading = false,
+    animation = attack,
+    turn = 1,
+    phase = 'performAction',
+    selecting = false,
+    number,
+    elapsedMs = 40,
+  } = {}) {
+    clockMs += elapsedMs
+    observer.beginFrame('reforge:BattleSession.render', {
+      clockMs,
+      phase,
+      turn,
+      selecting,
+      animation,
+    })
+    const [x, y, frameIndex, colorShift] = player
+    const drawn = { x, y, colorShift }
+    observer.labelFighter(drawn, 'player', 0, false, 7)
+    observer.fighterDrawn(drawn, frameIndex)
+    if (foe) {
+      const enemy = { x: foe[0], y: foe[1] }
+      observer.labelFighter(enemy, 'enemy', 0, fading, foe[2])
+      observer.fighterDrawn(enemy)
+    }
+    if (number !== undefined) {
+      const damage = {}
+      observer.labelNumber(damage, 'player', 0)
+      observer.numberDrawn(damage, number, 'blue', 246, 95, 0)
+    }
+    if (selecting) {
+      observer.panelDrawn(0)
+      observer.panelDrawn(1)
+    }
+    if (phase === 'won') observer.settlementDrawn('exp-cash')
+    observer.endFrame()
+    return clockMs
+  }
+}
+
 function guardFixture(automatic, cadenceMs) {
   const fixture = scenario()
   const start = state(150, 30, 2)
@@ -184,43 +229,7 @@ function guardFixture(automatic, cadenceMs) {
   )
   const observer = globalThis.__battleEvidence
   observer.start(start, 'battle:start')
-  let clockMs = 0
-  const paint = ({
-    player = [240, 170, 0, 0],
-    foe = [100, 110, 0],
-    animation = attack,
-    turn = 1,
-    phase = 'performAction',
-    selecting = false,
-    number,
-  } = {}) => {
-    clockMs += 40
-    observer.beginFrame('reforge:BattleSession.render', {
-      clockMs,
-      phase,
-      turn,
-      selecting,
-      animation,
-    })
-    const [x, y, frameIndex, colorShift] = player
-    const drawn = { x, y, colorShift }
-    observer.labelFighter(drawn, 'player', 0, false, 7)
-    observer.fighterDrawn(drawn, frameIndex)
-    const enemy = { x: foe[0], y: foe[1] }
-    observer.labelFighter(enemy, 'enemy', 0, false, foe[2])
-    observer.fighterDrawn(enemy)
-    if (number !== undefined) {
-      const damage = {}
-      observer.labelNumber(damage, 'player', 0)
-      observer.numberDrawn(damage, number, 'blue', 246, 95, 0)
-    }
-    if (selecting) {
-      observer.panelDrawn(0)
-      observer.panelDrawn(1)
-    }
-    if (phase === 'won') observer.settlementDrawn('exp-cash')
-    observer.endFrame()
-  }
+  const paint = battlePainter(observer, attack)
   paint({ animation: null, phase: 'selectAction', selecting: true })
   if (nativeDefend) {
     observer.command({ ...defend, source: 'BattleCommandSelection:submit:pendingActions.set' })
@@ -244,7 +253,7 @@ function guardFixture(automatic, cadenceMs) {
   paint({ player: [250, 175, recoilFrame, 0], foe: contact })
   paint({ player: [240, 170, automatic ? 0 : 3, 0] })
   if (!automatic) {
-    paint({ player: [240, 170, 3, 0], phase: 'postAction', animation: null })
+    const clockMs = paint({ player: [240, 170, 3, 0], phase: 'postAction', animation: null })
     observer.round({ ...round, clockMs, source: 'battle:round-ended' })
     paint({ turn: 2, phase: 'selectAction', animation: null, number: 7 })
   }
@@ -274,6 +283,87 @@ function guardFixture(automatic, cadenceMs) {
       event.atMs = atMs
     }
   }
+  return { fixture, trace }
+}
+
+function casualtyFixture() {
+  const fixture = scenario()
+  const enemyAttack = { ...decision('lantern-a', 'attack', 'hero'), actorSide: 'enemy' }
+  const healthy = state(40, 30, 2)
+  const dying = state(5, 30, 2)
+  const dead = state(0, 30, 2)
+  const first = { ...enemyAttack, before: healthy, after: dying, rawDamage: 35 }
+  const second = { ...enemyAttack, turn: 2, before: dying, after: dead, rawDamage: 5 }
+  const ally = { ...strike, turn: 2, before: dead, after: state(0, 0, 2) }
+  const dyingSound = 'sound.pal.019'
+  const deathSound = 'sound.pal.023'
+  fixture.expected.start = healthy
+  fixture.expected.actions = [first, second, ally]
+  fixture.expected.playerCasualties = [
+    { actionIndex: 0, recoveryFrame: 1, soundKind: 'player-dying' },
+    { actionIndex: 1, recoveryFrame: 2, soundKind: 'player-death' },
+  ]
+  fixture.expected.audioCues = [
+    { actionIndex: 0, kind: 'player-dying', assetId: dyingSound },
+    { actionIndex: 1, kind: 'player-death', assetId: deathSound },
+  ]
+  fixture.expected.audioSourceFrames = { [dyingSound]: 3, [deathSound]: 3 }
+  installBattleTraceObserver(
+    { scenarioId: fixture.id, runId: `run-${++run}`, engine: 'reforge', random },
+    createEvidenceRecorder,
+  )
+  const observer = globalThis.__battleEvidence
+  const play = (assetId) => {
+    const cue = observer.audioRequested(assetId, 'reforge:SfxPlayer.play')
+    const buffer = {
+      numberOfChannels: 1,
+      sampleRate: 22050,
+      length: 3,
+      getChannelData: () => new Float32Array([0, -0.5, 0.25]),
+    }
+    observer.audioDecoded(
+      assetId,
+      buffer,
+      `assets/migrated/sounds/${assetId.slice(-3)}.wav`,
+      'reforge:SfxPlayer.ensureDecoded:decode',
+    )
+    observer.audioStarted(
+      cue,
+      assetId,
+      buffer,
+      { state: 'running', currentTime: 1 },
+      'reforge:browserAdapter.play:AudioBufferSourceNode.start',
+    )
+  }
+  observer.start(healthy, 'battle:start')
+  const paint = battlePainter(observer, first)
+  for (const attack of [first, second]) {
+    const { turn, rawDamage } = attack
+    const draw = (options) => paint({ turn, animation: attack, ...options })
+    draw({
+      player: [240, 170, turn - 1, 0],
+      animation: null,
+      phase: 'selectAction',
+      selecting: true,
+    })
+    observer.command({ ...decision('hero', 'defend', null), turn, source: 'selection:commit' })
+    draw({ player: [240, 170, turn - 1, 0], foe: [98, 109, 1] })
+    draw({ player: [240, 170, turn - 1, 0], foe: [196, 154, 1] })
+    draw({ player: [240, 170, 4, 6], foe: [196, 154, 2], number: rawDamage })
+    draw({ player: [248, 174, 4, 0], foe: [196, 154, 2] })
+    if (turn === 2) play(deathSound)
+    draw({ player: [250, 175, 4, 0], foe: [196, 154, 2] })
+    draw({ player: [240, 170, turn, 0] })
+    if (turn === 1) play(dyingSound)
+    draw({ player: [240, 170, turn, 0], animation: null })
+  }
+  const fallen = [240, 170, 2, 0]
+  paint({ turn: 2, player: fallen, animation: ally })
+  paint({ turn: 2, player: fallen, animation: null, fading: true })
+  paint({ turn: 2, player: fallen, animation: null, foe: null, phase: 'won', elapsedMs: 1152 })
+  const trace = observer.read()
+  // The cold decode and native start fit within one battle tick on a fixed recorder clock.
+  for (const event of [...trace.presentations, ...trace.audioEvents]) event.atMs = event.order * 15
   return { fixture, trace }
 }
 
@@ -497,6 +587,88 @@ describe('battle business conformance and comparison', () => {
         draw.frame,
       ]),
       [['automatic-block-damage-number', knockback.frame]],
+    )
+  })
+
+  test('player casualties require the first hit and return poses before a living ally acts', () => {
+    const { fixture, trace } = casualtyFixture()
+    const accepted = validateBattlePresentation(trace, fixture)
+    assert.equal(accepted.status, 'passed')
+    const [dying, dead] = accepted.playerCasualties
+    assert.deepEqual(
+      [dying, dead].map(({ hit, knockback, recoil, returned, next }) => [
+        hit.number.value,
+        hit.player.frameIndex,
+        knockback.player.x - returned.player.x,
+        recoil.player.x - returned.player.x,
+        returned.player.frameIndex,
+        next.animation.actorId,
+      ]),
+      [
+        [35, 4, 8, 10, 1, 'lantern-a'],
+        [5, 4, 8, 10, 2, 'ally'],
+      ],
+    )
+
+    const early = structuredClone(trace)
+    early.presentations[dying.charge.frame - 1].payload.numbers.push({
+      ...dying.hit.number,
+      numberId: 99,
+    })
+    assert.deepEqual(
+      validateBattlePresentation(early, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+      [['player-casualty-hit-frame', 1]],
+    )
+    const latePose = structuredClone(trace)
+    latePose.presentations[dead.returned.frame].payload.players[0].frameIndex = 1
+    assert.deepEqual(
+      validateBattlePresentation(latePose, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['player-casualty-recovery-frame', dead.returned.frame]],
+    )
+    const revivedAction = structuredClone(trace)
+    const fading = accepted.deaths[0].start.frame
+    revivedAction.presentations[fading].payload.animation = {
+      actorId: 'hero',
+      kind: 'attack',
+      targetId: 'lantern-a',
+    }
+    assert.deepEqual(
+      validateBattlePresentation(revivedAction, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['dead-player-animation', fading]],
+    )
+  })
+
+  test('a casualty sound request in the recoil window still needs timely native playback', () => {
+    const { fixture, trace } = casualtyFixture()
+    const [dying, dead] = validateBattlePresentation(trace, fixture).audio.playerCasualties
+    assert.deepEqual(
+      [dying, dead].map(({ start, buffer, cold }) => [start.assetId, buffer.bufferId, cold]),
+      [
+        ['sound.pal.019', 0, true],
+        ['sound.pal.023', 1, true],
+      ],
+    )
+    const requestedOnly = structuredClone(trace)
+    requestedOnly.audioEvents = requestedOnly.audioEvents.filter(
+      (event) => event.order !== dead.start.order,
+    )
+    assert.deepEqual(
+      validateBattlePresentation(requestedOnly, fixture).findings.map(({ rule, kind }) => [
+        rule,
+        kind,
+      ]),
+      [['audio-cue-start-missing', 'player-death']],
+    )
+    trace.audioEvents[dead.start.seq].atMs = dead.request.atMs + 41
+    assert.deepEqual(
+      validateBattlePresentation(trace, fixture).findings.map(({ rule, kind }) => [rule, kind]),
+      [['player-casualty-sound-start-edge', 'player-death']],
     )
   })
 

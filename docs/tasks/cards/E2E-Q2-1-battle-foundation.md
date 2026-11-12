@@ -9,7 +9,7 @@ Visual Verification Owner: Codex（双端采集与复验） / User（产品取�
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-12
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-action-cadence
+Branch: codex/q2-player-casualties
 
 ## 目标
 
@@ -93,6 +93,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 2026-11-12，用户对主动防御受击复位和单人自动格挡两段原速带声分屏回复「通过」。两段来自冻结候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b`，归档的 `build/q2/av/guard-recovery/` 下分别为 `equivalent-poison-split.mp4` 和 `automatic-block-split.mp4`。实现已随 PR #57 合入主线，合并提交为 `92695f18b975f8521bfb531566387149147b893e`。 [分屏归档](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [PR #57](https://github.com/IllegalCreed/type-pal/pull/57)
 
 2026-11-12，用户对血口虫主动防御至首次命中的原速带声分屏回复「通过」。分屏来自冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，归档成员为 `build/q2/av/action-cadence/equivalent-poison-split.mp4`。本次验收覆盖主动防御至首次命中的节拍。 [分屏归档](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
+
+2026-11-12，用户对李逍遥受灯笼物攻后濒死、阵亡和阿奴续战的原速带声分屏回复「通过」，要求本段收口。分屏来自冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0`，归档成员为 `build/q2/av/player-casualties/lantern-player-casualty-split.mp4`。 [分屏归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
 
 ## 2026-11-11 首批分屏返工
 
@@ -252,6 +254,24 @@ Codex build allowed。`q2_rules` 独占 Reforge 普通行动调度器、必要�
 冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f` 的八个局面共 32 场通过，16 组双端和 16 组同端比较均通过。血口虫两次的提交至起手差为 14.2、13.6 ms，均在一个原版战斗帧内。两个旧 Reforge 完赛原件均由前两段等待判据拒绝，两个旧 Game 完赛原件通过。最终带声回放来自同候选，已按首条防御提交对齐并获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-主动防御至首次命中的行动节拍) · [原件与分屏](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
 
 Reforge 战斗定向 59 文件、541 项和 E2E 工具 451 项通过。正式快测七包 20,449 项通过，按保护基点更新覆盖率基线。七包 typecheck、文档门和 6,793 文件 lint 零诊断。独立复核原速视频、首个受击音 092 和新旧归档 SHA。 [覆盖基线](../../../scripts/coverage/baseline.fast.json)
+
+## 2026-11-12 第四批玩家濒死与阵亡
+
+用户确认继续推进第四批。冻结基点 `58812c028ebd87dd75a9c5dda46a4ec997fb4b09`。复用正常战斗入口，战场 7、原队 1 的单灯笼、`mulberry32` seed 6、李逍遥与阿奴。第一轮均防御，第二轮李逍遥防御、阿奴普攻。两端实际先后为李逍遥 40→5→0、阿奴继续出手并胜利。李逍遥的守护者林月如在队外，本局面无伤亡对白。濒死、倒地、声音与结算分别判定。
+
+| 边界 | 原版 CLASSIC | Game 基点 | Reforge 基点 | 本轮目标 |
+| --- | --- | --- | --- | --- |
+| 实绘与声音 | [fight.c:5052–5148](../../../reference/sdlpal/fight.c#L5052) 命中画受击并播普通受击声。首段击退后、第二段后坐开始时播阵亡声，随后回位为倒地帧。[fight.c:824–865](../../../reference/sdlpal/fight.c#L824) 在完整攻击结束后检查新跨入濒死者，播声后才检查守护者是否在队。 | 两轮蓝字 35、5，已画受击 4、回位 1 和 2。濒死声 019 缺失，阵亡声 023 在阿奴击杀与敌淡出后才启动。动作收尾和旧回合末扫音在 `battle-system.ts:2221–2227,2833–2846`。 | `battle-session.ts:1853–1895` 选择了实际伤后恢复帧。两个姿态已正确实绘，019 和 023 没有请求，音源已在 `audio/sfx-readiness.ts:29–38,298–319` 收集。 | 实际播放两条对应角色声音一次，保持两段受击位移、回位、普通受击音和队友下一次出手的顺序。 |
+| 致死后的随机数 | [fight.c:5139–5145](../../../reference/sdlpal/fight.c#L5139) 非格挡命中后仍抽附带率，灯笼的原始率为 0。 | 致死一击后照常抽率，阿奴末击原伤 976。 `actions/attack.ts:415–453`。 | `battle-core.ts:2724` 在 HP 为 0 时整段跳过，导致下一次阿奴末击原伤 984。 | 两端使用相同随机序列和原伤，灯笼仍无附带效果。 |
+| 战后经验与恢复 | [battle.c:1087–1100](../../../reference/sdlpal/battle.c#L1087) 阵亡者跳过经验，之后 [半恢复](../../../reference/sdlpal/battle.c#L1342)。 | 李逍遥经验 0、恢复至 20，阿奴经验 1、HP 150，钱 3。 | `battle-session.ts:2130–2136` 胜利写回把 0 钳为 1，`battle-world-result.ts:16–28` 因此给本应阵亡的角色经验 1，后续 HP 20 恰好相同。 | 结算用实际倒地 HP，保留合法半恢复、阿奴经验和金钱一次入账。 |
+
+最强替代解释是同一素材加载或录音漏失。两端的真实 AudioBufferSource 已启动普通受击 352。旧 Game 023 有独立实际启动且超出受击窗口，旧 Reforge 无 019/023 请求。两个角色 WAV 在原始和现行项目中逐字节匹配。旧版完成真实两回合是业务反例，按画帧、实际音频、随机数与结算各自出结果。
+
+Codex build allowed。`q2_panel` 独占 Game 直接敌方物攻时间线、收尾音效和必要的相邻既有测试。`q2_rules` 独占 Reforge 物攻声音、致死附带率、胜利真实 HP 写回及必要邻近测试。`q2_inputs` 独占共享表现比较器与相邻工具测试。根持合法局面、固定数据核验、文档与集成。现有两阶段守护、脚本、法术和回合末毒音规则各按既有路径，仅复核本段直接物攻；需要调整的其它分支按后续证据另行准入。复用原件比较、全矩阵回归和带声分屏，以首条实际提交对齐。
+
+冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0` 的双端各 18 场，18 组跨端及 18 组同端复验通过。旧 Game 的濒死音缺失及阵亡音迟到、旧 Reforge 的两条音缺失、少抽一次和结算经验错误分别由实际原件检出。新局面的音轨、两种姿态及队友续战从同一候选生成原速分屏，已获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-玩家物攻濒死和阵亡) · [复验归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
+
+Game 战斗回归 1,206 项、Reforge 战斗回归 544 项、E2E 工具 453 项通过，七包 typecheck 零诊断。Game 在两段受击动画播放时导出的 V1 快照均通过实际解析，原件包含对应帧音和 HP 快照。 七包快测共 20,457 项通过，覆盖基线已更新。文档门和 6,793 文件 lint 零诊断。
 
 ## 状态与交接
 

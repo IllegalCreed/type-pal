@@ -58,6 +58,8 @@ export type BattleLastAction =
       targetPlayerIdx: number
       /** 命中时的物理扣血，附带道具在其后结算；格挡时省略。 */
       damage?: number
+      /** 物攻及附带道具结算后，目标本步跨入濒死且满足伤亡反应条件。 */
+      targetEnteredDying?: true
     })
   | (EnemyActionBase & { kind: 'attackMate'; targetEnemyIdx: number; damage: number })
   | (EnemyActionBase & { kind: 'cast'; skillId: string; targetPlayerIdx: number })

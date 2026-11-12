@@ -599,7 +599,7 @@ describe('performAttack', () => {
     // 原盘 39335 与 40862 的操作数保持原样，脚本入口移到本地命令表。
     setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 3, enemyScript: 0 }])
     const fixture = makeActionFixture({
-      role: { hp, maxHP: 150, defense: 259 },
+      role: { hp, maxHP: 150, defense: 259, deathSound: 23 },
       enemies: [{ level: 12, attackStrength: 16, attackEquivItem: 117, attackEquivItemRate: 4 }],
       rolls: [4, 2, 1, 4, 83, 92, 4, 2, 1, 4, 83, 92],
     })
@@ -633,9 +633,13 @@ describe('performAttack', () => {
     expect(playerRoles.roles[0]!.hp).toBe(141) // only the next physical hit
   })
   it.each([
-    { hp: 8, recovery: 1 },
-    { hp: 1, recovery: 2 },
-  ])('敌普攻恢复姿态取附毒前的物理命中结果，受击前 HP=$hp', ({ hp, recovery }) => {
+    { hp: 8, recovery: 1, deathSounds: [] },
+    { hp: 1, recovery: 2, deathSounds: [23] },
+  ])('敌普攻恢复姿态和阵亡声取附毒前的物理命中结果，受击前 HP=$hp', ({
+    hp,
+    recovery,
+    deathSounds,
+  }) => {
     const { state, playerRoles, bus, gs, poison } = makeBloodwormPoisonFixture(hp)
     state.enemies[0]!.posOriginal = { x: 70, y: 90 }
     state.players[0]!.posOriginal = { x: 210, y: 130 }
@@ -656,6 +660,9 @@ describe('performAttack', () => {
         (delta) => delta.side === 'player' && delta.idx === 0 && delta.currentFrame !== undefined,
       )
     expect(targetPoses.at(-1)?.currentFrame).toBe(recovery)
+    expect(frames.flatMap((frame) => (frame.sound === 23 ? [frame.sound] : []))).toEqual(
+      deathSounds,
+    )
   })
   it('敌普攻 equivItem:rate roll 不过 → 不中毒', () => {
     setObjectPoisons([{ id: 551, level: 0, color: 16, playerScript: 0, enemyScript: 0 }])

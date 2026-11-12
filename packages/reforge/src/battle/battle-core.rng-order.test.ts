@@ -136,7 +136,8 @@ test('a cooperative attack falls back to the single-hit draw order if a contribu
     effects: [{ kind: 'damage', power: 392, elemental: 4 }],
     animation: { effectSprite: 37 },
   }
-  const rng = fixedDraws([0.5, 0.5, 0.5, 0.75, 0.1, 0.25, 0.25, ...strikeDraws])
+  // Queue, lethal enemy hit (including its rate draw), then the cooperative fallback's strike.
+  const rng = fixedDraws([0.5, 0.5, 0.5, 0.75, 0.1, 0.25, 0.25, 0.4, ...strikeDraws])
   const state = createBattleState({
     players: [
       { ...wuHou, baseDexterity: 1, cooperativeMagicSkillId: skill.id },
@@ -297,6 +298,42 @@ test('the blood worm starts red poison on hit, ticks again at turn end, and red 
   stepBattle(state, rng)
   expect(state.lastAction).toMatchObject({ kind: 'attack', firstDamage: 407 })
   expect(state).toMatchObject({ phase: 'won', expGained: 14, cashGained: 9 })
+})
+
+test('a lethal enemy hit still rolls the equivalent poison and runs its entry without reviving', () => {
+  const input = bloodWormBattle()
+  const player = expectDefined(input.players[0])
+  const redPoison = expectDefined(input.poisonDefs[551])
+  const poison = expectDefined(
+    validatePoisons([
+      { ...redPoison, playerTicks: [{ hpDelta: 5, mpDelta: 4 }, { hpDelta: -7 }] },
+    ])[0],
+  )
+  const state = createBattleState({
+    ...input,
+    players: [{ ...player, hp: 1, mp: 10 }],
+    poisonDefs: { [poison.id]: poison },
+  })
+  // Seed 72: queue, block, physical bonuses, rate, both resistances, then an unused draw.
+  const rng = fixedDraws([
+    0.20860595, 0.15407627, 0.27076954, 0.1212119, 0.07027551, 0.33176822, 0.82964625, 0.9120957,
+    0.82732467,
+  ])
+  stepBattle(state, rng)
+  state.pendingActions.set(0, { kind: 'defend' })
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+  stepBattle(state, rng)
+
+  // CLASSIC 0x29 adds the poison and enters the tick at HP 0, where 0x1B/0x1C cannot change HP/MP.
+  expect(state.lastAction).toMatchObject({ kind: 'attack', damage: 1, targetPlayerIdx: 0 })
+  expect(state.players[0]).toMatchObject({
+    hp: 0,
+    mp: 10,
+    poisons: [{ poisonId: 551, tickIndex: 1 }],
+  })
+  expect(state.phase).toBe('lost')
+  expect(rng()).toBe(0.82732467)
 })
 
 test('the attached poison script can fail resistance after the equivalent item gate passes', () => {

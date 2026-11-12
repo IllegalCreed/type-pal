@@ -744,7 +744,7 @@ export const MAX_BATTLE_PLAYERS = 3
  * 持久表同时承载大世界普通状态与装备授状态(value>999),这里按原计数复制,不按来源过滤。
  * 战斗期间改局部副本;战后 finalizeBattleCleanup 清持久表 <=999 的状态。
  */
-function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
+export function seedBattleStatus(persistent: number[] | undefined): BattleStatus {
   const p = persistent
   return {
     confused: p?.[0] ?? 0,

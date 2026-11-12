@@ -18,7 +18,7 @@
  * 逐敌衰减均已按 CLASSIC 分支接入。
  */
 
-import type { Command, Enemy, Item, PlayerRoles } from '@type-pal/shared'
+import type { Command, Enemy, Item, PlayerRole, PlayerRoles } from '@type-pal/shared'
 import type { CommandBus } from '../../command-bus.js'
 import { getPlayerPoisonResistance } from '../../equipment-state.js'
 import type { GameState } from '../../game-state.js'
@@ -32,13 +32,18 @@ import {
 } from '../anim-timeline.js'
 import { startBattleAnim } from '../battle-anim-driver.js'
 import type { RunScriptFn } from '../battle-runtime-context.js'
-import type { BattleAnimFrame, BattleState } from '../battle-state.js'
+import {
+  type BattleAnimFrame,
+  type BattlePlayer,
+  type BattleState,
+  seedBattleStatus,
+} from '../battle-state.js'
 import { calcBaseDamage, calcPhysicalAttackDamage } from '../formulas.js'
 import type { ActionQueueItem } from '../turn-queue.js'
 
 /**
- * 敌人普攻附带等价物品中毒所需上下文(sdlpal fight.c:5139-5146 wAttackEquivItem)。
- * 省略 → 不施加(向后兼容旧 caller / 单测)。
+ * 敌方物攻的脚本上下文与队外守护者的状态来源。
+ * 正常战斗宿主传入。合击降级仅走玩家攻击路径。
  */
 export interface EquivPoisonCtx {
   gs: GameState
@@ -63,6 +68,39 @@ function playerEffectFrameBase(
 /** PAL_IsPlayerDying(fight.c:47-48):hp < min(100, maxHP/5)。 */
 function isPlayerDying(hp: number, maxHp: number): boolean {
   return hp < Math.min(100, Math.floor(maxHp / 5))
+}
+
+function appendPhysicalCasualtySound(
+  frames: BattleAnimFrame[],
+  players: readonly BattlePlayer[],
+  target: BattlePlayer,
+  role: PlayerRole,
+  hpBefore: number,
+  gs: GameState,
+): void {
+  const { hp, maxHP, dyingSound = 0 } = role
+  if (hp >= hpBefore) return
+  if (hp > 0 && (!isPlayerDying(hp, maxHP) || hpBefore < Math.floor(maxHP / 5))) return
+
+  // 本次伤亡已经由时间线处理。对白继续读取独立的 scriptPrevHp。
+  target.prevHp = hp
+  if (
+    hp === 0 ||
+    dyingSound <= 0 ||
+    gs.fAutoBattle ||
+    target.status.sleep ||
+    target.status.confused
+  )
+    return
+
+  // fight.c:824–863 先查守护者失能并播音，再查守护者在队和对白条件。
+  const guardianRoleId = role.coveredBy ?? 0
+  const guardian = players.find((member) => member.roleId === guardianRoleId)
+  const status = guardian?.status ?? seedBattleStatus(gs.rgPlayerStatus[guardianRoleId])
+  if (!status.sleep && !status.paralyzed && !status.confused) {
+    // 逻辑时钟在最后一个回位帧结束时消费音效，同一拍结束动画。
+    frames.push({ durationMs: 0, sound: dyingSound })
+  }
 }
 
 /** SHORT cast(同 formulas.ts 私函)。 */
@@ -313,8 +351,9 @@ export function performAttack(
   //   physRes 硬编码 2;sDamage = CalcPhysical(str+RandomLong(0,2), def, 2) + RandomLong(0,1);
   //   Protect→sDamage/=2(5059-5062 truthy);<=0→1。
   // 自动防御闪避和守护 cover 的核心结算已接入;cover 专属跳位/音效表现仍可继续精修。
-  const targetRole = playerRoles.roles[state.players[targetIdx]!.roleId]!
-  const targetStatus = state.players[targetIdx]!.status
+  const targetPlayer = state.players[targetIdx]!
+  const targetRole = playerRoles.roles[targetPlayer.roleId]!
+  const targetStatus = targetPlayer.status
 
   // B2 c3a/c3b:自动防御闪避 + 守护替挡(fight.c:4936-4985)。fAutoDefend 命中 = 整次物理攻击全免伤
   //   (5052 !fAutoDefend gate 罩住整个伤害块)。
@@ -457,6 +496,17 @@ export function performAttack(
   bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
 
   if (built) {
+    if (equivPoison) {
+      // CLASSIC 的濒死检查使用附带脚本结算后的 HP。
+      appendPhysicalCasualtySound(
+        built,
+        state.players,
+        targetPlayer,
+        targetRole,
+        hpBefore,
+        equivPoison.gs,
+      )
+    }
     startBattleAnim(state, built, bus)
     return
   }
@@ -612,6 +662,7 @@ function buildAttackTimeline(input: {
       },
       damage,
       targetDied: hp === 0,
+      targetDeathSound: role?.deathSound,
       targetDying: isPlayerDying(hp, maxHp),
       autoDefend: input.autoDefend !== undefined,
       coverSound: input.autoDefend?.coverSound ?? 0,

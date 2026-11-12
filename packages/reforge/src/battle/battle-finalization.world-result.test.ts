@@ -25,6 +25,7 @@ import {
 } from '../__tests__/runtime-shell/scenarios.js'
 import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { loadStandardPalette } from '../assets.js'
+import { expectDefined } from '../defined.js'
 import { type LoadedCurrentProject, loadCurrentProjectFrom } from '../project-loader.js'
 import { projectItemsView } from '../runtime-project-view.js'
 import { createBattlePlayers } from './battle-player-input.js'
@@ -82,6 +83,7 @@ function projectSprite(
 interface FinalizationScenario {
   enemy: AuthorEnemyDef
   actors?: ActorDef[]
+  party?: string[]
   items?: ReturnType<typeof medicine>[]
   inventory?: Array<{ itemId: string; count: number }>
   seedStats?: Record<string, { hp?: number; mp?: number }>
@@ -109,6 +111,7 @@ async function finalizationHarness(scenario: FinalizationScenario) {
   const fixture = await scenarioProject({
     enemies: [scenario.enemy],
     actors: scenario.actors ?? [combatActor(), shellActor('friend')],
+    party: scenario.party,
     items: scenario.items ?? [],
     inventory: scenario.inventory ?? [],
     seedStats: scenario.seedStats,
@@ -308,6 +311,37 @@ test('BF-02 零经验胜利：经验门关、金钱照入账、无结算屏', as
     expect(h.world.money).toBe(50 + 7)
     expect(h.world.party[0]!.exp).toBe(0)
     expect(h.observables.screens).toEqual([]) // buildSettlementScreens：exp=0 不产首屏
+  } finally {
+    await h.close()
+  }
+})
+
+test('胜利时倒地队员跳过经验，之后和队友一起接受半恢复', async () => {
+  const hero = combatActor()
+  const heroStats = expectDefined(hero.battler).baseStats
+  heroStats.hp = 41
+  heroStats.maxHP = 41
+  const friend = shellActor('friend')
+  expectDefined(friend.battler).baseStats.speed = 100
+  const h = await finalizationHarness({
+    enemy: foeWith({ health: 1, exp: 15, cash: 7 }),
+    actors: [hero, friend],
+    party: ['hero', 'friend'],
+    seedStats: { hero: { hp: 0 }, friend: { hp: 100 } },
+  })
+  try {
+    const settled = settleAware(h)
+    await drive(h, settled, 'attack')
+    expect(settled()).toBe('victory')
+    expect(h.session.debugPlayers().map(({ hp }) => hp)).toEqual([0, 100])
+    h.finish('victory')
+    // battle.c:1093,1342 先判断存活，再按实际 HP 计算半恢复。maxHP 取奇数以区分提前钳成 1。
+    expect(h.world.party.map(({ hp, exp }) => ({ hp, exp }))).toEqual([
+      { hp: 20, exp: 0 },
+      { hp: 100, exp: 15 },
+    ])
+    expect(h.world.money).toBe(57)
+    expect(h.observables.onExpRewardCalls).toBe(1)
   } finally {
     await h.close()
   }
