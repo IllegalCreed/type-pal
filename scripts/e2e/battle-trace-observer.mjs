@@ -225,15 +225,31 @@ export function installBattleTraceObserver(context, createRecorder) {
         settlement: null,
       }
     },
-    labelFighter(draw, side, slot, fading = false) {
-      if (frame) fighterDraws.set(draw, { side, slot, fading })
+    labelFighter(draw, side, slot, fading = false, frameIndex) {
+      if (frame) fighterDraws.set(draw, { side, slot, fading, frameIndex })
     },
-    fighterDrawn(draw) {
+    fighterDrawn(draw, appliedFrameIndex) {
       const fighter = frame && fighterDraws.get(draw)
       if (!fighter) return
       const { side, slot, fading } = fighter
-      if (side === 'enemy') frame.enemies.set(slot, { slot, fading })
-      else frame.players.set(slot, { slot, x: draw.x, y: draw.y })
+      const frameIndex = appliedFrameIndex ?? fighter.frameIndex
+      const position = { slot, x: draw.x, y: draw.y }
+      if (side === 'enemy')
+        frame.enemies.set(
+          slot,
+          frameIndex === undefined ? { slot, fading } : { ...position, frameIndex, fading },
+        )
+      else
+        frame.players.set(
+          slot,
+          frameIndex === undefined
+            ? position
+            : {
+                ...position,
+                frameIndex,
+                colorShift: draw.iColorShift ?? draw.colorShift ?? 0,
+              },
+        )
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)

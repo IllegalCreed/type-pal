@@ -67,6 +67,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
   const isCore = file.endsWith('/battle/battle-core.ts')
   const isBattleUi = file.endsWith('/battle/battle-ui.ts')
   const isSfx = file.endsWith('/audio/sfx.ts')
+  const isBattleScene = file.endsWith('/battle/present-battle.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -223,17 +224,30 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add('action-after', node.end, `\n${mutation}${call('afterStep', 's')}`)
       }
     }
-    if (file.endsWith('/battle/present-battle.ts') && ts.isIfStatement(node)) {
+    if (
+      isBattleScene &&
+      ts.isVariableStatement(node) &&
+      source === 'const f = draw.sprite.frames[draw.frame] ?? draw.sprite.frames[0]'
+    ) {
+      // Use the real selected sprite frame, including the renderer's slot-zero fallback.
+      add(
+        'fighter-frame-choice',
+        node.end,
+        '\nconst __battleFrameIndex = f === draw.sprite.frames[draw.frame] ? draw.frame : 0;\n',
+      )
+    }
+    if (isBattleScene && ts.isIfStatement(node)) {
+      const drawn = evidenceCall('fighterDrawn', 'draw, __battleFrameIndex')
       if (node.expression.getText(ast) === 'draw.dissolve !== undefined') {
         const draw = node.thenStatement.statements[0]
         assert(draw.getText(ast).startsWith('drawDissolved('))
-        add('dissolved-fighter-draw', draw.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+        add('dissolved-fighter-draw', draw.end, `\n${drawn}\n`)
       }
       if (
         node.expression.getText(ast) === 'alpha < 1' &&
         source.includes('ctx.drawImage(img, dx, dy)')
       )
-        add('fighter-draw', node.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+        add('fighter-draw', node.end, `\n${drawn}\n`)
     }
     if (isSfx) observeSfx(node, ast, source, add, evidenceCall)
     ts.forEachChild(node, visit)
@@ -245,8 +259,8 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       ? ['seeded-input', 'finished']
       : isSfx
         ? ['audio-cue-map', 'audio-request', 'audio-cue-link', 'audio-start', 'audio-decoded']
-        : file.endsWith('/battle/present-battle.ts')
-          ? ['fighter-draw', 'dissolved-fighter-draw']
+        : isBattleScene
+          ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw']
           : isBattleUi
             ? ['portrait-before', 'portrait-after']
             : isCore
