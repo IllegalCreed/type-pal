@@ -15,6 +15,7 @@ const AUDIO_SOURCE = {
     'sfx-start': 'reforge:browserAdapter.play:AudioBufferSourceNode.start',
   },
 }
+const CASUALTY_SOUNDS = new Set(['player-dying', 'player-death'])
 const CUE_KINDS = new Set([
   'player-windup',
   'player-weapon',
@@ -24,6 +25,7 @@ const CUE_KINDS = new Set([
   'spell-effect',
   'item',
   'enemy-death',
+  ...CASUALTY_SOUNDS,
 ])
 const PAL_SOUND_SAMPLE_RATE = 22050
 
@@ -305,16 +307,15 @@ const hasSpritePose = (draw, frameIndex, colorShift = 0) =>
   draw.frameIndex === frameIndex && draw.colorShift === colorShift
 const atOffset = (draw, base, dx, dy) => draw.x === base.x + dx && draw.y === base.y + dy
 
-function guardMotion(frames, expected, animations, probe, fail) {
+function enemyPhysicalMotion(frames, expected, animations, probe, fail, subject) {
   const actionIndex = probe?.actionIndex
   const action = expected.actions[actionIndex]
   if (
     !Number.isSafeInteger(actionIndex) ||
     action?.kind !== 'attack' ||
-    action.actorSide !== 'enemy' ||
-    ![probe.guardFrame, probe.idleFrame].every(validFrameIndex)
+    action.actorSide !== 'enemy'
   ) {
-    fail('oracle', 'guard-pose-expectation', { probe })
+    fail('oracle', `${subject}-pose-expectation`, { probe })
     return undefined
   }
   const target = action.before.players.find(({ id }) => id === action.targetId)
@@ -334,7 +335,7 @@ function guardMotion(frames, expected, animations, probe, fail) {
     targetId: action.targetId,
   }
   if (!target || !attacker || !selection || !next) {
-    fail('integrity', 'guard-render-window-missing', identity)
+    fail('integrity', `${subject}-render-window-missing`, identity)
     return undefined
   }
   const visible = frames.filter((frame) => frame.seq >= start.seq && frame.seq < next.seq)
@@ -346,7 +347,7 @@ function guardMotion(frames, expected, animations, probe, fail) {
     (frame) => !indexedFighter(player(frame)) || !indexedFighter(foe(frame)),
   )
   if (missing) {
-    fail('integrity', 'guard-fighter-pose-missing', { ...identity, draw: sample(missing) })
+    fail('integrity', `${subject}-fighter-pose-missing`, { ...identity, draw: sample(missing) })
     return undefined
   }
   const base = player(selection)
@@ -373,7 +374,7 @@ function guardMotion(frames, expected, animations, probe, fail) {
     returned: sample(returned),
   }
   if (!charge || !knockback || !recoil || !returned) {
-    fail('business', 'guard-motion-edges', observed)
+    fail('business', `${subject}-motion-edges`, observed)
     return undefined
   }
   const playerNumbers = firstNumberDraws(frames).filter(
@@ -383,7 +384,15 @@ function guardMotion(frames, expected, animations, probe, fail) {
   const numbers = playerNumbers.filter(
     ({ frame }) => frame.seq >= start.seq && frame.seq < next.seq,
   )
-  return { action, target, start, observed, visible, player, sample, numbers, playerNumbers }
+  return { action, target, start, next, observed, visible, player, sample, numbers, playerNumbers }
+}
+
+function guardMotion(frames, expected, animations, probe, fail) {
+  if (![probe?.guardFrame, probe?.idleFrame].every(validFrameIndex)) {
+    fail('oracle', 'guard-pose-expectation', { probe })
+    return undefined
+  }
+  return enemyPhysicalMotion(frames, expected, animations, probe, fail, 'guard')
 }
 
 const DEFEND_CADENCE_SEGMENTS = [
@@ -627,6 +636,108 @@ function compareAutomaticBlock(frames, expected, animations, fail) {
   return { ...observed, through: sample(guarding.at(-1)), guardFrames: guarding.length }
 }
 
+function comparePlayerCasualties(frames, expected, animations, fail) {
+  const probes = expected.playerCasualties
+  if (
+    !Array.isArray(probes) ||
+    !probes.length ||
+    new Set(probes.map((probe) => probe?.actionIndex)).size !== probes.length
+  ) {
+    fail('oracle', 'player-casualty-expectation', { probes })
+    return []
+  }
+  return probes.flatMap((probe) => {
+    const motion = enemyPhysicalMotion(frames, expected, animations, probe, fail, 'player-casualty')
+    if (!motion) return []
+    const { action, target, start, next, observed, visible, player, sample, playerNumbers } = motion
+    const { actionIndex, turn, targetId } = observed
+    const { recoveryFrame, soundKind } = probe
+    const dead = soundKind === 'player-death'
+    const hpAfter = action.after.players[target.slot]?.hp
+    const dyingThreshold = Math.min(100, Math.floor(target.maxHP / 5))
+    if (
+      !CASUALTY_SOUNDS.has(soundKind) ||
+      !validFrameIndex(recoveryFrame) ||
+      !(action.rawDamage > 0) ||
+      target.hp - hpAfter !== action.rawDamage ||
+      (dead
+        ? hpAfter !== 0
+        : target.hp < dyingThreshold || hpAfter <= 0 || hpAfter >= dyingThreshold)
+    ) {
+      fail('oracle', 'player-casualty-expectation', { probe, hpBefore: target.hp, hpAfter })
+      return []
+    }
+
+    const first = playerNumbers.find(({ frame }) => frame.payload.turn === turn)
+    const hit = first && { ...sample(first.frame), number: first.number }
+    const finish = sample(visible.find((frame) => !animationMatches(frame, action)) ?? next)
+    const nextDraw = { ...sample(next), animation: next.payload.animation }
+    const afterReturn = visible.filter((frame) => frame.seq >= observed.returned.frame)
+    if (dead) afterReturn.push(next)
+    const wrong = afterReturn.find((frame) => {
+      const draw = player(frame)
+      return !draw || !hasSpritePose(draw, recoveryFrame) || !samePose(draw, observed.home.player)
+    })
+    const result = {
+      ...observed,
+      soundKind,
+      hpBefore: target.hp,
+      hpAfter,
+      hit,
+      finish,
+      next: nextDraw,
+      through: sample(afterReturn.at(-1)),
+    }
+    if (
+      !hit ||
+      hit.number.value !== action.rawDamage ||
+      hit.frame < observed.charge.frame ||
+      hit.frame >= observed.knockback.frame ||
+      !animationMatches(first.frame, action) ||
+      !hasSpritePose(hit.player, 4, 6) ||
+      !samePose(hit.player, observed.home.player) ||
+      ![observed.knockback, observed.recoil].every(({ player }) => hasSpritePose(player, 4)) ||
+      finish.frame <= observed.returned.frame ||
+      !samePose(observed.returned.enemy, observed.home.enemy)
+    )
+      fail('business', 'player-casualty-hit-frame', { ...result, rawDamage: action.rawDamage })
+    if (wrong)
+      fail('business', 'player-casualty-recovery-frame', {
+        ...result,
+        draw: sample(wrong),
+        expectedFrame: recoveryFrame,
+      })
+    const intervening = visible.find(
+      (frame) => frame.payload.animation && !animationMatches(frame, action),
+    )
+    if (dead) {
+      const survivor = action.after.players.find(({ id }) => id === next.payload.animation.actorId)
+      const deadAction = frames.find(
+        (frame) => frame.seq > start.seq && frame.payload.animation?.actorId === targetId,
+      )
+      if (deadAction)
+        fail('business', 'dead-player-animation', {
+          actionIndex,
+          targetId,
+          draw: sample(deadAction),
+        })
+      if (!(survivor?.hp > 0) || next.payload.turn !== turn || intervening)
+        fail('business', 'player-casualty-survivor-action', {
+          ...result,
+          intervening: sample(intervening),
+        })
+    } else if (
+      intervening ||
+      !afterReturn.some(({ payload }) => payload.turn === turn + 1 && payload.selecting)
+    )
+      fail('business', 'player-casualty-next-selection', {
+        ...result,
+        intervening: sample(intervening),
+      })
+    return [result]
+  })
+}
+
 function cueRenderWindow(cue, action, animation, frames, deaths) {
   if (cue.kind === 'enemy-death') {
     const death = deaths.find(({ enemyId }) => enemyId === action.targetId)
@@ -638,7 +749,7 @@ function cueRenderWindow(cue, action, animation, frames, deaths) {
   return next && { first: at(animation), through: at(next) }
 }
 
-function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
+function compareAudioCues(trace, expected, frames, animations, deaths, playerCasualties, fail) {
   const { audioCues, audioSourceFrames } = expected
   if (
     !Array.isArray(audioCues) ||
@@ -706,29 +817,14 @@ function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
       .map((request) => ({ request, start: startsByCue.get(request.cueId) ?? null })),
     cues: [],
   }
-  for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
-    const cue = audioCues[i]
-    const request = requests[i]
-    if (!cue || !request || request.assetId !== cue.assetId) {
-      fail('business', 'audio-cue-sequence', {
-        cueIndex: i,
-        expected: cue ?? null,
-        actual: request ?? null,
-      })
-      break
-    }
+  const inspect = (cue, request, window) => {
     const start = startsByCue.get(request.cueId)
     if (!start) {
       fail('business', 'audio-cue-start-missing', { ...cue, request })
-      break
-    }
-    if (starts[i]?.cueId !== request.cueId) {
-      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
-      break
+      return undefined
     }
     const buffer = decoded[start.bufferId]
     const action = expected.actions[cue.actionIndex]
-    const window = cueRenderWindow(cue, action, animations[cue.actionIndex], frames, deaths)
     const cold = buffer.order > request.order
     const observed = {
       ...cue,
@@ -742,7 +838,6 @@ function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
       window,
       requestToStartMs: start.atMs - request.atMs,
     }
-    result.cues.push(observed)
     const chunk = cue.assetId.slice(-3)
     const path =
       trace.engine === 'game'
@@ -760,6 +855,89 @@ function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
     )
       fail('business', 'audio-decoded-source', { ...observed, path, resampledFrames })
     if (start.contextState !== 'running') fail('business', 'audio-start-context', observed)
+    return observed
+  }
+  const casualtyCues = new Map()
+  if (playerCasualties !== undefined) {
+    result.playerCasualties = playerCasualties.flatMap((motion) => {
+      const { actionIndex, turn, actorId, targetId, soundKind } = motion
+      const cues = audioCues.filter(
+        (cue) => cue.actionIndex === actionIndex && cue.kind === soundKind,
+      )
+      if (
+        cues.length !== 1 ||
+        audioCues.filter(({ assetId }) => assetId === cues[0].assetId).length !== 1
+      ) {
+        fail('oracle', 'player-casualty-sound-expectation', { actionIndex, soundKind })
+        return []
+      }
+      const [cue] = cues
+      const dead = soundKind === 'player-death'
+      const window = dead
+        ? { first: motion.knockback, through: motion.recoil }
+        : { first: motion.returned, through: motion.finish }
+      const identity = { ...cue, turn, actorId, targetId, window }
+      const matching = allRequests.filter(({ assetId }) => assetId === cue.assetId)
+      if (matching.length !== 1) {
+        fail('business', 'player-casualty-sound-count', { ...identity, requests: matching })
+        return [{ ...identity, requests: matching }]
+      }
+      const [request] = matching
+      const observed = inspect(cue, request, window)
+      casualtyCues.set(cue, observed)
+      // CLASSIC queues the death cue between the two recoil draws, and the dying cue after
+      // the actual return pose, during action completion (fight.c:5108–5148, 824–850).
+      if (request.order <= window.first.order || request.order >= window.through.order)
+        fail('business', 'player-casualty-sound-edge', {
+          ...identity,
+          request,
+          start: observed?.start,
+          next: motion.next,
+        })
+      else if (observed) {
+        const { start, cold } = observed
+        const lastColdFrame = dead ? motion.returned : motion.finish
+        const startThroughMs = (cold ? lastColdFrame.atMs : request.atMs) + BATTLE_FRAME_MS
+        if (start.order >= motion.next.order || start.atMs > startThroughMs)
+          fail('business', 'player-casualty-sound-start-edge', {
+            ...observed,
+            startThroughMs,
+            next: motion.next,
+          })
+      }
+      return [observed ?? { ...identity, request }]
+    })
+  }
+  for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
+    const cue = audioCues[i]
+    const request = requests[i]
+    if (!cue || !request || request.assetId !== cue.assetId) {
+      fail('business', 'audio-cue-sequence', {
+        cueIndex: i,
+        expected: cue ?? null,
+        actual: request ?? null,
+      })
+      break
+    }
+    const checkedCasualty = casualtyCues.has(cue)
+    const window = checkedCasualty
+      ? undefined
+      : cueRenderWindow(
+          cue,
+          expected.actions[cue.actionIndex],
+          animations[cue.actionIndex],
+          frames,
+          deaths,
+        )
+    const observed = checkedCasualty ? casualtyCues.get(cue) : inspect(cue, request, window)
+    if (!observed) break
+    const { start, cold } = observed
+    if (starts[i]?.cueId !== request.cueId) {
+      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
+      break
+    }
+    result.cues.push(observed)
+    if (checkedCasualty) continue
     if (!window) {
       fail('integrity', 'audio-cue-render-window-missing', observed)
       continue
@@ -790,7 +968,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
-  let portraits, roundEnds, audio, defendRecovery, automaticBlock
+  let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -803,6 +981,7 @@ export function validateBattlePresentation(trace, scenario) {
     ...(audio === undefined ? {} : { audio }),
     ...(defendRecovery === undefined ? {} : { defendRecovery }),
     ...(automaticBlock === undefined ? {} : { automaticBlock }),
+    ...(playerCasualties === undefined ? {} : { playerCasualties }),
     findings,
   })
   if (
@@ -852,6 +1031,8 @@ export function validateBattlePresentation(trace, scenario) {
     defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
   if (scenario.expected.automaticBlock !== undefined)
     automaticBlock = compareAutomaticBlock(frames, scenario.expected, animations, fail)
+  if (scenario.expected.playerCasualties !== undefined)
+    playerCasualties = comparePlayerCasualties(frames, scenario.expected, animations, fail)
 
   for (const [index, action] of scenario.expected.actions.entries()) {
     if (['defend', 'pass'].includes(action.kind)) continue
@@ -953,8 +1134,16 @@ export function validateBattlePresentation(trace, scenario) {
     )
       fail('business', 'herb-number-target-or-anchor', observed)
   }
-  if (scenario.expected.audioCues !== undefined)
-    audio = compareAudioCues(trace, scenario.expected, frames, animations, deaths, fail)
+  if (scenario.expected.audioCues !== undefined || playerCasualties !== undefined)
+    audio = compareAudioCues(
+      trace,
+      scenario.expected,
+      frames,
+      animations,
+      deaths,
+      playerCasualties,
+      fail,
+    )
   if (automaticBlock && audio) {
     const impact = audio.cues.find(
       ({ actionIndex, kind }) =>
