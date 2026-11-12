@@ -51,6 +51,7 @@ import { BattleActionPresentationScheduler } from './battle-action-presentation-
 import {
   type AnimFrame,
   type AnimSideEffects,
+  BATTLE_FRAME_MS,
   buildEnemyCast,
   buildEnemyDivide,
   buildEnemyEscape,
@@ -135,7 +136,8 @@ const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
 /** 回合末数值反馈停 8 帧，每帧 40ms（fight.c:1664-1668，battle.h:28-29）。 */
-const ROUND_END_FEEDBACK_MS = 8 * 40
+const ROUND_END_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
+const ENEMY_CAST_RECOVERY_MS = 8 * BATTLE_FRAME_MS
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -216,6 +218,8 @@ export class BattleSession {
   private floats: FloatNum[] = []
   private nowMs = 0
   private roundEndFeedbackUntilMs = 0
+  private enemyCastRecoveryPending = false
+  private enemyCastRecoveryUntilMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
   private visual: { players: VisualFighter[]; enemies: Array<VisualFighter | null> } = {
     players: [],
@@ -1115,6 +1119,7 @@ export class BattleSession {
       this.roundEndFeedbackUntilMs = 0
       this.resetPlayersVisual()
     }
+    if (this.nowMs < this.enemyCastRecoveryUntilMs) return
 
     if (s.phase === 'won' || s.phase === 'lost' || s.phase === 'fled') {
       this.settlementPresentation.observeCorePhase(s.phase, s.enemyFled)
@@ -1226,6 +1231,7 @@ export class BattleSession {
       stepBattle(s, this.rng)
       const la = s.lastAction
       s.lastAction = null // 消费即清(回合末空步不重播)
+      this.enemyCastRecoveryPending = la?.side === 'enemy' && la.kind === 'cast'
       this.pendingFailureFeedback = la?.failureFeedback ?? null
       // 结果横幅(偷窃「获得 …」/金蝉 boss「无法逃离!」/乾坤「金钱不足」;fight.c:5288 CLASSIC
       // 居中对话框,一阶段 narration 同款):战斗标签位 (130,75),1.2s 自清(时间线播完后仍显示)
@@ -1443,6 +1449,11 @@ export class BattleSession {
     if (!targetPos) return null
     const enemyFx = { ...fx }
     if (def.sounds.suppressMagicEffectSound) delete enemyFx.sound
+    const casualtySounds = (slots: number[] | undefined, kind: 'death' | 'dying') =>
+      (slots ?? []).flatMap((idx) => {
+        const sound = this.opts.playerSounds?.[idx]?.[kind]
+        return sound ? [sound] : []
+      })
     return buildEnemyCast({
       enemyIdx: la.idx,
       anim: enemyProfile,
@@ -1452,6 +1463,8 @@ export class BattleSession {
       fx: enemyFx,
       targetPos,
       damageNums,
+      deathSounds: casualtySounds(la.magicDeathPlayerIdxs, 'death'),
+      dyingSounds: casualtySounds(la.enteredDyingPlayerIdxs, 'dying'),
       ...(a.keepEffect ? { keepEffect: true } : {}),
       // 被动格挡队员摆防御姿 frame3(除因子 +1 减伤;fight.c:4737/4755)
       ...(la.autoDefend?.length ? { autoDefendPlayers: la.autoDefend } : {}),
@@ -1886,7 +1899,7 @@ export class BattleSession {
       ...(damage > 0 && hpAfterPhysicalHit <= 0 && targetSounds?.death
         ? { targetDeathSound: targetSounds.death }
         : {}),
-      ...(la.targetEnteredDying && targetSounds?.dying
+      ...(la.enteredDyingPlayerIdxs?.includes(t) && targetSounds?.dying
         ? { targetDyingSound: targetSounds.dying }
         : {}),
       // 替挡(coveredBy):守护者顶身前接刀,音 = **守护者**的 coverSound
@@ -2012,6 +2025,11 @@ export class BattleSession {
       const v = this.visual.players[i]
       if (v) v.displayHp = p.hp
     })
+    // 原版敌法在受击复位及伤亡检查后保持八帧（fight.c:4904–4908）。
+    if (this.enemyCastRecoveryPending) {
+      this.enemyCastRecoveryPending = false
+      this.enemyCastRecoveryUntilMs = this.nowMs + ENEMY_CAST_RECOVERY_MS
+    }
     this.presentPendingFailureFeedback()
   }
 

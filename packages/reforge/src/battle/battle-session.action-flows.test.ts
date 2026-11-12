@@ -12,6 +12,7 @@ import {
   validateEnemies,
   validateItems,
   validatePoisons,
+  validateSkills,
 } from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
@@ -24,6 +25,7 @@ import palBattleSprites from '../../../../projects/pal/content/battle-sprites.js
 import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
+import palSkills from '../../../../projects/pal/content/skills.json' with { type: 'json' }
 import {
   enemyProfile,
   PLAYER_PROFILE,
@@ -456,6 +458,111 @@ describe('W3 执行时间线接线', () => {
       hp: 92,
       poisons: [{ poisonId: 551, tickIndex: 0 }],
     })
+  })
+
+  test.each([
+    {
+      label: '法术致死',
+      hp: 24,
+      maxHp: 60,
+      damage: 24,
+      frame: PLAYER_PROFILE.frames.dead,
+      sound: 'sound.pal.023',
+    },
+    {
+      label: '法术濒死',
+      hp: 85,
+      maxHp: 150,
+      damage: 58,
+      frame: PLAYER_PROFILE.frames.dying,
+      sound: 'sound.pal.019',
+    },
+  ])('雷咒$label，原位首次绘制受击和数字，再经过完整五拍及收尾', ({
+    label,
+    hp,
+    maxHp,
+    damage,
+    frame,
+    sound,
+  }) => {
+    const enemy = expectDefined(validateEnemies(palEnemies).find(({ id }) => id === 'enemy-418'))
+    const spell = expectDefined(validateSkills(palSkills).skills.find(({ id }) => id === '316'))
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', { hp, maxHp, defense: 9, baseDexterity: 3 }),
+        wfPlayer('anu', { hp: 150, maxHp: 150, attackStrength: 2250, baseDexterity: 1 }),
+      ],
+      enemies: [enemy],
+      extraOpts: {
+        skills: { [spell.id]: spell },
+        fieldEffect: { wind: -3, thunder: -2, water: 0, fire: 1, earth: 0 },
+        playerSounds: [{ dying: 'sound.pal.019', death: 'sound.pal.023' }],
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    h.assets.palette = posePalette
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.fireSprites = {
+      [spell.animation.effectSprite]: {
+        ...sprite.sprite,
+        frames: [expectDefined(sprite.sprite.frames[0])],
+      },
+    }
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      magicPlayerBox: bitmap(1, 1, 'transparent'),
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data
+    const hurt = poseRed(PLAYER_PROFILE.frames.hurt)
+    const tintedHurt = hurt + 6 * 16
+    const draw = (dtMs: number) => {
+      h.idle(dtMs)
+      h.session.render(ctx, 1)
+    }
+    const casualtySounds = () =>
+      sfx.plays.filter((id) => id === 'sound.pal.019' || id === 'sound.pal.023')
+    h.press(['d'])
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 150; i += 1) {
+      draw(8)
+      if (pixel(200, 168)[0] === tintedHurt || pixel(208, 172)[0] === tintedHurt) break
+    }
+    expect(h.session.debugPlayers()[0]?.hp).toBe(hp - damage)
+    expect(pixel(200, 168)[0]).toBe(tintedHurt)
+    expect(pixel(200, 101)[2]).toBe(((damage % 10) + 1) * 16)
+    expect(casualtySounds()).toEqual(label === '法术致死' ? [sound] : [])
+    // CLASSIC fight.c:4886–4905: 只在 i>0 增加位移，敌回位一拍后才恢复队员。
+    for (const [x, y, red] of [
+      [204, 170, tintedHurt],
+      [206, 171, tintedHurt],
+      [207, 171, hurt],
+      [207, 171, hurt],
+      [207, 171, hurt],
+    ] as const) {
+      draw(40)
+      expect(pixel(x, y)[0]).toBe(red)
+    }
+    draw(40)
+    expect(pixel(200, 168)[0]).toBe(poseRed(frame))
+    expect(casualtySounds()).toEqual([sound])
+    const allyActed = () =>
+      h.session
+        .debugLog()
+        .some((line) => line.startsWith('anu ') && line.includes('攻击 enemy-418'))
+    draw(319)
+    expect(allyActed()).toBe(false)
+    draw(1)
+    draw(40)
+    draw(40)
+    expect(allyActed()).toBe(true)
   })
 
   test('回合末毒伤显示 320ms 后开放选招，解毒后无数字的回合直接开放', () => {

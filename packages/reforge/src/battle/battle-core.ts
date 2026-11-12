@@ -738,7 +738,7 @@ function refreshCasualtyPrevHp(s: BattleState): void {
 /**
  * B11-1:敌方有效物攻/施法结算后的伤亡 sweep(fight.c:775-885 迁入内容所需真值)。
  * 1. 本步刚阵亡队员 → 死者 coveredBy 的健康援护者跑 friendDeath;
- * 2. 本步刚跨入濒死的队员 → 物攻记下濒死反应；守护者在队且健康时才跑 dying 脚本。
+ * 2. 本步刚跨入濒死的队员 → 记下濒死反应；守护者在队且健康时才跑 dying 脚本。
  * 一次 sweep 至多一个脚本(P6);prevHp 每次刷新防重入;auto battle 不触发。
  */
 function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
@@ -756,7 +756,7 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
     refreshCasualtyPrevHp(s)
     return
   }
-  for (const p of s.players) {
+  for (const [index, p] of s.players.entries()) {
     const prevThreshold = Math.trunc(p.maxHp / 5)
     if (!(p.hp < p.prevHp && p.hp > 0 && isPlayerDying(p.hp, p.maxHp) && p.prevHp >= prevThreshold))
       continue
@@ -767,15 +767,18 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
     const action = s.lastAction
     if (
       action?.side === 'enemy' &&
-      action.kind === 'attack' &&
-      action.damage !== undefined &&
-      s.players[action.targetPlayerIdx] === p
-    )
-      action.targetEnteredDying = true
+      (action.kind === 'cast' ||
+        (action.kind === 'attack' &&
+          action.damage !== undefined &&
+          action.targetPlayerIdx === index))
+    ) {
+      action.enteredDyingPlayerIdxs ??= []
+      action.enteredDyingPlayerIdxs.push(index)
+    }
     if (!cover || cover.hp <= 0) continue
     const script = s.actorsById[p.actorTemplateId]?.battler?.casualty?.dying
-    if (!script) continue
-    executeCasualtyScript(s, p, script, rng)
+    if (script) executeCasualtyScript(s, p, script, rng)
+    // 有活着的守护者在队时，原版在此结束本次濒死扫描（fight.c:860–882）。
     refreshCasualtyPrevHp(s)
     return
   }
@@ -2452,13 +2455,14 @@ function applyEnemySkill(
   s: BattleState,
   e: BattleEnemyState,
   skill: SkillData,
-  targetIdx: number,
+  action: Extract<BattleLastAction, { side: 'enemy'; kind: 'cast' }>,
   rng: () => number,
 ): void {
   const ZERO = { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 }
   // 敌施法目标反转:oneEnemy/allEnemies(玩家使用视角)= 打队员;应用系(ally)= 用在自己/敌方
   const onParty = skill.target === 'oneEnemy' || skill.target === 'allEnemies'
-  const targets = skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [targetIdx] : []
+  const targets =
+    skill.target === 'allEnemies' ? alivePlayers(s) : onParty ? [action.targetPlayerIdx] : []
   // 被动格挡预掷(fight.c:4723-4757,在效果处理**前**——效果先施眠/定不剥夺本次资格):
   // 资格 = 活着 + 无眠/定/乱,1/3 命中;进除因子 +1(减伤不免伤,异于物攻 7/17 全免闪避)
   const autoDefend = new Set<number>()
@@ -2468,7 +2472,7 @@ function applyEnemySkill(
     const eligible = p.status.sleep <= 0 && p.status.paralyzed <= 0 && p.status.confused <= 0
     if (eligible && Math.floor(rng() * 3) === 0) autoDefend.add(ti)
   }
-  if (autoDefend.size && s.lastAction) s.lastAction.autoDefend = [...autoDefend]
+  if (autoDefend.size) action.autoDefend = [...autoDefend]
   // str = 魔强 + (级+6)×6,钳 ≥0(fight.c:4673-4678;物攻侧同构已带,此处曾漏级数项)
   let magStr = e.def.stats.magicStrength + (e.def.stats.level + 6) * 6
   if (magStr < 0) magStr = 0
@@ -2557,6 +2561,10 @@ function applyEnemySkill(
           // 钳到余血、**无最小 1**(fight.c:4805/4840;玩家打敌才 inline 钳 1)
           if (dmg > p.hp) dmg = p.hp
           p.hp -= dmg
+          if (eff.power > 0 && p.hp === 0) {
+            action.magicDeathPlayerIdxs ??= []
+            action.magicDeathPlayerIdxs.push(ti)
+          }
           s.log.push(`${e.def.id} 施展 ${skill.name} 对 ${p.roleId} 造成 ${dmg}`)
         }
         break
@@ -2596,14 +2604,15 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
     return
   }
   if (decision.kind === 'cast') {
-    s.lastAction = {
+    const action: Extract<BattleLastAction, { side: 'enemy'; kind: 'cast' }> = {
       side: 'enemy',
       idx,
       kind: 'cast',
       skillId: decision.skill.id,
       targetPlayerIdx: decision.targetPlayerIdx,
     }
-    applyEnemySkill(s, e, decision.skill, decision.targetPlayerIdx, rng)
+    s.lastAction = action
+    applyEnemySkill(s, e, decision.skill, action, rng)
     return
   }
   if (decision.kind === 'transform') {
