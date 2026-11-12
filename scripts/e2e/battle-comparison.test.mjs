@@ -212,6 +212,102 @@ describe('battle business conformance and comparison', () => {
     ])
   })
 
+  test('battle audio ties each repeated cue to its own native start and the rendered action', () => {
+    const fixture = scenario()
+    const assetId = 'sound.pal.050'
+    const attack = { ...decision('lantern-a', 'attack', 'hero'), actorSide: 'enemy' }
+    fixture.expected.actions = [{ ...attack, before: state(50, 30, 2), after: state(49, 30, 2) }]
+    fixture.expected.audioCues = [
+      { actionIndex: 0, kind: 'enemy-windup', assetId },
+      { actionIndex: 0, kind: 'enemy-impact', assetId },
+    ]
+    fixture.expected.audioSourceFrames = { [assetId]: 3 }
+    installBattleTraceObserver(
+      { scenarioId: fixture.id, runId: `run-${++run}`, engine: 'game', random },
+      createEvidenceRecorder,
+    )
+    const observer = globalThis.__battleEvidence
+    const buffer = {
+      numberOfChannels: 1,
+      sampleRate: 22050,
+      length: 3,
+      getChannelData: () => new Float32Array([0, -0.5, 0.25]),
+    }
+    observer.audioDecoded(
+      assetId,
+      buffer,
+      '/extracted/sounds/50.wav',
+      'game:AudioManager.loadSfx:decodeAudioData',
+    )
+    observer.start(fixture.expected.start, 'battle:start')
+    const play = () => {
+      const cue = observer.audioRequested(assetId, 'game:AudioManager.playSfx')
+      observer.audioStarted(
+        cue,
+        assetId,
+        buffer,
+        { state: 'running', currentTime: 1 },
+        'game:AudioManager.play:AudioBufferSourceNode.start',
+      )
+    }
+    play()
+    const render = (clockMs, phase, animation = null) => {
+      const selecting = phase === 'selectAction'
+      observer.beginFrame('game:BattlePresent.draw', {
+        clockMs,
+        phase,
+        selecting,
+        turn: 1,
+        animation,
+      })
+      if (selecting) {
+        observer.panelDrawn(0)
+        observer.panelDrawn(1)
+      }
+      if (phase === 'won') observer.settlementDrawn('exp-cash')
+      observer.endFrame()
+    }
+    render(0, 'selectAction')
+    observer.command({ ...use, source: 'selection:commit' })
+    render(40, 'performAction', attack)
+    play()
+    play()
+    render(120, 'won')
+    const trace = observer.read()
+    // The judge fixture has fixed recorder times so a paused Node worker cannot shift a cue.
+    for (const event of [...trace.presentations, ...trace.audioEvents]) event.atMs = event.order
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    assert.deepEqual(
+      result.audio.beforeFirstCommand.map(({ request }) => request.cueId),
+      [0],
+    )
+    assert.deepEqual(
+      result.audio.cues.map(({ start, buffer }) => [start.cueId, start.bufferId, buffer.peak]),
+      [
+        [1, 0, 0.5],
+        [2, 0, 0.5],
+      ],
+    )
+    const requestedOnly = structuredClone(trace)
+    requestedOnly.audioEvents = requestedOnly.audioEvents.filter(
+      (event) => !(event.kind === 'sfx-start' && event.cueId === 2),
+    )
+    assert.deepEqual(
+      validateBattlePresentation(requestedOnly, fixture).findings.map(({ rule, kind }) => [
+        rule,
+        kind,
+      ]),
+      [['audio-cue-start-missing', 'enemy-impact']],
+    )
+    const late = structuredClone(trace)
+    for (const event of late.audioEvents) if (event.cueId === 1) event.atMs += 100
+    assert.deepEqual(
+      validateBattlePresentation(late, fixture).findings.map(({ rule, kind }) => [rule, kind]),
+      [['audio-cue-render-window', 'enemy-windup']],
+    )
+  })
+
   test('portrait color, transparency and cure are judged from separate native selection draws', () => {
     const fixture = scenario()
     fixture.portraitProbe = {

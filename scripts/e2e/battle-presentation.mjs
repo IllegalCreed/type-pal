@@ -3,6 +3,30 @@ const FRAME_SOURCE = {
   reforge: 'reforge:BattleSession.render',
 }
 
+const AUDIO_SOURCE = {
+  game: {
+    'sfx-decoded': 'game:AudioManager.loadSfx:decodeAudioData',
+    'sfx-request': 'game:AudioManager.playSfx',
+    'sfx-start': 'game:AudioManager.play:AudioBufferSourceNode.start',
+  },
+  reforge: {
+    'sfx-decoded': 'reforge:SfxPlayer.ensureDecoded:decode',
+    'sfx-request': 'reforge:SfxPlayer.play',
+    'sfx-start': 'reforge:browserAdapter.play:AudioBufferSourceNode.start',
+  },
+}
+const CUE_KINDS = new Set([
+  'player-windup',
+  'player-weapon',
+  'enemy-windup',
+  'enemy-impact',
+  'cast-windup',
+  'spell-effect',
+  'item',
+  'enemy-death',
+])
+const PAL_SOUND_SAMPLE_RATE = 22050
+
 const DEATH_FADE_MS = 72 * 16
 // The source duration is measured between rendered edges, with up to two 40 ms Game ticks
 // of sampling uncertainty. Reforge's wall time can also include paused gameplay time.
@@ -263,6 +287,160 @@ function comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail) {
   })
 }
 
+function cueRenderWindow(cue, action, animation, frames, deaths) {
+  if (cue.kind === 'enemy-death') {
+    const death = deaths.find(({ enemyId }) => enemyId === action.targetId)
+    return death && { first: death.start, through: death.gone, slot: death.slot }
+  }
+  if (!animation) return undefined
+  // Frame compression can omit an unchanged pose while an animation cue is playing.
+  const next = frames.find((frame) => frame.seq > animation.seq && !animationMatches(frame, action))
+  return next && { first: at(animation), through: at(next) }
+}
+
+function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
+  const { audioCues, audioSourceFrames } = expected
+  if (
+    !Array.isArray(audioCues) ||
+    !audioCues.length ||
+    !audioCues.every(
+      (cue) =>
+        Number.isSafeInteger(cue?.actionIndex) &&
+        expected.actions[cue.actionIndex] &&
+        CUE_KINDS.has(cue.kind) &&
+        typeof cue.assetId === 'string' &&
+        /^sound\.pal\.\d{3}$/u.test(cue.assetId) &&
+        Number.isSafeInteger(audioSourceFrames?.[cue.assetId]) &&
+        audioSourceFrames[cue.assetId] > 0,
+    )
+  ) {
+    fail('oracle', 'audio-cue-expectation')
+    return undefined
+  }
+  const audioEvents = trace.audioEvents
+  const firstCommand = trace.commands?.[0]
+  if (!Array.isArray(audioEvents) || !audioEvents.length || !firstCommand) {
+    fail('integrity', 'audio-evidence-missing')
+    return undefined
+  }
+  const source = AUDIO_SOURCE[trace.engine]
+  const badSource = audioEvents.findIndex(
+    (entry) => !Object.hasOwn(source, entry?.kind) || entry.source !== source[entry.kind],
+  )
+  if (badSource !== -1) {
+    fail('integrity', 'audio-native-source', { event: audioEvents[badSource] })
+    return undefined
+  }
+  const decoded = audioEvents.filter(({ kind }) => kind === 'sfx-decoded')
+  const allRequests = audioEvents.filter(({ kind }) => kind === 'sfx-request')
+  const allStarts = audioEvents.filter(({ kind }) => kind === 'sfx-start')
+  if (
+    !decoded.every(({ bufferId }, index) => bufferId === index) ||
+    !allRequests.every(({ cueId }, index) => cueId === index)
+  ) {
+    fail('integrity', 'audio-native-identities')
+    return undefined
+  }
+  const startsByCue = new Map()
+  for (const start of allStarts) {
+    const request = allRequests[start.cueId]
+    const buffer = decoded[start.bufferId]
+    if (!request || !buffer || request.order >= start.order || buffer.order >= start.order) {
+      fail('integrity', 'audio-start-provenance', { start, request, buffer })
+      return undefined
+    }
+    if (startsByCue.has(start.cueId)) {
+      fail('business', 'audio-cue-start-count', { request, start })
+      return undefined
+    }
+    startsByCue.set(start.cueId, start)
+  }
+  const requests = allRequests.filter(({ order }) => order > firstCommand.order)
+  const starts = allStarts.filter(({ cueId }) => allRequests[cueId].order > firstCommand.order)
+  const result = {
+    decoded: decoded.length,
+    requested: requests.length,
+    started: starts.length,
+    beforeFirstCommand: allRequests
+      .filter(({ order }) => order < firstCommand.order)
+      .map((request) => ({ request, start: startsByCue.get(request.cueId) ?? null })),
+    cues: [],
+  }
+  for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
+    const cue = audioCues[i]
+    const request = requests[i]
+    if (!cue || !request || request.assetId !== cue.assetId) {
+      fail('business', 'audio-cue-sequence', {
+        cueIndex: i,
+        expected: cue ?? null,
+        actual: request ?? null,
+      })
+      break
+    }
+    const start = startsByCue.get(request.cueId)
+    if (!start) {
+      fail('business', 'audio-cue-start-missing', { ...cue, request })
+      break
+    }
+    if (starts[i]?.cueId !== request.cueId) {
+      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
+      break
+    }
+    const buffer = decoded[start.bufferId]
+    const action = expected.actions[cue.actionIndex]
+    const window = cueRenderWindow(cue, action, animations[cue.actionIndex], frames, deaths)
+    const cold = buffer.order > request.order
+    const observed = {
+      ...cue,
+      turn: action.turn,
+      actorId: action.actorId,
+      targetId: action.targetId,
+      request,
+      start,
+      buffer,
+      cold,
+      window,
+      requestToStartMs: start.atMs - request.atMs,
+    }
+    result.cues.push(observed)
+    const chunk = cue.assetId.slice(-3)
+    const path =
+      trace.engine === 'game'
+        ? `/extracted/sounds/${Number(chunk)}.wav`
+        : `assets/migrated/sounds/${chunk}.wav`
+    const resampledFrames =
+      (audioSourceFrames[cue.assetId] * buffer.sampleRate) / PAL_SOUND_SAMPLE_RATE
+    if (
+      start.assetId !== cue.assetId ||
+      buffer.assetId !== cue.assetId ||
+      buffer.path !== path ||
+      buffer.channels !== 1 ||
+      !(buffer.peak > 0) ||
+      Math.abs(buffer.frames - resampledFrames) > 1
+    )
+      fail('business', 'audio-decoded-source', { ...observed, path, resampledFrames })
+    if (start.contextState !== 'running') fail('business', 'audio-start-context', observed)
+    if (!window) {
+      fail('integrity', 'audio-cue-render-window-missing', observed)
+      continue
+    }
+    const edgeCue = cue.kind === 'enemy-windup' || cue.kind === 'enemy-death'
+    // Audio and paint are compared on the same recorder clock. Cold Game decoding may finish
+    // after its cue frame, while a ready buffer must start at the frame that requests it.
+    const firstMs = window.first.atMs - BATTLE_FRAME_MS
+    const requestThroughMs = (edgeCue ? window.first.atMs : window.through.atMs) + BATTLE_FRAME_MS
+    const startThroughMs = (cold ? window.through.atMs : request.atMs) + BATTLE_FRAME_MS
+    if (request.atMs < firstMs || request.atMs > requestThroughMs || start.atMs > startThroughMs)
+      fail('business', 'audio-cue-render-window', {
+        ...observed,
+        firstMs,
+        requestThroughMs,
+        startThroughMs,
+      })
+  }
+  return result
+}
+
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
   const frames = Array.isArray(trace?.presentations)
@@ -272,7 +450,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
-  let portraits, roundEnds
+  let portraits, roundEnds, audio
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -282,6 +460,7 @@ export function validateBattlePresentation(trace, scenario) {
     heals,
     ...(portraits === undefined ? {} : { portraits }),
     ...(roundEnds === undefined ? {} : { roundEnds }),
+    ...(audio === undefined ? {} : { audio }),
     findings,
   })
   if (
@@ -428,5 +607,7 @@ export function validateBattlePresentation(trace, scenario) {
     )
       fail('business', 'herb-number-target-or-anchor', observed)
   }
+  if (scenario.expected.audioCues !== undefined)
+    audio = compareAudioCues(trace, scenario.expected, frames, animations, deaths, fail)
   return result()
 }
