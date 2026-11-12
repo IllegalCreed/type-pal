@@ -59,6 +59,15 @@ function snapshot(persistent = false) {
     players: nativeState.players.map((player, slot) => {
       const character = world.party.find((member) => member.id === player.roleId)
       invariant(character, `battle player ${player.roleId} lost its world identity`)
+      const statuses = persistent
+        ? Object.fromEntries(
+            (character.extraStatuses ?? [])
+              .filter((entry) => entry.turns > 0)
+              .map((entry) => [entry.status, entry.turns]),
+          )
+        : activeStatuses(player.status)
+      // Trial completion retains the same equipment; native grants are separate from durations.
+      for (const name of player.grantedStatuses) statuses[name] = 32760
       return {
         id: partyLabel(player),
         slot,
@@ -68,13 +77,7 @@ function snapshot(persistent = false) {
         maxMP: persistent ? character.maxMP : player.maxMp,
         level: character.level,
         exp: character.exp,
-        statuses: persistent
-          ? Object.fromEntries(
-              (character.extraStatuses ?? [])
-                .filter((entry) => entry.turns > 0)
-                .map((entry) => [entry.status, entry.turns]),
-            )
-          : activeStatuses(player.status),
+        statuses,
         ...(persistent ? {} : poisonFields(player.poisons)),
       }
     }),
@@ -243,6 +246,16 @@ const harness = {
       },
     })
   },
+  casualtyEffect(state, target, before) {
+    if (state !== nativeState || !sessionReady || terminal) return
+    const current = { hp: target.hp, attack: target.attackStrength }
+    if (!before) return current
+    evidence().presentation({
+      kind: 'battle-casualty-effect',
+      source: 'reforge:completeCasualtyEffects:apply',
+      payload: { turn: state.turn, targetId: partyLabel(target), before, after: current },
+    })
+  },
   targetCancel(playerIndex, targetIndex, skillId) {
     targetCancels++
     evidence().presentation({
@@ -335,6 +348,13 @@ const harness = {
   },
   read() {
     const selecting = nativeState?.players[selectingSlot]
+    const nativeEquipmentStatuses = nativeState?.players.flatMap((player) =>
+      player.grantedStatuses.map((name) => ({
+        playerId: partyLabel(player),
+        name,
+        source: 'reforge:BattlePlayerState.grantedStatuses',
+      })),
+    )
     return {
       engine: 'reforge',
       ready: harness.ready,
@@ -360,6 +380,7 @@ const harness = {
             }
           : null,
       targetCancels,
+      ...(nativeEquipmentStatuses?.length ? { nativeEquipmentStatuses } : {}),
       commands: commandCount,
       nativePlayers: nativeState
         ? nativeState.players.map((player, slot) => {

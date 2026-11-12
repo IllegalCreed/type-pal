@@ -394,6 +394,23 @@ export function instrumentGameBattle(source, file) {
         '\nglobalThis.__battleGameActionComplete?.(state, gs, res.playerRoles);\n',
       )
     }
+    if (
+      file.endsWith('/battle/battle-system.ts') &&
+      owner(node) === 'tickActionFollowup' &&
+      ts.isForOfStatement(node) &&
+      node.expression.getText(ast) === 'friendDeathEffects.commands'
+    ) {
+      add(
+        'casualty-effect-before',
+        node.getStart(ast),
+        'const __battleCasualtyBefore = globalThis.__battleGameCasualtyEffect?.(state, res.playerRoles, idx);\n',
+      )
+      add(
+        'casualty-effect-after',
+        node.end,
+        '\nglobalThis.__battleGameCasualtyEffect?.(state, res.playerRoles, idx, __battleCasualtyBefore);\n',
+      )
+    }
     ts.forEachChild(node, visit)
   }
   visit(ast)
@@ -449,6 +466,9 @@ export function instrumentGameBattle(source, file) {
                 actionStart: 1,
                 'action-produced': 1,
                 actionComplete: hasActionFollowup ? 2 : 4,
+                ...(hasActionFollowup
+                  ? { 'casualty-effect-before': 1, 'casualty-effect-after': 1 }
+                  : {}),
               })
   assert.deepEqual(anchors, expected, 'Q2 Game native observation boundary census changed')
   let code = source

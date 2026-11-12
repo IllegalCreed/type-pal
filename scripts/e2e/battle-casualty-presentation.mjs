@@ -106,7 +106,7 @@ export function compareCasualtyDialogue(trace, frames, expected, probe, motion, 
         kind === 'battle-dialogue-confirm' &&
         order > first.frame.order &&
         order < (page.cleared?.order ?? next.order) &&
-        payload.turn === identity.turn &&
+        payload?.turn === identity.turn &&
         payload.slot === page.slot,
     )
     const holdMs =
@@ -151,10 +151,30 @@ export function compareCasualtyDialogue(trace, frames, expected, probe, motion, 
   })
   if (!pages.at(-1)?.cleared || nextPaint.payload.dialogue?.length)
     fail('business', 'casualty-dialogue-clear', { ...identity, next: stamp(nextPaint) })
+  const wantedEffect =
+    Array.isArray(expected.casualtyEffects) &&
+    expected.casualtyEffects.find((entry) => entry?.afterActionIndex === actionIndex)
+  const effect =
+    wantedEffect &&
+    trace.presentations.find(
+      ({ kind, order, payload }) =>
+        kind === 'battle-casualty-effect' &&
+        order > trace.actions?.[actionIndex]?.order &&
+        order < next.order &&
+        payload?.targetId === wantedEffect.targetId,
+    )
+  const cleared = pages.at(-1)?.cleared
+  if (wantedEffect && (!effect || !cleared || effect.atMs < cleared.atMs - BATTLE_FRAME_MS))
+    fail('business', 'casualty-dialogue-effect-order', {
+      ...identity,
+      effect,
+      cleared: stamp(cleared),
+    })
   return {
     ...identity,
     pages: observed,
     leadMs,
+    ...(effect ? { effect } : {}),
     next: { order: next.order, atMs: next.atMs, actorId: next.actorId },
   }
 }
@@ -356,7 +376,10 @@ export function comparePoisonCasualty(trace, frames, numbers, probe, fail) {
       order > lastAction.order &&
       order <= ready.order,
   )
-  const extraDialogue = held.find(({ payload }) => payload.dialogue?.length)
+  const extraDialogue = frames.find(
+    ({ order, payload }) =>
+      order > lastAction.order && order <= ready.order && payload.dialogue?.length,
+  )
   if (extraSound || extraDialogue)
     fail('business', 'poison-casualty-extra-reaction', {
       ...result,

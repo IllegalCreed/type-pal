@@ -8,6 +8,11 @@ const record = (value) =>
   [Object.prototype, null].includes(Object.getPrototypeOf(value))
 const integer = (value, minimum = 0) => Number.isSafeInteger(value) && value >= minimum
 const text = (value) => typeof value === 'string' && value.trim().length > 0
+const casualtyEffectState = (value) => record(value) && integer(value.hp) && integer(value.attack)
+const CASUALTY_EFFECT_SOURCE = {
+  game: 'game:tickActionFollowup:friend-death-effects',
+  reforge: 'reforge:completeCasualtyEffects:apply',
+}
 
 function jsonFact(value, depth = 0, ancestors = new Set()) {
   if (value === null || ['string', 'boolean'].includes(typeof value)) return true
@@ -347,6 +352,30 @@ function validateScenario(scenario) {
       'list',
       rounds,
     )
+  const effects = expected.casualtyEffects === undefined ? [] : expected.casualtyEffects
+  requireValue(
+    Array.isArray(effects) &&
+      effects.every(
+        (effect, index) =>
+          integer(effect?.afterActionIndex) &&
+          (index === 0 || effects[index - 1].afterActionIndex < effect.afterActionIndex) &&
+          expected.actions[effect.afterActionIndex + 1] &&
+          Array.isArray(expected.casualtyDialogue) &&
+          expected.casualtyDialogue.some(
+            (dialogue) =>
+              dialogue?.actionIndex === effect.afterActionIndex &&
+              dialogue.nextActionIndex === effect.afterActionIndex + 1,
+          ) &&
+          text(effect.targetId) &&
+          casualtyEffectState(effect.before) &&
+          casualtyEffectState(effect.after),
+      ),
+    'oracle',
+    'expected-casualty-effects',
+    'expected.casualtyEffects',
+    'ordered script effects for a declared action, dialogue and next native action',
+    effects,
+  )
   let roundIndex = 0
   for (const [i, entry] of expected.actions.entries()) {
     action(entry, `expected.actions[${i}]`, 'oracle', true)
@@ -354,6 +383,24 @@ function validateScenario(scenario) {
     snapshot(entry.after, `expected.actions[${i}].after`, 'oracle')
     const previous = expected.actions[i - 1]
     let preceding = previous?.after ?? expected.start
+    const effect = effects.find(({ afterActionIndex }) => afterActionIndex === i - 1)
+    if (effect) {
+      const target = preceding.players.find(({ id }) => id === effect.targetId)
+      requireValue(
+        target?.hp === effect.before.hp && effect.after.hp <= target.maxHP,
+        'oracle',
+        'expected-casualty-effect-health',
+        `expected.actions[${i}].before`,
+        target,
+        effect,
+      )
+      preceding = {
+        ...preceding,
+        players: preceding.players.map((member) =>
+          member === target ? { ...member, hp: effect.after.hp } : member,
+        ),
+      }
+    }
     if (rounds !== undefined && previous && entry.turn !== previous.turn) {
       const completed = rounds[roundIndex]
       const path = `expected.rounds[${roundIndex++}]`
@@ -675,6 +722,41 @@ function assertBusinessConformance(trace, expected) {
         'guard-state',
         `actions[${i}]`,
       )
+  }
+  const effects = trace.presentations.filter(({ kind }) => kind === 'battle-casualty-effect')
+  const expectedEffects = expected.casualtyEffects ?? []
+  equalBusiness(effects.length, expectedEffects.length, 'casualty-effect-count', 'presentations')
+  for (const [i, effect] of effects.entries()) {
+    const wanted = expectedEffects[i]
+    const prior = trace.actions[wanted.afterActionIndex]
+    const next = trace.actions[wanted.afterActionIndex + 1]
+    const path = `presentations[${effect.seq}]`
+    const payload = effect.payload
+    requireValue(
+      effect.source === CASUALTY_EFFECT_SOURCE[trace.engine] &&
+        record(payload) &&
+        casualtyEffectState(payload.before) &&
+        casualtyEffectState(payload.after),
+      'integrity',
+      'casualty-effect-producer',
+      path,
+      CASUALTY_EFFECT_SOURCE[trace.engine],
+      effect,
+    )
+    requireValue(
+      payload.turn === prior.turn && prior.order < effect.order && effect.order < next.order,
+      'business',
+      'casualty-effect-action-order',
+      path,
+      { turn: prior.turn, after: prior.order, before: next.order },
+      effect,
+    )
+    equalBusiness(
+      { targetId: payload.targetId, before: payload.before, after: payload.after },
+      { targetId: wanted.targetId, before: wanted.before, after: wanted.after },
+      'casualty-effect-state',
+      path,
+    )
   }
   if (expected.rounds !== undefined) {
     const rounds = trace.rounds ?? []

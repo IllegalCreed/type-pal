@@ -144,6 +144,23 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
       assert(exit && ts.isReturnStatement(exit), 'incapacitated action no longer returns')
       add('incapacitated', exit.getStart(ast), call('incapacitated', 'idx'))
     }
+    if (
+      isCore &&
+      ts.isExpressionStatement(node) &&
+      source === 'applyCasualtyBranchEffects(target, effects)' &&
+      ts.findAncestor(node, ts.isFunctionDeclaration)?.name?.text === 'completeCasualtyEffects'
+    ) {
+      add(
+        'casualty-effect-before',
+        node.getStart(ast),
+        'const __battleCasualtyBefore = globalThis.__battleHarness.casualtyEffect(s, target);\n',
+      )
+      add(
+        'casualty-effect-after',
+        node.end,
+        `\n${call('casualtyEffect', 's, target, __battleCasualtyBefore')}`,
+      )
+    }
     if (file.endsWith('/battle-trial-session.ts')) {
       if (ts.isVariableStatement(node) && source.includes('const { world, players, items,'))
         add('prepared', node.end, `\n${call('prepared', 'prepared')}`)
@@ -288,6 +305,11 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     ts.forEachChild(node, visit)
   }
   visit(ast)
+  const hasCasualtyEffects =
+    isCore &&
+    ast.statements.some(
+      (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'completeCasualtyEffects',
+    )
   const expected = file.endsWith('/battle-trial-session.ts')
     ? ['prepared', 'settled']
     : file.endsWith('/battle-trial-host.ts')
@@ -306,7 +328,12 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
                   'dialogue-portrait',
                 ]
               : isCore
-                ? ['incapacitated']
+                ? [
+                    'incapacitated',
+                    ...(hasCasualtyEffects
+                      ? ['casualty-effect-before', 'casualty-effect-after']
+                      : []),
+                  ]
                 : [
                     'constructed',
                     'tick-begin',

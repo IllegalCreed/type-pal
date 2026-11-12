@@ -38,6 +38,14 @@ export function installGameBattleAdapter() {
   }
   const activeStatuses = (values) =>
     Object.fromEntries(Object.entries(values ?? {}).filter(([, value]) => value > 0))
+  const playerStatuses = (values) =>
+    Object.fromEntries(
+      Object.entries(activeStatuses(values)).map(([name, rounds]) => [
+        name,
+        // CLASSIC stores equipment grants above 999 in the finite status array.
+        rounds > 999 ? 32760 : rounds,
+      ]),
+    )
   const persistentStatuses = (roleId) =>
     Object.fromEntries(
       // Native rgPlayerStatus uses the CLASSIC global.h order; battle cleanup has already run.
@@ -95,7 +103,7 @@ export function installGameBattleAdapter() {
           maxMP: inBattle ? role.maxMP : runtime.rgwMaxMP[roleId],
           level: inBattle ? role.level : runtime.rgwLevel[roleId],
           exp: gs.Exp.rgPrimaryExp[roleId].wExp,
-          statuses: inBattle ? activeStatuses(player.status) : persistentStatuses(roleId),
+          statuses: playerStatuses(inBattle ? player.status : persistentStatuses(roleId)),
           ...poisonIds(playerPoisonSlots(gs, slot)),
         }
       }),
@@ -201,6 +209,19 @@ export function installGameBattleAdapter() {
         kind: 'battle-dialogue-confirm',
         source: 'game:advanceBattleDialog:confirmDialog',
         payload: { turn: state.turn + 1, slot: box.style, before, after: box.phase, result },
+      })
+    })
+  globalThis.__battleGameCasualtyEffect = (state, roles, slot, before) =>
+    observe(() => {
+      if (!scenario || state !== battle || terminal) return
+      const roleId = state.players[slot].roleId
+      const role = roles.roles[roleId]
+      const current = { hp: role.hp, attack: role.attackStrength }
+      if (!before) return current
+      evidence().presentation({
+        kind: 'battle-casualty-effect',
+        source: 'game:tickActionFollowup:friend-death-effects',
+        payload: { turn: state.turn + 1, targetId: playerIdentity(roleId), before, after: current },
       })
     })
   globalThis.__battleGameCommand = (state, slot) =>
@@ -408,6 +429,18 @@ export function installGameBattleAdapter() {
       const gs = dependencies?.gs
       const state = gs?.battleState
       const screen = state?.settlement?.screens[state.settlement.index]
+      const nativeEquipmentStatuses =
+        state === battle &&
+        battle?.players.flatMap(({ roleId, status }) =>
+          Object.entries(status)
+            .filter(([, rounds]) => rounds > 999)
+            .map(([name, rounds]) => ({
+              playerId: playerIdentity(roleId),
+              name,
+              rounds,
+              source: 'game:BattlePlayer.status',
+            })),
+        )
       const busy = Boolean(
         gs?.dialogBox ||
           gs?.paletteFadeState ||
@@ -465,6 +498,7 @@ export function installGameBattleAdapter() {
         canConfirmSettlement: Boolean(screen && state.settlement.shownMs >= 40 && !busy),
         settlement: screen ? { index: state.settlement.index, kind: screen.kind } : null,
         snapshot: battle ? snapshot() : null,
+        ...(nativeEquipmentStatuses?.length ? { nativeEquipmentStatuses } : {}),
         nativePlayers: battle
           ? battle.players.map((player, slot) => {
               const role = liveRoles.roles[player.roleId]
