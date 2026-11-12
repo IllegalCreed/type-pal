@@ -50,15 +50,19 @@ describe('BattleActionPresentationScheduler', () => {
     expect(scheduler.advanceScript(0)).toBe('inactive')
   })
 
-  test('the 240ms action cadence consumes synchronously and drops overflow like the former timer', () => {
+  test('ordinary actions consume one 40ms beat without banking time for another action', () => {
     const scheduler = new BattleActionPresentationScheduler()
-    expect(scheduler.consumeActionCadence(239)).toBe(false)
+    expect(scheduler.consumeActionCadence(39)).toBe(false)
     expect(scheduler.consumeActionCadence(1)).toBe(true)
-    expect(scheduler.consumeActionCadence(239)).toBe(false)
+    expect(scheduler.consumeActionCadence(39)).toBe(false)
     scheduler.resetActionCadence()
     expect(scheduler.consumeActionCadence(1)).toBe(false)
     expect(scheduler.consumeActionCadence(500)).toBe(true)
     expect(scheduler.consumeActionCadence(0)).toBe(false)
+    expect(scheduler.consumeActionCadence(1)).toBe(false)
+    scheduler.satisfyActionCadence()
+    expect(scheduler.consumeActionCadence(0)).toBe(false)
+    expect(scheduler.consumeActionCadence(1)).toBe(true)
   })
 })
 

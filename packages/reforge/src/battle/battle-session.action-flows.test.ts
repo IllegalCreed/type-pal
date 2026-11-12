@@ -224,6 +224,41 @@ describe('W3 执行时间线接线', () => {
     expect(nextAttack()).toBeDefined()
   })
 
+  test('已准备的防御在首个战斗拍实绘，下一拍才开始敌普攻', async () => {
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { defense: 100 })],
+      enemies: [wfEnemy('next-enemy', { attackStrength: 0 })],
+      extraOpts: { prepareTurnSounds: async () => {} },
+    })
+    const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
+    const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const ctx = battleCanvas()
+    const drawnPose = () => {
+      h.session.render(ctx, 1)
+      return ctx.getImageData(240, 162, 1, 1).data[0]
+    }
+
+    h.press(['d'])
+    h.idle(16)
+    expect(h.session.debugReadiness().phase).toBe('preparing')
+    await flush()
+    h.idle(23)
+    expect(drawnPose()).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    h.idle(1)
+    expect(drawnPose()).toBe(poseRed(PLAYER_PROFILE.frames.defend))
+    expect(sfx.plays).toEqual([])
+
+    h.idle(39)
+    expect(drawnPose()).toBe(poseRed(PLAYER_PROFILE.frames.defend))
+    expect(sfx.plays).toEqual([])
+    h.idle(1)
+    expect(sfx.plays).toEqual(['sound.pal.355'])
+  })
+
   test('施法经真 core：MP 恰扣一次（40→20 非 0），readiness 快照含 cast 动作', async () => {
     const snapshots: BattleTurnReadinessSnapshot[] = []
     const skill = wfSkill('wf-nuke', 20)
