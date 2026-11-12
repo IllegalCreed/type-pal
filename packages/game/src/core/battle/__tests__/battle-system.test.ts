@@ -1313,7 +1313,7 @@ describe('OBJECT_PLAYER 队友死亡 / 濒死脚本(fight.c:775-885)', () => {
     while (
       gs.mode === 'battle' &&
       st.phase === 'performAction' &&
-      st.currentActionIndex === startIndex &&
+      (st.currentActionIndex === startIndex || st.actionFollowup !== undefined) &&
       safety-- > 0
     )
       tickBattle(gs, input, bus)
