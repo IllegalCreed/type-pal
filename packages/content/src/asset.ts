@@ -626,6 +626,26 @@ export function collectAssetReferences(source: AssetReferenceSource): LocatedAss
           origin: { kind: 'actor', id: actor.id, section: 'portraits' },
         })
     }
+    for (const kind of ['dying', 'friendDeath'] as const) {
+      const script = actor.battler?.casualty?.[kind]
+      if (!script) continue
+      const branches = [
+        ...script.gates.map(({ branch }, gate) => ({ branch, path: `gates[${gate}].branch` })),
+        { branch: script.fallback, path: 'fallback' },
+      ]
+      for (const { branch, path } of branches) {
+        branch.lines.forEach((line, indexInBranch) => {
+          if (!line.portrait) return
+          references.push({
+            asset: line.portrait.asset,
+            expectedKind: 'portrait',
+            where: `actors[${index}].battler.casualty.${kind}.${path}.lines[${indexInBranch}].portrait.asset`,
+            site: `actor:${actor.id}:casualty`,
+            origin: { kind: 'actor', id: actor.id, section: 'portraits' },
+          })
+        })
+      }
+    }
     if (actor.face)
       references.push({
         asset: actor.face,

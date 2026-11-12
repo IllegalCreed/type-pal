@@ -96,7 +96,7 @@ describe('B11-1 伤亡脚本翻译', () => {
       fallback: {
         lines: [
           { text: 'dlg.13470', style: 'bottom' },
-          { text: 'dlg.13471', style: 'narration' },
+          { text: 'dlg.13471', style: 'narration', autoAdvance: 1400 },
         ],
         effects: [
           { kind: 'heal', resource: 'hp' },
@@ -109,6 +109,27 @@ describe('B11-1 伤亡脚本翻译', () => {
       'dlg.13471': '斗志燃烧，体力恢复',
       'dlg.13472': '　可恶的家伙！',
     })
+  })
+
+  test('preserves a real casualty page portrait, row boundary and automatic tail', () => {
+    const raw = JSON.parse(readFileSync(`${repoRoot}data/extracted/events/all.json`, 'utf8')) as {
+      segments: { commands: SourceCmd[] }[]
+    }
+    const commands = raw.segments[0]!.commands
+    const locale: Record<string, string> = {}
+    const script = translateCasualtyScript(commands, 43374, locale)
+    expect(script.gates[0]?.branch.lines).toEqual([
+      {
+        text: 'dlg.13471',
+        style: 'bottom',
+        portrait: { asset: 'portrait.pal.002', side: 'right' },
+        autoAdvance: 685,
+      },
+      { text: 'dlg.13472', style: 'top', portrait: { asset: 'portrait.pal.015', side: 'left' } },
+      { text: 'dlg.13473', style: 'top', sameCue: true, autoAdvance: 685 },
+    ])
+    expect(locale['dlg.13471']).toBe('灵儿～你还好吧？')
+    expect(locale['dlg.13473']).toBe('这点伤．．我还捱得了')
   })
 
   test('未知 opcode fail-closed', () => {

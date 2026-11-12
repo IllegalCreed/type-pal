@@ -49,26 +49,49 @@ function parseBranch(
   const lines: CasualtyLine[] = []
   const effects: CasualtyEffect[] = []
   let style: DialogStyle = 'bottom'
+  let portrait: CasualtyLine['portrait']
+  let continuesCue = false
   for (let ip = from; ip < commands.length; ip++) {
     const command = commands[ip]
     if (!command) throw new Error(`B11-1 casualty: branch @${from} 越界`)
     switch (command.op) {
       case 'setDialogStyleBottom':
-        style = 'bottom'
+      case 'setDialogStyleTop': {
+        style = command.op === 'setDialogStyleTop' ? 'top' : 'bottom'
+        const face = 'arg0' in command ? command.arg0 : 0
+        if (typeof face !== 'number' || !Number.isSafeInteger(face) || face < 0)
+          throw new Error(`PAL casualty: invalid portrait at ${ip}`)
+        portrait = face
+          ? {
+              asset: `portrait.pal.${String(face).padStart(3, '0')}`,
+              side: style === 'top' ? 'left' : 'right',
+            }
+          : undefined
+        continuesCue = false
         break
-      case 'setDialogStyleTop':
-        style = 'top'
-        break
+      }
       case 'setDialogStyleNarration':
         style = 'narration'
+        portrait = undefined
+        continuesCue = false
         break
       case 'showDialog': {
         const messageIndex = (command as { messageIndex?: unknown }).messageIndex
         if (typeof messageIndex !== 'number' || typeof command.text !== 'string')
           throw new Error(`B11-1 casualty: branch @${from} showDialog 缺 messageIndex/text`)
         const key = `dlg.${messageIndex}`
-        lines.push({ text: key, style })
-        locale[key] = command.text
+        const tail = command.text.match(/~(\d+)$/u)
+        // PAL_DialogWaitForKeyWithMaximumSeconds and PAL_ShowDialogText in SDLPal text.c.
+        const autoAdvance =
+          style === 'narration' ? 1400 : tail ? Math.floor((Number(tail[1]) * 80) / 7) : undefined
+        lines.push({
+          text: key,
+          style,
+          ...(continuesCue ? { sameCue: true } : portrait ? { portrait } : {}),
+          ...(autoAdvance === undefined ? {} : { autoAdvance }),
+        })
+        continuesCue = style !== 'narration' && autoAdvance === undefined
+        locale[key] = tail ? command.text.slice(0, -tail[0].length) : command.text
         break
       }
       case 'end':

@@ -543,8 +543,36 @@ function validateCasualtyBranch(json: unknown, path: string): void {
     const lo = assertObject(line, `${path}.lines[${li}]`) as Record<string, unknown>
     if (typeof lo.text !== 'string' || lo.text.length === 0)
       throw new Error(`${path}.lines[${li}].text: 期望非空 TextId`)
+    const linePath = `${path}.lines[${li}]`
     if (lo.style !== 'bottom' && lo.style !== 'top' && lo.style !== 'narration')
-      throw new Error(`${path}.lines[${li}].style: 期望 bottom|top|narration`)
+      throw new Error(`${linePath}.style: 期望 bottom|top|narration`)
+    if (lo.portrait !== undefined) {
+      const portrait = assertObject(lo.portrait, `${linePath}.portrait`) as Record<string, unknown>
+      if (
+        typeof portrait.asset !== 'string' ||
+        portrait.asset.length === 0 ||
+        (portrait.side !== 'left' && portrait.side !== 'right') ||
+        lo.style === 'narration'
+      )
+        throw new Error(`${linePath}.portrait: 期望上方或下方对白的头像资源和朝向`)
+    }
+    if (
+      lo.autoAdvance !== undefined &&
+      (typeof lo.autoAdvance !== 'number' || !Number.isFinite(lo.autoAdvance) || lo.autoAdvance < 0)
+    )
+      throw new Error(`${linePath}.autoAdvance: 期望非负有限数`)
+    if (lo.sameCue !== undefined) {
+      const previous = lines[li - 1] as Record<string, unknown> | undefined
+      if (
+        lo.sameCue !== true ||
+        !previous ||
+        previous.style !== lo.style ||
+        previous.autoAdvance !== undefined ||
+        lo.portrait !== undefined ||
+        lo.style === 'narration'
+      )
+        throw new Error(`${linePath}.sameCue: 期望续接同一对白页`)
+    }
   })
   const effects = assertArray(o.effects, `${path}.effects`)
   effects.forEach((eff, ei) => {
