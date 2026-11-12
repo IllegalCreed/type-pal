@@ -111,6 +111,7 @@ await runBrowserJourney({
               await reject.click()
               report.events.push({ kind: 'bootstrap-consent', runId, choice: 'denied' })
             }
+            if (capture.enabled) await page.locator('#boot-loading').waitFor({ state: 'detached' })
           }
           await page.evaluate((spec) => globalThis.__battleHarness.launch(spec), result.configured)
           result.initial = await until(
