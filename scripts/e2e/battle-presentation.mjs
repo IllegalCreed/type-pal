@@ -7,6 +7,9 @@ const DEATH_FADE_MS = 72 * 16
 // The source duration is measured between rendered edges, with up to two 40 ms Game ticks
 // of sampling uncertainty. Reforge's wall time can also include paused gameplay time.
 const EDGE_TOLERANCE_MS = 80
+// CLASSIC fight.c waits eight battle frames (battle.h: 40 ms per frame) after displaying changes.
+const BATTLE_FRAME_MS = 40
+const ROUND_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 
 const at = (frame) => ({ frame: frame.seq, clockMs: frame.clockMs, atMs: frame.atMs })
 const pose = (frame, slot) => frame.payload.players.find((player) => player.slot === slot)
@@ -178,6 +181,88 @@ function validFrame(entry, source, playerCount) {
   )
 }
 
+export function firstNumberDraws(frames) {
+  const draws = []
+  const seen = new Set()
+  for (const frame of frames)
+    for (const number of frame.payload.numbers) {
+      const { numberId, age } = number
+      // Old trace format stored only the initial age of the actual draw.
+      if (numberId === undefined ? age !== 0 : seen.has(numberId)) continue
+      draws.push({ frame, number })
+      if (numberId !== undefined) seen.add(numberId)
+    }
+  return draws
+}
+
+function comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail) {
+  const missingId = frames.find(({ payload }) =>
+    payload.numbers.some(({ numberId }) => numberId === undefined),
+  )
+  if (missingId) {
+    fail('integrity', 'round-end-number-identity', at(missingId))
+    return []
+  }
+  const numbers = firstNumberDraws(frames)
+  return scenario.expected.rounds.flatMap((expected) => {
+    const { turn } = expected
+    const round = trace.rounds?.find((entry) => entry.turn === turn)
+    const boundary = {
+      turn,
+      order: round?.order,
+      clockMs: round?.clockMs,
+      atMs: round?.atMs,
+      source: round?.source,
+    }
+    if (!Number.isFinite(boundary.clockMs) || boundary.clockMs < 0) {
+      fail('integrity', 'round-end-clock-missing', boundary)
+      return []
+    }
+    const next = frames.find(
+      ({ order, payload }) =>
+        order > round.order && payload.turn === turn + 1 && payload.panels.length > 0,
+    )
+    const selection = next && { ...at(next), slots: next.payload.panels }
+    if (!next?.payload.selecting || next.payload.panels.length !== playerCount) {
+      fail('integrity', 'round-end-selection-frame-missing', { ...boundary, selection })
+      return []
+    }
+    const hpBefore = expected.before.players[0].hp
+    const hpAfter = expected.after.players[0].hp
+    const lostHp = hpBefore - hpAfter
+    const draws = numbers
+      .filter(({ frame }) => frame.order > round.order && frame.order <= next.order)
+      .map(({ frame, number }) => ({ ...at(frame), ...number }))
+    const draw = draws[0]
+    const observed = { ...boundary, hpBefore, hpAfter, selection, draws }
+    if (
+      lostHp > 0
+        ? draws.length !== 1 ||
+          draw.tone !== 'blue' ||
+          draw.side !== 'player' ||
+          draw.slot !== 0 ||
+          draw.value !== lostHp
+        : draws.length !== 0
+    ) {
+      fail('business', 'round-end-number', observed)
+      return [observed]
+    }
+    if ((draw?.clockMs ?? selection.clockMs) < boundary.clockMs) {
+      fail('integrity', 'round-end-clock-order', observed)
+      return [observed]
+    }
+    // The first number and next HUD are sampled at draw time, with up to one tick per edge.
+    const delayMs = selection.clockMs - (draw?.clockMs ?? boundary.clockMs)
+    const rangeMs = draw
+      ? [ROUND_FEEDBACK_MS - BATTLE_FRAME_MS, ROUND_FEEDBACK_MS + EDGE_TOLERANCE_MS]
+      : [0, EDGE_TOLERANCE_MS]
+    const timing = { ...observed, delayMs, rangeMs }
+    if (delayMs < rangeMs[0]) fail('business', 'round-end-selection-early', timing)
+    if (delayMs > rangeMs[1]) fail('business', 'round-end-selection-delay', timing)
+    return [timing]
+  })
+}
+
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
   const frames = Array.isArray(trace?.presentations)
@@ -187,7 +272,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
-  let portraits
+  let portraits, roundEnds
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -196,6 +281,7 @@ export function validateBattlePresentation(trace, scenario) {
     deaths,
     heals,
     ...(portraits === undefined ? {} : { portraits }),
+    ...(roundEnds === undefined ? {} : { roundEnds }),
     findings,
   })
   if (
@@ -231,6 +317,8 @@ export function validateBattlePresentation(trace, scenario) {
     })
   if (scenario.expected.portraitSamples !== undefined)
     portraits = comparePortraitSamples(frames, scenario, trace.engine, fail)
+  if (scenario.id === 'equivalent-poison')
+    roundEnds = comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail)
 
   const settlement = frames.find(({ payload }) => payload.settlement !== null)
   if (!settlement) fail('integrity', 'settlement-draw-missing')

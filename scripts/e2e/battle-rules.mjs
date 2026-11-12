@@ -1,4 +1,5 @@
 import { isDeepStrictEqual as same } from 'node:util'
+import { firstNumberDraws } from './battle-presentation.mjs'
 
 const equipmentSpeed = { 'li-xiaoyao': 3, 'wu-hou': 9, anu: 0 }
 const speedMultiplier = { defend: 5, cast: 3, item: 3 }
@@ -58,20 +59,6 @@ const isDrawnAction = ({ payload }, action) =>
   payload.animation?.actorId === action.actorId &&
   payload.animation.kind === action.kind &&
   payload.animation.targetId === action.targetId
-
-function firstNumberDraws(frames) {
-  const draws = []
-  const seen = new Set()
-  for (const frame of frames)
-    for (const number of frame.payload.numbers) {
-      const { numberId, age } = number
-      // Old trace format stored only the initial age of the actual draw.
-      if (numberId === undefined ? age !== 0 : seen.has(numberId)) continue
-      draws.push({ frame, number })
-      if (numberId !== undefined) seen.add(numberId)
-    }
-  return draws
-}
 
 function observedRawStrike(engine, native, side) {
   if (engine === 'game') {

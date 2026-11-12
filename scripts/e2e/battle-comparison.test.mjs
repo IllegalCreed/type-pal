@@ -377,7 +377,7 @@ describe('battle business conformance and comparison', () => {
         terminal: { result: 'victory', settlementCount: 1, after: state(118, 0, 2, 1, 13) },
       },
     }
-    const collect = (engine) => {
+    const collect = (engine, clockMs = 100) => {
       installBattleTraceObserver(
         { scenarioId: fixture.id, runId: `run-${++run}`, engine, random },
         createEvidenceRecorder,
@@ -395,6 +395,7 @@ describe('battle business conformance and comparison', () => {
       const slots = [{ partySlot: 0, poisonId: 551 }]
       observer.round({
         ...fixture.expected.rounds[0],
+        clockMs,
         native: { poisonsBefore: slots, poisonsAfter: slots },
         source: 'round:end',
       })
@@ -406,6 +407,15 @@ describe('battle business conformance and comparison', () => {
     const game = collect('game')
     const reforge = collect('reforge')
     assert.equal(compareBattleTraces(game, reforge, fixture).status, 'passed')
+    const repeat = collect('game', 220)
+    assert.equal(compareBattleRepeats(game, repeat, fixture).status, 'passed')
+    repeat.rounds[0].native.poisonsAfter = []
+    assert.equal(
+      compareBattleRepeats(game, repeat, fixture).findings[0].rule,
+      'repeat-native-rounds',
+    )
+    repeat.rounds[0].clockMs = -1
+    assert.equal(validateBattleTrace(repeat, fixture).findings[0].rule, 'round-clock')
 
     const staleTick = structuredClone(reforge)
     staleTick.rounds[0].after.players[0].hp++
@@ -431,6 +441,112 @@ describe('battle business conformance and comparison', () => {
     ;[round.order, command.order] = [command.order, round.order]
     ;[round.atMs, command.atMs] = [command.atMs, round.atMs]
     assert.equal(compareBattleTraces(game, outOfOrder, fixture).findings[0].rule, 'round-order')
+  })
+
+  test('round-end feedback holds only for a newly drawn number before the next selection HUD', () => {
+    const fixture = scenario()
+    fixture.id = 'equivalent-poison'
+    fixture.expected.actions = []
+    fixture.expected.rounds = [
+      { turn: 1, before: state(142, 30, 2), after: state(135, 30, 2) },
+      { turn: 2, before: state(134, 30, 2), after: state(134, 30, 2) },
+    ]
+    const blue = (numberId, value, age = 0) => ({
+      numberId,
+      value,
+      age,
+      tone: 'blue',
+      side: 'player',
+      slot: 0,
+      right: 246,
+      y: 90 - age,
+    })
+    const frame = (
+      order,
+      clockMs,
+      turn,
+      phase,
+      numbers = [],
+      selecting = phase === 'selectAction',
+    ) => ({
+      kind: 'battle-frame',
+      source: 'reforge:BattleSession.render',
+      seq: order,
+      order,
+      clockMs,
+      atMs: order * 10,
+      payload: {
+        turn,
+        phase,
+        selecting,
+        panels: selecting ? [0, 1] : [],
+        enemies: [],
+        players: [],
+        animation: null,
+        numbers,
+        settlement: phase === 'won' ? 'exp-cash' : null,
+      },
+    })
+    const trace = {
+      engine: 'reforge',
+      rounds: [
+        { turn: 1, order: 2, atMs: 20, clockMs: 1200 },
+        { turn: 2, order: 6, atMs: 60, clockMs: 2000 },
+      ],
+      presentations: [
+        frame(1, 1000, 1, 'selectAction'),
+        frame(3, 1200, 2, 'selectAction', [blue(1, 7)], false),
+        frame(4, 1520, 2, 'selectAction', [blue(1, 7, 8)]),
+        frame(5, 1960, 2, 'performAction', [blue(2, 1)]),
+        frame(7, 2040, 3, 'selectAction', [blue(2, 1, 2)]),
+        frame(8, 2500, 3, 'won'),
+      ],
+    }
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    assert.deepEqual(
+      result.roundEnds.map(({ turn, draws, delayMs }) => [
+        turn,
+        draws.map(({ value }) => value),
+        delayMs,
+      ]),
+      [
+        [1, [7], 320],
+        [2, [], 40],
+      ],
+    )
+    const rejected = (mutate, finding) => {
+      const changed = structuredClone(trace)
+      mutate(changed)
+      assert.deepEqual(
+        validateBattlePresentation(changed, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+        [finding],
+      )
+    }
+    rejected(
+      (changed) => {
+        changed.presentations[2].clockMs = 1216
+      },
+      ['round-end-selection-early', 1],
+    )
+    rejected(
+      (changed) => {
+        changed.presentations[4].clockMs = 2320
+      },
+      ['round-end-selection-delay', 2],
+    )
+    rejected(
+      (changed) => {
+        changed.presentations[4].payload.numbers.push(blue(3, 7))
+      },
+      ['round-end-number', 2],
+    )
+    rejected(
+      (changed) => {
+        delete changed.rounds[0].clockMs
+      },
+      ['round-end-clock-missing', 1],
+    )
   })
 
   test('a round-end poison number cannot substitute for the physical number or appear during the hit', () => {

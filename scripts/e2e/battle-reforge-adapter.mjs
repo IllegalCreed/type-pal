@@ -26,6 +26,7 @@ let beforeAction
 let beforeGuards
 let beforeGrowth
 let beforeTurn
+let beforeClockMs
 let beforeRoundPoisons
 let incapacitatedSlot
 let visualAction
@@ -239,9 +240,10 @@ const harness = {
       },
     })
   },
-  beforeStep(state) {
+  beforeStep(state, clockMs) {
     nativeState = state
     beforeTurn = state.turn
+    beforeClockMs = clockMs
     beforeAction = snapshot()
     beforeGuards = state.players.map(({ defending }) => defending)
     beforeGrowth = state.players.map(({ hiddenCounts }) => ({ ...hiddenCounts }))
@@ -258,6 +260,7 @@ const harness = {
     if (state.turn === beforeTurn + 1) {
       evidence().round({
         turn: beforeTurn,
+        clockMs: beforeClockMs,
         before: beforeAction,
         after: snapshot(),
         native: { poisonsBefore: beforeRoundPoisons, poisonsAfter: nativePoisons(state) },

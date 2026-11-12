@@ -166,7 +166,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         )
       }
       if (ts.isExpressionStatement(node) && source === 'stepBattle(s, this.rng)') {
-        add('action-before', node.getStart(ast), call('beforeStep', 's'))
+        add('action-before', node.getStart(ast), call('beforeStep', 's, this.nowMs'))
         const mutation =
           counter === 'double-herb'
             ? "if (s.lastAction?.side === 'player' && s.lastAction.kind === 'item' && s.lastAction.itemId === '99') { const extra = s.inventory.find(entry => entry.itemId === '99'); if (extra && extra.count > 0) extra.count--; }\n"

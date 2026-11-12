@@ -9,6 +9,7 @@ const finding = (rule, expected, actual) => ({ domain: 'business', rule, expecte
 const omitted = new Set(['order', 'seq', 'atMs', 'source', 'engine', 'scenarioId', 'runId'])
 const native = (entry) =>
   Object.fromEntries(Object.entries(entry).filter(([key]) => !omitted.has(key)))
+const nativeRound = ({ clockMs: _clockMs, ...entry }) => native(entry)
 const firstDifference = (left, right) => {
   for (let i = 0; i < Math.max(left.length, right.length); i++)
     if (!same(left[i], right[i]))
@@ -111,7 +112,11 @@ export function compareBattleRepeats(first, second, scenario) {
   for (const [rule, left, right] of [
     ['repeat-business', projectBattleBusinessTrace(first), projectBattleBusinessTrace(second)],
     ['repeat-native-actions', first.actions.map(native), second.actions.map(native)],
-    ['repeat-native-rounds', (first.rounds ?? []).map(native), (second.rounds ?? []).map(native)],
+    [
+      'repeat-native-rounds',
+      (first.rounds ?? []).map(nativeRound),
+      (second.rounds ?? []).map(nativeRound),
+    ],
     [
       'repeat-random-draws',
       first.randomDraws.map(({ index, value, source, purpose, queue }) => ({

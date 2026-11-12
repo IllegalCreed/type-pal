@@ -454,6 +454,15 @@ function validateRecording(trace, scenario) {
   for (const [i, entry] of rounds.entries()) {
     const path = `rounds[${i}]`
     round(entry, path, 'integrity')
+    if (own(entry, 'clockMs'))
+      requireValue(
+        Number.isFinite(entry.clockMs) && entry.clockMs >= 0,
+        'integrity',
+        'round-clock',
+        `${path}.clockMs`,
+        'nonnegative native render-clock time',
+        entry.clockMs,
+      )
     requireValue(
       record(entry.native) &&
         Array.isArray(entry.native.poisonsBefore) &&
