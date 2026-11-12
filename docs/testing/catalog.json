@@ -1648,21 +1648,21 @@
           "lines": "211-213",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "365-376",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1167-1176",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+          "sha256": "0e12586ab29d9526f39bf14fd3c74c1cbc57c9ee5def27033d6e57ef74d8f476"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1883,6 +1883,36 @@
               }
             ],
             "scope": "普通行动的首拍接续音效准备启动的游戏帧。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
+          },
+          {
+            "action": "q2-battle-session-casualty-source-rebinding",
+            "base": "58812c028ebd87dd75a9c5dda46a4ec997fb4b09",
+            "date": "2026-11-12",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "211-213",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "365-376",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1167-1176",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
+              }
+            ],
+            "scope": "普通敌物攻增加本次伤亡音，胜利写回保留倒地 HP。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
           }
         ]
       },
@@ -4288,7 +4318,7 @@
           "lines": "129",
           "anchor": "function defineScenario(",
           "role": "input-and-independent-oracle",
-          "sha256": "3742e117fee1752dab2cf5a96f6e15a4646e3c1f4e69fb299433afba2df1c25f"
+          "sha256": "0d69f7d17541958944aca36e1aafb798faab6bc2f5515ce7409a0999fd522cc7"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -4322,8 +4352,8 @@
           "path": "scripts/e2e/battle-presentation.mjs",
           "anchor": "export function validateBattlePresentation(",
           "role": "render-oracle",
-          "lines": "785",
-          "sha256": "56248cd7f9b8e3e2006100f04b87f68e7746efc330765efb42d561109416ffae"
+          "lines": "969",
+          "sha256": "cd1417c20254734630795024be6759b0f6eb4c4d6e7120de4c3f7cf498947280"
         },
         {
           "path": "scripts/e2e/battle-rules.mjs",
@@ -4362,7 +4392,9 @@
         "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review",
         "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=equivalent-poison --audio-review",
         "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=automatic-block --audio-review",
-        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review"
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review",
+        "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=lantern-player-casualty --audio-review",
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=lantern-player-casualty --audio-review"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4374,7 +4406,8 @@
         "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
         "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3.",
         "Use the seven existing native fixtures for the audiovisual pass. The twenty-four original and authored WAV pairs bind byte identity and original mono PCM frame counts. Single-context browser audio reviews use the same candidate and normal input, with Game starting after its loading surface naturally detaches.",
-        "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged."
+        "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged.",
+        "Two normal turns against raw team 1, field 7, seed 6, level-five Li Xiaoyao and Anu. Li enters with 40/40 HP and 9 equipped defense. Both defend in turn 1. Li defends and Anu attacks in turn 2. Li’s guardian is absent."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4395,7 +4428,9 @@
           "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked.",
           "In seed72, the first drawn impact and recoil use frame4. The first actual return and the remaining turn1 recovery use frame3, then the round-end poison number appears in idle frame0.",
           "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015.",
-          "In seed72, the native active-defend commit, executed guard action, first drawn defense, first drawn enemy windup and first blue physical damage occur in that order. The two one-tick intervals must each lie in 20–65 ms; the attack-to-damage interval is 280–360 ms. Two native cross-engine pairs also verify a command-to-windup difference within one CLASSIC tick."
+          "In seed72, the native active-defend commit, executed guard action, first drawn defense, first drawn enemy windup and first blue physical damage occur in that order. The two one-tick intervals must each lie in 20–65 ms; the attack-to-damage interval is 280–360 ms. Two native cross-engine pairs also verify a command-to-windup difference within one CLASSIC tick.",
+          "The lantern hits Li for 35 then 5. The actual impact frame 4 and two recoil positions precede first return frames 1 and 2. Native sound 019 starts after the dying pose; 023 starts around second recoil and before the fallen pose. Each appears once and the regular hit sound 352 still starts at each impact.",
+          "After lethal damage the native equivalent-item roll is consumed, with zero rate. Li’s selected action is skipped and Anu’s real 976 raw damage wins. The original victory reward leaves Li with zero earned EXP and 20 HP after half recovery, Anu with one EXP and 150 HP, and awards cash 3 once."
         ]
       },
       "dedupe": {
@@ -4408,7 +4443,7 @@
         "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
       },
       "revision": {
-        "currentSha": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+        "currentSha": "55d5512d81a87660185b17afad621a3d33e9e5a0",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4471,6 +4506,15 @@
             "predecessor": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
             "historicalReceiptRevision": "d0020e0749483651d9b0f86cf79ef738ac34663e",
             "archive": "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz"
+          },
+          {
+            "revision": "55d5512d81a87660185b17afad621a3d33e9e5a0",
+            "date": "2026-11-12",
+            "action": "native-player-physical-casualties-and-survivor-continuation",
+            "scope": "Rendered direct physical dying, fallen poses and actual sounds, lethal RNG consumption and victory reward eligibility in a legal two-round fixture.",
+            "predecessor": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+            "historicalReceiptRevision": "58812c028ebd87dd75a9c5dda46a4ec997fb4b09",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz"
           }
         ]
       }
@@ -4607,7 +4651,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input. The two-round casualty fixture independently verifies drawn recoil, distinct actual player sounds, the lethal-hit probability draw and the surviving player’s victory rewards."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

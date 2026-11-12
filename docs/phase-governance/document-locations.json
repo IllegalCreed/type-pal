@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "6a5f3ec2d3550059b45fafa870002509946df2c27c6de8c280da8a3d5640d50c",
+      "afterSha256": "505ca76a74e54c80958d5f6db4280810cc1ea7bf0d5d0e29bb3a4bf799de0c25",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受本次分屏通过、候选待集成和下一项玩家伤亡演出。",
+        "conclusion": "接受节拍用户回执和本段双端复验状态。",
         "reviewedLines": 122,
-        "acceptanceScope": "Q2 第四批行动节拍的验收状态与下一项。"
+        "acceptanceScope": "第四批行动音效、玩家物攻伤亡与待反馈边界。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "f4b02c6afbb5b11d1ebedf93e2a5a38d2a75440ebf757784f86725433e372eb9",
+      "afterSha256": "f7185228c7c7c679d0566db937b1d45b9cf61761330b10f5f284a1bee32996a9",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受行动节拍归档入口及既有证据入口。",
+        "conclusion": "接受本轮归档入口与既有证据入口。",
         "reviewedLines": 43,
-        "acceptanceScope": "本轮与旧轮原件恢复定位。"
+        "acceptanceScope": "本轮伤亡及旧轮原件恢复定位。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "558eb4f5e2d277db63b5f3759ff11810f423accb5675f64a38942b24ac308821",
+      "afterSha256": "cd669e088d2dfb3718f7a436657593218d4ae9d744781c7561654b9da9ae4522",
       "review": {
         "author": "Codex /root",
-        "reviewer": "Codex /root/q2_rules",
+        "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受主动防御、自动格挡、普通命中和复位顺序的 CLASSIC 源码引文。",
-        "reviewedLines": 1708,
-        "acceptanceScope": "防御加成、独立掷骰、帧和音效边界。"
+        "conclusion": "接受 CLASSIC 物攻濒死、阵亡及战后经验和恢复边界。",
+        "reviewedLines": 1714,
+        "acceptanceScope": "本轮伤亡与经验的原版源码引文和适用范围。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "441f8d802b04214cea9794d3c8763b6b3844a47f23a8c5c050e28d13e73d90c1",
+      "afterSha256": "c25aa30e678df3dd58cc10a1b3bf5480d3028958bbb7fbba0da0b549df694067",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受当前 Q2 配对指针和新的会话来源重绑。",
-        "reviewedLines": 4950,
-        "acceptanceScope": "八局面复验、旧历史和现行 caller。"
+        "conclusion": "接受九局面报告指针和会话来源重绑。",
+        "reviewedLines": 4994,
+        "acceptanceScope": "Q2 当前覆盖、会话 caller 和配对机器记录。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "c370e2cfea30990b8e57ede9399eaf42a485405ce9d4d6d65114b269bbe9720b",
+      "afterSha256": "947e7d28878609fcfc461b53b969c881af2d9d07fb19364bdb25cedfa340e3c2",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受候选 caller SHA 与原配对记录。",
-        "reviewedLines": 342,
-        "acceptanceScope": "固定前驱的三个 caller 及历史来源指针。"
+        "conclusion": "接受三个 caller 的 SHA 及既有机器记录。",
+        "reviewedLines": 372,
+        "acceptanceScope": "固定前驱的 caller 核对与历史证据。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "a85d7253dc553c7dab0ddf0d90a57bc3921914c4012f1ae0cd24223865a2f4f6",
+      "afterSha256": "4e846b1553f1904960f9a7c15b99bf12f0bfba40fe77a2c345c83de1b01d2542",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受三个既有 caller 的行号与来源接线说明。",
+        "conclusion": "接受三个 caller 的行号和会话来源接线说明。",
         "reviewedLines": 93,
-        "acceptanceScope": "本轮来源校准，既有归属义务和历史边界。"
+        "acceptanceScope": "本轮来源重绑，既有归属义务和历史边界。"
       }
     },
     {
@@ -5380,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "de56e442b1c00b14c027a058a4e4b189cbf5aa0be82fd94e493ff58785df6352",
+      "afterSha256": "32e6f33267722cec4b734075fda33904ca1397ebd4f954126e51c36fddbcb30b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受用户验收原话、冻结候选、归档成员和本地质量结果。",
-        "reviewedLines": 267,
-        "acceptanceScope": "血口虫主动防御至首次命中的原速带声分屏及本轮质量证据。"
+        "conclusion": "接受用户回执、分工、候选、复验、源码边界和待验证项。",
+        "reviewedLines": 285,
+        "acceptanceScope": "行动节拍验收、玩家物攻伤亡及两端定向质量证据。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "ccbfed92ac19d43a513a8f91894b6a283f7c9c13137914656ce2e6530f302fdf",
+      "afterSha256": "6c7232375878527e9b093ce85c870ab648491e81f952d520673e512626ba0a7e",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
         "conclusion": "接受当前 Q2 覆盖导航。",
         "reviewedLines": 32,
-        "acceptanceScope": "行动队列节拍及带声复核入口。"
+        "acceptanceScope": "主动防御节拍、物攻伤亡和原速分屏入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "de2d0bc135227acb643847b9d7422e6454e8f454bac002d60cb1b8a2e92d6051",
+      "afterSha256": "5833b310d6adf4d1cb76615e6caac2ee933a92c08d2d815f3b5a490c4a7264b9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受新候选、分段和声画原件的 SHA，核既有原件身份。",
-        "reviewedLines": 5848,
-        "acceptanceScope": "正式矩阵、对照、媒体及与现行来源绑定。"
+        "conclusion": "接受候选、矩阵、真实声音和媒体的 SHA 与历史指针。",
+        "reviewedLines": 6352,
+        "acceptanceScope": "36 场、两端旧版失败、分屏及现行来源绑定。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "f221bc004efa04984ce270b876d263c7e11a727f1f7e551d38ed284f81155f67",
+      "afterSha256": "3b644e3925c5a780ffa9683ff5ba1c0f56c958be8f09ef255a61c10277d4eeb4",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受当前候选与对应归档的校准，旧历史、机器元数据和覆盖边界保留。",
-        "reviewedLines": 173,
-        "acceptanceScope": "报告摘要与现行行动节拍的实跑身份。"
+        "conclusion": "接受九局面原件、两端旧版反例及原速带声分屏。",
+        "reviewedLines": 181,
+        "acceptanceScope": "物攻伤亡时机、经验和回合续战与待验证范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "bef0837c080eae7ff75de31121d2ef234c9411ea81cfc20ffd9feb85b00dc892",
+      "afterSha256": "660bf2232aeaa8042bf7cebd377ca675a5823953d5617a0b980de94b212ff194",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受三个不变的 caller 和现行源码 SHA，保留四段已有重绑。",
-        "reviewedLines": 57,
-        "acceptanceScope": "固定前驱与现行候选的适用性。"
+        "conclusion": "接受三处 caller 的不变片段、候选 SHA 和固定前驱。",
+        "reviewedLines": 63,
+        "acceptanceScope": "三个会话 caller 的适用性及既有证据保留。"
       }
     }
   ],
@@ -5777,6 +5777,12 @@
       "sha256": "52ffb4a6b2605bb8785a987e047ab0b80be0f1cfb6fc2c2196ef165d50f8a573",
       "bytes": 9793475,
       "purpose": "行动队列节拍的旧版真实完赛反例、八局面双端复验、对应受击音和原速分屏。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz",
+      "sha256": "7f098de5fc5d4b986f3b06146357975d6654612020e3162b5d66439b2dc9127b",
+      "bytes": 7845424,
+      "purpose": "玩家物攻濒死和阵亡的旧版反例、九局面双端复验、存档解析、实际音效与原速分屏。"
     }
   ],
   "artifactAliases": [],
