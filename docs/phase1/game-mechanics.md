@@ -3,10 +3,14 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-11
+Last reviewed: 2026-11-12
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-12 CLASSIC 回合末节拍与敌普攻音效
+
+队列耗尽后先运行回合末毒脚本及伤亡检查，再调用 `PAL_BattleDisplayStatChange()`。该函数返回真时等待 8 个 40 ms 战斗帧，随后处理下一轮起手脚本。敌普攻的 `wAttackSound` 位于前摇起点，`wActionSound` 位于前摇结束，`wCallSound` 位于命中。目标自行格挡时用目标的 `wCoverSound`，替挡时用守护者的 `wCoverSound`。Win95 中当前队列槽标为第二动且敌人的 `wMagic` 为零时，物攻起点用 `wMagicSound`。 [回合边界](../../reference/sdlpal/fight.c#L1600) · [战斗帧长](../../reference/sdlpal/battle.h#L28) · [敌普攻演出](../../reference/sdlpal/fight.c#L4910)
 
 ## 2026-11-11 敌普攻附毒与战内随机
 

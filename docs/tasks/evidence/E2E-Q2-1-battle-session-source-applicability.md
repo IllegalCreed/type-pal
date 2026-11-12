@@ -2,7 +2,7 @@
 
 Status: recorded
 Owner: Codex
-Last reviewed: 2026-11-11
+Last reviewed: 2026-11-12
 Template: evidence-receipt-v1 / 1.0.0
 
 ## 证据身份
@@ -40,3 +40,9 @@ Template: evidence-receipt-v1 / 1.0.0
 ## 2026-11-11 赤毒头像返工后的现行绑定
 
 新冻结候选 `4f1bea68f897ca59d4a2cd892e7619ffdebe479e` 将战斗头像的毒色索引交给绘制层。三个会话 caller 片段仍与固定基点逐字节相同，当前源码 SHA-256 为 `e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c`。首次第三批候选与第三批原件保留各自身份，目录、配对报告和机器证据的当前指针绑定返工后的源码。 [头像验收范围](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-11-赤毒头像返工)
+
+## 2026-11-12 回合末演出与敌普攻起手音
+
+固定前驱 `5a3093c93746d6e04e8f569ef526e07778aa439f`。本轮会话源码 SHA-256 为 `3ace4643724f0df7411de03c4a92cec1badb3ca1d92e96d83fef1241f122ec15`。数值反馈等待置于下一轮起手和手动选择之前，敌普攻音效在时间线构造时传入。三个现行 caller 范围 `211-213`、`365-376`、`1167-1176` 与前驱的三个已接受片段逐字节相同。
+
+目录、配对报告及机器证据的引用随实际源码更新，并追加 2026-11-12 适用性历史。原先三次重绑各由固定 Git 版本核对。 [动画与音效覆盖](../../testing/domains/cross-phase/battle-foundation/report.md)

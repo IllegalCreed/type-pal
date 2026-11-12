@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "e8a2bbb1bef02537f9eb7162c045153546d12897d5090af9d930b3026e97c5ac",
+      "afterSha256": "d267ed8d7138b008bb24b2c42dc40b555dbb733a76aeca3a6f607761abfca522",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
-        "date": "2026-11-11",
-        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
+        "date": "2026-11-12",
+        "conclusion": "接受活动看板的第四批状态。按本轮真实执行和仍待范围核对。",
         "reviewedLines": 122,
-        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
+        "acceptanceScope": "血口虫回合反馈、七局面音效及明确后续边界。"
       }
     },
     {
@@ -1982,16 +1982,16 @@
     {
       "path": "docs/ops/evidence/README.md",
       "mode": "reviewed",
-      "afterSha256": "0e1ff0dbf7d15053b8b58e4ee63ed62e61699dab1326017019d128ae244b3048",
+      "afterSha256": "0c66f3ba1a01fbfdcf5aa5d7786ed751e986a8da968caf5dbf7005a424ffd11f",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
+        "date": "2026-11-12",
+        "conclusion": "接受原件索引中的新归档定位，旧 Q2 原件链接保留。",
         "reviewedLines": 43,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "acceptanceScope": "第四批动画与带声分屏归档。"
       },
       "historyDisposition": "fixed-git-source"
     },
@@ -3206,14 +3206,14 @@
     {
       "path": "docs/phase1/game-mechanics.md",
       "mode": "reviewed",
-      "afterSha256": "c791eb3b8bb2e85d55cdf952f8044333a6201982f7bdbd0213276044fb7bb1df",
+      "afterSha256": "5cc1c7bfd00b2ad74dd3877bef4383e5b65e4e973b16a0647c15c781facc4cfc",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
-        "date": "2026-11-11",
-        "conclusion": "接受第三批文档增量。原始机制、冻结候选、双端轨迹和反例互证，覆盖界限与待验节拍明确。",
-        "reviewedLines": 1702,
-        "acceptanceScope": "七个固定战斗局面的指定行为与实际画帧，保留既有用户验收身份与未测范围。"
+        "date": "2026-11-12",
+        "conclusion": "接受所引 CLASSIC 回合反馈和敌普攻三处声音来源。历史引文完整保留。",
+        "reviewedLines": 1706,
+        "acceptanceScope": "原版回合顺序、8 帧及三个敌普攻声源，包含 Win95 双动条件。"
       }
     },
     {
@@ -4366,14 +4366,14 @@
     {
       "path": "docs/testing/catalog.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "75097c4921b62cb20ced6415b420b11af1f7c295b3f8da513203b36022191a23",
+      "afterSha256": "6a16d9216e43eb0a03dc612a754dccbc64147319ff45d6539f62517d2548e086",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
-        "reviewedLines": 4831,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "date": "2026-11-12",
+        "conclusion": "接受 Q2 现行报告、原生回执与第四次会话来源绑定。固定前驱和原记录按原 Git 对象核对。",
+        "reviewedLines": 4896,
+        "acceptanceScope": "两个既有 catalog 条目的当前出版和来源。"
       }
     },
     {
@@ -4726,28 +4726,28 @@
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json",
       "mode": "testing-source-bridge",
-      "afterSha256": "bc5f185329e865b61cad2b90c2eaba3f7344cbc8686b123ebd32ccae4ca66b76",
+      "afterSha256": "68b0010eb09e6e4ed184cb0f44e7a8b84b215bfa437736dbd04c82df86c014a5",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工后的三个现行会话 caller 来源绑定。两个固定前驱事件保持原样。",
-        "reviewedLines": 282,
-        "acceptanceScope": "仅当前源码摘要、三个 caller 和本次适用性历史，旧会话归属执行按原记录。"
+        "date": "2026-11-12",
+        "conclusion": "接受当前三个 caller 来源摘要、范围及一次适用性追加，旧执行按各原件保留。",
+        "reviewedLines": 312,
+        "acceptanceScope": "只核三个真实 caller、现行 SHA、指针和保全的历史。"
       }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
       "mode": "reviewed",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "d2d503104849438b9bb443cbfde4a009248a87079d253bbc064c06bb0e0427b2",
+      "afterSha256": "be3544a68d6d3dcb07af2a48ea7631b29d0991d3984344e3b960c7517c5f0eea",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工后的三个现行会话 caller 来源绑定。两个固定前驱事件保持原样。",
+        "date": "2026-11-12",
+        "conclusion": "接受配对报告的当前会话来源与新增适用性历史。",
         "reviewedLines": 93,
-        "acceptanceScope": "仅当前源码摘要、三个 caller 和本次适用性历史，旧会话归属执行按原记录。"
+        "acceptanceScope": "当前源码绑定与配对 evidence/catalog 一致。"
       }
     },
     {
@@ -5380,66 +5380,66 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "309e9c83025e2e1b224ea266fddd7f160e26bb9783469772852c21403941fb56",
+      "afterSha256": "310e06586e268fd63bc936f0b2f2d126e07a9bb9cffae5eb367780a65dc6904a",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
-        "reviewedLines": 200,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "date": "2026-11-12",
+        "conclusion": "接受第四批阶段、Owner、运行与反例记录。原版依据、同候选双端帧及真实声音原件一致。",
+        "reviewedLines": 234,
+        "acceptanceScope": "本轮血口虫回合节拍、七局面具名音效、实际回放及留待范围。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/README.md",
       "templateId": "governance-index-v1",
-      "afterSha256": "fa20b49d63e4ad154308fbd657b71d5d3ad86ecd821cca41f6b697f4efaced9f",
+      "afterSha256": "29d5f5d1edfd55c14762c2b80015ee827ce18386727e750b27f90d2e2317a5b9",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
-        "reviewedLines": 30,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "date": "2026-11-12",
+        "conclusion": "接受验证和独立带声复核入口。范围与执行、配对证据一致。",
+        "reviewedLines": 32,
+        "acceptanceScope": "当前七局面与单个带声复核入口。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/evidence.json",
       "templateId": "test-machine-evidence-v1",
-      "afterSha256": "8111621294f5cda3357028b3085ca0f1f01c60be39ab89cb432390be1af2b391",
+      "afterSha256": "431db2d9d71a56f4a68092c2ac4d21650c1514db854d2a40dbc033d15fbffbf0",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
-        "reviewedLines": 3588,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "date": "2026-11-12",
+        "conclusion": "接受最新冻结候选、两个原生音画复核、实际红绿和全部归档成员。旧原件及执行历史保留。",
+        "reviewedLines": 4495,
+        "acceptanceScope": "28 场正常战斗、真实反馈与音效、分屏及独立原件。"
       }
     },
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "de15b054f280742bcccf52fbb711bae132ad45ae054689b1b70ec99589cf7afb",
+      "afterSha256": "aaec61f95993ae1324728c453e34549d3636bd77ff8a5aa738c69c890abe194c",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工增量。旧画帧差异、同场景恢复和透明采样由原始输入、帧证据及离线重比支持。",
-        "reviewedLines": 129,
-        "acceptanceScope": "当前七个固定战斗局面及血口虫的未中毒、赤毒、解毒画帧。历史执行和用户接受保留。"
+        "date": "2026-11-12",
+        "conclusion": "接受具名回合、动作音效、捕获和测量值，按同候选原件重比。",
+        "reviewedLines": 146,
+        "acceptanceScope": "血口虫回合、24 种源、180 次实际启动和明确未验范围。"
       }
     },
     {
       "path": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
       "templateId": "evidence-receipt-v1",
-      "afterSha256": "503a9c930a127bdfca27a45e863450b23013c10b4aaa39974e8eb91dc16c095e",
+      "afterSha256": "2f08a308c9c80fd425c783e778332c3810e4317a227923894205ff8e85bbf734",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_inputs",
-        "date": "2026-11-11",
-        "conclusion": "接受赤毒头像返工后的三个现行会话 caller 来源绑定。两个固定前驱事件保持原样。",
-        "reviewedLines": 43,
-        "acceptanceScope": "仅当前源码摘要、三个 caller 和本次适用性历史，旧会话归属执行按原记录。"
+        "date": "2026-11-12",
+        "conclusion": "接受现行三个会话 caller 来源绑定。固定前驱三个已接受源码片段逐字节相同。",
+        "reviewedLines": 49,
+        "acceptanceScope": "当前 SHA、范围和第四次源码适用性，原历史保持。"
       }
     }
   ],
@@ -5759,6 +5759,12 @@
       "sha256": "cfee477d9b30c5d449d2f39e8d5d5184ea381805d79761e53fc52aedfe6079fc",
       "bytes": 4337757,
       "purpose": "赤毒头像旧版画帧差异、当前 28 场原件重比、六点原生像素、可暂停分屏与同状态截图。"
+    },
+    {
+      "path": "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz",
+      "sha256": "af4b834e351375605581541133324899bf41df369cac73a6cbb94f7eb6c083ff",
+      "bytes": 17498786,
+      "purpose": "第四批真实回合与声效红绿原件、当前双端 28 场、实际 Web Audio 启动与原速带声分屏。"
     }
   ],
   "artifactAliases": [],
