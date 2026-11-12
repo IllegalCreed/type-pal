@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 import { readdir, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
@@ -544,15 +545,121 @@ function defineEquivalentPoison() {
   return scenario
 }
 
-export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze([
-  defineScenario('solo-lantern', '单人单灯笼', ['li-xiaoyao'], 1),
-  defineScenario('party-lanterns', '三名队员分别选择三个灯笼', ['li-xiaoyao', 'wu-hou', 'anu'], 3),
-  defineScenario('herb-settlement', '止血草治疗、消耗与正式结算', ['li-xiaoyao', 'anu'], 1, true),
-  defineTwoRoundScenario(),
-  defineDualSickleWeasel(),
-  defineEnemySleep(),
-  defineEquivalentPoison(),
-])
+const soundAsset = (id) => `sound.pal.${String(id).padStart(3, '0')}`
+const rawSoundPath = (id) => `data/extracted/sounds/${id}.wav`
+const projectSoundPath = (id) => `assets/migrated/sounds/${String(id).padStart(3, '0')}.wav`
+const soundFrames = {
+  1: 4869,
+  2: 5075,
+  4: 11775,
+  8: 6045,
+  9: 6982,
+  28: 13408,
+  32: 20700,
+  37: 4102,
+  38: 12378,
+  40: 5869,
+  50: 14593,
+  92: 6983,
+  94: 3121,
+  126: 10165,
+  138: 41746,
+  169: 36112,
+  185: 6605,
+  216: 27640,
+  247: 35018,
+  265: 9627,
+  352: 9077,
+  357: 8958,
+  368: 6370,
+  369: 3514,
+}
+
+const playerAttackSounds = (voice, weapon, death) => [
+  ['player-windup', voice],
+  ['player-weapon', weapon],
+  ['enemy-death', death],
+]
+const enemyAttackSounds = (attack, call) => [
+  ['enemy-windup', attack],
+  ['enemy-impact', call],
+]
+const itemSound = [['item', 28]]
+// SDLPal fight.c:2058–2124,2292–2300,2377–2392,2926–2929,4695,4931–5085,756.
+// Each row belongs to the corresponding executed action, including silent defend/pass actions.
+const audioCues = {
+  'solo-lantern': [playerAttackSounds(37, 1, 32)],
+  'party-lanterns': [
+    playerAttackSounds(37, 1, 32),
+    playerAttackSounds(38, 2, 32),
+    playerAttackSounds(8, 4, 32),
+  ],
+  'herb-settlement': [itemSound, playerAttackSounds(40, 4, 32)],
+  'two-round-commands': [
+    [],
+    itemSound,
+    enemyAttackSounds(50, 352),
+    [
+      ['cast-windup', 9],
+      ['spell-effect', 138],
+    ],
+    playerAttackSounds(38, 2, 32),
+  ],
+  'dual-sickle-weasel': [
+    [],
+    [
+      ['cast-windup', 369],
+      ['spell-effect', 126],
+    ],
+    enemyAttackSounds(368, 94),
+    playerAttackSounds(37, 1, 247),
+  ],
+  'enemy-sleep': [
+    [],
+    [],
+    [['spell-effect', 169]],
+    [],
+    enemyAttackSounds(265, 92),
+    [],
+    playerAttackSounds(40, 4, 185),
+  ],
+  'equivalent-poison': [
+    [],
+    enemyAttackSounds(357, 92),
+    itemSound,
+    enemyAttackSounds(357, 92),
+    playerAttackSounds(37, 1, 216),
+  ],
+}
+
+function attachAudioOracle(scenario) {
+  const byAction = audioCues[scenario.id]
+  assert.equal(byAction?.length, scenario.expected.actions.length, `audio actions: ${scenario.id}`)
+  scenario.expected.audioCues = byAction.flatMap((cues, actionIndex) =>
+    cues.map(([kind, id]) => ({ actionIndex, kind, assetId: soundAsset(id) })),
+  )
+  scenario.expected.audioSourceFrames = Object.fromEntries(
+    byAction.flatMap((cues) => cues.map(([, id]) => [soundAsset(id), soundFrames[id]])),
+  )
+  return scenario
+}
+
+export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
+  [
+    defineScenario('solo-lantern', '单人单灯笼', ['li-xiaoyao'], 1),
+    defineScenario(
+      'party-lanterns',
+      '三名队员分别选择三个灯笼',
+      ['li-xiaoyao', 'wu-hou', 'anu'],
+      3,
+    ),
+    defineScenario('herb-settlement', '止血草治疗、消耗与正式结算', ['li-xiaoyao', 'anu'], 1, true),
+    defineTwoRoundScenario(),
+    defineDualSickleWeasel(),
+    defineEnemySleep(),
+    defineEquivalentPoison(),
+  ].map(attachAudioOracle),
+)
 
 export function battleFoundationScenario(id) {
   const scenario = BATTLE_FOUNDATION_SCENARIOS.find((entry) => entry.id === id)
@@ -572,17 +679,47 @@ export function battleLaunchSpec(scenario) {
   })
 }
 
-/** Bind raw/author JSON and the two portrait sources used by the pixel comparison. */
+/** Bind the raw/author JSON, face pixels and WAVs used by the independent comparisons. */
 export async function battleFoundationInputSources(root) {
   const paths = [
     'data/extracted/images/ui/frame-48.png',
     'projects/pal/assets/migrated/faces/li-xiaoyao.png',
+    ...Object.keys(soundFrames).flatMap((id) => [
+      rawSoundPath(id),
+      `projects/pal/${projectSoundPath(id)}`,
+    ]),
   ]
   for (const directory of ['data/extracted', 'projects/pal']) {
     for (const name of await readdir(resolve(root, directory), { recursive: true }))
       if (name.endsWith('.json')) paths.push(`${directory}/${name}`)
   }
   return paths.sort()
+}
+
+async function verifyAudioSources(root, index) {
+  await Promise.all(
+    Object.entries(soundFrames).map(async ([id, frames]) => {
+      const assetId = soundAsset(id)
+      const record = index.assets[assetId]
+      assert.equal(record?.path, projectSoundPath(id), assetId)
+      assert.equal(record.kind, 'sound', assetId)
+      const [raw, authored] = await Promise.all([
+        readFile(resolve(root, rawSoundPath(id))),
+        readFile(resolve(root, 'projects/pal', record.path)),
+      ])
+      assert(raw.equals(authored), `${assetId}: raw and authored WAV differ`)
+      assert.equal(authored.byteLength, record.bytes, assetId)
+      assert.equal(createHash('sha256').update(authored).digest('hex'), record.sha256, assetId)
+      assert.equal(raw.toString('ascii', 0, 4), 'RIFF', assetId)
+      assert.equal(raw.toString('ascii', 8, 16), 'WAVEfmt ', assetId)
+      assert.equal(raw.readUInt16LE(20), 1, assetId)
+      assert.equal(raw.readUInt16LE(22), 1, assetId)
+      assert.equal(raw.readUInt32LE(24), 22050, assetId)
+      assert.equal(raw.readUInt16LE(34), 16, assetId)
+      assert.equal(raw.toString('ascii', 36, 40), 'data', assetId)
+      assert.equal(raw.readUInt32LE(40), frames * 2, assetId)
+    }),
+  )
 }
 
 /** Verify the few independent data premises before either engine is launched. */
@@ -601,6 +738,7 @@ export async function verifyBattleFoundationSources(root) {
     rawItems,
     rawPoisons,
     poisons,
+    assetIndex,
   ] = await Promise.all([
     json('data/extracted/data/enemy-teams.json'),
     json('data/extracted/data/enemies.json'),
@@ -614,6 +752,7 @@ export async function verifyBattleFoundationSources(root) {
     json('data/extracted/data/items.json'),
     json('data/extracted/data/object-poisons.json'),
     json('projects/pal/content/poisons.json'),
+    json('projects/pal/assets/index.json'),
   ])
   const rawEnemy = rawEnemies.find((enemy) => enemy.id === 2)
   const enemy = enemies.find((entry) => entry.id === 'enemy-399')
@@ -733,6 +872,7 @@ export async function verifyBattleFoundationSources(root) {
       effects: [{ kind: effect, poisonId: '551' }],
     })
   }
+  await verifyAudioSources(root, assetIndex)
   return {
     enemy: 'enemy-399',
     hp: 30,
@@ -746,5 +886,6 @@ export async function verifyBattleFoundationSources(root) {
     sleep: '303',
     poison: 551,
     antidote: '87',
+    audioAssets: Object.keys(soundFrames).length,
   }
 }
