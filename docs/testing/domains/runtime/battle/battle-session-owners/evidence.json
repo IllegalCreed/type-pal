@@ -14,21 +14,21 @@
       "lines": "211-213",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+      "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "365-376",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+      "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
       "lines": "1167-1176",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+      "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -265,6 +265,36 @@
         }
       ],
       "scope": "回合末数值反馈、敌普攻起手声和受击复位使用同一 BattleSession。三个已接收 caller 片段逐字节相同，现行 SHA、行范围和主张指针随源码校准。"
+    },
+    {
+      "action": "q2-battle-session-cadence-source-rebinding",
+      "base": "d0020e0749483651d9b0f86cf79ef738ac34663e",
+      "date": "2026-11-12",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "211-213",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "365-376",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1167-1176",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+        }
+      ],
+      "scope": "普通行动的首拍接续音效准备启动的游戏帧。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
     }
   ],
   "_governance": {

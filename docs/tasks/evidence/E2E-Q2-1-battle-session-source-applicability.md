@@ -48,3 +48,9 @@ Template: evidence-receipt-v1 / 1.0.0
 防御返工候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b` 的现行会话源码 SHA-256 为 `57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1`。物攻构造使用受击前姿态和本次物理扣血后的血量。三个现行 caller 范围 `211-213`、`365-376`、`1167-1176` 与固定前驱和首版第四批候选的片段逐字节相同。 [防御复位复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-防御受击复位与自动格挡)
 
 目录、配对报告及机器证据的引用随实际源码更新，并追加 2026-11-12 适用性历史。原先三次重绑各由固定 Git 版本核对。 [动画与音效覆盖](../../testing/domains/cross-phase/battle-foundation/report.md)
+
+## 2026-11-12 普通行动队列首拍
+
+固定前驱 `d0020e0749483651d9b0f86cf79ef738ac34663e`，冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`。现行会话 SHA-256 为 `569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a`。`211-213`、`365-376`、`1167-1176` 三个 caller 的片段与固定前驱逐字节相同，readiness oracle 全文件字节相同。候选在原准备入口记入已过的一个游戏帧，仍由原无参回调建队。
+
+目录、配对报告和机器证据追加本次适用性记录。各次既有归属与历史反控的执行身份保留，普通队列的旧 240 ms 断言只适用于其固定候选。新节拍的运行结论见 [双端复验](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-主动防御至首次命中的行动节拍)。
