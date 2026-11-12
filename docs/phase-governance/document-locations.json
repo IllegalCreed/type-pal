@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "505ca76a74e54c80958d5f6db4280810cc1ea7bf0d5d0e29bb3a4bf799de0c25",
+      "afterSha256": "539a679df92d5904b7f03c7d6f84f0051f12908444203054a2bb9ff307bd111c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受节拍用户回执和本段双端复验状态。",
+        "conclusion": "依据用户分屏回执确认物攻伤亡验收，更新第四批后续范围。",
         "reviewedLines": 122,
-        "acceptanceScope": "第四批行动音效、玩家物攻伤亡与待反馈边界。"
+        "acceptanceScope": "物攻伤亡原速分屏回执和已有独立复验结果。"
       }
     },
     {
@@ -5380,14 +5380,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "32e6f33267722cec4b734075fda33904ca1397ebd4f954126e51c36fddbcb30b",
+      "afterSha256": "75d1f4fb61b7fbad0048eb2cfd448d7e2b55e7a232838171be9aa1155c27a508",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受用户回执、分工、候选、复验、源码边界和待验证项。",
-        "reviewedLines": 285,
-        "acceptanceScope": "行动节拍验收、玩家物攻伤亡及两端定向质量证据。"
+        "conclusion": "依据用户分屏回执和固定候选记录验收，核本段快测、文档门和 lint 原件。",
+        "reviewedLines": 287,
+        "acceptanceScope": "物攻伤亡原速分屏回执和已有独立复验结果。"
       }
     },
     {

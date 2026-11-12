@@ -94,6 +94,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 2026-11-12，用户对血口虫主动防御至首次命中的原速带声分屏回复「通过」。分屏来自冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，归档成员为 `build/q2/av/action-cadence/equivalent-poison-split.mp4`。本次验收覆盖主动防御至首次命中的节拍。 [分屏归档](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
 
+2026-11-12，用户对李逍遥受灯笼物攻后濒死、阵亡和阿奴续战的原速带声分屏回复「通过」，要求本段收口。分屏来自冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0`，归档成员为 `build/q2/av/player-casualties/lantern-player-casualty-split.mp4`。 [分屏归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
@@ -267,9 +269,9 @@ Reforge 战斗定向 59 文件、541 项和 E2E 工具 451 项通过。正式快
 
 Codex build allowed。`q2_panel` 独占 Game 直接敌方物攻时间线、收尾音效和必要的相邻既有测试。`q2_rules` 独占 Reforge 物攻声音、致死附带率、胜利真实 HP 写回及必要邻近测试。`q2_inputs` 独占共享表现比较器与相邻工具测试。根持合法局面、固定数据核验、文档与集成。现有两阶段守护、脚本、法术和回合末毒音规则各按既有路径，仅复核本段直接物攻；需要调整的其它分支按后续证据另行准入。复用原件比较、全矩阵回归和带声分屏，以首条实际提交对齐。
 
-冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0` 的双端各 18 场，18 组跨端及 18 组同端复验通过。旧 Game 的濒死音缺失及阵亡音迟到、旧 Reforge 的两条音缺失、少抽一次和结算经验错误分别由实际原件检出。新局面的音轨、两种姿态及队友续战从同一候选生成原速分屏，待用户反馈。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-玩家物攻濒死和阵亡) · [复验归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
+冻结候选 `55d5512d81a87660185b17afad621a3d33e9e5a0` 的双端各 18 场，18 组跨端及 18 组同端复验通过。旧 Game 的濒死音缺失及阵亡音迟到、旧 Reforge 的两条音缺失、少抽一次和结算经验错误分别由实际原件检出。新局面的音轨、两种姿态及队友续战从同一候选生成原速分屏，已获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-玩家物攻濒死和阵亡) · [复验归档](../evidence/E2E-Q2-1-battle-player-casualties-20261112.tar.gz)
 
-Game 战斗回归 1,206 项、Reforge 战斗回归 544 项、E2E 工具 453 项通过，七包 typecheck 零诊断。Game 在两段受击动画播放时导出的 V1 快照均通过实际解析，原件包含对应帧音和 HP 快照。
+Game 战斗回归 1,206 项、Reforge 战斗回归 544 项、E2E 工具 453 项通过，七包 typecheck 零诊断。Game 在两段受击动画播放时导出的 V1 快照均通过实际解析，原件包含对应帧音和 HP 快照。 七包快测共 20,457 项通过，覆盖基线已更新。文档门和 6,793 文件 lint 零诊断。
 
 ## 状态与交接
 
