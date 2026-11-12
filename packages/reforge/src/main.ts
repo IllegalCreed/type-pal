@@ -1257,9 +1257,8 @@ export async function bootGame(
         settleBattleVictory(session, world, canonicalProject, playVictory),
       finishWorld: (session, result) =>
         finishBattleWorldState(session, result, world, canonicalProject),
-      captureDefeatFrame: (signal) => {
-        if (ordinaryDefeatSignal === signal) gameOverPresentation.hold(ctx, signal)
-      },
+      worldDefeatFrameCapture: (signal) =>
+        ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,
       runDefeated: async (definitions, signal, assertCurrent) => {
         const scripted = definitions.filter((def) => def.onDefeated?.length)
         if (scripted.length && !scriptRuntime)

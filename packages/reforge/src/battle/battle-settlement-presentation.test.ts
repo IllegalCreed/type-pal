@@ -75,7 +75,9 @@ describe('BattleSettlementPresentation ownership boundary', () => {
     for (const stale of ['terminalResult', 'private settlement:', 'settleIdx', 'overTimer'])
       expect(battleSessionSource).not.toContain(stale)
     expect(battleSessionSource.match(/new BattleSettlementPresentation\(/g)).toHaveLength(1)
-    expect(battleSessionSource).toContain('this.settlementPresentation.advance(dtMs, pressed)')
+    expect(battleSessionSource).toContain(
+      'this.settlementPresentation.advance(dtMs, pressed, this.opts.handoffDefeat)',
+    )
     expect(battleSessionSource).toContain('this.settlementPresentation.currentScreen')
   })
 })

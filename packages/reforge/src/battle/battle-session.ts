@@ -340,6 +340,8 @@ export class BattleSession {
        * 缺 → 无结算屏(直接收尾;单测)。
        */
       buildSettlement?: () => SettlementScreen[]
+      /** 普通遇敌全灭的表现交给大世界，战斗收尾完成后同拍交接。 */
+      handoffDefeat?: boolean
       /** 全员交招后的第二级音效屏障；缺省保持 headless/旧单测的同步行为。 */
       prepareTurnSounds?: (snapshot: BattleTurnReadinessSnapshot) => Promise<void>
       /** 每次屏障失败只由会话报告一次；资源失败可继续，fatal 停在错误态。 */
@@ -1153,7 +1155,7 @@ export class BattleSession {
       }
       this.sessionUi = 'over'
       if (this.advanceDeathFade(DEATH_SETTLEMENT_PAUSE_MS)) return
-      const completed = this.settlementPresentation.advance(dtMs, pressed)
+      const completed = this.settlementPresentation.advance(dtMs, pressed, this.opts.handoffDefeat)
       if (completed) this.complete(completed)
       return
     }
