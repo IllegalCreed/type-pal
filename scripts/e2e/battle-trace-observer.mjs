@@ -48,15 +48,19 @@ export function installBattleTraceObserver(context, createRecorder) {
     rounds = [],
     randomDraws = [],
     presentations = [],
+    audioEvents = [],
     terminals = []
   let closed = false,
     overflow = false
   let frame, previousFrame
   let markedRandom
   let nextNumberId = 0
+  let nextAudioCueId = 0
+  let nextAudioBufferId = 0
   let lastPortraitTurn
   const fighterDraws = new WeakMap()
   const floatTargets = new WeakMap()
+  const audioBuffers = new WeakMap()
   const recorder = createRecorder({
     context: () => identity,
     errors,
@@ -156,6 +160,58 @@ export function installBattleTraceObserver(context, createRecorder) {
     presentation(value) {
       append(presentations, value)
     },
+    audioDecoded(assetId, buffer, path, source) {
+      if (closed) return
+      try {
+        const { numberOfChannels: channels, sampleRate, length: frames } = buffer
+        let peak = 0
+        for (let i = 0; i < channels; i++)
+          for (const sample of buffer.getChannelData(i)) peak = Math.max(peak, Math.abs(sample))
+        const bufferId = nextAudioBufferId++
+        if (
+          append(
+            audioEvents,
+            {
+              kind: 'sfx-decoded',
+              assetId,
+              bufferId,
+              path,
+              channels,
+              sampleRate,
+              frames,
+              peak,
+              source,
+            },
+            false,
+          )
+        )
+          audioBuffers.set(buffer, bufferId)
+      } catch (error) {
+        recorder.fail(error)
+      }
+    },
+    audioRequested(assetId, source) {
+      if (closed || starts.length !== 1) return undefined
+      const cueId = nextAudioCueId++
+      return append(audioEvents, { kind: 'sfx-request', cueId, assetId, source })?.cueId
+    },
+    audioStarted(cueId, assetId, buffer, context, source) {
+      if (closed || cueId === undefined) return
+      const bufferId = audioBuffers.get(buffer)
+      if (bufferId === undefined) {
+        recorder.fail('a started battle sound has no native decoded buffer receipt')
+        return
+      }
+      append(audioEvents, {
+        kind: 'sfx-start',
+        cueId,
+        assetId,
+        bufferId,
+        contextState: context.state,
+        audioTimeSeconds: context.currentTime,
+        source,
+      })
+    },
     beginFrame(source, state) {
       if (closed || starts.length !== 1) return
       if (frame) recorder.fail('a battle frame was replaced before its draw completed')
@@ -169,15 +225,31 @@ export function installBattleTraceObserver(context, createRecorder) {
         settlement: null,
       }
     },
-    labelFighter(draw, side, slot, fading = false) {
-      if (frame) fighterDraws.set(draw, { side, slot, fading })
+    labelFighter(draw, side, slot, fading = false, frameIndex) {
+      if (frame) fighterDraws.set(draw, { side, slot, fading, frameIndex })
     },
-    fighterDrawn(draw) {
+    fighterDrawn(draw, appliedFrameIndex) {
       const fighter = frame && fighterDraws.get(draw)
       if (!fighter) return
       const { side, slot, fading } = fighter
-      if (side === 'enemy') frame.enemies.set(slot, { slot, fading })
-      else frame.players.set(slot, { slot, x: draw.x, y: draw.y })
+      const frameIndex = appliedFrameIndex ?? fighter.frameIndex
+      const position = { slot, x: draw.x, y: draw.y }
+      if (side === 'enemy')
+        frame.enemies.set(
+          slot,
+          frameIndex === undefined ? { slot, fading } : { ...position, frameIndex, fading },
+        )
+      else
+        frame.players.set(
+          slot,
+          frameIndex === undefined
+            ? position
+            : {
+                ...position,
+                frameIndex,
+                colorShift: draw.iColorShift ?? draw.colorShift ?? 0,
+              },
+        )
     },
     panelDrawn(slot) {
       if (frame) frame.panels.push(slot)
@@ -276,6 +348,7 @@ export function installBattleTraceObserver(context, createRecorder) {
         ...(rounds.length ? { rounds } : {}),
         randomDraws,
         presentations,
+        ...(audioEvents.length ? { audioEvents } : {}),
         resources: recorder.resources(),
         terminal: terminals[0] ?? null,
         errors,

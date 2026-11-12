@@ -586,10 +586,10 @@ export interface BuildEnemyPhysicalInput {
   targetPos: { x: number; y: number }
   anim: EnemyBattleSpriteProfile
   playerFrames: readonly PlayerFighterFrames[]
-  sounds: { action?: AssetId; call?: AssetId }
+  sounds: { attack?: AssetId; action?: AssetId; call?: AssetId }
   damage: number
-  targetDied: boolean
-  /** 被动格挡(7/17「闪避」):frame3 免伤免数字,音换 coverSound,仍击退(fight.c:5052-5105)。 */
+  targetRecoveryFrame: number
+  /** 被动格挡从冲锋首帧起摆防御姿，命中拍免伤且播格挡音(fight.c:5023-5026,5052-5086)。 */
   blocked?: boolean
   /** 目标玩家的格挡音(rgwCoverSound;blocked 时替代 call)。 */
   coverSound?: AssetId
@@ -599,13 +599,15 @@ export interface BuildEnemyPhysicalInput {
 }
 
 /**
- * 敌人物攻时间线(fight.c:4910-5149 主干,含被动格挡;替挡 cover 待多队员):
- * magic 起手帧(each 2) → 前移 3−magicFrames 步(each 1) → action 音(1) → 冲至队员前(−44,−16)
- * attack 帧循环 → 命中:队员 frame4+染色+数字+call 音(1) → 击退(+8,+4)(1) → 后坐(+2,+1)(3)
- * → 敌回位 frame0(1) → 队员恢复(死2/站0)(1+4)。
+ * 敌人物攻时间线(fight.c:4910-5149,含格挡与替挡):
+ * attack 起手音与首帧同拍。magic 起手帧(each 2) → 前移 3−magicFrames 步(each 1)
+ * → action 音(1) → 冲至队员前(−44,−16) → attack 帧循环
+ * → 命中:队员 frame4+染色+数字+call 音(1) → 击退(+8,+4)(1) → 后坐(+2,+1)(3)
+ * → 敌回位 frame0(1) → 队员恢复(受击前姿态或物理伤后的死/濒死)(1+4)。
  */
 export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] {
-  const { enemyIdx, enemyPos, targetIdx, targetPos, anim, sounds, damage, targetDied } = input
+  const { enemyIdx, enemyPos, targetIdx, targetPos, anim, sounds, damage, targetRecoveryFrame } =
+    input
   const blocked = input.blocked ?? false
   const targetPose = expectDefined(input.playerFrames[targetIdx])
   const frames: AnimFrame[] = []
@@ -625,6 +627,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       fighters: [{ side: 'enemy', idx: enemyIdx, pos: { x: ex, y: ey } }],
     })
   }
+  if (sounds.attack) expectDefined(frames[0]).sound = sounds.attack
   frames.push({ durationMs: delayMs(1), ...(sounds.action ? { sound: sounds.action } : {}) })
   const chargeX = targetPos.x - 44
   const chargeY = targetPos.y - 16
@@ -642,6 +645,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       ],
     })
   }
+  const chargeStart = frames.length
   if (anim.attack.count === 0) {
     frames.push({
       durationMs: delayMs(2),
@@ -668,6 +672,14 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
         ],
       })
     }
+  }
+  if (blocked && !input.cover) {
+    const firstCharge = expectDefined(frames[chargeStart])
+    expectDefined(firstCharge.fighters).push({
+      side: 'player',
+      idx: targetIdx,
+      frame: targetPose.defend,
+    })
   }
   // 替挡命中拍(fight.c:5052-5099):目标不动不掉血,音 = 守护者 coverSound,
   // 敌被架开 (−10,−8) + 守护者小退 (+4,+2) → 敌回位;守护者归位交收尾 resetVisual
@@ -733,7 +745,7 @@ export function buildEnemyPhysical(input: BuildEnemyPhysicalInput): AnimFrame[] 
       {
         side: 'player',
         idx: targetIdx,
-        frame: targetDied ? targetPose.dead : targetPose.idle,
+        frame: targetRecoveryFrame,
         pos: { ...targetPos },
       },
     ],

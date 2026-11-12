@@ -11,24 +11,24 @@
   "sourceRefs": [
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "209-211",
+      "lines": "211-213",
       "anchor": "private readonly selection = new BattleCommandSelection",
       "role": "caller",
-      "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "362-373",
+      "lines": "365-376",
       "anchor": "this.readiness = new BattleTurnReadinessGate",
       "role": "caller",
-      "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-session.ts",
-      "lines": "1163-1172",
+      "lines": "1167-1176",
       "anchor": "this.selection.advance(context",
       "role": "caller",
-      "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+      "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
     },
     {
       "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -83,9 +83,9 @@
       "id": "runtime-battle-session-owners-source-contract",
       "result": "source-backed",
       "evidence": [
-        "packages/reforge/src/battle/battle-session.ts:209-211",
-        "packages/reforge/src/battle/battle-session.ts:362-373",
-        "packages/reforge/src/battle/battle-session.ts:1163-1172",
+        "packages/reforge/src/battle/battle-session.ts:211-213",
+        "packages/reforge/src/battle/battle-session.ts:365-376",
+        "packages/reforge/src/battle/battle-session.ts:1167-1176",
         "packages/reforge/src/battle/battle-turn-readiness.test.ts:37-60",
         "packages/reforge/src/battle/battle-command-selection.test.ts:72-95",
         "packages/content/src/character.ts:168-170"
@@ -235,6 +235,36 @@
         }
       ],
       "scope": "赤毒头像返工后的三个现行 caller 来源重绑。保留前两次适用性事件和原会话归属执行身份。"
+    },
+    {
+      "action": "q2-battle-session-presentation-source-rebinding",
+      "base": "5a3093c93746d6e04e8f569ef526e07778aa439f",
+      "date": "2026-11-12",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "209-211",
+          "anchor": "private readonly selection = new BattleCommandSelection",
+          "role": "caller",
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "362-373",
+          "anchor": "this.readiness = new BattleTurnReadinessGate",
+          "role": "caller",
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+        },
+        {
+          "path": "packages/reforge/src/battle/battle-session.ts",
+          "lines": "1163-1172",
+          "anchor": "this.selection.advance(context",
+          "role": "caller",
+          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+        }
+      ],
+      "scope": "回合末数值反馈、敌普攻起手声和受击复位使用同一 BattleSession。三个已接收 caller 片段逐字节相同，现行 SHA、行范围和主张指针随源码校准。"
     }
   ],
   "_governance": {

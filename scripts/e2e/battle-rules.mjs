@@ -1,4 +1,5 @@
 import { isDeepStrictEqual as same } from 'node:util'
+import { firstNumberDraws } from './battle-presentation.mjs'
 
 const equipmentSpeed = { 'li-xiaoyao': 3, 'wu-hou': 9, anu: 0 }
 const speedMultiplier = { defend: 5, cast: 3, item: 3 }
@@ -58,20 +59,6 @@ const isDrawnAction = ({ payload }, action) =>
   payload.animation?.actorId === action.actorId &&
   payload.animation.kind === action.kind &&
   payload.animation.targetId === action.targetId
-
-function firstNumberDraws(frames) {
-  const draws = []
-  const seen = new Set()
-  for (const frame of frames)
-    for (const number of frame.payload.numbers) {
-      const { numberId, age } = number
-      // Old trace format stored only the initial age of the actual draw.
-      if (numberId === undefined ? age !== 0 : seen.has(numberId)) continue
-      draws.push({ frame, number })
-      if (numberId !== undefined) seen.add(numberId)
-    }
-  return draws
-}
 
 function observedRawStrike(engine, native, side) {
   if (engine === 'game') {
@@ -144,6 +131,7 @@ export function validateBattleRules(trace, scenario) {
     if (action.kind === 'attack') {
       const wanted = scenario.expected.actions[index]
       const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
+      const expectsBlock = wanted.blocked === true
       const expectedHpLost = wanted.effectiveHpLoss ?? Math.min(before.hp, expectedRaw)
       const targetSide = isEnemy ? 'player' : 'enemy'
       const raw = observedRawStrike(trace.engine, action.native, targetSide)
@@ -224,8 +212,19 @@ export function validateBattleRules(trace, scenario) {
         }
       }
       strikes.push(observed)
-      if (raw.value !== expectedRaw) fail('physical-raw-damage', observed)
-      if (visible?.value !== expectedRaw) fail('physical-damage-number', observed)
+      if (expectsBlock) {
+        const cue = scenario.expected.audioCues?.find(
+          ({ actionIndex, kind }) => actionIndex === index && kind === 'enemy-impact',
+        )
+        const blockSound = Number(cue?.assetId.slice(-3))
+        observed.blocked =
+          trace.engine === 'game'
+            ? action.native.animationEffects.some(({ sound }) => sound === blockSound)
+            : action.native.lastAction?.blocked === true
+        if (!observed.blocked || raw.value !== null) fail('physical-block-outcome', observed)
+      } else if (raw.value !== expectedRaw) fail('physical-raw-damage', observed)
+      if (observed.drawn !== (expectsBlock ? null : expectedRaw))
+        fail('physical-damage-number', observed)
       if (observed.hpLost !== expectedHpLost) fail('physical-effective-hp', observed)
     }
     if (isEnemy) continue

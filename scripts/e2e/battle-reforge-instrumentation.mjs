@@ -12,12 +12,62 @@ export const REFORGE_BATTLE_TARGETS = [
   'packages/reforge/src/battle/battle-core.ts',
 ]
 
+function observeSfx(node, ast, source, add, evidenceCall) {
+  if (ts.isFunctionDeclaration(node) && node.name?.text === 'browserAdapter')
+    add('audio-cue-map', node.getStart(ast), 'const __battleAudioCues = new WeakMap();\n')
+  if (
+    ts.isMethodDeclaration(node) &&
+    node.name.getText(ast) === 'play' &&
+    node.parameters[0]?.name.getText(ast) === 'asset'
+  ) {
+    assert(node.body, 'SfxPlayer.play has no body')
+    add(
+      'audio-request',
+      node.body.getStart(ast) + 1,
+      "\nconst __battleAudioCueId = globalThis.__battleEvidence?.audioRequested(asset, 'reforge:SfxPlayer.play');\n",
+    )
+  }
+  if (ts.isExpressionStatement(node) && source === 'source = this.adapter.play(buffer, ended)')
+    // The original onended callback identifies this native play call across the adapter boundary.
+    add(
+      'audio-cue-link',
+      node.getStart(ast),
+      'if (__battleAudioCueId !== undefined) __battleAudioCues.set(ended, { cueId: __battleAudioCueId, assetId: asset });\n',
+    )
+  if (
+    ts.isExpressionStatement(node) &&
+    source === 'source.start()' &&
+    ts.findAncestor(node, ts.isMethodDeclaration)?.parameters[1]?.name.getText(ast) === 'onended'
+  )
+    add(
+      'audio-start',
+      node.end,
+      `\nconst __battleAudioCue = __battleAudioCues.get(onended);
+if (__battleAudioCue) ${evidenceCall('audioStarted', "__battleAudioCue.cueId, __battleAudioCue.assetId, source.buffer, context, 'reforge:browserAdapter.play:AudioBufferSourceNode.start'")}`,
+    )
+  if (
+    ts.isReturnStatement(node) &&
+    source === 'return decoded' &&
+    ts.findAncestor(node, ts.isMethodDeclaration)?.name.getText(ast) === 'ensureDecoded'
+  )
+    add(
+      'audio-decoded',
+      node.getStart(ast),
+      evidenceCall(
+        'audioDecoded',
+        "asset, decoded, record.path, 'reforge:SfxPlayer.ensureDecoded:decode'",
+      ),
+    )
+}
+
 /** Serve-only hooks at existing producers. Normal mode never replaces a native expression. */
 export function instrumentReforgeBattle(code, file, counter = 'none') {
   assert(['none', 'double-herb'].includes(counter), `unknown battle counter: ${counter}`)
   if (!REFORGE_BATTLE_TARGETS.includes(file)) return { code, anchors: {} }
   const isCore = file.endsWith('/battle/battle-core.ts')
   const isBattleUi = file.endsWith('/battle/battle-ui.ts')
+  const isSfx = file.endsWith('/audio/sfx.ts')
+  const isBattleScene = file.endsWith('/battle/present-battle.ts')
   const ast = ts.createSourceFile(file, code, ts.ScriptTarget.Latest, true)
   assert.equal(ast.parseDiagnostics.length, 0, `unparseable source: ${file}`)
   const edits = []
@@ -166,7 +216,7 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         )
       }
       if (ts.isExpressionStatement(node) && source === 'stepBattle(s, this.rng)') {
-        add('action-before', node.getStart(ast), call('beforeStep', 's'))
+        add('action-before', node.getStart(ast), call('beforeStep', 's, this.nowMs'))
         const mutation =
           counter === 'double-herb'
             ? "if (s.lastAction?.side === 'player' && s.lastAction.kind === 'item' && s.lastAction.itemId === '99') { const extra = s.inventory.find(entry => entry.itemId === '99'); if (extra && extra.count > 0) extra.count--; }\n"
@@ -174,29 +224,32 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
         add('action-after', node.end, `\n${mutation}${call('afterStep', 's')}`)
       }
     }
-    if (file.endsWith('/battle/present-battle.ts') && ts.isIfStatement(node)) {
+    if (
+      isBattleScene &&
+      ts.isVariableStatement(node) &&
+      source === 'const f = draw.sprite.frames[draw.frame] ?? draw.sprite.frames[0]'
+    ) {
+      // Use the real selected sprite frame, including the renderer's slot-zero fallback.
+      add(
+        'fighter-frame-choice',
+        node.end,
+        '\nconst __battleFrameIndex = f === draw.sprite.frames[draw.frame] ? draw.frame : 0;\n',
+      )
+    }
+    if (isBattleScene && ts.isIfStatement(node)) {
+      const drawn = evidenceCall('fighterDrawn', 'draw, __battleFrameIndex')
       if (node.expression.getText(ast) === 'draw.dissolve !== undefined') {
         const draw = node.thenStatement.statements[0]
         assert(draw.getText(ast).startsWith('drawDissolved('))
-        add('dissolved-fighter-draw', draw.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+        add('dissolved-fighter-draw', draw.end, `\n${drawn}\n`)
       }
       if (
         node.expression.getText(ast) === 'alpha < 1' &&
         source.includes('ctx.drawImage(img, dx, dy)')
       )
-        add('fighter-draw', node.end, `\n${evidenceCall('fighterDrawn', 'draw')}\n`)
+        add('fighter-draw', node.end, `\n${drawn}\n`)
     }
-    if (
-      file.endsWith('/audio/sfx.ts') &&
-      ts.isMethodDeclaration(node) &&
-      node.name.getText(ast) === 'play' &&
-      node.parameters[0]?.name.getText(ast) === 'asset'
-    )
-      add(
-        'sound-request',
-        node.body.getStart(ast) + 1,
-        `\n${call('presentation', "'sound-request', 'SfxPlayer:play:requested', { assetId: asset }")}`,
-      )
+    if (isSfx) observeSfx(node, ast, source, add, evidenceCall)
     ts.forEachChild(node, visit)
   }
   visit(ast)
@@ -204,10 +257,10 @@ export function instrumentReforgeBattle(code, file, counter = 'none') {
     ? ['prepared', 'settled']
     : file.endsWith('/battle-trial-host.ts')
       ? ['seeded-input', 'finished']
-      : file.endsWith('/audio/sfx.ts')
-        ? ['sound-request']
-        : file.endsWith('/battle/present-battle.ts')
-          ? ['fighter-draw', 'dissolved-fighter-draw']
+      : isSfx
+        ? ['audio-cue-map', 'audio-request', 'audio-cue-link', 'audio-start', 'audio-decoded']
+        : isBattleScene
+          ? ['fighter-frame-choice', 'fighter-draw', 'dissolved-fighter-draw']
           : isBattleUi
             ? ['portrait-before', 'portrait-after']
             : isCore

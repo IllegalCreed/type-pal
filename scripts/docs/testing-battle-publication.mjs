@@ -9,6 +9,7 @@ import {
 export const testingBattlePublicationBase = '43fea71735236272cfb7f6a1c61c3ac2e691a349'
 export const testingBattleSessionMechanismBase = '3a921678f20950cccee3f631dfbb1e60bb8efa3b'
 export const testingBattleSessionPortraitBase = '18bfe998333912bf2b1449e534133ce73cafca44'
+export const testingBattleSessionPresentationBase = '5a3093c93746d6e04e8f569ef526e07778aa439f'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -19,14 +20,22 @@ const sessionReceipt = 'docs/tasks/evidence/E2E-Q2-1-battle-session-source-appli
 const sessionBinding = {
   revision: testingBattlePublicationBase,
   action: 'q2-battle-session-source-rebinding',
+  date: '2026-11-11',
 }
 const sessionMechanismBinding = {
   revision: testingBattleSessionMechanismBase,
   action: 'q2-battle-session-mechanism-source-rebinding',
+  date: '2026-11-11',
 }
 const sessionPortraitBinding = {
   revision: testingBattleSessionPortraitBase,
   action: 'q2-battle-session-portrait-source-rebinding',
+  date: '2026-11-11',
+}
+const sessionPresentationBinding = {
+  revision: testingBattleSessionPresentationBase,
+  action: 'q2-battle-session-presentation-source-rebinding',
+  date: '2026-11-12',
 }
 
 const publication = {
@@ -41,17 +50,21 @@ const evidencePath = `docs/testing/${publication.evidence}`
 export const isTestingBattleEvidencePath = (path) => path === evidencePath
 export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvidencePath
 
-// The two published predecessors close the history between the original audit and live source.
+// Each published predecessor keeps its accepted source references and history.
 function sessionRebindings(
   path,
   previousBytes,
-  { readSource, fixed, mechanismFixed, portraitFixed },
+  { readSource, fixed, mechanismFixed, portraitFixed, presentationFixed },
 ) {
-  assert(fixed && (!portraitFixed || mechanismFixed), 'battle session source bridge history gap')
+  assert(
+    fixed && (!portraitFixed || mechanismFixed) && (!presentationFixed || portraitFixed),
+    'battle session source bridge history gap',
+  )
   const admitted = [
     { fixed, binding: sessionBinding },
     { fixed: mechanismFixed, binding: sessionMechanismBinding },
     { fixed: portraitFixed, binding: sessionPortraitBinding },
+    { fixed: presentationFixed, binding: sessionPresentationBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(
@@ -123,7 +136,7 @@ function restoreSessionHistory(before, current, changed, readSource, binding) {
   )
   const event = current.at(-1)
   assert.equal(event.action, binding.action, 'battle session bridge history action differs')
-  assert.equal(event.date, '2026-11-11', 'battle session bridge history date differs')
+  assert.equal(event.date, binding.date, 'battle session bridge history date differs')
   return restored
 }
 

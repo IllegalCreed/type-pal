@@ -26,10 +26,14 @@ const option = (name, fallback) => {
   return values[0]?.slice(name.length + 3) ?? fallback
 }
 for (const arg of args)
-  assert(/^--(engine|scenario|repeat|counter)=/.test(arg), `unknown argument ${arg}`)
+  assert(
+    arg === '--audio-review' || /^--(engine|scenario|repeat|counter)=/.test(arg),
+    `unknown argument ${arg}`,
+  )
+const audioReview = args.includes('--audio-review')
 const engine = option('engine', 'game')
 const scenarioId = option('scenario', 'all')
-const repeat = Number(option('repeat', '2'))
+const repeat = Number(option('repeat', audioReview ? '1' : '2'))
 const counter = option('counter', 'none')
 assert(['game', 'reforge'].includes(engine), 'choose game or reforge')
 assert([1, 2].includes(repeat), 'repeat must be one or two fresh contexts')
@@ -38,6 +42,10 @@ assert(
   counter === 'none' || (engine === 'reforge' && scenarioId === 'herb-settlement' && repeat === 1),
   'counter is bounded to one isolated Reforge herb run',
 )
+assert(
+  !audioReview || (scenarioId !== 'all' && repeat === 1 && counter === 'none'),
+  'audio review records one normal scenario in one fresh context',
+)
 const scenarios =
   scenarioId === 'all'
     ? BATTLE_FOUNDATION_SCENARIOS.map((entry) => battleFoundationScenario(entry.id))
@@ -45,11 +53,11 @@ const scenarios =
 const premises = await verifyBattleFoundationSources(repoRoot)
 
 await runBrowserJourney({
-  name: `q2-battle-${engine}-${counter}`,
+  name: `q2-battle-${engine}-${counter}${audioReview ? '-audio-review' : ''}`,
   packageName: `@type-pal/${engine}`,
   traceConfig: `scripts/e2e/battle-${engine}.config.mts`,
   environment: { E2E: '1', Q2_COUNTER: counter },
-  arguments: ['--headless'],
+  arguments: ['--headless', ...(audioReview ? ['--capture'] : [])],
   viewport: { width: 960, height: 720 },
   journeyTimeoutMs: 240_000,
   initScripts: engine === 'game' ? [installGameBattleAdapter] : [],
@@ -70,13 +78,13 @@ await runBrowserJourney({
     'scripts/e2e/battle-reforge-adapter.mjs',
     'scripts/e2e/battle-reforge-instrumentation.mjs',
   ],
-  async journey({ newPage, baseURL, out, report, until, health }) {
+  async journey({ newPage, baseURL, out, report, until, health, capture }) {
     Object.assign(report, { engine, lane: 'Q2', counter, premises, results: [] })
     for (const scenario of scenarios) {
       let previous
       for (let index = 0; index < repeat; index++) {
         const runId = `${scenario.id}-${index + 1}`
-        const page = await newPage(runId, { visualReviewVideo: index === 0 })
+        const page = await newPage(runId, { visualReviewVideo: index === 0 && !audioReview })
         await page.addInitScript(
           battleObserverScript({
             engine,
@@ -103,6 +111,7 @@ await runBrowserJourney({
               await reject.click()
               report.events.push({ kind: 'bootstrap-consent', runId, choice: 'denied' })
             }
+            if (capture.enabled) await page.locator('#boot-loading').waitFor({ state: 'detached' })
           }
           await page.evaluate((spec) => globalThis.__battleHarness.launch(spec), result.configured)
           result.initial = await until(
@@ -115,6 +124,15 @@ await runBrowserJourney({
             60_000,
           )
           result.canvas = await page.locator('canvas').first().boundingBox()
+          if (capture.enabled) {
+            report.fragment = `q2-${scenario.id}`
+            report.predecessor = { kind: 'battle-fixture', setup: result.configured }
+            await capture.arm(page, {
+              event: 'battle-fixture-ready',
+              runId,
+              state: result.initial.snapshot,
+            })
+          }
           const started = Date.now()
           for (;;) {
             health()
@@ -148,6 +166,12 @@ await runBrowserJourney({
             )
           }
           await page.screenshot({ path: resolve(out, `${runId}-terminal.png`) })
+          if (capture.enabled)
+            await capture.finish(page, {
+              event: 'battle-result',
+              runId,
+              state: result.last.terminal,
+            })
         } finally {
           trace = await page.evaluate(() => globalThis.__battleEvidence?.read())
           if (trace) result.trace = await writeEvidenceArtifact(out, `${runId}-trace.json`, trace)

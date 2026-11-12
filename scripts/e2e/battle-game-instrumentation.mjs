@@ -10,7 +10,10 @@ const gameRandomTargets = [
   '/packages/game/src/core/event-system.ts',
 ]
 
+const gameAudioTarget = '/packages/game/src/shell/audio.ts'
+
 export const GAME_BATTLE_TARGETS = [
+  gameAudioTarget,
   '/packages/game/src/dev/dev-panel.ts',
   '/packages/game/src/core/rng.ts',
   '/packages/game/src/core/battle/battle-system.ts',
@@ -54,6 +57,57 @@ export function instrumentGameBattle(source, file) {
   const visualCall = (name, node, method, args = '') =>
     add(name, node.end, `\nglobalThis.__battleEvidence?.${method}(${args});\n`)
   const visit = (node) => {
+    if (file === gameAudioTarget) {
+      const name = owner(node)
+      if (ts.isFunctionDeclaration(node)) {
+        if (name === 'playSfx')
+          add(
+            'audio-request',
+            node.body.getStart(ast) + 1,
+            '\nconst __battleGameCue = globalThis.__battleGameAudioRequested?.(soundId);\n',
+          )
+        if (name === 'play') add('audio-cue-parameter', node.parameters.end, ', __battleGameCue')
+      }
+      if (name === 'loadSfx' && ts.isVariableStatement(node)) {
+        const [entry] = node.declarationList.declarations
+        if (
+          entry?.name.getText(ast) === 'buf' &&
+          entry.initializer?.getText(ast) === 'await c.decodeAudioData(await res.arrayBuffer())'
+        )
+          add(
+            'audio-decode',
+            node.end,
+            '\nglobalThis.__battleGameAudioDecoded?.(soundId, buf, res.url);\n',
+          )
+      }
+      if (
+        name === 'playSfx' &&
+        ts.isCallExpression(node) &&
+        node.expression.getText(ast) === 'play'
+      ) {
+        const args = node.arguments.map((arg) => arg.getText(ast))
+        assert(
+          args.length === 3 &&
+            args[0] === 'c' &&
+            ['buf', 'b'].includes(args[1]) &&
+            args[2] === 'soundId',
+          'Game SFX playback arguments changed',
+        )
+        const path = args[1] === 'buf' ? 'cached' : 'loaded'
+        // Each asynchronous load retains the cue from its own native request.
+        add(`audio-${path}-cue`, node.arguments.end, ', __battleGameCue')
+      }
+      if (
+        name === 'play' &&
+        ts.isExpressionStatement(node) &&
+        node.expression.getText(ast) === 'src.start()'
+      )
+        add(
+          'audio-start',
+          node.end,
+          '\nglobalThis.__battleGameAudioStarted?.(__battleGameCue, soundId, src.buffer, c);\n',
+        )
+    }
     if (file.endsWith('/present/battle/present-battle.ts')) {
       if (ts.isMethodDeclaration(node) && node.name.getText(ast) === 'draw') {
         add(
@@ -77,19 +131,42 @@ export function instrumentGameBattle(source, file) {
       }
     }
     if (file.endsWith('/draw-battle-sprites.ts') && owner(node) === 'drawBattleSprites') {
+      if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'frame') {
+        assert.match(
+          node.initializer?.getText(ast) ?? '',
+          /^sprite\.frames\[frameIdx\]\s*\?\?\s*sprite\.frames\[0\]!?$/,
+          'Game fighter frame selection changed',
+        )
+        anchors['fighter-frame-selection'] = (anchors['fighter-frame-selection'] ?? 0) + 1
+      }
       if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
         const call = node.expression
-        if (call.expression.getText(ast) === 'items.push') {
-          const item = call.arguments[0].getText(ast)
-          if (item.includes('enemyShakeX'))
+        const item = call.arguments[0]
+        if (
+          call.expression.getText(ast) === 'items.push' &&
+          item &&
+          ts.isObjectLiteralExpression(item) &&
+          item.properties.some(
+            (prop) => ts.isShorthandPropertyAssignment(prop) && prop.name.text === 'frame',
+          )
+        ) {
+          const itemText = item.getText(ast)
+          // The selected frame object tells us whether the renderer used the resource fallback.
+          const frameIndex = 'sprite.frames[frameIdx] === frame ? frameIdx : 0'
+          if (itemText.includes('enemyShakeX'))
             visualCall(
               'enemy-draw-identity',
               node,
               'labelFighter',
-              "items.at(-1), 'enemy', i, isFading",
+              `items.at(-1), 'enemy', i, isFading, ${frameIndex}`,
             )
-          if (item.includes('playerShakeY'))
-            visualCall('player-draw-identity', node, 'labelFighter', "items.at(-1), 'player', i")
+          if (itemText.includes('playerShakeY'))
+            visualCall(
+              'player-draw-identity',
+              node,
+              'labelFighter',
+              `items.at(-1), 'player', i, false, ${frameIndex}`,
+            )
         }
       }
       if (ts.isIfStatement(node) && node.expression.getText(ast) === 'it.fadeStep >= 0')
@@ -258,7 +335,15 @@ export function instrumentGameBattle(source, file) {
     ts.forEachChild(node, visit)
   }
   visit(ast)
-  const visualExpected = {
+  const leafExpected = {
+    'audio.ts': {
+      'audio-request': 1,
+      'audio-cue-parameter': 1,
+      'audio-decode': 1,
+      'audio-cached-cue': 1,
+      'audio-loaded-cue': 1,
+      'audio-start': 1,
+    },
     'present-battle.ts': {
       'frame-begin': 1,
       'frame-end': 1,
@@ -266,6 +351,7 @@ export function instrumentGameBattle(source, file) {
       'settlement-draw': 1,
     },
     'draw-battle-sprites.ts': {
+      'fighter-frame-selection': 2,
       'enemy-draw-identity': 1,
       'player-draw-identity': 1,
       'fighter-draw': 1,
@@ -275,7 +361,7 @@ export function instrumentGameBattle(source, file) {
     'draw-battle-num.ts': { 'number-parameter': 1, 'number-identity': 1, 'number-draw': 1 },
   }
   const expected =
-    visualExpected[file.split('/').at(-1)] ??
+    leafExpected[file.split('/').at(-1)] ??
     (file.endsWith('/dev/dev-panel.ts')
       ? { register: 1 }
       : file.endsWith('/core/rng.ts')

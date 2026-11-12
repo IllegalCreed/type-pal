@@ -134,6 +134,8 @@ function assertNever(value: never, context: string): never {
 const MISC_LABELS = ['围攻', '道具', '防御', '逃跑', '状态'] as const
 /** 文字兜底菜单(无 UI 资产时;单测)。 */
 const FALLBACK_MENU = ['攻击', '仙术', '物品', '防御', '逃跑'] as const
+/** 回合末数值反馈停 8 帧，每帧 40ms（fight.c:1664-1668，battle.h:28-29）。 */
+const ROUND_END_FEEDBACK_MS = 8 * 40
 /** PAL_BattleFadeScene 12×6 步的节拍。二阶段沿用作者选定的 alpha 渐隐。 */
 const DEATH_FADE_MS = 72 * 16
 const DEATH_SETTLEMENT_PAUSE_MS = 240
@@ -213,6 +215,7 @@ export class BattleSession {
   private selectionStartedForTurn: number | null = null
   private floats: FloatNum[] = []
   private nowMs = 0
+  private roundEndFeedbackUntilMs = 0
   // ── M4d-2 表现层:动画回放 + 死亡淡出 ──
   private visual: { players: VisualFighter[]; enemies: Array<VisualFighter | null> } = {
     players: [],
@@ -1131,6 +1134,7 @@ export class BattleSession {
     if (this.advanceDeathFade()) return
 
     if (s.phase === 'selectAction') {
+      if (this.nowMs < this.roundEndFeedbackUntilMs) return
       // M4c-2:轮起手演出(battleStart 并入第 1 轮)—— 进指令菜单前逐条播
       if (this.choreoTurn < s.turn) {
         this.choreoTurn = s.turn
@@ -1266,6 +1270,7 @@ export class BattleSession {
         const snd = s.enemies[la.idx]?.def.sounds
         if (snd?.magic && la.kind === 'cast') this.assets.sfx?.play(snd.magic)
       }
+      const previousFloatCount = this.floats.length
       s.players.forEach((p, i) => {
         const d = expectDefined(pHp[i]) - p.hp
         if (d > 0) this.applyDamageFx({ side: 'player', idx: i }, d)
@@ -1278,6 +1283,15 @@ export class BattleSession {
         if (d > 0) this.applyDamageFx({ side: 'enemy', idx: i }, d)
       })
       this.finishStepVisuals()
+      // 只在空队列步确实弹出数字时停拍；死亡淡出已有独立节拍。
+      if (
+        !queueHead &&
+        this.floats.length > previousFloatCount &&
+        !this.deathFade &&
+        s.players.some((p) => p.hp > 0 || p.status.puppet > 0) &&
+        s.enemies.some((e) => e && e.hp > 0)
+      )
+        this.roundEndFeedbackUntilMs = this.nowMs + ROUND_END_FEEDBACK_MS
     }
   }
 
@@ -1837,6 +1851,17 @@ export class BattleSession {
     const def = s.enemies[la.idx]?.def
     if (!enemyPos || !targetPos || !def) return null
     const damage = la.damage ?? 0
+    const playerFrames = s.players.map((_, index) => this.playerFrames(index))
+    const targetPose = expectDefined(playerFrames[t])
+    // 保留受击前画帧，仅由本次物理扣血覆盖死/濒死姿态；附毒在原版复位后结算。
+    // fight.c:4915,5108-5145
+    const hpAfterPhysicalHit = expectDefined(pHp[t]) - damage
+    const targetRecoveryFrame =
+      hpAfterPhysicalHit <= 0
+        ? targetPose.dead
+        : isPlayerDying(hpAfterPhysicalHit, expectDefined(s.players[t]).maxHp)
+          ? targetPose.dying
+          : expectDefined(this.visual.players[t]).frame
     return buildEnemyPhysical({
       enemyIdx: la.idx,
       enemyPos,
@@ -1847,8 +1872,8 @@ export class BattleSession {
         if (profile.kind !== 'enemy') throw new Error('enemy profile 漂移')
         return profile
       })(),
-      playerFrames: s.players.map((_, index) => this.playerFrames(index)),
-      sounds: { action: def.sounds.action, call: def.sounds.call },
+      playerFrames,
+      sounds: def.sounds,
       // 被动格挡演出(免伤免数字+格挡姿;音 = 目标玩家自己的 coverSound)
       ...(la.blocked ? { blocked: true } : {}),
       ...(la.blocked && this.opts.playerSounds?.[t]?.cover
@@ -1866,8 +1891,7 @@ export class BattleSession {
           }
         : {}),
       damage,
-      // fight.c:5108-5145，普攻按物理扣血决定归位姿势，随后才结算附毒。
-      targetDied: expectDefined(pHp[t]) <= damage,
+      targetRecoveryFrame,
     })
   }
 
@@ -2174,7 +2198,10 @@ export class BattleSession {
       hideVis = this.hideFade.dir === 'out' ? ht : 1 - ht
       if (ht >= 1) this.hideFade = null
     }
-    const sel = s.phase === 'selectAction' ? this.nextSelecting() : undefined
+    const sel =
+      s.phase === 'selectAction' && now >= this.roundEndFeedbackUntilMs
+        ? this.nextSelecting()
+        : undefined
     const selection = this.selection.view
     const selectionContext = sel === undefined ? null : this.selectionContext(sel)
     // 选敌高亮目标(target 态,闪烁节拍)。选队友是**箭头光标**(drawPlayerTargetArrow,

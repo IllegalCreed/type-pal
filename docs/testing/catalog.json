@@ -1645,24 +1645,24 @@
       "sourceRefs": [
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "209-211",
+          "lines": "211-213",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "362-373",
+          "lines": "365-376",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
-          "lines": "1163-1172",
+          "lines": "1167-1176",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1823,6 +1823,36 @@
               }
             ],
             "scope": "赤毒头像返工后的三个现行 caller 来源重绑。保留前两次适用性事件和原会话归属执行身份。"
+          },
+          {
+            "action": "q2-battle-session-presentation-source-rebinding",
+            "base": "5a3093c93746d6e04e8f569ef526e07778aa439f",
+            "date": "2026-11-12",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "209-211",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "362-373",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1163-1172",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "e71852534a1568874b7c8893bc7c58e976adba97349d0eaf3f160cb602c9b08c"
+              }
+            ],
+            "scope": "回合末数值反馈、敌普攻起手声和受击复位使用同一 BattleSession。三个已接收 caller 片段逐字节相同，现行 SHA、行范围和主张指针随源码校准。"
           }
         ]
       },
@@ -4213,71 +4243,96 @@
       "index": "domains/cross-phase/battle-foundation/README.md",
       "evidence": "domains/cross-phase/battle-foundation/evidence.json",
       "tags": ["battle", "Q2", "foundation", "normal-combat"],
-      "lastVerified": "2026-11-07",
+      "lastVerified": "2026-11-12",
       "dependsOn": [],
       "sourceRefs": [
         {
           "path": "scripts/e2e/battle-foundation.mjs",
-          "lines": "47",
+          "lines": "55",
           "anchor": "await runBrowserJourney({",
           "role": "caller",
-          "sha256": "e0d0da082fb2b8a532a3a1666602eba05db8ecb2242737f9070851b69c532fe1"
+          "sha256": "bd58c5e42c20f41fc947565a60c1d0d8a37628a6c32e460c2b2cac142fbe99ac"
         },
         {
           "path": "scripts/e2e/battle-foundation-scenarios.mjs",
-          "lines": "128",
+          "lines": "129",
           "anchor": "function defineScenario(",
           "role": "input-and-independent-oracle",
-          "sha256": "500b8151774e8dfa68090c5cb026f506b7f348326a6720b9664f4f0677dc3bfd"
+          "sha256": "0019680fa4b671659ace2df9fbc14a99715ab31ff5de6e1cd668960a42109a6b"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
-          "lines": "335",
+          "lines": "368",
           "anchor": "launch(input) {",
           "role": "public-fixture-adapter",
-          "sha256": "acc3a60c8a0955079dd2b0d99df9cc2dc00331ff9131b52ceebbc25242be7cf0"
+          "sha256": "bd6b812298a261d4e19f78749eb25c1c52afdd796174215d6709536e01c06cd2"
         },
         {
           "path": "scripts/e2e/battle-reforge-adapter.mjs",
-          "lines": "159",
+          "lines": "160",
           "anchor": "running = runBattleTrial(",
           "role": "public-trial-adapter",
-          "sha256": "b22ba9130a7ba363d69ddb69b13cff111ce928370eee82633e1d3205ddf84cca"
+          "sha256": "bb56c139b614c1e96cda282b7bb4882b4b0705c2f198113cb3e933a5ce20a5d1"
         },
         {
           "path": "scripts/e2e/battle-trace-contract.mjs",
-          "lines": "752",
+          "lines": "803",
           "anchor": "export function validateBattleTrace(",
           "role": "oracle",
-          "sha256": "778d3ced2bb1cbc23eed30b2bedb556b4ea82a87448067cbe050be6912828bea"
+          "sha256": "bfd60f7ccff77ca0da3ae01226cebaf35a349b4d9f06c7bb3bd6921b00d08f7e"
         },
         {
           "path": "scripts/e2e/battle-foundation-compare.mjs",
           "lines": "34",
           "anchor": "export async function compareBattleReports(",
           "role": "offline-caller",
-          "sha256": "522349d1889d4a6be3e02cac43a85f2f402aeaddc5119b2729e9d7ec68feb1c1"
+          "sha256": "3416cf2ebd78dc900dad4da75a78157ab7d5545f4fb5c5bc5c6dcc95e3e491bd"
         },
         {
           "path": "scripts/e2e/battle-presentation.mjs",
           "anchor": "export function validateBattlePresentation(",
           "role": "render-oracle",
-          "lines": "182",
-          "sha256": "e5e831688e45a76ecd2e4e644ffd73958c80433b40882f6402a03638bf3f91f1"
+          "lines": "656",
+          "sha256": "6669e74d84c02e6588d6ce34ad9d2d57f604df7c97225c9264507ff86b34fa3e"
         },
         {
           "path": "scripts/e2e/battle-rules.mjs",
           "anchor": "export function validateBattleRules(",
           "role": "rule-oracle",
-          "lines": "107",
-          "sha256": "314ccc2adea59b88db2be651529951de3214583e139ab999b819ab9b6b413fe6"
+          "lines": "94",
+          "sha256": "6ae0910e42220f02ddabd5bbcf02cfdc070b2bd760f48d2a8b0c82d8d6b31002"
+        },
+        {
+          "path": "scripts/e2e/battle-trace-observer.mjs",
+          "anchor": "audioStarted(cueId, assetId, buffer, context, source)",
+          "role": "native-audio-observer",
+          "lines": "198",
+          "sha256": "f9169de66e0d4c68e97fd5ff824bb06bc217d3c27da329d36a107a3960c33404"
+        },
+        {
+          "path": "scripts/e2e/battle-game-instrumentation.mjs",
+          "anchor": "export function instrumentGameBattle(",
+          "role": "game-audio-producer-binding",
+          "lines": "37",
+          "sha256": "1b71085e0366bdc038657650c3748ceae154aee515132298f8087c6820f5fae2"
+        },
+        {
+          "path": "scripts/e2e/battle-reforge-instrumentation.mjs",
+          "anchor": "function observeSfx(",
+          "role": "reforge-audio-producer-binding",
+          "lines": "15",
+          "sha256": "38304c11c183165574b0c20440fe1d1222a05b8c160062dd6ff2d3bda3c52f13"
         }
       ],
       "publicCallers": [
         "node scripts/e2e/battle-foundation.mjs --engine=game",
         "node scripts/e2e/battle-foundation.mjs --engine=reforge",
         "node scripts/e2e/battle-foundation-compare.mjs GAME_REPORT REFORGE_REPORT NEW_DIRECTORY",
-        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=herb-settlement --repeat=1 --counter=double-herb"
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=herb-settlement --repeat=1 --counter=double-herb",
+        "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review",
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=equivalent-poison --audio-review",
+        "node scripts/e2e/battle-foundation.mjs --engine=game --scenario=automatic-block --audio-review",
+        "node scripts/e2e/battle-foundation.mjs --engine=reforge --scenario=automatic-block --audio-review"
       ],
       "legalInputs": [
         "Three explicit legal fixture setups: solo/team1, hero-WuHou-Anu/team3, injured hero-Anu/team1 with two herb99; battlefield7, normal manual battle, mulberry32 seed1729.",
@@ -4287,7 +4342,9 @@
         "Solo hero/team294, field7, seed64, defend then attack. Full original two-entry enemy queue.",
         "Level-six hero and Anu/team204, seed4, native enemy sleep. The awake actor defends and finishes the battle.",
         "Solo hero/team115, seed72, two units of item87. Defend, self-use antidote through the item menu, then attack.",
-        "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3."
+        "The PAL Li Xiaoyao portrait probe binds raw indexed UI frame 48, the actual authored face PNG and both standard color table sources. It samples the six fixed local coordinates while selecting in turns 1, 2 and 3.",
+        "Use the seven existing native fixtures for the audiovisual pass. The twenty-four original and authored WAV pairs bind byte identity and original mono PCM frame counts. Single-context browser audio reviews use the same candidate and normal input, with Game starting after its loading surface naturally detaches.",
+        "Healthy solo Li Xiaoyao against team115, seed11 and base speed1. The player submits attack; the enemy acts first and the native third draw reaches block threshold 10. The seed72 active-defend and poison fixture remains unchanged."
       ],
       "businessOracle": {
         "type": "q2-finite-state-and-native-repeat",
@@ -4303,7 +4360,11 @@
           "Team294 consumes no singleton target draw. Native dual actions use 339 for HP94 then normal attack for HP44, with separate raw and rendered results.",
           "Team204 consumes the native battle script chance draw. Sleep3 applies to hero, round ends tick 3→2→1, and the incapacitated slot passes without a submitted action.",
           "Team115 passes the equivalent-item and 0x29 resistance rolls. Direct blue1 is separate from immediate poison HP7 and round-end HP7. Item87 consumes one and cures 551 before the next round.",
-          "The actual Li Xiaoyao portrait shows the original RGBA values before poison and after item87, and exact SDLPal palette-ramp RGBs while poison551 is active. Two transparent pixels preserve their drawn destination."
+          "The actual Li Xiaoyao portrait shows the original RGBA values before poison and after item87, and exact SDLPal palette-ramp RGBs while poison551 is active. Two transparent pixels preserve their drawn destination.",
+          "In team115, first actual round-end blue7 precedes the next selection HUD by the original eight-tick feedback hold. The cured round has no new number and opens selection on normal scheduling.",
+          "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked.",
+          "In seed72, the first drawn impact and recoil use frame4. The first actual return and the remaining turn1 recovery use frame3, then the round-end poison number appears in idle frame0.",
+          "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015."
         ]
       },
       "dedupe": {
@@ -4316,7 +4377,7 @@
         "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
       },
       "revision": {
-        "currentSha": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
+        "currentSha": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4352,6 +4413,24 @@
             "predecessor": "e746620556cf961eed871ec3f8038f5223d37357",
             "historicalReceiptRevision": "18bfe998333912bf2b1449e534133ce73cafca44",
             "archive": "docs/tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz"
+          },
+          {
+            "revision": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
+            "date": "2026-11-12",
+            "action": "native-battle-round-feedback-and-action-audio",
+            "scope": "Seven fixed battle fixtures with actual rendered round boundaries and twenty-four source-bound WAVs. Runtime-backed feedback timing and named audio cues, with a separate browser-mix review.",
+            "predecessor": "4f1bea68f897ca59d4a2cd892e7619ffdebe479e",
+            "historicalReceiptRevision": "5a3093c93746d6e04e8f569ef526e07778aa439f",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz"
+          },
+          {
+            "revision": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
+            "date": "2026-11-12",
+            "action": "native-physical-guard-pose-and-block-sound",
+            "scope": "Actual drawn fighter pose at ordinary impact, guard recovery and first auto-block charge, with independent native action, damage and audio receipts. Eight finite browser fixtures.",
+            "predecessor": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
+            "historicalReceiptRevision": "8cc7f427e64cdff70a12454f601c8c17747fd58e",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz"
           }
         ]
       }
@@ -4488,7 +4567,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

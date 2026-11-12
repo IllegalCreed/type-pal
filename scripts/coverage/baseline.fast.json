@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-11-11T08:02:09.206Z",
+  "generatedAt": "2026-11-12T05:16:08.045Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 836,
-  "testCount": 20444,
+  "testCount": 20448,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -2248,7 +2248,7 @@
       ],
       "scopeDigest": "b0bc7eb7fd6c8027148779bbf95b3ac9883385cc719c867f541310db8fa056d8",
       "fastTests": {
-        "testCount": 9041,
+        "testCount": 9045,
         "testFileCount": 370,
         "files": [
           "packages/reforge/scripts/battle-trial-assets.test.ts",
@@ -3000,8 +3000,8 @@
           },
           {
             "file": "packages/reforge/src/battle/battle-session.action-flows.test.ts",
-            "testCount": 12,
-            "identityDigest": "c8d2e896323bb0e8610837fde7bec2432e182545242fbf997a1f299930ceb5f0"
+            "testCount": 16,
+            "identityDigest": "7cc140a93df7767d28a2a032f4285675ee04e9e702c6635882c1300b9dd278cc"
           },
           {
             "file": "packages/reforge/src/battle/battle-session.c85-arms.test.ts",
@@ -4474,26 +4474,26 @@
             "identityDigest": "1692ca0bcc55c2980a574a32b4ae377293a68036c90dc5aad8fd63332bfaacce"
           }
         ],
-        "identityDigest": "5734f4ec45f832b705cddd1d209fb002005b0f362ff9b1d8f05618dfc25f7ffb",
+        "identityDigest": "b1b53cde495ab05d60f9998dbbcf62e18610cd80ce921689941bb2659a5c17b7",
         "duplicateIdentityCount": 3,
-        "executionDigest": "1c4cbcbf85ed7f25993cb36259d0b04e820573d0fead8f793f3f206985a46ccf"
+        "executionDigest": "62f1b2ffe2db681ce5549a7c5af5f3b6eb203b57178a37f6c333881c39130ab9"
       },
       "metrics": {
         "statements": {
-          "covered": 17185,
-          "total": 18975
+          "covered": 17206,
+          "total": 18993
         },
         "branches": {
-          "covered": 10956,
-          "total": 13179
+          "covered": 10981,
+          "total": 13200
         },
         "functions": {
-          "covered": 2794,
-          "total": 3085
+          "covered": 2795,
+          "total": 3086
         },
         "lines": {
-          "covered": 15377,
-          "total": 16555
+          "covered": 15394,
+          "total": 16570
         }
       }
     },
@@ -10945,20 +10945,20 @@
   },
   "total": {
     "statements": {
-      "covered": 74427,
-      "total": 82108
+      "covered": 74448,
+      "total": 82126
     },
     "branches": {
-      "covered": 54092,
-      "total": 64224
+      "covered": 54117,
+      "total": 64245
     },
     "functions": {
-      "covered": 14147,
-      "total": 15704
+      "covered": 14148,
+      "total": 15705
     },
     "lines": {
-      "covered": 66484,
-      "total": 71859
+      "covered": 66501,
+      "total": 71874
     }
   }
 }

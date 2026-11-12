@@ -3,13 +3,41 @@ const FRAME_SOURCE = {
   reforge: 'reforge:BattleSession.render',
 }
 
+const AUDIO_SOURCE = {
+  game: {
+    'sfx-decoded': 'game:AudioManager.loadSfx:decodeAudioData',
+    'sfx-request': 'game:AudioManager.playSfx',
+    'sfx-start': 'game:AudioManager.play:AudioBufferSourceNode.start',
+  },
+  reforge: {
+    'sfx-decoded': 'reforge:SfxPlayer.ensureDecoded:decode',
+    'sfx-request': 'reforge:SfxPlayer.play',
+    'sfx-start': 'reforge:browserAdapter.play:AudioBufferSourceNode.start',
+  },
+}
+const CUE_KINDS = new Set([
+  'player-windup',
+  'player-weapon',
+  'enemy-windup',
+  'enemy-impact',
+  'cast-windup',
+  'spell-effect',
+  'item',
+  'enemy-death',
+])
+const PAL_SOUND_SAMPLE_RATE = 22050
+
 const DEATH_FADE_MS = 72 * 16
 // The source duration is measured between rendered edges, with up to two 40 ms Game ticks
 // of sampling uncertainty. Reforge's wall time can also include paused gameplay time.
 const EDGE_TOLERANCE_MS = 80
+// CLASSIC fight.c waits eight battle frames (battle.h: 40 ms per frame) after displaying changes.
+const BATTLE_FRAME_MS = 40
+const ROUND_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 
 const at = (frame) => ({ frame: frame.seq, clockMs: frame.clockMs, atMs: frame.atMs })
 const pose = (frame, slot) => frame.payload.players.find((player) => player.slot === slot)
+const position = ({ slot, x, y }) => ({ slot, x, y })
 const samePose = (a, b) => a?.x === b?.x && a?.y === b?.y
 const enemy = (frame, slot) => frame.payload.enemies.find((draw) => draw.slot === slot)
 const animationMatches = (frame, action) =>
@@ -136,6 +164,10 @@ function uniqueSlots(entries, size) {
   )
 }
 
+const validFrameIndex = (value) => Number.isSafeInteger(value) && value >= 0
+const indexedFighter = (draw) =>
+  draw && validFrameIndex(draw.frameIndex) && Number.isFinite(draw.x) && Number.isFinite(draw.y)
+
 function validFrame(entry, source, playerCount) {
   const p = entry.payload
   return (
@@ -153,13 +185,22 @@ function validFrame(entry, source, playerCount) {
       p.enemies.map((draw) => draw?.slot),
       5,
     ) &&
-    p.enemies.every((draw) => typeof draw.fading === 'boolean') &&
+    p.enemies.every(
+      (draw) =>
+        typeof draw.fading === 'boolean' && (draw.frameIndex === undefined || indexedFighter(draw)),
+    ) &&
     Array.isArray(p.players) &&
     uniqueSlots(
       p.players.map((draw) => draw?.slot),
       playerCount,
     ) &&
-    p.players.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y)) &&
+    p.players.every(
+      (draw) =>
+        Number.isFinite(draw.x) &&
+        Number.isFinite(draw.y) &&
+        (draw.frameIndex === undefined ||
+          (validFrameIndex(draw.frameIndex) && Number.isSafeInteger(draw.colorShift))),
+    ) &&
     uniqueSlots(p.panels, playerCount) &&
     (p.settlement === null || typeof p.settlement === 'string') &&
     Array.isArray(p.numbers) &&
@@ -178,6 +219,439 @@ function validFrame(entry, source, playerCount) {
   )
 }
 
+export function firstNumberDraws(frames) {
+  const draws = []
+  const seen = new Set()
+  for (const frame of frames)
+    for (const number of frame.payload.numbers) {
+      const { numberId, age } = number
+      // Old trace format stored only the initial age of the actual draw.
+      if (numberId === undefined ? age !== 0 : seen.has(numberId)) continue
+      draws.push({ frame, number })
+      if (numberId !== undefined) seen.add(numberId)
+    }
+  return draws
+}
+
+function comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail) {
+  const missingId = frames.find(({ payload }) =>
+    payload.numbers.some(({ numberId }) => numberId === undefined),
+  )
+  if (missingId) {
+    fail('integrity', 'round-end-number-identity', at(missingId))
+    return []
+  }
+  const numbers = firstNumberDraws(frames)
+  return scenario.expected.rounds.flatMap((expected) => {
+    const { turn } = expected
+    const round = trace.rounds?.find((entry) => entry.turn === turn)
+    const boundary = {
+      turn,
+      order: round?.order,
+      clockMs: round?.clockMs,
+      atMs: round?.atMs,
+      source: round?.source,
+    }
+    if (!Number.isFinite(boundary.clockMs) || boundary.clockMs < 0) {
+      fail('integrity', 'round-end-clock-missing', boundary)
+      return []
+    }
+    const next = frames.find(
+      ({ order, payload }) =>
+        order > round.order && payload.turn === turn + 1 && payload.panels.length > 0,
+    )
+    const selection = next && { ...at(next), slots: next.payload.panels }
+    if (!next?.payload.selecting || next.payload.panels.length !== playerCount) {
+      fail('integrity', 'round-end-selection-frame-missing', { ...boundary, selection })
+      return []
+    }
+    const hpBefore = expected.before.players[0].hp
+    const hpAfter = expected.after.players[0].hp
+    const lostHp = hpBefore - hpAfter
+    const draws = numbers
+      .filter(({ frame }) => frame.order > round.order && frame.order <= next.order)
+      .map(({ frame, number }) => ({ ...at(frame), ...number }))
+    const draw = draws[0]
+    const observed = { ...boundary, hpBefore, hpAfter, selection, draws }
+    if (
+      lostHp > 0
+        ? draws.length !== 1 ||
+          draw.tone !== 'blue' ||
+          draw.side !== 'player' ||
+          draw.slot !== 0 ||
+          draw.value !== lostHp
+        : draws.length !== 0
+    ) {
+      fail('business', 'round-end-number', observed)
+      return [observed]
+    }
+    if ((draw?.clockMs ?? selection.clockMs) < boundary.clockMs) {
+      fail('integrity', 'round-end-clock-order', observed)
+      return [observed]
+    }
+    // The first number and next HUD are sampled at draw time, with up to one tick per edge.
+    const delayMs = selection.clockMs - (draw?.clockMs ?? boundary.clockMs)
+    const rangeMs = draw
+      ? [ROUND_FEEDBACK_MS - BATTLE_FRAME_MS, ROUND_FEEDBACK_MS + EDGE_TOLERANCE_MS]
+      : [0, EDGE_TOLERANCE_MS]
+    const timing = { ...observed, delayMs, rangeMs }
+    if (delayMs < rangeMs[0]) fail('business', 'round-end-selection-early', timing)
+    if (delayMs > rangeMs[1]) fail('business', 'round-end-selection-delay', timing)
+    return [timing]
+  })
+}
+
+const hasSpritePose = (draw, frameIndex, colorShift = 0) =>
+  draw.frameIndex === frameIndex && draw.colorShift === colorShift
+const atOffset = (draw, base, dx, dy) => draw.x === base.x + dx && draw.y === base.y + dy
+
+function guardMotion(frames, expected, animations, probe, fail) {
+  const actionIndex = probe?.actionIndex
+  const action = expected.actions[actionIndex]
+  if (
+    !Number.isSafeInteger(actionIndex) ||
+    action?.kind !== 'attack' ||
+    action.actorSide !== 'enemy' ||
+    ![probe.guardFrame, probe.idleFrame].every(validFrameIndex)
+  ) {
+    fail('oracle', 'guard-pose-expectation', { probe })
+    return undefined
+  }
+  const target = action.before.players.find(({ id }) => id === action.targetId)
+  const attacker = action.before.enemies.find((unit) => unit?.id === action.actorId)
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const selection =
+    start &&
+    frames.findLast(
+      (frame) =>
+        frame.seq < start.seq && frame.payload.turn === action.turn && frame.payload.selecting,
+    )
+  const identity = {
+    actionIndex,
+    turn: action.turn,
+    actorId: action.actorId,
+    targetId: action.targetId,
+  }
+  if (!target || !attacker || !selection || !next) {
+    fail('integrity', 'guard-render-window-missing', identity)
+    return undefined
+  }
+  const visible = frames.filter((frame) => frame.seq >= start.seq && frame.seq < next.seq)
+  const player = (frame) => pose(frame, target.slot)
+  const foe = (frame) => enemy(frame, attacker.slot)
+  const sample = (frame) =>
+    frame && { ...at(frame), order: frame.order, player: player(frame), enemy: foe(frame) }
+  const missing = [selection, ...visible].find(
+    (frame) => !indexedFighter(player(frame)) || !indexedFighter(foe(frame)),
+  )
+  if (missing) {
+    fail('integrity', 'guard-fighter-pose-missing', { ...identity, draw: sample(missing) })
+    return undefined
+  }
+  const base = player(selection)
+  // CLASSIC positions are relative to the target's feet (fight.c:5007–5125).
+  const charge = visible.find((frame) => atOffset(foe(frame), base, -44, -16))
+  const knockback =
+    charge && visible.find((frame) => frame.seq > charge.seq && atOffset(player(frame), base, 8, 4))
+  const returned =
+    knockback && visible.find((frame) => frame.seq > knockback.seq && samePose(player(frame), base))
+  const recoil =
+    returned &&
+    visible.find(
+      (frame) =>
+        frame.seq > knockback.seq &&
+        frame.seq < returned.seq &&
+        atOffset(player(frame), base, 10, 5),
+    )
+  const observed = {
+    ...identity,
+    home: sample(selection),
+    charge: sample(charge),
+    knockback: sample(knockback),
+    recoil: sample(recoil),
+    returned: sample(returned),
+  }
+  if (!charge || !knockback || !recoil || !returned) {
+    fail('business', 'guard-motion-edges', observed)
+    return undefined
+  }
+  const numbers = firstNumberDraws(frames).filter(
+    ({ frame, number }) =>
+      frame.seq >= start.seq &&
+      frame.seq < next.seq &&
+      number.side === 'player' &&
+      number.slot === target.slot &&
+      number.tone === 'blue',
+  )
+  return { action, target, observed, visible, player, sample, numbers }
+}
+
+function compareDefendRecovery(trace, frames, expected, animations, fail) {
+  const probe = expected.defendRecovery
+  const motion = guardMotion(frames, expected, animations, probe, fail)
+  if (!motion) return undefined
+  const { action, target, observed, visible, player, sample, numbers } = motion
+  const wantedRound = expected.rounds?.find(({ turn }) => turn === action.turn)
+  if (!validFrameIndex(probe.hitFrame) || action.guard?.before !== true || !wantedRound) {
+    fail('oracle', 'defend-recovery-expectation', { probe })
+    return undefined
+  }
+  const round = trace.rounds?.find(({ turn }) => turn === action.turn)
+  const waiting =
+    round &&
+    visible.filter((frame) => frame.seq >= observed.returned.frame && frame.order < round.order)
+  if (!waiting?.length) {
+    fail('integrity', 'defend-recovery-round-missing', observed)
+    return undefined
+  }
+  const hit = numbers.find(
+    ({ frame, number }) =>
+      frame.seq >= observed.charge.frame &&
+      frame.seq < observed.knockback.frame &&
+      number.value === action.rawDamage,
+  )
+  const roundDamage =
+    wantedRound.before.players[target.slot].hp - wantedRound.after.players[target.slot].hp
+  const poison = numbers.find(
+    ({ frame, number }) => frame.order > round.order && number.value === roundDamage,
+  )
+  const through = sample(waiting.at(-1))
+  const result = {
+    ...observed,
+    hit: hit && { ...sample(hit.frame), number: hit.number },
+    through,
+    waitingFrames: waiting.length,
+    round: { order: round.order, clockMs: round.clockMs },
+    poison: poison && { ...sample(poison.frame), number: poison.number },
+  }
+  if (
+    !hasSpritePose(observed.charge.player, probe.guardFrame) ||
+    !hit ||
+    !hasSpritePose(player(hit.frame), probe.hitFrame, 6) ||
+    ![observed.knockback, observed.recoil].every(({ player }) =>
+      hasSpritePose(player, probe.hitFrame),
+    )
+  )
+    fail('business', 'defend-hit-frame', {
+      ...observed,
+      hit: result.hit,
+      expectedFrame: probe.hitFrame,
+      expectedChargeFrame: probe.guardFrame,
+    })
+  const wrong = waiting.find((frame) => !hasSpritePose(player(frame), probe.guardFrame))
+  if (wrong)
+    fail('business', 'defend-recovery-frame', {
+      ...observed,
+      draw: sample(wrong),
+      expectedFrame: probe.guardFrame,
+    })
+  if (!poison || !hasSpritePose(player(poison.frame), probe.idleFrame))
+    fail('business', 'defend-round-poison-frame', {
+      ...observed,
+      poison: result.poison,
+      expectedFrame: probe.idleFrame,
+    })
+  return result
+}
+
+function compareAutomaticBlock(frames, expected, animations, fail) {
+  const probe = expected.automaticBlock
+  const motion = guardMotion(frames, expected, animations, probe, fail)
+  if (!motion) return undefined
+  const { action, observed, visible, player, sample, numbers } = motion
+  if (action.blocked !== true || action.rawDamage !== 0 || action.guard?.before !== false) {
+    fail('oracle', 'automatic-block-expectation', { probe })
+    return undefined
+  }
+  const early = visible.find(
+    (frame) => frame.seq < observed.charge.frame && !hasSpritePose(player(frame), probe.idleFrame),
+  )
+  if (early)
+    fail('business', 'automatic-block-before-charge', {
+      ...observed,
+      draw: sample(early),
+      expectedFrame: probe.idleFrame,
+    })
+  const guarding = visible.filter(
+    (frame) => frame.seq >= observed.charge.frame && frame.seq < observed.returned.frame,
+  )
+  const wrong = guarding.find((frame) => !hasSpritePose(player(frame), probe.guardFrame))
+  if (wrong)
+    fail('business', 'automatic-block-guard-frame', {
+      ...observed,
+      draw: sample(wrong),
+      expectedFrame: probe.guardFrame,
+    })
+  if (!hasSpritePose(observed.returned.player, probe.idleFrame))
+    fail('business', 'automatic-block-recovery-frame', {
+      ...observed,
+      expectedFrame: probe.idleFrame,
+    })
+  const extra = numbers[0]
+  if (extra)
+    fail('business', 'automatic-block-damage-number', {
+      ...observed,
+      draw: sample(extra.frame),
+      number: extra.number,
+    })
+  return { ...observed, through: sample(guarding.at(-1)), guardFrames: guarding.length }
+}
+
+function cueRenderWindow(cue, action, animation, frames, deaths) {
+  if (cue.kind === 'enemy-death') {
+    const death = deaths.find(({ enemyId }) => enemyId === action.targetId)
+    return death && { first: death.start, through: death.gone, slot: death.slot }
+  }
+  if (!animation) return undefined
+  // Frame compression can omit an unchanged pose while an animation cue is playing.
+  const next = frames.find((frame) => frame.seq > animation.seq && !animationMatches(frame, action))
+  return next && { first: at(animation), through: at(next) }
+}
+
+function compareAudioCues(trace, expected, frames, animations, deaths, fail) {
+  const { audioCues, audioSourceFrames } = expected
+  if (
+    !Array.isArray(audioCues) ||
+    !audioCues.length ||
+    !audioCues.every(
+      (cue) =>
+        Number.isSafeInteger(cue?.actionIndex) &&
+        expected.actions[cue.actionIndex] &&
+        CUE_KINDS.has(cue.kind) &&
+        typeof cue.assetId === 'string' &&
+        /^sound\.pal\.\d{3}$/u.test(cue.assetId) &&
+        Number.isSafeInteger(audioSourceFrames?.[cue.assetId]) &&
+        audioSourceFrames[cue.assetId] > 0,
+    )
+  ) {
+    fail('oracle', 'audio-cue-expectation')
+    return undefined
+  }
+  const audioEvents = trace.audioEvents
+  const firstCommand = trace.commands?.[0]
+  if (!Array.isArray(audioEvents) || !audioEvents.length || !firstCommand) {
+    fail('integrity', 'audio-evidence-missing')
+    return undefined
+  }
+  const source = AUDIO_SOURCE[trace.engine]
+  const badSource = audioEvents.findIndex(
+    (entry) => !Object.hasOwn(source, entry?.kind) || entry.source !== source[entry.kind],
+  )
+  if (badSource !== -1) {
+    fail('integrity', 'audio-native-source', { event: audioEvents[badSource] })
+    return undefined
+  }
+  const decoded = audioEvents.filter(({ kind }) => kind === 'sfx-decoded')
+  const allRequests = audioEvents.filter(({ kind }) => kind === 'sfx-request')
+  const allStarts = audioEvents.filter(({ kind }) => kind === 'sfx-start')
+  if (
+    !decoded.every(({ bufferId }, index) => bufferId === index) ||
+    !allRequests.every(({ cueId }, index) => cueId === index)
+  ) {
+    fail('integrity', 'audio-native-identities')
+    return undefined
+  }
+  const startsByCue = new Map()
+  for (const start of allStarts) {
+    const request = allRequests[start.cueId]
+    const buffer = decoded[start.bufferId]
+    if (!request || !buffer || request.order >= start.order || buffer.order >= start.order) {
+      fail('integrity', 'audio-start-provenance', { start, request, buffer })
+      return undefined
+    }
+    if (startsByCue.has(start.cueId)) {
+      fail('business', 'audio-cue-start-count', { request, start })
+      return undefined
+    }
+    startsByCue.set(start.cueId, start)
+  }
+  const requests = allRequests.filter(({ order }) => order > firstCommand.order)
+  const starts = allStarts.filter(({ cueId }) => allRequests[cueId].order > firstCommand.order)
+  const result = {
+    decoded: decoded.length,
+    requested: requests.length,
+    started: starts.length,
+    beforeFirstCommand: allRequests
+      .filter(({ order }) => order < firstCommand.order)
+      .map((request) => ({ request, start: startsByCue.get(request.cueId) ?? null })),
+    cues: [],
+  }
+  for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
+    const cue = audioCues[i]
+    const request = requests[i]
+    if (!cue || !request || request.assetId !== cue.assetId) {
+      fail('business', 'audio-cue-sequence', {
+        cueIndex: i,
+        expected: cue ?? null,
+        actual: request ?? null,
+      })
+      break
+    }
+    const start = startsByCue.get(request.cueId)
+    if (!start) {
+      fail('business', 'audio-cue-start-missing', { ...cue, request })
+      break
+    }
+    if (starts[i]?.cueId !== request.cueId) {
+      fail('business', 'audio-cue-start-order', { ...cue, request, start, earlier: starts[i] })
+      break
+    }
+    const buffer = decoded[start.bufferId]
+    const action = expected.actions[cue.actionIndex]
+    const window = cueRenderWindow(cue, action, animations[cue.actionIndex], frames, deaths)
+    const cold = buffer.order > request.order
+    const observed = {
+      ...cue,
+      turn: action.turn,
+      actorId: action.actorId,
+      targetId: action.targetId,
+      request,
+      start,
+      buffer,
+      cold,
+      window,
+      requestToStartMs: start.atMs - request.atMs,
+    }
+    result.cues.push(observed)
+    const chunk = cue.assetId.slice(-3)
+    const path =
+      trace.engine === 'game'
+        ? `/extracted/sounds/${Number(chunk)}.wav`
+        : `assets/migrated/sounds/${chunk}.wav`
+    const resampledFrames =
+      (audioSourceFrames[cue.assetId] * buffer.sampleRate) / PAL_SOUND_SAMPLE_RATE
+    if (
+      start.assetId !== cue.assetId ||
+      buffer.assetId !== cue.assetId ||
+      buffer.path !== path ||
+      buffer.channels !== 1 ||
+      !(buffer.peak > 0) ||
+      Math.abs(buffer.frames - resampledFrames) > 1
+    )
+      fail('business', 'audio-decoded-source', { ...observed, path, resampledFrames })
+    if (start.contextState !== 'running') fail('business', 'audio-start-context', observed)
+    if (!window) {
+      fail('integrity', 'audio-cue-render-window-missing', observed)
+      continue
+    }
+    const edgeCue = cue.kind === 'enemy-windup' || cue.kind === 'enemy-death'
+    // Audio and paint are compared on the same recorder clock. Cold Game decoding may finish
+    // after its cue frame, while a ready buffer must start at the frame that requests it.
+    const firstMs = window.first.atMs - BATTLE_FRAME_MS
+    const requestThroughMs = (edgeCue ? window.first.atMs : window.through.atMs) + BATTLE_FRAME_MS
+    const startThroughMs = (cold ? window.through.atMs : request.atMs) + BATTLE_FRAME_MS
+    if (request.atMs < firstMs || request.atMs > requestThroughMs || start.atMs > startThroughMs)
+      fail('business', 'audio-cue-render-window', {
+        ...observed,
+        firstMs,
+        requestThroughMs,
+        startThroughMs,
+      })
+  }
+  return result
+}
+
 /** Judge rendered output from the normal battle independently of logical action timestamps. */
 export function validateBattlePresentation(trace, scenario) {
   const frames = Array.isArray(trace?.presentations)
@@ -187,7 +661,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
-  let portraits
+  let portraits, roundEnds, audio, defendRecovery, automaticBlock
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -196,6 +670,10 @@ export function validateBattlePresentation(trace, scenario) {
     deaths,
     heals,
     ...(portraits === undefined ? {} : { portraits }),
+    ...(roundEnds === undefined ? {} : { roundEnds }),
+    ...(audio === undefined ? {} : { audio }),
+    ...(defendRecovery === undefined ? {} : { defendRecovery }),
+    ...(automaticBlock === undefined ? {} : { automaticBlock }),
     findings,
   })
   if (
@@ -231,6 +709,8 @@ export function validateBattlePresentation(trace, scenario) {
     })
   if (scenario.expected.portraitSamples !== undefined)
     portraits = comparePortraitSamples(frames, scenario, trace.engine, fail)
+  if (scenario.id === 'equivalent-poison')
+    roundEnds = comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail)
 
   const settlement = frames.find(({ payload }) => payload.settlement !== null)
   if (!settlement) fail('integrity', 'settlement-draw-missing')
@@ -239,6 +719,10 @@ export function validateBattlePresentation(trace, scenario) {
       ? null
       : frames.find((frame) => animationMatches(frame, action)),
   )
+  if (scenario.expected.defendRecovery !== undefined)
+    defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
+  if (scenario.expected.automaticBlock !== undefined)
+    automaticBlock = compareAutomaticBlock(frames, scenario.expected, animations, fail)
 
   for (const [index, action] of scenario.expected.actions.entries()) {
     if (['defend', 'pass'].includes(action.kind)) continue
@@ -327,8 +811,8 @@ export function validateBattlePresentation(trace, scenario) {
       departed: at(departed),
       returned: at(returned),
       draw: { ...at(visible), ...number, casterPose: pose(visible, actorSlot) },
-      casterBase,
-      targetBase,
+      casterBase: position(casterBase),
+      targetBase: position(targetBase),
     }
     heals.push(observed)
     if (visible.seq < returned.seq) fail('business', 'herb-number-before-return', observed)
@@ -339,6 +823,24 @@ export function validateBattlePresentation(trace, scenario) {
       number.y + number.age !== Math.max(targetBase.y - 75, 10)
     )
       fail('business', 'herb-number-target-or-anchor', observed)
+  }
+  if (scenario.expected.audioCues !== undefined)
+    audio = compareAudioCues(trace, scenario.expected, frames, animations, deaths, fail)
+  if (automaticBlock && audio) {
+    const impact = audio.cues.find(
+      ({ actionIndex, kind }) =>
+        actionIndex === automaticBlock.actionIndex && kind === 'enemy-impact',
+    )
+    if (
+      impact &&
+      (impact.request.order < automaticBlock.charge.order ||
+        impact.request.order >= automaticBlock.knockback.order)
+    )
+      fail('business', 'automatic-block-impact-edge', {
+        request: impact.request,
+        charge: automaticBlock.charge,
+        knockback: automaticBlock.knockback,
+      })
   }
   return result()
 }

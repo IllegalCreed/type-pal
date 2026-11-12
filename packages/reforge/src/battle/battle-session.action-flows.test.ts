@@ -4,26 +4,43 @@
  * 选择经公开 tick 提交后由真 core 执行；资源恰扣一次；prepareTurnSounds 快照核对
  * **实际动作集合**（cast 与 attack 分栏），不只数数量。断言用 MP/终态/声音记录器。
  */
-import { validateItems, validatePoisons } from '@type-pal/content'
+import type { BattleChoreography } from '@type-pal/content'
+import {
+  checkBattleChoreography,
+  validateBattleSprites,
+  validateEnemies,
+  validateItems,
+  validatePoisons,
+} from '@type-pal/content'
 import { describe, expect, test } from 'vitest'
 import standardPalette from '../../../../projects/pal/assets/migrated/colors/project-standard.json' with {
   type: 'json',
 }
+import palBattleSprites from '../../../../projects/pal/content/battle-sprites.json' with {
+  type: 'json',
+}
+import palEnemies from '../../../../projects/pal/content/enemies.json' with { type: 'json' }
 import palItems from '../../../../projects/pal/content/items.json' with { type: 'json' }
 import palPoisons from '../../../../projects/pal/content/poisons.json' with { type: 'json' }
 import {
+  enemyProfile,
   PLAYER_PROFILE,
   wfEnemy,
   wfHealItem,
   wfPlayer,
   wfSkill,
 } from '../__tests__/battle-workflows/catalog.js'
-import { recordingSfx } from '../__tests__/battle-workflows/controlled-io.js'
-import { makeWfSession } from '../__tests__/battle-workflows/session-driver.js'
+import { fixedRng, recordingSfx, stubGlyphs } from '../__tests__/battle-workflows/controlled-io.js'
+import {
+  makeWfSession,
+  wfLoadedBattleSprite,
+} from '../__tests__/battle-workflows/session-driver.js'
+import type { LoadedBattleSpriteDefinition } from '../assets.js'
 import { expectDefined } from '../defined.js'
 import type { MenuAssets } from '../menu/menu-box.js'
 import type { CreatePlayerInput } from './battle-core.js'
 import type { BattleTurnReadinessSnapshot } from './battle-session.js'
+import { BattleSession } from './battle-session.js'
 
 /** 微任务冲洗：prepareTurnSounds 屏障的 resolve 需要微任务轮转后才推进。 */
 const flush = async (): Promise<void> => {
@@ -55,6 +72,27 @@ function battleCanvas(): CanvasRenderingContext2D {
   canvas.width = 320
   canvas.height = 200
   return canvas.getContext('2d')!
+}
+
+const poseRed = (frame: number): number => (frame + 1) * 16
+const posePalette = {
+  colors: Array.from({ length: 256 }, (_, index): [number, number, number] => [
+    index < 16 ? index * 16 : 0,
+    0,
+    0,
+  ]),
+  cycles: [],
+}
+
+/** 在每个真实 RLE 帧的顶部画不同颜色，观察实际使用的姿态和底点。 */
+function poseSprite(sprite: LoadedBattleSpriteDefinition): LoadedBattleSpriteDefinition {
+  const frames = sprite.sprite.frames.map((frame, index) => ({
+    ...frame,
+    height: 8,
+    pixels: new Uint8Array([index + 1, 0, 0, 0, 0, 0, 0, 0]),
+    opaque: new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0]),
+  }))
+  return { ...sprite, sprite: { ...sprite.sprite, frames } }
 }
 
 function infoBoxAssets(): MenuAssets {
@@ -318,6 +356,47 @@ describe('W3 执行时间线接线', () => {
     expect(sfx.plays).toEqual(['sound.pal.030'])
   })
 
+  test('灯笼普攻在首帧播放起手音，命中与死亡保留原声', async () => {
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-399'))[0],
+    )
+    const definition = expectDefined(
+      validateBattleSprites(palBattleSprites.filter(({ id }) => id === enemy.battleSprite))[0],
+    )
+    const h = makeWfSession({
+      players: [wfPlayer('li-xiaoyao', { defense: 100 })],
+      enemies: [enemy],
+    })
+    const sprite = expectDefined(h.assets.battleSprites.get(enemy.battleSprite))
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(enemy.battleSprite, {
+      ...sprite,
+      definition,
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+
+    h.press(['d'])
+    const playerHp = () => expectDefined(h.readParty()[0]).hp
+    for (let i = 0; i < 80 && playerHp() === 100; i++) h.idle()
+    expect(playerHp()).toBe(99)
+    expect(sfx.plays).toEqual(['sound.pal.050'])
+
+    // 3 步前摇、1 拍 action、2 拍各 80ms 的冲锋帧，共 320ms 后命中。
+    for (let i = 0; i < 7; i++) h.idle(40)
+    h.idle(39)
+    expect(sfx.plays).toEqual(['sound.pal.050'])
+    h.idle(1)
+    expect(sfx.plays).toEqual(['sound.pal.050', 'sound.pal.352'])
+
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle(40)
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.press([' '])
+    h.press([' '])
+    for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'over'; i++) h.idle(40)
+    await expect(settleDone(h)).resolves.toBe('victory')
+    expect(sfx.plays).toEqual(['sound.pal.050', 'sound.pal.352', 'sound.pal.032'])
+  })
+
   test('敌普攻蓝字仅显示物理伤害，附毒立即单独扣血', () => {
     const h = enemyPoisonAttackSession([wfPlayer('p1', { defense: 100 })])
     h.assets.ui = {
@@ -340,6 +419,108 @@ describe('W3 执行时间线接线', () => {
       hp: 92,
       poisons: [{ poisonId: 551, tickIndex: 0 }],
     })
+  })
+
+  test('回合末毒伤显示 320ms 后开放选招，解毒后无数字的回合直接开放', () => {
+    const enemy = expectDefined(
+      validateEnemies(palEnemies.filter(({ id }) => id === 'enemy-406'))[0],
+    )
+    const [antidote, egg] = validateItems(palItems.filter(({ id }) => id === '87' || id === '117'))
+    const redPoison = expectDefined(validatePoisons(palPoisons).find(({ id }) => id === 551))
+    const turnStartSound = 'sound.pal.077'
+    const encounterChoreo: BattleChoreography[] = [
+      {
+        at: 'turnStart',
+        when: { kind: 'turn', op: '==', value: 2 },
+        body: [{ kind: 'playSound', asset: turnStartSound }],
+      },
+    ]
+    checkBattleChoreography(encounterChoreo, '血口虫起手')
+    const h = makeWfSession({
+      players: [
+        wfPlayer('li-xiaoyao', {
+          hp: 150,
+          maxHp: 150,
+          defense: 259,
+          initialStatuses: { protect: 2 },
+        }),
+      ],
+      enemies: [
+        {
+          ...enemy,
+          // 固定随机数可复现首轮附毒，次轮让敌方跳过以单独观测解毒后的节拍。
+          ai: {
+            ...enemy.ai,
+            rules: [
+              { at: 'act', when: { kind: 'turn', op: '>=', value: 2 }, do: { kind: 'pass' } },
+            ],
+          },
+        },
+      ],
+      extraOpts: {
+        items: { 87: expectDefined(antidote), 117: expectDefined(egg) },
+        poisonDefs: { [redPoison.id]: redPoison },
+        inventory: [{ itemId: '87', count: 1 }],
+        encounterChoreo,
+      },
+    })
+    const sfx = recordingSfx()
+    h.assets.sfx = sfx.player
+    const finger = bitmap(1, 1, '#00ff00')
+    h.assets.ui = {
+      ...infoBoxAssets(),
+      cursorDown: finger,
+      cursorGrid: finger,
+      numsBlue: Array.from({ length: 10 }, (_, digit) =>
+        bitmap(6, 8, `rgb(0,0,${(digit + 1) * 16})`),
+      ),
+    }
+    const ctx = battleCanvas()
+    let nowMs = 0
+    const tick = (dtMs = 16, keys: readonly string[] = []) => {
+      nowMs += dtMs
+      h.session.tick(dtMs, new Set(keys), nowMs)
+    }
+    const player = () => expectDefined(h.session.debugPlayers()[0])
+
+    tick(16, ['d'])
+    // 护体的计数独立标出真实空队列步，避免以菜单何时打开倒推回合末。
+    for (let i = 0; i < 100 && player().status.protect === 2; i++) tick()
+    expect(player()).toMatchObject({ hp: 135, status: { protect: 1 } })
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(240, 95, 1, 1).data[2]).toBe(128) // 首帧蓝字 7。
+    const feedbackAtMs = nowMs
+
+    tick(16, ['e'])
+    tick(16, ['e'])
+    expect(h.session.debugReadiness().phase).toBe('acting')
+    expect(sfx.plays).not.toContain(turnStartSound)
+    while (nowMs + 16 < feedbackAtMs + 319) tick()
+    tick(feedbackAtMs + 319 - nowMs, ['e'])
+    tick(0, ['e'])
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(91, 165, 1, 1).data[0]).toBe(0)
+    expect(ctx.getImageData(232, 96, 1, 1).data[1]).toBe(0)
+    expect(sfx.plays).not.toContain(turnStartSound)
+
+    tick(1)
+    expect(sfx.plays.filter((id) => id === turnStartSound)).toEqual([turnStartSound])
+    tick()
+    expect(h.session.debugReadiness().phase).toBe('menu')
+    h.session.render(ctx, 1)
+    expect(ctx.getImageData(91, 165, 1, 1).data[0]).toBe(255)
+
+    tick(16, ['e'])
+    expect(h.session.debugReadiness().phase).toBe('item')
+    tick(16, [' '])
+    tick(16, [' '])
+    for (let i = 0; i < 100 && player().status.protect === 1; i++) tick(40)
+    expect(player()).toMatchObject({ hp: 135, poisons: [], status: { protect: 0 } })
+    const inventory = [{ itemId: '87', count: 1 }]
+    h.session.writeBackInventory(inventory)
+    expect(inventory).toEqual([])
+    tick()
+    expect(h.session.debugReadiness().phase).toBe('menu')
   })
 
   test('赤毒头像保留原色阶，雄黄解毒后恢复原画', () => {
@@ -399,34 +580,106 @@ describe('W3 执行时间线接线', () => {
     ])
   })
 
+  test('敌人先手时自动格挡从冲锋首帧出现，格挡音留在命中拍', () => {
+    const enemy = expectDefined(validateEnemies([wfEnemy('block-check')])[0])
+    const playerArt = poseSprite(wfLoadedBattleSprite('battle-sprite.player', PLAYER_PROFILE))
+    const enemyArt = wfLoadedBattleSprite(enemy.battleSprite, enemyProfile(enemy.battleSprite))
+    validateBattleSprites([playerArt.definition, enemyArt.definition])
+    const sfx = recordingSfx()
+    const session = new BattleSession(
+      [wfPlayer('li-xiaoyao', { baseDexterity: 1 })],
+      [enemy],
+      {
+        palette: posePalette,
+        glyphs: stubGlyphs,
+        battleSprites: new Map([
+          [playerArt.definition.id, playerArt],
+          [enemy.battleSprite, enemyArt],
+        ]),
+        playerBaseDefinitionIds: [playerArt.definition.id],
+        sfx: sfx.player,
+      },
+      (id) => id,
+      // 敌、玩家各自抽身法后，第三抽 floor(0.75 × 17) 命中格挡。
+      fixedRng([0.5, 0.5, 0.75]),
+      { playerSounds: [{ cover: 'sound.pal.015' }] },
+    )
+    const ctx = battleCanvas()
+    const tick = (ms: number) => session.tick(ms, new Set())
+    const pixel = (x: number, y: number) => ctx.getImageData(x, y, 1, 1).data[0]
+    session.tick(16, new Set(['d']))
+    for (let i = 0; i < 60 && sfx.plays.length === 0; i++) tick(16)
+    expect(session.debugLog()).toContain('li-xiaoyao 格挡了 block-check 的攻击')
+    expect(sfx.plays).toEqual(['sound.pal.355'])
+
+    tick(80)
+    tick(79)
+    session.render(ctx, 1)
+    expect(pixel(240, 162)).toBe(poseRed(PLAYER_PROFILE.frames.idle))
+    tick(1)
+    session.render(ctx, 1)
+    expect(pixel(196, 153)).toBe(16) // 冲至 (240−44,170−16) 的敌方精灵。
+    expect(pixel(240, 162)).toBe(poseRed(PLAYER_PROFILE.frames.defend))
+    expect(sfx.plays).toEqual(['sound.pal.355', 'sound.pal.300'])
+
+    tick(80)
+    tick(39)
+    expect(sfx.plays).toHaveLength(2)
+    tick(1)
+    expect(sfx.plays).toEqual(['sound.pal.355', 'sound.pal.300', 'sound.pal.015'])
+    expect(session.debugPlayers()[0]?.hp).toBe(100)
+    tick(40)
+    session.render(ctx, 1)
+    expect(pixel(248, 166)).toBe(poseRed(PLAYER_PROFILE.frames.defend))
+    tick(40)
+    session.render(ctx, 1)
+    expect(pixel(250, 167)).toBe(poseRed(PLAYER_PROFILE.frames.defend))
+  })
+
   test.each([
-    { cause: '附毒致死', attackStrength: 0, returnPose: 40, poisonCount: 1 },
-    { cause: '物理致死', attackStrength: 300, returnPose: 140, poisonCount: 0 },
-  ])('$cause 的敌普攻归位姿势由物理扣血决定，下一轮队员框显示最终 HP', ({
+    {
+      cause: '附毒后濒死仍先恢复主动防御姿态',
+      hp: 21,
+      maxHp: 100,
+      attackStrength: 0,
+      returnFrame: PLAYER_PROFILE.frames.defend,
+      poisonCount: 1,
+      nextHp: 6,
+    },
+    {
+      cause: '物理先跨入濒死且随后附毒致死',
+      hp: 8,
+      maxHp: 40,
+      attackStrength: 0,
+      returnFrame: PLAYER_PROFILE.frames.dying,
+      poisonCount: 1,
+      nextHp: 0,
+    },
+    {
+      cause: '物理直接致死',
+      hp: 8,
+      maxHp: 40,
+      attackStrength: 300,
+      returnFrame: PLAYER_PROFILE.frames.dead,
+      poisonCount: 0,
+      nextHp: 0,
+    },
+  ])('$cause，敌普攻归位姿势由物理扣血决定且下一轮队员框显示最终 HP', ({
+    hp,
+    maxHp,
     attackStrength,
-    returnPose,
+    returnFrame,
     poisonCount,
+    nextHp,
   }) => {
     const h = enemyPoisonAttackSession(
-      [wfPlayer('p1', { hp: 8, defense: 100 }), wfPlayer('p2')],
+      [wfPlayer('p1', { hp, maxHp, defense: 100 }), wfPlayer('p2')],
       attackStrength,
     )
     const spriteId = expectDefined(h.assets.playerBaseDefinitionIds[0])
     const sprite = expectDefined(h.assets.battleSprites.get(spriteId))
-    const frames = sprite.sprite.frames.map((frame, index) => ({
-      ...frame,
-      height: 8,
-      pixels: new Uint8Array([index === PLAYER_PROFILE.frames.dead ? 2 : 1, 0, 0, 0, 0, 0, 0, 0]),
-      opaque: new Uint8Array([1, 0, 0, 0, 0, 0, 0, 0]),
-    }))
-    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, {
-      ...sprite,
-      sprite: { ...sprite.sprite, frames },
-    })
-    const colors = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])
-    colors[1] = [40, 0, 0]
-    colors[2] = [140, 0, 0]
-    h.assets.palette = { colors, cycles: [] }
+    h.assets.battleSprites = new Map(h.assets.battleSprites).set(spriteId, poseSprite(sprite))
+    h.assets.palette = posePalette
     h.assets.ui = {
       ...infoBoxAssets(),
       magicPlayerBox: bitmap(1, 1, 'transparent'),
@@ -441,18 +694,20 @@ describe('W3 执行时间线接线', () => {
       h.idle()
       h.session.render(ctx, 1)
       // 两人队首脚底 (200,176)；后坐到 (210,181) 后才识别归位帧。取精灵顶部避开队员框。
-      if (ctx.getImageData(210, 173, 1, 1).data[0] === 40) knockedBack = true
+      if (ctx.getImageData(210, 173, 1, 1).data[0] === poseRed(PLAYER_PROFILE.frames.hurt))
+        knockedBack = true
       const pose = ctx.getImageData(200, 168, 1, 1).data[0]
       if (knockedBack && pose) firstReturnPose = pose
     }
-    expect(firstReturnPose).toBe(returnPose)
-    expect(h.session.debugPlayers()[0]?.hp).toBe(0)
+    expect(firstReturnPose).toBe(poseRed(returnFrame))
     expect(h.session.debugPlayers()[0]?.poisons).toHaveLength(poisonCount)
 
     for (let i = 0; i < 80 && h.session.debugReadiness().phase !== 'menu'; i++) h.idle()
     h.session.render(ctx, 1)
     expect(h.session.debugReadiness().phase).toBe('menu')
-    expect(ctx.getImageData(200, 168, 1, 1).data[0]).toBe(140)
-    expect(ctx.getImageData(135, 170, 1, 1).data[1]).toBe(16) // 当前 HP 的字模 0。
+    const nextFrame = nextHp === 0 ? PLAYER_PROFILE.frames.dead : PLAYER_PROFILE.frames.dying
+    expect(ctx.getImageData(200, 168, 1, 1).data[0]).toBe(poseRed(nextFrame))
+    expect(h.session.debugPlayers()[0]?.hp).toBe(nextHp)
+    expect(ctx.getImageData(135, 170, 1, 1).data[1]).toBe((nextHp + 1) * 16)
   })
 })

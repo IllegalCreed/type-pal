@@ -7,13 +7,13 @@ Coding Owner: q2_panel（Game 运行时与采集） / q2_rules（Reforge 运行�
 Reviewer: Codex
 Visual Verification Owner: Codex（双端采集与复验） / User（产品取舍）
 Visual Verification Timing: mixed
-Last reviewed: 2026-11-11
+Last reviewed: 2026-11-12
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-battle-ai-status
+Branch: codex/q2-battle-av
 
 ## 目标
 
-通过合法固定局面和真实浏览器操作验证正常战斗，逐项记录指令、目标、状态变化、实际呈现与结算。Q2 按入口及覆盖记录、规则与操作、AI/状态/特殊机制、动画音画、完整生命周期五批推进。当前在前两批的基础上验证敌双动、敌方睡眠技能与普攻附毒。
+通过合法固定局面和真实浏览器操作验证正常战斗，逐项记录指令、目标、状态变化、实际呈现与结算。Q2 按入口及覆盖记录、规则与操作、AI/状态/特殊机制、动画音画、完整生命周期五批推进。第四批已复验回合末反馈和具名动作音效。
 
 ## 范围
 
@@ -188,11 +188,62 @@ BattleSession 头像返工触及已登记源码。Codex build allowed。 `q2_inp
 
 返工后按同一保护基点复跑正式快测覆盖，七包共 20,444 项通过。Reforge 增至 9,041 项，测试指纹已写入基线，四项包覆盖指标均高于返工前。全仓 typecheck 通过，lint 核 6,793 个文件，零诊断。 [覆盖基线](../../../scripts/coverage/baseline.fast.json)
 
+## 2026-11-12 第四批动画与音效
+
+用户确认继续推进。保护基点 `5a3093c93746d6e04e8f569ef526e07778aa439f`。复用七个固定局面，先处理实测的回合末数字等待，再按原版和实际素材核近战、法术、物品、死亡的画面与音效。音效核到已解码声音在运行中的 Web Audio 上实际启动，记录与动作和画面相对的顺序。覆盖范围随实际样本逐项写回，混音及背景音乐另记实测边界。
+
+| 来源 | 回合末状态数字与选招 |
+| --- | --- |
+| SDLPal CLASSIC | [fight.c:1600–1689](../../../reference/sdlpal/fight.c#L1600) 在队列耗尽后备份状态、执行毒脚本和检查伤亡。`PAL_BattleDisplayStatChange()` 返回真时等八个战斗帧，然后执行下一轮起手脚本。[battle.h:28–29](../../../reference/sdlpal/battle.h#L28) 定义 25 fps，八帧共 320 ms。 |
+| Game | `battle-system.ts:496–512,2874–2898` 在回合末毒伤改变 HP 时用八个逻辑 tick 阻住下一次手动选择。旧真实血口虫样本的首个 7 点数字到下一轮选招为 348.2、348.5 ms。 |
+| Reforge 基点 | `battle-core.ts:1130–1162` 同一步结算并转下一轮。`battle-session.ts:1129–1168,1238–1281` 绘制变化数字后，下个 tick 即可输入。相同血口虫样本为 16.6、16.6 ms。 |
+| 目标 | 回合末已产生数值反馈时，由会话的表现时钟承接 320 ms，再开始下一轮选招。相同局面的无新数值回合按正常调度开始。用物解除赤毒后，第二回合末提供同场对照。 |
+
+最强替代解释是比较器取了上一次命中的残留数字，或把规则 phase 变化当成实际开菜单。复核须用队列耗尽的原生回合边界、首次实际绘制的数字身份、首个可用选招帧和输入回执。旧 Reforge 完成真实战斗后应被这项呈现判据拒绝。加快到少于原版等待、给无变化回合一律添加同样停拍、或出现提前受理指令都可推翻验收。 [既有双端原件](../evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz)
+
+Codex build allowed。 `q2_rules` 独占 Reforge `battle-session.ts` 和邻近的现有会话定向测试，在 `item-flow-editor-validation` 树交付。限非终局的回合末已显示状态数字后的选招节拍及必要回归。其他音效或呈现差异先按实际证据归因并追加各自准入。Codex 持有本卡、独立场景预期、集成和冻结复验。
+
+回合采集与比较 build allowed。 `q2_panel` 独占 `battle-game-*` 的 Game 测试专用回合时钟采集，在 `shared-chest-opening` 树交付。 `q2_inputs` 独占共享回合事实、Reforge 测试专用采集和实际帧比较及相应工具测试，在 `item-flow-model` 树交付。时长按各端与实绘同源的单调时钟核验。回合排序用全局序号。首个新数字与前一动作的残留数字须能区分。
+
+音效链路 build allowed。 [原版敌普攻](../../../reference/sdlpal/fight.c#L4910) 区分起手、前摇结束的 action 声和命中 call 声。四个固定敌人都有独立起手音。原始 2、17、108、9 号敌分别为 50、368、265、357，现行作者工程已在 `sounds.attack` 配置且 readiness 收入工作集。Reforge 保护基点的物攻时间线只读 `action` 和 `call`。原版玩家出招、兵器、用物 28、施法和敌死亡声分别核 `fight.c:2058–2124,2292–2300,2377–2392,2926–2929,4695,756`。Game 的 shell 在实际 draw 前消费战斗 bus，真正播放须通过 `shell/audio.ts` 的解码缓存、context running 和 `AudioBufferSourceNode.start()`。Reforge 同样核真实 SFX 解码和启动。若漏音已有实际启动，或启动前相应音源未真正解码，则推翻当前归因或验收。
+
+七局面每条预期音效按具体动作和语义位置绑定 24 种原始与作者 WAV。采集器记录请求、已解码 buffer、原生启动及相对实绘时点。比较器以同一 buffer 和请求身份核缺失、重播、错声、错误归属或时序。真实漏音反例保留完整行动和正式结算。 `q2_panel` 独占 Game 测试专用采集，`q2_inputs` 独占共享证据与判据、Reforge 测试专用采集。Codex 持有独立音效预期、资产验证和原件。现阶段音效信用限这些合法局面的实际浏览器解码、启动及动作关联。
+
+敌普攻起手音 build allowed。 `q2_rules` 独占 `battle-session.ts`、`battle-anim.ts` 及其现有定向测试。将现行 `sounds.attack` 交给物攻时间线的首帧，保留已有 `action`、`call` 与替挡挂帧，验证有无起手音时的帧时间、音效次序和正常结算。现行 readiness 已收集该字段。原版 Win95 双动且敌魔法为零的特殊音效按其专用输入另核。
+
+## 2026-11-12 第四批定向执行与复核
+
+冻结候选 `5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3`。七局面双端各两次，28 场真实输入与结算通过。14 组跨端和 14 组同端比较通过，验证 24 种原始音源上的 180 次动作音效实际启动。前一候选 `d599ebc9f` 的首轮 Game 验证完成七场，加载第八场时遇到浏览器 `ERR_NETWORK_CHANGED`，保留失败原件，同候选重试通过。当前冻结的血口虫 Game 等待 348.2、348.3 ms，Reforge 333.4、333.3 ms。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md) · [原件与分屏](../evidence/E2E-Q2-1-battle-av-20261112.tar.gz)
+
+回合和音效使用真实旧版红例。旧 Reforge 会在赤毒回合数字后提前选招，四个局面缺敌普攻起手音。定向测试证实 320 ms 前选招和起手被拦，带魔法前摇与替挡的音效顺序和正常结算也通过。新 Game 带声录制等原生启动遮罩淡出后开始，两个独立 capture 都录得非零原声，与 verify 报告分别归档。现行 BattleSession 的三个归属 caller 片段逐字节对应固定前驱，追加第四段来源适用性。 [源码适用性](../evidence/E2E-Q2-1-battle-session-source-applicability.md)
+
+Reforge 战斗定向 59 文件、538 项通过。集成 E2E 工具 446 项通过。七包 typecheck 通过，lint 核 6,793 个文件，零诊断。
+
+以保护基点 `5a3093c93746d6e04e8f569ef526e07778aa439f` 复跑正式快测覆盖，七包 20,446 项通过。Reforge 增至 9,043 项，四项包覆盖指标提高，测试指纹与实测覆盖计数已更新。 [覆盖基线](../../../scripts/coverage/baseline.fast.json)
+
+## 2026-11-12 防御受击复位返工
+
+用户在血口虫首回合分屏看到 Reforge 两次进入防御姿态。真实输入与规则回执在两端均只执行一次主动防御，血口虫随后命中并扣 1 点血。原版主动防御提升物防，自动格挡另外判定；主动防御时普通命中仍用受击帧，免伤格挡用防御帧。原版物攻保存受击前姿态，击退后恢复该姿态，死亡或濒死优先。Game 录像显示受击、击退后直接回防御，Reforge 在回防御前多播一段约 200 ms 的站姿。现有逐帧记录只保存了玩家坐标，遗漏了这次差异。 [原版防御与物攻](../../../reference/sdlpal/fight.c#L4915) · [命中帧](../../../reference/sdlpal/fight.c#L5052) · [恢复帧](../../../reference/sdlpal/fight.c#L5132) · [Game 动画](../../../packages/game/src/core/battle/animation/physical-attack.ts#L449)
+
+Codex build allowed。`q2_rules` 独占 Reforge 物攻时间线、会话及必要的邻近测试。让普通物攻击退后恢复受击前的实际姿态，沿用物理伤害导致的死亡与濒死优先级。保留实际命中的受击帧、格挡判定、音效与帧时长。`q2_panel` 独占 Game 测试专用采集，`q2_inputs` 独占 Reforge 测试专用采集和共享实绘姿态比较。复用血口虫局面，须从实际精灵绘制区分防御、受击、复位、下一轮站姿。旧版完成真实战斗后应由复位姿态差异拒绝。Codex 持有范围、同输入复跑、归档与 PR 集成。初次 PR 两项检查通过后暂缓合并。 [PR #57](https://github.com/IllegalCreed/type-pal/pull/57)
+
+用户确认自动格挡保持防御姿态并使用格挡音。原版与 Game 在敌冲到目标面前时进入格挡姿态，随后命中拍播放队员的格挡音。返工前 Reforge 在命中拍才切姿态。以同一血口虫的合法低速队员配置和自然掷骰验证单人自动格挡。Codex build allowed，原 Owner 同时校正单人自动格挡姿态的开始边界，核冲锋、命中、击退和复位的实际画帧、免伤与实际格挡音。 [原版起姿与格挡音](../../../reference/sdlpal/fight.c#L5007) · [Game 冲锋帧](../../../packages/game/src/core/battle/animation/physical-attack.ts#L397)
+
+旧产品加实绘采集的候选 `f42a309c85661cd4c4596de6e0c432459d9890b4` 两端八个局面均完成正常战斗。离线复判在旧 Reforge 中分别命中 `defend-recovery-frame` 和 `automatic-block-guard-frame`。Game 同输入的两项对照均通过。自动格挡新用例的种子 11 在第三次原生抽样达到阈值 10，李逍遥只提交一次攻击。两端血口虫先手、HP 不掉、实际播放格挡音 015。正常命中的对照实际播放 092。
+
+冻结候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b` 双端各 16 场通过，16 组跨端和 16 组同端比较通过。检查两段击退、首个回位、回合末站姿及自动格挡首个冲锋和命中音。25 种音源的 200 次动作音效实际启动通过。两个局面另采带声分屏。首次 Reforge 带声复核在启动浏览器新上下文时到 30 秒限时，同一候选重试通过。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-防御受击复位与自动格挡) · [实跑原件与分屏](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz)
+
+Reforge 战斗定向 59 文件、540 项通过，集成 E2E 工具 449 项通过。七包 typecheck 和 6,793 文件 lint 零诊断。首版 PR 文档和快测覆盖均通过。新姿态候选随完整文档和快测检查重新提交。 [首版文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43152573735/job/130964998615) · [首版快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43152573741/job/130964999202)
+
+正式快测覆盖七包共 20,448 项通过，Reforge 增至 9,045 项。以同一保护基点实测并更新覆盖率基线。首条防御提交到敌动作启动的节拍差异留在第四批覆盖报告。 [覆盖基线](../../../scripts/coverage/baseline.fast.json) · [节拍记录](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-防御受击复位与自动格挡)
+
 ## 状态与交接
 
 - 2026-11-07 核现有 fixture/trial、采集/比较与目录，建立上述第一批有限准入；普通游戏与作者工程尚无改动。
 - 2026-11-11 首批用户视觉返回返工，三处差异均已核一手依据和缺陷路径。用户已批准第二批规则与操作，按一手规则证据及合法多回合局面的准入推进。
 - 2026-11-11 前三批所列七个局面完成双端复验。第四批接续实绘节拍和音画，已知赤毒飘字等待差异纳入。其它敌 AI 与特殊机制的未测范围留在覆盖报告。
+- 2026-11-12 已对齐回合末反馈与敌普攻起手音，并建立七局面的原生音效比较。第四批后续核玩家濒死与阵亡、其它声效分支和背景音乐。
+- 2026-11-12 防御复位与单人自动格挡已用实绘帧和原生音效复验，矩阵新增自然格挡局面。第四批其余玩家伤亡及背景音乐继续待核。
 
 ## 下一位 Agent 提示词
 

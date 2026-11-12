@@ -20,6 +20,7 @@ import {
   testingBattlePublicationBase,
   testingBattleSessionMechanismBase,
   testingBattleSessionPortraitBase,
+  testingBattleSessionPresentationBase,
   testingBattleSessionSourcePath,
 } from './testing-battle-publication.mjs'
 
@@ -160,6 +161,7 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
   const original = fixture()
   const published = revision !== testingBattlePublicationBase
   const portrait = revision === testingBattleSessionPortraitBase
+  const presentation = revision === testingBattleSessionPresentationBase
   const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
@@ -181,7 +183,10 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     },
     fixed: snapshot(testingBattlePublicationBase),
     ...(published ? { mechanismFixed: snapshot(testingBattleSessionMechanismBase) } : {}),
-    ...(portrait ? { portraitFixed: snapshot(testingBattleSessionPortraitBase) } : {}),
+    ...(portrait || presentation
+      ? { portraitFixed: snapshot(testingBattleSessionPortraitBase) }
+      : {}),
+    ...(presentation ? { presentationFixed: snapshot(testingBattleSessionPresentationBase) } : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -196,13 +201,14 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     return { ...reference, lines, sha256: hash(sessionSource) }
   })
   const event = {
-    action: portrait
-      ? 'q2-battle-session-portrait-source-rebinding'
-      : published
-        ? 'q2-battle-session-mechanism-source-rebinding'
-        : 'q2-battle-session-source-rebinding',
+    action: {
+      [testingBattlePublicationBase]: 'q2-battle-session-source-rebinding',
+      [testingBattleSessionMechanismBase]: 'q2-battle-session-mechanism-source-rebinding',
+      [testingBattleSessionPortraitBase]: 'q2-battle-session-portrait-source-rebinding',
+      [testingBattleSessionPresentationBase]: 'q2-battle-session-presentation-source-rebinding',
+    }[revision],
     base: revision,
-    date: '2026-11-11',
+    date: presentation ? '2026-11-12' : '2026-11-11',
     evidence: sessionReceipt,
     previousSourceRefs,
     scope: 'Synthetic source shift for the admitted battle session callers.',
@@ -278,6 +284,17 @@ test('the portrait rebind retains both previously accepted histories', () => {
   assert.throws(rebinding.checkEvidence, /old history changed/u)
   rebinding.owner.revision.history.at(-1).previousSourceRefs.pop()
   assert.throws(rebinding.checkCatalog, /previousSourceRefs do not match/u)
+})
+
+test('the presentation rebind preserves the accepted portrait history and exact caller sources', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionPresentationBase)
+  rebinding.checkCatalog()
+  rebinding.checkEvidence()
+
+  rebinding.evidence.history.at(-2).scope += ' changed'
+  assert.throws(rebinding.checkEvidence, /old history changed/u)
+  rebinding.owner.revision.history.at(-1).date = '2026-11-11'
+  assert.throws(rebinding.checkCatalog, /history date differs/u)
 })
 
 function pairedFixture(t) {

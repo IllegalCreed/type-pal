@@ -136,6 +136,102 @@ afterEach(() => {
   delete globalThis.__e2eRecordSpriteFrame
 })
 
+// Deterministic renderer facts exercise the judge. The native captures provide product evidence.
+function guardFixture(automatic) {
+  const fixture = scenario()
+  const start = state(150, 30, 2)
+  const hit = automatic ? start : state(149, 30, 2)
+  const poisoned = state(142, 30, 2)
+  const attack = {
+    ...decision('lantern-a', 'attack', 'hero'),
+    actorSide: 'enemy',
+    guard: { before: !automatic },
+    rawDamage: automatic ? 0 : 1,
+    blocked: automatic,
+    before: start,
+    after: hit,
+  }
+  const follow = {
+    ...strike,
+    turn: automatic ? 1 : 2,
+    before: automatic ? start : poisoned,
+    after: automatic ? start : poisoned,
+  }
+  const round = { turn: 1, before: hit, after: poisoned }
+  fixture.expected.start = start
+  fixture.expected.actions = [attack, follow]
+  if (automatic) fixture.expected.automaticBlock = { actionIndex: 0, guardFrame: 3, idleFrame: 0 }
+  else {
+    fixture.expected.defendRecovery = { actionIndex: 0, hitFrame: 4, guardFrame: 3, idleFrame: 0 }
+    fixture.expected.rounds = [round]
+  }
+  installBattleTraceObserver(
+    { scenarioId: fixture.id, runId: `run-${++run}`, engine: 'reforge', random },
+    createEvidenceRecorder,
+  )
+  const observer = globalThis.__battleEvidence
+  observer.start(start, 'battle:start')
+  let clockMs = 0
+  const paint = ({
+    player = [240, 170, 0, 0],
+    foe = [100, 110, 0],
+    animation = attack,
+    turn = 1,
+    phase = 'performAction',
+    selecting = false,
+    number,
+  } = {}) => {
+    clockMs += 40
+    observer.beginFrame('reforge:BattleSession.render', {
+      clockMs,
+      phase,
+      turn,
+      selecting,
+      animation,
+    })
+    const [x, y, frameIndex, colorShift] = player
+    const drawn = { x, y, colorShift }
+    observer.labelFighter(drawn, 'player', 0, false, 7)
+    observer.fighterDrawn(drawn, frameIndex)
+    const enemy = { x: foe[0], y: foe[1] }
+    observer.labelFighter(enemy, 'enemy', 0, false, foe[2])
+    observer.fighterDrawn(enemy)
+    if (number !== undefined) {
+      const damage = {}
+      observer.labelNumber(damage, 'player', 0)
+      observer.numberDrawn(damage, number, 'blue', 246, 95, 0)
+    }
+    if (selecting) {
+      observer.panelDrawn(0)
+      observer.panelDrawn(1)
+    }
+    if (phase === 'won') observer.settlementDrawn('exp-cash')
+    observer.endFrame()
+  }
+  paint({ animation: null, phase: 'selectAction', selecting: true })
+  paint({ player: [240, 170, automatic ? 0 : 3, 0], foe: [98, 109, 0] })
+  const charge = [196, 154, 1]
+  const contact = [196, 154, 2]
+  paint({ player: [240, 170, 3, 0], foe: charge })
+  paint({
+    player: [240, 170, automatic ? 3 : 4, automatic ? 0 : 6],
+    foe: contact,
+    ...(automatic ? {} : { number: 1 }),
+  })
+  const recoilFrame = automatic ? 3 : 4
+  paint({ player: [248, 174, recoilFrame, 0], foe: contact })
+  paint({ player: [250, 175, recoilFrame, 0], foe: contact })
+  paint({ player: [240, 170, automatic ? 0 : 3, 0] })
+  if (!automatic) {
+    paint({ player: [240, 170, 3, 0], phase: 'postAction', animation: null })
+    observer.round({ ...round, clockMs, source: 'battle:round-ended' })
+    paint({ turn: 2, phase: 'selectAction', animation: null, number: 7 })
+  }
+  paint({ turn: follow.turn, animation: follow })
+  paint({ turn: follow.turn, animation: null, phase: 'won' })
+  return { fixture, trace: observer.read() }
+}
+
 describe('battle evidence observer', () => {
   test('the browser serialization installs the shared recorder and returns detached sealed facts', () => {
     const context = {
@@ -201,6 +297,97 @@ describe('battle evidence observer', () => {
 })
 
 describe('battle business conformance and comparison', () => {
+  test('active defense must be restored on the first base draw and held until round end', () => {
+    const { fixture, trace } = guardFixture(false)
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    const { hit, knockback, returned, through, poison } = result.defendRecovery
+    assert.deepEqual(
+      [hit, returned, through, poison].map(({ player }) => player.frameIndex),
+      [4, 3, 3, 0],
+    )
+    const earlyRecovery = structuredClone(trace)
+    earlyRecovery.presentations[knockback.frame].payload.players[0].frameIndex = 3
+    assert.deepEqual(
+      validateBattlePresentation(earlyRecovery, fixture).findings.map(({ rule }) => rule),
+      ['defend-hit-frame'],
+    )
+
+    const wrongPose = structuredClone(trace)
+    wrongPose.presentations[returned.frame].payload.players[0].frameIndex = 0
+    assert.deepEqual(
+      validateBattlePresentation(wrongPose, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['defend-recovery-frame', returned.frame]],
+    )
+    const interrupted = structuredClone(trace)
+    interrupted.presentations[through.frame].payload.players[0].frameIndex = 0
+    assert.deepEqual(
+      validateBattlePresentation(interrupted, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['defend-recovery-frame', through.frame]],
+    )
+    delete trace.presentations[returned.frame].payload.players[0].frameIndex
+    assert.deepEqual(
+      validateBattlePresentation(trace, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['guard-fighter-pose-missing', returned.frame]],
+    )
+  })
+
+  test('automatic block starts on the first charge and has no physical damage number', () => {
+    const { fixture, trace } = guardFixture(true)
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    const { charge, knockback, recoil, returned } = result.automaticBlock
+    assert.deepEqual(
+      [charge, knockback, recoil, returned].map(({ player }) => player.frameIndex),
+      [3, 3, 3, 0],
+    )
+
+    const late = structuredClone(trace)
+    late.presentations[charge.frame].payload.players[0].frameIndex = 0
+    assert.deepEqual(
+      validateBattlePresentation(late, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['automatic-block-guard-frame', charge.frame]],
+    )
+    const early = structuredClone(trace)
+    early.presentations[charge.frame - 1].payload.players[0].frameIndex = 3
+    assert.deepEqual(
+      validateBattlePresentation(early, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['automatic-block-before-charge', charge.frame - 1]],
+    )
+    trace.presentations[knockback.frame].payload.numbers.push({
+      numberId: 0,
+      tone: 'blue',
+      side: 'player',
+      slot: 0,
+      value: 1,
+      right: 246,
+      y: 95,
+      age: 0,
+    })
+    assert.deepEqual(
+      validateBattlePresentation(trace, fixture).findings.map(({ rule, draw }) => [
+        rule,
+        draw.frame,
+      ]),
+      [['automatic-block-damage-number', knockback.frame]],
+    )
+  })
+
   test('a complete logical trace still requires native render observations', () => {
     const fixture = scenario()
     const trace = capture('game').trace
@@ -210,6 +397,102 @@ describe('battle business conformance and comparison', () => {
     assert.deepEqual(result.findings, [
       { domain: 'integrity', rule: 'rendered-frame-stream', count: 0 },
     ])
+  })
+
+  test('battle audio ties each repeated cue to its own native start and the rendered action', () => {
+    const fixture = scenario()
+    const assetId = 'sound.pal.050'
+    const attack = { ...decision('lantern-a', 'attack', 'hero'), actorSide: 'enemy' }
+    fixture.expected.actions = [{ ...attack, before: state(50, 30, 2), after: state(49, 30, 2) }]
+    fixture.expected.audioCues = [
+      { actionIndex: 0, kind: 'enemy-windup', assetId },
+      { actionIndex: 0, kind: 'enemy-impact', assetId },
+    ]
+    fixture.expected.audioSourceFrames = { [assetId]: 3 }
+    installBattleTraceObserver(
+      { scenarioId: fixture.id, runId: `run-${++run}`, engine: 'game', random },
+      createEvidenceRecorder,
+    )
+    const observer = globalThis.__battleEvidence
+    const buffer = {
+      numberOfChannels: 1,
+      sampleRate: 22050,
+      length: 3,
+      getChannelData: () => new Float32Array([0, -0.5, 0.25]),
+    }
+    observer.audioDecoded(
+      assetId,
+      buffer,
+      '/extracted/sounds/50.wav',
+      'game:AudioManager.loadSfx:decodeAudioData',
+    )
+    observer.start(fixture.expected.start, 'battle:start')
+    const play = () => {
+      const cue = observer.audioRequested(assetId, 'game:AudioManager.playSfx')
+      observer.audioStarted(
+        cue,
+        assetId,
+        buffer,
+        { state: 'running', currentTime: 1 },
+        'game:AudioManager.play:AudioBufferSourceNode.start',
+      )
+    }
+    play()
+    const render = (clockMs, phase, animation = null) => {
+      const selecting = phase === 'selectAction'
+      observer.beginFrame('game:BattlePresent.draw', {
+        clockMs,
+        phase,
+        selecting,
+        turn: 1,
+        animation,
+      })
+      if (selecting) {
+        observer.panelDrawn(0)
+        observer.panelDrawn(1)
+      }
+      if (phase === 'won') observer.settlementDrawn('exp-cash')
+      observer.endFrame()
+    }
+    render(0, 'selectAction')
+    observer.command({ ...use, source: 'selection:commit' })
+    render(40, 'performAction', attack)
+    play()
+    play()
+    render(120, 'won')
+    const trace = observer.read()
+    // The judge fixture has fixed recorder times so a paused Node worker cannot shift a cue.
+    for (const event of [...trace.presentations, ...trace.audioEvents]) event.atMs = event.order
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    assert.deepEqual(
+      result.audio.beforeFirstCommand.map(({ request }) => request.cueId),
+      [0],
+    )
+    assert.deepEqual(
+      result.audio.cues.map(({ start, buffer }) => [start.cueId, start.bufferId, buffer.peak]),
+      [
+        [1, 0, 0.5],
+        [2, 0, 0.5],
+      ],
+    )
+    const requestedOnly = structuredClone(trace)
+    requestedOnly.audioEvents = requestedOnly.audioEvents.filter(
+      (event) => !(event.kind === 'sfx-start' && event.cueId === 2),
+    )
+    assert.deepEqual(
+      validateBattlePresentation(requestedOnly, fixture).findings.map(({ rule, kind }) => [
+        rule,
+        kind,
+      ]),
+      [['audio-cue-start-missing', 'enemy-impact']],
+    )
+    const late = structuredClone(trace)
+    for (const event of late.audioEvents) if (event.cueId === 1) event.atMs += 100
+    assert.deepEqual(
+      validateBattlePresentation(late, fixture).findings.map(({ rule, kind }) => [rule, kind]),
+      [['audio-cue-render-window', 'enemy-windup']],
+    )
   })
 
   test('portrait color, transparency and cure are judged from separate native selection draws', () => {
@@ -377,7 +660,7 @@ describe('battle business conformance and comparison', () => {
         terminal: { result: 'victory', settlementCount: 1, after: state(118, 0, 2, 1, 13) },
       },
     }
-    const collect = (engine) => {
+    const collect = (engine, clockMs = 100) => {
       installBattleTraceObserver(
         { scenarioId: fixture.id, runId: `run-${++run}`, engine, random },
         createEvidenceRecorder,
@@ -395,6 +678,7 @@ describe('battle business conformance and comparison', () => {
       const slots = [{ partySlot: 0, poisonId: 551 }]
       observer.round({
         ...fixture.expected.rounds[0],
+        clockMs,
         native: { poisonsBefore: slots, poisonsAfter: slots },
         source: 'round:end',
       })
@@ -406,6 +690,15 @@ describe('battle business conformance and comparison', () => {
     const game = collect('game')
     const reforge = collect('reforge')
     assert.equal(compareBattleTraces(game, reforge, fixture).status, 'passed')
+    const repeat = collect('game', 220)
+    assert.equal(compareBattleRepeats(game, repeat, fixture).status, 'passed')
+    repeat.rounds[0].native.poisonsAfter = []
+    assert.equal(
+      compareBattleRepeats(game, repeat, fixture).findings[0].rule,
+      'repeat-native-rounds',
+    )
+    repeat.rounds[0].clockMs = -1
+    assert.equal(validateBattleTrace(repeat, fixture).findings[0].rule, 'round-clock')
 
     const staleTick = structuredClone(reforge)
     staleTick.rounds[0].after.players[0].hp++
@@ -431,6 +724,112 @@ describe('battle business conformance and comparison', () => {
     ;[round.order, command.order] = [command.order, round.order]
     ;[round.atMs, command.atMs] = [command.atMs, round.atMs]
     assert.equal(compareBattleTraces(game, outOfOrder, fixture).findings[0].rule, 'round-order')
+  })
+
+  test('round-end feedback holds only for a newly drawn number before the next selection HUD', () => {
+    const fixture = scenario()
+    fixture.id = 'equivalent-poison'
+    fixture.expected.actions = []
+    fixture.expected.rounds = [
+      { turn: 1, before: state(142, 30, 2), after: state(135, 30, 2) },
+      { turn: 2, before: state(134, 30, 2), after: state(134, 30, 2) },
+    ]
+    const blue = (numberId, value, age = 0) => ({
+      numberId,
+      value,
+      age,
+      tone: 'blue',
+      side: 'player',
+      slot: 0,
+      right: 246,
+      y: 90 - age,
+    })
+    const frame = (
+      order,
+      clockMs,
+      turn,
+      phase,
+      numbers = [],
+      selecting = phase === 'selectAction',
+    ) => ({
+      kind: 'battle-frame',
+      source: 'reforge:BattleSession.render',
+      seq: order,
+      order,
+      clockMs,
+      atMs: order * 10,
+      payload: {
+        turn,
+        phase,
+        selecting,
+        panels: selecting ? [0, 1] : [],
+        enemies: [],
+        players: [],
+        animation: null,
+        numbers,
+        settlement: phase === 'won' ? 'exp-cash' : null,
+      },
+    })
+    const trace = {
+      engine: 'reforge',
+      rounds: [
+        { turn: 1, order: 2, atMs: 20, clockMs: 1200 },
+        { turn: 2, order: 6, atMs: 60, clockMs: 2000 },
+      ],
+      presentations: [
+        frame(1, 1000, 1, 'selectAction'),
+        frame(3, 1200, 2, 'selectAction', [blue(1, 7)], false),
+        frame(4, 1520, 2, 'selectAction', [blue(1, 7, 8)]),
+        frame(5, 1960, 2, 'performAction', [blue(2, 1)]),
+        frame(7, 2040, 3, 'selectAction', [blue(2, 1, 2)]),
+        frame(8, 2500, 3, 'won'),
+      ],
+    }
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    assert.deepEqual(
+      result.roundEnds.map(({ turn, draws, delayMs }) => [
+        turn,
+        draws.map(({ value }) => value),
+        delayMs,
+      ]),
+      [
+        [1, [7], 320],
+        [2, [], 40],
+      ],
+    )
+    const rejected = (mutate, finding) => {
+      const changed = structuredClone(trace)
+      mutate(changed)
+      assert.deepEqual(
+        validateBattlePresentation(changed, fixture).findings.map(({ rule, turn }) => [rule, turn]),
+        [finding],
+      )
+    }
+    rejected(
+      (changed) => {
+        changed.presentations[2].clockMs = 1216
+      },
+      ['round-end-selection-early', 1],
+    )
+    rejected(
+      (changed) => {
+        changed.presentations[4].clockMs = 2320
+      },
+      ['round-end-selection-delay', 2],
+    )
+    rejected(
+      (changed) => {
+        changed.presentations[4].payload.numbers.push(blue(3, 7))
+      },
+      ['round-end-number', 2],
+    )
+    rejected(
+      (changed) => {
+        delete changed.rounds[0].clockMs
+      },
+      ['round-end-clock-missing', 1],
+    )
   })
 
   test('a round-end poison number cannot substitute for the physical number or appear during the hit', () => {

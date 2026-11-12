@@ -2,7 +2,7 @@
 
 Status: current
 Owner: Codex
-Last reviewed: 2026-11-11
+Last reviewed: 2026-11-12
 Template: governance-index-v1 / 1.0.0
 
 ## 目的
@@ -15,7 +15,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-首批业务闭环已补三处表现复验。第二批核单体普攻和双回合操作，第三批核敌双动、敌方睡眠、普攻附毒和赤毒头像。当前七个固定局面的业务、规则和实际绘制对照见覆盖报告。
+首批业务闭环已补三处表现复验。第二批核单体普攻和双回合操作，第三批核敌双动、敌方睡眠、普攻附毒和赤毒头像。第四批已复验八个局面的回合反馈、动作音效、主动防御复位及自动格挡，归档血口虫的两段带声分屏。
 
 ## 入口与责任
 
@@ -27,3 +27,5 @@ Template: governance-index-v1 / 1.0.0
 ## 证据与下一步
 
 从报告的冻结候选和绑定原件重比。后续批次按任务卡准入并回填对应覆盖。
+
+带声复核使用单个固定局面。例如运行 `node scripts/e2e/battle-foundation.mjs --engine=game --scenario=equivalent-poison --audio-review`，第二阶段换 `--engine=reforge`。自动格挡用 `--scenario=automatic-block`。输出含原始浏览器音轨与可暂停画面，正式比较使用同一候选的 verify 报告。
