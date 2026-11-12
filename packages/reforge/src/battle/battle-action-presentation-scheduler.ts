@@ -1,6 +1,4 @@
-import { type AnimFrame, AnimPlayer, type AnimSideEffects } from './battle-anim.js'
-
-const ACTION_INTERVAL_MS = 240
+import { type AnimFrame, AnimPlayer, type AnimSideEffects, BATTLE_FRAME_MS } from './battle-anim.js'
 
 export type BattlePlaybackAdvance = 'inactive' | 'playing' | 'finished'
 
@@ -23,19 +21,21 @@ export class BattleActionPresentationScheduler {
     this.player.tick(0)
   }
 
-  resetActionCadence(): void {
-    this.actionElapsedMs = 0
+  /** 首个战斗帧包含全员交招后启动音效准备的一拍，挂起期间的时间不计入。 */
+  resetActionCadence(preparationFrameMs = 0): void {
+    this.actionElapsedMs = preparationFrameMs
   }
 
-  /** 上一步演出的停顿已满足行动间隔，下一次消费立即放行。 */
+  /** 上一步演出的停顿已满足行动间隔，下个推进游戏时间的 tick 放行。 */
   satisfyActionCadence(): void {
-    this.actionElapsedMs = ACTION_INTERVAL_MS
+    this.actionElapsedMs = BATTLE_FRAME_MS
   }
 
-  /** 达到门槛时同拍消费且归零；不携带超额时间，保持旧 actTimer 语义。 */
+  /** CLASSIC 每战斗帧一步（battle.c:782-797，fight.c:1710-1768）。余量不跨动作累计。 */
   consumeActionCadence(dtMs: number): boolean {
+    if (dtMs <= 0) return false
     this.actionElapsedMs += dtMs
-    if (this.actionElapsedMs < ACTION_INTERVAL_MS) return false
+    if (this.actionElapsedMs < BATTLE_FRAME_MS) return false
     this.actionElapsedMs = 0
     return true
   }

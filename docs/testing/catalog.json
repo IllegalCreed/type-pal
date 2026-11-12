@@ -1648,21 +1648,21 @@
           "lines": "211-213",
           "anchor": "private readonly selection = new BattleCommandSelection",
           "role": "caller",
-          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "365-376",
           "anchor": "this.readiness = new BattleTurnReadinessGate",
           "role": "caller",
-          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
         },
         {
           "path": "packages/reforge/src/battle/battle-session.ts",
           "lines": "1167-1176",
           "anchor": "this.selection.advance(context",
           "role": "caller",
-          "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+          "sha256": "569d70d1b93c2799369433c4a5bb5b8c9734d8473b9937df1659472be73a401a"
         },
         {
           "path": "packages/reforge/src/battle/battle-turn-readiness.test.ts",
@@ -1853,6 +1853,36 @@
               }
             ],
             "scope": "回合末数值反馈、敌普攻起手声和受击复位使用同一 BattleSession。三个已接收 caller 片段逐字节相同，现行 SHA、行范围和主张指针随源码校准。"
+          },
+          {
+            "action": "q2-battle-session-cadence-source-rebinding",
+            "base": "d0020e0749483651d9b0f86cf79ef738ac34663e",
+            "date": "2026-11-12",
+            "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+            "previousSourceRefs": [
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "211-213",
+                "anchor": "private readonly selection = new BattleCommandSelection",
+                "role": "caller",
+                "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "365-376",
+                "anchor": "this.readiness = new BattleTurnReadinessGate",
+                "role": "caller",
+                "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+              },
+              {
+                "path": "packages/reforge/src/battle/battle-session.ts",
+                "lines": "1167-1176",
+                "anchor": "this.selection.advance(context",
+                "role": "caller",
+                "sha256": "57fa83264a9418ea4e2b4a83ae57d44295c3fb550ea97b1bd6e588e627b2f0f1"
+              }
+            ],
+            "scope": "普通行动的首拍接续音效准备启动的游戏帧。三个已接收 caller 的片段逐字节相同，现行 SHA、行范围及主张指针随源码校准。"
           }
         ]
       },
@@ -4258,7 +4288,7 @@
           "lines": "129",
           "anchor": "function defineScenario(",
           "role": "input-and-independent-oracle",
-          "sha256": "0019680fa4b671659ace2df9fbc14a99715ab31ff5de6e1cd668960a42109a6b"
+          "sha256": "3742e117fee1752dab2cf5a96f6e15a4646e3c1f4e69fb299433afba2df1c25f"
         },
         {
           "path": "scripts/e2e/battle-game-adapter.mjs",
@@ -4292,8 +4322,8 @@
           "path": "scripts/e2e/battle-presentation.mjs",
           "anchor": "export function validateBattlePresentation(",
           "role": "render-oracle",
-          "lines": "656",
-          "sha256": "6669e74d84c02e6588d6ce34ad9d2d57f604df7c97225c9264507ff86b34fa3e"
+          "lines": "785",
+          "sha256": "56248cd7f9b8e3e2006100f04b87f68e7746efc330765efb42d561109416ffae"
         },
         {
           "path": "scripts/e2e/battle-rules.mjs",
@@ -4364,7 +4394,8 @@
           "In team115, first actual round-end blue7 precedes the next selection HUD by the original eight-tick feedback hold. The cured round has no new number and opens selection on normal scheduling.",
           "After the first native command, each of the 45 finite expected action cues has one real connected AudioBufferSourceNode start on a running context and the matching nonzero decoded WAV. Request order, repeated cue identity, actual action windows, enemy windup and enemy fade edges are checked.",
           "In seed72, the first drawn impact and recoil use frame4. The first actual return and the remaining turn1 recovery use frame3, then the round-end poison number appears in idle frame0.",
-          "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015."
+          "In seed11, the first drawn enemy charge already shows player frame3 and retains that pose through knockback. Recovery returns to the original idle frame. HP is unchanged, no damage number is drawn, and the actual strike cue starts the player cover WAV 015.",
+          "In seed72, the native active-defend commit, executed guard action, first drawn defense, first drawn enemy windup and first blue physical damage occur in that order. The two one-tick intervals must each lie in 20–65 ms; the attack-to-damage interval is 280–360 ms. Two native cross-engine pairs also verify a command-to-windup difference within one CLASSIC tick."
         ]
       },
       "dedupe": {
@@ -4377,7 +4408,7 @@
         "notes": "Finite browser/runtime/collector obligations only. AI, status and poison credit is restricted to the declared cases. Full rules, audiovisual conformance and world/save lifecycle remain open."
       },
       "revision": {
-        "currentSha": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
+        "currentSha": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
@@ -4431,6 +4462,15 @@
             "predecessor": "5d42c84ffaa20fb5cb3b8df3a57c8c248342b7e3",
             "historicalReceiptRevision": "8cc7f427e64cdff70a12454f601c8c17747fd58e",
             "archive": "docs/tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz"
+          },
+          {
+            "revision": "f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f",
+            "date": "2026-11-12",
+            "action": "native-defend-to-enemy-action-cadence",
+            "scope": "Command, actual defense pose, enemy onset and first physical damage in the same legal seed72 fight, with the eight-fixture matrix and independent stereo review.",
+            "predecessor": "3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b",
+            "historicalReceiptRevision": "d0020e0749483651d9b0f86cf79ef738ac34663e",
+            "archive": "docs/tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz"
           }
         ]
       }
@@ -4567,7 +4607,7 @@
       },
       {
         "id": "q2-battle-foundation",
-        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix."
+        "conclusion": "Root accepted frozen a867 first-batch normal public battle inputs, original trace bytes, independent finite state oracles, native repeats, actual business mutant/restoration and offline entry controls. Full rules/AI/audiovisual/world-save/user visual remain unaccepted. On 2026-11-12 Codex independently accepted the round feedback and the named battle audio in seven fixtures, with native starts and a separately recorded battle review. The follow-up independently verified actual drawn recovery and automatic-block poses, native outcomes and sound in the expanded eight-fixture matrix. The cadence follow-up independently verified the four visible time points and the old Reforge interval rejection with the same legal seed72 input."
       }
     ],
     "beforeAfter": "Plain schema2 index with three wrong phase/engine scopes → governed JSON catalog with explicit publication/history boundaries and four field corrections across three entries; all other business fields untouched.",

@@ -10,6 +10,7 @@ export const testingBattlePublicationBase = '43fea71735236272cfb7f6a1c61c3ac2e69
 export const testingBattleSessionMechanismBase = '3a921678f20950cccee3f631dfbb1e60bb8efa3b'
 export const testingBattleSessionPortraitBase = '18bfe998333912bf2b1449e534133ce73cafca44'
 export const testingBattleSessionPresentationBase = '5a3093c93746d6e04e8f569ef526e07778aa439f'
+export const testingBattleSessionCadenceBase = 'd0020e0749483651d9b0f86cf79ef738ac34663e'
 export const testingBattleSessionSourcePath = 'packages/reforge/src/battle/battle-session.ts'
 
 const catalogPath = 'docs/testing/catalog.json'
@@ -38,6 +39,12 @@ const sessionPresentationBinding = {
   date: '2026-11-12',
 }
 
+const sessionCadenceBinding = {
+  revision: testingBattleSessionCadenceBase,
+  action: 'q2-battle-session-cadence-source-rebinding',
+  date: '2026-11-12',
+}
+
 const publication = {
   id: 'q2-battle-foundation',
   kind: 'report',
@@ -54,10 +61,13 @@ export const isTestingBattleSessionEvidencePath = (path) => path === sessionEvid
 function sessionRebindings(
   path,
   previousBytes,
-  { readSource, fixed, mechanismFixed, portraitFixed, presentationFixed },
+  { readSource, fixed, mechanismFixed, portraitFixed, presentationFixed, cadenceFixed },
 ) {
   assert(
-    fixed && (!portraitFixed || mechanismFixed) && (!presentationFixed || portraitFixed),
+    fixed &&
+      (!portraitFixed || mechanismFixed) &&
+      (!presentationFixed || portraitFixed) &&
+      (!cadenceFixed || presentationFixed),
     'battle session source bridge history gap',
   )
   const admitted = [
@@ -65,6 +75,7 @@ function sessionRebindings(
     { fixed: mechanismFixed, binding: sessionMechanismBinding },
     { fixed: portraitFixed, binding: sessionPortraitBinding },
     { fixed: presentationFixed, binding: sessionPresentationBinding },
+    { fixed: cadenceFixed, binding: sessionCadenceBinding },
   ].filter((stage) => stage.fixed)
   for (const stage of admitted)
     assert(

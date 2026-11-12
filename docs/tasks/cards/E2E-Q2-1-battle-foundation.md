@@ -9,7 +9,7 @@ Visual Verification Owner: Codex（双端采集与复验） / User（产品取�
 Visual Verification Timing: mixed
 Last reviewed: 2026-11-12
 Template: task-card-v1 / 1.0.0
-Branch: codex/q2-battle-av
+Branch: codex/q2-action-cadence
 
 ## 目标
 
@@ -91,6 +91,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 分屏来自冻结候选 `54d7b378d5094950c10b73bb38a81883cd3d375d`，录像在复验归档的 `build/q2/followup/final-review/` 下，分别为 `party-lanterns-split.mp4` 和 `herb-settlement-split.mp4`。对应实现已随 PR #53 合入主线，合并提交为 `89cb749a4dc63d4adf23669c98c0f043578568ad`。 [复验归档](../evidence/E2E-Q2-1-battle-followup-20261111.tar.gz) · [PR #53](https://github.com/IllegalCreed/type-pal/pull/53)
 
 2026-11-12，用户对主动防御受击复位和单人自动格挡两段原速带声分屏回复「通过」。两段来自冻结候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b`，归档的 `build/q2/av/guard-recovery/` 下分别为 `equivalent-poison-split.mp4` 和 `automatic-block-split.mp4`。实现已随 PR #57 合入主线，合并提交为 `92695f18b975f8521bfb531566387149147b893e`。 [分屏归档](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [PR #57](https://github.com/IllegalCreed/type-pal/pull/57)
+
+2026-11-12，用户对血口虫主动防御至首次命中的原速带声分屏回复「通过」。分屏来自冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，归档成员为 `build/q2/av/action-cadence/equivalent-poison-split.mp4`。本次验收覆盖主动防御至首次命中的节拍。 [分屏归档](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
 
 ## 2026-11-11 首批分屏返工
 
@@ -238,6 +240,18 @@ Codex build allowed。`q2_rules` 独占 Reforge 物攻时间线、会话及必�
 Reforge 战斗定向 59 文件、540 项通过，集成 E2E 工具 449 项通过。七包 typecheck 和 6,793 文件 lint 零诊断。首版 PR 文档和快测覆盖均通过。新姿态候选随完整文档和快测检查重新提交。 [首版文档门](https://github.com/IllegalCreed/type-pal/actions/runs/43152573735/job/130964998615) · [首版快测覆盖](https://github.com/IllegalCreed/type-pal/actions/runs/43152573741/job/130964999202)
 
 正式快测覆盖七包共 20,448 项通过，Reforge 增至 9,045 项。以同一保护基点实测并更新覆盖率基线。首条防御提交到敌动作启动的节拍差异留在第四批覆盖报告。 [覆盖基线](../../../scripts/coverage/baseline.fast.json) · [节拍记录](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-防御受击复位与自动格挡)
+
+## 2026-11-12 第四批行动队列节拍
+
+用户指定先处理血口虫首次命中晚约 450 ms，使用同一合法局面和操作复跑双端日志，交付原速分屏。保护基点 `d0020e0749483651d9b0f86cf79ef738ac34663e` 的运行时及 E2E 工具与上次防御候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b` 相同。
+
+修前两次实跑中，提交防御至实绘防御分别为 Game 33.5 / 50.9 ms、Reforge 267.7 / 268.3 ms，实绘防御至血口虫实绘起手为 Game 36.1 / 34.8 ms、Reforge 249.2 / 250.0 ms。起手至首个蓝色伤害数字为 Game 330.8 / 314.2 ms、Reforge 332.6 / 332.1 ms。原版 CLASSIC 每 40 ms 处理一个普通队列动作，主动防御即时生效。Reforge 的普通行动门从建队开始累计 240 ms，消费后归零，因此前两步各等一次。用独立区间区分队列节拍、血口虫攻击动画和渲染采样误差。 [原版战斗帧](../../../reference/sdlpal/battle.h#L28) · [原版队列](../../../reference/sdlpal/fight.c#L1710) · [原版主动防御](../../../reference/sdlpal/fight.c#L4111) · [修前原件](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz)
+
+Codex build allowed。`q2_rules` 独占 Reforge 普通行动调度器、必要的 BattleSession 调用和相邻既有测试。以原版战斗帧校准第一动作与连续即时动作的节拍，保留异步音效准备、脚本、完整时间线、死亡淡出和回合末反馈的既有阻塞边界。`q2_inputs` 独占共享表现比较及其工具测试，使用现有真实指令、原生动作、首次实际防御姿态、敌起手和伤害数字。分段检验可证伪，旧 Reforge 的合法实跑须被新的等待判据检出，旧 Game 实跑须通过同一判据。Codex 持有局面预期、来源适用性、冻结复跑和归档。全矩阵复核其它动作、音画与结算，再用同候选带声采集，按首条真实防御提交对齐两侧原速画面。
+
+冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f` 的八个局面共 32 场通过，16 组双端和 16 组同端比较均通过。血口虫两次的提交至起手差为 14.2、13.6 ms，均在一个原版战斗帧内。两个旧 Reforge 完赛原件均由前两段等待判据拒绝，两个旧 Game 完赛原件通过。最终带声回放来自同候选，已按首条防御提交对齐并获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-主动防御至首次命中的行动节拍) · [原件与分屏](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
+
+Reforge 战斗定向 59 文件、541 项和 E2E 工具 451 项通过。正式快测七包 20,449 项通过，按保护基点更新覆盖率基线。七包 typecheck、文档门和 6,793 文件 lint 零诊断。独立复核原速视频、首个受击音 092 和新旧归档 SHA。 [覆盖基线](../../../scripts/coverage/baseline.fast.json)
 
 ## 状态与交接
 

@@ -519,11 +519,11 @@ export class BattleSession {
     if (this.closed || this.doneSettled || this.state.phase !== 'selectAction') return
     stepBattle(this.state, this.rng)
     this.sessionUi = 'acting'
-    this.actionPresentation.resetActionCadence()
   }
 
-  private beginTurnPreparation(): void {
+  private beginTurnPreparation(preparationFrameMs: number): void {
     if (this.closed || this.doneSettled) return
+    this.actionPresentation.resetActionCadence(preparationFrameMs)
     this.readiness.begin(createBattleTurnReadinessSnapshot(this.state), {
       isCurrent: () => !this.closed && !this.doneSettled && this.state.phase === 'selectAction',
       enterActionPhase: () => this.enterActionPhase(),
@@ -1144,7 +1144,7 @@ export class BattleSession {
       if (this.pumpScriptExecution(dtMs, pressed)) return
       const sel = this.nextSelecting()
       if (sel === undefined) {
-        this.beginTurnPreparation()
+        this.beginTurnPreparation(dtMs)
         return
       }
       // 自动战斗(0x8A):玩家侧不出菜单,逐个活队员派 AI 攻击最近活敌(石长老过场战)

@@ -12,8 +12,8 @@ import type { AssetId, EnemyBattleSpriteProfile, PlayerFighterFrames } from '@ty
 import { expectDefined } from '../defined.js'
 
 /** PAL_BattleDelay 单位:N × 40ms。 */
-const FRAME_MS = 40
-const delayMs = (n: number): number => n * FRAME_MS
+export const BATTLE_FRAME_MS = 40
+const delayMs = (n: number): number => n * BATTLE_FRAME_MS
 
 export interface FighterDelta {
   side: 'player' | 'enemy'

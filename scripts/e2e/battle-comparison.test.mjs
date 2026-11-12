@@ -137,7 +137,7 @@ afterEach(() => {
 })
 
 // Deterministic renderer facts exercise the judge. The native captures provide product evidence.
-function guardFixture(automatic) {
+function guardFixture(automatic, cadenceMs) {
   const fixture = scenario()
   const start = state(150, 30, 2)
   const hit = automatic ? start : state(149, 30, 2)
@@ -158,11 +158,24 @@ function guardFixture(automatic) {
     after: automatic ? start : poisoned,
   }
   const round = { turn: 1, before: hit, after: poisoned }
+  const defend = cadenceMs && decision('hero', 'defend', null)
+  const nativeDefend = defend && {
+    ...defend,
+    before: start,
+    after: start,
+    guard: { before: false, after: true },
+  }
   fixture.expected.start = start
-  fixture.expected.actions = [attack, follow]
+  fixture.expected.actions = nativeDefend ? [nativeDefend, attack, follow] : [attack, follow]
   if (automatic) fixture.expected.automaticBlock = { actionIndex: 0, guardFrame: 3, idleFrame: 0 }
   else {
-    fixture.expected.defendRecovery = { actionIndex: 0, hitFrame: 4, guardFrame: 3, idleFrame: 0 }
+    fixture.expected.defendRecovery = {
+      actionIndex: nativeDefend ? 1 : 0,
+      hitFrame: 4,
+      guardFrame: 3,
+      idleFrame: 0,
+      ...(cadenceMs && { cadenceMs }),
+    }
     fixture.expected.rounds = [round]
   }
   installBattleTraceObserver(
@@ -209,6 +222,14 @@ function guardFixture(automatic) {
     observer.endFrame()
   }
   paint({ animation: null, phase: 'selectAction', selecting: true })
+  if (nativeDefend) {
+    observer.command({ ...defend, source: 'BattleCommandSelection:submit:pendingActions.set' })
+    observer.action({
+      ...nativeDefend,
+      source: 'BattleSession:stepBattle:before-lastAction-consumption',
+    })
+    paint({ animation: null, player: [240, 170, 3, 0] })
+  }
   paint({ player: [240, 170, automatic ? 0 : 3, 0], foe: [98, 109, 0] })
   const charge = [196, 154, 1]
   const contact = [196, 154, 2]
@@ -229,7 +250,31 @@ function guardFixture(automatic) {
   }
   paint({ turn: follow.turn, animation: follow })
   paint({ turn: follow.turn, animation: null, phase: 'won' })
-  return { fixture, trace: observer.read() }
+  const trace = observer.read()
+  if (nativeDefend) {
+    const [, guardDraw, firstEnemyDraw, , damageDraw] = trace.presentations
+    const stamps = new Map([
+      [trace.commands[0].order, 100],
+      [trace.actions[0].order, 139],
+      [guardDraw.order, 140],
+      [firstEnemyDraw.order, 180],
+      [damageDraw.order, 500],
+    ])
+    const events = [
+      trace.start,
+      ...trace.commands,
+      ...trace.actions,
+      ...trace.presentations,
+      ...trace.rounds,
+    ].sort((a, b) => a.order - b.order)
+    // The synthetic recorder clock is independent of the render clock and Node scheduling.
+    let atMs = 0
+    for (const event of events) {
+      atMs = stamps.get(event.order) ?? atMs + 1
+      event.atMs = atMs
+    }
+  }
+  return { fixture, trace }
 }
 
 describe('battle evidence observer', () => {
@@ -297,6 +342,73 @@ describe('battle evidence observer', () => {
 })
 
 describe('battle business conformance and comparison', () => {
+  const cadenceMs = { commandToGuard: [20, 65], guardToEnemy: [20, 65], enemyToDamage: [280, 360] }
+
+  test('defense cadence rejects independent timing errors even when the total delay is unchanged', () => {
+    const { fixture, trace } = guardFixture(false, cadenceMs)
+    const result = validateBattlePresentation(trace, fixture)
+    assert.equal(result.status, 'passed')
+    const { command, nativeDefend, guard, enemyStart, damage, durationsMs } =
+      result.defendRecovery.cadence
+    assert.deepEqual(durationsMs, { commandToGuard: 40, guardToEnemy: 40, enemyToDamage: 320 })
+    assert.deepEqual(
+      [command.atMs, nativeDefend.atMs, guard.atMs, enemyStart.atMs, damage.atMs],
+      [100, 139, 140, 180, 500],
+    )
+
+    const sameTotal = structuredClone(trace)
+    sameTotal.presentations[guard.frame].atMs += 30
+    assert.deepEqual(
+      validateBattlePresentation(sameTotal, fixture).findings.map(({ rule, actualMs }) => [
+        rule,
+        actualMs,
+      ]),
+      [
+        ['defend-command-to-guard-cadence', 70],
+        ['defend-guard-to-enemy-cadence', 10],
+      ],
+    )
+    const lateDamage = structuredClone(trace)
+    for (const event of [...lateDamage.presentations, ...lateDamage.rounds])
+      if (event.order >= damage.order) event.atMs += 41
+    assert.deepEqual(
+      validateBattlePresentation(lateDamage, fixture).findings.map(({ rule, actualMs }) => [
+        rule,
+        actualMs,
+      ]),
+      [['defend-enemy-to-damage-cadence', 361]],
+    )
+    const earlierSameDamage = structuredClone(trace)
+    earlierSameDamage.presentations[enemyStart.frame].payload.numbers.push({
+      ...damage.number,
+      numberId: 99,
+    })
+    assert.deepEqual(
+      validateBattlePresentation(earlierSameDamage, fixture).findings.map(
+        ({ rule, firstDraw, impactDraw }) => [rule, firstDraw.order, impactDraw.order],
+      ),
+      [['defend-cadence-first-damage-draw', enemyStart.order, damage.order]],
+    )
+  })
+
+  test('defense cadence needs the native action and refuses a guard pose before it', () => {
+    const { fixture, trace } = guardFixture(false, cadenceMs)
+    const noNativeDefend = structuredClone(trace)
+    noNativeDefend.actions.length = 0
+    assert.deepEqual(
+      validateBattlePresentation(noNativeDefend, fixture).findings.map(({ domain, rule }) => [
+        domain,
+        rule,
+      ]),
+      [['integrity', 'defend-cadence-native-defend-missing']],
+    )
+    trace.presentations[0].payload.players[0].frameIndex = 3
+    assert.deepEqual(
+      validateBattlePresentation(trace, fixture).findings.map(({ domain, rule }) => [domain, rule]),
+      [['business', 'defend-cadence-render-order']],
+    )
+  })
+
   test('active defense must be restored on the first base draw and held until round end', () => {
     const { fixture, trace } = guardFixture(false)
     const result = validateBattlePresentation(trace, fixture)
