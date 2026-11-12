@@ -457,7 +457,9 @@ export function performAttack(
   bus.emit({ op: 'playEnemyAttack', enemyIdx: actor.idx, targetPlayerIdx: targetIdx })
 
   if (built) {
-    startBattleAnim(state, built, bus)
+    startBattleAnim(state, built, bus, undefined, {
+      afterComplete: { kind: 'enemy-physical-hit', targetIdx },
+    })
     return
   }
 
@@ -612,6 +614,7 @@ function buildAttackTimeline(input: {
       },
       damage,
       targetDied: hp === 0,
+      targetDeathSound: role?.deathSound,
       targetDying: isPlayerDying(hp, maxHp),
       autoDefend: input.autoDefend !== undefined,
       coverSound: input.autoDefend?.coverSound ?? 0,

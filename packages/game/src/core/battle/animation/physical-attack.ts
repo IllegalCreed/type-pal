@@ -315,6 +315,8 @@ export interface BuildEnemyPhysicalInput {
   damage: number
   /** 命中后队员是否死亡(hp→0)。 */
   targetDied: boolean
+  /** 直接致死时在第二段击退开始播放的队员阵亡音。 */
+  targetDeathSound?: number
   /** 命中后队员是否濒死(PAL_IsPlayerDying;死亡优先)。 */
   targetDying: boolean
   /**
@@ -343,7 +345,7 @@ export interface BuildEnemyPhysicalInput {
  *       否则 i=0..attackFrames:currentFrame=idleFrames+magicFrames+i-1,Delay(actWaitFrames)(fight.c:5040-5049)
  *   - 命中:target.currentFrame=4,iColorShift=6 + damageNum,Delay(1)(fight.c:5052-5086)
  *   - iColorShift=0;击退 target.pos += (8,4),Delay(1)(fight.c:5088-5106)
- *   - 死亡 frameBak=2 / 濒死 frameBak=1;target.pos += (2,1),Delay(3)(fight.c:5108-5125)
+ *   - 死亡播阵亡声并备份帧2，濒死备份帧1。target.pos += (2,1),Delay(3)(fight.c:5108-5125)
  *   - enemy.pos=posOriginal,currentFrame=0,Delay(1)(fight.c:5127-5130)
  *   - target.currentFrame=frameBak,Delay(1) + Delay(4)(fight.c:5132-5135)
  */
@@ -355,6 +357,7 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   const autoDefend = input.autoDefend ?? false
   const coverSound = input.coverSound ?? 0
   const cover = input.cover
+  const deathSound = input.targetDeathSound ?? 0
   // 格挡 / 替挡姿 fighter(冲锋帧首帧起摆;sdlpal fight.c:5025 在 charge 前设 wCurrentFrame=3)。
   const blockPose = autoDefend
     ? [
@@ -489,6 +492,7 @@ export function buildEnemyPhysicalTimeline(input: BuildEnemyPhysicalInput): Batt
   else if (targetDying) frameBak = 1
   frames.push({
     durationMs: delayMs(3),
+    ...(targetDied && !autoDefend && deathSound > 0 ? { sound: deathSound } : {}),
     ...(cover
       ? {}
       : {
