@@ -378,6 +378,17 @@ describe('battle business conformance and comparison', () => {
       ]),
       [['defend-enemy-to-damage-cadence', 361]],
     )
+    const earlierSameDamage = structuredClone(trace)
+    earlierSameDamage.presentations[enemyStart.frame].payload.numbers.push({
+      ...damage.number,
+      numberId: 99,
+    })
+    assert.deepEqual(
+      validateBattlePresentation(earlierSameDamage, fixture).findings.map(
+        ({ rule, firstDraw, impactDraw }) => [rule, firstDraw.order, impactDraw.order],
+      ),
+      [['defend-cadence-first-damage-draw', enemyStart.order, damage.order]],
+    )
   })
 
   test('defense cadence needs the native action and refuses a guard pose before it', () => {

@@ -376,15 +376,14 @@ function guardMotion(frames, expected, animations, probe, fail) {
     fail('business', 'guard-motion-edges', observed)
     return undefined
   }
-  const numbers = firstNumberDraws(frames).filter(
-    ({ frame, number }) =>
-      frame.seq >= start.seq &&
-      frame.seq < next.seq &&
-      number.side === 'player' &&
-      number.slot === target.slot &&
-      number.tone === 'blue',
+  const playerNumbers = firstNumberDraws(frames).filter(
+    ({ number }) =>
+      number.side === 'player' && number.slot === target.slot && number.tone === 'blue',
   )
-  return { action, target, start, observed, visible, player, sample, numbers }
+  const numbers = playerNumbers.filter(
+    ({ frame }) => frame.seq >= start.seq && frame.seq < next.seq,
+  )
+  return { action, target, start, observed, visible, player, sample, numbers, playerNumbers }
 }
 
 const DEFEND_CADENCE_SEGMENTS = [
@@ -399,7 +398,7 @@ const DEFEND_CADENCE_SEGMENTS = [
 ]
 
 function compareDefendCadence(trace, frames, expected, motion, hit, fail) {
-  const { player, sample, start } = motion
+  const { action, player, sample, start, playerNumbers } = motion
   const { actionIndex, turn, actorId, targetId } = motion.observed
   const { cadenceMs: rangesMs, guardFrame } = expected.defendRecovery
   const identity = { actionIndex, turn, actorId, targetId }
@@ -457,12 +456,30 @@ function compareDefendCadence(trace, frames, expected, motion, hit, fail) {
     turn,
   })
   const draw = (frame) => frame && { ...sample(frame), source: frame.source }
+  const numberDraw = (entry) => entry && { ...draw(entry.frame), number: entry.number }
+  const firstDamage = playerNumbers.find(
+    ({ frame, number }) =>
+      frame.order > commands[0].order &&
+      frame.payload.turn === turn &&
+      number.value === action.rawDamage,
+  )
+  // A later identical numeral must not replace an earlier first draw outside the impact window.
+  if (firstDamage !== hit) {
+    fail('business', 'defend-cadence-first-damage-draw', {
+      ...identity,
+      firstDraw: numberDraw(firstDamage),
+      impactDraw: numberDraw(hit),
+      charge: motion.observed.charge,
+      knockback: motion.observed.knockback,
+    })
+    return undefined
+  }
   const points = {
     command: event(commands[0]),
     nativeDefend: { ...event(nativeDefend), guard: nativeDefend.guard },
     guard: draw(guard),
     enemyStart: draw(start),
-    damage: hit && { ...draw(hit.frame), number: hit.number },
+    damage: numberDraw(firstDamage),
   }
   const ordered = Object.values(points)
   if (
