@@ -238,6 +238,34 @@ function round(value, path, domain) {
   snapshot(value.after, `${path}.after`, domain)
 }
 
+function validAudioEvent(entry) {
+  if (!record(entry) || !text(entry.assetId)) return false
+  switch (entry.kind) {
+    case 'sfx-request':
+      return integer(entry.cueId)
+    case 'sfx-decoded':
+      return (
+        integer(entry.bufferId) &&
+        text(entry.path) &&
+        integer(entry.channels, 1) &&
+        integer(entry.sampleRate, 1) &&
+        integer(entry.frames, 1) &&
+        Number.isFinite(entry.peak) &&
+        entry.peak >= 0
+      )
+    case 'sfx-start':
+      return (
+        integer(entry.cueId) &&
+        integer(entry.bufferId) &&
+        text(entry.contextState) &&
+        Number.isFinite(entry.audioTimeSeconds) &&
+        entry.audioTimeSeconds >= 0
+      )
+    default:
+      return false
+  }
+}
+
 const roundState = ({ turn, before, after }) => ({
   turn,
   before: canonicalSnapshot(before),
@@ -427,6 +455,7 @@ function validateRecording(trace, scenario) {
   snapshot(trace.terminal.after, 'terminal.after')
   const traceLists = ['commands', 'actions', 'randomDraws', 'presentations']
   if (own(trace, 'rounds')) traceLists.push('rounds')
+  if (own(trace, 'audioEvents')) traceLists.push('audioEvents')
   for (const key of traceLists)
     requireValue(
       Array.isArray(trace[key]) && trace[key].length <= 16000,
@@ -496,6 +525,16 @@ function validateRecording(trace, scenario) {
       'classified fact receipt',
       entry,
     )
+  const audioEvents = trace.audioEvents ?? []
+  for (const [i, entry] of audioEvents.entries())
+    requireValue(
+      validAudioEvent(entry),
+      'integrity',
+      'audio-event',
+      `audioEvents[${i}]`,
+      'native sound request, decoded buffer, or AudioBufferSourceNode start',
+      entry,
+    )
   const resources = trace.resources ?? []
   requireValue(
     Array.isArray(resources) && resources.length <= 4096,
@@ -531,6 +570,7 @@ function validateRecording(trace, scenario) {
     ['rounds', rounds],
     ['randomDraws', trace.randomDraws],
     ['presentations', trace.presentations],
+    ['audioEvents', audioEvents],
     ['resources', resources],
   ])
     for (const [i, entry] of entries.entries())
@@ -557,6 +597,7 @@ function validateRecording(trace, scenario) {
     ...rounds,
     ...trace.randomDraws,
     ...trace.presentations,
+    ...audioEvents,
     ...resources,
     trace.terminal,
   ].sort((a, b) => a.order - b.order)
@@ -591,7 +632,8 @@ function validateRecording(trace, scenario) {
     trace.terminal.order === all.length - 1 &&
       [...trace.commands, ...trace.actions, ...rounds, ...trace.presentations].every(
         (entry) => entry.order > trace.start.order,
-      ),
+      ) &&
+      audioEvents.every((entry) => entry.kind === 'sfx-decoded' || entry.order > trace.start.order),
     'integrity',
     'sealed-boundary',
     'trace',
@@ -774,6 +816,7 @@ export function validateBattleTrace(trace, scenario) {
         ...(trace.rounds?.length ? { rounds: trace.rounds.length } : {}),
         randomDraws: trace.randomDraws.length,
         presentations: trace.presentations.length,
+        ...(trace.audioEvents?.length ? { audioEvents: trace.audioEvents.length } : {}),
       },
       notAccepted: [...BATTLE_FOUNDATION_LIMITS],
     }

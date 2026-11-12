@@ -314,10 +314,6 @@ const harness = {
     terminal = { result, settlementCount, after: snapshot(true) }
     evidence().terminal({ ...terminal, source: 'finishBattleWorldState:trial:committed' })
   },
-  presentation(kind, source, payload) {
-    if (sessionReady && !terminal)
-      evidence().presentation({ kind, source, payload: clone(payload) })
-  },
   read() {
     const selecting = nativeState?.players[selectingSlot]
     return {
