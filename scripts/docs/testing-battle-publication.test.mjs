@@ -19,6 +19,7 @@ import {
   isTestingBattleEvidencePath,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
+  testingBattleSessionCasualtyBase,
   testingBattleSessionMechanismBase,
   testingBattleSessionPortraitBase,
   testingBattleSessionPresentationBase,
@@ -164,6 +165,7 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
   const portrait = revision === testingBattleSessionPortraitBase
   const presentation = revision === testingBattleSessionPresentationBase
   const cadence = revision === testingBattleSessionCadenceBase
+  const casualty = revision === testingBattleSessionCasualtyBase
   const current = published ? JSON.parse(readFixed(revision, catalogPath)) : original.current
   const previousCatalog = readFixed(testingBattlePublicationBase, catalogPath)
   const previousEvidence = readFixed(testingBattlePublicationBase, sessionEvidence)
@@ -185,13 +187,14 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
     },
     fixed: snapshot(testingBattlePublicationBase),
     ...(published ? { mechanismFixed: snapshot(testingBattleSessionMechanismBase) } : {}),
-    ...(portrait || presentation || cadence
+    ...(portrait || presentation || cadence || casualty
       ? { portraitFixed: snapshot(testingBattleSessionPortraitBase) }
       : {}),
-    ...(presentation || cadence
+    ...(presentation || cadence || casualty
       ? { presentationFixed: snapshot(testingBattleSessionPresentationBase) }
       : {}),
-    ...(cadence ? { cadenceFixed: snapshot(testingBattleSessionCadenceBase) } : {}),
+    ...(cadence || casualty ? { cadenceFixed: snapshot(testingBattleSessionCadenceBase) } : {}),
+    ...(casualty ? { casualtyFixed: snapshot(testingBattleSessionCasualtyBase) } : {}),
   }
   const previousSourceRefs = evidence.sourceRefs.filter(
     ({ path }) => path === testingBattleSessionSourcePath,
@@ -212,9 +215,10 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       [testingBattleSessionPortraitBase]: 'q2-battle-session-portrait-source-rebinding',
       [testingBattleSessionPresentationBase]: 'q2-battle-session-presentation-source-rebinding',
       [testingBattleSessionCadenceBase]: 'q2-battle-session-cadence-source-rebinding',
+      [testingBattleSessionCasualtyBase]: 'q2-battle-session-casualty-source-rebinding',
     }[revision],
     base: revision,
-    date: presentation || cadence ? '2026-11-12' : '2026-11-11',
+    date: presentation || cadence || casualty ? '2026-11-12' : '2026-11-11',
     evidence: sessionReceipt,
     previousSourceRefs,
     scope: 'Synthetic source shift for the admitted battle session callers.',
@@ -292,8 +296,8 @@ test('the portrait rebind retains both previously accepted histories', () => {
   assert.throws(rebinding.checkCatalog, /previousSourceRefs do not match/u)
 })
 
-test('the cadence rebind preserves the accepted presentation history and exact caller sources', () => {
-  const rebinding = sessionRebindingFixture(testingBattleSessionCadenceBase)
+test('the casualty rebind preserves the accepted cadence history and exact caller sources', () => {
+  const rebinding = sessionRebindingFixture(testingBattleSessionCasualtyBase)
   rebinding.checkCatalog()
   rebinding.checkEvidence()
 

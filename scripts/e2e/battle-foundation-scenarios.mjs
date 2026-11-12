@@ -270,6 +270,7 @@ function defineTwoRoundScenario() {
 }
 
 const mechanismEnemies = {
+  lantern: { id: 'lantern-a', team: 1, object: 399, raw: 2, hp: 30, exp: 1, cash: 3 },
   weasel: { id: 'sickle-weasel', team: 294, object: 414, raw: 17, hp: 710, exp: 110, cash: 220 },
   tree: { id: 'half-tree-demon', team: 204, object: 507, raw: 108, hp: 800, exp: 135, cash: 60 },
   worm: { id: 'bloodworm', team: 115, object: 406, raw: 9, hp: 310, exp: 14, cash: 9 },
@@ -321,7 +322,7 @@ function mechanismScenario(id, title, enemy, seed, members, inventory) {
   const complete = (commands, ruleDraws, recoveredHP) => {
     state.money = enemy.cash
     for (const [slot, player] of state.players.entries()) {
-      player.exp = enemy.exp
+      if (player.hp > 0) player.exp = enemy.exp
       player.hp = recoveredHP[slot]
       player.statuses = {}
     }
@@ -592,6 +593,77 @@ function defineAutomaticBlock() {
   return scenario
 }
 
+function definePlayerCasualties() {
+  const enemy = mechanismEnemies.lantern
+  const { step, round, complete } = mechanismScenario(
+    'lantern-player-casualty',
+    '灯笼物攻后濒死、阵亡与队友续战',
+    enemy,
+    6,
+    [mechanismMember(hero, 40, 250, 0, 0), mechanismMember(anu, 150, 900, 400, 1)],
+  )
+  const guard = { before: false, after: true }
+  const firstDefend = { turn: 1, actorId: hero, kind: 'defend', targetId: null }
+  const allyDefend = { ...firstDefend, actorId: anu }
+  const secondDefend = { ...firstDefend, turn: 2 }
+  const allyAttack = { turn: 2, actorId: anu, kind: 'attack', targetId: enemy.id }
+  const enemyAttack = {
+    turn: 1,
+    actorId: enemy.id,
+    actorSide: 'enemy',
+    kind: 'attack',
+    targetId: hero,
+  }
+  // Equipped defense 9, CLASSIC enemy attack 42, seed 6 adds zero to both damage rolls.
+  // The first 35 damage leaves 5 HP below the 8 HP dying threshold. The next hit is clamped to 5.
+  step(
+    enemyAttack,
+    ({ players }) => {
+      players[0].hp = 5
+    },
+    { rawDamage: 35 },
+  )
+  step(firstDefend, keepState, { guard })
+  step(allyDefend, keepState, { guard })
+  round(1)
+  step(
+    { ...enemyAttack, turn: 2 },
+    ({ players }) => {
+      players[0].hp = 0
+    },
+    { rawDamage: 5 },
+  )
+  // The fallen hero's selected defense is skipped. Anu has 950 attack and deals 976 before clamping.
+  step(allyAttack, finishEnemy, { rawDamage: 976 })
+  const enemyAttackDraws = draws(
+    'enemy-target',
+    'enemy-block',
+    'enemy-attack-bonus',
+    'enemy-damage-bonus',
+    'enemy-equivalent-item',
+  )
+  const scenario = complete(
+    [firstDefend, allyDefend, secondDefend, allyAttack],
+    [
+      queueDraw(1, 'enemy', 0, 21),
+      queueDraw(1, 'player', 0, 15),
+      queueDraw(1, 'player', 1, 5),
+      ...enemyAttackDraws,
+      queueDraw(2, 'enemy', 0, 21),
+      queueDraw(2, 'player', 0, 7),
+      queueDraw(2, 'player', 1, 1),
+      ...enemyAttackDraws,
+      ...draws('strike-bonus', 'strike-critical', 'strike-variance', 'attack-growth'),
+    ],
+    [20, 150],
+  )
+  scenario.expected.playerCasualties = [
+    { actionIndex: 0, recoveryFrame: 1, soundKind: 'player-dying' },
+    { actionIndex: 3, recoveryFrame: 2, soundKind: 'player-death' },
+  ]
+  return scenario
+}
+
 const soundAsset = (id) => `sound.pal.${String(id).padStart(3, '0')}`
 const rawSoundPath = (id) => `data/extracted/sounds/${id}.wav`
 const projectSoundPath = (id) => `assets/migrated/sounds/${String(id).padStart(3, '0')}.wav`
@@ -602,6 +674,8 @@ const soundFrames = {
   8: 6045,
   9: 6982,
   15: 12200,
+  19: 7695,
+  23: 13351,
   28: 13408,
   32: 20700,
   37: 4102,
@@ -679,6 +753,13 @@ const audioCues = {
     playerAttackSounds(37, 1, 216),
   ],
   'automatic-block': [enemyAttackSounds(357, 15), playerAttackSounds(37, 1, 216)],
+  'lantern-player-casualty': [
+    [...enemyAttackSounds(50, 352), ['player-dying', 19]],
+    [],
+    [],
+    [...enemyAttackSounds(50, 352), ['player-death', 23]],
+    playerAttackSounds(40, 4, 32),
+  ],
 }
 
 function attachAudioOracle(scenario) {
@@ -708,6 +789,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     defineEnemySleep(),
     defineEquivalentPoison(),
     defineAutomaticBlock(),
+    definePlayerCasualties(),
   ].map(attachAudioOracle),
 )
 
@@ -812,12 +894,17 @@ export async function verifyBattleFoundationSources(root) {
   const battler = actors.find(({ id }) => id === hero).battler
   assert.equal(rawHero.coverSound, 15)
   assert.equal(battler.sounds.cover, soundAsset(rawHero.coverSound))
+  assert.equal(rawHero.coveredBy, 2)
+  assert.equal(battler.coveredBy, 'lin-yueru')
+  assert.deepEqual([rawHero.dyingSound, rawHero.deathSound], [19, 23])
+  assert.deepEqual([battler.sounds.dying, battler.sounds.death], [soundAsset(19), soundAsset(23)])
   const rawEnemy = rawEnemies.find((enemy) => enemy.id === 2)
   const enemy = enemies.find((entry) => entry.id === 'enemy-399')
   assert.equal(rawEnemy.health, 30)
   assert.deepEqual([rawEnemy.exp, rawEnemy.cash], [1, 3])
   assert.deepEqual([enemy.stats.health, enemy.stats.exp, enemy.stats.cash], [30, 1, 3])
   assert.equal(enemy.ai.hooks, undefined)
+  assert.equal(rawEnemy.attackEquivItemRate, 0)
   for (const [id, count] of [
     [1, 1],
     [3, 3],
