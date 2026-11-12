@@ -16,11 +16,15 @@ import { getBattleLiveRoles, tickBattle } from '../battle-system.js'
 function playPhysicalRound({
   hp = 40,
   maxHP = 40,
+  deathSound = 23,
+  dyingSound = 19,
   sleepingRole,
   auto = false,
 }: {
   hp?: number
   maxHP?: number
+  deathSound?: number
+  dyingSound?: number
   sleepingRole?: number
   auto?: boolean
 } = {}) {
@@ -37,8 +41,8 @@ function playPhysicalRound({
         defense: 9,
         dexterity: 3,
         coveredBy: 2,
-        deathSound: 23,
-        dyingSound: 19,
+        deathSound,
+        dyingSound,
       }),
       makeRoleRecord(1, { defense: 466, dexterity: 1 }),
       makeRoleRecord(2),
@@ -87,6 +91,16 @@ describe('enemy physical casualty sounds', () => {
 
   it('uses the uncapped previous HP threshold before announcing a new dying pose', () => {
     expect(playPhysicalRound({ hp: 125, maxHP: 750 })).toEqual({ hp: 90, sounds: [impact] })
+  })
+
+  it.each([
+    { source: 'deathSound', hp: 5, remainingHp: 0 },
+    { source: 'dyingSound', hp: 40, remainingHp: 5 },
+  ])('keeps the physical hit without an unconfigured $source', ({ source, hp, remainingHp }) => {
+    expect(playPhysicalRound({ hp, [source]: 0 })).toEqual({
+      hp: remainingHp,
+      sounds: [impact],
+    })
   })
 
   it.each([

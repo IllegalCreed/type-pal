@@ -267,21 +267,22 @@ describe('PAL resource-backed battle flows', () => {
     const linger = playerRoles.roles[1]!
     const sprite = state.players[0]!
     press(env)
-    for (const [before, after, frame, allyBefore, allyAfter] of [
-      [11, 4, 1, 150, 150],
-      [4, 0, 2, 142, 135],
+    for (const [before, after, holdFrame, restFrame, allyBefore, allyAfter] of [
+      [11, 4, 3, 1, 150, 150],
+      [4, 0, 1, 2, 142, 135],
     ] as const) {
       advanceTo(env, () => state.uiState === 'selectMove')
       press(env, 'Defend')
       press(env, 'Defend')
       advanceTo(env, () => state.phase === 'postAction')
       expect(linger.hp).toBe(before)
+      expect(sprite.currentFrame).toBe(holdFrame)
       expect(playerRoles.roles[0]?.hp).toBe(allyBefore)
       expect(Object.values(gs.rgPoisonStatus).some((poison) => poison.wPoisonID === 551)).toBe(true)
       const commands = press(env)
       expect(linger.hp).toBe(after)
       expect(playerRoles.roles[0]?.hp).toBe(allyAfter)
-      expect([sprite.currentFrame, sprite.pos]).toEqual([frame, sprite.posOriginal])
+      expect([sprite.currentFrame, sprite.pos]).toEqual([holdFrame, sprite.posOriginal])
       expect(commands.filter(({ op }) => op === 'playSound')).toEqual([])
       expect(commands.filter(({ op }) => op === 'showDamageNum')).toEqual([
         {
@@ -296,9 +297,11 @@ describe('PAL resource-backed battle flows', () => {
       ])
       expect(state.battleDialogQueue ?? []).toEqual([])
       for (let tick = 0; tick < 8; tick++) {
+        expect(sprite.currentFrame).toBe(holdFrame)
         expect(press(env, 'Confirm')).toEqual([])
         expect(state.uiState).toBe('wait')
       }
+      expect(sprite.currentFrame).toBe(restFrame)
     }
     press(env)
     expect(state.selectingPlayerIdx).toBe(1)

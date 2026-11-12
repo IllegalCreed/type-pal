@@ -448,9 +448,11 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
   //   放完 → finishBattleWon → explore(忠实 PAL_BattleWon 多屏 PAL_WaitForAnyKey)。
   if (tickBattleSettlement(state, gs, input, res, bus)) return
 
-  // The round-end feedback settles before a new turn script, menu or terminal result.
-  if ((state.roundEndDelayTicks ?? 0) > 0) {
-    state.roundEndDelayTicks!--
+  // CLASSIC advances enemy idle gestures during the hold. The players change pose at release.
+  const roundEndDelay = state.roundEndDelayTicks ?? 0
+  if (roundEndDelay > 0) {
+    state.roundEndDelayTicks = roundEndDelay - 1
+    if (roundEndDelay === 1) resetFightersAfterAction(state, res.playerRoles)
     tickEnemyIdleGestures(state)
     return
   }
@@ -2824,16 +2826,16 @@ function tickPostAction(
   } // end if (!battleDecidedByCombat) — 毒 tick 门控
 
   // fight.c:1664–1668 runs the enemy death check and stat feedback with fCheckPlayers=FALSE.
-  // A poison casualty changes the rest pose without invoking the player's casualty scripts or sounds.
+  // The feedback holds the previous pose. PAL_BattleDelay updates only enemy gestures.
   if (!battleDecidedByCombat) {
     tickStatusEffects(state)
     decrementHidingEffect(state)
-    resetFightersAfterAction(state, res.playerRoles)
     backupPlayerCasualtyHp(state, res)
     const poisonChangedHp =
       state.players.some((p, idx) => prePoisonHp[idx] !== res.playerRoles.roles[p.roleId]?.hp) ||
       state.enemies.some((e, idx) => prePoisonEnemyHp[idx] !== e.e.health)
     if (poisonChangedHp) state.roundEndDelayTicks = 8
+    else resetFightersAfterAction(state, res.playerRoles)
   }
 
   // D17:毒 tick 杀敌也淡出(sdlpal fight.c:1664 毒后 PAL_BattlePostActionCheck → fFade → FadeScene)。
