@@ -13,7 +13,7 @@ export function settleBattleVictory(
   rng: () => number = Math.random,
 ) {
   session.writeBackPersistentEffects(world)
-  session.writeBackHp(world.party)
+  session.writeBackHp(world.party, { preserveZeroHp: true })
   const rewards = session.rewards()
   if (rewards.exp > 0) onExpReward()
   world.money += rewards.cash

@@ -495,13 +495,16 @@ function tickPoison(
   const ticks = side === 'player' ? def?.playerTicks : def?.enemyTicks
   if (!def || !ticks?.length) return active // 无数据 = 保留但本次无效果(不吞毒)
   const tick = expectDefined(ticks[Math.min(active.tickIndex, ticks.length - 1)])
-  if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
-  if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
-  if (tick.halveHp)
-    host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
   const name = def.name || `毒${def.id}`
-  if (tick.hpDelta || tick.mpDelta || tick.halveHp)
-    s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
+  // HP 为 0 仍可新增毒槽、进入毒脚本，但玩家 HP/MP 变更要求存活(global.c:1280-1323,1483-1515)。
+  if (side === 'enemy' || host.hp > 0) {
+    if (tick.hpDelta) host.hp = Math.max(0, host.hp + tick.hpDelta)
+    if (tick.mpDelta && host.mp !== undefined) host.mp = Math.max(0, host.mp + tick.mpDelta)
+    if (tick.halveHp)
+      host.hp = Math.max(0, host.hp - Math.min(tick.halveHp, Math.trunc(host.hp / 2) + 1))
+    if (tick.hpDelta || tick.mpDelta || tick.halveHp)
+      s.log.push(`${side === 'player' ? (host as BattlePlayerState).roleId : def.id} ${name} 发作`)
+  }
   // 养蛊到期产道具(食妖虫附→灵蛊/碧血蚕附→碧血蚕):寄生哪方都产给队伍背包
   if (tick.grantItem) {
     const slot = s.inventory.find((x) => x.itemId === tick.grantItem)
@@ -724,14 +727,8 @@ function executeCasualtyScript(
   )
 }
 
-/** 援护者健康门(friendDeath 援护者 + dying 守护者:sleep/paralyzed/confused 三样全排)。 */
-function playerBadForCasualtyScript(p: BattlePlayerState): boolean {
-  return (
-    p.hp <= 0 ||
-    (p.status.sleep ?? 0) > 0 ||
-    (p.status.paralyzed ?? 0) > 0 ||
-    (p.status.confused ?? 0) > 0
-  )
+function casualtyGuardianDisabled(p: BattlePlayerState): boolean {
+  return p.status.sleep > 0 || p.status.paralyzed > 0 || p.status.confused > 0
 }
 
 function refreshCasualtyPrevHp(s: BattleState): void {
@@ -741,7 +738,7 @@ function refreshCasualtyPrevHp(s: BattleState): void {
 /**
  * B11-1:敌方有效物攻/施法结算后的伤亡 sweep(fight.c:775-885 迁入内容所需真值)。
  * 1. 本步刚阵亡队员 → 死者 coveredBy 的健康援护者跑 friendDeath;
- * 2. 本步刚跨入濒死的队员 → 守护者在队且健康时跑自己 dying(P1:self 只排 sleep/confused)。
+ * 2. 本步刚跨入濒死的队员 → 物攻记下濒死反应；守护者在队且健康时才跑 dying 脚本。
  * 一次 sweep 至多一个脚本(P6);prevHp 每次刷新防重入;auto battle 不触发。
  */
 function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
@@ -752,7 +749,7 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
   for (const p of s.players) {
     if (!(p.hp < p.prevHp && p.hp === 0)) continue
     const cover = s.players.find((candidate) => candidate.roleId === p.coveredBy)
-    if (!cover || playerBadForCasualtyScript(cover)) continue
+    if (!cover || cover.hp <= 0 || casualtyGuardianDisabled(cover)) continue
     const script = s.actorsById[cover.actorTemplateId]?.battler?.casualty?.friendDeath
     if (!script) continue
     executeCasualtyScript(s, cover, script, rng)
@@ -765,7 +762,17 @@ function runPlayerCasualtySweep(s: BattleState, rng: () => number): void {
       continue
     if ((p.status.sleep ?? 0) > 0 || (p.status.confused ?? 0) > 0) continue
     const cover = s.players.find((candidate) => candidate.roleId === p.coveredBy)
-    if (!cover || playerBadForCasualtyScript(cover)) continue
+    if (cover && casualtyGuardianDisabled(cover)) continue
+    // 原版濒死声早于守护者在队和存活的对白门(fight.c:839-865)。
+    const action = s.lastAction
+    if (
+      action?.side === 'enemy' &&
+      action.kind === 'attack' &&
+      action.damage !== undefined &&
+      s.players[action.targetPlayerIdx] === p
+    )
+      action.targetEnteredDying = true
+    if (!cover || cover.hp <= 0) continue
     const script = s.actorsById[p.actorTemplateId]?.battler?.casualty?.dying
     if (!script) continue
     executeCasualtyScript(s, p, script, rng)
@@ -2721,7 +2728,7 @@ function performEnemyAction(s: BattleState, idx: number, rng: () => number): voi
   p.hp = Math.max(0, p.hp - dmg)
   s.lastAction.damage = dmg
   s.log.push(`${e.def.id} 攻击 ${p.roleId} 造成 ${dmg}`)
-  if (p.hp > 0) applyEnemyEquivItem(p, e, s, rng) // 敌普攻附带道具(附毒攻击:尸腐肉/毒蛇卵等)
+  applyEnemyEquivItem(p, e, s, rng) // 非格挡即掷附带率，含物理致死(fight.c:5139-5145)。
 }
 
 /**
