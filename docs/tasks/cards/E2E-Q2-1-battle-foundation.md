@@ -92,6 +92,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 2026-11-12，用户对主动防御受击复位和单人自动格挡两段原速带声分屏回复「通过」。两段来自冻结候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b`，归档的 `build/q2/av/guard-recovery/` 下分别为 `equivalent-poison-split.mp4` 和 `automatic-block-split.mp4`。实现已随 PR #57 合入主线，合并提交为 `92695f18b975f8521bfb531566387149147b893e`。 [分屏归档](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [PR #57](https://github.com/IllegalCreed/type-pal/pull/57)
 
+2026-11-12，用户对血口虫主动防御至首次命中的原速带声分屏回复「通过」。分屏来自冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，归档成员为 `build/q2/av/action-cadence/equivalent-poison-split.mp4`。本次验收覆盖主动防御至首次命中的节拍。 [分屏归档](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
@@ -247,9 +249,9 @@ Reforge 战斗定向 59 文件、540 项通过，集成 E2E 工具 449 项通过
 
 Codex build allowed。`q2_rules` 独占 Reforge 普通行动调度器、必要的 BattleSession 调用和相邻既有测试。以原版战斗帧校准第一动作与连续即时动作的节拍，保留异步音效准备、脚本、完整时间线、死亡淡出和回合末反馈的既有阻塞边界。`q2_inputs` 独占共享表现比较及其工具测试，使用现有真实指令、原生动作、首次实际防御姿态、敌起手和伤害数字。分段检验可证伪，旧 Reforge 的合法实跑须被新的等待判据检出，旧 Game 实跑须通过同一判据。Codex 持有局面预期、来源适用性、冻结复跑和归档。全矩阵复核其它动作、音画与结算，再用同候选带声采集，按首条真实防御提交对齐两侧原速画面。
 
-冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f` 的八个局面共 32 场通过，16 组双端和 16 组同端比较均通过。血口虫两次的提交至起手差为 14.2、13.6 ms，均在一个原版战斗帧内。两个旧 Reforge 完赛原件均由前两段等待判据拒绝，两个旧 Game 完赛原件通过。最终带声回放来自同候选，已按首条防御提交对齐，等待本段分屏反馈。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-主动防御至首次命中的行动节拍) · [原件与分屏](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
+冻结候选 `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f` 的八个局面共 32 场通过，16 组双端和 16 组同端比较均通过。血口虫两次的提交至起手差为 14.2、13.6 ms，均在一个原版战斗帧内。两个旧 Reforge 完赛原件均由前两段等待判据拒绝，两个旧 Game 完赛原件通过。最终带声回放来自同候选，已按首条防御提交对齐并获[用户验收](#用户验收)。 [覆盖报告](../../testing/domains/cross-phase/battle-foundation/report.md#2026-11-12-主动防御至首次命中的行动节拍) · [原件与分屏](../evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz)
 
-Reforge 战斗定向 59 文件、541 项和 E2E 工具 451 项通过。七包 typecheck 零诊断。窄回调保持原归属合同，独立复核原速视频、首个受击音 092 和新旧归档 SHA。
+Reforge 战斗定向 59 文件、541 项和 E2E 工具 451 项通过。正式快测七包 20,449 项通过，按保护基点更新覆盖率基线。七包 typecheck、文档门和 6,793 文件 lint 零诊断。独立复核原速视频、首个受击音 092 和新旧归档 SHA。 [覆盖基线](../../../scripts/coverage/baseline.fast.json)
 
 ## 状态与交接
 

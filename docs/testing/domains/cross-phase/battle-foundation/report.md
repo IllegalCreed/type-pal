@@ -18,10 +18,10 @@ Template: test-domain-report-v1 / 1.1.0
 -->
 
 Provenance: 两端原生执行、实绘时间线、独立业务预期、原件离线重比和独立代码复核。
-Primary source: [机器回执](evidence.json) · [防御复位与自动格挡原件](../../../../tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [动画与音效原件](../../../../tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz) · [赤毒头像返工原件](../../../../tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz) · [第三批原件与分屏](../../../../tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz) · [前两批复验](../../../../tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz) · [首批原件](../../../../tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz)
-Scope: 八个固定局面的正常战斗，涵盖实际绘制、单体普攻、多回合操作、敌双动、睡眠、附毒、赤毒头像、回合末反馈、主动防御受击复位、单人自动格挡和具名动作音效。
-Revision: `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b`，content23 / minimumSAVE12。
-History: 2026-11-07 发布首批业务闭环。2026-11-11 复验绘制、普攻和多回合操作，并加入三个敌方机制局面。2026-11-12 复验回合节拍、动作音效、防御复位和自动格挡。
+Primary source: [机器回执](evidence.json) · [行动节拍原件](../../../../tasks/evidence/E2E-Q2-1-battle-action-cadence-20261112.tar.gz) · [防御复位与自动格挡原件](../../../../tasks/evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [动画与音效原件](../../../../tasks/evidence/E2E-Q2-1-battle-av-20261112.tar.gz) · [赤毒头像返工原件](../../../../tasks/evidence/E2E-Q2-1-battle-poison-face-20261111.tar.gz) · [第三批原件与分屏](../../../../tasks/evidence/E2E-Q2-1-battle-mechanisms-20261111.tar.gz) · [前两批复验](../../../../tasks/evidence/E2E-Q2-1-battle-followup-20261111.tar.gz) · [首批原件](../../../../tasks/evidence/E2E-Q2-1-battle-foundation-20261107.tar.gz)
+Scope: 八个固定局面的正常战斗，涵盖实际绘制、单体普攻、多回合操作、敌双动、睡眠、附毒、赤毒头像、回合末反馈、主动防御受击复位、单人自动格挡、主动防御至首次命中的行动节拍和具名动作音效。
+Revision: `f38df3e308b7b0c6df5a4fbb883fbb1f77cb864f`，content23 / minimumSAVE12。
+History: 2026-11-07 发布首批业务闭环。2026-11-11 复验绘制、普攻和多回合操作，并加入三个敌方机制局面。2026-11-12 复验回合节拍、动作音效、防御复位、自动格挡和主动防御至首次命中的行动节拍。
 Supersedes: 无。
 Stop line: 覆盖以下固定局面及所列机制。敌全体法术、变身召唤、普攻附带封技或昏睡、其它毒组合、玩家濒死和阵亡、背景音乐、地图回流及存读仍待对应局面。
 Next step: 继续第四批的玩家濒死和阵亡演出、其它音效分支与背景音乐，再按生命周期范围接世界回流。

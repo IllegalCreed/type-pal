@@ -730,16 +730,16 @@
     {
       "path": "docs/ops/board.md",
       "mode": "reviewed",
-      "afterSha256": "0cded6e92e81926fb779db289eb7febf0e26fa0465d3b54ad6900297e32e254c",
+      "afterSha256": "6a5f3ec2d3550059b45fafa870002509946df2c27c6de8c280da8a3d5640d50c",
       "templateId": "governance-index-v1",
       "historyOverlay": false,
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受节拍双端复验进展与待用户分屏回执。",
+        "conclusion": "接受本次分屏通过、候选待集成和下一项玩家伤亡演出。",
         "reviewedLines": 122,
-        "acceptanceScope": "Q2 第四批行动队列状态。"
+        "acceptanceScope": "Q2 第四批行动节拍的验收状态与下一项。"
       }
     },
     {
@@ -5380,14 +5380,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "488f8715c6fe07bee2523ac71407583958592b30e3501ea00b79b420a268337e",
+      "afterSha256": "de56e442b1c00b14c027a058a4e4b189cbf5aa0be82fd94e493ff58785df6352",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受两段等待归因、最终候选、复验和定向反例。",
-        "reviewedLines": 265,
-        "acceptanceScope": "普通行动队列首拍、血口虫原速分屏和用户验收边界。"
+        "conclusion": "接受用户验收原话、冻结候选、归档成员和本地质量结果。",
+        "reviewedLines": 267,
+        "acceptanceScope": "血口虫主动防御至首次命中的原速带声分屏及本轮质量证据。"
       }
     },
     {
@@ -5419,14 +5419,14 @@
     {
       "path": "docs/testing/domains/cross-phase/battle-foundation/report.md",
       "templateId": "test-domain-report-v1",
-      "afterSha256": "b8326277bfab8f964e6d0ee42932047a32b8214db6f7f1c49a7db57f1602005c",
+      "afterSha256": "f221bc004efa04984ce270b876d263c7e11a727f1f7e551d38ed284f81155f67",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_panel",
         "date": "2026-11-12",
-        "conclusion": "接受分段实测、同输入比较、旧版反例及原速媒体结论。",
+        "conclusion": "接受当前候选与对应归档的校准，旧历史、机器元数据和覆盖边界保留。",
         "reviewedLines": 173,
-        "acceptanceScope": "两个真实重复和同候选捕获及剩余验收边界。"
+        "acceptanceScope": "报告摘要与现行行动节拍的实跑身份。"
       }
     },
     {
