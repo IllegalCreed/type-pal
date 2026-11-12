@@ -515,18 +515,18 @@ export class BattleSession {
   }
 
   /** 保持 core 同步：只有 readiness 落定后才从 selectAction 跨入 performAction。 */
-  private enterActionPhase(preparationFrameMs: number): void {
+  private enterActionPhase(): void {
     if (this.closed || this.doneSettled || this.state.phase !== 'selectAction') return
     stepBattle(this.state, this.rng)
     this.sessionUi = 'acting'
-    this.actionPresentation.resetActionCadence(preparationFrameMs)
   }
 
   private beginTurnPreparation(preparationFrameMs: number): void {
     if (this.closed || this.doneSettled) return
+    this.actionPresentation.resetActionCadence(preparationFrameMs)
     this.readiness.begin(createBattleTurnReadinessSnapshot(this.state), {
       isCurrent: () => !this.closed && !this.doneSettled && this.state.phase === 'selectAction',
-      enterActionPhase: () => this.enterActionPhase(preparationFrameMs),
+      enterActionPhase: () => this.enterActionPhase(),
     })
   }
 

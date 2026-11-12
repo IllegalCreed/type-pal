@@ -26,7 +26,7 @@ export class BattleActionPresentationScheduler {
     this.actionElapsedMs = preparationFrameMs
   }
 
-  /** 上一步演出的停顿已满足行动间隔，下一次消费立即放行。 */
+  /** 上一步演出的停顿已满足行动间隔，下个推进游戏时间的 tick 放行。 */
   satisfyActionCadence(): void {
     this.actionElapsedMs = BATTLE_FRAME_MS
   }
