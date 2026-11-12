@@ -5380,14 +5380,14 @@
     {
       "path": "docs/tasks/cards/E2E-Q2-1-battle-foundation.md",
       "templateId": "task-card-v1",
-      "afterSha256": "7b3a2bca2f2dd7c87f3fb535a8e999387415de40d9957f9385cd34c34fa50f79",
+      "afterSha256": "ccb509852c67a313a0fe4bd37d9cb997df36b13240057bd4c04a326add2d831b",
       "review": {
         "author": "Codex /root",
         "reviewer": "Codex /root/q2_rules",
         "date": "2026-11-12",
-        "conclusion": "接受防御返工准入、同输入实跑、两项原生红例、复位和格挡结论。",
-        "reviewedLines": 251,
-        "acceptanceScope": "现行卡状态、精确候选、32 场、200 次启动和质量门。"
+        "conclusion": "接受新增的用户验收原话、两段分屏的归档位置和已合入的候选身份。",
+        "reviewedLines": 253,
+        "acceptanceScope": "主动防御受击复位和单人自动格挡两段原速带声分屏的用户验收。"
       }
     },
     {
