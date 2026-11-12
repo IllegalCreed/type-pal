@@ -260,7 +260,10 @@ function guardFixture(automatic, cadenceMs) {
   if (!automatic) {
     const clockMs = paint({ player: [240, 170, 3, 0], phase: 'postAction', animation: null })
     observer.round({ ...round, clockMs, source: 'battle:round-ended' })
-    paint({ turn: 2, phase: 'selectAction', animation: null, number: 7 })
+    const feedback = { turn: 2, phase: 'selectAction', animation: null }
+    paint({ ...feedback, player: [240, 170, 3, 0], number: 7 })
+    paint({ ...feedback, player: [240, 170, 3, 0], elapsedMs: 280 })
+    paint({ ...feedback, selecting: true })
   }
   paint({ turn: follow.turn, animation: follow })
   paint({ turn: follow.turn, animation: null, phase: 'won' })
@@ -508,11 +511,14 @@ describe('battle business conformance and comparison', () => {
     const { fixture, trace } = guardFixture(false)
     const result = validateBattlePresentation(trace, fixture)
     assert.equal(result.status, 'passed')
-    const { hit, knockback, returned, through, poison } = result.defendRecovery
+    const { hit, knockback, returned, through, poison, poisonRecovery } = result.defendRecovery
     assert.deepEqual(
-      [hit, returned, through, poison].map(({ player }) => player.frameIndex),
-      [4, 3, 3, 0],
+      [hit, returned, through, poison, poisonRecovery.recovery].map(
+        ({ player }) => player.frameIndex,
+      ),
+      [4, 3, 3, 3, 0],
     )
+    assert.equal(poisonRecovery.holdMs, 320)
     const earlyRecovery = structuredClone(trace)
     earlyRecovery.presentations[knockback.frame].payload.players[0].frameIndex = 3
     assert.deepEqual(
@@ -537,6 +543,16 @@ describe('battle business conformance and comparison', () => {
         draw.frame,
       ]),
       [['defend-recovery-frame', through.frame]],
+    )
+
+    const earlyPoisonPose = structuredClone(trace)
+    earlyPoisonPose.presentations[poison.frame].payload.players[0].frameIndex = 0
+    assert.deepEqual(
+      validateBattlePresentation(earlyPoisonPose, fixture).findings.map(({ rule, holdMs }) => [
+        rule,
+        holdMs,
+      ]),
+      [['defend-round-poison-frame', 0]],
     )
     delete trace.presentations[returned.frame].payload.players[0].frameIndex
     assert.deepEqual(

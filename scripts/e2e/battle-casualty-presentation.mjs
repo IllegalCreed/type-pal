@@ -285,6 +285,36 @@ export function compareMagicCasualty(trace, frames, numbers, expected, animation
   return result
 }
 
+export function observePoisonRecovery(
+  frames,
+  first,
+  ready,
+  slot,
+  { home, holdFrame, recoveryFrame },
+) {
+  const held =
+    first && ready ? frames.filter(({ seq }) => seq >= first.seq && seq <= ready.seq) : []
+  const recovery = held.find((frame) => player(frame, slot)?.frameIndex === recoveryFrame)
+  const wrong = held.find((frame) => {
+    const pose = player(frame, slot)
+    const wanted = recovery && frame.seq >= recovery.seq ? recoveryFrame : holdFrame
+    return !home || !atHome(pose, home) || pose?.frameIndex !== wanted || pose?.colorShift !== 0
+  })
+  const holdMs = recovery && recovery.clockMs - first.clockMs
+  // CLASSIC delays eight frames while only the enemies' idle gestures advance (fight.c:469–538).
+  return {
+    recovery: mark(recovery, slot),
+    ready: mark(ready, slot),
+    wrong: mark(wrong, slot),
+    holdMs,
+    valid:
+      recovery !== undefined &&
+      !wrong &&
+      holdMs >= FEEDBACK_MS - BATTLE_FRAME_MS &&
+      holdMs <= FEEDBACK_MS + 2 * BATTLE_FRAME_MS,
+  }
+}
+
 export function comparePoisonCasualty(trace, frames, numbers, probe, fail) {
   const { turn, targetId, damage, holdFrame, recoveryFrame, forbiddenSounds } = probe
   if (
@@ -324,16 +354,11 @@ export function comparePoisonCasualty(trace, frames, numbers, probe, fail) {
       number.tone === 'blue',
   )
   const first = draws[0]
-  const held = first ? frames.filter(({ seq }) => seq >= first.frame.seq && seq <= ready.seq) : []
-  const recovery = held.find((frame) => player(frame, slot)?.frameIndex === recoveryFrame)
-  const wrong = held.find((frame) => {
-    const pose = player(frame, slot)
-    return (
-      (!recovery || frame.seq < recovery.seq) &&
-      (!home || !atHome(pose, home) || pose?.frameIndex !== holdFrame || pose?.colorShift !== 0)
-    )
+  const feedback = observePoisonRecovery(frames, first?.frame, ready, slot, {
+    home,
+    holdFrame,
+    recoveryFrame,
   })
-  const holdMs = recovery && recovery.clockMs - first.frame.clockMs
   const result = {
     ...identity,
     round: {
@@ -344,9 +369,9 @@ export function comparePoisonCasualty(trace, frames, numbers, probe, fail) {
     },
     before: mark(before, slot),
     draws: draws.map(({ frame, number }) => ({ ...mark(frame, slot), number })),
-    recovery: mark(recovery, slot),
-    ready: mark(ready, slot),
-    holdMs,
+    recovery: feedback.recovery,
+    ready: feedback.ready,
+    holdMs: feedback.holdMs,
   }
   if (
     draws.length !== 1 ||
@@ -354,19 +379,10 @@ export function comparePoisonCasualty(trace, frames, numbers, probe, fail) {
     target.hp - result.round.hpAfter !== damage
   )
     fail('business', 'poison-casualty-number', { ...result, expectedDamage: damage })
-  if (
-    home?.frameIndex !== holdFrame ||
-    wrong ||
-    !recovery ||
-    !atHome(player(recovery, slot), home) ||
-    player(recovery, slot)?.colorShift !== 0 ||
-    holdMs < FEEDBACK_MS - BATTLE_FRAME_MS ||
-    holdMs > FEEDBACK_MS + 2 * BATTLE_FRAME_MS ||
-    player(ready, slot)?.frameIndex !== recoveryFrame
-  )
+  if (home?.frameIndex !== holdFrame || !feedback.valid)
     fail('business', 'poison-casualty-pose-hold', {
       ...result,
-      wrong: mark(wrong, slot),
+      wrong: feedback.wrong,
       expected: { holdFrame, recoveryFrame, holdMs: FEEDBACK_MS },
     })
   const extraSound = trace.audioEvents?.find(

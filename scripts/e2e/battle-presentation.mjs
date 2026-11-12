@@ -2,6 +2,7 @@ import {
   compareCasualtyDialogue,
   compareMagicCasualty,
   comparePoisonCasualty,
+  observePoisonRecovery,
 } from './battle-casualty-presentation.mjs'
 
 const FRAME_SOURCE = {
@@ -581,6 +582,15 @@ function compareDefendRecovery(trace, frames, expected, animations, fail) {
   const poison = numbers.find(
     ({ frame, number }) => frame.order > round.order && number.value === roundDamage,
   )
+  const ready = visible.find(
+    ({ order, payload }) =>
+      order > round.order && payload.turn === action.turn + 1 && payload.selecting,
+  )
+  const feedback = observePoisonRecovery(visible, poison?.frame, ready, target.slot, {
+    home: observed.returned.player,
+    holdFrame: probe.guardFrame,
+    recoveryFrame: probe.idleFrame,
+  })
   const through = sample(waiting.at(-1))
   const result = {
     ...observed,
@@ -589,6 +599,7 @@ function compareDefendRecovery(trace, frames, expected, animations, fail) {
     waitingFrames: waiting.length,
     round: { order: round.order, clockMs: round.clockMs },
     poison: poison && { ...sample(poison.frame), number: poison.number },
+    poisonRecovery: { recovery: feedback.recovery, ready: feedback.ready, holdMs: feedback.holdMs },
   }
   if (
     !hasSpritePose(observed.charge.player, probe.guardFrame) ||
@@ -611,11 +622,13 @@ function compareDefendRecovery(trace, frames, expected, animations, fail) {
       draw: sample(wrong),
       expectedFrame: probe.guardFrame,
     })
-  if (!poison || !hasSpritePose(player(poison.frame), probe.idleFrame))
+  if (!feedback.valid)
     fail('business', 'defend-round-poison-frame', {
       ...observed,
       poison: result.poison,
-      expectedFrame: probe.idleFrame,
+      ...result.poisonRecovery,
+      wrong: feedback.wrong,
+      expected: { holdFrame: probe.guardFrame, recoveryFrame: probe.idleFrame },
     })
   if (probe.cadenceMs !== undefined)
     result.cadence = compareDefendCadence(trace, frames, expected, motion, hit, fail)
