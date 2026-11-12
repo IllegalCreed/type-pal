@@ -42,6 +42,7 @@ interface MagicAnimationEffects {
   pendingNums: PendingDamageNums
   pendingScreenShake: { time: number; level: number }
   hitPlayerIdxs: number[]
+  playerDeathSounds: number[]
   autoDefendIdxs: number[]
   scriptSuccess: boolean
   tranceSpriteBefore: number | undefined
@@ -58,8 +59,6 @@ export function startMagicAnimation(
     dmgResults,
     pendingNums,
     pendingScreenShake,
-    hitPlayerIdxs,
-    autoDefendIdxs,
     scriptSuccess,
     tranceSpriteBefore,
     tranceSpriteAfter,
@@ -82,14 +81,7 @@ export function startMagicAnimation(
       built = buildAndStartSummonAnim(input, magic, dmgResults, pendingNums)
     }
   } else if (isOffensiveMagicType(magic.type)) {
-    built = buildAndStartEnemyMagicAnim(
-      input,
-      magic,
-      pendingNums,
-      hitPlayerIdxs,
-      pendingScreenShake,
-      autoDefendIdxs,
-    )
+    built = buildAndStartEnemyMagicAnim(input, magic, effects)
   }
 
   return built
@@ -522,12 +514,11 @@ function buildAndStartDefMagicAnim(
 function buildAndStartEnemyMagicAnim(
   input: MagicAnimationInput,
   magic: Magic,
-  pendingNums: PendingDamageNums,
-  hitPlayerIdxs: number[],
-  pendingScreenShake: { time: number; level: number },
-  autoDefendIdxs: number[] = [],
+  effects: MagicAnimationEffects,
 ): boolean {
   if (!isOffensiveMagicType(magic.type)) return false
+  const { pendingNums, hitPlayerIdxs, playerDeathSounds, pendingScreenShake, autoDefendIdxs } =
+    effects
   const n = input.magicSpriteFrameCounts?.get(magic.effect)
   if (n === undefined || n <= 0) return false
 
@@ -637,11 +628,10 @@ function buildAndStartEnemyMagicAnim(
   const hurtFrames = buildPlayerMagicHitReaction(affected)
   const numsAttached = attachDamageNumsToFirstFrame(hurtFrames, pendingNums)
 
-  // DM12 收尾帧序修(fight.c:4897-4908 真值):受击 5 帧 → 敌复位 frame0+posOriginal + Delay(1)
-  //   → **PAL_BattleUpdateFighters(受击队员复位:pos→posOriginal/站姿/红闪清零)** → Delay(8)。
-  //   旧版把 9 帧停顿整段放复位前(复位靠链终 reset)→ 受击者保持后仰 frame4+击退位多 360ms,
-  //   原版后仰仅 ~240ms(user 2026-06-13 报"风咒受击后仰停顿过长")。复位帧值与链终
-  //   resetFightersAfterAction 同源(playerRestFrame),死亡/濒死帧不被错置成站立。
+  // CLASSIC plays direct death cues after the spell effect and before drawing the first damage.
+  const deathCueFrames = playerDeathSounds.map((sound) => ({ durationMs: 0, sound }))
+  // After the five hit frames and the caster's return, UpdateFighters precedes the casualty
+  // check. Delay(8) belongs after that check and any resulting dialogue (fight.c:4897–4908).
   const finaleFrames: BattleAnimFrame[] = [
     {
       durationMs: BATTLE_FRAME_TIME, // 敌复位 + Delay(1)(fight.c:4901-4903)
@@ -655,8 +645,7 @@ function buildAndStartEnemyMagicAnim(
       ],
     },
     {
-      durationMs: 8 * BATTLE_FRAME_TIME, // UpdateFighters → Delay(8, 0, TRUE)(fight.c:4906-4908)
-      updateGesture: true, // 停顿期敌人 idle 呼吸恢复推进(收尾不死冻)
+      durationMs: 0,
       fighters: affected.map((a) => {
         const p = input.state.players[a.idx]!
         return {
@@ -670,9 +659,17 @@ function buildAndStartEnemyMagicAnim(
     },
   ]
 
+  input.state.actionFollowup = { waitTicks: 8 }
   startBattleAnim(
     input.state,
-    [...introFrames, posResetFrame, ...effectFrames, ...hurtFrames, ...finaleFrames],
+    [
+      ...introFrames,
+      posResetFrame,
+      ...effectFrames,
+      ...deathCueFrames,
+      ...hurtFrames,
+      ...finaleFrames,
+    ],
     input.bus,
     numsAttached ? undefined : pendingNums,
   )

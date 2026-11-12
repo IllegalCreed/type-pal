@@ -40,10 +40,12 @@ function prepareBattle({
   party,
   rngSeed,
   enemyTeamId = 1,
+  magicSpriteFrameCounts,
 }: {
   party: Array<[number, Partial<PlayerRole>]>
   rngSeed: number
   enemyTeamId?: number
+  magicSpriteFrameCounts?: Map<number, number>
 }) {
   const staticRoles = readFixture<PlayerRoles>('data/player-roles.json')
   for (const [roleId, stats] of party) Object.assign(staticRoles.roles[roleId]!, stats)
@@ -81,6 +83,7 @@ function prepareBattle({
     objectPlayers: readFixture('data/object-players.json'),
     objectMagics: readFixture('data/object-magics.json'),
     objectPoisons,
+    magicSpriteFrameCounts,
     levelUpExp: readFixture<number[]>('data/level-up-exp.json'),
     levelUpMagic: readFixture<StartBattleInput['levelUpMagic']>('data/level-up-magic.json'),
     commands,
@@ -300,5 +303,68 @@ describe('PAL resource-backed battle flows', () => {
     press(env)
     expect(state.selectingPlayerIdx).toBe(1)
     expect(gs.dialogBox).toBeUndefined()
+  })
+
+  it.each([
+    { label: 'death', hp: 24, maxHP: 60, after: 0, damage: 24, rest: 2, sound: 23 },
+    { label: 'dying', hp: 85, maxHP: 150, after: 27, damage: 58, rest: 1, sound: 19 },
+  ])('orders the actual Thunder Spell $label cue around the hit and return', (outcome) => {
+    const effects = readFixture<{ chunks: Array<{ chunkIndex: number; frameCount: number }> }>(
+      'data/fire-sprites.json',
+    )
+    const env = prepareBattle({
+      party: [
+        [0, { ...casualtyLi, hp: outcome.hp, maxHP: outcome.maxHP, defense: 0 }],
+        [4, { ...casualtyLi, hp: 150, attackStrength: 2200, defense: 700, dexterity: 1 }],
+      ],
+      enemyTeamId: 186,
+      rngSeed: 6,
+      magicSpriteFrameCounts: new Map(effects.chunks.map((c) => [c.chunkIndex, c.frameCount])),
+    })
+    const { state, playerRoles } = env
+    const sprite = state.players[0]!
+    const home = sprite.posOriginal!
+    const motion: Array<[number, number, number | undefined]> = []
+    const cues: string[] = []
+    press(env)
+    press(env, 'Defend')
+    press(env, 'Up', 'Confirm')
+    if (!state.pendingActions.has(1)) press(env, 'Confirm')
+    for (let tick = 0; tick < 100; tick++) {
+      for (const command of press(env)) {
+        if (command.op === 'playSound' && command.soundId === outcome.sound) cues.push('casualty')
+        if (command.op === 'showDamageNum' && command.target.kind === 'player') {
+          expect(command).toMatchObject({
+            value: outcome.damage,
+            color: 'blue',
+            target: { idx: 0 },
+          })
+          cues.push('damage')
+        }
+      }
+      if (sprite.currentFrame === 4) {
+        motion.push([sprite.pos!.x - home.x, sprite.pos!.y - home.y, sprite.iColorShift])
+      }
+      if (motion.length > 0 && sprite.currentFrame === outcome.rest) break
+    }
+    expect(cues).toEqual(outcome.rest === 2 ? ['casualty', 'damage'] : ['damage', 'casualty'])
+    // The sixth draw is the caster's own one-frame return while the target still holds the last pose.
+    expect(motion).toEqual([
+      [0, 0, 6],
+      [4, 2, 6],
+      [6, 3, 6],
+      [7, 3, 0],
+      [7, 3, 0],
+      [7, 3, 0],
+    ])
+    expect(sprite.pos).toEqual(home)
+    expect(playerRoles.roles[0]?.hp).toBe(outcome.after)
+    expect(state.battleAnim).toBeUndefined()
+    const actionIndex = state.currentActionIndex
+    for (let tick = 0; tick < 8; tick++) {
+      expect(press(env).filter((c) => c.op === 'playSound' || c.op === 'showDamageNum')).toEqual([])
+      expect(state.currentActionIndex).toBe(actionIndex)
+    }
+    advanceTo(env, () => state.phase === 'won')
   })
 })

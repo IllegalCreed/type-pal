@@ -289,6 +289,7 @@ export function performMagic(input: PerformMagicInput): void {
   //   未建链(无 sprite)→ 立即 emit。
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
+  const playerDeathSounds: number[] = []
   // 防御姿来自脚本前预掷，独立于是否结算伤害；不能从 enemyDmg 反推。
   const autoDefendIdxs = preRolledAutoDefend
     ? [...preRolledAutoDefend].filter(([, defended]) => defended).map(([idx]) => idx)
@@ -361,6 +362,11 @@ export function performMagic(input: PerformMagicInput): void {
           color: 'blue',
         })
         hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
+        if (r.hpAfter === 0) {
+          const roleId = input.state.players[r.playerIdx]!.roleId
+          const sound = input.playerRoles.roles[roleId]?.deathSound ?? 0
+          if (sound > 0) playerDeathSounds.push(sound)
+        }
       }
     }
   }
@@ -371,6 +377,7 @@ export function performMagic(input: PerformMagicInput): void {
     pendingNums,
     pendingScreenShake,
     hitPlayerIdxs,
+    playerDeathSounds,
     autoDefendIdxs,
     scriptSuccess,
     tranceSpriteBefore,
@@ -423,6 +430,7 @@ export function performMagic(input: PerformMagicInput): void {
   // 未建动画链(无 sprite 资源 / 非 OFF 类型)→ 立即 emit 伤害数字(保持现有无链反馈策略;
   //   无动画可挂,只能即时显示)。建了链 → 由各动画分支挂到正确帧或链末。
   if (!built) {
+    for (const soundId of playerDeathSounds) input.bus.emit({ op: 'playSound', soundId })
     for (const dn of pendingNums) {
       input.bus.emit({ op: 'showDamageNum', target: dn.target, value: dn.value, color: dn.color })
     }
