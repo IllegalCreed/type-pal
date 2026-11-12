@@ -131,6 +131,7 @@ export function validateBattleRules(trace, scenario) {
     if (action.kind === 'attack') {
       const wanted = scenario.expected.actions[index]
       const expectedRaw = wanted.rawDamage ?? (isEnemy ? 1 : damages?.[strikeIndex++])
+      const expectsBlock = wanted.blocked === true
       const expectedHpLost = wanted.effectiveHpLoss ?? Math.min(before.hp, expectedRaw)
       const targetSide = isEnemy ? 'player' : 'enemy'
       const raw = observedRawStrike(trace.engine, action.native, targetSide)
@@ -211,8 +212,19 @@ export function validateBattleRules(trace, scenario) {
         }
       }
       strikes.push(observed)
-      if (raw.value !== expectedRaw) fail('physical-raw-damage', observed)
-      if (visible?.value !== expectedRaw) fail('physical-damage-number', observed)
+      if (expectsBlock) {
+        const cue = scenario.expected.audioCues?.find(
+          ({ actionIndex, kind }) => actionIndex === index && kind === 'enemy-impact',
+        )
+        const blockSound = Number(cue?.assetId.slice(-3))
+        observed.blocked =
+          trace.engine === 'game'
+            ? action.native.animationEffects.some(({ sound }) => sound === blockSound)
+            : action.native.lastAction?.blocked === true
+        if (!observed.blocked || raw.value !== null) fail('physical-block-outcome', observed)
+      } else if (raw.value !== expectedRaw) fail('physical-raw-damage', observed)
+      if (observed.drawn !== (expectsBlock ? null : expectedRaw))
+        fail('physical-damage-number', observed)
       if (observed.hpLost !== expectedHpLost) fail('physical-effective-hp', observed)
     }
     if (isEnemy) continue

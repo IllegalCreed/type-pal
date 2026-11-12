@@ -542,6 +542,45 @@ function defineEquivalentPoison() {
     { turn: 2, hp: 135, rgbs: [[178, 56, 44], [121, 16, 12], [69, 0, 0], [52, 0, 0], null, null] },
     { turn: 3, hp: 134, rgbs: normal },
   ]
+  scenario.expected.defendRecovery = { actionIndex: 1, hitFrame: 4, guardFrame: 3, idleFrame: 0 }
+  return scenario
+}
+
+function defineAutomaticBlock() {
+  const enemy = mechanismEnemies.worm
+  const { step, complete } = mechanismScenario(
+    'automatic-block',
+    '血口虫先出手，李逍遥自动格挡',
+    enemy,
+    11,
+    [mechanismMember(hero, 150, 450, 250, 1)],
+  )
+  const attack = { turn: 1, actorId: hero, kind: 'attack', targetId: enemy.id }
+  step(
+    { turn: 1, actorId: enemy.id, actorSide: 'enemy', kind: 'attack', targetId: hero },
+    keepState,
+    { rawDamage: 0, blocked: true, guard: { before: false, after: false } },
+  )
+  // The equipped attack is 452 against defense 82 and resistance 2. Seed 11 gives 391 damage.
+  step(attack, finishEnemy, { rawDamage: 391 })
+  const scenario = complete(
+    [attack],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 4),
+      // The third mulberry32 draw lands exactly on the CLASSIC block threshold of 10.
+      { purpose: 'enemy-block', value: 0.6081185641232878 },
+      ...draws(
+        'strike-bonus',
+        'strike-critical',
+        'strike-hero-critical',
+        'strike-variance',
+        'attack-growth',
+      ),
+    ],
+    [150],
+  )
+  scenario.expected.automaticBlock = { actionIndex: 0, guardFrame: 3, idleFrame: 0 }
   return scenario
 }
 
@@ -554,6 +593,7 @@ const soundFrames = {
   4: 11775,
   8: 6045,
   9: 6982,
+  15: 12200,
   28: 13408,
   32: 20700,
   37: 4102,
@@ -630,6 +670,7 @@ const audioCues = {
     enemyAttackSounds(357, 92),
     playerAttackSounds(37, 1, 216),
   ],
+  'automatic-block': [enemyAttackSounds(357, 15), playerAttackSounds(37, 1, 216)],
 }
 
 function attachAudioOracle(scenario) {
@@ -658,6 +699,7 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     defineDualSickleWeasel(),
     defineEnemySleep(),
     defineEquivalentPoison(),
+    defineAutomaticBlock(),
   ].map(attachAudioOracle),
 )
 
@@ -739,6 +781,8 @@ export async function verifyBattleFoundationSources(root) {
     rawPoisons,
     poisons,
     assetIndex,
+    rawRoles,
+    actors,
   ] = await Promise.all([
     json('data/extracted/data/enemy-teams.json'),
     json('data/extracted/data/enemies.json'),
@@ -753,7 +797,13 @@ export async function verifyBattleFoundationSources(root) {
     json('data/extracted/data/object-poisons.json'),
     json('projects/pal/content/poisons.json'),
     json('projects/pal/assets/index.json'),
+    json('data/extracted/data/player-roles.json'),
+    json('projects/pal/content/actors.json'),
   ])
+  const rawHero = rawRoles.roles.find(({ id }) => id === roles[hero])
+  const battler = actors.find(({ id }) => id === hero).battler
+  assert.equal(rawHero.coverSound, 15)
+  assert.equal(battler.sounds.cover, soundAsset(rawHero.coverSound))
   const rawEnemy = rawEnemies.find((enemy) => enemy.id === 2)
   const enemy = enemies.find((entry) => entry.id === 'enemy-399')
   assert.equal(rawEnemy.health, 30)
