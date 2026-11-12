@@ -14,10 +14,11 @@ import {
 } from './pal-assets.js'
 
 describe('PAL 资源角色身份表（manifest roles 冻结绑定）', () => {
-  test('音频角色精确绑定：soundfont / boss 胜利 002 / 普通胜利 003 / 开局菜单 004 / 默认战斗 037', () => {
+  test('音频角色精确绑定：soundfont / 战败 001 / boss 胜利 002 / 普通胜利 003 / 开局菜单 004 / 默认战斗 037', () => {
     expect(PAL_AUDIO_ROLES).toEqual({
       'audio.midiSoundfont': 'soundfont.default',
       'audio.defaultBattleMusic': palMusicAssetId(37),
+      'audio.defeatMusic': palMusicAssetId(1),
       'audio.bossVictoryMusic': palMusicAssetId(2),
       'audio.normalVictoryMusic': palMusicAssetId(3),
       'audio.openingMenuMusic': palMusicAssetId(4),

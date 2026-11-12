@@ -66,6 +66,13 @@ describe('项目资源角色注册表', () => {
     expect(
       statuses.find((status) => status.definition.role === 'audio.battleEscapeSound'),
     ).toMatchObject({ state: 'unconfigured', required: false })
+    expect(statuses.find((status) => status.definition.role === 'audio.defeatMusic')).toMatchObject(
+      {
+        definition: { label: '战败音乐', groupId: 'battle', kind: 'music' },
+        state: 'unconfigured',
+        required: false,
+      },
+    )
     expect(
       statuses.find((status) => status.definition.role === 'audio.normalVictoryMusic'),
     ).toMatchObject({ state: 'error', required: true })

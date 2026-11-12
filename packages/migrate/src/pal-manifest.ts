@@ -9,10 +9,12 @@ import { PAL_ASSET_ROLES } from './pal-assets.js'
 
 /** PAL 当前工程 manifest 的唯一生成口；不读取或升级任何旧 manifest。 */
 export function buildPalCurrentManifest(catalog: AssetCatalogV1): CurrentManifest {
-  const assets = {
+  const assets: CurrentManifest['assets'] = {
     catalog: 'assets/index.json',
     roles: { ...PAL_ASSET_ROLES },
   }
+  if (!Object.hasOwn(catalog.assets, PAL_ASSET_ROLES['audio.defeatMusic']))
+    delete assets.roles['audio.defeatMusic']
   validateManifestAssetConfig(assets, catalog, 'PAL current manifest.assets')
   return {
     id: 'pal',

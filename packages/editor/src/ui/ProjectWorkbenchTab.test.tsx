@@ -2173,7 +2173,7 @@ describe('项目设置工作区', () => {
       state.manifest.assets.roles[role] = id
       state.assetCatalog.assets[id] = {
         kind,
-        path: `assets/test/${index}`,
+        path: `assets/authored/${index}`,
         mediaType: 'application/octet-stream',
         bytes: 1,
         sha256: index.toString(16).padStart(64, '0'),
@@ -2206,7 +2206,7 @@ describe('项目设置工作区', () => {
       ...host.querySelectorAll<HTMLElement>('.project-startup-summary-card'),
     ].find((card) => card.querySelector('h2')?.textContent === '启动资源')!
     expect(resourceCard.textContent).toContain('资源配置检查通过')
-    expect(resourceCard.textContent).toContain('12/12 项')
+    expect(resourceCard.textContent).toContain(`${ASSET_ROLES.length}/${ASSET_ROLES.length} 项`)
 
     const wrongId = state.manifest.assets.roles['audio.defaultBattleMusic']!
     state.assetCatalog.assets[wrongId] = {
