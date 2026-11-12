@@ -674,6 +674,9 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
     const nextDraw = { ...sample(next), animation: next.payload.animation }
     const afterReturn = visible.filter((frame) => frame.seq >= observed.returned.frame)
     if (dead) afterReturn.push(next)
+    const nextSelection = afterReturn.find(
+      ({ payload }) => payload.turn === turn + 1 && payload.selecting,
+    )
     const wrong = afterReturn.find((frame) => {
       const draw = player(frame)
       return !draw || !hasSpritePose(draw, recoveryFrame) || !samePose(draw, observed.home.player)
@@ -686,6 +689,7 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
       hit,
       finish,
       next: nextDraw,
+      nextSelection: sample(nextSelection),
       through: sample(afterReturn.at(-1)),
     }
     if (
@@ -726,10 +730,7 @@ function comparePlayerCasualties(frames, expected, animations, fail) {
           ...result,
           intervening: sample(intervening),
         })
-    } else if (
-      intervening ||
-      !afterReturn.some(({ payload }) => payload.turn === turn + 1 && payload.selecting)
-    )
+    } else if (intervening || !nextSelection)
       fail('business', 'player-casualty-next-selection', {
         ...result,
         intervening: sample(intervening),
@@ -895,14 +896,19 @@ function compareAudioCues(trace, expected, frames, animations, deaths, playerCas
           next: motion.next,
         })
       else if (observed) {
-        const { start, cold } = observed
-        const lastColdFrame = dead ? motion.returned : motion.finish
-        const startThroughMs = (cold ? lastColdFrame.atMs : request.atMs) + BATTLE_FRAME_MS
-        if (start.order >= motion.next.order || start.atMs > startThroughMs)
+        const { start } = observed
+        const nextAction = trace.actions?.[actionIndex + 1]
+        const draw = dead ? motion.returned : (motion.nextSelection ?? motion.next)
+        const startBefore =
+          !dead && nextAction?.order < draw.order
+            ? { order: nextAction.order, atMs: nextAction.atMs, actorId: nextAction.actorId }
+            : draw
+        const startThroughMs = request.atMs + BATTLE_FRAME_MS
+        if (start.order >= startBefore.order || start.atMs > startThroughMs)
           fail('business', 'player-casualty-sound-start-edge', {
             ...observed,
             startThroughMs,
-            next: motion.next,
+            startBefore,
           })
       }
       return [observed ?? { ...identity, request }]

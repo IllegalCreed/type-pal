@@ -313,28 +313,24 @@ function casualtyFixture() {
     createEvidenceRecorder,
   )
   const observer = globalThis.__battleEvidence
-  const buffers = new Map()
-  for (const assetId of [dyingSound, deathSound]) {
+  const play = (assetId) => {
+    const cue = observer.audioRequested(assetId, 'reforge:SfxPlayer.play')
     const buffer = {
       numberOfChannels: 1,
       sampleRate: 22050,
       length: 3,
       getChannelData: () => new Float32Array([0, -0.5, 0.25]),
     }
-    buffers.set(assetId, buffer)
     observer.audioDecoded(
       assetId,
       buffer,
       `assets/migrated/sounds/${assetId.slice(-3)}.wav`,
       'reforge:SfxPlayer.ensureDecoded:decode',
     )
-  }
-  const play = (assetId) => {
-    const cue = observer.audioRequested(assetId, 'reforge:SfxPlayer.play')
     observer.audioStarted(
       cue,
       assetId,
-      buffers.get(assetId),
+      buffer,
       { state: 'running', currentTime: 1 },
       'reforge:browserAdapter.play:AudioBufferSourceNode.start',
     )
@@ -366,8 +362,8 @@ function casualtyFixture() {
   paint({ turn: 2, player: fallen, animation: null, fading: true })
   paint({ turn: 2, player: fallen, animation: null, foe: null, phase: 'won', elapsedMs: 1152 })
   const trace = observer.read()
-  // A fixed recorder clock gives a warm native start one 40 ms tick in both test rounds.
-  for (const event of [...trace.presentations, ...trace.audioEvents]) event.atMs = event.order * 40
+  // The cold decode and native start fit within one battle tick on a fixed recorder clock.
+  for (const event of [...trace.presentations, ...trace.audioEvents]) event.atMs = event.order * 15
   return { fixture, trace }
 }
 
@@ -652,10 +648,10 @@ describe('battle business conformance and comparison', () => {
     const { fixture, trace } = casualtyFixture()
     const [dying, dead] = validateBattlePresentation(trace, fixture).audio.playerCasualties
     assert.deepEqual(
-      [dying, dead].map(({ start, buffer }) => [start.assetId, buffer.bufferId]),
+      [dying, dead].map(({ start, buffer, cold }) => [start.assetId, buffer.bufferId, cold]),
       [
-        ['sound.pal.019', 0],
-        ['sound.pal.023', 1],
+        ['sound.pal.019', 0, true],
+        ['sound.pal.023', 1, true],
       ],
     )
     const requestedOnly = structuredClone(trace)
