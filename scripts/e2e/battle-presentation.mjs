@@ -384,7 +384,117 @@ function guardMotion(frames, expected, animations, probe, fail) {
       number.slot === target.slot &&
       number.tone === 'blue',
   )
-  return { action, target, observed, visible, player, sample, numbers }
+  return { action, target, start, observed, visible, player, sample, numbers }
+}
+
+const DEFEND_CADENCE_SEGMENTS = [
+  { key: 'commandToGuard', from: 'command', to: 'guard', rule: 'defend-command-to-guard-cadence' },
+  { key: 'guardToEnemy', from: 'guard', to: 'enemyStart', rule: 'defend-guard-to-enemy-cadence' },
+  {
+    key: 'enemyToDamage',
+    from: 'enemyStart',
+    to: 'damage',
+    rule: 'defend-enemy-to-damage-cadence',
+  },
+]
+
+function compareDefendCadence(trace, frames, expected, motion, hit, fail) {
+  const { player, sample, start } = motion
+  const { actionIndex, turn, actorId, targetId } = motion.observed
+  const { cadenceMs: rangesMs, guardFrame } = expected.defendRecovery
+  const identity = { actionIndex, turn, actorId, targetId }
+  const defendActionIndex = actionIndex - 1
+  const isDefend = (entry) =>
+    entry?.turn === turn &&
+    entry.actorId === targetId &&
+    entry.actorSide === undefined &&
+    entry.kind === 'defend' &&
+    entry.targetId === null
+  const validRange = (range) =>
+    Array.isArray(range) &&
+    range.length === 2 &&
+    range.every((bound) => Number.isFinite(bound) && bound >= 0) &&
+    range[0] <= range[1]
+  if (
+    !isDefend(expected.actions[defendActionIndex]) ||
+    !DEFEND_CADENCE_SEGMENTS.every(({ key }) => validRange(rangesMs?.[key]))
+  ) {
+    fail('oracle', 'defend-cadence-expectation', { ...identity, rangesMs })
+    return undefined
+  }
+  const commands = trace.commands?.filter(isDefend) ?? []
+  const nativeDefend = trace.actions?.[defendActionIndex]
+  if (
+    commands.length !== 1 ||
+    !isDefend(nativeDefend) ||
+    nativeDefend.guard?.before !== false ||
+    nativeDefend.guard.after !== true
+  ) {
+    fail('integrity', 'defend-cadence-native-defend-missing', {
+      ...identity,
+      defendActionIndex,
+      commands: commands.length,
+      nativeDefend,
+    })
+    return undefined
+  }
+  const beforeAttack = frames.filter(
+    (frame) => frame.seq <= start.seq && frame.payload.turn === turn,
+  )
+  const missingPose = beforeAttack.find((frame) => !indexedFighter(player(frame)))
+  if (missingPose) {
+    fail('integrity', 'defend-cadence-pose-missing', { ...identity, draw: sample(missingPose) })
+    return undefined
+  }
+  // Read the first guard draw even if it was premature or coincides with enemy motion.
+  const guard = beforeAttack.find((frame) => player(frame).frameIndex === guardFrame)
+  const event = ({ order, atMs, source, kind, actorId, turn }) => ({
+    order,
+    atMs,
+    source,
+    kind,
+    actorId,
+    turn,
+  })
+  const draw = (frame) => frame && { ...sample(frame), source: frame.source }
+  const points = {
+    command: event(commands[0]),
+    nativeDefend: { ...event(nativeDefend), guard: nativeDefend.guard },
+    guard: draw(guard),
+    enemyStart: draw(start),
+    damage: hit && { ...draw(hit.frame), number: hit.number },
+  }
+  const ordered = Object.values(points)
+  if (
+    ordered.some(
+      (point) =>
+        !Number.isSafeInteger(point?.order) ||
+        point.order < 0 ||
+        !Number.isFinite(point.atMs) ||
+        point.atMs < 0,
+    )
+  ) {
+    fail('integrity', 'defend-cadence-edges-missing', { ...identity, ...points })
+    return undefined
+  }
+  if (ordered.some((point, index) => index > 0 && point.order <= ordered[index - 1].order)) {
+    fail('business', 'defend-cadence-render-order', { ...identity, ...points })
+    return undefined
+  }
+  if (ordered.some((point, index) => index > 0 && point.atMs < ordered[index - 1].atMs)) {
+    fail('integrity', 'defend-cadence-clock-order', { ...identity, ...points })
+    return undefined
+  }
+  const durationsMs = {}
+  // Command, rule completion and actual paint all use the recorder clock for this comparison.
+  for (const { key, from, to, rule } of DEFEND_CADENCE_SEGMENTS) {
+    const actualMs = points[to].atMs - points[from].atMs
+    const rangeMs = rangesMs[key]
+    durationsMs[key] = actualMs
+    if (actualMs < rangeMs[0] || actualMs > rangeMs[1])
+      fail('business', rule, { ...identity, from: points[from], to: points[to], actualMs, rangeMs })
+  }
+  return { ...points, durationsMs, rangesMs }
 }
 
 function compareDefendRecovery(trace, frames, expected, animations, fail) {
@@ -452,6 +562,8 @@ function compareDefendRecovery(trace, frames, expected, animations, fail) {
       poison: result.poison,
       expectedFrame: probe.idleFrame,
     })
+  if (probe.cadenceMs !== undefined)
+    result.cadence = compareDefendCadence(trace, frames, expected, motion, hit, fail)
   return result
 }
 
