@@ -131,19 +131,42 @@ export function instrumentGameBattle(source, file) {
       }
     }
     if (file.endsWith('/draw-battle-sprites.ts') && owner(node) === 'drawBattleSprites') {
+      if (ts.isVariableDeclaration(node) && node.name.getText(ast) === 'frame') {
+        assert.match(
+          node.initializer?.getText(ast) ?? '',
+          /^sprite\.frames\[frameIdx\]\s*\?\?\s*sprite\.frames\[0\]!?$/,
+          'Game fighter frame selection changed',
+        )
+        anchors['fighter-frame-selection'] = (anchors['fighter-frame-selection'] ?? 0) + 1
+      }
       if (ts.isExpressionStatement(node) && ts.isCallExpression(node.expression)) {
         const call = node.expression
-        if (call.expression.getText(ast) === 'items.push') {
-          const item = call.arguments[0].getText(ast)
-          if (item.includes('enemyShakeX'))
+        const item = call.arguments[0]
+        if (
+          call.expression.getText(ast) === 'items.push' &&
+          item &&
+          ts.isObjectLiteralExpression(item) &&
+          item.properties.some(
+            (prop) => ts.isShorthandPropertyAssignment(prop) && prop.name.text === 'frame',
+          )
+        ) {
+          const itemText = item.getText(ast)
+          // The selected frame object tells us whether the renderer used the resource fallback.
+          const frameIndex = 'sprite.frames[frameIdx] === frame ? frameIdx : 0'
+          if (itemText.includes('enemyShakeX'))
             visualCall(
               'enemy-draw-identity',
               node,
               'labelFighter',
-              "items.at(-1), 'enemy', i, isFading",
+              `items.at(-1), 'enemy', i, isFading, ${frameIndex}`,
             )
-          if (item.includes('playerShakeY'))
-            visualCall('player-draw-identity', node, 'labelFighter', "items.at(-1), 'player', i")
+          if (itemText.includes('playerShakeY'))
+            visualCall(
+              'player-draw-identity',
+              node,
+              'labelFighter',
+              `items.at(-1), 'player', i, false, ${frameIndex}`,
+            )
         }
       }
       if (ts.isIfStatement(node) && node.expression.getText(ast) === 'it.fadeStep >= 0')
@@ -328,6 +351,7 @@ export function instrumentGameBattle(source, file) {
       'settlement-draw': 1,
     },
     'draw-battle-sprites.ts': {
+      'fighter-frame-selection': 2,
       'enemy-draw-identity': 1,
       'player-draw-identity': 1,
       'fighter-draw': 1,

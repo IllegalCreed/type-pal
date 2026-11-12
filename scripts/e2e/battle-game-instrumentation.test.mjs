@@ -23,6 +23,16 @@ test('Q2 observation guards the actual native battle boundaries and rejects drif
     const observed = instrumentGameBattle(native, file)
     assert.match(observed.code, /__battle(?:Game|Evidence)/)
     assert.throws(() => instrumentGameBattle(observed.code, file), /instrumented twice/)
+    if (file.endsWith('/draw-battle-sprites.ts')) {
+      assert.throws(
+        () =>
+          instrumentGameBattle(
+            native.replace('?? sprite.frames[0]!', '?? sprite.frames[1]!'),
+            file,
+          ),
+        /fighter frame selection changed/,
+      )
+    }
     if (file.endsWith('/battle/battle-system.ts')) {
       assert.equal(observed.anchors.command, 7)
       assert.equal(observed.anchors.placeholder, 3)
@@ -65,6 +75,89 @@ test('observed native mulberry32 preserves each value, draw count and final stat
   assert.equal(observed.getState(), original.getState())
   assert.equal(observations.at(-1).state, original.getState())
   assert.equal(observations[0].value, compile(native).createSeedableRng(1729).next())
+})
+
+test('Game reports the sprite frame that blits, including the frame zero fallback', async () => {
+  const file = '/packages/game/src/present/battle/draw-battle-sprites.ts'
+  const [native, positions] = await Promise.all([
+    source(file),
+    source('/packages/game/src/core/battle/battle-positions.ts').then((code) => compile(code)),
+  ])
+  const labels = new WeakMap()
+  const facts = []
+  const pixels = []
+  const { drawBattleSprites } = compile(instrumentGameBattle(native, file).code, {
+    require(specifier) {
+      assert.equal(specifier, '../../core/battle/battle-positions.js')
+      return positions
+    },
+    __battleEvidence: {
+      labelFighter(draw, side, slot, fading = false, frameIndex) {
+        labels.set(draw, { side, slot, fading, frameIndex })
+      },
+      fighterDrawn(draw) {
+        const { side, slot, fading, frameIndex } = labels.get(draw)
+        facts.push([
+          side,
+          slot,
+          fading,
+          frameIndex,
+          draw.x,
+          draw.y,
+          draw.iColorShift,
+          pixels.at(-1),
+        ])
+      },
+    },
+  })
+  const fb = { writePixel: (x, y, color) => pixels.push([x, y, color]) }
+  const status = { sleep: 0, confused: 0, paralyzed: 0 }
+  const state = {
+    uiState: 'wait',
+    battleAnim: { frames: [{ durationMs: 40 }], idx: 0, frameElapsedMs: 0 },
+    enemies: [{ e: { id: 2, health: 30 }, currentFrame: 2, pos: { x: 50, y: 90 }, status }],
+    players: [
+      {
+        roleId: 0,
+        currentFrame: 4,
+        pos: { x: 240, y: 170 },
+        status,
+        defending: true,
+        iColorShift: 6,
+      },
+    ],
+  }
+  const roles = { roles: [{ hp: 150, maxHP: 150, spriteNumInBattle: 0 }] }
+  const sprite = (colors) => ({
+    frames: colors.map((color) => ({
+      width: 1,
+      height: 1,
+      opaque: Uint8Array.of(1),
+      indices: Uint8Array.of(color),
+    })),
+  })
+  const draw = (enemyColors, playerColors) => {
+    drawBattleSprites(
+      fb,
+      state,
+      new Map([
+        ['enemy-2', sprite(enemyColors)],
+        ['player-0', sprite(playerColors)],
+      ]),
+      roles,
+      undefined,
+    )
+    return facts.splice(0)
+  }
+
+  assert.deepEqual(draw([0x30, 0x31, 0x32], [0x10, 0x11, 0x12, 0x13, 0x24]), [
+    ['enemy', 0, false, 2, 50, 90, 0, [50, 89, 0x32]],
+    ['player', 0, false, 4, 240, 170, 6, [240, 169, 0x2a]],
+  ])
+  assert.deepEqual(draw([0x30], [0x10]), [
+    ['enemy', 0, false, 0, 50, 90, 0, [50, 89, 0x30]],
+    ['player', 0, false, 0, 240, 170, 6, [240, 169, 0x16]],
+  ])
 })
 
 test('Game SFX observes its decoded buffer and request only after a successful start', async () => {
