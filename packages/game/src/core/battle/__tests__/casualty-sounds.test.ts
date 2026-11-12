@@ -1,12 +1,12 @@
 /**
- * Player casualty sounds through the public sweep, with explicit HP snapshots.
+ * Player casualty sounds through physical playback and the legacy HP sweep.
  *
  * sdlpal 真值:
  *   - 阵亡音 rgwDeathSound:enemy 攻击致死处内联(fight.c:4816/4851/5110,HP→0)。
  *   - 濒死音 rgwDyingSound:PAL_BattlePostActionCheck(fight.c:834-850)—— HP<min(100,maxHP/5)
  *     前态门用未钳制的 maxHP/5；当前HP才用 min(100,maxHP/5)。
- * TS compares the previous sweep's snapshot. Action completion and post-poison
- * callers supply different cause/guardian inputs; this is not a whole-turn audio test.
+ * The sweep cases use explicit HP snapshots. Physical cases drive a complete
+ * turn and check the sound commands against the fighter pose and timeline.
  */
 import type { PlayerRole, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'

@@ -80,7 +80,7 @@ import {
 } from './battle-runtime-context.js'
 import { buildBattleWonSettlement, tickBattleSettlement } from './battle-settlement.js'
 import type { BattleAction, BattlePlayer, BattleState } from './battle-state.js'
-import { createBattleState, seedBattleStatus } from './battle-state.js'
+import { createBattleState } from './battle-state.js'
 import { decideEnemyAction } from './enemy-ai.js'
 import { getEnemyDexterity, getPlayerActualDexterity } from './formulas.js'
 import { resolveMagicObject } from './magic-object.js'
@@ -816,41 +816,6 @@ export function emitPlayerCasualtySounds(
       }
     }
     p.prevHp = role.hp
-  }
-}
-
-function finishEnemyPhysicalHit(
-  state: BattleState,
-  gs: GameState,
-  bus: CommandBus,
-  res: BattleResources,
-  targetIdx: number,
-): void {
-  const player = state.players[targetIdx]
-  if (!player) return
-  const role = res.playerRoles.roles[player.roleId]
-  const hpBefore = player.scriptPrevHp ?? player.prevHp
-  if (!role || role.hp >= hpBefore) return
-  if (role.hp > 0 && (!isPlayerDying(role) || hpBefore < Math.floor(role.maxHP / 5))) return
-
-  // 物攻已负责本次伤亡音。独立的 scriptPrevHp 留给随后的对白检查。
-  player.prevHp = role.hp
-  const sound = role.dyingSound ?? 0
-  if (
-    role.hp === 0 ||
-    sound <= 0 ||
-    gs.fAutoBattle ||
-    player.status.sleep ||
-    player.status.confused
-  )
-    return
-
-  // fight.c:824–863 先查守护者失能并播音，再判断守护者是否在队、能否触发对白。
-  const guardianRoleId = role.coveredBy ?? 0
-  const guardian = state.players.find((member) => member.roleId === guardianRoleId)
-  const status = guardian?.status ?? seedBattleStatus(gs.rgPlayerStatus[guardianRoleId])
-  if (!status.sleep && !status.paralyzed && !status.confused) {
-    bus.emit({ op: 'playSound', soundId: sound })
   }
 }
 
@@ -2250,9 +2215,6 @@ function tickPerformAction(
       }
       // 时间线播完 → 复位双方 fighter(PAL_BattleUpdateFighters);UseItem 时此刻 HP 已回满 → 站立帧。
       resetFightersAfterAction(state, res.playerRoles)
-      if (afterComplete?.kind === 'enemy-physical-hit') {
-        finishEnemyPhysicalHit(state, gs, bus, res, afterComplete.targetIdx)
-      }
       // D17:复位后检死敌(fight.c:889-893 fFade 检测在 action 收尾)→ 开淡出 hold。
       //   currentActionIndex **总是**推进(action 已完);淡出由顶层 tickBattleFade 暂停。
       checkEnemyDeaths(state, bus)

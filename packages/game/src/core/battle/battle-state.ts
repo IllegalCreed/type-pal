@@ -367,9 +367,7 @@ export interface BattleAnimAfterPerformItem {
   targetIsEnemy: boolean
 }
 
-export type BattleAnimAfterComplete =
-  | BattleAnimAfterPerformItem
-  | { kind: 'enemy-physical-hit'; targetIdx: number }
+export type BattleAnimAfterComplete = BattleAnimAfterPerformItem
 
 /** 当前正在播放的动画时间线(performAction 期间存在;播完置 undefined)。 */
 export interface BattleAnimState {
@@ -416,7 +414,10 @@ export interface BattleAnimState {
     value: number
     color: 'yellow' | 'blue' | 'cyan'
   }>
-  /** 时间线结束后处理用物脚本或敌方物攻击中的队员伤亡。 */
+  /**
+   * 少数 SDLPal 动作是「先播前摇,再执行脚本/结算」。当前仅 UseItem 用:
+   * fight.c:4385 先 PAL_BattleShowPlayerUseItemAnim,随后 4387-4400 跑脚本并扣 consuming。
+   */
   afterComplete?: BattleAnimAfterComplete
 }
 
