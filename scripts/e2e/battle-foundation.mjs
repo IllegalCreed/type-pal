@@ -67,6 +67,7 @@ await runBrowserJourney({
     'scripts/e2e/battle-foundation-scenarios.mjs',
     'scripts/e2e/battle-comparison.mjs',
     'scripts/e2e/battle-presentation.mjs',
+    'scripts/e2e/battle-casualty-presentation.mjs',
     'scripts/e2e/battle-random-instrumentation.mjs',
     'scripts/e2e/battle-rules.mjs',
     'scripts/e2e/battle-trace-contract.mjs',

@@ -5,6 +5,7 @@ import { resolve } from 'node:path'
 
 const roles = {
   'li-xiaoyao': 0,
+  'zhao-linger': 1,
   'wu-hou': 3,
   anu: 4,
 }
@@ -29,7 +30,7 @@ function defineSetup({
     speed,
   }))
   const initial = {
-    players: members.map(({ id, hp, maxHP, level }, slot) => ({
+    players: members.map(({ id, hp, maxHP, level, statuses = {} }, slot) => ({
       id,
       slot,
       hp,
@@ -38,7 +39,7 @@ function defineSetup({
       maxMP: 100,
       level,
       exp: 0,
-      statuses: {},
+      statuses: copy(statuses),
     })),
     enemies: Array.from({ length: 5 }, (_, slot) =>
       enemies[slot]
@@ -274,9 +275,12 @@ const mechanismEnemies = {
   weasel: { id: 'sickle-weasel', team: 294, object: 414, raw: 17, hp: 710, exp: 110, cash: 220 },
   tree: { id: 'half-tree-demon', team: 204, object: 507, raw: 108, hp: 800, exp: 135, cash: 60 },
   worm: { id: 'bloodworm', team: 115, object: 406, raw: 9, hp: 310, exp: 14, cash: 9 },
+  caster: { id: 'thunder-caster', team: 186, object: 418, raw: 21, hp: 450, exp: 50, cash: 70 },
 }
 const hero = 'li-xiaoyao'
 const anu = 'anu'
+const linger = 'zhao-linger'
+const fairySwordStatus = { dualAttack: 32760 }
 const mechanismMember = (id, hp, attack, defense, speed, level = 5) => ({
   id,
   hp,
@@ -309,7 +313,8 @@ function mechanismScenario(id, title, enemy, seed, members, inventory) {
   const state = copy(scenario.expected.start)
   const actions = []
   const rounds = []
-  const step = (command, apply = keepState, facts = {}) => {
+  const step = (command, apply = keepState, { prepare = keepState, ...facts } = {}) => {
+    prepare(state)
     const before = copy(state)
     apply(state)
     actions.push({ ...command, ...facts, before, after: copy(state) })
@@ -324,7 +329,12 @@ function mechanismScenario(id, title, enemy, seed, members, inventory) {
     for (const [slot, player] of state.players.entries()) {
       if (player.hp > 0) player.exp = enemy.exp
       player.hp = recoveredHP[slot]
-      player.statuses = {}
+      player.statuses = Object.fromEntries(
+        Object.entries(scenario.expected.start.players[slot].statuses).filter(
+          ([, turns]) => turns > 999,
+        ),
+      )
+      delete player.poisons
     }
     Object.assign(scenario.expected, {
       commands,
@@ -664,6 +674,251 @@ function definePlayerCasualties() {
   return scenario
 }
 
+const defendAt = (turn, actorId) => ({ turn, actorId, kind: 'defend', targetId: null })
+const attackAt = (turn, actorId, targetId) => ({ turn, actorId, kind: 'attack', targetId })
+const enemyPhysicalDraws = [
+  'enemy-target',
+  'enemy-block',
+  'enemy-attack-bonus',
+  'enemy-damage-bonus',
+  'enemy-equivalent-item',
+]
+const heroStrikeDraws = [
+  'strike-bonus',
+  'strike-critical',
+  'strike-hero-critical',
+  'strike-variance',
+  'attack-growth',
+]
+const defense = { guard: { before: false, after: true } }
+
+function defineCasualtyDialogue() {
+  const enemy = mechanismEnemies.lantern
+  const { step, round, complete } = mechanismScenario(
+    'casualty-dialogue',
+    '赵灵儿濒死对白及李逍遥的援护者阵亡对白',
+    enemy,
+    6,
+    [
+      { ...mechanismMember(linger, 24, 0, 0, 0), statuses: fairySwordStatus },
+      { ...mechanismMember(hero, 100, 900, 400, 0), maxHP: 150 },
+    ],
+  )
+  const firstDefend = defendAt(1, linger)
+  const allyDefend = defendAt(1, hero)
+  const secondDefend = defendAt(2, linger)
+  const allyAttack = attackAt(2, hero, enemy.id)
+  const strike = { ...attackAt(1, enemy.id, linger), actorSide: 'enemy' }
+  step(firstDefend, keepState, defense)
+  // DEF13 and active defense halve the attacker outcome to 21. The first script roll is 98.
+  step(
+    strike,
+    ({ players }) => {
+      players[0].hp = 3
+    },
+    { rawDamage: 21, guard: { before: true, after: true } },
+  )
+  step(allyDefend, keepState, defense)
+  round(1)
+  step(
+    { ...strike, turn: 2 },
+    ({ players }) => {
+      players[0].hp = 0
+    },
+    { rawDamage: 3 },
+  )
+  // The real 43448 branch applies the heal only after its two pages have completed.
+  step(allyAttack, finishEnemy, {
+    rawDamage: 1035,
+    prepare: ({ players }) => {
+      players[1].hp = 150
+    },
+  })
+  const scenario = complete(
+    [firstDefend, allyDefend, secondDefend, allyAttack],
+    [
+      queueDraw(1, 'enemy', 0, 21),
+      queueDraw(1, 'player', 0, 30),
+      queueDraw(1, 'player', 1, 15),
+      ...draws(...enemyPhysicalDraws, 'battle-script-chance'),
+      queueDraw(2, 'enemy', 0, 21),
+      queueDraw(2, 'player', 0, 15),
+      queueDraw(2, 'player', 1, 3),
+      ...draws(
+        ...enemyPhysicalDraws,
+        'battle-script-chance',
+        'battle-script-chance',
+        'battle-script-chance',
+        ...heroStrikeDraws,
+      ),
+    ],
+    [12, 150],
+  )
+  const autoPage = (slot, portraitId, holdMs, lines) => ({
+    slot,
+    lines,
+    portraitId,
+    advance: 'auto',
+    holdMs,
+  })
+  scenario.expected.casualtyDialogue = [
+    {
+      actionIndex: 1,
+      nextActionIndex: 2,
+      pages: [
+        autoPage('bottom', 2, 685, ['灵儿～你还好吧？']),
+        autoPage('top', 15, 685, ['我．．我没事．', '这点伤．．我还捱得了']),
+      ],
+    },
+    {
+      actionIndex: 3,
+      nextActionIndex: 4,
+      pages: [
+        autoPage('bottom', 5, 685, ['　　啊～！']),
+        autoPage('narration', null, 1400, ['李逍遥怒火燃烧，体力恢复']),
+      ],
+    },
+  ]
+  scenario.expected.casualtyEffects = [
+    {
+      afterActionIndex: 3,
+      targetId: hero,
+      before: { hp: 100, attack: 902 },
+      after: { hp: 150, attack: 947 },
+    },
+  ]
+  return scenario
+}
+
+function defineEnemyMagicCasualty(dying) {
+  const enemy = mechanismEnemies.caster
+  const { step, complete } = mechanismScenario(
+    dying ? 'thunder-dying' : 'thunder-death',
+    dying ? '雷咒后濒死与队友续战' : '雷咒后阵亡与队友续战',
+    enemy,
+    6,
+    [
+      { ...mechanismMember(hero, dying ? 85 : 24, 250, 0, 0), maxHP: dying ? 150 : 60 },
+      mechanismMember(anu, 150, 2200, 700, 1),
+    ],
+  )
+  const defend = defendAt(1, hero)
+  const allyAttack = attackAt(1, anu, enemy.id)
+  // CLASSIC player +100 baseline resistance, field7 thunder resistance −2 and spell guard /2.
+  const remaining = dying ? 27 : 0
+  step(
+    {
+      turn: 1,
+      actorId: enemy.id,
+      actorSide: 'enemy',
+      kind: 'cast',
+      skillId: '316',
+      targetId: hero,
+    },
+    ({ players }) => {
+      players[0].hp = remaining
+    },
+  )
+  if (dying) step(defend, keepState, defense)
+  step(allyAttack, finishEnemy, { rawDamage: 2225 })
+  const scenario = complete(
+    [defend, allyAttack],
+    [
+      queueDraw(1, 'enemy', 0, 91),
+      queueDraw(1, 'player', 0, 15),
+      queueDraw(1, 'player', 1, 1),
+      ...draws(
+        'enemy-target',
+        'enemy-magic-choice',
+        'enemy-magic-block',
+        'enemy-magic-damage-float',
+        'strike-bonus',
+        'strike-critical',
+        'strike-variance',
+        'attack-growth',
+      ),
+    ],
+    [dying ? 88 : 30, 150],
+  )
+  scenario.expected.magicCasualties = [
+    {
+      actionIndex: 0,
+      targetId: hero,
+      damage: dying ? 58 : 24,
+      recoveryFrame: dying ? 1 : 2,
+      soundKind: dying ? 'player-dying' : 'player-death',
+    },
+  ]
+  return scenario
+}
+
+function definePoisonCasualties() {
+  const enemy = mechanismEnemies.worm
+  const { step, round, complete } = mechanismScenario(
+    'round-end-poison-casualties',
+    '赤毒回合末濒死、阵亡和继续战斗',
+    enemy,
+    50,
+    [
+      { ...mechanismMember(linger, 19, 0, 250, 900), maxHP: 50, statuses: fairySwordStatus },
+      mechanismMember(hero, 150, 900, 400, 500),
+    ],
+  )
+  const first = [defendAt(1, linger), defendAt(1, hero)]
+  const second = [defendAt(2, linger), defendAt(2, hero)]
+  const third = attackAt(3, hero, enemy.id)
+  const strike = { ...attackAt(1, enemy.id, linger), actorSide: 'enemy' }
+  const poisonHit = { rawDamage: 1, effectiveHpLoss: 8, guard: { before: true, after: true } }
+  step(first[0], keepState, defense)
+  step(first[1], keepState, defense)
+  step(strike, ({ players }) => Object.assign(players[0], { hp: 11, poisons: [551] }), poisonHit)
+  round(1, ({ players }) => {
+    players[0].hp = 4
+  })
+  step(second[1], keepState, defense)
+  step(second[0], keepState, defense)
+  step(
+    { ...strike, turn: 2, targetId: hero },
+    ({ players }) => {
+      Object.assign(players[1], { hp: 142, poisons: [551] })
+    },
+    poisonHit,
+  )
+  round(2, ({ players }) => {
+    players[0].hp = 0
+    players[1].hp = 135
+  })
+  step(third, finishEnemy, { rawDamage: 887 })
+  const poisonDraws = [
+    ...enemyPhysicalDraws,
+    'enemy-equivalent-poison-resist',
+    'enemy-equivalent-poison-script',
+  ]
+  const scenario = complete(
+    [...first, ...second, third],
+    [
+      queueDraw(1, 'enemy', 0, 54),
+      queueDraw(1, 'player', 0, 4530),
+      queueDraw(1, 'player', 1, 2515),
+      ...draws(...poisonDraws),
+      queueDraw(2, 'enemy', 0, 54),
+      queueDraw(2, 'player', 0, 2265),
+      queueDraw(2, 'player', 1, 2515),
+      ...draws(...poisonDraws),
+      queueDraw(3, 'enemy', 0, 54),
+      queueDraw(3, 'player', 1, 503),
+      ...draws(...heroStrikeDraws),
+    ],
+    [25, 142],
+  )
+  const forbiddenSounds = [20, 24].map(soundAsset)
+  scenario.expected.poisonCasualties = [
+    { turn: 1, targetId: linger, damage: 7, holdFrame: 3, recoveryFrame: 1, forbiddenSounds },
+    { turn: 2, targetId: linger, damage: 4, holdFrame: 1, recoveryFrame: 2, forbiddenSounds },
+  ]
+  return scenario
+}
+
 const soundAsset = (id) => `sound.pal.${String(id).padStart(3, '0')}`
 const rawSoundPath = (id) => `data/extracted/sounds/${id}.wav`
 const projectSoundPath = (id) => `assets/migrated/sounds/${String(id).padStart(3, '0')}.wav`
@@ -675,7 +930,9 @@ const soundFrames = {
   9: 6982,
   15: 12200,
   19: 7695,
+  20: 9760,
   23: 13351,
+  24: 20249,
   28: 13408,
   32: 20700,
   37: 4102,
@@ -684,9 +941,11 @@ const soundFrames = {
   50: 14593,
   92: 6983,
   94: 3121,
+  106: 19357,
   126: 10165,
   138: 41746,
   169: 36112,
+  182: 40055,
   185: 6605,
   216: 27640,
   247: 35018,
@@ -695,6 +954,7 @@ const soundFrames = {
   357: 8958,
   368: 6370,
   369: 3514,
+  374: 11016,
 }
 
 const playerAttackSounds = (voice, weapon, death) => [
@@ -760,6 +1020,39 @@ const audioCues = {
     [...enemyAttackSounds(50, 352), ['player-death', 23]],
     playerAttackSounds(40, 4, 32),
   ],
+  'casualty-dialogue': [
+    [],
+    [...enemyAttackSounds(50, 352), ['player-dying', 20]],
+    [],
+    [...enemyAttackSounds(50, 352), ['player-death', 24]],
+    playerAttackSounds(37, 1, 32),
+  ],
+  'thunder-dying': [
+    [
+      ['cast-windup', 374],
+      ['spell-effect', 106],
+      ['player-dying', 19],
+    ],
+    [],
+    playerAttackSounds(40, 4, 182),
+  ],
+  'thunder-death': [
+    [
+      ['cast-windup', 374],
+      ['spell-effect', 106],
+      ['player-death', 23],
+    ],
+    playerAttackSounds(40, 4, 182),
+  ],
+  'round-end-poison-casualties': [
+    [],
+    [],
+    enemyAttackSounds(357, 92),
+    [],
+    [],
+    enemyAttackSounds(357, 92),
+    playerAttackSounds(37, 1, 216),
+  ],
 }
 
 function attachAudioOracle(scenario) {
@@ -790,6 +1083,10 @@ export const BATTLE_FOUNDATION_SCENARIOS = Object.freeze(
     defineEquivalentPoison(),
     defineAutomaticBlock(),
     definePlayerCasualties(),
+    defineCasualtyDialogue(),
+    defineEnemyMagicCasualty(true),
+    defineEnemyMagicCasualty(false),
+    definePoisonCasualties(),
   ].map(attachAudioOracle),
 )
 
@@ -984,6 +1281,13 @@ export async function verifyBattleFoundationSources(root) {
   assert.deepEqual([weaselMagic.baseDamage, weaselMagic.elemental], [150, 0])
   assert.deepEqual(skills.skills.find(({ id }) => id === '339').effects, [
     { kind: 'damage', power: 150, elemental: 0 },
+  ])
+  const thunderSpell = rawSpells.find(({ id }) => id === 316)
+  const thunderMagic = rawMagic.find(({ id }) => id === thunderSpell.magicNumber)
+  assert.deepEqual([thunderMagic.baseDamage, thunderMagic.elemental], [60, 2])
+  assert.equal(thunderSpell.flags.applyToAll, false)
+  assert.deepEqual(skills.skills.find(({ id }) => id === '316').effects, [
+    { kind: 'damage', power: 60, elemental: 2 },
   ])
   const sleepSpell = rawSpells.find(({ id }) => id === 303)
   assert.equal(sleepSpell.scriptOnSuccess, 43085)
