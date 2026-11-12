@@ -90,6 +90,8 @@ root 单写集成树 `shared-item-flows` 中本卡、场景、RF 适配、公共
 
 分屏来自冻结候选 `54d7b378d5094950c10b73bb38a81883cd3d375d`，录像在复验归档的 `build/q2/followup/final-review/` 下，分别为 `party-lanterns-split.mp4` 和 `herb-settlement-split.mp4`。对应实现已随 PR #53 合入主线，合并提交为 `89cb749a4dc63d4adf23669c98c0f043578568ad`。 [复验归档](../evidence/E2E-Q2-1-battle-followup-20261111.tar.gz) · [PR #53](https://github.com/IllegalCreed/type-pal/pull/53)
 
+2026-11-12，用户对主动防御受击复位和单人自动格挡两段原速带声分屏回复「通过」。两段来自冻结候选 `3ac5c7b8b42c967b51ca12c9ddeeba6b1397ee9b`，归档的 `build/q2/av/guard-recovery/` 下分别为 `equivalent-poison-split.mp4` 和 `automatic-block-split.mp4`。实现已随 PR #57 合入主线，合并提交为 `92695f18b975f8521bfb531566387149147b893e`。 [分屏归档](../evidence/E2E-Q2-1-battle-guard-20261112.tar.gz) · [PR #57](https://github.com/IllegalCreed/type-pal/pull/57)
+
 ## 2026-11-11 首批分屏返工
 
 用户在首批短片发现 Reforge 行动时仍画底部队员信息框，后续队员抢在上一个敌人淡出结束前出手。旧比较判定覆盖指令、有效状态与结算。其呈现观察记录绘制调用，缺少实际信息框绘制、死亡淡出与后续出手的时序合同。
