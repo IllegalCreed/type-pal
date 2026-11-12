@@ -302,6 +302,7 @@ export function installGameBattleAdapter() {
       liveRoles = roles
       evidence().round({
         turn: start.turn + 1,
+        clockMs: performance.now(),
         before: start.before,
         after: snapshot(),
         native: {
