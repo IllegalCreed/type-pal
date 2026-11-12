@@ -1,3 +1,9 @@
+import {
+  compareCasualtyDialogue,
+  compareMagicCasualty,
+  comparePoisonCasualty,
+} from './battle-casualty-presentation.mjs'
+
 const FRAME_SOURCE = {
   game: 'game:BattlePresent.draw',
   reforge: 'reforge:BattleSession.render',
@@ -170,6 +176,28 @@ const validFrameIndex = (value) => Number.isSafeInteger(value) && value >= 0
 const indexedFighter = (draw) =>
   draw && validFrameIndex(draw.frameIndex) && Number.isFinite(draw.x) && Number.isFinite(draw.y)
 
+function validDialogueDraws(draws) {
+  return (
+    Array.isArray(draws) &&
+    draws.filter((draw) => draw?.active).length <= 1 &&
+    draws.every(
+      (draw) =>
+        typeof draw?.source === 'string' &&
+        typeof draw.slot === 'string' &&
+        typeof draw.phase === 'string' &&
+        typeof draw.active === 'boolean' &&
+        Array.isArray(draw.lines) &&
+        draw.lines.every((line) => typeof line === 'string') &&
+        (draw.portrait === null ||
+          ((Number.isSafeInteger(draw.portrait?.id) || typeof draw.portrait?.id === 'string') &&
+            [draw.portrait.x, draw.portrait.y].every(Number.isFinite) &&
+            [draw.portrait.width, draw.portrait.height].every(
+              (size) => Number.isSafeInteger(size) && size > 0,
+            ))),
+    )
+  )
+}
+
 function validFrame(entry, source, playerCount) {
   const p = entry.payload
   return (
@@ -204,6 +232,7 @@ function validFrame(entry, source, playerCount) {
           (validFrameIndex(draw.frameIndex) && Number.isSafeInteger(draw.colorShift))),
     ) &&
     uniqueSlots(p.panels, playerCount) &&
+    (p.dialogue === undefined || validDialogueDraws(p.dialogue)) &&
     (p.settlement === null || typeof p.settlement === 'string') &&
     Array.isArray(p.numbers) &&
     p.numbers.every(
@@ -750,7 +779,16 @@ function cueRenderWindow(cue, action, animation, frames, deaths) {
   return next && { first: at(animation), through: at(next) }
 }
 
-function compareAudioCues(trace, expected, frames, animations, deaths, playerCasualties, fail) {
+function compareAudioCues(
+  trace,
+  expected,
+  frames,
+  animations,
+  deaths,
+  playerCasualties,
+  magicCasualties,
+  fail,
+) {
   const { audioCues, audioSourceFrames } = expected
   if (
     !Array.isArray(audioCues) ||
@@ -914,6 +952,49 @@ function compareAudioCues(trace, expected, frames, animations, deaths, playerCas
       return [observed ?? { ...identity, request }]
     })
   }
+  if (magicCasualties !== undefined) {
+    result.magicCasualties = magicCasualties.flatMap((motion) => {
+      const { actionIndex, soundKind, hit, number, returned, next } = motion
+      const cue = audioCues.find(
+        (entry) => entry.actionIndex === actionIndex && entry.kind === soundKind,
+      )
+      if (!cue || audioCues.filter(({ assetId }) => assetId === cue.assetId).length !== 1) {
+        fail('oracle', 'magic-casualty-sound-expectation', { actionIndex, soundKind })
+        return []
+      }
+      const matching = allRequests.filter(({ assetId }) => assetId === cue.assetId)
+      if (matching.length !== 1) {
+        fail('business', 'magic-casualty-sound-count', { ...cue, requests: matching })
+        return [{ ...cue, requests: matching }]
+      }
+      const [request] = matching
+      const death = soundKind === 'player-death'
+      const edge = death ? hit : returned
+      const through = death ? number : next
+      const window = { first: edge, through }
+      const observed = inspect(cue, request, window)
+      casualtyCues.set(cue, observed)
+      if (
+        !edge ||
+        !through ||
+        request.order >= through.order ||
+        Math.abs(request.atMs - edge.atMs) > BATTLE_FRAME_MS
+      )
+        fail('business', 'magic-casualty-sound-edge', {
+          ...cue,
+          request,
+          start: observed?.start,
+          window,
+        })
+      else if (
+        observed &&
+        (observed.start.atMs > request.atMs + BATTLE_FRAME_MS ||
+          observed.start.order >= (death ? (returned?.order ?? next.order) : next.order))
+      )
+        fail('business', 'magic-casualty-sound-start-edge', observed)
+      return [observed ?? { ...cue, request, window }]
+    })
+  }
   for (let i = 0; i < Math.max(audioCues.length, requests.length); i++) {
     const cue = audioCues[i]
     const request = requests[i]
@@ -975,6 +1056,7 @@ export function validateBattlePresentation(trace, scenario) {
     deaths = [],
     heals = []
   let portraits, roundEnds, audio, defendRecovery, automaticBlock, playerCasualties
+  let casualtyDialogue, magicCasualties, poisonCasualties
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -988,6 +1070,9 @@ export function validateBattlePresentation(trace, scenario) {
     ...(defendRecovery === undefined ? {} : { defendRecovery }),
     ...(automaticBlock === undefined ? {} : { automaticBlock }),
     ...(playerCasualties === undefined ? {} : { playerCasualties }),
+    ...(casualtyDialogue === undefined ? {} : { casualtyDialogue }),
+    ...(magicCasualties === undefined ? {} : { magicCasualties }),
+    ...(poisonCasualties === undefined ? {} : { poisonCasualties }),
     findings,
   })
   if (
@@ -1039,6 +1124,41 @@ export function validateBattlePresentation(trace, scenario) {
     automaticBlock = compareAutomaticBlock(frames, scenario.expected, animations, fail)
   if (scenario.expected.playerCasualties !== undefined)
     playerCasualties = comparePlayerCasualties(frames, scenario.expected, animations, fail)
+  const judgeProbes = (name, compare) => {
+    const probes = scenario.expected[name]
+    if (probes === undefined) return undefined
+    if (
+      !Array.isArray(probes) ||
+      !probes.length ||
+      probes.some((probe) => !probe || typeof probe !== 'object')
+    ) {
+      fail('oracle', 'casualty-probes', { name, probes })
+      return []
+    }
+    return probes.map(compare).filter(Boolean)
+  }
+  casualtyDialogue = judgeProbes('casualtyDialogue', (probe) => {
+    const motion = enemyPhysicalMotion(
+      frames,
+      scenario.expected,
+      animations,
+      probe,
+      fail,
+      'casualty-dialogue',
+    )
+    if (motion)
+      return compareCasualtyDialogue(trace, frames, scenario.expected, probe, motion, fail)
+  })
+  const numbers =
+    scenario.expected.magicCasualties || scenario.expected.poisonCasualties
+      ? firstNumberDraws(frames)
+      : []
+  magicCasualties = judgeProbes('magicCasualties', (probe) =>
+    compareMagicCasualty(trace, frames, numbers, scenario.expected, animations, probe, fail),
+  )
+  poisonCasualties = judgeProbes('poisonCasualties', (probe) =>
+    comparePoisonCasualty(trace, frames, numbers, probe, fail),
+  )
 
   for (const [index, action] of scenario.expected.actions.entries()) {
     if (['defend', 'pass'].includes(action.kind)) continue
@@ -1140,7 +1260,11 @@ export function validateBattlePresentation(trace, scenario) {
     )
       fail('business', 'herb-number-target-or-anchor', observed)
   }
-  if (scenario.expected.audioCues !== undefined || playerCasualties !== undefined)
+  if (
+    scenario.expected.audioCues !== undefined ||
+    playerCasualties !== undefined ||
+    magicCasualties !== undefined
+  )
     audio = compareAudioCues(
       trace,
       scenario.expected,
@@ -1148,6 +1272,7 @@ export function validateBattlePresentation(trace, scenario) {
       animations,
       deaths,
       playerCasualties,
+      magicCasualties,
       fail,
     )
   if (automaticBlock && audio) {

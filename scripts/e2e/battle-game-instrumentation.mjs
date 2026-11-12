@@ -181,7 +181,9 @@ export function instrumentGameBattle(source, file) {
       file.endsWith('/battle/battle-dialog.ts') &&
       owner(node) === 'advanceBattleDialog' &&
       ts.isVariableStatement(node) &&
-      node.declarationList.declarations[0]?.initializer?.getText(ast) === 'confirmDialog(box)'
+      ['confirmDialog(box)', 'confirmDialog(box, timedElapsed)'].includes(
+        node.declarationList.declarations[0]?.initializer?.getText(ast),
+      )
     ) {
       add('dialogue-confirm-before', node.getStart(ast), 'const __battleDialogPhase = box.phase;\n')
       add(
@@ -395,6 +397,9 @@ export function instrumentGameBattle(source, file) {
     ts.forEachChild(node, visit)
   }
   visit(ast)
+  const hasActionFollowup = ast.statements.some(
+    (node) => ts.isFunctionDeclaration(node) && node.name?.text === 'tickActionFollowup',
+  )
   const leafExpected = {
     'audio.ts': {
       'audio-request': 1,
@@ -443,7 +448,7 @@ export function instrumentGameBattle(source, file) {
                 'target-cancel': 1,
                 actionStart: 1,
                 'action-produced': 1,
-                actionComplete: 4,
+                actionComplete: hasActionFollowup ? 2 : 4,
               })
   assert.deepEqual(anchors, expected, 'Q2 Game native observation boundary census changed')
   let code = source
