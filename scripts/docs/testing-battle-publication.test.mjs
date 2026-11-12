@@ -17,6 +17,8 @@ import {
   assertTestingBattlePublication,
   assertTestingBattleSessionSourceBridge,
   isTestingBattleEvidencePath,
+  restoreTestingBattleDefeatSourceBindings,
+  testingBattleDefeatSourceRevision,
   testingBattlePublicationBase,
   testingBattleSessionCadenceBase,
   testingBattleSessionCasualtyBase,
@@ -249,6 +251,24 @@ function sessionRebindingFixture(revision = testingBattlePublicationBase) {
       ),
   }
 }
+
+test('ordinary defeat source rebinding preserves the exact previous execution record', () => {
+  const hostEvidence = 'docs/testing/domains/runtime/battle/battle-host/evidence.json'
+  const readBase = (path) => readFixed(testingBattleSessionCasualtyDialogueBase, path)
+  const readCandidate = (path) => readFixed(testingBattleDefeatSourceRevision, path)
+  const readLive = (path) => readFileSync(join(repository, path))
+  const bridge = { readBase, readFixed: readCandidate, readSource: readLive }
+  const current = JSON.parse(readLive(hostEvidence))
+  const check = () => restoreTestingBattleDefeatSourceBindings(hostEvidence, bytes(current), bridge)
+  assert.deepEqual(check(), readBase(hostEvidence))
+
+  const previousRange = current.claims[0].evidence[0]
+  current.claims[0].evidence[0] = 'packages/reforge/src/main.ts:1242-1261'
+  assert.throws(check, /Expected values to be strictly equal/u)
+  current.claims[0].evidence[0] = previousRange
+  current.runtimeExecution.performed = !current.runtimeExecution.performed
+  assert.throws(check, /Expected values to be strictly deep-equal/u)
+})
 
 test('the admitted battle session rebind preserves the old owner and the single Q2 append', () => {
   const rebinding = sessionRebindingFixture()

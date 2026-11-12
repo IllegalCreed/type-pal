@@ -53,10 +53,10 @@
     },
     {
       "path": "scripts/e2e/opening-trace.test.mjs",
-      "lines": "527-642",
+      "lines": "538-653",
       "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
       "role": "real transformed caller oracle",
-      "sha256": "4d9c0fbd649e662ef3df4c668303457dfc1842ccad723257092e4d44f9962cda"
+      "sha256": "3dd13c02763ccda830911d1e5c912d6579b391afd32b044ea2f69efa11c6f2b3"
     }
   ],
   "publicCallers": ["pnpm e2e:001", "pnpm e2e:001:reforge", "pnpm e2e:001:both"],
@@ -85,7 +85,7 @@
         "packages/content/src/character.ts:168-170",
         "scripts/e2e/opening-matrix-observer.mjs:11-125",
         "scripts/e2e/opening-trace-plugin.mjs:164-178",
-        "scripts/e2e/opening-trace.test.mjs:527-642"
+        "scripts/e2e/opening-trace.test.mjs:538-653"
       ]
     }
   ],
@@ -128,6 +128,22 @@
         }
       ],
       "scope": "核 content23、四类取物及其真实 caller 的来源适用性；保留原执行版本、候选、状态、断言与附件，不把历史录制改记为本轮通过。本轮运行与编辑器验证独立见 N6B-ITEM-FLOWS-1。"
+    },
+    {
+      "action": "q2-ordinary-defeat-source-rebinding",
+      "base": "f84bcd91dd71498e1099e7bf8f4b2d7900507090",
+      "date": "2026-11-13",
+      "evidence": "docs/tasks/evidence/E2E-Q2-1-battle-session-source-applicability.md",
+      "previousSourceRefs": [
+        {
+          "path": "scripts/e2e/opening-trace.test.mjs",
+          "lines": "527-642",
+          "anchor": "test('real Game world pass records every selected resource once after all entries; a later failed draw publishes nothing'",
+          "role": "real transformed caller oracle",
+          "sha256": "4d9c0fbd649e662ef3df4c668303457dfc1842ccad723257092e4d44f9962cda"
+        }
+      ],
+      "scope": "全灭流程与其测试变更后，绑定本项已存在且字节相同的调用或判据片段，保留原执行和主张。"
     }
   ],
   "_governance": {

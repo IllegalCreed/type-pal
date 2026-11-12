@@ -36,13 +36,11 @@ test('all four casualty entries preserve actor input and publish exactly the fro
           {
             chance: 75,
             branch: {
-              lines: casualtyLocaleKeys
-                .slice(group * 9, group * 9 + 9)
-                .map((text, index) => ({
-                  text,
-                  style: 'bottom' as const,
-                  ...(index ? { sameCue: true as const } : {}),
-                })),
+              lines: casualtyLocaleKeys.slice(group * 9, group * 9 + 9).map((text, index) => ({
+                text,
+                style: 'bottom' as const,
+                ...(index ? { sameCue: true as const } : {}),
+              })),
               effects: [],
             },
           },

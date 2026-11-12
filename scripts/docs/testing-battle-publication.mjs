@@ -59,6 +59,159 @@ const sessionCasualtyDialogueBinding = {
   date: '2026-11-12',
 }
 
+export const testingBattleDefeatSourceRevision = '31002d214bb106272f34af46c86c57872b9b2849'
+const openingTraceTest = 'scripts/e2e/opening-trace.test.mjs'
+const reforgeMain = 'packages/reforge/src/main.ts'
+const reforgeBattleHost = 'packages/reforge/src/battle/battle-host.ts'
+const defeatBindings = new Map([
+  ['e2e/evidence/e2e-001.json', { id: 'e2e-001', paths: [openingTraceTest] }],
+  ['e2e/evidence/e2e-common-issues.json', { id: 'e2e-common-issues', paths: [openingTraceTest] }],
+  [
+    'domains/runtime/scene/active-scene/evidence.json',
+    { id: 'runtime-active-scene', paths: [reforgeMain] },
+  ],
+  [
+    'domains/runtime/battle/battle-host/evidence.json',
+    { id: 'runtime-battle-host', paths: [reforgeMain, reforgeBattleHost] },
+  ],
+  [
+    'domains/runtime/world/world-runtime/evidence.json',
+    { id: 'runtime-world-owners', paths: [reforgeMain] },
+  ],
+])
+const defeatSourceRanges = new Map([
+  [openingTraceTest, { '527-642': '538-653' }],
+  [
+    reforgeMain,
+    { '407-414': '408-415', '448-455': '449-456', '434-445': '435-446', '1242-1261': '1245-1266' },
+  ],
+  [reforgeBattleHost, { '53-67': '55-69', '156-160': '165-169' }],
+])
+export const isTestingBattleDefeatSourcePath = (path) => defeatSourceRanges.has(path)
+
+function defeatReferences(before, current, paths, { source, fixed, predecessor }) {
+  assert.equal(current.length, before.length, 'defeat source reference membership changed')
+  const previous = []
+  const clip = (bytes, range) => {
+    const [first, last] = range.split('-').map(Number)
+    return bytes
+      .toString('utf8')
+      .split('\n')
+      .slice(first - 1, last)
+      .join('\n')
+  }
+  for (const [index, old] of before.entries()) {
+    const reference = current[index]
+    if (!paths.includes(old.path)) {
+      assert.deepEqual(reference, old, 'defeat bridge changed an unrelated source reference')
+      continue
+    }
+    const nextRange = defeatSourceRanges.get(old.path)[old.lines]
+    assert(nextRange, 'defeat bridge source range was not admitted')
+    assert.deepEqual({ ...reference, sha256: old.sha256, lines: old.lines }, old)
+    assert.equal(reference.lines, nextRange, 'defeat bridge referenced a different caller range')
+    assertTestingBridgeReference(old, predecessor)
+    assertTestingBridgeReference(reference, source)
+    const actual = source.read(old.path)
+    assert(
+      actual.equals(fixed.read(old.path)),
+      'defeat source differs from the frozen Q2 candidate',
+    )
+    let excerpt = clip(actual, nextRange)
+    if (old.path === reforgeMain && old.lines === '1242-1261') {
+      const added =
+        '      worldDefeatFrameCapture: (signal) =>\n        ordinaryDefeatSignal === signal ? () => gameOverPresentation.hold(ctx, signal) : undefined,\n'
+      assert.equal(excerpt.split(added).length, 2, 'defeat frame port changed')
+      excerpt = excerpt.replace(added, '')
+    }
+    assert.equal(
+      excerpt,
+      clip(predecessor.read(old.path), old.lines),
+      'defeat bridge changed the accepted caller excerpt',
+    )
+    previous.push(old)
+  }
+  assert(previous.length > 0, 'defeat bridge has no approved reference')
+  return previous
+}
+
+function defeatHistory(before, current, previous, readSource) {
+  const history = restoreTestingBridgeHistory(
+    before,
+    current,
+    previous,
+    readSource,
+    testingBattleSessionCasualtyDialogueBase,
+    sessionReceipt,
+  )
+  const event = current.at(-1)
+  assert.equal(event.action, 'q2-ordinary-defeat-source-rebinding')
+  assert.equal(event.date, '2026-11-13')
+  return history
+}
+
+/** Restore the five older entry objects before replaying their original publication
+ * guards. Only the admitted source coordinates and one applicability event may vary. */
+export function restoreTestingBattleDefeatSourceBindings(
+  path,
+  currentBytes,
+  { readSource, readBase, readFixed },
+) {
+  if (!path.startsWith('docs/testing/')) return currentBytes
+  const binding = defeatBindings.get(path.slice('docs/testing/'.length))
+  if (!binding && path !== catalogPath) return currentBytes
+  const baseBytes = readBase(path)
+  const before = parseTerminalJson(baseBytes)
+  const current = parseTerminalJson(currentBytes)
+  const sources = {
+    source: testingBridgeSources(readSource),
+    fixed: testingBridgeSources(readFixed),
+    predecessor: testingBridgeSources(readBase),
+  }
+  if (path === catalogPath) {
+    for (const { id, paths } of defeatBindings.values()) {
+      const index = before.entries.findIndex((entry) => entry.id === id)
+      const old = before.entries[index]
+      const entry = current.entries[index]
+      assert(index >= 0 && entry.id === old.id, 'defeat bridge changed catalog identity or order')
+      const previous = defeatReferences(old.sourceRefs, entry.sourceRefs, paths, sources)
+      const history = defeatHistory(
+        old.revision.history,
+        entry.revision.history,
+        previous,
+        readSource,
+      )
+      assert.deepEqual(
+        { ...entry, sourceRefs: old.sourceRefs, revision: { ...entry.revision, history } },
+        old,
+      )
+      current.entries[index] = old
+    }
+    return Buffer.from(JSON.stringify(current))
+  }
+
+  assert.equal(before.id, binding.id)
+  assert.equal(current.id, binding.id)
+  const previous = defeatReferences(before.sourceRefs, current.sourceRefs, binding.paths, sources)
+  const history = defeatHistory(before.history, current.history, previous, readSource)
+  const claimIndex = before.claims.findIndex(
+    ({ id, result }) => id === `${binding.id}-source-contract` && result === 'source-backed',
+  )
+  assert(claimIndex >= 0, 'defeat bridge source claim missing')
+  for (const old of previous) {
+    const reference = current.sourceRefs[before.sourceRefs.indexOf(old)]
+    const pointer = `${old.path}:${old.lines}`
+    const previousPointers = before.claims[claimIndex].evidence
+    const pointerIndex = previousPointers.indexOf(pointer)
+    assert(pointerIndex >= 0 && previousPointers.lastIndexOf(pointer) === pointerIndex)
+    const pointers = current.claims[claimIndex].evidence
+    assert.equal(pointers[pointerIndex], `${reference.path}:${reference.lines}`)
+    pointers[pointerIndex] = pointer
+  }
+  assert.deepEqual({ ...current, sourceRefs: before.sourceRefs, history }, before)
+  return baseBytes
+}
+
 const publication = {
   id: 'q2-battle-foundation',
   kind: 'report',

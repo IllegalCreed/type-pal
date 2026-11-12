@@ -3,10 +3,18 @@
 Status: historical
 Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-11-12
+Last reviewed: 2026-11-13
 Template: reference-canon-v1 / 1.0.0
 
 本页把 phase1 历史材料接入 `reference-canon-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+
+## 2026-11-13 CLASSIC 伤亡对白、法术抗性与全灭
+
+普通非自动战斗里，敌方直接行动结束后先核阵亡，再核跨入濒死。具备援护关系、守护者在场存活并满足状态门，且相应伤亡脚本存在时，正式台词前等 10 个 40 ms 战斗帧。濒死声音在对白前启动。回合末毒脚本调用 `PAL_BattlePostActionCheck(FALSE)`，数值变化保留八拍，此处无角色伤亡对白和该检查的伤亡声。 [直接伤亡检查](../../reference/sdlpal/fight.c#L719) · [毒脚本和回合反馈](../../reference/sdlpal/fight.c#L1602)
+
+敌方法术的伤害以装备生效后的玩家防御为基础。五灵与毒抗均加原版基础值 100，交给乘数 20 的抗性计算，再用主动防御、护体和魔法自动格挡的分母减伤。扣血与致死音先于五拍受击位移，敌人与队员归位后检查濒死，再等待八个战斗帧。 [敌方法术伤害与演出](../../reference/sdlpal/fight.c#L4773)
+
+全灭返回正式败局分支。普通死亡入口播放原始曲 001，`0x4F` 把战斗末帧按调色板逐渐变红，32 步各 75 ms，暗亮纹理仍可见。死亡对白确认后 `0x4E` 先淡黑，再以当前存档槽安排读档。 [战斗全灭判定](../../reference/sdlpal/fight.c#L1134) · [红色渐变](../../reference/sdlpal/palette.c#L595) · [读档与红屏指令](../../reference/sdlpal/script.c#L1759)
 
 ## 2026-11-12 CLASSIC 回合末节拍与敌普攻音效
 
