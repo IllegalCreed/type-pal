@@ -37,6 +37,7 @@ const ROUND_FEEDBACK_MS = 8 * BATTLE_FRAME_MS
 
 const at = (frame) => ({ frame: frame.seq, clockMs: frame.clockMs, atMs: frame.atMs })
 const pose = (frame, slot) => frame.payload.players.find((player) => player.slot === slot)
+const position = ({ slot, x, y }) => ({ slot, x, y })
 const samePose = (a, b) => a?.x === b?.x && a?.y === b?.y
 const enemy = (frame, slot) => frame.payload.enemies.find((draw) => draw.slot === slot)
 const animationMatches = (frame, action) =>
@@ -163,6 +164,10 @@ function uniqueSlots(entries, size) {
   )
 }
 
+const validFrameIndex = (value) => Number.isSafeInteger(value) && value >= 0
+const indexedFighter = (draw) =>
+  draw && validFrameIndex(draw.frameIndex) && Number.isFinite(draw.x) && Number.isFinite(draw.y)
+
 function validFrame(entry, source, playerCount) {
   const p = entry.payload
   return (
@@ -180,13 +185,22 @@ function validFrame(entry, source, playerCount) {
       p.enemies.map((draw) => draw?.slot),
       5,
     ) &&
-    p.enemies.every((draw) => typeof draw.fading === 'boolean') &&
+    p.enemies.every(
+      (draw) =>
+        typeof draw.fading === 'boolean' && (draw.frameIndex === undefined || indexedFighter(draw)),
+    ) &&
     Array.isArray(p.players) &&
     uniqueSlots(
       p.players.map((draw) => draw?.slot),
       playerCount,
     ) &&
-    p.players.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y)) &&
+    p.players.every(
+      (draw) =>
+        Number.isFinite(draw.x) &&
+        Number.isFinite(draw.y) &&
+        (draw.frameIndex === undefined ||
+          (validFrameIndex(draw.frameIndex) && Number.isSafeInteger(draw.colorShift))),
+    ) &&
     uniqueSlots(p.panels, playerCount) &&
     (p.settlement === null || typeof p.settlement === 'string') &&
     Array.isArray(p.numbers) &&
@@ -285,6 +299,203 @@ function comparePoisonRoundEnds(trace, frames, scenario, playerCount, fail) {
     if (delayMs > rangeMs[1]) fail('business', 'round-end-selection-delay', timing)
     return [timing]
   })
+}
+
+const hasSpritePose = (draw, frameIndex, colorShift = 0) =>
+  draw.frameIndex === frameIndex && draw.colorShift === colorShift
+const atOffset = (draw, base, dx, dy) => draw.x === base.x + dx && draw.y === base.y + dy
+
+function guardMotion(frames, expected, animations, probe, fail) {
+  const actionIndex = probe?.actionIndex
+  const action = expected.actions[actionIndex]
+  if (
+    !Number.isSafeInteger(actionIndex) ||
+    action?.kind !== 'attack' ||
+    action.actorSide !== 'enemy' ||
+    ![probe.guardFrame, probe.idleFrame].every(validFrameIndex)
+  ) {
+    fail('oracle', 'guard-pose-expectation', { probe })
+    return undefined
+  }
+  const target = action.before.players.find(({ id }) => id === action.targetId)
+  const attacker = action.before.enemies.find((unit) => unit?.id === action.actorId)
+  const start = animations[actionIndex]
+  const next = animations.slice(actionIndex + 1).find(Boolean)
+  const selection =
+    start &&
+    frames.findLast(
+      (frame) =>
+        frame.seq < start.seq && frame.payload.turn === action.turn && frame.payload.selecting,
+    )
+  const identity = {
+    actionIndex,
+    turn: action.turn,
+    actorId: action.actorId,
+    targetId: action.targetId,
+  }
+  if (!target || !attacker || !selection || !next) {
+    fail('integrity', 'guard-render-window-missing', identity)
+    return undefined
+  }
+  const visible = frames.filter((frame) => frame.seq >= start.seq && frame.seq < next.seq)
+  const player = (frame) => pose(frame, target.slot)
+  const foe = (frame) => enemy(frame, attacker.slot)
+  const sample = (frame) =>
+    frame && { ...at(frame), order: frame.order, player: player(frame), enemy: foe(frame) }
+  const missing = [selection, ...visible].find(
+    (frame) => !indexedFighter(player(frame)) || !indexedFighter(foe(frame)),
+  )
+  if (missing) {
+    fail('integrity', 'guard-fighter-pose-missing', { ...identity, draw: sample(missing) })
+    return undefined
+  }
+  const base = player(selection)
+  // CLASSIC positions are relative to the target's feet (fight.c:5007–5125).
+  const charge = visible.find((frame) => atOffset(foe(frame), base, -44, -16))
+  const knockback =
+    charge && visible.find((frame) => frame.seq > charge.seq && atOffset(player(frame), base, 8, 4))
+  const returned =
+    knockback && visible.find((frame) => frame.seq > knockback.seq && samePose(player(frame), base))
+  const recoil =
+    returned &&
+    visible.find(
+      (frame) =>
+        frame.seq > knockback.seq &&
+        frame.seq < returned.seq &&
+        atOffset(player(frame), base, 10, 5),
+    )
+  const observed = {
+    ...identity,
+    home: sample(selection),
+    charge: sample(charge),
+    knockback: sample(knockback),
+    recoil: sample(recoil),
+    returned: sample(returned),
+  }
+  if (!charge || !knockback || !recoil || !returned) {
+    fail('business', 'guard-motion-edges', observed)
+    return undefined
+  }
+  const numbers = firstNumberDraws(frames).filter(
+    ({ frame, number }) =>
+      frame.seq >= start.seq &&
+      frame.seq < next.seq &&
+      number.side === 'player' &&
+      number.slot === target.slot &&
+      number.tone === 'blue',
+  )
+  return { action, target, observed, visible, player, sample, numbers }
+}
+
+function compareDefendRecovery(trace, frames, expected, animations, fail) {
+  const probe = expected.defendRecovery
+  const motion = guardMotion(frames, expected, animations, probe, fail)
+  if (!motion) return undefined
+  const { action, target, observed, visible, player, sample, numbers } = motion
+  const wantedRound = expected.rounds?.find(({ turn }) => turn === action.turn)
+  if (!validFrameIndex(probe.hitFrame) || action.guard?.before !== true || !wantedRound) {
+    fail('oracle', 'defend-recovery-expectation', { probe })
+    return undefined
+  }
+  const round = trace.rounds?.find(({ turn }) => turn === action.turn)
+  const waiting =
+    round &&
+    visible.filter((frame) => frame.seq >= observed.returned.frame && frame.order < round.order)
+  if (!waiting?.length) {
+    fail('integrity', 'defend-recovery-round-missing', observed)
+    return undefined
+  }
+  const hit = numbers.find(
+    ({ frame, number }) =>
+      frame.seq >= observed.charge.frame &&
+      frame.seq < observed.knockback.frame &&
+      number.value === action.rawDamage,
+  )
+  const roundDamage =
+    wantedRound.before.players[target.slot].hp - wantedRound.after.players[target.slot].hp
+  const poison = numbers.find(
+    ({ frame, number }) => frame.order > round.order && number.value === roundDamage,
+  )
+  const through = sample(waiting.at(-1))
+  const result = {
+    ...observed,
+    hit: hit && { ...sample(hit.frame), number: hit.number },
+    through,
+    waitingFrames: waiting.length,
+    round: { order: round.order, clockMs: round.clockMs },
+    poison: poison && { ...sample(poison.frame), number: poison.number },
+  }
+  if (
+    !hasSpritePose(observed.charge.player, probe.guardFrame) ||
+    !hit ||
+    !hasSpritePose(player(hit.frame), probe.hitFrame, 6) ||
+    ![observed.knockback, observed.recoil].every(({ player }) =>
+      hasSpritePose(player, probe.hitFrame),
+    )
+  )
+    fail('business', 'defend-hit-frame', {
+      ...observed,
+      hit: result.hit,
+      expectedFrame: probe.hitFrame,
+      expectedChargeFrame: probe.guardFrame,
+    })
+  const wrong = waiting.find((frame) => !hasSpritePose(player(frame), probe.guardFrame))
+  if (wrong)
+    fail('business', 'defend-recovery-frame', {
+      ...observed,
+      draw: sample(wrong),
+      expectedFrame: probe.guardFrame,
+    })
+  if (!poison || !hasSpritePose(player(poison.frame), probe.idleFrame))
+    fail('business', 'defend-round-poison-frame', {
+      ...observed,
+      poison: result.poison,
+      expectedFrame: probe.idleFrame,
+    })
+  return result
+}
+
+function compareAutomaticBlock(frames, expected, animations, fail) {
+  const probe = expected.automaticBlock
+  const motion = guardMotion(frames, expected, animations, probe, fail)
+  if (!motion) return undefined
+  const { action, observed, visible, player, sample, numbers } = motion
+  if (action.blocked !== true || action.rawDamage !== 0 || action.guard?.before !== false) {
+    fail('oracle', 'automatic-block-expectation', { probe })
+    return undefined
+  }
+  const early = visible.find(
+    (frame) => frame.seq < observed.charge.frame && !hasSpritePose(player(frame), probe.idleFrame),
+  )
+  if (early)
+    fail('business', 'automatic-block-before-charge', {
+      ...observed,
+      draw: sample(early),
+      expectedFrame: probe.idleFrame,
+    })
+  const guarding = visible.filter(
+    (frame) => frame.seq >= observed.charge.frame && frame.seq < observed.returned.frame,
+  )
+  const wrong = guarding.find((frame) => !hasSpritePose(player(frame), probe.guardFrame))
+  if (wrong)
+    fail('business', 'automatic-block-guard-frame', {
+      ...observed,
+      draw: sample(wrong),
+      expectedFrame: probe.guardFrame,
+    })
+  if (!hasSpritePose(observed.returned.player, probe.idleFrame))
+    fail('business', 'automatic-block-recovery-frame', {
+      ...observed,
+      expectedFrame: probe.idleFrame,
+    })
+  const extra = numbers[0]
+  if (extra)
+    fail('business', 'automatic-block-damage-number', {
+      ...observed,
+      draw: sample(extra.frame),
+      number: extra.number,
+    })
+  return { ...observed, through: sample(guarding.at(-1)), guardFrames: guarding.length }
 }
 
 function cueRenderWindow(cue, action, animation, frames, deaths) {
@@ -450,7 +661,7 @@ export function validateBattlePresentation(trace, scenario) {
   const findings = [],
     deaths = [],
     heals = []
-  let portraits, roundEnds, audio
+  let portraits, roundEnds, audio, defendRecovery, automaticBlock
   const fail = (domain, rule, facts) => findings.push({ domain, rule, ...facts })
   const result = () => ({
     status: findings.length ? 'rejected' : 'passed',
@@ -461,6 +672,8 @@ export function validateBattlePresentation(trace, scenario) {
     ...(portraits === undefined ? {} : { portraits }),
     ...(roundEnds === undefined ? {} : { roundEnds }),
     ...(audio === undefined ? {} : { audio }),
+    ...(defendRecovery === undefined ? {} : { defendRecovery }),
+    ...(automaticBlock === undefined ? {} : { automaticBlock }),
     findings,
   })
   if (
@@ -506,6 +719,10 @@ export function validateBattlePresentation(trace, scenario) {
       ? null
       : frames.find((frame) => animationMatches(frame, action)),
   )
+  if (scenario.expected.defendRecovery !== undefined)
+    defendRecovery = compareDefendRecovery(trace, frames, scenario.expected, animations, fail)
+  if (scenario.expected.automaticBlock !== undefined)
+    automaticBlock = compareAutomaticBlock(frames, scenario.expected, animations, fail)
 
   for (const [index, action] of scenario.expected.actions.entries()) {
     if (['defend', 'pass'].includes(action.kind)) continue
@@ -594,8 +811,8 @@ export function validateBattlePresentation(trace, scenario) {
       departed: at(departed),
       returned: at(returned),
       draw: { ...at(visible), ...number, casterPose: pose(visible, actorSlot) },
-      casterBase,
-      targetBase,
+      casterBase: position(casterBase),
+      targetBase: position(targetBase),
     }
     heals.push(observed)
     if (visible.seq < returned.seq) fail('business', 'herb-number-before-return', observed)
@@ -609,5 +826,21 @@ export function validateBattlePresentation(trace, scenario) {
   }
   if (scenario.expected.audioCues !== undefined)
     audio = compareAudioCues(trace, scenario.expected, frames, animations, deaths, fail)
+  if (automaticBlock && audio) {
+    const impact = audio.cues.find(
+      ({ actionIndex, kind }) =>
+        actionIndex === automaticBlock.actionIndex && kind === 'enemy-impact',
+    )
+    if (
+      impact &&
+      (impact.request.order < automaticBlock.charge.order ||
+        impact.request.order >= automaticBlock.knockback.order)
+    )
+      fail('business', 'automatic-block-impact-edge', {
+        request: impact.request,
+        charge: automaticBlock.charge,
+        knockback: automaticBlock.knockback,
+      })
+  }
   return result()
 }
